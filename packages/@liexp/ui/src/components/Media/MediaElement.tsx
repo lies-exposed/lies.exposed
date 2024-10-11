@@ -41,7 +41,7 @@ export interface MediaElementProps {
   itemClassName?: string;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   enableDescription?: boolean;
   disableZoom?: boolean;
   onClick?: (e: any) => void;
@@ -76,7 +76,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={style}
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: "iframe/video" }}
+            media={{ ...media, type: Media.IframeVideoType.value }}
           />
         );
       case Media.PDFType.value: {
@@ -85,7 +85,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: "application/pdf" }}
+            media={{ ...media, type: Media.PDFType.value }}
             disableOpen={disableZoom}
           />
         );
@@ -127,7 +127,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={media as any}
+            media={{ ...media, type: media.type as Media.ImageType }}
             disableZoom={disableZoom}
           />
         );

@@ -31,7 +31,7 @@ interface VideoProps {
   loop: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   disableZoom?: boolean;
   showPlay?: boolean;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;

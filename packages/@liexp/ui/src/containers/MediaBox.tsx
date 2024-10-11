@@ -54,12 +54,13 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               style={{
                 display: "flex",
                 width: "100%",
+                height: "100%",
               }}
             >
               <MediaList
                 {...props}
+                style={style}
                 media={media.map((m) => ({ ...m, selected: true }))}
-                style={{ ...style }}
                 onItemClick={onClick}
               />
             </Box>

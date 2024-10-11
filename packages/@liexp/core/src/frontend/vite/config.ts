@@ -70,7 +70,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         },
         sourcemap: mode === "development",
       },
-      assetsInclude: [],
+      assetsInclude: ["**/@liexp/ui/assets/**"],
       css: {
         devSourcemap: true,
       },

@@ -5,7 +5,7 @@ interface VideoCoverProps {
   thumbnail?: string;
   onClick: React.MouseEventHandler<HTMLDivElement>;
   style?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   className?: string;
   showPlay: boolean;
 }
@@ -18,12 +18,17 @@ export const VideoCover: React.FC<VideoCoverProps> = ({
   onLoad,
   showPlay,
 }) => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
   React.useEffect(() => {
-    onLoad?.();
-  }, []);
+    if (ref.current) {
+      const img = ref.current.getBoundingClientRect();
+      onLoad?.(img);
+    }
+  }, [ref]);
 
   return (
     <div
+      ref={ref}
       className={className}
       onClick={onClick}
       style={{

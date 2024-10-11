@@ -80,7 +80,7 @@ export const InfiniteListBox = <
     any,
     { _start: number; _end: number }
   >({
-    initialPageParam: { _start: 0, _end: 20 },
+    initialPageParam: { _start: 0, _end: 50 },
     queryKey,
     queryFn: (opts) => {
       const pageParam: any = paramsToPagination(

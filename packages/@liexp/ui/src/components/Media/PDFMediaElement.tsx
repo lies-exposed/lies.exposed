@@ -53,7 +53,7 @@ interface PDFMediaElementProps {
   className?: string;
   media: Omit<Media.Media, "type"> & { type: Media.PDFType };
   style?: React.CSSProperties;
-  onLoad?: () => void;
+  onLoad?: (rect: DOMRect) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   disableOpen?: boolean;
 }
@@ -76,7 +76,10 @@ const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
       alignItems="center"
       justifyContent="center"
       className={clsx(boxClasses.root, className)}
-      onLoad={onLoad}
+      onLoad={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        onLoad?.(rect);
+      }}
       onClick={onClick}
       style={{
         ...style,
