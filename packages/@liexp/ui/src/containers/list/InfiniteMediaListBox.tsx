@@ -61,13 +61,15 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
                   <MediaElement
                     media={item}
                     style={{
-                      minWidth: columnWidth,
-                      width: "100%",
-                      height: "auto",
+                      width: columnWidth,
+                      height: "100%",
                     }}
                     itemStyle={{ maxWidth: columnWidth, maxHeight: "100%" }}
                     disableZoom
                     onClick={() => onMediaClick?.(item)}
+                    onLoad={() => {
+                      measure();
+                    }}
                   />
                 </div>
               );
