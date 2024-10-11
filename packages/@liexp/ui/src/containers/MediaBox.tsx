@@ -4,11 +4,12 @@ import * as React from "react";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { MediaList } from "../components/lists/MediaList.js";
-import { Box, Pagination } from "../components/mui/index.js";
+import { Box, Pagination, Stack } from "../components/mui/index.js";
 
 export interface MediaBoxProps {
   filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
   onClick: (e: Media.Media) => void;
+  style?: React.CSSProperties;
   limit?: number;
   perPage?: number;
   enableDescription?: boolean;
@@ -21,6 +22,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
   filter,
   limit,
   onClick,
+  style,
   perPage = 20,
   discrete = true,
   ...props
@@ -47,7 +49,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
       })}
       render={({ media: { total, data: media } }) => {
         return (
-          <Box style={{ height: "100%", width: "100%" }}>
+          <Stack style={{ height: "100%", width: "100%", ...style }}>
             <Box
               style={{
                 display: "flex",
@@ -57,6 +59,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               <MediaList
                 {...props}
                 media={media.map((m) => ({ ...m, selected: true }))}
+                style={{ ...style }}
                 onItemClick={onClick}
               />
             </Box>
@@ -80,7 +83,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
                 />
               </Box>
             ) : null}
-          </Box>
+          </Stack>
         );
       }}
     />

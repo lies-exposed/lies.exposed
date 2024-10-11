@@ -5,8 +5,8 @@ import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import ActorsBox from "@liexp/ui/lib/containers/ActorsBox.js";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox.js";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox.js";
+import { MediaBox } from "@liexp/ui/lib/containers/MediaBox.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
-import { LinksBox } from "@liexp/ui/lib/containers/link/LinksBox.js";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils.js";
@@ -80,19 +80,21 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               />
             </Box>
           </Grid>
-        </Grid>
-
-        <Grid container style={{ marginBottom: 150 }}>
-          <Grid item xs={12}>
-            <Typography variant="h5">Last Created Link</Typography>
-          </Grid>
-          <Grid item md={12}>
-            <LinksBox
-              filter={{ _sort: "createdAt", _order: "DESC", _end: "10" }}
-              onItemClick={(m) => {
-                navigateTo.links({ id: m.id });
-              }}
-            />
+          <Grid container style={{ marginBottom: 150 }}>
+            <Grid item xs={12}>
+              <Typography variant="h5">Last Created Media</Typography>
+            </Grid>
+            <Grid item md={12}>
+              <MediaBox
+                disableZoom
+                filter={{ _sort: "createdAt", _order: "DESC" }}
+                limit={20}
+                style={{ height: 1200 }}
+                onClick={(m) => {
+                  navigateTo.media({ id: m.id });
+                }}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
