@@ -53,7 +53,7 @@ export const getServer = (
       routes.find((r) => {
         ssrLog.debug.log("r.path %s", r.path);
         try {
-          return pathToRegexp(r.path).test(req.baseUrl);
+          return pathToRegexp(r.path).regexp.test(req.baseUrl);
         } catch (e) {
           ssrLog.warn.log(
             "Failed to transform route path %s to regexp: %O",
