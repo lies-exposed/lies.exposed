@@ -5,11 +5,12 @@ import { taskifyStream } from "@liexp/backend/lib/utils/task.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type SimpleMP4Media } from "./thumbnails/extractMP4Thumbnail.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export const downloadMP4Video: TEFlow<[SimpleMP4Media, string], string> =
-  (ctx) => (media, tempFolder) => {
+export const downloadMP4Video =
+  (media: SimpleMP4Media, tempFolder: string): TEReader<string> =>
+  (ctx) => {
     const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
 
     if (fs.existsSync(tempVideoFilePath)) {

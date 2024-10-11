@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ImageType,
   type PDFType,
@@ -10,14 +10,18 @@ import { fetchPDF } from "../fetchPDF.flow.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const extractThumbnailFromPDF: ExtractThumbnailFromMediaFlow<
   SimpleMedia<PDFType>
-> = (ctx) => (media) => {
+> = (media) => {
   return pipe(
-    fetchPDF(ctx)(media.location),
-    TE.chain((pdf) => TE.tryCatch(() => pdf.getPage(1), toControllerError)),
-    TE.chain((page) => {
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.flatMapTaskEither(fetchPDF(media.location)),
+    fp.RTE.chainTaskEitherK((pdf) =>
+      TE.tryCatch(() => pdf.getPage(1), toControllerError),
+    ),
+    fp.RTE.chainTaskEitherK((page) => {
       return pipe(
         TE.tryCatch(async () => {
           const scale = 1.5;
@@ -47,7 +51,7 @@ export const extractThumbnailFromPDF: ExtractThumbnailFromMediaFlow<
         TE.chainFirst(() => TE.fromIO(() => page.cleanup())),
       );
     }),
-    TE.map((screenshotBuffer) => {
+    fp.RTE.map((screenshotBuffer) => {
       return [new Uint8Array(screenshotBuffer).buffer];
     }),
   );

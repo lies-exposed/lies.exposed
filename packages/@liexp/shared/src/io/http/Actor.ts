@@ -42,6 +42,13 @@ export const AddActorBody = t.strict(
 
 export type AddActorBody = t.TypeOf<typeof AddActorBody>;
 
+export const SearchActorBody = t.type({ search: t.string }, "SearchActorBody");
+export const CreateActorBody = t.union(
+  [SearchActorBody, AddActorBody],
+  "CreateActorBody",
+);
+export type CreateActorBody = t.TypeOf<typeof CreateActorBody>;
+
 export const Actor = t.strict(
   {
     ...BaseProps.type.props,

@@ -156,7 +156,7 @@ export const toQueries = <
     list: toGetListResourceQuery(e.getList, key, override?.list),
     Custom: pipe(
       e.Custom,
-      fp.R.mapWithIndex((index, ee) => {
+      fp.Rec.mapWithIndex((index, ee) => {
         const getKey = getDefaultKey(`${key}-${index}`);
         const fetch = fetchQuery<any, any, any>((p, q) => {
           return ee({ Params: p, Query: q } as any);

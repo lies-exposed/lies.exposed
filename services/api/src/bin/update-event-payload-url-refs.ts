@@ -65,7 +65,7 @@ export const updateEventPayloadURLRefs: CommandFlow = async (ctx) => {
             },
             fp.TE.fromIO,
             fp.TE.chain((url) =>
-              url ? fetchAndSave(ctx)(creator, url) : fp.TE.right(undefined),
+              url ? fetchAndSave(creator, url)(ctx) : fp.TE.right(undefined),
             ),
             fp.TE.map((l) => {
               if (!l) {

@@ -1,4 +1,4 @@
-import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ThumbnailsExtraMonoid,
   type VideoExtra,
@@ -6,29 +6,37 @@ import {
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type SimpleMP4Media } from "../thumbnails/extractMP4Thumbnail.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const extractVideoFFProbeData: TEFlow<[string], Ffmpeg.FfprobeData> = (
-  ctx,
-) => flow(ctx.ffmpeg.ffprobe, fp.TE.mapLeft(toControllerError));
+export const extractVideoFFProbeData =
+  (location: string): TEReader<Ffmpeg.FfprobeData> =>
+  (ctx) =>
+    pipe(ctx.ffmpeg.ffprobe(location), fp.TE.mapLeft(toControllerError));
 
-export const extractMP4Extra: TEFlow<[SimpleMP4Media], VideoExtra> =
-  (ctx) => (media) => {
-    return pipe(
-      fp.TE.Do,
-      fp.TE.bind("tempVideoFilePath", () =>
-        downloadMP4Video(ctx)(media, ctx.config.dirs.temp.media),
+export const extractMP4Extra = (
+  media: SimpleMP4Media,
+): TEReader<VideoExtra> => {
+  return pipe(
+    fp.RTE.Do,
+    fp.RTE.bind("tempVideoFilePath", () =>
+      pipe(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chain((ctx) =>
+          downloadMP4Video(media, ctx.config.dirs.temp.media),
+        ),
       ),
-      fp.TE.bind("metadata", ({ tempVideoFilePath }) =>
-        extractVideoFFProbeData(ctx)(tempVideoFilePath),
-      ),
-      fp.TE.map(({ metadata }) => ({
-        ...ThumbnailsExtraMonoid.empty,
-        width: metadata.streams[0].width,
-        height: metadata.streams[0].height,
-        // keep duration in seconds
-        duration: Math.floor(metadata.format.duration ?? 0),
-      })),
-    );
-  };
+    ),
+    fp.RTE.bind("metadata", ({ tempVideoFilePath }) =>
+      extractVideoFFProbeData(tempVideoFilePath),
+    ),
+    fp.RTE.map(({ metadata }) => ({
+      ...ThumbnailsExtraMonoid.empty,
+      width: metadata.streams[0].width,
+      height: metadata.streams[0].height,
+      // keep duration in seconds
+      duration: Math.floor(metadata.format.duration ?? 0),
+    })),
+  );
+};

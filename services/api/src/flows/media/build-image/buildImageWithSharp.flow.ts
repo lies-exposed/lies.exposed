@@ -11,8 +11,13 @@ import {
   type WatermarkLayer,
 } from "@liexp/shared/lib/io/http/admin/BuildImage.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
-import { type OverlayOptions, type GravityEnum } from "sharp";
-import { type TEFlow } from "#flows/flow.types.js";
+import {
+  type OverlayOptions,
+  type GravityEnum,
+  type Blend,
+  type Gravity,
+} from "sharp";
+import { type TEReader, type TEFlow } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 const DEFAULT_TEXT_WIDTH = 100;
@@ -62,64 +67,66 @@ type AddLayerFlow = TEFlow<
   SharpOverlayOptionsWithSize[]
 >;
 
-const addLayer: AddLayerFlow = (ctx) => (layer, parent) => {
+const addLayer: AddLayerFlow = (layer, parent) => {
   const fetchSource =
     layer.type === "media"
-      ? addMediaImageLayer(ctx)(layer, parent)
+      ? addMediaImageLayer(layer, parent)
       : layer.type === "watermark"
-        ? addWatermarkLayer(ctx)(layer, parent)
-        : addTextLayer(ctx)(layer, parent);
+        ? addWatermarkLayer(layer, parent)
+        : addTextLayer(layer, parent);
 
   return pipe(fetchSource);
 };
 
-const addMediaImageLayer: TEFlow<
-  [MediaImageLayer, SharpOverlayOptionsWithSize | undefined],
-  SharpOverlayOptionsWithSize[]
-> = (ctx) => (layer, parent) => {
-  ctx.logger.debug.log('Adding "media" layer %O (parent %O)', layer, parent);
-  return pipe(
-    ctx.http.get<Buffer>(layer.url, {
-      responseType: "arraybuffer",
-    }),
-    fp.TE.mapLeft(toControllerError),
-    fp.TE.chain((buf) =>
-      pipe(
-        parent?.width && parent.height
-          ? fp.TE.right<ImgProcError, ExifReader.Tags>({
-              "Image Width": { value: parent.width },
-              "Image Height": { value: parent.width },
-            } as any)
-          : ctx.imgProc.readExif(buf as any, {}),
-        fp.TE.map((exif) => ({ exif, buf })),
+const addMediaImageLayer =
+  (
+    layer: MediaImageLayer,
+    parent: SharpOverlayOptionsWithSize | undefined,
+  ): TEReader<SharpOverlayOptionsWithSize[]> =>
+  (ctx) => {
+    ctx.logger.debug.log('Adding "media" layer %O (parent %O)', layer, parent);
+    return pipe(
+      ctx.http.get<Buffer>(layer.url, {
+        responseType: "arraybuffer",
+      }),
+      fp.TE.mapLeft(toControllerError),
+      fp.TE.chain((buf) =>
+        pipe(
+          parent?.width && parent.height
+            ? fp.TE.right<ImgProcError, ExifReader.Tags>({
+                "Image Width": { value: parent.width },
+                "Image Height": { value: parent.width },
+              } as any)
+            : ctx.imgProc.readExif(buf as any, {}),
+          fp.TE.map((exif) => ({ exif, buf })),
+        ),
       ),
-    ),
-    fp.TE.map(({ exif, buf }) => {
-      ctx.logger.debug.log(`Media info %O`, exif);
-      return [
-        {
-          blend: layer.blend as any,
-          gravity: layer.gravity as any,
-          input: buf,
-          left: 0,
-          top: 0,
-          width:
-            decodeExifTag(exif["Image Width"]) ??
-            parent?.width ??
-            DEFAULT_TEXT_WIDTH,
-          height:
-            decodeExifTag(exif["Image Height"]) ??
-            parent?.height ??
-            DEFAULT_TEXT_HEIGHT,
-        },
-      ];
-    }),
-  );
-};
+      fp.TE.map(({ exif, buf }) => {
+        ctx.logger.debug.log(`Media info %O`, exif);
+        return [
+          {
+            blend: layer.blend as Blend,
+            gravity: layer.gravity as Gravity,
+            input: buf,
+            left: 0,
+            top: 0,
+            width:
+              decodeExifTag(exif["Image Width"]) ??
+              parent?.width ??
+              DEFAULT_TEXT_WIDTH,
+            height:
+              decodeExifTag(exif["Image Height"]) ??
+              parent?.height ??
+              DEFAULT_TEXT_HEIGHT,
+          },
+        ];
+      }),
+    );
+  };
 const addTextLayer: TEFlow<
   [TextLayer, SharpOverlayOptionsWithSize | undefined],
   SharpOverlayOptionsWithSize[]
-> = (ctx) => (layer, parent) => {
+> = (layer, parent) => (ctx) => {
   return fp.TE.tryCatch(async () => {
     ctx.logger.debug.log('Adding "text" layer %O (parent %O)', layer, parent);
     const width = parent?.width ?? DEFAULT_TEXT_WIDTH;
@@ -129,7 +136,10 @@ const addTextLayer: TEFlow<
       height,
       layer.height ?? DEFAULT_TEXT_HEIGHT,
     );
-    const getSizeForGravity = getSize(layer.gravity as any, layerWidth);
+    const getSizeForGravity = getSize(
+      layer.gravity as keyof GravityEnum,
+      layerWidth,
+    );
 
     const layers: SharpOverlayOptionsWithSize[] = [];
     if (layer.background) {
@@ -163,7 +173,7 @@ const addTextLayer: TEFlow<
         },
         left: Math.ceil(backgroundLeft),
         top: Math.ceil(backgroundTop),
-        gravity: layer.gravity as any,
+        gravity: layer.gravity,
         width: layerWidth,
         height: layerHeight,
       });
@@ -206,8 +216,8 @@ const addTextLayer: TEFlow<
           align: "center",
         },
       },
-      blend: layer.blend as any,
-      gravity: layer.gravity as any,
+      blend: layer.blend as Blend,
+      gravity: layer.gravity,
       top: Math.ceil(textLayerTop),
       left: Math.ceil(textLayerLeft),
       width,
@@ -220,7 +230,7 @@ const addTextLayer: TEFlow<
 const addWatermarkLayer: TEFlow<
   [WatermarkLayer, SharpOverlayOptionsWithSize | undefined],
   SharpOverlayOptionsWithSize[]
-> = (ctx) => (layer, parent) => {
+> = (layer, parent) => (ctx) => {
   ctx.logger.debug.log(
     "Adding watermark layer for %O (parent %O)",
     layer,
@@ -245,8 +255,8 @@ const addWatermarkLayer: TEFlow<
     fp.TE.map((input) => {
       const watermarkLayer = {
         input,
-        blend: layer.blend as any,
-        gravity: layer.gravity as any,
+        blend: layer.blend as Blend,
+        gravity: layer.gravity as Gravity,
         top: Math.ceil(parentHeight - (logoWidth + logoWidth / 2)),
         left: Math.ceil(parentWidth - (logoWidth + logoWidth / 2)),
         width: logoWidth,
@@ -265,16 +275,16 @@ const addWatermarkLayer: TEFlow<
 };
 
 export const buildImageWithSharp: TEFlow<[BuildImageLayer[]], Buffer> =
-  (ctx) => (layers) => {
+  (layers) => (ctx) => {
     const [first, ...rest] = layers;
     return pipe(
       rest,
-      fp.A.reduce(addLayer(ctx)(first, undefined), (te, l) =>
+      fp.A.reduce(addLayer(first, undefined)(ctx), (te, l) =>
         pipe(
           te,
           fp.TE.chain((acc) =>
             pipe(
-              addLayer(ctx)(l, acc[0] as any),
+              addLayer(l, acc[0] as any)(ctx),
               fp.TE.map((l) => acc.concat(l)),
             ),
           ),

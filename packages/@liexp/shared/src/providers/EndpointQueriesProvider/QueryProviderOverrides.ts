@@ -83,7 +83,7 @@ export const toOverrideQueries = <
     // list: undefined,
     Custom: pipe(
       e.Custom ?? {},
-      fp.R.mapWithIndex((key, ee) => {
+      fp.Rec.mapWithIndex((key, ee) => {
         const getKey = getDefaultKey(`${namespace}-${key}`);
         const fetch = fetchQuery((p, q) => {
           return (ee as any)(QP)(p, q);

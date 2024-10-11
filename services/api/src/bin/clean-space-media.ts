@@ -18,7 +18,7 @@ export const cleanSpaceMedia: CommandFlow = async (ctx, args) => {
   const dry = !!args.find((a) => a === "--dry");
   const interactive = !!args.find((a) => a === "-i" || a === "--interactive");
 
-  const result = await pipe(getOrphanMediaFlow(ctx)(), throwTE);
+  const result = await pipe(getOrphanMediaFlow()(ctx), throwTE);
 
   ctx.logger.info.log("Orphan media count: %d", result.orphans.length);
 

@@ -11,24 +11,25 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export type SimpleMP4Media = SimpleMedia<MP4Type>;
 
-export const takeVideoScreenshots: TEFlow<
-  [
-    {
-      media: SimpleMP4Media;
-      filename: string;
-      tempVideoFilePath: string;
-      opts: Ffmpeg.ScreenshotsConfig;
-    },
-  ],
-  { key: string; thumbnailName: string }[]
-> =
-  (ctx) =>
-  ({ filename, media, tempVideoFilePath, opts: screenshotOpts }) => {
+export const takeVideoScreenshots =
+  ({
+    filename,
+    media,
+    tempVideoFilePath,
+    opts: screenshotOpts,
+  }: {
+    media: SimpleMP4Media;
+    filename: string;
+    tempVideoFilePath: string;
+    opts: Ffmpeg.ScreenshotsConfig;
+  }): TEReader<{ key: string; thumbnailName: string }[]> =>
+  (ctx) => {
     return pipe(
       ctx.ffmpeg.runCommand((ffmpeg) => {
         const command = ffmpeg(tempVideoFilePath)
@@ -71,32 +72,39 @@ export const takeVideoScreenshots: TEFlow<
 
 export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
   SimpleMP4Media
-> = (ctx) => (media) => {
+> = (media) => {
   return pipe(
-    TE.Do,
-    TE.bind("tempVideoFilePath", () =>
-      downloadMP4Video(ctx)(media, ctx.config.dirs.temp.media),
+    fp.RTE.Do,
+    fp.RTE.bind("tempVideoFilePath", () =>
+      pipe(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chain((ctx) =>
+          downloadMP4Video(media, ctx.config.dirs.temp.media),
+        ),
+      ),
     ),
-    TE.bind("screenshots", ({ tempVideoFilePath }) => {
+    fp.RTE.bind("screenshots", ({ tempVideoFilePath }) => {
       const filename = `${media.id}-thumb-%i.png`;
 
-      const screenshotOpts = {
-        timemarks: ["10%", "20%"],
-        folder: ctx.config.dirs.temp.media,
-        filename,
-        count: 2,
-      };
-
       return pipe(
-        takeVideoScreenshots(ctx)({
-          media,
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.map((ctx) => ({
+          timemarks: ["10%", "20%"],
+          folder: ctx.config.dirs.temp.media,
           filename,
-          tempVideoFilePath,
-          opts: screenshotOpts,
-        }),
+          count: 2,
+        })),
+        fp.RTE.chain((screenshotOpts) =>
+          takeVideoScreenshots({
+            media,
+            filename,
+            tempVideoFilePath,
+            opts: screenshotOpts,
+          }),
+        ),
       );
     }),
-    TE.bind("buffers", ({ screenshots }) => {
+    fp.RTE.bind("buffers", ({ screenshots }): TEReader<ArrayBuffer[]> => {
       return pipe(
         screenshots,
         fp.A.traverse(TE.ApplicativePar)((screenshot) => {
@@ -107,9 +115,10 @@ export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
             TE.map((buffer) => new Uint8Array(buffer).buffer),
           );
         }),
+        fp.RTE.fromTaskEither,
       );
     }),
-    TE.map(({ buffers }) => {
+    fp.RTE.map(({ buffers }) => {
       return buffers;
     }),
   );

@@ -1,17 +1,17 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { getLinkAdminStatsFlow } from "#flows/admin/links/getLinkAdminStats.flow.js";
-import { type Route } from "#routes/route.types.js";
+import { type RouteContext, type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminGetLinkStatsRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Admin.Custom.GetLinkStats,
     () => {
       return pipe(
-        getLinkAdminStatsFlow(ctx)(),
-        TE.map(({ total, noPublishDate, noThumbnails }) => ({
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK(getLinkAdminStatsFlow()),
+        fp.RTE.map(({ total, noPublishDate, noThumbnails }) => ({
           body: {
             data: {},
             total,
@@ -23,7 +23,7 @@ export const MakeAdminGetLinkStatsRoute: Route = (r, ctx) => {
           },
           statusCode: 201,
         })),
-      );
+      )(ctx);
     },
   );
 };

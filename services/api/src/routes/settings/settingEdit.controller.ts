@@ -8,7 +8,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeSettingEditRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Setting.Edit,
     ({ params: { id }, body: { ...userData } }) => {
       ctx.logger.debug.log("Edit setting %s  with %O", id, userData);

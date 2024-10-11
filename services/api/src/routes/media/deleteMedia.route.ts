@@ -40,7 +40,7 @@ export const MakeDeleteMediaRoute = (r: Router, ctx: RouteContext): void => {
                   m.links.map((l) => l.id),
                 )
               : TE.right(undefined),
-          space: m.deletedAt ? deleteFromSpace(ctx)(m) : TE.right(undefined),
+          space: m.deletedAt ? deleteFromSpace(m)(ctx) : TE.right(undefined),
           media: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)
             : ctx.db.softDelete(MediaEntity, id),

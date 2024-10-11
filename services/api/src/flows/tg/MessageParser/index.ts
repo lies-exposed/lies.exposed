@@ -11,22 +11,26 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
-import { parseDocument } from "../parseDocument.js";
-import { parsePhoto } from "../parsePhoto.js";
-import { parsePlatformMedia } from "../parsePlatformMedia.js";
+import { parseDocument } from "../parseDocument.flow.js";
+import { parsePhoto } from "../parsePhoto.flow.js";
+import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
 import { parseURLs } from "../parseURL.flow.js";
-import { parseVideo } from "../parseVideo.js";
+import { parseVideo } from "../parseVideo.flow.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
-import { type TEFlow, type TEFlow2 } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 interface MessageParserAPI {
-  parseDocument: TEFlow2<MediaEntity[]>;
-  parsePhoto: TEFlow2<MediaEntity[]>;
-  parseVideo: TEFlow2<MediaEntity[]>;
-  parseURLs: TEFlow<[puppeteer.Page, UserEntity], LinkEntity[]>;
-  parsePlatformMedia: TEFlow<[puppeteer.Page, UserEntity], MediaEntity[]>;
+  parseDocument: TEReader<MediaEntity[]>;
+  parsePhoto: TEReader<MediaEntity[]>;
+  parseVideo: TEReader<MediaEntity[]>;
+  parseURLs: (page: puppeteer.Page, user: UserEntity) => TEReader<LinkEntity[]>;
+  parsePlatformMedia: (
+    page: puppeteer.Page,
+    user: UserEntity,
+  ) => TEReader<MediaEntity[]>;
 }
 
 const takeURLsFromMessageEntity =
@@ -96,7 +100,10 @@ export const MessageParser = (
     parseDocument: (ctx) =>
       pipe(
         messageDocument,
-        O.fold(() => TE.right([]), parseDocument(ctx)),
+        O.fold(
+          () => TE.right([]),
+          (m) => parseDocument(m)(ctx),
+        ),
       ),
     parsePhoto: (ctx) =>
       pipe(
@@ -120,7 +127,7 @@ export const MessageParser = (
         TE.right,
         TE.chain((pp) =>
           pipe(
-            parsePhoto(ctx)(message.caption ?? "", pp.unique),
+            parsePhoto(message.caption ?? "", pp.unique)(ctx),
             TE.fold(
               (e) => {
                 ctx.logger.warn.log(
@@ -140,29 +147,34 @@ export const MessageParser = (
         O.fold(
           () => TE.right([]),
           (v) =>
-            parseVideo(ctx)(
+            parseVideo(
               message.caption ??
                 (message.video as any)?.file_name ??
                 message.video?.file_id,
               v,
-            ),
+            )(ctx),
         ),
       ),
-    parseURLs: (ctx) => (page, creator) => parseURLs(ctx)(urls, creator, page),
-    parsePlatformMedia: (ctx) => (p, creator) =>
+    parseURLs: (page, creator) => parseURLs(urls, creator, page),
+    parsePlatformMedia: (p, creator) =>
       pipe(
-        platformMediaURLs,
-        fp.O.fold(
-          () => TE.right([]),
-          (urls) =>
-            pipe(
-              urls,
-              fp.A.map(({ url, ...m }) =>
-                parsePlatformMedia(ctx)(url, m, p, creator),
-              ),
-              fp.A.sequence(TE.ApplicativeSeq),
-              fp.TE.map(fp.A.flatten),
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK((ctx) =>
+          pipe(
+            platformMediaURLs,
+            fp.O.fold(
+              () => TE.right([]),
+              (urls) =>
+                pipe(
+                  urls,
+                  fp.A.map(({ url, ...m }) =>
+                    parsePlatformMedia(url, m, p, creator)(ctx),
+                  ),
+                  fp.A.sequence(TE.ApplicativeSeq),
+                  fp.TE.map(fp.A.flatten),
+                ),
             ),
+          ),
         ),
       ),
   };

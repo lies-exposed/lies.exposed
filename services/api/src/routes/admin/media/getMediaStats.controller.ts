@@ -1,17 +1,17 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { getMediaAdminStatsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
-import { type Route } from "#routes/route.types.js";
+import { type Route, type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Admin.Custom.GetMediaStats,
     () => {
       return pipe(
-        getMediaAdminStatsFlow(ctx)(),
-        TE.map(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK(getMediaAdminStatsFlow()),
+        fp.RTE.map(
           ({
             orphans: data,
             temp,
@@ -41,7 +41,7 @@ export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
             statusCode: 201,
           }),
         ),
-      );
+      )(ctx);
     },
   );
 };

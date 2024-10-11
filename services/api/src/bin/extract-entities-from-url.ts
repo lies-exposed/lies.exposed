@@ -15,7 +15,7 @@ export const extractEntitiesFromURL: CommandFlow = async (
     fp.TE.mapLeft(toControllerError),
     fp.TE.chain((page) =>
       pipe(
-        extractRelationsFromURLFlow(ctx)(page, url),
+        extractRelationsFromURLFlow(page, url)(ctx),
         fp.TE.map((r) => JSON.stringify(r, null, 2)),
         fp.TE.chainFirst(() =>
           fp.TE.tryCatch(() => page.browser().close(), toControllerError),

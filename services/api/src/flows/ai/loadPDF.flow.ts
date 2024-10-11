@@ -1,15 +1,16 @@
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { fetchPDF } from "#flows/media/fetchPDF.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const loadPDF: TEFlow<[string], Document[]> = (ctx) => (url) => {
-  ctx.logger.debug.log("Querying pdf from URL %s", url);
+export const loadPDF = (url: string): TEReader<Document[]> => {
   return pipe(
-    fetchPDF(ctx)(url),
-    fp.TE.chain((pdf) =>
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainTaskEitherK(fetchPDF(url)),
+    fp.RTE.chainTaskEitherK((pdf) =>
       fp.TE.tryCatch(async () => {
         const pdfData = await pdf.getData();
         const loader = new PDFLoader(new Blob([pdfData]));

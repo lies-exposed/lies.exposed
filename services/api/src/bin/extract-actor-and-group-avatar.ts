@@ -59,7 +59,7 @@ const convertLocationToMediaEntity =
       ),
       fp.TE.bind("thumbnail", ({ media }) =>
         pipe(
-          createThumbnail(ctx)(media),
+          createThumbnail(media)(ctx),
           // if thumbnail fails, we return an empty array
           fp.TE.orElse(() => fp.TE.right<ControllerError, string[]>([])),
         ),

@@ -45,11 +45,9 @@ const makeAcronym = (s: string): string => {
 };
 
 export const upsertNLPEntities: CommandFlow = async (ctx) => {
-  const requestWalker = walkPaginatedRequest(ctx);
-
   const result = await pipe(
     sequenceS(TE.ApplicativePar)({
-      actors: requestWalker<
+      actors: walkPaginatedRequest<
         { total: number; results: ActorEntity[] },
         DBError,
         ActorEntity
@@ -63,8 +61,12 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
         ({ results }) => TE.right(results),
         0,
         50,
-      ),
-      groups: requestWalker<[GroupEntity[], number], DBError, GroupEntity>(
+      )(ctx),
+      groups: walkPaginatedRequest<
+        [GroupEntity[], number],
+        DBError,
+        GroupEntity
+      >(
         ({ skip, amount }) =>
           fetchGroups(ctx)({
             _start: O.some(skip as Int),
@@ -74,25 +76,25 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
         ([rr]) => TE.right(rr),
         0,
         50,
-      ),
-      keywords: requestWalker<
+      )(ctx),
+      keywords: walkPaginatedRequest<
         [KeywordEntity[], number],
         DBError,
         KeywordEntity
       >(
         ({ skip, amount }) =>
-          fetchKeywords(ctx)(
+          fetchKeywords(
             {
               _start: O.some(skip as Int),
               _end: O.some(amount as Int),
             },
             true,
-          ),
+          )(ctx),
         ([, t]) => t,
         ([rr]) => TE.right(rr),
         0,
         50,
-      ),
+      )(ctx),
     }),
     TE.chain(({ actors, groups, keywords }) => {
       const nplConfig = ctx.fs.resolve(`config/nlp/entities.json`);

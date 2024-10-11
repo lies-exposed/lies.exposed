@@ -6,11 +6,11 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminExtractEntitiesWithNLPRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Admin.Custom.ExtractEntitiesWithNLP,
     ({ body }) => {
       return pipe(
-        extractEntitiesFromAnyCached(ctx)(body),
+        extractEntitiesFromAnyCached(body)(ctx),
         TE.map((data) => ({
           body: {
             data,

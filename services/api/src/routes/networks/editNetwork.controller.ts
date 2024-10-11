@@ -26,20 +26,20 @@ export const MakeEditNetworkRoute = (r: Router, ctx: RouteContext): void => {
       ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
         switch (type) {
           case "events": {
-            return createEventNetworkGraph(ctx)(id, isAdmin);
+            return createEventNetworkGraph(id, isAdmin)(ctx);
           }
         }
 
-        return createNetworkGraph(ctx)(
+        return createNetworkGraph(
           type,
           [id],
           emptyGetNetworkQuery,
           isAdmin,
-        );
+        )(ctx);
       };
 
       return pipe(
-        RequestDecoder.decodeNullableUser(ctx)(req, [AdminRead.value]),
+        RequestDecoder.decodeNullableUser(req, [AdminRead.value])(ctx),
         TE.fromIO,
         TE.chain((user) => getCreateNetworkT(type, !!user)),
         TE.map((data) => ({

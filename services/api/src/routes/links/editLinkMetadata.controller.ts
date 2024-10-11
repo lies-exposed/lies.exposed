@@ -2,6 +2,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -16,7 +17,7 @@ export const MakeEditLinkMetadataRoute = (
   r: Router,
   ctx: RouteContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
     UpdateMetadata,
     ({ params: { id } }) => {
       return pipe(

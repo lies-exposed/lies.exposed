@@ -42,7 +42,7 @@ export const extractEvents: CommandFlow = async (ctx, args) => {
             [{ url: url, type: "link" }] as unknown as DataPayloadLink[],
             A.traverse(TE.ApplicativeSeq)((l) =>
               pipe(
-                extractEventFromURL(ctx)(p, user, l),
+                extractEventFromURL(p, user, l)(ctx),
                 TE.chain(
                   (
                     ev,
@@ -54,7 +54,7 @@ export const extractEvents: CommandFlow = async (ctx, args) => {
                       return TE.right([O.some(l), O.none]);
                     }
                     return pipe(
-                      findByURL(ctx)(l.url),
+                      findByURL(l.url)(ctx),
                       TE.chain((opt) => {
                         if (O.isSome(opt)) {
                           ctx.logger.debug.log("Event found! %O", opt.value);

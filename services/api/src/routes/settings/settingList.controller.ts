@@ -12,7 +12,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeSettingListRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Setting.List,
     ({ query: { id, ...query } }) => {
       const findOptions = getORMOptions(

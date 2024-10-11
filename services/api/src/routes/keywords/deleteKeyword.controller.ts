@@ -7,11 +7,8 @@ import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeleteKeywordRoute: Route = (
-  r,
-  { s3, db, env, logger, jwt },
-) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:delete"]))(
+export const MakeDeleteKeywordRoute: Route = (r, { db, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler(["admin:delete"])({ logger, jwt }))(
     Endpoints.Keyword.Delete,
     ({ params: { id } }) => {
       return pipe(

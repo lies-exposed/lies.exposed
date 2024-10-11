@@ -1,74 +1,22 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { MediaIO } from "./media.io.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
-import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
+import { createMediaFlow } from "#flows/media/createMedia.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateMediaRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, []))(
+  AddEndpoint(r, authenticationHandler([])(ctx))(
     Endpoints.Media.Create,
     ({ body }, req) => {
       ctx.logger.debug.log("Create media and upload %s", body);
       return pipe(
         ensureUserExists(req.user),
         TE.fromEither,
-        TE.chain((u) =>
-          pipe(
-            TE.Do,
-            TE.bind("location", () => {
-              return pipe(
-                parseURL(body.location),
-                fp.E.fold(
-                  () => body.location,
-                  (r) => r.location,
-                ),
-                TE.right,
-              );
-            }),
-            TE.bind("media", ({ location }) =>
-              ctx.db.save(MediaEntity, [
-                {
-                  ...body,
-                  location,
-                  label: body.label ?? null,
-                  description: body.description ?? body.label ?? null,
-                  creator: u.id as any,
-                  extra: body.extra ?? null,
-                  areas: body.areas.map((id) => ({ id })),
-                  keywords: body.keywords.map((id) => ({ id })),
-                  links: body.links.map((id) => ({ id })),
-                  events: body.events.map((e) => ({
-                    id: e,
-                  })),
-                },
-              ]),
-            ),
-            TE.bind("thumbnails", ({ media }) =>
-              createThumbnail(ctx)(media[0]),
-            ),
-            TE.bind("extra", ({ media }) => extractMediaExtra(ctx)(media[0])),
-            TE.chain(({ media, thumbnails, extra }) => {
-              return ctx.db.save(MediaEntity, [
-                {
-                  ...media[0],
-                  thumbnail: thumbnails[0],
-                  extra: {
-                    ...extra,
-                    thumbnails,
-                    needRegenerateThumbnail: false,
-                  },
-                },
-              ]);
-            }),
-          ),
-        ),
+        TE.chain((u) => createMediaFlow(body, u)(ctx)),
         TE.chainEitherK((media) =>
           MediaIO.decodeSingle(media[0], ctx.env.SPACE_ENDPOINT),
         ),

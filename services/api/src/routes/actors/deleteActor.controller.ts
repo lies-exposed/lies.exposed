@@ -8,11 +8,8 @@ import { ActorIO } from "./actor.io.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeleteActorRoute: Route = (
-  r,
-  { s3, db, env, logger, jwt },
-) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:delete"]))(
+export const MakeDeleteActorRoute: Route = (r, { db, env, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler(["admin:delete"])({ logger, jwt }))(
     Endpoints.Actor.Delete,
     ({ params: { id } }) => {
       return pipe(

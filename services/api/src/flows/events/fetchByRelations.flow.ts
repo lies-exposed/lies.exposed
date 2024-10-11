@@ -10,26 +10,27 @@ import {
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
 } from "#routes/events/queries/searchEventsV2.query.js";
 
-export const fetchEventsByRelation: TEFlow<
-  [NetworkType, UUID[], GetNetworkQuery],
-  SearchEventOutput
-> =
-  (ctx) =>
-  (type, ids, { actors, groups, keywords }) => {
+export const fetchEventsByRelation =
+  (
+    type: NetworkType,
+    ids: UUID[],
+    { actors, groups, keywords }: GetNetworkQuery,
+  ): TEReader<SearchEventOutput> =>
+  (ctx) => {
     const nonEmptyIds = pipe(ids, fp.NEA.fromArray);
 
     return pipe(
       nonEmptyIds,
       TE.fromOption(() => toControllerError(new Error("ids can't be empty"))),
       TE.chain((ids) =>
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           ids: type === EVENTS.value ? O.some(ids) : O.none,
           actors:
             type === ACTORS.value
@@ -70,7 +71,7 @@ export const fetchEventsByRelation: TEFlow<
                   fp.O.some,
                 )
               : O.none,
-        }),
+        })(ctx),
       ),
     );
   };

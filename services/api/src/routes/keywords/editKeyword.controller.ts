@@ -7,7 +7,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])({ logger, jwt }))(
     Endpoints.Keyword.Edit,
     ({ params: { id }, body }) => {
       logger.debug.log("Actor update data %O", body);

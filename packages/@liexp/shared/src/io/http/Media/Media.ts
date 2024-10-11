@@ -94,6 +94,29 @@ export const CreateMedia = t.strict(
 
 export type CreateMedia = t.TypeOf<typeof CreateMedia>;
 
+export const EditMediaBody = t.strict(
+  {
+    type: MediaType,
+    thumbnail: optionFromNullable(t.string),
+    location: t.string,
+    label: t.string,
+    description: optionFromNullable(t.string),
+    extra: optionFromNullable(MediaExtra),
+    links: t.array(UUID),
+    events: t.array(UUID),
+    keywords: t.array(UUID),
+    areas: t.array(UUID),
+    creator: optionFromNullable(UUID),
+    overrideThumbnail: optionFromNullable(t.boolean),
+    overrideExtra: optionFromNullable(t.boolean),
+    transfer: optionFromNullable(t.boolean),
+    transferThumbnail: optionFromNullable(t.boolean),
+    restore: optionFromNullable(t.boolean),
+  },
+  "EditMediaBody",
+);
+export type EditMediaBody = t.TypeOf<typeof EditMediaBody>;
+
 export const Media = t.strict(
   {
     ...CreateMedia.type.props,

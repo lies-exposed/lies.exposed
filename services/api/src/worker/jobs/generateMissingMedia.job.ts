@@ -20,18 +20,18 @@ export const generateMissingThumbnailsCron = (
     (opts) => {
       void pipe(
         fp.TE.Do,
-        fp.TE.bind("media", getMediaWithoutThumbnailsFlow(ctx)),
+        fp.TE.bind("media", () => getMediaWithoutThumbnailsFlow()(ctx)),
         fp.TE.bind("thumbnails", ({ media }) => {
           return pipe(
             media.map((m) =>
               pipe(
                 pipe(
-                  createThumbnail(ctx)({
+                  createThumbnail({
                     id: m.id,
                     location: ensureHTTPS(m.location),
                     type: m.type,
                     thumbnail: null,
-                  }),
+                  })(ctx),
                   fp.TE.mapLeft(toControllerError),
                   fp.TE.filterOrElse(
                     (l) => l.length > 0,

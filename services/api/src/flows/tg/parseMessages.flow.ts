@@ -4,34 +4,40 @@ import {
   type EventResult,
   createFromTGMessage,
 } from "./createFromTGMessage.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const parseTGMessageFlow: TEFlow<[string, boolean], EventResult> =
-  (ctx) => (filePath, deleteFile) => {
-    ctx.logger.debug.log("Parsing file %s", filePath);
-    return pipe(
-      fp.TE.fromIOEither(
-        fp.IOE.tryCatch(
-          () => fs.readFileSync(filePath, "utf-8"),
-          toControllerError,
-        ),
-      ),
-      fp.TE.chain((message) =>
-        createFromTGMessage(ctx)(JSON.parse(message), {
-          type: "text",
-        }),
-      ),
-      fp.TE.chainFirst(() => {
-        if (deleteFile) {
-          return fp.TE.fromIOEither(
+export const parseTGMessageFlow = (
+  filePath: string,
+  deleteFile: boolean,
+): TEReader<EventResult> => {
+  return pipe(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainIOEitherK((ctx) =>
+      fp.IOE.tryCatch(() => {
+        ctx.logger.debug.log("Parsing file %s", filePath);
+        return fs.readFileSync(filePath, "utf-8");
+      }, toControllerError),
+    ),
+    fp.RTE.chain((message) =>
+      createFromTGMessage(JSON.parse(message), {
+        type: "text",
+      }),
+    ),
+    fp.RTE.chainFirst(() => {
+      if (deleteFile) {
+        return pipe(
+          fp.RTE.ask<RouteContext>(),
+          fp.RTE.chainIOEitherK((ctx) =>
             fp.IOE.tryCatch(() => {
               ctx.logger.debug.log("Deleting file %s...", filePath);
               fs.rmSync(filePath);
             }, toControllerError),
-          );
-        }
-        return fp.TE.right(undefined);
-      }),
-    );
-  };
+          ),
+        );
+      }
+      return fp.RTE.right(undefined);
+    }),
+  );
+};

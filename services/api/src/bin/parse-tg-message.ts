@@ -39,11 +39,10 @@ export const parseTGMessage: CommandFlow = async (ctx, args): Promise<any> => {
   const deleteFile = _deleteFile === "true";
 
   ctx.logger.info.log("Reading message %d", messageFile.length);
-  const parseTGMessage = parseTGMessageFlow(ctx);
 
   const result = await pipe(
     messageFile.map((f) =>
-      parseTGMessage(path.resolve(messagesFolder, f), deleteFile),
+      parseTGMessageFlow(path.resolve(messagesFolder, f), deleteFile)(ctx),
     ),
     separateTE,
     fp.T.map(({ left, right }) => {

@@ -25,7 +25,7 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
           const ids = pipe(query.ids, fp.O.filter(fp.A.isNonEmpty));
           if (fp.O.isSome(ids)) {
             if (ids.value[0]) {
-              return createEventNetworkGraph(ctx)(ids.value[0], isAdmin);
+              return createEventNetworkGraph(ids.value[0], isAdmin)(ctx);
             }
           }
           break;
@@ -37,11 +37,11 @@ export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
         fp.O.getOrElse((): UUID[] => []),
       );
 
-      return createNetworkGraph(ctx)(type, ids, query, isAdmin);
+      return createNetworkGraph(type, ids, query, isAdmin)(ctx);
     };
 
     return pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, [AdminRead.value]),
+      RequestDecoder.decodeNullableUser(req, [AdminRead.value])(ctx),
       TE.fromIO,
       TE.chain((user) => getCreateNetworkT(type, !!user)),
       TE.map((data) => ({

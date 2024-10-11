@@ -7,7 +7,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeSettingCreateRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Setting.Create,
     ({ body: { id, value } }) => {
       ctx.logger.debug.log("Create setting key %s => %O", id, value);

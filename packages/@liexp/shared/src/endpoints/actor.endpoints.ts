@@ -38,7 +38,7 @@ export const Create = Endpoint({
   getPath: () => "/actors",
   Input: {
     Query: undefined,
-    Body: t.union([t.type({ search: t.string }), Actor.AddActorBody]),
+    Body: Actor.CreateActorBody,
   },
   Output: SingleActorOutput,
 });

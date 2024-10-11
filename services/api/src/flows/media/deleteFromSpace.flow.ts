@@ -3,10 +3,11 @@ import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils.js"
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 
-export const deleteFromSpace: TEFlow<[MediaEntity], MediaEntity> =
-  (ctx) => (m) => {
+export const deleteFromSpace =
+  (m: MediaEntity): TEReader<MediaEntity> =>
+  (ctx) => {
     ctx.logger.debug.log("Create media and upload %s", m.location);
 
     const isLocationInBucket = m.location.includes(ctx.env.SPACE_BUCKET);

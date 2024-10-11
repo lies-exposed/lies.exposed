@@ -18,3 +18,4 @@ export interface RouteContext extends ServerContext {
  * Route create helper type with context {@link RouteContext}
  */
 export type Route = (r: Router, ctx: RouteContext) => void;
+export type Route2 = (r: Router) => (ctx: RouteContext) => void;

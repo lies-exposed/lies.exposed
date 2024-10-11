@@ -10,7 +10,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeUserEditMeRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
+  AddEndpoint(r, authenticationHandler(["event-suggestion:create"])(ctx))(
     Endpoints.User.Custom.EditUserMe,
     ({ body }, req) => {
       ctx.logger.debug.log("Get user me %s", req.user?.id);

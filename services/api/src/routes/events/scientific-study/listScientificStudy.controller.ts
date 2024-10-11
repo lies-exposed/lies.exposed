@@ -36,7 +36,7 @@ export const MakeListScientificStudyRoute: Route = (
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query({ db, logger, env, ...ctx })({
+        searchEventV2Query({
           ids,
           type: O.some([SCIENTIFIC_STUDY.value]),
           groups: pipe(
@@ -61,7 +61,7 @@ export const MakeListScientificStudyRoute: Route = (
           spCount,
           onlyUnshared,
           ...queryOptions,
-        }),
+        })({ db, logger, env, ...ctx }),
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
             results,

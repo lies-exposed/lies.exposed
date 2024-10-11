@@ -53,17 +53,17 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
   let result;
   if (type === "area") {
     result = await pipe(
-      fetchAndCreateAreaFromWikipedia(ctx)(pageTitle, provider),
+      fetchAndCreateAreaFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
   } else if (type === "actor") {
     result = await pipe(
-      fetchActorFromWikipedia(ctx)(pageTitle, provider),
+      fetchActorFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
   } else if (type === "group") {
     result = await pipe(
-      fetchGroupFromWikipedia(ctx)(pageTitle, provider),
+      fetchGroupFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
   }

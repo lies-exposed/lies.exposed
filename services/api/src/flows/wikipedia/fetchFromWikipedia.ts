@@ -15,26 +15,25 @@ export type WikiProviders = "wikipedia" | "rationalwiki";
 
 type FetchFromWikipediaFlow = TEFlow<[string], LoadedPage, WikipediaProvider>;
 
-export const fetchFromWikipedia: FetchFromWikipediaFlow =
-  (wp: WikipediaProvider) => (title) => {
-    return pipe(
-      TE.Do,
-      TE.bind("page", () =>
-        pipe(wp.articleSummary(title), TE.mapLeft(toControllerError)),
-      ),
-      TE.map(({ page }) => ({
-        slug: getUsernameFromDisplayName(page.titles.canonical),
-        featuredMedia: page.thumbnail?.source ?? page.originalimage?.source,
-        intro: page.extract,
-      })),
-    );
-  };
+export const fetchFromWikipedia: FetchFromWikipediaFlow = (title) => (wp) => {
+  return pipe(
+    TE.Do,
+    TE.bind("page", () =>
+      pipe(wp.articleSummary(title), TE.mapLeft(toControllerError)),
+    ),
+    TE.map(({ page }) => ({
+      slug: getUsernameFromDisplayName(page.titles.canonical),
+      featuredMedia: page.thumbnail?.source ?? page.originalimage?.source,
+      intro: page.extract,
+    })),
+  );
+};
 
 export const searchAndParseFromWikipedia: FetchFromWikipediaFlow =
-  (wp) => (search) => {
+  (search) => (wp) => {
     return pipe(
       wp.search(search),
       TE.mapLeft(toControllerError),
-      TE.chain((p) => fetchFromWikipedia(wp)(p[0].title)),
+      TE.chain((p) => fetchFromWikipedia(p[0].title)(wp)),
     );
   };

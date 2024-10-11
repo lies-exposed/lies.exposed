@@ -5,11 +5,12 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export const parseDocument: TEFlow<[TelegramBot.Document], MediaEntity[]> =
-  (ctx) => (messageDocument) => {
+export const parseDocument =
+  (messageDocument: TelegramBot.Document): TEReader<MediaEntity[]> =>
+  (ctx) => {
     const mediaId = uuid();
     return pipe(
       fp.IOE.tryCatch(
@@ -21,7 +22,7 @@ export const parseDocument: TEFlow<[TelegramBot.Document], MediaEntity[]> =
         ctx.logger.debug.log("File downloaded %O", f);
 
         const contentType = (messageDocument.mime_type as any) ?? PDFType.value;
-        return createAndUpload(ctx)(
+        return createAndUpload(
           {
             type: contentType,
             location: messageDocument.file_id,
@@ -40,7 +41,7 @@ export const parseDocument: TEFlow<[TelegramBot.Document], MediaEntity[]> =
           },
           mediaId,
           false,
-        );
+        )(ctx);
       }),
       TE.map((m) => [m]),
     );

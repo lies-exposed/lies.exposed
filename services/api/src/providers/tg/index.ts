@@ -46,10 +46,10 @@ export const TGMessageCommands = (ctx: RouteContext) => {
             `temp/tg/messages/${msg.message_id}.json`,
           ),
         )(msg),
-        eventSuggestion: createFromTGMessage({ ...ctx, logger: tgLogger })(
+        eventSuggestion: createFromTGMessage(
           msg,
           metadata,
-        ),
+        )({ ...ctx, logger: tgLogger }),
       }),
       fp.TE.map(({ eventSuggestion }) => {
         tgLogger.info.log("Success %O", eventSuggestion);

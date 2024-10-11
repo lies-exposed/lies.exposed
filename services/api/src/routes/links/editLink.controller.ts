@@ -19,7 +19,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Link.Edit,
     (
       {
@@ -64,7 +64,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                 O.map((t) => {
                   if (t) {
                     return pipe(
-                      fetchAsLink(ctx)(user, l.url, undefined),
+                      fetchAsLink(user, l.url, undefined)(ctx),
                       TE.map((ll) => ({
                         ...ll,
                         ...l,

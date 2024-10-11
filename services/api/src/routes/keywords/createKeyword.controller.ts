@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -10,7 +11,7 @@ import { ServerError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.value])({ logger, jwt }))(
     Endpoints.Keyword.Create,
     ({ body, headers }) => {
       logger.debug.log("Headers %O", { headers, body });

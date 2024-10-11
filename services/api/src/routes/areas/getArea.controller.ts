@@ -11,7 +11,7 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeGetAreaRoute: Route = (r, { db, env, ...ctx }) => {
   AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }, req) => {
     return pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, []),
+      RequestDecoder.decodeNullableUser(req, [])(ctx),
       fp.TE.fromIO,
       fp.TE.chain((user) =>
         db.findOneOrFail(AreaEntity, {

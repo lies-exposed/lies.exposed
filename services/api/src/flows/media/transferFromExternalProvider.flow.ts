@@ -8,24 +8,18 @@ import {
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import axios from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type TEFlow } from "#flows/flow.types.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 type TransferableMediaType = ImageType | PDFType;
-export const transferFromExternalProvider: TEFlow<
-  [UUID, string, string, MediaType],
-  string
-> =
-  (ctx) =>
+export const transferFromExternalProvider =
   (
-    mediaId,
-    url,
-    fileName,
-    mimeType,
-  ): TE.TaskEither<ControllerError, string> => {
+    mediaId: UUID,
+    url: string,
+    fileName: string,
+    mimeType: MediaType,
+  ): TEReader<string> =>
+  (ctx) => {
     return pipe(
       mimeType,
       TE.fromPredicate(

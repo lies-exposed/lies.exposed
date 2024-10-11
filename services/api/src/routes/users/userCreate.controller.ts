@@ -10,7 +10,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import * as passwordUtils from "#utils/password.utils.js";
 
 export const MakeUserCreateRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.User.Create,
     ({ body: { password, ...userData } }) => {
       ctx.logger.debug.log("Creating new user %O", userData);

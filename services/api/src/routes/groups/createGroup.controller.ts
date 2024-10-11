@@ -11,13 +11,13 @@ import { searchGroupAndCreateFromWikipedia } from "#flows/groups/fetchGroupFromW
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateGroupRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Group.Create,
     ({ body }) => {
       return pipe(
         CreateGroupBody.is(body)
           ? TE.right(body)
-          : searchGroupAndCreateFromWikipedia(ctx)(body.search, "wikipedia"),
+          : searchGroupAndCreateFromWikipedia(body.search, "wikipedia")(ctx),
         TE.chain(({ color, avatar, ...b }) =>
           ctx.db.save(GroupEntity, [
             {

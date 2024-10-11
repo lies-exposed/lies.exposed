@@ -12,10 +12,10 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.List, ({ query }, req) => {
     return pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, []),
+      RequestDecoder.decodeNullableUser(req, [])(ctx),
       TE.fromIO,
       TE.chain((user) =>
-        fetchLinks(ctx)(query, user ? checkIsAdmin(user.permissions) : false),
+        fetchLinks(query, user ? checkIsAdmin(user.permissions) : false)(ctx),
       ),
       TE.chainEitherK(([results, total]) =>
         pipe(

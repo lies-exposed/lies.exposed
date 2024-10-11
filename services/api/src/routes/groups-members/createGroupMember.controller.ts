@@ -12,7 +12,7 @@ export const MakeCreateGroupMemberRoute: Route = (
   r,
   { db, logger, jwt, env },
 ) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.GroupMember.Create,
     ({ body }) => {
       const saveData = {

@@ -2,9 +2,11 @@ import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const getLinksWithoutThumbnail: TEFlow<[], number> = (ctx) => () => {
+export const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager
@@ -17,7 +19,7 @@ export const getLinksWithoutThumbnail: TEFlow<[], number> = (ctx) => () => {
   );
 };
 
-export const getLinksWithoutPublishDate: TEFlow<[], number> = (ctx) => () => {
+export const getLinksWithoutPublishDate = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager
@@ -28,7 +30,7 @@ export const getLinksWithoutPublishDate: TEFlow<[], number> = (ctx) => () => {
   );
 };
 
-export const getTotalLinks: TEFlow<[], number> = (ctx) => () => {
+export const getTotalLinks = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager.createQueryBuilder(LinkEntity, "link").getCount();
@@ -36,25 +38,27 @@ export const getTotalLinks: TEFlow<[], number> = (ctx) => () => {
   );
 };
 
-export const getLinkAdminStatsFlow: TEFlow<
-  [],
-  {
-    total: number;
-    noPublishDate: number;
-    noThumbnails: number;
-  }
-> = (ctx) => () => {
-  const adminLinkStatsCachePath = path.resolve(
-    ctx.config.dirs.temp.stats,
-    `links/stats.json`,
-  );
-
+export const getLinkAdminStatsFlow = (): TEReader<{
+  total: number;
+  noPublishDate: number;
+  noThumbnails: number;
+}> => {
   return pipe(
-    sequenceS(fp.TE.ApplicativePar)({
-      total: getTotalLinks(ctx)(),
-      noPublishDate: getLinksWithoutPublishDate(ctx)(),
-      noThumbnails: getLinksWithoutThumbnail(ctx)(),
-    }),
-    ctx.fs.getOlderThanOr(adminLinkStatsCachePath, 6),
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.map((ctx) =>
+      path.resolve(ctx.config.dirs.temp.stats, `links/stats.json`),
+    ),
+    fp.RTE.chain((adminLinkStatsCachePath) =>
+      getOlderThanOr(
+        adminLinkStatsCachePath,
+        6,
+      )(
+        sequenceS(fp.RTE.ApplicativePar)({
+          total: getTotalLinks(),
+          noPublishDate: getLinksWithoutPublishDate(),
+          noThumbnails: getLinksWithoutThumbnail(),
+        }),
+      ),
+    ),
   );
 };

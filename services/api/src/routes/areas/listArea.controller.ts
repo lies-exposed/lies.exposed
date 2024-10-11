@@ -10,10 +10,10 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeListAreaRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Area.List, ({ query }, req) => {
     return pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, []),
+      RequestDecoder.decodeNullableUser(req, [])(ctx),
       fp.TE.fromIO,
       fp.TE.chain((user) =>
-        fetchAreas(ctx)(query, user ? checkIsAdmin(user.permissions) : false),
+        fetchAreas(query, user ? checkIsAdmin(user.permissions) : false)(ctx),
       ),
       TE.chain(([areas, total]) => {
         return pipe(

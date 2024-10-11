@@ -29,7 +29,9 @@ import { EventV2IO } from "../../routes/events/eventV2.io.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";
-import { type Flow, type TEFlow } from "../flow.types.js";
+import { type TEReader, type Flow } from "../flow.types.js";
+import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 const ordByDate = pipe(
   fp.N.Ord,
@@ -82,7 +84,6 @@ const updateMap =
   };
 
 export const getFlowGraph =
-  (l: Logger) =>
   ({
     events,
     actors,
@@ -95,7 +96,8 @@ export const getFlowGraph =
     groups: Group.Group[];
     keywords: Keyword.Keyword[];
     media: Media.Media[];
-  }): FlowGraphOutput => {
+  }) =>
+  (l: Logger): FlowGraphOutput => {
     l.debug.log("Actors %O", actors);
 
     const { startDate, endDate } = pipe(
@@ -196,34 +198,42 @@ export const getFlowGraph =
   };
 
 export const getFilePath: Flow<[FlowGraphType, UUID], string> =
-  (ctx) => (type, id) => {
+  (type, id) => (ctx) => {
     return path.resolve(
       ctx.config.dirs.cwd,
       `temp/graphs/flows/${type}/${id}.json`,
     );
   };
 
-export const createFlowGraph: TEFlow<
-  [FlowGraphType, UUID, GetNetworkQuery, boolean],
-  FlowGraphOutput
-> =
-  (ctx) =>
-  (type, id, { relations, emptyRelations, ...query }, isAdmin) => {
-    ctx.logger.debug.log(`Flow graph for %s (%s) %O`, type, id, query);
-
-    const createFlowGraphTask = pipe(
-      fetchEventsByRelation(ctx)(type, [id], {
+export const createFlowGraph = (
+  type: FlowGraphType,
+  id: UUID,
+  { relations, emptyRelations, ...query }: GetNetworkQuery,
+  isAdmin: boolean,
+): TEReader<FlowGraphOutput> => {
+  const createFlowGraphTask = pipe(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainTaskEitherK(
+      fetchEventsByRelation(type, [id], {
         ...query,
         relations,
         emptyRelations,
       }),
-      fp.TE.chainEitherK(({ results }) => pipe(results, EventV2IO.decodeMany)),
-      fp.TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
-      fp.TE.map(getFlowGraph(ctx.logger)),
-    );
+    ),
+    fp.RTE.chainEitherK(({ results }) => pipe(results, EventV2IO.decodeMany)),
+    fp.RTE.chain((events) => fetchEventsRelations(events, isAdmin)),
+    fp.RTE.chain((results) =>
+      fp.RTE.fromReader((ctx: RouteContext) =>
+        getFlowGraph(results)(ctx.logger),
+      ),
+    ),
+  );
 
-    return pipe(
-      createFlowGraphTask,
-      ctx.fs.getOlderThanOr(getFilePath(ctx)(type, id), 6),
-    );
-  };
+  return pipe(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.map(getFilePath(type, id)),
+    fp.RTE.chain((fileName) =>
+      getOlderThanOr(fileName, 6)(createFlowGraphTask),
+    ),
+  );
+};

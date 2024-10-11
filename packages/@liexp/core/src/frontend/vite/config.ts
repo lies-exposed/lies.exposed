@@ -25,7 +25,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
     const env = pipe(
       // loadEnv(mode, config.envFileDir, ""),
       process.env,
-      fp.R.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => {
+      fp.Rec.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => {
         return {
           ...env,
           [key]: v,
@@ -55,7 +55,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       base: config.base,
       define: pipe(
         env,
-        fp.R.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => ({
+        fp.Rec.reduceWithIndex(fp.S.Ord)({}, (key, env, v) => ({
           ...env,
           [key]: JSON.stringify(v),
         })),

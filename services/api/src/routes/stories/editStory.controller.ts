@@ -10,7 +10,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditStoryRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
+  AddEndpoint(r, authenticationHandler(["event-suggestion:create"])(ctx))(
     Endpoints.Story.Edit,
     (
       {

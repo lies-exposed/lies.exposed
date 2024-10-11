@@ -26,6 +26,7 @@
     "config"
   ],
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "bin:run": "node ./build/bin/cli.js",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",

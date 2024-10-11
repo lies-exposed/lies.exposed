@@ -45,7 +45,7 @@ describe("Get Book List", () => {
   test("Should return books by actor", async () => {
     const actor = fc.sample(ActorArb, 1)[0];
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor as any]));
 
     const [eventWithActor] = eventsData;
     await throwTE(
@@ -72,7 +72,7 @@ describe("Get Book List", () => {
   test("Should return books by group", async () => {
     const group = fc.sample(GroupArb, 1)[0];
 
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group as any]));
 
     const [eventWithActor] = eventsData;
     await throwTE(
@@ -100,8 +100,8 @@ describe("Get Book List", () => {
     const actor = fc.sample(ActorArb, 1)[0];
     const group = fc.sample(GroupArb, 1)[0];
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor as any]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group as any]));
 
     const [eventWithActor] = eventsData;
     await throwTE(

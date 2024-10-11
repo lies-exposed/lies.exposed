@@ -6,7 +6,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeQueueCreateRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Queues.Create,
     ({ params: { resource, type }, body: { id, data } }) => {
       ctx.logger.debug.log("Create queue ( %s %s) => %O", resource, id, data);

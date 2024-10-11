@@ -4,22 +4,26 @@ import {
   type FlowGraphOutput,
   type FlowGraphType,
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
-import { type TEFlow } from "../flow.types.js";
+import { type TEReader } from "../flow.types.js";
 import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-const deleteFlowGraph: TEFlow<[FlowGraphType, UUID], void> =
-  (ctx) => (type, id) => {
-    return pipe(getFilePath(ctx)(type, id), ctx.fs.deleteObject);
+const deleteFlowGraph =
+  (type: FlowGraphType, id: UUID): TEReader<void> =>
+  (ctx) => {
+    return pipe(getFilePath(type, id)(ctx), ctx.fs.deleteObject);
   };
 
-export const regenerateFlowGraph: TEFlow<
-  [FlowGraphType, UUID, boolean],
-  FlowGraphOutput
-> = (ctx) => (type, id, isAdmin) => {
+export const regenerateFlowGraph = (
+  type: FlowGraphType,
+  id: UUID,
+  isAdmin: boolean,
+): TEReader<FlowGraphOutput> => {
   return pipe(
-    deleteFlowGraph(ctx)(type, id),
-    fp.TE.chain(() =>
-      createFlowGraph(ctx)(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainTaskEitherK(deleteFlowGraph(type, id)),
+    fp.RTE.chain(() =>
+      createFlowGraph(
         type,
         id,
         {

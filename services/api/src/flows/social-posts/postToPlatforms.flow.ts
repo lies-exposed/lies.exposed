@@ -5,26 +5,26 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { postToIG } from "./postToIG.flow.js";
 import { postToTG } from "./postToTG.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 
-export const postToSocialPlatforms: TEFlow<
-  [UUID, CreateSocialPost],
-  { tg?: TelegramBot.Message[]; ig: any }
-> =
-  (ctx) =>
-  (id, { platforms: _platforms, ...body }) => {
+export const postToSocialPlatforms =
+  (
+    id: UUID,
+    { platforms: _platforms, ...body }: CreateSocialPost,
+  ): TEReader<{ tg?: TelegramBot.Message[]; ig: any }> =>
+  (ctx) => {
     const platforms = _platforms ?? { IG: false, TG: false };
     return pipe(
       sequenceS(fp.TE.ApplicativePar)({
         ig: platforms.IG
-          ? postToIG(ctx)({ ...body, platforms }, (e) =>
+          ? postToIG({ ...body, platforms }, (e) =>
               Promise.resolve({
                 code: "invalid",
               }),
-            )
+            )(ctx)
           : fp.TE.right(undefined),
         tg: platforms.TG
-          ? postToTG(ctx)(id, { ...body, platforms })
+          ? postToTG(id, { ...body, platforms })(ctx)
           : fp.TE.right(undefined),
       }),
     );

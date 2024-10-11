@@ -16,6 +16,7 @@ import { type GroupEntity } from "#entities/Group.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { ServerError } from "#io/ControllerError.js";
 import { fetchActors } from "#queries/actors/fetchActors.query.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
@@ -130,7 +131,6 @@ export const fetchRelationIds =
   };
 
 export const fetchRelations =
-  (ctx: RouteContext) =>
   (
     input: Pick<http.Events.EditEventBody, "links" | "keywords"> & {
       actors: O.Option<UUID[]>;
@@ -139,16 +139,14 @@ export const fetchRelations =
       groupsMembers: O.Option<UUID[]>;
     },
     isAdmin: boolean,
-  ): TE.TaskEither<
-    DBError,
-    {
-      actors: ActorEntity[];
-      groups: GroupEntity[];
-      keywords: KeywordEntity[];
-      media: MediaEntity[];
-      // links: LinkEntity[];
-    }
-  > => {
+  ): TEReader<{
+    actors: ActorEntity[];
+    groups: GroupEntity[];
+    keywords: KeywordEntity[];
+    media: MediaEntity[];
+    // links: LinkEntity[];
+  }> =>
+  (ctx) => {
     ctx.logger.debug.log("Links %O", input.links);
     ctx.logger.debug.log("Media %O", input.media);
     ctx.logger.debug.log("Keywords %O", input.keywords);
@@ -180,7 +178,7 @@ export const fetchRelations =
         : TE.right([]),
       keywords: O.isSome(input.keywords)
         ? pipe(
-            fetchKeywords(ctx)(
+            fetchKeywords(
               {
                 ids: input.keywords,
                 _end: pipe(
@@ -189,19 +187,19 @@ export const fetchRelations =
                 ),
               },
               isAdmin,
-            ),
+            )(ctx),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),
       media: O.isSome(input.media)
         ? pipe(
-            fetchManyMedia(ctx)({
+            fetchManyMedia({
               ids: input.media,
               _end: pipe(
                 input.media,
                 fp.O.map((m) => m.length as Int),
               ),
-            }),
+            })(ctx),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),

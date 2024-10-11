@@ -5,27 +5,26 @@ import {
   ThumbnailsExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type SimpleImageMedia } from "../thumbnails/extractThumbnailFromImage.js";
+import { type SimpleImageMedia } from "../thumbnails/extractThumbnailFromImage.flow.js";
 import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
 import { readExifMetadataFromImage } from "#flows/common/readExifMetadataFromImage.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 
-export const extractImageTypeExtra: TEFlow<
-  [SimpleImageMedia],
-  ImageMediaExtra
-> = (ctx) => (media) => {
+export const extractImageTypeExtra = (
+  media: SimpleImageMedia,
+): TEReader<ImageMediaExtra> => {
   return pipe(
-    fp.TE.Do,
-    fp.TE.bind("dimensions", () => {
-      return readExifMetadataFromImage(ctx)(media.location);
+    fp.RTE.Do,
+    fp.RTE.bind("dimensions", () => {
+      return readExifMetadataFromImage(media.location);
     }),
-    fp.TE.bind("thumbnailsExtra", () => {
+    fp.RTE.bind("thumbnailsExtra", () => {
       if (media.thumbnail) {
-        return extractThumbnailsExtra(ctx)(media.thumbnail);
+        return extractThumbnailsExtra(media.thumbnail);
       }
-      return fp.TE.right(ThumbnailsExtraMonoid.empty);
+      return fp.RTE.right(ThumbnailsExtraMonoid.empty);
     }),
-    fp.TE.map(({ dimensions, thumbnailsExtra }) => {
+    fp.RTE.map(({ dimensions, thumbnailsExtra }) => {
       return ImageMediaExtraMonoid.concat(ImageMediaExtraMonoid.empty, {
         ...dimensions,
         ...thumbnailsExtra,

@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   IframeVideoType,
@@ -6,39 +6,36 @@ import {
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { saveMedia } from "./saveMedia.flow.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const createAndUpload: TEFlow<
-  [
-    Media.CreateMedia,
-    { Body: any; ContentType?: MediaType },
-    UUID | undefined,
-    boolean,
-  ],
-  MediaEntity
-> =
-  (ctx) =>
-  (createMediaData, { Body, ContentType }, id, extractThumb) => {
-    ctx.logger.debug.log("Create media and upload %s", createMediaData);
+export const createAndUpload = (
+  createMediaData: Media.CreateMedia,
+  { Body, ContentType }: { Body: any; ContentType?: MediaType },
+  id: UUID | undefined,
+  extractThumb: boolean,
+): TEReader<MediaEntity> => {
+  return pipe(
+    fp.RTE.Do,
+    fp.RTE.bind("mediaId", () => fp.RTE.right(id ?? uuid())),
+    fp.RTE.bind("location", ({ mediaId }) => {
+      // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
-    const mediaId = id ?? uuid();
-
-    return pipe(
-      TE.Do,
-      TE.bind("location", () => {
-        if (IframeVideoType.is(createMediaData.type)) {
-          return TE.right(createMediaData.location);
-        }
-        const mediaKey = getMediaKey(
-          "media",
-          mediaId,
-          mediaId,
-          createMediaData.type,
-        );
-        return pipe(
+      if (IframeVideoType.is(createMediaData.type)) {
+        return fp.RTE.right(createMediaData.location);
+      }
+      const mediaKey = getMediaKey(
+        "media",
+        mediaId,
+        mediaId,
+        createMediaData.type,
+      );
+      return pipe(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK((ctx) =>
           ctx.s3.upload({
             Bucket: ctx.env.SPACE_BUCKET,
             Key: mediaKey,
@@ -46,40 +43,41 @@ export const createAndUpload: TEFlow<
             ContentType,
             ACL: "public-read",
           }),
-          TE.map((r) => r.Location),
-        );
-      }),
-      ctx.logger.debug.logInTaskEither("Result %O"),
-      TE.bind("thumbnail", ({ location }) =>
-        pipe(
-          extractThumb
-            ? pipe(
-                createThumbnail(ctx)({
-                  ...createMediaData,
-                  id: mediaId,
-                  location,
-                  thumbnail: null,
-                }),
-                TE.map((s) => s[0]),
-              )
-            : TE.right(createMediaData.thumbnail),
         ),
+        fp.RTE.map((r) => r.Location),
+      );
+    }),
+    // ctx.logger.debug.logInTaskEither("Result %O"),
+    fp.RTE.bind("thumbnail", ({ mediaId, location }) =>
+      pipe(
+        extractThumb
+          ? pipe(
+              createThumbnail({
+                ...createMediaData,
+                id: mediaId,
+                location,
+                thumbnail: null,
+              }),
+              fp.RTE.map((s) => s[0]),
+            )
+          : fp.RTE.right(createMediaData.thumbnail),
       ),
-      TE.chain(({ location, thumbnail }) =>
-        ctx.db.save(MediaEntity, [
-          {
-            ...createMediaData,
-            events: [],
-            links: [],
-            featuredInStories: [],
-            keywords: [],
-            areas: [],
-            id: mediaId,
-            location,
-            thumbnail,
-          },
-        ]),
-      ),
-      TE.map((m) => m[0]),
-    );
-  };
+    ),
+    fp.RTE.chain(({ mediaId, location, thumbnail }) =>
+      saveMedia([
+        {
+          ...createMediaData,
+          events: [],
+          links: [],
+          featuredInStories: [],
+          keywords: [],
+          areas: [],
+          id: mediaId,
+          location,
+          thumbnail,
+        },
+      ]),
+    ),
+    fp.RTE.map((m) => m[0]),
+  );
+};

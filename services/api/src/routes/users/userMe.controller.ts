@@ -11,7 +11,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeUserGetMeRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, []))(
+  AddEndpoint(r, authenticationHandler([])(ctx))(
     Endpoints.User.Custom.GetUserMe,
     (_, req) => {
       ctx.logger.debug.log("Get user me %s", req.user?.id);

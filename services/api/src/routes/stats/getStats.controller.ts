@@ -37,7 +37,7 @@ export const MakeGetStatsRoute: Route = (r, ctx) => {
             }, toControllerError),
           );
         }
-        return createStats(ctx)(type, id);
+        return createStats(type, id)(ctx);
       }),
       TE.map((data) => ({
         body: {

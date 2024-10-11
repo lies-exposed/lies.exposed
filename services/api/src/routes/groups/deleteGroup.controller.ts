@@ -7,7 +7,7 @@ import { type RouteContext } from "../route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteGroupRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Group.Delete,
     ({ params: { id } }) => {
       return pipe(

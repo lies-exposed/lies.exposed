@@ -4,23 +4,21 @@ import { type Document } from "langchain/document";
 import { loadLink } from "./loadLink.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { ServerError } from "#io/ControllerError.js";
 
-export const loadDocs: TEFlow<[Queue.Queue], Document[]> = (ctx) => (job) => {
-  ctx.logger.debug.log("Querying docs from job %O", job);
-
+export const loadDocs = (job: Queue.Queue): TEReader<Document[]> => {
   if (job.data.text) {
-    return loadText(ctx)(job.data.text);
+    return loadText(job.data.text);
   }
 
   if (job.data.url) {
     if (job.resource === "media") {
-      return loadPDF(ctx)(job.data.url);
+      return loadPDF(job.data.url);
     }
 
-    return loadLink(ctx)(job.data.url);
+    return loadLink(job.data.url);
   }
 
-  return fp.TE.left(ServerError(["Invalid job data"]));
+  return fp.RTE.left(ServerError(["Invalid job data"]));
 };

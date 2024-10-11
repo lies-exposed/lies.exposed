@@ -7,7 +7,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const DeleteEventRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler({ jwt, logger }, [AdminDelete.value]))(
+  AddEndpoint(r, authenticationHandler([AdminDelete.value])({ jwt, logger }))(
     Endpoints.Event.Delete,
     ({ params: { id } }) => {
       return pipe(

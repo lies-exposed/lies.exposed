@@ -14,10 +14,10 @@ const generateThumbnailDeferred =
   (ctx: RouteContext) =>
   (id: UUID, m: MediaEntity): TE.TaskEither<ControllerError, [UUID]> => {
     void pipe(
-      createThumbnail(ctx)({
+      createThumbnail({
         ...m,
         id,
-      }),
+      })(ctx),
       TE.chain((thumbnails) =>
         ctx.db.save(MediaEntity, [
           {

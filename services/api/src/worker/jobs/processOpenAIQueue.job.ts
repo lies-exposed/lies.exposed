@@ -5,7 +5,7 @@ import { JobProcessor } from "#flows/ai/jobProcessor.js";
 
 export const defaultQuestion = `Can you summarize the text in 100 words maximum?`;
 
-export const processOpenAIQueue: CronJobTE = (ctx) => (opts) => {
+export const processOpenAIQueue: CronJobTE = (opts) => (ctx) => {
   ctx.logger.info.log("Start processing OpenAI queue...");
 
   return pipe(

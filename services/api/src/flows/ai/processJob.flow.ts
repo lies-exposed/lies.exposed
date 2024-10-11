@@ -38,7 +38,7 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
             fp.TE.tap(() => queue.updateJob(job, "processing")),
           ),
         ),
-        fp.TE.bind("docs", ({ job }) => loadDocs(ctx)(job)),
+        fp.TE.bind("docs", ({ job }) => loadDocs(job)(ctx)),
         fp.TE.bind("langchain", () => getLangchainProviderFlow(ctx)),
         fp.TE.chain(({ queue, job, langchain: { langchain }, docs }) => {
           const processTE = types[job.type];

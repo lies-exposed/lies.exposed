@@ -11,7 +11,7 @@ import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, [AdminEdit.value]))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
     Endpoints.Event.Edit,
     ({ params: { id }, body }) => {
       ctx.logger.debug.log("Incoming body %O", body);

@@ -42,7 +42,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           // ...query,
           ids,
           draft,
@@ -63,7 +63,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
           withDeleted: O.getOrElse(() => false)(withDeleted),
           withDrafts: O.getOrElse(() => false)(withDrafts),
           ...ormOptions,
-        }),
+        })(ctx),
         TE.chainEitherK(({ results, totals: { documentaries } }) =>
           pipe(
             results,

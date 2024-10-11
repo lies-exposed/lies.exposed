@@ -1,11 +1,9 @@
-import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
@@ -22,12 +20,12 @@ const defaultQuery: http.Keyword.GetKeywordListQuery = {
   _sort: O.some("createdAt"),
 };
 
-export const fetchKeywords: TEFlow<
-  [Partial<http.Keyword.GetKeywordListQuery>, boolean],
-  [KeywordEntity[], number]
-> =
-  ({ db, env, logger }) =>
-  (query, isAdmin): TE.TaskEither<DBError, [KeywordEntity[], number]> => {
+export const fetchKeywords =
+  (
+    query: Partial<http.Keyword.GetKeywordListQuery>,
+    isAdmin: boolean,
+  ): TEReader<[KeywordEntity[], number]> =>
+  ({ db, env, logger }) => {
     const q = { ...defaultQuery, ...query };
 
     const { ids, q: search, events, ...otherQuery } = q;

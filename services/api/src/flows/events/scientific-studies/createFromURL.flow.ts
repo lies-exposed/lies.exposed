@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -8,16 +8,25 @@ import { findByURL } from "../../../queries/events/scientificStudy.query.js";
 import { extractEventFromURL } from "../extractFromURL.flow.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { ServerError, toControllerError } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
-  (ctx) => (user, url) => {
-    return pipe(
-      findByURL(ctx)(url),
-      TE.chain((existingEvent) => {
-        if (O.isNone(existingEvent)) {
-          return pipe(
+export const createEventFromURL = (
+  user: UserEntity,
+  url: URL,
+): TEReader<EventV2Entity> => {
+  return pipe(
+    findByURL(url),
+    fp.RTE.chain((existingEvent) => {
+      if (O.isSome(existingEvent)) {
+        return fp.RTE.right(existingEvent.value);
+      }
+
+      return pipe(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK((ctx) =>
+          pipe(
             ctx.puppeteer.getBrowser({}),
             TE.mapLeft(toControllerError),
             TE.chain((b) =>
@@ -27,10 +36,10 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
                   toControllerError,
                 ),
                 TE.chain((p) =>
-                  extractEventFromURL(ctx)(p, user, {
+                  extractEventFromURL(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url,
-                  }),
+                  })(ctx),
                 ),
                 TE.chainFirst(() => {
                   return TE.tryCatch(() => b.close(), toControllerError);
@@ -51,9 +60,9 @@ export const createEventFromURL: TEFlow<[UserEntity, URL], EventV2Entity> =
                 },
               }),
             ),
-          );
-        }
-        return TE.right(existingEvent.value);
-      }),
-    );
-  };
+          ),
+        ),
+      );
+    }),
+  );
+};

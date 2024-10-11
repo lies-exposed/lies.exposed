@@ -6,7 +6,7 @@ import { type CronJobTE } from "./cron-task.type.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.js";
 
-export const postOnSocialJob: CronJobTE = (ctx) => (opts) => {
+export const postOnSocialJob: CronJobTE = (opts) => (ctx) => {
   ctx.logger.info.log("Start posting on social task...");
 
   const date = opts === "manual" || opts === "init" ? new Date() : opts;
@@ -22,7 +22,7 @@ export const postOnSocialJob: CronJobTE = (ctx) => (opts) => {
       pipe(
         pp.map((p) =>
           pipe(
-            postToSocialPlatforms(ctx)(p.entity, p.content),
+            postToSocialPlatforms(p.entity, p.content)(ctx),
             fp.TE.chain(({ ig, tg }) =>
               ctx.db.save(SocialPostEntity, [
                 {

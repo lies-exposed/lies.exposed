@@ -37,7 +37,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           ...query,
           draft,
           type: O.some([DEATH.value]),
@@ -52,7 +52,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
           spCount,
           onlyUnshared,
           ...ormOptions,
-        }),
+        })(ctx),
         TE.chainEitherK(({ results, totals: { deaths } }) =>
           pipe(
             results,

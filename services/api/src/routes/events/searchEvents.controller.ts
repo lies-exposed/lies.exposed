@@ -62,7 +62,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
     ctx.logger.debug.log("find options %O", findOptions);
 
     return pipe(
-      searchEventV2Query(ctx)({
+      searchEventV2Query({
         actors,
         groups,
         groupsMembers,
@@ -84,7 +84,7 @@ export const SearchEventRoute = (r: Router, ctx: RouteContext): void => {
         spCount,
         onlyUnshared,
         ...findOptions,
-      }),
+      })(ctx),
       TE.chain(({ results, ...rest }) =>
         pipe(
           results,

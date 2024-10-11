@@ -59,7 +59,7 @@ const CreateQueryProvider = <
 ): EndpointsQueryProviderV2<ES, O> => {
   const queryProvider = pipe(
     endpointsRESTClient.Endpoints,
-    fp.R.toArray,
+    fp.Rec.toArray,
     fp.A.reduce({}, (q, [k, e]) => {
       const override = overrides?.[k] ?? undefined;
       return {
@@ -73,7 +73,7 @@ const CreateQueryProvider = <
   if (overrides) {
     queryProviderOverrides = pipe(
       overrides,
-      fp.R.toArray,
+      fp.Rec.toArray,
       fp.A.reduce({}, (q, [k, e]) => {
         return {
           ...q,
@@ -85,7 +85,7 @@ const CreateQueryProvider = <
 
   const patchedQueryProvider = pipe(
     queryProvider,
-    fp.R.toArray,
+    fp.Rec.toArray,
     fp.A.reduce({}, (q, [k, e]) => {
       const def = queryProviderOverrides[k];
       if (def) {

@@ -10,10 +10,12 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Keyword.List, ({ query }, req) => {
     return pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, [AdminRead.value]),
-      fp.TE.fromIO,
-      fp.TE.chain((user) => fetchKeywords(ctx)(query, !!user)),
-      fp.TE.chainEitherK(([data, total]) =>
+      fp.RTE.ask<RouteContext>(),
+      fp.RTE.chainIOK(
+        RequestDecoder.decodeNullableUser(req, [AdminRead.value]),
+      ),
+      fp.RTE.chain((user) => fetchKeywords(query, !!user)),
+      fp.RTE.chainEitherK(([data, total]) =>
         pipe(
           data,
           KeywordIO.decodeMany,
@@ -23,10 +25,10 @@ export const MakeListKeywordRoute = (r: Router, ctx: RouteContext): void => {
           })),
         ),
       ),
-      fp.TE.map((body) => ({
+      fp.RTE.map((body) => ({
         body,
         statusCode: 200,
       })),
-    );
+    )(ctx);
   });
 };
