@@ -35,7 +35,7 @@ const queryProviderLogger = GetLogger("QueryProvider");
 export const getDefaultKey =
   (key: string) =>
   <P, Q>(p: P, q?: Q, d?: boolean, prefix?: string): QueryFnKey<P, Q> => [
-    `${prefix ? `-${prefix}` : ""}${key}`,
+    `${prefix ? `${prefix}-` : ""}${key}`,
     p,
     q ?? undefined,
     d ?? false,
@@ -121,6 +121,7 @@ export const toGetListResourceQuery = <L>(
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>
   > = override?.getKey ?? getDefaultKey(key);
+
   const fetch: QueryPromiseFunction<
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>,
