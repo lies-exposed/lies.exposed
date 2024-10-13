@@ -12,6 +12,7 @@ import { Equal } from "typeorm";
 import { EventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { LinkEntity } from "#entities/Link.entity.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   ServerError,
   toControllerError,
@@ -217,7 +218,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               endDate: O.some(maxDate),
               q: O.fromNullable(metadata.title),
             })(ctx),
-            ctx.logger.debug.logInTaskEither("Events %O"),
+            LoggerService.TE.debug(ctx, "Events %O"),
             TE.chain(({ results, firstDate, lastDate, ...rest }) =>
               pipe(
                 results,

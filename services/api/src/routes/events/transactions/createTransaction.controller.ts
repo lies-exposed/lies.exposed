@@ -35,7 +35,7 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
       return pipe(
         fetchOwnersTask,
         TE.chain(({ from, to }) =>
-          createEventQuery(ctx)({
+          createEventQuery({
             type: TRANSACTION.value,
             ...body,
             payload: {
@@ -52,7 +52,7 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
             media,
             links,
             keywords,
-          }),
+          })(ctx),
         ),
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>

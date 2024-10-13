@@ -18,14 +18,14 @@ export const MakeEditTransactionEventRoute: Route = (r, ctx) => {
       return pipe(
         ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
         TE.chain((event) =>
-          editEventQuery(ctx)(event, {
+          editEventQuery(event, {
             ...body,
             type: EventTypes.TRANSACTION.value,
             payload,
             media,
             keywords,
             links,
-          }),
+          })(ctx),
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>

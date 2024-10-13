@@ -5,6 +5,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 interface ToPinnedMessageOptions {
@@ -38,8 +39,8 @@ export const upsertPinnedMessage =
     ctx.logger.info.log("Fetch resources totals...");
     return pipe(
       sequenceS(TE.ApplicativePar)({
-        keywords: ctx.db.execQuery(() =>
-          ctx.db.manager
+        keywords: ctx.db.execQuery((em) =>
+          em
             .createQueryBuilder(KeywordEntity, "k")
             .select()
             .loadAllRelationIds({ relations: ["events"] })
@@ -83,7 +84,7 @@ export const upsertPinnedMessage =
           // actorLimit: limit,
         }),
       ),
-      ctx.logger.info.logInTaskEither("Updated Pinned message"),
+      LoggerService.TE.info(ctx, "Updated Pinned message"),
       TE.chain((message) => ctx.tg.upsertPinnedMessage(message)),
       TE.mapLeft(toControllerError),
     );

@@ -10,7 +10,7 @@ import { saveMedia } from "./saveMedia.flow.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { upload } from "#flows/space/upload.flow.js";
 
 export const createAndUpload = (
   createMediaData: Media.CreateMedia,
@@ -34,16 +34,12 @@ export const createAndUpload = (
         createMediaData.type,
       );
       return pipe(
-        fp.RTE.ask<RouteContext>(),
-        fp.RTE.chainTaskEitherK((ctx) =>
-          ctx.s3.upload({
-            Bucket: ctx.env.SPACE_BUCKET,
-            Key: mediaKey,
-            Body,
-            ContentType,
-            ACL: "public-read",
-          }),
-        ),
+        upload({
+          Key: mediaKey,
+          Body,
+          ContentType,
+          ACL: "public-read",
+        }),
         fp.RTE.map((r) => r.Location),
       );
     }),

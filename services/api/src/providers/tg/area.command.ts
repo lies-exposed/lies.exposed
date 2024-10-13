@@ -19,7 +19,7 @@ export const areaCommand = (ctx: RouteContext): TGBotProvider => {
     }
 
     void pipe(
-      EntityFromWikipediaService(ctx)({
+      EntityFromWikipediaService({
         type: AREAS.value,
         search: match[1],
         chatId: msg.chat.id,
@@ -45,7 +45,7 @@ export const areaCommand = (ctx: RouteContext): TGBotProvider => {
             fetchAndCreateAreaFromWikipedia(search, wp)(ctx),
             fp.TE.map((area) => area.area),
           ),
-      }),
+      })(ctx),
       throwTE,
     ).catch((e) => {
       ctx.logger.error.log(`Failed to create area: %O`, e);

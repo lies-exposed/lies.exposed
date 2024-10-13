@@ -6,7 +6,7 @@ import { type TEReader } from "#flows/flow.types.js";
 import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
 
-export const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
+const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager
@@ -19,7 +19,7 @@ export const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
   );
 };
 
-export const getLinksWithoutPublishDate = (): TEReader<number> => (ctx) => {
+const getLinksWithoutPublishDate = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager
@@ -30,7 +30,7 @@ export const getLinksWithoutPublishDate = (): TEReader<number> => (ctx) => {
   );
 };
 
-export const getTotalLinks = (): TEReader<number> => (ctx) => {
+const getTotalLinks = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager.createQueryBuilder(LinkEntity, "link").getCount();

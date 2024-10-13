@@ -18,7 +18,7 @@ export const MakeEditDeathEventRoute: Route = (r, ctx) => {
       return pipe(
         ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
         TE.chain((event) =>
-          editEventQuery(ctx)(event, {
+          editEventQuery(event, {
             ...body,
             type: "Death",
             payload,
@@ -29,7 +29,7 @@ export const MakeEditDeathEventRoute: Route = (r, ctx) => {
             media: O.some(media),
             keywords: O.some(keywords),
             links: O.some(links),
-          }),
+          })(ctx),
         ),
         TE.chain((event) => ctx.db.save(EventV2Entity, [event])),
         TE.chain(([event]) =>
