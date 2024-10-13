@@ -42,7 +42,7 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
 
     const searchEntityOnWiki = (wiki: WikiProviders): TEControllerError<void> =>
       pipe(
-        getWikiProvider(ctx)(wiki).search(api.search),
+        getWikiProvider(wiki)(ctx).search(api.search),
         fp.TE.map((q) =>
           q.slice(0, 5).concat({ pageid: -1, title: "Cancel" } as any),
         ),
@@ -209,6 +209,6 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
   };
 
 export const getWikiProvider =
-  (ctx: RouteContext) =>
-  (type: WikiProviders): WikipediaProvider =>
+  (type: WikiProviders) =>
+  (ctx: RouteContext): WikipediaProvider =>
     type === "wikipedia" ? ctx.wp : ctx.rw;

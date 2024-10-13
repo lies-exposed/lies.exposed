@@ -12,7 +12,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Actor.Edit,
     ({
       params: { id },

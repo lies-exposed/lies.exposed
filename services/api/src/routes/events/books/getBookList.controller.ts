@@ -43,7 +43,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           ...query,
           q,
           draft,
@@ -60,7 +60,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
           spCount,
           onlyUnshared,
           ...ormOptions,
-        }),
+        })(ctx),
         // ctx.logger.debug.logInTaskEither((out) => [
         //   `Book results %O \n %O`,
         //   out.results,

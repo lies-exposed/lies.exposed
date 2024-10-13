@@ -28,7 +28,7 @@ export const MakeTakeLinkScreenshotRoute = (
   r: Router,
   ctx: RouteContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler(ctx, [AdminEdit.value]))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
     Endpoints.Link.Custom.TakeLinkScreenshot,
     ({ params: { id }, body }, req) => {
       ctx.logger.debug.log("Body %O", body);
@@ -54,7 +54,7 @@ export const MakeTakeLinkScreenshotRoute = (
         TE.Do,
         TE.bind("user", () =>
           pipe(
-            RequestDecoder.decodeNullableUser(ctx)(req, []),
+            RequestDecoder.decodeNullableUser(req, [])(ctx),
             TE.fromIO,
             TE.filterOrElse(
               (user): user is User => !!user?.id,
@@ -79,9 +79,9 @@ export const MakeTakeLinkScreenshotRoute = (
             TE.map(([media]) => ({ ...link, image: media as any })),
             TE.chain((linkWithMedia) =>
               pipe(
-                takeLinkScreenshot(ctx)(linkWithMedia),
+                takeLinkScreenshot(linkWithMedia)(ctx),
                 TE.chain((buffer) =>
-                  uploadScreenshot(ctx)(linkWithMedia, buffer),
+                  uploadScreenshot(linkWithMedia, buffer)(ctx),
                 ),
                 TE.chain((m) =>
                   ctx.db.save(MediaEntity, [

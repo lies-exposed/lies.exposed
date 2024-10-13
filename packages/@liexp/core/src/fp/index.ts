@@ -10,7 +10,9 @@ import * as Map from "fp-ts/lib/Map.js";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as Ord from "fp-ts/lib/Ord.js";
-import * as R from "fp-ts/lib/Record.js";
+import * as R from "fp-ts/lib/Reader.js";
+import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
+import * as Rec from "fp-ts/lib/Record.js";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe, flow } from "fp-ts/lib/function.js";
@@ -27,6 +29,8 @@ export const fp = {
   Map,
   NEA,
   R,
+  Rec,
+  RTE,
   S,
   IO,
   IOE,

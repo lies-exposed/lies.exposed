@@ -78,11 +78,11 @@ export const setAllFiltersTo = (b: boolean): EventTypeMap => ({
 });
 
 const toEnabled = flow<[EventTypeMap], boolean>(
-  fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && b),
+  fp.Rec.reduce(fp.S.Ord)(true, (acc, b) => acc && b),
 );
 
 const toDisabled = flow<[EventTypeMap], boolean>(
-  fp.R.reduce(fp.S.Ord)(true, (acc, b) => acc && !b),
+  fp.Rec.reduce(fp.S.Ord)(true, (acc, b) => acc && !b),
 );
 
 const toNewFilters = (

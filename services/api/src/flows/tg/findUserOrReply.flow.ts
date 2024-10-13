@@ -10,7 +10,7 @@ export const findUserOrReplyFlow =
   (te: (u: UserEntity) => TEControllerError<void>) =>
   (chatId: number, userId?: number): TEControllerError<void> => {
     const checkUserIdExists = pipe(
-      userId ? getUserByTelegramId(ctx)(userId) : fp.TE.right(fp.O.none),
+      userId ? getUserByTelegramId(userId)(ctx) : fp.TE.right(fp.O.none),
     );
 
     return pipe(

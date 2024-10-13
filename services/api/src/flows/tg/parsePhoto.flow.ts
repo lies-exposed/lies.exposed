@@ -6,18 +6,15 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
-export const parsePhoto: TEFlow<
-  [string, TelegramBot.PhotoSize[]],
-  MediaEntity[]
-> =
-  (ctx) =>
-  (description, photo): TE.TaskEither<ControllerError, MediaEntity[]> => {
+export const parsePhoto =
+  (
+    description: string,
+    photo: TelegramBot.PhotoSize[],
+  ): TEReader<MediaEntity[]> =>
+  (ctx) => {
     return pipe(
       photo,
       A.map((p) => {
@@ -31,7 +28,7 @@ export const parsePhoto: TEFlow<
           TE.chain((f) => {
             ctx.logger.debug.log("File downloaded %O", f);
 
-            return createAndUpload(ctx)(
+            return createAndUpload(
               {
                 type: MediaType.types[0].value,
                 location: p.file_id,
@@ -49,7 +46,7 @@ export const parsePhoto: TEFlow<
               },
               mediaId,
               false,
-            );
+            )(ctx);
           }),
         );
       }),

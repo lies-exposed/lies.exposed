@@ -1,11 +1,13 @@
 import * as fs from "fs";
 import path from "path";
 import { fp, flow, pipe } from "@liexp/core/lib/fp/index.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { olderThan } from "#flows/fs/olderThan.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export const cleanUpFolder: TEFlow<[string, number], void> =
-  (ctx) => (tempFolder, time) => {
+export const cleanUpFolder =
+  (tempFolder: string, time: number): TEReader<void> =>
+  (ctx) => {
     ctx.logger.info.log("Clean up %s folder...", tempFolder);
     return pipe(
       fp.TE.fromIO(() => {
@@ -27,7 +29,7 @@ export const cleanUpFolder: TEFlow<[string, number], void> =
         flow(
           fp.A.map((filePath) => {
             return pipe(
-              ctx.fs.olderThan(filePath, time),
+              olderThan(filePath, time)(ctx),
               fp.TE.chain((older) => {
                 if (older) {
                   ctx.logger.info.log(
@@ -48,6 +50,8 @@ export const cleanUpFolder: TEFlow<[string, number], void> =
     );
   };
 
-export const cleanUpTempMedia: TEFlow<[number], void> = (ctx) => (time) => {
-  return cleanUpFolder(ctx)(ctx.config.dirs.temp.media, time);
-};
+export const cleanUpTempMedia =
+  (time: number): TEReader<void> =>
+  (ctx) => {
+    return cleanUpFolder(ctx.config.dirs.temp.media, time)(ctx);
+  };

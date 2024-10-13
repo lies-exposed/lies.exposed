@@ -10,7 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
 import { extractThumbnailFromVideoPlatform } from "./thumbnails/extractThumbnailFromVideoPlatform.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import {
   toControllerError,
   type ControllerError,
@@ -90,24 +90,27 @@ export const extractEmbedFromPlatform = (
   );
 };
 
-export const extractMediaFromPlatform: TEFlow<
-  [URL, VideoPlatformMatch, puppeteer.Page],
-  Partial<MediaEntity>
-> = (ctx) => (url, m, page) => {
-  ctx.logger.debug.log("Extracting media from %s (%O)", url, m);
-  return pipe(
-    sequenceS(TE.ApplicativeSeq)({
-      location: extractEmbedFromPlatform(url, m, page),
-      label: extractTitleFromPlatform(page),
-      description: extractDescriptionFromPlatform(m, page),
-      thumbnail: pipe(
-        extractThumbnailFromVideoPlatform(ctx)(m, page),
-        TE.orElse(
-          (): TE.TaskEither<ControllerError, string | undefined> =>
-            TE.right(undefined),
+export const extractMediaFromPlatform =
+  (
+    url: URL,
+    m: VideoPlatformMatch,
+    page: puppeteer.Page,
+  ): TEReader<Partial<MediaEntity>> =>
+  (ctx) => {
+    ctx.logger.debug.log("Extracting media from %s (%O)", url, m);
+    return pipe(
+      sequenceS(TE.ApplicativeSeq)({
+        location: extractEmbedFromPlatform(url, m, page),
+        label: extractTitleFromPlatform(page),
+        description: extractDescriptionFromPlatform(m, page),
+        thumbnail: pipe(
+          extractThumbnailFromVideoPlatform(m, page)(ctx),
+          TE.orElse(
+            (): TE.TaskEither<ControllerError, string | undefined> =>
+              TE.right(undefined),
+          ),
         ),
-      ),
-      type: TE.right(IframeVideoType.value),
-    }),
-  );
-};
+        type: TE.right(IframeVideoType.value),
+      }),
+    );
+  };

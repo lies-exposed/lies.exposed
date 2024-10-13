@@ -14,7 +14,7 @@ export const MakeUserTGTokenGenerateRoute = (
   r: Router,
   ctx: RouteContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler(ctx, []))(
+  AddEndpoint(r, authenticationHandler([])(ctx))(
     Endpoints.User.Custom.UserTGTokenGenerate,
     (_, req) => {
       ctx.logger.debug.log("Edit user me %s", req.user?.id);

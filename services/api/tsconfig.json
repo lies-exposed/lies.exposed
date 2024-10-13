@@ -18,6 +18,9 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
+    "types": [
+      "../../node_modules/vitest/globals",
+    ],
     "paths": {
       "#app/*": ["app/*"],
       "#context/*": ["context/*"],

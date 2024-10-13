@@ -16,7 +16,7 @@ import { parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { EventV2IO } from "#routes/events/eventV2.io.js";
 import {
@@ -24,18 +24,20 @@ import {
   type SearchEventOutput,
 } from "#routes/events/queries/searchEventsV2.query.js";
 
-export const fetchEventsWithRelations: TEFlow<
-  [NetworkType, UUID[], GetNetworkQuery, boolean],
-  {
+export const fetchEventsWithRelations =
+  (
+    type: NetworkType,
+    ids: UUID[],
+    { actors, groups, keywords, startDate, endDate }: GetNetworkQuery,
+    isAdmin: boolean,
+  ): TEReader<{
     events: Events.Event[];
     actors: Actor.Actor[];
     groups: Group.Group[];
     keywords: Keyword.Keyword[];
     media: Media.Media[];
-  }
-> =
-  (ctx) =>
-  (type, ids, { actors, groups, keywords, startDate, endDate }, isAdmin) => {
+  }> =>
+  (ctx) => {
     ctx.logger.debug.log(`Fetch all events with %O`, {
       actors,
       groups,
@@ -44,9 +46,9 @@ export const fetchEventsWithRelations: TEFlow<
       endDate,
     });
     return pipe(
-      walkPaginatedRequest(ctx)<SearchEventOutput, ControllerError, Event>(
+      walkPaginatedRequest<SearchEventOutput, ControllerError, Event>(
         ({ skip, amount }) =>
-          searchEventV2Query(ctx)({
+          searchEventV2Query({
             ids: fp.O.none,
             actors,
             groups,
@@ -56,12 +58,12 @@ export const fetchEventsWithRelations: TEFlow<
             skip,
             take: amount,
             order: { date: "DESC" },
-          }),
+          })(ctx),
         (r) => r.total,
         (r) => pipe(EventV2IO.decodeMany(r.results), TE.fromEither),
         0,
         100,
-      ),
-      TE.chain((events) => fetchEventsRelations(ctx)(events, isAdmin)),
+      )(ctx),
+      TE.chain((events) => fetchEventsRelations(events, isAdmin)(ctx)),
     );
   };

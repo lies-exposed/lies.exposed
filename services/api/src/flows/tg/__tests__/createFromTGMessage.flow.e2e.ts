@@ -80,7 +80,7 @@ describe("Create From TG Message", () => {
         Test.mocks.puppeteer.browser.close.mockResolvedValueOnce({});
 
         const result: any = await pipe(
-          createFromTGMessage(Test.ctx)(
+          createFromTGMessage(
             {
               message_id: 1,
               text: url,
@@ -95,7 +95,7 @@ describe("Create From TG Message", () => {
               ],
             },
             {},
-          ),
+          )(Test.ctx),
           throwTE,
         );
 
@@ -133,7 +133,7 @@ describe("Create From TG Message", () => {
         Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
         const result = await throwTE(
-          createFromTGMessage(Test.ctx)(
+          createFromTGMessage(
             {
               message_id: 1,
               text: url,
@@ -148,7 +148,7 @@ describe("Create From TG Message", () => {
               ],
             },
             {},
-          ),
+          )(Test.ctx),
         );
 
         await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
@@ -198,7 +198,7 @@ describe("Create From TG Message", () => {
         }),
       );
 
-      const result = await throwTE(createFromTGMessage(Test.ctx)(message, {}));
+      const result = await throwTE(createFromTGMessage(message, {})(Test.ctx));
 
       const { creator, areas, keywords, stories, socialPosts, ...media } =
         await throwTE(
@@ -604,7 +604,7 @@ describe("Create From TG Message", () => {
         });
 
         const result = await throwTE(
-          createFromTGMessage(Test.ctx)(message, {}),
+          createFromTGMessage(message, {})(Test.ctx),
         );
 
         expect(result.link).toMatchObject(

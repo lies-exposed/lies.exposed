@@ -9,7 +9,7 @@ import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeSettingGetRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:read"]))(
+  AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Setting.Get,
     ({ params: { id } }) => {
       return pipe(

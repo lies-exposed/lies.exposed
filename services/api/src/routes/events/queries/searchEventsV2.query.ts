@@ -15,9 +15,9 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
 import { type ControllerError } from "../../../io/ControllerError.js";
-import { type RouteContext } from "../../route.types.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { type EventsConfig } from "#queries/config/index.js";
 import {
   aggregateSocialPostsPerEntry,
@@ -343,10 +343,8 @@ export interface SearchEventOutput {
 }
 
 export const searchEventV2Query =
-  ({ db, logger, config }: RouteContext) =>
-  (
-    query: Partial<SearchEventQuery>,
-  ): TE.TaskEither<DBError, SearchEventOutput> => {
+  (query: Partial<SearchEventQuery>): TEReader<SearchEventOutput> =>
+  ({ db, logger, config }) => {
     const opts = {
       ...searchQueryDefaults,
       ...query,
@@ -628,17 +626,20 @@ export const searchEventV2Query =
   };
 
 export const infiniteSearchEventQuery =
-  (ctx: RouteContext) =>
-  (
-    query: Partial<SearchEventQuery>,
-  ): TE.TaskEither<ControllerError, SearchEventOutput["results"]> => {
+  (query: Partial<SearchEventQuery>): TEReader<EventV2Entity[]> =>
+  (ctx) => {
     ctx.logger.debug.log("Infinite search event query %O", query);
-    return walkPaginatedRequest(ctx)(
+
+    return walkPaginatedRequest<
+      SearchEventOutput,
+      ControllerError,
+      EventV2Entity
+    >(
       ({ skip, amount }) =>
-        searchEventV2Query(ctx)({ ...query, skip, take: amount }),
+        searchEventV2Query({ ...query, skip, take: amount })(ctx),
       (r) => r.total,
       (r) => TE.right(r.results),
       0,
       50,
-    );
+    )(ctx);
   };

@@ -9,6 +9,7 @@ import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
@@ -16,10 +17,10 @@ import { type RouteContext } from "#routes/route.types.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
 
 const createThumbnailTask =
-  (ctx: RouteContext) =>
-  (m: MediaEntity): TEControllerError<MediaEntity> => {
+  (m: MediaEntity): TEReader<MediaEntity> =>
+  (ctx) => {
     return pipe(
-      createThumbnail(ctx)(m),
+      createThumbnail(m)(ctx),
       fp.TE.orElse(
         (e): TaskEither<ControllerError, ThumbnailsExtra["thumbnails"]> => {
           ctx.logger.debug.log(
@@ -62,9 +63,9 @@ const convertManyMediaTask =
       fp.A.chunksOf(10),
       fp.A.map(
         flow(
-          fp.A.traverse(fp.TE.ApplicativePar)(
-            flow(
-              createThumbnailTask(ctx),
+          fp.A.traverse(fp.TE.ApplicativePar)((m) =>
+            pipe(
+              createThumbnailTask(m)(ctx),
               fp.TE.chain((m) => save([m])),
             ),
           ),
@@ -84,18 +85,18 @@ const convertManyMediaTask =
  * @param args - command arguments
  * @returns void
  */
-export const regenerateMediaThumbnailJob: CronJobTE = (ctx) => (opts) => {
+export const regenerateMediaThumbnailJob: CronJobTE = (opts) => (ctx) => {
   return pipe(
     fp.TE.Do,
     fp.TE.bind("media", () =>
       pipe(
-        fetchManyMedia(ctx)({
+        fetchManyMedia({
           type: fp.O.some(ImageType.types.map((t) => t.value)),
           needRegenerateThumbnail: fp.O.some(true),
           hasExtraThumbnailsError: fp.O.some(false),
           _start: fp.O.some(0 as Int),
           _end: fp.O.some(50 as Int),
-        }),
+        })(ctx),
         fp.TE.map((mm) => {
           ctx.logger.debug.log(
             "Regenerating %d thumbnails over %d media without thumbnail",

@@ -52,7 +52,7 @@ export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
               O.getOrElse(() => url),
               (url) =>
                 ctx.puppeteer.execute({}, (_, p) =>
-                  extractRelationsFromURL(ctx)(p, url),
+                  extractRelationsFromURL(p, url)(ctx),
                 ),
             ),
           });

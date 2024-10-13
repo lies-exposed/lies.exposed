@@ -11,143 +11,142 @@ import { type Page } from "puppeteer-core";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { fetchFromRemote } from "./fetchFromRemote.flow.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
 
-export const extractThumbnailFromVideoPlatform: TEFlow<
-  [VideoPlatformMatch, Page],
-  string
-> = (ctx) => (match, page) => {
-  const toError = (m: VideoPlatformMatch): ControllerError => {
-    return toControllerError(
-      new Error(`Can't find cover for platform '${m.platform}'`),
+export const extractThumbnailFromVideoPlatform =
+  (match: VideoPlatformMatch, page: Page): TEReader<string> =>
+  (ctx) => {
+    const toError = (m: VideoPlatformMatch): ControllerError => {
+      return toControllerError(
+        new Error(`Can't find cover for platform '${m.platform}'`),
+      );
+    };
+
+    ctx.logger.debug.log("Extracting thumbnail from video platform %j", match);
+
+    return pipe(
+      TE.tryCatch(async () => {
+        switch (match.platform) {
+          case "bitchute": {
+            const selector = "picture.vjs-poster img";
+            await page.waitForSelector(selector, {
+              timeout: 20_000,
+            });
+
+            ctx.logger.debug.log(`Found element ${selector}`);
+            const coverUrl = await page.$eval(selector, (el) => {
+              const coverUrl = el.getAttribute("src");
+              return coverUrl;
+            });
+
+            ctx.logger.debug.log(
+              `Thumbnail from selector ${selector}: ${coverUrl}`,
+            );
+
+            return coverUrl;
+          }
+          case "youtube": {
+            const selector = 'div[class*="thumbnail-overlay-image"]';
+            await page.waitForSelector(selector, { timeout: 5000 });
+
+            const coverUrl = await page.$eval(selector, (el) => {
+              const style = el.getAttribute("style");
+
+              if (style) {
+                return style
+                  .replace('background-image: url("', "")
+                  .replace('");', "");
+              }
+
+              return undefined;
+            });
+
+            return coverUrl;
+          }
+          case "peertube":
+          case "odysee": {
+            let selector = ".vjs-poster";
+
+            const element = await page
+              .waitForSelector(selector, { timeout: 10_000 })
+              .catch(() => null);
+
+            if (!element) {
+              await page.waitForSelector(".content__cover");
+              selector = ".content__cover";
+            }
+
+            return page.$eval(selector, (el) => {
+              const style = el.getAttribute("style");
+
+              const coverUrl = style
+                ?.replace('background-image: url("', "")
+                .replace('");', "");
+
+              return coverUrl;
+            });
+          }
+          case "rumble": {
+            let selector;
+            if (match.type === "embed") {
+              selector = ".player-Rumble-cls video[poster]";
+            } else {
+              selector = "#videoPlayer video[poster]";
+            }
+            try {
+              await page.waitForSelector(selector, { timeout: 10_000 });
+            } catch (e) {
+              selector = "video[poster]";
+              await page.waitForSelector(selector, { timeout: 10_000 });
+            }
+
+            const videoPosterSrc = await page.$eval(selector, (el) => {
+              return el.getAttribute("poster");
+            });
+
+            return videoPosterSrc;
+          }
+          case "dailymotion": {
+            if (match.type === "embed") {
+              const selector = ".video_poster_image";
+
+              await page.waitForSelector(selector);
+
+              return page.$eval(selector, (el) => {
+                return el.getAttribute("src");
+              });
+            }
+
+            const selector = 'meta[name="og:image:secure_url"]';
+            await page.waitForSelector(selector);
+
+            const url = await page.$eval(selector, (el) => {
+              return el.getAttribute("content");
+            });
+
+            return url;
+          }
+          default: {
+            return undefined;
+          }
+        }
+      }, toControllerError),
+      TE.chain((thumb) => {
+        if (!thumb) {
+          return TE.left(toError(match));
+        }
+        return TE.right(thumb);
+      }),
     );
   };
 
-  ctx.logger.debug.log("Extracting thumbnail from video platform %j", match);
-
-  return pipe(
-    TE.tryCatch(async () => {
-      switch (match.platform) {
-        case "bitchute": {
-          const selector = "picture.vjs-poster img";
-          await page.waitForSelector(selector, {
-            timeout: 20_000,
-          });
-
-          ctx.logger.debug.log(`Found element ${selector}`);
-          const coverUrl = await page.$eval(selector, (el) => {
-            const coverUrl = el.getAttribute("src");
-            return coverUrl;
-          });
-
-          ctx.logger.debug.log(
-            `Thumbnail from selector ${selector}: ${coverUrl}`,
-          );
-
-          return coverUrl;
-        }
-        case "youtube": {
-          const selector = 'div[class*="thumbnail-overlay-image"]';
-          await page.waitForSelector(selector, { timeout: 5000 });
-
-          const coverUrl = await page.$eval(selector, (el) => {
-            const style = el.getAttribute("style");
-
-            if (style) {
-              return style
-                .replace('background-image: url("', "")
-                .replace('");', "");
-            }
-
-            return undefined;
-          });
-
-          return coverUrl;
-        }
-        case "peertube":
-        case "odysee": {
-          let selector = ".vjs-poster";
-
-          const element = await page
-            .waitForSelector(selector, { timeout: 10_000 })
-            .catch(() => null);
-
-          if (!element) {
-            await page.waitForSelector(".content__cover");
-            selector = ".content__cover";
-          }
-
-          return page.$eval(selector, (el) => {
-            const style = el.getAttribute("style");
-
-            const coverUrl = style
-              ?.replace('background-image: url("', "")
-              .replace('");', "");
-
-            return coverUrl;
-          });
-        }
-        case "rumble": {
-          let selector;
-          if (match.type === "embed") {
-            selector = ".player-Rumble-cls video[poster]";
-          } else {
-            selector = "#videoPlayer video[poster]";
-          }
-          try {
-            await page.waitForSelector(selector, { timeout: 10_000 });
-          } catch (e) {
-            selector = "video[poster]";
-            await page.waitForSelector(selector, { timeout: 10_000 });
-          }
-
-          const videoPosterSrc = await page.$eval(selector, (el) => {
-            return el.getAttribute("poster");
-          });
-
-          return videoPosterSrc;
-        }
-        case "dailymotion": {
-          if (match.type === "embed") {
-            const selector = ".video_poster_image";
-
-            await page.waitForSelector(selector);
-
-            return page.$eval(selector, (el) => {
-              return el.getAttribute("src");
-            });
-          }
-
-          const selector = 'meta[name="og:image:secure_url"]';
-          await page.waitForSelector(selector);
-
-          const url = await page.$eval(selector, (el) => {
-            return el.getAttribute("content");
-          });
-
-          return url;
-        }
-        default: {
-          return undefined;
-        }
-      }
-    }, toControllerError),
-    TE.chain((thumb) => {
-      if (!thumb) {
-        return TE.left(toError(match));
-      }
-      return TE.right(thumb);
-    }),
-  );
-};
-
 export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
   SimpleMedia<Media.IframeVideoType>
-> = (ctx) => (media) => {
+> = (media) => (ctx) => {
   ctx.logger.debug.log("Extracting thumbnail from iframe %s", media.location);
 
   return pipe(
@@ -169,8 +168,8 @@ export const extractThumbnailFromIframe: ExtractThumbnailFromMediaFlow<
             }, toPuppeteerError),
             TE.chain(() => {
               return pipe(
-                extractThumbnailFromVideoPlatform(ctx)(match, page),
-                TE.chain((url) => fetchFromRemote(ctx)(url)),
+                extractThumbnailFromVideoPlatform(match, page)(ctx),
+                TE.chain((url) => fetchFromRemote(url)(ctx)),
               );
             }),
           );

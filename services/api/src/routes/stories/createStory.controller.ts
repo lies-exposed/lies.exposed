@@ -8,7 +8,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateStoryRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:create"]))(
+  AddEndpoint(r, authenticationHandler(["event-suggestion:create"])(ctx))(
     Endpoints.Story.Create,
     (
       { body: { body2, actors, groups, media, events, keywords, ...body } },

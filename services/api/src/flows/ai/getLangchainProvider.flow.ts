@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Option, type Some } from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
 import { SettingEntity } from "#entities/Setting.entity.js";
-import { type TEFlow2 } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { NotFoundError, type ControllerError } from "#io/ControllerError.js";
 import { type LangchainProvider } from "#providers/ai/langchain.provider.js";
 
@@ -18,7 +18,7 @@ const isLocalAIProxyUrl = (v: Option<unknown>): v is Some<OpenAISettings> => {
   );
 };
 
-export const getLangchainProviderFlow: TEFlow2<{
+export const getLangchainProviderFlow: TEReader<{
   langchain: LangchainProvider;
   localAiProxyUrl: string;
 }> = (ctx) => {

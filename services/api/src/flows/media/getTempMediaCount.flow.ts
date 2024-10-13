@@ -1,19 +1,30 @@
 import path from "path";
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-export const getTempMediaCountFlow: TEFlow<
-  [],
+export const getTempMediaCountFlow = (): TEReader<
   { filePath: string; fileRelativePath: string; fileSize: number }[]
-> = (ctx) => () => {
-  const mediaTempFilesCachePath = path.resolve(
-    ctx.config.dirs.temp.stats,
-    `media/temp-files.json`,
+> => {
+  return pipe(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainIOK(
+      (ctx) => () =>
+        path.resolve(ctx.config.dirs.temp.media, "temp-files.json"),
+    ),
+    fp.RTE.chain((fileName) =>
+      pipe(readMediaTempFilesFlow(), getOlderThanOr(fileName, 1 * 24)),
+    ),
   );
+};
 
-  const readMediaTempFilesTask = pipe(
-    TE.fromIO(() => {
+const readMediaTempFilesFlow = (): TEReader<
+  { filePath: string; fileRelativePath: string; fileSize: number }[]
+> => {
+  return pipe(
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainIOK((ctx) => () => {
       const media = ctx.fs._fs
         .readdirSync(ctx.config.dirs.temp.media)
         .map((file) => {
@@ -27,9 +38,4 @@ export const getTempMediaCountFlow: TEFlow<
       return media;
     }),
   );
-
-  return ctx.fs.getOlderThanOr(
-    mediaTempFilesCachePath,
-    1 * 24, // one day
-  )(readMediaTempFilesTask);
 };

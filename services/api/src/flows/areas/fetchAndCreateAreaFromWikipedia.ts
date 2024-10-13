@@ -4,33 +4,35 @@ import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";
+import { saveArea } from "./saveArea.flow.js";
 import { AreaEntity } from "#entities/Area.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { AreaIO } from "#routes/areas/Area.io.js";
 import { MediaIO } from "#routes/media/media.io.js";
+import { type RouteContext } from "#routes/route.types.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
-export const fetchAndCreateAreaFromWikipedia: TEFlow<
-  [string, WikiProviders],
-  { area: Area.Area; media: Media.Media[] }
-> = (ctx) => (title, wp) => {
+export const fetchAndCreateAreaFromWikipedia = (
+  title: string,
+  wp: WikiProviders,
+): TEReader<{ area: Area.Area; media: Media.Media[] }> => {
   return pipe(
-    TE.Do,
-    TE.bind("wpProvider", () => TE.right(getWikiProvider(ctx)(wp))),
-    TE.bind("wikipedia", ({ wpProvider }) =>
-      fetchFromWikipedia(wpProvider)(title),
+    fp.RTE.Do,
+    fp.RTE.bind("wpProvider", () => fp.RTE.fromReader(getWikiProvider(wp))),
+    fp.RTE.bind("wikipedia", ({ wpProvider }) =>
+      fp.RTE.fromTaskEither(fetchFromWikipedia(title)(wpProvider)),
     ),
-    TE.map(({ wikipedia: { slug, featuredMedia, intro } }) => {
-      ctx.logger.debug.log("Area fetched from wikipedia %s: %O", title, {
-        featuredMedia,
-      });
+    fp.RTE.map(({ wikipedia: { slug, featuredMedia, intro } }) => {
+      // ctx.logger.debug.log("Area fetched from wikipedia %s: %O", title, {
+      //   featuredMedia,
+      // });
 
       return {
         area: {
@@ -65,27 +67,32 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
           : undefined,
       };
     }),
-    fp.TE.chain(({ area: areaData, media }) => {
-      ctx.logger.debug.log(`Media %O`, media);
+    fp.RTE.chain(({ area: areaData, media }) => {
+      // ctx.logger.debug.log(`Media %O`, media);
       return pipe(
-        ctx.db.findOne(AreaEntity, {
-          where: { label: areaData.label },
-        }),
-        fp.TE.chain((a) => {
-          const saveAreaTask = (media: MediaEntity | null) =>
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK((ctx) =>
+          ctx.db.findOne(AreaEntity, {
+            where: { label: areaData.label },
+          }),
+        ),
+        fp.RTE.chain((a) => {
+          const saveAreaTask = (
+            media: MediaEntity | null,
+          ): TEReader<AreaEntity> =>
             fp.O.isSome(a)
-              ? fp.TE.right(a.value)
+              ? fp.RTE.right(a.value)
               : pipe(
-                  fetchCoordinates(ctx)(areaData.label),
-                  TE.map((geo) => ({
+                  fetchCoordinates(areaData.label),
+                  fp.RTE.map((geo) => ({
                     ...areaData,
                     ...pipe(
                       geo,
                       fp.O.getOrElse(() => ({})),
                     ),
                   })),
-                  TE.chain((areaData) =>
-                    ctx.db.save(AreaEntity, [
+                  fp.RTE.chain((areaData) =>
+                    saveArea([
                       {
                         ...areaData,
                         featuredImage: media,
@@ -93,17 +100,17 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
                       },
                     ]),
                   ),
-                  TE.map((mm) => mm[0]),
+                  fp.RTE.map((mm) => mm[0]),
                 );
 
           const saveMediaTask = pipe(
             media,
             fp.O.fromNullable,
             fp.O.fold(
-              () => fp.TE.right(null),
+              () => fp.RTE.right(null),
               (media) =>
                 pipe(
-                  ctx.db.save(MediaEntity, [
+                  saveMedia([
                     {
                       ...media,
                       areas: [],
@@ -112,28 +119,33 @@ export const fetchAndCreateAreaFromWikipedia: TEFlow<
                       creator: null,
                     },
                   ]),
-                  fp.TE.map<MediaEntity[], MediaEntity | null>((mm) => mm[0]),
+                  fp.RTE.map<MediaEntity[], MediaEntity | null>((mm) => mm[0]),
                 ),
             ),
           );
 
           return pipe(
-            TE.Do,
-            TE.bind("media", () => saveMediaTask),
-            TE.bind("area", ({ media }) => saveAreaTask(media)),
-            fp.TE.chainEitherK(({ area }) =>
-              sequenceS(fp.E.Applicative)({
-                area: AreaIO.decodeSingle(area, ctx.env.SPACE_ENDPOINT),
-                media: pipe(
-                  MediaIO.decodeMany(
-                    (area.media ?? []).map((m) => ({
-                      ...m,
-                      areas: m.areas.map((a): any => a.id),
-                    })),
-                    ctx.env.SPACE_ENDPOINT,
-                  ),
+            fp.RTE.Do,
+            fp.RTE.bind("media", () => saveMediaTask),
+            fp.RTE.bind("area", ({ media }) => saveAreaTask(media)),
+            fp.RTE.chain(({ area }) =>
+              pipe(
+                fp.RTE.ask<RouteContext>(),
+                fp.RTE.chainEitherK((ctx) =>
+                  sequenceS(fp.E.Applicative)({
+                    area: AreaIO.decodeSingle(area, ctx.env.SPACE_ENDPOINT),
+                    media: pipe(
+                      MediaIO.decodeMany(
+                        (area.media ?? []).map((m) => ({
+                          ...m,
+                          areas: m.areas.map((a): any => a.id),
+                        })),
+                        ctx.env.SPACE_ENDPOINT,
+                      ),
+                    ),
+                  }),
                 ),
-              }),
+              ),
             ),
           );
         }),

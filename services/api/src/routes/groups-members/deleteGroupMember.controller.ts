@@ -12,7 +12,7 @@ export const MakeDeleteGroupMemberRoute = (
   r: Router,
   ctx: RouteContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.GroupMember.Delete,
     ({ params: { id } }) => {
       ctx.logger.debug.log("Delete group member %s", id);

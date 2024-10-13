@@ -1,8 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 
-export const resizeThumbnailFlow: TEFlow<[ArrayBuffer], Buffer> =
-  (ctx) => (stream) => {
+export const resizeThumbnailFlow =
+  (stream: ArrayBuffer): TEReader<Buffer> =>
+  (ctx) => {
     return pipe(
       ctx.imgProc.run((sharp) => {
         return sharp(stream)

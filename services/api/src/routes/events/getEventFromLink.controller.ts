@@ -194,7 +194,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
           suggestions: { suggestions, minDate, maxDate },
         }) => {
           return pipe(
-            searchEventV2Query(ctx)({
+            searchEventV2Query({
               withDeleted: false,
               withDrafts: false,
               skip: 0,
@@ -216,7 +216,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               startDate: O.some(minDate),
               endDate: O.some(maxDate),
               q: O.fromNullable(metadata.title),
-            }),
+            })(ctx),
             ctx.logger.debug.logInTaskEither("Events %O"),
             TE.chain(({ results, firstDate, lastDate, ...rest }) =>
               pipe(

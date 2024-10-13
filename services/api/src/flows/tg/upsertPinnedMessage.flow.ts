@@ -4,7 +4,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 interface ToPinnedMessageOptions {
@@ -32,8 +32,9 @@ ${keywords.map((k) => `#${k.tag} (${k.eventCount})`).join("\n")}
 \n
 `;
 
-export const upsertPinnedMessage: TEFlow<[number], TelegramBot.Message> =
-  (ctx) => (limit) => {
+export const upsertPinnedMessage =
+  (limit: number): TEReader<TelegramBot.Message> =>
+  (ctx) => {
     ctx.logger.info.log("Fetch resources totals...");
     return pipe(
       sequenceS(TE.ApplicativePar)({

@@ -12,15 +12,15 @@ export const MakeGetFlowGraphRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Graph.Custom.GetGraphByType,
     ({ params: { id, type }, query }, req) => {
       return pipe(
-        RequestDecoder.decodeNullableUser(ctx)(req, []),
+        RequestDecoder.decodeNullableUser(req, [])(ctx),
         TE.fromIO,
         TE.chain((user) =>
-          createFlowGraph(ctx)(
+          createFlowGraph(
             type,
             id,
             query,
             user ? checkIsAdmin(user.permissions) : false,
-          ),
+          )(ctx),
         ),
         TE.map((data) => ({
           body: {

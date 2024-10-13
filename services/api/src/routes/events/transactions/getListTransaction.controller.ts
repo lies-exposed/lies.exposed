@@ -33,7 +33,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           ...query,
           type: O.some([TRANSACTION.value]),
           draft,
@@ -48,7 +48,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
           spCount,
           onlyUnshared,
           ...ormOptions,
-        }),
+        })(ctx),
         TE.chainEitherK(({ results, totals: { patents } }) =>
           pipe(
             results,

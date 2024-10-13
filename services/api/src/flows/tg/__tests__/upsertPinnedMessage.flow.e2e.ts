@@ -47,6 +47,7 @@ describe("Upsert Pinned Message Flow", () => {
         ActorEntity,
         actors.map((a) => ({
           ...a,
+          avatar: undefined,
           memberIn: [],
           events: events.map((e) => e.id) as any[],
         })),
@@ -57,7 +58,7 @@ describe("Upsert Pinned Message Flow", () => {
       (text) => () => Promise.resolve(E.right({ message_id: 1, text })),
     );
 
-    const result = await throwTE(upsertPinnedMessage(Test.ctx)(keywordCount));
+    const result = await throwTE(upsertPinnedMessage(keywordCount)(Test.ctx));
 
     await throwTE(
       Test.ctx.db.delete(

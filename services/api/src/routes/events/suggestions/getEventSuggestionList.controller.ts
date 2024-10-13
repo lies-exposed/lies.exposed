@@ -16,7 +16,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["event-suggestion:read"]))(
+  AddEndpoint(r, authenticationHandler(["event-suggestion:read"])(ctx))(
     Endpoints.Event.Custom.GetSuggestions,
     (
       {
@@ -61,7 +61,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
       ctx.logger.debug.log("Creator %O", creator);
 
       return pipe(
-        searchEventSuggestion(ctx)({
+        searchEventSuggestion({
           status: statusFilter,
           links,
           newLinks: O.none,
@@ -71,7 +71,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
           creator,
           skip: O.getOrElse(() => 0)(_start),
           take: O.getOrElse(() => 20)(_end),
-        }),
+        })(ctx),
         TE.chainEitherK(({ data, total }) =>
           pipe(
             data,

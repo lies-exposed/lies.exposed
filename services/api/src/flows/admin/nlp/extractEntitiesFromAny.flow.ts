@@ -7,8 +7,8 @@ import {
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import {
-  isValidValue,
   getTextContents,
+  isValidValue,
 } from "@liexp/ui/lib/components/Common/BlockNote/utils/index.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
@@ -17,7 +17,8 @@ import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
 import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flow.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
@@ -26,13 +27,14 @@ import {
   DecodeError,
   ServerError,
 } from "#io/ControllerError.js";
+import { type RouteContext } from "#routes/route.types.js";
 
-const findOneResourceAndMapText: TEFlow<
-  [ExtractEntitiesWithNLPFromResourceInput],
-  string
-> = (ctx) => (body) => {
+const findOneResourceAndMapText = (
+  body: ExtractEntitiesWithNLPFromResourceInput,
+): TEReader<string> => {
   return pipe(
-    () => {
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainIOK((ctx) => () => {
       if (body.resource === "keywords") {
         return pipe(
           ctx.db.findOneOrFail(KeywordEntity, {
@@ -97,23 +99,22 @@ const findOneResourceAndMapText: TEFlow<
       return fp.TE.left(
         ServerError(["Invalid resource", JSON.stringify(body)]),
       );
-    },
-    fp.TE.fromIO,
-    fp.TE.chain((te) => te),
+    }),
+    fp.RTE.chainTaskEitherK((te) => te),
   );
 };
 
-export const extractEntitiesFromAny: TEFlow<
-  [ExtractEntitiesWithNLPInput],
-  ExtractEntitiesWithNLPOutput
-> = (ctx) => (body) => {
-  ctx.logger.debug.log("extract entities from any body %O", body);
+export const extractEntitiesFromAny = (
+  body: ExtractEntitiesWithNLPInput,
+): TEReader<ExtractEntitiesWithNLPOutput> => {
   return pipe(
-    () => {
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.chainIOK((ctx) => () => {
+      ctx.logger.debug.log("extract entities from any body %O", body);
       if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
         return pipe(
           ctx.puppeteer.execute({}, (b, p) =>
-            extractRelationsFromURL(ctx)(p, body.url),
+            extractRelationsFromURL(p, body.url)(ctx),
           ),
         );
       }
@@ -121,19 +122,19 @@ export const extractEntitiesFromAny: TEFlow<
       if (ExtractEntitiesWithNLPInput.types[1].is(body)) {
         return pipe(
           ctx.puppeteer.execute({}, (b, p) =>
-            extractRelationsFromPDFs(ctx)(body.pdf),
+            extractRelationsFromPDFs(body.pdf)(ctx),
           ),
         );
       }
 
       if (ExtractEntitiesWithNLPInput.types[2].is(body)) {
-        return extractRelationsFromText(ctx)(body.text);
+        return extractRelationsFromText(body.text)(ctx);
       }
 
       if (ExtractEntitiesWithNLPInput.types[3].is(body)) {
         return pipe(
-          findOneResourceAndMapText(ctx)(body),
-          fp.TE.chain((text) => extractRelationsFromText(ctx)(text)),
+          findOneResourceAndMapText(body)(ctx),
+          fp.TE.chain((text) => extractRelationsFromText(text)(ctx)),
         );
       }
       return fp.TE.left(
@@ -144,24 +145,28 @@ export const extractEntitiesFromAny: TEFlow<
           return BadRequestError("Invalid body");
         }),
       );
-    },
-    fp.TE.fromIO,
-    fp.TE.chain((te) => te),
+    }),
+    fp.RTE.chainTaskEitherK((te) => te),
   );
 };
 
-export const extractEntitiesFromAnyCached: TEFlow<
-  [ExtractEntitiesWithNLPInput],
-  ExtractEntitiesWithNLPOutput
-> = (ctx) => (body) => {
+export const extractEntitiesFromAnyCached = (
+  body: ExtractEntitiesWithNLPInput,
+): TEReader<ExtractEntitiesWithNLPOutput> => {
   const bodyHash = GetEncodeUtils((r) =>
     toRecord<string, string>(r as any),
   ).hash(body);
-  const filePath = ctx.fs.resolve(
-    path.resolve(ctx.config.dirs.temp.nlp, `${bodyHash}.json`),
-  );
+
   return pipe(
-    extractEntitiesFromAny(ctx)(body),
-    ctx.fs.getOlderThanOr(filePath, 60 * 60 * 1000),
+    fp.RTE.ask<RouteContext>(),
+    fp.RTE.map((ctx) =>
+      ctx.fs.resolve(
+        path.resolve(ctx.config.dirs.temp.nlp, `${bodyHash}.json`),
+      ),
+    ),
+
+    fp.RTE.chain((filePath) =>
+      getOlderThanOr(filePath, 60 * 60 * 1000)(extractEntitiesFromAny(body)),
+    ),
   );
 };

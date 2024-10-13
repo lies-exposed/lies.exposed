@@ -29,7 +29,7 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
   }
 
   return pipe(
-    createStatsFlow(ctx)(type, id),
+    createStatsFlow(type, id)(ctx),
     fp.TE.bimap(
       (err) => {
         ctx.logger.error.log("Error %O", err);

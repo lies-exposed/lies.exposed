@@ -14,10 +14,10 @@ export const cleanTempFolder = (ctx: RouteContext): Cron.ScheduledTask =>
     (opts) => {
       const olderThan = 30 * 24;
       void pipe(
-        sequenceT(fp.TE.ApplicativePar)(
-          cleanUpTempMedia(ctx)(olderThan),
-          cleanUpFolder(ctx)(ctx.config.dirs.temp.root, olderThan),
-        ),
+        sequenceT(fp.RTE.ApplicativePar)(
+          cleanUpTempMedia(olderThan),
+          cleanUpFolder(ctx.config.dirs.temp.root, olderThan),
+        )(ctx),
         throwTE,
       ).catch((err) => {
         ctx.logger.error.log(`Clean up temp folder error %O`, err);

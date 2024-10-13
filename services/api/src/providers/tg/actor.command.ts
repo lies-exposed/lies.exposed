@@ -45,7 +45,7 @@ export const actorCommand = (ctx: RouteContext): TGBotProvider => {
           ctx.db.findOne(ActorEntity, { where: { username } }),
         getSuccessMessage: (actor) => getSuccessMessage(actor, ctx.env.WEB_URL),
         fetchAndSave: (label, wp) =>
-          fetchAndCreateActorFromWikipedia(ctx)(label, wp),
+          fetchAndCreateActorFromWikipedia(label, wp)(ctx),
       }),
       throwTE,
     );

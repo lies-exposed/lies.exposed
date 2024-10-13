@@ -10,7 +10,7 @@ import { NotFoundError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Page.Delete,
     ({ params: { id } }) => {
       return pipe(

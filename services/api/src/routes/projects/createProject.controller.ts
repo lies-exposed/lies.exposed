@@ -10,17 +10,17 @@ import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
-export const MakeCreateProjectRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
+export const MakeCreateProjectRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Project.Create,
     ({ body: { endDate, media, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
       return pipe(
-        db.save(ProjectEntity, [{ ...body, ...optionalData }]),
+        ctx.db.save(ProjectEntity, [{ ...body, ...optionalData }]),
         TE.chain(([project]) =>
-          sequenceS(TE.taskEither)({
+          sequenceS(TE.ApplicativeSeq)({
             project: TE.right(project),
-            projectImages: db.save(
+            projectImages: ctx.db.save(
               ProjectImageEntity,
               media.map((i) => ({
                 image: {
@@ -35,7 +35,7 @@ export const MakeCreateProjectRoute: Route = (r, { db, logger, jwt }) => {
           }),
         ),
         TE.chain(({ project: page }) =>
-          db.findOneOrFail(ProjectEntity, {
+          ctx.db.findOneOrFail(ProjectEntity, {
             where: { id: Equal(page.id) },
             loadRelationIds: true,
           }),

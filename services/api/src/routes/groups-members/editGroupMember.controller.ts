@@ -13,7 +13,7 @@ export const MakeEditGroupMemberRoute = (
   r: Router,
   ctx: RouteContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.GroupMember.Edit,
     ({ params: { id }, body }) => {
       ctx.logger.debug.log("Edit group member %s with %O", id, body);

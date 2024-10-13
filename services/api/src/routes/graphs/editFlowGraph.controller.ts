@@ -14,13 +14,13 @@ export const MakeEditFlowGraphRoute = (r: Router, ctx: RouteContext): void => {
     Endpoints.Graph.Custom.EditFlowGraph,
     ({ params: { type, id }, body: { regenerate } }, req) => {
       return pipe(
-        RequestDecoder.decodeNullableUser(ctx)(req, [AdminEdit.value]),
+        RequestDecoder.decodeNullableUser(req, [AdminEdit.value])(ctx),
         TE.fromIO,
         TE.chain((user) => {
           const isAdmin = !!user;
           return regenerate
-            ? regenerateFlowGraph(ctx)(type, id, isAdmin)
-            : createFlowGraph(ctx)(type, id, emptyGetNetworkQuery, isAdmin);
+            ? regenerateFlowGraph(type, id, isAdmin)(ctx)
+            : createFlowGraph(type, id, emptyGetNetworkQuery, isAdmin)(ctx);
         }),
         TE.map((data) => ({
           body: {

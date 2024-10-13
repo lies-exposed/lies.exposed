@@ -34,7 +34,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
             }),
             TE.chain((p) =>
               pipe(
-                postToSocialPlatforms(ctx)(id, { ...p.content, platforms }),
+                postToSocialPlatforms(id, { ...p.content, platforms })(ctx),
                 TE.chain((result) =>
                   ctx.db.save(SocialPostEntity, [
                     {

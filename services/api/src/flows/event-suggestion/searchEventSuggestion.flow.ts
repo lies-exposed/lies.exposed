@@ -4,7 +4,7 @@ import { type http } from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { addOrder } from "#utils/orm.utils.js";
 
 interface SearchEventSuggestionFilter {
@@ -17,12 +17,16 @@ interface SearchEventSuggestionFilter {
   creator: O.Option<UUID>;
 }
 
-export const searchEventSuggestion: TEFlow<
-  [SearchEventSuggestionFilter],
-  { total: number; data: EventSuggestionEntity[] }
-> =
-  (ctx) =>
-  ({ skip, take, ...filter }) => {
+export const searchEventSuggestion =
+  ({
+    skip,
+    take,
+    ...filter
+  }: SearchEventSuggestionFilter): TEReader<{
+    total: number;
+    data: EventSuggestionEntity[];
+  }> =>
+  (ctx) => {
     ctx.logger.debug.log("Find event suggestion by filter %O", filter);
 
     const query = pipe(

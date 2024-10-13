@@ -17,14 +17,14 @@ interface ReqInput<D> {
 }
 
 export const walkPaginatedRequest =
-  ({ logger }: { logger: Logger }) =>
   <A, E, D>(
     apiReqFn: (i: ReqInput<D>) => TE.TaskEither<E, A>,
     getTotal: (r: A) => number,
     getData: (r: A) => TE.TaskEither<E, D[]>,
     skip: number,
     amount: number,
-  ): TE.TaskEither<E, D[]> => {
+  ) =>
+  ({ logger }: { logger: Logger }): TE.TaskEither<E, D[]> => {
     const result: D[] = [];
 
     const loop = (

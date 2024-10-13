@@ -4,7 +4,7 @@ import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
 import type * as puppeteer from "puppeteer-core";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 function getText(linkText: string): string {
@@ -45,8 +45,9 @@ const rejectCookieModal = async (page: puppeteer.Page): Promise<void> => {
   await button?.click();
 };
 
-export const takeLinkScreenshot: TEFlow<[LinkEntity], Buffer> =
-  (ctx) => (link) => {
+export const takeLinkScreenshot =
+  (link: LinkEntity): TEReader<Buffer> =>
+  (ctx) => {
     return pipe(
       ctx.puppeteer.getBrowserFirstPage(link.url, {
         env: {
@@ -74,24 +75,23 @@ export const takeLinkScreenshot: TEFlow<[LinkEntity], Buffer> =
     );
   };
 
-export const uploadScreenshot: TEFlow<
-  [LinkEntity, Buffer],
-  Partial<MediaEntity>
-> = (ctx) => (link, buffer) => {
-  const mediaKey = getMediaThumbKey(link.image?.id ?? link.id, PngType.value);
-  return pipe(
-    ctx.s3.upload({
-      Bucket: ctx.env.SPACE_BUCKET,
-      Key: mediaKey,
-      Body: buffer,
-      ContentType: PngType.value,
-      ACL: "public-read",
-    }),
-    fp.TE.map((upload) => ({
-      ...link.image,
-      type: PngType.value,
-      location: upload.Location,
-      thumbnail: upload.Location,
-    })),
-  );
-};
+export const uploadScreenshot =
+  (link: LinkEntity, buffer: Buffer): TEReader<Partial<MediaEntity>> =>
+  (ctx) => {
+    const mediaKey = getMediaThumbKey(link.image?.id ?? link.id, PngType.value);
+    return pipe(
+      ctx.s3.upload({
+        Bucket: ctx.env.SPACE_BUCKET,
+        Key: mediaKey,
+        Body: buffer,
+        ContentType: PngType.value,
+        ACL: "public-read",
+      }),
+      fp.TE.map((upload) => ({
+        ...link.image,
+        type: PngType.value,
+        location: upload.Location,
+        thumbnail: upload.Location,
+      })),
+    );
+  };

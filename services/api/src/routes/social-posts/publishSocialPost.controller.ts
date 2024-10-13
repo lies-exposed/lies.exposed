@@ -23,7 +23,7 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
         }),
         TE.chain((p) =>
           pipe(
-            postToSocialPlatforms(ctx)(id, {
+            postToSocialPlatforms(id, {
               ...p.content,
               platforms: {
                 ig: pipe(
@@ -35,7 +35,7 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
                   fp.O.getOrElse(() => false),
                 ),
               },
-            }),
+            })(ctx),
             TE.chain(({ ig, tg }) =>
               ctx.db.save(SocialPostEntity, [
                 {

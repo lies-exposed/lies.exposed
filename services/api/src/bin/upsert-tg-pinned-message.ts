@@ -5,7 +5,7 @@ import { upsertPinnedMessage } from "#flows/tg/upsertPinnedMessage.flow.js";
 
 export const upsertTGPinnedMessage: CommandFlow = async (ctx) => {
   await pipe(
-    upsertPinnedMessage(ctx)(20),
+    upsertPinnedMessage(20)(ctx),
     fp.TE.chainFirst(() => ctx.db.close()),
     throwTE,
     // eslint-disable-next-line no-console

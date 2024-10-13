@@ -12,7 +12,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Project.Edit,
     ({ params: { id }, body }) => {
       const projectData = foldOptionals({

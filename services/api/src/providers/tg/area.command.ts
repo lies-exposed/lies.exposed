@@ -40,10 +40,11 @@ export const areaCommand = (ctx: RouteContext): TGBotProvider => {
             ),
           ),
         getSuccessMessage: (area) => getSuccessMessage(area, ctx.env.WEB_URL),
-        fetchAndSave: flow(
-          fetchAndCreateAreaFromWikipedia(ctx),
-          fp.TE.map((area) => area.area),
-        ),
+        fetchAndSave: (search, wp) =>
+          pipe(
+            fetchAndCreateAreaFromWikipedia(search, wp)(ctx),
+            fp.TE.map((area) => area.area),
+          ),
       }),
       throwTE,
     ).catch((e) => {

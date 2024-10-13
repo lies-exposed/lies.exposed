@@ -35,11 +35,8 @@ interface AuthenticationContext {
 }
 
 const decodeUserFromRequest =
-  ({ logger, jwt }: AuthenticationContext) =>
-  (
-    req: Express.Request,
-    routePerms: UserPermission[],
-  ): IOE.IOEither<JWTError, User> => {
+  (req: Express.Request, routePerms: UserPermission[]) =>
+  ({ logger, jwt }: AuthenticationContext): IOE.IOEither<JWTError, User> => {
     // const headerKeys = Object.keys(req.headers);
     // logger.debug.log(`Checking headers %O for authorization`, headerKeys);
     const decodedHeaders = HeadersWithAuthorization.decode(req.headers);
@@ -110,10 +107,10 @@ const decodeUserFromRequest =
   };
 
 const decodeNullableUser =
-  ({ logger, jwt }: AuthenticationContext) =>
-  (req: Express.Request, routePerms: UserPermission[]): IO<User | null> => {
+  (req: Express.Request, routePerms: UserPermission[]) =>
+  ({ logger, jwt }: AuthenticationContext): IO<User | null> => {
     return pipe(
-      decodeUserFromRequest({ logger, jwt })(req, routePerms),
+      decodeUserFromRequest(req, routePerms)({ logger, jwt }),
       IOE.mapLeft(() => null),
       IOE.toUnion,
     );
@@ -124,21 +121,21 @@ export const RequestDecoder = {
   decodeNullableUser,
 };
 
-export const authenticationHandler: (
-  ctx: AuthenticationContext,
-  routePerms: UserPermission[],
-) => express.RequestHandler = (ctx, routePerms) => (req, _res, next) => {
-  pipe(
-    decodeUserFromRequest(ctx)(req, routePerms),
-    IOE.fold(
-      (e) => () => {
-        next(e);
-      },
-      (user) => () => {
-        // ctx.logger.debug.log("Calling next handler with user %s", user.id);
-        req.user = user;
-        next();
-      },
-    ),
-  )();
-};
+export const authenticationHandler =
+  (routePerms: UserPermission[]) =>
+  (ctx: AuthenticationContext): express.RequestHandler =>
+  (req, _res, next) => {
+    pipe(
+      decodeUserFromRequest(req, routePerms)(ctx),
+      IOE.fold(
+        (e) => () => {
+          next(e);
+        },
+        (user) => () => {
+          // ctx.logger.debug.log("Calling next handler with user %s", user.id);
+          req.user = user;
+          next();
+        },
+      ),
+    )();
+  };

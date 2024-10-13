@@ -8,7 +8,7 @@ import { AreaIO } from "./Area.io.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
-  AddEndpoint(r, authenticationHandler({ logger, jwt }, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Area.Create,
     ({ body, headers }) => {
       logger.debug.log("Headers %O", { headers, body });

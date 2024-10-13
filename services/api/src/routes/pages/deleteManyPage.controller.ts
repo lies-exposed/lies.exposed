@@ -11,7 +11,7 @@ import { type RouteContext } from "../route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     PageDeleteMany,
     ({ query: { ids } }) => {
       return pipe(

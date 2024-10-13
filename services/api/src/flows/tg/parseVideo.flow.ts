@@ -8,14 +8,15 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
 
-export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
-  (ctx) => (description, video) => {
+export const parseVideo =
+  (description: string, video: TelegramBot.Video): TEReader<MediaEntity[]> =>
+  (ctx) => {
     ctx.logger.debug.log("Parse video with description %O", {
       ...video,
       description,
@@ -66,7 +67,7 @@ export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
         thumb: thumbTask,
       }),
       TE.chain(({ video, thumb }) => {
-        return createAndUpload(ctx)(
+        return createAndUpload(
           {
             type: MP4Type.value,
             location: "",
@@ -85,7 +86,7 @@ export const parseVideo: TEFlow<[string, TelegramBot.Video], MediaEntity[]> =
           },
           mediaId,
           false,
-        );
+        )(ctx);
       }),
       TE.map((m) => [m]),
     );

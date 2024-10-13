@@ -7,7 +7,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Admin.Custom.BuildImage,
     ({
       body: {
@@ -28,7 +28,7 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
         layers.push(watermarkLayer);
       }
       return pipe(
-        buildImageWithSharp(ctx)(layers),
+        buildImageWithSharp(layers)(ctx),
         TE.map((buffer) => ({
           body: buffer.toString("base64"),
           statusCode: 201,

@@ -6,7 +6,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeQueueEditRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Queues.Edit,
     ({ params: { id, resource, type }, body: { ...userData } }) => {
       ctx.logger.debug.log("Edit setting %s  with %O", id, userData);

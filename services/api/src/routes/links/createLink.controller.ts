@@ -14,7 +14,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, [EventSuggestionRead.value]))(
+  AddEndpoint(r, authenticationHandler([EventSuggestionRead.value])(ctx))(
     Endpoints.Link.Create,
     ({ body }, req) => {
       ctx.logger.debug.log("Body %O", body);
@@ -35,10 +35,10 @@ export const MakeCreateLinkRoute = (r: Router, ctx: RouteContext): void => {
                 return TE.right(m.value);
               }
               return pipe(
-                fetchAsLink(ctx)(u, body.url, {
+                fetchAsLink(u, body.url, {
                   description: body.description,
                   type: "image/jpeg" as const,
-                }),
+                })(ctx),
                 TE.chain((m) =>
                   ctx.db.save(LinkEntity, [
                     {

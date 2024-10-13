@@ -6,7 +6,7 @@ import { postToIG } from "#flows/social-posts/postToIG.flow.js";
 
 export const sharePostMessage: CommandFlow = async (ctx) => {
   await pipe(
-    postToIG(ctx)(
+    postToIG(
       {
         title: "Dummy test",
         content: "Super interesting content",
@@ -39,7 +39,7 @@ export const sharePostMessage: CommandFlow = async (ctx) => {
         console.log(result);
         return { code: result.code };
       },
-    ),
+    )(ctx),
     throwTE,
   );
 };

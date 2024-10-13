@@ -13,10 +13,10 @@ export const MakeListMediaRoute = (r: Router, ctx: RouteContext): void => {
     ctx.logger.debug.log(`Find Options %O`, query);
 
     return pipe(
-      fetchManyMedia(ctx)({
+      fetchManyMedia({
         ...query,
         events: pipe(query.events, fp.O.filter(fp.A.isNonEmpty)),
-      }),
+      })(ctx),
       TE.chainEitherK(([data, total]) =>
         pipe(
           data,

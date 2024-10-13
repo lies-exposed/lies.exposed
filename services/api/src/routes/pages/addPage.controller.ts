@@ -8,7 +8,7 @@ import { PageEntity } from "#entities/Page.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Page.Create,
     ({ body }) => {
       return pipe(

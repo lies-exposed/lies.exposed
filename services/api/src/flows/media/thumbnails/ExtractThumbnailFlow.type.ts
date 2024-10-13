@@ -1,3 +1,5 @@
-import { type TEFlow } from "#flows/flow.types.js";
+import { type TEReader } from "#flows/flow.types.js";
 
-export type ExtractThumbnailFromMediaFlow<T> = TEFlow<[T], ArrayBuffer[]>;
+export type ExtractThumbnailFromMediaFlow<T> = (
+  r: T,
+) => TEReader<ArrayBuffer[]>;

@@ -42,7 +42,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
       const ormOptions = getORMOptions({ ...query }, ctx.env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query(ctx)({
+        searchEventV2Query({
           // ...query,
           ids,
           draft,
@@ -65,7 +65,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
           spCount,
           onlyUnshared,
           ...ormOptions,
-        }),
+        })(ctx),
         TE.chainEitherK(({ results, totals: { quotes } }) =>
           pipe(
             results,

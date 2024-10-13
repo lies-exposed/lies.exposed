@@ -8,7 +8,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteStoryRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Story.Delete,
     ({ params: { id } }, r) => {
       return pipe(

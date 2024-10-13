@@ -9,18 +9,19 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { type TEFlow } from "../flow.types.js";
+import { type TEReader } from "../flow.types.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { findOneByLocationOrElse } from "#flows/media/findOneByLocationOrElse.flow.js";
 import { ServerError, type ControllerError } from "#io/ControllerError.js";
 
-export const fetchAsLink: TEFlow<
-  [UserEntity, URL, Partial<Metadata> | undefined],
-  LinkEntity
-> =
-  (ctx) =>
-  (creator, url, defaults): TE.TaskEither<ControllerError, LinkEntity> => {
+export const fetchAsLink =
+  (
+    creator: UserEntity,
+    url: URL,
+    defaults: Partial<Metadata> | undefined,
+  ): TEReader<LinkEntity> =>
+  (ctx) => {
     return pipe(
       ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
         ServerError([`Error fetching metadata from url ${url}`]),
@@ -39,7 +40,7 @@ export const fetchAsLink: TEFlow<
       })),
       TE.chain((m) =>
         pipe(
-          findOneByLocationOrElse(ctx)(
+          findOneByLocationOrElse(
             m,
             (image) => ({
               id: uuid(),
@@ -50,7 +51,7 @@ export const fetchAsLink: TEFlow<
               type: ImageType.types[0].value,
             }),
             creator,
-          ),
+          )(ctx),
           TE.map((media) => ({
             ...m,
             image: fp.O.toNullable(media),
@@ -86,8 +87,9 @@ export const fetchAsLink: TEFlow<
 /**
  * Fetch open graph metadata from the given url and creates a LinkEntity.
  */
-export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
-  (ctx) => (u, url) => {
+export const fetchAndSave =
+  (u: UserEntity, url: URL): TEReader<LinkEntity> =>
+  (ctx) => {
     ctx.logger.debug.log("Searching link with url %s", url);
     const sanitizedURL = sanitizeURL(url);
     return pipe(
@@ -100,7 +102,7 @@ export const fetchAndSave: TEFlow<[UserEntity, URL], LinkEntity> =
 
         ctx.logger.debug.log("Link not found, fetching...");
         return pipe(
-          fetchAsLink(ctx)(u, sanitizedURL, undefined),
+          fetchAsLink(u, sanitizedURL, undefined)(ctx),
           TE.chain((l) => ctx.db.save(LinkEntity, [l])),
           TE.map((ll) => ll[0]),
         );

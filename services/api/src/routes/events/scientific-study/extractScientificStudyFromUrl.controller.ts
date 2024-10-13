@@ -22,11 +22,11 @@ import { ensureUserExists } from "#utils/user.utils.js";
 export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(
     r,
-    authenticationHandler(ctx, [
+    authenticationHandler([
       AdminCreate.value,
       AdminEdit.value,
       AdminDelete.value,
-    ]),
+    ])(ctx),
   )(
     Endpoints.ScientificStudy.Custom.ExtractFromURL,
 
@@ -60,10 +60,10 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
                   toControllerError,
                 ),
                 TE.chain((p) =>
-                  extractEventFromURL(ctx)(p, user, {
+                  extractEventFromURL(p, user, {
                     type: SCIENTIFIC_STUDY.value,
                     url: (event.payload as any).url,
-                  }),
+                  })(ctx),
                 ),
                 TE.chainFirst(() => {
                   return TE.tryCatch(() => b.close(), toControllerError);

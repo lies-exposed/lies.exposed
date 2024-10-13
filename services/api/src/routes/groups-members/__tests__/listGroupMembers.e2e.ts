@@ -19,6 +19,7 @@ describe("List Group Member", () => {
   }));
   const groups = tests.fc.sample(GroupArb, 1).map((g) => ({
     ...g,
+    // avatar: undefined,
     members: [],
   }));
   const groupsMembers = groups.map((g) => ({
@@ -36,7 +37,7 @@ describe("List Group Member", () => {
       id: "1",
     } as any)()}`;
     await throwTE(Test.ctx.db.save(ActorEntity, actors as any[]));
-    await throwTE(Test.ctx.db.save(GroupEntity, groups));
+    await throwTE(Test.ctx.db.save(GroupEntity, groups as any[]));
     await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers as any[]));
   });
 

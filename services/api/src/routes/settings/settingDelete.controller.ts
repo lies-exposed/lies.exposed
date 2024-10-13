@@ -8,7 +8,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeSettingDeleteRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:delete"]))(
+  AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Setting.Delete,
     ({ params: { id } }) => {
       ctx.logger.debug.log("Delete user %s ", id);

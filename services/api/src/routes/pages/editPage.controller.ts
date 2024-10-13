@@ -10,7 +10,7 @@ import { NotFoundError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditPageRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Page.Edit,
     ({ params: { id }, body: { body2, ...editBody } }) => {
       return pipe(

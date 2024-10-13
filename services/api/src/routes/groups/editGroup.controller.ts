@@ -11,7 +11,7 @@ import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditGroupRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:edit"]))(
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Group.Edit,
     ({ params: { id }, body: { members, avatar, ...body } }) => {
       ctx.logger.debug.log("Updating group with %O", body);

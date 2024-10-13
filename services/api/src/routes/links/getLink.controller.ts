@@ -12,7 +12,7 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeGetLinksRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r)(Endpoints.Link.Get, ({ params: { id } }, req) => {
     const isAdmin = pipe(
-      RequestDecoder.decodeNullableUser(ctx)(req, []),
+      RequestDecoder.decodeNullableUser(req, [])(ctx),
       fp.IO.map((u) => (u ? checkIsAdmin(u.permissions) : false)),
     )();
     return pipe(

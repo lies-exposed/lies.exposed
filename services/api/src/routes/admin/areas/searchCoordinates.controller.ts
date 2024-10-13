@@ -7,11 +7,11 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminSearchAreaCoordinatesRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Admin.Custom.SearchAreaCoordinates,
     ({ body: { label } }) => {
       return pipe(
-        fetchCoordinates(ctx)(label),
+        fetchCoordinates(label)(ctx),
         TE.map((geo) =>
           pipe(
             geo,

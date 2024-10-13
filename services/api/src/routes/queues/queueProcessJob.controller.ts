@@ -7,7 +7,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeQueueProcessJobRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Queues.Custom.ProcessJob,
     ({ params: { resource, type, id } }) => {
       ctx.logger.debug.log(

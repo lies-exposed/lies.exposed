@@ -15,7 +15,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r, authenticationHandler(ctx, ["admin:create"]))(
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Link.Custom.CreateMany,
     ({ body }, req) => {
       return pipe(
@@ -42,7 +42,7 @@ export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
               const u = links.find((l) => l.url === sanitizeURL(b.url as any));
 
               if (!u) {
-                return fetchAndSave(ctx)(user, b.url);
+                return fetchAndSave(user, b.url)(ctx);
               }
               return TE.right(u);
             }),
