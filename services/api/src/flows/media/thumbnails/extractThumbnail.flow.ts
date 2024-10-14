@@ -16,7 +16,7 @@ import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
 import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 
-export type ExtractThumbnailFlow<T extends MediaType> = (
+type ExtractThumbnailFlow<T extends MediaType> = (
   media: SimpleMedia<T>,
 ) => TEReader<PutObjectCommandInput[]>;
 
