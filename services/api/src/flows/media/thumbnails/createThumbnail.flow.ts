@@ -1,29 +1,23 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { extractThumbnail } from "./extractThumbnail.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { upload } from "#flows/space/upload.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 const uploadThumbnails = (
   thumbnails: PutObjectCommandInput[],
 ): TEReader<string[]> =>
   pipe(
-    fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainTaskEitherK((ctx) =>
+    thumbnails,
+    fp.A.traverse(fp.RTE.ApplicativePar)((thumbnail) =>
       pipe(
-        thumbnails,
-        fp.A.traverse(TE.ApplicativePar)((thumbnail) =>
-          pipe(
-            ctx.s3.upload({
-              ...thumbnail,
-              Bucket: ctx.env.SPACE_BUCKET,
-              ACL: "public-read",
-            }),
-            TE.map(({ Location }) => Location),
-          ),
-        ),
+        upload({
+          ...thumbnail,
+          ACL: "public-read",
+        }),
+        fp.RTE.map(({ Location }) => Location),
       ),
     ),
   );

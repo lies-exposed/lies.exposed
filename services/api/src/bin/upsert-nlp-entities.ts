@@ -53,10 +53,10 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
         ActorEntity
       >(
         ({ skip, amount }) =>
-          fetchActors(ctx)({
+          fetchActors({
             _start: O.some(skip as Int),
             _end: O.some(amount as Int),
-          }),
+          })(ctx),
         ({ total }) => total,
         ({ results }) => TE.right(results),
         0,

@@ -23,7 +23,7 @@ export const MakeQueueProcessJobRoute: Route = (r, ctx) => {
         TE.bind("job", ({ queue }) => queue.getJob(resource, id)),
         TE.chainFirst(({ job }) =>
           TE.rightIO(() => {
-            void JobProcessor(ctx)(job)();
+            void JobProcessor(job)(ctx)();
           }),
         ),
         TE.chainEitherK(({ job }) => toQueueIO(job)),

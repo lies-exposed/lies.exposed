@@ -9,6 +9,7 @@ import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { upload } from "#flows/space/upload.flow.js";
 import {
   toControllerError,
   type ControllerError,
@@ -40,11 +41,10 @@ export const parseVideo =
             }, toControllerError),
             TE.fromIOEither,
             TE.chain((f) => {
-              return ctx.s3.upload({
-                Bucket: ctx.env.SPACE_BUCKET,
+              return upload({
                 Key: `public/media/${mediaId}/${mediaId}.jpg`,
                 Body: f,
-              });
+              })(ctx);
             }),
             TE.mapLeft(toControllerError),
             TE.map((r) => ensureHTTPS(r.Location)),

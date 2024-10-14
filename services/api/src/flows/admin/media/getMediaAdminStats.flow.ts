@@ -8,8 +8,9 @@ import {
   getOrphanMediaFlow,
 } from "#flows/media/getOrphanMedia.flow.js";
 import { getTempMediaCountFlow } from "#flows/media/getTempMediaCount.flow.js";
+import { DBService } from "#services/db.service.js";
 
-export const getTotalMedia = (): TEReader<number> => (ctx) => {
+const getTotalMedia = (): TEReader<number> => (ctx) => {
   return pipe(
     ctx.db.execQuery(() => {
       return ctx.db.manager.createQueryBuilder(MediaEntity, "media").getCount();
@@ -33,28 +34,27 @@ export const getMediaWithoutThumbnailsFlow =
     );
   };
 
-export const getMediaInNeedToRegenerateThumbnailFlow =
-  (): TEReader<number> => (ctx) => {
-    return pipe(
-      ctx.db.execQuery(() => {
-        return (
-          ctx.db.manager
-            .createQueryBuilder(MediaEntity, "media")
-            .where(
-              new Brackets((qb) => {
-                return qb
-                  .where(
-                    `("media"."extra" ->> 'needRegenerateThumbnail')::boolean = 'true'`,
-                  )
-                  .orWhere("media.extra -> 'needRegenerateThumbnail' is null ");
-              }),
-            )
-            // .printSql()
-            .getCount()
-        );
-      }),
-    );
-  };
+const getMediaInNeedToRegenerateThumbnailFlow = (): TEReader<number> => {
+  return pipe(
+    DBService.execQuery((em) => {
+      return (
+        em
+          .createQueryBuilder(MediaEntity, "media")
+          .where(
+            new Brackets((qb) => {
+              return qb
+                .where(
+                  `("media"."extra" ->> 'needRegenerateThumbnail')::boolean = 'true'`,
+                )
+                .orWhere("media.extra -> 'needRegenerateThumbnail' is null ");
+            }),
+          )
+          // .printSql()
+          .getCount()
+      );
+    }),
+  );
+};
 
 export const getMediaAdminStatsFlow = (): TEReader<{
   total: number;

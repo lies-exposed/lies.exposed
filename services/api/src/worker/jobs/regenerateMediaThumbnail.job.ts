@@ -8,13 +8,14 @@ import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
-import { MediaEntity } from "#entities/Media.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
+import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
 import { type RouteContext } from "#routes/route.types.js";
-import { type TEControllerError } from "#types/TEControllerError.js";
 
 const createThumbnailTask =
   (m: MediaEntity): TEReader<MediaEntity> =>
@@ -54,26 +55,24 @@ const createThumbnailTask =
   };
 
 const convertManyMediaTask =
-  (ctx: RouteContext) =>
-  (save: (a: MediaEntity[]) => TEControllerError<MediaEntity[]>) =>
+  (save: (a: MediaEntity[]) => TEReader<MediaEntity[]>) =>
   (locations: MediaEntity[]) => {
-    ctx.logger.debug.log("Regenerate thumbnail for %d media", locations.length);
     return pipe(
       locations,
       fp.A.chunksOf(10),
       fp.A.map(
         flow(
-          fp.A.traverse(fp.TE.ApplicativePar)((m) =>
+          fp.A.traverse(fp.RTE.ApplicativePar)((m) =>
             pipe(
-              createThumbnailTask(m)(ctx),
-              fp.TE.chain((m) => save([m])),
+              createThumbnailTask(m),
+              fp.RTE.chain((m) => save([m])),
             ),
           ),
-          fp.TE.map(fp.A.flatten),
+          fp.RTE.map(fp.A.flatten),
         ),
       ),
-      fp.A.sequence(fp.TE.ApplicativeSeq),
-      fp.TE.map(fp.A.flatten),
+      fp.A.sequence(fp.RTE.ApplicativeSeq),
+      fp.RTE.map(fp.A.flatten),
     );
   };
 
@@ -85,10 +84,10 @@ const convertManyMediaTask =
  * @param args - command arguments
  * @returns void
  */
-export const regenerateMediaThumbnailJob: CronJobTE = (opts) => (ctx) => {
+export const regenerateMediaThumbnailJob: CronJobTE = (opts) => {
   return pipe(
-    fp.TE.Do,
-    fp.TE.bind("media", () =>
+    fp.RTE.Do,
+    fp.RTE.bind("media", () =>
       pipe(
         fetchManyMedia({
           type: fp.O.some(ImageType.types.map((t) => t.value)),
@@ -96,39 +95,38 @@ export const regenerateMediaThumbnailJob: CronJobTE = (opts) => (ctx) => {
           hasExtraThumbnailsError: fp.O.some(false),
           _start: fp.O.some(0 as Int),
           _end: fp.O.some(50 as Int),
-        })(ctx),
-        fp.TE.map((mm) => {
-          ctx.logger.debug.log(
-            "Regenerating %d thumbnails over %d media without thumbnail",
-            mm[0].length,
-            mm[1],
-          );
+        }),
+        LoggerService.RTE.debug((mm) => [
+          "Regenerating %d thumbnails over %d media without thumbnail",
+          mm[0].length,
+          mm[1],
+        ]),
+        fp.RTE.map((mm) => {
           return mm[0];
         }),
-        fp.TE.chain(
-          convertManyMediaTask(ctx)((gg) => ctx.db.save(MediaEntity, gg)),
-        ),
+        fp.RTE.chain(convertManyMediaTask((gg) => saveMedia(gg))),
       ),
     ),
-    fp.TE.map(({ media }) => {
+    fp.RTE.map(({ media }) => {
       return {
         media: media.length,
       };
     }),
-    fp.TE.matchE(
-      () => {
+    fp.RTE.matchE(
+      () => (ctx) => {
         return fp.T.of(
           ctx.logger.error.log("Failed to regenerate media thumbnail"),
         );
       },
-      ({ media }) => {
-        return fp.T.of(
-          ctx.logger.info.log(
-            "Regenerate %d media thumbnail successfully",
-            media,
-          ),
-        );
-      },
+      ({ media }) =>
+        (ctx) => {
+          return fp.T.of(
+            ctx.logger.info.log(
+              "Regenerate %d media thumbnail successfully",
+              media,
+            ),
+          );
+        },
     ),
   );
 };

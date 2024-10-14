@@ -41,6 +41,7 @@ import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type TEReader, type Flow } from "#flows/flow.types.js";
 import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   toControllerError,
   type ControllerError,
@@ -350,7 +351,7 @@ export const createEventNetworkGraph =
         },
       }),
       TE.chainEitherK((ev) => EventV2IO.decodeSingle({ ...ev, links: [] })),
-      ctx.logger.debug.logInTaskEither(`event %O`),
+      LoggerService.TE.debug(ctx, [`event %O`]),
       // get all relations for the given event
       fp.TE.map((event) => ({
         ...getRelationIds(event),

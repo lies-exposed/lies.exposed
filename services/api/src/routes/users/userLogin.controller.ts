@@ -4,6 +4,7 @@ import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { UserEntity } from "#entities/User.entity.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   BadRequestError,
   NotFoundError,
@@ -24,7 +25,7 @@ export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
         where: [{ username }, { email: username }],
       }),
       TE.mapLeft(() => NotFoundError("User")),
-      ctx.logger.debug.logInTaskEither("User %O"),
+      LoggerService.TE.debug(ctx, "User %O"),
       TE.filterOrElse(
         (e) => e.status === UserStatusApproved.value,
         () => ServerError(["User not approved"]),

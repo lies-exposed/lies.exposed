@@ -35,7 +35,7 @@ export const actorCommand = (ctx: RouteContext): TGBotProvider => {
     );
 
     void pipe(
-      EntityFromWikipediaService(ctx)({
+      EntityFromWikipediaService({
         type: ACTORS.value,
         search: commandContext.search,
         chatId: msg.chat.id,
@@ -46,7 +46,7 @@ export const actorCommand = (ctx: RouteContext): TGBotProvider => {
         getSuccessMessage: (actor) => getSuccessMessage(actor, ctx.env.WEB_URL),
         fetchAndSave: (label, wp) =>
           fetchAndCreateActorFromWikipedia(label, wp)(ctx),
-      }),
+      })(ctx),
       throwTE,
     );
   });
