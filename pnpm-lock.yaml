@@ -902,14 +902,14 @@ importers:
         specifier: ^4.22.4
         version: 4.24.0
       '@testing-library/dom':
-        specifier: ^9.3.3
-        version: 9.3.4
+        specifier: ^10.4.0
+        version: 10.4.0
       '@testing-library/react':
         specifier: ^14.0.0
         version: 14.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@testing-library/user-event':
         specifier: ^14.5.1
-        version: 14.5.2(@testing-library/dom@9.3.4)
+        version: 14.5.2(@testing-library/dom@10.4.0)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -16304,10 +16304,6 @@ snapshots:
   '@testing-library/user-event@14.5.2(@testing-library/dom@10.4.0)':
     dependencies:
       '@testing-library/dom': 10.4.0
-
-  '@testing-library/user-event@14.5.2(@testing-library/dom@9.3.4)':
-    dependencies:
-      '@testing-library/dom': 9.3.4
 
   '@tiptap/core@2.8.0(@tiptap/pm@2.8.0)':
     dependencies:
