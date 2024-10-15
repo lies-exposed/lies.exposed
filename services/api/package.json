@@ -34,6 +34,7 @@
     "db:dump": "tsx ./src/scripts/database.dump.ts",
     "db:dump:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm db:dump -p alpha",
     "dev": "node --watch build/run.js",
+    "dev:client": "node --watch build/client/index.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
     "docker:worker-dev": "node --watch build/worker/index.js",
