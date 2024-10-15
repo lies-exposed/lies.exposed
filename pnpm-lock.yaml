@@ -962,6 +962,28 @@ importers:
         specifier: ^5.4.9
         version: 5.4.9(@types/node@20.16.11)(sass@1.79.5)(terser@5.36.0)
 
+  services/ai-bot:
+    dependencies:
+      '@liexp/backend':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/backend
+      '@liexp/core':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/core
+      '@liexp/shared':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/shared
+      fp-ts:
+        specifier: ^2
+        version: 2.16.9
+      io-ts:
+        specifier: ^2
+        version: 2.2.21(fp-ts@2.16.9)
+    devDependencies:
+      eslint:
+        specifier: ^9.13.0
+        version: 9.13.0(jiti@2.3.3)
+
   services/api:
     dependencies:
       '@aws-sdk/client-s3':

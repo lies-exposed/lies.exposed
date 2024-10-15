@@ -1,0 +1,33 @@
+{
+  "name": "@liexp/ai-bot",
+  "version": "1.0.0",
+  "bin": {
+    "liexp-ai-bot": "./build/liexp-ai-bot.js"
+  },
+  "type": "module",
+  "imports": {
+    "#common/*": "./build/common/*",
+    "#flows/*": "./build/flows/*"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "bin:run": "node ./build/bin/cli.js",
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "rm -rf build",
+    "dev": "node --watch build/run.js",
+    "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
+    "docker:dev": "pnpm dev",
+    "lint": "eslint src",
+    "start": "node build/run.js"
+  },
+  "dependencies": {
+    "@liexp/core": "workspace:*",
+    "@liexp/shared": "workspace:*",
+    "@liexp/backend": "workspace:*",
+    "fp-ts": "^2",
+    "io-ts": "^2"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0"
+  }
+}

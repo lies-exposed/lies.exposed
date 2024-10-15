@@ -13,9 +13,11 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
       return pipe(
         TE.right({ id, resource, type, data }),
         TE.chainFirst((job) =>
-          ctx.queue
-            .queue(type)
-            .addJob({ ...job, error: null, status: "pending" }),
+          ctx.queue.queue(type).addJob({
+            ...job,
+            error: null,
+            status: "pending",
+          }),
         ),
         TE.chainEitherK(toQueueIO),
         TE.map((data) => ({

@@ -31,7 +31,7 @@ export class LinkEntity {
   title: string;
 
   @Column({ type: "varchar", nullable: true })
-  description: string;
+  description: string | null;
 
   @ManyToOne(() => MediaEntity, {
     cascade: ["insert"],

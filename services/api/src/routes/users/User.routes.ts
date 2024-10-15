@@ -9,9 +9,9 @@ import { MakeUserGetMeRoute } from "./userMe.controller.js";
 import { MakeUserEditMeRoute } from "./userMeEdit.controller.js";
 import { MakeSignUpUserRoute } from "./userSignUp.controller.js";
 import { MakeUserTGTokenGenerateRoute } from "./userTGTokenGenerate.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeUserRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeUserRoutes = (router: Router, ctx: ServerContext): void => {
   MakeUserGetMeRoute(router, ctx);
   MakeUserEditMeRoute(router, ctx);
   MakeUserGetRoute(router, ctx);

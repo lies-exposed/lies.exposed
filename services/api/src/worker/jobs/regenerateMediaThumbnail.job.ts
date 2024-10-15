@@ -15,7 +15,6 @@ import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
 import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const createThumbnailTask =
   (m: MediaEntity): TEReader<MediaEntity> =>

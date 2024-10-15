@@ -35,7 +35,6 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
-import { LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { createS3Provider } from "#providers/context/s3.context.js";
 import { GetQueueProvider } from "#providers/queue.provider.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -158,7 +157,6 @@ export const makeContext = (
         }),
       ),
       openai: fp.TE.right(openai),
-      langchain: fp.TE.right(LangchainProviderReader),
       queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
       ner: fp.TE.right(
         GetNERProvider({

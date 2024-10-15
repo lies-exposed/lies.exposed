@@ -29,9 +29,6 @@ async function findLinkInPage(
     const text = getText(linkText);
     const textMatch = text.match(linkString);
     if (textMatch) {
-      // console.log(linkString);
-      // console.log(text, textMatch);
-      // console.log("Found");
       return link;
     }
   }

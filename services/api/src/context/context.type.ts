@@ -1,18 +1,18 @@
 import {
-  type IGProviderContext,
-  type TGBotProviderContext,
   type DatabaseContext,
+  type FFMPEGProviderContext,
   type FSClientContext,
+  type GeocodeProviderContext,
+  type IGProviderContext,
+  type ImgProcClientContext,
+  type JWTProviderContext,
   type LoggerContext,
   type NERProviderContext,
-  type SpaceContext,
-  type WikipediaProviderContext,
-  type JWTProviderContext,
-  type URLMetadataContext,
   type PuppeteerProviderContext,
-  type FFMPEGProviderContext,
-  type GeocodeProviderContext,
-  type ImgProcClientContext,
+  type SpaceContext,
+  type TGBotProviderContext,
+  type URLMetadataContext,
+  type WikipediaProviderContext,
 } from "@liexp/backend/lib/context/index.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
@@ -20,7 +20,6 @@ import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.j
 import { type ServerBlockNoteEditor } from "@liexp/ui/lib/components/Common/BlockNote/index.ssr.js";
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
-import { type LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";
 export interface ENVContext {
   env: ENV;
@@ -40,9 +39,6 @@ interface ConfigContext {
 
 interface QueuesProviderContext {
   queue: QueuesProvider;
-}
-interface LangchainContext {
-  langchain: LangchainProviderReader;
 }
 
 interface BlockNoteContext {
@@ -68,7 +64,6 @@ export type ServerContext = ENVContext &
   ImgProcClientContext &
   ConfigContext &
   QueuesProviderContext &
-  LangchainContext &
   BlockNoteContext & {
     /** RationalWiki Provider */
     rw: WikipediaProvider;

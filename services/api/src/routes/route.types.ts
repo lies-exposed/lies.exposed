@@ -1,10 +1,7 @@
-import { type OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { type Router } from "express";
 import { type ServerContext } from "../context/context.type.js";
 
-export interface RouteContext extends ServerContext {
-  openai: OpenAI;
-}
+export type RouteContext = ServerContext;
 
 /**
  * Route create helper type with context {@link RouteContext}
