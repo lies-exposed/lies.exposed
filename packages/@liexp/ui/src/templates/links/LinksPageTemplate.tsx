@@ -1,7 +1,7 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBox } from "../../components/Common/ErrorBox.js";

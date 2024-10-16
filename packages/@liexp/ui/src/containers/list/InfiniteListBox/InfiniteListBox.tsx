@@ -1,7 +1,7 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import * as React from "react";

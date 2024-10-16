@@ -1,8 +1,6 @@
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import {
-  type EndpointsRESTClient,
-  fromEndpoints,
-} from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import * as React from "react";
 import { useDataProvider } from "./useDataProvider.js";
 

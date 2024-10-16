@@ -19,8 +19,8 @@ import {
   type GetListFn,
   type GetListFnParamsE,
   type GetEndpointQueryType,
-  type Query,
-} from "../EndpointsRESTClient/EndpointsRESTClient.js";
+  type EndpointREST,
+} from "../EndpointsRESTClient/types.js";
 import {
   type GetQueryOverride,
   type ResourceEndpointsQueriesOverride,
@@ -149,10 +149,13 @@ export const toQueries = <
   ES extends EndpointsMapType,
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
+  C extends MinimalEndpoint,
+  E extends MinimalEndpoint,
+  D extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
   key: string,
-  e: Query<G, L, CC>,
+  e: EndpointREST<G, L, C, E, D, CC>,
   override?: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
 ): ResourceQueries<G, L, CC> => {
   return {
@@ -163,7 +166,7 @@ export const toQueries = <
       fp.Rec.mapWithIndex((index, ee) => {
         const getKey = getDefaultKey(`${key}-${index}`);
         const fetch = fetchQuery<any, any, any>((p, q) => {
-          return ee({ Params: p, Query: q } as any);
+          return ee({ Params: p, Query: q } as any, q);
         });
 
         return {

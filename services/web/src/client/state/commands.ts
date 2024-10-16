@@ -2,7 +2,7 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient";
+import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import {
   useMutation,
