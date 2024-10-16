@@ -171,8 +171,8 @@ importers:
         specifier: ^3.649.0
         version: 3.667.0
       '@langchain/core':
-        specifier: ^0.2.20
-        version: 0.2.35(openai@4.67.3(zod@3.23.8))
+        specifier: ^0.3.11
+        version: 0.3.11(openai@4.67.3(zod@3.23.8))
       '@types/fluent-ffmpeg':
         specifier: ^2.1.26
         version: 2.1.26
@@ -190,7 +190,7 @@ importers:
         version: 5.0.1
       langchain:
         specifier: ^0.2.20
-        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7)(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
+        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -992,14 +992,14 @@ importers:
         specifier: ^11.13.0
         version: 11.13.0(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1)
       '@langchain/anthropic':
-        specifier: ^0.2.18
-        version: 0.2.18(openai@4.67.3(zod@3.23.8))
+        specifier: ^0.3.3
+        version: 0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))
       '@langchain/community':
-        specifier: ^0.2.33
-        version: 0.2.33(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8)))(@smithy/util-utf8@2.3.0)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.13.0)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
+        specifier: ^0.3.5
+        version: 0.3.5(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))(@smithy/util-utf8@2.3.0)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.13.0)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
       '@langchain/openai':
-        specifier: ^0.2.11
-        version: 0.2.11
+        specifier: ^0.3.7
+        version: 0.3.7(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -1086,7 +1086,7 @@ importers:
         version: 9.0.2
       langchain:
         specifier: ^0.2.20
-        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
+        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1762,9 +1762,6 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
-
-  '@anthropic-ai/sdk@0.25.2':
-    resolution: {integrity: sha512-F1Hck/asswwidFLtGdMg3XYgRxEUfygNbpkq5KEaEGsHNaSfxeX18/uZGQCL0oQNcj/tYNx8BaFXVwRhFDi45g==}
 
   '@anthropic-ai/sdk@0.27.3':
     resolution: {integrity: sha512-IjLt0gd3L4jlOfilxVXTifn42FnVffMgDC04RJK1KDZpmkBWLv0XC92MVVmkxrFZNS/7l3xWgP/I3nqtX1sQHw==}
@@ -3420,18 +3417,14 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@langchain/anthropic@0.2.18':
-    resolution: {integrity: sha512-4ZDTxMwGKTPRAi2Supu/faBSmwPIm/ga5QlazyO78Mf/8QbDR2DcvM5394FAy+X/nRAfnMbyXteO5IRJm653gw==}
-    engines: {node: '>=18'}
-
   '@langchain/anthropic@0.3.3':
     resolution: {integrity: sha512-OvnSV3Tjhb87n7CxWzIcJqcJEM4qoFDYYt6Rua7glQF/Ud5FBTurlzoMunLPTQeF5GdPiaOwP3nUw6I9gF7ppw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@langchain/core': '>=0.2.21 <0.4.0'
 
-  '@langchain/community@0.2.33':
-    resolution: {integrity: sha512-YsytROnBYoPqtUcV2In+afyLACzxwFrYRn7EBKYL7XWl3XNwrT85U1+nLM5b+MOjXvg9YfJSjrs1Tlbfy4st8g==}
+  '@langchain/community@0.3.5':
+    resolution: {integrity: sha512-zcVzQQJpJaqJsxgr5AaNpI/MHCWRo2kpzrHuxgnVlq0WZ7zp9hZ2PVMfFtXN/0R86UkRCHcTe5/ARfv+BXje9Q==}
     engines: {node: '>=18'}
     peerDependencies:
       '@arcjet/redact': ^v1.0.0-alpha.23
@@ -3461,8 +3454,9 @@ packages:
       '@google-cloud/storage': ^6.10.1 || ^7.7.0
       '@gradientai/nodejs-sdk': ^1.2.0
       '@huggingface/inference': ^2.6.4
-      '@langchain/langgraph': '*'
+      '@langchain/core': '>=0.2.21 <0.4.0'
       '@layerup/layerup-security': ^1.5.12
+      '@libsql/client': ^0.14.0
       '@mendable/firecrawl-js': ^0.0.13
       '@mlc-ai/web-llm': '*'
       '@mozilla/readability': '*'
@@ -3484,7 +3478,7 @@ packages:
       '@tensorflow-models/universal-sentence-encoder': '*'
       '@tensorflow/tfjs-converter': '*'
       '@tensorflow/tfjs-core': '*'
-      '@upstash/ratelimit': ^1.1.3
+      '@upstash/ratelimit': ^1.1.3 || ^2.0.3
       '@upstash/redis': ^1.20.6
       '@upstash/vector': ^1.1.1
       '@vercel/kv': ^0.2.3
@@ -3505,7 +3499,6 @@ packages:
       closevector-web: 0.1.6
       cohere-ai: '*'
       convex: ^1.3.1
-      couchbase: ^4.3.0
       crypto-js: ^4.2.0
       d3-dsv: ^2.0.0
       discord.js: ^14.14.1
@@ -3531,7 +3524,6 @@ packages:
       mongodb: '>=5.2.0'
       mysql2: ^3.9.8
       neo4j-driver: '*'
-      node-llama-cpp: '*'
       notion-to-md: ^3.1.0
       officeparser: ^4.0.4
       pdf-parse: 1.1.1
@@ -3541,6 +3533,7 @@ packages:
       playwright: ^1.32.1
       portkey-ai: ^0.1.11
       puppeteer: '*'
+      pyodide: '>=0.24.1 <0.27.0'
       redis: '*'
       replicate: ^0.29.4
       sonix-speech-recognition: ^2.1.1
@@ -3610,9 +3603,9 @@ packages:
         optional: true
       '@huggingface/inference':
         optional: true
-      '@langchain/langgraph':
-        optional: true
       '@layerup/layerup-security':
+        optional: true
+      '@libsql/client':
         optional: true
       '@mendable/firecrawl-js':
         optional: true
@@ -3698,8 +3691,6 @@ packages:
         optional: true
       convex:
         optional: true
-      couchbase:
-        optional: true
       crypto-js:
         optional: true
       d3-dsv:
@@ -3750,8 +3741,6 @@ packages:
         optional: true
       neo4j-driver:
         optional: true
-      node-llama-cpp:
-        optional: true
       notion-to-md:
         optional: true
       officeparser:
@@ -3769,6 +3758,8 @@ packages:
       portkey-ai:
         optional: true
       puppeteer:
+        optional: true
+      pyodide:
         optional: true
       redis:
         optional: true
@@ -3803,9 +3794,19 @@ packages:
     resolution: {integrity: sha512-wNz9gWwC0GiszrUm939qVGWyHKE0J+vFLM1jtk4b6R+ctJMOR2pOKMd+ZIHXWDABDx42MUFDzQJDm93w3vFHSg==}
     engines: {node: '>=18'}
 
+  '@langchain/core@0.3.11':
+    resolution: {integrity: sha512-Mhwf0jkALxeQvEdcxEMD1IiNRhXF8pJqvvAh1LpvBTScTrprNVOYQHR4pujZ6z1SV54u4hULokDWJVVjfEf23w==}
+    engines: {node: '>=18'}
+
   '@langchain/openai@0.2.11':
     resolution: {integrity: sha512-Pu8+WfJojCgSf0bAsXb4AjqvcDyAWyoEB1AoCRNACgEnBWZuitz3hLwCo9I+6hAbeg3QJ37g82yKcmvKAg1feg==}
     engines: {node: '>=18'}
+
+  '@langchain/openai@0.3.7':
+    resolution: {integrity: sha512-3Jhyy2uKkymYu1iVK18sG2ASZVg0EQcmtTuEPVnrrFGYJ0EIPufejm6bE1ebOHZRc50kSxQwRFCAGrMatNtUiQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@langchain/core': '>=0.2.26 <0.4.0'
 
   '@langchain/textsplitters@0.0.3':
     resolution: {integrity: sha512-cXWgKE3sdWLSqAa8ykbCcUsUF1Kyr5J3HOWYGuobhPEycXW4WI++d5DhzdpL238mzoEXTi90VqfSCra37l5YqA==}
@@ -8943,6 +8944,14 @@ packages:
       openai:
         optional: true
 
+  langsmith@0.1.66:
+    resolution: {integrity: sha512-ZhZ9g8t/qjj0oUWpvKLtUe3qxDL/N0wG0m+Ctkxf0keopYJkcMJg4/71jl6ZYyiSU8xlC27aixXOT0uvLhqcFA==}
+    peerDependencies:
+      openai: '*'
+    peerDependenciesMeta:
+      openai:
+        optional: true
+
   lazy-cache@0.2.7:
     resolution: {integrity: sha512-gkX52wvU/R8DVMMt78ATVPFMJqfW8FPz1GZ1sVHBVQHmu/WvhIWE4cE1GBzhJNFicDeYhnwp6Rl35BcAIM3YOQ==}
     engines: {node: '>=0.10.0'}
@@ -12455,18 +12464,6 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@anthropic-ai/sdk@0.25.2':
-    dependencies:
-      '@types/node': 18.19.55
-      '@types/node-fetch': 2.6.11
-      abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
-      form-data-encoder: 1.7.2
-      formdata-node: 4.4.1
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-
   '@anthropic-ai/sdk@0.27.3':
     dependencies:
       '@types/node': 18.19.55
@@ -12478,7 +12475,6 @@ snapshots:
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
-    optional: true
 
   '@aws-crypto/crc32@5.2.0':
     dependencies:
@@ -14878,14 +14874,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14898,7 +14894,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14907,7 +14903,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -14943,38 +14939,26 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8))':
-    dependencies:
-      '@anthropic-ai/sdk': 0.25.2
-      '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
-      fast-xml-parser: 4.5.0
-      zod: 3.23.8
-      zod-to-json-schema: 3.23.3(zod@3.23.8)
-    transitivePeerDependencies:
-      - encoding
-      - openai
-
-  '@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8)))':
+  '@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))':
     dependencies:
       '@anthropic-ai/sdk': 0.27.3
-      '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
+      '@langchain/core': 0.3.11(openai@4.67.3(zod@3.23.8))
       fast-xml-parser: 4.5.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
     transitivePeerDependencies:
       - encoding
-    optional: true
 
-  '@langchain/community@0.2.33(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8)))(@smithy/util-utf8@2.3.0)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.13.0)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)':
+  '@langchain/community@0.3.5(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))(@smithy/util-utf8@2.3.0)(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(pg@8.13.0)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
-      '@langchain/openai': 0.2.11
+      '@langchain/core': 0.3.11(openai@4.67.3(zod@3.23.8))
+      '@langchain/openai': 0.3.7(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
-      langsmith: 0.1.62(openai@4.67.3(zod@3.23.8))
+      langchain: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
+      langsmith: 0.1.66(openai@4.67.3(zod@3.23.8))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
@@ -15002,12 +14986,13 @@ snapshots:
       - '@langchain/mistralai'
       - '@langchain/ollama'
       - axios
+      - couchbase
       - encoding
       - fast-xml-parser
       - handlebars
+      - node-llama-cpp
       - openai
       - peggy
-      - pyodide
 
   '@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))':
     dependencies:
@@ -15015,7 +15000,23 @@ snapshots:
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.15
-      langsmith: 0.1.62(openai@4.67.3(zod@3.23.8))
+      langsmith: 0.1.66(openai@4.67.3(zod@3.23.8))
+      mustache: 4.2.0
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      uuid: 10.0.0
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.3(zod@3.23.8)
+    transitivePeerDependencies:
+      - openai
+
+  '@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))':
+    dependencies:
+      ansi-styles: 5.2.0
+      camelcase: 6.3.0
+      decamelize: 1.2.0
+      js-tiktoken: 1.0.15
+      langsmith: 0.1.66(openai@4.67.3(zod@3.23.8))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -15028,6 +15029,16 @@ snapshots:
   '@langchain/openai@0.2.11':
     dependencies:
       '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
+      js-tiktoken: 1.0.15
+      openai: 4.67.3(zod@3.23.8)
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.3(zod@3.23.8)
+    transitivePeerDependencies:
+      - encoding
+
+  '@langchain/openai@0.3.7(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))':
+    dependencies:
+      '@langchain/core': 0.3.11(openai@4.67.3(zod@3.23.8))
       js-tiktoken: 1.0.15
       openai: 4.67.3(zod@3.23.8)
       zod: 3.23.8
@@ -17074,7 +17085,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
 
   '@types/node-telegram-bot-api@0.64.7':
     dependencies:
@@ -18387,7 +18398,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -18403,7 +18414,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -20821,7 +20832,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20842,13 +20853,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20865,7 +20876,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -21133,7 +21144,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.2.18(openai@4.67.3(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
+  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@5.3.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
       '@langchain/openai': 0.2.11
@@ -21152,7 +21163,7 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.670.0
       '@aws-sdk/credential-provider-node': 3.670.0(@aws-sdk/client-sso-oidc@3.667.0(@aws-sdk/client-sts@3.667.0))(@aws-sdk/client-sts@3.667.0)
-      '@langchain/anthropic': 0.2.18(openai@4.67.3(zod@3.23.8))
+      '@langchain/anthropic': 0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))
       axios: 1.7.7(debug@4.3.7)
       cheerio: 1.0.0
       fast-xml-parser: 4.5.0
@@ -21165,7 +21176,7 @@ snapshots:
       - encoding
       - openai
 
-  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7)(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0):
+  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
       '@langchain/openai': 0.2.11
@@ -21184,7 +21195,7 @@ snapshots:
     optionalDependencies:
       '@aws-sdk/client-s3': 3.670.0
       '@aws-sdk/credential-provider-node': 3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0)
-      '@langchain/anthropic': 0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8)))
+      '@langchain/anthropic': 0.3.3(@langchain/core@0.3.11(openai@4.67.3(zod@3.23.8)))
       axios: 1.7.7(debug@4.3.7)
       cheerio: 1.0.0
       d3-dsv: 3.0.1
@@ -21199,6 +21210,17 @@ snapshots:
       - openai
 
   langsmith@0.1.62(openai@4.67.3(zod@3.23.8)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      commander: 10.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      semver: 7.6.3
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 4.67.3(zod@3.23.8)
+
+  langsmith@0.1.66(openai@4.67.3(zod@3.23.8)):
     dependencies:
       '@types/uuid': 10.0.0
       commander: 10.0.1
