@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, UserLogin } from "@liexp/shared/lib/endpoints/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -14,46 +14,49 @@ import { type RouteContext } from "#routes/route.types.js";
 import * as passwordUtils from "#utils/password.utils.js";
 
 export const MakeUserLoginRoute = (r: Router, ctx: RouteContext): void => {
-  AddEndpoint(r)(UserLogin, ({ body: { username, password } }) => {
-    ctx.logger.debug.log("Login user with username or email %s", username);
-    // void pipe(
-    //   passwordUtils.hash(password),
-    //   ctx.logger.debug.logInTaskEither('Password hash %s')
-    // )()
-    return pipe(
-      ctx.db.findOneOrFail(UserEntity, {
-        where: [{ username }, { email: username }],
-      }),
-      TE.mapLeft(() => NotFoundError("User")),
-      LoggerService.TE.debug(ctx, "User %O"),
-      TE.filterOrElse(
-        (e) => e.status === UserStatusApproved.value,
-        () => ServerError(["User not approved"]),
-      ),
-      TE.chainFirst((user) =>
-        pipe(
-          passwordUtils.verify(password, user.passwordHash),
-          TE.chain((isEqual) => {
-            if (!isEqual) {
-              return TE.left(BadRequestError("Password is wrong"));
-            }
-            return TE.right(isEqual);
-          }),
+  AddEndpoint(r)(
+    Endpoints.User.Custom.UserLogin,
+    ({ body: { username, password } }) => {
+      ctx.logger.debug.log("Login user with username or email %s", username);
+      // void pipe(
+      //   passwordUtils.hash(password),
+      //   ctx.logger.debug.logInTaskEither('Password hash %s')
+      // )()
+      return pipe(
+        ctx.db.findOneOrFail(UserEntity, {
+          where: [{ username }, { email: username }],
+        }),
+        TE.mapLeft(() => NotFoundError("User")),
+        LoggerService.TE.debug(ctx, "User %O"),
+        TE.filterOrElse(
+          (e) => e.status === UserStatusApproved.value,
+          () => ServerError(["User not approved"]),
         ),
-      ),
-      TE.chain(({ passwordHash, ...user }) =>
-        TE.fromIO(
-          ctx.jwt.signUser({
-            ...user,
-            createdAt: user.createdAt.toISOString(),
-            updatedAt: user.updatedAt.toISOString(),
-          }),
+        TE.chainFirst((user) =>
+          pipe(
+            passwordUtils.verify(password, user.passwordHash),
+            TE.chain((isEqual) => {
+              if (!isEqual) {
+                return TE.left(BadRequestError("Password is wrong"));
+              }
+              return TE.right(isEqual);
+            }),
+          ),
         ),
-      ),
-      TE.map((token) => ({
-        body: { data: { token } },
-        statusCode: 201,
-      })),
-    );
-  });
+        TE.chain(({ passwordHash, ...user }) =>
+          TE.fromIO(
+            ctx.jwt.signUser({
+              ...user,
+              createdAt: user.createdAt.toISOString(),
+              updatedAt: user.updatedAt.toISOString(),
+            }),
+          ),
+        ),
+        TE.map((token) => ({
+          body: { data: { token } },
+          statusCode: 201,
+        })),
+      );
+    },
+  );
 };
