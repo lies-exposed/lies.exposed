@@ -5,10 +5,8 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "jsx": "react-jsx",
-    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false
   },
   "include": [
     "./src",

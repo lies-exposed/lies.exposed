@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": "./src",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["./src", "!src/**/*.spec.ts"],
   "exclude": [
@@ -16,13 +17,5 @@
     "lib",
     "src/**/*.spec.ts",
     "test"
-  ],
-  "references": [
-    {
-      "path": "../core/tsconfig.build.json"
-    },
-    {
-      "path": "../test/tsconfig.build.json"
-    }
-  ],
+  ]
 }

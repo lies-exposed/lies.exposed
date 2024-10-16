@@ -17,7 +17,7 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
     "typeRoots": ["../../../node_modules/@types"]
   },
   "include": ["./src", "typings",],
