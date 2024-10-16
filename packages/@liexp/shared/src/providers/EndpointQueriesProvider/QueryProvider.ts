@@ -149,10 +149,13 @@ export const toQueries = <
   ES extends EndpointsMapType,
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
+  C extends MinimalEndpoint,
+  E extends MinimalEndpoint,
+  D extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
   key: string,
-  e: Query<G, L, CC>,
+  e: Query<G, L, C, E, D, CC>,
   override?: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
 ): ResourceQueries<G, L, CC> => {
   return {

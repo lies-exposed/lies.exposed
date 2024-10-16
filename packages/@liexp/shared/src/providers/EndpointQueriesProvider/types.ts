@@ -64,7 +64,7 @@ export interface ResourceQueries<G, L, CC> {
 }
 
 export type ResourceQueryImpl<Q> =
-  Q extends Query<infer G, infer L, infer CC>
+  Q extends Query<infer G, infer L, unknown, unknown, unknown, infer CC>
     ? ResourceQueries<G, L, CC>
     : never;
 

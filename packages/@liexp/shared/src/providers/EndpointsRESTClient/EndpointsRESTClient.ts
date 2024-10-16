@@ -7,7 +7,12 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
 // eslint-disable-next-line no-restricted-imports
-import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
+import type {
+  CreateParams,
+  GetListParams,
+  GetListResult,
+  GetOneResult,
+} from "react-admin";
 import {
   type EndpointInstance,
   type InferEndpointInstanceParams,
@@ -59,6 +64,10 @@ export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   > | null;
 };
 
+export type CreateFnParams<C> = InferEndpointParams<C>["body"] extends undefined
+  ? undefined
+  : serializedType<InferEndpointParams<C>["body"]>;
+
 export type GetEndpointQueryType<G> =
   InferEndpointParams<G>["query"] extends t.ExactType<infer T>
     ? t.TypeOf<T>
@@ -98,9 +107,16 @@ export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>,
 ) => TE.TaskEither<APIError, EndpointOutput<L>>;
 
-export interface Query<G, L, CC> {
+export type CreateFn<C> = (
+  params: CreateFnParams<C>,
+) => TE.TaskEither<APIError, EndpointOutput<C>>;
+
+export interface Query<G, L, C, E, D, CC> {
   get: GetFn<G>;
   getList: GetListFn<L>;
+  post: CreateFn<C>;
+  edit: GetFn<E>;
+  delete: GetFn<D>;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: (
@@ -142,12 +158,12 @@ interface EndpointsRESTClient<ES extends EndpointsMapType> {
     [K in keyof ES]: ES[K] extends ResourceEndpoints<
       EndpointInstance<infer G>,
       EndpointInstance<infer L>,
-      any,
-      any,
-      any,
+      EndpointInstance<infer C>,
+      EndpointInstance<infer E>,
+      EndpointInstance<infer D>,
       infer CC
     >
-      ? Query<G, L, CC>
+      ? Query<G, L, C, E, D, CC>
       : never;
   };
   client: APIRESTClient;
@@ -156,18 +172,21 @@ interface EndpointsRESTClient<ES extends EndpointsMapType> {
 const restFromResourceEndpoints = <
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
+  C extends MinimalEndpoint,
+  E extends MinimalEndpoint,
+  D extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
   apiClient: APIRESTClient,
   e: ResourceEndpoints<
     EndpointInstance<G>,
     EndpointInstance<L>,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
+    EndpointInstance<C>,
+    EndpointInstance<E>,
+    EndpointInstance<D>,
     CC
   >,
-): Query<G, L, CC> => {
+): Query<G, L, C, E, D, CC> => {
   const log = GetLogger("endpoints-rest-client");
   return {
     get: (params, query) => {
@@ -205,6 +224,31 @@ const restFromResourceEndpoints = <
           e.List.Output.decode,
         ),
       );
+    },
+    post: (
+      params: CreateFnParams<C>,
+    ): TE.TaskEither<
+      APIError,
+      InferEndpointParams<C>["output"] extends t.ExactType<infer T>
+        ? serializedType<t.TypeOf<T>>
+        : never
+    > => {
+      log.debug.log("GET %s: %j", e.List.getPath(), params);
+      return pipe(
+        dataProviderRequestLift(
+          () =>
+            apiClient.create<{
+              id: string;
+            }>(e.Create.getPath(params), params as CreateParams),
+          e.List.Output.decode,
+        ),
+      );
+    },
+    edit: () => {
+      return TE.left(toAPIError(new Error("[post] not implemented")));
+    },
+    delete: () => {
+      return TE.left(toAPIError(new Error("[post] not implemented")));
     },
     Custom: pipe(
       e.Custom,
