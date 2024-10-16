@@ -6,7 +6,7 @@ import { GetListQuery } from "../io/http/Query/index.js";
 import { Page } from "../io/http/index.js";
 import { ResourceEndpoints } from "./types.js";
 
-export const ListPages = Endpoint({
+const ListPages = Endpoint({
   Method: "GET",
   getPath: () => "/pages",
   Input: {
@@ -18,7 +18,7 @@ export const ListPages = Endpoint({
   Output: t.strict({ data: t.array(Page.Page) }),
 });
 
-export const GetPage = Endpoint({
+const GetPage = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
@@ -27,7 +27,7 @@ export const GetPage = Endpoint({
   Output: t.strict({ data: Page.Page }),
 });
 
-export const CreatePage = Endpoint({
+const CreatePage = Endpoint({
   Method: "POST",
   getPath: () => `/pages`,
   Input: {
@@ -36,7 +36,7 @@ export const CreatePage = Endpoint({
   Output: t.strict({ data: Page.Page }),
 });
 
-export const EditPage = Endpoint({
+const EditPage = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
@@ -46,7 +46,7 @@ export const EditPage = Endpoint({
   Output: t.strict({ data: Page.Page }),
 });
 
-export const DeletePage = Endpoint({
+const DeletePage = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
@@ -55,7 +55,7 @@ export const DeletePage = Endpoint({
   Output: t.strict({ data: Page.Page }),
 });
 
-export const DeleteManyPage = Endpoint({
+const DeleteManyPage = Endpoint({
   Method: "DELETE",
   getPath: () => `/pages`,
   Input: {
@@ -70,5 +70,7 @@ export const pages = ResourceEndpoints({
   List: ListPages,
   Edit: EditPage,
   Delete: DeletePage,
-  Custom: {},
+  Custom: {
+    DeleteMany: DeleteManyPage,
+  },
 });

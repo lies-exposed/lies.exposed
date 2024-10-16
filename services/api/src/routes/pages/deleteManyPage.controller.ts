@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  PageDeleteMany,
-  AddEndpoint,
-} from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
@@ -12,7 +9,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteManyPageRoute = (r: Router, ctx: RouteContext): void => {
   AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
-    PageDeleteMany,
+    Endpoints.Page.Custom.DeleteMany,
     ({ query: { ids } }) => {
       return pipe(
         ctx.db.find(PageEntity, { where: { id: In(ids) } }),
