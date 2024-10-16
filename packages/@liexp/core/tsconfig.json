@@ -20,6 +20,6 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo",
     "typeRoots": ["../../../node_modules/@types"]
   },
-  "include": ["./src", "typings",],
+  "include": ["./src", "typings"],
   "exclude": ["node_modules", "lib"]
 }

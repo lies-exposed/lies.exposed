@@ -5,7 +5,7 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "jsx": "react-jsx",
-    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false
@@ -14,7 +14,7 @@
     "./src",
     "./typings",
     "../../packages/@liexp/shared/typings",
-    "../../packages/@liexp/backend/typings",
+    "../../packages/@liexp/backend/typings"
   ],
   "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
 }
