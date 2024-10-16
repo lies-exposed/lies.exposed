@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { useQuery } from "@tanstack/react-query";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {
   type InferEndpointParams,
@@ -8,6 +9,7 @@ import {
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
+import { type APIError } from "../../io/http/Error/APIError.js";
 import {
   type EndpointsRESTClient,
   type GetFnParams,
@@ -25,7 +27,7 @@ export interface GetQueryOverride<P, Q = undefined> {
 
 export type CustomQueryOverride<ES extends EndpointsMapType, P, Q, O> = (
   q: EndpointsRESTClient<ES>["Endpoints"],
-) => (p: P, q: Q) => Promise<O>;
+) => (p: P, q: Q) => TaskEither<APIError, O>;
 
 export interface ResourceEndpointsQueriesOverride<
   ES extends EndpointsMapType,
