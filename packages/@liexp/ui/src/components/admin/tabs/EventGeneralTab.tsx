@@ -50,10 +50,10 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           resource: "events",
           uuid: record.id,
         })
-        .then((res: any) => {
+        .then((res) => {
           setSuggestions({ isLoading: false, suggestions: res.data });
         })
-        .catch((err: any) => {
+        .catch((err) => {
           // eslint-disable-next-line no-console
           console.log(err);
           setSuggestions({ isLoading: false, suggestions: null });

@@ -39,7 +39,7 @@ import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { MediaField } from "./MediaField.js";
 import { MediaSuggestedEntityRelations } from "./MediaSuggestedEntityRelations.js";
-import { OpenAIPromptButton } from "./OpenAIIngestButton.js";
+import { OpenAIEmbeddingJobButton } from "./OpenAIJobButton.js";
 import { GenerateExtraButton } from "./button/GenerateExtraButton.js";
 import { GenerateThumbnailButton } from "./button/GenerateThumbnailButton.js";
 import { MediaTGPostButton } from "./button/MediaTGPostButton.js";
@@ -178,7 +178,7 @@ const MediaEditToolbar: React.FC = () => {
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
-  const { record, save } = useEditController(props);
+  const { record } = useEditController(props);
 
   if (isLoadingPermissions || !record) {
     return <LoadingPage />;
@@ -221,19 +221,9 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={12}>
               <TextInput source="label" fullWidth />
               <TextInput source="description" fullWidth multiline />
-              <OpenAIPromptButton
-                value={record.description}
-                getUserMessage={(m) => m}
-                onRequest={() => {}}
-                onResponse={(r) => {
-                  const reply = r.choices[0].message.content;
-                  if (reply) {
-                    void save?.({
-                      ...record,
-                      description: reply,
-                    });
-                  }
-                }}
+              <OpenAIEmbeddingJobButton
+                resource={"media"}
+                valueSource="description"
               />
               <Box>
                 <Box>

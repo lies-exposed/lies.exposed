@@ -83,6 +83,7 @@ export const LinkEdit: React.FC = () => {
                   resource="links"
                   valueSource="url"
                   type="openai-embedding"
+                  transformValue={(url) => ({ url })}
                 />
                 <TextInput source="description" fullWidth multiline />
               </Stack>
