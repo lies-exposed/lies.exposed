@@ -7,10 +7,9 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
 // eslint-disable-next-line no-restricted-imports
-import type { GetListParams, GetListResult, GetOneResult } from "react-admin";
+import type { CreateParams, GetListResult, GetOneResult } from "react-admin";
 import {
   type EndpointInstance,
-  type InferEndpointInstanceParams,
   type InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
@@ -22,6 +21,13 @@ import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { fromValidationErrors } from "../../providers/http/http.provider.js";
+import {
+  type CustomEndpointFn,
+  type CustomEndpointsRecord,
+  type EndpointOutput,
+  type EndpointREST,
+  type EndpointsRESTClient,
+} from "./types.js";
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
@@ -42,132 +48,24 @@ export const dataProviderRequestLift = <B extends { data: any }>(
   );
 };
 
-export type GetFnParams<G> =
-  InferEndpointParams<G>["params"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : InferEndpointParams<G>["params"] extends undefined
-      ? undefined
-      : serializedType<InferEndpointParams<G>["params"]>;
-
-export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
-  filter?: Partial<
-    serializedType<
-      L extends MinimalEndpointInstance
-        ? InferEndpointInstanceParams<L>["query"]
-        : InferEndpointParams<L>["query"]
-    >
-  > | null;
-};
-
-export type GetEndpointQueryType<G> =
-  InferEndpointParams<G>["query"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : InferEndpointParams<G>["query"] extends undefined
-      ? undefined
-      : serializedType<InferEndpointParams<G>["query"]>;
-
-export type EndpointOutput<L> =
-  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"] extends unknown[]
-      ? t.TypeOf<T>
-      : t.TypeOf<T>["data"]
-    : never;
-
-export type EndpointDataOutput<L> =
-  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : never;
-
-export type GetDataOutputEI<L> =
-  InferEndpointInstanceParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"] extends unknown[]
-      ? t.TypeOf<T>
-      : t.TypeOf<T>["data"]
-    : never;
-
-export type GetFn<G> = (
-  params: GetFnParams<G>,
-  query?: Partial<serializedType<InferEndpointParams<G>["query"]>>,
-) => TE.TaskEither<APIError, EndpointOutput<G>>;
-
-export type GetListFnParams<L, O = undefined> = O extends undefined
-  ? Omit<GetListParams, "filter"> & { filter: Partial<GetEndpointQueryType<L>> }
-  : O;
-
-export type GetListFn<L, O = undefined> = (
-  params: GetListFnParams<L, O>,
-) => TE.TaskEither<APIError, EndpointOutput<L>>;
-
-export interface Query<G, L, CC> {
-  get: GetFn<G>;
-  getList: GetListFn<L>;
-  Custom: CC extends Record<string, MinimalEndpointInstance>
-    ? {
-        [K in keyof CC]: (
-          params: (InferEndpointInstanceParams<CC[K]>["headers"] extends t.Mixed
-            ? {
-                Headers: serializedType<
-                  InferEndpointInstanceParams<CC[K]>["headers"]
-                >;
-              }
-            : Record<string, unknown>) &
-            (InferEndpointInstanceParams<CC[K]>["query"] extends t.Mixed
-              ? {
-                  Query: serializedType<
-                    InferEndpointInstanceParams<CC[K]>["query"]
-                  >;
-                }
-              : Record<string, unknown>) &
-            (InferEndpointInstanceParams<CC[K]>["params"] extends t.Mixed
-              ? {
-                  Params: serializedType<
-                    InferEndpointInstanceParams<CC[K]>["params"]
-                  >;
-                }
-              : Record<string, unknown>) &
-            (InferEndpointInstanceParams<CC[K]>["body"] extends undefined
-              ? Record<string, unknown>
-              : {
-                  Body: serializedType<
-                    InferEndpointInstanceParams<CC[K]>["body"]
-                  >;
-                }),
-        ) => TE.TaskEither<APIError, TypeOfEndpointInstance<CC[K]>["Output"]>;
-      }
-    : never;
-}
-
-interface EndpointsRESTClient<ES extends EndpointsMapType> {
-  Endpoints: {
-    [K in keyof ES]: ES[K] extends ResourceEndpoints<
-      EndpointInstance<infer G>,
-      EndpointInstance<infer L>,
-      any,
-      any,
-      any,
-      infer CC
-    >
-      ? Query<G, L, CC>
-      : never;
-  };
-  client: APIRESTClient;
-}
-
 const restFromResourceEndpoints = <
   G extends MinimalEndpoint,
   L extends MinimalEndpoint,
+  C extends MinimalEndpoint,
+  E extends MinimalEndpoint,
+  D extends MinimalEndpoint,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
   apiClient: APIRESTClient,
   e: ResourceEndpoints<
     EndpointInstance<G>,
     EndpointInstance<L>,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
+    EndpointInstance<C>,
+    EndpointInstance<E>,
+    EndpointInstance<D>,
     CC
   >,
-): Query<G, L, CC> => {
+): EndpointREST<G, L, C, E, D, CC> => {
   const log = GetLogger("endpoints-rest-client");
   return {
     get: (params, query) => {
@@ -187,31 +85,52 @@ const restFromResourceEndpoints = <
         TE.map((r) => r.data),
       );
     },
-    getList: (
-      params: GetListParams,
-    ): TE.TaskEither<
-      APIError,
-      InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-        ? t.TypeOf<T>
-        : never
-    > => {
+    getList: (params) => {
       log.debug.log("GET %s: %j", e.List.getPath(), params);
       return pipe(
         dataProviderRequestLift(
           () =>
             apiClient.getList<{
               id: string;
-            }>(e.List.getPath(), params),
+            }>(e.List.getPath(params), params),
           e.List.Output.decode,
+        ),
+      );
+    },
+    post: (params) => {
+      log.debug.log("GET %s: %j", e.List.getPath(), params);
+      return pipe(
+        dataProviderRequestLift(
+          () =>
+            apiClient.create<{
+              id: string;
+            }>(e.Create.getPath(params), params as CreateParams),
+          e.Create.Output.decode,
+        ),
+      );
+    },
+    edit: (params) => {
+      return pipe(
+        dataProviderRequestLift(
+          () => apiClient.put(e.Edit.getPath(params), params),
+          e.Edit.Output.decode,
+        ),
+      );
+    },
+    delete: (params) => {
+      return pipe(
+        dataProviderRequestLift(
+          () => apiClient.delete(e.Delete.getPath(params), params),
+          e.Delete.Output.decode,
         ),
       );
     },
     Custom: pipe(
       e.Custom,
-      R.map((ee: MinimalEndpointInstance) => {
+      R.mapWithIndex((key, ee) => {
         const fetch = (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
-        ): TE.TaskEither<APIError, any> => {
+        ): TE.TaskEither<APIError, EndpointOutput<typeof ee>> => {
           const url = ee.getPath((params as any).Params);
 
           log.debug.log("%s %s: %j", ee.Method, url, params);
@@ -233,27 +152,21 @@ const restFromResourceEndpoints = <
           );
         };
 
-        return (
-          params: TypeOfEndpointInstance<typeof ee>["Input"],
-          q: any,
-        ): TE.TaskEither<
-          APIError,
-          TypeOfEndpointInstance<typeof ee>["Output"]
-        > => {
+        const customFetch: CustomEndpointFn<typeof ee> = (params, q) => {
           const p: any = params;
-          return pipe(
-            fetch({
-              ...(p?.Params ? { Params: p.Params } : {}),
-              Query: {
-                ...(p?.Query ?? {}),
-                ...(q ?? {}),
-              },
-              Body: p?.Body,
-            } as any),
-          );
+          const payload: any = {
+            ...(p?.Params ? { Params: p.Params } : {}),
+            ...(p?.Query ? { Query: { ...p.Query, ...(q ?? {}) } } : {}),
+            ...(p?.Headers ? { Headers: p.Headers } : {}),
+            ...(p?.Body ? { Body: p.Body } : {}),
+          };
+          // console.log("payload", payload);
+          return pipe(fetch(payload));
         };
+
+        return customFetch;
       }),
-    ) as any,
+    ) as CustomEndpointsRecord<CC>,
   };
 };
 
@@ -275,4 +188,4 @@ const fromEndpoints =
     };
   };
 
-export { fromEndpoints, type EndpointsRESTClient };
+export { fromEndpoints };

@@ -12,9 +12,9 @@ import {
   type EndpointOutput,
   type GetFnParams,
   type GetEndpointQueryType,
-  type Query,
+  type EndpointREST,
   type EndpointDataOutput,
-} from "../EndpointsRESTClient/EndpointsRESTClient.js";
+} from "../EndpointsRESTClient/types.js";
 
 export type QueryFnKey<P, Q = undefined> = [string, P, Q | undefined, boolean];
 export type GetKeyFn<P, Q = undefined> = (
@@ -64,7 +64,7 @@ export interface ResourceQueries<G, L, CC> {
 }
 
 export type ResourceQueryImpl<Q> =
-  Q extends Query<infer G, infer L, infer CC>
+  Q extends EndpointREST<infer G, infer L, unknown, unknown, unknown, infer CC>
     ? ResourceQueries<G, L, CC>
     : never;
 
