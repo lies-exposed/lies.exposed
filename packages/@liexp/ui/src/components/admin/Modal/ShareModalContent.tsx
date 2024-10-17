@@ -26,7 +26,6 @@ import {
   Tabs,
   Typography,
 } from "../../mui/index.js";
-import { OpenAIPromptButton } from "../media/OpenAIIngestButton.js";
 import { BuildImageButton } from "../media/button/BuildImageButton.js";
 
 export interface ShareModalContentProps {
@@ -48,11 +47,6 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
 }) => {
   const [tab, setTab] = React.useState(0);
   const conf = useConfiguration();
-
-  const aiPromptValue = [payload.title]
-    .concat(payload.content ?? "")
-    .filter((s) => s !== "")
-    .join("\n");
 
   return (
     <Grid container width="100%" height="100%" spacing={2}>
@@ -94,30 +88,6 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                 });
               }}
             />
-          </Box>
-          <Box>
-            {aiPromptValue ? (
-              <OpenAIPromptButton
-                value={aiPromptValue}
-                getUserMessage={(m) =>
-                  `Rephrase the following text in maximum 500 chars, considering it will be posted on a social platform: ${m}`
-                }
-                onRequest={() => {}}
-                onResponse={(r) => {
-                  const reply = r.choices[0].message.content;
-                  if (reply) {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        content: reply,
-                      },
-                    });
-                  }
-                }}
-              />
-            ) : null}
           </Box>
 
           <Tabs
