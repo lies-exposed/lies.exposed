@@ -142,7 +142,9 @@ export const MakeSpaceProvider = ({
       const params = new PutObjectCommand({ ...input });
       return pipe(
         TE.tryCatch(() => getSignedUrl(client, params), toError),
-        s3Logger.debug.logInTaskEither(`Get signed url %O`),
+        TE.chainFirst(() =>
+          TE.fromIO(() => s3Logger.debug.log(`Get signed url %O`)),
+        ),
       );
     },
     upload(input) {

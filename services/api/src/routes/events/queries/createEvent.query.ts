@@ -9,12 +9,10 @@ import { type EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const createEventQuery =
-  (ctx: RouteContext) =>
-  (
-    input: http.Events.CreateEventBody,
-  ): TE.TaskEither<DBError, DeepPartial<EventV2Entity>> => {
+  (input: http.Events.CreateEventBody) =>
+  (ctx: RouteContext): TE.TaskEither<DBError, DeepPartial<EventV2Entity>> => {
     return pipe(
-      fetchRelationIds(ctx)({
+      fetchRelationIds({
         links: pipe(
           input.links,
           O.fromPredicate((arr) => arr.length > 0),
@@ -27,7 +25,7 @@ export const createEventQuery =
           input.keywords,
           O.fromPredicate((arr) => arr.length > 0),
         ),
-      }),
+      })(ctx),
       TE.chain(({ keywords, links, media }) => {
         switch (input.type) {
           case http.Events.EventTypes.PATENT.value: {

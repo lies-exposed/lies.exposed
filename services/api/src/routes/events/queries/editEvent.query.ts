@@ -14,13 +14,10 @@ interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
 }
 
 export const editEventQuery =
-  (ctx: RouteContext) =>
-  (
-    storedEvent: EventV2Entity,
-    input: http.Events.EditEventBody,
-  ): TE.TaskEither<DBError, EditEventEntity> => {
+  (storedEvent: EventV2Entity, input: http.Events.EditEventBody) =>
+  (ctx: RouteContext): TE.TaskEither<DBError, EditEventEntity> => {
     return pipe(
-      fetchRelationIds(ctx)(input),
+      fetchRelationIds(input)(ctx),
       TE.chain((commonData) => {
         ctx.logger.debug.log("event relations %O", commonData);
         // const oldMedia = storedEvent.media ?? [];

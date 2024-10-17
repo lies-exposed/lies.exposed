@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as R from "fp-ts/lib/Record.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
   type InferEndpointParams,
   type MinimalEndpoint,
@@ -9,6 +10,8 @@ import {
 } from "ts-endpoint";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
+import { type APIError } from "../../io/http/Error/APIError.js";
+import { throwTE } from "../../utils/task.utils.js";
 import {
   type EndpointOutput,
   type GetFn,
@@ -53,7 +56,7 @@ export type FetchQuery<FN extends (...args: any[]) => Promise<any>> =
     : never;
 
 export const fetchQuery =
-  <P, Q, R>(q: (p: P, q?: Q) => Promise<R>) =>
+  <P, Q, R>(q: (p: P, q?: Q) => TaskEither<APIError, R>) =>
   async (params: any, query?: any, discrete?: boolean): Promise<R> => {
     if (discrete) {
       if (
@@ -64,7 +67,7 @@ export const fetchQuery =
       }
     }
 
-    return q(params, query);
+    return pipe(q(params, query), throwTE);
   };
 
 const toGetResourceQuery = <G>(
@@ -88,7 +91,7 @@ const toGetResourceQuery = <G>(
     Partial<serializedType<InferEndpointParams<G>["query"]>>,
     EndpointOutput<G>
   > = (params, query) => {
-    return getFn(params, query);
+    return pipe(getFn(params, query), throwTE);
   };
   return {
     getKey,

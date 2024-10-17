@@ -8,7 +8,7 @@ import { ActorIO } from "./actor.io.js";
 export const MakeListPageRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Actor.List, ({ query }) => {
     return pipe(
-      fetchActors(ctx)(query),
+      fetchActors(query)(ctx),
       TE.chain(({ results, total }) =>
         pipe(
           ActorIO.decodeMany(results, ctx.env.SPACE_ENDPOINT),

@@ -8,6 +8,7 @@ import { type RouteContext } from "../route.types.js";
 import { EventV2IO } from "./eventV2.io.js";
 import { editEventQuery } from "./queries/editEvent.query.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
@@ -21,8 +22,8 @@ export const EditEventRoute = (r: Router, ctx: RouteContext): void => {
           where: { id: Equal(id) },
           relations: ["links", "media", "keywords"],
         }),
-        TE.chain((event) => editEventQuery(ctx)(event, body)),
-        ctx.logger.debug.logInTaskEither(`Update data %O`),
+        TE.chain((event) => editEventQuery(event, body)(ctx)),
+        LoggerService.TE.debug(ctx, `Update data %O`),
         TE.chain((updateData) =>
           ctx.db.save(EventV2Entity, [{ id, ...updateData }]),
         ),

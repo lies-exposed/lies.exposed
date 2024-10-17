@@ -41,7 +41,9 @@ interface DatabaseClient {
   manager: EntityManager;
   formatQuery: (sql: SQLQuery) => { text: string; values: any };
   execSQL: <T>(sql: SQLQuery) => TE.TaskEither<DBError, T>;
-  execQuery: <T>(q: () => Promise<T>) => TE.TaskEither<DBError, T>;
+  execQuery: <T>(
+    q: (em: EntityManager) => Promise<T>,
+  ) => TE.TaskEither<DBError, T>;
   findOne: <Entity extends ObjectLiteral>(
     entityClass: EntityTarget<Entity>,
     options: FindOneOptions<Entity>,
@@ -136,8 +138,10 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
 
   const handleError = toError(ctx.logger);
 
-  const execQuery = <T>(lazyQ: () => Promise<T>): TE.TaskEither<DBError, T> =>
-    TE.tryCatch(lazyQ, handleError());
+  const execQuery = <T>(
+    lazyQ: (db: EntityManager) => Promise<T>,
+  ): TE.TaskEither<DBError, T> =>
+    TE.tryCatch(() => lazyQ(ctx.connection.manager), handleError());
 
   return {
     manager: ctx.connection.manager,
@@ -157,10 +161,6 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
           handleError(),
         ),
         TE.map(O.fromNullable),
-        ctx.logger.debug.logInTaskEither((r) => [
-          `findOne %s with options %O: %s`,
-          ...[entity, options, O.isSome(r) ? "found" : "none"],
-        ]),
       );
     },
     findOneOrFail: (entity, options) => {

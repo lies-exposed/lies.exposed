@@ -4,6 +4,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 
 export const deleteFromSpace =
   (m: MediaEntity): TEReader<MediaEntity> =>
@@ -29,7 +30,7 @@ export const deleteFromSpace =
               })
             : TE.right(undefined),
       }),
-      ctx.logger.debug.logInTaskEither("Result %O"),
+      LoggerService.TE.debug(ctx, "Result %O"),
       // TE.chain(({ location, thumbnail }) =>
       //   ctx.db.delete(MediaEntity, [m.id])
       // ),

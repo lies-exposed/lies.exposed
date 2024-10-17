@@ -25,7 +25,7 @@ export const groupCommand = (ctx: RouteContext): TGBotProvider => {
     ctx.logger.debug.log(`Match %O`, match);
 
     return pipe(
-      EntityFromWikipediaService(ctx)({
+      EntityFromWikipediaService({
         search: match[1],
         type: GROUPS.value,
         chatId: msg.chat.id,
@@ -58,7 +58,7 @@ export const groupCommand = (ctx: RouteContext): TGBotProvider => {
             fp.TE.map((g) => g[0]),
           ),
         getSuccessMessage: getSuccessMessage,
-      }),
+      })(ctx),
       throwTE,
     );
   };

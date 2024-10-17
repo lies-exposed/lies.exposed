@@ -12,16 +12,7 @@ import {
 } from "../io/http/User.js";
 import { ResourceEndpoints } from "./types.js";
 
-export const UserLogin = Endpoint({
-  Method: "POST",
-  getPath: () => "/users/login",
-  Input: {
-    Body: t.strict({ username: t.string, password: t.string }),
-  },
-  Output: t.strict({ data: t.strict({ token: t.string }) }),
-});
-
-export const UserCreate = Endpoint({
+const UserCreate = Endpoint({
   Method: "POST",
   getPath: () => "/users",
   Input: {
@@ -38,7 +29,7 @@ export const UserCreate = Endpoint({
   }),
 });
 
-export const UserEdit = Endpoint({
+const UserEdit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/users/${id}`,
   Input: {
@@ -50,7 +41,7 @@ export const UserEdit = Endpoint({
   }),
 });
 
-export const SignUpUser = Endpoint({
+const SignUpUser = Endpoint({
   Method: "POST",
   getPath: () => "/users/signup",
   Input: {
@@ -61,7 +52,7 @@ export const SignUpUser = Endpoint({
   }),
 });
 
-export const UserGet = Endpoint({
+const UserGet = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/users/${id}`,
   Input: {
@@ -71,7 +62,7 @@ export const UserGet = Endpoint({
   Output: t.strict({ data: User }),
 });
 
-export const GetUserMe = Endpoint({
+const GetUserMe = Endpoint({
   Method: "GET",
   getPath: () => `/users/me`,
   Input: {
@@ -80,7 +71,7 @@ export const GetUserMe = Endpoint({
   Output: Output(User, "user"),
 });
 
-export const EditUserMe = Endpoint({
+const EditUserMe = Endpoint({
   Method: "PUT",
   getPath: () => `/users/me`,
   Input: {
@@ -89,7 +80,7 @@ export const EditUserMe = Endpoint({
   Output: Output(User, "user"),
 });
 
-export const UserList = Endpoint({
+const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
   Input: {
@@ -101,15 +92,6 @@ export const UserList = Endpoint({
   Output: t.strict({ data: t.array(User), total: t.number }),
 });
 
-const UserTGTokenGenerate = Endpoint({
-  Method: "POST",
-  getPath: () => "/users/tg/token",
-  Input: {
-    Body: t.strict({}),
-  },
-  Output: t.strict({ data: t.strict({ token: t.string }) }),
-});
-
 const UserDelete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/users/${id}`,
@@ -117,6 +99,26 @@ const UserDelete = Endpoint({
     Params: t.type({ id: UUID }),
   },
   Output: t.undefined,
+});
+
+// custom
+
+const UserLogin = Endpoint({
+  Method: "POST",
+  getPath: () => "/users/login",
+  Input: {
+    Body: t.strict({ username: t.string, password: t.string }),
+  },
+  Output: t.strict({ data: t.strict({ token: t.string }) }),
+});
+
+const UserTGTokenGenerate = Endpoint({
+  Method: "POST",
+  getPath: () => "/users/tg/token",
+  Input: {
+    Body: t.strict({}),
+  },
+  Output: t.strict({ data: t.strict({ token: t.string }) }),
 });
 
 export const users = ResourceEndpoints({
@@ -130,5 +132,6 @@ export const users = ResourceEndpoints({
     EditUserMe,
     SignUpUser,
     UserTGTokenGenerate,
+    UserLogin,
   },
 });

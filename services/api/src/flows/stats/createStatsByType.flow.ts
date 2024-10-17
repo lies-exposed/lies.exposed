@@ -34,6 +34,7 @@ import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { ensureFolderExists } from "#flows/fs/ensureFolderExists.flow.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   toControllerError,
   type ControllerError,
@@ -104,7 +105,7 @@ export const createStatsByType =
       `stats/${type}/${id}.json`,
     );
 
-    ctx.logger.debug.log("%s stats file %s", filePath);
+    LoggerService.debug(["%s stats file %s", filePath])(ctx);
 
     const fetchRelations = ({
       actors,

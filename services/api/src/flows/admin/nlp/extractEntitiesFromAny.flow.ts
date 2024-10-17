@@ -6,10 +6,8 @@ import {
   type ExtractEntitiesWithNLPFromResourceInput,
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
-import {
-  getTextContents,
-  isValidValue,
-} from "@liexp/ui/lib/components/Common/BlockNote/utils/index.js";
+import { getTextContents } from "@liexp/ui/lib/components/Common/BlockNote/utils/getTextContents.js";
+import { isValidValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/isValidValue.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -19,6 +17,7 @@ import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flow.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
@@ -109,13 +108,17 @@ export const extractEntitiesFromAny = (
 ): TEReader<ExtractEntitiesWithNLPOutput> => {
   return pipe(
     fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainIOK((ctx) => () => {
-      ctx.logger.debug.log("extract entities from any body %O", body);
+    LoggerService.RTE.debug(() => [
+      "Extracting entities from any body %O",
+      body,
+    ]),
+    fp.RTE.chain((ctx) => {
       if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
         return pipe(
           ctx.puppeteer.execute({}, (b, p) =>
             extractRelationsFromURL(p, body.url)(ctx),
           ),
+          fp.RTE.fromTaskEither,
         );
       }
 
@@ -124,20 +127,21 @@ export const extractEntitiesFromAny = (
           ctx.puppeteer.execute({}, (b, p) =>
             extractRelationsFromPDFs(body.pdf)(ctx),
           ),
+          fp.RTE.fromTaskEither,
         );
       }
 
       if (ExtractEntitiesWithNLPInput.types[2].is(body)) {
-        return extractRelationsFromText(body.text)(ctx);
+        return extractRelationsFromText(body.text);
       }
 
       if (ExtractEntitiesWithNLPInput.types[3].is(body)) {
         return pipe(
-          findOneResourceAndMapText(body)(ctx),
-          fp.TE.chain((text) => extractRelationsFromText(text)(ctx)),
+          findOneResourceAndMapText(body),
+          fp.RTE.chain((text) => extractRelationsFromText(text)),
         );
       }
-      return fp.TE.left(
+      return fp.RTE.left(
         pipe(ExtractEntitiesWithNLPInput.decode(body), (either) => {
           if (fp.E.isLeft(either)) {
             return DecodeError("Failed to decode body", either.left);
@@ -146,7 +150,6 @@ export const extractEntitiesFromAny = (
         }),
       );
     }),
-    fp.RTE.chainTaskEitherK((te) => te),
   );
 };
 

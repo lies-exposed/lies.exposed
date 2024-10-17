@@ -6,17 +6,19 @@ import {
 import { type Option } from "fp-ts/lib/Option.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { type RouteContext } from "#routes/route.types.js";
+import { DBService } from "#services/db.service.js";
 
 export const getUserByTelegramId = (
   telegramId: string | number,
 ): TEReader<Option<UserEntity>> => {
   return pipe(
     fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainTaskEitherK((ctx) => {
-      ctx.logger.debug.log(`Find user by telegramId %s`, telegramId);
-      return ctx.db.execQuery(() =>
-        ctx.db.manager
+    LoggerService.RTE.debug([`Find user by telegramId %s`, telegramId]),
+    fp.RTE.chain(() => {
+      return DBService.execQuery((em) =>
+        em
           .createQueryBuilder(UserEntity, "u")
           .where("u.telegramId = :telegramId", {
             telegramId: telegramId.toString(),

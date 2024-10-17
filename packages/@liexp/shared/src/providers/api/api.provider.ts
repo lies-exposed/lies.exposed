@@ -2,7 +2,7 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
 import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {
   type MinimalEndpointInstance,
@@ -87,7 +87,9 @@ const API = (client: AxiosInstance): API => {
             },
           });
         }, e.Output.decode),
-        apiLogger.debug.logInTaskEither(`${e.Method} ${url} res: %O`),
+        TE.chainFirst(() =>
+          TE.fromIO(() => apiLogger.debug.log(`${e.Method} ${url} res: %O`)),
+        ),
       );
     };
   };

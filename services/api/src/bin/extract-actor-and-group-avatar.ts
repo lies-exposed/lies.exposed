@@ -12,6 +12,7 @@ import { type CommandFlow } from "./command.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -136,7 +137,7 @@ export const extractActorAndGroupAvatar: CommandFlow = async (ctx) => {
         groups: groups.length,
       };
     }),
-    ctx.logger.debug.logInTaskEither("extractActorAndGroupAvatar"),
+    LoggerService.TE.debug(ctx, "extractActorAndGroupAvatar"),
     fp.TE.map(() => undefined),
     throwTE,
   );

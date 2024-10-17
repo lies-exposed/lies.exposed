@@ -16,7 +16,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
         ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),
         TE.chain((suggestion) =>
           pipe(
-            editEventQuery(ctx)(suggestion.payload.event as any, {
+            editEventQuery(suggestion.payload.event as any, {
               ...body.event,
               draft: O.fromNullable(body.event.draft),
               date: O.fromNullable(body.event.date),
@@ -30,7 +30,7 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
               media: O.fromNullable(body.event.media),
               links: O.fromNullable(body.event.links),
               keywords: O.fromNullable(body.event.keywords),
-            }),
+            })(ctx),
             TE.chain((event) =>
               ctx.db.save(EventSuggestionEntity, [
                 {

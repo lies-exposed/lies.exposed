@@ -8,6 +8,7 @@ module.exports = {
       [
         "workspace",
         "deps",
+        "deps-dev",
         "core",
         "shared",
         "test",

@@ -1,3 +1,4 @@
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { isAxiosError } from "axios";
 import * as A from "fp-ts/lib/Array.js";
 import type * as E from "fp-ts/lib/Either.js";
@@ -21,7 +22,6 @@ import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { fromValidationErrors } from "../../providers/http/http.provider.js";
-import { throwTE } from "../../utils/task.utils.js";
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
@@ -68,7 +68,7 @@ export type GetEndpointQueryType<G> =
 
 export type EndpointOutput<L> =
   InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"] extends any[]
+    ? t.TypeOf<T>["data"] extends unknown[]
       ? t.TypeOf<T>
       : t.TypeOf<T>["data"]
     : never;
@@ -80,7 +80,7 @@ export type EndpointDataOutput<L> =
 
 export type GetDataOutputEI<L> =
   InferEndpointInstanceParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"] extends any[]
+    ? t.TypeOf<T>["data"] extends unknown[]
       ? t.TypeOf<T>
       : t.TypeOf<T>["data"]
     : never;
@@ -88,7 +88,7 @@ export type GetDataOutputEI<L> =
 export type GetFn<G> = (
   params: GetFnParams<G>,
   query?: Partial<serializedType<InferEndpointParams<G>["query"]>>,
-) => Promise<EndpointOutput<G>>;
+) => TE.TaskEither<APIError, EndpointOutput<G>>;
 
 export type GetListFnParams<L, O = undefined> = O extends undefined
   ? Omit<GetListParams, "filter"> & { filter: Partial<GetEndpointQueryType<L>> }
@@ -96,7 +96,7 @@ export type GetListFnParams<L, O = undefined> = O extends undefined
 
 export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>,
-) => Promise<EndpointOutput<L>>;
+) => TE.TaskEither<APIError, EndpointOutput<L>>;
 
 export interface Query<G, L, CC> {
   get: GetFn<G>;
@@ -132,7 +132,7 @@ export interface Query<G, L, CC> {
                     InferEndpointInstanceParams<CC[K]>["body"]
                   >;
                 }),
-        ) => Promise<TypeOfEndpointInstance<CC[K]>["Output"]>;
+        ) => TE.TaskEither<APIError, TypeOfEndpointInstance<CC[K]>["Output"]>;
       }
     : never;
 }
@@ -168,9 +168,12 @@ const restFromResourceEndpoints = <
     CC
   >,
 ): Query<G, L, CC> => {
+  const log = GetLogger("endpoints-rest-client");
   return {
     get: (params, query) => {
       const url = e.Get.getPath(params);
+      log.debug.log("GET %s: %j", url, params);
+      const getParams = { ...(params ?? {}), ...(query ?? {}) };
       return pipe(
         dataProviderRequestLift(
           () =>
@@ -178,20 +181,21 @@ const restFromResourceEndpoints = <
               serializedType<InferEndpointParams<G>["output"]> & {
                 id: string;
               }
-            >(url, { ...(params ?? {}), ...(query ?? {}) }),
+            >(url, getParams),
           e.Get.Output.decode,
         ),
         TE.map((r) => r.data),
-        throwTE,
       );
     },
     getList: (
       params: GetListParams,
-    ): Promise<
+    ): TE.TaskEither<
+      APIError,
       InferEndpointParams<L>["output"] extends t.ExactType<infer T>
         ? t.TypeOf<T>
         : never
     > => {
+      log.debug.log("GET %s: %j", e.List.getPath(), params);
       return pipe(
         dataProviderRequestLift(
           () =>
@@ -200,16 +204,18 @@ const restFromResourceEndpoints = <
             }>(e.List.getPath(), params),
           e.List.Output.decode,
         ),
-        throwTE,
       );
     },
     Custom: pipe(
-      e.Custom as any,
+      e.Custom,
       R.map((ee: MinimalEndpointInstance) => {
         const fetch = (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
         ): TE.TaskEither<APIError, any> => {
           const url = ee.getPath((params as any).Params);
+
+          log.debug.log("%s %s: %j", ee.Method, url, params);
+
           return dataProviderRequestLift(
             () =>
               apiClient.request({
@@ -230,7 +236,10 @@ const restFromResourceEndpoints = <
         return (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
           q: any,
-        ): Promise<TypeOfEndpointInstance<typeof ee>["Output"]> => {
+        ): TE.TaskEither<
+          APIError,
+          TypeOfEndpointInstance<typeof ee>["Output"]
+        > => {
           const p: any = params;
           return pipe(
             fetch({
@@ -239,8 +248,8 @@ const restFromResourceEndpoints = <
                 ...(p?.Query ?? {}),
                 ...(q ?? {}),
               },
+              Body: p?.Body,
             } as any),
-            throwTE,
           );
         };
       }),
