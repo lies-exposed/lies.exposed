@@ -190,7 +190,7 @@ importers:
         version: 5.0.1
       langchain:
         specifier: ^0.2.20
-        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7)(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0)
+        version: 0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0)
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -349,8 +349,8 @@ importers:
         specifier: ^4
         version: 4.67.3(zod@3.23.8)
       query-string:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^9.1.1
+        version: 9.1.1
       react:
         specifier: ^18
         version: 18.3.1
@@ -654,8 +654,8 @@ importers:
         specifier: ^8.2.0
         version: 8.2.0
       query-string:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^9.1.1
+        version: 9.1.1
       ra-core:
         specifier: ^5.2.3
         version: 5.2.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.0(react@18.3.1))(react-router-dom@6.26.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.26.2(react@18.3.1))(react@18.3.1)
@@ -1573,8 +1573,8 @@ importers:
         specifier: ^15.8.1
         version: 15.8.1
       query-string:
-        specifier: ^7.1.3
-        version: 7.1.3
+        specifier: ^9.1.1
+        version: 9.1.1
       ra-core:
         specifier: ^5.2.3
         version: 5.2.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.0(react@18.3.1))(react-router-dom@6.26.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.26.2(react@18.3.1))(react@18.3.1)
@@ -6953,6 +6953,10 @@ packages:
     resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
 
+  decode-uri-component@0.4.1:
+    resolution: {integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==}
+    engines: {node: '>=14.16'}
+
   decompress-response@4.2.1:
     resolution: {integrity: sha512-jOSne2qbyE+/r8G1VU+G/82LBs2Fs4LAsTiLSHOCOMZQl2OKZ6i8i4IyHemTe+/yIXOtTcRQMzPcgyhoFlqPkw==}
     engines: {node: '>=8'}
@@ -7599,6 +7603,10 @@ packages:
   filter-obj@1.1.0:
     resolution: {integrity: sha512-8rXg1ZnX7xzy2NGDVkBVaAy+lSlPNwad13BtgSlLuxfIslyt5Vg64U7tFcCt4WS1R0hvtnQybT/IyCkGZ3DpXQ==}
     engines: {node: '>=0.10.0'}
+
+  filter-obj@5.1.0:
+    resolution: {integrity: sha512-qWeTREPoT7I0bifpPUXtxkZJ1XJzxWtfoWWkdVGqa+eCr3SHW/Ocp89o8vLvbUuQnadybJpjOKu4V+RwO6sGng==}
+    engines: {node: '>=14.16'}
 
   final-form-arrays@3.1.0:
     resolution: {integrity: sha512-TWBvun+AopgBLw9zfTFHBllnKMVNEwCEyDawphPuBGGqNsuhGzhT7yewHys64KFFwzIs6KEteGLpKOwvTQEscQ==}
@@ -10370,6 +10378,10 @@ packages:
     resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
     engines: {node: '>=6'}
 
+  query-string@9.1.1:
+    resolution: {integrity: sha512-MWkCOVIcJP9QSKU52Ngow6bsAWAPlPK2MludXvcrS2bGZSl+T1qX9MZvRIkqUIkGLJquMJHWfsT6eRqUpp4aWg==}
+    engines: {node: '>=18'}
+
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
 
@@ -11166,6 +11178,10 @@ packages:
   split-on-first@1.1.0:
     resolution: {integrity: sha512-43ZssAJaMusuKWL8sKUBQXHWOpq8d6CfN/u1p4gUzfJkM05C8rxTmYrkIPTXapZpORA6LkkzcUulJ8FqA7Uudw==}
     engines: {node: '>=6'}
+
+  split-on-first@3.0.0:
+    resolution: {integrity: sha512-qxQJTx2ryR0Dw0ITYyekNQWpz6f8dGd7vffGNflQQ3Iqj9NJ6qiZ7ELpZsJ/QBhIVAiDfXdag3+Gp8RvWa62AA==}
+    engines: {node: '>=12'}
 
   split2@4.2.0:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
@@ -14877,14 +14893,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14897,7 +14913,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14906,7 +14922,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -17073,7 +17089,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
 
   '@types/node-telegram-bot-api@0.64.7':
     dependencies:
@@ -18386,7 +18402,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -18402,7 +18418,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -18994,6 +19010,8 @@ snapshots:
       character-entities: 2.0.2
 
   decode-uri-component@0.2.2: {}
+
+  decode-uri-component@0.4.1: {}
 
   decompress-response@4.2.1:
     dependencies:
@@ -19808,6 +19826,8 @@ snapshots:
       to-regex-range: 5.0.1
 
   filter-obj@1.1.0: {}
+
+  filter-obj@5.1.0: {}
 
   final-form-arrays@3.1.0(final-form@4.20.10):
     dependencies:
@@ -20818,7 +20838,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20839,13 +20859,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20862,7 +20882,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 22.7.5
+      '@types/node': 20.16.11
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -21162,7 +21182,7 @@ snapshots:
       - encoding
       - openai
 
-  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7)(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20)(ws@8.18.0):
+  langchain@0.2.20(@aws-sdk/client-s3@3.670.0)(@aws-sdk/credential-provider-node@3.670.0(@aws-sdk/client-sso-oidc@3.670.0(@aws-sdk/client-sts@3.670.0))(@aws-sdk/client-sts@3.670.0))(@langchain/anthropic@0.3.3(@langchain/core@0.2.35(openai@4.67.3(zod@3.23.8))))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(d3-dsv@3.0.1)(fast-xml-parser@4.5.0)(handlebars@4.7.8)(ignore@6.0.2)(openai@4.67.3(zod@3.23.8))(pdf-parse@1.1.1)(typeorm@0.3.20(pg@8.13.0))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.2.35(openai@4.67.3(zod@3.23.8))
       '@langchain/openai': 0.2.11
@@ -23014,6 +23034,12 @@ snapshots:
       split-on-first: 1.1.0
       strict-uri-encode: 2.0.0
 
+  query-string@9.1.1:
+    dependencies:
+      decode-uri-component: 0.4.1
+      filter-obj: 5.1.0
+      split-on-first: 3.0.0
+
   querystringify@2.2.0: {}
 
   queue-microtask@1.2.3: {}
@@ -24137,6 +24163,8 @@ snapshots:
   space-separated-tokens@2.0.2: {}
 
   split-on-first@1.1.0: {}
+
+  split-on-first@3.0.0: {}
 
   split2@4.2.0: {}
 
