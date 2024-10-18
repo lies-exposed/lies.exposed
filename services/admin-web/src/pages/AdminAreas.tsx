@@ -104,7 +104,7 @@ export const AreaList: React.FC<ListProps> = () => (
   </List>
 );
 
-const EditTitle: React.FC<EditProps> = () => {
+const EditTitle: React.FC = () => {
   const record = useRecordContext();
   return <span>Area {record?.title}</span>;
 };

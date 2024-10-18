@@ -270,10 +270,9 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
   );
 };
 
-export const EventSuggestionCreate: React.FC<CreateProps & { event: any }> = ({
-  event,
-  ...props
-}) => {
+export const EventSuggestionCreate: React.FC<
+  Omit<CreateProps, "children"> & { event: any }
+> = ({ event, ...props }) => {
   const record = useRecordContext({
     record: {
       status: "Pending",
