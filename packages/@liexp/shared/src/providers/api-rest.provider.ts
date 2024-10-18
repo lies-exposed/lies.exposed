@@ -103,7 +103,10 @@ export const APIRESTClient = ({
 
   if (getAuth !== undefined) {
     client.interceptors.request.use((req) => {
-      req.headers.set("Authorization", `Bearer ${getAuth()}`);
+      const authToken = getAuth();
+      if (authToken) {
+        req.headers.set("Authorization", `Bearer ${getAuth()}`);
+      }
       return req;
     });
   }

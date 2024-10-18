@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import GroupList from "../components/lists/GroupList.js";

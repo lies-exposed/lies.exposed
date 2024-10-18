@@ -15,7 +15,7 @@ import {
   type GetFnParams,
   type GetEndpointQueryType,
   type GetListFnParamsE,
-} from "../EndpointsRESTClient/EndpointsRESTClient.js";
+} from "../EndpointsRESTClient/types.js";
 import { fetchQuery, getDefaultKey } from "./QueryProvider.js";
 import { type GetKeyFn, type ResourceQueries } from "./types.js";
 
