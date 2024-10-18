@@ -5,6 +5,7 @@ import type * as puppeteer from "puppeteer-core";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { upload } from "#flows/space/upload.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 function getText(linkText: string): string {
@@ -75,23 +76,23 @@ export const takeLinkScreenshot =
     );
   };
 
-export const uploadScreenshot =
-  (link: LinkEntity, buffer: Buffer): TEReader<Partial<MediaEntity>> =>
-  (ctx) => {
-    const mediaKey = getMediaThumbKey(link.image?.id ?? link.id, PngType.value);
-    return pipe(
-      ctx.s3.upload({
-        Bucket: ctx.env.SPACE_BUCKET,
-        Key: mediaKey,
-        Body: buffer,
-        ContentType: PngType.value,
-        ACL: "public-read",
-      }),
-      fp.TE.map((upload) => ({
-        ...link.image,
-        type: PngType.value,
-        location: upload.Location,
-        thumbnail: upload.Location,
-      })),
-    );
-  };
+export const uploadScreenshot = (
+  link: LinkEntity,
+  buffer: Buffer,
+): TEReader<Partial<MediaEntity>> => {
+  const mediaKey = getMediaThumbKey(link.image?.id ?? link.id, PngType.value);
+  return pipe(
+    upload({
+      Key: mediaKey,
+      Body: buffer,
+      ContentType: PngType.value,
+      ACL: "public-read",
+    }),
+    fp.RTE.map((upload) => ({
+      ...link.image,
+      type: PngType.value,
+      location: upload.Location,
+      thumbnail: upload.Location,
+    })),
+  );
+};

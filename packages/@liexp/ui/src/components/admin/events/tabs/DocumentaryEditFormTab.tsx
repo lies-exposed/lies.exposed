@@ -3,7 +3,7 @@ import {
   MP4Type,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
-import { type EditProps, TextInput } from "react-admin";
+import { TextInput } from "react-admin";
 import { Box } from "../../../mui/index.js";
 import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput.js";
 import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput.js";
@@ -11,9 +11,7 @@ import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput.js";
 import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
-export const DocumentaryEditFormTab: React.FC<EditProps & { record?: any }> = (
-  props,
-) => (
+export const DocumentaryEditFormTab: React.FC = () => (
   <Box>
     <TextInput fullWidth source="payload.title" />
     <ReferenceAreaInput source="payload.location" />

@@ -2,7 +2,7 @@ import { fc } from "@liexp/test";
 import { parseISO } from "date-fns";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { type MockProxy } from "vitest-mock-extended";
-import { TestEndpoints, overrides } from "../../../test/TestEndpoints";
+import { TestEndpoints, overrides } from "../../../test/TestEndpoints.js";
 import { ActorArb } from "../../tests/index.js";
 import { fromEndpoints } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import { type APIRESTClient } from "../api-rest.provider.js";
@@ -29,6 +29,9 @@ describe("EndpointQueriesProvider", () => {
 
   it("should be defined", () => {
     expect(Q).toBeTruthy();
+    expect(Q.Actor.get.getKey).toBeInstanceOf(Function);
+    expect(Q.Actor.get.fetch).toBeInstanceOf(Function);
+    expect(Q.Actor.get.useQuery).toBeInstanceOf(Function);
   });
 
   it("should have Actor get", async () => {
@@ -44,13 +47,15 @@ describe("EndpointQueriesProvider", () => {
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }));
+
     apiProviderMock.get.mockResolvedValue({ data: actorData });
 
-    expect(Q.Actor.get).toBeTruthy();
     const params = { id: "1" };
     const actorKey = Q.Actor.get.getKey(params);
-    expect(actorKey).toEqual(["Actor", params, undefined, false]);
+
     const actor = await Q.Actor.get.fetch(params, undefined);
+
+    expect(actorKey).toEqual(["Actor", params, undefined, false]);
 
     expect(apiProviderMock.get).toHaveBeenCalledWith("/actors/1", {
       id: "1",
@@ -148,7 +153,7 @@ describe("EndpointQueriesProvider", () => {
 
     expect(apiProviderMock.request).toHaveBeenCalledWith({
       data: undefined,
-      params: {},
+      params: undefined,
       method: "GET",
       url: "/actors/1/siblings",
       responseType: "json",

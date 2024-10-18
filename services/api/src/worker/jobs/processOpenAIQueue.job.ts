@@ -2,34 +2,39 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CronJobTE } from "./cron-task.type.js";
 import { getLangchainProviderFlow } from "#flows/ai/getLangchainProvider.flow.js";
 import { JobProcessor } from "#flows/ai/jobProcessor.js";
+import { type RouteContext } from "#routes/route.types.js";
 
 export const defaultQuestion = `Can you summarize the text in 100 words maximum?`;
 
-export const processOpenAIQueue: CronJobTE = (opts) => (ctx) => {
-  ctx.logger.info.log("Start processing OpenAI queue...");
-
+export const processOpenAIQueue: CronJobTE = (opts) => {
   return pipe(
-    fp.TE.Do,
-    fp.TE.bind("langchain", () =>
+    fp.RTE.Do,
+    // fp.RTE.apS('logger', () => {
+    //   logger.info.log("Start processing OpenAI queue...");
+    // }),
+    fp.RTE.apS(
+      "langchain",
       pipe(
-        getLangchainProviderFlow(ctx),
-        fp.TE.map((v) => v.langchain),
+        getLangchainProviderFlow,
+        fp.RTE.map((v) => v.langchain),
       ),
     ),
-    fp.TE.bind("queue", () => ctx.queue.list()),
-    fp.TE.bind("processEmbeddingJobTask", () => fp.TE.right(JobProcessor(ctx))),
-    fp.TE.chain(({ queue, processEmbeddingJobTask }) => {
-      return pipe(
-        queue,
-        fp.A.traverse(fp.TE.ApplicativePar)(processEmbeddingJobTask),
-      );
+    fp.RTE.apS(
+      "queue",
+      pipe(
+        fp.RTE.ask<RouteContext>(),
+        fp.RTE.chainTaskEitherK((ctx) => ctx.queue.list()),
+      ),
+    ),
+    fp.RTE.chain(({ queue }) => {
+      return pipe(queue, fp.A.traverse(fp.RTE.ApplicativePar)(JobProcessor));
     }),
-    fp.TE.fold(
-      (e) => {
+    fp.RTE.fold(
+      (e) => (ctx) => {
         ctx.logger.error.log("Error processing embeddings queue task %O", e);
         return fp.T.of(undefined);
       },
-      () => {
+      () => (ctx) => {
         ctx.logger.info.log("End processing embeddings queue task...");
         return fp.T.of(undefined);
       },

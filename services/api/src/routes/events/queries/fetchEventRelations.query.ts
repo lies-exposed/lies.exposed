@@ -88,10 +88,11 @@ export const fetchLinksT =
   };
 
 export const fetchRelationIds =
-  ({ urlMetadata, logger }: RouteContext) =>
-  (
-    input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">,
-  ): TE.TaskEither<
+  (input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">) =>
+  ({
+    urlMetadata,
+    logger,
+  }: RouteContext): TE.TaskEither<
     DBError,
     {
       keywords: DeepPartial<KeywordEntity>[];
@@ -154,13 +155,13 @@ export const fetchRelations =
     return sequenceS(fp.TE.ApplicativePar)({
       actors: O.isSome(input.actors)
         ? pipe(
-            fetchActors(ctx)({
+            fetchActors({
               ids: input.actors,
               _end: pipe(
                 input.actors,
                 fp.O.map((a) => a.length as Int),
               ),
-            }),
+            })(ctx),
             fp.TE.map((r) => r.results),
           )
         : TE.right([]),

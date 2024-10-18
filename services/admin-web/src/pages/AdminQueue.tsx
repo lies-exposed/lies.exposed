@@ -18,6 +18,7 @@ import {
   type ListProps,
   type TransformData,
   type ButtonProps,
+  type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -148,7 +149,7 @@ const transformQueue: TransformData = (data) => ({
   value: JSON.stringify(data.value),
 });
 
-export const QueueEdit: React.FC<CreateProps> = (props) => {
+export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
   const location = useLocation();
   const [_, type, resource, id] = location.pathname
     .split("/")

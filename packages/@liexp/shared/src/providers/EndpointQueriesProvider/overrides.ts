@@ -1,10 +1,11 @@
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type MinimalEndpointInstance } from "ts-endpoint";
 import { type Endpoints } from "../../endpoints/index.js";
 import {
-  type GetDataOutputEI,
   type GetListFnParamsE,
+  type EndpointOutput,
   type GetFnParams,
-} from "../EndpointsRESTClient/EndpointsRESTClient.js";
+} from "../EndpointsRESTClient/types.js";
 import {
   type QueryProviderOverrides,
   type CustomQueryOverride,
@@ -16,7 +17,7 @@ const GetHierarchyNetwork: CustomQueryOverride<
   Endpoints,
   GetFnParams<typeof Endpoints.Networks.Get>,
   GetListFnParamsE<typeof Endpoints.Networks.Get>,
-  GetDataOutputEI<typeof Endpoints.Networks.Get>
+  EndpointOutput<typeof Endpoints.Networks.Get>
 > = (Q) => (p) => Q.Networks.get({ ...p, type: "hierarchy" });
 
 const NetworksOverride: ResourceEndpointsQueriesOverride<
@@ -36,23 +37,27 @@ const GetPageContentByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  GetDataOutputEI<typeof Endpoints.Page.Get>
+  EndpointOutput<typeof Endpoints.Page.Get>
 > = (Q) => (path) => {
-  return Q.Page.getList({
-    sort: { field: "createdAt", order: "DESC" },
-    filter: { path },
-    pagination: { perPage: 1, page: 1 },
-  }).then((r) => r.data[0]);
+  return pipe(
+    Q.Page.getList({
+      sort: { field: "createdAt", order: "DESC" },
+      filter: { path },
+      pagination: { perPage: 1, page: 1 },
+    }),
+    fp.TE.map((r) => r.data[0]),
+  );
 };
 
 const GetByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  GetDataOutputEI<typeof Endpoints.Story.Get>
+  EndpointOutput<typeof Endpoints.Story.Get>
 > = (Q) => (p) =>
-  Q.Story.getList({ ...defaultUseQueryListParams, filter: { path: p } }).then(
-    (r) => r.data[0],
+  pipe(
+    Q.Story.getList({ ...defaultUseQueryListParams, filter: { path: p } }),
+    fp.TE.map((r) => r.data[0]),
   );
 
 const PageOverride: ResourceEndpointsQueriesOverride<

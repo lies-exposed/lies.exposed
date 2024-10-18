@@ -6,52 +6,59 @@ import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
 } from "#queries/socialPosts/leftJoinSocialPosts.query.js";
-import { addOrder, getORMOptions } from "#utils/orm.utils.js";
+import { DBService } from "#services/db.service.js";
+import { addOrder } from "#utils/orm.utils.js";
 
-export const fetchLinks =
-  (
-    query: GetListLinkQuery,
-    isAdmin: boolean,
-  ): TEReader<[LinkEntity[], number]> =>
-  (ctx) => {
-    const {
-      events,
-      keywords,
-      ids,
-      q: search,
-      emptyEvents,
-      onlyDeleted,
-      provider,
-      creator,
-      onlyUnshared: _onlyUnshared,
-      noPublishDate: _noPublishDate,
-      ...others
-    } = query;
+export const fetchLinks = (
+  query: GetListLinkQuery,
+  isAdmin: boolean,
+): TEReader<[LinkEntity[], number]> => {
+  const {
+    events,
+    keywords,
+    ids,
+    q: search,
+    emptyEvents,
+    onlyDeleted,
+    provider,
+    creator,
+    onlyUnshared: _onlyUnshared,
+    noPublishDate: _noPublishDate,
+    ...others
+  } = query;
 
-    const findOptions = getORMOptions({ ...others }, ctx.env.DEFAULT_PAGE_SIZE);
-    const onlyUnshared = pipe(
-      _onlyUnshared,
-      fp.O.filter((o) => !!o),
-    );
-    const noPublishDate = pipe(
-      _noPublishDate,
-      fp.O.filter((o) => !!o),
-    );
+  // const findOptions = getORMOptions({ ...others }, ctx.env.DEFAULT_PAGE_SIZE);
+  const onlyUnshared = pipe(
+    _onlyUnshared,
+    fp.O.filter((o) => !!o),
+  );
+  const noPublishDate = pipe(
+    _noPublishDate,
+    fp.O.filter((o) => !!o),
+  );
 
-    ctx.logger.debug.log(`find Options %O`, {
-      events,
-      ids,
-      search,
-      emptyEvents,
-      onlyDeleted,
-      onlyUnshared,
-      ...findOptions,
-    });
-
-    return pipe(
-      ctx.db.execQuery(() =>
+  return pipe(
+    fp.RTE.Do,
+    fp.RTE.apS(
+      "findOptions",
+      pipe(DBService.getORMOptions({ ...others }), fp.RTE.fromReader),
+    ),
+    // LoggerService.RTE.debug([
+    //   `find Options %O`,
+    //   {
+    //     events,
+    //     ids,
+    //     search,
+    //     emptyEvents,
+    //     onlyDeleted,
+    //     onlyUnshared,
+    //     ...findOptions,
+    //   },
+    // ]),
+    fp.RTE.chain(({ findOptions }) =>
+      DBService.execQuery((em) =>
         pipe(
-          ctx.db.manager
+          em
             .createQueryBuilder(LinkEntity, "link")
             .leftJoinAndSelect("link.creator", "creator")
             .leftJoinAndSelect("link.image", "image")
@@ -138,11 +145,11 @@ export const fetchLinks =
             return q;
           },
           async (q) => {
-            ctx.logger.debug.log(
-              "Get links query %s, %O",
-              q.getSql(),
-              q.getParameters(),
-            );
+            // ctx.logger.debug.log(
+            //   "Get links query %s, %O",
+            //   q.getSql(),
+            //   q.getParameters(),
+            // );
 
             q.skip(findOptions.skip).take(findOptions.take);
 
@@ -162,5 +169,6 @@ export const fetchLinks =
           },
         ),
       ),
-    );
-  };
+    ),
+  );
+};

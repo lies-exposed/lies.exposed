@@ -6,6 +6,7 @@ import { type Router } from "express";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
+import { upload } from "#flows/space/upload.flow.js";
 import { DecodeError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 // import multer from 'multer';
@@ -38,11 +39,11 @@ export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
           DecodeError(`Failed to decode upload file data (${key})`, e),
         ),
         TE.chain(({ key, file }) =>
-          ctx.s3.upload({
+          upload({
             Bucket: ctx.env.SPACE_BUCKET,
             Key: `public/${key}`,
             Body: file,
-          }),
+          })(ctx),
         ),
         TE.map((data) => ({
           body: {

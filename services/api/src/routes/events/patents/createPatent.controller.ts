@@ -60,7 +60,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
       return pipe(
         fetchOwnersTask,
         TE.chain(({ actors, groups, link }) =>
-          createEventQuery(ctx)({
+          createEventQuery({
             type: EventTypes.PATENT.value,
             ...body,
             payload: {
@@ -74,7 +74,7 @@ export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
             media,
             links,
             keywords,
-          }),
+          })(ctx),
         ),
         TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
         TE.chain(([event]) =>

@@ -9,6 +9,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { ServerError } from "#io/ControllerError.js";
 
 export const postToIG =
@@ -17,11 +18,6 @@ export const postToIG =
     onError: OnLoginErrorFn,
   ): TEReader<MediaRepositoryConfigureResponseRootObject> =>
   (ctx) => {
-    ctx.logger.debug.log(
-      "Posting %O on IG account %s",
-      body,
-      ctx.env.IG_USERNAME,
-    );
     const writeText = (body: CreateSocialPost): string => {
       const keywords = `${body.keywords.map((k) => `#${k.tag}`).join(" ")}`;
 
@@ -33,19 +29,20 @@ export const postToIG =
     return pipe(
       writeText(body),
       TE.right,
+      LoggerService.TE.debug(ctx, [
+        "Posting %O on IG account %s",
+        body,
+        ctx.env.IG_USERNAME,
+      ]),
       TE.chainFirst(() => ctx.ig.login(onError)),
       TE.chain((text) => {
-        ctx.logger.debug.log(
-          "Upload media %O with text length %d",
-          body.media,
-          text.length,
-        );
         const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
           ? [{ type: "photo", media: body.media, thumbnail: body.media }]
           : body.media;
         return pipe(
           media,
           TE.right,
+          LoggerService.TE.debug(ctx, ["Posting %O with text %s", media, text]),
           TE.filterOrElse(
             (media) => media.length >= 1,
             () => new Error("No media to post given"),

@@ -1,28 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type Project } from "@liexp/shared/lib/io/http/index.js";
-import {
-  dataProviderRequestLift,
-  fromEndpoints,
-} from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { dataProviderRequestLift } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type * as t from "io-ts";
-import type { GetOneParams } from "react-admin";
-
-export const useProjectQuery = (
-  dp: APIRESTClient,
-  params: GetOneParams,
-): UseQueryResult<Project.Project, any> => {
-  return useQuery({
-    queryKey: ["project", params.id],
-    queryFn: async () => {
-      return fromEndpoints(dp)(Endpoints).Endpoints.Project.get(params);
-    },
-  });
-};
 
 export const jsonData =
   (jsonClient: APIRESTClient) =>

@@ -17,11 +17,11 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
         ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),
         TE.chain((suggestion) => {
           return pipe(
-            fetchRelationIds(ctx)({
+            fetchRelationIds({
               links: O.fromNullable(suggestion.payload.event.links),
               media: O.fromNullable(suggestion.payload.event.media),
               keywords: O.fromNullable(suggestion.payload.event.keywords),
-            }),
+            })(ctx),
             TE.map((relations) => ({
               ...suggestion.payload.event,
               ...relations,

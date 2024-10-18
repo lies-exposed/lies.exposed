@@ -7,8 +7,8 @@ import { UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 export const getOneAdminOrFail: TEReader<UserEntity> = (ctx) =>
-  ctx.db.execQuery(() =>
-    ctx.db.manager
+  ctx.db.execQuery((em) =>
+    em
       .createQueryBuilder(UserEntity, "u")
       .where(`u.permissions::jsonb ? :perm`, {
         perm: AdminDelete.value,

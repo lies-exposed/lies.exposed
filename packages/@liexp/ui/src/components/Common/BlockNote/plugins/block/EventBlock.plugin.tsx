@@ -35,7 +35,7 @@ const insertEventBlock =
         },
       });
     },
-    aliases: [type, type].map((v) => v.toLowerCase()),
+    aliases: [type, "event"].map((v) => v.toLowerCase()),
     group: "Events",
     icon: <EventIcon type={type} fontSize="small" />,
   });

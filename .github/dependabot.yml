@@ -17,10 +17,10 @@ updates:
       interval: "daily"
     open-pull-requests-limit: 10
     target-branch: "daily"
-    versioning-strategy: increase-if-necessary
+    versioning-strategy: increase
     allow:
       # Allow both direct and indirect updates for all packages
-      - dependency-type: "all"
+      - dependency-type: "direct"
     ignore:
       - dependency-name: "@types/express"
         versions: ["5.x"]
@@ -33,7 +33,7 @@ updates:
       - dependency-name: "fast-check"
         versions: ["3.x"]
       - dependency-name: "query-string"
-        versions: ["8.x"]
+        versions: ["8.x", "9.x"]
     groups:
       aws-sdk:
         patterns:

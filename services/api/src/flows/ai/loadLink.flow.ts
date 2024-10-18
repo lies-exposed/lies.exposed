@@ -3,15 +3,16 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const loadLink = (url: string): TEReader<Document[]> => {
   return pipe(
     fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainTaskEitherK((ctx) =>
+    LoggerService.RTE.debug(["Loading link from URL %s", url]),
+    fp.RTE.chainTaskEitherK(() =>
       fp.TE.tryCatch(async () => {
-        ctx.logger.debug.log("Querying link from URL %s", url);
         const loader = new CheerioWebBaseLoader(url, {
           selector: "h1,h2,h3,h4,h5,h6,p,article",
         });

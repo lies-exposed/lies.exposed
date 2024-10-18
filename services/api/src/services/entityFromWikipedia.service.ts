@@ -4,6 +4,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { findUserOrReplyFlow } from "../flows/tg/findUserOrReply.flow.js";
+import { type TEReader } from "#flows/flow.types.js";
 import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
@@ -28,13 +29,13 @@ interface EntityFromWikipediaServiceCtx<A> {
   getSuccessMessage: (a: A, baseUrl: string) => string;
 }
 
-type EntityFromWikipediaService = (
-  ctx: RouteContext,
-) => <A>(f: EntityFromWikipediaServiceCtx<A>) => TEControllerError<void>;
+type EntityFromWikipediaService = <A>(
+  f: EntityFromWikipediaServiceCtx<A>,
+) => TEReader<void>;
 
 export const EntityFromWikipediaService: EntityFromWikipediaService =
-  (ctx: RouteContext) =>
-  <A>(api: EntityFromWikipediaServiceCtx<A>) => {
+  <A>(api: EntityFromWikipediaServiceCtx<A>) =>
+  (ctx: RouteContext) => {
     ctx.logger.debug.log(`Search %O`, api.search);
 
     const identifier = api.getIdentifier(api.search);

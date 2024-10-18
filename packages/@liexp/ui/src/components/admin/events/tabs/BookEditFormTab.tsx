@@ -3,15 +3,13 @@ import {
   PDFType,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
-import { TextInput, type EditProps } from "react-admin";
+import { TextInput } from "react-admin";
 import { Box } from "../../../mui/index.js";
 import ReferenceArrayBySubjectInput from "../../common/inputs/BySubject/ReferenceArrayBySubjectInput.js";
 import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySubjectInput.js";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
-export const BookEditFormTab: React.FC<EditProps & { record?: any }> = (
-  props,
-) => {
+export const BookEditFormTab: React.FC = () => {
   return (
     <Box>
       <TextInput source="payload.title" fullWidth />

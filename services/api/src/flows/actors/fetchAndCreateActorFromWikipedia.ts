@@ -8,6 +8,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   fetchFromWikipedia,
   type WikiProviders,
@@ -69,7 +70,7 @@ export const fetchAndCreateActorFromWikipedia =
               username: Equal(actor.username),
             },
           }),
-          ctx.logger.debug.logInTaskEither(`Actor %O`),
+          LoggerService.TE.debug(ctx, [`Actor %O`]),
           TE.chain((a) => {
             if (fp.O.isSome(a)) {
               return TE.right([a.value]);

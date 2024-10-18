@@ -6,7 +6,6 @@ import {
   ReferenceArrayField,
   TextField,
   TextInput,
-  type EditProps,
   type RaRecord,
 } from "react-admin";
 import { Box, Grid } from "../../../mui/index.js";
@@ -21,14 +20,12 @@ import {
 } from "../../links/SuggestedEntityRelationsBox.js";
 import { type EventGeneralTabChildrenHandlers } from "../../tabs/EventGeneralTab.js";
 
-export const UncategorizedEventEditTab: React.FC<
-  EditProps & {
-    record?: RaRecord;
-    sourcePrefix?: string;
-    suggestions?: ExtractEntitiesWithNLPOutput | null;
-    handlers?: EventGeneralTabChildrenHandlers;
-  }
-> = ({ sourcePrefix, suggestions, record, handlers, ...props }) => {
+export const UncategorizedEventEditTab: React.FC<{
+  record?: RaRecord;
+  sourcePrefix?: string;
+  suggestions?: ExtractEntitiesWithNLPOutput | null;
+  handlers?: EventGeneralTabChildrenHandlers;
+}> = ({ sourcePrefix, suggestions, record, handlers, ...props }) => {
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 
