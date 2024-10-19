@@ -1,3 +1,4 @@
+import { fetchPDF } from "@liexp/backend/lib/flows/media/fetchPDF.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ImageType,
@@ -6,7 +7,6 @@ import {
 import * as Canvas from "canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
-import { fetchPDF } from "../fetchPDF.flow.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
 import { toControllerError } from "#io/ControllerError.js";

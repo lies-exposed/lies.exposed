@@ -1,4 +1,5 @@
 import path from "path";
+import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -12,8 +13,10 @@ import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { getOlderThanOr } from "#flows/fs/getOlderThanOr.flow.js";
-import { toControllerError } from "#io/ControllerError.js";
+import {
+  type ControllerError,
+  toControllerError,
+} from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const extractRelationsFromURL = (
@@ -39,7 +42,7 @@ export const extractRelationsFromURL = (
       path.resolve(ctx.config.dirs.temp.root, `urls/${id}.txt`),
     ),
     fp.RTE.chain((filePath) =>
-      getOlderThanOr(filePath)(
+      getOlderThanOr(filePath)<string, ControllerError, RouteContext>(
         pipe(
           TE.tryCatch(async () => {
             await p.goto(url, {
