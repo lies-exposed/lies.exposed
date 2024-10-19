@@ -8,12 +8,10 @@ import {
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
-import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
 import { toInitialValue } from "../Common/BlockNote/utils/utils.js";
 import { ResettableErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Stack, Switch } from "../mui/index.js";
-import { OpenAIPromptButton } from "./media/OpenAIIngestButton.js";
 
 export interface RaBlockNoteInputProps extends Omit<BNEditorProps, "content"> {
   className?: string;
@@ -60,19 +58,6 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
     >
       <Stack spacing={2}>
         <Stack direction="row" spacing={2}>
-          <OpenAIPromptButton
-            value={getTextContents(value)}
-            getUserMessage={(m) => m}
-            onRequest={() => setShowJSONEditor(true)}
-            onResponse={(response) => {
-              const reply = response.choices[0].message.content;
-              if (reply) {
-                const bnDoc = toInitialValue(reply);
-                onChange(bnDoc);
-                setShowJSONEditor(false);
-              }
-            }}
-          />
           <FormControlLabel
             style={{ marginBottom: 10, marginTop: 10 }}
             control={
