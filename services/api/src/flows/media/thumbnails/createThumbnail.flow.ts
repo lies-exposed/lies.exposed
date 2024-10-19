@@ -4,7 +4,6 @@ import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { extractThumbnail } from "./extractThumbnail.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { upload } from "#flows/space/upload.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const uploadThumbnails = (
   thumbnails: PutObjectCommandInput[],
@@ -26,9 +25,5 @@ const uploadThumbnails = (
  * Extract thumbnail from media and upload to S3
  */
 export const createThumbnail = (media: SimpleMedia): TEReader<string[]> => {
-  return pipe(
-    fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainTaskEitherK(extractThumbnail(media)),
-    fp.RTE.chain(uploadThumbnails),
-  );
+  return pipe(extractThumbnail(media), fp.RTE.chain(uploadThumbnails));
 };

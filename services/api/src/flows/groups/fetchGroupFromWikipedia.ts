@@ -5,13 +5,13 @@ import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchGroupFromWikipedia =
@@ -60,7 +60,7 @@ export const searchGroupAndCreateFromWikipedia = (
   wp: WikiProviders,
 ): TEReader<CreateGroupBody> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainTaskEitherK((ctx) => ctx.wp.search(search)),
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(

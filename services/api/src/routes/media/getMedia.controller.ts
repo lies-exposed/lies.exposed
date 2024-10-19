@@ -1,13 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { MediaIO } from "./media.io.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 
-export const MakeGetMediaRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeGetMediaRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Media.Get, ({ params: { id } }, req) => {
     ctx.logger.debug.log("User decoded %O", req.user);
 

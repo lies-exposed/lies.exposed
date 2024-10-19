@@ -5,8 +5,8 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
 import { fetchRelationIds } from "./fetchEventRelations.query.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type EventV2Entity } from "#entities/Event.v2.entity.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { optionalsToUndefined } from "#utils/foldOptionals.utils.js";
 
 interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
@@ -15,7 +15,7 @@ interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
 
 export const editEventQuery =
   (storedEvent: EventV2Entity, input: http.Events.EditEventBody) =>
-  (ctx: RouteContext): TE.TaskEither<DBError, EditEventEntity> => {
+  (ctx: ServerContext): TE.TaskEither<DBError, EditEventEntity> => {
     return pipe(
       fetchRelationIds(input)(ctx),
       TE.chain((commonData) => {

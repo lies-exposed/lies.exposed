@@ -5,14 +5,14 @@ import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { defaultQuestion } from "../../worker/jobs/processOpenAIQueue.job.js";
 import { getLangchainProviderFlow } from "./getLangchainProvider.flow.js";
 import { loadDocs } from "./loadDocs.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type EmbeddingJob } from "#flows/ai/EmbeddingJob.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import {
-  type LangchainProvider,
   type LangchainDocument,
+  type LangchainProvider,
 } from "#providers/ai/langchain.provider.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 type JobProcessors = (job: EmbeddingJob) => TEReader<EmbeddingJob>;
 
@@ -31,7 +31,7 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
       fp.RTE.Do,
       fp.RTE.bind("queue", () =>
         pipe(
-          fp.RTE.ask<RouteContext>(),
+          fp.RTE.ask<ServerContext>(),
           fp.RTE.chainIOK((ctx) => () => ctx.queue.queue(job.type)),
         ),
       ),
@@ -39,7 +39,7 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
         pipe(
           queue.getJob(job.resource, job.id),
           fp.TE.tap(() => queue.updateJob(job, "processing")),
-          fp.RTE.fromTaskEither<ControllerError, EmbeddingJob, RouteContext>,
+          fp.RTE.fromTaskEither<ControllerError, EmbeddingJob, ServerContext>,
         ),
       ),
       fp.RTE.bind("docs", ({ job }) => loadDocs(job)),
@@ -71,7 +71,7 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
               return pipe(queue.updateJob(...updateJobsParams));
             },
           ),
-          fp.RTE.fromTaskEither<ControllerError, EmbeddingJob, RouteContext>,
+          fp.RTE.fromTaskEither<ControllerError, EmbeddingJob, ServerContext>,
         );
       }),
     );

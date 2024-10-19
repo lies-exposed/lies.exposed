@@ -7,12 +7,12 @@ import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.util
 import { type Option } from "fp-ts/lib/Option.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { Equal, Like } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export interface GetOrphanMediaFlowOutput {
   orphans: _Object[];
@@ -24,7 +24,7 @@ type ObjectMediaPair = [_Object, Option<ItemObject>];
 
 export const getOrphanMediaFlow = (): TEReader<GetOrphanMediaFlowOutput> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.map((ctx) =>
       path.resolve(ctx.config.dirs.temp.stats, `media/orphan-media.json`),
     ),
@@ -34,7 +34,7 @@ export const getOrphanMediaFlow = (): TEReader<GetOrphanMediaFlowOutput> => {
         5 * 24,
       )(
         pipe(
-          fp.RTE.ask<RouteContext>(),
+          fp.RTE.ask<ServerContext>(),
           fp.RTE.chainTaskEitherK((ctx) =>
             walkPaginatedRequest<ListObjectsOutput, ControllerError, _Object>(
               ({ skip, amount, results }) =>

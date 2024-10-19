@@ -68,10 +68,10 @@ export const upsertNLPEntities: CommandFlow = async (ctx) => {
         GroupEntity
       >(
         ({ skip, amount }) =>
-          fetchGroups(ctx)({
+          fetchGroups({
             _start: O.some(skip as Int),
             _end: O.some(amount as Int),
-          }),
+          })(ctx),
         ([, t]) => t,
         ([rr]) => TE.right(rr),
         0,

@@ -10,16 +10,16 @@ import {
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { IsNull, Not } from "typeorm";
 import { type CommandFlow } from "./command.type.js";
+import { type ServerContext } from "#context/context.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
 
 const convertLocationToMediaEntity =
-  (ctx: RouteContext) =>
+  (ctx: ServerContext) =>
   (
     label: string,
     avatar: string | null,
@@ -73,7 +73,7 @@ const convertLocationToMediaEntity =
   };
 
 const convertManyMediaTask =
-  (ctx: RouteContext) =>
+  (ctx: ServerContext) =>
   <A extends (GroupEntity | ActorEntity)[]>(
     save: (a: A) => TEControllerError<A>,
   ) =>

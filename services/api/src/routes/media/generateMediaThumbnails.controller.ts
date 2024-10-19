@@ -2,16 +2,16 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 
 const generateThumbnailDeferred =
-  (ctx: RouteContext) =>
+  (ctx: ServerContext) =>
   (id: UUID, m: MediaEntity): TE.TaskEither<ControllerError, [UUID]> => {
     void pipe(
       createThumbnail({
@@ -42,10 +42,7 @@ const generateThumbnailDeferred =
     return TE.right([id]);
   };
 
-export const MakeGenerateMediaThumbnailsRoute = (
-  r: Router,
-  ctx: RouteContext,
-): void => {
+export const MakeGenerateMediaThumbnailsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Media.Custom.GenerateThumbnails,
     ({ params: { id } }) => {

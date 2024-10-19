@@ -1,3 +1,7 @@
+import {
+  type LoggerContext,
+  type URLMetadataContext,
+} from "@liexp/backend/lib/context/index.js";
 import { type URLMetadataClient } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -11,6 +15,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type DeepPartial } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
@@ -22,7 +27,6 @@ import { fetchActors } from "#queries/actors/fetchActors.query.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "#queries/keywords/fetchKeywords.query.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
@@ -89,10 +93,10 @@ export const fetchLinksT =
 
 export const fetchRelationIds =
   (input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">) =>
-  ({
+  <C extends URLMetadataContext & LoggerContext>({
     urlMetadata,
     logger,
-  }: RouteContext): TE.TaskEither<
+  }: C): TE.TaskEither<
     DBError,
     {
       keywords: DeepPartial<KeywordEntity>[];
@@ -140,13 +144,16 @@ export const fetchRelations =
       groupsMembers: O.Option<UUID[]>;
     },
     isAdmin: boolean,
-  ): TEReader<{
-    actors: ActorEntity[];
-    groups: GroupEntity[];
-    keywords: KeywordEntity[];
-    media: MediaEntity[];
-    // links: LinkEntity[];
-  }> =>
+  ): TEReader<
+    {
+      actors: ActorEntity[];
+      groups: GroupEntity[];
+      keywords: KeywordEntity[];
+      media: MediaEntity[];
+      // links: LinkEntity[];
+    },
+    ServerContext
+  > =>
   (ctx) => {
     ctx.logger.debug.log("Links %O", input.links);
     ctx.logger.debug.log("Media %O", input.media);
@@ -167,13 +174,13 @@ export const fetchRelations =
         : TE.right([]),
       groups: O.isSome(input.groups)
         ? pipe(
-            fetchGroups(ctx)({
+            fetchGroups({
               ids: input.groups,
               _end: pipe(
                 input.groups,
                 fp.O.map((a) => a.length as Int),
               ),
-            }),
+            })(ctx),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),

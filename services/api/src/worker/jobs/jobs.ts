@@ -8,7 +8,7 @@ import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
 import { processOpenAIQueue } from "./processOpenAIQueue.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 interface CronJobsHooks {
   onBootstrap: () => void;
@@ -16,16 +16,16 @@ interface CronJobsHooks {
 }
 
 const liftTask =
-  (ctx: RouteContext) =>
+  (ctx: ServerContext) =>
   <T>(
-    te: (opts: CronFnOpts) => (ctx: RouteContext) => Task<T>,
+    te: (opts: CronFnOpts) => (ctx: ServerContext) => Task<T>,
   ): ((opts: CronFnOpts) => void) => {
     return (opts) => {
       void pipe(te(opts)(ctx))();
     };
   };
 
-export const CronJobs = (ctx: RouteContext): CronJobsHooks => {
+export const CronJobs = (ctx: ServerContext): CronJobsHooks => {
   const cronLogger = ctx.logger.extend("cron");
 
   Cron.getTasks().forEach((task) => {

@@ -1,11 +1,15 @@
+import {
+  type DatabaseContext,
+  type LoggerContext,
+} from "@liexp/backend/lib/context/index.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
+import { type ENVContext } from "#context/context.type.js";
 import { GroupEntity } from "#entities/Group.entity.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
 // import * as O from 'fp-ts/lib/Option.js'
@@ -20,10 +24,12 @@ const defaultQuery: http.Group.GetGroupListQuery = {
   _sort: O.some("createdAt"),
 };
 export const fetchGroups =
-  ({ db, env, logger }: RouteContext) =>
-  (
-    query: Partial<http.Group.GetGroupListQuery>,
-  ): TE.TaskEither<DBError, [GroupEntity[], number]> => {
+  (query: Partial<http.Group.GetGroupListQuery>) =>
+  <C extends DatabaseContext & ENVContext & LoggerContext>({
+    db,
+    env,
+    logger,
+  }: C): TE.TaskEither<DBError, [GroupEntity[], number]> => {
     const {
       ids,
       members,

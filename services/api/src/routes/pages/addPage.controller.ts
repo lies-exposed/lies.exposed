@@ -1,13 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { toPageIO } from "./page.io.js";
 import { PageEntity } from "#entities/Page.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeAddPageRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeAddPageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Page.Create,
     ({ body }) => {

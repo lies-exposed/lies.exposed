@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -10,11 +9,11 @@ import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
-export const MakeCreateManyLinkRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeCreateManyLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Link.Custom.CreateMany,
     ({ body }, req) => {

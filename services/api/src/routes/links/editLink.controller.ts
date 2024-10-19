@@ -2,11 +2,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { type Router } from "express";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { LinkIO } from "./link.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type KeywordEntity } from "#entities/Keyword.entity.js";
@@ -18,7 +17,7 @@ import { type ControllerError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
-export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeEditLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Link.Edit,
     (
@@ -94,7 +93,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                     publishDate: linkUpdate.publishDate ?? null,
                     provider: linkUpdate.provider ?? l.provider ?? null,
                     image: l.image
-                      ? ({
+                      ? {
                           ...l.image,
                           events: [],
                           keywords: [],
@@ -104,7 +103,7 @@ export const MakeEditLinkRoute = (r: Router, ctx: RouteContext): void => {
                           label: l.image.label ?? null,
                           description: l.image.description ?? null,
                           thumbnail: l.image.thumbnail ?? null,
-                        } as any)
+                        }
                       : null,
                   });
                 }),

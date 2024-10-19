@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
-import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,9 +10,9 @@ import { LinkEntity } from "#entities/Link.entity.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { type ControllerError, ServerError } from "#io/ControllerError.js";
 import { LinkIO } from "#routes/links/link.io.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 
-export const MakeGetMetadataRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeGetMetadataRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {

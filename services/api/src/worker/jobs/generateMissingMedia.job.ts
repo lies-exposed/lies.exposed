@@ -4,6 +4,7 @@ import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtr
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import Cron from "node-cron";
+import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { getMediaWithoutThumbnailsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
@@ -11,10 +12,9 @@ import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const generateMissingThumbnailsCron = (
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): Cron.ScheduledTask =>
   Cron.schedule(
     ctx.env.GENERATE_MISSING_THUMBNAILS_CRON,

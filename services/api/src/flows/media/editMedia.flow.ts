@@ -5,13 +5,13 @@ import * as O from "fp-ts/lib/Option.js";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const editMedia = (
   id: UUID,
@@ -57,7 +57,7 @@ export const editMedia = (
     fp.RTE.Do,
     fp.RTE.bind("media", () =>
       pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
           ctx.db.findOneOrFail(MediaEntity, {
             where: { id: Equal(id) },

@@ -2,19 +2,18 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as bodyParser from "body-parser";
-import { type Router } from "express";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import { upload } from "#flows/space/upload.flow.js";
 import { DecodeError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 // import multer from 'multer';
 // const uploads = multer({ dest: '../../media'})
 
 const UploadFileData = t.strict({ key: t.string, file: t.any });
 
-export const MakeUploadFileRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(
     "/uploads/:key",
     // uploads.single('media'),

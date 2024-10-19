@@ -1,17 +1,16 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Router } from "express";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { toProjectIO } from "./project.io.js";
 import { ProjectEntity } from "#entities/Project.entity.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
-export const MakeEditProjectRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeEditProjectRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Project.Edit,
     ({ params: { id }, body }) => {

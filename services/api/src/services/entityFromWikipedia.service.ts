@@ -4,10 +4,10 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { findUserOrReplyFlow } from "../flows/tg/findUserOrReply.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
 
 const callbackQueryListeners: Record<
@@ -35,7 +35,7 @@ type EntityFromWikipediaService = <A>(
 
 export const EntityFromWikipediaService: EntityFromWikipediaService =
   <A>(api: EntityFromWikipediaServiceCtx<A>) =>
-  (ctx: RouteContext) => {
+  (ctx) => {
     ctx.logger.debug.log(`Search %O`, api.search);
 
     const identifier = api.getIdentifier(api.search);
@@ -211,5 +211,5 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
 
 export const getWikiProvider =
   (type: WikiProviders) =>
-  (ctx: RouteContext): WikipediaProvider =>
+  (ctx: ServerContext): WikipediaProvider =>
     type === "wikipedia" ? ctx.wp : ctx.rw;

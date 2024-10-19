@@ -9,14 +9,14 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
+import { type ServerContext } from "#context/context.type.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const extractThumbnailFromPDF: ExtractThumbnailFromMediaFlow<
   SimpleMedia<PDFType>
 > = (media) => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.flatMapTaskEither(fetchPDF(media.location)),
     fp.RTE.chainTaskEitherK((pdf) =>
       TE.tryCatch(() => pdf.getPage(1), toControllerError),

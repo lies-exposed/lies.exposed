@@ -15,12 +15,12 @@ export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
     GroupEntity
   >(
     (input) =>
-      fetchGroups(ctx)({
+      fetchGroups({
         _order: fp.O.some("DESC"),
         _sort: fp.O.some("createdAt"),
         _start: fp.O.some(input.skip as Int),
         _end: fp.O.some(input.amount as Int),
-      }),
+      })(ctx),
     (r) => r[1],
     (r) => fp.TE.right(r[0]),
     0,

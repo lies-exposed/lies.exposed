@@ -12,6 +12,7 @@ import { getTextContents } from "@liexp/ui/lib/components/Common/BlockNote/utils
 import { isValidValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/isValidValue.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
@@ -26,13 +27,12 @@ import {
   DecodeError,
   ServerError,
 } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const findOneResourceAndMapText = (
   body: ExtractEntitiesWithNLPFromResourceInput,
 ): TEReader<string> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainIOK((ctx) => () => {
       if (body.resource === "keywords") {
         return pipe(
@@ -107,7 +107,7 @@ export const extractEntitiesFromAny = (
   body: ExtractEntitiesWithNLPInput,
 ): TEReader<ExtractEntitiesWithNLPOutput> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     LoggerService.RTE.debug(() => [
       "Extracting entities from any body %O",
       body,
@@ -161,7 +161,7 @@ export const extractEntitiesFromAnyCached = (
   ).hash(body);
 
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.map((ctx) =>
       ctx.fs.resolve(
         path.resolve(ctx.config.dirs.temp.nlp, `${bodyHash}.json`),

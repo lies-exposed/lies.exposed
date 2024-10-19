@@ -5,16 +5,16 @@ import {
   type EventResult,
   createFromTGMessage,
 } from "./createFromTGMessage.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const parseTGMessageFlow = (
   filePath: string,
   deleteFile: boolean,
 ): TEReader<EventResult> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     LoggerService.RTE.debug(["Parsing file %s", filePath]),
     fp.RTE.chainIOEitherK(() =>
       fp.IOE.tryCatch(() => {
@@ -29,7 +29,7 @@ export const parseTGMessageFlow = (
     fp.RTE.chainFirst(() => {
       if (deleteFile) {
         return pipe(
-          fp.RTE.ask<RouteContext>(),
+          fp.RTE.ask<ServerContext>(),
           LoggerService.RTE.debug(["Deleting file %s", filePath]),
           fp.RTE.chainIOEitherK((r) =>
             fp.IOE.tryCatch(() => {
