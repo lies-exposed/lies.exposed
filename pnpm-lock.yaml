@@ -596,9 +596,6 @@ importers:
       axios:
         specifier: ^1.7.7
         version: 1.7.7(debug@4.3.7)
-      chroma-js:
-        specifier: ^2.6.0
-        version: 2.6.0
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -735,9 +732,6 @@ importers:
       '@tanstack/eslint-plugin-query':
         specifier: ^5.59.7
         version: 5.59.7(eslint@9.12.0(jiti@2.3.3))(typescript@5.6.3)
-      '@types/chroma-js':
-        specifier: ^2.4.4
-        version: 2.4.4
       '@types/d3':
         specifier: ^7.4.3
         version: 7.4.3
@@ -5027,9 +5021,6 @@ packages:
   '@types/chance@1.1.6':
     resolution: {integrity: sha512-V+pm3stv1Mvz8fSKJJod6CglNGVqEQ6OyuqitoDkWywEODM/eJd1eSuIp9xt6DrX8BWZ2eDSIzbw1tPCUTvGbQ==}
 
-  '@types/chroma-js@2.4.4':
-    resolution: {integrity: sha512-/DTccpHTaKomqussrn+ciEvfW4k6NAHzNzs/sts1TCqg333qNxOhy8TNIoQCmbGG3Tl8KdEhkGAssb1n3mTXiQ==}
-
   '@types/compression@1.7.5':
     resolution: {integrity: sha512-AAQvK5pxMpaT+nDvhHrsBhLSYG5yQdtkaJE1WYieSNY2mVFKAgmU4ks65rkZD5oqnGCFLyQpUr1CqI4DmUMyDg==}
 
@@ -6324,9 +6315,6 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
-
-  chroma-js@2.6.0:
-    resolution: {integrity: sha512-BLHvCB9s8Z1EV4ethr6xnkl/P2YRFOGqfgvuMG/MyCbZPrTA+NeiByY6XvgF0zP4/2deU2CXnWyMa3zu1LqQ3A==}
 
   chrome-launcher@0.15.2:
     resolution: {integrity: sha512-zdLEwNo3aUVzIhKhTtXfxhdvZhUghrnmkvcAq2NoDd+LeOHKf03H5jwZ8T/STsAlzyALkBVK552iaG1fGf1xVQ==}
@@ -16288,8 +16276,6 @@ snapshots:
 
   '@types/chance@1.1.6': {}
 
-  '@types/chroma-js@2.4.4': {}
-
   '@types/compression@1.7.5':
     dependencies:
       '@types/express': 4.17.21
@@ -17897,8 +17883,6 @@ snapshots:
       readdirp: 4.0.1
 
   chownr@2.0.0: {}
-
-  chroma-js@2.6.0: {}
 
   chrome-launcher@0.15.2:
     dependencies:
