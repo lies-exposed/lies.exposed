@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   MediaExtraMonoid,
@@ -10,7 +11,6 @@ import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";

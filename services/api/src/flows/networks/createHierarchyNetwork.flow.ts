@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   getNewRelationIds,
@@ -193,8 +194,8 @@ export const createStatsByEntityType =
           TE.chain((events) => {
             return pipe(
               getNewRelationIds(events, searchEventsQueryCache),
-              ctx.logger.debug.logInPipe(`new relation ids %O`),
               TE.right,
+              LoggerService.TE.debug(ctx, `new relation ids %O`),
               TE.chain(fetchRelations),
               TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
                 searchEventsQueryCache = updateCache(searchEventsQueryCache, {

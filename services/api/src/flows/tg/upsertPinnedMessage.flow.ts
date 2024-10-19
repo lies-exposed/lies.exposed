@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -5,7 +6,6 @@ import type TelegramBot from "node-telegram-bot-api";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 interface ToPinnedMessageOptions {

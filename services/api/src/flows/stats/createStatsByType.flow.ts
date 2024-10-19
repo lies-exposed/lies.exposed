@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import {
@@ -34,7 +35,6 @@ import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { ensureFolderExists } from "#flows/fs/ensureFolderExists.flow.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   toControllerError,
   type ControllerError,
@@ -225,8 +225,8 @@ export const createStatsByType =
           TE.chain((events) => {
             return pipe(
               getNewRelationIds(events, searchEventsQueryCache),
-              ctx.logger.debug.logInPipe(`new relation ids %O`),
               TE.right,
+              LoggerService.TE.debug(ctx, `new relation ids %O`),
               TE.chain(fetchRelations),
               TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
                 const init: StatsCache = {

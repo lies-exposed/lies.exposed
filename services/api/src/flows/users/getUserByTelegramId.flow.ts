@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   AdminCreate,
@@ -6,7 +7,6 @@ import {
 import { type Option } from "fp-ts/lib/Option.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { DBService } from "#services/db.service.js";
 

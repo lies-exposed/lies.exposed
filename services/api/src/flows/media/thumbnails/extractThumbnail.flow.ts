@@ -1,4 +1,5 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ImageType,
@@ -13,7 +14,6 @@ import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
 import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.js";
 import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export type ExtractThumbnailFlow<T extends MediaType> = (

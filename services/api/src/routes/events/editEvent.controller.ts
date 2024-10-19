@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
@@ -8,7 +9,6 @@ import { type RouteContext } from "../route.types.js";
 import { EventV2IO } from "./eventV2.io.js";
 import { editEventQuery } from "./queries/editEvent.query.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const EditEventRoute = (r: Router, ctx: RouteContext): void => {

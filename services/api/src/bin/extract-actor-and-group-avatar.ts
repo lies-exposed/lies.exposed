@@ -1,5 +1,6 @@
 // /* eslint-disable @typescript-eslint/no-var-requires */
 
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
@@ -12,7 +13,6 @@ import { type CommandFlow } from "./command.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { type RouteContext } from "#routes/route.types.js";
