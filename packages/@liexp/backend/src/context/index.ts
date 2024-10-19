@@ -15,27 +15,66 @@ import { type SpaceProvider } from "../providers/space/index.js";
 import { type TGBotProvider } from "../providers/tg/tg.provider.js";
 import { type WikipediaProvider } from "../providers/wikipedia/wikipedia.provider.js";
 
-export interface ServerContext {
-  db: DatabaseClient;
+export interface SpaceContext {
   s3: SpaceProvider.SpaceProvider;
+}
+
+export type LoggerContext = {
   logger: logger.Logger;
-  jwt: JWTProvider;
-  urlMetadata: URLMetadataClient;
-  puppeteer: PuppeteerProvider;
-  tg: TGBotProvider;
-  ffmpeg: FFMPEGProvider;
-  http: HTTPProvider;
-  geo: GeocodeProvider;
+};
+
+export interface DatabaseContext {
+  db: DatabaseClient;
+}
+
+export interface FSClientContext {
   fs: FSClient;
-  ig: IGProvider;
-  imgProc: ImgProcClient;
+}
+
+export interface PDFProviderContext {
   pdf: PDFProvider;
-  /** Wikipedia Provider */
-  wp: WikipediaProvider;
-  /** RationalWiki Provider */
-  rw: WikipediaProvider;
-  /**
-   * Natural Language Provider
-   */
+}
+
+export interface HTTPProviderContext {
+  http: HTTPProvider;
+}
+
+export interface JWTProviderContext {
+  jwt: JWTProvider;
+}
+
+export interface URLMetadataContext {
+  urlMetadata: URLMetadataClient;
+}
+
+export interface FFMPEGProviderContext {
+  ffmpeg: FFMPEGProvider;
+}
+
+export interface GeocodeProviderContext {
+  geo: GeocodeProvider;
+}
+
+export interface IGProviderContext {
+  ig: IGProvider;
+}
+
+export interface ImgProcClientContext {
+  imgProc: ImgProcClient;
+}
+
+export interface NERProviderContext {
   ner: NERProvider;
+}
+
+export interface PuppeteerProviderContext {
+  puppeteer: PuppeteerProvider;
+}
+
+export interface TGBotProviderContext {
+  tg: TGBotProvider;
+}
+
+export interface WikipediaProviderContext {
+  wp: WikipediaProvider;
 }
