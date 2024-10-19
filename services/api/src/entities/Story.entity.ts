@@ -49,7 +49,7 @@ export class StoryEntity {
   body: string;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body2: any[] | null;
 
   @ManyToOne(() => UserEntity, (u) => u.stories, {
     cascade: false,

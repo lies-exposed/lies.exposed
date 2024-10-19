@@ -32,6 +32,7 @@ export const OpenAIEmbeddingJobButton: React.FC<OpenAIPromptButtonProps> = ({
   const record = useRecordContext();
 
   const id = get(record, idSource);
+
   const value = pipe(get(record, valueSource), transformValue);
 
   if (!record || !id || !value) {
@@ -42,7 +43,7 @@ export const OpenAIEmbeddingJobButton: React.FC<OpenAIPromptButtonProps> = ({
     e.preventDefault();
     void api
       .post(`queues/${type}/${resource}`, {
-        data: value,
+        data: { result: undefined, ...value },
         id,
       })
       .finally(() => {

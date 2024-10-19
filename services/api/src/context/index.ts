@@ -16,6 +16,7 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import { editor } from "@liexp/ui/lib/components/Common/BlockNote/index.ssr.js";
 import * as axios from "axios";
 import ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
@@ -110,6 +111,7 @@ export const makeContext = (
       jwt: fp.TE.right(jwtClient),
       urlMetadata: fp.TE.right(urlMetadataClient),
       env: fp.TE.right(env),
+      blocknote: fp.TE.right(editor),
       tg: pipe(
         TGBotProvider(
           { logger: serverLogger },

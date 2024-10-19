@@ -4,7 +4,7 @@ import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
-import { fetchAndCreateActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
+import { fetchAndCreateActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.flow.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 

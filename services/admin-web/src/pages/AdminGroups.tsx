@@ -15,6 +15,7 @@ import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/Refer
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab.js";
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import { OpenAIEmbeddingJobButton } from "@liexp/ui/lib/components/admin/media/OpenAIJobButton.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview.js";
 import {
@@ -235,6 +236,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
+          <OpenAIEmbeddingJobButton resource="groups" valueSource="excerpt" />
           <BlockNoteInput source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">

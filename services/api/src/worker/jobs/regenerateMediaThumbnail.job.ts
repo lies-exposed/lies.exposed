@@ -11,9 +11,9 @@ import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
+import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
 import { type RouteContext } from "#routes/route.types.js";
 
@@ -104,7 +104,7 @@ export const regenerateMediaThumbnailJob: CronJobTE = (opts) => {
         fp.RTE.map((mm) => {
           return mm[0];
         }),
-        fp.RTE.chain(convertManyMediaTask((gg) => saveMedia(gg))),
+        fp.RTE.chain(convertManyMediaTask((gg) => MediaRepository.save(gg))),
       ),
     ),
     fp.RTE.map(({ media }) => {

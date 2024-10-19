@@ -23,7 +23,7 @@ import {
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ProcessQueueJobButton: React.FC<ButtonProps> = () => {
   const apiProvider = useDataProvider();
@@ -151,6 +151,7 @@ const transformQueue: TransformData = (data) => ({
 
 export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [_, type, resource, id] = location.pathname
     .split("/")
     .filter((v) => v !== "");
@@ -166,6 +167,12 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         <SlugInput source="id" />
         <SelectQueueStatusInput />
         <SelectQueueResourceInput />
+        <Button
+          label="Go to resource"
+          onClick={() => {
+            navigate(`/${resource}/${id}`);
+          }}
+        />
         <SelectQueueTypeInput />
         <JSONInput source="data" />
         <JSONInput source="error" />

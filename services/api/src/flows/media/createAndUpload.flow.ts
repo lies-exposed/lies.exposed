@@ -6,11 +6,11 @@ import {
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
-import { saveMedia } from "./saveMedia.flow.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { upload } from "#flows/space/upload.flow.js";
+import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const createAndUpload = (
   createMediaData: Media.CreateMedia,
@@ -60,7 +60,7 @@ export const createAndUpload = (
       ),
     ),
     fp.RTE.chain(({ mediaId, location, thumbnail }) =>
-      saveMedia([
+      MediaRepository.save([
         {
           ...createMediaData,
           events: [],

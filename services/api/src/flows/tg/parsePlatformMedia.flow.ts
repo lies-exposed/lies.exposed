@@ -9,7 +9,7 @@ import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { extractMediaFromPlatform } from "#flows/media/extractMediaFromPlatform.flow.js";
-import { saveMedia } from "#flows/media/saveMedia.flow.js";
+import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const parsePlatformMedia =
   (
@@ -53,7 +53,7 @@ export const parsePlatformMedia =
         return extractMediaExtra(media[0])(ctx);
       }),
       TE.chain(({ media, extra }) => {
-        return saveMedia([{ ...media, extra }])(ctx);
+        return MediaRepository.save([{ ...media, extra }])(ctx);
       }),
     );
   };

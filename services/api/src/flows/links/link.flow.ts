@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
@@ -10,10 +11,12 @@ import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { type TEReader } from "../flow.types.js";
-import { LinkEntity } from "#entities/Link.entity.js";
+import { type ServerContext } from "#context/context.type.js";
+import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { findOneByLocationOrElse } from "#flows/media/findOneByLocationOrElse.flow.js";
 import { ServerError, type ControllerError } from "#io/ControllerError.js";
+import { LinkRepository } from "#providers/db/entity-repository.provider.js";
 
 export const fetchAsLink =
   (
@@ -22,9 +25,10 @@ export const fetchAsLink =
     defaults: Partial<Metadata> | undefined,
   ): TEReader<LinkEntity> =>
   (ctx) => {
+    const urll = sanitizeURL(url);
     return pipe(
-      ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
-        ServerError([`Error fetching metadata from url ${url}`]),
+      ctx.urlMetadata.fetchMetadata(urll, {}, (e) =>
+        ServerError([`Error fetching metadata from url ${urll}`]),
       ),
       TE.orElse((e) =>
         TE.right<ControllerError, Partial<Metadata>>({
@@ -87,25 +91,27 @@ export const fetchAsLink =
 /**
  * Fetch open graph metadata from the given url and creates a LinkEntity.
  */
-export const fetchAndSave =
-  (u: UserEntity, url: URL): TEReader<LinkEntity> =>
-  (ctx) => {
-    ctx.logger.debug.log("Searching link with url %s", url);
-    const sanitizedURL = sanitizeURL(url);
-    return pipe(
-      ctx.db.findOne(LinkEntity, { where: { url: Equal(sanitizedURL) } }),
-      TE.chain((optLink) => {
-        if (O.isSome(optLink)) {
-          ctx.logger.debug.log("Link found! %s", optLink.value.id);
-          return TE.right(optLink.value);
-        }
-
-        ctx.logger.debug.log("Link not found, fetching...");
-        return pipe(
-          fetchAsLink(u, sanitizedURL, undefined)(ctx),
-          TE.chain((l) => ctx.db.save(LinkEntity, [l])),
-          TE.map((ll) => ll[0]),
-        );
+export const fetchAndSave = (u: UserEntity, url: URL): TEReader<LinkEntity> => {
+  return pipe(
+    fp.RTE.right(sanitizeURL(url)),
+    LoggerService.RTE.debug(["Searching link with url %s", url]),
+    fp.RTE.chain((sanitizedURL) =>
+      LinkRepository.findOne<ServerContext>({
+        where: { url: Equal(sanitizedURL) },
       }),
-    );
-  };
+    ),
+    fp.RTE.chain((optLink) => (ctx) => {
+      if (O.isSome(optLink)) {
+        ctx.logger.debug.log("Link found! %s", optLink.value.id);
+        return TE.right(optLink.value);
+      }
+
+      ctx.logger.debug.log("Link not found, fetching...");
+      return pipe(
+        fetchAsLink(u, url, undefined)(ctx),
+        TE.chain((l) => LinkRepository.save([l])(ctx)),
+        TE.map((ll) => ll[0]),
+      );
+    }),
+  );
+};

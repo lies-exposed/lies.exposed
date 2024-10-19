@@ -32,7 +32,7 @@ const ENV = t.intersection(
           SOCIAL_POSTING_CRON: t.string,
           TEMP_FOLDER_CLEAN_UP_CRON: t.string,
           GENERATE_MISSING_THUMBNAILS_CRON: t.string,
-          PROCESS_QUEUE_JOB_CRON: t.string,
+          PROCESS_DONE_JOB_CRON: t.string,
           REGENERATE_MEDIA_THUMBNAILS_CRON: t.string,
         },
         "API_ENV",
