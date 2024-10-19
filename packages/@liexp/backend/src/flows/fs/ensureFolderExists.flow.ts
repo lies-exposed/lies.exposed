@@ -1,10 +1,16 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type TEReader } from "#flows/flow.types.js";
-import { toControllerError } from "#io/ControllerError.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither";
+import {
+  type FSClientContext,
+  type LoggerContext,
+} from "../../context/index.js";
+import { toFSError, type FSError } from "../../providers/fs/fs.provider.js";
 
 export const ensureFolderExists =
-  (filePath: string): TEReader<void> =>
+  <C extends FSClientContext & LoggerContext>(
+    filePath: string,
+  ): ReaderTaskEither<C, FSError, void> =>
   (ctx) => {
     return pipe(
       fp.IOE.tryCatch(() => {
@@ -17,7 +23,7 @@ export const ensureFolderExists =
           );
           ctx.fs._fs.mkdirSync(filePathDir, { recursive: true });
         }
-      }, toControllerError),
+      }, toFSError),
       fp.TE.fromIOEither,
     );
   };

@@ -1,14 +1,19 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils.js";
 import { differenceInHours } from "date-fns";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type TEReader } from "../flow.types.js";
+import {
+  type FSClientContext,
+  type LoggerContext,
+} from "../../context/index.js";
+import { type FSError } from "providers/fs/fs.provider.js";
 
 export const olderThan =
-  (
+  <C extends FSClientContext & LoggerContext>(
     filePath: string,
     hours: number,
-  ): TEReader<"older" | "valid" | "not-found"> =>
+  ): ReaderTaskEither<C, FSError, "older" | "valid" | "not-found"> =>
   (ctx) => {
     return pipe(
       ctx.fs.objectExists(filePath),
