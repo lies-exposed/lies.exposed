@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
@@ -7,7 +8,6 @@ import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import multer, { memoryStorage } from "multer";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { upload } from "#flows/space/upload.flow.js";
 import { DecodeError, toControllerError } from "#io/ControllerError.js";
 import { type Route } from "#routes/route.types.js";

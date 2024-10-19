@@ -1,10 +1,10 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { getMediaKeyFromLocation } from "@liexp/shared/lib/utils/media.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 
 export const deleteFromSpace =
   (m: MediaEntity): TEReader<MediaEntity> =>

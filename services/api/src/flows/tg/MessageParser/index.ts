@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
@@ -123,8 +124,8 @@ export const MessageParser = (
           },
           { unique: [] as TelegramBot.PhotoSize[], ids: [] as string[] },
         ),
-        ctx.logger.debug.logInPipe("Photo to parse %O"),
         TE.right,
+        LoggerService.TE.debug(ctx, "Photo to parse %O"),
         TE.chain((pp) =>
           pipe(
             parsePhoto(message.caption ?? "", pp.unique)(ctx),

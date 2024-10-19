@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -12,7 +13,6 @@ import { Equal } from "typeorm";
 import { EventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import {
   ServerError,
   toControllerError,

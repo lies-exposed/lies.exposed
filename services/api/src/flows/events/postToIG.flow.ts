@@ -1,4 +1,5 @@
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   SocialPostPhoto,
@@ -9,7 +10,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
 import { type TEReader } from "#flows/flow.types.js";
-import { LoggerService } from "#flows/logger/logger.service.js";
 import { ServerError } from "#io/ControllerError.js";
 
 export const postToIG =
