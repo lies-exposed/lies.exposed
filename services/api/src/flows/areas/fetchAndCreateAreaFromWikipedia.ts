@@ -6,6 +6,7 @@ import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";
 import { saveArea } from "./saveArea.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
@@ -16,7 +17,6 @@ import {
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { AreaIO } from "#routes/areas/Area.io.js";
 import { MediaIO } from "#routes/media/media.io.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchAndCreateAreaFromWikipedia = (
@@ -70,7 +70,7 @@ export const fetchAndCreateAreaFromWikipedia = (
     fp.RTE.chain(({ area: areaData, media }) => {
       // ctx.logger.debug.log(`Media %O`, media);
       return pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
           ctx.db.findOne(AreaEntity, {
             where: { label: areaData.label },
@@ -130,7 +130,7 @@ export const fetchAndCreateAreaFromWikipedia = (
             fp.RTE.bind("area", ({ media }) => saveAreaTask(media)),
             fp.RTE.chain(({ area }) =>
               pipe(
-                fp.RTE.ask<RouteContext>(),
+                fp.RTE.ask<ServerContext>(),
                 fp.RTE.chainEitherK((ctx) =>
                   sequenceS(fp.E.Applicative)({
                     area: AreaIO.decodeSingle(area, ctx.env.SPACE_ENDPOINT),

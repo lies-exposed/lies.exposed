@@ -2,13 +2,13 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sequenceT } from "fp-ts/lib/Apply.js";
 import Cron from "node-cron";
+import { type ServerContext } from "#context/context.type.js";
 import {
   cleanUpFolder,
   cleanUpTempMedia,
 } from "#flows/media/cleanUpTempFolder.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
 
-export const cleanTempFolder = (ctx: RouteContext): Cron.ScheduledTask =>
+export const cleanTempFolder = (ctx: ServerContext): Cron.ScheduledTask =>
   Cron.schedule(
     ctx.env.TEMP_FOLDER_CLEAN_UP_CRON,
     (opts) => {

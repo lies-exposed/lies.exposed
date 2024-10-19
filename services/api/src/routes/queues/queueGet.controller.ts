@@ -1,12 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toQueueIO } from "./queue.io.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeQueueGetRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeQueueGetRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.Queues.Get,
     ({ params: { type, resource, id } }) => {

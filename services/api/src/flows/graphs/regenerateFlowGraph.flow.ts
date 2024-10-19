@@ -6,7 +6,6 @@ import {
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { type TEReader } from "../flow.types.js";
 import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const deleteFlowGraph =
   (type: FlowGraphType, id: UUID): TEReader<void> =>
@@ -20,8 +19,7 @@ export const regenerateFlowGraph = (
   isAdmin: boolean,
 ): TEReader<FlowGraphOutput> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
-    fp.RTE.chainTaskEitherK(deleteFlowGraph(type, id)),
+    deleteFlowGraph(type, id),
     fp.RTE.chain(() =>
       createFlowGraph(
         type,

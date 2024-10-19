@@ -4,6 +4,7 @@ import { fetchPDF } from "@liexp/backend/lib/flows/media/fetchPDF.flow.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { extractRelationsFromText } from "./extractRelationsFromText.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type ActorEntity } from "#entities/Actor.entity.js";
 import { type AreaEntity } from "#entities/Area.entity.js";
 import { type GroupEntity } from "#entities/Group.entity.js";
@@ -13,7 +14,6 @@ import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const extractRelationsFromPDFs = (
   url: string,
@@ -32,12 +32,12 @@ export const extractRelationsFromPDFs = (
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
 
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.map((ctx) =>
       path.resolve(ctx.config.dirs.temp.root, `media/${id}.txt`),
     ),
     fp.RTE.chain((filePath) =>
-      getOlderThanOr(filePath)<string, ControllerError, RouteContext>(
+      getOlderThanOr(filePath)<string, ControllerError, ServerContext>(
         pipe(
           fetchPDF(url),
           fp.RTE.chain((pdf) => (ctx) => ctx.pdf.getAllTextContents(pdf)),

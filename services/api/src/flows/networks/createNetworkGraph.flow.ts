@@ -35,12 +35,10 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import * as S from "fp-ts/lib/string.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const uniqueId = GetEncodeUtils<
   {
@@ -391,7 +389,7 @@ export const createNetworkGraph =
 
     ctx.logger.debug.log("Creating graph for %s => %s", type, ids);
 
-    const createNetworkGraphTask = pipe(
+    const createNetworkGraphTask: TEReader<NetworkGraphOutput> = pipe(
       fetchEventsWithRelations(
         type,
         ids,
@@ -427,8 +425,8 @@ export const createNetworkGraph =
           emptyRelations: O.none,
         },
         isAdmin,
-      )(ctx),
-      TE.map(({ events: _events, actors, groups, keywords, media }) => {
+      ),
+      fp.RTE.map(({ events: _events, actors, groups, keywords, media }) => {
         ctx.logger.debug.log(`Total events fetched %d`, _events.length);
         ctx.logger.debug.log(
           `Fetch actors (%d), groups (%d), keywords (%d)`,
@@ -470,8 +468,5 @@ export const createNetworkGraph =
       }),
     );
 
-    return pipe(
-      (ctx: RouteContext) => createNetworkGraphTask,
-      getOlderThanOr(filePath),
-    )(ctx);
+    return pipe(getOlderThanOr(filePath)(createNetworkGraphTask))(ctx);
   };

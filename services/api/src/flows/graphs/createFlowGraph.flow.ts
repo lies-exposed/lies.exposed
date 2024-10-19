@@ -30,8 +30,8 @@ import { EventV2IO } from "../../routes/events/eventV2.io.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";
-import { type TEReader, type Flow } from "../flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Flow, type TEReader } from "../flow.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 const ordByDate = pipe(
   fp.N.Ord,
@@ -212,7 +212,7 @@ export const createFlowGraph = (
   isAdmin: boolean,
 ): TEReader<FlowGraphOutput> => {
   const createFlowGraphTask = pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainTaskEitherK(
       fetchEventsByRelation(type, [id], {
         ...query,
@@ -223,14 +223,14 @@ export const createFlowGraph = (
     fp.RTE.chainEitherK(({ results }) => pipe(results, EventV2IO.decodeMany)),
     fp.RTE.chain((events) => fetchEventsRelations(events, isAdmin)),
     fp.RTE.chain((results) =>
-      fp.RTE.fromReader((ctx: RouteContext) =>
+      fp.RTE.fromReader((ctx: ServerContext) =>
         getFlowGraph(results)(ctx.logger),
       ),
     ),
   );
 
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.map(getFilePath(type, id)),
     fp.RTE.chain((fileName) =>
       getOlderThanOr(fileName, 6)(createFlowGraphTask),

@@ -1,15 +1,16 @@
-import "cheerio";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
+// cheerio
+import "cheerio";
 
-export const loadLink = (url: string): TEReader<Document[]> => {
+export const loadLink = (url: string): TEReader<Document[], ServerContext> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     LoggerService.RTE.debug(["Loading link from URL %s", url]),
     fp.RTE.chainTaskEitherK(() =>
       fp.TE.tryCatch(async () => {

@@ -11,9 +11,9 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type SimpleMedia } from "../simpleIMedia.type.js";
 import { type ExtractThumbnailFromMediaFlow } from "./ExtractThumbnailFlow.type.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export type SimpleMP4Media = SimpleMedia<MP4Type>;
 
@@ -77,7 +77,7 @@ export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
     fp.RTE.Do,
     fp.RTE.bind("tempVideoFilePath", () =>
       pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chain((ctx) =>
           downloadMP4Video(media, ctx.config.dirs.temp.media),
         ),
@@ -87,7 +87,7 @@ export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
       const filename = `${media.id}-thumb-%i.png`;
 
       return pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.map((ctx) => ({
           timemarks: ["10%", "20%"],
           folder: ctx.config.dirs.temp.media,

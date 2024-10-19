@@ -6,9 +6,9 @@ import {
 import type Ffmpeg from "fluent-ffmpeg";
 import { downloadMP4Video } from "../downloadMP4Video.js";
 import { type SimpleMP4Media } from "../thumbnails/extractMP4Thumbnail.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const extractVideoFFProbeData =
   (location: string): TEReader<Ffmpeg.FfprobeData> =>
@@ -22,7 +22,7 @@ export const extractMP4Extra = (
     fp.RTE.Do,
     fp.RTE.bind("tempVideoFilePath", () =>
       pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chain((ctx) =>
           downloadMP4Video(media, ctx.config.dirs.temp.media),
         ),

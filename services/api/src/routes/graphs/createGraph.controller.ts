@@ -1,13 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { GraphIO } from "./graph.io.js";
 import { GraphEntity } from "#entities/Graph.entity.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 
-export const MakeCreateGraphRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeCreateGraphRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Graph.Create,
     ({ body: { type, options, ...body } }) => {

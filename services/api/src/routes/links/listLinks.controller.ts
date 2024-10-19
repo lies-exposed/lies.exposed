@@ -1,15 +1,14 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
-import { type Router } from "express";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { LinkIO } from "./link.io.js";
 import { fetchLinks } from "#queries/links/fetchLinks.query.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
-export const MakeListLinksRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeListLinksRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Link.List, ({ query }, req) => {
     return pipe(
       RequestDecoder.decodeNullableUser(req, [])(ctx),

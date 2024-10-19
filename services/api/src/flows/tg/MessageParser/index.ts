@@ -17,11 +17,11 @@ import { parsePhoto } from "../parsePhoto.flow.js";
 import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
 import { parseURLs } from "../parseURL.flow.js";
 import { parseVideo } from "../parseVideo.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 interface MessageParserAPI {
   parseDocument: TEReader<MediaEntity[]>;
@@ -159,7 +159,7 @@ export const MessageParser = (
     parseURLs: (page, creator) => parseURLs(urls, creator, page),
     parsePlatformMedia: (p, creator) =>
       pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
           pipe(
             platformMediaURLs,

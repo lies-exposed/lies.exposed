@@ -1,14 +1,14 @@
 import path from "path";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const getTempMediaCountFlow = (): TEReader<
   { filePath: string; fileRelativePath: string; fileSize: number }[]
 > => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainIOK(
       (ctx) => () =>
         path.resolve(ctx.config.dirs.temp.media, "temp-files.json"),
@@ -23,7 +23,7 @@ const readMediaTempFilesFlow = (): TEReader<
   { filePath: string; fileRelativePath: string; fileSize: number }[]
 > => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainIOK((ctx) => () => {
       const media = ctx.fs._fs
         .readdirSync(ctx.config.dirs.temp.media)

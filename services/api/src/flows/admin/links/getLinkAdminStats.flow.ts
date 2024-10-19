@@ -2,9 +2,9 @@ import path from "path";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
+import { type ServerContext } from "#context/context.type.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 const getLinksWithoutThumbnail = (): TEReader<number> => (ctx) => {
   return pipe(
@@ -44,8 +44,7 @@ export const getLinkAdminStatsFlow = (): TEReader<{
   noThumbnails: number;
 }> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
-    fp.RTE.map((ctx) =>
+    fp.RTE.asks((ctx: ServerContext) =>
       path.resolve(ctx.config.dirs.temp.stats, `links/stats.json`),
     ),
     fp.RTE.chain((adminLinkStatsCachePath) =>

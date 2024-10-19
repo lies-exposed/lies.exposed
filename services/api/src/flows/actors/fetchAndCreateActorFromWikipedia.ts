@@ -7,6 +7,7 @@ import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { type ServerContext } from "#context/context.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import {
@@ -14,7 +15,6 @@ import {
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
 import { NotFoundError, toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchActorFromWikipedia =
@@ -108,7 +108,7 @@ export const searchActorAndCreateFromWikipedia = (
   wp: WikiProviders,
 ): TEReader<ActorEntity> => {
   return pipe(
-    fp.RTE.ask<RouteContext>(),
+    fp.RTE.ask<ServerContext>(),
     fp.RTE.chainTaskEitherK((ctx) => ctx.wp.search(search)),
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(

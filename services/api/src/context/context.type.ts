@@ -19,6 +19,7 @@ import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provide
 import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
+import { type LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";
 
 export interface ENVContext {
@@ -40,6 +41,9 @@ interface ConfigContext {
 interface QueuesProviderContext {
   queue: QueuesProvider;
 }
+interface LangchainContext {
+  langchain: LangchainProviderReader;
+}
 
 export type ServerContext = ENVContext &
   JWTProviderContext &
@@ -59,7 +63,8 @@ export type ServerContext = ENVContext &
   GeocodeProviderContext &
   ImgProcClientContext &
   ConfigContext &
-  QueuesProviderContext & {
+  QueuesProviderContext &
+  LangchainContext & {
     /** RationalWiki Provider */
     rw: WikipediaProvider;
   };

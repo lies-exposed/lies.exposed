@@ -1,15 +1,14 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
+import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { toPageIO } from "./page.io.js";
 import { PageEntity } from "#entities/Page.entity.js";
 import { NotFoundError } from "#io/ControllerError.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeletePageRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeDeletePageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Page.Delete,
     ({ params: { id } }) => {

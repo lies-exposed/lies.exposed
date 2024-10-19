@@ -6,15 +6,14 @@ import {
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
 import { createNetworkGraph } from "#flows/networks/createNetworkGraph.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
-export const MakeGetNetworkRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeGetNetworkRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Networks.Get, ({ params: { type }, query }, req) => {
     const getCreateNetworkT = (
       type: NetworkType,

@@ -1,12 +1,16 @@
+import {
+  type DatabaseContext,
+  type LoggerContext,
+  type TGBotProviderContext,
+} from "@liexp/backend/lib/context/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { getUserByTelegramId } from "#flows/users/getUserByTelegramId.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
 
 export const findUserOrReplyFlow =
-  (ctx: RouteContext) =>
+  <C extends TGBotProviderContext & LoggerContext & DatabaseContext>(ctx: C) =>
   (te: (u: UserEntity) => TEControllerError<void>) =>
   (chatId: number, userId?: number): TEControllerError<void> => {
     const checkUserIdExists = pipe(

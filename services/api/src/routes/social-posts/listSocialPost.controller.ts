@@ -1,13 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type RouteContext } from "../route.types.js";
+import { type Route } from "../route.types.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { addOrder, getORMOptions } from "#utils/orm.utils.js";
 
-export const MakeListSocialPostRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeListSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.SocialPosts.List,
     ({ query: { status, entity, distinct, type, ...query } }) => {

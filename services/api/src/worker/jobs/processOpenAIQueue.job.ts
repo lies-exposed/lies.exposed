@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CronJobTE } from "./cron-task.type.js";
+import { type ServerContext } from "#context/context.type.js";
 import { getLangchainProviderFlow } from "#flows/ai/getLangchainProvider.flow.js";
 import { JobProcessor } from "#flows/ai/jobProcessor.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const defaultQuestion = `Can you summarize the text in 100 words maximum?`;
 
@@ -22,7 +22,7 @@ export const processOpenAIQueue: CronJobTE = (opts) => {
     fp.RTE.apS(
       "queue",
       pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chainTaskEitherK((ctx) => ctx.queue.list()),
       ),
     ),

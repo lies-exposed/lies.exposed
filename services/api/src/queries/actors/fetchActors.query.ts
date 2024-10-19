@@ -4,6 +4,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as S from "fp-ts/lib/string.js";
 import { type Int } from "io-ts";
+import { type ServerContext } from "#context/context.type.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { DBService } from "#services/db.service.js";
@@ -26,7 +27,7 @@ export const fetchActors = (
   const { ids, q: search, ...otherQuery } = finalQuery;
 
   return pipe(
-    DBService.getORMOptions({ ...otherQuery }),
+    DBService.getORMOptions<ServerContext>({ ...otherQuery }),
     fp.RTE.fromReader,
     fp.RTE.chain((findOptions) =>
       DBService.execQuery((em) =>

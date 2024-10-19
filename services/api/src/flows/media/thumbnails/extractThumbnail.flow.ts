@@ -13,8 +13,8 @@ import { extractThumbnailFromImage } from "./extractThumbnailFromImage.flow.js";
 import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
 import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.js";
 import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export type ExtractThumbnailFlow<T extends MediaType> = (
   media: SimpleMedia<T>,
@@ -29,7 +29,7 @@ export const extractThumbnail: ExtractThumbnailFlow<MediaType> = (media) => {
       m.type,
     ]),
     fp.RTE.bind("bucket", () =>
-      fp.RTE.asks((ctx: RouteContext) => ctx.env.SPACE_BUCKET),
+      fp.RTE.asks((ctx: ServerContext) => ctx.env.SPACE_BUCKET),
     ),
     fp.RTE.bind("thumbnails", (): TEReader<ArrayBuffer[]> => {
       const { type, ...m } = media;

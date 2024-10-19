@@ -6,11 +6,11 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { findByURL } from "../../../queries/events/scientificStudy.query.js";
 import { extractEventFromURL } from "../extractFromURL.flow.js";
+import { type ServerContext } from "#context/context.type.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { ServerError, toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const createEventFromURL = (
   user: UserEntity,
@@ -24,7 +24,7 @@ export const createEventFromURL = (
       }
 
       return pipe(
-        fp.RTE.ask<RouteContext>(),
+        fp.RTE.ask<ServerContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
           pipe(
             ctx.puppeteer.getBrowser({}),

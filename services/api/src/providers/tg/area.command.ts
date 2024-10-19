@@ -3,16 +3,16 @@ import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { AREAS, type Area } from "@liexp/shared/lib/io/http/Area.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
+import { type ServerContext } from "#context/context.type.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
 import { AreaIO } from "#routes/areas/Area.io.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (area: Area, baseUrl: string): string =>
   `Area <a href="${baseUrl}/areas/${area.id}">${area.label}</a>`;
 
-export const areaCommand = (ctx: RouteContext): TGBotProvider => {
+export const areaCommand = (ctx: ServerContext): TGBotProvider => {
   ctx.tg.api.onText(/\/area\s(.*)/, (msg, match) => {
     if (!match || match[1] === "") {
       return;

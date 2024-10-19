@@ -1,10 +1,9 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type Route } from "#routes/route.types.js";
 
-export const MakeGetHealthcheckRoute = (r: Router, ctx: RouteContext): void => {
+export const MakeGetHealthcheckRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Healthcheck.List, () => {
     return pipe(
       TE.right({ status: "OK" }),
