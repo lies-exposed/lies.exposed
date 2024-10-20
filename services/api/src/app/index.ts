@@ -1,11 +1,9 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import cors from "cors";
 import express from "express";
-import proxy from "express-http-proxy";
 import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
-import { getLangchainProviderFlow } from "#flows/ai/getLangchainProvider.flow.js";
 import { AddRoutes } from "#routes/index.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
@@ -44,32 +42,33 @@ export const makeApp = (ctx: RouteContext): express.Express => {
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
-  app.use("/openai", cors(ctx.config.cors), (req, res, next) => {
-    void pipe(
-      getLangchainProviderFlow(ctx),
-      fp.TE.map(({ localAiProxyUrl }) =>
-        proxy(localAiProxyUrl, {
-          proxyReqOptDecorator: (req: any) => {
-            const proxyReq = {
-              ...req,
-              headers: {
-                ...req.headers,
-                "Access-Control-Allow-Origin": "*",
-                // connection: "keep-alive",
-              },
-            };
-            ctx.logger.debug.log("Proxy request %O", proxyReq);
-            return Promise.resolve(proxyReq);
-          },
-          proxyResOptDecorator: (proxyRes: any) => {
-            ctx.logger.debug.log("Proxy response %O", proxyRes);
-            return Promise.resolve(proxyRes);
-          },
-          timeout: 120 * 1000,
-        })(req, res, next),
-      ),
-    )();
-  });
+  // app.use("/openai", cors(ctx.config.cors), (req, res, next) => {
+  //   void pipe(
+  //     getLangchainProviderFlow(ctx),
+  //     fp.TE.map(({ localAiProxyUrl }) =>
+  //       proxy(localAiProxyUrl, {
+  //         proxyReqOptDecorator: (req: any) => {
+  //           const proxyReq = {
+  //             ...req,
+  //             headers: {
+  //               ...req.headers,
+  //               "Access-Control-Allow-Origin": "*",
+  //               // connection: "keep-alive",
+  //             },
+  //           };
+  //           ctx.logger.debug.log("Proxy request %O", proxyReq);
+  //           return Promise.resolve(proxyReq);
+  //         },
+  //         proxyResOptDecorator: (proxyRes: any) => {
+  //           ctx.logger.debug.log("Proxy response %O", proxyRes);
+  //           return Promise.resolve(proxyRes);
+  //         },
+  //         timeout: 120 * 1000,
+  //       })(req, res, next),
+  //     ),
+  //   )();
+  // });
+
   app.use(function (err: any, req: any, res: any, next: any) {
     try {
       ctx.logger.error.log(

@@ -2,6 +2,7 @@
 packages:
   - "packages/@liexp/*"
   - "services/api"
+  - "services/ai-bot"
   - "services/web"
   - "services/admin-web"
   - "services/storybook"

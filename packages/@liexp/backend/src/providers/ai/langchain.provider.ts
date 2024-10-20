@@ -58,8 +58,9 @@ export const GetLangchainProvider = (
   opts: LangchainProviderOptions,
 ): LangchainProvider => {
   const chat = new ChatOpenAI({
-    model: "gpt-3.5-turbo",
-    // model: 'gpt-4',
+    // model: "gpt-3.5-turbo",
+    model: "gpt-4o",
+    // model: "text-embedding-ada-002",
     // model: 'all-MiniLM-L6-v2',
     temperature: 0,
     apiKey: "no-key-is-a-good-key",

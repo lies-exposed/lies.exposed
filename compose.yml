@@ -100,6 +100,27 @@ services:
     networks:
       - reverseproxy
 
+  ai-bot:
+    build:
+      context: .
+      target: dev
+      dockerfile: ai-bot.Dockerfile
+    env_file:
+      - ./services/ai-bot/.env
+      - ./services/ai-bot/.env.local
+    command: pnpm docker:dev
+    working_dir: /usr/src/app/services/ai-bot
+    volumes:
+      - ai-bot-node-modules:/usr/src/app/node_modules
+      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
+      - ./services/ai-bot:/usr/src/app/services/ai-bot:cached
+      - ./services/ai-bot/temp:/usr/src/app/services/ai-bot/temp:rw
+    mem_limit: 512M
+    depends_on:
+      - api.liexp.dev
+    networks:
+      - reverseproxy
+
   liexp.dev:
     build:
       context: .
@@ -163,6 +184,7 @@ services:
 volumes:
   db-data: {}
   api-node-modules: {}
+  ai-bot-node-modules: {}
   web-node-modules: {}
   admin-node-modules: {}
   space-data: {}

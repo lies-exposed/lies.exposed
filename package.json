@@ -8,6 +8,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "scripts": {
     "admin-web": "pnpm --filter 'admin-web'",
+    "ai-bot": "pnpm --filter 'ai-bot'",
     "api": "pnpm --filter 'api'",
     "backend": "pnpm --filter '@liexp/backend'",
     "build": "pnpm -r run build",

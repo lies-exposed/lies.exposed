@@ -15,9 +15,7 @@ import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
-export const extractRelationsFromPDFs = (
-  url: string,
-): TEReader<{
+interface Result {
   entities: {
     actors: ActorEntity[];
     groups: GroupEntity[];
@@ -28,7 +26,9 @@ export const extractRelationsFromPDFs = (
     media: MediaEntity[];
   };
   sentences: { text: string; importance: number }[];
-}> => {
+}
+
+export const extractRelationsFromPDFs = (url: string): TEReader<Result> => {
   const id = GetEncodeUtils<string>((url) => ({ url })).hash(url);
 
   return pipe(

@@ -41,6 +41,10 @@
       "path": "services/api",
     },
     {
+      "name": "🚀 ai-bot",
+      "path": "services/ai-bot",
+    },
+    {
       "name": "storybook",
       "path": "services/storybook",
     },

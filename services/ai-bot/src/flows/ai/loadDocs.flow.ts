@@ -1,13 +1,13 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type Document } from "langchain/document";
+import { type ClientContextRTE } from "../types.js";
 import { loadLink } from "./loadLink.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";
-import { type TEReader } from "#flows/flow.types.js";
-import { ServerError } from "#io/ControllerError.js";
 
-export const loadDocs = (job: Queue.Queue): TEReader<Document[]> => {
+export const loadDocs = (job: Queue.Queue): ClientContextRTE<Document[]> => {
   if (Queue.CreateQueueTextData.is(job.data)) {
     return loadText(job.data.text);
   }
@@ -20,5 +20,5 @@ export const loadDocs = (job: Queue.Queue): TEReader<Document[]> => {
     return loadLink(job.data.url);
   }
 
-  return fp.RTE.left(ServerError(["Invalid job data"]));
+  return fp.RTE.left(toAPIError(new Error("Invalid job data")));
 };

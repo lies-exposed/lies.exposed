@@ -1,33 +1,16 @@
-/* eslint-disable import/order */
-import ControllerError from "#io/ControllerError.js";
-import { TGMessageCommands } from "#providers/tg/index.js";
-import { parseENV } from "#utils/env.utils.js";
-import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { makeContext } from "../context/index.js";
 import { CronJobs } from "./jobs/jobs.js";
+import { loadContext } from "#context/load.js";
+import { TGMessageCommands } from "#providers/tg/index.js";
 
 const run = (): Promise<void> => {
-  process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
-
   const workerLogger = logger.GetLogger("worker");
 
-  if (process.env.NODE_ENV === "development") {
-    loadENV(process.cwd(), ".env.local");
-    loadENV(process.cwd(), ".env");
-
-    D.enable(process.env.DEBUG ?? "*");
-  }
-
   return pipe(
-    parseENV(process.env),
-    TE.fromEither,
-    TE.chain(makeContext),
-    TE.mapLeft(ControllerError.report),
+    loadContext(),
     TE.chain((ctx) => {
       ctx.logger = workerLogger;
       // cron jobs

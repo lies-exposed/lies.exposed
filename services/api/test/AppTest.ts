@@ -22,7 +22,6 @@ import {
   type EntityTarget,
   type ObjectLiteral,
 } from "typeorm";
-import { type RouteContext } from "../src/routes/route.types.js";
 import { mocks, type AppMocks } from "./mocks.js";
 import { makeApp } from "#app/index.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -39,6 +38,7 @@ import { getDataSource } from "#utils/data-source.js";
 import { Config } from '#app/config.js';
 import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js';
 import { vi } from 'vitest'
+import { type ServerContext } from '#context/context.type.js';
 
 vi.mock("axios");
 vi.mock("page-metadata-parser");
@@ -49,7 +49,7 @@ vi.mock("@aws-sdk/lib-storage");
 vi.mock("node-telegram-bot-api");
 
 export interface AppTest {
-  ctx: RouteContext;
+  ctx: ServerContext;
   mocks: AppMocks;
   req: TestAgent<supertest.Test>;
   utils: {

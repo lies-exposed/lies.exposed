@@ -37,7 +37,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
           return TE.right<ControllerError, Metadata>({
             date: link.value.publishDate?.toISOString() ?? undefined,
             title: undefined as any,
-            description: link.value.description,
+            description: link.value.description ?? link.value.title,
             keywords: [],
             icon: "",
             image: link.value.image?.location ?? null,

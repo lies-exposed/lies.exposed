@@ -13,11 +13,6 @@ import { isValidValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/is
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { LinkEntity } from "#entities/Link.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flow.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
@@ -26,81 +21,85 @@ import {
   BadRequestError,
   DecodeError,
   ServerError,
+  toControllerError,
 } from "#io/ControllerError.js";
+import {
+  ActorRepository,
+  EventRepository,
+  GroupRepository,
+  KeywordRepository,
+  LinkRepository,
+} from "#providers/db/entity-repository.provider.js";
 
 const findOneResourceAndMapText = (
   body: ExtractEntitiesWithNLPFromResourceInput,
 ): TEReader<string> => {
-  return pipe(
-    fp.RTE.ask<ServerContext>(),
-    fp.RTE.chainIOK((ctx) => () => {
-      if (body.resource === "keywords") {
-        return pipe(
-          ctx.db.findOneOrFail(KeywordEntity, {
-            where: {
-              id: Equal(body.uuid),
-            },
-          }),
-          fp.TE.map((k) => k.tag),
-        );
-      }
+  if (body.resource === "keywords") {
+    return pipe(
+      KeywordRepository.findOneOrFail({
+        where: {
+          id: Equal(body.uuid),
+        },
+      }),
+      fp.RTE.map((k) => k.tag),
+    );
+  }
 
-      if (body.resource === "groups") {
-        return pipe(
-          ctx.db.findOneOrFail(GroupEntity, {
-            where: {
-              id: Equal(body.uuid),
-            },
-          }),
-          fp.TE.map((k) =>
-            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
-          ),
-        );
-      }
+  if (body.resource === "groups") {
+    return pipe(
+      GroupRepository.findOneOrFail({
+        where: {
+          id: Equal(body.uuid),
+        },
+      }),
+      fp.RTE.map((k) =>
+        isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
+      ),
+    );
+  }
 
-      if (body.resource === "actors") {
-        return pipe(
-          ctx.db.findOneOrFail(ActorEntity, {
-            where: {
-              id: Equal(body.uuid),
-            },
-          }),
-          fp.TE.map((k) =>
-            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
-          ),
-        );
-      }
+  if (body.resource === "actors") {
+    return pipe(
+      ActorRepository.findOneOrFail({
+        where: {
+          id: Equal(body.uuid),
+        },
+      }),
+      fp.RTE.map((k) =>
+        isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
+      ),
+    );
+  }
 
-      if (body.resource === "events") {
-        return pipe(
-          ctx.db.findOneOrFail(EventV2Entity, {
-            where: {
-              id: Equal(body.uuid),
-            },
-          }),
-          fp.TE.map((k) =>
-            isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
-          ),
-        );
-      }
+  if (body.resource === "events") {
+    return pipe(
+      EventRepository.findOneOrFail({
+        where: {
+          id: Equal(body.uuid),
+        },
+      }),
+      fp.RTE.filterOrElse(
+        (k) => isValidValue(k.excerpt),
+        () => toControllerError("Event has no excerpt"),
+      ),
+      fp.RTE.map((t) =>
+        isValidValue(t.excerpt) ? getTextContents(t.excerpt) : "",
+      ),
+    );
+  }
 
-      if (body.resource === "links") {
-        return pipe(
-          ctx.db.findOneOrFail(LinkEntity, {
-            where: {
-              id: Equal(body.uuid),
-            },
-          }),
-          fp.TE.map((k) => k.description),
-        );
-      }
+  if (body.resource === "links") {
+    return pipe(
+      LinkRepository.findOneOrFail({ where: { id: Equal(body.uuid) } }),
+      fp.RTE.filterOrElse(
+        (k) => !!k.description,
+        () => toControllerError("Link has no description"),
+      ),
+      fp.RTE.map((t): string => t.description as any),
+    );
+  }
 
-      return fp.TE.left(
-        ServerError(["Invalid resource", JSON.stringify(body)]),
-      );
-    }),
-    fp.RTE.chainTaskEitherK((te) => te),
-  );
+  return fp.RTE.left(ServerError(["Invalid resource", JSON.stringify(body)]));
 };
 
 export const extractEntitiesFromAny = (

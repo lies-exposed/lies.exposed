@@ -184,7 +184,7 @@ const extractByProvider =
                   O.some({
                     id: l.id,
                     title: l.title,
-                    description: l.description,
+                    description: l.description ?? l.title,
                     publishDate: l.publishDate ?? undefined,
                     provider: l.provider as any,
                     creator: l.creator?.id,
