@@ -9,9 +9,9 @@ import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
-import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
+import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const editMedia = (
   id: UUID,
@@ -106,7 +106,7 @@ export const editMedia = (
     // ctx.logger.debug.logInTaskEither(`Updates %O`),
     fp.RTE.chain(({ thumbnail, location, media, extra }) =>
       pipe(
-        saveMedia([
+        MediaRepository.save<ServerContext>([
           {
             ...media,
             ...body,

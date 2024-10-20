@@ -17,11 +17,11 @@ import {
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import { type ServerBlockNoteEditor } from "@liexp/ui/lib/components/Common/BlockNote/index.ssr.js";
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 import { type LangchainProviderReader } from "#providers/ai/langchain.provider.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";
-
 export interface ENVContext {
   env: ENV;
 }
@@ -45,6 +45,10 @@ interface LangchainContext {
   langchain: LangchainProviderReader;
 }
 
+interface BlockNoteContext {
+  blocknote: ServerBlockNoteEditor;
+}
+
 export type ServerContext = ENVContext &
   JWTProviderContext &
   DatabaseContext &
@@ -64,7 +68,8 @@ export type ServerContext = ENVContext &
   ImgProcClientContext &
   ConfigContext &
   QueuesProviderContext &
-  LangchainContext & {
+  LangchainContext &
+  BlockNoteContext & {
     /** RationalWiki Provider */
     rw: WikipediaProvider;
   };

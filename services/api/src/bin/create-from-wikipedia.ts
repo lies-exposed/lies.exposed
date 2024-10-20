@@ -3,7 +3,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 
 import prompts from "prompts";
 import { type CommandFlow } from "./command.type.js";
-import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.js";
+import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.flow.js";
 import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
 import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
 import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";

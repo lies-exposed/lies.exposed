@@ -5,16 +5,18 @@ import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";
-import { saveArea } from "./saveArea.flow.js";
 import { type ServerContext } from "#context/context.type.js";
 import { AreaEntity } from "#entities/Area.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { saveMedia } from "#flows/media/saveMedia.flow.js";
 import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
+import {
+  AreaRepository,
+  MediaRepository,
+} from "#providers/db/entity-repository.provider.js";
 import { AreaIO } from "#routes/areas/Area.io.js";
 import { MediaIO } from "#routes/media/media.io.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
@@ -92,7 +94,7 @@ export const fetchAndCreateAreaFromWikipedia = (
                     ),
                   })),
                   fp.RTE.chain((areaData) =>
-                    saveArea([
+                    AreaRepository.save([
                       {
                         ...areaData,
                         featuredImage: media,
@@ -110,7 +112,7 @@ export const fetchAndCreateAreaFromWikipedia = (
               () => fp.RTE.right(null),
               (media) =>
                 pipe(
-                  saveMedia([
+                  MediaRepository.save([
                     {
                       ...media,
                       areas: [],

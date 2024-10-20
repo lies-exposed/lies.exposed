@@ -6,6 +6,7 @@ import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
+import { getTextContents } from "@liexp/ui/lib/components/Common/BlockNote/utils/getTextContents.js";
 import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
@@ -19,6 +20,7 @@ import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events
 import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceGroupInput.js";
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
+import { OpenAIEmbeddingJobButton } from "@liexp/ui/lib/components/admin/media/OpenAIJobButton.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview.js";
 import {
@@ -99,7 +101,8 @@ const transformActor =
             },
           ]);
         }
-        return TE.right([{ id: data.avatar }]);
+
+        return TE.right([data.avatar]);
       }),
       TE.bind("avatarMedia", ({ avatar }) => {
         if (UUID.is(avatar[0].id)) {
@@ -176,6 +179,12 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <TextWithSlugInput source="fullName" slugSource="username" />
           <DateInput source="bornOn" />
           <DateInput source="diedOn" />
+          <OpenAIEmbeddingJobButton
+            resource="actors"
+            valueSource="excerpt"
+            type="openai-summarize"
+            transformValue={(blocks) => ({ text: getTextContents(blocks) })}
+          />
           <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />

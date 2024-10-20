@@ -5,7 +5,7 @@ import Cron from "node-cron";
 import { cleanTempFolder } from "./cleanTempFolder.job.js";
 import { type CronFnOpts } from "./cron-task.type.js";
 import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
-import { processOpenAIQueue } from "./processOpenAIQueue.job.js";
+import { processOpenAIJobsDone } from "./processOpenAIJobsDone.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
 import { type ServerContext } from "#context/context.type.js";
@@ -45,16 +45,16 @@ export const CronJobs = (ctx: ServerContext): CronJobsHooks => {
   const cleanTempFolderTask = cleanTempFolder(ctx);
   const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
 
-  const processEmbeddingsQueueTask = Cron.schedule(
-    ctx.env.PROCESS_QUEUE_JOB_CRON,
-    liftT(processOpenAIQueue),
-    { name: "PROCESS_QUEUE_JOB", scheduled: false, runOnInit: false },
+  const processOpenAIJobsDoneTask = Cron.schedule(
+    ctx.env.PROCESS_DONE_JOB_CRON,
+    liftT(processOpenAIJobsDone),
+    { name: "PROCESS_DONE_JOB", scheduled: false, runOnInit: false },
   );
 
   const regenerateMediaThumbnailTask = Cron.schedule(
     ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON,
     liftT(regenerateMediaThumbnailJob),
-    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: true, runOnInit: true },
+    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: true, runOnInit: false },
   );
 
   return {
@@ -74,7 +74,7 @@ export const CronJobs = (ctx: ServerContext): CronJobsHooks => {
       cleanTempFolderTask.start();
       generateMissingThumbnailsTask.start();
       regenerateMediaThumbnailTask.start();
-      processEmbeddingsQueueTask.stop();
+      processOpenAIJobsDoneTask.start();
     },
     onShutdown() {
       // stop all tasks

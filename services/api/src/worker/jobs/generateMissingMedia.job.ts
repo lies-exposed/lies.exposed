@@ -5,13 +5,14 @@ import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import Cron from "node-cron";
 import { type ServerContext } from "#context/context.type.js";
-import { MediaEntity } from "#entities/Media.entity.js";
+import { type MediaEntity } from "#entities/Media.entity.js";
 import { getMediaWithoutThumbnailsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
+import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const generateMissingThumbnailsCron = (
   ctx: ServerContext,
@@ -66,7 +67,7 @@ export const generateMissingThumbnailsCron = (
                 ),
                 LoggerService.TE.info(ctx, `Update for media %O`),
                 fp.TE.chain((update) =>
-                  ctx.db.save(MediaEntity, [{ ...m, ...update }]),
+                  MediaRepository.save([{ ...m, ...update }])(ctx),
                 ),
                 fp.TE.mapLeft(toControllerError),
                 fp.TE.map((s) => s[0]),
