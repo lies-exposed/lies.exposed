@@ -52,7 +52,9 @@ updates:
         patterns:
           - "@typescript-eslint/*"
           - "typescript-eslint*"
+          - "@eslint/*"
           - "eslint*"
+          - "eslint"
       uuid:
         patterns:
           - "*uuid"
