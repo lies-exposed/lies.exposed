@@ -21,11 +21,11 @@
     "start": "node build/run.js"
   },
   "dependencies": {
+    "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
-    "@liexp/backend": "workspace:*",
-    "fp-ts": "^2",
-    "io-ts": "^2"
+    "fp-ts": "^2.16.9",
+    "io-ts": "^2.2.21"
   },
   "devDependencies": {
     "eslint": "^9.13.0"

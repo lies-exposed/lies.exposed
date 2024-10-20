@@ -23,7 +23,7 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "fp-ts": "^2.16.6",
+    "fp-ts": "^2.16.9",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19",
     "vite-plugin-css-injected-by-js": "^3.5.1",

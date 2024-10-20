@@ -30,7 +30,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
     "date-fns": "^4.1.0",
-    "fp-ts": "^2.16.6",
+    "fp-ts": "^2.16.9",
     "io-ts": "^2.2.21",
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.22.0",

@@ -23,7 +23,7 @@
     "@liexp/core": "workspace:*",
     "fast-check": "^2.25.0",
     "fast-check-io-ts": "^0.5.0",
-    "fp-ts": "^2.16.6",
+    "fp-ts": "^2.16.9",
     "io-ts": "^2.2.21",
     "io-ts-types": "^0.5.19"
   },

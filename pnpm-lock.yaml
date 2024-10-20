@@ -125,7 +125,7 @@ importers:
         specifier: ^2.1.2
         version: 2.1.3
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       instagram-private-api:
         specifier: ^1.46.1
@@ -216,7 +216,7 @@ importers:
         specifier: ^16.4.5
         version: 16.4.5
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       io-ts:
         specifier: ^2.2.21
@@ -331,7 +331,7 @@ importers:
         specifier: ^2.1.6
         version: 2.1.6
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       io-ts:
         specifier: ^2.2.21
@@ -437,7 +437,7 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       io-ts:
         specifier: ^2.2.21
@@ -624,7 +624,7 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       geotiff:
         specifier: ^2.1.3
@@ -838,7 +838,7 @@ importers:
         specifier: ^4.20.10
         version: 4.20.10
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       history:
         specifier: ^5.3.0
@@ -974,10 +974,10 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
       fp-ts:
-        specifier: ^2
+        specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2
+        specifier: ^2.2.21
         version: 2.2.21(fp-ts@2.16.9)
     devDependencies:
       eslint:
@@ -1083,7 +1083,7 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       front-matter:
         specifier: 4.0.2
@@ -1387,7 +1387,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       html-tags:
         specifier: ^4.0.0
@@ -1568,7 +1568,7 @@ importers:
         specifier: ^4.21.0
         version: 4.21.1
       fp-ts:
-        specifier: ^2.16.6
+        specifier: ^2.16.9
         version: 2.16.9
       io-ts:
         specifier: ^2.2.21
@@ -14527,14 +14527,14 @@ snapshots:
     dependencies:
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       jest-mock: 29.7.0
 
   '@jest/fake-timers@29.7.0':
     dependencies:
       '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       jest-message-util: 29.7.0
       jest-mock: 29.7.0
       jest-util: 29.7.0
@@ -14547,7 +14547,7 @@ snapshots:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       '@types/yargs': 15.0.19
       chalk: 4.1.2
 
@@ -14556,7 +14556,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       '@types/yargs': 17.0.33
       chalk: 4.1.2
 
@@ -16725,7 +16725,7 @@ snapshots:
 
   '@types/node-forge@1.3.11':
     dependencies:
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
 
   '@types/node-telegram-bot-api@0.64.7':
     dependencies:
@@ -18047,7 +18047,7 @@ snapshots:
 
   chrome-launcher@0.15.2:
     dependencies:
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -18063,7 +18063,7 @@ snapshots:
 
   chromium-edge-launcher@0.2.0:
     dependencies:
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -20504,7 +20504,7 @@ snapshots:
       '@jest/environment': 29.7.0
       '@jest/fake-timers': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       jest-mock: 29.7.0
       jest-util: 29.7.0
 
@@ -20525,13 +20525,13 @@ snapshots:
   jest-mock@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       jest-util: 29.7.0
 
   jest-util@29.7.0:
     dependencies:
       '@jest/types': 29.6.3
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       chalk: 4.1.2
       ci-info: 3.9.0
       graceful-fs: 4.2.11
@@ -20548,7 +20548,7 @@ snapshots:
 
   jest-worker@29.7.0:
     dependencies:
-      '@types/node': 20.16.11
+      '@types/node': 22.7.7
       jest-util: 29.7.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
