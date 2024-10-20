@@ -1,0 +1,20 @@
+{
+  "workspaces": {
+    "packages/@liexp/*": {
+      "entry": ["src/index.ts", "build/**/*.js!"],
+      "project": ["src/**/*.ts", "build/**/*.js!"]
+    },
+    "services/web": {
+      "entry": ["src/client/index.ts", "build/**/*.js!"],
+      "project": ["src/**/*.ts", "build/**/*.js!"]
+    },
+    "services/admin-web": {
+      "entry": ["src/client/index.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "services/api": {
+      "entry": ["src/run.ts", "src/worker/index.ts", "build/**/*.js!"],
+      "project": ["src/**/*.ts", "test/**/*.ts", "build/**/*.js!"]
+    }
+  }
+}

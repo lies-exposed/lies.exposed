@@ -21,15 +21,16 @@ import { type ServerBlockNoteEditor } from "@liexp/ui/lib/components/Common/Bloc
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";
+
 export interface ENVContext {
   env: ENV;
 }
 
-export interface PDFProviderContext {
+interface PDFProviderContext {
   pdf: PDFProvider;
 }
 
-export interface HTTPProviderContext {
+interface HTTPProviderContext {
   http: HTTPProvider;
 }
 

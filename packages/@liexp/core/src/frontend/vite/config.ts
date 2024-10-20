@@ -31,7 +31,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           [key]: v,
         };
       }),
-      config.env.decode,
+      (env) => fp.E.right(env as A),
       (env) => {
         if (env._tag === "Left") {
           // eslint-disable-next-line
