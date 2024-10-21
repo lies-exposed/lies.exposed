@@ -140,7 +140,7 @@
     "@types/topojson-specification": "^1.0.5",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "openai": "^4.61.0",
     "prettier": "^3.3.3",
