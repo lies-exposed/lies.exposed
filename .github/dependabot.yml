@@ -47,7 +47,8 @@ updates:
           - langchain
       vite:
         patterns:
-          - "*vite*"
+          - "@vitejs/*"
+          - "vite*"
       eslint:
         patterns:
           - "@typescript-eslint/*"
