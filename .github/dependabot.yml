@@ -69,6 +69,10 @@ updates:
           - "ra-*"
           - "react-core"
           - "react-admin"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook*"
       visx:
         patterns:
           - "*visx*"
