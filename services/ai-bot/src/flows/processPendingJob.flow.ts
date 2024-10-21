@@ -8,7 +8,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type ApiBotError } from "../common/error/index.js";
+import { toAIBotError, type AIBotError } from "../common/error/index.js";
 import { loadDocs } from "./ai/loadDocs.flow.js";
 import { defaultQuestion } from "./processOpenAIQueue.flow.js";
 import { type ClientContextRTE } from "./types.js";
@@ -24,7 +24,8 @@ type JobTypesMap = {
     langchain: LangchainProvider,
     docs: LangchainDocument[],
     question: string,
-  ) => TaskEither<ApiBotError, string>;
+    opts?: { model?: string },
+  ) => TaskEither<AIBotError, string>;
 };
 
 export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
@@ -51,18 +52,21 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
             fp.RTE.map(() => []),
           );
         }
+
         return loadDocs(job);
       }),
       fp.RTE.chain(({ docs }) => (ctx) => {
         const processTE = types[job.type];
 
         if (dryRun) {
-          LoggerService.TE.debug(ctx, [
-            "Dry run, skipping job %s (%s)",
-            job.id,
-            job.type,
-          ]);
-          return fp.TE.right(job);
+          return pipe(
+            fp.TE.right(job),
+            LoggerService.TE.debug(ctx, [
+              "Dry run, skipping job %s (%s)",
+              job.id,
+              job.type,
+            ]),
+          );
         }
 
         return pipe(
@@ -75,7 +79,6 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
                   status: "processing",
                 }),
               ),
-              fp.TE.map((r) => r),
             ),
             (job) => {
               return pipe(
@@ -83,34 +86,55 @@ export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {
                   ctx.langchain,
                   docs,
                   job.data.question ?? defaultQuestion,
+                  {
+                    model:
+                      job.type === "openai-embedding"
+                        ? ctx.config.config.localAi.models?.embeddings
+                        : ctx.config.config.localAi.models?.summarization,
+                  },
                 ),
-                fp.TE.map((result) => ({
-                  ...job,
-                  data: { ...job.data, result: result },
-                  error: null,
-                })),
+                LoggerService.TE.debug(ctx, (result) => [
+                  `Job %s updated %O`,
+                  job.id,
+                  result,
+                ]),
+                fp.TE.filterOrElse(
+                  (r) => !!r,
+                  () => toAIBotError(new Error("No results returned")),
+                ),
                 fp.TE.fold(
                   (e) =>
                     fp.T.of({
                       ...job,
                       error: e,
+                      status: "failed",
                     } as EmbeddingJob),
                   (result) =>
-                    fp.T.of({ ...result, status: "done" } as EmbeddingJob),
+                    fp.T.of({
+                      ...job,
+                      data: { ...job.data, result },
+                      status: "done",
+                    } as EmbeddingJob),
                 ),
                 fp.TE.fromTask,
               );
             },
             (job, result) => {
-              const [updatedJob, status]: [EmbeddingJob, Queue.Status] =
-                fp.E.isLeft(result)
-                  ? [{ ...job, error: result.left }, "failed"]
-                  : [{ ...result.right, error: null }, "done"];
+              const updatedJob = pipe(
+                result,
+                fp.E.fold(
+                  (e) => ({
+                    ...job,
+                    error: e,
+                    status: "failed" as Queue.Status,
+                  }),
+                  (r) => r,
+                ),
+              );
 
               return pipe(
                 ctx.endpointsRESTClient.Endpoints.Queues.edit({
                   ...updatedJob,
-                  status,
                 }),
                 fp.TE.map(() => undefined),
               );

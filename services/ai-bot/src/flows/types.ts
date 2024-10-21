@@ -1,5 +1,6 @@
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type ApiBotError } from "../common/error/index.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type AIBotError } from "../common/error/index.js";
 import { type ClientContext } from "../context.js";
 
 /**
@@ -7,6 +8,8 @@ import { type ClientContext } from "../context.js";
  */
 export type ClientContextRTE<A> = ReaderTaskEither<
   ClientContext,
-  ApiBotError,
+  AIBotError,
   A
 >;
+
+export type ClientContextTE<A> = TaskEither<ClientContext, A>;

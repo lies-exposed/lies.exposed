@@ -4,12 +4,53 @@ import * as t from "io-ts";
 import { IOError } from "ts-io-error/lib/index.js";
 import { CoreError } from "./Error.js";
 
-export class APIError extends IOError {
-  name = "APIError";
-}
+// class APIErrorClass extends IOError {
+//   name = "APIError";
+// }
+
+export const APIStatusCode = t.union(
+  [
+    t.literal(200),
+    t.literal(201),
+    t.literal(400),
+    t.literal(401),
+    t.literal(404),
+    t.literal(500),
+  ],
+  "StatusCode",
+);
+
+export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
+
+export const APIError = t.strict(
+  {
+    ...CoreError.type.props,
+    status: APIStatusCode,
+    name: t.literal("APIError"),
+    // details: t.union([
+    //   t.type({ kind: t.literal("DecodingError"), errors: t.array(t.unknown) }),
+    //   t.type({
+    //     kind: t.literal("CommunicationError"),
+    //     meta: t.union([t.unknown, t.undefined]),
+    //     status: t.string,
+    //   }),
+    //   t.type({
+    //     kind: t.literal("ClientError"),
+    //     status: t.string,
+    //     meta: t.union([t.unknown, t.undefined]),
+    //   }),
+    // ]),
+  },
+  "APIError",
+);
+
+export type APIError = t.TypeOf<typeof APIError>;
 
 export const toAPIError = (e: unknown): APIError => {
-  if (e instanceof APIError) {
+  console.log("to api error", e);
+  console.dir(e);
+
+  if (APIError.is(e)) {
     return e;
   }
 
@@ -17,48 +58,25 @@ export const toAPIError = (e: unknown): APIError => {
     return e as APIError;
   }
 
-  if (e instanceof Error) {
-    return new APIError(e.message, {
-      kind: "ServerError",
-      meta: e,
-      status: "500",
-    });
-  }
-
-  return new APIError("An error occurred", {
-    kind: "ServerError",
-    meta: [JSON.stringify(e)],
-    status: "500",
-  });
+  return pipe(
+    decodeAPIError(e),
+    fp.E.getOrElse(() => {
+      return APIError.encode({
+        message: "An error occurred",
+        name: "APIError",
+        details: [JSON.stringify(e)],
+        status: 500,
+      });
+    }),
+  );
 };
-
-const { details, ...baseCoreProps } = CoreError.type.props;
-
-const APIErrorSchema = t.strict(
-  {
-    ...baseCoreProps,
-    name: t.literal("APIError"),
-    details: t.union([
-      t.type({ kind: t.literal("DecodingError"), errors: t.array(t.unknown) }),
-      t.type({
-        kind: t.literal("CommunicationError"),
-        meta: t.union([t.unknown, t.undefined]),
-        status: t.string,
-      }),
-    ]),
-  },
-  "APIError",
-);
 
 export const decodeAPIError = (e: unknown): Either<t.Errors, APIError> => {
   // match the instance classes first
-  if (e instanceof APIError) {
+  if (APIError.is(e)) {
     return fp.E.right(e);
   }
 
   // decode the value with schema
-  return pipe(
-    APIErrorSchema.decode(e),
-    fp.E.map((v) => v as APIError),
-  );
+  return APIError.decode(e);
 };

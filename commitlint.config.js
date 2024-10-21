@@ -17,6 +17,7 @@ module.exports = {
         "web",
         "admin",
         "api",
+        "ai-bot",
         "storybook",
       ],
     ],

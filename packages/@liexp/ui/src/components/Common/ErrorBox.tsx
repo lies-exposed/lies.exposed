@@ -3,8 +3,7 @@ import {
   APIError,
   decodeAPIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { CoreError } from "@liexp/shared/lib/io/http/Error/Error.js";
-import { ErrorDecoder } from "@liexp/shared/lib/io/http/Error/ErrorDecoder.js";
+import { CoreError } from "@liexp/shared/lib/io/http/Error/CoreError.js";
 import { type Either } from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
@@ -28,27 +27,14 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
   error,
 }) => {
   const details = React.useMemo(() => {
-    if (error instanceof APIError) {
-      if (
-        error.details.kind === "ServerError" ||
-        error.details.kind === "ClientError"
-      ) {
-        return (
-          <Typography fontSize="small">
-            {JSON.stringify(error.details.meta, null, 2)}
-          </Typography>
-        );
-      }
-
-      if (error.details.kind === "DecodingError") {
-        return (
-          <div>
-            {error.details.errors.map((detail: any, i) => (
-              <code key={i}>{detail}</code>
-            ))}
-          </div>
-        );
-      }
+    if (APIError.is(error)) {
+      return (
+        <div>
+          {error.details?.map((detail: any, i) => (
+            <code key={i}>{detail}</code>
+          ))}
+        </div>
+      );
     }
 
     if (CoreError.is(error)) {
@@ -66,7 +52,7 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
     return null;
   }, [error]);
 
-  const kind = error instanceof APIError ? error.details.kind : "CoreError";
+  const kind = APIError.is(error) ? error.details.kind : "CoreError";
   return (
     <Accordion>
       <AccordionSummary>Details: {kind}</AccordionSummary>
@@ -89,9 +75,7 @@ export const ErrorBox = ({
   const error = React.useMemo((): APIError | CoreError => {
     return pipe(
       decodeAPIError(e),
-      fp.E.alt(
-        (): Either<t.Errors, APIError | CoreError> => ErrorDecoder.decode(e),
-      ),
+      fp.E.alt((): Either<t.Errors, APIError | CoreError> => decodeAPIError(e)),
       fp.E.match(
         (e) => {
           return {
@@ -112,7 +96,7 @@ export const ErrorBox = ({
         title={
           <Stack direction="row" alignItems="flex-end" spacing={1}>
             <Typography variant="h5" marginBottom={0}>
-              {error.name} ({error.status})
+              {error.name} ({APIError.is(error) ? error.status : 500})
             </Typography>
             <Typography variant="subtitle1" marginBottom={0}>
               {error.message}

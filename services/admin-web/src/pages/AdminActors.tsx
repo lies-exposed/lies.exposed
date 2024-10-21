@@ -183,7 +183,10 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
             resource="actors"
             valueSource="excerpt"
             type="openai-summarize"
-            transformValue={(blocks) => ({ text: getTextContents(blocks) })}
+            transformValue={(blocks) => ({
+              text: getTextContents(blocks),
+              result: undefined,
+            })}
           />
           <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
