@@ -29,7 +29,10 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     mkdir -p ./telegram-bot-nginx-log
 
-    rm -rf ./temp
+    rm -rf ./temp/media
+    rm -rf ./temp/nlp
+    rm -rf ./temp/urls
+
     mkdir -p ./config/nlp
     mkdir -p ./temp/networks/keywords
     mkdir -p ./temp/networks/actors

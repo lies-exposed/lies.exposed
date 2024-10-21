@@ -47,7 +47,8 @@ updates:
           - langchain
       vite:
         patterns:
-          - "*vite*"
+          - "@vitejs/*"
+          - "vite*"
       eslint:
         patterns:
           - "@typescript-eslint/*"
@@ -68,6 +69,13 @@ updates:
           - "ra-*"
           - "react-core"
           - "react-admin"
+      react-router:
+        patterns:
+          - "react-router*"
+      storybook:
+        patterns:
+          - "@storybook/*"
+          - "storybook*"
       visx:
         patterns:
           - "*visx*"
