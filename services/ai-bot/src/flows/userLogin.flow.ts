@@ -6,7 +6,7 @@ import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
 import { type ClientContext } from "../context.js";
-import { type ClientContextRTE } from "./types.js";
+import { type ClientContextRTE } from "../types.js";
 import { type AIBotError, toAIBotError } from "#common/error/index.js";
 
 const tokenFilePath = path.resolve(process.cwd(), "temp/.token");
@@ -49,7 +49,7 @@ export const userLogin = (): ClientContextRTE<string> => {
             fp.RTE.ask<ClientContext>(),
             fp.RTE.flatMapOption<ClientContext, string, AIBotError>(
               (ctx) => ctx.env.LIEXP_PASSWORD,
-              () => toAIBotError("LIEXP_USERNAME not set"),
+              () => toAIBotError("LIEXP_PASSWORD not set"),
             ),
             fp.RTE.orElse(() =>
               pipe(

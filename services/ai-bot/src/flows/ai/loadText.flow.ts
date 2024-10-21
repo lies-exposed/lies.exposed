@@ -3,7 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
 import { TextLoader } from "langchain/document_loaders/fs/text";
 import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContextRTE } from "../types.js";
+import { type ClientContextRTE } from "../../types.js";
 
 export const loadText = (text: string): ClientContextRTE<Document[]> => {
   return pipe(
