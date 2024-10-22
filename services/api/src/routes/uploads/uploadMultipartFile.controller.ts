@@ -2,6 +2,7 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as T from "fp-ts/lib/Task.js";
@@ -9,7 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
 import multer, { memoryStorage } from "multer";
 import { upload } from "#flows/space/upload.flow.js";
-import { DecodeError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { type Route } from "#routes/route.types.js";
 
 const UploadFileData = t.strict({ key: t.string, resource: UploadResource });
