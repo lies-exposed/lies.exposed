@@ -3,6 +3,7 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPFromResourceInput,
@@ -19,7 +20,6 @@ import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.fl
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import {
   BadRequestError,
-  DecodeError,
   ServerError,
   toControllerError,
 } from "#io/ControllerError.js";
