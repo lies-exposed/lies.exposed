@@ -1,5 +1,4 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
 import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
@@ -10,6 +9,7 @@ import { Equal } from "typeorm";
 import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { ServerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 

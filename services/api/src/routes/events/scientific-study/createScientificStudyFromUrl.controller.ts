@@ -1,4 +1,4 @@
-// import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+// import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 // import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
 // import * as O from "fp-ts/lib/Option.js";
 // import * as TE from "fp-ts/lib/TaskEither.js";

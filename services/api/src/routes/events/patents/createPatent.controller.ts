@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -13,6 +13,7 @@ import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeCreatePatentEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

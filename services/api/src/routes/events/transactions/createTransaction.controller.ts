@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -10,6 +10,7 @@ import { createEventQuery } from "../queries/createEvent.query.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
