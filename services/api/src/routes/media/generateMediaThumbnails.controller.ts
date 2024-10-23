@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -8,6 +8,7 @@ import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 const generateThumbnailDeferred =

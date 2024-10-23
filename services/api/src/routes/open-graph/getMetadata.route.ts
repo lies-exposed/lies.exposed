@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -9,6 +9,7 @@ import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { type ControllerError, ServerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { LinkIO } from "#routes/links/link.io.js";
 import { type Route } from "#routes/route.types.js";
 

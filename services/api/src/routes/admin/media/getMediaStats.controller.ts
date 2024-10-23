@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { getMediaAdminStatsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route, type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
