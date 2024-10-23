@@ -40,7 +40,6 @@
     "query-string": "^7.1.3",
     "throttle-debounce": "^5.0.0",
     "ts-endpoint": "^2.0.0",
-    "ts-endpoint-express": "^2.0.0",
     "ts-io-error": "^2.0.0",
     "uuid": "^10.0.0"
   },

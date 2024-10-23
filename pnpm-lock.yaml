@@ -366,9 +366,6 @@ importers:
       ts-endpoint:
         specifier: ^2.0.0
         version: 2.0.0
-      ts-endpoint-express:
-        specifier: ^2.0.0
-        version: 2.0.0(express@4.21.1)(ts-endpoint@2.0.0)
       ts-io-error:
         specifier: ^2.0.0
         version: 2.0.0
