@@ -7,7 +7,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
 import { type ClientContext } from "../context.js";
 import { type ClientContextRTE } from "./types.js";
-import { type ApiBotError, toApiBotError } from "#common/error/index.js";
+import { type AIBotError, toAIBotError } from "#common/error/index.js";
 
 const tokenFilePath = path.resolve(process.cwd(), "temp/.token");
 
@@ -16,16 +16,16 @@ export const userLogin = (): ClientContextRTE<string> => {
     getOlderThanOr(
       tokenFilePath,
       10,
-    )<string, ApiBotError, ClientContext>(
+    )<string, AIBotError, ClientContext>(
       pipe(
         fp.RTE.Do,
         fp.RTE.apS(
           "username",
           pipe(
             fp.RTE.ask<ClientContext>(),
-            fp.RTE.flatMapOption<ClientContext, string, ApiBotError>(
+            fp.RTE.flatMapOption<ClientContext, string, AIBotError>(
               (ctx) => ctx.env.LIEXP_USERNAME,
-              () => toApiBotError("LIEXP_USERNAME not set"),
+              () => toAIBotError("LIEXP_USERNAME not set"),
             ),
             fp.RTE.orElse(() =>
               pipe(
@@ -39,7 +39,7 @@ export const userLogin = (): ClientContextRTE<string> => {
                   toAPIError,
                 ),
                 fp.TE.map((m) => m.username),
-                fp.RTE.fromTaskEither<ApiBotError, string, ClientContext>,
+                fp.RTE.fromTaskEither<AIBotError, string, ClientContext>,
               ),
             ),
           ),
@@ -47,9 +47,9 @@ export const userLogin = (): ClientContextRTE<string> => {
         fp.RTE.bind("password", ({ username }) =>
           pipe(
             fp.RTE.ask<ClientContext>(),
-            fp.RTE.flatMapOption<ClientContext, string, ApiBotError>(
+            fp.RTE.flatMapOption<ClientContext, string, AIBotError>(
               (ctx) => ctx.env.LIEXP_PASSWORD,
-              () => toApiBotError("LIEXP_USERNAME not set"),
+              () => toAIBotError("LIEXP_USERNAME not set"),
             ),
             fp.RTE.orElse(() =>
               pipe(
@@ -63,7 +63,7 @@ export const userLogin = (): ClientContextRTE<string> => {
                   toAPIError,
                 ),
                 fp.TE.map((m) => m.password),
-                fp.RTE.fromTaskEither<ApiBotError, string, ClientContext>,
+                fp.RTE.fromTaskEither<AIBotError, string, ClientContext>,
               ),
             ),
           ),
@@ -78,11 +78,10 @@ export const userLogin = (): ClientContextRTE<string> => {
                     password: password,
                   },
                 }),
-                fp.TE.mapLeft(toAPIError),
+                fp.TE.mapLeft(toAIBotError),
               ),
         ),
         LoggerService.RTE.debug("User logged in %O"),
-        fp.RTE.mapLeft(toAPIError),
         fp.RTE.map((m) => m.data.token),
       ),
     ),

@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -8,7 +9,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { LinkIO } from "./link.io.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { ServerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -27,7 +27,7 @@ export const MakeEditLinkMetadataRoute = (
             link: TE.right(link),
             meta: ctx.urlMetadata.fetchMetadata(link.url, {}, (e) => {
               ctx.logger.error.log("Error fetching data %O", e);
-              return ServerError();
+              return ServerError.fromUnknown(e);
             }),
           }),
         ),

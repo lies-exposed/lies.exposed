@@ -234,9 +234,15 @@ export const requestHandler =
 
       // Abort when the stream takes too long.
       setTimeout(() => {
-        logger.debug.log("Request timeout %d", ABORT_DELAY);
+        logger.debug.log(
+          "%s %s Request timeout %d (error %s)",
+          req.method,
+          req.url,
+          ABORT_DELAY,
+          didError,
+        );
         if (didError) {
-          logger.debug.log("Error thrown");
+          logger.info.log("Error thrown");
           abort();
         }
       }, ABORT_DELAY);

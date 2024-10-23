@@ -8,7 +8,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type ApiBotError } from "../common/error/index.js";
+import { type AIBotError } from "../common/error/index.js";
 import { loadDocs } from "./ai/loadDocs.flow.js";
 import { defaultQuestion } from "./processOpenAIQueue.flow.js";
 import { type ClientContextRTE } from "./types.js";
@@ -24,7 +24,7 @@ type JobTypesMap = {
     langchain: LangchainProvider,
     docs: LangchainDocument[],
     question: string,
-  ) => TaskEither<ApiBotError, string>;
+  ) => TaskEither<AIBotError, string>;
 };
 
 export const GetJobProcessors = (types: JobTypesMap): JobProcessors => {

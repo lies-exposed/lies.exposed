@@ -1,4 +1,6 @@
 import path from "path";
+import { toBadRequestError } from "@liexp/backend/lib/errors/BadRequestError.js";
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
@@ -18,11 +20,7 @@ import { type TEReader } from "#flows/flow.types.js";
 import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flow.js";
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
-import {
-  BadRequestError,
-  ServerError,
-  toControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import {
   ActorRepository,
   EventRepository,
@@ -99,7 +97,9 @@ const findOneResourceAndMapText = (
     );
   }
 
-  return fp.RTE.left(ServerError(["Invalid resource", JSON.stringify(body)]));
+  return fp.RTE.left(
+    ServerError.of(["Invalid resource", JSON.stringify(body)]),
+  );
 };
 
 export const extractEntitiesFromAny = (
@@ -143,9 +143,9 @@ export const extractEntitiesFromAny = (
       return fp.RTE.left(
         pipe(ExtractEntitiesWithNLPInput.decode(body), (either) => {
           if (fp.E.isLeft(either)) {
-            return DecodeError("Failed to decode body", either.left);
+            return DecodeError.of("Failed to decode body", either.left);
           }
-          return BadRequestError("Invalid body");
+          return toBadRequestError("Invalid body");
         }),
       );
     }),

@@ -40,7 +40,7 @@ const toActorIO = (
           bornOn: a.bornOn ?? undefined,
           diedOn: a.diedOn ?? undefined,
         }),
-        E.mapLeft((e) => DecodeError(`Failed to decode actor (${a.id})`, e)),
+        E.mapLeft((e) => DecodeError.of(`Failed to decode actor (${a.id})`, e)),
       ),
     ),
   );

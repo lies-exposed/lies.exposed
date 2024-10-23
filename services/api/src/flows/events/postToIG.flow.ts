@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -10,7 +11,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
 import * as t from "io-ts";
 import { type TEReader } from "#flows/flow.types.js";
-import { ServerError } from "#io/ControllerError.js";
 
 export const postToIG =
   (
@@ -92,6 +92,6 @@ export const postToIG =
           TE.chain((items) => ctx.ig.postAlbum({ items, caption: text })),
         );
       }),
-      TE.mapLeft((e) => ServerError([e.message])),
+      TE.mapLeft((e) => ServerError.of([e.message])),
     );
   };

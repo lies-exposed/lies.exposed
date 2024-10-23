@@ -42,7 +42,7 @@ const toGroupIO = (
           deletedAt: group.deletedAt?.toISOString(),
         }),
         E.mapLeft((e) =>
-          DecodeError(`Failed to decode group (${group.id})`, e),
+          DecodeError.of(`Failed to decode group (${group.id})`, e),
         ),
       ),
     ),

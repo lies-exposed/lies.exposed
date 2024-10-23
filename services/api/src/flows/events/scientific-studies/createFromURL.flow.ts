@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -10,7 +11,7 @@ import { type ServerContext } from "#context/context.type.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { ServerError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 export const createEventFromURL = (
   user: UserEntity,
@@ -50,7 +51,7 @@ export const createEventFromURL = (
               if (O.isSome(meta)) {
                 return ctx.db.save(EventV2Entity, [meta.value]);
               }
-              return TE.left(ServerError());
+              return TE.left(ServerError.of());
             }),
             TE.chain(([result]) =>
               ctx.db.findOneOrFail(EventV2Entity, {

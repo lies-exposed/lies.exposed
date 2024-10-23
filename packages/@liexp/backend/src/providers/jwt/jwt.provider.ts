@@ -7,7 +7,9 @@ import { pipe } from "fp-ts/lib/function.js";
 import jwt from "jsonwebtoken";
 import { IOError } from "ts-io-error";
 
-export class JWTError extends IOError {}
+export class JWTError extends IOError {
+  name = "JWTError";
+}
 
 export const toError =
   (l: logger.Logger) =>

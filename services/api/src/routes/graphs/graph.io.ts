@@ -16,7 +16,7 @@ const toGraphIO = (
       createdAt: a.createdAt.toISOString(),
       updatedAt: a.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode actor (${a.id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode actor (${a.id})`, e)),
   );
 };
 

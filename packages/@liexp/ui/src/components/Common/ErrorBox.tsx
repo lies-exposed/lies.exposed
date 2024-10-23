@@ -1,9 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   APIError,
-  decodeAPIError,
+  toAPIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { CoreError } from "@liexp/shared/lib/io/http/Error/Error.js";
+import { CoreError } from "@liexp/shared/lib/io/http/Error/CoreError.js";
 import { ErrorDecoder } from "@liexp/shared/lib/io/http/Error/ErrorDecoder.js";
 import { type Either } from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -14,7 +14,6 @@ import { type FallbackProps } from "react-error-boundary";
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary,
   Button,
   Card,
   CardActions,
@@ -28,30 +27,19 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
   error,
 }) => {
   const details = React.useMemo(() => {
-    if (error instanceof APIError) {
-      if (
-        error.details.kind === "ServerError" ||
-        error.details.kind === "ClientError"
-      ) {
-        return (
-          <Typography fontSize="small">
-            {JSON.stringify(error.details.meta, null, 2)}
-          </Typography>
-        );
-      }
-
-      if (error.details.kind === "DecodingError") {
-        return (
-          <div>
-            {error.details.errors.map((detail: any, i) => (
-              <code key={i}>{detail}</code>
-            ))}
-          </div>
-        );
-      }
+    const isAPIError = APIError.is(error) && (error.details?.length ?? 0) > 0;
+    if (isAPIError) {
+      return (
+        <div>
+          {error.details?.map((detail: any, i) => (
+            <code key={i}>{detail}</code>
+          ))}
+        </div>
+      );
     }
 
-    if (CoreError.is(error)) {
+    const isCoreError = CoreError.is(error) && (error.details?.length ?? 0) > 0;
+    if (isCoreError) {
       return (
         <div>
           {error.details?.map((detail, i) => (
@@ -66,12 +54,12 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
     return null;
   }, [error]);
 
-  const kind = error instanceof APIError ? error.details.kind : "CoreError";
   return (
-    <Accordion>
-      <AccordionSummary>Details: {kind}</AccordionSummary>
-      <AccordionDetails>{details}</AccordionDetails>
-    </Accordion>
+    details && (
+      <Accordion>
+        <AccordionDetails>{details}</AccordionDetails>
+      </Accordion>
+    )
   );
 };
 
@@ -87,8 +75,13 @@ export const ErrorBox = ({
   style,
 }: ErrorBoxProps): JSX.Element => {
   const error = React.useMemo((): APIError | CoreError => {
+    if (APIError.is(e)) {
+      return e;
+    }
+
     return pipe(
-      decodeAPIError(e),
+      toAPIError(e),
+      fp.E.right,
       fp.E.alt(
         (): Either<t.Errors, APIError | CoreError> => ErrorDecoder.decode(e),
       ),
@@ -110,9 +103,9 @@ export const ErrorBox = ({
     <Card style={style}>
       <CardHeader
         title={
-          <Stack direction="row" alignItems="flex-end" spacing={1}>
+          <Stack direction="column" alignItems="flex-start" spacing={1}>
             <Typography variant="h5" marginBottom={0}>
-              {error.name} ({error.status})
+              {error.name} {APIError.is(error) ? `(${error.status})` : ""}
             </Typography>
             <Typography variant="subtitle1" marginBottom={0}>
               {error.message}

@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
-import { AdminEdit, type User } from "@liexp/shared/lib/io/http/User.js";
+import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -14,10 +14,7 @@ import {
   takeLinkScreenshot,
   uploadScreenshot,
 } from "#flows/links/takeLinkScreenshot.flow.js";
-import {
-  NotAuthorizedError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type RouteContext } from "#routes/route.types.js";
 import {
@@ -55,12 +52,8 @@ export const MakeTakeLinkScreenshotRoute = (
         TE.Do,
         TE.bind("user", () =>
           pipe(
-            RequestDecoder.decodeNullableUser(req, [])(ctx),
-            TE.fromIO,
-            TE.filterOrElse(
-              (user): user is User => !!user?.id,
-              (e) => NotAuthorizedError(),
-            ),
+            RequestDecoder.decodeUserFromRequest(req, [])(ctx),
+            TE.fromIOEither,
             TE.chain((user) =>
               ctx.db.findOneOrFail(UserEntity, {
                 where: { id: Equal(user.id) },

@@ -2,12 +2,14 @@ import type * as t from "io-ts";
 import { IOError } from "ts-io-error";
 
 export class _DecodeError extends IOError {
-  name = "DecodeError";
+  status: number = 400;
 }
 
-export const DecodeError = (message: string, errors: t.Errors): IOError => {
-  return new _DecodeError(message, {
-    kind: "DecodingError",
-    errors,
-  });
+export const DecodeError = {
+  of: (message: string, errors: t.Errors): _DecodeError => {
+    return new _DecodeError(message, {
+      kind: "DecodingError",
+      errors: errors,
+    });
+  },
 };

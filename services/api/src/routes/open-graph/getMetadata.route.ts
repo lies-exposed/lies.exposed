@@ -8,7 +8,10 @@ import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
-import { type ControllerError, ServerError } from "#io/ControllerError.js";
+import {
+  type ControllerError,
+  toControllerError,
+} from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { LinkIO } from "#routes/links/link.io.js";
 import { type Route } from "#routes/route.types.js";
@@ -37,7 +40,7 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
                   type: "article",
                   url: link.value.url,
                 })
-              : ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError()),
+              : ctx.urlMetadata.fetchMetadata(url, {}, toControllerError),
             link: pipe(
               link,
               O.map(LinkIO.decodeSingle),

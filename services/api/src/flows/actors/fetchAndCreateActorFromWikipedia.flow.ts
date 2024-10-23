@@ -1,3 +1,4 @@
+import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
@@ -14,7 +15,7 @@ import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchActorFromWikipedia =
@@ -113,7 +114,7 @@ export const searchActorAndCreateFromWikipedia = (
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(
       (r) => !!r[0],
-      () => NotFoundError(`Actor ${search} on wikipedia`),
+      () => toNotFoundError(`Actor ${search} on wikipedia`),
     ),
     fp.RTE.chain((p) => fetchAndCreateActorFromWikipedia(p[0].title, wp)),
   );

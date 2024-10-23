@@ -1,12 +1,13 @@
 import crypto from "crypto";
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type ControllerError, ServerError } from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 
 const toError = (e: unknown): ControllerError => {
   if (e instanceof Error) {
-    return ServerError([e.name]);
+    return ServerError.of([e.name]);
   }
-  return ServerError([e as any]);
+  return ServerError.of([e as any]);
 };
 
 export function hash(password: string): TE.TaskEither<ControllerError, string> {
