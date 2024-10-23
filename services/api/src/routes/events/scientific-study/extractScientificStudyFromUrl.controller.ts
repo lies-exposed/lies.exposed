@@ -77,7 +77,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
                   { ...meta.value, id: event.id },
                 ]);
               }
-              return TE.left(ServerError());
+              return TE.left(ServerError.of());
             }),
             TE.chain(([result]) =>
               ctx.db.findOneOrFail(EventV2Entity, {

@@ -28,7 +28,7 @@ export const fetchAsLink =
     const urll = sanitizeURL(url);
     return pipe(
       ctx.urlMetadata.fetchMetadata(urll, {}, (e) =>
-        ServerError([`Error fetching metadata from url ${urll}`]),
+        ServerError.of([`Error fetching metadata from url ${urll}`]),
       ),
       TE.orElse((e) =>
         TE.right<ControllerError, Partial<Metadata>>({

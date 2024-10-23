@@ -38,7 +38,9 @@ const toAreaIO = (
           updatedAt: area.updatedAt.toISOString(),
           deletedAt: area.deletedAt?.toISOString(),
         }),
-        E.mapLeft((e) => DecodeError(`Failed to decode area (${area.id})`, e)),
+        E.mapLeft((e) =>
+          DecodeError.of(`Failed to decode area (${area.id})`, e),
+        ),
       ),
     ),
   );

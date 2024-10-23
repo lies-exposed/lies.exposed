@@ -57,7 +57,9 @@ export const fetchLinksT =
               newLinks,
               A.map((link) =>
                 pipe(
-                  urlMetadata.fetchMetadata(link.url, {}, (e) => ServerError()),
+                  urlMetadata.fetchMetadata(link.url, {}, (e) =>
+                    ServerError.of(),
+                  ),
                   TE.map((metadata) => ({
                     ...link,
                     ...metadata,

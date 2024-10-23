@@ -20,7 +20,7 @@ import { type IO } from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
-import { NotAuthorizedError } from "#io/ControllerError.js";
+import { toNotAuthorizedError } from "#io/ControllerError.js";
 
 const HeadersWithAuthorization = t.strict(
   {
@@ -49,7 +49,7 @@ const decodeUserFromRequest =
     return pipe(
       decodedHeaders,
       IOE.fromEither,
-      IOE.mapLeft(() => NotAuthorizedError()),
+      IOE.mapLeft(() => toNotAuthorizedError()),
       IOE.chain((s) => jwt.verifyUser(s.authorization)),
       IOE.filterOrElse(
         (u) => {

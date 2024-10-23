@@ -47,7 +47,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             url: link.value.url,
           });
         }
-        return ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError());
+        return ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError.of());
       }),
       TE.bind("excerpt", ({ metadata }) => {
         if (metadata.description) {

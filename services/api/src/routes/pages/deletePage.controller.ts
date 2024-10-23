@@ -5,7 +5,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { toPageIO } from "./page.io.js";
 import { PageEntity } from "#entities/Page.entity.js";
-import { NotFoundError } from "#io/ControllerError.js";
+import { toNotFoundError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -15,7 +15,7 @@ export const MakeDeletePageRoute: Route = (r, ctx) => {
     ({ params: { id } }) => {
       return pipe(
         ctx.db.findOne(PageEntity, { where: { id: Equal(id) } }),
-        TE.chain(TE.fromOption(() => NotFoundError("Page"))),
+        TE.chain(TE.fromOption(() => toNotFoundError("Page"))),
         TE.chainFirst(() => ctx.db.softDelete(PageEntity, id)),
         TE.chainEitherK(toPageIO),
         TE.map((page) => ({

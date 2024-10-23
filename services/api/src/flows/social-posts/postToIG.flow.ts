@@ -95,6 +95,6 @@ export const postToIG =
           TE.chain((items) => ctx.ig.postAlbum({ items, caption: text })),
         );
       }),
-      TE.mapLeft((e) => ServerError([e.message])),
+      TE.mapLeft((e) => ServerError.of([e.message])),
     );
   };

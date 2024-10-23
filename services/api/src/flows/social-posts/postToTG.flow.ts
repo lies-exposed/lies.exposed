@@ -166,6 +166,6 @@ export const postToTG =
           ),
         );
       }),
-      fp.TE.mapLeft((e) => ServerError([e.message])),
+      fp.TE.mapLeft((e) => ServerError.of([e.message])),
     );
   };

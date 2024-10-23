@@ -16,7 +16,7 @@ export const createActor = (body: CreateActorBody): TEReader<ActorEntity> => {
       ActorRepository.findOne({
         where: { username: body.username },
       }),
-      fp.RTE.filterOrElse(O.isNone, () => ServerError()),
+      fp.RTE.filterOrElse(O.isNone, () => ServerError.of()),
       fp.RTE.chain(() =>
         ActorRepository.save([
           {

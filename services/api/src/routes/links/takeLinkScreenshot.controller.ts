@@ -15,7 +15,7 @@ import {
   uploadScreenshot,
 } from "#flows/links/takeLinkScreenshot.flow.js";
 import {
-  NotAuthorizedError,
+  toNotAuthorizedError,
   type ControllerError,
 } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -59,7 +59,7 @@ export const MakeTakeLinkScreenshotRoute = (
             TE.fromIO,
             TE.filterOrElse(
               (user): user is User => !!user?.id,
-              (e) => NotAuthorizedError(),
+              (e) => toNotAuthorizedError(),
             ),
             TE.chain((user) =>
               ctx.db.findOneOrFail(UserEntity, {
