@@ -27,7 +27,7 @@ export const MakeEditLinkMetadataRoute = (
             link: TE.right(link),
             meta: ctx.urlMetadata.fetchMetadata(link.url, {}, (e) => {
               ctx.logger.error.log("Error fetching data %O", e);
-              return ServerError();
+              return ServerError.of();
             }),
           }),
         ),

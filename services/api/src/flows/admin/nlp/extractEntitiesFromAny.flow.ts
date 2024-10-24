@@ -19,9 +19,9 @@ import { extractRelationsFromPDFs } from "#flows/nlp/extractRelationsFromPDF.flo
 import { extractRelationsFromText } from "#flows/nlp/extractRelationsFromText.flow.js";
 import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import {
-  BadRequestError,
-  ServerError,
+  toBadRequestError,
   toControllerError,
+  ServerError,
 } from "#io/ControllerError.js";
 import {
   ActorRepository,
@@ -99,7 +99,9 @@ const findOneResourceAndMapText = (
     );
   }
 
-  return fp.RTE.left(ServerError(["Invalid resource", JSON.stringify(body)]));
+  return fp.RTE.left(
+    ServerError.of(["Invalid resource", JSON.stringify(body)]),
+  );
 };
 
 export const extractEntitiesFromAny = (
@@ -143,9 +145,9 @@ export const extractEntitiesFromAny = (
       return fp.RTE.left(
         pipe(ExtractEntitiesWithNLPInput.decode(body), (either) => {
           if (fp.E.isLeft(either)) {
-            return DecodeError("Failed to decode body", either.left);
+            return DecodeError.of("Failed to decode body", either.left);
           }
-          return BadRequestError("Invalid body");
+          return toBadRequestError("Invalid body");
         }),
       );
     }),

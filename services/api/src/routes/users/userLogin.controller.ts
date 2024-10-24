@@ -5,9 +5,9 @@ import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { UserEntity } from "#entities/User.entity.js";
 import {
-  BadRequestError,
-  NotFoundError,
   ServerError,
+  toBadRequestError,
+  toNotFoundError,
 } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -26,18 +26,18 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
         ctx.db.findOneOrFail(UserEntity, {
           where: [{ username }, { email: username }],
         }),
-        TE.mapLeft(() => NotFoundError("User")),
+        TE.mapLeft(() => toNotFoundError("User")),
         LoggerService.TE.debug(ctx, "User %O"),
         TE.filterOrElse(
           (e) => e.status === UserStatusApproved.value,
-          () => ServerError(["User not approved"]),
+          () => ServerError.of(["User not approved"]),
         ),
         TE.chainFirst((user) =>
           pipe(
             passwordUtils.verify(password, user.passwordHash),
             TE.chain((isEqual) => {
               if (!isEqual) {
-                return TE.left(BadRequestError("Password is wrong"));
+                return TE.left(toBadRequestError("Password is wrong"));
               }
               return TE.right(isEqual);
             }),

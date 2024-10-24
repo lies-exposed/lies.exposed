@@ -11,7 +11,7 @@ import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { toNotFoundError, toControllerError } from "#io/ControllerError.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchGroupFromWikipedia =
@@ -65,7 +65,7 @@ export const searchGroupAndCreateFromWikipedia = (
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(
       (r) => !!r[0],
-      () => NotFoundError(`Group ${search} on wikipedia`),
+      () => toNotFoundError(`Group ${search} on wikipedia`),
     ),
     fp.RTE.chain((p) => fetchGroupFromWikipedia(p[0].title, wp)),
   );

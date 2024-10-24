@@ -25,7 +25,7 @@ const toQuoteIO = (
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString() ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode event (${event.id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
   );
 };
 

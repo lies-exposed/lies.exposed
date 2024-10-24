@@ -35,7 +35,7 @@ export const MakeUploadFileRoute: Route = (r, ctx) => {
         UploadFileData.decode({ key, file }),
         TE.fromEither,
         TE.mapLeft((e) =>
-          DecodeError(`Failed to decode upload file data (${key})`, e),
+          DecodeError.of(`Failed to decode upload file data (${key})`, e),
         ),
         TE.chain(({ key, file }) =>
           upload({

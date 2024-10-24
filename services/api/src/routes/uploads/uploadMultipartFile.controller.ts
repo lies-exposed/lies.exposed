@@ -45,7 +45,7 @@ export const MakeUploadMultipartFileRoute: Route = (r, ctx): void => {
             UploadFileData.decode({ key, resource }),
             TE.fromEither,
             TE.mapLeft((e) =>
-              DecodeError(`Failed to decode upload file data (${key})`, e),
+              DecodeError.of(`Failed to decode upload file data (${key})`, e),
             ),
           ),
         }),

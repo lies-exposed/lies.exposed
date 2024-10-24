@@ -7,7 +7,7 @@ import { Equal, In } from "typeorm";
 import { type Route } from "../route.types.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { NotFoundError } from "#io/ControllerError.js";
+import { toNotFoundError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
@@ -26,7 +26,7 @@ export const MakeDeleteLinkRoute: Route = (r, ctx) => {
               where: { id: Equal(id) },
               withDeleted: isAdmin,
             }),
-            TE.chain(TE.fromOption(() => NotFoundError("Link"))),
+            TE.chain(TE.fromOption(() => toNotFoundError("Link"))),
             TE.chainFirst((l) =>
               pipe(
                 l.deletedAt,

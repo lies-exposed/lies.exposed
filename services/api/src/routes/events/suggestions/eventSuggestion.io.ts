@@ -65,7 +65,7 @@ export const toEventSuggestion = (
       payload,
     })),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode Event Suggestion (${event.id})`, e),
+      DecodeError.of(`Failed to decode Event Suggestion (${event.id})`, e),
     ),
   );
 };

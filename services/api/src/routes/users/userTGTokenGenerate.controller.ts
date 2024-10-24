@@ -4,7 +4,7 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { UserEntity } from "#entities/User.entity.js";
-import { NotAuthorizedError } from "#io/ControllerError.js";
+import { toNotAuthorizedError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -21,7 +21,7 @@ export const MakeUserTGTokenGenerateRoute: Route = (r, ctx): void => {
         TE.chain((u) =>
           ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(u.id) } }),
         ),
-        TE.mapLeft(() => NotAuthorizedError()),
+        TE.mapLeft(() => toNotAuthorizedError()),
         TE.map((user) => ({ user, telegramToken: uuid() })),
         TE.chainFirst(({ user, telegramToken }) => {
           ctx.logger.debug.log("User found %s", user.id);

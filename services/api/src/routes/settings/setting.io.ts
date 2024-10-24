@@ -17,6 +17,6 @@ export const toSettingIO = ({
       createdAt: setting.createdAt.toISOString(),
       updatedAt: setting.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode setting (${id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode setting (${id})`, e)),
   );
 };

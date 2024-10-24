@@ -14,7 +14,7 @@ import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { toNotFoundError, toControllerError } from "#io/ControllerError.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchActorFromWikipedia =
@@ -113,7 +113,7 @@ export const searchActorAndCreateFromWikipedia = (
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(
       (r) => !!r[0],
-      () => NotFoundError(`Actor ${search} on wikipedia`),
+      () => toNotFoundError(`Actor ${search} on wikipedia`),
     ),
     fp.RTE.chain((p) => fetchAndCreateActorFromWikipedia(p[0].title, wp)),
   );

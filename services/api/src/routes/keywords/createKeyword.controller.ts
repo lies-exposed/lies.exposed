@@ -20,7 +20,7 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
       return pipe(
         db.findOne(KeywordEntity, { where: { tag: Equal(body.tag) } }),
         TE.filterOrElse(O.isNone, () =>
-          ServerError([`Keyword ${body.tag} already exists.`]),
+          ServerError.of([`Keyword ${body.tag} already exists.`]),
         ),
         TE.chain(() => db.save(KeywordEntity, [body])),
         TE.chain(([keyword]) =>
