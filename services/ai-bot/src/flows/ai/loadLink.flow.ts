@@ -5,7 +5,7 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
-import { toApiBotError } from "../../common/error/index.js";
+import { toAIBotError } from "../../common/error/index.js";
 import { type ClientContext } from "../../context.js";
 import { type ClientContextRTE } from "#flows/types.js";
 
@@ -13,13 +13,18 @@ export const loadLink = (url: string): ClientContextRTE<Document[]> => {
   return pipe(
     fp.RTE.ask<ClientContext>(),
     LoggerService.RTE.debug(["Loading link from URL %s", url]),
-    fp.RTE.chainTaskEitherK(() =>
+    fp.RTE.chainTaskEitherK((ctx) =>
       fp.TE.tryCatch(async () => {
         const loader = new CheerioWebBaseLoader(url, {
           selector: "h1,h2,h3,h4,h5,h6,p,article",
         });
-        return loader.load();
-      }, toApiBotError),
+
+        const docs = await loader.load();
+
+        ctx.logger.debug.log("Loaded documents: O", docs);
+
+        return docs;
+      }, toAIBotError),
     ),
   );
 };

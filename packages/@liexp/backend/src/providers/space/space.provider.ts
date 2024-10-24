@@ -31,8 +31,8 @@ export class SpaceError extends IOError {
   name = "SpaceError";
 }
 
-export const toError = (e: unknown): IOError => {
-  if (e instanceof IOError) {
+export const toError = (e: unknown): SpaceError => {
+  if (e instanceof SpaceError) {
     return e;
   }
 

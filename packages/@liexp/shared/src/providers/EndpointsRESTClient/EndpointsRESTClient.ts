@@ -31,7 +31,7 @@ import {
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
-    return toAPIError(e.response?.data);
+    return toAPIError(e.response?.data ?? e.cause);
   }
   return toAPIError(e);
 };

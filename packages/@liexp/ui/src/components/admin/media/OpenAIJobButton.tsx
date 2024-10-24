@@ -13,7 +13,7 @@ interface OpenAIPromptButtonProps {
   idSource?: string;
   prompt?: string;
   model?: string;
-  transformValue?: (value: any) => any;
+  transformValue?: (value: any) => Queue.CreateQueue["data"];
 }
 
 const DEFAULT_PROMPT = `Rephrase the given text in maximum 100 words, without inventing details`;

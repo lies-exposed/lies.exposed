@@ -1,27 +1,15 @@
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { type JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
-import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { type SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as t from "io-ts";
+import { ErrorDecoder } from "@liexp/shared/lib/io/http/Error/ErrorDecoder.js";
+import { UnauthorizedError } from "express-jwt";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { IOError } from "ts-shared/lib/errors.js";
-
-export const APIStatusCode = t.union(
-  [
-    t.literal(200),
-    t.literal(201),
-    t.literal(400),
-    t.literal(401),
-    t.literal(404),
-    t.literal(500),
-  ],
-  "StatusCode",
-);
-
-export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
 
 class _BadRequestError extends IOError {
   name = "BadRequestError";
@@ -113,6 +101,73 @@ export const report = (err: ControllerError): string => {
       : ((err.details.meta as any[]) ?? []);
 
   return `${err.name}: ${err.details.kind} - ${parsedError}`;
+};
+
+export const toAPIError = (err: ControllerError): APIError => {
+  console.log("toAPIError", err);
+  console.dir(err);
+
+  if (err instanceof UnauthorizedError) {
+    return { ...err, name: "APIError", status: 401 };
+  }
+
+  if (err instanceof _NotAuthorizedError) {
+    return {
+      status: 401,
+      name: "APIError",
+      message: err.message,
+      details: [...err.details.kind],
+    };
+  }
+
+  if (err instanceof _NotFoundError) {
+    return {
+      status: 404,
+      name: "APIError",
+      message: err.message,
+      details: [...err.details.kind],
+    };
+  }
+
+  if (err instanceof DBError) {
+    return {
+      status: 500,
+      name: "APIError",
+      message: err.message,
+      details: [...err.details.kind],
+    };
+  }
+
+  if (err instanceof _BadRequestError) {
+    return {
+      status: 400,
+      name: "APIError",
+      message: err.message,
+      details: [...err.details.kind],
+    };
+  }
+
+  if (APIError.is(err)) {
+    return err;
+  }
+
+  return pipe(
+    fp.E.right<APIError, APIError>({
+      ...err,
+      status: 500,
+      name: "APIError",
+      details: ErrorDecoder.decodeIOErrorDetails(err.details),
+    }),
+    fp.E.fold(
+      (e) => ({
+        status: 500,
+        name: "APIError",
+        message: "Unknown error",
+        details: ["Unknown error"],
+      }),
+      (e) => e,
+    ),
+  );
 };
 
 export default { report, toControllerError };

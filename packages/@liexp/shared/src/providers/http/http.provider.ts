@@ -12,9 +12,11 @@ import { APIError, toAPIError } from "../../io/http/Error/APIError.js";
 
 export const fromValidationErrors = flow(
   E.mapLeft((e: t.Errors): APIError => {
-    return new APIError("Validation failed.", {
-      kind: "DecodingError",
-      errors: PathReporter.report(E.left(e)),
+    return APIError.encode({
+      name: "APIError",
+      message: "Validation failed.",
+      status: 400,
+      details: PathReporter.report(E.left(e)),
     });
   }),
 );

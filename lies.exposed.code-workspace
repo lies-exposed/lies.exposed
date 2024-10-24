@@ -2,56 +2,56 @@
   "folders": [
     {
       "name": "ci",
-      "path": ".github",
+      "path": ".github"
     },
     {
       "name": "data",
-      "path": "services/data",
+      "path": "services/data"
     },
     {
       "name": "✨ lies.exposed",
-      "path": ".",
+      "path": "."
     },
     {
       "name": "🚀 @liexp/backend",
-      "path": "packages/@liexp/backend",
+      "path": "packages/@liexp/backend"
     },
     {
       "name": "📦 @liexp/core",
-      "path": "packages/@liexp/core",
+      "path": "packages/@liexp/core"
     },
     {
       "name": "📦 @liexp/shared",
-      "path": "packages/@liexp/shared",
+      "path": "packages/@liexp/shared"
     },
     {
       "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test",
+      "path": "packages/@liexp/test"
     },
     {
       "name": "📦 @liexp/ui",
-      "path": "packages/@liexp/ui",
+      "path": "packages/@liexp/ui"
     },
     {
       "name": "🚀 admin-web",
-      "path": "services/admin-web",
-    },
-    {
-      "name": "🚀 api",
-      "path": "services/api",
+      "path": "services/admin-web"
     },
     {
       "name": "🚀 ai-bot",
-      "path": "services/ai-bot",
+      "path": "services/ai-bot"
+    },
+    {
+      "name": "🚀 api",
+      "path": "services/api"
     },
     {
       "name": "storybook",
-      "path": "services/storybook",
+      "path": "services/storybook"
     },
     {
       "name": "🚀 web",
-      "path": "services/web",
-    },
+      "path": "services/web"
+    }
   ],
   "settings": {
     "search.exclude": {

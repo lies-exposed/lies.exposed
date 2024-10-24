@@ -2,7 +2,7 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
 import { TextLoader } from "langchain/document_loaders/fs/text";
-import { toApiBotError } from "../../common/error/index.js";
+import { toAIBotError } from "../../common/error/index.js";
 import { type ClientContextRTE } from "../types.js";
 
 export const loadText = (text: string): ClientContextRTE<Document[]> => {
@@ -18,7 +18,7 @@ export const loadText = (text: string): ClientContextRTE<Document[]> => {
           const loader = new TextLoader(new Blob([text]));
           const docs = await loader.load();
           return docs;
-        }, toApiBotError),
+        }, toAIBotError),
       ),
     ),
   );

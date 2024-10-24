@@ -82,8 +82,12 @@ export const LinkEdit: React.FC = () => {
                 <OpenAIEmbeddingJobButton
                   resource="links"
                   valueSource="url"
-                  type="openai-embedding"
-                  transformValue={(url) => ({ url })}
+                  type="openai-summarize"
+                  transformValue={(url) => ({
+                    url,
+                    type: "link",
+                    result: undefined,
+                  })}
                 />
                 <TextInput source="description" fullWidth multiline />
               </Stack>
