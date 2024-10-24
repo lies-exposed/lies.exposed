@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
@@ -12,6 +12,7 @@ import {
   emptyGetNetworkQuery,
 } from "#flows/networks/createNetworkGraph.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 

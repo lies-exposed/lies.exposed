@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -8,6 +8,7 @@ import { GroupEntity } from "../../entities/Group.entity.js";
 import { type Route } from "../route.types.js";
 import { GroupIO } from "./group.io.js";
 import { searchGroupAndCreateFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateGroupRoute: Route = (r, ctx) => {

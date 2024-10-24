@@ -1,10 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
-import { type ControllerError, DecodeError } from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 import { IOCodec } from "#io/DomainCodec.js";
 
 const toMediaIO = (

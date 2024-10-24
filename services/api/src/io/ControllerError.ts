@@ -4,6 +4,7 @@ import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js"
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { type SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as t from "io-ts";
 import { failure } from "io-ts/lib/PathReporter.js";
 import { IOError } from "ts-shared/lib/errors.js";
@@ -65,20 +66,6 @@ export const NotAuthorizedError = (): ControllerError => {
       status: "401",
     },
   );
-};
-
-class _DecodeError extends IOError {
-  name = "DecodeError";
-}
-
-export const DecodeError = (
-  message: string,
-  errors: t.Errors,
-): ControllerError => {
-  return new _DecodeError(message, {
-    kind: "DecodingError",
-    errors,
-  });
 };
 
 export type ControllerError =

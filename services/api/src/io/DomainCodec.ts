@@ -1,8 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ValidationError } from "io-ts";
-import { DecodeError, type ControllerError } from "./ControllerError.js";
+import { type ControllerError } from "./ControllerError.js";
 
 export interface IOCodec<T, A, Args extends any[]> {
   decodeSingle: (a: A, ...args: Args) => E.Either<ControllerError, T>;

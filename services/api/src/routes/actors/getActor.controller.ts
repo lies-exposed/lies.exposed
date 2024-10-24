@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, Raw } from "typeorm";
@@ -7,6 +7,7 @@ import { ActorEntity } from "../../entities/Actor.entity.js";
 import { type Route } from "../route.types.js";
 import { ActorIO } from "./actor.io.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeGetActorRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Actor.Get, ({ params: { id } }) => {

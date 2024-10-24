@@ -1,6 +1,6 @@
 import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Point } from "@liexp/shared/lib/io/http/Common/Geometry/index.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -10,6 +10,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AreaIO } from "./Area.io.js";
 import { AreaEntity } from "#entities/Area.entity.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {

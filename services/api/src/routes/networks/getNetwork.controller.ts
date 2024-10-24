@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type NetworkGraphOutput,
@@ -10,6 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
 import { createNetworkGraph } from "#flows/networks/createNetworkGraph.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 

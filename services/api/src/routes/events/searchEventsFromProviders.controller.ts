@@ -1,7 +1,7 @@
 import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { searchWithGoogle } from "@liexp/backend/lib/scrapers/searchLinksWithGoogle.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import { type Router } from "express";
 import * as A from "fp-ts/lib/Array.js";
@@ -13,6 +13,7 @@ import { type LinkEntity } from "#entities/Link.entity.js";
 import { fetchAsLink } from "#flows/links/link.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const SearchEventsFromProviderRoute = (

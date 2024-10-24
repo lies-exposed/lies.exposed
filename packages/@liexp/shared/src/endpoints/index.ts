@@ -1,5 +1,3 @@
-import { GetEndpointSubscriber } from "ts-endpoint-express";
-import { type IOError } from "ts-io-error/lib/index.js";
 import { type EndpointsMapType } from "./Endpoints.js";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";
@@ -107,16 +105,4 @@ const Endpoints: Endpoints = {
   Queues: Queues.queues,
 };
 
-const AddEndpoint = GetEndpointSubscriber((e): IOError => {
-  return {
-    name: "EndpointError",
-    status: 500,
-    message: "Unknown error",
-    details: {
-      kind: "DecodingError",
-      errors: e,
-    },
-  };
-});
-
-export { AddEndpoint, Endpoints, Uploads };
+export { Endpoints, Uploads };

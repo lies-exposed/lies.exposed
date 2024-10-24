@@ -1,9 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type GroupMemberEntity } from "../../entities/GroupMember.entity.js";
-import { DecodeError, type ControllerError } from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 import { IOCodec } from "#io/DomainCodec.js";
 import { ActorIO } from "#routes/actors/actor.io.js";
 import { GroupIO } from "#routes/groups/group.io.js";

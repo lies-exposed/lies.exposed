@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints, AddEndpoint } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -7,6 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RouteContext } from "../route.types.js";
 import { GroupMemberIO } from "./groupMember.io.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeListGroupMemberRoute = (

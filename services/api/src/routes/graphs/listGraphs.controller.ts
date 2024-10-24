@@ -1,9 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Like } from "typeorm";
 import { GraphIO } from "./graph.io.js";
 import { GraphEntity } from "#entities/Graph.entity.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { foldOptionals } from "#utils/foldOptionals.utils.js";
 

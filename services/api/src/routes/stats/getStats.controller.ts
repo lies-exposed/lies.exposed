@@ -1,12 +1,13 @@
 import * as fs from "fs";
 import path from "path";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AddEndpoint, Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
 import { createStats } from "#flows/stats/createStats.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeGetStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Stats.List, ({ query: { id, type } }) => {
