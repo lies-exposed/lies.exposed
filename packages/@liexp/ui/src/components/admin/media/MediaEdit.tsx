@@ -224,6 +224,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               <OpenAIEmbeddingJobButton
                 resource={"media"}
                 valueSource="description"
+                transformValue={(description) => ({ text: description })}
               />
               <Box>
                 <Box>

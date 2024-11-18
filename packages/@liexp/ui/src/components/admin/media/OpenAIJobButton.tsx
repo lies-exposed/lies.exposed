@@ -1,9 +1,10 @@
-import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
+import * as Queue from "@liexp/shared/lib/io/http/Queue.js";
 import { pipe } from "fp-ts/lib/function.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { useRecordContext } from "../react-admin.js";
+import { Typography } from "../../mui/index.js";
+import { Link, useRecordContext } from "../react-admin.js";
 import { OpenAIButton } from "./OpenAIButton.js";
 
 interface OpenAIPromptButtonProps {
@@ -13,7 +14,7 @@ interface OpenAIPromptButtonProps {
   idSource?: string;
   prompt?: string;
   model?: string;
-  transformValue?: (value: any) => any;
+  transformValue?: (value: any) => Record<string, string>;
 }
 
 const DEFAULT_PROMPT = `Rephrase the given text in maximum 100 words, without inventing details`;
@@ -28,6 +29,7 @@ export const OpenAIEmbeddingJobButton: React.FC<OpenAIPromptButtonProps> = ({
   transformValue = (value) => value,
 }) => {
   const [isLoading, setLoading] = React.useState(false);
+  const [queue, setQueue] = React.useState<Queue.Queue | null>(null);
   const api = useDataProvider();
   const record = useRecordContext();
 
@@ -51,7 +53,34 @@ export const OpenAIEmbeddingJobButton: React.FC<OpenAIPromptButtonProps> = ({
       });
   };
 
-  return (
+  React.useEffect(() => {
+    void api
+      .get<{ data: Queue.Queue }>(`queues/${type}/${resource}/${id}`, {})
+      .then((queue) => {
+        if (
+          !Queue.Status.types[3].is(queue.data.status) &&
+          !Queue.Status.types[2].is(queue.data.status)
+        ) {
+          setQueue(queue.data);
+        } else {
+          setQueue(null);
+        }
+      })
+      .catch(() => {
+        setQueue(null);
+      });
+  }, []);
+
+  return queue ? (
+    <Typography>
+      Job in the queue with status{" "}
+      <Typography component={"b"} fontWeight={"bold"}>
+        {queue.status}
+      </Typography>{" "}
+      exists.
+      <Link to={`/queues/${type}/${resource}/${id}`}>Check the job</Link>
+    </Typography>
+  ) : (
     <OpenAIButton
       model={model}
       prompt={prompt}
