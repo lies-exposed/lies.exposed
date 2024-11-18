@@ -14,7 +14,7 @@ const toIOCodecError =
   (resource: string) =>
   (e: ValidationError[] | ControllerError): ControllerError => {
     if (Array.isArray(e)) {
-      return DecodeError(`Failed to decode ${resource}`, e);
+      return DecodeError.of(`Failed to decode ${resource}`, e);
     }
     return e;
   };

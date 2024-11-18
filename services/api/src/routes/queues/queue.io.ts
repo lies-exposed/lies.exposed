@@ -14,7 +14,7 @@ export const toQueueIO = (
       error: queue?.error ?? null,
     }),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode queue (${JSON.stringify(queue)})`, e),
+      DecodeError.of(`Failed to decode queue (${JSON.stringify(queue)})`, e),
     ),
   );
 };

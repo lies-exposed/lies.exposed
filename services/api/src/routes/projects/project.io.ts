@@ -35,7 +35,7 @@ export const toProjectIO = (
       updatedAt: project.updatedAt.toISOString(),
     }),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode project (${project.id})`, e),
+      DecodeError.of(`Failed to decode project (${project.id})`, e),
     ),
   );
 };

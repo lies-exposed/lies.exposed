@@ -1,4 +1,5 @@
 import { type Stream } from "stream";
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
@@ -12,7 +13,6 @@ import {
 import * as t from "io-ts";
 import type TelegramBot from "node-telegram-bot-api";
 import { type TEReader, type Flow } from "#flows/flow.types.js";
-import { ServerError } from "#io/ControllerError.js";
 
 const writeText: Flow<[CreateSocialPost], string> = (body) => (ctx) => {
   const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
@@ -166,6 +166,6 @@ export const postToTG =
           ),
         );
       }),
-      fp.TE.mapLeft((e) => ServerError([e.message])),
+      fp.TE.mapLeft((e) => ServerError.of([e.message])),
     );
   };

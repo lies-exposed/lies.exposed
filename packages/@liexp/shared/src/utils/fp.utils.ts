@@ -36,12 +36,6 @@ export const walkPaginatedRequest =
 
       return pipe(
         apiReqFn({ skip, amount, results }),
-        fp.TE.mapLeft((e) => ({
-          ...e,
-          message: `Failed with skip(${skip}) and amount(${amount}): ${JSON.stringify(
-            e,
-          )}`,
-        })),
         fp.TE.chain((r) => {
           return pipe(
             getData(r),

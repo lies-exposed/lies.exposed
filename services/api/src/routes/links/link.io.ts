@@ -44,7 +44,7 @@ const toLinkIO = (
       updatedAt: link.updatedAt.toISOString(),
       deletedAt: link.deletedAt?.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode link (${link.id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode link (${link.id})`, e)),
   );
 };
 

@@ -1,4 +1,5 @@
 import { type AxiosInstance } from "axios";
+import { describe, it, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { API } from "./api.provider.js";
 

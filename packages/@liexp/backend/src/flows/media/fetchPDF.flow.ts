@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type APIError,
-  toAPIError,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -15,13 +12,12 @@ import {
 export const fetchPDF =
   <C extends PDFProviderContext & HTTPProviderContext>(
     location: string,
-  ): ReaderTaskEither<C, PDFError | APIError, PDFDocumentProxy> =>
+  ): ReaderTaskEither<C, PDFError | HTTPError, PDFDocumentProxy> =>
   (ctx) => {
     return pipe(
       ctx.http.get<ArrayBuffer>(location, {
         responseType: "arraybuffer",
       }),
-      TE.mapLeft(toAPIError),
       TE.chainW((pdfStream) => ctx.pdf.getDocument(new Uint16Array(pdfStream))),
     );
   };

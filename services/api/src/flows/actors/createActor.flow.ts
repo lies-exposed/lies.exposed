@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   AddActorBody,
@@ -7,7 +8,6 @@ import * as O from "fp-ts/lib/Option.js";
 import { type ActorEntity } from "../../entities/Actor.entity.js";
 import { searchActorAndCreateFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { ServerError } from "#io/ControllerError.js";
 import { ActorRepository } from "#providers/db/entity-repository.provider.js";
 
 export const createActor = (body: CreateActorBody): TEReader<ActorEntity> => {
@@ -16,7 +16,7 @@ export const createActor = (body: CreateActorBody): TEReader<ActorEntity> => {
       ActorRepository.findOne({
         where: { username: body.username },
       }),
-      fp.RTE.filterOrElse(O.isNone, () => ServerError()),
+      fp.RTE.filterOrElse(O.isNone, () => ServerError.of()),
       fp.RTE.chain(() =>
         ActorRepository.save([
           {

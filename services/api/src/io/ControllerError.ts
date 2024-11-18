@@ -1,118 +1,185 @@
+import {
+  NotFoundError,
+  ServerError,
+  BadRequestError,
+  NotAuthorizedError,
+} from "@liexp/backend/lib/errors/index.js";
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
-import { type JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
-import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { type SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as t from "io-ts";
+import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import {
+  APIError,
+  fromIOError,
+  reportIOErrorDetails,
+} from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
+import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { UnauthorizedError } from "express-jwt";
+import { pipe } from "fp-ts/lib/function.js";
 import { failure } from "io-ts/lib/PathReporter.js";
-import { IOError } from "ts-shared/lib/errors.js";
-
-export const APIStatusCode = t.union(
-  [
-    t.literal(200),
-    t.literal(201),
-    t.literal(400),
-    t.literal(401),
-    t.literal(404),
-    t.literal(500),
-  ],
-  "StatusCode",
-);
-
-export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
-
-class _BadRequestError extends IOError {
-  name = "BadRequestError";
-}
-
-export const BadRequestError = (meta: string): ControllerError =>
-  new _BadRequestError("Bad Request", {
-    kind: "ClientError",
-    status: "400",
-    meta,
-  });
-
-class _NotFoundError extends IOError {
-  name = "NotFoundError";
-}
-
-export const NotFoundError = (entityName: string): ControllerError =>
-  new _NotFoundError(`Can't find resource ${entityName}`, {
-    kind: "ServerError",
-    status: "404",
-  });
-
-class _ServerError extends IOError {
-  name = "ServerError";
-}
-export const ServerError = (meta?: string[]): ControllerError => {
-  return new _ServerError("Server Error", {
-    kind: "ServerError",
-    status: "500",
-    meta,
-  });
-};
-
-class _NotAuthorizedError extends IOError {
-  name = "NotAuthorizedError";
-}
-export const NotAuthorizedError = (): ControllerError => {
-  return new _NotAuthorizedError(
-    "Authorization header [Authorization] is missing",
-    {
-      kind: "ClientError",
-      status: "401",
-    },
-  );
-};
+import { IOError } from "ts-io-error/lib/index.js";
 
 export type ControllerError =
+  | HTTPError
   | JWTError
   | DBError
   | SpaceError
   | FSError
   | NERError
-  | APIError
-  | _BadRequestError
-  | _NotFoundError
-  | _ServerError
-  | _NotAuthorizedError
+  | BadRequestError
+  | NotFoundError
+  | ServerError
+  | NotAuthorizedError
   | _DecodeError
   | IOError;
 
 export const toControllerError = (e: unknown): ControllerError => {
-  if (e instanceof IOError) {
-    return e;
+  const isIOErrorSchema = pipe(
+    e,
+    IOErrorSchema.decode,
+    (e) => {
+      // console.log(PathReporter.report(e));
+      return e;
+    },
+    fp.E.isRight,
+  );
+
+  if (isIOErrorSchema) {
+    return e as ControllerError;
   }
 
   if (e instanceof Error) {
-    return new IOError(e.message, {
-      kind: "ServerError",
-      meta: [e.name, e.stack],
-      status: "Unknown Error",
-    });
+    if (e instanceof UnauthorizedError) {
+      return new NotAuthorizedError(e.message, {
+        kind: "ClientError",
+        status: "401",
+        meta: [e.stack],
+      });
+    }
   }
 
   // eslint-disable-next-line no-console
-  console.error(e);
+  console.error("error mapping unknown error to ControllerError", e);
 
-  return new IOError(`UnknownError: ${String(e)}`, {
-    kind: "ServerError",
-    status: "Unknown Error",
+  const anyE = e as any;
+  return new IOError(anyE?.message ?? "Unknown Error", {
+    kind: anyE.details?.kind ?? "ServerError",
+    meta: [...(anyE.meta ?? []), anyE?.stack].filter(Boolean),
+    status: anyE.status ?? "500",
   });
 };
 
 export const report = (err: ControllerError): string => {
-  const parsedError =
-    err.details.kind === "DecodingError"
-      ? err.details.errors
-        ? failure(err.details.errors as any[])
-        : []
-      : ((err.details.meta as any[]) ?? []);
+  return `[${err.name}] ${err.message}:\n${reportIOErrorDetails(err.details)}`;
+};
 
-  return `${err.name}: ${err.details.kind} - ${parsedError}`;
+export const toAPIError = (err: ControllerError): APIError => {
+  if (err instanceof Error) {
+    if (err.name === NotAuthorizedError.name) {
+      return {
+        status: 401,
+        name: "APIError",
+        message: err.message,
+        details: [],
+      };
+    }
+
+    if (err.name === JWTError.name) {
+      return {
+        status: 401,
+        name: "APIError",
+        message: err.message,
+        details: (err.details as any).meta ?? [],
+      };
+    }
+
+    if (err.name === NotFoundError.name) {
+      return {
+        status: 404,
+        name: "APIError",
+        message: err.message,
+        details: [],
+      };
+    }
+
+    if (err.details?.kind === "DecodingError") {
+      return {
+        status: 400,
+        name: "APIError",
+        message: err.message,
+        details: failure((err.details as any).errors),
+      };
+    }
+
+    if (err.name === _DecodeError.name) {
+      return {
+        status: 400,
+        name: "APIError",
+        message: err.message,
+        details: failure((err.details as any).errors),
+      };
+    }
+
+    if (err.name === DBError.name) {
+      return {
+        status: 500,
+        name: "APIError",
+        message: err.message,
+        details: [...err.details.kind],
+      };
+    }
+
+    if (err.name === ServerError.name) {
+      return {
+        status: 500,
+        name: "APIError",
+        message: err.message,
+        details: (err.details.meta as any) ?? [],
+      };
+    }
+
+    if (err.name === BadRequestError.name) {
+      return {
+        status: 400,
+        name: "APIError",
+        message: err.message,
+        details: (err.details.meta as any[]) ?? [],
+      };
+    }
+
+    if (err.name === SpaceError.name) {
+      return {
+        status: 500,
+        name: "APIError",
+        message: err.message,
+        details: [],
+      };
+    }
+  }
+
+  if (IOErrorSchema.is(err)) {
+    return fromIOError(err);
+  }
+
+  if (APIError.is(err)) {
+    return err;
+  }
+
+  // eslint-disable-next-line no-console
+  console.log("unknown error", err);
+  // eslint-disable-next-line no-console
+  console.dir(err);
+
+  return {
+    status: 500,
+    name: "APIError",
+    message: (err as any).message ?? "Unknown error",
+    details: [JSON.stringify(err)],
+  };
 };
 
 export default { report, toControllerError };

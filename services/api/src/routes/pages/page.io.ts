@@ -15,6 +15,6 @@ export const toPageIO = (
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
   );
 };

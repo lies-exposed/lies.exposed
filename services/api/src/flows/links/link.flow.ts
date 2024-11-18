@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -15,7 +16,7 @@ import { type ServerContext } from "#context/context.type.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { findOneByLocationOrElse } from "#flows/media/findOneByLocationOrElse.flow.js";
-import { ServerError, type ControllerError } from "#io/ControllerError.js";
+import { type ControllerError } from "#io/ControllerError.js";
 import { LinkRepository } from "#providers/db/entity-repository.provider.js";
 
 export const fetchAsLink =
@@ -28,7 +29,7 @@ export const fetchAsLink =
     const urll = sanitizeURL(url);
     return pipe(
       ctx.urlMetadata.fetchMetadata(urll, {}, (e) =>
-        ServerError([`Error fetching metadata from url ${urll}`]),
+        ServerError.of([`Error fetching metadata from url ${urll}`]),
       ),
       TE.orElse((e) =>
         TE.right<ControllerError, Partial<Metadata>>({

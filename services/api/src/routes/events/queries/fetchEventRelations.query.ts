@@ -2,6 +2,7 @@ import {
   type LoggerContext,
   type URLMetadataContext,
 } from "@liexp/backend/lib/context/index.js";
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type URLMetadataClient } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -22,7 +23,6 @@ import { type KeywordEntity } from "#entities/Keyword.entity.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { ServerError } from "#io/ControllerError.js";
 import { fetchActors } from "#queries/actors/fetchActors.query.js";
 import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "#queries/keywords/fetchKeywords.query.js";
@@ -57,7 +57,12 @@ export const fetchLinksT =
               newLinks,
               A.map((link) =>
                 pipe(
-                  urlMetadata.fetchMetadata(link.url, {}, (e) => ServerError()),
+                  urlMetadata.fetchMetadata(
+                    link.url,
+                    {},
+                    ServerError.fromUnknown,
+                  ),
+
                   TE.map((metadata) => ({
                     ...link,
                     ...metadata,

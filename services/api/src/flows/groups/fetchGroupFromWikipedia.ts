@@ -1,3 +1,4 @@
+import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
@@ -11,7 +12,7 @@ import {
   fetchFromWikipedia,
   type WikiProviders,
 } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { NotFoundError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchGroupFromWikipedia =
@@ -65,7 +66,7 @@ export const searchGroupAndCreateFromWikipedia = (
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(
       (r) => !!r[0],
-      () => NotFoundError(`Group ${search} on wikipedia`),
+      () => toNotFoundError(`Group ${search} on wikipedia`),
     ),
     fp.RTE.chain((p) => fetchGroupFromWikipedia(p[0].title, wp)),
   );

@@ -13,6 +13,7 @@ export default defineConfig({
         "**/lib/**",
         "**/build/**",
         "**/@liexp/ui",
+        "**/packages/@liexp/shared/src/tests",
         "**/services/api/src/migrations",
         "**/services/api/src/worker/index.ts",
         "**/services/api/src/routes/projects",

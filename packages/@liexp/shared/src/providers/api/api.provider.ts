@@ -12,7 +12,7 @@ import { type Codec, type serializedType } from "ts-io-error/lib/Codec.js";
 import { type RequiredKeys } from "typelevel-ts";
 import { Endpoints } from "../../endpoints/index.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
-import { type APIError } from "../../io/http/Error/APIError.js";
+import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
@@ -87,6 +87,11 @@ const API = (client: AxiosInstance): API => {
             },
           });
         }, e.Output.decode),
+        TE.mapLeft((err) => {
+          const apiError = toAPIError(err);
+          apiLogger.error.log(`${e.Method} ${url} error: %O`, apiError);
+          return apiError;
+        }),
         TE.chainFirst(() =>
           TE.fromIO(() => apiLogger.debug.log(`${e.Method} ${url} res: %O`)),
         ),
