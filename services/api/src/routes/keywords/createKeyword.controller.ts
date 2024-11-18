@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -7,7 +8,6 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { KeywordIO } from "./keyword.io.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { ServerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -20,7 +20,7 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
       return pipe(
         db.findOne(KeywordEntity, { where: { tag: Equal(body.tag) } }),
         TE.filterOrElse(O.isNone, () =>
-          ServerError([`Keyword ${body.tag} already exists.`]),
+          ServerError.of([`Keyword ${body.tag} already exists.`]),
         ),
         TE.chain(() => db.save(KeywordEntity, [body])),
         TE.chain(([keyword]) =>

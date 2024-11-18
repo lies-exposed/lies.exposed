@@ -39,7 +39,7 @@ const toEventV2IO = (
           deletedAt: event.deletedAt?.toISOString() ?? undefined,
         }),
         E.mapLeft((e) =>
-          DecodeError(`Failed to decode event (${event.id})`, e),
+          DecodeError.of(`Failed to decode event (${event.id})`, e),
         ),
       ),
     ),

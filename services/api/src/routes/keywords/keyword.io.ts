@@ -20,7 +20,7 @@ const toKeywordIO = (
       deletedAt: keyword.deletedAt?.toISOString() ?? undefined,
     }),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode keyword (${keyword.id})`, e),
+      DecodeError.of(`Failed to decode keyword (${keyword.id})`, e),
     ),
   );
 };

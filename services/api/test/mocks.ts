@@ -7,7 +7,7 @@ import sharpMock from "./__mocks__/sharp.mock.js";
 import { tgProviderMock } from "./__mocks__/tg.mock.js";
 import { wikipediaProviderMock } from "./__mocks__/wikipedia.mock.js";
 import { exifRMock } from "./__mocks__/exifreader.mock.js";
-import ffmpegMock  from './__mocks__/ffmpeg.mock.js';
+import ffmpegMock from "./__mocks__/ffmpeg.mock.js";
 
 export interface AppMocks {
   axios: typeof axiosMock;
@@ -31,6 +31,11 @@ export const fetchMetadata = vi.fn();
 
 export const axiosMock = {
   get: vi.fn(),
+  interceptors: {
+    request: {
+      use: vi.fn(),
+    },
+  },
 };
 
 export const mocks: AppMocks = {

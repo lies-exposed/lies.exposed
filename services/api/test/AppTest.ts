@@ -39,8 +39,13 @@ import { Config } from '#app/config.js';
 import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js';
 import { vi } from 'vitest'
 import { type ServerContext } from '#context/context.type.js';
+import { AxiosInstance } from 'axios';
 
-vi.mock("axios");
+vi.mock("axios", () => ({
+  default: {
+    create: vi.fn(() => mocks.axios)
+  }
+}));
 vi.mock("page-metadata-parser");
 vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
 vi.mock("@aws-sdk/client-s3");
@@ -107,7 +112,7 @@ const initAppTest = async (): Promise<AppTest> => {
           );
         },
       },
-      http: HTTPProvider(mocks.axios as any),
+      http: HTTPProvider(mocks.axios as any as AxiosInstance),
       imgProc: MakeImgProcClient({
         logger,
         exifR: mocks.exifR,
@@ -121,8 +126,9 @@ const initAppTest = async (): Promise<AppTest> => {
       langchain: {} as any,
       queue: {} as any,
       openai: {} as any,
+      blocknote: {} as any,
       pdf: PDFProvider({ client: {} as any }),
-      geo: GeocodeProvider({ http: {} as any, apiKey: "fake-geo-api-key" }),
+      geo: GeocodeProvider({ http: HTTPProvider(mocks.axios as any), apiKey: "fake-geo-api-key" }),
     })),
     TE.map((ctx) => ({
       ctx,

@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -13,7 +14,7 @@ import { Equal } from "typeorm";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { extractEventFromURL } from "#flows/events/extractFromURL.flow.js";
-import { ServerError, toControllerError } from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
@@ -77,7 +78,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
                   { ...meta.value, id: event.id },
                 ]);
               }
-              return TE.left(ServerError());
+              return TE.left(ServerError.of());
             }),
             TE.chain(([result]) =>
               ctx.db.findOneOrFail(EventV2Entity, {

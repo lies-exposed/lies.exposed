@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -14,7 +15,6 @@ import { EventV2IO } from "./eventV2.io.js";
 import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import {
-  ServerError,
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
@@ -47,7 +47,9 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             url: link.value.url,
           });
         }
-        return ctx.urlMetadata.fetchMetadata(url, {}, (e) => ServerError());
+        return ctx.urlMetadata.fetchMetadata(url, {}, (e) =>
+          ServerError.fromUnknown(e),
+        );
       }),
       TE.bind("excerpt", ({ metadata }) => {
         if (metadata.description) {

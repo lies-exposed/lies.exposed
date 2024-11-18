@@ -31,7 +31,7 @@ import {
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
-    return toAPIError(e.response?.data);
+    return toAPIError(e.response?.data ?? e.cause);
   }
   return toAPIError(e);
 };
@@ -43,7 +43,12 @@ export const dataProviderRequestLift = <B extends { data: any }>(
   return pipe(
     TE.tryCatch(lp, toError),
     TE.chain((content) => {
-      return pipe(decode(content), fromValidationErrors, TE.fromEither);
+      return pipe(
+        decode(content),
+        fromValidationErrors,
+        TE.fromEither,
+        TE.mapLeft(toAPIError),
+      );
     }),
   );
 };

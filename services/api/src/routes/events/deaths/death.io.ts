@@ -22,7 +22,7 @@ const toDeathIO = (
       updatedAt: event.updatedAt.toISOString(),
     }),
     E.mapLeft((e) =>
-      DecodeError(`Failed to decode death event (${event.id})`, e),
+      DecodeError.of(`Failed to decode death event (${event.id})`, e),
     ),
   );
 };

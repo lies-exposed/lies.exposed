@@ -23,7 +23,7 @@ const toBookIO = (
       updatedAt: book.updatedAt.toISOString(),
       deletedAt: book.deletedAt?.toISOString() ?? undefined,
     }),
-    E.mapLeft((errors) => DecodeError("Failed to decode book", errors)),
+    E.mapLeft((errors) => DecodeError.of("Failed to decode book", errors)),
   );
 };
 

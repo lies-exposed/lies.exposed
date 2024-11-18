@@ -36,7 +36,7 @@ const toMediaIO = (
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,
     }),
-    E.mapLeft((e) => DecodeError(`Failed to decode media (${media.id})`, e)),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
   );
 };
 
