@@ -1336,8 +1336,8 @@ importers:
         specifier: ^8.3.6
         version: 8.3.6(storybook@8.3.6)
       '@storybook/addon-outline':
-        specifier: ^8.3.6
-        version: 8.3.6(storybook@8.3.6)
+        specifier: ^8.4.4
+        version: 8.4.4(storybook@8.3.6)
       '@storybook/addon-viewport':
         specifier: ^8.3.6
         version: 8.3.6(storybook@8.3.6)
@@ -4846,6 +4846,11 @@ packages:
     resolution: {integrity: sha512-+VXpM8SIHX2cn30qLlMvER9/6iioFRSn2sAfLniqy4RrcQmcMP+qgE7ZzbzExt7cneJh3VFsYqBS/HElu14Vgg==}
     peerDependencies:
       storybook: ^8.3.6
+
+  '@storybook/addon-outline@8.4.4':
+    resolution: {integrity: sha512-CVS1dm6BNUWKGrJj9E1ThBp5Khe6Yw+Hhz6OFxrPZfoTr6RstwoTmvSpKjDUCn8zj6ujoORdiQUh1FsHOxAPBg==}
+    peerDependencies:
+      storybook: ^8.4.4
 
   '@storybook/addon-toolbars@8.3.6':
     resolution: {integrity: sha512-FJH+lRoZXENfpMR/G09ZqB0TmL/k6bv07GN1ysoVs420tKRgjfz6uXaZz5COrhcdISr5mTNmG+mw9x7xXTfX3Q==}
@@ -16542,6 +16547,12 @@ snapshots:
       tiny-invariant: 1.3.3
 
   '@storybook/addon-outline@8.3.6(storybook@8.3.6)':
+    dependencies:
+      '@storybook/global': 5.0.0
+      storybook: 8.3.6
+      ts-dedent: 2.2.0
+
+  '@storybook/addon-outline@8.4.4(storybook@8.3.6)':
     dependencies:
       '@storybook/global': 5.0.0
       storybook: 8.3.6
