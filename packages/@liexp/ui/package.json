@@ -27,10 +27,10 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@blocknote/core": "^0.17.1",
-    "@blocknote/mantine": "^0.17.1",
-    "@blocknote/react": "^0.17.1",
-    "@blocknote/server-util": "^0.17.1",
+    "@blocknote/core": "^0.19.1",
+    "@blocknote/mantine": "^0.19.1",
+    "@blocknote/react": "^0.19.1",
+    "@blocknote/server-util": "^0.19.1",
     "@emotion/cache": "^11.13.1",
     "@emotion/css": "^11.13.0",
     "@emotion/react": "^11.13.3",
