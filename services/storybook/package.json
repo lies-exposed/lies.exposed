@@ -28,7 +28,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
-    "@mui/material": "^5.16.14",
+    "@mui/material": "^6.1.7",
     "@storybook/addon-essentials": "^8.5.1",
     "@storybook/addon-interactions": "^8.5.1",
     "@storybook/addon-links": "^8.5.1",

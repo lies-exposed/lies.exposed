@@ -83,7 +83,7 @@ import {
   ThemeProvider,
   useMediaQuery as useMuiMediaQuery,
 } from "@mui/material";
-import { alpha } from "@mui/system/colorManipulator.js";
+import { alpha } from "@mui/system";
 import * as MUIIcons from "./icons.js";
 
 export {

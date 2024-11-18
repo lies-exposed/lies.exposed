@@ -4,6 +4,7 @@ import { type http } from "@liexp/shared/lib/io/index.js";
 import CreateEventCard from "@liexp/ui/lib/components/Cards/Events/CreateEventCard.js";
 import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
 import { toBNDocument } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { AddCircle as AddCircleIcon } from "@liexp/ui/lib/components/mui/icons.js";
 import {
   Box,
   Button,
@@ -20,7 +21,6 @@ import {
 import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { useEndpointsRESTClient } from "@liexp/ui/lib/hooks/useEndpointRestClient.js";
 import { useTheme } from "@liexp/ui/lib/theme/index.js";
-import AddCircleIcon from "@mui/icons-material/AddCircle.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as React from "react";
 import { createEventSuggestion, getURLMetadata } from "../../state/commands.js";
