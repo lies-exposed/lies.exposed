@@ -30,7 +30,7 @@ importers:
         version: 8.11.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
       '@vitest/coverage-v8':
         specifier: ^2.1.3
-        version: 2.1.3(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))
+        version: 2.1.3(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0))
       eslint:
         specifier: ^9.13.0
         version: 9.13.0(jiti@2.3.3)
@@ -78,7 +78,7 @@ importers:
         version: 8.11.0(eslint@9.13.0(jiti@2.3.3))(typescript@5.6.3)
       vitest:
         specifier: ^2.1.3
-        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
+        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)
 
   packages/@liexp/backend:
     dependencies:
@@ -302,7 +302,7 @@ importers:
         version: 5.6.3
       vitest:
         specifier: ^2.1.3
-        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
+        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)
 
   packages/@liexp/shared:
     dependencies:
@@ -404,8 +404,8 @@ importers:
         specifier: ^4.6.82
         version: 4.7.76
       react-admin:
-        specifier: ^5.3.0
-        version: 5.3.0(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
       typescript:
         specifier: ^5.6.2
         version: 5.6.3
@@ -414,10 +414,10 @@ importers:
         version: 5.0.1(typescript@5.6.3)(vite@5.4.10(@types/node@22.8.0)(sass@1.79.5)(terser@5.36.0))
       vitest:
         specifier: ^2.1.3
-        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
+        version: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)
       vitest-mock-extended:
         specifier: ^2.0.2
-        version: 2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))
+        version: 2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0))
 
   packages/@liexp/test:
     dependencies:
@@ -654,23 +654,23 @@ importers:
         specifier: ^7.1.3
         version: 7.1.3
       ra-core:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-language-english:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^5.3.0
-        version: 5.3.0(o2e3z7qka4i2rxplid3zkxr6ja)
+        specifier: ^5.3.4
+        version: 5.3.4(fh4ps6k5tp4uwx65pmajdeas5i)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^5.3.0
-        version: 5.3.0(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
       react-audio-player:
         specifier: ^0.17.0
         version: 0.17.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -803,7 +803,7 @@ importers:
         version: 5.6.3
       vitest-mock-extended:
         specifier: ^2.0.2
-        version: 2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))
+        version: 2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0))
 
   services/admin-web:
     dependencies:
@@ -847,14 +847,14 @@ importers:
         specifier: ^4.61.0
         version: 4.68.1(zod@3.23.8)
       ra-core:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^5.3.0
-        version: 5.3.0(o2e3z7qka4i2rxplid3zkxr6ja)
+        specifier: ^5.3.4
+        version: 5.3.4(fh4ps6k5tp4uwx65pmajdeas5i)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1399,17 +1399,17 @@ importers:
         specifier: ^15.8.1
         version: 15.8.1
       ra-core:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^5.3.0
-        version: 5.3.0(4bcb6apvuzodhqbe7mmf7v4zii)
+        specifier: ^5.3.4
+        version: 5.3.4(lx2zmdrff6ybv7om43ogkdcqxy)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^5.3.0
-        version: 5.3.0(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -1592,20 +1592,20 @@ importers:
         specifier: ^7.1.3
         version: 7.1.3
       ra-core:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-i18n-polyglot:
-        specifier: ^5.3.0
-        version: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       ra-ui-materialui:
-        specifier: ^5.3.0
-        version: 5.3.0(o2e3z7qka4i2rxplid3zkxr6ja)
+        specifier: ^5.3.4
+        version: 5.3.4(fh4ps6k5tp4uwx65pmajdeas5i)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-admin:
-        specifier: ^5.3.0
-        version: 5.3.0(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
+        specifier: ^5.3.4
+        version: 5.3.4(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
@@ -10296,8 +10296,8 @@ packages:
   quickselect@3.0.0:
     resolution: {integrity: sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==}
 
-  ra-core@5.3.0:
-    resolution: {integrity: sha512-e5Y0u+P+0Kx2XeYEAUDV63NdlAvMtlrb4ndYLtIbCaIeOx1o6GXlD2BedICaYSb6XXjz+KoNZ1nmWuZ6tS4f7Q==}
+  ra-core@5.3.4:
+    resolution: {integrity: sha512-BC6pO8jaUjJESfO0FS6J2CMgeRreJ2kpdPkkySBODM0M5S4ZRC0rOFh1jBXFnjSUcNoPWaVc/WaZPwfAg00Wmw==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -10305,14 +10305,14 @@ packages:
       react-router: ^6.22.0
       react-router-dom: ^6.22.0
 
-  ra-i18n-polyglot@5.3.0:
-    resolution: {integrity: sha512-Dc2m6MlpF1qHeqH5iJukd7t6oVxnqC/k8AY+HEYQCXCTHhVWkzHDjLOilcKHbgiY6st1p6KoCL93CP8lyEjaqg==}
+  ra-i18n-polyglot@5.3.4:
+    resolution: {integrity: sha512-9BtWoCHE5LxIN4+VJGOrxL29lDhCTgBjIDkTb/i228vr/CD3+ozjyMiBG8NGeLN5wCqtHpsKDwUNJOcoPtwkiQ==}
 
-  ra-language-english@5.3.0:
-    resolution: {integrity: sha512-Gp8dt4annXcxFd7BJ/EgngLmI74A25++iwE5lS8WqD6yBL3byU5Xwu9+CQ8YQkU9+cQEFhLhkWIGfXXczxSymw==}
+  ra-language-english@5.3.4:
+    resolution: {integrity: sha512-QR0ej0JKQaGmtGSh1W+O4HnoaTv/9SQBtpztAkTitPVjlCGJeNBr/IjriAxsp0ezhhCr+uZrwrCfoWjKPkjpDg==}
 
-  ra-ui-materialui@5.3.0:
-    resolution: {integrity: sha512-jmEqI77LDcEbhrMC45QM1YmUMSOwzNH8dEjr9A/Xm+UW+YnzOFDkVJJumfP3jpFL4wviX48Qy5mBi54t19CYjw==}
+  ra-ui-materialui@5.3.4:
+    resolution: {integrity: sha512-ZcZtafeOzKEv2Epr6FJnWW4+Fch9VVehqPdi8CyTEUtBHD/heChkAwW3suRqJqggpykVpZoA0hrD+L02NqqJeg==}
     peerDependencies:
       '@mui/icons-material': ^5.15.20
       '@mui/material': ^5.15.20
@@ -10347,8 +10347,8 @@ packages:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
 
-  react-admin@5.3.0:
-    resolution: {integrity: sha512-86M0c76ClN7mbMsONLY83lV32hAQREH1hnhHXANZPS4BnRSKSyFjI93Wke+TwUkWlYiqXlEwaYzISfDTTU3xqA==}
+  react-admin@5.3.4:
+    resolution: {integrity: sha512-Te2cvt5NIhk5ct0yAaUdXxspyXQKsPb8JwlN4VWzXS14U16PrJ01VYc9N940Avb5Ls/ed76mfbuJNwfoEZUYVg==}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
@@ -17301,7 +17301,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.1.3(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))':
+  '@vitest/coverage-v8@2.1.3(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -17315,7 +17315,7 @@ snapshots:
       std-env: 3.7.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
+      vitest: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -22793,7 +22793,7 @@ snapshots:
 
   quickselect@3.0.0: {}
 
-  ra-core@5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
+  ra-core@5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
     dependencies:
       '@tanstack/react-query': 5.59.3(react@18.3.1)
       clsx: 2.1.1
@@ -22811,10 +22811,10 @@ snapshots:
       react-router: 6.27.0(react@18.3.1)
       react-router-dom: 6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  ra-i18n-polyglot@5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
+  ra-i18n-polyglot@5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
     dependencies:
       node-polyglot: 2.5.0
-      ra-core: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-core: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -22822,9 +22822,9 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-language-english@5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
+  ra-language-english@5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1):
     dependencies:
-      ra-core: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-core: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
     transitivePeerDependencies:
       - react
       - react-dom
@@ -22832,32 +22832,7 @@ snapshots:
       - react-router
       - react-router-dom
 
-  ra-ui-materialui@5.3.0(4bcb6apvuzodhqbe7mmf7v4zii):
-    dependencies:
-      '@mui/icons-material': 6.1.3(@mui/material@5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
-      '@mui/material': 5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mui/utils': 5.16.6(@types/react@18.3.12)(react@18.3.1)
-      '@tanstack/react-query': 5.59.3(react@18.3.1)
-      autosuggest-highlight: 3.3.4
-      clsx: 2.1.1
-      css-mediaquery: 0.1.2
-      dompurify: 2.5.5
-      inflection: 3.0.0
-      jsonexport: 3.2.0
-      lodash: 4.17.21
-      query-string: 7.1.3
-      ra-core: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-dropzone: 14.2.9(react@18.3.1)
-      react-error-boundary: 4.0.13(react@18.3.1)
-      react-hook-form: 7.53.2(react@18.3.1)
-      react-is: 18.3.1
-      react-router: 6.27.0(react@18.3.1)
-      react-router-dom: 6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-
-  ra-ui-materialui@5.3.0(o2e3z7qka4i2rxplid3zkxr6ja):
+  ra-ui-materialui@5.3.4(fh4ps6k5tp4uwx65pmajdeas5i):
     dependencies:
       '@mui/icons-material': 5.16.7(@mui/material@5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
       '@mui/material': 5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -22871,7 +22846,32 @@ snapshots:
       jsonexport: 3.2.0
       lodash: 4.17.21
       query-string: 7.1.3
-      ra-core: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-core: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-dropzone: 14.2.9(react@18.3.1)
+      react-error-boundary: 4.0.13(react@18.3.1)
+      react-hook-form: 7.53.2(react@18.3.1)
+      react-is: 18.3.1
+      react-router: 6.27.0(react@18.3.1)
+      react-router-dom: 6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
+  ra-ui-materialui@5.3.4(lx2zmdrff6ybv7om43ogkdcqxy):
+    dependencies:
+      '@mui/icons-material': 6.1.3(@mui/material@5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
+      '@mui/material': 5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mui/utils': 5.16.6(@types/react@18.3.12)(react@18.3.1)
+      '@tanstack/react-query': 5.59.3(react@18.3.1)
+      autosuggest-highlight: 3.3.4
+      clsx: 2.1.1
+      css-mediaquery: 0.1.2
+      dompurify: 2.5.5
+      inflection: 3.0.0
+      jsonexport: 3.2.0
+      lodash: 4.17.21
+      query-string: 7.1.3
+      ra-core: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-dropzone: 14.2.9(react@18.3.1)
@@ -22908,16 +22908,16 @@ snapshots:
       minimist: 1.2.8
       strip-json-comments: 2.0.1
 
-  react-admin@5.3.0(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1):
+  react-admin@5.3.4(@mui/utils@5.16.6(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1):
     dependencies:
       '@emotion/react': 11.13.3(@types/react@18.3.12)(react@18.3.1)
       '@emotion/styled': 11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
       '@mui/icons-material': 5.16.7(@mui/material@5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
       '@mui/material': 5.16.7(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      ra-core: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
-      ra-i18n-polyglot: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
-      ra-language-english: 5.3.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
-      ra-ui-materialui: 5.3.0(o2e3z7qka4i2rxplid3zkxr6ja)
+      ra-core: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-i18n-polyglot: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-language-english: 5.3.4(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.27.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.27.0(react@18.3.1))(react@18.3.1)
+      ra-ui-materialui: 5.3.4(fh4ps6k5tp4uwx65pmajdeas5i)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-hook-form: 7.53.2(react@18.3.1)
@@ -24836,11 +24836,11 @@ snapshots:
       typescript: 5.6.3
       vitest: 2.1.3(@types/node@20.16.11)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
 
-  vitest-mock-extended@2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)):
+  vitest-mock-extended@2.0.2(typescript@5.6.3)(vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)):
     dependencies:
       ts-essentials: 10.0.1(typescript@5.6.3)
       typescript: 5.6.3
-      vitest: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0)
+      vitest: 2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0)
 
   vitest@2.1.3(@types/node@20.16.11)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0):
     dependencies:
@@ -24877,7 +24877,7 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0):
+  vitest@2.1.3(@types/node@22.8.0)(jsdom@21.1.2)(sass@1.79.5)(terser@5.36.0):
     dependencies:
       '@vitest/expect': 2.1.3
       '@vitest/mocker': 2.1.3(@vitest/spy@2.1.3)(vite@5.4.10(@types/node@22.8.0)(sass@1.79.5)(terser@5.36.0))
