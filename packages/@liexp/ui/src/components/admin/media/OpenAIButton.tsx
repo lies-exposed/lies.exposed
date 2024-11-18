@@ -14,11 +14,7 @@ interface OpenAIButtonProps extends OpenAIButtonBaseProps {
   isLoading: boolean;
 }
 
-const DEFAULT_PROMPT = `Rephrase the given text in maximum 100 words, without inventing details`;
-
 export const OpenAIButton: React.FC<OpenAIButtonProps> = ({
-  model = "gpt-4",
-  prompt = DEFAULT_PROMPT,
   label,
   onClick,
 }) => {
