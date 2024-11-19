@@ -121,7 +121,7 @@
     "waveform-data": "^4.5.0"
   },
   "devDependencies": {
-    "@tanstack/eslint-plugin-query": "^5.59.7",
+    "@tanstack/eslint-plugin-query": "^5.60.1",
     "@types/d3": "^7.4.3",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-sankey": "^0.12.4",
@@ -138,7 +138,7 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
-    "eslint": "^9.13.0",
+    "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
