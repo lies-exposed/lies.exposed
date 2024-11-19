@@ -1,17 +1,25 @@
-import {
-  type LangchainDocument,
-  type LangchainProvider,
-} from "@liexp/backend/lib/providers/ai/langchain.provider.js";
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type AIBotError, toAIBotError } from "../../common/error/index.js";
+import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { toAIBotError } from "../../common/error/index.js";
+import { loadDocs } from "./loadDocs.flow.js";
+import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-export const embedAndQuestionFlow = (
-  langchain: LangchainProvider,
-  docs: LangchainDocument[],
-  question: string,
-): TaskEither<AIBotError, string> => {
-  return fp.TE.tryCatch(async () => {
-    return langchain.queryDocument(docs, question);
-  }, toAIBotError);
+export const defaultQuestion = "Write a summary of the text.";
+
+export const embedAndQuestionFlow: JobProcessRTE = (job) => (ctx) => {
+  return pipe(
+    loadDocs(job)(ctx),
+    fp.TE.chain((docs) =>
+      fp.TE.tryCatch(async () => {
+        return ctx.langchain.queryDocument(
+          docs,
+          job.data.question ?? defaultQuestion,
+          {
+            model: ctx.config.config.localAi.models
+              ?.embeddings as AvailableModels,
+          },
+        );
+      }, toAIBotError),
+    ),
+  );
 };

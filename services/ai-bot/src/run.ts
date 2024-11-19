@@ -1,6 +1,10 @@
 import path from "path";
-import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
+import {
+  type AvailableModels,
+  GetLangchainProvider,
+} from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
@@ -15,22 +19,73 @@ import axios from "axios";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { parseENV } from "./env.js";
-import { processOpenAIQueue } from "./flows/processOpenAIQueue.flow.js";
-import { type ClientContextRTE } from "./flows/types.js";
-import { userLogin } from "./flows/userLogin.flow.js";
+import { type ClientContextRTE } from "./types.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
-import { report } from "#common/error/index.js";
+import { report, toAIBotError } from "#common/error/index.js";
+import { clearToken } from "#flows/clearToken.flow.js";
+import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
+import { userLogin } from "#flows/userLogin.flow.js";
 
 let token: string | null = null;
 
+const exponentialWait =
+  (delay: number, retries: number): ClientContextRTE<void> =>
+  (ctx) => {
+    const newDelay = delay * Math.pow(2, retries);
+
+    return fp.TE.tryCatch(() => {
+      ctx.logger.info.log("Retrying in %d s", newDelay / 1000);
+      return new Promise((resolve) => setTimeout(resolve, newDelay));
+    }, toAIBotError);
+  };
+
 const run = (dryRun: boolean): ClientContextRTE<void> => {
+  const go = (retry: number): ClientContextRTE<void> =>
+    pipe(
+      processOpenAIQueue(dryRun),
+      fp.RTE.fold(
+        (e) => {
+          if (e.status === 401) {
+            return pipe(
+              clearToken,
+              fp.RTE.chain(() => run(dryRun)),
+            );
+          }
+          return pipe(
+            exponentialWait(10000, retry),
+            fp.RTE.chain(() => go(retry + 1)),
+          );
+        },
+        () =>
+          pipe(
+            exponentialWait(10000, 0),
+            fp.RTE.chain(() => go(0)),
+          ),
+      ),
+    );
+
   return pipe(
     userLogin(),
     fp.RTE.map((t) => {
       token = t;
       return token;
     }),
-    fp.RTE.chain(() => processOpenAIQueue(dryRun)),
+    fp.RTE.chainFirst(() => (ctx) => {
+      return pipe(
+        fp.TE.tryCatch(
+          () =>
+            ctx.openAI.models
+              .list()
+              .asResponse()
+              .then((r) => r.json()),
+          toAIBotError,
+        ),
+        fp.TE.map((r) => r.data.map((m: { id: string }) => m.id)),
+        LoggerService.TE.debug(ctx, "OpenAI models %O"),
+        fp.RTE.fromTaskEither,
+      )(ctx);
+    }),
+    fp.RTE.chain(() => go(0)),
   );
 };
 
@@ -53,11 +108,12 @@ void pipe(
     fp.TE.right(
       GetLangchainProvider({
         baseURL: config.config.localAi.url,
-        // apiKey: config.config.localAi.apiKey,
-        // models: {
-        //   chat: config.config.localAi.models?.summarization as any,
-        //   embeddings: config.config.localAi.models?.embeddings as any,
-        // },
+        apiKey: config.config.localAi.apiKey,
+        models: {
+          chat: config.config.localAi.models?.summarization as AvailableModels,
+          embeddings: config.config.localAi.models
+            ?.embeddings as AvailableModels,
+        },
       }),
     ),
   ),

@@ -23,7 +23,8 @@
     ],
     "paths": {
       "#common/*": ["common/*"],
-      "#flows/*": ["flows/*"]
+      "#flows/*": ["flows/*"],
+      "#services/*": ["services/*"],
     }
   },
   "include": [

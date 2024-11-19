@@ -29,8 +29,8 @@ const log = (fn: (logger: Logger) => FPTSLogger) => (f: LogFn<void>) => {
 
 const teLogger =
   (fn: (logger: Logger) => FPTSLogger) =>
-  (ctx: LoggerContext, f: LogFn<any>) =>
-  <A, E>(t: TaskEither<E, A>) =>
+  <A>(ctx: LoggerContext, f: LogFn<A>) =>
+  <E>(t: TaskEither<E, A>) =>
     pipe(
       t,
       fp.TE.mapLeft((e) => {

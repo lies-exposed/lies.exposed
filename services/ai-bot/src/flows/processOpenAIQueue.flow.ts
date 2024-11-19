@@ -1,9 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type ClientContextRTE } from "./types.js";
-import { JobProcessor } from "#flows/ai/jobProcessor.js";
-import { type ClientContext } from "context.js";
-
-export const defaultQuestion = `Can you summarize the text in 100 words maximum?`;
+import { type ClientContext } from "../context.js";
+import { type ClientContextRTE } from "../types.js";
+import { JobProcessor } from "./ai/jobProcessor.js";
 
 export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
   pipe(
