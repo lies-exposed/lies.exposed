@@ -1,0 +1,11 @@
+{
+  "api": { "url": "http://api.liexp.dev/v1" },
+  "localAi": {
+    "url": "http://localai.liexp.dev:8080/v1",
+    "apiKey": "no-key-is-a-good-key",
+    "models": {
+      "summarize": "gpt-4o",
+      "embeddings": "salamandra-7b-instruct"
+    }
+  }
+}

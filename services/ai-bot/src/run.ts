@@ -1,3 +1,4 @@
+import path from "path";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
@@ -7,55 +8,88 @@ import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
+import { AIBotConfig } from "./config.js";
 import { parseENV } from "./env.js";
 import { processOpenAIQueue } from "./flows/processOpenAIQueue.flow.js";
 import { type ClientContextRTE } from "./flows/types.js";
 import { userLogin } from "./flows/userLogin.flow.js";
+import { ConfigProviderReader } from "#common/config/config.reader.js";
+import { report } from "#common/error/index.js";
 
 let token: string | null = null;
 
-const run: ClientContextRTE<void> = pipe(
-  userLogin(),
-  fp.RTE.map((t) => {
-    token = t;
-    return token;
-  }),
-  fp.RTE.chain(() => processOpenAIQueue(false)),
+const run = (dryRun: boolean): ClientContextRTE<void> => {
+  return pipe(
+    userLogin(),
+    fp.RTE.map((t) => {
+      token = t;
+      return token;
+    }),
+    fp.RTE.chain(() => processOpenAIQueue(dryRun)),
+  );
+};
+
+const configFile = path.resolve(process.cwd(), "ai-bot.config.json");
+const configProvider = ConfigProviderReader<AIBotConfig>(
+  configFile,
+  AIBotConfig,
 );
 
+const dryRun = false;
+
 void pipe(
-  loadAndParseENV(parseENV)(process.cwd()),
-  fp.TE.fromEither,
-  fp.TE.map((env) => {
+  fp.TE.Do,
+  fp.TE.bind("env", () =>
+    pipe(loadAndParseENV(parseENV)(process.cwd()), fp.TE.fromEither),
+  ),
+  fp.TE.bind("fs", () => fp.TE.right(GetFSClient())),
+  fp.TE.bind("config", ({ fs }) => configProvider({ fs })),
+  fp.TE.bind("langchain", ({ config }) =>
+    fp.TE.right(
+      GetLangchainProvider({
+        baseURL: config.config.localAi.url,
+        // apiKey: config.config.localAi.apiKey,
+        // models: {
+        //   chat: config.config.localAi.models?.summarization as any,
+        //   embeddings: config.config.localAi.models?.embeddings as any,
+        // },
+      }),
+    ),
+  ),
+  fp.TE.map(({ env, config, fs, langchain }) => {
     const logger = GetLogger("ai-bot");
 
-    logger.debug.log("ENV", env);
     const restClient = APIRESTClient({
       getAuth: () => {
         return token;
       },
-      url: env.API_URL,
+      url: config.config.api.url,
     });
     const apiClient = fromEndpoints(restClient)(Endpoints);
 
     return {
       env,
-      fs: GetFSClient(),
+      fs,
+      config,
       http: HTTPProvider(axios.create({})),
       pdf: PDFProvider({ client: pdf }),
       logger,
       apiRESTClient: restClient,
       endpointsRESTClient: apiClient,
-      langchain: GetLangchainProvider({
-        baseURL: env.LOCALAI_URL,
+      langchain,
+      openAI: GetOpenAIProvider({
+        baseURL: config.config.localAi.url,
+        apiKey: config.config.localAi.apiKey,
       }),
     };
   }),
-  fp.TE.chain(run),
+  fp.TE.chain(run(dryRun)),
+  fp.TE.mapLeft(report),
   throwTE,
 )
   .then((r) => {
