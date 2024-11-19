@@ -313,6 +313,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
                       tick.to.y + tickLabelSize + (axis.tickLength ?? 0);
                     return (
                       <Group
+                        // eslint-disable-next-line @typescript-eslint/no-base-to-string
                         key={`vx-tick-${String(tick.value)}-${i}`}
                         className={"vx-axis-tick"}
                       >
