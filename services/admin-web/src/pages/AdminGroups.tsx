@@ -236,7 +236,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
-          <OpenAIEmbeddingJobButton resource="groups" valueSource="excerpt" />
+          <OpenAIEmbeddingJobButton
+            resource="groups"
+            valueSource="excerpt"
+            transformValue={(text) => ({ text })}
+          />
           <BlockNoteInput source="excerpt" />
         </FormTab>
         <FormTab label="Avatar">
