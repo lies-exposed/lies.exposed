@@ -4,6 +4,7 @@
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
+  "module": "lib/index.js",
   "private": true,
   "exports": {
     ".": "./lib/index.js",

@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type Document } from "langchain/document";
-import { type ClientContextRTE } from "../types.js";
+import { type ClientContextRTE } from "../../types.js";
 import { loadLink } from "./loadLink.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";
+import { toAIBotError } from "#common/error/index.js";
 
 export const loadDocs = (job: Queue.Queue): ClientContextRTE<Document[]> => {
   if (Queue.CreateQueueTextData.is(job.data)) {
@@ -20,5 +20,5 @@ export const loadDocs = (job: Queue.Queue): ClientContextRTE<Document[]> => {
     return loadLink(job.data.url);
   }
 
-  return fp.RTE.left(toAPIError(new Error("Invalid job data")));
+  return fp.RTE.left(toAIBotError(new Error("Invalid job data")));
 };

@@ -6,10 +6,9 @@ import {
   RunnableSequence,
 } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import * as Reader from "fp-ts/lib/Reader.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { GetLogger } from "@liexp/core/lib/index.js";
+import type * as Reader from "fp-ts/lib/Reader.js";
 import { loadSummarizationChain } from "langchain/chains";
-// import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { formatDocumentsAsString } from "langchain/util/document";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -43,47 +42,81 @@ Summary:
 
 export interface LangchainProvider {
   chat: ChatOpenAI;
-  embeddings: OpenAIEmbeddings;
+  // embeddings: OpenAIEmbeddings;
   queryDocument: (
     url: LangchainDocument[],
     question: string,
+    options?: { model?: AvailableModels },
   ) => Promise<string>;
-  summarizeText: (text: LangchainDocument[]) => Promise<string>;
+  summarizeText: (
+    text: LangchainDocument[],
+    options?: { model?: AvailableModels },
+  ) => Promise<string>;
 }
+
+export type AvailableModels =
+  | "gpt-4o"
+  | "gpt-3.5-turbo"
+  | "text-embedding-ada-002"
+  | "salamandra-7b-instruct";
 
 export interface LangchainProviderOptions {
   baseURL: string;
+  apiKey: string;
+  models?: {
+    chat?: AvailableModels;
+    embeddings?: AvailableModels;
+  };
 }
+
+const langchainLogger = GetLogger("langchain");
+
 export const GetLangchainProvider = (
   opts: LangchainProviderOptions,
 ): LangchainProvider => {
   const chat = new ChatOpenAI({
-    // model: "gpt-3.5-turbo",
-    model: "gpt-4o",
-    // model: "text-embedding-ada-002",
-    // model: 'all-MiniLM-L6-v2',
+    model: opts.models?.chat ?? "gpt-4o",
     temperature: 0,
-    apiKey: "no-key-is-a-good-key",
+    apiKey: opts.apiKey,
     configuration: {
       baseURL: opts.baseURL,
-      apiKey: "no-key-is-a-good-key",
     },
     streaming: true,
   });
 
-  const embeddings = new OpenAIEmbeddings({
-    model: "text-embedding-ada-002",
-    apiKey: "no-key-is-a-good-key",
-    configuration: {
-      baseURL: opts.baseURL,
-      apiKey: "no-key-is-a-good-key",
-    },
-  });
-
   return {
     chat,
-    embeddings,
-    queryDocument: async (content, question) => {
+    queryDocument: async (content, question, options) => {
+      const model =
+        options?.model ?? opts.models?.embeddings ?? "text-embedding-ada-002";
+
+      const chatModel = options?.model ?? opts.models?.chat ?? "gpt-4o";
+
+      langchainLogger.info.log(
+        "queryDocument use embedding model %s to query document with size %d using chat model %s",
+        model,
+        content.length,
+        chatModel,
+      );
+
+      const chat = new ChatOpenAI({
+        model: chatModel,
+        temperature: 0,
+        apiKey: opts.apiKey,
+        configuration: {
+          baseURL: opts.baseURL,
+        },
+        streaming: true,
+      });
+
+      const embeddings = new OpenAIEmbeddings({
+        model,
+        apiKey: opts.apiKey,
+        configuration: {
+          baseURL: opts.baseURL,
+        },
+      });
+
       const textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
         chunkOverlap: 200,
@@ -124,7 +157,17 @@ export const GetLangchainProvider = (
 
       return output;
     },
-    summarizeText: async (text) => {
+    summarizeText: async (text, options) => {
+      const chat = new ChatOpenAI({
+        model: options?.model ?? opts.models?.chat ?? "gpt-4o",
+        apiKey: opts.apiKey,
+        temperature: 0,
+        configuration: {
+          baseURL: opts.baseURL,
+        },
+        streaming: true,
+      });
+
       const textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
         chunkOverlap: 200,
@@ -158,10 +201,6 @@ export const GetLangchainProvider = (
   };
 };
 
-export const LangchainProviderReader = pipe(
-  Reader.ask<LangchainProviderOptions>(),
-  Reader.map(GetLangchainProvider),
-);
 export type LangchainProviderReader = Reader.Reader<
   LangchainProviderOptions,
   LangchainProvider
