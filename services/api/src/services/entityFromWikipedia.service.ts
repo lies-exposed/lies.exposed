@@ -76,8 +76,10 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
 
                         if (pageId === -1) {
                           return fp.TE.left(
-                            new Error(
-                              `User canceled the search for ${api.search}`,
+                            toControllerError(
+                              new Error(
+                                `User canceled the search for ${api.search}`,
+                              ),
                             ),
                           );
                         }
