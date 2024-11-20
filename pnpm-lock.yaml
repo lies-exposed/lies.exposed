@@ -45,7 +45,7 @@ importers:
         version: 0.3.2(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3)
       eslint-plugin-import:
         specifier: ^2.30.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-n:
         specifier: ^17.13.2
         version: 17.13.2(eslint@9.15.0(jiti@2.3.3))
@@ -186,8 +186,8 @@ importers:
         specifier: ^4.23.5
         version: 4.23.7
       fast-csv:
-        specifier: ^5.0.1
-        version: 5.0.1
+        specifier: ^5.0.2
+        version: 5.0.2
       langchain:
         specifier: ^0.3.6
         version: 0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.18(openai@4.72.0(zod@3.23.8))))(@langchain/core@0.3.18(openai@4.72.0(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.72.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.0))
@@ -281,7 +281,7 @@ importers:
         version: 0.3.2(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3)
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-prettier:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
@@ -788,7 +788,7 @@ importers:
         version: 9.1.0(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-prettier:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
@@ -933,7 +933,7 @@ importers:
         version: 3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-n:
         specifier: ^17.13.2
         version: 17.13.2(eslint@9.15.0(jiti@2.3.3))
@@ -1071,8 +1071,8 @@ importers:
         specifier: ^2.1.3
         version: 2.1.3
       fast-csv:
-        specifier: ^5.0.1
-        version: 5.0.1
+        specifier: ^5.0.2
+        version: 5.0.2
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3
@@ -1253,7 +1253,7 @@ importers:
         version: 3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-prettier:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
@@ -1744,7 +1744,7 @@ importers:
         version: 3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-import:
         specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+        version: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-n:
         specifier: ^17.13.2
         version: 17.13.2(eslint@9.15.0(jiti@2.3.3))
@@ -3294,11 +3294,11 @@ packages:
     resolution: {integrity: sha512-2b/g5hRmpbb1o4GnTZax9N9m0FXzz9OV42ZzI4rDDMDuHUqigAiQCEWChBWCY4ztAGVRjoWT19v0yMmc5/L5kA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fast-csv/format@5.0.0':
-    resolution: {integrity: sha512-IyMpHwYIOGa2f0BJi6Wk55UF0oBA5urdIydoEDYxPo88LFbeb3Yr4rgpu98OAO1glUWheSnNtUgS80LE+/dqmw==}
+  '@fast-csv/format@5.0.2':
+    resolution: {integrity: sha512-fRYcWvI8vs0Zxa/8fXd/QlmQYWWkJqKZPAXM+vksnplb3owQFKTPPh9JqOtD0L3flQw/AZjjXdPkD7Kp/uHm8g==}
 
-  '@fast-csv/parse@5.0.0':
-    resolution: {integrity: sha512-ecF8tCm3jVxeRjEB6VPzmA+1wGaJ5JgaUX2uesOXdXD6qQp0B3EdshOIed4yT1Xlj/F2f8v4zHSo0Oi31L697g==}
+  '@fast-csv/parse@5.0.2':
+    resolution: {integrity: sha512-gMu1Btmm99TP+wc0tZnlH30E/F1Gw1Tah3oMDBHNPe9W8S68ixVHjt89Wg5lh7d9RuQMtwN+sGl5kxR891+fzw==}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -7680,8 +7680,8 @@ packages:
     resolution: {integrity: sha512-wRUT2KD2lAmT75WNIJIHECawoUUMHM0I5jrlLXGtGeqmPL8jl/EldUDjY1VCp6fDY8yflyfUeIOsOBrIbIiArg==}
     engines: {node: '>=8.0.0'}
 
-  fast-csv@5.0.1:
-    resolution: {integrity: sha512-Q43zC4NdQD5MAWOVQOF8KA+D6ddvTJjX2ib8zqysm74jZhtk6+dc8C75/OqRV6Y9CLc4kgvbC3PLG8YL4YZfgw==}
+  fast-csv@5.0.2:
+    resolution: {integrity: sha512-CnB2zYAzzeh5Ta0UhSf32NexLy2SsEsSMY+fMWPV40k1OgaLEbm9Hf5dms3z/9fASZHBjB6i834079gVeksEqQ==}
     engines: {node: '>=10.0.0'}
 
   fast-deep-equal@3.1.3:
@@ -14675,7 +14675,7 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@fast-csv/format@5.0.0':
+  '@fast-csv/format@5.0.2':
     dependencies:
       lodash.escaperegexp: 4.1.2
       lodash.isboolean: 3.0.3
@@ -14683,7 +14683,7 @@ snapshots:
       lodash.isfunction: 3.0.9
       lodash.isnil: 4.0.0
 
-  '@fast-csv/parse@5.0.0':
+  '@fast-csv/parse@5.0.2':
     dependencies:
       lodash.escaperegexp: 4.1.2
       lodash.groupby: 4.6.0
@@ -19421,20 +19421,20 @@ snapshots:
       debug: 4.3.7
       enhanced-resolve: 5.17.1
       eslint: 9.15.0(jiti@2.3.3)
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       fast-glob: 3.3.2
       get-tsconfig: 4.8.1
       is-bun-module: 1.1.0
       is-glob: 4.0.3
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
     transitivePeerDependencies:
       - '@typescript-eslint/parser'
       - eslint-import-resolver-node
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -19464,7 +19464,7 @@ snapshots:
       - supports-color
       - typescript
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -19475,7 +19475,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.15.0(jiti@2.3.3)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@9.15.0(jiti@2.3.3))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.15.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))
       hasown: 2.0.2
       is-core-module: 2.15.1
       is-glob: 4.0.3
@@ -19762,10 +19762,10 @@ snapshots:
     dependencies:
       pure-rand: 5.0.5
 
-  fast-csv@5.0.1:
+  fast-csv@5.0.2:
     dependencies:
-      '@fast-csv/format': 5.0.0
-      '@fast-csv/parse': 5.0.0
+      '@fast-csv/format': 5.0.2
+      '@fast-csv/parse': 5.0.2
 
   fast-deep-equal@3.1.3: {}
 
