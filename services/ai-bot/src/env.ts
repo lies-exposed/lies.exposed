@@ -9,6 +9,7 @@ const ENV = t.strict(
   {
     LIEXP_USERNAME: optionFromUndefined(t.string),
     LIEXP_PASSWORD: optionFromUndefined(t.string),
+    DEBUG: optionFromUndefined(t.string),
   },
   "ENV",
 );

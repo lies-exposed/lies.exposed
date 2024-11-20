@@ -8,7 +8,7 @@ coverage
 dump
 deploy
 node_modules
-temp
+**/temp
 models
 **/node_modules
 **/lib

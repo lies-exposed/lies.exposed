@@ -24,8 +24,9 @@ docker compose down
 cp ./services/api/certs/*.crt ./deploy/certs/
 cd ./deploy || exit
 
-docker compose --env-file .env.api up --build --force-recreate -d --no-deps api
-docker compose --env-file .env.web up --build --force-recreate -d --no-deps web
+docker compose --env-file .env.api up --force-recreate -d --no-deps api
+docker compose --env-file .env.web up --force-recreate -d --no-deps web
+docker compose --env-file .env.ai-bot up --force-recreate -d --no-deps ai-bot
 sleep 5
 
 docker compose logs -f

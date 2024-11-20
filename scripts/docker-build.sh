@@ -3,6 +3,7 @@
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
 WEB_IMAGE=liexp-web
+AI_BOT_IMAGE=liexp-ai-bot
 
 (exec ./scripts/docker-login.sh "$1")
 
@@ -12,6 +13,7 @@ base=false
 pnpm=false
 api=false
 web=false
+ai_bot=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
@@ -22,6 +24,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --web)
             web=true
+            shift
+            ;;
+        --ai-bot)
+            ai_bot=true
             shift
             ;;
         --base)
@@ -53,7 +59,15 @@ if [ "$base" = true ]; then
     --target=api-base
 fi
 
-
+if [ "$ai_bot" = true ]; then
+  docker build . \
+    --force-rm \
+    --no-cache \
+    --file ai-bot.Dockerfile \
+    --target production \
+    --tag $AI_BOT_IMAGE:alpha-latest \
+    --tag ghcr.io/lies-exposed/$AI_BOT_IMAGE:alpha-latest
+fi
 
 if [ "$api" = true ]; then
   docker build . \

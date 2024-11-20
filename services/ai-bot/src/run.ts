@@ -29,15 +29,59 @@ import { userLogin } from "#flows/userLogin.flow.js";
 let token: string | null = null;
 
 const exponentialWait =
-  (delay: number, retries: number): ClientContextRTE<void> =>
+  (delay: number, retries: number, action: string): ClientContextRTE<void> =>
   (ctx) => {
     const newDelay = delay * Math.pow(2, retries);
 
     return fp.TE.tryCatch(() => {
-      ctx.logger.info.log("Retrying in %d s", newDelay / 1000);
+      ctx.logger.info.log(
+        "Retrying (%d) %s in %ds",
+        retries,
+        action,
+        newDelay / 1000,
+      );
       return new Promise((resolve) => setTimeout(resolve, newDelay));
     }, toAIBotError);
   };
+
+let waitForLoginRetry = 0;
+const waitForLogin = (): ClientContextRTE<string> => {
+  return pipe(
+    userLogin(),
+    fp.RTE.orElse(() =>
+      pipe(
+        exponentialWait(10000, waitForLoginRetry++, "login"),
+        fp.RTE.chain(waitForLogin),
+      ),
+    ),
+  );
+};
+
+let waitForLocalAIRetry = 0;
+const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
+  return pipe(
+    fp.TE.tryCatch(
+      () =>
+        ctx.openAI.models
+          .list()
+          .asResponse()
+          .then((r) => r.json()),
+      toAIBotError,
+    ),
+    fp.TE.orElse(() => fp.TE.right({ data: [] })),
+    fp.TE.map((r) => r.data.map((m: { id: string }) => m.id)),
+    LoggerService.TE.debug(ctx, "OpenAI models %O"),
+    fp.TE.chain((models) => {
+      if (models.length === 0) {
+        return pipe(
+          exponentialWait(10000, waitForLocalAIRetry++, "waitForLocalAI"),
+          fp.RTE.chain(waitForLocalAI),
+        )(ctx);
+      }
+      return fp.TE.right(undefined);
+    }),
+  );
+};
 
 const run = (dryRun: boolean): ClientContextRTE<void> => {
   const go = (retry: number): ClientContextRTE<void> =>
@@ -52,39 +96,25 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
             );
           }
           return pipe(
-            exponentialWait(10000, retry),
+            exponentialWait(10000, retry, "run:failed"),
             fp.RTE.chain(() => go(retry + 1)),
           );
         },
         () =>
           pipe(
-            exponentialWait(10000, 0),
+            exponentialWait(10000, 0, "run:finish"),
             fp.RTE.chain(() => go(0)),
           ),
       ),
     );
 
   return pipe(
-    userLogin(),
+    waitForLogin(),
     fp.RTE.map((t) => {
       token = t;
       return token;
     }),
-    fp.RTE.chainFirst(() => (ctx) => {
-      return pipe(
-        fp.TE.tryCatch(
-          () =>
-            ctx.openAI.models
-              .list()
-              .asResponse()
-              .then((r) => r.json()),
-          toAIBotError,
-        ),
-        fp.TE.map((r) => r.data.map((m: { id: string }) => m.id)),
-        LoggerService.TE.debug(ctx, "OpenAI models %O"),
-        fp.RTE.fromTaskEither,
-      )(ctx);
-    }),
+    fp.RTE.chainFirst(waitForLocalAI),
     fp.RTE.chain(() => go(0)),
   );
 };

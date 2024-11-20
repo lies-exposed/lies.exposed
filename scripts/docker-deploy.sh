@@ -6,11 +6,12 @@ username=$1
 export SSH_DOMAIN=alpha.lies.exposed
 
 scp ./deploy/gh-token.txt $SSH_DOMAIN:docker-app/gh-token.txt
+scp -r ./services/api/certs/ $SSH_DOMAIN:docker-app/certs/
+scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
+scp ./deploy/ai-bot.config.json $SSH_DOMAIN:docker-app/ai-bot.config.json
 scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
 scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
-scp -r ./services/api/certs/ $SSH_DOMAIN:docker-app/certs/
-scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
 
 scp -r ./resources/nginx/snippets/ssl-params.conf $SSH_DOMAIN:/etc/nginx/snippets/ssl-params.conf
 scp -r ./resources/nginx/alpha.lies.exposed.conf $SSH_DOMAIN:/etc/nginx/sites-enabled/alpha.lies.exposed.conf
@@ -41,13 +42,14 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     mkdir -p ./temp/tg/messages
     mkdir -p ./temp/media
     mkdir -p ./temp/queue
+    mkdir -p ./ai-bot-temp
 
     chown -R pptruser:pptruser ./config
     chown -R pptruser:pptruser ./temp
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
     docker compose --env-file .env.api pull
-    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
+    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker ai-bot
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all

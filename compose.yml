@@ -106,8 +106,8 @@ services:
       target: dev
       dockerfile: ai-bot.Dockerfile
     env_file:
-      - ./services/ai-bot/.env
       - ./services/ai-bot/.env.local
+      - ./services/ai-bot/.env
     command: pnpm docker:dev
     working_dir: /usr/src/app/services/ai-bot
     volumes:
@@ -115,6 +115,7 @@ services:
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/ai-bot:/usr/src/app/services/ai-bot:cached
       - ./services/ai-bot/temp:/usr/src/app/services/ai-bot/temp:rw
+      - ./services/ai-bot/ai-bot.config.json:/usr/src/app/services/ai-bot/ai-bot.config.json:rw
     mem_limit: 512M
     depends_on:
       - api.liexp.dev
