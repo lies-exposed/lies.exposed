@@ -6,7 +6,7 @@ import {
   RunnableSequence,
 } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { GetLogger } from "@liexp/core/lib/index.js";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { loadSummarizationChain } from "langchain/chains";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";

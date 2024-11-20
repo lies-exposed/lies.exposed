@@ -1,17 +1,14 @@
 {
   "name": "@liexp/ai-bot",
   "version": "1.0.0",
-  "bin": {
-    "liexp-ai-bot": "./build/liexp-ai-bot.js"
-  },
   "type": "module",
   "imports": {
     "#common/*": "./build/common/*",
-    "#flows/*": "./build/flows/*"
+    "#flows/*": "./build/flows/*",
+    "#services/*": "./build/services/*"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "bin:run": "node ./build/bin/cli.js",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
     "dev": "node --watch build/run.js",
@@ -21,12 +18,19 @@
     "start": "node build/run.js"
   },
   "dependencies": {
+    "@aws-sdk/client-sso-oidc": "^3.696.0",
+    "@aws-sdk/client-sts": "^3.696.0",
+    "@langchain/community": "^0.3.15",
+    "@langchain/core": "^0.3.18",
+    "@langchain/openai": "^0.3.14",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "cheerio": "^1.0.0",
     "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.21"
+    "io-ts": "^2.2.21",
+    "prompts": "^2.4.2",
+    "ts-shared": "^2.0.0-alpha.6"
   },
   "devDependencies": {
     "eslint": "^9.15.0"

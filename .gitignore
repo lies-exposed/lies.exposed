@@ -59,3 +59,7 @@ services/data/public/**/import
 
 # LocalAI models
 models
+
+# Docker deployment
+deploy/ai-bot-temp
+deploy/ai-bot.config.json

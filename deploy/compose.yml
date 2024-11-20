@@ -6,11 +6,11 @@ services:
     env_file:
       - .env.api
     volumes:
-      - ./certs/:/prod/services/api/certs/:ro
-      - ./temp/:/prod/services/api/temp/:rw
-      - ./temp/db/:/prod/services/api/db/:rw
-      - ./config/:/prod/services/api/config/:rw
-    working_dir: /prod/services/api
+      - ./certs/:/prod/api/certs/:ro
+      - ./temp/:/prod/api/temp/:rw
+      - ./temp/db/:/prod/api/db/:rw
+      - ./config/:/prod/api/config/:rw
+    working_dir: /prod/api
     restart: always
     logging:
       driver: "json-file"
@@ -37,10 +37,18 @@ services:
     container_name: liexp-worker
     environment:
       TG_BOT_POLLING: "true"
-    command:  pnpm start:worker
+    command:  node build/worker/index.js
     mem_limit: 512M
     depends_on:
       - telegram-bot-api
+
+  ai-bot:
+    image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+    env_file:
+      - .env.ai-bot
+    volumes:
+      - ./ai-bot-temp/:/prod/ai-bot/temp/:rw
+      - ./ai-bot.config.json:/prod/ai-bot/ai-bot.config.json:rw
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
@@ -56,8 +64,6 @@ services:
     #   - "4020"
     depends_on:
       - api
-    working_dir: /prod/services/web
-    command: pnpm serve
     restart: always
     logging:
       driver: "json-file"

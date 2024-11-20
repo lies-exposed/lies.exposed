@@ -1,5 +1,4 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { pipe } from "fp-ts/lib/function";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { transform as transformBNDocument } from "./transform.utils.js";
 import { type BNEditorDocument } from "./type.js";
 
