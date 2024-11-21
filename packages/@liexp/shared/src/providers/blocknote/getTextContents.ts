@@ -1,10 +1,9 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type BNESchemaEditor } from "../EditorSchema.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "fp-ts/lib/function";
 import { transform as transformBNDocument } from "./transform.utils.js";
+import { type BNEditorDocument } from "./type.js";
 
-export const getTextContents = (
-  blocks: BNESchemaEditor["document"],
-): string => {
+export const getTextContents = (blocks: BNEditorDocument): string => {
   return pipe(
     transformBNDocument<string>(blocks, (p: any) => {
       if (p.type === "paragraph") {

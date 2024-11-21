@@ -1,4 +1,5 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import {
   Column,
   CreateDateColumn,
@@ -65,7 +66,7 @@ export class ActorEntity {
   events: Relation<EventV2Entity[]>;
 
   @Column({ type: "json", nullable: true })
-  excerpt: any[] | null;
+  excerpt: BNEditorDocument | null;
 
   @Column({ type: "json", nullable: true })
   body: any[] | null;

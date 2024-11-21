@@ -122,13 +122,13 @@ describe("Create From TG Message", () => {
       async () => {
         const url = fc.sample(URLArb, 1)[0];
         const description = fc.sample(HumanReadableStringArb(), 1)[0];
-        let link = {
+        const linkData = {
           url: sanitizeURL(url),
           description,
           id: uuid(),
         };
 
-        [link] = await throwTE(Test.ctx.db.save(LinkEntity, [link]));
+        const [link] = await throwTE(Test.ctx.db.save(LinkEntity, [linkData]));
 
         Test.mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 

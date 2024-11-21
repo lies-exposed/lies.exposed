@@ -11,8 +11,8 @@ import {
   type ExtractEntitiesWithNLPFromResourceInput,
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
-import { getTextContents } from "@liexp/ui/lib/components/Common/BlockNote/utils/getTextContents.js";
-import { isValidValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/isValidValue.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
@@ -51,7 +51,7 @@ const findOneResourceAndMapText = (
         },
       }),
       fp.RTE.map((k) =>
-        isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
+        k.excerpt && isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
       ),
     );
   }
@@ -64,7 +64,7 @@ const findOneResourceAndMapText = (
         },
       }),
       fp.RTE.map((k) =>
-        isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
+        k.excerpt && isValidValue(k.excerpt) ? getTextContents(k.excerpt) : "",
       ),
     );
   }
@@ -80,8 +80,8 @@ const findOneResourceAndMapText = (
         (k) => isValidValue(k.excerpt),
         () => toControllerError("Event has no excerpt"),
       ),
-      fp.RTE.map((t) =>
-        isValidValue(t.excerpt) ? getTextContents(t.excerpt) : "",
+      fp.RTE.map(({ excerpt }) =>
+        excerpt && isValidValue(excerpt) ? getTextContents(excerpt) : "",
       ),
     );
   }

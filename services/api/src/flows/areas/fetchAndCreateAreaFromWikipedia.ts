@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
-import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { fetchCoordinates } from "./fetchCoordinates.flow.js";
 import { type ServerContext } from "#context/context.type.js";

@@ -1,9 +1,9 @@
 import type * as io from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { styled } from "../../theme/index.js";
-import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";
 import { List, type ListItemProps } from "../Common/List.js";
 import {
   Box,

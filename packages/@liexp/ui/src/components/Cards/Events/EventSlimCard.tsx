@@ -1,11 +1,11 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Stack } from "@mui/system";
 import { parseISO } from "date-fns";
 import * as React from "react";
 import { BNEditor } from "../../Common/BlockNote/index.js";
-import { isValidValue } from "../../Common/BlockNote/utils/isValidValue.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import {
   Box,

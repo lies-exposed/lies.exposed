@@ -1,5 +1,6 @@
 import { Group } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import {
   type Connection,
   type Node,
@@ -13,7 +14,6 @@ import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js";
 import { FormControlLabel, Stack, Switch } from "../../../mui/index.js";
-import { toInitialValue } from "../../BlockNote/utils/utils.js";
 import {
   NodeContextMenu,
   type NodeContextMenuProps,

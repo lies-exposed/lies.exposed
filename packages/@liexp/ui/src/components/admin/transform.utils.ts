@@ -3,15 +3,15 @@ import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
+import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type RaRecord } from "react-admin";
 import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
-import { getTextContents } from "../Common/BlockNote/utils/getTextContents.js";
-import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
-import { relationsTransformer } from "../Common/BlockNote/utils/transform.utils.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(

@@ -4,6 +4,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as React from "react";
 import {
@@ -20,7 +21,6 @@ import {
   TextInput,
   type RaRecord,
 } from "react-admin";
-import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/EventIcon.js";
 import { Box, Icons, Typography } from "../../mui/index.js";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput.js";

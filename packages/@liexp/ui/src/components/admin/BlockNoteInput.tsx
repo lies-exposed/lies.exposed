@@ -1,3 +1,4 @@
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import {
@@ -8,7 +9,6 @@ import {
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
 import { BNEditor, type BNEditorProps } from "../Common/BlockNote/index.js";
-import { toInitialValue } from "../Common/BlockNote/utils/utils.js";
 import { ResettableErrorBox } from "../Common/ErrorBox.js";
 import JSONInput from "../Common/JSON/JSONInput.js";
 import { FormControlLabel, Paper, Stack, Switch } from "../mui/index.js";

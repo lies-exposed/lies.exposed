@@ -1,9 +1,12 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
+import {
+  type BNESchemaEditor,
+  actorInlineSpec,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import ActorChipBox from "../../../../../containers/actors/ActorChipBox.js";
 import { ActorIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface ActorInlineState {
@@ -37,24 +40,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
 });
 
 export const actorInlineContentSpec = createReactInlineContentSpec(
-  {
-    type: "actor",
-    propSchema: {
-      id: {
-        default: "",
-      },
-      className: {
-        default: "",
-      },
-      displayAvatar: {
-        default: true,
-      },
-      displayFullName: {
-        default: true,
-      },
-    },
-    content: "none",
-  } as const,
+  actorInlineSpec,
   {
     render: ({
       inlineContent: {

@@ -1,5 +1,10 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
+import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
+import {
+  mediaBlockSpecs,
+  DEFAULT_ID,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import MediaSliderBox from "../../../../../containers/MediaSliderBox.js";
@@ -14,7 +19,6 @@ import {
   Input,
   Stack,
 } from "../../../../mui/index.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface MediaBlockProps {
@@ -22,8 +26,6 @@ interface MediaBlockProps {
   enableDescription: boolean;
   height: number;
 }
-
-const DEFAULT_ID = "missing-id";
 
 // Slash menu item to insert an Alert block
 export const insertMediaBlock = (editor: BNESchemaEditor) => ({
@@ -166,68 +168,51 @@ export const MediaBlockPluginControl: React.FC<{
   );
 };
 
-export const mediaBlock = createReactBlockSpec(
-  {
-    type: "media",
-    propSchema: {
-      id: {
-        default: DEFAULT_ID,
-      },
-      enableDescription: {
-        default: false,
-      },
-      height: {
-        default: 150,
-      },
+export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
+  render: ({
+    block: {
+      props: { id, enableDescription, height },
     },
-    content: "inline",
+    editor,
+  }): React.ReactNode => {
+    const currentCursor = editor.getTextCursorPosition();
+
+    const onRemove = () => {
+      editor.removeBlocks([currentCursor.block]);
+    };
+
+    const onChange = ({ ...mediaBlockProps }: MediaBlockProps): void => {
+      insertOrUpdateBlock(editor, {
+        type: "media",
+        props: { ...mediaBlockProps },
+      });
+    };
+
+    return (
+      <Stack direction="column" width={"100%"}>
+        <EditMenu
+          editor={editor as any}
+          onClick={() => {
+            onChange({
+              id: DEFAULT_ID,
+              enableDescription: false,
+              height: 100,
+            });
+          }}
+        >
+          {id === DEFAULT_ID ? (
+            <MediaBlockPluginControl
+              onRemove={onRemove}
+              data={{ id: "", enableDescription, height }}
+              onChange={onChange}
+            />
+          ) : (
+            <MediaBlockPluginRenderer
+              data={{ id: id, enableDescription, height }}
+            />
+          )}
+        </EditMenu>
+      </Stack>
+    );
   },
-  {
-    render: ({
-      block: {
-        props: { id, enableDescription, height },
-      },
-      editor,
-    }): React.ReactNode => {
-      const currentCursor = editor.getTextCursorPosition();
-
-      const onRemove = () => {
-        editor.removeBlocks([currentCursor.block]);
-      };
-
-      const onChange = ({ ...mediaBlockProps }: MediaBlockProps): void => {
-        insertOrUpdateBlock(editor, {
-          type: "media",
-          props: { ...mediaBlockProps },
-        });
-      };
-
-      return (
-        <Stack direction="column" width={"100%"}>
-          <EditMenu
-            editor={editor as any}
-            onClick={() => {
-              onChange({
-                id: DEFAULT_ID,
-                enableDescription: false,
-                height: 100,
-              });
-            }}
-          >
-            {id === DEFAULT_ID ? (
-              <MediaBlockPluginControl
-                onRemove={onRemove}
-                data={{ id: "", enableDescription, height }}
-                onChange={onChange}
-              />
-            ) : (
-              <MediaBlockPluginRenderer
-                data={{ id: id, enableDescription, height }}
-              />
-            )}
-          </EditMenu>
-        </Stack>
-      );
-    },
-  },
-);
+});

@@ -1,12 +1,12 @@
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media/index.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
-import { getTextContentsCapped } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Link, Typography } from "../../mui/index.js";
 import { MediaSlider } from "../../sliders/MediaSlider.js";

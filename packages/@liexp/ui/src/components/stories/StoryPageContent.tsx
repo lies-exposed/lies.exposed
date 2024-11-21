@@ -6,6 +6,7 @@ import {
   type Media,
   type Story,
 } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import * as t from "io-ts";
@@ -14,7 +15,6 @@ import { useTheme } from "../../theme/index.js";
 import { BNEditor } from "../Common/BlockNote/index.js";
 import { InlineRelationsPlugin } from "../Common/BlockNote/plugins/renderer/InlineRelationsBoxPlugin.js";
 import { TOCPlugin } from "../Common/BlockNote/plugins/renderer/TOCPlugin.js";
-import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 import EditButton from "../Common/Button/EditButton.js";
 import { MainContent } from "../MainContent.js";
 import { Grid, Typography, alpha } from "../mui/index.js";

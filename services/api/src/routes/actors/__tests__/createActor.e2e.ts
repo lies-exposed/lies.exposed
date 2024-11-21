@@ -1,7 +1,7 @@
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
-import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";

@@ -1,6 +1,7 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import {
   Column,
   CreateDateColumn,
@@ -36,7 +37,7 @@ export class EventV2Entity {
   date: Date;
 
   @Column({ type: "json", nullable: true })
-  excerpt: any[] | null;
+  excerpt: BNEditorDocument | null;
 
   @Column({ type: "json", nullable: true })
   body: any[] | null;

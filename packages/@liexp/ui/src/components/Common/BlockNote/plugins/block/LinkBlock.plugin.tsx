@@ -1,5 +1,6 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
+import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { LinksBox } from "../../../../../containers/link/LinksBox.js";
@@ -12,7 +13,6 @@ import {
   Input,
   Stack,
 } from "../../../../mui/index.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface LinkBlockProps {

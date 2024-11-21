@@ -8,13 +8,11 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 import { ActorListItem } from "../ActorList.js";

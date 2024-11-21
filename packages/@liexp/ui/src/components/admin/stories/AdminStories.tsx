@@ -1,5 +1,6 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -34,7 +35,6 @@ import {
 } from "react-admin";
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { relationsTransformer } from "../../Common/BlockNote/utils/transform.utils.js";
 import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
