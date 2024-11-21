@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
-import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type ActorEntity } from "../../entities/Actor.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";

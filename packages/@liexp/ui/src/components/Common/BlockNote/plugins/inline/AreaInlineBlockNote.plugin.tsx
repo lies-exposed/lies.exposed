@@ -1,9 +1,12 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
+import {
+  type BNESchemaEditor,
+  areaInlineSpec,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import { AreaChipBox } from "../../../../../containers/areas/AreaChipBox.js";
 import { AreaIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface AreaInlineState {
@@ -37,24 +40,7 @@ export const areaItem = (editor: BNESchemaEditor) => ({
 });
 
 export const areaInlineContentSpec = createReactInlineContentSpec(
-  {
-    type: "area",
-    propSchema: {
-      id: {
-        default: "",
-      },
-      className: {
-        default: "",
-      },
-      displayLabel: {
-        default: true,
-      },
-      displayFeaturedImage: {
-        default: false,
-      },
-    },
-    content: "none",
-  } as const,
+  areaInlineSpec,
   {
     render: ({
       inlineContent: {

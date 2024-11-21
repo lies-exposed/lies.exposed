@@ -1,9 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type EventRelationIds } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
-import { type BNBlock, type BNESchemaEditor } from "../EditorSchema.js";
+import { type UUID } from "../../io/http/Common/UUID.js";
+import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { isValidValue } from "./isValidValue.js";
+import { type BNESchemaEditor, type BNBlock } from "./type.js";
 
 export type DeserializeBNBlock<T> = (p: BNBlock) => Option<T[]>;
 
@@ -62,10 +62,10 @@ const inlineRelationsPluginSerializer = (
   p: BNBlock,
 ): Option<InlineRelation[]> => {
   switch (p.type) {
-    case "keyword" as any:
-    case "actor" as any:
-    case "group" as any:
-    case "area" as any:
+    case "keyword":
+    case "actor":
+    case "group":
+    case "area":
     case "media":
     case "event": {
       const pp: any = p;
@@ -81,8 +81,9 @@ const inlineRelationsPluginSerializer = (
       return fp.O.none;
     }
     default: {
+      const content = Array.isArray(p.content) ? p.content : [];
       return pipe(
-        p.content ?? [],
+        content,
         fp.A.filter((c) => !["text", "link"].includes(c.type)),
         fp.A.map((c) => inlineRelationsPluginSerializer(c as any)),
         fp.A.compact,

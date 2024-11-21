@@ -3,6 +3,7 @@ import { transform } from "@liexp/shared/lib/helpers/event/event.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import get from "lodash/get";
@@ -16,7 +17,6 @@ import {
 } from "react-admin";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
-import { getTextContents } from "../../../Common/BlockNote/utils/index.js";
 import {
   Box,
   MenuItem,

@@ -2,14 +2,17 @@ import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import {
+  eventBlockSpecs,
+  type BNESchemaEditor,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import EventsBox from "../../../../../containers/EventsBox.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
 import { Box, IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { EventIcon } from "../../../Icons/index.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 const DEFAULT_ID = "missing-id";
@@ -131,66 +134,51 @@ export const EventBlockPluginRenderer: React.FC<{ id: string }> = ({ id }) => {
   );
 };
 
-export const eventBlock = createReactBlockSpec(
-  {
-    type: "event",
-    propSchema: {
-      id: {
-        default: DEFAULT_ID,
-      },
-      type: {
-        default: DEFAULT_TYPE as EventType | typeof DEFAULT_TYPE,
-        values: [...EventType.types.map((v) => v.value), DEFAULT_TYPE],
-      },
+export const eventBlock = createReactBlockSpec(eventBlockSpecs, {
+  render: ({
+    block: {
+      id: blockId,
+      props: { id, type },
     },
-    content: "inline",
+    editor,
+  }): React.ReactNode => {
+    const currentCursor = editor.getTextCursorPosition();
+
+    const onRemove = () => {
+      editor.removeBlocks([currentCursor.block]);
+    };
+
+    const onChange = (newId: string): void => {
+      const pos = editor.getBlock(blockId);
+      if (pos) {
+        editor.updateBlock(pos, {
+          ...pos,
+          props: {
+            ...pos.props,
+            id: newId,
+          },
+        });
+      }
+    };
+
+    return (
+      <EditMenu
+        editor={editor as any}
+        onClick={() => {
+          onChange(DEFAULT_ID);
+        }}
+      >
+        {id === DEFAULT_ID ? (
+          <EventBlockPluginControl
+            onRemove={onRemove}
+            data={{ events: [] }}
+            onChange={onChange}
+            type={type === DEFAULT_TYPE ? undefined : (type as EventType)}
+          />
+        ) : (
+          <EventBlockPluginRenderer id={id} />
+        )}
+      </EditMenu>
+    );
   },
-  {
-    render: ({
-      block: {
-        id: blockId,
-        props: { id, type },
-      },
-      editor,
-    }): React.ReactNode => {
-      const currentCursor = editor.getTextCursorPosition();
-
-      const onRemove = () => {
-        editor.removeBlocks([currentCursor.block]);
-      };
-
-      const onChange = (newId: string): void => {
-        const pos = editor.getBlock(blockId);
-        if (pos) {
-          editor.updateBlock(pos, {
-            ...pos,
-            props: {
-              ...pos.props,
-              id: newId,
-            },
-          });
-        }
-      };
-
-      return (
-        <EditMenu
-          editor={editor as any}
-          onClick={() => {
-            onChange(DEFAULT_ID);
-          }}
-        >
-          {id === DEFAULT_ID ? (
-            <EventBlockPluginControl
-              onRemove={onRemove}
-              data={{ events: [] }}
-              onChange={onChange}
-              type={type === DEFAULT_TYPE ? undefined : (type as EventType)}
-            />
-          ) : (
-            <EventBlockPluginRenderer id={id} />
-          )}
-        </EditMenu>
-      );
-    },
-  },
-);
+});

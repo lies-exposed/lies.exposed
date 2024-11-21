@@ -1,5 +1,6 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import {
   Column,
   CreateDateColumn,
@@ -56,7 +57,7 @@ export class GroupEntity {
   endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
-  excerpt: any[] | null;
+  excerpt: BNEditorDocument | null;
 
   @Column({ type: "json", nullable: true })
   body: any[] | null;

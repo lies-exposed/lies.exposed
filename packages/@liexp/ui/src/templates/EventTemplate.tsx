@@ -3,16 +3,14 @@ import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import {
   formatAnyDateToShort,
   formatDate,
 } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import * as React from "react";
-import {
-  getTextContentsCapped,
-  isValidValue,
-} from "../components/Common/BlockNote/utils/index.js";
 import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
 import { GroupMembersList } from "../components/GroupMembersBox.js";

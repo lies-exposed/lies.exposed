@@ -1,9 +1,9 @@
-import { type BNESchemaEditor } from "../EditorSchema.js";
-import { getTextContents } from "./getTextContents.js";
-import { isValidValue } from "./isValidValue.js";
+import { getTextContents } from "./getTextContents";
+import { isValidValue } from "./isValidValue";
+import type { BNEditorDocument } from "./type";
 
 export const getTextContentsCapped = (
-  blocks: BNESchemaEditor["document"],
+  blocks: BNEditorDocument,
   maxLength: number,
 ): string => {
   if (isValidValue(blocks)) {

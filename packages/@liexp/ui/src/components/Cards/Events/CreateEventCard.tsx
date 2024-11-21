@@ -1,11 +1,9 @@
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import {
-  isValidValue,
-  getTextContentsCapped,
-} from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import KeywordList from "../../lists/KeywordList.js";
 import {

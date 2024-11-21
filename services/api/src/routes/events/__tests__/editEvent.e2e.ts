@@ -1,4 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { AreaArb } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
@@ -8,7 +9,6 @@ import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
 import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
-import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import {
   loginUser,

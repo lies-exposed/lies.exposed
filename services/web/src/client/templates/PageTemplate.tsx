@@ -1,6 +1,6 @@
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { BNEditor } from "@liexp/ui/lib/components/Common/BlockNote/index.js";
 import { TOCPlugin } from "@liexp/ui/lib/components/Common/BlockNote/plugins/renderer/TOCPlugin.js";
-import { isValidValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/index.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";

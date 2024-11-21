@@ -15,9 +15,9 @@ import {
   type WikipediaProviderContext,
 } from "@liexp/backend/lib/context/index.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
+import { type ServerBlockNoteEditor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
-import { type ServerBlockNoteEditor } from "@liexp/ui/lib/components/Common/BlockNote/index.ssr.js";
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";

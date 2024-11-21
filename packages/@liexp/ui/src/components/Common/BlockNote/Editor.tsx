@@ -6,11 +6,12 @@ import {
   getDefaultReactSlashMenuItems,
   useCreateBlockNote,
 } from "@blocknote/react";
+import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
-import { type BNESchemaEditor, schema } from "./EditorSchema.js";
+import { schema } from "./EditorSchema.js";
 import {
   insertUncategorizedEventBlock,
   insertDocumentaryEventBlock,
@@ -84,7 +85,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   const editor = useCreateBlockNote({
     schema,
     ...initialContent,
-  }) as BNESchemaEditor;
+  }) as unknown as BNESchemaEditor;
 
   const slashMenuItems = React.useMemo(() => {
     if (editor.isEditable) {

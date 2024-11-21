@@ -4,7 +4,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
-import { toInitialValue } from "@liexp/ui/lib/components/Common/BlockNote/utils/utils.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";

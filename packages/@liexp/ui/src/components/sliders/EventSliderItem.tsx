@@ -1,6 +1,8 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -8,8 +10,6 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LinksBox } from "../../containers/link/LinksBox.js";
 import { styled } from "../../theme/index.js";
-import { getTextContentsCapped } from "../Common/BlockNote/utils/getTextContentsCapped.js";
-import { isValidValue } from "../Common/BlockNote/utils/isValidValue.js";
 import { EventIcon } from "../Common/Icons/index.js";
 import { ActorList } from "../lists/ActorList.js";
 import { type EventListItemProps } from "../lists/EventList/EventListItem.js";

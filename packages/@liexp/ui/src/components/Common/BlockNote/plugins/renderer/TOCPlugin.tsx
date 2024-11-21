@@ -1,12 +1,16 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import {
+  type BNESchemaEditor,
+  type BNBlock,
+  type BNEditorDocument,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
+import { transform } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { StoryUtils } from "@liexp/shared/lib/utils/story.utils.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../../../theme/index.js";
 import { Box, List, ListItem, Typography } from "../../../../mui/index.js";
-import { type BNESchemaEditor, type BNBlock } from "../../EditorSchema.js";
-import { transform } from "../../utils/transform.utils.js";
 
 interface SerializedHeader {
   text: string;
@@ -19,7 +23,7 @@ const headersSerializer = (c: BNBlock): Option<SerializedHeader[]> => {
     case "heading": {
       const cc = c as any;
       const text = cc.content[0]?.text ?? "Missing heading text";
-      return fp.O.some([{ text, type: c.type, level: c.props.level ?? 6 }]);
+      return fp.O.some([{ text, type: c.type, level: cc.props.level ?? 6 }]);
     }
     default:
       // console.log("header not handled", c);
@@ -34,7 +38,7 @@ const extractHeaders = (
 };
 
 const serializeToTypography = (
-  value: BNESchemaEditor["document"],
+  value: BNEditorDocument,
 ): [string, React.ReactNode][] => {
   return pipe(
     extractHeaders(value),

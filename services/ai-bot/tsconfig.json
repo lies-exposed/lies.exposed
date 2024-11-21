@@ -39,7 +39,6 @@
   "references": [
     { "path": "../../packages/@liexp/core" },
     { "path": "../../packages/@liexp/shared" },
-    { "path": "../../packages/@liexp/backend" },
-    { "path": "../../packages/@liexp/ui" }
+    { "path": "../../packages/@liexp/backend" }
   ]
 }

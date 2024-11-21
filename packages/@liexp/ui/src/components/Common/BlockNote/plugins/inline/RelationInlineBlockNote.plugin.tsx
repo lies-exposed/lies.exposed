@@ -1,4 +1,8 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
+import {
+  type BNESchemaEditor,
+  relationInlineSpec,
+} from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import { AutocompleteActorInput } from "../../../../Input/AutocompleteActorInput.js";
 import { AutocompleteAreaInput } from "../../../../Input/AutocompleteAreaInput.js";
@@ -18,7 +22,6 @@ import {
   HashtagIcon,
 } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
-import { type BNESchemaEditor } from "../../EditorSchema.js";
 
 // Custom Slash Menu item to insert a block after the current one.
 export const relationItem = (editor: BNESchemaEditor) => ({
@@ -257,18 +260,7 @@ export const RelationInlineContentComponent: React.FC<{
 };
 
 export const relationInlineContentSpec = createReactInlineContentSpec(
-  {
-    type: "relation",
-    propSchema: {
-      relation: {
-        default: undefined as any as string,
-      },
-      id: {
-        default: undefined as any as string,
-      },
-    },
-    content: "none",
-  } as const,
+  relationInlineSpec,
   {
     render: ({
       inlineContent: {

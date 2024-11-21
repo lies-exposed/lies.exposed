@@ -1,7 +1,7 @@
+import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import * as React from "react";
 import { BNEditor } from "../components/Common/BlockNote/index.js";
 import { TOCPlugin } from "../components/Common/BlockNote/plugins/renderer/TOCPlugin.js";
-import { getTextContentsCapped } from "../components/Common/BlockNote/utils/index.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
 import { Typography } from "../components/mui/index.js";

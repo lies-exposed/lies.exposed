@@ -4,10 +4,10 @@ import {
   type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { Avatar } from "../../Common/Avatar.js";
-import { getTextContents } from "../../Common/BlockNote/utils/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { Box, Grid, Typography } from "../../mui/index.js";
 
