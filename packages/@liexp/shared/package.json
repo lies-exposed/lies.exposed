@@ -56,7 +56,7 @@
     "pdfjs-dist": "^4.6.82",
     "react-admin": "^5.4.0",
     "typescript": "^5.6.2",
-    "vite-tsconfig-paths": "^5.1.2",
+    "vite-tsconfig-paths": "^5.1.3",
     "vitest": "^2.1.5",
     "vitest-mock-extended": "^2.0.2"
   },
