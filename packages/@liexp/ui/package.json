@@ -48,7 +48,7 @@
     "@mui/material": "^5.16.7",
     "@mui/styles": "^5.16.7",
     "@mui/system": "^5.16.7",
-    "@mui/x-data-grid": "^7.22.2",
+    "@mui/x-data-grid": "^7.22.3",
     "@tanstack/react-query": "^5.56.2",
     "@visx/axis": "^3.12.0",
     "@visx/chord": "^3.12.0",
