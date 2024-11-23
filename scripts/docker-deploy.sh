@@ -11,6 +11,8 @@ scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
 scp ./deploy/ai-bot.config.json $SSH_DOMAIN:docker-app/ai-bot.config.json
 scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
+scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
+
 scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
 
 scp -r ./resources/nginx/snippets/ssl-params.conf $SSH_DOMAIN:/etc/nginx/snippets/ssl-params.conf
@@ -46,10 +48,14 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     chown -R pptruser:pptruser ./config
     chown -R pptruser:pptruser ./temp
+    chown -R pptruser:pptruser ./ai-bot-temp
+
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
-    docker compose --env-file .env.api pull
-    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker ai-bot
+
+    docker compose --env-file .env.api pull api web
+    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
+    docker compose --env-file .env.ai-bot up --build --force-recreate -d --wait ai-bot
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all

@@ -79,7 +79,7 @@ services:
       # REBUILD: true
       VIRTUAL_HOST: localai.liexp.dev,localai.lies.exposed
       # VIRTUAL_PORT: 8080
-      LOCALAI_CORS: 1
+      LOCALAI_CORS: 0
       LOCALAI_CORS_ALLOW_ORIGINS: "http://admin.liexp.dev,https://alpha.lies.exposed"
     volumes:
       - ./models:/build/models:cached

@@ -44,6 +44,8 @@ services:
 
   ai-bot:
     image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+    user: $API_UID:$API_GID
+    restart: always
     env_file:
       - .env.ai-bot
     volumes:
