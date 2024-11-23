@@ -158,6 +158,9 @@ void pipe(
     });
     const apiClient = fromEndpoints(restClient)(Endpoints);
 
+    logger.info.log("API url %s", config.config.api.url);
+    logger.info.log("OpenAI url %s", config.config.localAi.url);
+
     return {
       env,
       fs,
