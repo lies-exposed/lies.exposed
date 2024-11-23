@@ -45,25 +45,23 @@ services:
   ai-bot:
     image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
     user: $API_UID:$API_GID
+    container_name: liexp-ai-bot
     restart: always
     env_file:
       - .env.ai-bot
     volumes:
       - ./ai-bot-temp/:/prod/ai-bot/temp/:rw
       - ./ai-bot.config.json:/prod/ai-bot/ai-bot.config.json:rw
+    depends_on:
+      - api
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
     container_name: liexp-web
     env_file:
       - .env.web
-    environment:
-      VIRTUAL_HOST: 0.0.0.0
-      VIRTUAL_PORT: 4020
     ports:
       - "127.0.0.1:4020:4020"
-    # expose:
-    #   - "4020"
     depends_on:
       - api
     restart: always
