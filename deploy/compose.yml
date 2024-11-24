@@ -54,6 +54,7 @@ services:
       - ./ai-bot.config.json:/prod/ai-bot/ai-bot.config.json:rw
     depends_on:
       - api
+    network_mode: "host"
 
   web:
     image: ghcr.io/lies-exposed/liexp-web:alpha-latest
