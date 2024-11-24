@@ -8,9 +8,7 @@ import { OpenAI, type ClientOptions } from "openai";
  */
 export const GetOpenAIProvider = (ctx: ClientOptions): OpenAI => {
   return new OpenAI({
-    apiKey: "no-key-is-a-good-key",
-    baseURL: "http://localai.liexp.dev:8080/v1",
-    dangerouslyAllowBrowser: true,
+    dangerouslyAllowBrowser: false,
     maxRetries: 0,
     timeout: 120 * 1000,
     ...ctx,
