@@ -8,6 +8,7 @@ import { tgProviderMock } from "./__mocks__/tg.mock.js";
 import { wikipediaProviderMock } from "./__mocks__/wikipedia.mock.js";
 import { exifRMock } from "./__mocks__/exifreader.mock.js";
 import ffmpegMock from "./__mocks__/ffmpeg.mock.js";
+import { queueFSMock } from './__mocks__/queue.mock.js';
 
 export interface AppMocks {
   axios: typeof axiosMock;
@@ -24,6 +25,7 @@ export interface AppMocks {
   puppeteer: typeof puppeteerMock;
   exifR: typeof exifRMock;
   sharp: typeof sharpMock;
+  queueFS: typeof queueFSMock;
 }
 
 export const fetchHTML = vi.fn();
@@ -53,4 +55,5 @@ export const mocks: AppMocks = {
   ner: NLPMock as any,
   sharp: sharpMock,
   exifR: exifRMock,
+  queueFS: queueFSMock,
 };

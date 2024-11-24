@@ -1,6 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import {
+  OpenAIEmbeddingQueueType,
+  PendingStatus,
+} from "@liexp/shared/lib/io/http/Queue.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
@@ -18,6 +23,10 @@ export const parseDocument =
         toControllerError,
       ),
       fp.TE.fromIOEither,
+      fp.TE.filterOrElse(
+        (m) => PDFType.is(messageDocument.mime_type),
+        () => toControllerError(new Error("Invalid file type")),
+      ),
       TE.chain((f) => {
         ctx.logger.debug.log("File downloaded %O", f);
 
@@ -43,6 +52,20 @@ export const parseDocument =
           false,
         )(ctx);
       }),
+      TE.chainFirst((m) =>
+        ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
+          id: uuid(),
+          resource: MEDIA.value,
+          type: OpenAIEmbeddingQueueType.value,
+          status: PendingStatus.value,
+          error: null,
+          data: {
+            url: m.location,
+            type: "pdf",
+            result: undefined,
+          },
+        }),
+      ),
       TE.map((m) => [m]),
     );
   };

@@ -1,5 +1,5 @@
 {
-  "api": { "url": "https://alpha.api.lies.exposed/v1" },
+  "api": { "url": "http://api.liexp.dev/v1" },
   "localAi": {
     "url": "http://localai.liexp.dev:8080/",
     "apiKey": "no-key-is-a-good-key",
