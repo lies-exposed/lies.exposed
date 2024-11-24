@@ -156,6 +156,7 @@ void pipe(
       GetOpenAIProvider({
         baseURL: config.config.localAi.url,
         apiKey: config.config.localAi.apiKey,
+        timeout: 10 * 60, // 10 minutes
       }),
     ),
   ),
