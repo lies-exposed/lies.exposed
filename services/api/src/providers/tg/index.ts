@@ -19,6 +19,8 @@ export const TGMessageCommands = (ctx: RouteContext) => {
   // app.use(express.static(mediaPath));
   const tgLogger = ctx.logger.extend("tg-bot"); // bind /start command to tg bot
 
+  const messageStore = GetWriteJSON(ctx.logger);
+
   // bind /login $email $token command to tg bot
   loginCommand(ctx);
   // bind /start command to tg bot
@@ -40,7 +42,7 @@ export const TGMessageCommands = (ctx: RouteContext) => {
 
     void pipe(
       sequenceS(fp.TE.ApplicativePar)({
-        storeMsg: GetWriteJSON(ctx.logger)(
+        storeMsg: messageStore(
           path.resolve(
             ctx.config.dirs.cwd,
             `temp/tg/messages/${msg.message_id}.json`,
