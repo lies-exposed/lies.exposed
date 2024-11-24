@@ -6,19 +6,44 @@ import { ResourcesNames } from "./ResourcesNames.js";
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = t.TypeOf<typeof QueueResourceNames>;
 
+export const OpenAIEmbeddingQueueType = t.literal("openai-embedding");
+export type OpenAIEmbeddingQueueType = t.TypeOf<
+  typeof OpenAIEmbeddingQueueType
+>;
+
+export const OpenAISummarizeQueueType = t.literal("openai-summarize");
+export type OpenAISummarizeQueueType = t.TypeOf<
+  typeof OpenAISummarizeQueueType
+>;
+
 export const QueueTypes = t.union(
-  [t.literal("openai-embedding"), t.literal("openai-summarize")],
+  [OpenAIEmbeddingQueueType, OpenAISummarizeQueueType],
   "QueueTypes",
 );
 
 export type QueueTypes = t.TypeOf<typeof QueueTypes>;
 
+export const PendingStatus = t.literal("pending");
+export type PendingStatus = t.TypeOf<typeof PendingStatus>;
+
+export const ProcessingStatus = t.literal("processing");
+export type ProcessingStatus = t.TypeOf<typeof ProcessingStatus>;
+
+export const DoneStatus = t.literal("done");
+export type DoneStatus = t.TypeOf<typeof DoneStatus>;
+
+export const CompletedStatus = t.literal("completed");
+export type CompletedStatus = t.TypeOf<typeof CompletedStatus>;
+
+export const FailedStatus = t.literal("failed");
+export type FailedStatus = t.TypeOf<typeof FailedStatus>;
+
 export const Status = t.union([
-  t.literal("pending"),
-  t.literal("processing"),
-  t.literal("done"),
-  t.literal("completed"),
-  t.literal("failed"),
+  PendingStatus,
+  ProcessingStatus,
+  DoneStatus,
+  CompletedStatus,
+  FailedStatus,
 ]);
 export type Status = t.TypeOf<typeof Status>;
 

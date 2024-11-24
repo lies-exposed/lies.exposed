@@ -73,9 +73,9 @@ const SelectQueueResourceInput: React.FC<SelectInputProps> = ({
       label={source}
       source={source}
       {...props}
-      choices={Object.keys(Queue.QueueResourceNames.keys).map((resource) => ({
-        id: resource,
-        name: resource,
+      choices={Queue.QueueResourceNames.types.map((resource) => ({
+        id: resource.value,
+        name: resource.value,
       }))}
     />
   );

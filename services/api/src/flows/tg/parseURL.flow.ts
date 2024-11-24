@@ -1,6 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
+import {
+  OpenAIEmbeddingQueueType,
+  PendingStatus,
+} from "@liexp/shared/lib/io/http/Queue.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -53,6 +59,20 @@ export const parseURLs =
                     ? TE.right(link)
                     : takeLinkScreenshotAndSave(link)(ctx),
                 ),
+              ),
+              TE.chainFirst((l) =>
+                ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
+                  id: uuid(),
+                  status: PendingStatus.value,
+                  type: OpenAIEmbeddingQueueType.value,
+                  resource: LINKS.value,
+                  error: null,
+                  data: {
+                    url: l.url,
+                    type: "link",
+                    result: undefined,
+                  },
+                }),
               ),
               TE.mapLeft(toControllerError),
             );
