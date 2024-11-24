@@ -12,16 +12,19 @@ interface BaseRoute {
 
 type RedirectRoute = BaseRoute & { redirect: string };
 
-export interface AsyncDataRouteQuery {
-  queryKey: QueryFnKey<any, any>;
-  queryFn: QueryPromiseFunction<any, any, any>;
+export interface AsyncDataRouteQuery<P = any, Q = any, A = any> {
+  queryKey: QueryFnKey<P, Q>;
+  queryFn: QueryPromiseFunction<P, Q, A>;
 }
 
 export type AsyncDataRoute = BaseRoute & {
   queries: (
     Q: EndpointsQueryProvider,
     conf: Configuration,
-  ) => (params: any, query: any) => Promise<AsyncDataRouteQuery[]>;
+  ) => (
+    params: any,
+    query: any,
+  ) => Promise<AsyncDataRouteQuery<any, any, any>[]>;
 };
 
 export const isAsyncDataRoute = (r: ServerRoute): r is AsyncDataRoute =>

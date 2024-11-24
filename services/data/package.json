@@ -32,7 +32,7 @@
     "multer": "^1.4.4"
   },
   "devDependencies": {
-    "@types/node": "^18",
+    "@types/node": "^22.9.3",
     "dotenv": "^16.4.7",
     "prettier": "^2.5.1",
     "supertest": "^6.2.2",

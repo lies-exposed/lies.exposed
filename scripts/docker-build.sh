@@ -48,14 +48,14 @@ done
 if [ "$pnpm" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-pnpm-latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-pnpm-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:22-pnpm-latest \
     --target=pnpm
 fi
 
 if [ "$base" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$BASE_IMAGE:20-latest \
+    --tag ghcr.io/lies-exposed/$BASE_IMAGE:22-latest \
     --target=api-base
 fi
 
