@@ -11,10 +11,7 @@ import { LinkEntity } from "#entities/Link.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { fetchAndSave } from "#flows/links/link.flow.js";
-import {
-  takeLinkScreenshot,
-  uploadScreenshot,
-} from "#flows/links/takeLinkScreenshot.flow.js";
+import { takeLinkScreenshotAndSave } from "#flows/links/takeLinkScreenshot.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 export const parseURLs =
@@ -54,26 +51,7 @@ export const parseURLs =
                 pipe(
                   link.image?.thumbnail
                     ? TE.right(link)
-                    : pipe(
-                        takeLinkScreenshot(link)(ctx),
-                        TE.chain((buffer) =>
-                          uploadScreenshot(link, buffer)(ctx),
-                        ),
-                        TE.chain((screenshot) =>
-                          ctx.db.save(LinkEntity, [
-                            {
-                              ...link,
-                              image: {
-                                ...link.image,
-                                ...screenshot,
-                                label: link.title,
-                                description: link.description,
-                              },
-                            },
-                          ]),
-                        ),
-                        TE.map(([media]) => media),
-                      ),
+                    : takeLinkScreenshotAndSave(link)(ctx),
                 ),
               ),
               TE.mapLeft(toControllerError),
