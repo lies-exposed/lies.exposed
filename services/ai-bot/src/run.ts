@@ -68,7 +68,11 @@ const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
           .then((r) => r.json()),
       toAIBotError,
     ),
-    fp.TE.orElse(() => fp.TE.right({ data: [] })),
+    fp.TE.orElse((e) => {
+      ctx.logger.error.log("Error getting OpenAI models %O", e);
+
+      return fp.TE.right({ data: [] });
+    }),
     fp.TE.map((r) => r.data.map((m: { id: string }) => m.id)),
     LoggerService.TE.debug(ctx, "OpenAI models %O"),
     fp.TE.chain((models) => {
@@ -147,7 +151,15 @@ void pipe(
       }),
     ),
   ),
-  fp.TE.map(({ env, config, fs, langchain }) => {
+  fp.TE.bind("openAI", ({ config }) =>
+    fp.TE.right(
+      GetOpenAIProvider({
+        baseURL: config.config.localAi.url,
+        apiKey: config.config.localAi.apiKey,
+      }),
+    ),
+  ),
+  fp.TE.map(({ env, config, fs, langchain, openAI }) => {
     const logger = GetLogger("ai-bot");
 
     const restClient = APIRESTClient({
@@ -171,10 +183,7 @@ void pipe(
       apiRESTClient: restClient,
       endpointsRESTClient: apiClient,
       langchain,
-      openAI: GetOpenAIProvider({
-        baseURL: config.config.localAi.url,
-        apiKey: config.config.localAi.apiKey,
-      }),
+      openAI,
     };
   }),
   fp.TE.chain(run(dryRun)),
