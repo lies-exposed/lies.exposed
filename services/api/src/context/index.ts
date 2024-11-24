@@ -15,7 +15,6 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
 import ExifReader from "exifreader";
@@ -93,12 +92,6 @@ export const makeContext = (
     },
   });
 
-  // won't work for production at the moment cause there's no
-  // local ai server
-  const openai = GetOpenAIProvider({
-    baseURL: env.OPENAI_URL,
-  });
-
   const config = Config(env, process.cwd());
 
   return pipe(
@@ -156,7 +149,6 @@ export const makeContext = (
           exifR: ExifReader,
         }),
       ),
-      openai: fp.TE.right(openai),
       queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
       ner: fp.TE.right(
         GetNERProvider({
