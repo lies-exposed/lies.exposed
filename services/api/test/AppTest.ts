@@ -40,6 +40,7 @@ import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg/ffmpeg.pr
 import { vi } from 'vitest'
 import { type ServerContext } from '#context/context.type.js';
 import { AxiosInstance } from 'axios';
+import { GetQueueProvider } from '#providers/queue.provider.js';
 
 vi.mock("axios", () => ({
   default: {
@@ -124,11 +125,11 @@ const initAppTest = async (): Promise<AppTest> => {
         nlp: mocks.ner as any,
       }),
       langchain: {} as any,
-      queue: {} as any,
       openai: {} as any,
       blocknote: {} as any,
       pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({ http: HTTPProvider(mocks.axios as any), apiKey: "fake-geo-api-key" }),
+      queue: GetQueueProvider(mocks.queueFS, 'fake-config-path'), 
     })),
     TE.map((ctx) => ({
       ctx,

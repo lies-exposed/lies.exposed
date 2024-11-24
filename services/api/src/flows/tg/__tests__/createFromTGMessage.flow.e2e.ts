@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import path from "path";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -56,6 +56,7 @@ describe("Create From TG Message", () => {
   describe("createEventSuggestion", () => {
     test(
       "succeeds when link is not yet present in db",
+      { timeout: 10_000 },
       async () => {
         const url = fc.sample(URLArb, 1)[0];
         const description = fc.sample(HumanReadableStringArb(), 1)[0];
@@ -77,6 +78,10 @@ describe("Create From TG Message", () => {
             Location: fc.sample(fc.webUrl({ size: "small" }), 1)[0],
           }),
         }));
+        Test.mocks.queueFS.writeObject.mockImplementation(() =>
+          fp.TE.right(undefined),
+        );
+
         Test.mocks.puppeteer.browser.close.mockResolvedValueOnce({});
 
         const result: any = await pipe(
@@ -114,11 +119,11 @@ describe("Create From TG Message", () => {
         await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
         await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
       },
-      { timeout: 10_000 },
     );
 
     test(
       "succeeds when link is already present in db",
+      { timeout: 10_000 },
       async () => {
         const url = fc.sample(URLArb, 1)[0];
         const description = fc.sample(HumanReadableStringArb(), 1)[0];
@@ -161,7 +166,6 @@ describe("Create From TG Message", () => {
           ],
         });
       },
-      { timeout: 10_000 },
     );
 
     test("succeeds with a photo", async () => {
