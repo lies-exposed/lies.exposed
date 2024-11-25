@@ -18,8 +18,8 @@
     "start": "node build/run.js"
   },
   "dependencies": {
-    "@aws-sdk/client-sso-oidc": "^3.696.0",
-    "@aws-sdk/client-sts": "^3.696.0",
+    "@aws-sdk/client-sso-oidc": "^3.699.0",
+    "@aws-sdk/client-sts": "^3.699.0",
     "@langchain/community": "^0.3.15",
     "@langchain/core": "^0.3.18",
     "@langchain/openai": "^0.3.14",
