@@ -20,8 +20,8 @@
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.699.0",
     "@aws-sdk/client-sts": "^3.699.0",
-    "@langchain/community": "^0.3.15",
-    "@langchain/core": "^0.3.18",
+    "@langchain/community": "^0.3.16",
+    "@langchain/core": "^0.3.19",
     "@langchain/openai": "^0.3.14",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
