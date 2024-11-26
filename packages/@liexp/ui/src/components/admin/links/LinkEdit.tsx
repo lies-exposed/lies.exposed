@@ -1,3 +1,4 @@
+import { type Link } from "@liexp/shared/lib/io/http/Link.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
@@ -37,7 +38,7 @@ import { UpdateMetadataButton } from "./button/UpdateMetadataButton.js";
 import { transformLink } from "./transformLink.js";
 
 export const LinkEdit: React.FC = () => {
-  const record = useRecordContext();
+  const record = useRecordContext<Link>();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
   if (isLoadingPermissions) {
     return <LoadingPage />;

@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-imports */
-import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import axios, {
   type AxiosResponse,
   type AxiosRequestConfig,
@@ -10,8 +9,6 @@ import * as Task from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as RA from "react-admin";
-
-const logger = GetLogger("api-rest");
 
 export interface APIRESTClient {
   client: AxiosInstance;
@@ -65,7 +62,6 @@ const liftClientRequest = <T>(
     TE.map((r) => r.data),
     TE.fold(
       (e) => () => {
-        logger.error.log("Error in client request", e);
         return Promise.reject(e);
       },
       Task.of,
