@@ -7,6 +7,7 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
+import { isNonEmpty } from "fp-ts/lib/Array.js";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent.js";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";
@@ -154,6 +155,26 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 type={ACTORS.value}
                 query={{
                   ...query,
+                  relations: ["actors", "groups", "keywords"],
+                  actors:
+                    query.actors && isNonEmpty(query.actors)
+                      ? query.actors
+                      : null,
+                  groups:
+                    query.groups && isNonEmpty(query.groups)
+                      ? query.groups
+                      : null,
+                  keywords:
+                    query.keywords && isNonEmpty(query.keywords)
+                      ? query.keywords
+                      : null,
+                  eventType:
+                    Array.isArray(query.eventType) &&
+                    isNonEmpty(query.eventType)
+                      ? query.eventType
+                      : typeof query.eventType === "string"
+                        ? [query.eventType]
+                        : undefined,
                   ids: [actor.id],
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),

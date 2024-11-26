@@ -9,6 +9,7 @@ import { Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/GroupEventNetworkGraphBox.js";
 import { subYears } from "date-fns";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -73,7 +74,9 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                   relations={[GROUPS.value]}
                   selectedGroupIds={groups.map((g) => g.id)}
                   query={{
-                    eventType: EventType.types.map((t) => t.value),
+                    eventType: EventType.types.map(
+                      (t) => t.value,
+                    ) as NonEmptyArray<EventType>,
                     startDate: formatDate(subYears(new Date(), 2)),
                     endDate: formatDate(new Date()),
                   }}

@@ -1,8 +1,7 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
-import { useConfiguration } from "../../../../../context/ConfigurationContext.js";
-import EventCard from "../../../../Cards/Events/EventCard.js";
+// import { useConfiguration } from "../../../../../context/ConfigurationContext.js";
 import { EventIcon } from "../../../Icons/index.js";
 
 export type EventNodeType = Node<any, "EventV2"> & {
@@ -11,32 +10,21 @@ export type EventNodeType = Node<any, "EventV2"> & {
 
 // eslint-disable-next-line react/display-name
 export const EventNode = React.memo<NodeProps<EventNodeType>>(
-  ({ data, targetPosition, sourcePosition, selected }) => {
-    const conf = useConfiguration();
+  ({ data, targetPosition, sourcePosition, selected: _selected }) => {
+    // const conf = useConfiguration();
+    const selected = !!_selected;
+
     return (
       <React.Suspense>
         <div style={{ maxWidth: 300, zIndex: selected ? 1000 : 0 }}>
-          {targetPosition ? (
-            <Handle type="target" position={Position.Bottom} />
-          ) : null}
-          {!selected ? (
-            <EventIcon
-              type={data.type}
-              style={{
-                opacity: data.selected ? 1 : 0.5,
-              }}
-            />
-          ) : (
-            <EventCard
-              event={data}
-              showMedia={true}
-              showRelations={false}
-              defaultImage={conf.platforms.web.defaultImage}
-            />
-          )}
-          {sourcePosition ? (
-            <Handle type="source" position={Position.Top} />
-          ) : null}
+          <Handle type="target" position={Position.Bottom} />
+          <EventIcon
+            type={data.type}
+            style={{
+              opacity: selected ? 1 : 0.5,
+            }}
+          />
+          <Handle type="source" position={Position.Top} />
         </div>
       </React.Suspense>
     );

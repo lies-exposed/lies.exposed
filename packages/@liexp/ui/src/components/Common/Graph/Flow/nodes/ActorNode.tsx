@@ -10,6 +10,7 @@ export const ActorNode = React.memo<NodeProps<ActorNodeType>>(
   ({ data, selected }) => {
     return (
       <div style={{ maxWidth: 200 }}>
+        <Handle type="target" position={Position.Top} />
         <ActorListItem
           item={{ ...data, selected: !!selected }}
           displayFullName={false}

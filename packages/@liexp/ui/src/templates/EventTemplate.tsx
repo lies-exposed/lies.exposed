@@ -10,6 +10,7 @@ import {
   formatDate,
 } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import * as React from "react";
 import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
@@ -350,7 +351,9 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     selectedKeywordIds={filters.keywords}
                     query={{
                       ids: [event.id],
-                      eventType: EventType.types.map((t) => t.value),
+                      eventType: EventType.types.map(
+                        (t) => t.value,
+                      ) as NonEmptyArray<EventType>,
                       startDate: formatDate(subYears(new Date(), 1)),
                       endDate: formatDate(new Date()),
                     }}

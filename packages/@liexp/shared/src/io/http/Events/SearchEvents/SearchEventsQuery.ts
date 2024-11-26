@@ -30,7 +30,7 @@ export const GetSearchEventsQuery = t.strict(
     ...GetListQueryMedia.props,
     ...GetListQueryLocations.props,
     ids: optionFromUndefined(t.array(UUID)),
-    eventType: optionFromUndefined(t.union([EventType, t.array(EventType)])),
+    eventType: optionFromUndefined(t.array(EventType)),
     groupsMembers: optionFromUndefined(t.array(t.string)),
     exclude: optionFromUndefined(t.array(UUID)),
     withDeleted: optionFromUndefined(BooleanFromString),

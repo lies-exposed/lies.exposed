@@ -10,8 +10,9 @@ export const KeywordNode = React.memo<NodeProps<KeywordNodeType>>(
     return (
       <React.Suspense>
         <div style={{ maxWidth: 200 }}>
-          <Handle type="source" position={Position.Bottom} />
+          <Handle type="target" position={Position.Top} />
           <KeywordListItem item={{ ...data, selected: !!selected }} />
+          <Handle type="source" position={Position.Bottom} />
         </div>
       </React.Suspense>
     );

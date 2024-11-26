@@ -1,20 +1,21 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type GetNetworkQuery } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type GetNetworkQuerySerialized } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { type Node } from "@xyflow/react";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
-import QueriesRenderer from "../../components/QueriesRenderer.js";
 import EventsAppBar from "../../components/events/filters/EventsAppBar.js";
 import { Box } from "../../components/mui/index.js";
+import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 
 export interface EventsFlowGraphBoxProps {
   id: UUID;
   type: FlowGraphType;
-  query: Partial<serializedType<typeof GetNetworkQuery>>;
+  query: Partial<GetNetworkQuerySerialized>;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
 
@@ -24,6 +25,8 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   id,
   onEventClick,
 }) => {
+  const { Queries } = useEndpointQueries();
+
   const [state, setState] = React.useState<{
     startDate: string | undefined;
     endDate: string | undefined;
@@ -42,17 +45,20 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
     selectedKeywordIds: _query.keywords ?? [],
   });
 
-  const query: any = React.useMemo(() => {
+  const query = React.useMemo(() => {
     return {
-      ..._query,
-      actors:
-        state.selectedActorIds.length > 0 ? state.selectedActorIds : undefined,
-      groups:
-        state.selectedGroupIds.length > 0 ? state.selectedGroupIds : undefined,
+      hash: "events-flow-graph",
+      ids: _query.ids ?? undefined,
+      actors: (state.selectedActorIds.length > 0
+        ? state.selectedActorIds
+        : _query.actors) as NonEmptyArray<string>,
+      groups: (state.selectedGroupIds.length > 0
+        ? state.selectedGroupIds
+        : _query.groups) as NonEmptyArray<string>,
       keywords:
-        state.selectedKeywordIds.length > 0
+        ((state.selectedKeywordIds.length > 0
           ? state.selectedKeywordIds
-          : undefined,
+          : _query.keywords) as NonEmptyArray<string>) ?? undefined,
       type: state.type,
       startDate: state.startDate,
       endDate: state.endDate,
@@ -99,60 +105,63 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
     }
   };
 
+  const { data, isLoading } = Queries.Graph.Custom.GetGraphByType.useQuery(
+    { type, id },
+    query,
+  );
+
+  const graph = data?.data;
+
+  if (isLoading || !graph) {
+    return <FullSizeLoader />;
+  }
+
+  const filters = {
+    actors: state.selectedActorIds,
+    groups: state.selectedGroupIds,
+    keywords: state.selectedKeywordIds,
+    minDate: graph.startDate,
+    maxDate: graph.endDate,
+  };
+
   return (
-    <QueriesRenderer
-      queries={(Q) => ({
-        graph: Q.Graph.Custom.GetGraphByType.useQuery({ type, id }, query),
-      })}
-      render={({ graph: { data: graph } }) => {
-        return (
-          <Box
-            height={"100%"}
-            display="flex"
-            flexDirection={"column"}
-            width={"100%"}
-          >
-            <EventsAppBar
-              query={query}
-              events={graph.events}
-              actors={graph.actors}
-              groups={graph.groups}
-              keywords={graph.keywords}
-              groupsMembers={[]}
-              dateRange={[graph.startDate, graph.endDate]}
-              totals={graph.totals}
-              onQueryChange={({ actors, groups, keywords, ...q }) => {
-                setState((s) => ({
-                  ...s,
-                  ...q,
-                  selectedActorIds: actors ?? [],
-                  selectedGroupIds: groups ?? [],
-                  selectedKeywordIds: keywords ?? [],
-                }));
-              }}
-              onQueryClear={() => {}}
-              layout={{
-                eventTypes: 4,
-                dateRangeBox: {
-                  columns: 8,
-                  variant: "slider",
-                },
-              }}
-            />
-            <EventsFlowGraph
-              graph={graph}
-              filters={{
-                actors: state.selectedActorIds,
-                groups: state.selectedGroupIds,
-                keywords: state.selectedKeywordIds,
-                minDate: graph.startDate,
-                maxDate: graph.endDate,
-              }}
-              onNodeClick={onNodeClick}
-            />
-          </Box>
-        );
-      }}
-    />
+    <Box height={"100%"} display="flex" flexDirection={"column"} width={"100%"}>
+      <EventsAppBar
+        query={query}
+        events={graph.events}
+        actors={graph.actors}
+        groups={graph.groups}
+        keywords={graph.keywords}
+        groupsMembers={[]}
+        dateRange={[graph.startDate, graph.endDate]}
+        totals={graph.totals}
+        onQueryChange={({ actors, groups, keywords, ...q }) => {
+          setState((s) => ({
+            ...s,
+            ...q,
+            selectedActorIds: actors ?? [],
+            selectedGroupIds: groups ?? [],
+            selectedKeywordIds: keywords ?? [],
+          }));
+        }}
+        onQueryClear={() => {}}
+        layout={{
+          eventTypes: 4,
+          dateRangeBox: {
+            columns: 8,
+            variant: "slider",
+          },
+        }}
+      />
+      {graph ? (
+        <EventsFlowGraph
+          graph={graph}
+          filters={filters}
+          onNodeClick={onNodeClick}
+          fitView
+          style={{ minHeight: 600 }}
+        />
+      ) : null}
+    </Box>
   );
 };

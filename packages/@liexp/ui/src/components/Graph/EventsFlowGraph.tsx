@@ -41,7 +41,7 @@ interface EventFlowGraphProps extends FlowGraphProps {
   };
 }
 
-const nodeLineChunk = 10;
+const NODE_LINE_CHUNK = 10;
 
 export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
   graph,
@@ -49,34 +49,37 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
   ...props
 }) => {
   const { nodes, edges } = React.useMemo(() => {
-    const keywordNodes = graph.keywords.map((k, i) => ({
-      id: k.id,
-      position: nodePosition(i, nodeLineChunk, {
+    const keywordNodes = graph.keywords.map((data, i) => ({
+      id: data.id,
+      position: nodePosition(i, NODE_LINE_CHUNK, {
         x: -600,
         y: 0,
       }),
-      data: { ...k, selected: filters.keywords.includes(k.id) },
+      data,
+      selected: filters.keywords.includes(data.id),
       type: Keyword.Keyword.name,
     }));
 
-    const actorNodes = graph.actors.map((a, i) => ({
-      id: a.id,
-      data: { ...a, selected: filters.actors.includes(a.id) },
+    const actorNodes = graph.actors.map((data, i) => ({
+      id: data.id,
+      data: data,
+      selected: filters.actors.includes(data.id),
       type: Actor.Actor.name,
-      position: nodePosition(i, nodeLineChunk, {
+      position: nodePosition(i, NODE_LINE_CHUNK, {
         x: -100,
         y: 0,
       }),
     }));
 
-    const groupNodes = graph.groups.map((a, i) => ({
-      id: a.id,
-      data: { ...a, selected: filters.groups.includes(a.id) },
+    const groupNodes = graph.groups.map((data, i) => ({
+      id: data.id,
+      data,
+      selected: filters.groups.includes(data.id),
       type: Group.Group.name,
-      position: nodePosition(i, nodeLineChunk, {
+      position: nodePosition(i, NODE_LINE_CHUNK, {
         x:
-          (graph.actors.length / nodeLineChunk > 1
-            ? nodeLineChunk
+          (graph.actors.length / NODE_LINE_CHUNK > 1
+            ? NODE_LINE_CHUNK
             : graph.actors.length) *
             40 +
           50,
@@ -87,28 +90,25 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
     const eventNodes = pipe(
       graph.events,
       fp.A.reverse,
-      fp.A.mapWithIndex((i, e) => ({
-        id: e.id,
-        data: {
-          ...e,
-          selected: fp.Ord.between(fp.Ord.ordDate)(
-            filters.minDate,
-            filters.maxDate,
-          )(parseISO(e.date)),
-        },
+      fp.A.mapWithIndex((i, data) => ({
+        id: data.id,
+        data,
+        selected: fp.Ord.between(fp.Date.Ord)(filters.minDate, filters.maxDate)(
+          parseISO(data.date),
+        ),
         type: Events.Event.name,
         position: {
           y: 200 + i * 50,
           x:
-            e.type === Events.EventTypes.UNCATEGORIZED.value
+            data.type === Events.EventTypes.UNCATEGORIZED.value
               ? -50
-              : e.type === Events.EventTypes.SCIENTIFIC_STUDY.value
+              : data.type === Events.EventTypes.SCIENTIFIC_STUDY.value
                 ? -25
-                : e.type === Events.EventTypes.PATENT.value
+                : data.type === Events.EventTypes.PATENT.value
                   ? 0
-                  : e.type === Events.EventTypes.DEATH.value
+                  : data.type === Events.EventTypes.DEATH.value
                     ? 25
-                    : e.type === Events.EventTypes.DOCUMENTARY.value
+                    : data.type === Events.EventTypes.DOCUMENTARY.value
                       ? 50
                       : 75,
         },
@@ -122,48 +122,64 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
       ...keywordNodes,
     ];
 
-    const nodeIds = nodes.filter((n) => n.data.selected).map((n) => n.id);
+    const nodeIds = nodes.filter((n) => n.selected).map((n) => n.id);
 
-    const actorEdges = graph.actorLinks
-      .filter(
-        (l) =>
-          nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id),
-      )
-      .map(({ fill, ...l }) => ({
-        ...l,
-        id: l.source + l.target,
-        data: { color: toColor(fill) },
-        type: Actor.Actor.name,
-      }));
+    const actorEdges = graph.actorLinks.map(({ fill, ...l }) => ({
+      ...l,
+      id: l.source,
+      data: {
+        color: toColor(fill),
+      },
+      selected: !!(
+        nodeIds.find((id) => l.source === id) &&
+        nodeIds.find((id) => l.target === id)
+      ),
+      type: Actor.Actor.name,
+    }));
 
-    const groupEdges = graph.groupLinks
-      .filter(
-        (l) =>
-          nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id),
-      )
-      .map(({ fill, ...l }) => ({
-        ...l,
-        id: l.source + l.target,
-        data: { color: toColor(fill) },
-        type: Group.Group.name,
-      }));
+    const groupEdges = graph.groupLinks.map(({ fill, ...l }) => ({
+      ...l,
+      id: l.source,
+      data: { color: toColor(fill) },
+      selected: !!(
+        nodeIds.find((id) => l.source === id) &&
+        nodeIds.find((id) => l.target === id)
+      ),
+      type: Group.Group.name,
+    }));
 
-    const keywordEdges = graph.keywordLinks
-      .filter(
-        (l) =>
-          nodeIds.find((id) => l.source === id) &&
-          nodeIds.find((id) => l.target === id),
-      )
-      .map(({ fill, ...l }) => ({
-        ...l,
-        id: l.source + l.target,
-        data: { color: toColor(fill) },
-        type: Keyword.Keyword.name,
-      }));
+    const keywordEdges = graph.keywordLinks.map(({ fill, ...l }) => ({
+      ...l,
+      id: l.source,
+      data: {
+        color: toColor(fill),
+      },
+      selected: !!(
+        nodeIds.find((id) => l.source === id) &&
+        nodeIds.find((id) => l.target === id)
+      ),
+      type: Keyword.Keyword.name,
+    }));
 
-    const edges = [...actorEdges, ...groupEdges, ...keywordEdges];
+    const eventEdges = graph.eventLinks.map(({ fill, ...l }) => ({
+      ...l,
+      id: l.source,
+      data: {
+        color: toColor(fill),
+      },
+      selected: !!(
+        nodeIds.find((id) => l.source === id) &&
+        nodeIds.find((id) => l.target === id)
+      ),
+      type: Events.Event.name,
+    }));
+
+    const edges = [
+      ...actorEdges,
+      ...groupEdges,
+      ...keywordEdges,
+      ...eventEdges,
+    ];
 
     return { nodes, edges };
   }, [graph, filters]);

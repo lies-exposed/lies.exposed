@@ -23,6 +23,8 @@ const fitViewOptions: FitViewOptions = {
 
 const defaultEdgeOptions: DefaultEdgeOptions = {
   animated: true,
+  hidden: false,
+  data: {},
 };
 
 // eslint-disable-next-line react/display-name

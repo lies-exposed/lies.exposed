@@ -12,6 +12,7 @@ import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
+import { EventsFlowGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsFlowGraphFormTab.js";
 import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events/tabs/EventsNetworkGraphFormTab.js";
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
@@ -282,6 +283,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="Network">
           <LazyFormTabContent tab={5}>
             <EventsNetworkGraphFormTab type="groups" />
+          </LazyFormTabContent>
+        </FormTab>
+        <FormTab label="Flows">
+          <LazyFormTabContent tab={6}>
+            <EventsFlowGraphFormTab type="groups" />
           </LazyFormTabContent>
         </FormTab>
       </TabbedForm>

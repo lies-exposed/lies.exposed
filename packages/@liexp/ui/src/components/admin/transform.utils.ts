@@ -45,8 +45,8 @@ export const transformMedia = (newMedia: any[]): any[] => {
   }, []);
 };
 
-type TransformEventFn = (
-  data: any,
+type TransformEventFn<D = any> = (
+  data: D,
   relations: http.Events.EventRelationIds,
 ) => http.Events.CreateEventBody & { id: http.Common.UUID };
 
@@ -67,7 +67,7 @@ export const transformUncategorized: TransformEventFn = (data, relations) => {
       groups: data.payload.groups ?? [],
       actors: data.payload.actors ?? [],
       media: data.media ?? [],
-      keywords: data.payload.keywords ?? [],
+      keywords: data.keywords ?? [],
       areas: data.payload.location ? [data.payload.location] : [],
       groupsMembers: [],
       links: data.links,
