@@ -4,7 +4,9 @@ import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { LoadingIndicator, useEditContext } from "react-admin";
+import { ErrorBoundary } from "react-error-boundary";
 import { ECOTheme } from "../../../theme/index.js";
+import { ErrorBox } from "../../Common/ErrorBox.js";
 import MediaElement from "../../Media/MediaElement.js";
 import { HelmetProvider } from "../../SEO.js";
 import { ValidationErrorsLayout } from "../../ValidationErrorsLayout.js";
@@ -33,7 +35,9 @@ const MediaPreview: React.FC = () => {
       <HelmetProvider>
         <QueryClientProvider client={qc}>
           <ThemeProvider theme={ECOTheme}>
-            <MediaElement media={a} style={{ padding: 20, maxHeight: 500 }} />
+            <ErrorBoundary FallbackComponent={ErrorBox}>
+              <MediaElement media={a} style={{ padding: 20, maxHeight: 500 }} />
+            </ErrorBoundary>
           </ThemeProvider>
         </QueryClientProvider>
       </HelmetProvider>
