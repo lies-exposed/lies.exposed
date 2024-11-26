@@ -85,7 +85,7 @@
     "page-metadata-parser": "^1.1.4",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2",
-    "vite": "^5.4.11",
+    "vite": "^6.0.0",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-optimizer": "^1.4.3",
     "vite-tsconfig-paths": "^5.1.3"
