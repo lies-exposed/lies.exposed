@@ -53,8 +53,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
       eslint-plugin-promise:
-        specifier: ^7.2.0
-        version: 7.2.0(eslint@9.15.0(jiti@2.3.3))
+        specifier: ^7.2.1
+        version: 7.2.1(eslint@9.15.0(jiti@2.3.3))
       husky:
         specifier: ^9.1.6
         version: 9.1.6
@@ -947,8 +947,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
       eslint-plugin-promise:
-        specifier: ^7.2.0
-        version: 7.2.0(eslint@9.15.0(jiti@2.3.3))
+        specifier: ^7.2.1
+        version: 7.2.1(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-react:
         specifier: ^7.37.2
         version: 7.37.2(eslint@9.15.0(jiti@2.3.3))
@@ -1782,8 +1782,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.15.0(jiti@2.3.3)))(eslint@9.15.0(jiti@2.3.3))(prettier@3.3.3)
       eslint-plugin-promise:
-        specifier: ^7.2.0
-        version: 7.2.0(eslint@9.15.0(jiti@2.3.3))
+        specifier: ^7.2.1
+        version: 7.2.1(eslint@9.15.0(jiti@2.3.3))
       eslint-plugin-react:
         specifier: ^7.37.2
         version: 7.37.2(eslint@9.15.0(jiti@2.3.3))
@@ -7580,8 +7580,8 @@ packages:
       eslint-config-prettier:
         optional: true
 
-  eslint-plugin-promise@7.2.0:
-    resolution: {integrity: sha512-O2QBfKGRP0AHxXhZ3Lk2sFGGGw8TlMW84c+QfPX0gMnDrKJEN5SGJOICt/nR6spLvzuYO3d3nV4R3AIzdbaW7Q==}
+  eslint-plugin-promise@7.2.1:
+    resolution: {integrity: sha512-SWKjd+EuvWkYaS+uN2csvj0KoP43YTu7+phKQ5v+xw6+A0gutVX2yqCeCkC3uLCJFiPfR2dD8Es5L7yUsmvEaA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
@@ -19685,7 +19685,7 @@ snapshots:
       '@types/eslint': 9.6.1
       eslint-config-prettier: 9.1.0(eslint@9.15.0(jiti@2.3.3))
 
-  eslint-plugin-promise@7.2.0(eslint@9.15.0(jiti@2.3.3)):
+  eslint-plugin-promise@7.2.1(eslint@9.15.0(jiti@2.3.3)):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@9.15.0(jiti@2.3.3))
       eslint: 9.15.0(jiti@2.3.3)
