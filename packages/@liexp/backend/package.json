@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "@langchain/core": "^0.3.19",
-    "axios": "^1.7.2",
+    "axios": "^1",
     "debug": "*",
     "domino": "^2.1.6",
     "express": "^4.19.2",

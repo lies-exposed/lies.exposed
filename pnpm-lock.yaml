@@ -30,7 +30,7 @@ importers:
         version: 8.16.0(eslint@9.15.0(jiti@2.3.3))(typescript@5.6.3)
       '@vitest/coverage-v8':
         specifier: ^2.1.5
-        version: 2.1.5(vitest@2.1.5(@types/node@22.10.0)(jsdom@25.0.1(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))
+        version: 2.1.5(vitest@2.1.5(@types/node@22.10.0)(jsdom@25.0.1)(sass@1.79.5)(terser@5.36.0))
       eslint:
         specifier: ^9.15.0
         version: 9.15.0(jiti@2.3.3)
@@ -104,8 +104,8 @@ importers:
         specifier: workspace:*
         version: link:../shared
       axios:
-        specifier: ^1.7.2
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1
+        version: 1.7.8(debug@4.3.7)
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -190,7 +190,7 @@ importers:
         version: 5.0.2
       langchain:
         specifier: ^0.3.6
-        version: 0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8))))(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.72.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.0))
+        version: 0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8))))(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))(axios@1.7.8(debug@4.3.7))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.72.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.0))
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -319,8 +319,8 @@ importers:
         specifier: ^5
         version: 5.59.3(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       bs58:
         specifier: ^5.0.0
         version: 5.0.0
@@ -600,8 +600,8 @@ importers:
         specifier: ^12.3.0
         version: 12.3.1(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -1059,8 +1059,8 @@ importers:
         specifier: ^5.56.2
         version: 5.59.3(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -1571,8 +1571,8 @@ importers:
         specifier: ^12.3.0
         version: 12.3.1(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       bs58:
         specifier: ^5.0.0
         version: 5.0.0
@@ -6256,8 +6256,8 @@ packages:
   axios@1.7.4:
     resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
-  axios@1.7.7:
-    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
+  axios@1.7.8:
+    resolution: {integrity: sha512-Uu0wb7KNqK2t5K+YQyVCLM76prD5sRFjKHbJYCP1J7JFGEQ6nN7HWn9+04LAeiJ3ji54lgS/gZCH1oxyrf1SPw==}
 
   b4a@1.6.7:
     resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==}
@@ -17741,7 +17741,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@2.1.5(vitest@2.1.5(@types/node@22.10.0)(jsdom@25.0.1(canvas@2.11.2))(sass@1.79.5)(terser@5.36.0))':
+  '@vitest/coverage-v8@2.1.5(vitest@2.1.5(@types/node@22.10.0)(jsdom@25.0.1)(sass@1.79.5)(terser@5.36.0))':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@bcoe/v8-coverage': 0.2.3
@@ -18152,7 +18152,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.7.7(debug@4.3.7):
+  axios@1.7.8(debug@4.3.7):
     dependencies:
       follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.1
@@ -20708,7 +20708,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4)
+      retry-axios: 2.6.0(axios@1.7.4(debug@4.3.7))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -21417,7 +21417,7 @@ snapshots:
       - encoding
       - openai
 
-  langchain@0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8))))(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))(axios@1.7.7(debug@4.3.7))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.72.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.0)):
+  langchain@0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8))))(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))(axios@1.7.8(debug@4.3.7))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.72.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.0)):
     dependencies:
       '@langchain/core': 0.3.19(openai@4.72.0(zod@3.23.8))
       '@langchain/openai': 0.3.14(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))
@@ -21434,7 +21434,7 @@ snapshots:
       zod-to-json-schema: 3.23.5(zod@3.23.8)
     optionalDependencies:
       '@langchain/anthropic': 0.3.8(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       cheerio: 1.0.0
       handlebars: 4.7.8
       typeorm: 0.3.20(pg@8.13.0)
@@ -24120,7 +24120,7 @@ snapshots:
       onetime: 7.0.0
       signal-exit: 4.1.0
 
-  retry-axios@2.6.0(axios@1.7.4):
+  retry-axios@2.6.0(axios@1.7.4(debug@4.3.7)):
     dependencies:
       axios: 1.7.4(debug@4.3.7)
 
