@@ -319,8 +319,8 @@ importers:
         specifier: ^5
         version: 5.59.3(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       bs58:
         specifier: ^5.0.0
         version: 5.0.0
@@ -600,8 +600,8 @@ importers:
         specifier: ^12.3.0
         version: 12.3.1(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       clsx:
         specifier: ^2.1.0
         version: 2.1.1
@@ -1059,8 +1059,8 @@ importers:
         specifier: ^5.56.2
         version: 5.59.3(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -1571,8 +1571,8 @@ importers:
         specifier: ^12.3.0
         version: 12.3.1(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       axios:
-        specifier: ^1.7.7
-        version: 1.7.7(debug@4.3.7)
+        specifier: ^1.7.8
+        version: 1.7.8(debug@4.3.7)
       bs58:
         specifier: ^5.0.0
         version: 5.0.0
@@ -6258,6 +6258,9 @@ packages:
 
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
+
+  axios@1.7.8:
+    resolution: {integrity: sha512-Uu0wb7KNqK2t5K+YQyVCLM76prD5sRFjKHbJYCP1J7JFGEQ6nN7HWn9+04LAeiJ3ji54lgS/gZCH1oxyrf1SPw==}
 
   b4a@1.6.7:
     resolution: {integrity: sha512-OnAYlL5b7LEkALw87fUVafQw5rVR9RjwGd4KUwNQ6DrrNmaVaUCgLipfVlzrPQ4tWOR9P0IXGNOx50jYCCdSJg==}
@@ -18153,6 +18156,14 @@ snapshots:
       - debug
 
   axios@1.7.7(debug@4.3.7):
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.3.7)
+      form-data: 4.0.1
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.7.8(debug@4.3.7):
     dependencies:
       follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.1
