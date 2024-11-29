@@ -25,7 +25,7 @@ updates:
       - dependency-name: "@types/express"
         versions: ["5.x"]
       - dependency-name: "@types/mime"
-        versions: ["2.x", "3.x"]
+        versions: ["2.x", "3.x", "4.x"]
       - dependency-name: "@types/node"
         versions: ["22.x"]
       - dependency-name: "@mui/*"
