@@ -2,6 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
+  type GetNetworkQuerySerialized,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkType,
@@ -9,6 +10,7 @@ import {
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { parseISO } from "date-fns";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import * as React from "react";
@@ -44,7 +46,11 @@ export interface EventNetworkGraphBoxProps
   selectedActorIds?: string[];
   selectedGroupIds?: string[];
   selectedKeywordIds?: string[];
-  query: Omit<SearchEventsQueryInputNoPagination, "hash">;
+  query: Partial<
+    GetNetworkQuerySerialized & {
+      eventType: NonEmptyArray<EventType> | undefined;
+    }
+  >;
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
 }
 
@@ -132,7 +138,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
         const innerProps = transform(graph, {
           startDate,
           endDate,
-          ids,
+          ids: ids ?? undefined,
           eventType,
           type,
           count,
@@ -267,7 +273,9 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   const state = React.useMemo(
     () => ({
       startDate: query.startDate,
-      eventType: query.eventType ?? EventType.types.map((t) => t.value),
+      eventType:
+        query.eventType ??
+        (EventType.types.map((t) => t.value) as NonEmptyArray<EventType>),
       endDate: query.endDate,
       selectedActorIds: props.selectedActorIds ?? [],
       selectedGroupIds: props.selectedGroupIds ?? [],
@@ -319,6 +327,11 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
               query={{
                 hash: "",
                 ...query,
+                ids: query.ids ?? [],
+                keywords: query.keywords ?? undefined,
+                actors: query.actors ?? undefined,
+                groups: query.groups ?? undefined,
+                relations: query.relations ?? undefined,
                 eventType: state.eventType,
                 startDate: minDate?.toISOString(),
                 endDate: maxDate?.toISOString(),
@@ -343,8 +356,8 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
               onQueryClear={() => {
                 onQueryChange({
                   eventType: undefined,
-                  startDate: query.startDate,
-                  endDate: query.endDate,
+                  startDate: query.startDate ?? undefined,
+                  endDate: query.endDate ?? undefined,
                   actors: [],
                   groups: [],
                   keywords: [],

@@ -389,7 +389,7 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
-    type: EventType[] | EventType | undefined;
+    type: EventType[] | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];

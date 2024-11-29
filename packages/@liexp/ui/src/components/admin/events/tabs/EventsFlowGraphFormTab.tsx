@@ -1,5 +1,6 @@
 import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { type Network } from "@liexp/shared/lib/io/http/index.js";
 import { useRecordContext, useRefresh } from "ra-core";
@@ -32,12 +33,12 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
 
   const query: Network.GetNetworkQuerySerialized =
     type === "events"
-      ? toGetNetworkQuery(getRelationIds(record as any))
+      ? toGetNetworkQuery(getRelationIds(record as Event))
       : {
           ids: null,
-          keywords: null,
-          groups: null,
-          actors: null,
+          keywords: type === "keywords" ? [id] : null,
+          groups: type === "groups" ? [id] : null,
+          actors: type === "actors" ? [id] : null,
           relations: ["actors", "groups", "keywords"],
           startDate: null,
           endDate: null,
@@ -45,24 +46,22 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
         };
 
   return (
-    <div>
-      <Grid container>
-        <Grid item md={8}>
-          <EventsFlowGraphBox
-            type="events"
-            id={id}
-            query={query}
-            onEventClick={() => {}}
-          />
-        </Grid>
-        <Grid item md={4}>
-          <Button
-            variant="contained"
-            label="Regenerate"
-            onClick={handleRegenerateFlow}
-          />
-        </Grid>
+    <Grid container width={"100%"}>
+      <Grid item md={10}>
+        <EventsFlowGraphBox
+          type={type}
+          id={id}
+          query={query}
+          onEventClick={() => {}}
+        />
       </Grid>
-    </div>
+      <Grid item md={2}>
+        <Button
+          variant="contained"
+          label="Regenerate"
+          onClick={handleRegenerateFlow}
+        />
+      </Grid>
+    </Grid>
   );
 };

@@ -5,6 +5,7 @@ import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal.js";
@@ -382,8 +383,19 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                       keywords: selectedKeywordIds,
                       actors: selectedActorIds,
                       groups: selectedGroupIds,
-                      eventType:
-                        params.eventType ?? EventType.types.map((t) => t.value),
+                      eventType: pipe(
+                        params.eventType,
+                        fp.O.fromPredicate(
+                          (arr): arr is NonEmptyArray<EventType> =>
+                            !!arr && fp.A.isNonEmpty(arr),
+                        ),
+                        fp.O.getOrElse(
+                          () =>
+                            EventType.types.map(
+                              (t) => t.value,
+                            ) as NonEmptyArray<EventType>,
+                        ),
+                      ),
                       startDate: params.startDate,
                       endDate: params.endDate ?? formatDate(new Date()),
                     }}

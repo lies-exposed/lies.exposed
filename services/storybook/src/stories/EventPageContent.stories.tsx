@@ -29,7 +29,7 @@ const Template: StoryFn<{ type: EventType } & EventPageContentProps> = ({
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
           {
-            filter: { eventType: type },
+            filter: { eventType: [type] },
             pagination: {
               perPage: 1,
               page: 1,

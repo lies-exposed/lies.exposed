@@ -1,5 +1,11 @@
+import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type NetworkType } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  type GetNetworkQuerySerialized,
+  type NetworkType,
+} from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 import { subYears } from "date-fns";
 import { useRecordContext, useRefresh } from "ra-core";
 import { Button, LoadingIndicator } from "ra-ui-materialui";
@@ -11,7 +17,7 @@ import { Grid } from "../../../mui/index.js";
 export const EventsNetworkGraphFormTab: React.FC<{
   type: NetworkType;
 }> = ({ type }) => {
-  const record = useRecordContext();
+  const record = useRecordContext<Event | Actor.Actor | Group.Group>();
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
   if (!record?.id) {
@@ -26,8 +32,20 @@ export const EventsNetworkGraphFormTab: React.FC<{
       });
   };
 
-  const id: any = record.id;
-  const query = getRelationIds(record as any);
+  const id = record.id;
+  const query: GetNetworkQuerySerialized =
+    type === "events"
+      ? toGetNetworkQuery(getRelationIds(record as Event))
+      : {
+          ids: [id],
+          relations: ["actors", "groups", "keywords"],
+          keywords: null,
+          actors: null,
+          groups: null,
+          startDate: null,
+          endDate: null,
+          emptyRelations: null,
+        };
 
   return (
     <div style={{ height: 800, width: "100%" }}>
