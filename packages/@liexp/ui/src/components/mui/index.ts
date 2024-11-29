@@ -81,7 +81,6 @@ import {
 import {
   StyledEngineProvider,
   ThemeProvider,
-  colors,
   useMediaQuery as useMuiMediaQuery,
 } from "@mui/material";
 import { alpha } from "@mui/system/colorManipulator.js";
@@ -159,7 +158,6 @@ export {
   Typography,
   alpha,
   // colors
-  colors,
   useMuiMediaQuery,
   type AutocompleteInputChangeReason,
   type AutocompleteProps,

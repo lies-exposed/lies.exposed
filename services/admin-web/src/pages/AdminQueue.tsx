@@ -22,6 +22,8 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { colors } from "@liexp/ui/lib/theme/index.js";
+import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -29,8 +31,9 @@ const ProcessQueueJobButton: React.FC<ButtonProps> = () => {
   const apiProvider = useDataProvider();
   const record = useRecordContext<Queue.Queue>();
   const processQueueJob: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
     if (!record) return;
+
+    e.preventDefault();
 
     void apiProvider.create(
       `queues/${record.type}/${record.resource}/${record.id}/process`,
@@ -104,6 +107,25 @@ const filters = [
   <SelectQueueStatusInput key="status" alwaysOn />,
 ];
 
+const getBorderStyleFromStatus = (status: string) => {
+  if (status === "failed") {
+    return getBorderLeftStyle(colors.lightRed);
+  }
+  if (status === "completed") {
+    return getBorderLeftStyle(colors.lightGreen);
+  }
+
+  if (status === "processing") {
+    return getBorderLeftStyle(colors.lightBlue);
+  }
+
+  if (status === "pending") {
+    return getBorderLeftStyle(colors.lightYellow);
+  }
+
+  return {};
+};
+
 export const QueueList: React.FC<ListProps> = (props) => {
   return (
     <List {...props} resource="queues" filters={filters}>
@@ -111,15 +133,7 @@ export const QueueList: React.FC<ListProps> = (props) => {
         rowClick={(id, resource, record) => {
           return `/${resource}/${record.type}/${record.resource}/${id}`;
         }}
-        rowSx={(record) => {
-          if (record.status === "failed") {
-            return { backgroundColor: "#ffcccc" };
-          }
-          if (record.status === "completed") {
-            return { backgroundColor: "#ccffcc" };
-          }
-          return {};
-        }}
+        rowSx={(record) => getBorderStyleFromStatus(record.status)}
       >
         <TextField label="key" source="id" />
         <TextField source="status" />
@@ -132,11 +146,11 @@ export const QueueList: React.FC<ListProps> = (props) => {
                 <pre style={{ maxWidth: "100%", overflow: "auto" }}>
                   {JSON.stringify(r.data, null, 2)}
                 </pre>
-                <ProcessQueueJobButton />
               </Stack>
             );
           }}
         />
+        <ProcessQueueJobButton />
         <DateField label="Updated At" source="updatedAt" showTime={true} />
         <DateField label="Created At" source="createdAt" showTime={true} />
       </Datagrid>

@@ -1,15 +1,20 @@
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
+import { getBorderLeftStyle } from "../../../utils/style.utils.js";
 import { Box } from "../../mui/index.js";
 import { AvatarField } from "../common/AvatarField.js";
-import { Datagrid, DateField, FunctionField, TextField } from "../react-admin";
+import {
+  Datagrid,
+  DateField,
+  FunctionField,
+  TextField,
+} from "../react-admin.js";
 
 export const GroupDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick="edit"
-      rowSx={(r) => ({
-        borderLeft: `5px solid #${r.color}`,
-      })}
+      rowSx={(r) => getBorderLeftStyle(toColorHash(r.color))}
     >
       <FunctionField
         source="username"

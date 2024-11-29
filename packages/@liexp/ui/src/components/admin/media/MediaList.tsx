@@ -1,6 +1,8 @@
 import { MediaType, MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
+import { colors } from "../../../theme/index.js";
+import { getBorderLeftStyle } from "../../../utils/style.utils.js";
 import { EventIcon } from "../../Common/Icons/EventIcon.js";
 import { AreaIcon } from "../../Common/Icons/FAIcon.js";
 import { LinkIcon, MediaIcon } from "../../mui/icons.js";
@@ -8,7 +10,6 @@ import {
   Box,
   Card,
   CardContent,
-  colors,
   Icons,
   Stack,
   Typography,
@@ -68,9 +69,9 @@ export const MediaDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick="edit"
-      rowSx={(r) => ({
-        borderLeft: `5px solid ${r.transferable ? colors.amber[500] : "transparent"}`,
-      })}
+      rowSx={(r) =>
+        getBorderLeftStyle(r.transferable ? colors.lightYellow : "transparent")
+      }
     >
       <MediaField
         type="image/jpeg"

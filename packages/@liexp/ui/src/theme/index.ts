@@ -5,6 +5,12 @@ import {
   type ThemeOptions,
   ThemeProvider,
 } from "@mui/material";
+import {
+  yellow,
+  lightBlue as _lightBlue,
+  lightGreen as _lightGreen,
+  red,
+} from "@mui/material/colors";
 import { createStyled, darken, lighten } from "@mui/system";
 
 const primaryFontFamily = "Signika";
@@ -14,9 +20,27 @@ const primary = "#FF5E5B";
 const primaryLight = lighten(primary, 0.5);
 const primaryDark = darken(primary, 0.5);
 
-export const secondary = "#17B9B6";
-export const secondaryLight = lighten(secondary, 0.5);
-export const secondaryDark = darken(primary, 0.5);
+const secondary = "#17B9B6";
+const secondaryLight = lighten(secondary, 0.5);
+const secondaryDark = darken(primary, 0.5);
+
+const lightGreen = _lightGreen[300];
+const lightRed = red[200];
+const lightYellow = yellow[200];
+const lightBlue = _lightBlue.A100;
+
+const colors = {
+  primary,
+  primaryLight,
+  primaryDark,
+  secondary,
+  secondaryLight,
+  secondaryDark,
+  lightGreen,
+  lightRed,
+  lightYellow,
+  lightBlue,
+};
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -108,7 +132,7 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-const ECOTheme = createTheme(themeOptions as any);
+const ECOTheme = createTheme(themeOptions);
 
 type ECOTheme = typeof ECOTheme;
 
@@ -116,6 +140,7 @@ const styled = createStyled({ defaultTheme: ECOTheme });
 
 export {
   ECOTheme,
+  colors,
   useTheme,
   styled,
   themeOptions,
