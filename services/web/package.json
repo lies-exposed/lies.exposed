@@ -108,7 +108,7 @@
     "topojson-server": "3.0.1",
     "ts-endpoint": "^2.0.0",
     "ts-endpoint-express": "^2.0.0",
-    "uuid": "^10.0.0",
+    "uuid": "^11.0.3",
     "world-atlas": "2.0.2"
   },
   "devDependencies": {

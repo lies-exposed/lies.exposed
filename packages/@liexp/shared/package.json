@@ -42,7 +42,7 @@
     "throttle-debounce": "^5.0.0",
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "uuid": "^10.0.0"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@liexp/test": "workspace:*",
