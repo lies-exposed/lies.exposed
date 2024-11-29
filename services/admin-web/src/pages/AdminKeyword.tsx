@@ -21,6 +21,7 @@ import {
   type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
+import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
 import * as React from "react";
 
 const RESOURCE = "keywords";
@@ -31,12 +32,7 @@ const keywordsFilter = [
 
 export const KeywordList: React.FC<ListProps> = (props) => (
   <List {...props} resource={RESOURCE} filters={keywordsFilter} perPage={25}>
-    <Datagrid
-      rowClick="edit"
-      rowSx={(r) => ({
-        borderLeft: `5px solid #${r.color}`,
-      })}
-    >
+    <Datagrid rowClick="edit" rowSx={(r) => getBorderLeftStyle(r.color)}>
       <TextField source="tag" />
       <FunctionField
         source="socialPosts"

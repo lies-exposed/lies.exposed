@@ -1,6 +1,6 @@
 import {
   themeOptions,
-  secondary,
+  colors,
   type ThemeOptions,
 } from "@liexp/ui/lib/theme/index.js";
 
@@ -11,7 +11,7 @@ const adminThemeOptions: ThemeOptions = {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: secondary,
+          backgroundColor: colors.secondary,
         },
       },
     },

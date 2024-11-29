@@ -18,6 +18,7 @@ import {
   type DatagridProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Stack, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
 import * as React from "react";
 
 const RESOURCE = "social-posts";
@@ -40,11 +41,11 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
   return (
     <Datagrid
       rowClick="edit"
-      rowSx={(record) => ({
-        borderLeft: `5px solid ${
-          TO_PUBLISH.is(record.status) ? "orange" : "transparent"
-        }`,
-      })}
+      rowSx={(record) =>
+        getBorderLeftStyle(
+          TO_PUBLISH.is(record.status) ? "orange" : "transparent",
+        )
+      }
       {...props}
     >
       <TextField source="type" />

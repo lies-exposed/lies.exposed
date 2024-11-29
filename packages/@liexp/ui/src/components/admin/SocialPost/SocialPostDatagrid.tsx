@@ -1,5 +1,7 @@
 import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
+import { colors } from "../../../theme/index.js";
+import { getBorderLeftStyle } from "../../../utils/style.utils.js";
 import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 import { Box } from "../../mui/index.js";
 import {
@@ -16,11 +18,11 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
   return (
     <Datagrid
       rowClick="edit"
-      rowSx={(record) => ({
-        borderLeft: `5px solid ${
-          TO_PUBLISH.is(record.status) ? "orange" : "transparent"
-        }`,
-      })}
+      rowSx={(record) =>
+        getBorderLeftStyle(
+          TO_PUBLISH.is(record.status) ? colors.lightBlue : "transparent",
+        )
+      }
       {...props}
     >
       <TextField source="type" />
