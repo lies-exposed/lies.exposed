@@ -38,7 +38,7 @@ const getWhere = (
       : q.where.bind(q);
 };
 
-export const whereInTitle =
+const whereInTitle =
   (config: EventsConfig) =>
   (
     q: SelectQueryBuilder<EventV2Entity>,
@@ -86,7 +86,7 @@ export const whereInTitle =
     });
   };
 
-export const whereActorInArray =
+const whereActorInArray =
   (config: EventsConfig) =>
   (
     selectQ: SelectQueryBuilder<EventV2Entity>,
@@ -120,7 +120,7 @@ export const whereActorInArray =
     return selectQ;
   };
 
-export const whereGroupInArray =
+const whereGroupInArray =
   (config: EventsConfig) =>
   (
     q: SelectQueryBuilder<EventV2Entity>,

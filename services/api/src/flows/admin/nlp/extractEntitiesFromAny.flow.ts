@@ -102,7 +102,7 @@ const findOneResourceAndMapText = (
   );
 };
 
-export const extractEntitiesFromAny = (
+const extractEntitiesFromAny = (
   body: ExtractEntitiesWithNLPInput,
 ): TEReader<ExtractEntitiesWithNLPOutput> => {
   return pipe(

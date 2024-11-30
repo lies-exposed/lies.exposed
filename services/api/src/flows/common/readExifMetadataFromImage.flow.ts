@@ -10,7 +10,7 @@ interface ExifMetadata {
   height?: number;
 }
 
-export const readExifMetadataFromBuffer =
+const readExifMetadataFromBuffer =
   (buf: ArrayBuffer): TEReader<ExifReader.Tags> =>
   (ctx) => {
     return ctx.imgProc.readExif(buf as any, {});

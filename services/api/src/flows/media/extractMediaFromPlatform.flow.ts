@@ -16,7 +16,7 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 
-export const extractTitleFromPlatform = (
+const extractTitleFromPlatform = (
   page: puppeteer.Page,
 ): TE.TaskEither<ControllerError, string> => {
   return pipe(
@@ -28,7 +28,7 @@ export const extractTitleFromPlatform = (
   );
 };
 
-export const extractDescriptionFromPlatform = (
+const extractDescriptionFromPlatform = (
   m: VideoPlatformMatch,
   page: puppeteer.Page,
 ): TE.TaskEither<ControllerError, string | undefined> => {
@@ -62,7 +62,7 @@ export const extractDescriptionFromPlatform = (
   );
 };
 
-export const extractEmbedFromPlatform = (
+const extractEmbedFromPlatform = (
   url: URL,
   m: VideoPlatformMatch,
   page: puppeteer.Page,

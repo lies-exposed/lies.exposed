@@ -22,6 +22,7 @@ export const GetWriteJSON =
     );
   };
 
+// TODO: never used
 export const GetReadJSON =
   (log: Logger) =>
   <A, O = A, I = unknown>(

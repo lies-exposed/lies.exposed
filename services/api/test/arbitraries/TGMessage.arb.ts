@@ -1,7 +1,7 @@
 import { fc } from "@liexp/test";
 import type TelegramBot from "node-telegram-bot-api";
 
-export const TGFromArb = fc.record({
+const TGFromArb = fc.record({
   id: fc.nat(),
   is_bot: fc.boolean(),
   first_name: fc.string(),
@@ -10,7 +10,7 @@ export const TGFromArb = fc.record({
   language_code: fc.constant("en"),
 });
 
-export const TGChatArb: fc.Arbitrary<TelegramBot.Chat> = fc.record({
+const TGChatArb: fc.Arbitrary<TelegramBot.Chat> = fc.record({
   id: fc.nat(),
   first_name: fc.string(),
   last_name: fc.string(),
@@ -26,7 +26,7 @@ export const TGPhotoArb: fc.Arbitrary<TelegramBot.PhotoSize> = fc.record({
   height: fc.nat(),
 });
 
-export const TGCaptionEntityArb: fc.Arbitrary<TelegramBot.MessageEntity> = fc.record({
+const TGCaptionEntityArb: fc.Arbitrary<TelegramBot.MessageEntity> = fc.record({
   offset: fc.nat(),
   length: fc.nat(),
   type: fc.constant("text_link"),

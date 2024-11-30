@@ -83,7 +83,7 @@ const updateMap =
     );
   };
 
-export const getFlowGraph =
+const getFlowGraph =
   ({
     events,
     actors,

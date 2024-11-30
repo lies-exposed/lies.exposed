@@ -16,7 +16,7 @@ interface ToPinnedMessageOptions {
   // actorLimit: number;
 }
 
-// todo: to retrieve from db
+// TODO: to retrieve from db
 export const toPinnedMessage = ({
   bot,
   keywords,

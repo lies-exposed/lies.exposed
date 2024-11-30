@@ -28,7 +28,7 @@ import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "#queries/keywords/fetchKeywords.query.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
 
-export const fetchLinksT =
+const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
   (
     links: (http.Common.UUID | CreateLink)[],

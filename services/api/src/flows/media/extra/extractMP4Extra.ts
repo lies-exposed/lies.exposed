@@ -10,7 +10,7 @@ import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 
-export const extractVideoFFProbeData =
+const extractVideoFFProbeData =
   (location: string): TEReader<Ffmpeg.FfprobeData> =>
   (ctx) =>
     pipe(ctx.ffmpeg.ffprobe(location), fp.TE.mapLeft(toControllerError));

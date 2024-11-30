@@ -6,7 +6,7 @@ const puppeteerMock = {
   launch: vi.fn(),
 } as any as Mocked<PuppeteerExtra>;
 
-export const pageMock = {
+const pageMock = {
   on: vi.fn(),
   goto: vi.fn().mockRejectedValue(new Error("goto not implemented")),
   click: vi.fn().mockRejectedValue(new Error("click: Not implemented")),
@@ -33,7 +33,7 @@ export const pageMock = {
   browser: () => browserMock,
 };
 
-export const browserMock = {
+const browserMock = {
   on: vi.fn(),
   newPage: vi.fn().mockResolvedValue(pageMock),
   pages: vi.fn().mockResolvedValue([pageMock] as any),
