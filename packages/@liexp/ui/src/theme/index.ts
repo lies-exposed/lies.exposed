@@ -4,14 +4,16 @@ import {
   useTheme,
   type ThemeOptions,
   ThemeProvider,
+  colors as muiColors,
 } from "@mui/material";
-import {
-  yellow,
-  lightBlue as _lightBlue,
-  lightGreen as _lightGreen,
-  red,
-} from "@mui/material/colors/index.js";
 import { createStyled, darken, lighten } from "@mui/system";
+
+const {
+  yellow,
+  lightBlue: _lightBlue,
+  lightGreen: _lightGreen,
+  red,
+} = muiColors;
 
 const primaryFontFamily = "Signika";
 const secondaryFontFamily = "Lora";
