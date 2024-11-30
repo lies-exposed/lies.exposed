@@ -33,6 +33,6 @@
     "ts-shared": "^2.0.0-alpha.6"
   },
   "devDependencies": {
-    "eslint": "^9.15.0"
+    "eslint": "^9.16.0"
   }
 }
