@@ -31,6 +31,7 @@
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@mui/material": "^5.16.8",
+    "@mui/icons-material": "^5.16.8",
     "@storybook/addon-actions": "^8.4.5",
     "@storybook/addon-backgrounds": "^8.4.5",
     "@storybook/addon-docs": "^8.4.5",
