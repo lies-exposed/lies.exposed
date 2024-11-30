@@ -46,7 +46,7 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
-    "exifreader": "^4.23.5",
+    "exifreader": "^4.25.0",
     "fast-csv": "^5.0.2",
     "langchain": "^0.3.6",
     "prettier": "^3.3.3",
