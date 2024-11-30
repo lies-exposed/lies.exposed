@@ -30,6 +30,7 @@
     "bin:run": "node ./build/bin/cli.js",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
+    "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "db:dump": "tsx ./src/scripts/database.dump.ts",
     "db:dump:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm db:dump -p alpha",
     "dev": "node --watch build/run.js",

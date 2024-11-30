@@ -319,11 +319,6 @@ const initialResult: Result = {
   totals: EventTotalsMonoid.empty,
 };
 
-export interface Graph {
-  nodes: any[];
-  links: any[];
-}
-
 export const createNetworkGraph =
   (
     type: NetworkType,

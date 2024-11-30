@@ -1,12 +1,14 @@
-import { toNotAuthorizedError } from "@liexp/backend/lib/errors/NotAuthorizedError.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import {
+  toNotAuthorizedError,
+  IOError,
+} from "@liexp/backend/lib/errors/index.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { UnauthorizedError } from "express-jwt";
 import * as t from "io-ts";
-import { IOError } from "ts-io-error";
 import { toAPIError, toControllerError } from "./ControllerError.js";
 
 describe("ControllerError", () => {

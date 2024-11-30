@@ -17,7 +17,7 @@ import { toControllerError } from "#io/ControllerError.js";
 
 export type SimpleMP4Media = SimpleMedia<MP4Type>;
 
-export const takeVideoScreenshots =
+const takeVideoScreenshots =
   ({
     filename,
     media,

@@ -21,15 +21,16 @@ import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.j
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 import { type QueuesProvider } from "#providers/queue.provider.js";
+
 export interface ENVContext {
   env: ENV;
 }
 
-export interface PDFProviderContext {
+interface PDFProviderContext {
   pdf: PDFProvider;
 }
 
-export interface HTTPProviderContext {
+interface HTTPProviderContext {
   http: HTTPProvider;
 }
 

@@ -9,7 +9,7 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 
-export interface QueueProvider<J extends Queue.Queue> {
+interface QueueProvider<J extends Queue.Queue> {
   addJob: (job: J) => TaskEither<ControllerError, void>;
   getJob: (
     resource: Queue.QueueResourceNames,
@@ -25,11 +25,11 @@ export interface QueueProvider<J extends Queue.Queue> {
   exists: (job: J) => TaskEither<ControllerError, boolean>;
   deleteJob: (
     resource: Queue.QueueResourceNames,
-    id: string,
+    id: UUID,
   ) => TaskEither<ControllerError, void>;
 }
 
-export const GetQueueJobProvider = <J extends Queue.Queue>(
+const GetQueueJobProvider = <J extends Queue.Queue>(
   fs: FSClient,
   configPath: string,
 ): ((type: Queue.QueueTypes) => QueueProvider<J>) => {
@@ -37,7 +37,7 @@ export const GetQueueJobProvider = <J extends Queue.Queue>(
     job: {
       resource: Queue.QueueResourceNames;
       type: string;
-      id: string;
+      id: UUID;
     },
     status?: Queue.Status,
   ) => {
@@ -73,7 +73,7 @@ export const GetQueueJobProvider = <J extends Queue.Queue>(
             return pipe(
               fs.getObject(path.resolve(configPath, file)),
               fp.TE.mapLeft(toControllerError),
-              fp.TE.map((data) => JSON.parse(data)),
+              fp.TE.map(JSON.parse),
             );
           }),
         );

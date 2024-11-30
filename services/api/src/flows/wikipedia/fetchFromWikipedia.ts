@@ -28,12 +28,3 @@ export const fetchFromWikipedia: FetchFromWikipediaFlow = (title) => (wp) => {
     })),
   );
 };
-
-export const searchAndParseFromWikipedia: FetchFromWikipediaFlow =
-  (search) => (wp) => {
-    return pipe(
-      wp.search(search),
-      TE.mapLeft(toControllerError),
-      TE.chain((p) => fetchFromWikipedia(p[0].title)(wp)),
-    );
-  };

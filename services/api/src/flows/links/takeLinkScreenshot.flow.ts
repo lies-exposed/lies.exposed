@@ -43,7 +43,7 @@ const rejectCookieModal = async (page: puppeteer.Page): Promise<void> => {
   await button?.click();
 };
 
-export const takeLinkScreenshot =
+const takeLinkScreenshot =
   (link: LinkEntity): TEReader<Buffer> =>
   (ctx) => {
     return pipe(
@@ -73,7 +73,7 @@ export const takeLinkScreenshot =
     );
   };
 
-export const uploadScreenshot = (
+const uploadScreenshot = (
   link: LinkEntity,
   buffer: Buffer,
 ): TEReader<Partial<MediaEntity>> => {

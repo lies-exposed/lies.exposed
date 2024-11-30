@@ -272,11 +272,6 @@ export interface DataPayloadLink {
   type: EventType;
 }
 
-export interface DataPayload {
-  keywords: string[];
-  links: DataPayloadLink[];
-}
-
 export const extractEventFromURL =
   (
     p: puppeteer.Page,

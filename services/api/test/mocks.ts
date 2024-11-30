@@ -28,8 +28,8 @@ export interface AppMocks {
   queueFS: typeof queueFSMock;
 }
 
-export const fetchHTML = vi.fn();
-export const fetchMetadata = vi.fn();
+const fetchHTML = vi.fn();
+const fetchMetadata = vi.fn();
 
 export const axiosMock = {
   get: vi.fn(),

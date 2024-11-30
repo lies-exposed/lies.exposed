@@ -3,6 +3,7 @@ import {
   ServerError,
   BadRequestError,
   NotAuthorizedError,
+  IOError,
 } from "@liexp/backend/lib/errors/index.js";
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
@@ -21,7 +22,6 @@ import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.j
 import { UnauthorizedError } from "express-jwt";
 import { pipe } from "fp-ts/lib/function.js";
 import { failure } from "io-ts/lib/PathReporter.js";
-import { IOError } from "ts-io-error/lib/index.js";
 
 export type ControllerError =
   | HTTPError
@@ -73,7 +73,7 @@ export const toControllerError = (e: unknown): ControllerError => {
   });
 };
 
-export const report = (err: ControllerError): string => {
+const report = (err: ControllerError): string => {
   return `[${err.name}] ${err.message}:\n${reportIOErrorDetails(err.details)}`;
 };
 

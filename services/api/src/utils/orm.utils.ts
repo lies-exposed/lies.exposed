@@ -98,7 +98,7 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
   );
 };
 
-export const getOrder = (
+const getOrder = (
   order: ORMOrder["order"],
   prefix?: string,
   orderedKeys?: string[],
