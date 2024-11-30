@@ -1,9 +1,12 @@
 import { CacheProvider } from "@emotion/react";
 import { HelmetProvider } from "@liexp/ui/lib/components/SEO.js";
+import {
+  CssBaseline,
+  ThemeProvider,
+} from "@liexp/ui/lib/components/mui/index.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
-import { CssBaseline, ThemeProvider } from "@mui/material";
 import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";

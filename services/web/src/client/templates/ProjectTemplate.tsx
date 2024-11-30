@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import { ProjectPageContent } from "@liexp/ui/lib/components/ProjectPageContent.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
-import { Container } from "@mui/material";
+import { Container } from "@liexp/ui/lib/components/mui/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
