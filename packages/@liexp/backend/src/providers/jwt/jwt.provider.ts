@@ -21,7 +21,7 @@ export const toError =
         return new JWTError(e.message, {
           kind: "ClientError",
           status: (override?.status ?? 401) + "",
-          meta: e.stack,
+          meta: e.stack?.split("\n"),
         });
       }
     }
