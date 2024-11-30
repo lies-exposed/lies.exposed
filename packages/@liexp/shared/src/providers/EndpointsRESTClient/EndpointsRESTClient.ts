@@ -18,7 +18,7 @@ import {
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
-import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
+import { APIError, toAPIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { fromValidationErrors } from "../../providers/http/http.provider.js";
 import {
@@ -31,6 +31,10 @@ import {
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
+    if (APIError.is(e.response?.data)) {
+      return e.response?.data;
+    }
+
     return toAPIError(e.response?.data ?? e.cause);
   }
   return toAPIError(e);
