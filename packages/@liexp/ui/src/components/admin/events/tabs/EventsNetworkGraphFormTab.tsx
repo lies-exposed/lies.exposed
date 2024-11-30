@@ -7,12 +7,16 @@ import {
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
 import { subYears } from "date-fns";
-import { useRecordContext, useRefresh } from "ra-core";
-import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
 import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { Grid } from "../../../mui/index.js";
+import {
+  Button,
+  LoadingIndicator,
+  useRecordContext,
+  useRefresh,
+} from "../../react-admin.js";
 
 export const EventsNetworkGraphFormTab: React.FC<{
   type: NetworkType;

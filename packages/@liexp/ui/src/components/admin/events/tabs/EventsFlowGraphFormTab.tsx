@@ -3,12 +3,16 @@ import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelation
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { type Network } from "@liexp/shared/lib/io/http/index.js";
-import { useRecordContext, useRefresh } from "ra-core";
-import { Button, LoadingIndicator } from "ra-ui-materialui";
 import * as React from "react";
 import { EventsFlowGraphBox } from "../../../../containers/graphs/EventsFlowGraphBox.js";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { Grid } from "../../../mui/index.js";
+import {
+  Button,
+  LoadingIndicator,
+  useRecordContext,
+  useRefresh,
+} from "../../react-admin.js";
 
 export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
   type,

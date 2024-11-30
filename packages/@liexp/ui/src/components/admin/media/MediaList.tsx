@@ -30,7 +30,7 @@ import {
   useGetIdentity,
   usePermissions,
   type ListProps,
-} from "../react-admin";
+} from "../react-admin.js";
 import { toFormattedDuration } from "./DurationField.js";
 import { MediaField } from "./MediaField.js";
 
