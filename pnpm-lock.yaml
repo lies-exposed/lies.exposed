@@ -1429,36 +1429,12 @@ importers:
 
   services/web:
     dependencies:
-      '@emotion/cache':
-        specifier: ^11.13.5
-        version: 11.13.5
-      '@emotion/css':
-        specifier: ^11.13.5
-        version: 11.13.5
       '@emotion/react':
         specifier: ^11.13.5
         version: 11.13.5(@types/react@18.3.12)(react@18.3.1)
-      '@emotion/server':
-        specifier: ^11.11.0
-        version: 11.11.0(@emotion/css@11.13.5)
-      '@emotion/utils':
-        specifier: ^1.4.2
-        version: 1.4.2
       '@fortawesome/fontawesome-svg-core':
         specifier: ^6.7.1
         version: 6.7.1
-      '@fortawesome/free-brands-svg-icons':
-        specifier: ^6.7.1
-        version: 6.7.1
-      '@fortawesome/free-regular-svg-icons':
-        specifier: ^6.7.1
-        version: 6.7.1
-      '@fortawesome/free-solid-svg-icons':
-        specifier: ^6.7.1
-        version: 6.7.1
-      '@fortawesome/react-fontawesome':
-        specifier: ^0.2.2
-        version: 0.2.2(@fortawesome/fontawesome-svg-core@6.7.1)(react@18.3.1)
       '@liexp/core':
         specifier: workspace:*
         version: link:../../packages/@liexp/core
@@ -1468,57 +1444,12 @@ importers:
       '@liexp/ui':
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
-      '@mui/icons-material':
-        specifier: ^5.16.8
-        version: 5.16.8(@mui/material@5.16.8(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.5(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
-      '@mui/material':
-        specifier: ^5.16.8
-        version: 5.16.8(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.5(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mui/system':
-        specifier: ^5.16.8
-        version: 5.16.8(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@emotion/styled@11.13.5(@emotion/react@11.13.5(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1))(@types/react@18.3.12)(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.56.2
         version: 5.59.3(react@18.3.1)
-      '@visx/axis':
-        specifier: ^3.12.0
-        version: 3.12.0(react@18.3.1)
-      '@visx/gradient':
-        specifier: ^3.12.0
-        version: 3.12.0(react@18.3.1)
-      '@visx/legend':
-        specifier: ^3.12.0
-        version: 3.12.0(react@18.3.1)
-      '@visx/network':
-        specifier: ^3.12.0
-        version: 3.12.0(react@18.3.1)
-      '@visx/responsive':
-        specifier: ^3.12.0
-        version: 3.12.0(react@18.3.1)
-      '@visx/scale':
-        specifier: ^3.12.0
-        version: 3.12.0
-      '@visx/tooltip':
-        specifier: ^3.12.0
-        version: 3.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@xyflow/react':
-        specifier: ^12.3.0
-        version: 12.3.1(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      axios:
-        specifier: ^1.7.8
-        version: 1.7.8(debug@4.3.7)
-      bs58:
-        specifier: ^5.0.0
-        version: 5.0.0
-      clsx:
-        specifier: ^2.1.0
-        version: 2.1.1
       compression:
         specifier: ^1.7.4
         version: 1.7.5
-      d3:
-        specifier: ^7.9.0
-        version: 7.9.0
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1537,21 +1468,6 @@ importers:
       io-ts-types:
         specifier: ^0.5.19
         version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
-      is-plain-object:
-        specifier: ^5.0.0
-        version: 5.0.0
-      module-alias:
-        specifier: ^2.2.3
-        version: 2.2.3
-      ol:
-        specifier: ^9.2.4
-        version: 9.2.4
-      page-metadata-parser:
-        specifier: ^1.1.4
-        version: 1.1.4
-      prop-types:
-        specifier: ^15.8.1
-        version: 15.8.1
       query-string:
         specifier: ^7.1.3
         version: 7.1.3
@@ -1561,9 +1477,6 @@ importers:
       ra-i18n-polyglot:
         specifier: ^5.4.0
         version: 5.4.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.28.0(react@18.3.1))(react@18.3.1)
-      ra-ui-materialui:
-        specifier: ^5.4.0
-        version: 5.4.0(5hzoid2r4qacrxp66hhp4dxa6e)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1576,154 +1489,40 @@ importers:
       react-error-boundary:
         specifier: ^4.1.2
         version: 4.1.2(react@18.3.1)
-      react-helmet:
-        specifier: ^6.1.0
-        version: 6.1.0(react@18.3.1)
-      react-helmet-async:
-        specifier: ^2.0.5
-        version: 2.0.5(react@18.3.1)
       react-router:
         specifier: ^6.28.0
         version: 6.28.0(react@18.3.1)
       react-router-dom:
         specifier: ^6.28.0
         version: 6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-share:
-        specifier: ^5.1.0
-        version: 5.1.0(react@18.3.1)
-      react-slick:
-        specifier: ^0.30.2
-        version: 0.30.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-spring:
-        specifier: ^9.7.4
-        version: 9.7.4(@react-three/fiber@8.17.10(react-dom@18.3.1(react@18.3.1))(react-native@0.75.4(@babel/core@7.26.0)(@babel/preset-env@7.25.7(@babel/core@7.26.0))(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3))(react@18.3.1)(three@0.169.0))(konva@9.3.15)(react-dom@18.3.1(react@18.3.1))(react-konva@18.2.10(konva@9.3.15)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-native@0.75.4(@babel/core@7.26.0)(@babel/preset-env@7.25.7(@babel/core@7.26.0))(@types/react@18.3.12)(react@18.3.1)(typescript@5.6.3))(react-zdog@1.2.2)(react@18.3.1)(three@0.169.0)(zdog@1.1.3)
-      react-toc:
-        specifier: ^3.1.0
-        version: 3.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-virtualized:
-        specifier: ^9.22.5
-        version: 9.22.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       sirv:
         specifier: ^3.0.0
         version: 3.0.0
-      slick-carousel:
-        specifier: ^1.8.1
-        version: 1.8.1(jquery@3.7.1)
-      throttle-debounce:
-        specifier: ^5.0.0
-        version: 5.0.2
-      topojson-client:
-        specifier: ^3.1.0
-        version: 3.1.0
-      topojson-server:
-        specifier: 3.0.1
-        version: 3.0.1
-      ts-endpoint:
-        specifier: ^2.0.0
-        version: 2.0.0
-      ts-endpoint-express:
-        specifier: ^2.0.0
-        version: 2.0.0(express@4.21.1)(ts-endpoint@2.0.0)
-      uuid:
-        specifier: ^11.0.3
-        version: 11.0.3
-      world-atlas:
-        specifier: 2.0.2
-        version: 2.0.2
     devDependencies:
-      '@rollup/rollup-linux-x64-gnu':
-        specifier: ^4.22.4
-        version: 4.27.2
-      '@types/bs58':
-        specifier: ^4.0.4
-        version: 4.0.4
       '@types/compression':
         specifier: ^1.7.5
         version: 1.7.5
-      '@types/d3':
-        specifier: ^7.4.3
-        version: 7.4.3
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
-      '@types/mime':
-        specifier: ^1.3.5
-        version: 1.3.5
       '@types/node':
         specifier: ^20.16.11
         version: 20.16.11
-      '@types/reach__router':
-        specifier: ^1.3.15
-        version: 1.3.15
       '@types/react':
         specifier: ^18.3.8
         version: 18.3.12
-      '@types/react-calendar-heatmap':
-        specifier: ^1.9.0
-        version: 1.9.0
       '@types/react-dom':
         specifier: ^18.3.1
         version: 18.3.1
-      '@types/react-helmet':
-        specifier: ^6.1.11
-        version: 6.1.11
-      '@types/react-slick':
-        specifier: ^0.23.13
-        version: 0.23.13
-      '@types/react-virtualized':
-        specifier: ^9.21.30
-        version: 9.21.30
-      '@types/throttle-debounce':
-        specifier: ^5.0.2
-        version: 5.0.2
-      '@types/topojson-client':
-        specifier: ^3.1.5
-        version: 3.1.5
-      '@types/topojson-server':
-        specifier: ^3.0.4
-        version: 3.0.4
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^8.16.0
-        version: 8.16.0(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3))(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3)
-      '@typescript-eslint/parser':
-        specifier: ^8.16.0
-        version: 8.16.0(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3)
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
       eslint:
         specifier: ^9.16.0
         version: 9.16.0(jiti@2.3.3)
-      eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@9.16.0(jiti@2.3.3))
-      eslint-import-resolver-typescript:
-        specifier: ^3.6.3
-        version: 3.6.3(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.16.0(jiti@2.3.3))
-      eslint-plugin-import:
-        specifier: ^2.31.0
-        version: 2.31.0(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3))(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.16.0(eslint@9.16.0(jiti@2.3.3))(typescript@5.6.3))(eslint-plugin-import@2.31.0)(eslint@9.16.0(jiti@2.3.3)))(eslint@9.16.0(jiti@2.3.3))
-      eslint-plugin-n:
-        specifier: ^17.14.0
-        version: 17.14.0(eslint@9.16.0(jiti@2.3.3))
-      eslint-plugin-prettier:
-        specifier: ^5.2.1
-        version: 5.2.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@9.16.0(jiti@2.3.3)))(eslint@9.16.0(jiti@2.3.3))(prettier@3.3.3)
-      eslint-plugin-promise:
-        specifier: ^7.2.1
-        version: 7.2.1(eslint@9.16.0(jiti@2.3.3))
-      eslint-plugin-react:
-        specifier: ^7.37.2
-        version: 7.37.2(eslint@9.16.0(jiti@2.3.3))
-      prettier:
-        specifier: ^3.3.3
-        version: 3.3.3
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -5573,9 +5372,6 @@ packages:
   '@types/reach__router@1.3.15':
     resolution: {integrity: sha512-5WEHKGglRjq/Ae3F8UQxg+GYUIhTUEiyBT9GKPoOLU/vPTn8iZrRbdzxqvarOaGludIejJykHLMdOCdhgWqaxA==}
 
-  '@types/react-calendar-heatmap@1.9.0':
-    resolution: {integrity: sha512-BH8M/nsXoLGa3hxWbrq3guPwlK0cV+w1i4c/ktrTxTzN5fBths6WbeUZ4dK0+tE76qiGoVSo9Tse8WVVuMIV+w==}
-
   '@types/react-dom@18.3.1':
     resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
 
@@ -5635,9 +5431,6 @@ packages:
 
   '@types/topojson-client@3.1.5':
     resolution: {integrity: sha512-C79rySTyPxnQNNguTZNI1Ct4D7IXgvyAs3p9HPecnl6mNrJ5+UhvGNYcZfpROYV2lMHI48kJPxwR+F9C6c7nmw==}
-
-  '@types/topojson-server@3.0.4':
-    resolution: {integrity: sha512-5+ieK8ePfP+K2VH6Vgs1VCt+fO1U8XZHj0UsF+NktaF0DavAo1q3IvCBXgokk/xmtvoPltSUs6vxuR/zMdOE1g==}
 
   '@types/topojson-specification@1.0.5':
     resolution: {integrity: sha512-C7KvcQh+C2nr6Y2Ub4YfgvWvWCgP2nOQMtfhlnwsRL4pYmmwzBS7HclGiS87eQfDOU/DLQpX6GEscviaz4yLIQ==}
@@ -7314,9 +7107,6 @@ packages:
 
   duplexer2@0.1.4:
     resolution: {integrity: sha512-asLFVfWWtJ90ZyOUHMqk7/S2w2guQKxUI2itj3d92ADHhxUSbCMGi1f1cBcJ7xM1To+pE/Khbwo1yuNbMEPKeA==}
-
-  earcut@2.2.4:
-    resolution: {integrity: sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==}
 
   earcut@3.0.0:
     resolution: {integrity: sha512-41Fs7Q/PLq1SDbqjsgcY7GA42T0jvaCNGXgGtsNdvg+Yv8eIu06bxv4/PoREkZ9nMDNwnUSG9OFB9+yv8eKhDg==}
@@ -9642,9 +9432,6 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  module-alias@2.2.3:
-    resolution: {integrity: sha512-23g5BFj4zdQL/b6tor7Ji+QY4pEfNH784BMslY9Qb0UnJWRAt+lQGLYmRaM0KDBwIG23ffEBELhZDP2rhi9f/Q==}
-
   module-details-from-path@1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
 
@@ -9874,9 +9661,6 @@ packages:
 
   ol@10.2.1:
     resolution: {integrity: sha512-2bB/y2vEnmzjqynP0NA7Cp8k86No3Psn63Dueicep3E3i09axWRVIG5IS/bylEAGfWQx0QXD/uljkyFoY60Wig==}
-
-  ol@9.2.4:
-    resolution: {integrity: sha512-bsbu4ObaAlbELMIZWnYEvX4Z9jO+OyCBshtODhDKmqYTPEfnKOX3RieCr97tpJkqWTZvyV4tS9UQDvHoCdxS+A==}
 
   on-finished@2.3.0:
     resolution: {integrity: sha512-ikqdkGAAyf/X/gPhXGvfgAytDZtDbr+bkNUJ0N9h5MI/dmdgCs3l6hoHrcUv41sRKew3jIwrp4qQDXiK99Utww==}
@@ -10112,10 +9896,6 @@ packages:
   pathval@2.0.0:
     resolution: {integrity: sha512-vE7JKRyES09KiunauX7nd2Q9/L7lhok4smP9RZTDeD4MVs72Dp2qNFVz39Nz5a0FVEW0BJR6C0DYrq6unoziZA==}
     engines: {node: '>= 14.16'}
-
-  pbf@3.2.1:
-    resolution: {integrity: sha512-ClrV7pNOn7rtmoQVF4TS1vyU0WhYRnP92fzbfF75jAIwpnzdJXf8iTd4CMEqO4yUenH6NDqLiwjqlh6QgZzgLQ==}
-    hasBin: true
 
   pbf@4.0.1:
     resolution: {integrity: sha512-SuLdBvS42z33m8ejRbInMapQe8n0D3vN/Xd5fmWM3tufNgRQFBpaW2YVJxQZV4iPNqb0vEFvssMEo5w9c6BTIA==}
@@ -10587,9 +10367,6 @@ packages:
     resolution: {integrity: sha512-AAFUA5O1d83pIHEhJwWCq/RQcRukCkn/NSm2QsTEMle5f2hP0ChI2+3Xb051PZCkLryI/Ir1MVKviT2FIloaTQ==}
     engines: {node: '>=12'}
 
-  quickselect@2.0.0:
-    resolution: {integrity: sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==}
-
   quickselect@3.0.0:
     resolution: {integrity: sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==}
 
@@ -10633,9 +10410,6 @@ packages:
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
     engines: {node: '>= 0.8'}
-
-  rbush@3.0.1:
-    resolution: {integrity: sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==}
 
   rbush@4.0.1:
     resolution: {integrity: sha512-IP0UpfeWQujYC8Jg162rMNc01Rf0gWMMAb2Uxus/Q0qOFw4lCcq6ZnQEZwUoJqWyUGJ9th7JjwI4yIWo+uvoAQ==}
@@ -11750,10 +11524,6 @@ packages:
     resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
     hasBin: true
 
-  topojson-server@3.0.1:
-    resolution: {integrity: sha512-/VS9j/ffKr2XAOjlZ9CgyyeLmgJ9dMwq6Y0YEON8O7p/tGGk+dCWnrE03zEdu7i4L7YsFZLEPZPzCvcB7lEEXw==}
-    hasBin: true
-
   totalist@3.0.1:
     resolution: {integrity: sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==}
     engines: {node: '>=6'}
@@ -12511,9 +12281,6 @@ packages:
 
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
-
-  world-atlas@2.0.2:
-    resolution: {integrity: sha512-IXfV0qwlKXpckz1FhwXVwKRjiIhOnWttOskm5CtxMsjgE/MXAYRHWJqgXOpM8IkcPBoXnyTU5lFHcYa5ChG0LQ==}
 
   wrap-ansi@6.2.0:
     resolution: {integrity: sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==}
@@ -17299,10 +17066,6 @@ snapshots:
     dependencies:
       '@types/react': 18.3.12
 
-  '@types/react-calendar-heatmap@1.9.0':
-    dependencies:
-      '@types/react': 18.3.12
-
   '@types/react-dom@18.3.1':
     dependencies:
       '@types/react': 18.3.12
@@ -17382,11 +17145,6 @@ snapshots:
   '@types/throttle-debounce@5.0.2': {}
 
   '@types/topojson-client@3.1.5':
-    dependencies:
-      '@types/geojson': 7946.0.14
-      '@types/topojson-specification': 1.0.5
-
-  '@types/topojson-server@3.0.4':
     dependencies:
       '@types/geojson': 7946.0.14
       '@types/topojson-specification': 1.0.5
@@ -19345,8 +19103,6 @@ snapshots:
   duplexer2@0.1.4:
     dependencies:
       readable-stream: 2.3.8
-
-  earcut@2.2.4: {}
 
   earcut@3.0.0: {}
 
@@ -22344,8 +22100,6 @@ snapshots:
 
   mkdirp@2.1.6: {}
 
-  module-alias@2.2.3: {}
-
   module-details-from-path@1.0.3: {}
 
   monocle-ts@2.3.13(fp-ts@2.16.9):
@@ -22580,15 +22334,6 @@ snapshots:
       geotiff: 2.1.3
       pbf: 4.0.1
       rbush: 4.0.1
-
-  ol@9.2.4:
-    dependencies:
-      color-rgba: 3.0.0
-      color-space: 2.0.1
-      earcut: 2.2.4
-      geotiff: 2.1.3
-      pbf: 3.2.1
-      rbush: 3.0.1
 
   on-finished@2.3.0:
     dependencies:
@@ -22835,11 +22580,6 @@ snapshots:
   pathe@1.1.2: {}
 
   pathval@2.0.0: {}
-
-  pbf@3.2.1:
-    dependencies:
-      ieee754: 1.2.1
-      resolve-protobuf-schema: 2.1.0
 
   pbf@4.0.1:
     dependencies:
@@ -23409,8 +23149,6 @@ snapshots:
 
   quick-lru@6.1.2: {}
 
-  quickselect@2.0.0: {}
-
   quickselect@3.0.0: {}
 
   ra-core@5.4.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.53.2(react@18.3.1))(react-router-dom@6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.28.0(react@18.3.1))(react@18.3.1):
@@ -23512,10 +23250,6 @@ snapshots:
       http-errors: 2.0.0
       iconv-lite: 0.4.24
       unpipe: 1.0.0
-
-  rbush@3.0.1:
-    dependencies:
-      quickselect: 2.0.0
 
   rbush@4.0.1:
     dependencies:
@@ -24934,10 +24668,6 @@ snapshots:
     dependencies:
       commander: 2.20.3
 
-  topojson-server@3.0.1:
-    dependencies:
-      commander: 2.20.3
-
   totalist@3.0.1: {}
 
   tough-cookie@2.5.0:
@@ -25807,8 +25537,6 @@ snapshots:
 
   wordwrap@1.0.0:
     optional: true
-
-  world-atlas@2.0.2: {}
 
   wrap-ansi@6.2.0:
     dependencies:

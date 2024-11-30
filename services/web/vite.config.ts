@@ -17,27 +17,28 @@ export const port =
     : 4020;
 
 // https://vitejs.dev/config/
-const configFn = defineViteConfig({
-  cwd: import.meta.dirname,
-  env: AppEnv,
-  envFileDir: "./",
-  output: "build",
-  base: "/",
-  port,
-  host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
-  devServer: true,
-  hot: true,
-  target: "custom",
-  entry: "src/client/index.tsx",
-  html: {
-    templatePath: "public/index.html",
-  },
-  tsConfigFile:
-    process.env.VITE_NODE_ENV === "production"
-      ? "tsconfig.build.json"
-      : "tsconfig.json",
 
-  plugins: [reactVirtualized()],
-});
+export default defineConfig((mode) =>
+  defineViteConfig({
+    cwd: import.meta.dirname,
+    env: AppEnv,
+    envFileDir: "./",
+    output: "build",
+    base: "/",
+    port,
+    host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
+    devServer: true,
+    hot: true,
+    target: "custom",
+    entry: "src/client/index.tsx",
+    html: {
+      templatePath: "public/index.html",
+    },
+    tsConfigFile:
+      process.env.VITE_NODE_ENV === "production"
+        ? "tsconfig.build.json"
+        : "tsconfig.json",
 
-export default defineConfig(configFn);
+    plugins: [reactVirtualized()],
+  })(mode),
+);
