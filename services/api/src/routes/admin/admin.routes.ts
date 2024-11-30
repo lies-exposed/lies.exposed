@@ -4,6 +4,7 @@ import { MakeAdminBuildImageRoute } from "./images/buildImage.controller.js";
 import { MakeAdminGetLinkStatsRoute } from "./links/getLinkStats.controller.js";
 import { MakeAdminGetMediaStatsRoute } from "./media/getMediaStats.controller.js";
 import { MakeAdminExtractEntitiesWithNLPRoute } from "./nlp/extractEntitiesWithNLP.controller.js";
+import { MakeQueueRoutes } from "./queues/queues.routes.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeAdminRoutes = (router: Router, ctx: RouteContext): void => {
@@ -12,4 +13,6 @@ export const MakeAdminRoutes = (router: Router, ctx: RouteContext): void => {
   MakeAdminGetLinkStatsRoute(router, ctx);
   MakeAdminGetMediaStatsRoute(router, ctx);
   MakeAdminExtractEntitiesWithNLPRoute(router, ctx);
+  // queues
+  MakeQueueRoutes(router, ctx);
 };

@@ -4,6 +4,7 @@ import { MakeQueueDeleteRoute } from "./queueDelete.controller.js";
 import { MakeQueueEditRoute } from "./queueEdit.controller.js";
 import { MakeQueueGetRoute } from "./queueGet.controller.js";
 import { MakeQueueListRoute } from "./queueList.controller.js";
+import { MakeQueueProcessRoute } from "./queueProcess.controller.js";
 import { type RouteContext } from "#routes/route.types.js";
 
 export const MakeQueueRoutes = (router: Router, ctx: RouteContext): void => {
@@ -12,4 +13,5 @@ export const MakeQueueRoutes = (router: Router, ctx: RouteContext): void => {
   MakeQueueCreateRoute(router, ctx);
   MakeQueueEditRoute(router, ctx);
   MakeQueueDeleteRoute(router, ctx);
+  MakeQueueProcessRoute(router, ctx);
 };

@@ -1,3 +1,4 @@
+import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
@@ -158,6 +159,9 @@ const EditActions: React.FC = () => {
   );
 };
 
+const EMBED_OPENAI_PROMPT =
+  "Give me a summary for the given physical person name (it can be either a famous one or a random real person), including information you can find on Wikipedia or RationalWiki, in maximum 300 characters";
+
 export const ActorEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   return (
@@ -179,13 +183,17 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <TextWithSlugInput source="fullName" slugSource="username" />
           <DateInput source="bornOn" />
           <DateInput source="diedOn" />
-          <OpenAIEmbeddingJobButton
+          <OpenAIEmbeddingJobButton<Actor>
             resource="actors"
-            valueSource="excerpt"
             type="openai-summarize"
-            transformValue={(blocks) => ({
-              text: getTextContents(blocks),
-            })}
+            transformValue={({ excerpt, fullName }) =>
+              pipe(
+                excerpt ? getTextContents(excerpt) : "",
+                (text) => (text !== "" ? text : fullName),
+                (text) => ({ text }),
+              )
+            }
+            prompt={EMBED_OPENAI_PROMPT}
           />
           <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />

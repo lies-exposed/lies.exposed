@@ -6,6 +6,7 @@ import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
 } from "@liexp/shared/lib/io/http/Queue.js";
+import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/io/openai/prompts/media.prompts.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { createAndUpload } from "../media/createAndUpload.flow.js";
@@ -61,6 +62,7 @@ export const parseDocument =
           error: null,
           data: {
             url: m.location,
+            prompt: EMBED_MEDIA_PROMPT,
             type: "pdf",
             result: undefined,
           },
