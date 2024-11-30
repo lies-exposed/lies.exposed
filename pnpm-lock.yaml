@@ -174,8 +174,8 @@ importers:
         specifier: ^0.3.14
         version: 0.3.14(@langchain/core@0.3.19(openai@4.72.0(zod@3.23.8)))
       '@types/fluent-ffmpeg':
-        specifier: ^2.1.26
-        version: 2.1.26
+        specifier: ^2.1.27
+        version: 2.1.27
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.7
@@ -1225,8 +1225,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       '@types/fluent-ffmpeg':
-        specifier: ^2.1.26
-        version: 2.1.26
+        specifier: ^2.1.27
+        version: 2.1.27
       '@types/jsonwebtoken':
         specifier: ^9.0.6
         version: 9.0.7
@@ -5501,8 +5501,8 @@ packages:
   '@types/extend@3.0.4':
     resolution: {integrity: sha512-ArMouDUTJEz1SQRpFsT2rIw7DeqICFv5aaVzLSIYMYQSLcwcGOfT3VyglQs/p7K3F7fT4zxr0NWxYZIdifD6dA==}
 
-  '@types/fluent-ffmpeg@2.1.26':
-    resolution: {integrity: sha512-0JVF3wdQG+pN0ImwWD0bNgJiKF2OHg/7CDBHw5UIbRTvlnkgGHK6V5doE54ltvhud4o31/dEiHm23CAlxFiUQg==}
+  '@types/fluent-ffmpeg@2.1.27':
+    resolution: {integrity: sha512-QiDWjihpUhriISNoBi2hJBRUUmoj/BMTYcfz+F+ZM9hHWBYABFAE6hjP/TbCZC0GWwlpa3FzvHH9RzFeRusZ7A==}
 
   '@types/geojson@7946.0.14':
     resolution: {integrity: sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==}
@@ -17214,7 +17214,7 @@ snapshots:
 
   '@types/extend@3.0.4': {}
 
-  '@types/fluent-ffmpeg@2.1.26':
+  '@types/fluent-ffmpeg@2.1.27':
     dependencies:
       '@types/node': 20.16.11
 

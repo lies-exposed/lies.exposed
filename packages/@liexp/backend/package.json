@@ -43,7 +43,7 @@
     "@aws-sdk/types": "^3.696.0",
     "@langchain/core": "^0.3.19",
     "@langchain/openai": "^0.3.14",
-    "@types/fluent-ffmpeg": "^2.1.26",
+    "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
     "exifreader": "^4.23.5",
