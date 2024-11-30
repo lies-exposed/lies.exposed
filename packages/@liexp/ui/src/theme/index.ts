@@ -10,7 +10,7 @@ import {
   lightBlue as _lightBlue,
   lightGreen as _lightGreen,
   red,
-} from "@mui/material/colors";
+} from "@mui/material/colors/index.js";
 import { createStyled, darken, lighten } from "@mui/system";
 
 const primaryFontFamily = "Signika";
