@@ -1,7 +1,9 @@
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
@@ -112,7 +114,7 @@ export const GroupList: React.FC = () => (
 
 const transformGroup =
   (apiProvider: APIRESTClient) =>
-  (data: RaRecord): RaRecord | Promise<RaRecord> => {
+  (data: RaRecord<UUID>): RaRecord | Promise<RaRecord> => {
     if (data._from === "wikipedia") {
       return data;
     }
@@ -128,7 +130,7 @@ const transformGroup =
       TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media.Media>[]> => {
         if (data.avatar?.rawFile) {
           return pipe(
-            uploadImages(apiProvider)("groups", data.id as any, [
+            uploadImages(apiProvider)("groups", data.id, [
               { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
             ]),
           );
@@ -201,6 +203,9 @@ const EditTitle: React.FC<EditProps> = () => {
   return <Typography>Group {record?.name}</Typography>;
 };
 
+const EMBED_GROUP_PROMPT =
+  "Give me a summary for the given group (it can be either a company or a website entity, a group of people, a family group), including information you can find on Wikipedia or RationalWiki, in maximum 300 characters";
+
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   const dataProvider = useDataProvider();
   return (
@@ -237,10 +242,16 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
-          <OpenAIEmbeddingJobButton
+          <OpenAIEmbeddingJobButton<Group>
             resource="groups"
-            valueSource="excerpt"
-            transformValue={(text) => ({ text })}
+            transformValue={({ name, excerpt }) =>
+              pipe(
+                excerpt ? getTextContents(excerpt) : "",
+                (text) => (text !== "" ? text : name),
+                (text) => ({ text }),
+              )
+            }
+            prompt={EMBED_GROUP_PROMPT}
           />
           <BlockNoteInput source="excerpt" />
         </FormTab>

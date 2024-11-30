@@ -60,7 +60,7 @@ const processDoneJobBlockNoteResult =
     );
   };
 
-const processDoneJob = (job: Queue.Queue): TEReader<Queue.Queue> => {
+export const processDoneJob = (job: Queue.Queue): TEReader<Queue.Queue> => {
   return pipe(
     fp.RTE.right(job),
     fp.RTE.chain((job) => {

@@ -13,10 +13,10 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { formatDocumentsAsString } from "langchain/util/document";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
-const embeddingsTemplate = `You are an assistant for question-answering tasks.
+export const EMBEDDINGS_PROMPT = `You are an assistant for question-answering tasks.
 Use the following pieces of retrieved context to answer the question.
 If you don't know the answer, just say that you don't know.
-Use three sentences maximum and keep the answer concise.
+Use 300 chars maximum and keep the answers concise.
 
 ---
 {context}
@@ -130,13 +130,7 @@ export const GetLangchainProvider = (
 
       // Retrieve and generate using the relevant snippets of the blog.
       const retriever = vectorStore.asRetriever();
-      const prompt = PromptTemplate.fromTemplate(embeddingsTemplate);
-
-      // const ragChain = await createStuffDocumentsChain({
-      //   llm: chat,
-      //   prompt,
-      //   outputParser: new StringOutputParser(),
-      // });
+      const prompt = PromptTemplate.fromTemplate(EMBEDDINGS_PROMPT);
 
       const ragChain = RunnableSequence.from([
         {

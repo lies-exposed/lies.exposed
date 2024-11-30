@@ -3,6 +3,7 @@ import { type FSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import {
   toControllerError,
   type ControllerError,
@@ -12,7 +13,7 @@ export interface QueueProvider<J extends Queue.Queue> {
   addJob: (job: J) => TaskEither<ControllerError, void>;
   getJob: (
     resource: Queue.QueueResourceNames,
-    id: string,
+    id: UUID,
   ) => TaskEither<ControllerError, J>;
   updateJob: (
     job: J,
@@ -58,7 +59,7 @@ export const GetQueueJobProvider = <J extends Queue.Queue>(
         return pipe(
           fs.getObject(getJobPath({ resource, type, id })),
           fp.TE.mapLeft(toControllerError),
-          fp.TE.map((data) => JSON.parse(data)),
+          fp.TE.map(JSON.parse),
         );
       },
       listJobs: (opts) => {

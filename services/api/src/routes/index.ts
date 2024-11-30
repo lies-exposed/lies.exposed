@@ -1,5 +1,4 @@
 import { type Router } from "express";
-import { MakeQueueRoutes } from "./queues/queues.routes.js";
 import { type RouteContext } from "./route.types.js";
 import { MakeSettingRoutes } from "./settings/settings.routes.js";
 import { MakeProjectImageRoutes } from "#routes/ProjectImages/ProjectImage.routes.js";
@@ -99,9 +98,6 @@ export const AddRoutes = (router: Router, ctx: RouteContext): Router => {
 
   // settings
   MakeSettingRoutes(router, ctx);
-
-  // queues
-  MakeQueueRoutes(router, ctx);
 
   return router;
 };

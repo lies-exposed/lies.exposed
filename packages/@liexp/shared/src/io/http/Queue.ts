@@ -1,6 +1,8 @@
 import * as t from "io-ts";
 import { optionFromUndefined } from "../Common/optionFromUndefined.js";
 import { UUID } from "./Common/UUID.js";
+import { PaginationQuery } from "./Query/PaginationQuery.js";
+import { SortQuery } from "./Query/SortQuery.js";
 import { ResourcesNames } from "./ResourcesNames.js";
 
 export const QueueResourceNames = ResourcesNames;
@@ -59,6 +61,8 @@ export type GetQueueParams = t.TypeOf<typeof GetQueueParams>;
 
 export const GetQueueListQuery = t.type(
   {
+    ...SortQuery.props,
+    ...PaginationQuery.props,
     resource: optionFromUndefined(QueueResourceNames),
     type: optionFromUndefined(QueueTypes),
     status: optionFromUndefined(Status),
@@ -72,13 +76,18 @@ export const CreateQueueURLData = t.strict(
     url: t.string,
     result: t.union([t.string, t.undefined]),
     type: t.union([t.literal("link"), t.literal("pdf"), t.undefined]),
+    prompt: t.union([t.string, t.undefined]),
   },
   "CreateQueueURLData",
 );
 export type CreateQueueURLData = t.TypeOf<typeof CreateQueueURLData>;
 
 export const CreateQueueTextData = t.strict(
-  { text: t.string, result: t.union([t.string, t.undefined]) },
+  {
+    text: t.string,
+    result: t.union([t.string, t.undefined]),
+    prompt: t.union([t.string, t.undefined]),
+  },
   "CreateQueueTextData",
 );
 export type CreateQueueTextData = t.TypeOf<typeof CreateQueueTextData>;
