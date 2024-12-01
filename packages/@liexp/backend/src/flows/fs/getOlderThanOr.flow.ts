@@ -2,10 +2,8 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import {
-  type FSClientContext,
-  type LoggerContext,
-} from "../../context/index.js";
+import { type FSClientContext } from "../../context/fs.context.js";
+import { type LoggerContext } from "../../context/logger.context.js";
 import { olderThan } from "./olderThan.flow.js";
 
 export const getOlderThanOr =

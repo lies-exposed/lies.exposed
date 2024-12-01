@@ -1,4 +1,4 @@
-import { type DatabaseContext } from "@liexp/backend/lib/context/index.js";
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {

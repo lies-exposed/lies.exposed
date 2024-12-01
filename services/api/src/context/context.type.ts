@@ -1,19 +1,19 @@
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
+import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import {
-  type DatabaseContext,
   type FFMPEGProviderContext,
-  type FSClientContext,
   type GeocodeProviderContext,
   type IGProviderContext,
   type ImgProcClientContext,
-  type JWTProviderContext,
-  type LoggerContext,
   type NERProviderContext,
-  type PuppeteerProviderContext,
-  type SpaceContext,
   type TGBotProviderContext,
   type URLMetadataContext,
   type WikipediaProviderContext,
 } from "@liexp/backend/lib/context/index.js";
+import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
+import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
+import { type SpaceContext } from "@liexp/backend/lib/context/space.context.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { type ServerBlockNoteEditor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";

@@ -1,4 +1,4 @@
-import { type DatabaseContext } from "@liexp/backend/lib/context/index.js";
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type Query } from "@liexp/shared/lib/io/http/index.js";
 import { type Reader } from "fp-ts/lib/Reader.js";
 import { pipe } from "fp-ts/lib/function.js";

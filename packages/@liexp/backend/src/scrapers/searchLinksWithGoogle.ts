@@ -4,10 +4,8 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import { type Browser } from "puppeteer-core";
-import {
-  type LoggerContext,
-  type PuppeteerProviderContext,
-} from "../context/index.js";
+import { type LoggerContext } from "../context/logger.context.js";
+import { type PuppeteerProviderContext } from "../context/puppeteer.context.js";
 import {
   type PuppeteerError,
   toPuppeteerError,
