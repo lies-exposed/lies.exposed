@@ -1,9 +1,7 @@
-import {
-  type FSClientContext,
-  type HTTPProviderContext,
-  type LoggerContext,
-  type PDFProviderContext,
-} from "@liexp/backend/lib/context/index.js";
+import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
+import { type HTTPProviderContext } from "@liexp/backend/lib/context/http.context.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
+import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.js";
 import { type LangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";

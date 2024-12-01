@@ -1,7 +1,5 @@
-import {
-  type LoggerContext,
-  type URLMetadataContext,
-} from "@liexp/backend/lib/context/index.js";
+import { type URLMetadataContext } from "@liexp/backend/lib/context/index.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type URLMetadataClient } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";

@@ -1,8 +1,6 @@
-import {
-  type DatabaseContext,
-  type LoggerContext,
-  type TGBotProviderContext,
-} from "@liexp/backend/lib/context/index.js";
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
+import { type TGBotProviderContext } from "@liexp/backend/lib/context/index.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { getUserByTelegramId } from "#flows/users/getUserByTelegramId.flow.js";

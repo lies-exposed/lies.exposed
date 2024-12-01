@@ -3,11 +3,9 @@ import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils.js";
 import { differenceInHours } from "date-fns";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import {
-  type FSClientContext,
-  type LoggerContext,
-} from "../../context/index.js";
-import { type FSError } from "providers/fs/fs.provider.js";
+import { type FSClientContext } from "../../context/fs.context.js";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { type FSError } from "../../providers/fs/fs.provider.js";
 
 export const olderThan =
   <C extends FSClientContext & LoggerContext>(

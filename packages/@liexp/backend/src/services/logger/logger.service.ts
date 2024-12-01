@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type FPTSLogger, type Logger } from "@liexp/core/lib/logger/Logger.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type LoggerContext } from "../../context/index.js";
+import { type LoggerContext } from "../../context/logger.context.js";
 
 type LogFn<A> = ((r: A) => [string, ...any[]]) | any[] | string;
 

@@ -4,7 +4,7 @@ import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./loadDocs.flow.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-export const defaultQuestion = "Write a summary of the text.";
+const defaultQuestion = "Write a summary of the text.";
 
 export const embedAndQuestionFlow: JobProcessRTE = (job) => (ctx) => {
   return pipe(

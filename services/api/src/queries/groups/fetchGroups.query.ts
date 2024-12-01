@@ -1,7 +1,5 @@
-import {
-  type DatabaseContext,
-  type LoggerContext,
-} from "@liexp/backend/lib/context/index.js";
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
