@@ -71,7 +71,7 @@ import {
   KeywordEdit,
   KeywordList,
 } from "./pages/AdminKeyword.js";
-import { QueueCreate, QueueEdit, QueueList } from "./pages/AdminQueue";
+import { QueueCreate, QueueEdit, QueueList } from "./pages/AdminQueue.js";
 import {
   SettingCreate,
   SettingEdit,
@@ -90,32 +90,32 @@ import {
   DeathCreate,
   DeathEdit,
   DeathList,
-} from "./pages/events/AdminDeathEvent";
+} from "./pages/events/AdminDeathEvent.js";
 import {
   DocumentaryCreate,
   DocumentaryEdit,
   DocumentaryList,
-} from "./pages/events/AdminDocumentaryEvent";
+} from "./pages/events/AdminDocumentaryEvent.js";
 import {
   PatentCreate,
   PatentEdit,
   PatentList,
-} from "./pages/events/AdminPatentEvent";
+} from "./pages/events/AdminPatentEvent.js";
 import {
   QuoteCreate,
   QuoteEdit,
   QuoteList,
-} from "./pages/events/AdminQuoteEvent";
+} from "./pages/events/AdminQuoteEvent.js";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
   ScientificStudyEdit,
-} from "./pages/events/AdminScientificStudyEvent";
+} from "./pages/events/AdminScientificStudyEvent.js";
 import {
   TransactionCreate,
   TransactionEdit,
   TransactionList,
-} from "./pages/events/AdminTransactionEvent";
+} from "./pages/events/AdminTransactionEvent.js";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent.js";
 import { adminThemeOptions } from "./theme.js";
 
