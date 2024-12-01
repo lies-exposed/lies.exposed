@@ -130,8 +130,6 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   };
   const createDisabled = false;
 
-  // console.log({ url, selectedSuggestion, createDisabled });
-
   return (
     <div>
       <Box

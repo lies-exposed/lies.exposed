@@ -63,7 +63,6 @@ export interface BNEditorProps {
 
 const ThemedBlockNoteView =
   (theme: "light" | "dark"): React.FC<any> =>
-  // eslint-disable-next-line react/display-name
   (props) => <BlockNoteView {...props} theme={theme} />;
 
 const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(

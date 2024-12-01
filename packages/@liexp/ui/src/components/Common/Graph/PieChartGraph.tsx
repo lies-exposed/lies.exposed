@@ -1,3 +1,4 @@
+import { animated, to, useTransition } from "@react-spring/web";
 import { GradientPinkBlue } from "@visx/gradient";
 import { Group } from "@visx/group";
 import { scaleOrdinal } from "@visx/scale";
@@ -6,7 +7,6 @@ import Pie, {
   type ProvidedProps,
 } from "@visx/shape/lib/shapes/Pie.js";
 import * as React from "react";
-import { animated, to, useTransition } from "react-spring";
 
 // color scales
 const defaultMargin = { top: 20, right: 20, bottom: 20, left: 20 };

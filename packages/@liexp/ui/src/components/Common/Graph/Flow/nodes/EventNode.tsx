@@ -8,7 +8,6 @@ export type EventNodeType = Node<any, "EventV2"> & {
   data: Events.SearchEvent.SearchEvent;
 };
 
-// eslint-disable-next-line react/display-name
 export const EventNode = React.memo<NodeProps<EventNodeType>>(
   ({ data, targetPosition, sourcePosition, selected: _selected }) => {
     // const conf = useConfiguration();

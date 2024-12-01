@@ -25,7 +25,6 @@ export const ProtestListItem: React.FC<ProtestListItemProps> = ({ item }) => {
           {pipe(
             item.frontmatter.media,
             O.map((media) => (
-              // eslint-disable-next-line react/jsx-key
               <Grid item>
                 <MediaSlider key="home-slider" data={media} />
               </Grid>

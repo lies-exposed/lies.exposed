@@ -42,7 +42,6 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
     O.fromNullable(items),
     O.map((items) => traverseItem(items, 1)),
     O.map((data) => (
-      // eslint-disable-next-line react/jsx-key
       <div>
         <Typography variant="h3">Tabella dei contenuti</Typography>
         {/* <StatefulTreeView

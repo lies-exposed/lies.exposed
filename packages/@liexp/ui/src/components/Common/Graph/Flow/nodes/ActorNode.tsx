@@ -5,7 +5,6 @@ import { ActorListItem } from "../../../../lists/ActorList.js";
 
 export type ActorNodeType = Node<Actor.Actor, typeof Actor.Actor.name>;
 
-// eslint-disable-next-line react/display-name
 export const ActorNode = React.memo<NodeProps<ActorNodeType>>(
   ({ data, selected }) => {
     return (

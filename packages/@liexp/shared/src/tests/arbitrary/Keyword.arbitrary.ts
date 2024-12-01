@@ -1,10 +1,11 @@
 import { fc } from "@liexp/test";
+import { type Tag } from "../../io/http/Common/Tag.js";
 import { DateArb } from "./Date.arbitrary.js";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const TagArb = (): fc.Arbitrary<string> => {
+export const TagArb = (): fc.Arbitrary<Tag> => {
   const stringArb = fc.convertToNext(fc.string());
   return fc.convertFromNext({
     ...stringArb,
@@ -29,7 +30,7 @@ export const TagArb = (): fc.Arbitrary<string> => {
       );
       return v;
     },
-  });
+  }) as fc.Arbitrary<Tag>;
 };
 
 export const CreateKeywordArb = fc.record({
@@ -38,7 +39,7 @@ export const CreateKeywordArb = fc.record({
 
 export const KeywordArb = fc.record({
   id: UUIDArb,
-  tag: TagArb() as fc.Arbitrary<any>,
+  tag: TagArb(),
   color: ColorArb,
   socialPosts: fc.constant([]),
   createdAt: DateArb,

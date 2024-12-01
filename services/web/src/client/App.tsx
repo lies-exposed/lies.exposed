@@ -10,6 +10,7 @@ import { Route, Routes } from "react-router-dom";
 import AppHeader, { logo192 } from "./components/header/AppHeader.js";
 import NotFoundPage from "./pages/404.js";
 import { routes } from "./routes.js";
+import { webLogger } from "./utils/logger.utils.js";
 
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
@@ -24,6 +25,8 @@ export const App: React.FC = () => {
   }, [typeof window]);
   const theme = useTheme();
   const isDownSM = useMuiMediaQuery("min-width: 899px");
+
+  webLogger.debug.log(`App rendered ${location.pathname}`);
 
   return (
     <div style={{ height: "100%", display: "flex" }}>

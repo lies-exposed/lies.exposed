@@ -158,7 +158,6 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
           media,
           O.fromPredicate((arr) => arr.length > 0),
           O.map((media) => (
-            // eslint-disable-next-line react/jsx-key
             <Grid item sm={12} md={8} lg={8}>
               <MediaSlider
                 className={classes.mediaSlider}

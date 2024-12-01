@@ -22,6 +22,7 @@ export const useJSONDataQuery =
     id: string,
   ): UseQueryResult<{ data: A }, APIError> => {
     return useQuery({
+      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["json", id],
       queryFn: async () => {
         return jsonData(jsonClient)(decode)({ id });

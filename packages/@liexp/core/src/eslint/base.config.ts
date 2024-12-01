@@ -1,3 +1,4 @@
+import "eslint-import-resolver-typescript";
 import eslint from "@eslint/js";
 import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
@@ -22,6 +23,9 @@ const config: any = tseslint.config(
       "import/resolver": {
         typescript: {
           project: "./tsconfig.json",
+        },
+        node: {
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
       },
     },

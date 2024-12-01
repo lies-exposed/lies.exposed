@@ -1,7 +1,4 @@
-import {
-  queryToHash,
-  useNavigateTo,
-} from "@liexp/ui/lib/utils/history.utils.js";
+import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 
 interface CommonViewArgs {
@@ -20,26 +17,26 @@ export interface EventsView extends CommonViewArgs {
   _end?: number;
 }
 
-const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
-  return (
-    (v.actors ?? []).length === 0 &&
-    (v.groups ?? []).length === 0 &&
-    (v.groupsMembers ?? []).length === 0 &&
-    (v.keywords ?? []).length === 0 &&
-    v.startDate === undefined &&
-    v.endDate === undefined &&
-    (v.tab ?? 0) === 0
-  );
-};
+// const isEventsQueryEmpty = (v: Omit<EventsView, "view">): boolean => {
+//   return (
+//     (v.actors ?? []).length === 0 &&
+//     (v.groups ?? []).length === 0 &&
+//     (v.groupsMembers ?? []).length === 0 &&
+//     (v.keywords ?? []).length === 0 &&
+//     v.startDate === undefined &&
+//     v.endDate === undefined &&
+//     (v.tab ?? 0) === 0
+//   );
+// };
 
-export function useQueryHash(
-  query: Omit<EventsView, "view">,
-): string | undefined {
-  return React.useMemo(
-    () => (!isEventsQueryEmpty(query) ? queryToHash(query) : undefined),
-    [query],
-  );
-}
+// export function useQueryHash(
+//   query: Omit<EventsView, "view">,
+// ): string | undefined {
+//   return React.useMemo(
+//     () => (!isEventsQueryEmpty(query) ? queryToHash(query) : undefined),
+//     [query],
+//   );
+// }
 
 type NavigateToResource = (f: { id?: string }, search?: any) => void;
 

@@ -111,7 +111,6 @@ export interface EventTimelineItemProps extends EventListItemProps {
   isLast: boolean;
 }
 
-// eslint-disable-next-line react/display-name
 const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
   ({ event: e, isLast, style, ...props }, ref) => {
     return (
