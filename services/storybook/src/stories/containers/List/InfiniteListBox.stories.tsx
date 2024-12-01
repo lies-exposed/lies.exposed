@@ -36,7 +36,7 @@ const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
     getItem: (data: any[], index: number) => {
       return data[index];
     },
-    // eslint-disable-next-line react/display-name
+
     CellRenderer: React.forwardRef<any, CellRendererProps>(
       ({ item, measure, index, style, ...others }, ref) => {
         // console.log("row render", style);
@@ -73,7 +73,7 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
     getItem: (data: any[], index: number) => {
       return data[index];
     },
-    // eslint-disable-next-line react/display-name
+
     CellRenderer: React.forwardRef<any, CellRendererProps>(
       ({ item, measure, index, style, ...others }, ref) => {
         // console.log("row render", others);
@@ -108,7 +108,7 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<
     getItem: (data: any, index: any) => {
       return data[index];
     },
-    // eslint-disable-next-line react/display-name
+
     CellRenderer: React.forwardRef<any, CellRendererProps>(
       ({ item, measure, index, style, ...others }, ref) => {
         // console.log("row render", others);
