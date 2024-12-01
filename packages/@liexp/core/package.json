@@ -34,7 +34,7 @@
     "@rollup/plugin-image": "^3.0.3",
     "@types/debug": "^4.1.12",
     "@types/eslint__js": "^8.42.3",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.16.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-fp-ts": "^0.3.2",
