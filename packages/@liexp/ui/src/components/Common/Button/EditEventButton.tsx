@@ -1,10 +1,10 @@
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type UUID } from "io-ts-types/lib/UUID.js";
-import { useAuthProvider } from "ra-core";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { getAdminLink } from "../../../utils/links.utils.js";
 import { EditEventModal } from "../../Modal/EditEventModal.js";
+import { useAuthProvider } from "../../admin/react-admin.js";
 import { Link } from "../../mui/index.js";
 import { FAIcon } from "../Icons/FAIcon.js";
 

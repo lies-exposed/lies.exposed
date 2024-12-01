@@ -28,7 +28,8 @@
     "web": "pnpm --filter 'web'",
     "vitest": "vitest",
     "vitest:expected-cov": "vitest run --coverage.enabled --coverage.thresholds.lines=90 --coverage.thresholds.functions=90 --coverage.thresholds.statements=90",
-    "vitest:cov": "vitest run --coverage.enabled"
+    "vitest:cov": "vitest run --coverage.enabled",
+    "knip": "knip"
   },
   "resolutions": {
     "dotenv": "^16.4.5",
@@ -41,23 +42,15 @@
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
+    "@types/node": "^20.16.11",
     "@vitest/coverage-v8": "^2.1.5",
     "eslint": "^9.16.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-fp-ts": "^0.3.2",
-    "eslint-plugin-import": "^2.30.0",
-    "eslint-plugin-n": "^17.14.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^7.2.1",
     "husky": "^9.1.6",
     "is-ci": "^3.0.1",
+    "knip": "^5.37.2",
     "lint-staged": "^15.2.10",
     "pm2": "^5.4.3",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.2",
+    "typescript": "^5.6.3",
     "typescript-eslint": "^8.16.0",
     "vitest": "^2.1.5"
   },
