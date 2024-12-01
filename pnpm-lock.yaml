@@ -744,6 +744,9 @@ importers:
 
   services/admin-web:
     dependencies:
+      '@fortawesome/fontawesome-svg-core':
+        specifier: ^6.7.1
+        version: 6.7.1
       '@liexp/core':
         specifier: workspace:*
         version: link:../../packages/@liexp/core

@@ -1,6 +1,5 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
-import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
 import { ReferenceBySubjectField } from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectField.js";
 import ReferenceBySubjectInput from "@liexp/ui/lib/components/admin/common/inputs/BySubject/ReferenceBySubjectInput.js";
@@ -14,7 +13,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   List,
   NumberField,
   NumberInput,
@@ -24,7 +22,6 @@ import {
   TextInput,
   type CreateProps,
   type EditProps,
-  type FormTabProps,
   type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.js";
@@ -64,12 +61,6 @@ export const TransactionList: React.FC<ListProps> = (props) => (
       <DateField source="createdAt" />
     </Datagrid>
   </List>
-);
-
-export const TransactionEditFormTab: React.FC<FormTabProps> = (props) => (
-  <FormTab {...props} label="Payload">
-    <ReferenceActorInput source="payload.victim" />
-  </FormTab>
 );
 
 export const TransactionEdit: React.FC<EditProps> = (props: EditProps) => {
