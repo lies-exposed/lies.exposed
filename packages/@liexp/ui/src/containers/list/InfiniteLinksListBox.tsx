@@ -33,7 +33,7 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
           getItem: (data: any[], index: number) => {
             return getItem ? getItem(data, index) : data[index];
           },
-          // eslint-disable-next-line react/display-name
+
           CellRenderer: React.forwardRef<any, CellRendererProps>(
             (
               {

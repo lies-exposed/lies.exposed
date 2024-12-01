@@ -126,7 +126,6 @@ const EventListItemBase = <E extends any>({
         media,
         O.fromPredicate((arr) => arr.length > 0 && !condensed),
         O.map((media) => (
-          // eslint-disable-next-line react/jsx-key
           <Box
             style={{
               width: "100%",

@@ -33,8 +33,10 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
       query={(p) =>
         options
           ? useQuery({
+              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["group-options"],
-              queryFn: () => Promise.resolve({ data: options }),
+              queryFn: () =>
+                Promise.resolve({ data: options, total: options.length }),
             })
           : Queries.Group.list.useQuery(
               {

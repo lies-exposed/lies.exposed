@@ -6,7 +6,6 @@ let BNEditor:
   | React.LazyExoticComponent<React.FC<BNEditorProps>>;
 
 if (typeof window === "undefined") {
-  // eslint-disable-next-line react/display-name
   BNEditor = (): JSX.Element => <div />;
 } else {
   BNEditor = React.lazy(() =>

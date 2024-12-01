@@ -28,8 +28,10 @@ export const AutocompleteKeywordInput: React.FC<
       query={(p) =>
         options
           ? useQuery({
+              // eslint-disable-next-line @tanstack/query/exhaustive-deps
               queryKey: ["keyword-options"],
-              queryFn: () => Promise.resolve({ data: options }),
+              queryFn: () =>
+                Promise.resolve({ data: options, total: options.length }),
             })
           : Queries.Keyword.list.useQuery(p, undefined, discrete)
       }

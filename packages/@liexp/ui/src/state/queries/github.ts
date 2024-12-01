@@ -3,7 +3,7 @@ import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import { type Configuration } from "../../context/ConfigurationContext.js";
 
-export interface GithubRepo {
+interface GithubRepo {
   user: string;
   repo: string;
 }

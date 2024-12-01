@@ -164,7 +164,6 @@ const StyledMasonry = styled(Masonry)(() => ({
   },
 }));
 
-// eslint-disable-next-line react/display-name
 export const MediaList = React.forwardRef<any, MediaListProps>(
   (
     {

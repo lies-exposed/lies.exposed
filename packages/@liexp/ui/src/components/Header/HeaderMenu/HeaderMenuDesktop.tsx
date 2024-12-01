@@ -160,7 +160,6 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
       {pipe(
         O.fromNullable(selectedMenuItem),
         O.map((m): JSX.Element | null => (
-          // eslint-disable-next-line react/jsx-key
           <PopperMenu
             classes={{
               menuItem: classes.menuItem,

@@ -27,7 +27,6 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
   data: {},
 };
 
-// eslint-disable-next-line react/display-name
 export const FlowGraph = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<FlowGraphProps>

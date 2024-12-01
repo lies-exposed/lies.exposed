@@ -32,7 +32,7 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
           getItem: (data: any[], index: number) => {
             return data[index];
           },
-          // eslint-disable-next-line react/display-name
+
           CellRenderer: React.forwardRef<any, CellRendererProps>(
             (
               {

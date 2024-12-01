@@ -13,7 +13,6 @@ const nodeStyle = {
   borderRadius: "4px",
 };
 
-// eslint-disable-next-line react/display-name
 export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
   const { isSpouse, isSibling, label, direction } = data;
 

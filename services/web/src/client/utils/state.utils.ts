@@ -2,7 +2,9 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
-import { stateLogger } from "./logger.utils.js";
+import { webLogger } from "./logger.utils.js";
+
+const stateLogger = webLogger.extend("state");
 
 export const toKey = (cachePrefix: string, hash?: string): string => {
   // return pipe(

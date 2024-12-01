@@ -56,10 +56,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
             <label>Data di inizio {formatDate(props.startDate)}</label>
             {pipe(
               O.fromNullable(props.endDate),
-              O.map((date) => (
-                // eslint-disable-next-line react/jsx-key
-                <label>Data di fine {formatDate(date)}</label>
-              )),
+              O.map((date) => <label>Data di fine {formatDate(date)}</label>),
               O.toNullable,
             )}
           </div>

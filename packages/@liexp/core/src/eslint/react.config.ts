@@ -1,28 +1,34 @@
-import path from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import tanstackQuery from "@tanstack/eslint-plugin-query";
+import react from "eslint-plugin-react";
+import globals from "globals";
 import tseslint, { type Config } from "typescript-eslint";
 import baseConfig from "./base.config.js";
 
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+if (!react.configs.flat) {
+  throw new Error("react.configs.flat is not defined");
+}
 
 const eslintConfig: Config = tseslint.config(
   ...baseConfig,
-  ...compat.extends("plugin:react/recommended"),
-  ...compat.plugins("@tanstack/eslint-plugin-query", "react"),
+  ...tanstackQuery.configs["flat/recommended"],
   {
+    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    ...react.configs.flat.recommended,
+    plugins: {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      react: react as any,
+    },
     languageOptions: {
+      ...react.configs.flat?.recommended.languageOptions,
       ecmaVersion: "latest",
       parserOptions: {
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.serviceworker,
       },
     },
     rules: {

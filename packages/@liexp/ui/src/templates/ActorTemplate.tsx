@@ -200,5 +200,3 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
     />
   );
 };
-
-export default ActorTemplate;
