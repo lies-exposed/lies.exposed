@@ -11,7 +11,10 @@ export const loadPDF = (url: string): ClientContextRTE<Document[]> => {
     fp.RTE.chainTaskEitherK((pdf) =>
       fp.TE.tryCatch(async () => {
         const pdfData = await pdf.getData();
-        const loader = new PDFLoader(new Blob([pdfData]));
+        const loader = new PDFLoader(new Blob([pdfData]), {
+          // it gets embedded as one document per file
+          splitPages: false,
+        });
         const docs = await loader.load();
         return docs;
       }, toAIBotError),
