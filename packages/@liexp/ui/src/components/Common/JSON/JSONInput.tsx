@@ -2,6 +2,8 @@ import * as React from "react";
 import {
   Mode,
   createJSONEditor,
+  isJSONContent,
+  isTextContent,
   type JSONEditorPropsOptional,
   type JsonEditor,
 } from "vanilla-jsoneditor";
@@ -12,14 +14,17 @@ import {
   useInput,
 } from "../../admin/react-admin";
 
-const useJsonEditorReact = (
-  props: JSONEditorPropsOptional,
-): React.ReactNode | null => {
+const JsonEditorReact: React.FC<JSONEditorPropsOptional> = (props) => {
   const refContainer = React.useRef<HTMLDivElement | null>(null);
   const refEditor = React.useRef<JsonEditor | null>(null);
-  const refPrevProps = React.useRef<JSONEditorPropsOptional>(props);
 
   React.useEffect(() => {
+    // create editor
+    refEditor.current = createJSONEditor({
+      target: refContainer.current!,
+      props,
+    });
+
     return () => {
       // destroy editor
       if (refEditor.current) {
@@ -30,27 +35,13 @@ const useJsonEditorReact = (
     };
   }, []);
 
-  React.useEffect(() => {
-    if (refContainer.current && !refEditor.current) {
-      // create editor
-      refEditor.current = createJSONEditor({
-        target: refContainer.current!,
-        props,
-      });
-    }
-  }, [refContainer.current]);
-
   // update props
   React.useEffect(() => {
+    // only pass the props that actually changed
+    // since the last time to prevent syncing issues
+    // const changedProps = filterUnchangedProps(props, refPrevProps.current);
     if (refEditor.current) {
-      // only pass the props that actually changed
-      // since the last time to prevent syncing issues
-      const changedProps = filterUnchangedProps(props, refPrevProps.current);
-      if (!Object.is(changedProps, {})) {
-        void refEditor.current.updateProps(changedProps).then(() => {
-          refPrevProps.current = props;
-        });
-      }
+      void refEditor.current.updateProps(props);
     }
   }, [props]);
 
@@ -60,18 +51,6 @@ const useJsonEditorReact = (
 
   return <div className="vanilla-jsoneditor-react" ref={refContainer}></div>;
 };
-
-function filterUnchangedProps(
-  props: JSONEditorPropsOptional,
-  prevProps: JSONEditorPropsOptional,
-): JSONEditorPropsOptional {
-  return Object.fromEntries(
-    Object.entries(props).filter(
-      ([key, value]) =>
-        value !== prevProps[key as keyof JSONEditorPropsOptional],
-    ),
-  );
-}
 
 export interface JSONInputProps extends TextInputProps {
   label?: string;
@@ -96,20 +75,20 @@ const JSONInput: React.FC<JSONInputProps> = ({
     defaultValue: props.value ?? props.defaultValue ?? null,
   });
 
-  const JsonEditor = useJsonEditorReact({
-    content: value ? { json: value } : undefined,
-    mode: Mode.text,
-    onChange,
-  });
-
-  if (!JsonEditor) {
-    return null;
-  }
-
   return (
     <Labeled label={label} fullWidth>
       <>
-        {JsonEditor}
+        <JsonEditorReact
+          content={value ? { json: value } : undefined}
+          mode={Mode.text}
+          onChange={(content, prevContent, status) => {
+            if (isJSONContent(content)) {
+              onChange(content.json);
+            } else if (isTextContent(content)) {
+              onChange(JSON.parse(content.text));
+            }
+          }}
+        />
         <Button label="Clear" onClick={() => onClear?.()} />
       </>
     </Labeled>
