@@ -682,8 +682,8 @@ importers:
         specifier: ^0.23.13
         version: 0.23.13
       '@types/react-virtualized':
-        specifier: ^9.21.30
-        version: 9.21.30
+        specifier: ^9.22.0
+        version: 9.22.0
       '@types/throttle-debounce':
         specifier: ^5.0.2
         version: 5.0.2
@@ -1157,8 +1157,8 @@ importers:
         specifier: ^18.3.8
         version: 18.3.12
       '@types/react-virtualized':
-        specifier: ^9.21.30
-        version: 9.21.30
+        specifier: ^9.22.0
+        version: 9.22.0
       eslint:
         specifier: ^9.16.0
         version: 9.16.0(jiti@2.4.1)
@@ -4237,8 +4237,8 @@ packages:
   '@types/react-transition-group@4.4.11':
     resolution: {integrity: sha512-RM05tAniPZ5DZPzzNFP+DmrcOdD0efDUxMy3145oljWSl3x9ZV5vhme98gTxFrj2lhXvmGNnUiuDyJgY9IKkNA==}
 
-  '@types/react-virtualized@9.21.30':
-    resolution: {integrity: sha512-4l2TFLQ8BCjNDQlvH85tU6gctuZoEdgYzENQyZHpgTHU7hoLzYgPSOALMAeA58LOWua8AzC6wBivPj1lfl6JgQ==}
+  '@types/react-virtualized@9.22.0':
+    resolution: {integrity: sha512-JL/YCCFZ123za//cj10Apk54F0UGFMrjOE0QHTuXt1KBMFrzLOGv9/x6Uc/pZ0Gaf4o6w61Fostvlw0DwuPXig==}
 
   '@types/react@18.3.12':
     resolution: {integrity: sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==}
@@ -13827,7 +13827,7 @@ snapshots:
     dependencies:
       '@types/react': 18.3.12
 
-  '@types/react-virtualized@9.21.30':
+  '@types/react-virtualized@9.22.0':
     dependencies:
       '@types/prop-types': 15.7.13
       '@types/react': 18.3.12
