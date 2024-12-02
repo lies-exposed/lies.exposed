@@ -29,7 +29,7 @@ const render: ServerRenderer = (
   options,
 ) => {
   return ReactDOMServer.renderToPipeableStream(
-    <StaticRouter location={url}>
+    <StaticRouter future={{ v7_startTransition: true }} location={url}>
       <ConfigurationContext.Provider value={configuration}>
         <DataProviderContext.Provider value={apiProvider}>
           <HelmetProvider context={helmetContext}>

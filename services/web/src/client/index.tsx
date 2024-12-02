@@ -66,7 +66,7 @@ function Main(): JSX.Element {
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true }}>
       <ConfigurationContext.Provider value={configuration}>
         <DataProviderContext.Provider value={apiProvider}>
           <HelmetProvider>
