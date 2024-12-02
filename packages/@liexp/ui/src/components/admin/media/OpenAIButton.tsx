@@ -5,6 +5,7 @@ import { LoadingIndicator } from "../react-admin.js";
 
 export interface OpenAIButtonBaseProps {
   prompt?: string;
+  question?: string;
   model?: string;
 }
 

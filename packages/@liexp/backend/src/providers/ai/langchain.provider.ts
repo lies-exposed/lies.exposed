@@ -27,17 +27,16 @@ Question: {question}
 Answer:
 `;
 
-const summaryTemplate = `
-You are an expert in summarizing articles
-Your goal is to create a summary of an article from the web.
-Below you find the content of the article:
+// const DEFAULT_SUMMARIZATION_QUESTION = "Can you summarize this article for me?";
+
+export const DEFAULT_SUMMARIZE_PROMPT = `
+You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
+Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in the text.
+Below you find the text you need to summarize.
+
 --------
 {text}
 --------
-
-Please summarize the article in a max 300 characters
-
-Summary:
 `;
 
 export interface LangchainProvider {
@@ -46,11 +45,11 @@ export interface LangchainProvider {
   queryDocument: (
     url: LangchainDocument[],
     question: string,
-    options?: { model?: AvailableModels },
+    options?: { model?: AvailableModels; prompt?: string },
   ) => Promise<string>;
   summarizeText: (
     text: LangchainDocument[],
-    options?: { model?: AvailableModels },
+    options?: { model?: AvailableModels; prompt?: string; question?: string },
   ) => Promise<string>;
 }
 
@@ -152,8 +151,11 @@ export const GetLangchainProvider = (
       return output;
     },
     summarizeText: async (text, options) => {
+      const model = options?.model ?? opts.models?.chat ?? "gpt-4o";
+      const prompt = options?.prompt ?? DEFAULT_SUMMARIZE_PROMPT;
+
       const chat = new ChatOpenAI({
-        model: options?.model ?? opts.models?.chat ?? "gpt-4o",
+        model,
         apiKey: opts.apiKey,
         temperature: 0,
         configuration: {
@@ -168,11 +170,7 @@ export const GetLangchainProvider = (
       });
       const docsSummary = await textSplitter.splitDocuments(text);
 
-      const SUMMARY_PROMPT = PromptTemplate.fromTemplate(summaryTemplate);
-
-      // const SUMMARY_REFINE_PROMPT = PromptTemplate.fromTemplate(
-      //   summaryRefineTemplate,
-      // );
+      const SUMMARY_PROMPT = PromptTemplate.fromTemplate(prompt);
 
       const summarizeChain = loadSummarizationChain(chat, {
         type: "stuff",

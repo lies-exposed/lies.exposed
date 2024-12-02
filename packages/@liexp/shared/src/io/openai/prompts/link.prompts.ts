@@ -1,2 +1,9 @@
-export const EMBED_LINK_PROMPT =
-  "Give me the summary of the given link in maximum 100 words";
+export const EMBED_LINK_PROMPT = `
+You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
+Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in the text.
+Below you find the text you need to summarize.
+
+--------
+{text}
+--------
+`;

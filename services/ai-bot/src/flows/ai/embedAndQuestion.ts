@@ -2,6 +2,7 @@ import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./loadDocs.flow.js";
+import { getPromptFromResource } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = "Write a summary of the text.";
@@ -17,6 +18,8 @@ export const embedAndQuestionFlow: JobProcessRTE = (job) => (ctx) => {
           {
             model: ctx.config.config.localAi.models
               ?.embeddings as AvailableModels,
+            prompt:
+              job.data.prompt ?? getPromptFromResource(job.resource, job.type),
           },
         );
       }, toAIBotError),

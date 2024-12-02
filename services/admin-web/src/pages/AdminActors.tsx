@@ -1,6 +1,7 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/index.js";
+import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
@@ -159,9 +160,6 @@ const EditActions: React.FC = () => {
   );
 };
 
-const EMBED_OPENAI_PROMPT =
-  "Give me a summary for the given physical person name (it can be either a famous one or a random real person), including information you can find on Wikipedia or RationalWiki, in maximum 300 characters";
-
 export const ActorEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   return (
@@ -185,7 +183,7 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
           <DateInput source="diedOn" />
           <OpenAIEmbeddingJobButton<Actor>
             resource="actors"
-            type="openai-summarize"
+            type={OpenAISummarizeQueueType.value}
             transformValue={({ excerpt, fullName }) =>
               pipe(
                 excerpt ? getTextContents(excerpt) : "",
@@ -193,7 +191,6 @@ export const ActorEdit: React.FC<EditProps> = (props) => {
                 (text) => ({ text }),
               )
             }
-            prompt={EMBED_OPENAI_PROMPT}
           />
           <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
