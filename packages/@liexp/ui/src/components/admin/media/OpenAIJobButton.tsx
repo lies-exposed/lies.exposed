@@ -1,4 +1,4 @@
-import * as Queue from "@liexp/shared/lib/io/http/Queue.js";
+import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
@@ -56,14 +56,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
     void api
       .get<{ data: Queue.Queue }>(`queues/${type}/${resource}/${id}`, {})
       .then((queue) => {
-        if (
-          !Queue.Status.types[3].is(queue.data.status) &&
-          !Queue.Status.types[2].is(queue.data.status)
-        ) {
-          setQueue(queue.data);
-        } else {
-          setQueue(null);
-        }
+        setQueue(queue.data);
       })
       .catch(() => {
         setQueue(null);
