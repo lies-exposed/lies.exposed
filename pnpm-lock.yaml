@@ -238,8 +238,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(rollup@4.27.2)
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.61.6
-        version: 5.61.6(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)
+        specifier: ^5.62.1
+        version: 5.62.1(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -3778,8 +3778,8 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
-  '@tanstack/eslint-plugin-query@5.61.6':
-    resolution: {integrity: sha512-39DEve67KRcUOv4WI3svSyKzFGEhPTH4gzy99UBh2PmrDOUvAjfG59zSheNJFLHHokpSOQYJhFRNuMlC00CBMw==}
+  '@tanstack/eslint-plugin-query@5.62.1':
+    resolution: {integrity: sha512-1886D5U+re1TW0wSH4/kUGG36yIoW5Wkz4twVEzlk3ZWmjF3XkRSWgB+Sc7n+Lyzt8usNV8ZqkZE6DA7IC47fQ==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
@@ -13355,7 +13355,7 @@ snapshots:
     dependencies:
       storybook: 8.4.6(prettier@3.4.1)
 
-  '@tanstack/eslint-plugin-query@5.61.6(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)':
+  '@tanstack/eslint-plugin-query@5.62.1(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)':
     dependencies:
       '@typescript-eslint/utils': 8.16.0(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)
       eslint: 9.16.0(jiti@2.4.1)
