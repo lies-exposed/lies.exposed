@@ -3,6 +3,32 @@ import * as t from "io-ts";
 import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 
+export const DATABASE_ENV = t.intersection(
+  [
+    t.strict(
+      {
+        DB_USERNAME: t.string,
+        DB_PASSWORD: t.string,
+        DB_HOST: t.string,
+        DB_PORT: NumberFromString,
+        DB_DATABASE: t.string,
+      },
+      "DATABASE_ENV",
+    ),
+    t.union([
+      t.strict({
+        DB_SSL_MODE: t.literal("require"),
+        DB_SSL_CERT_PATH: t.string,
+      }),
+      t.strict({
+        DB_SSL_MODE: t.literal("off"),
+      }),
+    ]),
+  ],
+  "DB_ENV",
+);
+export type DATABASE_ENV = t.TypeOf<typeof DATABASE_ENV>;
+
 const ENV = t.intersection(
   [
     t.union(
@@ -74,30 +100,7 @@ const ENV = t.intersection(
         "OPENAI_ENV",
       ),
     ]),
-    t.intersection(
-      [
-        t.strict(
-          {
-            DB_USERNAME: t.string,
-            DB_PASSWORD: t.string,
-            DB_HOST: t.string,
-            DB_PORT: NumberFromString,
-            DB_DATABASE: t.string,
-          },
-          "DB_BASE_ENV",
-        ),
-        t.union([
-          t.strict({
-            DB_SSL_MODE: t.literal("require"),
-            DB_SSL_CERT_PATH: t.string,
-          }),
-          t.strict({
-            DB_SSL_MODE: t.literal("off"),
-          }),
-        ]),
-      ],
-      "DB_ENV",
-    ),
+    DATABASE_ENV,
   ],
   "ENV",
 );

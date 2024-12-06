@@ -19,7 +19,9 @@ import { GroupMemberEntity } from "./GroupMember.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
-@Entity("group")
+export const GROUP_ENTITY_NAME = "group";
+
+@Entity(GROUP_ENTITY_NAME)
 export class GroupEntity {
   @PrimaryGeneratedColumn("uuid")
   id: UUID;

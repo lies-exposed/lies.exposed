@@ -20,7 +20,9 @@ import { GroupMemberEntity } from "./GroupMember.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
-@Entity("actor")
+export const ACTOR_ENTITY_NAME = "actor";
+
+@Entity(ACTOR_ENTITY_NAME)
 export class ActorEntity {
   @PrimaryGeneratedColumn("uuid")
   @Index()

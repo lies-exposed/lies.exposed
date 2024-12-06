@@ -20,8 +20,6 @@ import { AreaEntity } from "#entities/Area.entity.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("Edit Event", () => {
   let appTest: AppTest;
@@ -58,8 +56,6 @@ describe("Edit Event", () => {
     links: [],
     keywords: [],
   }));
-  let links: any[];
-  let media: any[];
 
   beforeAll(async () => {
     appTest = await GetAppTest();
@@ -105,12 +101,6 @@ describe("Edit Event", () => {
   });
 
   afterAll(async () => {
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, [event.id]));
-    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
-    await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
-    await throwTE(appTest.ctx.db.delete(LinkEntity, links));
-    await throwTE(appTest.ctx.db.delete(MediaEntity, media));
     await appTest.utils.e2eAfterAll();
   });
 
@@ -210,9 +200,6 @@ describe("Edit Event", () => {
       date: eventData.date,
       updatedAt: body.updatedAt,
     });
-
-    event = body;
-    media = body.media;
   });
 
   test("Should edit event links", async () => {
@@ -256,9 +243,6 @@ describe("Edit Event", () => {
     });
 
     expect(body.links).toHaveLength(5);
-
-    event = body;
-    links = body.links;
   });
 
   test("Should edit event actors", async () => {

@@ -24,7 +24,9 @@ import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 import { UserEntity } from "./User.entity.js";
 
-@Entity("image")
+export const MEDIA_ENTITY_NAME = "image";
+
+@Entity(MEDIA_ENTITY_NAME)
 export class MediaEntity {
   @PrimaryGeneratedColumn("uuid")
   id: UUID;

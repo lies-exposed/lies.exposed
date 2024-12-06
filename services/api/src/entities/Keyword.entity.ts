@@ -21,7 +21,8 @@ import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
-@Entity("keyword")
+export const KEYWORD_ENTITY_NAME = "keyword";
+@Entity(KEYWORD_ENTITY_NAME)
 @Index(["tag"], { unique: true })
 export class KeywordEntity {
   @PrimaryGeneratedColumn("uuid")
