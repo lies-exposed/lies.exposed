@@ -98,8 +98,7 @@ export function getChromePath(): E.Either<PuppeteerError, string> {
   return E.right(chromePath);
 }
 
-type BrowserLaunchOpts = puppeteer.LaunchOptions &
-  puppeteer.BrowserLaunchArgumentOptions;
+type BrowserLaunchOpts = puppeteer.LaunchOptions;
 
 export interface PuppeteerProvider {
   devices: typeof puppeteer.KnownDevices;

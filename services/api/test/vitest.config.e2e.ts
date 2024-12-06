@@ -17,7 +17,8 @@ export default mergeConfig(
       pool: "threads",
       poolOptions: {
         threads: {
-          singleThread: true,
+          singleThread: process.env.CI ? true : false,
+          isolate: process.env.CI ? true : false,
         },
       },
     },

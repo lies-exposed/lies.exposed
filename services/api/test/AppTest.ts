@@ -25,12 +25,11 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
-import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { AxiosInstance } from "axios";
-import D from "debug";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
 import { toError } from 'fp-ts/lib/Either.js';
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -38,9 +37,6 @@ import { pipe } from "fp-ts/lib/function.js";
 import path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import {
-  type DataSource
-} from "typeorm";
 import { vi } from "vitest";
 import { mocks, type AppMocks } from "./mocks.js";
 
@@ -65,17 +61,10 @@ export interface AppTest {
   };
 }
 
-const initAppTest = async (): Promise<AppTest> => {
-  D.enable(process.env.DEBUG ?? "-");
-
-  const logger = GetLogger("test");
-
-  // if (!g.dataSource) {
-  //   const dataSource = getDataSource(process.env as any, false);
-  //   g.dataSource = await dataSource.initialize();
-  // }
-
-  const appTest = await pipe(
+export const loadAppContext = async (
+  logger: Logger,
+): Promise<ServerContext> => {
+  return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
         getDataSource(process.env as any, false),
@@ -140,6 +129,18 @@ const initAppTest = async (): Promise<AppTest> => {
       }),
       queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
     })),
+    throwTE,
+  );
+};
+
+export const initAppTest = async (
+  ctx: ServerContext,
+  database: string,
+): Promise<AppTest> => {
+  const appTest = await pipe(
+    getDataSource({ ...ctx.env, DB_DATABASE: database }, false),
+    TE.chain((source) => GetTypeORMClient(source)),
+    TE.map((db) => ({ ...ctx, db })),
     TE.map((ctx) => ({
       ctx,
       mocks,
@@ -190,12 +191,20 @@ const initAppTest = async (): Promise<AppTest> => {
 
 const g = global as any as {
   appTest: AppTest;
-  dataSource: DataSource;
+  appContext: ServerContext;
 };
 
+const appTestLogger = GetLogger("app-test");
 export const GetAppTest = async (): Promise<AppTest> => {
-  if (!g.appTest) {
-    g.appTest = await initAppTest();
+  appTestLogger.info.log("app context", !!g.appContext);
+
+  if (!g.appContext) {
+    g.appContext = await loadAppContext(appTestLogger);
   }
+
+  if (!g.appTest) {
+    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
+  }
+
   return g.appTest;
 };
