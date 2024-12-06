@@ -24,7 +24,9 @@ import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
-@Entity("event_v2")
+export const EVENT_ENTITY_NAME = "event_v2";
+
+@Entity(EVENT_ENTITY_NAME)
 export class EventV2Entity {
   @PrimaryGeneratedColumn("uuid")
   @Index()

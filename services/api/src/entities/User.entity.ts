@@ -21,7 +21,9 @@ import { LinkEntity } from "./Link.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 
-@Entity("user")
+export const USER_ENTITY_NAME = "user";
+
+@Entity(USER_ENTITY_NAME)
 export class UserEntity {
   @PrimaryGeneratedColumn("uuid")
   id: UUID;

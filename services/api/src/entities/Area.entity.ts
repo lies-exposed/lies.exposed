@@ -20,7 +20,9 @@ import { EventV2Entity } from "./Event.v2.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 
-@Entity("area")
+export const AREA_ENTITY_NAME = "area";
+
+@Entity(AREA_ENTITY_NAME)
 @Index(["slug"])
 export class AreaEntity {
   @PrimaryGeneratedColumn("uuid")

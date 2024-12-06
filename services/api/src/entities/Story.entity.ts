@@ -17,7 +17,9 @@ import { KeywordEntity } from "./Keyword.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { UserEntity } from "./User.entity.js";
 
-@Entity("story")
+export const STORY_ENTITY_NAME = "story";
+
+@Entity(STORY_ENTITY_NAME)
 export class StoryEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;

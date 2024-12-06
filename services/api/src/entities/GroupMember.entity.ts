@@ -13,7 +13,8 @@ import { EventV2Entity } from "./Event.v2.entity.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 
-@Entity("group_member")
+export const GROUP_MEMBER_ENTITY_NAME = "group_member";
+@Entity(GROUP_MEMBER_ENTITY_NAME)
 export class GroupMemberEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;

@@ -3,6 +3,7 @@ import "reflect-metadata";
 // other imports
 import * as fs from "fs";
 import * as path from "path";
+import { type NODE_ENV } from "@liexp/core/lib/env/node-env.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { DataSource, type DataSourceOptions } from "typeorm";
 import { ActorEntity } from "#entities/Actor.entity.js";
@@ -30,10 +31,10 @@ import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
-import { type ENV } from "#io/ENV.js";
+import { type DATABASE_ENV, type ENV } from "#io/ENV.js";
 
 export const getORMConfig = (
-  env: ENV,
+  env: DATABASE_ENV & { NODE_ENV: NODE_ENV },
   includeOldEntities: boolean,
 ): DataSourceOptions => {
   const ssl =

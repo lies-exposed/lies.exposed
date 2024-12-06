@@ -18,7 +18,9 @@ import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { UserEntity } from "./User.entity.js";
 
-@Entity("link")
+export const LINK_ENTITY_NAME = "link";
+
+@Entity(LINK_ENTITY_NAME)
 @Index(["url"], { unique: true })
 export class LinkEntity {
   @PrimaryGeneratedColumn("uuid")
