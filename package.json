@@ -32,7 +32,7 @@
     "knip": "knip"
   },
   "resolutions": {
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.4.7",
     "minimist": "^1.2.8",
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
