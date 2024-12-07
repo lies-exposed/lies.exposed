@@ -1,6 +1,6 @@
 import * as R from "fp-ts/lib/Record.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as qs from "query-string";
+import qs from "query-string";
 import { type URL } from "../io/http/Common/URL.js";
 
 export const sanitizeURL = (url: URL): URL => {
