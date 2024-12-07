@@ -6,7 +6,7 @@ import { ECOTheme, ThemeProvider } from "@liexp/ui/lib/theme/index.js";
 import { Decorator, Parameters } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
-import { DataProviderContext } from "react-admin";
+import { DataProviderContext } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 // styles
 import "@liexp/ui/lib/components/Common/Icons/library.js";

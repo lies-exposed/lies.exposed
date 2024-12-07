@@ -34,10 +34,10 @@
     ]
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
-    "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@mui/icons-material": "^5.16.9",
     "@mui/material": "^5.16.9",
     "@tanstack/react-query": "^5.56.2",
@@ -53,16 +53,16 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/node": "^20.16.11",
-    "@types/react": "^18.3.8",
-    "@types/react-dom": "^18.3.1",
+    "@types/node": "^20.17.9",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.2",
     "dotenv": "^16.4.7",
     "eslint": "^9.16.0",
     "typescript": "^5.6.2",
     "vite": "^5.4.11",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-optimizer": "^1.4.3",
-    "vite-tsconfig-paths": "^5.1.3"
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }

@@ -4,10 +4,13 @@ import {
   type SocialPostButtonProps,
 } from "@liexp/ui/lib/components/admin/common/SocialPostButton.js";
 import { EventSocialPostButton } from "@liexp/ui/lib/components/admin/events/button/EventSocialPostButton.js";
+import {
+  AdminContext,
+  RecordContextProvider,
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { type StoryFn, type Meta } from "@storybook/react";
 import * as React from "react";
-import { AdminContext, RecordContextProvider } from "react-admin";
 
 const meta: Meta = {
   title: "Admin/Components/Buttons/SocialPostButton",
