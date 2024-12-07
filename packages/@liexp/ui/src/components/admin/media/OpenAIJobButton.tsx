@@ -2,7 +2,7 @@ import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Typography } from "../../mui/index.js";
+import { Stack, Typography } from "../../mui/index.js";
 import { Link, type RaRecord, useRecordContext } from "../react-admin.js";
 import { OpenAIButton } from "./OpenAIButton.js";
 
@@ -11,17 +11,17 @@ interface OpenAIPromptButtonProps<A extends RaRecord> {
   resource: Queue.QueueResourceNames;
   idSource?: string;
   prompt?: string;
+  question?: string;
   model?: string;
   transformValue: (
     value: A,
   ) => Omit<Queue.CreateQueue["data"], "prompt" | "result">;
 }
 
-const DEFAULT_PROMPT = `Rephrase the given text in maximum 100 words, without inventing details`;
-
 export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   model = "gpt-4",
-  prompt = DEFAULT_PROMPT,
+  prompt,
+  question,
   resource,
   type = "openai-embedding",
   idSource = "id",
@@ -32,7 +32,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   const api = useDataProvider();
   const record = useRecordContext<A>();
 
-  const id = get(record, idSource);
+  const [id, setId] = React.useState(get(record, idSource));
 
   if (!record || !id) {
     return null;
@@ -44,10 +44,11 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
     e.preventDefault();
     void api
       .post(`queues/${type}/${resource}`, {
-        data: { result: undefined, ...value, prompt },
+        data: { result: undefined, ...value, prompt, question },
         id,
       })
       .finally(() => {
+        setId(id);
         setLoading(false);
       });
   };
@@ -63,22 +64,28 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
       });
   }, []);
 
-  return queue ? (
-    <Typography>
-      Job in the queue with status{" "}
-      <Typography component={"b"} fontWeight={"bold"}>
-        {queue.status}
-      </Typography>{" "}
-      exists.
-      <Link to={`/queues/${type}/${resource}/${id}`}>Check the job</Link>
+  const queueStats = queue?.status ? (
+    <Typography component={"b"} fontWeight={"bold"}>
+      {queue.status}
     </Typography>
-  ) : (
-    <OpenAIButton
-      model={model}
-      prompt={prompt}
-      onClick={ingestFile}
-      isLoading={isLoading}
-      label="Embed this file"
-    />
+  ) : null;
+
+  return (
+    <Stack direction="row" spacing={1}>
+      <OpenAIButton
+        model={model}
+        prompt={prompt}
+        question={question}
+        onClick={ingestFile}
+        isLoading={isLoading}
+        label="Embed this file"
+      />
+      {queue ? (
+        <Typography>
+          Job in the queue with status {queueStats} exists.
+          <Link to={`/queues/${type}/${resource}/${id}`}>Check the job</Link>
+        </Typography>
+      ) : null}
+    </Stack>
   );
 };

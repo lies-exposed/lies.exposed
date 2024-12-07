@@ -1,4 +1,7 @@
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue.js";
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as React from "react";
 import {
   BooleanInput,
@@ -14,6 +17,7 @@ import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
 import { SuggestedKeywordEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
+import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";
 
 export interface EventGeneralTabChildrenHandlers {
   onKeywordClick: (keyword: string) => void;
@@ -133,6 +137,13 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
         })}
       </Grid>
       <Grid item {...{ md: 12 }}>
+        <OpenAIEmbeddingJobButton<Event>
+          type={OpenAIEmbeddingQueueType.value}
+          resource="events"
+          transformValue={(event) => ({
+            text: getTextContents(event.excerpt),
+          })}
+        />
         <BlockNoteInput label="excerpt" source="excerpt" onlyText />
         <Box style={{ display: "flex", flexDirection: "column" }}>
           <DateField label="Updated At" source="updatedAt" showTime={true} />

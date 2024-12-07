@@ -30,7 +30,7 @@
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.21",
     "langchain": "^0.3.6",
-    "pdfjs-dist": "^4.8.69",
+    "pdfjs-dist": "^4.9.124",
     "prompts": "^2.4.2",
     "ts-shared": "^2.0.0-alpha.6"
   },

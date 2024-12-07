@@ -1,5 +1,6 @@
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
+import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
@@ -203,9 +204,6 @@ const EditTitle: React.FC<EditProps> = () => {
   return <Typography>Group {record?.name}</Typography>;
 };
 
-const EMBED_GROUP_PROMPT =
-  "Give me a summary for the given group (it can be either a company or a website entity, a group of people, a family group), including information you can find on Wikipedia or RationalWiki, in maximum 300 characters";
-
 export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
   const dataProvider = useDataProvider();
   return (
@@ -244,6 +242,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </Grid>
           <OpenAIEmbeddingJobButton<Group>
             resource="groups"
+            type={OpenAISummarizeQueueType.value}
             transformValue={({ name, excerpt }) =>
               pipe(
                 excerpt ? getTextContents(excerpt) : "",
@@ -251,7 +250,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                 (text) => ({ text }),
               )
             }
-            prompt={EMBED_GROUP_PROMPT}
           />
           <BlockNoteInput source="excerpt" />
         </FormTab>

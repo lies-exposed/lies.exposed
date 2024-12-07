@@ -1,8 +1,10 @@
 import {
   ImageType,
+  PDFType,
   TransferableType,
   type Media,
 } from "@liexp/shared/lib/io/http/Media/index.js";
+import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/io/openai/prompts/media.prompts.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as React from "react";
 import {
@@ -221,11 +223,20 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
             <Grid item md={12}>
               <TextInput source="label" fullWidth />
               <TextInput source="description" fullWidth multiline />
-              <OpenAIEmbeddingJobButton
+              <OpenAIEmbeddingJobButton<Media>
                 resource={"media"}
-                transformValue={({ label, description }) => ({
-                  text: description ?? label,
-                })}
+                question={EMBED_MEDIA_PROMPT}
+                transformValue={({ type, location, label, description }) => {
+                  if (PDFType.is(type)) {
+                    return {
+                      url: location,
+                      type: "pdf",
+                    };
+                  }
+                  return {
+                    text: description ?? label,
+                  };
+                }}
               />
               <Box>
                 <Box>
