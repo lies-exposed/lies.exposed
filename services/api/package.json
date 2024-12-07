@@ -88,7 +88,7 @@
     "nodemw": "^0.22.0",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
-    "pdfjs-dist": "^4.8.69",
+    "pdfjs-dist": "^4.9.155",
     "pg": "^8.11.5",
     "puppeteer-core": "^23.5.1",
     "puppeteer-extra": "^3.3.6",
