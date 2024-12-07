@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:20-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:22-latest AS dev
 
 COPY . /usr/src/app
 
@@ -16,7 +16,7 @@ FROM build AS pruned
 
 RUN pnpm ai-bot --prod deploy /prod/ai-bot
 
-FROM ghcr.io/lies-exposed/liexp-base:20-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:22-latest AS production
 
 WORKDIR /prod/ai-bot
 

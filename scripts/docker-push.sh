@@ -37,8 +37,8 @@ done
 
 if [ "$base" = true ]; then
     echo "Pushing image $BASE_IMAGE"
-    docker image push $BASE_IMAGE:20-pnpm-latest
-    docker image push $BASE_IMAGE:20-latest
+    # docker image push $BASE_IMAGE:22-pnpm-latest
+    docker image push $BASE_IMAGE:22-latest
 fi
 
 if [ "$api" = true ]; then
