@@ -43,8 +43,6 @@ describe("GET User Me", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(UserEntity, [adminId, supporterId]));
-
     await Test.utils.e2eAfterAll();
   });
 

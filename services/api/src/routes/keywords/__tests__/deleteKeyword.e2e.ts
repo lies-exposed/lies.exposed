@@ -25,7 +25,6 @@ describe("Delete Keyword", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(KeywordEntity, [keyword.id]));
     await Test.utils.e2eAfterAll();
   });
 

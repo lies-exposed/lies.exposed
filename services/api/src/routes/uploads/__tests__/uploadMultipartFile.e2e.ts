@@ -20,13 +20,7 @@ describe("Upload file", () => {
   });
 
   afterAll(async () => {
-    // await throwTE(
-    //   Test.ctx.db.delete(
-    //     MediaEntity,
-    //     media.map((e) => e.id)
-    //   )
-    // );
-    // await Test.utils.e2eAfterAll();
+    await Test.utils.e2eAfterAll();
   });
 
   test("Should receive an error when upload unaccepted media", async () => {

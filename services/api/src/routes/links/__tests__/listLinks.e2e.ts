@@ -2,11 +2,9 @@ import { type http } from "@liexp/shared/lib/io/index.js";
 import { LinkArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
-import { In } from "typeorm";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("List Links", () => {
   let Test: AppTest, authorizationToken: string, links: http.Link.Link[];
@@ -28,23 +26,6 @@ describe("List Links", () => {
   });
 
   afterAll(async () => {
-    const ll = await throwTE(
-      Test.ctx.db.find(LinkEntity, {
-        where: {
-          id: In(links.map((l) => l.id)),
-        },
-        loadRelationIds: { relations: ["image"] },
-      }),
-    );
-    await Promise.all(
-      ll.map(async (l) => {
-        await throwTE(Test.ctx.db.delete(LinkEntity, [l.id]));
-        if (l.image) {
-          await throwTE(Test.ctx.db.delete(MediaEntity, [l.image as any]));
-        }
-      }),
-    );
-
     await Test.utils.e2eAfterAll();
   });
 
@@ -76,13 +57,6 @@ describe("List Links", () => {
           emptyEvents: "true",
         });
 
-      await throwTE(
-        Test.ctx.db.delete(
-          EventV2Entity,
-          events.map((e) => e.id),
-        ),
-      );
-
       const data = response.body.data;
 
       expect(data.length).toBeGreaterThanOrEqual(9);
@@ -105,13 +79,6 @@ describe("List Links", () => {
         .query({
           "events[]": [events[0].id],
         });
-
-      await throwTE(
-        Test.ctx.db.delete(
-          EventV2Entity,
-          events.map((e) => e.id),
-        ),
-      );
 
       const data = response.body.data;
 

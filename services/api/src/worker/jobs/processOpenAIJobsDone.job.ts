@@ -22,14 +22,14 @@ import {
 
 const processDoneJobBlockNoteResult =
   <E extends ActorEntity | GroupEntity | StoryEntity | EventV2Entity>(
-    dbRepo: EntityRepository<E>,
+    dbService: EntityRepository<E>,
   ) =>
   (job: Queue.Queue): TEReader<Queue.Queue> => {
     return pipe(
       fp.RTE.Do,
       fp.RTE.apS(
         "entity",
-        dbRepo.findOneOrFail({
+        dbService.findOneOrFail({
           where: { id: Equal(job.id) } as FindOptionsWhere<E>,
         }),
       ),
@@ -49,7 +49,7 @@ const processDoneJobBlockNoteResult =
         );
       }),
       fp.RTE.chain(({ entity, excerpt }) =>
-        dbRepo.save([
+        dbService.save([
           {
             ...entity,
             excerpt,

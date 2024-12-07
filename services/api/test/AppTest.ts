@@ -1,4 +1,22 @@
-import path from "path";
+import { Config } from "#app/config.js";
+import { makeApp } from "#app/index.js";
+import { type ServerContext } from "#context/context.type.js";
+import { ACTOR_ENTITY_NAME } from "#entities/Actor.entity.js";
+import { AREA_ENTITY_NAME } from "#entities/Area.entity.js";
+import { EVENT_ENTITY_NAME } from "#entities/Event.v2.entity.js";
+import { GROUP_ENTITY_NAME } from "#entities/Group.entity.js";
+import { GROUP_MEMBER_ENTITY_NAME } from "#entities/GroupMember.entity.js";
+import { KEYWORD_ENTITY_NAME } from "#entities/Keyword.entity.js";
+import { LINK_ENTITY_NAME } from "#entities/Link.entity.js";
+import { MEDIA_ENTITY_NAME } from "#entities/Media.entity.js";
+import { SOCIAL_POST_ENTITY_NAME } from '#entities/SocialPost.entity.js';
+import { STORY_ENTITY_NAME } from '#entities/Story.entity.js';
+import { USER_ENTITY_NAME } from '#entities/User.entity.js';
+import { toControllerError } from "#io/ControllerError.js";
+import { ENV } from "#io/ENV.js";
+import { GetQueueProvider } from "#providers/queue.provider.js";
+import { getDataSource } from "#utils/data-source.js";
+import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
@@ -9,43 +27,27 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { PDFProvider } from '@liexp/shared/lib/providers/pdf/pdf.provider.js';
+import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { AxiosInstance } from "axios";
 import D from "debug";
-import { sequenceS } from "fp-ts/lib/Apply.js";
+import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
+import { toError } from 'fp-ts/lib/Either.js';
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import path from "path";
 import supertest from "supertest";
-import type TestAgent from 'supertest/lib/agent.js';
+import type TestAgent from "supertest/lib/agent.js";
 import {
-  type DataSource,
-  type EntityTarget,
-  type ObjectLiteral,
+  type DataSource
 } from "typeorm";
+import { vi } from "vitest";
 import { mocks, type AppMocks } from "./mocks.js";
-import { makeApp } from "#app/index.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { AreaEntity } from "#entities/Area.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { toControllerError } from "#io/ControllerError.js";
-import { ENV } from "#io/ENV.js";
-import { getDataSource } from "#utils/data-source.js";
-import { Config } from '#app/config.js';
-import { GetFFMPEGProvider } from '@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js';
-import { vi } from 'vitest'
-import { type ServerContext } from '#context/context.type.js';
-import { AxiosInstance } from 'axios';
-import { GetQueueProvider } from '#providers/queue.provider.js';
 
 vi.mock("axios", () => ({
   default: {
-    create: vi.fn(() => mocks.axios)
-  }
+    create: vi.fn(() => mocks.axios),
+  },
 }));
 vi.mock("page-metadata-parser");
 vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
@@ -92,7 +94,11 @@ const initAppTest = async (): Promise<AppTest> => {
       config: Config(env, path.resolve(__dirname, "..")),
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
-      puppeteer: GetPuppeteerProvider(mocks.puppeteer, { headless: "shell" }, mocks.puppeteer.devices),
+      puppeteer: GetPuppeteerProvider(
+        mocks.puppeteer,
+        { headless: "shell" },
+        mocks.puppeteer.devices,
+      ),
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
       ig: mocks.ig,
@@ -128,44 +134,47 @@ const initAppTest = async (): Promise<AppTest> => {
       openai: {} as any,
       blocknote: {} as any,
       pdf: PDFProvider({ client: {} as any }),
-      geo: GeocodeProvider({ http: HTTPProvider(mocks.axios as any), apiKey: "fake-geo-api-key" }),
-      queue: GetQueueProvider(mocks.queueFS, 'fake-config-path'), 
+      geo: GeocodeProvider({
+        http: HTTPProvider(mocks.axios as any),
+        apiKey: "fake-geo-api-key",
+      }),
+      queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
     })),
     TE.map((ctx) => ({
       ctx,
       mocks,
       utils: {
         e2eAfterAll: async () => {
-          const liftFind = <E extends ObjectLiteral>(
-            e: EntityTarget<E>,
+          const liftTruncate = (
+            tableName: string,
           ): TE.TaskEither<Error, boolean> =>
             pipe(
-              ctx.db.find(e, { take: 100 }),
-              TE.chain((els) =>
-                els.length > 0
-                  ? ctx.db.delete(
-                      e,
-                      els.map((e) => e.id),
-                    )
-                  : TE.right({ affected: 0, raw: {} }),
+              TE.tryCatch(
+                () => ctx.db.manager.query(`TRUNCATE "${tableName}" CASCADE;`),
+                toError,
               ),
-              TE.map((r) => (r.affected ?? 0) >= 0),
             );
 
           return pipe(
-            sequenceS(TE.ApplicativeSeq)({
-              link: liftFind(LinkEntity),
-              keyword: liftFind(KeywordEntity),
-              groupMembers: liftFind(GroupMemberEntity),
-              actor: liftFind(ActorEntity),
-              group: liftFind(GroupEntity),
-              media: liftFind(MediaEntity),
-              event: liftFind(EventV2Entity),
-              area: liftFind(AreaEntity),
-            }),
-            TE.map(({ media, actor }) => media && actor),
+            sequenceT(TE.ApplicativeSeq)(
+              liftTruncate(SOCIAL_POST_ENTITY_NAME),
+              liftTruncate(EVENT_ENTITY_NAME),
+              liftTruncate(STORY_ENTITY_NAME),
+              liftTruncate(ACTOR_ENTITY_NAME),
+              liftTruncate(GROUP_ENTITY_NAME),
+              liftTruncate(GROUP_MEMBER_ENTITY_NAME),
+              liftTruncate(AREA_ENTITY_NAME),
+              liftTruncate(MEDIA_ENTITY_NAME),
+              liftTruncate(LINK_ENTITY_NAME),
+              liftTruncate(KEYWORD_ENTITY_NAME),
+              liftTruncate(USER_ENTITY_NAME),
+            ),
+            TE.map(() => true),
             throwTE,
-          );
+          ).catch((e) => {
+            console.error("Error in e2eAfterAll", e);
+            throw e;
+          });
         },
       },
       req: supertest(makeApp(ctx)),

@@ -7,7 +7,6 @@ import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("List Group Member", () => {
   let authorizationToken: string;
@@ -42,30 +41,6 @@ describe("List Group Member", () => {
   });
 
   afterAll(async () => {
-    await throwTE(
-      Test.ctx.db.delete(
-        GroupMemberEntity,
-        groupsMembers.map((g) => g.id),
-      ),
-    );
-    await throwTE(
-      Test.ctx.db.delete(
-        GroupEntity,
-        groups.map((g) => g.id),
-      ),
-    );
-    await throwTE(
-      Test.ctx.db.delete(
-        ActorEntity,
-        actors.map((a) => a.id),
-      ),
-    );
-    await throwTE(
-      Test.ctx.db.delete(MediaEntity, [
-        ...actors.flatMap((a) => (a.avatar?.id ? [a.avatar.id] : [])),
-        ...groups.flatMap((a) => (a.avatar?.id ? [a.avatar.id] : [])),
-      ]),
-    );
     await Test.utils.e2eAfterAll();
   });
 

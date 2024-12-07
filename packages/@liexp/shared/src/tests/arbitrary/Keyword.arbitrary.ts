@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test";
+import { fc } from "@liexp/test/lib/index.js";
 import { type Tag } from "../../io/http/Common/Tag.js";
 import { DateArb } from "./Date.arbitrary.js";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary.js";

@@ -48,7 +48,6 @@ describe("Create From TG Message", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(UserEntity, [admin.id]));
     await Test.utils.e2eAfterAll();
     fs.rmSync(tempDir, { recursive: true });
   });
@@ -115,9 +114,6 @@ describe("Create From TG Message", () => {
           photos: [],
           videos: [],
         });
-
-        await throwTE(Test.ctx.db.delete(LinkEntity, [expectedLink.id]));
-        await throwTE(Test.ctx.db.delete(EventSuggestionEntity, [result.id]));
       },
     );
 
@@ -155,8 +151,6 @@ describe("Create From TG Message", () => {
             {},
           )(Test.ctx),
         );
-
-        await throwTE(Test.ctx.db.delete(LinkEntity, [link.id]));
 
         expect(result).toMatchObject({
           link: [
@@ -210,22 +204,6 @@ describe("Create From TG Message", () => {
             where: { description: Equal(message.caption) },
           }),
         );
-
-      if (result.link.length > 0) {
-        await throwTE(
-          Test.ctx.db.delete(
-            LinkEntity,
-            result.link?.map((l) => l.id),
-          ),
-        );
-      }
-
-      await throwTE(
-        Test.ctx.db.delete(MediaEntity, [
-          ...result.photos.map((m) => m.id),
-          ...result.videos.map((m) => m.id),
-        ]),
-      );
 
       Test.ctx.logger.debug.log("Result %O", result);
 
@@ -619,24 +597,6 @@ describe("Create From TG Message", () => {
         );
         expect(result.photos).toMatchObject(photos);
         expect(result.videos).toMatchObject([...videos, ...platformVideos]);
-
-        if (result.link.length > 0) {
-          await throwTE(
-            Test.ctx.db.delete(
-              LinkEntity,
-              result.link.map((p) => p.id),
-            ),
-          );
-        }
-
-        if (result.photos.length > 0 || result.videos.length > 0) {
-          await throwTE(
-            Test.ctx.db.delete(MediaEntity, [
-              ...result.photos.map((p) => p.id),
-              ...result.videos.map((v) => v.id),
-            ]),
-          );
-        }
       },
     );
   });
