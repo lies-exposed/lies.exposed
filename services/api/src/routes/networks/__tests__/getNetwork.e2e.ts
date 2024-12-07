@@ -18,21 +18,7 @@ describe("Get Network", () => {
     } as any)()}`;
   });
 
-  afterEach(async () => {
-    await throwTE(
-      Test.ctx.db.delete(
-        EventV2Entity,
-        events.map((e) => e.id),
-      ),
-    );
-
-    await throwTE(
-      Test.ctx.db.delete(
-        KeywordEntity,
-        keywords.map((e) => e.id),
-      ),
-    );
-  });
+  afterEach(async () => {});
 
   afterAll(async () => {
     await Test.utils.e2eAfterAll();

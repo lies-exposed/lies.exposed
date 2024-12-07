@@ -14,15 +14,16 @@ import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { ffmpegCommandMock } from "../../../../test/__mocks__/ffmpeg.mock.js";
 import { sharpMock } from "../../../../test/__mocks__/sharp.mock.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "../../../../test/user.utils.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
 
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
-  const mediaIds: string[] = [];
-  const users: any[] = [];
-
+  const users: UserTest[] = [];
   beforeAll(async () => {
     Test = await GetAppTest();
     const user = await saveUser(Test, ["admin:create"]);
@@ -32,14 +33,6 @@ describe("Create Media", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(MediaEntity, mediaIds));
-    await throwTE(
-      Test.ctx.db.delete(
-        UserEntity,
-        users.map((u) => u.id),
-      ),
-    );
-
     await Test.utils.e2eAfterAll();
   });
 
@@ -101,8 +94,6 @@ describe("Create Media", () => {
       .send(media);
 
     expect(response.status).toEqual(200);
-
-    mediaIds.push(response.body.data.id);
   });
 
   test("Should create a media from MP4 file location", async () => {
@@ -211,8 +202,6 @@ describe("Create Media", () => {
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
     });
-
-    mediaIds.push(response.body.data.id);
   });
 
   test("Should create a media from iframe/video location", async () => {
@@ -283,8 +272,6 @@ describe("Create Media", () => {
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
     });
-
-    mediaIds.push(response.body.data.id);
   });
 
   test("Should get an error when 'location' in media is duplicated", async () => {
@@ -307,20 +294,13 @@ describe("Create Media", () => {
         extra: undefined,
       }));
 
-    const mIds = await pipe(Test.ctx.db.save(MediaEntity, media), throwTE).then(
-      (m) => m.map((m) => m.id),
+    await pipe(Test.ctx.db.save(MediaEntity, media), throwTE).then((m) =>
+      m.map((m) => m.id),
     );
 
-    Test.mocks.axios.get.mockImplementationOnce(() => {
+    Test.mocks.axios.get.mockImplementation(() => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
-
-    // const response = await Test.req
-    //   .post("/v1/media")
-    //   .set("Authorization", authorizationToken)
-    //   .send(media);
-
-    mediaIds.push(...mIds);
 
     const response = await Test.req
       .post("/v1/media")

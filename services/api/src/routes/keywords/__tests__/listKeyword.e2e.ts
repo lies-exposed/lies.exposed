@@ -31,12 +31,6 @@ describe("List Keywords", () => {
   });
 
   afterAll(async () => {
-    await throwTE(
-      Test.ctx.db.delete(
-        KeywordEntity,
-        keywords.map((a) => a.id),
-      ),
-    );
     await Test.utils.e2eAfterAll();
   });
 

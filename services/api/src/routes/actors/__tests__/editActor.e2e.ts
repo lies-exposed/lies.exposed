@@ -8,7 +8,6 @@ import { ActorEntity } from "#entities/Actor.entity.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Actor", () => {
   let Test: AppTest;
@@ -57,9 +56,6 @@ describe("Edit Actor", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(ActorEntity, [actor.id]));
-    await throwTE(Test.ctx.db.delete(UserEntity, [user.id]));
-    await throwTE(Test.ctx.db.delete(MediaEntity, [avatar.id]));
     await Test.utils.e2eAfterAll();
   });
 
@@ -156,16 +152,6 @@ describe("Edit Actor", () => {
         excerpt: actor.excerpt,
       });
       expect(response.body.data.memberIn).toHaveLength(20);
-
-      await throwTE(
-        Test.ctx.db.delete(GroupMemberEntity, response.body.data.memberIn),
-      );
-      await throwTE(
-        Test.ctx.db.delete(GroupEntity, [
-          ...groups.map((g) => g.id),
-          ...otherGroups.map((g) => g.id),
-        ]),
-      );
     });
   });
 });

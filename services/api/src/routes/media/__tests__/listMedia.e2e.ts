@@ -42,20 +42,6 @@ describe("List Media", () => {
   });
 
   afterAll(async () => {
-    await throwTE(
-      Test.ctx.db.delete(
-        EventV2Entity,
-        [event].map((e) => e.id),
-      ),
-    );
-
-    await throwTE(
-      Test.ctx.db.delete(
-        MediaEntity,
-        media.map((a) => a.id),
-      ),
-    );
-
     await Test.utils.e2eAfterAll();
   });
 

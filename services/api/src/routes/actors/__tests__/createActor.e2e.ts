@@ -5,7 +5,6 @@ import * as tests from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("Create Actor", () => {
@@ -39,8 +38,6 @@ describe("Create Actor", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(ActorEntity, actor.id));
-    await throwTE(Test.ctx.db.delete(MediaEntity, avatar.id));
     await Test.utils.e2eAfterAll();
   });
 

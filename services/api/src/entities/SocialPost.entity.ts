@@ -15,7 +15,9 @@ import {
 } from "typeorm";
 import { type LinkEntity } from "./Link.entity.js";
 
-@Entity("social_post")
+export const SOCIAL_POST_ENTITY_NAME = "SocialPost";
+
+@Entity(SOCIAL_POST_ENTITY_NAME)
 @Index(["type", "entity"])
 export class SocialPostEntity {
   @PrimaryGeneratedColumn("uuid")

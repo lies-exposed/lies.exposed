@@ -1,17 +1,13 @@
-import { type http } from "@liexp/shared/lib/io/index.js";
 import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Create Keyword", () => {
   let Test: AppTest;
   const users: any[] = [];
   let authorizationToken: string;
-  let keyword: http.Keyword.Keyword;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -22,7 +18,6 @@ describe("Create Keyword", () => {
   });
 
   afterAll(async () => {
-    await throwTE(Test.ctx.db.delete(KeywordEntity, keyword.id));
     await Test.utils.e2eAfterAll();
   });
 
@@ -70,6 +65,5 @@ describe("Create Keyword", () => {
       });
 
     expect(response.status).toEqual(201);
-    keyword = response.body.data;
   });
 });

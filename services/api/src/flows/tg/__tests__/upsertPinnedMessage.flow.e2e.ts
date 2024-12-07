@@ -60,27 +60,6 @@ describe("Upsert Pinned Message Flow", () => {
 
     const result = await throwTE(upsertPinnedMessage(keywordCount)(Test.ctx));
 
-    await throwTE(
-      Test.ctx.db.delete(
-        EventV2Entity,
-        events.map((e) => e.id),
-      ),
-    );
-
-    await throwTE(
-      Test.ctx.db.delete(
-        KeywordEntity,
-        keywords.map((k) => k.id),
-      ),
-    );
-
-    await throwTE(
-      Test.ctx.db.delete(
-        ActorEntity,
-        actors.map((a) => a.id),
-      ),
-    );
-
     expect(result).toMatchObject({
       message_id: 1,
       text: toPinnedMessage({
