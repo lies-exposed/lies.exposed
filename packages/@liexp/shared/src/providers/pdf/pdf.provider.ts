@@ -10,6 +10,8 @@ export class PDFError extends IOError {
   name = "PDFError";
 }
 
+export type { PDFDocumentProxy };
+
 const toError = (e: any): IOError => {
   if (e instanceof IOError) {
     return e;
