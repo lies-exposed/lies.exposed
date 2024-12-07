@@ -7,6 +7,8 @@ services:
       POSTGRES_USER: liexp
       POSTGRES_PASSWORD: liexp-password
       POSTGRES_DB: liexp-test
+    volumes:
+      - ./services/api/db/psql-create-database.sh:/docker-entrypoint-initdb.d/psql-create-database.sh
 
   db.liexp.dev:
     image: postgres:14

@@ -1,23 +1,42 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import { afterAll, beforeAll } from "vitest";
-import { type AppTest, GetAppTest } from "./AppTest.js";
+import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
+import { testDBContainer } from "./GetDockerContainer.js";
+import D from "debug";
 
-const g = global as any as { appTest?: AppTest };
+const logger = GetLogger("testSetup");
+
+const g = global as any as { appContext: any; appTest?: AppTest };
 
 beforeAll(async () => {
-  if (!g.appTest) {
-    await GetAppTest();
+  D.enable(process.env.DEBUG ?? "-");
+
+  if (!process.env.CI) {
+    console.time("waitForDatabase");
+    const database = await testDBContainer.waitForDatabase();
+    console.timeEnd("waitForDatabase");
+
+    process.env.DB_DATABASE = database;
+
+    logger.info.log("running test with database", process.env.DB_DATABASE);
   }
+
+  logger.debug.log("app context", !!g.appContext);
+
+  if (!g.appContext) {
+    logger.debug.log("loading app context");
+    g.appContext = await loadAppContext(logger);
+  }
+
+  logger.debug.log("app context", !!g.appContext);
+
+  g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
 });
 
 afterAll(async () => {
-  await Promise.all([
-    throwTE(g.appTest?.ctx.db.close() ?? fp.TE.right(undefined)),
-    // g.appTest?.ctx.tg.api.close(),
-  ]).catch((e) => {
-    // eslint-disable-next-line no-console
-    console.error(e);
-  });
+  if (!process.env.CI) {
+    await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
+  }
   g.appTest = undefined;
+  g.appContext = undefined;
 });

@@ -8,20 +8,34 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { PathReporter } from "io-ts/PathReporter";
 import { TestENV } from "./TestENV.js";
+import { testDBContainer } from "./GetDockerContainer.js";
+import D from "debug";
+
+const moduleLogger = logger.GetLogger("global-setup");
+
+const DATABASE_TOTAL = 30;
 
 export default async (): Promise<() => void> => {
   try {
-    const moduleLogger = logger.GetLogger("tests").extend("teardown");
-
     const dotenvConfigPath = path.resolve(
-      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, "../.env.test")
+      process.env.DOTENV_CONFIG_PATH ?? path.join(__dirname, "../.env.test"),
     );
 
     dotenv.config({ path: dotenvConfigPath });
 
+    D.enable(process.env.DEBUG!);
+
     moduleLogger.debug.log("Process env %O", process.env);
 
     loadENV(__dirname, dotenvConfigPath, true);
+
+    if (!process.env.CI) {
+      await testDBContainer.assertLocalCacheFolder();
+
+      await testDBContainer.lookup();
+
+      await testDBContainer.addDatabases(DATABASE_TOTAL);
+    }
 
     await pipe(
       TestENV.decode(process.env),
@@ -31,12 +45,18 @@ export default async (): Promise<() => void> => {
         return err as any;
       }),
       TE.fromEither,
-      throwTE
+      throwTE,
     );
 
-    return () => {
-      // eslint-disable-next-line no-console
-      console.log("global teardown");
+    return async () => {
+      if (!process.env.CI) {
+        const stats = await testDBContainer.getRunStats();
+        // eslint-disable-next-line no-console
+        console.log(
+          `Test ran on ${stats.used} databases over a total of ${DATABASE_TOTAL}`,
+        );
+        await testDBContainer.freeDatabases();
+      }
     };
   } catch (e) {
     // eslint-disable-next-line no-console
