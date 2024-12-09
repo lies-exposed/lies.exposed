@@ -3,7 +3,12 @@ import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Stack, Typography } from "../../mui/index.js";
-import { Link, type RaRecord, useRecordContext } from "../react-admin.js";
+import {
+  Link,
+  type RaRecord,
+  useRecordContext,
+  useRefresh,
+} from "../react-admin.js";
 import { OpenAIButton } from "./OpenAIButton.js";
 
 interface OpenAIPromptButtonProps<A extends RaRecord> {
@@ -31,6 +36,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   const [queue, setQueue] = React.useState<Queue.Queue | null>(null);
   const api = useDataProvider();
   const record = useRecordContext<A>();
+  const refresh = useRefresh();
 
   const [id, setId] = React.useState(get(record, idSource));
 
@@ -61,6 +67,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
       })
       .catch(() => {
         setQueue(null);
+        refresh();
       });
   }, []);
 

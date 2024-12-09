@@ -1,3 +1,4 @@
+import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue.js";
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
@@ -31,6 +32,20 @@ export interface EventGeneralTabProps {
     handlers: EventGeneralTabChildrenHandlers,
   ) => React.ReactNode;
 }
+
+const getOpenAIPromptText = (event: Event) => {
+  const title = getTitle(event, {
+    actors: [],
+    groups: [],
+    keywords: [],
+    areas: [],
+    media: [],
+    links: [],
+    groupsMembers: [],
+  });
+  const excerpt = getTextContents(event.excerpt);
+  return `${title}\n\n${excerpt}`;
+};
 
 export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   children,
@@ -141,7 +156,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           type={OpenAIEmbeddingQueueType.value}
           resource="events"
           transformValue={(event) => ({
-            text: getTextContents(event.excerpt),
+            text: getOpenAIPromptText(event),
           })}
         />
         <BlockNoteInput label="excerpt" source="excerpt" onlyText />
