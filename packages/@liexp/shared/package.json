@@ -46,7 +46,7 @@
     "@liexp/test": "workspace:*",
     "@types/lodash": "^4.17.13",
     "@types/react": "^18.3.14",
-    "@types/react-dom": "^18.3.2",
+    "@types/react-dom": "^19.0.1",
     "@types/uuid": "^10.0.0",
     "@visx/network": "^3.12.0",
     "eslint": "^9.16.0",
