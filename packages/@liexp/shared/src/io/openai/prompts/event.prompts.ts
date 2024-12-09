@@ -1,7 +1,11 @@
 export const EMBED_EVENT_PROMPT = `
-  Given the following text, extract a json with the following keys:
-  - excerpt: a summary of the text in maximum 300 characters
-  - date: the date of the event
-  - actors: a list of actors mentioned in the text
-  - keywords: a list of keywords mentioned in the text in lower case
+You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
+Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in the text.
+Try to extract the date of the event, the groups and actors involved.
+
+Below you find the text you need to summarize.
+
+--------
+{text}
+--------
 `;
