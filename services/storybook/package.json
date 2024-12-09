@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@emotion/cache": "^11.13.5",
-    "@emotion/react": "^11.13.5",
+    "@emotion/react": "^11.14.0",
     "@fortawesome/fontawesome-svg-core": "^6.7.1",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
