@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   BooleanField,
   Datagrid,
+  DateField,
   FunctionField,
   ReferenceManyField,
   type RaRecord,
@@ -23,6 +24,7 @@ const ReferenceManyEventField: React.FC<
       <Datagrid rowClick="edit" isRowSelectable={() => false}>
         <BooleanField source="draft" />
         <FunctionField
+          label="title"
           render={(r) => {
             return (
               <Box>
@@ -32,6 +34,7 @@ const ReferenceManyEventField: React.FC<
             );
           }}
         />
+        <DateField source="date" />
       </Datagrid>
     </ReferenceManyField>
   );
