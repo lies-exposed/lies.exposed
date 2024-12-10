@@ -63,4 +63,4 @@ jobs:
         run: pnpm storybook build
 
       - name: Build Storybook
-        run: pnpm storybook build-sb
+        run: pnpm storybook build:app

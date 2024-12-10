@@ -20,6 +20,8 @@ COPY --from=dev /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app
 
+ENV VITE_NODE_ENV=production
+
 RUN pnpm admin-web build
 RUN pnpm admin-web build:app
 

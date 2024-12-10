@@ -10,6 +10,8 @@ RUN pnpm packages:build
 
 FROM dev AS build
 
+ENV VITE_NODE_ENV=production
+
 RUN pnpm web build
 RUN pnpm web build:app-server
 

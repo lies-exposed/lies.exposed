@@ -1,0 +1,4 @@
+{
+    "main": "./build/run-esbuild.js",
+    "output": "./deploy/ai-bot.blob"
+  }

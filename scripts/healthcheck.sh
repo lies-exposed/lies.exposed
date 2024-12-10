@@ -2,7 +2,7 @@
 
 set -ex
 
-# start api with pm2
+# start api with docker
 docker compose up -d --wait liexp.dev
 
 curl -f http://api.liexp.dev/v1/healthcheck

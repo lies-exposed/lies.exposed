@@ -33,7 +33,7 @@ cp -r /root/node/app/current/services/admin-web/build/* "/var/www/html/${HOST}/a
 
 # build storybook
 cd ./services/storybook;
-pnpm build-sb
+pnpm build:app
 cd ../../;
 sudo rm -rf "/var/www/html/${HOST}/storybook/"
 sudo mkdir -p "/var/www/html/${HOST}/storybook/"
@@ -41,12 +41,5 @@ cp -r /root/node/app/current/services/storybook/build/* "/var/www/html/${HOST}/s
 
 sudo chown -R www-data:www-data "/var/www/html/${HOST}"
 
-# rm -rf /etc/nginx/sites-enabled/
-cp /root/node/app/current/resources/nginx/alpha.lies.exposed.conf /etc/nginx/sites-enabled/alpha.lies.exposed.conf
-cp /root/node/app/current/resources/nginx/telegram-bot-api.conf /etc/nginx/sites-enabled/telegram-bot-api.conf
-
 # reload services
-rm -rf ~/.pm2/pm2.log
-rm -rf ~/.pm2/logs
 sudo nginx -s reload
-# pm2 restart ecosystem.config.js
