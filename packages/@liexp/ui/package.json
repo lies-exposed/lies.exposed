@@ -68,7 +68,7 @@
     "@visx/tooltip": "^3.12.0",
     "@visx/wordcloud": "^3.12.0",
     "@visx/zoom": "^3.12.0",
-    "@xyflow/react": "^12.3.0",
+    "@xyflow/react": "^12.3.6",
     "axios": "^1.7.8",
     "clsx": "^2.1.0",
     "d3": "^7.9.0",
