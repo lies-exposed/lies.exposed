@@ -32,7 +32,7 @@
     "axios": "^1.7.8",
     "date-fns": "^4.1.0",
     "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.21",
+    "io-ts": "^2.2.22",
     "io-ts-types": "^0.5.19",
     "lodash": "^4.17.21",
     "page-metadata-parser": "^1.1.4",

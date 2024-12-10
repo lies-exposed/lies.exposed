@@ -101,8 +101,8 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -207,11 +207,11 @@ importers:
         specifier: ^15.13.0
         version: 15.13.0
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       io-ts-types:
         specifier: ^0.5.19
-        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       query-string:
         specifier: ^7
         version: 7.1.3
@@ -298,11 +298,11 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       io-ts-types:
         specifier: ^0.5.19
-        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -390,13 +390,13 @@ importers:
         version: 2.25.0
       fast-check-io-ts:
         specifier: ^0.5.0
-        version: 0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))
+        version: 0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
     devDependencies:
       eslint:
         specifier: ^9.16.0
@@ -561,11 +561,11 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       io-ts-types:
         specifier: ^0.5.19
-        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -739,8 +739,8 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       openai:
         specifier: ^4.61.0
         version: 4.76.0(zod@3.23.8)
@@ -827,8 +827,8 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       langchain:
         specifier: ^0.3.6
         version: 0.3.6(@langchain/anthropic@0.3.8(@langchain/core@0.3.22(openai@4.76.0(zod@3.23.8))))(@langchain/core@0.3.22(openai@4.76.0(zod@3.23.8)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.76.0(zod@3.23.8))(typeorm@0.3.20(pg@8.13.1))
@@ -840,7 +840,7 @@ importers:
         version: 2.4.2
       ts-shared:
         specifier: ^2.0.0-alpha.6
-        version: 2.0.0-alpha.6(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))
+        version: 2.0.0-alpha.6(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))
     devDependencies:
       eslint:
         specifier: ^9.16.0
@@ -912,11 +912,11 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       io-ts-types:
         specifier: ^0.5.19
-        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -1135,8 +1135,8 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1220,11 +1220,11 @@ importers:
         specifier: ^2.16.9
         version: 2.16.9
       io-ts:
-        specifier: ^2.2.21
-        version: 2.2.21(fp-ts@2.16.9)
+        specifier: ^2.2.22
+        version: 2.2.22(fp-ts@2.16.9)
       io-ts-types:
         specifier: ^0.5.19
-        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+        version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       query-string:
         specifier: ^7.1.3
         version: 7.1.3
@@ -6928,8 +6928,8 @@ packages:
       monocle-ts: ^2.0.0
       newtype-ts: ^0.3.2
 
-  io-ts@2.2.21:
-    resolution: {integrity: sha512-zz2Z69v9ZIC3mMLYWIeoUcwWD6f+O7yP92FMVVaXEOSZH1jnVBmET/urd/uoarD1WGBY4rCj8TAyMPzsGNzMFQ==}
+  io-ts@2.2.22:
+    resolution: {integrity: sha512-FHCCztTkHoV9mdBsHpocLpdTAfh956ZQcIkWQxxS0U5HT53vtrcuYdQneEJKH6xILaLNzXVl2Cvwtoy8XNN0AA==}
     peerDependencies:
       fp-ts: ^2.5.0
 
@@ -16481,11 +16481,11 @@ snapshots:
 
   extsprintf@1.3.0: {}
 
-  fast-check-io-ts@0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9)):
+  fast-check-io-ts@0.5.0(fast-check@2.25.0)(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9)):
     dependencies:
       fast-check: 2.25.0
       fp-ts: 2.16.9
-      io-ts: 2.2.21(fp-ts@2.16.9)
+      io-ts: 2.2.22(fp-ts@2.16.9)
 
   fast-check@2.25.0:
     dependencies:
@@ -17269,14 +17269,14 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  io-ts-types@0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))):
+  io-ts-types@0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))):
     dependencies:
       fp-ts: 2.16.9
-      io-ts: 2.2.21(fp-ts@2.16.9)
+      io-ts: 2.2.22(fp-ts@2.16.9)
       monocle-ts: 2.3.13(fp-ts@2.16.9)
       newtype-ts: 0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))
 
-  io-ts@2.2.21(fp-ts@2.16.9):
+  io-ts@2.2.22(fp-ts@2.16.9):
     dependencies:
       fp-ts: 2.16.9
 
@@ -20693,11 +20693,11 @@ snapshots:
 
   ts-io-error@2.0.0: {}
 
-  ts-shared@2.0.0-alpha.6(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9)):
+  ts-shared@2.0.0-alpha.6(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9)):
     dependencies:
       fp-ts: 2.16.9
-      io-ts: 2.2.21(fp-ts@2.16.9)
-      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.21(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
+      io-ts: 2.2.22(fp-ts@2.16.9)
+      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       monocle-ts: 2.3.13(fp-ts@2.16.9)
       newtype-ts: 0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))
       qs: 6.13.0
