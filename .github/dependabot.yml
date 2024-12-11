@@ -34,8 +34,6 @@ updates:
         versions: ["3.x"]
       - dependency-name: "query-string"
         versions: ["8.x", "9.x"]
-      - dependency-name: "vite"
-        versions: ["6.x"]
     groups:
       aws-sdk:
         patterns:
