@@ -107,17 +107,13 @@ services:
       context: .
       target: dev
       dockerfile: ai-bot.Dockerfile
+    command: ["node", "build/run-esbuild.js"]
     env_file:
       - ./services/ai-bot/.env.local
       - ./services/ai-bot/.env
-    command: pnpm docker:dev
-    working_dir: /usr/src/app/services/ai-bot
     volumes:
-      - ai-bot-node-modules:/usr/src/app/node_modules
-      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
-      - ./services/ai-bot:/usr/src/app/services/ai-bot:cached
-      - ./services/ai-bot/temp:/usr/src/app/services/ai-bot/temp:rw
-      - ./services/ai-bot/ai-bot.config.json:/usr/src/app/services/ai-bot/ai-bot.config.json:rw
+      - ./services/ai-bot/temp:/home/node/temp:rw
+      - ./services/ai-bot/ai-bot.config.json:/home/node/ai-bot.config.json:rw
     mem_limit: 512M
     depends_on:
       - api.liexp.dev

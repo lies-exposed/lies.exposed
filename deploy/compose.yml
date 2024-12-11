@@ -1,5 +1,4 @@
 services:
-
   api-base:
     image: ghcr.io/lies-exposed/liexp-api:alpha-latest
     user: $API_UID:$API_GID
@@ -43,15 +42,18 @@ services:
       - telegram-bot-api
 
   ai-bot:
-    image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
-    user: $API_UID:$API_GID
+    build:
+      context: .
+      dockerfile: ai-bot.Dockerfile
     container_name: liexp-ai-bot
     restart: always
     env_file:
       - .env.ai-bot
     volumes:
-      - ./ai-bot-temp/:/prod/ai-bot/temp/:rw
-      - ./ai-bot.config.json:/prod/ai-bot/ai-bot.config.json:rw
+      - ./ai-bot-temp/:/home/node/temp/:rw
+      - ./ai-bot.config.json:/home/node/ai-bot.config.json:rw
+    working_dir: /home/node
+    command: ["./ai-bot", "-v"]
     depends_on:
       - api
     network_mode: "host"

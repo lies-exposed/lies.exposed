@@ -8,7 +8,7 @@
     ".": {
       "ignore": ["ecosystem.dev.config.js", "ecosystem.config.js"],
       "ignoreBinaries": ["corepack up"],
-      "ignoreDependencies": ["husky", "is-ci", "pm2", "lint-staged"]
+      "ignoreDependencies": ["husky", "is-ci", "lint-staged"]
     },
     "packages/@liexp/*": {
       "includeEntryExports": false,

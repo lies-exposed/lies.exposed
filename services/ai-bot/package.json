@@ -10,6 +10,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
+    "esbuild": "./scripts/esbuild.sh",
     "clean": "rm -rf build",
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",

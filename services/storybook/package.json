@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "build-sb": "storybook build -o build",
-    "clean": "rm -rf build",
+    "build:app": "storybook build -o build",
+    "clean": "rm -rf build deploy",
     "dev": "storybook dev --quiet -p 6006",
     "lint": "eslint src",
     "serve": "serve -d ./build"

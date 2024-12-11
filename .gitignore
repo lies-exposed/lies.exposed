@@ -47,6 +47,7 @@ db_dump
 # output dir
 lib
 build
+services/*/deploy
 
 temp
 # dotenv environment variables file

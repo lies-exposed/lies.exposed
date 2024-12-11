@@ -1,28 +1,25 @@
-FROM ghcr.io/lies-exposed/liexp-base:22-latest AS dev
+FROM node:22 AS dev
 
-COPY . /usr/src/app
+WORKDIR /home/node
 
-WORKDIR /usr/src/app
+RUN mkdir build scripts
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+COPY services/ai-bot/build/run-esbuild.js build/run-esbuild.js
+COPY services/ai-bot/sea-config.json sea-config.json
 
-RUN pnpm packages:build
+RUN node --experimental-sea-config sea-config.json
 
-FROM dev AS build
+RUN cp $(command -v node) ./ai-bot
 
-RUN pnpm ai-bot build
+RUN strip ./ai-bot
 
-FROM build AS pruned
+RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
+    --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 
-RUN pnpm ai-bot --prod deploy /prod/ai-bot
+FROM node:22-alpine AS production
 
-FROM ghcr.io/lies-exposed/liexp-base:22-latest AS production
+WORKDIR /home/node
 
-WORKDIR /prod/ai-bot
+COPY --from=dev /home/node/ai-bot ai-bot
 
-COPY --from=pruned /prod/ai-bot .
-
-# Run everything after AS non-privileged user.
-USER pptruser
-
-CMD ["node", "build/run.js"]
+CMD ["./ai-bot"]
