@@ -57,7 +57,6 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     docker compose --env-file .env.api pull api web
     docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
-    docker compose --env-file .env.ai-bot up --build --force-recreate -d --wait ai-bot
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all
