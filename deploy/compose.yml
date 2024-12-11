@@ -52,8 +52,7 @@ services:
     volumes:
       - ./ai-bot-temp/:/home/node/temp/:rw
       - ./ai-bot.config.json:/home/node/ai-bot.config.json:rw
-    working_dir: /home/node
-    command: ["./ai-bot", "-v"]
+    mem_limit: 512M
     depends_on:
       - api
     network_mode: "host"
@@ -68,6 +67,7 @@ services:
     depends_on:
       - api
     restart: always
+    mem_limit: 512M
     logging:
       driver: "json-file"
       options:

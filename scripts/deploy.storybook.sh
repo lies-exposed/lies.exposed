@@ -2,14 +2,11 @@
 
 set -e -x
 
-HOST=$1
+HOST=${1:-"alpha.lies.exposed"}
 
 export VITE_NODE_ENV=production
 
-pnpm clean
-
-# build packages
-pnpm packages:build
+pnpm storybook clean
 
 pnpm storybook build:app
 pnpm storybook deploy --prod services/storybook/deploy
