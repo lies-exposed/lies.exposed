@@ -58,7 +58,7 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.703.0",
+    "@aws-sdk/client-s3": "^3.709.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
