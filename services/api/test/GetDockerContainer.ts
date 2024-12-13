@@ -6,7 +6,7 @@ import Docker from "dockerode";
 import fs from "fs/promises";
 import path from "path";
 
-export interface DBTestDockerContainer {
+interface DBTestDockerContainer {
   assertLocalCacheFolder: () => Promise<void>;
   lookup: () => Promise<Docker.Container | undefined>;
   addDatabases: (dbCount: number) => Promise<string[]>;
@@ -30,7 +30,8 @@ const DATABASE_RUN_COUNT_FILE_PATH = () =>
   path.join(__dirname, "__databases", "run-count");
 
 let container: Docker.Container | undefined;
-export type GetDockerContainer = (
+
+type GetDockerContainer = (
   logger: Logger,
 ) => (containerName: string) => DBTestDockerContainer;
 
@@ -149,7 +150,7 @@ const safeUnlink = async (state?: STATE, db?: string) => {
   }
 };
 
-export const GetDockerContainer: GetDockerContainer =
+const GetDockerContainer: GetDockerContainer =
   (logger) => (containerName) => {
     const docker = new Docker();
 

@@ -22,6 +22,16 @@ export const defineViteConfig = <A extends Record<string, any>>(
 
     loadENV(config.cwd, dotEnvFilePath, _mode === "development");
 
+    const mode = process.env.VITE_NODE_ENV ?? _mode;
+
+    const validateEnv =
+      process.env.VITE_VALIDATE_ENV !== "undefined"
+        ? process.env.VITE_VALIDATE_ENV
+        : true;
+
+    // eslint-disable-next-line
+    console.log(mode, `Validating env: ${validateEnv}`);
+
     const env = pipe(
       // loadEnv(mode, config.envFileDir, ""),
       process.env,
@@ -31,21 +41,24 @@ export const defineViteConfig = <A extends Record<string, any>>(
           [key]: v,
         };
       }),
-      config.env.decode,
       (env) => {
-        if (env._tag === "Left") {
-          // eslint-disable-next-line
-          console.error(failure(env.left));
-          throw new Error("Wrong env");
+        if (validateEnv) {
+          return pipe(env, config.env.decode, (env) => {
+            if (env._tag === "Left") {
+              // eslint-disable-next-line no-console
+              console.error(`process.env decode failed: \n`, failure(env.left));
+              throw new Error("process.env decode failed");
+            }
+
+            // eslint-disable-next-line
+            console.log(mode, env.right);
+            return env.right;
+          });
         }
-        return env.right;
+
+        return env as A;
       },
     );
-
-    const mode = env.VITE_NODE_ENV ?? _mode;
-
-    // eslint-disable-next-line
-    console.log(mode, env);
 
     const viteConfig: UserConfig = {
       mode,

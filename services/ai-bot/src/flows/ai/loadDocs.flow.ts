@@ -8,7 +8,7 @@ import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";
 import { toAIBotError } from "#common/error/index.js";
 
-export const loadEventDocs =
+const loadEventDocs =
   (job: Queue.Queue): ClientContextRTE<Document[]> =>
   (ctx) => {
     return pipe(
