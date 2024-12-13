@@ -29,7 +29,7 @@
     "@blocknote/core": "^0.21.0",
     "@blocknote/server-util": "^0.21.0",
     "@liexp/core": "workspace:*",
-    "axios": "^1.7.8",
+    "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
