@@ -54,7 +54,7 @@ export const parseDocument =
       }),
       TE.chainFirst((m) =>
         ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
-          id: uuid(),
+          id: m.id,
           resource: MEDIA.value,
           type: OpenAIEmbeddingQueueType.value,
           status: PendingStatus.value,
