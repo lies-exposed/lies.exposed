@@ -19,10 +19,8 @@ import {
 } from "../../../../test/arbitraries/TGMessage.arb.js";
 import { saveUser, type UserTest } from "../../../../test/user.utils.js";
 import { createFromTGMessage } from "../createFromTGMessage.flow.js";
-import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { MediaEntity } from "#entities/Media.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 

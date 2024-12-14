@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import {
   OpenAIEmbeddingQueueType,
@@ -62,7 +61,7 @@ export const parseURLs =
               ),
               TE.chainFirst((l) =>
                 ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
-                  id: uuid(),
+                  id: l.id,
                   status: PendingStatus.value,
                   type: OpenAIEmbeddingQueueType.value,
                   resource: LINKS.value,
