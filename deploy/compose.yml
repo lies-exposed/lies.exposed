@@ -45,6 +45,7 @@ services:
     build:
       context: .
       dockerfile: ai-bot.Dockerfile
+      target: production
     container_name: liexp-ai-bot
     restart: always
     env_file:

@@ -16,9 +16,7 @@ scp ./deploy/ai-bot.config.json $SSH_DOMAIN:docker-app/ai-bot.config.json
 scp ./ai-bot.Dockerfile $SSH_DOMAIN:docker-app/ai-bot.Dockerfile
 
 scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
-scp ./services/ai-bot/build/run-esbuild.js $SSH_DOMAIN:docker-app/services/ai-bot/build/
-scp ./services/ai-bot/build/ai-bot.blob $SSH_DOMAIN:docker-app/services/ai-bot/build/
-ssh $SSH_DOMAIN "ls -la ~/docker-app/services/ai-bot/build/"
+scp ./services/ai-bot/build/run-esbuild.js $SSH_DOMAIN:docker-app/services/ai-bot/build/run-esbuild.js
 scp ./services/ai-bot/sea-config.json $SSH_DOMAIN:docker-app/services/ai-bot/sea-config.json
 
 
@@ -31,8 +29,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     chown -R pptruser:pptruser ./ai-bot-temp
 
-    docker compose build ai-bot
-    docker compose up -d ai-bot
+    docker compose build ai-bot --no-cache
+    docker compose up -d ai-bot --force-recreate -V
 
 EOF
 
