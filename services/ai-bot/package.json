@@ -8,16 +8,17 @@
     "#services/*": "./build/services/*"
   },
   "scripts": {
+    "clean": "rm -rf build",
     "typecheck": "tsc --noEmit",
     "build:tsc": "tsc -b tsconfig.build.json",
     "build:es": "./scripts/esbuild.sh",
     "build": "pnpm build:tsc && pnpm build:es",
-    "clean": "rm -rf build",
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
-    "start": "node build/run.js"
+    "start": "node build/run.js",
+    "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.709.0",

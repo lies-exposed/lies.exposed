@@ -16,7 +16,7 @@ RUN strip ./ai-bot
 RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
     --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 
-FROM node:22-alpine AS production
+FROM node:22-slim AS production
 
 WORKDIR /home/node
 
