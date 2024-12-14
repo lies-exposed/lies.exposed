@@ -63,7 +63,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@tanstack/react-query": "^5.62.7",
-    "axios": "^1.7.7",
+    "axios": "^1.7.9",
     "body-parser": "^1.20.3",
     "canvas": "3.0.0-rc3",
     "cors": "2.8.5",
