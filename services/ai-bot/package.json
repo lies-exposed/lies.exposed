@@ -1,5 +1,5 @@
 {
-  "name": "@liexp/ai-bot",
+  "name": "ai-bot",
   "version": "1.0.0",
   "type": "module",
   "imports": {
