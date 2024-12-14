@@ -113,6 +113,7 @@ services:
       - ./services/ai-bot/.env
     volumes:
       - ./services/ai-bot/temp:/home/node/temp:rw
+      - ./services/ai-bot/build:/home/node/build:cached
       - ./services/ai-bot/ai-bot.config.json:/home/node/ai-bot.config.json:rw
     mem_limit: 512M
     depends_on:
