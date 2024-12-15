@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
     "build:app": "vite build",
-    "clean": "rm -rf build deploy",
+    "clean": "rm -rf build",
     "dev": "vite dev",
     "docker:dev": "vite dev",
     "lint": "eslint src",

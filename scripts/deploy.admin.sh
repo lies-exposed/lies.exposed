@@ -4,15 +4,17 @@ set -e -x
 
 HOST=${1:-"alpha.lies.exposed"}
 
-export VITE_NODE_ENV=production
-
 pnpm admin-web clean
 
+pnpm packages:build
+
+export VITE_NODE_ENV=production
+export DOTENV_CONFIG_PATH=".env.alpha"
+
 pnpm admin-web build:app
-pnpm admin-web deploy --prod services/admin-web/deploy
 
-ssh $HOST "rm -rf /var/www/html/${HOST}/admin-web"
+ssh "$HOST" "rm -rf /var/www/html/${HOST}/admin-web"
 
-rsync -aP ./services/admin-web/deploy/ $HOST:/var/www/html/${HOST}/admin-web
+rsync -aP ./services/admin-web/build/ "$HOST":/var/www/html/"${HOST}"/admin
 
 pnpm admin-web clean

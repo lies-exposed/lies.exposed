@@ -10,10 +10,8 @@ pnpm storybook clean
 
 pnpm storybook build:app
 
-pnpm storybook deploy --prod services/storybook/deploy
+ssh "$HOST" "rm -rf /var/www/html/${HOST}/storybook"
 
-ssh $HOST "rm -rf /var/www/html/${HOST}/storybook"
+rsync -aP ./services/storybook/build/ "$HOST":/var/www/html/"${HOST}"/storybook
 
-rsync -aP ./services/storybook/deploy/ $HOST:/var/www/html/${HOST}/storybook
-
-rm -rf services/storybook/deploy
+pnpm storybook clean
