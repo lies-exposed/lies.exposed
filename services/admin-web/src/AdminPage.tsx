@@ -81,46 +81,56 @@ import { UserCreate, UserList } from "./pages/AdminUsers.js";
 import { PageCreate, PageEdit, PageList } from "./pages/Pages.js";
 import { AdminStats } from "./pages/dashboard/AdminStats.js";
 import {
-  BookCreate,
-  BookEdit,
-  BookList,
-} from "./pages/events/AdminBookEvent.js";
-import {
-  DeathCreate,
-  DeathEdit,
-  DeathList,
-} from "./pages/events/AdminDeathEvent.js";
-import {
   DocumentaryCreate,
   DocumentaryEdit,
   DocumentaryList,
-} from "./pages/events/AdminDocumentaryEvent.js";
-import {
-  PatentCreate,
-  PatentEdit,
-  PatentList,
-} from "./pages/events/AdminPatentEvent.js";
+} from "./pages/events/documentary/AdminDocumentaryEvent.js";
 import {
   QuoteCreate,
   QuoteEdit,
   QuoteList,
-} from "./pages/events/AdminQuoteEvent.js";
+} from "./pages/events/quote/AdminQuoteEvent.js";
 import {
   ScientificStudiesList,
   ScientificStudyCreate,
   ScientificStudyEdit,
-} from "./pages/events/AdminScientificStudyEvent.js";
+} from "./pages/events/scientificStudy/AdminScientificStudyEvent.js";
 import {
   TransactionCreate,
   TransactionEdit,
   TransactionList,
-} from "./pages/events/AdminTransactionEvent.js";
-import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent.js";
+} from "./pages/events/transaction/AdminTransactionEvent.js";
 import { adminThemeOptions } from "./theme.js";
 
 const ActorList = React.lazy(() => import("./pages/actors/ActorList.js"));
 const ActorCreate = React.lazy(() => import("./pages/actors/ActorCreate.js"));
 const ActorEdit = React.lazy(() => import("./pages/actors/ActorEdit.js"));
+
+const BookCreate = React.lazy(
+  () => import("./pages/events/book/BookCreate.js"),
+);
+const BookEdit = React.lazy(() => import("./pages/events/book/BookEdit.js"));
+const BookList = React.lazy(() => import("./pages/events/book/BookList.js"));
+
+const DeathCreate = React.lazy(
+  () => import("./pages/events/death/DeathCreate.js"),
+);
+const DeathEdit = React.lazy(() => import("./pages/events/death/DeathEdit.js"));
+const DeathList = React.lazy(() => import("./pages/events/death/DeathList.js"));
+
+const PatentList = React.lazy(
+  () => import("./pages/events/patent/PatentList.js"),
+);
+const PatentCreate = React.lazy(
+  () => import("./pages/events/patent/PatentCreate.js"),
+);
+const PatentEdit = React.lazy(
+  () => import("./pages/events/patent/PatentEdit.js"),
+);
+
+const UncategorizedEventCreate = React.lazy(
+  () => import("./pages/events/AdminUncategorizedEvent.js"),
+);
 
 const MyMenu: React.FC<MenuProps> = (props) => (
   <Menu>
