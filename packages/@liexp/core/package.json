@@ -24,6 +24,7 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
+    "eslint-plugin-unused-imports": "^4.1.4",
     "fp-ts": "^2.16.9",
     "globals": "^15.13.0",
     "io-ts": "^2.2.22",

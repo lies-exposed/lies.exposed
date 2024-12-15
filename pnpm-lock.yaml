@@ -181,7 +181,7 @@ importers:
         version: 5.7.2
       vite-tsconfig-paths:
         specifier: ^5.1.4
-        version: 5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.2)(sass@1.82.0)(terser@5.37.0))
+        version: 5.1.4(typescript@5.7.2)(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)
@@ -197,6 +197,9 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      eslint-plugin-unused-imports:
+        specifier: ^4.1.4
+        version: 4.1.4(@typescript-eslint/eslint-plugin@8.18.0(@typescript-eslint/parser@8.18.0(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2))(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2))(eslint@9.16.0(jiti@2.4.1))
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
@@ -6054,6 +6057,15 @@ packages:
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
+
+  eslint-plugin-unused-imports@4.1.4:
+    resolution: {integrity: sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+      eslint: ^9.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
 
   eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
@@ -15889,6 +15901,12 @@ snapshots:
       string.prototype.matchall: 4.0.11
       string.prototype.repeat: 1.0.0
 
+  eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.18.0(@typescript-eslint/parser@8.18.0(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2))(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2))(eslint@9.16.0(jiti@2.4.1)):
+    dependencies:
+      eslint: 9.16.0(jiti@2.4.1)
+    optionalDependencies:
+      '@typescript-eslint/eslint-plugin': 8.18.0(@typescript-eslint/parser@8.18.0(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2))(eslint@9.16.0(jiti@2.4.1))(typescript@5.7.2)
+
   eslint-scope@5.1.1:
     dependencies:
       esrecurse: 4.3.0
@@ -20529,17 +20547,6 @@ snapshots:
       vite: 6.0.3(@types/node@22.10.2)(jiti@2.4.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)
 
   vite-plugin-optimizer@1.4.3: {}
-
-  vite-tsconfig-paths@5.1.4(typescript@5.7.2)(vite@5.4.11(@types/node@22.10.2)(sass@1.82.0)(terser@5.37.0)):
-    dependencies:
-      debug: 4.4.0
-      globrex: 0.1.2
-      tsconfck: 3.0.3(typescript@5.7.2)
-    optionalDependencies:
-      vite: 5.4.11(@types/node@22.10.2)(sass@1.82.0)(terser@5.37.0)
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
 
   vite-tsconfig-paths@5.1.4(typescript@5.7.2)(vite@6.0.3(@types/node@22.10.2)(jiti@2.4.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1)):
     dependencies:

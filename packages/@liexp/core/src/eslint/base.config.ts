@@ -3,6 +3,7 @@ import eslint from "@eslint/js";
 import fpTS from "eslint-plugin-fp-ts";
 import importPlugin from "eslint-plugin-import";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
 const config: any = tseslint.config(
@@ -12,7 +13,11 @@ const config: any = tseslint.config(
   ...tseslint.configs.stylisticTypeCheckedOnly,
   eslintPluginPrettierRecommended,
   {
-    plugins: { "fp-ts": fpTS, import: importPlugin },
+    plugins: {
+      "fp-ts": fpTS,
+      import: importPlugin,
+      "unused-imports": unusedImportsPlugin,
+    },
     languageOptions: {
       parserOptions: {
         project: ["./tsconfig.json"],
