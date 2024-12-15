@@ -1,5 +1,6 @@
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
+import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import { SlugInput } from "@liexp/ui/lib/components/admin/common/inputs/SlugInput.js";
 import {
   Button,
@@ -19,6 +20,7 @@ import {
   type TransformData,
   type ButtonProps,
   type EditProps,
+  useRefresh,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -158,6 +160,36 @@ export const QueueList: React.FC<ListProps> = (props) => {
   );
 };
 
+const RetryQueueJobButton: React.FC<{
+  type: string;
+  resource: string;
+  id: string;
+}> = ({ type, resource, id }) => {
+  const refresh = useRefresh();
+  const api = useDataProvider();
+  const record = useRecordContext<Queue.Queue>();
+
+  const onClick = () => {
+    void api
+      .put(`queues/${type}/${resource}/${id}`, {
+        ...record,
+        status: "pending",
+        data: { ...record?.data, result: undefined },
+        error: null,
+        id,
+      })
+      .finally(() => {
+        refresh();
+      });
+  };
+
+  if (!record) {
+    return <Loader />;
+  }
+
+  return <Button label="Retry" variant="contained" onClick={onClick} />;
+};
+
 const transformQueue: TransformData = (data) => ({
   ...data,
   value: JSON.stringify(data.value),
@@ -178,7 +210,12 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
       title="Create a custom Queue"
     >
       <SimpleForm>
-        <Stack spacing={1} direction="row" alignItems={"center"}>
+        <Stack
+          spacing={1}
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
           <SelectQueueResourceInput size="small" />
           <SlugInput source="id" size="small" />
           <Box display="flex">
@@ -196,6 +233,7 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         <Stack spacing={1} direction="row" alignItems={"center"}>
           <SelectQueueStatusInput size="small" />
           <SelectQueueTypeInput size="small" />
+          <RetryQueueJobButton resource={resource} type={type} id={id} />
         </Stack>
 
         <JSONInput source="data" />
