@@ -25,9 +25,9 @@ export const defineViteConfig = <A extends Record<string, any>>(
     const mode = process.env.VITE_NODE_ENV ?? _mode;
 
     const validateEnv =
-      process.env.VITE_VALIDATE_ENV !== "undefined"
-        ? process.env.VITE_VALIDATE_ENV
-        : true;
+      process.env.VITE_VALIDATE_ENV === undefined
+        ? true
+        : process.env.VITE_VALIDATE_ENV === "true";
 
     // eslint-disable-next-line
     console.log(mode, `Validating env: ${validateEnv}`);
