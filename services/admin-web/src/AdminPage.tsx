@@ -56,7 +56,6 @@ import PermMediaIcon from "@mui/icons-material/PermMedia.js";
 import PostAddIcon from "@mui/icons-material/PostAdd.js";
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { ActorCreate, ActorEdit, ActorList } from "./pages/AdminActors";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
 import { EventEdit, EventList } from "./pages/AdminEvents.js";
 import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph";
@@ -118,6 +117,10 @@ import {
 } from "./pages/events/AdminTransactionEvent.js";
 import { UncategorizedEventCreate } from "./pages/events/AdminUncategorizedEvent.js";
 import { adminThemeOptions } from "./theme.js";
+
+const ActorList = React.lazy(() => import("./pages/actors/ActorList.js"));
+const ActorCreate = React.lazy(() => import("./pages/actors/ActorCreate.js"));
+const ActorEdit = React.lazy(() => import("./pages/actors/ActorEdit.js"));
 
 const MyMenu: React.FC<MenuProps> = (props) => (
   <Menu>
