@@ -24,7 +24,7 @@
     "@aws-sdk/client-sso-oidc": "^3.714.0",
     "@aws-sdk/client-sts": "^3.714.0",
     "@langchain/community": "^0.3.19",
-    "@langchain/core": "^0.3.25",
+    "@langchain/core": "^0.3.26",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",

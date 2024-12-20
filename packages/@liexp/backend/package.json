@@ -41,8 +41,8 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.714.0",
-    "@langchain/core": "^0.3.25",
-    "@langchain/openai": "^0.3.15",
+    "@langchain/core": "^0.3.26",
+    "@langchain/openai": "^0.3.16",
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node-telegram-bot-api": "^0.64.7",
