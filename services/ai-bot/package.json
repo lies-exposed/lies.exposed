@@ -21,8 +21,8 @@
     "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
-    "@aws-sdk/client-sso-oidc": "^3.714.0",
-    "@aws-sdk/client-sts": "^3.714.0",
+    "@aws-sdk/client-sso-oidc": "^3.716.0",
+    "@aws-sdk/client-sts": "^3.716.0",
     "@langchain/community": "^0.3.19",
     "@langchain/core": "^0.3.26",
     "@liexp/backend": "workspace:*",
