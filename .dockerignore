@@ -16,6 +16,7 @@ models
 !services/ai-bot/build
 public
 .env*
+!.env
 *.Dockerfile
 compose.yml
 
