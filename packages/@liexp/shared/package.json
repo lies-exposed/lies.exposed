@@ -47,7 +47,6 @@
     "@types/lodash": "^4.17.13",
     "@types/react": "^18.3.16",
     "@types/react-dom": "^18.3.5",
-    "@types/uuid": "^10.0.0",
     "@visx/network": "^3.12.0",
     "eslint": "^9.17.0",
     "pdfjs-dist": "^4.9.155",

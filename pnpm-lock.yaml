@@ -346,9 +346,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.5
         version: 18.3.5(@types/react@18.3.16)
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
       '@visx/network':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)

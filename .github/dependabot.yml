@@ -56,10 +56,6 @@ updates:
           - "@eslint/*"
           - "eslint*"
           - "eslint"
-      uuid:
-        patterns:
-          - "*uuid"
-          - "uuid"
 
       mui:
         patterns:
