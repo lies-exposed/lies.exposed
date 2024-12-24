@@ -21,7 +21,6 @@ scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
 scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
 
-
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     set -e
     u=$1
@@ -32,7 +31,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
     rm ./gh-token.txt
 
-    mkdir -p ./telegram-bot-nginx-log
+    mkdir -p /var/lib/telegram-bot-api
 
     rm -rf ./temp/media
     rm -rf ./temp/nlp
@@ -60,8 +59,6 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all
-
-    nginx -s reload
 
     docker compose --env-file .env.api run -d --name api-migration api pnpm migration:run
 

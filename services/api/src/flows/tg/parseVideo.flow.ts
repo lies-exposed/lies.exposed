@@ -25,18 +25,23 @@ export const parseVideo =
 
     const mediaId = uuid();
     const thumbTask: TE.TaskEither<ControllerError, string | undefined> = pipe(
-      O.fromNullable(video.thumb?.file_id),
+      O.fromNullable(video.thumb),
       O.fold(
         () => TE.right(undefined as any as string),
-        (id) =>
+        (file) =>
           pipe(
             fp.IOE.tryCatch(() => {
-              ctx.logger.debug.log("Download thumb file from TG %s", id);
-              const thumbFile = ctx.tg.api.getFileStream(id);
+              ctx.logger.debug.log(
+                "Download thumb file from TG %s (%d MB)",
+                file.file_id,
+                Math.ceil((file.file_size ?? 1) / 1000 / 1000),
+              );
+              const thumbFile = ctx.tg.api.getFileStream(file.file_id);
               ctx.logger.debug.log(
                 "Thumb file stream length %d",
                 thumbFile.readableLength,
               );
+
               return thumbFile;
             }, toControllerError),
             TE.fromIOEither,
@@ -60,6 +65,7 @@ export const parseVideo =
             video.file_id,
             Math.ceil((video.file_size ?? 1) / 1000 / 1000),
           );
+
           const videoFile = ctx.tg.api.getFileStream(video.file_id);
 
           return Promise.resolve(videoFile);
