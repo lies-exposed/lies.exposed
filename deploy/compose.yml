@@ -14,8 +14,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-file: 5
-          max-size: 10m
+        max-file: 5
+        max-size: 10m
 
   api:
     extends: api-base
@@ -36,7 +36,7 @@ services:
     container_name: liexp-worker
     environment:
       TG_BOT_POLLING: "true"
-    command:  node build/worker/index.js
+    command: node build/worker/index.js
     mem_limit: 512M
     depends_on:
       - telegram-bot-api
@@ -72,8 +72,8 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-file: 5
-          max-size: 10m
+        max-file: 5
+        max-size: 10m
 
   telegram-bot-api:
     image: aiogram/telegram-bot-api:latest
@@ -82,30 +82,14 @@ services:
     environment:
       TELEGRAM_API_ID: ${TELEGRAM_API_ID}
       TELEGRAM_API_HASH: ${TELEGRAM_API_HASH}
-      TELEGRAM_LOCAL: "true"
+      TELEGRAM_LOCAL: 1
     volumes:
-      - telegram-bot-api-data:/var/lib/telegram-bot-api
+      - /var/lib/telegram-bot-api:/var/lib/telegram-bot-api:rw
     ports:
       - "127.0.0.1:8081:8081"
     restart: on-failure
     logging:
       driver: "json-file"
       options:
-          max-file: 5
-          max-size: 10m
-
-  # telegram-bot:
-  #   image: nginx:1.25.4-alpine
-  #   restart: always
-  #   depends_on:
-  #     - telegram-bot-api
-  #   volumes:
-  #     - ./telegram-bot-nginx-log:/var/log/nginx/
-  #     - telegram-bot-api-data:/var/lib/telegram-bot-api
-  #     - ./nginx/telegram-bot-api.conf:/etc/nginx/conf.d/default.conf
-  #   ports:
-  #     - "9008:9008"
-
-
-volumes:
-  telegram-bot-api-data: {}
+        max-file: 5
+        max-size: 10m

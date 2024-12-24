@@ -69,12 +69,12 @@ fi
 
 if [ "$admin" = true ] || [ "$storybook" = true ]; then
     ssh $HOST "sudo chown -R www-data:www-data '/var/www/html/${HOST}'"
-
-    # reload services
-    ssh $HOST "sudo nginx -s reload"
 fi
 
 if [ "$api" = true ] || [ "$web" = true ] || [ "$tg_bot" = true ]; then
     # deploy docker
     ./scripts/docker-deploy.sh $HOST "$username"
 fi
+
+# reload services
+ssh $HOST "sudo nginx -s reload"

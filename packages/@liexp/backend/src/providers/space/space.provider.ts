@@ -147,22 +147,21 @@ export const MakeSpaceProvider = ({
         ),
       );
     },
-    upload(input) {
+    upload(params) {
       return pipe(
         TE.tryCatch(async () => {
           const parallelUploads3 = new classes.Upload({
             client,
-            params: { ...input },
+            params,
             queueSize: 4, // optional concurrency configuration
             partSize: 1024 * 1024 * 5, // optional size of each part, in bytes, at least 5MB
             leavePartsOnError: false, // optional manually handle dropped parts
           });
-          const result = await parallelUploads3.done();
-          return result;
+          return parallelUploads3.done();
         }, toError),
         TE.filterOrElse(
           (
-            r: any,
+            r,
           ): r is Omit<CompleteMultipartUploadCommandOutput, "Location"> & {
             Location: string;
           } => r.Location !== undefined,
