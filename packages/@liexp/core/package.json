@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "fp-ts": "^2.16.9",
-    "globals": "^15.13.0",
+    "globals": "^15.14.0",
     "io-ts": "^2.2.22",
     "io-ts-types": "^0.5.19"
   },
