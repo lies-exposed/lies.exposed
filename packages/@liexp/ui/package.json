@@ -92,7 +92,7 @@
     "react-audio-player": "^0.17.0",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.5",
-    "react-error-boundary": "^4.1.2",
+    "react-error-boundary": "^5.0.0",
     "react-helmet-async": "^2.0.5",
     "react-hook-form": "^7.54.1",
     "react-router": "^6.28.0",
