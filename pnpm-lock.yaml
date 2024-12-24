@@ -870,8 +870,8 @@ importers:
         specifier: ^1.20.3
         version: 1.20.3
       canvas:
-        specifier: 3.0.0-rc3
-        version: 3.0.0-rc3
+        specifier: 3.0.0
+        version: 3.0.0
       cors:
         specifier: 2.8.5
         version: 2.8.5
@@ -1061,10 +1061,10 @@ importers:
         version: 5.1.4(typescript@5.7.2)(vite@6.0.5(@types/node@22.10.2)(jiti@2.4.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.6.1))
       vitest:
         specifier: ^2.1.8
-        version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0-rc3))(sass@1.82.0)(terser@5.37.0)
+        version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0))(sass@1.82.0)(terser@5.37.0)
       vitest-mock-extended:
         specifier: ^2.0.2
-        version: 2.0.2(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0-rc3))(sass@1.82.0)(terser@5.37.0))
+        version: 2.0.2(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0))(sass@1.82.0)(terser@5.37.0))
 
   services/storybook:
     dependencies:
@@ -5082,8 +5082,8 @@ packages:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
     engines: {node: '>=6'}
 
-  canvas@3.0.0-rc3:
-    resolution: {integrity: sha512-LJVkMp4AH7/IRoLvhLS6R09uBt9O3O0mhCYL34AQV/+OC39jmTv22pJTF5Mgfa3V2JnzGl21MVrhEKmtmPtfQA==}
+  canvas@3.0.0:
+    resolution: {integrity: sha512-NtcIBY88FjymQy+g2g5qnuP5IslrbWCQ3A6rSr1PeuYxVRapRZ3BZCrDyAakvI6CuDYidgZaf55ygulFVwROdg==}
     engines: {node: ^18.12.0 || >= 20.9.0}
 
   caseless@0.12.0:
@@ -14742,7 +14742,7 @@ snapshots:
       - supports-color
     optional: true
 
-  canvas@3.0.0-rc3:
+  canvas@3.0.0:
     dependencies:
       node-addon-api: 7.1.1
       prebuild-install: 7.1.2
@@ -17139,7 +17139,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jsdom@25.0.1(canvas@3.0.0-rc3):
+  jsdom@25.0.1(canvas@3.0.0):
     dependencies:
       cssstyle: 4.1.0
       data-urls: 5.0.0
@@ -17163,7 +17163,7 @@ snapshots:
       ws: 8.18.0
       xml-name-validator: 5.0.0
     optionalDependencies:
-      canvas: 3.0.0-rc3
+      canvas: 3.0.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -20595,11 +20595,11 @@ snapshots:
       typescript: 5.7.2
       vitest: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)
 
-  vitest-mock-extended@2.0.2(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0-rc3))(sass@1.82.0)(terser@5.37.0)):
+  vitest-mock-extended@2.0.2(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0))(sass@1.82.0)(terser@5.37.0)):
     dependencies:
       ts-essentials: 10.0.1(typescript@5.7.2)
       typescript: 5.7.2
-      vitest: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0-rc3))(sass@1.82.0)(terser@5.37.0)
+      vitest: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0))(sass@1.82.0)(terser@5.37.0)
 
   vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0):
     dependencies:
@@ -20637,7 +20637,7 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0-rc3))(sass@1.82.0)(terser@5.37.0):
+  vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1(canvas@3.0.0))(sass@1.82.0)(terser@5.37.0):
     dependencies:
       '@vitest/expect': 2.1.8
       '@vitest/mocker': 2.1.8(vite@5.4.11(@types/node@22.10.2)(sass@1.82.0)(terser@5.37.0))
@@ -20661,7 +20661,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.10.2
-      jsdom: 25.0.1(canvas@3.0.0-rc3)
+      jsdom: 25.0.1(canvas@3.0.0)
     transitivePeerDependencies:
       - less
       - lightningcss
