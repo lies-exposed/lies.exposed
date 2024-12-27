@@ -18,11 +18,8 @@ export const parseDocument =
   (ctx) => {
     const mediaId = uuid();
     return pipe(
-      fp.IOE.tryCatch(
-        () => ctx.tg.api.getFileStream(messageDocument.file_id),
-        toControllerError,
-      ),
-      fp.TE.fromIOEither,
+      ctx.tg.getFileStream(messageDocument),
+      TE.mapLeft(toControllerError),
       fp.TE.filterOrElse(
         (m) => PDFType.is(messageDocument.mime_type),
         () => toControllerError(new Error("Invalid file type")),

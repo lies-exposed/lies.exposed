@@ -1,8 +1,8 @@
-import { type Stream } from "stream";
+import { type Readable, type Stream } from "stream";
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 import TelegramBot from "node-telegram-bot-api";
 
 export interface TGBotProvider {
@@ -39,6 +39,10 @@ export interface TGBotProvider {
   stopPolling: (
     opts?: TelegramBot.StopPollingOptions,
   ) => TE.TaskEither<Error, void>;
+
+  getFileStream: <F extends TelegramBot.FileBase>(
+    file: F,
+  ) => TE.TaskEither<Error, Readable>;
 }
 
 export interface TGBotProviderOpts {
@@ -91,6 +95,25 @@ export const TGBotProvider = (
 
   return {
     api,
+    getFileStream: (file) => {
+      const fileSizeInMB = Math.ceil((file.file_size ?? 1) / 1000 / 1000);
+      logger.debug.log(
+        "Download video file from TG %s (%d)MB",
+        file.file_id,
+        fileSizeInMB,
+      );
+
+      return pipe(
+        TE.fromIOEither(() => {
+          try {
+            const readable = api.getFileStream(file.file_id);
+            return fp.E.right(readable);
+          } catch (err) {
+            return fp.E.left(toTGError(err));
+          }
+        }),
+      );
+    },
     upsertPinnedMessage: (text) => {
       return pipe(
         liftTGTE(() => api.getChat(opts.chat)),

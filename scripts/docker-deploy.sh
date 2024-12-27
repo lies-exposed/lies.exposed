@@ -27,11 +27,14 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     # nginx -t
 
+    usermod -aG systemd-journal www-data
+
     cd ~/docker-app/
     cat ./gh-token.txt | docker login ghcr.io -u $u --password-stdin
     rm ./gh-token.txt
 
     mkdir -p /var/lib/telegram-bot-api
+    chown -R 101:101 /var/lib/telegram-bot-api
 
     rm -rf ./temp/media
     rm -rf ./temp/nlp

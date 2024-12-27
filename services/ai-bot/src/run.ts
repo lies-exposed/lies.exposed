@@ -34,7 +34,7 @@ const exponentialWait =
     const newDelay = delay * Math.pow(2, retries);
 
     return fp.TE.tryCatch(() => {
-      ctx.logger.info.log(
+      ctx.logger.debug.log(
         "Retrying (%d) %s in %ds",
         retries,
         action,
