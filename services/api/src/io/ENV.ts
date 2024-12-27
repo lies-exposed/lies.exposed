@@ -1,36 +1,11 @@
-import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
+import { BACKEND_ENV, DATABASE_ENV } from "@liexp/backend/lib/io/ENV.js";
 import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { BooleanFromString } from "io-ts-types";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
-
-export const DATABASE_ENV = t.intersection(
-  [
-    t.strict(
-      {
-        DB_USERNAME: t.string,
-        DB_PASSWORD: t.string,
-        DB_HOST: t.string,
-        DB_PORT: NumberFromString,
-        DB_DATABASE: t.string,
-      },
-      "DATABASE_ENV",
-    ),
-    t.union([
-      t.strict({
-        DB_SSL_MODE: t.literal("require"),
-        DB_SSL_CERT_PATH: t.string,
-      }),
-      t.strict({
-        DB_SSL_MODE: t.literal("off"),
-      }),
-    ]),
-  ],
-  "DB_ENV",
-);
-export type DATABASE_ENV = t.TypeOf<typeof DATABASE_ENV>;
 
 const ENV = t.intersection(
   [
+    BACKEND_ENV,
     t.strict(
       {
         REDIS_CONNECT: BooleanFromString,
@@ -41,7 +16,6 @@ const ENV = t.intersection(
     t.intersection([
       t.strict(
         {
-          NODE_ENV,
           DEBUG: t.string,
           SERVER_HOST: t.string,
           SERVER_PORT: NumberFromString,
@@ -58,38 +32,11 @@ const ENV = t.intersection(
           REGENERATE_MEDIA_THUMBNAILS_CRON: t.string,
           // unused
           DOWNLOAD_VACCINE_DATA_CRON: t.string,
-        },
-        "API_ENV",
-      ),
-      t.strict(
-        {
-          // SPACES
-          SPACE_BUCKET: t.string,
-          SPACE_ENDPOINT: t.string,
-          SPACE_REGION: t.string,
-          SPACE_ACCESS_KEY_ID: t.string,
-          SPACE_ACCESS_KEY_SECRET: t.string,
-        },
-        "SPACE_ENV",
-      ),
-      t.strict(
-        {
+          // geo coding
           GEO_CODE_BASE_URL: t.string,
           GEO_CODE_API_KEY: t.string,
         },
-        "GEO_CODE_ENV",
-      ),
-      t.strict(
-        {
-          TG_BOT_TOKEN: t.string,
-          TG_BOT_CHAT: t.string,
-          TG_BOT_USERNAME: t.string,
-          TG_BOT_POLLING: BooleanFromString,
-          TG_BOT_BASE_API_URL: t.string,
-          IG_USERNAME: t.string,
-          IG_PASSWORD: t.string,
-        },
-        "TG_BOT_ENV",
+        "API_ENV",
       ),
       t.strict(
         {

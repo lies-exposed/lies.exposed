@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "rootDir": "./",
+    "lib": ["DOM", "ES2022"],
+    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "allowSyntheticDefaultImports": true,
+    "types": ["../../node_modules/vitest/globals"],
+    "paths": {
+      "#context/*": ["context/*"],
+      "#flows/*": ["flows/*"],
+      "#io/*": ["io/*"],
+      "#jobs/*": ["jobs/*"],
+      "#providers/*": ["providers/*"],
+      "#services/*": ["services/*"],
+      "#utils/*": ["utils/*"]
+    }
+  },
+  "include": [
+    "./src",
+    "./typings",
+    "../../packages/@liexp/shared/typings",
+    "../../packages/@liexp/backend/typings",
+    "./scripts",
+    "./test"
+  ],
+  "exclude": ["**/build", "**/lib"],
+  "references": [
+    { "path": "../../packages/@liexp/core" },
+    { "path": "../../packages/@liexp/shared" },
+    { "path": "../../packages/@liexp/backend" }
+  ]
+}

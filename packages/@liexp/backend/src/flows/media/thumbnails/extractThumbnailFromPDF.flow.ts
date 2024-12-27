@@ -3,7 +3,6 @@ import {
   ImageType,
   type PDFType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
-import * as Canvas from "canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type RenderParameters } from "pdfjs-dist/types/src/display/api.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
@@ -32,6 +31,7 @@ export const extractThumbnailFromPDF = <
 
           const outputScale = 1;
 
+          const Canvas = await import("canvas");
           const canvas = Canvas.createCanvas(viewport.width, viewport.height);
           const context = canvas.getContext("2d");
           canvas.height = viewport.height;

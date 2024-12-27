@@ -107,8 +107,11 @@ const decodeUserFromRequest =
   };
 
 const decodeNullableUser =
-  (req: Express.Request, routePerms: UserPermission[]) =>
-  ({ logger, jwt }: AuthenticationContext): IO<User | null> => {
+  <C extends AuthenticationContext>(
+    req: Express.Request,
+    routePerms: UserPermission[],
+  ) =>
+  ({ logger, jwt }: C): IO<User | null> => {
     return pipe(
       decodeUserFromRequest(req, routePerms)({ logger, jwt }),
       IOE.mapLeft(() => null),

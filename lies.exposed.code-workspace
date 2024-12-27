@@ -2,56 +2,60 @@
   "folders": [
     {
       "name": "ci",
-      "path": ".github"
+      "path": ".github",
     },
     {
       "name": "data",
-      "path": "services/data"
+      "path": "services/data",
     },
     {
       "name": "✨ lies.exposed",
-      "path": "."
+      "path": ".",
     },
     {
       "name": "🚀 @liexp/backend",
-      "path": "packages/@liexp/backend"
+      "path": "packages/@liexp/backend",
     },
     {
       "name": "📦 @liexp/core",
-      "path": "packages/@liexp/core"
+      "path": "packages/@liexp/core",
     },
     {
       "name": "📦 @liexp/shared",
-      "path": "packages/@liexp/shared"
+      "path": "packages/@liexp/shared",
     },
     {
       "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test"
+      "path": "packages/@liexp/test",
     },
     {
       "name": "📦 @liexp/ui",
-      "path": "packages/@liexp/ui"
+      "path": "packages/@liexp/ui",
     },
     {
       "name": "🚀 admin-web",
-      "path": "services/admin-web"
+      "path": "services/admin-web",
     },
     {
       "name": "🚀 ai-bot",
-      "path": "services/ai-bot"
+      "path": "services/ai-bot",
     },
     {
       "name": "🚀 api",
-      "path": "services/api"
+      "path": "services/api",
     },
     {
       "name": "storybook",
-      "path": "services/storybook"
+      "path": "services/storybook",
     },
     {
       "name": "🚀 web",
-      "path": "services/web"
-    }
+      "path": "services/web",
+    },
+    {
+      "name": "worker ",
+      "path": "services/worker",
+    },
   ],
   "settings": {
     "search.exclude": {
@@ -69,6 +73,8 @@
       "./packages/@liexp/ui",
       "./services/api",
       "./services/web",
+      "./services/ai-bot",
+      "./services/worker",
       "./services/admin-web",
     ],
     "eslint.useFlatConfig": true,
@@ -79,14 +85,27 @@
       "*.ts": "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts",
       "*.tsx": "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts",
       "tsconfig.json": "tsconfig.*.json",
-      "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb"
+      "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
     },
     "eslint.codeActionsOnSave.mode": "all",
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "pnpm",
-    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/",
+    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",
     "pnpm-vscode-helper.extraWorkspaceScripts": [],
     "vitest.workspaceConfig": "./vitest.workspace.js",
     "totalTypeScript.hideBasicTips": true,
+    "cSpell.userWords": ["liexp", "typeorm"],
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never",
+      "source.fixAll": "explicit",
+    },
+    "explorer.autoRevealExclude": {
+      "**/node_modules": true,
+      "**/bower_components": true,
+      "**/lib": true,
+      "**/build": true,
+    },
+    "typescript.preferences.importModuleSpecifier": "project-relative",
   },
 }

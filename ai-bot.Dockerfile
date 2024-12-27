@@ -1,4 +1,4 @@
-FROM node:22 AS dev
+FROM ghcr.io/lies-exposed/liexp-base:22-latest AS dev
 
 WORKDIR /home/node
 

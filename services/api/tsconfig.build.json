@@ -14,7 +14,7 @@
     "./src",
     "./typings",
     "../../packages/@liexp/shared/typings",
-    "../../packages/@liexp/backend/typings",
+    "../../packages/@liexp/backend/typings"
   ],
   "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
 }

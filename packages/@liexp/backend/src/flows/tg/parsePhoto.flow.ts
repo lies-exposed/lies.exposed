@@ -5,23 +5,23 @@ import * as A from "fp-ts/lib/Array.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
+import { type ConfigContext } from "../../context/config.context.js";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
+import { type FSClientContext } from "../../context/fs.context.js";
+import { type HTTPProviderContext } from "../../context/http.context.js";
 import {
   type ImgProcClientContext,
   type FFMPEGProviderContext,
   type TGBotProviderContext,
-} from "../../context";
-import { type ConfigContext } from "../../context/config.context";
-import { type DatabaseContext } from "../../context/db.context";
-import { type ENVContext } from "../../context/env.context";
-import { type FSClientContext } from "../../context/fs.context";
-import { type HTTPProviderContext } from "../../context/http.context";
-import { type LoggerContext } from "../../context/logger.context";
-import { type PDFProviderContext } from "../../context/pdf.context";
-import { type PuppeteerProviderContext } from "../../context/puppeteer.context";
-import { type QueuesProviderContext } from "../../context/queue.context";
-import { type SpaceContext } from "../../context/space.context";
-import { ServerError } from "../../errors";
-import { createAndUpload } from "../media/createAndUpload.flow";
+} from "../../context/index.js";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { type PDFProviderContext } from "../../context/pdf.context.js";
+import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
+import { type QueuesProviderContext } from "../../context/queue.context.js";
+import { type SpaceContext } from "../../context/space.context.js";
+import { ServerError } from "../../errors/index.js";
+import { createAndUpload } from "../media/createAndUpload.flow.js";
 
 export const parsePhoto =
   <

@@ -11,7 +11,7 @@
     "clean": "rm -rf build",
     "typecheck": "tsc --noEmit",
     "build:tsc": "tsc -b tsconfig.build.json",
-    "build:es": "./scripts/esbuild.sh",
+    "build:es": "esbuild --format=cjs --target=node20 --platform=node --bundle --outfile=build/run-esbuild.js build/run.js",
     "build": "pnpm build:tsc && pnpm build:es",
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",

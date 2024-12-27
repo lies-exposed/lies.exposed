@@ -1,7 +1,8 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { type AxiosInstance } from "axios";
-import domino from "domino";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { JSDOM } from "jsdom";
 import { type Metadata, metadataRuleSets } from "page-metadata-parser";
 
 metadataRuleSets.date = {
@@ -59,13 +60,12 @@ export const MakeURLMetadata = (
   ): TE.TaskEither<E, Metadata> => {
     return pipe(
       fetchHTML(url, opts, toError),
-      TE.map((dom) =>
-        ctx.parser.getMetadata(
-          domino.createWindow(dom).document,
-          url,
-          metadataRuleSets,
-        ),
+      TE.chainIOEitherK((dom) =>
+        fp.IOE.tryCatch(() => {
+          return new JSDOM(dom).window.document;
+        }, toError),
       ),
+      TE.map((dom) => ctx.parser.getMetadata(dom, url, metadataRuleSets)),
     );
   };
 

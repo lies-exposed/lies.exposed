@@ -33,13 +33,20 @@ services:
     depends_on:
       - redis
 
-  worker:
-    extends: api-base
+  be-worker:
+    build:
+      context: ../
+      dockerfile: ./worker.Dockerfile
+      target: production
     container_name: liexp-worker
     environment:
       TG_BOT_POLLING: "true"
       REDIS_HOST: "127.0.0.1"
-    command: node build/worker/index.js
+    env_file:
+      - .env.be-worker
+    command: ./be-worker
+    volumes:
+      - ./be-worker-temp/:/home/node/temp/:rw
     mem_limit: 512M
     depends_on:
       - telegram-bot-api

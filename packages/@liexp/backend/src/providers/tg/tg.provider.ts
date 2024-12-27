@@ -4,7 +4,7 @@ import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import TelegramBot from "node-telegram-bot-api";
-import { IOError } from "errors";
+import { IOError } from "../../errors/index.js";
 
 export interface TGBotProvider {
   api: TelegramBot;

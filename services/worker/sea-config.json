@@ -1,0 +1,4 @@
+{
+  "main": "./build/run-esbuild.js",
+  "output": "./build/be-worker.blob"
+}
