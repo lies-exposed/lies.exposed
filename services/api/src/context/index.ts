@@ -3,15 +3,12 @@ import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provid
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
-import { IGProvider } from "@liexp/backend/lib/providers/ig/ig.provider.js";
-import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { createS3Provider } from "@liexp/backend/lib/providers/space/creates3.provider.js";
-import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import {
   getDataSource,
@@ -26,7 +23,6 @@ import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
-import ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
@@ -36,7 +32,6 @@ import metadataParser from "page-metadata-parser";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
-import sharp from "sharp";
 import WinkFn from "wink-nlp";
 import { type ServerContext } from "./context.type.js";
 import { Config } from "#app/config.js";
@@ -126,18 +121,18 @@ export const makeContext =
         urlMetadata: fp.TE.right(urlMetadataClient),
         env: fp.TE.right(env),
         blocknote: fp.TE.right(editor),
-        tg: pipe(
-          TGBotProvider(
-            { logger: serverLogger },
-            {
-              token: env.TG_BOT_TOKEN,
-              chat: env.TG_BOT_CHAT,
-              polling: env.TG_BOT_POLLING,
-              baseApiUrl: env.TG_BOT_BASE_API_URL,
-            },
-          ),
-          fp.TE.right,
-        ),
+        // tg: pipe(
+        //   TGBotProvider(
+        //     { logger: serverLogger },
+        //     {
+        //       token: env.TG_BOT_TOKEN,
+        //       chat: env.TG_BOT_CHAT,
+        //       polling: env.TG_BOT_POLLING,
+        //       baseApiUrl: env.TG_BOT_BASE_API_URL,
+        //     },
+        //   ),
+        //   fp.TE.right,
+        // ),
         puppeteer: fp.TE.right(
           GetPuppeteerProvider(
             puppeteer as any as VanillaPuppeteer,
@@ -158,22 +153,6 @@ export const makeContext =
         pdf: fp.TE.right(PDFProvider({ client: pdf })),
         wp: fp.TE.right(wpProvider),
         rw: fp.TE.right(rationalWikiProvider),
-        ig: fp.TE.right(
-          IGProvider({
-            logger: logger.GetLogger("ig"),
-            credentials: {
-              username: env.IG_USERNAME,
-              password: env.IG_PASSWORD,
-            },
-          }),
-        ),
-        imgProc: fp.TE.right(
-          MakeImgProcClient({
-            logger: logger.GetLogger("imgproc"),
-            client: sharp.bind(sharp),
-            exifR: ExifReader,
-          }),
-        ),
         queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
         ner: fp.TE.right(
           GetNERProvider({

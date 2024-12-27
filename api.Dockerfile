@@ -18,13 +18,10 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy /prod/api
 
-FROM ghcr.io/lies-exposed/liexp-base:22-latest AS production
+FROM node:22-alpine AS production
 
 WORKDIR /prod/api
 
 COPY --from=pruned /prod/api .
-
-# Run everything after AS non-privileged user.
-USER pptruser
 
 CMD ["node", "build/run.js"]

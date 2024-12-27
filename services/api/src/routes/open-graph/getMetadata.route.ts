@@ -31,9 +31,9 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
             metadata: O.isSome(link)
               ? TE.right<ControllerError, Metadata>({
                   date: link.value.publishDate?.toISOString() ?? undefined,
-                  title: undefined as any,
+                  title: link.value.title,
                   description: link.value.description ?? link.value.title,
-                  keywords: [],
+                  keywords: link.value.keywords.map((id) => id.id) ?? [],
                   icon: "",
                   image: link.value.image?.location ?? null,
                   provider: link.value.provider ?? "",

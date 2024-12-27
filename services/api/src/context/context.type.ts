@@ -1,14 +1,11 @@
 import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import {
-  type GeocodeProviderContext,
   type FFMPEGProviderContext,
-  type ImgProcClientContext,
+  type GeocodeProviderContext,
   type NERProviderContext,
   type URLMetadataContext,
   type WikipediaProviderContext,
-  type TGBotProviderContext,
-  type IGProviderContext,
 } from "@liexp/backend/lib/context/index.js";
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
@@ -49,8 +46,6 @@ export type ServerContext = ENVContext &
   LoggerContext &
   SpaceContext &
   FSClientContext &
-  TGBotProviderContext &
-  IGProviderContext &
   PDFProviderContext &
   HTTPProviderContext &
   WikipediaProviderContext &
@@ -58,7 +53,6 @@ export type ServerContext = ENVContext &
   URLMetadataContext &
   PuppeteerProviderContext &
   FFMPEGProviderContext &
-  ImgProcClientContext &
   ConfigContext &
   QueuesProviderContext &
   BlockNoteContext &

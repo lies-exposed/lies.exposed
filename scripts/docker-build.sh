@@ -2,6 +2,7 @@
 
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
+BE_WORKER_IMAGE=liexp-worker
 WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
 
@@ -12,6 +13,7 @@ AI_BOT_IMAGE=liexp-ai-bot
 base=false
 pnpm=false
 api=false
+worker=false
 web=false
 ai_bot=false
 
@@ -20,6 +22,10 @@ while [[ $# -gt 0 ]]; do
     case "$1" in
         --api)
             api=true
+            shift
+            ;;
+        --be-worker)
+            worker=true
             shift
             ;;
         --web)
@@ -77,6 +83,16 @@ if [ "$api" = true ]; then
     --target production \
     --tag $API_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$API_IMAGE:alpha-latest
+fi
+
+if [ "$worker" = true ]; then
+  docker build . \
+    --force-rm \
+    --no-cache \
+    --file worker.Dockerfile \
+    --target production \
+    --tag $API_IMAGE:alpha-latest \
+    --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:alpha-latest
 fi
 
 if [ "$web" = true ]; then

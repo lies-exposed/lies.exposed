@@ -1,5 +1,5 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/createThumbnail.flow.js";
+import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/createThumbnail.pubSub.js";
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
@@ -40,18 +40,24 @@ export const createMediaFlow =
           },
         ]),
       ),
-      // TODO: use pub sub
-      fp.TE.bind("thumbnails", ({ media }) => createThumbnail(media[0])(ctx)),
+      fp.TE.chainFirst(({ media }) =>
+        CreateMediaThumbnailPubSub.publish({
+          id: media[0].id,
+          type: media[0].type,
+          location: media[0].location,
+          thumbnail: media[0].thumbnail ?? undefined,
+        })(ctx),
+      ),
       fp.TE.chainFirst(({ media }) =>
         ExtractMediaExtraPubSub.publish({ id: media[0].id })(ctx),
       ),
-      fp.TE.chain(({ media, thumbnails }) => {
+      fp.TE.chain(({ media }) => {
         return ctx.db.save(MediaEntity, [
           {
             ...media[0],
-            thumbnail: thumbnails[0],
+            thumbnail: null,
             extra: {
-              thumbnails,
+              thumbnails: [],
               needRegenerateThumbnail: false,
             },
           },

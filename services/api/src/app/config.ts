@@ -13,7 +13,7 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
   const tempRoot = path.resolve(cwd, "temp");
 
   const configFolders = {
-    nlp: path.resolve(cwd, "config/nlp"),
+    nlp: path.resolve(cwd, "config", "nlp"),
   };
 
   const tempFolders = {

@@ -121,7 +121,7 @@ export const Subscriber = <
                 return () => fp.T.of(undefined);
               },
             ),
-          )(ctx);
+          )(ctx)();
         });
       }),
     )(ctx);

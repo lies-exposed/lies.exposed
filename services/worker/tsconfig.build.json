@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "jsx": "react-jsx",
+    "tsBuildInfoFile": "build/.tsbuildinfo",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["./src", "./typings", "../../packages/@liexp/shared/typings"],
+  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
+}

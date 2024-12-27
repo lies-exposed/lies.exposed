@@ -51,9 +51,9 @@ services:
 
   redis.liexp.dev:
     restart: always
-    image: 'redis:7.2'
+    image: "redis:7.2"
     ports:
-      - '127.0.0.1:6379:6379'
+      - "127.0.0.1:6379:6379"
     volumes:
       - redis-data:/data
     networks:
@@ -81,7 +81,6 @@ services:
       - api-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
-      - ./services/api/temp:/usr/src/app/services/api/temp:rw
     working_dir: /usr/src/app/services/api
 
   api.liexp.dev:
@@ -102,11 +101,32 @@ services:
       - reverseproxy
 
   worker.liexp.dev:
-    extends: api-base
-    command: pnpm docker:worker-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: worker.Dockerfile
+    env_file:
+      - ./services/worker/.env
+      - ./services/worker/.env.local
     environment:
       TG_BOT_POLLING: "true"
+      NODE_ENV: development
+      DEBUG: "@liexp*"
+      DB_HOST: db.liexp.dev
+      DB_PORT: 5432
+    command: pnpm docker:dev
+    working_dir: /usr/src/app/services/worker
+    depends_on:
+      - db.liexp.dev
+      - fra1.space.liexp.dev
+      - redis.liexp.dev
+    volumes:
+      - worker-node-modules:/usr/src/app/node_modules
+      - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
+      - ./services/worker:/usr/src/app/services/worker:ro
+      - ./services/worker/temp:/usr/src/app/services/worker/temp:rw
     mem_limit: 512M
+    restart: always
     networks:
       - reverseproxy
 
@@ -192,6 +212,7 @@ services:
 volumes:
   db-data: {}
   api-node-modules: {}
+  worker-node-modules: {}
   ai-bot-node-modules: {}
   web-node-modules: {}
   admin-node-modules: {}

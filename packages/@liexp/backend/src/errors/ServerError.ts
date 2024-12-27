@@ -12,6 +12,14 @@ export class ServerError extends IOError {
   }
 
   static fromUnknown(e: unknown): ServerError {
+    if (e instanceof Error) {
+      return new ServerError(e.message, {
+        kind: "ServerError",
+        status: "500",
+        meta: [e.stack],
+      });
+    }
+
     return new ServerError("Unknown error", {
       kind: "ServerError",
       status: "500",

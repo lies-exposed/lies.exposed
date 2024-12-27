@@ -1,14 +1,12 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "includeEntryExports": true,
-  "ignoreWorkspaces": [
-    "services/data"
-  ],
+  "ignoreWorkspaces": ["services/data"],
   "workspaces": {
     ".": {
       "ignore": ["ecosystem.dev.config.js", "ecosystem.config.js"],
       "ignoreBinaries": ["corepack up"],
-      "ignoreDependencies": ["husky", "is-ci", "lint-staged"]
+      "ignoreDependencies": ["husky", "lint-staged"]
     },
     "packages/@liexp/*": {
       "includeEntryExports": false,
@@ -16,7 +14,11 @@
       "project": ["src/**/*.{ts,tsx}", "lib/**/*.js"]
     },
     "services/web": {
-      "entry": ["src/client/index.tsx", "src/server/server.tsx", "src/server/entry.tsx"],
+      "entry": [
+        "src/client/index.tsx",
+        "src/server/server.tsx",
+        "src/server/entry.tsx"
+      ],
       "includeEntryExports": false,
       "project": ["src/**/*.{ts,tsx}", "build/**/*.js"],
       "ignore": [
@@ -35,10 +37,7 @@
     "services/ai-bot": {
       "entry": ["src/run.ts"],
       "project": ["src/**/*.{ts,tsx}", "build/**/*.js"],
-      "ignoreDependencies": [
-        "@aws-sdk/client-sso-oidc",
-        "@aws-sdk/client-sts"
-      ]
+      "ignoreDependencies": ["@aws-sdk/client-sso-oidc", "@aws-sdk/client-sts"]
     },
     "services/api": {
       "entry": [
@@ -54,11 +53,11 @@
         "!src/**/*.{spec,e2e}.ts",
         "build/**/*.js"
       ],
-      "ignore": [
-        "ormconfig.js",
-        "test/__mocks__/**/*",
-        "test/globalSetup.ts"
-      ]
+      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
+    },
+    "services/worker": {
+      "entry": ["src/run.ts", "src/bin/cli.ts"],
+      "project": ["src/**/*.ts", "build/**/*.js"]
     },
     "services/storybook": {
       "entry": [".storybook/*.{ts,tsx}", "src/stories/**/*.tsx"],

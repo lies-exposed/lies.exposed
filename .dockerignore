@@ -4,12 +4,12 @@
 .vscode
 .git
 _data
-coverage
-dump
+**/coverage
+**/dump
 deploy
-node_modules
 **/temp
 models
+node_modules
 **/node_modules
 **/lib
 **/build

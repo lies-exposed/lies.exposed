@@ -47,7 +47,7 @@ export const PDFProvider = (ctx: PDFProviderContext): PDFProvider => {
   return {
     getDocument: (data) =>
       TE.tryCatch(() => {
-        return ctx.client.getDocument({ data }).promise;
+        return ctx.client.getDocument({ data, useSystemFonts: true }).promise;
       }, toError),
     getAllTextContents(pdf) {
       return TE.tryCatch(async () => {
