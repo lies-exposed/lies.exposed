@@ -1,3 +1,4 @@
+import { type APIContext } from "@liexp/backend/lib/context/api.context.js";
 import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import {
@@ -65,6 +66,7 @@ export type ServerContext = ENVContext &
   ImgProcClientContext &
   ConfigContext &
   QueuesProviderContext &
+  APIContext &
   BlockNoteContext & {
     /** RationalWiki Provider */
     rw: WikipediaProvider;

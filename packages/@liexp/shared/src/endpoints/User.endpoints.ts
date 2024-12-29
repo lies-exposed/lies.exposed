@@ -87,6 +87,8 @@ const UserList = Endpoint({
     Query: t.type({
       ...GetListQuery.props,
       ids: optionFromNullable(t.array(UUID)),
+      telegramId: optionFromNullable(t.string),
+      permissions: optionFromNullable(t.array(UserPermission)),
     }),
   },
   Output: t.strict({ data: t.array(User), total: t.number }),
