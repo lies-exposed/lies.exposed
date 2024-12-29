@@ -5,6 +5,7 @@ export const tgProviderMock = {
     downloadFile: vi.fn(),
     getFileStream: vi.fn(),
   } as any,
+  getFileStream: vi.fn(),
   startPolling: vi.fn(),
   stopPolling: vi.fn(),
   onMessage: vi.fn(),

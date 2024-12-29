@@ -179,8 +179,8 @@ describe("Create From TG Message", () => {
       fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
       // mock tg download
-      Test.mocks.tg.api.getFileStream.mockImplementationOnce(() =>
-        fs.createReadStream(tempFileLocation),
+      Test.mocks.tg.getFileStream.mockImplementationOnce(() =>
+        fp.TE.right(fs.createReadStream(tempFileLocation)),
       );
 
       // mock puppeteer goto

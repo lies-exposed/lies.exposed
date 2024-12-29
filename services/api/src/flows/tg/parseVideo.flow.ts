@@ -1,4 +1,4 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
@@ -24,34 +24,23 @@ export const parseVideo =
     });
 
     const mediaId = uuid();
-    const thumbTask: TE.TaskEither<ControllerError, string | undefined> = pipe(
+    const thumbTask = pipe(
       O.fromNullable(video.thumb),
-      O.fold(
-        () => TE.right(undefined as any as string),
+      O.fold<
+        TelegramBot.PhotoSize,
+        TE.TaskEither<ControllerError, string | undefined>
+      >(
+        () => TE.right(undefined),
         (file) =>
           pipe(
-            fp.IOE.tryCatch(() => {
-              ctx.logger.debug.log(
-                "Download thumb file from TG %s (%d MB)",
-                file.file_id,
-                Math.ceil((file.file_size ?? 1) / 1000 / 1000),
-              );
-              const thumbFile = ctx.tg.api.getFileStream(file.file_id);
-              ctx.logger.debug.log(
-                "Thumb file stream length %d",
-                thumbFile.readableLength,
-              );
-
-              return thumbFile;
-            }, toControllerError),
-            TE.fromIOEither,
+            ctx.tg.getFileStream(file),
+            TE.mapLeft(toControllerError),
             TE.chain((f) => {
               return upload({
                 Key: `public/media/${mediaId}/${mediaId}.jpg`,
                 Body: f,
               })(ctx);
             }),
-            TE.mapLeft(toControllerError),
             TE.map((r) => ensureHTTPS(r.Location)),
           ),
       ),
@@ -59,17 +48,7 @@ export const parseVideo =
 
     return pipe(
       sequenceS(TE.ApplicativePar)({
-        video: TE.tryCatch(async () => {
-          ctx.logger.debug.log(
-            "Download video file from TG %s (%d)MB",
-            video.file_id,
-            Math.ceil((video.file_size ?? 1) / 1000 / 1000),
-          );
-
-          const videoFile = ctx.tg.api.getFileStream(video.file_id);
-
-          return Promise.resolve(videoFile);
-        }, toControllerError),
+        video: pipe(ctx.tg.getFileStream(video), TE.mapLeft(toControllerError)),
         thumb: thumbTask,
       }),
       TE.chain(({ video, thumb }) => {
