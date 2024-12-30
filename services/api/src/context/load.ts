@@ -6,13 +6,12 @@ import { type ServerContext } from "#context/context.type.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { parseENV } from "#utils/env.utils.js";
 
-export const loadContext = (): TE.TaskEither<
-  ControllerError,
-  ServerContext
-> => {
+export const loadContext = (
+  namespace: string,
+): TE.TaskEither<ControllerError, ServerContext> => {
   return pipe(
     loadAndParseENV(parseENV)(process.cwd()),
     TE.fromEither,
-    TE.chain(makeContext),
+    TE.chain(makeContext(namespace)),
   );
 };

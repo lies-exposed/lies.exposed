@@ -112,7 +112,7 @@ export const extractMP4Thumbnail: ExtractThumbnailFromMediaFlow<
             TE.tryCatch(async () => {
               return fs.readFile(screenshot.thumbnailName);
             }, toControllerError),
-            TE.map((buffer) => new Uint8Array(buffer).buffer),
+            TE.map((arrayBuffer) => new Uint8Array(arrayBuffer).buffer),
           );
         }),
         fp.RTE.fromTaskEither,

@@ -108,10 +108,12 @@ describe("Create From TG Message", () => {
         );
 
         expect(result).toMatchObject({
-          link: [{ id: expectedLink.id, description }],
+          link: [expectedLink.id],
           photos: [],
           videos: [],
         });
+
+        expect(expectedLink.description).toBe(description);
       },
     );
 
@@ -151,11 +153,7 @@ describe("Create From TG Message", () => {
         );
 
         expect(result).toMatchObject({
-          link: [
-            {
-              id: link.id,
-            },
-          ],
+          link: [link.id],
         });
       },
     );
@@ -207,14 +205,7 @@ describe("Create From TG Message", () => {
 
       expect(result).toMatchObject({
         link: [],
-        photos: [
-          {
-            ...media,
-            featuredInStories: [],
-            events: [],
-            links: [],
-          },
-        ],
+        photos: [media.id],
         hashtags: [],
         videos: [],
       });

@@ -25,7 +25,7 @@ const run = (): Promise<void> => {
   return pipe(
     parseENV(process.env),
     TE.fromEither,
-    TE.chain(makeContext),
+    TE.chain(makeContext("server")),
     TE.map((ctx) => ({
       app: makeApp(ctx),
       ctx,

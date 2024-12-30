@@ -77,7 +77,7 @@ export const Publish = Endpoint({
       }),
     }),
   },
-  Output: SingleSocialPostOutput,
+  Output: Output(t.boolean, "SocialPostPublish"),
 });
 
 export const socialPosts = ResourceEndpoints({

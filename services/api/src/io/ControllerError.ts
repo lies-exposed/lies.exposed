@@ -9,6 +9,7 @@ import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { RedisError } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import {
@@ -35,6 +36,7 @@ export type ControllerError =
   | ServerError
   | NotAuthorizedError
   | _DecodeError
+  | RedisError
   | IOError;
 
 export const toControllerError = (e: unknown): ControllerError => {
@@ -103,6 +105,15 @@ export const toAPIError = (err: ControllerError): APIError => {
         name: "APIError",
         message: err.message,
         details: [],
+      };
+    }
+
+    if (err.name === RedisError.name) {
+      return {
+        status: 500,
+        name: "APIError",
+        message: err.message,
+        details: (err.details as any).meta ?? [],
       };
     }
 

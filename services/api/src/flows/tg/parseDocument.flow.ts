@@ -1,20 +1,14 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import {
-  OpenAIEmbeddingQueueType,
-  PendingStatus,
-} from "@liexp/shared/lib/io/http/Queue.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { createAndUpload } from "../media/createAndUpload.flow.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { createAndUpload } from "#flows/media/createAndUpload.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 export const parseDocument =
-  (messageDocument: TelegramBot.Document): TEReader<MediaEntity[]> =>
+  (messageDocument: TelegramBot.Document): TEReader<UUID[]> =>
   (ctx) => {
     const mediaId = uuid();
     return pipe(
@@ -25,9 +19,10 @@ export const parseDocument =
         () => toControllerError(new Error("Invalid file type")),
       ),
       TE.chain((f) => {
-        ctx.logger.debug.log("File downloaded %O", f);
+        ctx.logger.debug.log("File downloaded %s", messageDocument.file_name);
 
         const contentType = (messageDocument.mime_type as any) ?? PDFType.value;
+
         return createAndUpload(
           {
             type: contentType,
@@ -49,21 +44,6 @@ export const parseDocument =
           false,
         )(ctx);
       }),
-      TE.chainFirst((m) =>
-        ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
-          id: m.id,
-          resource: MEDIA.value,
-          type: OpenAIEmbeddingQueueType.value,
-          status: PendingStatus.value,
-          error: null,
-          data: {
-            url: m.location,
-            type: "pdf",
-            result: undefined,
-            prompt: undefined,
-          },
-        }),
-      ),
-      TE.map((m) => [m]),
+      TE.map(() => [mediaId]),
     );
   };

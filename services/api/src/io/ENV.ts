@@ -43,6 +43,13 @@ const ENV = t.intersection(
       ],
       "NODE_ENV",
     ),
+    t.strict(
+      {
+        REDIS_CONNECT: BooleanFromString,
+        REDIS_HOST: t.string,
+      },
+      "REDIS_ENV",
+    ),
     t.intersection([
       t.strict(
         {

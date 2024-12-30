@@ -87,7 +87,7 @@ export const media = ResourceEndpoints({
       Input: {
         Params: t.type({ id: UUID }),
       },
-      Output: t.strict({ data: t.array(t.any) }),
+      Output: t.strict({ data: t.boolean }),
     }),
   },
 });

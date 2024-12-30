@@ -49,6 +49,7 @@
     "eslint": "^9.17.0",
     "exifreader": "^4.25.0",
     "fast-csv": "^5.0.2",
+    "ioredis": "^5.4.2",
     "langchain": "^0.3.8",
     "puppeteer-core": "^23.10.4",
     "puppeteer-extra": "^3.3.6",

@@ -24,6 +24,7 @@ import ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { Redis } from "ioredis";
 import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
@@ -42,138 +43,156 @@ import { createS3Provider } from "#providers/context/s3.context.js";
 import { GetQueueProvider } from "#providers/queue.provider.js";
 import { getDataSource } from "#utils/data-source.js";
 
-export const makeContext = (
-  env: ENV,
-): TaskEither<ControllerError, ServerContext> => {
-  const serverLogger = logger.GetLogger("server");
+export const makeContext =
+  (namespace: string) =>
+  (env: ENV): TaskEither<ControllerError, ServerContext> => {
+    const serverLogger = logger.GetLogger(namespace);
 
-  const db = pipe(
-    getDataSource(env, false),
-    fp.TE.chain(GetTypeORMClient),
-    fp.TE.mapLeft(toControllerError),
-  );
+    const db = pipe(
+      getDataSource(env, false),
+      fp.TE.chain(GetTypeORMClient),
+      fp.TE.mapLeft(toControllerError),
+    );
 
-  const wpProvider = WikipediaProvider({
-    logger: logger.GetLogger("mw"),
-    client: new MW({
-      protocol: "https",
-      server: "en.wikipedia.org",
-      path: "/w",
-      debug: true,
-      concurrency: 5,
-    }),
-    restClient: axios.default.create({
-      baseURL: "https://en.wikipedia.org/api/rest_v1",
-    }),
-  });
+    const wpProvider = WikipediaProvider({
+      logger: serverLogger.extend("mw"),
+      client: new MW({
+        protocol: "https",
+        server: "en.wikipedia.org",
+        path: "/w",
+        debug: true,
+        concurrency: 5,
+      }),
+      restClient: axios.default.create({
+        baseURL: "https://en.wikipedia.org/api/rest_v1",
+      }),
+    });
 
-  const rationalWikiProvider = WikipediaProvider({
-    logger: logger.GetLogger("mw"),
-    client: new MW({
-      protocol: "https",
-      server: "rationalwiki.org",
-      path: "/w",
-      debug: true,
-      concurrency: 5,
-    }),
-    restClient: axios.default.create({
-      baseURL: "https://rationalwiki.org/api/rest_v1",
-    }),
-  });
+    const rationalWikiProvider = WikipediaProvider({
+      logger: serverLogger.extend("mw"),
+      client: new MW({
+        protocol: "https",
+        server: "rationalwiki.org",
+        path: "/w",
+        debug: true,
+        concurrency: 5,
+      }),
+      restClient: axios.default.create({
+        baseURL: "https://rationalwiki.org/api/rest_v1",
+      }),
+    });
 
-  const fsClient = GetFSClient();
+    const fsClient = GetFSClient();
 
-  const jwtClient = GetJWTProvider({
-    secret: env.JWT_SECRET,
-    logger: serverLogger,
-  });
+    const jwtClient = GetJWTProvider({
+      secret: env.JWT_SECRET,
+      logger: serverLogger,
+    });
 
-  const urlMetadataClient = MakeURLMetadata({
-    client: axios.default.create({}),
-    parser: {
-      getMetadata: metadataParser.getMetadata,
-    },
-  });
+    const urlMetadataClient = MakeURLMetadata({
+      client: axios.default.create({}),
+      parser: {
+        getMetadata: metadataParser.getMetadata,
+      },
+    });
 
-  const restClient = APIRESTClient({
-    getAuth: jwtClient.signUser({} as any),
-    url: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
-  });
+    const restClient = APIRESTClient({
+      getAuth: jwtClient.signUser({} as any),
+      url: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
+    });
 
-  const apiClient = fromEndpoints(restClient)(Endpoints);
+    const apiClient = fromEndpoints(restClient)(Endpoints);
 
-  const config = Config(env, process.cwd());
+    const config = Config(env, process.cwd());
 
-  return pipe(
-    sequenceS(fp.TE.ApplicativePar)({
-      logger: fp.TE.right(serverLogger),
-      db,
-      s3: fp.TE.right(createS3Provider(env)),
-      fs: fp.TE.right(fsClient),
-      jwt: fp.TE.right(jwtClient),
-      urlMetadata: fp.TE.right(urlMetadataClient),
-      env: fp.TE.right(env),
-      blocknote: fp.TE.right(editor),
-      tg: pipe(
-        TGBotProvider(
-          { logger: serverLogger },
-          {
-            token: env.TG_BOT_TOKEN,
-            chat: env.TG_BOT_CHAT,
-            polling: env.TG_BOT_POLLING,
-            baseApiUrl: env.TG_BOT_BASE_API_URL,
-          },
-        ),
-        fp.TE.right,
-      ),
-      puppeteer: fp.TE.right(
-        GetPuppeteerProvider(
-          puppeteer as any as VanillaPuppeteer,
-          {},
-          puppeteer.KnownDevices,
-        ),
-      ),
-      ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
-      http: fp.TE.right(HTTPProvider(axios.default.create({}))),
-      geo: fp.TE.right(
-        GeocodeProvider({
-          http: HTTPProvider(
-            axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
+    return pipe(
+      sequenceS(fp.TE.ApplicativePar)({
+        logger: fp.TE.right(serverLogger),
+        db,
+        s3: fp.TE.right(createS3Provider(env)),
+        fs: fp.TE.right(fsClient),
+        jwt: fp.TE.right(jwtClient),
+        urlMetadata: fp.TE.right(urlMetadataClient),
+        env: fp.TE.right(env),
+        blocknote: fp.TE.right(editor),
+        tg: pipe(
+          TGBotProvider(
+            { logger: serverLogger },
+            {
+              token: env.TG_BOT_TOKEN,
+              chat: env.TG_BOT_CHAT,
+              polling: env.TG_BOT_POLLING,
+              baseApiUrl: env.TG_BOT_BASE_API_URL,
+            },
           ),
-          apiKey: env.GEO_CODE_API_KEY,
-        }),
-      ),
-      pdf: fp.TE.right(PDFProvider({ client: pdf })),
-      wp: fp.TE.right(wpProvider),
-      rw: fp.TE.right(rationalWikiProvider),
-      ig: fp.TE.right(
-        IGProvider({
-          logger: logger.GetLogger("ig"),
-          credentials: { username: env.IG_USERNAME, password: env.IG_PASSWORD },
-        }),
-      ),
-      imgProc: fp.TE.right(
-        MakeImgProcClient({
-          logger: logger.GetLogger("imgproc"),
-          client: sharp.bind(sharp),
-          exifR: ExifReader,
-        }),
-      ),
-      queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
-      ner: fp.TE.right(
-        GetNERProvider({
-          logger: logger.GetLogger("ner"),
-          entitiesFile: path.resolve(process.cwd(), "config/nlp/entities.json"),
-          nlp: WinkFn,
-        }),
-      ),
-      config: fp.TE.right(config),
-      api: fp.TE.right(apiClient),
-    }),
-    fp.TE.mapLeft((e) => ({
-      ...e,
-      name: e.name,
-      status: 500,
-    })),
-  );
-};
+          fp.TE.right,
+        ),
+        puppeteer: fp.TE.right(
+          GetPuppeteerProvider(
+            puppeteer as any as VanillaPuppeteer,
+            {},
+            puppeteer.KnownDevices,
+          ),
+        ),
+        ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
+        http: fp.TE.right(HTTPProvider(axios.default.create({}))),
+        geo: fp.TE.right(
+          GeocodeProvider({
+            http: HTTPProvider(
+              axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
+            ),
+            apiKey: env.GEO_CODE_API_KEY,
+          }),
+        ),
+        pdf: fp.TE.right(PDFProvider({ client: pdf })),
+        wp: fp.TE.right(wpProvider),
+        rw: fp.TE.right(rationalWikiProvider),
+        ig: fp.TE.right(
+          IGProvider({
+            logger: logger.GetLogger("ig"),
+            credentials: {
+              username: env.IG_USERNAME,
+              password: env.IG_PASSWORD,
+            },
+          }),
+        ),
+        imgProc: fp.TE.right(
+          MakeImgProcClient({
+            logger: logger.GetLogger("imgproc"),
+            client: sharp.bind(sharp),
+            exifR: ExifReader,
+          }),
+        ),
+        queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
+        ner: fp.TE.right(
+          GetNERProvider({
+            logger: logger.GetLogger("ner"),
+            entitiesFile: path.resolve(
+              process.cwd(),
+              "config/nlp/entities.json",
+            ),
+            nlp: WinkFn,
+          }),
+        ),
+        config: fp.TE.right(config),
+        api: fp.TE.right(apiClient),
+        redis: pipe(
+          fp.TE.tryCatch(async () => {
+            const redis = new Redis(6379, env.REDIS_HOST, {
+              lazyConnect: true,
+            });
+
+            if (env.REDIS_CONNECT) {
+              await redis.connect();
+            }
+            return redis;
+          }, toControllerError),
+        ),
+      }),
+      fp.TE.mapLeft((e) => ({
+        ...e,
+        name: e.name,
+        status: 500,
+      })),
+    );
+  };

@@ -1,13 +1,13 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.helper.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type UUID, type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as puppeteer from "puppeteer-core";
+import { ExtractMediaExtraPubSub } from "../../subscribers/media/extractMediaExtra.subscriber.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { extractMediaFromPlatform } from "#flows/media/extractMediaFromPlatform.flow.js";
 import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
@@ -17,7 +17,7 @@ export const parsePlatformMedia =
     m: VideoPlatformMatch,
     page: puppeteer.Page,
     creator: UserEntity,
-  ): TEReader<MediaEntity[]> =>
+  ): TEReader<UUID[]> =>
   (ctx) => {
     ctx.logger.debug.log("Parse platform media %O (%s)", m, url);
     return pipe(
@@ -49,11 +49,10 @@ export const parsePlatformMedia =
         }
         return TE.right([]);
       }),
-      TE.bind("extra", ({ media }) => {
-        return extractMediaExtra(media[0])(ctx);
+      TE.chain(({ media }) => {
+        return MediaRepository.save([{ ...media, extra: null }])(ctx);
       }),
-      TE.chain(({ media, extra }) => {
-        return MediaRepository.save([{ ...media, extra }])(ctx);
-      }),
+      TE.chainFirst((media) => ExtractMediaExtraPubSub.publish(media[0])(ctx)),
+      TE.map((m) => m.map(({ id }) => id)),
     );
   };

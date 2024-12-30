@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { LessThanOrEqual } from "typeorm";
 import { type CronJobTE } from "./cron-task.type.js";
@@ -21,21 +21,7 @@ export const postOnSocialJob: CronJobTE = (opts) => (ctx) => {
     fp.TE.chain((pp) =>
       pipe(
         pp.map((p) =>
-          pipe(
-            postToSocialPlatforms(p.entity, p.content)(ctx),
-            fp.TE.chain(({ ig, tg }) =>
-              ctx.db.save(SocialPostEntity, [
-                {
-                  ...p,
-                  status: PUBLISHED.value,
-                  result: {
-                    ig: ig ?? p.result?.ig,
-                    tg: tg ?? p.result?.tg,
-                  },
-                },
-              ]),
-            ),
-          ),
+          pipe(postToSocialPlatforms({ id: p.entity, ...p.content })(ctx)),
         ),
         fp.A.sequence(fp.TE.ApplicativePar),
       ),

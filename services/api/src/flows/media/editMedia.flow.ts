@@ -8,10 +8,10 @@ import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { extractMediaExtra } from "#flows/media/extra/extractMediaExtra.flow.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
 import { MediaRepository } from "#providers/db/entity-repository.provider.js";
+import { ExtractMediaExtraPubSub } from "subscribers/media/extractMediaExtra.subscriber.js";
 
 export const editMedia = (
   id: UUID,
@@ -98,13 +98,7 @@ export const editMedia = (
           )
         : fp.RTE.right(location),
     ),
-    fp.RTE.bind("extra", ({ media, thumbnail, location }) =>
-      O.isSome(overrideExtra)
-        ? extractMediaExtra({ ...media, thumbnail, location })
-        : fp.RTE.right(extra ?? media.extra),
-    ),
-    // ctx.logger.debug.logInTaskEither(`Updates %O`),
-    fp.RTE.chain(({ thumbnail, location, media, extra }) =>
+    fp.RTE.chain(({ thumbnail, location, media }) =>
       pipe(
         MediaRepository.save<ServerContext>([
           {
@@ -132,5 +126,10 @@ export const editMedia = (
       ),
     ),
     fp.RTE.map((mm) => mm[0]),
+    fp.RTE.chainFirst(({ id }) =>
+      O.isSome(overrideExtra)
+        ? ExtractMediaExtraPubSub.publish({ id })
+        : fp.RTE.right(0),
+    ),
   );
 };

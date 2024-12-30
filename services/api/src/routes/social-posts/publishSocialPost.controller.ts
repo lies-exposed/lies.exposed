@@ -1,9 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { PUBLISHED } from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { PostToSocialPlatformsPubSub } from "../../subscribers/social-post/postToSocialPlatforms.subscriber.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
-import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -24,8 +24,9 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
         }),
         TE.chain((p) =>
           pipe(
-            postToSocialPlatforms(id, {
+            PostToSocialPlatformsPubSub.publish({
               ...p.content,
+              id,
               platforms: {
                 ig: pipe(
                   IG,
@@ -37,23 +38,12 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
                 ),
               },
             })(ctx),
-            TE.chain(({ ig, tg }) =>
-              ctx.db.save(SocialPostEntity, [
-                {
-                  id,
-                  result: {
-                    ig: ig ?? p.result.ig,
-                    tg: tg ?? p.result.tg,
-                  },
-                  status: PUBLISHED.value,
-                },
-              ]),
-            ),
+            fp.TE.mapLeft(toControllerError),
           ),
         ),
         TE.map((data) => ({
           body: {
-            data,
+            data: data > 0,
           },
           statusCode: 201,
         })),

@@ -1,14 +1,13 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { createAndUpload } from "../media/createAndUpload.flow.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { createAndUpload } from "#flows/media/createAndUpload.flow.js";
 import { upload } from "#flows/space/upload.flow.js";
 import {
   toControllerError,
@@ -16,7 +15,7 @@ import {
 } from "#io/ControllerError.js";
 
 export const parseVideo =
-  (description: string, video: TelegramBot.Video): TEReader<MediaEntity[]> =>
+  (description: string, video: TelegramBot.Video): TEReader<UUID[]> =>
   (ctx) => {
     ctx.logger.debug.log("Parse video with description %O", {
       ...video,
@@ -73,6 +72,6 @@ export const parseVideo =
           false,
         )(ctx);
       }),
-      TE.map((m) => [m]),
+      TE.map(() => [mediaId]),
     );
   };

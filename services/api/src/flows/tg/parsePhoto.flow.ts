@@ -1,19 +1,15 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { ImageType, MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { createAndUpload } from "../media/createAndUpload.flow.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
+import { createAndUpload } from "#flows/media/createAndUpload.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 export const parsePhoto =
-  (
-    description: string,
-    photo: TelegramBot.PhotoSize[],
-  ): TEReader<MediaEntity[]> =>
+  (description: string, photo: TelegramBot.PhotoSize[]): TEReader<UUID[]> =>
   (ctx) => {
     return pipe(
       photo,
@@ -40,11 +36,13 @@ export const parsePhoto =
               },
               {
                 Body: f,
+                ContentType: ImageType.types[0].value,
               },
               mediaId,
               false,
             )(ctx);
           }),
+          TE.map(() => mediaId),
         );
       }),
       A.sequence(TE.ApplicativeSeq),

@@ -85,8 +85,9 @@ const getMessageTexts = (
 };
 
 export const postToTG =
-  (id: UUID, body: CreateSocialPost): TEReader<TelegramBot.Message[]> =>
+  (params: CreateSocialPost & { id: UUID }): TEReader<TelegramBot.Message[]> =>
   (ctx) => {
+    const { id, ...body } = params;
     return pipe(
       writeText(body)(ctx),
       fp.TE.right,

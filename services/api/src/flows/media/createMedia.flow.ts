@@ -2,7 +2,7 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type User } from "@liexp/shared/lib/io/http/index.js";
-import { extractMediaExtra } from "./extra/extractMediaExtra.flow.js";
+import { ExtractMediaExtraPubSub } from "../../subscribers/media/extractMediaExtra.subscriber.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
@@ -41,14 +41,15 @@ export const createMediaFlow =
         ]),
       ),
       fp.TE.bind("thumbnails", ({ media }) => createThumbnail(media[0])(ctx)),
-      fp.TE.bind("extra", ({ media }) => extractMediaExtra(media[0])(ctx)),
-      fp.TE.chain(({ media, thumbnails, extra }) => {
+      fp.TE.chainFirst(({ media }) =>
+        ExtractMediaExtraPubSub.publish(media[0])(ctx),
+      ),
+      fp.TE.chain(({ media, thumbnails }) => {
         return ctx.db.save(MediaEntity, [
           {
             ...media[0],
             thumbnail: thumbnails[0],
             extra: {
-              ...extra,
               thumbnails,
               needRegenerateThumbnail: false,
             },

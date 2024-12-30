@@ -60,9 +60,9 @@ services:
       - reverseproxy
 
   localai.liexp.dev:
-    # image: localai/localai:latest-aio-cpu
+    image: localai/localai:latest-aio-cpu
     # For Intel GPUs decomment the following:
-    image: localai/localai:latest-aio-gpu-intel-f16
+    # image: localai/localai:latest-aio-gpu-intel-f16
     # For AMD GPUs decomment the following:
     # image: localai/localai:latest-aio-gpu-hipblas
     # For Phi2 models decomment the following:

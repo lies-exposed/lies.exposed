@@ -18,7 +18,8 @@ export const extractMediaExtra = (
 ): TEReader<MediaExtra | undefined> => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("mediaExtra", () => {
+    fp.RTE.bind("media", () => fp.RTE.of(media)),
+    fp.RTE.bind("mediaExtra", ({ media }) => {
       if (ImageType.is(media.type)) {
         return extractImageTypeExtra(media as SimpleImageMedia);
       }
@@ -28,15 +29,18 @@ export const extractMediaExtra = (
 
       return fp.RTE.right(media.extra ?? undefined);
     }),
-    fp.RTE.bind("thumbnailExtra", () => {
+    fp.RTE.bind("thumbnailExtra", ({ media }) => {
       if (media.thumbnail) {
         return extractThumbnailsExtra(media.thumbnail);
       }
       return fp.RTE.right(media.extra ?? ThumbnailsExtraMonoid.empty);
     }),
-    fp.RTE.map(({ mediaExtra, thumbnailExtra }) => ({
-      ...mediaExtra,
-      ...thumbnailExtra,
-    })),
+    fp.RTE.bind("extra", ({ mediaExtra, thumbnailExtra }) =>
+      fp.RTE.of({
+        ...mediaExtra,
+        ...thumbnailExtra,
+      }),
+    ),
+    fp.RTE.map(({ extra }) => extra),
   );
 };

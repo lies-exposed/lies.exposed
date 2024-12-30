@@ -10,6 +10,7 @@ import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type UUID } from "io-ts-types";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { LinkEntity } from "#entities/Link.entity.js";
@@ -24,7 +25,7 @@ export const parseURLs =
     urls: O.Option<URL[]>,
     user: UserEntity,
     page: puppeteer.Page,
-  ): TEReader<LinkEntity[]> =>
+  ): TEReader<UUID[]> =>
   (ctx) =>
     pipe(
       urls,
@@ -80,4 +81,5 @@ export const parseURLs =
         );
       }),
       A.sequence(TE.ApplicativeSeq),
+      TE.map((links) => links.map(({ id }) => id)),
     );

@@ -173,7 +173,7 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(2);
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
     expect(Test.mocks.sharp).toHaveBeenCalledTimes(2);
     expect(sharpMock.resize).toHaveBeenCalledWith({
       width: 300,
@@ -190,10 +190,10 @@ describe("Create Media", () => {
       thumbnail: uploadThumbLocation,
       creator: users[0].id,
       extra: {
-        width: 600,
+        width: 0,
         height: expect.any(Number),
-        thumbnailWidth: 300,
-        thumbnailHeight: 100,
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
         thumbnails: [uploadThumbLocation, uploadThumbLocation],
         needRegenerateThumbnail: false,
       },
@@ -244,8 +244,8 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    // fetch thumbnail from youtube and read its exif metadata
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(2);
+    // fetch thumbnail from youtube
+    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
 
     expect(Test.mocks.s3.client.send).toHaveBeenCalledTimes(0);
 
@@ -262,8 +262,8 @@ describe("Create Media", () => {
       extra: {
         width: 0,
         height: 0,
-        thumbnailWidth: 300,
-        thumbnailHeight: 100,
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
         thumbnails: ["https://example.com/thumbnail.jpg"],
         needRegenerateThumbnail: false,
       },
