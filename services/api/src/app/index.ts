@@ -3,11 +3,11 @@ import express from "express";
 import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
 import { errorHandler } from "./error.middleware.js";
+import { type ServerContext } from "#context/context.type.js";
 import { AddRoutes } from "#routes/index.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
 
-export const makeApp = (ctx: RouteContext): express.Express => {
+export const makeApp = (ctx: ServerContext): express.Express => {
   const app = express();
 
   app.use(cors(ctx.config.cors));

@@ -1,18 +1,14 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type RouteContext } from "../route.types.js";
 import { GroupMemberIO } from "./groupMember.io.js";
 import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
+import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeleteGroupMemberRoute = (
-  r: Router,
-  ctx: RouteContext,
-): void => {
+export const MakeDeleteGroupMemberRoute: Route = (r, ctx): void => {
   AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.GroupMember.Delete,
     ({ params: { id } }) => {

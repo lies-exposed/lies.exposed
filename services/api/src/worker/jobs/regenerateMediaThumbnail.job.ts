@@ -79,7 +79,7 @@ const convertManyMediaTask =
  * Usage regenerate-media-thumbnail [--all]
  *
  * $search      text used as query for wikipedia search api
- * @param ctx - application context {@link RouteContext}
+ * @param ctx - application context {@link ServerContext}
  * @param args - command arguments
  * @returns void
  */

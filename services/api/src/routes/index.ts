@@ -1,6 +1,6 @@
 import { type Router } from "express";
-import { type RouteContext } from "./route.types.js";
 import { MakeSettingRoutes } from "./settings/settings.routes.js";
+import { type ServerContext } from "#context/context.type.js";
 import { MakeProjectImageRoutes } from "#routes/ProjectImages/ProjectImage.routes.js";
 import { MakeActorRoutes } from "#routes/actors/actors.routes.js";
 import { MakeAdminRoutes } from "#routes/admin/admin.routes.js";
@@ -30,7 +30,7 @@ import { MakeStoriesRoutes } from "#routes/stories/stories.route.js";
 import { MakeUploadsRoutes } from "#routes/uploads/upload.routes.js";
 import { MakeUserRoutes } from "#routes/users/User.routes.js";
 
-export const AddRoutes = (router: Router, ctx: RouteContext): Router => {
+export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
   // healthcheck
   MakeHealthcheckRoutes(router, ctx);
 

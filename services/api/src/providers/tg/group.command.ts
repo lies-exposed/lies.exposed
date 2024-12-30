@@ -5,15 +5,15 @@ import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
+import { type ServerContext } from "#context/context.type.js";
 import { GroupEntity } from "#entities/Group.entity.js";
 import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
   `Group <a href="${baseUrl}/groups/${g.id}">${g.name}</a>`;
 
-export const groupCommand = (ctx: RouteContext): TGBotProvider => {
+export const groupCommand = (ctx: ServerContext): TGBotProvider => {
   const handleGroupMessage = async (
     msg: TelegramBot.Message,
     match: RegExpExecArray | null,

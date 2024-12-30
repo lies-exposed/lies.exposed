@@ -1,5 +1,5 @@
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const startCommand = ({
   logger,
@@ -8,7 +8,7 @@ export const startCommand = ({
   db,
   env,
   ...rest
-}: RouteContext): TGBotProvider => {
+}: ServerContext): TGBotProvider => {
   tg.api.onText(/\/start/, (msg, match) => {
     void tg.api.sendMessage(
       msg.chat.id,

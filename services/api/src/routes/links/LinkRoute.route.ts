@@ -8,9 +8,9 @@ import { MakeGetLinksRoute } from "./getLink.controller.js";
 import { MakeListLinksRoute } from "./listLinks.controller.js";
 import { MakeSubmitLinkRoute } from "./submitLink.controller.js";
 import { MakeTakeLinkScreenshotRoute } from "./takeLinkScreenshot.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeLinkRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeLinkRoutes = (router: Router, ctx: ServerContext): void => {
   MakeSubmitLinkRoute(router, ctx);
   MakeCreateManyLinkRoute(router, ctx);
   MakeCreateLinkRoute(router, ctx);

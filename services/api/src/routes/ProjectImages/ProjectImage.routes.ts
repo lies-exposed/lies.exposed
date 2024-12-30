@@ -1,10 +1,10 @@
 import { type Router } from "express";
 import { MakeListProjectImageRoute } from "./listProjectImages.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeProjectImageRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeListProjectImageRoute(router, ctx);
 };

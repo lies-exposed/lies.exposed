@@ -4,11 +4,11 @@ import { MakeDeleteDeathEventRoute } from "./deleteDeath.controller.js";
 import { MakeEditDeathEventRoute } from "./editDeath.controller.js";
 import { MakeGetDeathEventRoute } from "./getDeath.controller.js";
 import { MakeGetListDeathEventRoute } from "./getListDeath.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeDeathEventsRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeCreateDeathEventRoute(router, ctx);
   MakeEditDeathEventRoute(router, ctx);

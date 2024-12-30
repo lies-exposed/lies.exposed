@@ -7,13 +7,13 @@ import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { LinkIO } from "./link.io.js";
+import { type ServerContext } from "#context/context.type.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { type MediaEntity } from "#entities/Media.entity.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { takeLinkScreenshotAndSave } from "#flows/links/takeLinkScreenshot.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { type RouteContext } from "#routes/route.types.js";
 import {
   RequestDecoder,
   authenticationHandler,
@@ -21,7 +21,7 @@ import {
 
 export const MakeTakeLinkScreenshotRoute = (
   r: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
     Endpoints.Link.Custom.TakeLinkScreenshot,

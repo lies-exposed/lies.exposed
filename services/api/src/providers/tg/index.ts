@@ -9,12 +9,12 @@ import { groupCommand } from "./group.command.js";
 import { helpCommand } from "./help.command.js";
 import { loginCommand } from "./login.command.js";
 import { startCommand } from "./start.command.js";
+import { type ServerContext } from "#context/context.type.js";
 import { createFromTGMessage } from "#flows/tg/createFromTGMessage.flow.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { GetWriteJSON } from "#utils/json.utils.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
-export const TGMessageCommands = (ctx: RouteContext) => {
+export const TGMessageCommands = (ctx: ServerContext) => {
   // const mediaPath = path.resolve(__dirname, "../data");
   // app.use(express.static(mediaPath));
   const tgLogger = ctx.logger.extend("tg-bot"); // bind /start command to tg bot

@@ -3,11 +3,11 @@ import { MakeCreateDocumentaryReleaseRoute } from "./createDocumentary.controlle
 import { MakeEditDocumentaryEventRoute } from "./editDocumentary.controller.js";
 import { MakeGetDocumentaryEventRoute } from "./getDocumentary.controller.js";
 import { MakeGetListDocumentaryEventRoute } from "./getListDocumentaries.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeDocumentaryReleaseRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeCreateDocumentaryReleaseRoute(router, ctx);
   MakeEditDocumentaryEventRoute(router, ctx);
