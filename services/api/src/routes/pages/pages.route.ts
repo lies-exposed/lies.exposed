@@ -5,9 +5,9 @@ import { MakeDeletePageRoute } from "./deletePage.controller.js";
 import { MakeEditPageRoute } from "./editPage.controller.js";
 import { MakeGetPageRoute } from "./getPage.controller.js";
 import { MakeListPageRoute } from "./listPage.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakePageRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakePageRoutes = (router: Router, ctx: ServerContext): void => {
   MakeAddPageRoute(router, ctx);
   MakeEditPageRoute(router, ctx);
   MakeDeletePageRoute(router, ctx);

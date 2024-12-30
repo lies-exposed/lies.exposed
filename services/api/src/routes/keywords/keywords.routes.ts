@@ -5,9 +5,9 @@ import { MakeEditKeywordsRoute } from "./editKeyword.controller.js";
 import { MakeGetKeywordRoute } from "./getKeyword.controller.js";
 import { MakeKeywordsDistributionRoute } from "./keywordsDistribution.controller.js";
 import { MakeListKeywordRoute } from "./listKeyword.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeKeywordRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeKeywordRoutes = (router: Router, ctx: ServerContext): void => {
   MakeCreateKeywordRoute(router, ctx);
   MakeEditKeywordsRoute(router, ctx);
   MakeKeywordsDistributionRoute(router, ctx);

@@ -4,11 +4,11 @@ import { MakeEditSocialPostRoute } from "./editSocialPost.controller.js";
 import { MakeGetSocialPostRoute } from "./getSocialPost.controller.js";
 import { MakeListSocialPostRoute } from "./listSocialPost.controller.js";
 import { MakePublishSocialPostRoute } from "./publishSocialPost.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeSocialPostRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeCreateSocialPostRoute(router, ctx);
   MakeEditSocialPostRoute(router, ctx);

@@ -1,9 +1,9 @@
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type ServerContext } from "#context/context.type.js";
 import { UserEntity } from "#entities/User.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const loginCommand = ({
   logger,
@@ -12,7 +12,7 @@ export const loginCommand = ({
   db,
   env,
   ...restCtx
-}: RouteContext): TGBotProvider => {
+}: ServerContext): TGBotProvider => {
   tg.api.onText(/\/login\s(.*)/, (msg, match) => {
     logger.debug.log(`Login with %O`, match);
     const userId = msg.from?.id;

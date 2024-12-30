@@ -31,6 +31,7 @@ import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import sharp from "sharp";
 import WinkFn from "wink-nlp";
+import { type ServerContext } from "./context.type.js";
 import { Config } from "#app/config.js";
 import {
   toControllerError,
@@ -39,12 +40,11 @@ import {
 import { type ENV } from "#io/ENV.js";
 import { createS3Provider } from "#providers/context/s3.context.js";
 import { GetQueueProvider } from "#providers/queue.provider.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { getDataSource } from "#utils/data-source.js";
 
 export const makeContext = (
   env: ENV,
-): TaskEither<ControllerError, RouteContext> => {
+): TaskEither<ControllerError, ServerContext> => {
   const serverLogger = logger.GetLogger("server");
 
   const db = pipe(

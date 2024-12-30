@@ -4,9 +4,9 @@ import { MakeDeleteStoryRoute } from "./deleteStory.controller.js";
 import { MakeEditStoryRoute } from "./editStory.controller.js";
 import { MakeGetStoryRoute } from "./getStory.controller.js";
 import { MakeListStoryRoute } from "./listStory.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeStoriesRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeStoriesRoutes = (router: Router, ctx: ServerContext): void => {
   MakeListStoryRoute(router, ctx);
   MakeGetStoryRoute(router, ctx);
   MakeCreateStoryRoute(router, ctx);

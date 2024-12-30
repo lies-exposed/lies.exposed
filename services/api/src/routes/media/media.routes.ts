@@ -5,9 +5,9 @@ import { MakeEditMediaRoute } from "./editMedia.controller.js";
 import { MakeGenerateMediaThumbnailsRoute } from "./generateMediaThumbnails.controller.js";
 import { MakeGetMediaRoute } from "./getMedia.controller.js";
 import { MakeListMediaRoute } from "./listMedia.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeMediaRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeMediaRoutes = (router: Router, ctx: ServerContext): void => {
   // thumbnails
   MakeGenerateMediaThumbnailsRoute(router, ctx);
 

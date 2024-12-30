@@ -100,7 +100,7 @@ export const fetchAndCreateActorFromWikipedia =
 
 /**
  * Search the given "search" string on wikipedia and create an actor from the first result.
- * @param ctx - RouteContext
+ * @param ctx - ServerContext
  * @param search - string to search on wikipedia
  * @returns
  */

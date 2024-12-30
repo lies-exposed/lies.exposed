@@ -8,14 +8,14 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { LinkIO } from "./link.io.js";
+import { type ServerContext } from "#context/context.type.js";
 import { LinkEntity } from "#entities/Link.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditLinkMetadataRoute = (
   r: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
     UpdateMetadata,

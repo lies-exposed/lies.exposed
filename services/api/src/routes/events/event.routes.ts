@@ -12,9 +12,9 @@ import { CreateEventSuggestionRoute } from "./suggestions/createEventSuggestion.
 import { EditEventSuggestionRoute } from "./suggestions/editEventSuggestion.controller.js";
 import { GetEventSuggestionRoute } from "./suggestions/getEventSuggestion.controller.js";
 import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionList.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeEventRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeEventRoutes = (router: Router, ctx: ServerContext): void => {
   // MakeCreateEventFromLinkRoute(router, ctx);
   CreateEventFromSuggestionRoute(router, ctx);
   SearchEventsFromProviderRoute(router, ctx);

@@ -1,6 +1,6 @@
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export type CommandFlow = (
-  ctx: RouteContext,
+  ctx: ServerContext,
   args: string[],
 ) => Promise<void> | void;

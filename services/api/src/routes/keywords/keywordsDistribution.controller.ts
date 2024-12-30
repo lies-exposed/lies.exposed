@@ -3,15 +3,15 @@ import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Router } from "express";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type ServerContext } from "#context/context.type.js";
 import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { type RouteContext } from "#routes/route.types.js";
 import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeKeywordsDistributionRoute = (
   r: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   AddEndpoint(r)(
     Endpoints.Keyword.Custom.Distribution,

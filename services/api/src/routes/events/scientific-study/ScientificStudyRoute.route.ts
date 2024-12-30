@@ -6,11 +6,11 @@ import { MakeEditScientificStudyRoute } from "./editScientificStudy.controller.j
 import { MakeExtractScientificStudyFromURLRoute } from "./extractScientificStudyFromUrl.controller.js";
 import { MakeGetScientificStudyRoute } from "./getScientificStudy.controller.js";
 import { MakeListScientificStudyRoute } from "./listScientificStudy.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeScientificStudyRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeExtractScientificStudyFromURLRoute(router, ctx);
   // MakeCreateScientificStudyFromURLRoute(router, ctx);

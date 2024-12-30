@@ -3,11 +3,11 @@ import { MakeCreateBookEventRoute } from "./createBook.controller.js";
 import { MakeEditBookEventRoute } from "./editBook.controller.js";
 import { MakeGetBookEventRoute } from "./getBook.controller.js";
 import { MakeListBookEventRoute } from "./getBookList.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
 export const MakeBookEventsRoutes = (
   router: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   MakeGetBookEventRoute(router, ctx);
   MakeCreateBookEventRoute(router, ctx);

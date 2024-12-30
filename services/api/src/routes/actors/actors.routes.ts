@@ -4,9 +4,9 @@ import { MakeDeleteActorRoute } from "./deleteActor.controller.js";
 import { MakeEditActorRoute } from "./editActor.controller.js";
 import { MakeGetActorRoute } from "./getActor.controller.js";
 import { MakeListPageRoute } from "./listActor.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeActorRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeActorRoutes = (router: Router, ctx: ServerContext): void => {
   MakeCreateActorRoute(router, ctx);
   MakeEditActorRoute(router, ctx);
   MakeGetActorRoute(router, ctx);

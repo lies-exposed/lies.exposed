@@ -5,9 +5,9 @@ import { MakeEditGraphRoute } from "./editGraph.controller.js";
 import { MakeGetFlowGraphRoute } from "./getFlowGraph.controller.js";
 import { MakeGetGraphRoute } from "./getGraph.controller.js";
 import { MakeListGraphsRoute } from "./listGraphs.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeGraphsRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeGraphsRoutes = (router: Router, ctx: ServerContext): void => {
   MakeGetFlowGraphRoute(router, ctx);
   MakeGetGraphRoute(router, ctx);
   MakeListGraphsRoute(router, ctx);

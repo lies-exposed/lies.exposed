@@ -5,9 +5,9 @@ import { MakeQueueEditRoute } from "./queueEdit.controller.js";
 import { MakeQueueGetRoute } from "./queueGet.controller.js";
 import { MakeQueueListRoute } from "./queueList.controller.js";
 import { MakeQueueProcessRoute } from "./queueProcess.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeQueueRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeQueueRoutes = (router: Router, ctx: ServerContext): void => {
   MakeQueueListRoute(router, ctx);
   MakeQueueGetRoute(router, ctx);
   MakeQueueCreateRoute(router, ctx);

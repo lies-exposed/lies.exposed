@@ -9,16 +9,16 @@ import * as O from "fp-ts/lib/Option.js";
 import * as Ord from "fp-ts/lib/Ord.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as S from "fp-ts/lib/string.js";
+import { type ServerContext } from "#context/context.type.js";
 import { type LinkEntity } from "#entities/Link.entity.js";
 import { fetchAsLink } from "#flows/links/link.flow.js";
 import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { type RouteContext } from "#routes/route.types.js";
 
 export const SearchEventsFromProviderRoute = (
   r: Router,
-  ctx: RouteContext,
+  ctx: ServerContext,
 ): void => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.SearchEventsFromProvider,

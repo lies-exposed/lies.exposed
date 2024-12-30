@@ -4,9 +4,9 @@ import { MakeDeleteAreaRoute } from "./deleteArea.controller.js";
 import { MakeEditAreaRoute } from "./editArea.controller.js";
 import { MakeGetAreaRoute } from "./getArea.controller.js";
 import { MakeListAreaRoute } from "./listArea.controller.js";
-import { type RouteContext } from "#routes/route.types.js";
+import { type ServerContext } from "#context/context.type.js";
 
-export const MakeAreasRoutes = (router: Router, ctx: RouteContext): void => {
+export const MakeAreasRoutes = (router: Router, ctx: ServerContext): void => {
   MakeCreateAreaRoute(router, ctx);
   MakeEditAreaRoute(router, ctx);
   MakeGetAreaRoute(router, ctx);
