@@ -16,7 +16,7 @@ export const baseConfig = defineConfig({
     alias: {
       sharp: toAlias("test/__mocks__/sharp.mock.ts"),
       canvas: toAlias("test/__mocks__/canvas.mock.ts"),
-      "pdfjs-dist/legacy/build/pdf.js": toAlias("test/__mocks__/pdfjs.mock.ts"),
+      "pdfjs-dist": toAlias("test/__mocks__/pdfjs.mock.ts"),
       "@blocknote/core": toAlias(
         "test/__mocks__/blocknote-core.mock.ts",
       ),

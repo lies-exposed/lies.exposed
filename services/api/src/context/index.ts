@@ -26,7 +26,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
-import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
+import * as pdf from "pdfjs-dist";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import sharp from "sharp";

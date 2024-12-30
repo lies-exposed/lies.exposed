@@ -16,7 +16,7 @@ import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.pro
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import axios from "axios";
-import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
+import * as pdf from "pdfjs-dist";
 import { AIBotConfig } from "./config.js";
 import { parseENV } from "./env.js";
 import { type ClientContextRTE } from "./types.js";
