@@ -165,8 +165,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       langchain:
-        specifier: ^0.3.7
-        version: 0.3.7(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
+        specifier: ^0.3.8
+        version: 0.3.8(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
       puppeteer-core:
         specifier: ^23.10.4
         version: 23.10.4
@@ -824,8 +824,8 @@ importers:
         specifier: ^2.2.22
         version: 2.2.22(fp-ts@2.16.9)
       langchain:
-        specifier: ^0.3.7
-        version: 0.3.7(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
+        specifier: ^0.3.8
+        version: 0.3.8(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
       pdfjs-dist:
         specifier: ^4.9.155
         version: 4.9.155
@@ -4702,6 +4702,10 @@ packages:
     resolution: {integrity: sha512-5GG/5IbQQpC9FpkRGsSvZI5QYeSCzlJHdpBQntCsuTOxhKD8lqKhrleg2Yi7yvMIf82Ycmmqln9U8V9qwEiJew==}
     engines: {node: '>= 8.0.0'}
 
+  agentkeepalive@4.6.0:
+    resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
+    engines: {node: '>= 8.0.0'}
+
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
     engines: {node: '>=8'}
@@ -7223,8 +7227,8 @@ packages:
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
 
-  langchain@0.3.7:
-    resolution: {integrity: sha512-6/Gkk9Zez3HkbsETFxZVo1iKLmaK3OzkDseC5MYFKVmYFDXFAOyJR3srJ9P61xF8heVdsPixqYIsejBn7/9dXg==}
+  langchain@0.3.8:
+    resolution: {integrity: sha512-EiAHFgBdThuXFmIx9j81wjdPItpRsw0Ck4r5dyhB74gyhehRGna/UK2CTqeKVnIUM/f4g4JbxUgAU4voXljDMw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@langchain/anthropic': '*'
@@ -10399,7 +10403,7 @@ snapshots:
       '@types/node': 18.19.68
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
+      agentkeepalive: 4.6.0
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
@@ -11183,7 +11187,7 @@ snapshots:
       '@types/node': 18.19.68
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
+      agentkeepalive: 4.6.0
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
@@ -12012,7 +12016,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.7(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
+      langchain: 0.3.8(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1))
       langsmith: 0.2.11(openai@4.77.0(zod@3.24.1))
       openai: 4.77.0(zod@3.24.1)
       uuid: 10.0.0
@@ -14306,6 +14310,10 @@ snapshots:
       - supports-color
 
   agentkeepalive@4.5.0:
+    dependencies:
+      humanize-ms: 1.2.1
+
+  agentkeepalive@4.6.0:
     dependencies:
       humanize-ms: 1.2.1
 
@@ -17310,7 +17318,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.7(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1)):
+  langchain@0.3.8(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(pg@8.13.1)):
     dependencies:
       '@langchain/core': 0.3.26(openai@4.77.0(zod@3.24.1))
       '@langchain/openai': 0.3.16(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))
