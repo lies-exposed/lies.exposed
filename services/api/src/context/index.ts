@@ -13,6 +13,9 @@ import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
+import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
@@ -92,6 +95,13 @@ export const makeContext = (
     },
   });
 
+  const restClient = APIRESTClient({
+    getAuth: jwtClient.signUser({} as any),
+    url: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
+  });
+
+  const apiClient = fromEndpoints(restClient)(Endpoints);
+
   const config = Config(env, process.cwd());
 
   return pipe(
@@ -158,6 +168,7 @@ export const makeContext = (
         }),
       ),
       config: fp.TE.right(config),
+      api: fp.TE.right(apiClient),
     }),
     fp.TE.mapLeft((e) => ({
       ...e,
