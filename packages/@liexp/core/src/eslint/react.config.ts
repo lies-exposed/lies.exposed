@@ -15,8 +15,7 @@ const eslintConfig: Config = tseslint.config(
     files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
     ...react.configs.flat.recommended,
     plugins: {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-      react: react as any,
+      react,
     },
     languageOptions: {
       ...react.configs.flat?.recommended.languageOptions,
