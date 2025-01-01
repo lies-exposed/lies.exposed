@@ -48,6 +48,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     mkdir -p ./temp/tg/messages
     mkdir -p ./temp/media
     mkdir -p ./temp/queue
+    mkdir -p ./redis-data
     mkdir -p ./ai-bot-temp
 
     chown -R pptruser:pptruser ./config
@@ -57,8 +58,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     export API_UID=$(id pptruser -u)
     export API_GID=$(id pptruser -g)
 
-    docker compose --env-file .env.api pull api web
-    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker
+    docker compose --env-file .env.api pull api web redis
+    docker compose --env-file .env.api up --build --force-recreate -d --wait api worker redis
     docker compose --env-file .env.web up --build --force-recreate -d --wait --no-deps web
     docker system prune -f
     docker builder prune -f --all

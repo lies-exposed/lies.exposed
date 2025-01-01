@@ -30,6 +30,8 @@ services:
       start_period: 30s
     command: pnpm start
     mem_limit: 1G
+    depends_on:
+      - redis
 
   worker:
     extends: api-base
@@ -40,6 +42,7 @@ services:
     mem_limit: 512M
     depends_on:
       - telegram-bot-api
+      - redis
     network_mode: "host"
 
   ai-bot:
@@ -76,8 +79,18 @@ services:
         max-file: 5
         max-size: 10m
 
+  redis:
+    image: redis:7.2
+    container_name: liexp-redis
+    restart: always
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - ./redis-data:/data
+
   telegram-bot-api:
     image: aiogram/telegram-bot-api:latest
+    container_name: liexp-tg-bot-api
     env_file:
       - .env.api
     environment:

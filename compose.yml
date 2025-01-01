@@ -49,6 +49,16 @@ services:
     #   timeout: 20s
     #   retries: 3
 
+  redis.liexp.dev:
+    restart: always
+    image: 'redis:7.2'
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - reverseproxy
+
   api-base:
     build:
       context: .
@@ -66,6 +76,7 @@ services:
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev
+      - redis.liexp.dev
     volumes:
       - api-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
@@ -96,9 +107,6 @@ services:
     environment:
       TG_BOT_POLLING: "true"
     mem_limit: 512M
-    depends_on:
-      - db.liexp.dev
-      - fra1.space.liexp.dev
     networks:
       - reverseproxy
 
@@ -188,6 +196,7 @@ volumes:
   web-node-modules: {}
   admin-node-modules: {}
   space-data: {}
+  redis-data: {}
 
 networks:
   reverseproxy:
