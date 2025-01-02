@@ -5,13 +5,13 @@ import * as O from "fp-ts/lib/Option.js";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
+import { ExtractMediaExtraPubSub } from "../../subscribers/media/extractMediaExtra.subscriber.js";
 import { type ServerContext } from "#context/context.type.js";
 import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
 import { MediaRepository } from "#providers/db/entity-repository.provider.js";
-import { ExtractMediaExtraPubSub } from "subscribers/media/extractMediaExtra.subscriber.js";
 
 export const editMedia = (
   id: UUID,
