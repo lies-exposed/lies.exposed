@@ -15,12 +15,15 @@ const run = (): Promise<void> => {
   return pipe(
     TE.Do,
     TE.bind("ctx", () => loadContext("worker")),
-    TE.bind("redis", () => {
+    TE.bind("redis", ({ ctx }) => {
       return TE.tryCatch(async () => {
-        const redis = new Redis(6379, "redis.liexp.dev", {
+        const redis = new Redis(6379, ctx.env.REDIS_HOST, {
           lazyConnect: true,
         });
-        await redis.connect();
+
+        if (ctx.env.REDIS_CONNECT) {
+          await redis.connect();
+        }
         return redis;
       }, toControllerError);
     }),

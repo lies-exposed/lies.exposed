@@ -38,6 +38,7 @@ services:
     container_name: liexp-worker
     environment:
       TG_BOT_POLLING: "true"
+      REDIS_HOST: "127.0.0.1"
     command: node build/worker/index.js
     mem_limit: 512M
     depends_on:
