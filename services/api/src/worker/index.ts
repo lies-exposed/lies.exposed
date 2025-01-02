@@ -2,16 +2,32 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { Redis } from "ioredis";
 import { CronJobs } from "./jobs/jobs.js";
+import { WorkerSubscribers } from "./subscribers/WorkerSubscribers.js";
 import { loadContext } from "#context/load.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { TGMessageCommands } from "#providers/tg/index.js";
 
 const run = (): Promise<void> => {
   const workerLogger = logger.GetLogger("worker");
 
   return pipe(
-    loadContext(),
-    TE.chain((ctx) => {
+    TE.Do,
+    TE.bind("ctx", () => loadContext("worker")),
+    TE.bind("redis", () => {
+      return TE.tryCatch(async () => {
+        const redis = new Redis(6379, "redis.liexp.dev", {
+          lazyConnect: true,
+        });
+        await redis.connect();
+        return redis;
+      }, toControllerError);
+    }),
+    TE.bind("subscribers", ({ ctx, redis }) =>
+      WorkerSubscribers({ ...ctx, redis, logger: workerLogger.extend("sub") }),
+    ),
+    TE.chain(({ ctx }) => {
       ctx.logger = workerLogger;
       // cron jobs
       const cronJobs = CronJobs(ctx);

@@ -13,10 +13,15 @@ export const downloadMP4Video =
   (ctx) => {
     const tempVideoFilePath = path.resolve(tempFolder, `${media.id}.mp4`);
 
+    ctx.logger.debug.log("Getting mp4 from %s", media.location);
+
     if (fs.existsSync(tempVideoFilePath)) {
+      ctx.logger.debug.log("File exists already, skipping download...");
       return TE.right(tempVideoFilePath);
     }
-    ctx.logger.debug.log("Getting mp4 from %s", media.location);
+
+    ctx.logger.debug.log("Start file downloading...");
+
     return pipe(
       ctx.http.get<Readable>(media.location, {
         responseType: "stream",

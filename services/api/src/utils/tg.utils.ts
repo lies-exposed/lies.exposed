@@ -9,24 +9,22 @@ export const getThanksMessage = (
     "\n",
 
     eventSuggestion.link.length > 0
-      ? `Links: ${eventSuggestion.link.map(
-          (l) => `${baseURL}/links/${l.id}\n`,
-        )}`
+      ? `Links: ${eventSuggestion.link.map((id) => `${baseURL}/links/${id}\n`)}`
       : null,
 
     eventSuggestion.photos.length > 0
       ? `Photos: ${eventSuggestion.photos.map(
-          (m) => `${baseURL}/media/${m.id}\n`,
+          (id) => `${baseURL}/media/${id}\n`,
         )}`
       : null,
     eventSuggestion.areas.length > 0
       ? `Areas: ${eventSuggestion.areas.map(
-          (m) => `${baseURL}/areas/${m.id}\n`,
+          (id) => `${baseURL}/areas/${id}\n`,
         )}`
       : null,
     eventSuggestion.videos.length > 0
       ? `Videos: ${eventSuggestion.videos.map(
-          (m) => `${baseURL}/media/${m.id}\n`,
+          (id) => `${baseURL}/media/${id}\n`,
         )}`
       : null,
   ]

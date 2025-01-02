@@ -17,7 +17,7 @@ export const startContext = async (env?: any): Promise<ServerContext> => {
   return pipe(
     parseENV({ ...process.env, TG_BOT_POLLING: "false", ...env }),
     fp.TE.fromEither,
-    fp.TE.chain(makeContext),
+    fp.TE.chain(makeContext("bin")),
     throwTE,
   );
 };

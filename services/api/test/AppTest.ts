@@ -122,6 +122,7 @@ export const loadAppContext = async (
       langchain: {} as any,
       openai: {} as any,
       blocknote: {} as any,
+      redis: mocks.redis,
       pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({
         http: HTTPProvider(mocks.axios as any),

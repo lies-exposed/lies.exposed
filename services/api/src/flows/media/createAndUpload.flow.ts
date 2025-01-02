@@ -2,8 +2,14 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   IframeVideoType,
+  MEDIA,
+  PDFType,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
+import {
+  OpenAIEmbeddingQueueType,
+  PendingStatus,
+} from "@liexp/shared/lib/io/http/Queue.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
@@ -75,5 +81,24 @@ export const createAndUpload = (
       ]),
     ),
     fp.RTE.map((m) => m[0]),
+    fp.RTE.chainFirst((m) => (ctx) => {
+      if (PDFType.is(m.type)) {
+        return ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
+          id: m.id,
+          resource: MEDIA.value,
+          type: OpenAIEmbeddingQueueType.value,
+          status: PendingStatus.value,
+          error: null,
+          data: {
+            url: m.location,
+            type: "pdf",
+            result: undefined,
+            prompt: undefined,
+          },
+        });
+      }
+
+      return fp.TE.right(undefined);
+    }),
   );
 };

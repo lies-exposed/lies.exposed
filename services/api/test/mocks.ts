@@ -18,6 +18,7 @@ export interface AppMocks {
   ig: typeof igProviderMock;
   s3: typeof s3Mock;
   wiki: typeof wikipediaProviderMock;
+  redis: { publish: Mock<any>; subscribe: Mock<any> };
   urlMetadata: {
     fetchHTML: Mock<any>;
     fetchMetadata: Mock<any>;
@@ -50,6 +51,10 @@ export const mocks: AppMocks = {
   urlMetadata: {
     fetchHTML: fetchHTML as any,
     fetchMetadata: fetchMetadata as any,
+  },
+  redis: {
+    publish: vi.fn().mockResolvedValue(1),
+    subscribe: vi.fn().mockResolvedValue(undefined),
   },
   puppeteer: puppeteerMock,
   ner: NLPMock as any,

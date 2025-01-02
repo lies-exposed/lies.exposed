@@ -10,6 +10,7 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type UUID } from "io-ts-types";
 import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { parseDocument } from "../parseDocument.flow.js";
@@ -18,20 +19,18 @@ import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
 import { parseURLs } from "../parseURL.flow.js";
 import { parseVideo } from "../parseVideo.flow.js";
 import { type ServerContext } from "#context/context.type.js";
-import { type LinkEntity } from "#entities/Link.entity.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type UserEntity } from "#entities/User.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 interface MessageParserAPI {
-  parseDocument: TEReader<MediaEntity[]>;
-  parsePhoto: TEReader<MediaEntity[]>;
-  parseVideo: TEReader<MediaEntity[]>;
-  parseURLs: (page: puppeteer.Page, user: UserEntity) => TEReader<LinkEntity[]>;
+  parseDocument: TEReader<UUID[]>;
+  parsePhoto: TEReader<UUID[]>;
+  parseVideo: TEReader<UUID[]>;
+  parseURLs: (page: puppeteer.Page, user: UserEntity) => TEReader<UUID[]>;
   parsePlatformMedia: (
     page: puppeteer.Page,
     user: UserEntity,
-  ) => TEReader<MediaEntity[]>;
+  ) => TEReader<UUID[]>;
 }
 
 const takeURLsFromMessageEntity =

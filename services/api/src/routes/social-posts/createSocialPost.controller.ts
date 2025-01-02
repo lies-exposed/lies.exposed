@@ -1,11 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { addHours } from "date-fns";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
+import { PostToSocialPlatformsPubSub } from "../../subscribers/social-post/postToSocialPlatforms.subscriber.js";
 import { SocialPostEntity } from "#entities/SocialPost.entity.js";
-import { postToSocialPlatforms } from "#flows/social-posts/postToPlatforms.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -35,25 +35,19 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
             }),
             TE.chain((p) =>
               pipe(
-                postToSocialPlatforms(id, { ...p.content, platforms })(ctx),
-                TE.chain((result) =>
-                  ctx.db.save(SocialPostEntity, [
-                    {
-                      ...p,
-                      entity: id,
-                      type,
-                      result,
-                      status: PUBLISHED.value,
-                    },
-                  ]),
-                ),
+                PostToSocialPlatformsPubSub.publish({
+                  ...p.content,
+                  platforms,
+                  id,
+                })(ctx),
+                TE.map(() => []),
               ),
             ),
           );
 
       return pipe(
         saveInDb,
-        TE.map(([data]) => ({
+        TE.map((data) => ({
           body: {
             data,
           },
