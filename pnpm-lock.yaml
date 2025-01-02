@@ -356,8 +356,8 @@ importers:
         specifier: ^9.17.0
         version: 9.17.0(jiti@2.4.1)
       pdfjs-dist:
-        specifier: ^4.9.155
-        version: 4.9.155
+        specifier: ^4.10.38
+        version: 4.10.38
       react-admin:
         specifier: ^5.4.3
         version: 5.4.3(@mui/utils@6.3.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
@@ -830,8 +830,8 @@ importers:
         specifier: ^0.3.8
         version: 0.3.8(@langchain/anthropic@0.3.8(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1))))(@langchain/core@0.3.26(openai@4.77.0(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.0(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
       pdfjs-dist:
-        specifier: ^4.9.155
-        version: 4.9.155
+        specifier: ^4.10.38
+        version: 4.10.38
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -942,8 +942,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       pdfjs-dist:
-        specifier: ^4.9.155
-        version: 4.9.155
+        specifier: ^4.10.38
+        version: 4.10.38
       pg:
         specifier: ^8.11.5
         version: 8.13.1
@@ -8197,6 +8197,10 @@ packages:
   pdf-parse@1.1.1:
     resolution: {integrity: sha512-v6ZJ/efsBpGrGGknjtq9J/oC8tZWq0KWL5vQrk2GlzLEQPUDB1ex+13Rmidl1neNN358Jn9EHZw5y07FFtaC7A==}
     engines: {node: '>=6.8.1'}
+
+  pdfjs-dist@4.10.38:
+    resolution: {integrity: sha512-/Y3fcFrXEAsMjJXeL9J8+ZG9U01LbuWaYypvDW2ycW1jL269L3js3DVBjDJ0Up9Np1uqDXsDrRihHANhZOlwdQ==}
+    engines: {node: '>=20'}
 
   pdfjs-dist@4.9.155:
     resolution: {integrity: sha512-epRZn6DQQKCOEqbmFsxkiMBm1MHaNrnr6T4VBNP0bsDvdJdmrWcZbS5cgJXW68P0d3uJTlFhF6Wms2tlSgPYig==}
@@ -18519,6 +18523,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
     optional: true
+
+  pdfjs-dist@4.10.38:
+    optionalDependencies:
+      '@napi-rs/canvas': 0.1.65
 
   pdfjs-dist@4.9.155:
     optionalDependencies:
