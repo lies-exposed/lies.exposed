@@ -159,8 +159,8 @@ importers:
         specifier: ^9.17.0
         version: 9.17.0(jiti@2.4.1)
       exifreader:
-        specifier: ^4.25.0
-        version: 4.25.0
+        specifier: ^4.26.0
+        version: 4.26.0
       fast-csv:
         specifier: ^5.0.2
         version: 5.0.2
@@ -888,8 +888,8 @@ importers:
         specifier: ^2.1.6
         version: 2.1.6
       exifreader:
-        specifier: ^4.23.5
-        version: 4.25.0
+        specifier: ^4.26.0
+        version: 4.26.0
       express:
         specifier: ^4.21.0
         version: 4.21.2
@@ -6182,8 +6182,8 @@ packages:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
     engines: {node: '>=16.17'}
 
-  exifreader@4.25.0:
-    resolution: {integrity: sha512-lPyPXWTUuYgoKdKf3rw2EDoE9Zl7xHoy/ehPNeQ4gFVNLzfLyNMP4oEI+sP0/Czp5r/2i7cFhqg5MHsl4FYtyw==}
+  exifreader@4.26.0:
+    resolution: {integrity: sha512-nNN9B0oaXTOpArdnIdJBAro2Sa620m7wMjMA5Xy1rcua0EYHVjzGKM5syBOWDqIG2Qay6Pes/5FOdj65hvZ9Vw==}
 
   expand-template@2.0.3:
     resolution: {integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==}
@@ -16118,7 +16118,7 @@ snapshots:
       signal-exit: 4.1.0
       strip-final-newline: 3.0.0
 
-  exifreader@4.25.0:
+  exifreader@4.26.0:
     optionalDependencies:
       '@xmldom/xmldom': 0.9.5
 
