@@ -334,8 +334,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       uuid:
-        specifier: ^11.0.3
-        version: 11.0.3
+        specifier: ^11.0.4
+        version: 11.0.4
     devDependencies:
       '@liexp/test':
         specifier: workspace:*
@@ -10025,8 +10025,8 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
-  uuid@11.0.3:
-    resolution: {integrity: sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==}
+  uuid@11.0.4:
+    resolution: {integrity: sha512-IzL6VtTTYcAhA/oghbFJ1Dkmqev+FpQWnCBaKq/gUluLxliWvO8DPFWfIviRmYbtaavtSQe4WBL++rFjdcGWEg==}
     hasBin: true
 
   uuid@3.4.0:
@@ -20699,7 +20699,7 @@ snapshots:
 
   uuid@10.0.0: {}
 
-  uuid@11.0.3: {}
+  uuid@11.0.4: {}
 
   uuid@3.4.0: {}
 
