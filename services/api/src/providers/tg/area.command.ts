@@ -1,12 +1,12 @@
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AREAS, type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { type Area, AREAS } from "@liexp/shared/lib/io/http/Area.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { type ServerContext } from "#context/context.type.js";
-import { AreaEntity } from "#entities/Area.entity.js";
-import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
-import { AreaIO } from "#routes/areas/Area.io.js";
+import { fetchAndCreateAreaFromWikipedia } from "#flows/area/fetchAndCreateAreaFromWikipedia.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (area: Area, baseUrl: string): string =>
@@ -44,6 +44,9 @@ export const areaCommand = (ctx: ServerContext): TGBotProvider => {
           pipe(
             fetchAndCreateAreaFromWikipedia(search, wp)(ctx),
             fp.TE.map((area) => area.area),
+            fp.TE.chainEitherK((a) =>
+              AreaIO.decodeSingle(a, ctx.env.SPACE_ENDPOINT),
+            ),
           ),
       })(ctx),
       throwTE,

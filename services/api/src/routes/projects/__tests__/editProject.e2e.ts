@@ -1,3 +1,7 @@
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
+import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import {
@@ -8,10 +12,6 @@ import {
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { AreaEntity } from "#entities/Area.entity.js";
-import { ProjectEntity } from "#entities/Project.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Project ", () => {
   let appTest: AppTest;
@@ -22,7 +22,7 @@ describe("Edit Project ", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-    const user = await saveUser(appTest, ["admin:edit"]);
+    const user = await saveUser(appTest.ctx, ["admin:edit"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
     authorizationToken = authorization;

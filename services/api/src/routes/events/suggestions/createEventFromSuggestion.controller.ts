@@ -1,12 +1,12 @@
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
+import { fetchRelationIds } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { fetchRelationIds } from "../queries/fetchEventRelations.query.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { EventSuggestionEntity } from "#entities/EventSuggestion.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 

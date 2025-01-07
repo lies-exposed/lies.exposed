@@ -17,7 +17,7 @@
     "strictPropertyInitialization": false,
     "outDir": "./lib",
     "baseUrl": "./src",
-    "rootDir": "./",
+    "rootDir": "./src",
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],

@@ -1,3 +1,8 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -5,11 +10,6 @@ import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
 
 describe("Edit Group", () => {
   let appTest: AppTest;
@@ -27,7 +27,7 @@ describe("Edit Group", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-    const user = await saveUser(appTest, ["admin:create"]);
+    const user = await saveUser(appTest.ctx, ["admin:create"]);
     users.push(user);
 
     await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
@@ -79,7 +79,7 @@ describe("Edit Group", () => {
       body: toInitialValue("new group body"),
     };
 
-    const user = await saveUser(appTest, ["admin:edit"]);
+    const user = await saveUser(appTest.ctx, ["admin:edit"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
 

@@ -1,3 +1,4 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import {
   ActorArb,
   type ActorArbType,
@@ -6,7 +7,6 @@ import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
 
 describe("List Actor", () => {
   let Test: AppTest, authorizationToken: string, actors: ActorArbType[];

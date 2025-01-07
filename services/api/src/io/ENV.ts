@@ -31,18 +31,6 @@ export type DATABASE_ENV = t.TypeOf<typeof DATABASE_ENV>;
 
 const ENV = t.intersection(
   [
-    t.union(
-      [
-        t.strict({
-          NODE_ENV: t.union([NODE_ENV.types[0], NODE_ENV.types[1]]),
-          DOWNLOAD_VACCINE_DATA_CRON: t.string,
-        }),
-        t.strict({
-          NODE_ENV: NODE_ENV.types[2],
-        }),
-      ],
-      "NODE_ENV",
-    ),
     t.strict(
       {
         REDIS_CONNECT: BooleanFromString,
@@ -53,6 +41,7 @@ const ENV = t.intersection(
     t.intersection([
       t.strict(
         {
+          NODE_ENV,
           DEBUG: t.string,
           SERVER_HOST: t.string,
           SERVER_PORT: NumberFromString,
@@ -67,6 +56,8 @@ const ENV = t.intersection(
           GENERATE_MISSING_THUMBNAILS_CRON: t.string,
           PROCESS_DONE_JOB_CRON: t.string,
           REGENERATE_MEDIA_THUMBNAILS_CRON: t.string,
+          // unused
+          DOWNLOAD_VACCINE_DATA_CRON: t.string,
         },
         "API_ENV",
       ),

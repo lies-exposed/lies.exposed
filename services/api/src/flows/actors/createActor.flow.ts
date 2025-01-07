@@ -1,14 +1,15 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { SearchFromWikipediaPubSub } from "@liexp/backend/lib/pubsub/searchFromWikipedia.pubSub.js";
+import { ActorRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   AddActorBody,
   type CreateActorBody,
 } from "@liexp/shared/lib/io/http/Actor.js";
+import { ACTOR } from "@liexp/shared/lib/io/http/Common/BySubject.js";
 import * as O from "fp-ts/lib/Option.js";
-import { type ActorEntity } from "../../entities/Actor.entity.js";
-import { searchActorAndCreateFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { ActorRepository } from "#providers/db/entity-repository.provider.js";
 
 export const createActor = (body: CreateActorBody): TEReader<ActorEntity> => {
   if (AddActorBody.is(body)) {
@@ -30,5 +31,17 @@ export const createActor = (body: CreateActorBody): TEReader<ActorEntity> => {
       fp.RTE.map(([actor]) => actor),
     );
   }
-  return searchActorAndCreateFromWikipedia(body.search, "wikipedia");
+  return pipe(
+    SearchFromWikipediaPubSub.publish({
+      search: body.search,
+      provider: "wikipedia",
+      type: ACTOR.value,
+    }),
+    // TODO: remove this line
+    fp.RTE.map(() => {
+      const actor = new ActorEntity();
+      actor.username = body.search;
+      return actor;
+    }),
+  );
 };

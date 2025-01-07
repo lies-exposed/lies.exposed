@@ -1,7 +1,7 @@
+import { ProcessJobDonePubSub } from "@liexp/backend/lib/pubsub/jobs/processJobDone.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { processDoneJob } from "../../../worker/jobs/processOpenAIJobsDone.job.js";
 import { toQueueIO } from "./queue.io.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -19,7 +19,7 @@ export const MakeQueueProcessRoute: Route = (r, ctx) => {
           (job) => job.status === "done",
           () => toControllerError(new Error("Job not done")),
         ),
-        TE.chain((queue) => processDoneJob(queue)(ctx)),
+        TE.chainFirst((queue) => ProcessJobDonePubSub.publish(queue)(ctx)),
         TE.chainEitherK(toQueueIO),
         TE.map((data) => ({
           body: { data },

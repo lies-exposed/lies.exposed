@@ -1,3 +1,4 @@
+import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -5,7 +6,6 @@ import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toProjectImageIO } from "./ProjectImage.io.js";
-import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 

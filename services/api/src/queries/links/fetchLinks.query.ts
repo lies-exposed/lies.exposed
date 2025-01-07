@@ -1,13 +1,13 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { type TEReader } from "#flows/flow.types.js";
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "#queries/socialPosts/leftJoinSocialPosts.query.js";
-import { DBService } from "#services/db.service.js";
-import { addOrder } from "#utils/orm.utils.js";
+} from "@liexp/backend/lib/queries/social-post/leftJoinSocialPosts.query.js";
+import { DBService } from "@liexp/backend/lib/services/db.service.js";
+import { addOrder } from "@liexp/backend/lib/utils/orm.utils.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { type TEReader } from "#flows/flow.types.js";
 
 export const fetchLinks = (
   query: GetListLinkQuery,

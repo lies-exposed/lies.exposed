@@ -1,4 +1,9 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
+import {
+  fetchFromWikipedia,
+  type WikiProviders,
+} from "@liexp/backend/lib/flows/wikipedia/fetchFromWikipedia.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
@@ -8,14 +13,12 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type ServerContext } from "#context/context.type.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { type TEReader } from "#flows/flow.types.js";
+import { type ServerContext } from "../../context/context.type.js";
 import {
-  fetchFromWikipedia,
-  type WikiProviders,
-} from "#flows/wikipedia/fetchFromWikipedia.js";
-import { toControllerError } from "#io/ControllerError.js";
+  type ControllerError,
+  toControllerError,
+} from "../../io/ControllerError.js";
+import { type TEReader } from "../flow.types.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchActorFromWikipedia =
@@ -23,6 +26,7 @@ export const fetchActorFromWikipedia =
   (ctx) => {
     return pipe(
       fetchFromWikipedia(title)(getWikiProvider(wp)(ctx)),
+      TE.mapLeft(toControllerError),
       TE.chain(({ featuredMedia: avatar, intro, slug }) => {
         ctx.logger.debug.log("Actor fetched from wikipedia %s", title);
 
@@ -114,7 +118,7 @@ export const searchActorAndCreateFromWikipedia = (
     fp.RTE.mapLeft(toControllerError),
     fp.RTE.filterOrElse(
       (r) => !!r[0],
-      () => toNotFoundError(`Actor ${search} on wikipedia`),
+      (): ControllerError => toNotFoundError(`Actor ${search} on wikipedia`),
     ),
     fp.RTE.chain((p) => fetchAndCreateActorFromWikipedia(p[0].title, wp)),
   );

@@ -9,8 +9,14 @@ import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { createS3Provider } from "@liexp/backend/lib/providers/space/creates3.provider.js";
 import { TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
+import {
+  getDataSource,
+  getORMConfig,
+} from "@liexp/backend/lib/utils/data-source.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -39,9 +45,6 @@ import {
   type ControllerError,
 } from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
-import { createS3Provider } from "#providers/context/s3.context.js";
-import { GetQueueProvider } from "#providers/queue.provider.js";
-import { getDataSource } from "#utils/data-source.js";
 
 export const makeContext =
   (namespace: string) =>
@@ -49,7 +52,15 @@ export const makeContext =
     const serverLogger = logger.GetLogger(namespace);
 
     const db = pipe(
-      getDataSource(env, false),
+      getORMConfig(env, false),
+      (opts) =>
+        getDataSource({
+          ...opts,
+          migrations:
+            env.NODE_ENV === "test"
+              ? undefined
+              : [`${process.cwd()}/build/migrations/*.js`],
+        }),
       fp.TE.chain(GetTypeORMClient),
       fp.TE.mapLeft(toControllerError),
     );

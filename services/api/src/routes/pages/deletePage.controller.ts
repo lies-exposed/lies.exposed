@@ -1,3 +1,4 @@
+import { PageEntity } from "@liexp/backend/lib/entities/Page.entity.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -5,7 +6,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { toPageIO } from "./page.io.js";
-import { PageEntity } from "#entities/Page.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 

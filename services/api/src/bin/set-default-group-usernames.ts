@@ -1,12 +1,12 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Int } from "io-ts";
 import { type CommandFlow } from "./command.type.js";
-import { GroupEntity } from "#entities/Group.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { fetchGroups } from "#queries/groups/fetchGroups.query.js";
 
 export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
   const requestWalker = walkPaginatedRequest<

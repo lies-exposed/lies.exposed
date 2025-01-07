@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
+import { parseTGMessageFlow } from "@liexp/backend/lib/flows/tg/parseMessages.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { separateTE, throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type CommandFlow } from "./command.type.js";
-import { parseTGMessageFlow } from "#flows/tg/parseMessages.flow.js";
 
 /**
  * Usage parse-tg-message $messageN $delete?

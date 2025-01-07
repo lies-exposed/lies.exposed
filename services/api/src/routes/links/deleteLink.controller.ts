@@ -1,3 +1,5 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { flow, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -6,8 +8,6 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
 import { type Route } from "../route.types.js";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";

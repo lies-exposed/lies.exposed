@@ -1,7 +1,19 @@
 import fs from "fs";
 import path from "path";
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { ensureFolderExists } from "@liexp/backend/lib/flows/fs/ensureFolderExists.flow.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import {
+  searchEventV2Query,
+  type SearchEventOutput,
+} from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
@@ -28,23 +40,11 @@ import * as IOE from "fp-ts/lib/IOEither.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { type EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { type TEReader } from "#flows/flow.types.js";
 import {
-  toControllerError,
   type ControllerError,
-} from "#io/ControllerError.js";
-import { EventV2IO } from "#routes/events/eventV2.io.js";
-import {
-  searchEventV2Query,
-  type SearchEventOutput,
-} from "#routes/events/queries/searchEventsV2.query.js";
-import { MediaIO } from "#routes/media/media.io.js";
+  toControllerError,
+} from "../../io/ControllerError.js";
+import { type TEReader } from "../flow.types.js";
 
 interface StatsCache {
   events: string[];

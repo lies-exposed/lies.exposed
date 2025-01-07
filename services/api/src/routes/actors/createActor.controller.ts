@@ -1,11 +1,11 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { ActorEntity } from "../../entities/Actor.entity.js";
 import { type Route } from "../route.types.js";
-import { ActorIO } from "./actor.io.js";
 import { createActor } from "#flows/actors/createActor.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";

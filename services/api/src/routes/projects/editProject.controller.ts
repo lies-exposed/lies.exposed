@@ -1,3 +1,5 @@
+import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
+import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -6,10 +8,8 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { toProjectIO } from "./project.io.js";
-import { ProjectEntity } from "#entities/Project.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
-import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeEditProjectRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(

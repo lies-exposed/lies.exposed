@@ -1,21 +1,19 @@
 import { Config } from "#app/config.js";
 import { makeApp } from "#app/index.js";
 import { type ServerContext } from "#context/context.type.js";
-import { ACTOR_ENTITY_NAME } from "#entities/Actor.entity.js";
-import { AREA_ENTITY_NAME } from "#entities/Area.entity.js";
-import { EVENT_ENTITY_NAME } from "#entities/Event.v2.entity.js";
-import { GROUP_ENTITY_NAME } from "#entities/Group.entity.js";
-import { GROUP_MEMBER_ENTITY_NAME } from "#entities/GroupMember.entity.js";
-import { KEYWORD_ENTITY_NAME } from "#entities/Keyword.entity.js";
-import { LINK_ENTITY_NAME } from "#entities/Link.entity.js";
-import { MEDIA_ENTITY_NAME } from "#entities/Media.entity.js";
-import { SOCIAL_POST_ENTITY_NAME } from '#entities/SocialPost.entity.js';
-import { STORY_ENTITY_NAME } from '#entities/Story.entity.js';
-import { USER_ENTITY_NAME } from '#entities/User.entity.js';
+import { ACTOR_ENTITY_NAME } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { AREA_ENTITY_NAME } from "@liexp/backend/lib/entities/Area.entity.js";
+import { EVENT_ENTITY_NAME } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GROUP_ENTITY_NAME } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GROUP_MEMBER_ENTITY_NAME } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { KEYWORD_ENTITY_NAME } from "@liexp/backend/lib/entities/Keyword.entity.js";
+import { LINK_ENTITY_NAME } from "@liexp/backend/lib/entities/Link.entity.js";
+import { MEDIA_ENTITY_NAME } from "@liexp/backend/lib/entities/Media.entity.js";
+import { SOCIAL_POST_ENTITY_NAME } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { STORY_ENTITY_NAME } from "@liexp/backend/lib/entities/Story.entity.js";
+import { USER_ENTITY_NAME } from "@liexp/backend/lib/entities/User.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { ENV } from "#io/ENV.js";
-import { GetQueueProvider } from "#providers/queue.provider.js";
-import { getDataSource } from "#utils/data-source.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
@@ -31,14 +29,19 @@ import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { AxiosInstance } from "axios";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
-import { toError } from 'fp-ts/lib/Either.js';
+import { toError } from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { vi } from "vitest";
-import { mocks, type AppMocks } from "./mocks.js";
+import { AppMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
+import {
+  getDataSource,
+  getORMConfig,
+} from "@liexp/backend/lib/utils/data-source.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 
 vi.mock("axios", () => ({
   default: {
@@ -67,7 +70,7 @@ export const loadAppContext = async (
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
-        getDataSource(process.env as any, false),
+        getDataSource(getORMConfig(process.env as any, false)),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
@@ -76,11 +79,14 @@ export const loadAppContext = async (
         TE.mapLeft(toControllerError),
       ),
     }),
-    TE.map(({ db, env }) => ({
+    TE.map(({ db, env }) => {
+      const config = Config(env, path.resolve(__dirname, ".."))
+
+      return ({
       env,
       db,
       logger,
-      config: Config(env, path.resolve(__dirname, "..")),
+      config,
       jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
       ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
       puppeteer: GetPuppeteerProvider(
@@ -116,7 +122,7 @@ export const loadAppContext = async (
       }),
       ner: GetNERProvider({
         logger,
-        entitiesFile: path.resolve(__dirname, "entities.json"),
+        entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
         nlp: mocks.ner as any,
       }),
       langchain: {} as any,
@@ -129,7 +135,8 @@ export const loadAppContext = async (
         apiKey: "fake-geo-api-key",
       }),
       queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
-    })),
+    })
+}),
     throwTE,
   );
 };
@@ -139,7 +146,7 @@ export const initAppTest = async (
   database: string,
 ): Promise<AppTest> => {
   const appTest = await pipe(
-    getDataSource({ ...ctx.env, DB_DATABASE: database }, false),
+    getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database }, false)),
     TE.chain((source) => GetTypeORMClient(source)),
     TE.map((db) => ({ ...ctx, db })),
     TE.map((ctx) => ({

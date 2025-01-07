@@ -1,3 +1,6 @@
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/createThumbnail.flow.js";
+import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
@@ -9,11 +12,8 @@ import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type CronJobTE } from "./cron-task.type.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import ControllerErrorM, { type ControllerError } from "#io/ControllerError.js";
-import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 import { fetchManyMedia } from "#queries/media/fetchManyMedia.query.js";
 
 const createThumbnailTask =

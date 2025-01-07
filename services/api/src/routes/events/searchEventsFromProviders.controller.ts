@@ -1,3 +1,6 @@
+import { type LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
+import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
 import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { searchWithGoogle } from "@liexp/backend/lib/scrapers/searchLinksWithGoogle.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -10,9 +13,6 @@ import * as Ord from "fp-ts/lib/Ord.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as S from "fp-ts/lib/string.js";
 import { type ServerContext } from "#context/context.type.js";
-import { type LinkEntity } from "#entities/Link.entity.js";
-import { fetchAsLink } from "#flows/links/link.flow.js";
-import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
@@ -50,8 +50,11 @@ export const SearchEventsFromProviderRoute = (
                 TE.mapLeft(toControllerError),
                 TE.chain((ll) => {
                   return pipe(
-                    ll.map((l: any) => fetchAsLink(user, l, undefined)(ctx)),
+                    ll.map((l: any) =>
+                      fromURL<ServerContext>(user, l, undefined)(ctx),
+                    ),
                     A.sequence(TE.ApplicativePar),
+                    TE.mapLeft(toControllerError),
                   );
                 }),
               );

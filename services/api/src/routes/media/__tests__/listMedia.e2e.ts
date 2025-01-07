@@ -1,11 +1,11 @@
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { type UncategorizedArbType } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
 import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("List Media", () => {
   let Test: AppTest,

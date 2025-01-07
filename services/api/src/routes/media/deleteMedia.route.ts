@@ -1,12 +1,12 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
+import { deleteFromSpace } from "@liexp/backend/lib/flows/space/deleteFromSpace.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
-import { deleteFromSpace } from "#flows/media/deleteFromSpace.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 

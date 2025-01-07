@@ -1,5 +1,5 @@
 import { defineProject, mergeConfig } from "vitest/config";
-import { PathnameAlias, baseConfig } from "../vitest.base-config.js";
+import { PathnameAlias, baseConfig } from "@liexp/backend/lib/test/vitest.base-config.js";
 
 const toAlias = PathnameAlias(import.meta.url);
 

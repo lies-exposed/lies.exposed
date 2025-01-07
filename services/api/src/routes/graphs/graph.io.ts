@@ -1,10 +1,10 @@
+import { type GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
+import { IOCodec } from "@liexp/backend/lib/io/DomainCodec.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import * as E from "fp-ts/lib/Either.js";
-import { type GraphEntity } from "#entities/Graph.entity.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { IOCodec } from "#io/DomainCodec.js";
 
 const toGraphIO = (
   a: GraphEntity,

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "composite": false,
     "types": ["node"],
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "tsBuildInfoFile": "lib/build.tsbuildinfo"
   },
   "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib", "./src/**/*.spec.ts"]

@@ -1,3 +1,6 @@
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
+import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { MediaArb, ProjectArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -5,9 +8,6 @@ import { fc } from "@liexp/test";
 import * as t from "io-ts";
 import jwt from "jsonwebtoken";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { ProjectEntity } from "#entities/Project.entity.js";
-import { ProjectImageEntity } from "#entities/ProjectImage.entity.js";
 
 describe("List Project Images", () => {
   let appTest: AppTest;

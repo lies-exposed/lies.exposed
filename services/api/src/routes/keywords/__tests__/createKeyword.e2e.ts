@@ -1,8 +1,8 @@
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
 
 describe("Create Keyword", () => {
   let Test: AppTest;
@@ -11,7 +11,7 @@ describe("Create Keyword", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    const user = await saveUser(Test, ["admin:create"]);
+    const user = await saveUser(Test.ctx, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
@@ -30,7 +30,7 @@ describe("Create Keyword", () => {
   });
 
   test("Should return a 401 when token has no 'admin:create' permission' ", async () => {
-    const user = await saveUser(Test, ["admin:read"]);
+    const user = await saveUser(Test.ctx, ["admin:read"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
 

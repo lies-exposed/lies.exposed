@@ -1,3 +1,5 @@
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
@@ -5,11 +7,9 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { addDays } from "date-fns";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Get Network", () => {
-  let Test: AppTest, authorizationToken: string, events: any[], keywords: any[];
+  let Test: AppTest, authorizationToken: string, events: any[];
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -29,7 +29,7 @@ describe("Get Network", () => {
 
     await throwTE(Test.ctx.db.save(KeywordEntity, [keyword]));
 
-    keywords = [keyword];
+    // keywords = [keyword];
 
     events = tests.fc.sample(UncategorizedArb, 10).map((e, i) => ({
       ...e,

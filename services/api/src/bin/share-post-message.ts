@@ -2,7 +2,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
 import { type CommandFlow } from "./command.type.js";
-import { postToIG } from "#flows/social-posts/postToIG.flow.js";
+import { postToIG } from "#flows/social-post/postToIG.flow.js";
 
 export const sharePostMessage: CommandFlow = async (ctx) => {
   await pipe(

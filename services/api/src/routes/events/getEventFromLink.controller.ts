@@ -1,4 +1,7 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -11,9 +14,6 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { EventV2IO } from "./eventV2.io.js";
-import { searchEventV2Query } from "./queries/searchEventsV2.query.js";
-import { LinkEntity } from "#entities/Link.entity.js";
 import {
   toControllerError,
   type ControllerError,

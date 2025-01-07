@@ -1,6 +1,14 @@
 import * as fs from "fs";
 import path from "path";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
+import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
+import { fetchRelations } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
+import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
@@ -40,19 +48,11 @@ import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { type TEReader, type Flow } from "#flows/flow.types.js";
 import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
-import { ActorIO } from "#routes/actors/actor.io.js";
-import { EventV2IO } from "#routes/events/eventV2.io.js";
-import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
-import { infiniteSearchEventQuery } from "#routes/events/queries/searchEventsV2.query.js";
-import { GroupIO } from "#routes/groups/group.io.js";
-import { KeywordIO } from "#routes/keywords/keyword.io.js";
-import { MediaIO } from "#routes/media/media.io.js";
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];

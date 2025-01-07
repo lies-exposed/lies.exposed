@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { type CommandFlow } from "./command.type.js";
-import { createStats as createStatsFlow } from "#flows/stats/createStats.flow.js";
+import { createEntityStats } from "#flows/stats/createStats.flow.js";
 
 const toError = (m: string): string => `
 
@@ -29,7 +29,7 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
   }
 
   return pipe(
-    createStatsFlow(type, id)(ctx),
+    createEntityStats(type, id)(ctx),
     fp.TE.bimap(
       (err) => {
         ctx.logger.error.log("Error %O", err);

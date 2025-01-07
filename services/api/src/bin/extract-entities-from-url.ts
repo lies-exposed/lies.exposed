@@ -1,7 +1,7 @@
+import { extractRelationsFromURL as extractRelationsFromURLFlow } from "@liexp/backend/lib/flows/admin/nlp/extractRelationsFromURL.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type CommandFlow } from "./command.type.js";
-import { extractRelationsFromURL as extractRelationsFromURLFlow } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 export const extractEntitiesFromURL: CommandFlow = async (

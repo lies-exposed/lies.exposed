@@ -1,16 +1,14 @@
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Delete Keyword", () => {
   let Test: AppTest, keyword: any, user: any, authorizationToken: string;
   beforeAll(async () => {
     Test = await GetAppTest();
-    user = await saveUser(Test, ["admin:create"]);
+    user = await saveUser(Test.ctx, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
     keyword = (
@@ -29,7 +27,7 @@ describe("Delete Keyword", () => {
   });
 
   test("Should return a 401", async () => {
-    user = await saveUser(Test, ["admin:read"]);
+    user = await saveUser(Test.ctx, ["admin:read"]);
     const { authorization } = await loginUser(Test)(user);
     const response = await Test.req
       .delete(`/v1/keywords/${keyword.id}`)
@@ -39,7 +37,7 @@ describe("Delete Keyword", () => {
   });
 
   test("Should return a 200", async () => {
-    user = await saveUser(Test, ["admin:delete"]);
+    user = await saveUser(Test.ctx, ["admin:delete"]);
     const { authorization } = await loginUser(Test)(user);
 
     const response = await Test.req

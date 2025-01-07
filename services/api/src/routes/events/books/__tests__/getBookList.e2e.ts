@@ -1,11 +1,11 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { BookEventArb } from "@liexp/shared/lib/tests/arbitrary/events/BookEvent.arbitrary.js";
 import { ActorArb, GroupArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
 
 describe("Get Book List", () => {
   let appTest: AppTest;

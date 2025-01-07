@@ -1,3 +1,7 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import {
   ActorArb,
   GroupArb,
@@ -7,10 +11,6 @@ import {
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 describe("Get event from link", () => {
   let appTest: AppTest;

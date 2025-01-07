@@ -2,7 +2,6 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { fetchCoordinates } from "#flows/areas/fetchCoordinates.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
@@ -12,7 +11,9 @@ export const MakeAdminSearchAreaCoordinatesRoute: Route = (r, ctx) => {
     Endpoints.Admin.Custom.SearchAreaCoordinates,
     ({ body: { label } }) => {
       return pipe(
-        fetchCoordinates(label)(ctx),
+        // TODO: use pub sub
+        // fetchCoordinates(label)(ctx),
+        TE.right(fp.O.none),
         TE.map((geo) =>
           pipe(
             geo,

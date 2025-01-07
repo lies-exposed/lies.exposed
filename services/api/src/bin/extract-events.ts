@@ -1,3 +1,10 @@
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import {
+  extractEventFromURL,
+  type DataPayloadLink,
+} from "@liexp/backend/lib/flows/event/extractFromURL.flow.js";
+import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
+import { findByURL } from "@liexp/backend/lib/queries/events/scientificStudy.query.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
@@ -5,17 +12,10 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type CommandFlow } from "./command.type.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import {
-  extractEventFromURL,
-  type DataPayloadLink,
-} from "#flows/events/extractFromURL.flow.js";
-import { getOneAdminOrFail } from "#flows/users/getOneUserOrFail.flow.js";
 import {
   toControllerError,
   type ControllerError,
 } from "#io/ControllerError.js";
-import { findByURL } from "#queries/events/scientificStudy.query.js";
 
 export const extractEvents: CommandFlow = async (ctx, args) => {
   const [url] = args;

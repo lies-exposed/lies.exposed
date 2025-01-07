@@ -1,5 +1,9 @@
 // /* eslint-disable @typescript-eslint/no-var-requires */
 
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/createThumbnail.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -11,10 +15,6 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { IsNull, Not } from "typeorm";
 import { type CommandFlow } from "./command.type.js";
 import { type ServerContext } from "#context/context.type.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { MediaEntity } from "#entities/Media.entity.js";
-import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { type TEControllerError } from "#types/TEControllerError.js";
 

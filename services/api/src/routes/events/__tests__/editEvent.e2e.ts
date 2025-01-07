@@ -1,3 +1,13 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/user.utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -10,16 +20,6 @@ import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import {
-  loginUser,
-  saveUser,
-  type UserTest,
-} from "../../../../test/user.utils.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { AreaEntity } from "#entities/Area.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 describe("Edit Event", () => {
   let appTest: AppTest;
@@ -87,9 +87,9 @@ describe("Edit Event", () => {
     delete event.payload.location;
     delete event.deletedAt;
 
-    adminUser = await saveUser(appTest, [http.User.AdminDelete.value]);
+    adminUser = await saveUser(appTest.ctx, [http.User.AdminDelete.value]);
 
-    supporterUser = await saveUser(appTest, []);
+    supporterUser = await saveUser(appTest.ctx, []);
 
     adminAuthToken = await loginUser(appTest)(adminUser).then(
       ({ authorization }) => authorization,

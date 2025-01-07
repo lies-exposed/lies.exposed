@@ -1,3 +1,4 @@
+import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import {
@@ -14,7 +15,6 @@ import { searchEventSuggestion } from "#flows/event-suggestion/searchEventSugges
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
-import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const GetEventSuggestionListRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["event-suggestion:read"])(ctx))(

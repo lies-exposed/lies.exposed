@@ -1,3 +1,4 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
@@ -6,8 +7,7 @@ import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { type ServerContext } from "#context/context.type.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
+import { fetchGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
