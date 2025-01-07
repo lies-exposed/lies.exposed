@@ -1,3 +1,7 @@
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { getMediaWithoutThumbnailsFlow } from "@liexp/backend/lib/flows/media/admin/getMediaAdminStats.flow.js";
+import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/createThumbnail.flow.js";
+import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
@@ -5,14 +9,10 @@ import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import Cron from "node-cron";
 import { type ServerContext } from "#context/context.type.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
-import { getMediaWithoutThumbnailsFlow } from "#flows/admin/media/getMediaAdminStats.flow.js";
-import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
 import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
-import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const generateMissingThumbnailsCron = (
   ctx: ServerContext,

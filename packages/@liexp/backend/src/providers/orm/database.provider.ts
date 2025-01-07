@@ -95,12 +95,9 @@ interface GetDatabaseClientCtx {
 
 type GetDatabaseClient = (ctx: GetDatabaseClientCtx) => DatabaseClient;
 
-export const toError =
-  (l: logger.Logger) =>
+export const toDBError =
   (override?: Partial<DBError>) =>
   (e: unknown): DBError => {
-    l.error.log("An error occurred %O", e);
-
     if (e instanceof IOError) {
       return e as DBError;
     }
@@ -120,6 +117,13 @@ export const toError =
     });
   };
 
+const toDBErrorReader =
+  (l: logger.Logger) =>
+  (o?: Partial<DBError>) =>
+  (e: unknown): DBError => {
+    l.error.log("An error occurred %O", e);
+    return toDBError(o)(e);
+  };
 const pgFormat: FormatConfig = {
   escapeIdentifier: (str) => escapePostgresIdentifier(str),
   formatValue: (value, index) => ({ placeholder: `$${index + 1}`, value }),
@@ -136,7 +140,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     return format;
   };
 
-  const handleError = toError(ctx.logger);
+  const handleError = toDBErrorReader(ctx.logger);
 
   const execQuery = <T>(
     lazyQ: (db: EntityManager) => Promise<T>,
@@ -302,7 +306,10 @@ const MakeDatabaseClient: MakeDatabaseClient =
 
       logger.debug.log("Connection %s not found, creating...", connectionName);
 
-      return TE.tryCatch(() => dataSource.initialize(), toError(logger)());
+      return TE.tryCatch(
+        () => dataSource.initialize(),
+        toDBErrorReader(logger)(),
+      );
     };
 
     return pipe(

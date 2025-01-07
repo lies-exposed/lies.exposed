@@ -1,3 +1,6 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { extractRelationsFromURL } from "@liexp/backend/lib/flows/admin/nlp/extractRelationsFromURL.flow.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
@@ -6,14 +9,11 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { extractRelationsFromURL } from "#flows/nlp/extractRelationsFromURL.flow.js";
 import {
   type ControllerError,
   toControllerError,
 } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { LinkIO } from "#routes/links/link.io.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeGetMetadataRoute: Route = (r, ctx) => {

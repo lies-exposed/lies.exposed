@@ -1,13 +1,13 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
-import { EventV2IO } from "../eventV2.io.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { foldOptionals } from "#utils/foldOptionals.utils.js";
 
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(

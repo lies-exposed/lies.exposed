@@ -1,10 +1,10 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity.js";
 import { type Route } from "../route.types.js";
-import { GroupIO } from "./group.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeGetGroupRoute: Route = (r, ctx) => {

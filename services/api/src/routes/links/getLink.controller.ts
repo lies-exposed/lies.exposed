@@ -1,11 +1,11 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { LinkIO } from "./link.io.js";
-import { LinkEntity } from "#entities/Link.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 

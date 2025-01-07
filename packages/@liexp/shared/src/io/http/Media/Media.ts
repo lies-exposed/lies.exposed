@@ -5,6 +5,7 @@ import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import {
   GetListQueryDateRange,
@@ -29,6 +30,7 @@ export const GetListMediaQuery = t.type(
     ...GetListQueryAreas.props,
     ...GetListQueryLocations.props,
     type: optionFromNullable(t.union([t.array(MediaType), t.string])),
+    location: optionFromNullable(URL),
     ids: optionFromNullable(t.array(UUID)),
     exclude: optionFromNullable(t.array(UUID)),
     emptyThumbnail: optionFromNullable(BooleanFromString),
@@ -57,6 +59,7 @@ export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
     keywords: fp.O.none,
     locations: fp.O.none,
     q: fp.O.none,
+    location: fp.O.none,
     startDate: fp.O.none,
     endDate: fp.O.none,
     emptyThumbnail: fp.O.none,

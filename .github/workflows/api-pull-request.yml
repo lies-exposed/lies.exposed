@@ -113,11 +113,6 @@ jobs:
           DOTENV_CONFIG_PATH: .env.test
         run: pnpm api migration:run
 
-      - name: Upsert NLP Entities
-        env:
-          DOTENV_CONFIG_PATH: .env.test
-        run: pnpm api bin:run upsert-nlp-entities
-
       - name: Run tests
         env:
           DEBUG: "-@liexp*"

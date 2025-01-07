@@ -1,13 +1,14 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import { SearchFromWikipediaPubSub } from "@liexp/backend/lib/pubsub/searchFromWikipedia.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { GROUP } from "@liexp/shared/lib/io/http/Common/BySubject.js";
 import { CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity.js";
 import { type Route } from "../route.types.js";
-import { GroupIO } from "./group.io.js";
-import { searchGroupAndCreateFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -17,27 +18,36 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
     ({ body }) => {
       return pipe(
         CreateGroupBody.is(body)
-          ? TE.right(body)
-          : searchGroupAndCreateFromWikipedia(body.search, "wikipedia")(ctx),
-        TE.chain(({ color, avatar, ...b }) =>
-          ctx.db.save(GroupEntity, [
-            {
-              ...b,
-              avatar: { id: avatar },
-              color: color.replace("#", ""),
-              members: b.members.map((m) => ({
-                ...m,
-                actor: { id: m.actor },
-                endDate: O.toNullable(m.endDate),
-              })),
-            },
-          ]),
-        ),
-        TE.chain(([group]) =>
-          ctx.db.findOneOrFail(GroupEntity, {
-            where: { id: Equal(group.id) },
-          }),
-        ),
+          ? pipe(
+              TE.right(body),
+              TE.chain(({ color, avatar, ...b }) =>
+                ctx.db.save(GroupEntity, [
+                  {
+                    ...b,
+                    avatar: { id: avatar },
+                    color: color.replace("#", ""),
+                    members: b.members.map((m) => ({
+                      ...m,
+                      actor: { id: m.actor },
+                      endDate: O.toNullable(m.endDate),
+                    })),
+                  },
+                ]),
+              ),
+              TE.chain(([group]) =>
+                ctx.db.findOneOrFail(GroupEntity, {
+                  where: { id: Equal(group.id) },
+                }),
+              ),
+            )
+          : pipe(
+              SearchFromWikipediaPubSub.publish({
+                search: body.search,
+                provider: "wikipedia",
+                type: GROUP.value,
+              })(ctx),
+              TE.map(() => new GroupEntity()),
+            ),
         TE.chainEitherK((g) => GroupIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT)),
         TE.map((data) => ({
           body: {

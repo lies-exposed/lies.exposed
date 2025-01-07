@@ -12,17 +12,15 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
-  "include": [
-    "./src",
-    "./typings",
-    "../shared/typings",
-    "./src/**/*.json"
-  ],
+  "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"],
   "references": [
     {
@@ -31,5 +29,5 @@
     {
       "path": "../shared"
     }
-  ],
+  ]
 }

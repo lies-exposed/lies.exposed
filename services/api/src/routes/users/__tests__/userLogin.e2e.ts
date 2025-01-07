@@ -1,11 +1,11 @@
+import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { hash } from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { UserEntity } from "#entities/User.entity.js";
-import { hash } from "#utils/password.utils.js";
 
 describe("User login", () => {
   let Test: AppTest, user: UserEntity;

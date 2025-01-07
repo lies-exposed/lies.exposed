@@ -1,8 +1,8 @@
+import { buildImageWithSharp } from "@liexp/backend/lib/flows/media/admin/build-image/buildImageWithSharp.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { buildImageWithSharp } from "#flows/media/build-image/buildImageWithSharp.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";

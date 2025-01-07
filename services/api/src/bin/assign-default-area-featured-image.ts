@@ -1,8 +1,8 @@
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { IsNull } from "typeorm";
 import { type CommandFlow } from "./command.type.js";
-import { AreaEntity } from "#entities/Area.entity.js";
 
 export const assignDefaultAreaFeaturedImage: CommandFlow = async (ctx) => {
   await pipe(

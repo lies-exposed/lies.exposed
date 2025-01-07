@@ -1,20 +1,20 @@
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("Create Actor", () => {
-  let Test: AppTest, authorizationToken: string, user, actor: any;
+  let Test: AppTest, authorizationToken: string, user;
 
   const [avatar] = tests.fc.sample(MediaArb, 1);
 
   beforeAll(async () => {
     Test = await GetAppTest();
-    user = await saveUser(Test, []);
+    user = await saveUser(Test.ctx, []);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
     await pipe(
@@ -69,7 +69,7 @@ describe("Create Actor", () => {
   });
 
   test("Should return a 400 when 'username' is not provided", async () => {
-    user = await saveUser(Test, ["admin:create"]);
+    user = await saveUser(Test.ctx, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
 
@@ -103,7 +103,5 @@ describe("Create Actor", () => {
       });
 
     expect(response.status).toEqual(201);
-
-    actor = response.body.data;
   });
 });

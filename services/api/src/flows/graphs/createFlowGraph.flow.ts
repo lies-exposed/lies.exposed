@@ -1,5 +1,6 @@
 import path from "path";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { getTotals } from "@liexp/shared/lib/helpers/event/event.js";
@@ -26,7 +27,6 @@ import {
   differenceInDays,
   subYears,
 } from "@liexp/shared/lib/utils/date.utils.js";
-import { EventV2IO } from "../../routes/events/eventV2.io.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsByRelation } from "../events/fetchByRelations.flow.js";
 import { fetchEventsRelations } from "../events/fetchEventsRelations.flow.js";

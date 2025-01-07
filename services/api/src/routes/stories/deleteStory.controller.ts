@@ -1,9 +1,9 @@
+import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
+import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { StoryIO } from "./story.io.js";
-import { StoryEntity } from "#entities/Story.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";

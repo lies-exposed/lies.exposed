@@ -1,8 +1,8 @@
+import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { PostToSocialPlatformsPubSub } from "@liexp/backend/lib/pubsub/postToSocialPlatforms.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { PostToSocialPlatformsPubSub } from "../../subscribers/social-post/postToSocialPlatforms.subscriber.js";
-import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";

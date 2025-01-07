@@ -1,3 +1,8 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { takeLinkScreenshotAndSave } from "@liexp/backend/lib/flows/links/takeLinkScreenshot.flow.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -6,12 +11,7 @@ import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { LinkIO } from "./link.io.js";
 import { type ServerContext } from "#context/context.type.js";
-import { LinkEntity } from "#entities/Link.entity.js";
-import { type MediaEntity } from "#entities/Media.entity.js";
-import { UserEntity } from "#entities/User.entity.js";
-import { takeLinkScreenshotAndSave } from "#flows/links/takeLinkScreenshot.flow.js";
 import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import {
@@ -68,6 +68,7 @@ export const MakeTakeLinkScreenshotRoute = (
           pipe(
             getMediaOrMakeFromLinkTask(link),
             TE.map(([media]) => ({ ...link, image: media as any })),
+            // TODO: use pub sub
             TE.chain((linkWithMedia) =>
               takeLinkScreenshotAndSave(linkWithMedia)(ctx),
             ),

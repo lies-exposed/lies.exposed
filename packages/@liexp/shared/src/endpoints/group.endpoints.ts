@@ -21,6 +21,7 @@ export const List = Endpoint({
         ]),
       ),
       name: optionFromNullable(t.string),
+      username: optionFromNullable(t.string),
       ids: optionFromNullable(t.array(UUID)),
       members: optionFromNullable(t.array(t.string)),
     }),

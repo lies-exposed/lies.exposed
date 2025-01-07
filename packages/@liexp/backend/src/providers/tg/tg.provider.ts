@@ -4,6 +4,7 @@ import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import TelegramBot from "node-telegram-bot-api";
+import { IOError } from "errors";
 
 export interface TGBotProvider {
   api: TelegramBot;
@@ -52,14 +53,22 @@ export interface TGBotProviderOpts {
   baseApiUrl: string;
 }
 
-const toTGError = (e: unknown): Error => {
+export class TGError extends IOError {
+  name = "TGError";
+}
+
+export const toTGError = (e: unknown): TGError => {
   if (e) {
     const errorAny: any = e;
     if (errorAny.code === "ETELEGRAM") {
       return errorAny.toJSON();
     }
   }
-  return new Error("Unknown telegram error", { cause: e });
+  return new TGError("Unknown telegram error", {
+    kind: "ServerError",
+    status: "500",
+    meta: e,
+  });
 };
 
 const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {

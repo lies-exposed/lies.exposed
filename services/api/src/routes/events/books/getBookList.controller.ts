@@ -1,13 +1,14 @@
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
+import { DBService } from "@liexp/backend/lib/services/db.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
-import { EventV2IO } from "../eventV2.io.js";
-import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
+import { type ServerContext } from "../../../context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import { DBService } from "#services/db.service.js";
 
 export const MakeListBookEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
@@ -41,7 +42,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
       },
     }) => {
       return pipe(
-        DBService.getORMOptions({ ...query }),
+        DBService.getORMOptions<ServerContext>({ ...query }),
         fp.RTE.fromReader,
         fp.RTE.chain((ormOptions) =>
           searchEventV2Query({

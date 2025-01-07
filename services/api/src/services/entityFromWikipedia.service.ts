@@ -1,14 +1,14 @@
+import { findUserOrReplyFlow } from "@liexp/backend/lib/flows/tg/findUserOrReply.flow.js";
+import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { findUserOrReplyFlow } from "../flows/tg/findUserOrReply.flow.js";
-import { type ServerContext } from "#context/context.type.js";
-import { type TEReader } from "#flows/flow.types.js";
-import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";
-import { toControllerError } from "#io/ControllerError.js";
-import { type TEControllerError } from "#types/TEControllerError.js";
+import { type ServerContext } from "../context/context.type.js";
+import { type TEReader } from "../flows/flow.types.js";
+import { toControllerError } from "../io/ControllerError.js";
+import { type TEControllerError } from "../types/TEControllerError.js";
 
 const callbackQueryListeners: Record<
   string,

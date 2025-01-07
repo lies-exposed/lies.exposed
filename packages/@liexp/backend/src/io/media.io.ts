@@ -1,0 +1,53 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import {
+  type _DecodeError,
+  DecodeError,
+} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import * as io from "@liexp/shared/lib/io/index.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import * as E from "fp-ts/lib/Either.js";
+import { type MediaEntity } from "../entities/Media.entity.js";
+import { IOCodec } from "./DomainCodec.js";
+
+export type SimpleMedia<T extends MediaType = MediaType> = Pick<
+  MediaEntity,
+  "id" | "location" | "thumbnail"
+> & {
+  type: T;
+};
+
+const toMediaIO = (
+  media: MediaEntity,
+  spaceEndpoint: string,
+): E.Either<_DecodeError, io.http.Media.Media> => {
+  const extra = media.extra
+    ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
+    : undefined;
+
+  return pipe(
+    io.http.Media.AdminMedia.decode({
+      ...media,
+      label: media.label ?? undefined,
+      description: media.description ?? undefined,
+      location: ensureHTTPS(media.location),
+      creator: media.creator ?? undefined,
+      extra,
+      links: media.links ?? [],
+      events: media.events ?? [],
+      keywords: media.keywords ?? [],
+      areas: media.areas ?? [],
+      featuredInStories: media.featuredInStories ?? [],
+      socialPosts: media.socialPosts ?? [],
+      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
+      transferable: !media.location.includes(spaceEndpoint),
+      createdAt: media.createdAt.toISOString(),
+      updatedAt: media.updatedAt.toISOString(),
+      deletedAt: media.deletedAt?.toISOString() ?? undefined,
+    }),
+    E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
+  );
+};
+
+export const MediaIO = IOCodec(toMediaIO, "media");

@@ -1,17 +1,15 @@
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
+import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
+import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EditMediaBody } from "@liexp/shared/lib/io/http/Media/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as t from "io-ts";
 import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
-import { ExtractMediaExtraPubSub } from "../../subscribers/media/extractMediaExtra.subscriber.js";
 import { type ServerContext } from "#context/context.type.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { createThumbnail } from "#flows/media/thumbnails/createThumbnail.flow.js";
-import { transferFromExternalProvider } from "#flows/media/transferFromExternalProvider.flow.js";
-import { MediaRepository } from "#providers/db/entity-repository.provider.js";
 
 export const editMedia = (
   id: UUID,
@@ -72,33 +70,33 @@ export const editMedia = (
     fp.RTE.bind("thumbnail", ({ media: m }) =>
       O.isSome(overrideThumbnail)
         ? pipe(
-            createThumbnail({
+            MediaPubSub.CreateMediaThumbnailPubSub.publish({
               ...m,
-              ...body,
+              type: body.type,
+              thumbnail: undefined,
               id,
             }),
-            fp.RTE.map((s) => s[0]),
           )
         : O.isSome(transferThumbnail) && m.thumbnail
-          ? transferFromExternalProvider(
-              m.id,
-              m.thumbnail,
-              `${m.id}-thumb`,
-              m.type,
-            )
-          : fp.RTE.right(O.toNullable(thumbnail) ?? m.thumbnail),
+          ? MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
+              mediaId: m.id,
+              url: m.thumbnail,
+              fileName: `${m.id}-thumb`,
+              mimeType: m.type,
+            })
+          : fp.RTE.right(0),
     ),
     fp.RTE.bind("location", ({ media }) =>
       O.isSome(transfer)
-        ? transferFromExternalProvider(
-            media.id,
-            media.location,
-            media.id,
-            media.type,
-          )
-        : fp.RTE.right(location),
+        ? MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
+            mediaId: media.id,
+            url: media.location,
+            fileName: media.id,
+            mimeType: media.type,
+          })
+        : fp.RTE.right(0),
     ),
-    fp.RTE.chain(({ thumbnail, location, media }) =>
+    fp.RTE.chain(({ media }) =>
       pipe(
         MediaRepository.save<ServerContext>([
           {
@@ -118,8 +116,6 @@ export const editMedia = (
             deletedAt: restore ? null : media.deletedAt,
             description,
             extra,
-            thumbnail,
-            location: ensureHTTPS(location),
             id,
           },
         ]),

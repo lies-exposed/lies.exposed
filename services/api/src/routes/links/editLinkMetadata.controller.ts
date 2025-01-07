@@ -1,4 +1,6 @@
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -7,9 +9,7 @@ import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { LinkIO } from "./link.io.js";
 import { type ServerContext } from "#context/context.type.js";
-import { LinkEntity } from "#entities/Link.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 

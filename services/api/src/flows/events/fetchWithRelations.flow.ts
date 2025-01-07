@@ -1,3 +1,8 @@
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import {
+  type SearchEventOutput,
+  searchEventV2Query,
+} from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -18,11 +23,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { type ControllerError } from "#io/ControllerError.js";
-import { EventV2IO } from "#routes/events/eventV2.io.js";
-import {
-  searchEventV2Query,
-  type SearchEventOutput,
-} from "#routes/events/queries/searchEventsV2.query.js";
 
 export const fetchEventsWithRelations =
   (

@@ -1,12 +1,12 @@
+import { type WikiProviders } from "@liexp/backend/lib/flows/wikipedia/fetchFromWikipedia.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 
 import prompts from "prompts";
 import { type CommandFlow } from "./command.type.js";
 import { fetchActorFromWikipedia } from "#flows/actors/fetchAndCreateActorFromWikipedia.flow.js";
-import { fetchAndCreateAreaFromWikipedia } from "#flows/areas/fetchAndCreateAreaFromWikipedia.js";
-import { fetchGroupFromWikipedia } from "#flows/groups/fetchGroupFromWikipedia.js";
-import { type WikiProviders } from "#flows/wikipedia/fetchFromWikipedia.js";
+import { fetchAndCreateAreaFromWikipedia } from "#flows/area/fetchAndCreateAreaFromWikipedia.js";
+import { fetchGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
 
 /**
  * Usage create-from-wikipedia $type $search

@@ -1,4 +1,6 @@
+import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -6,8 +8,6 @@ import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
-import { KeywordIO } from "./keyword.io.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 

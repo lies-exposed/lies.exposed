@@ -4,13 +4,13 @@ import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
+import type winkNLP from "wink-nlp";
 import {
-  type ItemToken,
   type CustomEntityExample,
   type Detail,
+  type ItemToken,
   type SentenceImportance,
 } from "wink-nlp";
-import type winkNLP from "wink-nlp";
 import NLPUtils from "wink-nlp-utils";
 
 export class NERError extends IOError {
@@ -66,11 +66,12 @@ interface NERProviderContext {
 }
 
 export const GetNERProvider = ({
+  entitiesFile,
   logger,
   nlp: winkNLP,
 }: NERProviderContext): NERProvider => {
   return {
-    entitiesFile: `config/nlp/entities.json`,
+    entitiesFile,
     process: (text, patterns) => {
       logger.debug.log("Looking for %O", patterns);
       return pipe(

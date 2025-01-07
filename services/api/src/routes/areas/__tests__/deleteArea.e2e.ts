@@ -1,3 +1,4 @@
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import {
   AreaArb,
   type AreaArbType,
@@ -5,7 +6,6 @@ import {
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { AreaEntity } from "#entities/Area.entity.js";
 
 describe("Delete Area", () => {
   let Test: AppTest, areas: AreaArbType[], authorizationToken: string;

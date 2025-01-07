@@ -1,6 +1,15 @@
 import { writeFileSync } from "fs";
 import path from "path";
 import { Stream } from "stream";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
+import { ffmpegCommandMock } from "@liexp/backend/lib/test/mocks/ffmpeg.mock.js";
+import { sharpMock } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/user.utils.js";
 import {
   IframeVideoType,
   ImageType,
@@ -12,21 +21,13 @@ import * as tests from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { ffmpegCommandMock } from "../../../../test/__mocks__/ffmpeg.mock.js";
-import { sharpMock } from "../../../../test/__mocks__/sharp.mock.js";
-import {
-  loginUser,
-  saveUser,
-  type UserTest,
-} from "../../../../test/user.utils.js";
-import { MediaEntity } from "#entities/Media.entity.js";
 
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
   const users: UserTest[] = [];
   beforeAll(async () => {
     Test = await GetAppTest();
-    const user = await saveUser(Test, ["admin:create"]);
+    const user = await saveUser(Test.ctx, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
@@ -45,6 +46,7 @@ describe("Create Media", () => {
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
     Test.mocks.sharp.mockClear();
+    Test.mocks.redis.publish.mockClear();
     mockClear(sharpMock);
   });
 
@@ -88,12 +90,19 @@ describe("Create Media", () => {
       }),
     }));
 
+    Test.mocks.redis.publish.mockResolvedValueOnce(1);
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)
       .send(media);
 
     expect(response.status).toEqual(200);
+
+    expect(Test.mocks.redis.publish).toHaveBeenCalledWith(
+      ExtractMediaExtraPubSub.channel,
+      expect.any(String),
+    );
   });
 
   test("Should create a media from MP4 file location", async () => {
@@ -117,8 +126,8 @@ describe("Create Media", () => {
 
     ffmpegCommandMock.on.mockImplementation(function (
       this: typeof ffmpegCommandMock,
-      event,
-      cb,
+      event: any,
+      cb: any,
     ) {
       if (event === "end") {
         for (let i = 0; i <= this._screenshots.count; i++) {
@@ -133,7 +142,7 @@ describe("Create Media", () => {
 
         cb();
       }
-    });
+    } as any);
 
     Test.mocks.ffmpeg.ffprobe.mockImplementation((file, cb: any) => {
       cb(null, {
@@ -165,6 +174,8 @@ describe("Create Media", () => {
         Location: uploadThumbLocation,
       }),
     }));
+
+    Test.mocks.redis.publish.mockResolvedValueOnce(1);
 
     const response = await Test.req
       .post("/v1/media")
@@ -237,6 +248,8 @@ describe("Create Media", () => {
       }),
     }));
 
+    Test.mocks.redis.publish.mockResolvedValueOnce(1);
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)
@@ -301,6 +314,8 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockImplementation(() => {
       return Promise.resolve({ data: Buffer.from([]) });
     });
+
+    Test.mocks.redis.publish.mockResolvedValueOnce(1);
 
     const response = await Test.req
       .post("/v1/media")

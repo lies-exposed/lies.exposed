@@ -1,13 +1,14 @@
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
+import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { searchEventV2Query } from "../queries/searchEventsV2.query.js";
+import { type ServerContext } from "../../../context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { EventV2IO } from "#routes/events/eventV2.io.js";
 import { type Route } from "#routes/route.types.js";
-import { getORMOptions } from "#utils/orm.utils.js";
 
 export const MakeListScientificStudyRoute: Route = (
   r,
@@ -37,7 +38,7 @@ export const MakeListScientificStudyRoute: Route = (
       const queryOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
 
       return pipe(
-        searchEventV2Query({
+        searchEventV2Query<ServerContext>({
           ids,
           type: O.some([SCIENTIFIC_STUDY.value]),
           groups: pipe(

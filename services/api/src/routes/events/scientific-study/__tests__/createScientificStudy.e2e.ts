@@ -1,3 +1,12 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import {
+  type UserTest,
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -12,15 +21,6 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
-import {
-  type UserTest,
-  loginUser,
-  saveUser,
-} from "../../../../../test/user.utils.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { LinkEntity } from "#entities/Link.entity.js";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
@@ -50,7 +50,7 @@ describe("Create Scientific Study", () => {
       ]),
     );
 
-    admin = await saveUser(appTest, [AdminCreate.value]);
+    admin = await saveUser(appTest.ctx, [AdminCreate.value]);
 
     authorizationToken = await loginUser(appTest)(admin).then(
       ({ authorization }) => authorization,

@@ -1,11 +1,11 @@
+import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { PostToSocialPlatformsPubSub } from "@liexp/backend/lib/pubsub/postToSocialPlatforms.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { addHours } from "date-fns";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { PostToSocialPlatformsPubSub } from "../../subscribers/social-post/postToSocialPlatforms.subscriber.js";
-import { SocialPostEntity } from "#entities/SocialPost.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 

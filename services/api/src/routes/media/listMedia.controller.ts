@@ -1,10 +1,10 @@
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchManyMedia } from "../../queries/media/fetchManyMedia.query.js";
-import { MediaIO } from "./media.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 

@@ -1,15 +1,15 @@
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import * as tests from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
 
 describe("Create Area", () => {
   let Test: AppTest, user: any, authorizationToken: string;
   beforeAll(async () => {
     Test = await GetAppTest();
 
-    user = await saveUser(Test, ["admin:create"]);
+    user = await saveUser(Test.ctx, ["admin:create"]);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
   });
@@ -19,7 +19,7 @@ describe("Create Area", () => {
   });
 
   test("Should return a 401", async () => {
-    const user = await saveUser(Test, ["admin:read"]);
+    const user = await saveUser(Test.ctx, ["admin:read"]);
     const { authorization } = await loginUser(Test)(user);
     const response = await Test.req
       .post("/v1/areas")

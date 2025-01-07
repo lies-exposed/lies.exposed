@@ -1,3 +1,8 @@
+import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
+import { fetchRelations } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.js";
 import {
@@ -12,11 +17,6 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";
-import { ActorIO } from "#routes/actors/actor.io.js";
-import { fetchRelations } from "#routes/events/queries/fetchEventRelations.query.js";
-import { GroupIO } from "#routes/groups/group.io.js";
-import { KeywordIO } from "#routes/keywords/keyword.io.js";
-import { MediaIO } from "#routes/media/media.io.js";
 
 export const fetchEventsRelations =
   (

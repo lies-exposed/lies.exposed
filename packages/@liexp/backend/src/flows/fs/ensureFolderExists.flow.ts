@@ -1,6 +1,6 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { toFSError, type FSError } from "../../providers/fs/fs.provider.js";

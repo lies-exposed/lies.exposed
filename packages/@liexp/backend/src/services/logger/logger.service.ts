@@ -29,7 +29,7 @@ const log = (fn: (logger: Logger) => FPTSLogger) => (f: LogFn<void>) => {
 
 const teLogger =
   (fn: (logger: Logger) => FPTSLogger) =>
-  <A>(ctx: LoggerContext, f: LogFn<A>) =>
+  <C extends LoggerContext, A>(ctx: C, f: LogFn<A>) =>
   <E>(t: TaskEither<E, A>) =>
     pipe(
       t,

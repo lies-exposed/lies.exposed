@@ -1,12 +1,10 @@
+import { cleanUpFolder } from "@liexp/backend/lib/flows/fs/cleanUpFolder.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sequenceT } from "fp-ts/lib/Apply.js";
 import Cron from "node-cron";
 import { type ServerContext } from "#context/context.type.js";
-import {
-  cleanUpFolder,
-  cleanUpTempMedia,
-} from "#flows/media/cleanUpTempFolder.flow.js";
+import { cleanUpTempMediaFolder } from "#flows/media/fs/cleanUpTempMediaFolder.flow.js";
 
 export const cleanTempFolder = (ctx: ServerContext): Cron.ScheduledTask =>
   Cron.schedule(
@@ -15,7 +13,7 @@ export const cleanTempFolder = (ctx: ServerContext): Cron.ScheduledTask =>
       const olderThan = 30 * 24;
       void pipe(
         sequenceT(fp.RTE.ApplicativePar)(
-          cleanUpTempMedia(olderThan),
+          cleanUpTempMediaFolder(olderThan),
           cleanUpFolder(ctx.config.dirs.temp.root, olderThan),
         )(ctx),
         throwTE,

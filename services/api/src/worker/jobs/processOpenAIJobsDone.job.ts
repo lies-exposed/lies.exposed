@@ -1,15 +1,7 @@
-import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Queue } from "@liexp/shared/lib/io/http/index.js";
-import { Equal, type FindOptionsWhere } from "typeorm";
-import { type CronJobTE } from "./cron-task.type.js";
-import { type ServerContext } from "#context/context.type.js";
-import { type ActorEntity } from "#entities/Actor.entity.js";
-import { type EventV2Entity } from "#entities/Event.v2.entity.js";
-import { type GroupEntity } from "#entities/Group.entity.js";
-import { type StoryEntity } from "#entities/Story.entity.js";
-import { type TEReader } from "#flows/flow.types.js";
-import { toControllerError } from "#io/ControllerError.js";
+import { type ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { type GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { type StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
 import {
   ActorRepository,
   EventRepository,
@@ -18,7 +10,15 @@ import {
   MediaRepository,
   StoryRepository,
   type EntityRepository,
-} from "#providers/db/entity-repository.provider.js";
+} from "@liexp/backend/lib/services/entity-repository.service.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { Equal, type FindOptionsWhere } from "typeorm";
+import { type CronJobTE } from "./cron-task.type.js";
+import { type ServerContext } from "#context/context.type.js";
+import { type TEReader } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 const processDoneJobBlockNoteResult =
   <E extends ActorEntity | GroupEntity | StoryEntity | EventV2Entity>(

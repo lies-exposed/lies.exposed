@@ -1,11 +1,11 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { GroupEntity } from "../../entities/Group.entity.js";
-import { GroupIO } from "./group.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";

@@ -1,30 +1,20 @@
 import { mkdirSync } from "fs";
 import path from "path";
+import { type BEConfig } from "@liexp/backend/lib/context/config.context.js";
+import { EventsConfig } from "@liexp/backend/lib/queries/config/index.js";
 import type * as cors from "cors";
 import { type ENV } from "#io/ENV.js";
-import { EventsConfig } from "#queries/config/index.js";
 
-export interface AppConfig {
+export interface AppConfig extends BEConfig {
   cors: cors.CorsOptions;
-  dirs: {
-    cwd: string;
-    temp: {
-      root: string;
-      nlp: string;
-      media: string;
-      queue: string;
-      stats: string;
-    };
-  };
-  media: {
-    thumbnailWidth: number;
-    thumbnailHeight: number;
-  };
-  events: EventsConfig;
 }
 
 export const Config = (env: ENV, cwd: string): AppConfig => {
   const tempRoot = path.resolve(cwd, "temp");
+
+  const configFolders = {
+    nlp: path.resolve(cwd, "config/nlp"),
+  };
 
   const tempFolders = {
     root: tempRoot,
@@ -34,9 +24,12 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
     stats: path.resolve(tempRoot, "stats"),
   };
 
-  Object.values(tempFolders).forEach((folder) => {
-    mkdirSync(folder, { recursive: true });
-  });
+  // TODO: handle properly a possible error thrown by mkdirSync
+  [...Object.values(configFolders), ...Object.values(tempFolders)].forEach(
+    (folder) => {
+      mkdirSync(folder, { recursive: true });
+    },
+  );
 
   return {
     cors: {
@@ -49,6 +42,7 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
     },
     dirs: {
       cwd,
+      config: configFolders,
       temp: tempFolders,
     },
   };

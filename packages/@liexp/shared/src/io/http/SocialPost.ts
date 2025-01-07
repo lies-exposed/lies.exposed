@@ -84,6 +84,7 @@ export const GetListSocialPostQuery = t.type(
   {
     ...GetListQuery.props,
     distinct: optionFromNullable(BooleanFromString),
+    scheduleAt: optionFromNullable(DateFromISOString),
     type: optionFromNullable(SocialPostResourceType),
     status: optionFromNullable(SocialPostStatus),
     entity: optionFromNullable(UUID),

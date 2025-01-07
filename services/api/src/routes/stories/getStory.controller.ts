@@ -1,9 +1,9 @@
+import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
+import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
-import { StoryIO } from "./story.io.js";
-import { StoryEntity } from "#entities/Story.entity.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
 export const MakeGetStoryRoute: Route = (r, ctx) => {

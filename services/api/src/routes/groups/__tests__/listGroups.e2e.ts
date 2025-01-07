@@ -1,3 +1,6 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
@@ -6,9 +9,6 @@ import { fc } from "@liexp/test";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { GroupEntity } from "#entities/Group.entity.js";
-import { GroupMemberEntity } from "#entities/GroupMember.entity.js";
 
 describe("List Groups", () => {
   let appTest: AppTest;

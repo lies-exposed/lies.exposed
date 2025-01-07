@@ -1,8 +1,8 @@
+import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type ServerContext } from "#context/context.type.js";
-import { UserEntity } from "#entities/User.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 
 export const loginCommand = ({

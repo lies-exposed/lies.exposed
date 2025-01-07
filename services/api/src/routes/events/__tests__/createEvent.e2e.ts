@@ -1,3 +1,7 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
+import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
@@ -10,10 +14,6 @@ import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
-import { loginUser, saveUser } from "../../../../test/user.utils.js";
-import { ActorEntity } from "#entities/Actor.entity.js";
-import { EventV2Entity } from "#entities/Event.v2.entity.js";
-import { KeywordEntity } from "#entities/Keyword.entity.js";
 
 describe("Create Event", () => {
   let appTest: AppTest;
@@ -32,7 +32,7 @@ describe("Create Event", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-    const user = await saveUser(appTest, ["admin:create"]);
+    const user = await saveUser(appTest.ctx, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
     authorizationToken = authorization;

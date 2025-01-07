@@ -1,7 +1,7 @@
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { MediaIO } from "./media.io.js";
 import { createMediaFlow } from "#flows/media/createMedia.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
