@@ -168,8 +168,8 @@ importers:
         specifier: ^5.4.2
         version: 5.4.2
       langchain:
-        specifier: ^0.3.9
-        version: 0.3.9(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
+        specifier: ^0.3.10
+        version: 0.3.10(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
       puppeteer-core:
         specifier: ^23.11.1
         version: 23.11.1
@@ -827,8 +827,8 @@ importers:
         specifier: ^2.2.22
         version: 2.2.22(fp-ts@2.16.9)
       langchain:
-        specifier: ^0.3.9
-        version: 0.3.9(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
+        specifier: ^0.3.10
+        version: 0.3.10(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
@@ -7272,8 +7272,8 @@ packages:
   kuler@2.0.0:
     resolution: {integrity: sha512-Xq9nH7KlWZmXAtodXDDRE7vs6DU1gTU8zYDHDiWLSip45Egwq3plLHzPn27NgvzL2r1LMPC1vdqh98sQxtqj4A==}
 
-  langchain@0.3.9:
-    resolution: {integrity: sha512-uteRutI03Bt9f53nZmx8mWfJXkf6VlFVRuOprRJ0mWdCpkTP359sxrH4v6w4TokLiziPC/aMay662kmOz0dHlA==}
+  langchain@0.3.10:
+    resolution: {integrity: sha512-dZXdhs81NU/PS2WfECCLJszx4to3ELK7qTMbumD0rAKx3mQb0sqr8M9MiVCcPgTZ1J1pzoDr5yCSdsmm9UsNXA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@langchain/anthropic': '*'
@@ -7283,6 +7283,7 @@ packages:
       '@langchain/core': '>=0.2.21 <0.4.0'
       '@langchain/google-genai': '*'
       '@langchain/google-vertexai': '*'
+      '@langchain/google-vertexai-web': '*'
       '@langchain/groq': '*'
       '@langchain/mistralai': '*'
       '@langchain/ollama': '*'
@@ -7303,6 +7304,8 @@ packages:
       '@langchain/google-genai':
         optional: true
       '@langchain/google-vertexai':
+        optional: true
+      '@langchain/google-vertexai-web':
         optional: true
       '@langchain/groq':
         optional: true
@@ -12163,7 +12166,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.9(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
+      langchain: 0.3.10(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))
       langsmith: 0.2.11(openai@4.77.3(zod@3.24.1))
       openai: 4.77.3(zod@3.24.1)
       uuid: 10.0.0
@@ -12194,6 +12197,7 @@ snapshots:
       - '@langchain/cohere'
       - '@langchain/google-genai'
       - '@langchain/google-vertexai'
+      - '@langchain/google-vertexai-web'
       - '@langchain/groq'
       - '@langchain/mistralai'
       - '@langchain/ollama'
@@ -17510,7 +17514,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.9(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1)):
+  langchain@0.3.10(@langchain/anthropic@0.3.8(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1))))(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.77.3(zod@3.24.1))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1)):
     dependencies:
       '@langchain/core': 0.3.27(openai@4.77.3(zod@3.24.1))
       '@langchain/openai': 0.3.16(@langchain/core@0.3.27(openai@4.77.3(zod@3.24.1)))
