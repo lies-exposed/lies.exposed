@@ -48,6 +48,7 @@ export type SignUpUserBody = t.TypeOf<typeof SignUpUserBody>;
 export const EditUserBody = t.strict(
   {
     ...propsOmit(SignUpUserBody, ["password"]),
+    telegramId: t.union([t.string, t.null]),
     status: UserStatus,
   },
   "EditUserBody",

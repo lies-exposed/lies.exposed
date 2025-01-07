@@ -5,7 +5,7 @@ declare module "page-metadata-parser" {
     icon: string;
     image: string | null;
     keywords: string[] | undefined;
-    provider: string;
+    provider: string | undefined;
     type: string;
     url: string;
     date?: string;

@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": false
+    "composite": false,
+    "types": ["node"],
+    "rootDir": "./src"
   },
   "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib", "./src/**/*.spec.ts"]

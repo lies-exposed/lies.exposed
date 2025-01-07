@@ -109,9 +109,15 @@ const UserLogin = Endpoint({
   Method: "POST",
   getPath: () => "/users/login",
   Input: {
-    Body: t.strict({ username: t.string, password: t.string }),
+    Body: t.intersection([
+      t.strict({ username: t.string }),
+      t.union([
+        t.strict({ password: t.string }),
+        t.strict({ token: t.string }),
+      ]),
+    ]),
   },
-  Output: t.strict({ data: t.strict({ token: t.string }) }),
+  Output: t.strict({ data: t.strict({ id: UUID, token: t.string }) }),
 });
 
 const UserTGTokenGenerate = Endpoint({

@@ -25,31 +25,35 @@ export const decodeExifTag = (
   return undefined;
 };
 
-export const toError =
-  (l: logger.Logger) =>
-  (e: unknown): ImgProcError => {
-    l.error.log("Space Error %O", e);
-    if (e instanceof Error) {
-      return {
-        name: "ImgProcError",
-        status: 500,
-        message: e.message,
-        details: {
-          kind: "ServerError",
-          status: "500",
-          meta: e.stack,
-        },
-      };
-    }
+export const toImgProcError = (e: unknown): ImgProcError => {
+  if (e instanceof Error) {
     return {
       name: "ImgProcError",
       status: 500,
-      message: "Internal Error",
+      message: e.message,
       details: {
         kind: "ServerError",
         status: "500",
+        meta: e.stack,
       },
     };
+  }
+  return {
+    name: "ImgProcError",
+    status: 500,
+    message: "Internal Error",
+    details: {
+      kind: "ServerError",
+      status: "500",
+    },
+  };
+};
+
+export const toErrorReader =
+  (l: logger.Logger) =>
+  (e: unknown): ImgProcError => {
+    l.error.log("Space Error %O", e);
+    return toImgProcError(e);
   };
 
 export type ImgProcClientImpl = typeof sharp;
@@ -75,13 +79,14 @@ export const MakeImgProcClient = ({
   client,
   exifR,
 }: MakeImgProcClientConfig): ImgProcClient => {
+  const toError = toErrorReader(logger);
   return {
-    run: (f) => TE.tryCatch(async () => f(client), toError(logger)),
+    run: (f) => TE.tryCatch(async () => f(client), toError),
     readExif: (file, opts) => {
       return pipe(
         fp.TE.tryCatch(
           () => exifR.load(file, { ...opts, async: true }),
-          toError(logger),
+          toError,
         ),
       );
     },

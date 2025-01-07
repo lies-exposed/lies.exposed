@@ -31,13 +31,15 @@
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "@liexp/test": "workspace:*",
     "date-fns": "^4.1.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.22.0",
-    "page-metadata-parser": "^1.1.4",
-    "ts-io-error": "^2.0.0"
+    "ts-io-error": "^2.0.0",
+    "typeorm": "^0.3.20",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.723.0",
@@ -68,7 +70,6 @@
     "fluent-ffmpeg": "^2.1.2",
     "instagram-private-api": "^1.46.1",
     "node-telegram-bot-api": "^0.66.0",
-    "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^4",
     "puppeteer-core": "^23.11.1",
     "puppeteer-extra": "^3.3.6",

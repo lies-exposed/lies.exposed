@@ -1,0 +1,27 @@
+import {
+  AdminCreate,
+  AdminDelete,
+  AdminEdit,
+} from "@liexp/shared/lib/io/http/User.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { UserEntity } from "../../entities/User.entity.js";
+import { type DBError } from "../../providers/orm/database.provider.js";
+
+export const getOneAdminOrFail = <C extends DatabaseContext>(
+  ctx: C,
+): TaskEither<DBError, UserEntity> =>
+  ctx.db.execQuery((em) =>
+    em
+      .createQueryBuilder(UserEntity, "u")
+      .where(`u.permissions::jsonb ? :perm`, {
+        perm: AdminDelete.value,
+      })
+      .orWhere(`u.permissions::jsonb ? :perm`, {
+        perm: AdminEdit.value,
+      })
+      .orWhere("u.permissions::jsonb ? :perm", {
+        perm: AdminCreate.value,
+      })
+      .getOneOrFail(),
+  );

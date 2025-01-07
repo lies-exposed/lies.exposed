@@ -35,6 +35,11 @@ export type CreateFnParams<C> = InferEndpointParams<C>["body"] extends undefined
   ? undefined
   : serializedType<InferEndpointParams<C>["body"]>;
 
+export type EditFnParams<C> = Partial<
+  serializedType<InferEndpointParams<C>["body"]>
+> &
+  serializedType<InferEndpointParams<C>["params"]>;
+
 export type GetEndpointQueryType<G> =
   InferEndpointParams<G>["query"] extends t.ExactType<infer T>
     ? t.TypeOf<T>
@@ -72,7 +77,7 @@ type CreateFn<C> = (
 ) => TE.TaskEither<APIError, EndpointOutput<C>>;
 
 type EditFn<C> = (
-  params: CreateFnParams<C>,
+  params: EditFnParams<C>,
 ) => TE.TaskEither<APIError, EndpointOutput<C>>;
 
 type DeleteFn<C> = (
@@ -112,18 +117,21 @@ export interface EndpointREST<G, L, C, E, D, CC> {
   Custom: CustomEndpointsRecord<CC>;
 }
 
+export type FromRestEndpoints<E> =
+  E extends ResourceEndpoints<
+    EndpointInstance<infer G>,
+    EndpointInstance<infer L>,
+    EndpointInstance<infer C>,
+    EndpointInstance<infer E>,
+    EndpointInstance<infer D>,
+    infer CC
+  >
+    ? EndpointREST<G, L, C, E, D, CC>
+    : never;
+
 export interface EndpointsRESTClient<ES extends EndpointsMapType> {
   Endpoints: {
-    [K in keyof ES]: ES[K] extends ResourceEndpoints<
-      EndpointInstance<infer G>,
-      EndpointInstance<infer L>,
-      EndpointInstance<infer C>,
-      EndpointInstance<infer E>,
-      EndpointInstance<infer D>,
-      infer CC
-    >
-      ? EndpointREST<G, L, C, E, D, CC>
-      : never;
+    [K in keyof ES]: FromRestEndpoints<ES[K]>;
   };
   client: APIRESTClient;
 }

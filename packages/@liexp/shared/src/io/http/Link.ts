@@ -24,6 +24,7 @@ export const GetListLinkQuery = t.type(
     ids: optionFromNullable(t.array(UUID)),
     provider: optionFromNullable(UUID),
     creator: optionFromNullable(UUID),
+    url: optionFromNullable(URL),
     noPublishDate: optionFromUndefined(BooleanFromString),
     emptyEvents: optionFromNullable(BooleanFromString),
     onlyDeleted: optionFromNullable(BooleanFromString),
@@ -44,7 +45,7 @@ export const CreateLink = t.strict(
 );
 export type CreateLink = t.TypeOf<typeof CreateLink>;
 
-const LinkMedia = t.strict(
+export const LinkMedia = t.strict(
   {
     id: UUID,
     ...CreateMedia.type.props,
@@ -52,7 +53,7 @@ const LinkMedia = t.strict(
   },
   "LinkMedia",
 );
-type LinkMedia = t.TypeOf<typeof LinkMedia>;
+export type LinkMedia = t.TypeOf<typeof LinkMedia>;
 
 export const EditLink = t.strict(
   {
