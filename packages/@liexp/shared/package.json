@@ -45,7 +45,7 @@
   "devDependencies": {
     "@liexp/test": "workspace:*",
     "@types/lodash": "^4.17.14",
-    "@types/react": "^18.3.18",
+    "@types/react": "^19.0.3",
     "@types/react-dom": "^18.3.5",
     "@visx/network": "^3.12.0",
     "eslint": "^9.17.0",
