@@ -40,7 +40,7 @@
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
     "typelevel-ts": "^0.4.0",
-    "uuid": "^11.0.4"
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@liexp/test": "workspace:*",
