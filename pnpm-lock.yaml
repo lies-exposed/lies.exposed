@@ -471,8 +471,8 @@ importers:
         specifier: ^9.7.4
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.62.11
-        version: 5.62.11(react@18.3.1)
+        specifier: ^5.63.0
+        version: 5.63.0(react@18.3.1)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -730,8 +730,8 @@ importers:
         specifier: ^5.16.13
         version: 5.16.13(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.62.11
-        version: 5.62.11(react@18.3.1)
+        specifier: ^5.63.0
+        version: 5.63.0(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -864,8 +864,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
       '@tanstack/react-query':
-        specifier: ^5.62.11
-        version: 5.62.11(react@18.3.1)
+        specifier: ^5.63.0
+        version: 5.63.0(react@18.3.1)
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -1123,8 +1123,8 @@ importers:
         specifier: ^8.4.6
         version: 8.4.7(storybook@8.4.7(prettier@3.4.2))
       '@tanstack/react-query':
-        specifier: ^5.62.11
-        version: 5.62.11(react@18.3.1)
+        specifier: ^5.63.0
+        version: 5.63.0(react@18.3.1)
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1205,8 +1205,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.62.11
-        version: 5.62.11(react@18.3.1)
+        specifier: ^5.63.0
+        version: 5.63.0(react@18.3.1)
       compression:
         specifier: ^1.7.4
         version: 1.7.5
@@ -3882,11 +3882,19 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
+  '@tanstack/query-core@5.62.16':
+    resolution: {integrity: sha512-9Sgft7Qavcd+sN0V25xVyo0nfmcZXBuODy3FVG7BMWTg1HMLm8wwG5tNlLlmSic1u7l1v786oavn+STiFaPH2g==}
+
   '@tanstack/query-core@5.62.9':
     resolution: {integrity: sha512-lwePd8hNYhyQ4nM/iRQ+Wz2cDtspGeZZHFZmCzHJ7mfKXt+9S301fULiY2IR2byJYY6Z03T427E5PoVfMexHjw==}
 
   '@tanstack/react-query@5.62.11':
     resolution: {integrity: sha512-Xb1nw0cYMdtFmwkvH9+y5yYFhXvLRCnXoqlzSw7UkqtCVFq3cG8q+rHZ2Yz1XrC+/ysUaTqbLKJqk95mCgC1oQ==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.63.0':
+    resolution: {integrity: sha512-QWizLzSiog8xqIRYmuJRok9VELlXVBAwtINgVCgW1SNvamQwWDO5R0XFSkjoBEj53x9Of1KAthLRBUC5xmtVLQ==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -13301,11 +13309,18 @@ snapshots:
       - supports-color
       - typescript
 
+  '@tanstack/query-core@5.62.16': {}
+
   '@tanstack/query-core@5.62.9': {}
 
   '@tanstack/react-query@5.62.11(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.62.9
+      react: 18.3.1
+
+  '@tanstack/react-query@5.63.0(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.62.16
       react: 18.3.1
 
   '@testing-library/dom@10.4.0':
@@ -18971,7 +18986,7 @@ snapshots:
 
   ra-core@5.4.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.1(react@18.3.1))(react-router-dom@6.28.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.28.1(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.62.11(react@18.3.1)
+      '@tanstack/react-query': 5.63.0(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
       eventemitter3: 5.0.1
@@ -19013,7 +19028,7 @@ snapshots:
       '@mui/icons-material': 5.16.13(@mui/material@5.16.13(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
       '@mui/material': 5.16.13(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/utils': 6.3.0(@types/react@18.3.18)(react@18.3.1)
-      '@tanstack/react-query': 5.62.11(react@18.3.1)
+      '@tanstack/react-query': 5.63.0(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
