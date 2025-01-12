@@ -1,9 +1,6 @@
-import { writeFileSync } from "fs";
-import path from "path";
-import { Stream } from "stream";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/createThumbnail.pubSub.js";
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
-import { ffmpegCommandMock } from "@liexp/backend/lib/test/mocks/ffmpeg.mock.js";
 import { sharpMock } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
 import {
   loginUser,
@@ -53,35 +50,14 @@ describe("Create Media", () => {
   test("Should create a media from image location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, id, ...m }, i) => ({
+      .map(({ createdAt, updatedAt, id, thumbnail, ...m }, i) => ({
         ...m,
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.jpg`,
-        thumbnail: undefined,
         type: ImageType.types[0].value,
         creator: undefined,
       }));
-
-    // location as buffer
-    Test.mocks.axios.get.mockImplementation(() => {
-      return Promise.resolve({ data: Buffer.from([]) });
-    });
-
-    Test.mocks.exifR.load.mockResolvedValueOnce({
-      ["Image Width"]: {
-        value: 2000,
-        description: "Image Width",
-      },
-      ["Image Height"]: {
-        value: 1000,
-        description: "Image Height",
-      },
-    } as any);
-
-    Test.mocks.sharp.mockImplementation(() => {
-      return sharpMock;
-    });
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
@@ -90,7 +66,7 @@ describe("Create Media", () => {
       }),
     }));
 
-    Test.mocks.redis.publish.mockResolvedValueOnce(1);
+    Test.mocks.redis.publish.mockResolvedValue(1);
 
     const response = await Test.req
       .post("/v1/media")
@@ -103,12 +79,17 @@ describe("Create Media", () => {
       ExtractMediaExtraPubSub.channel,
       expect.any(String),
     );
+
+    expect(Test.mocks.redis.publish).toHaveBeenCalledWith(
+      CreateMediaThumbnailPubSub.channel,
+      expect.any(String),
+    );
   });
 
   test("Should create a media from MP4 file location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, id, ...m }, i) => ({
+      .map(({ createdAt, updatedAt, deletedAt, id, thumbnail, ...m }, i) => ({
         ...m,
         id,
         label: `label-${id}`,
@@ -118,56 +99,6 @@ describe("Create Media", () => {
         extra: undefined,
       }));
 
-    Test.mocks.axios.get
-      // download video (stream)
-      .mockResolvedValueOnce({ data: Stream.Duplex.from([]) })
-      // download thumbnail (buffer)
-      .mockResolvedValueOnce({ data: Buffer.from([]) });
-
-    ffmpegCommandMock.on.mockImplementation(function (
-      this: typeof ffmpegCommandMock,
-      event: any,
-      cb: any,
-    ) {
-      if (event === "end") {
-        for (let i = 0; i <= this._screenshots.count; i++) {
-          writeFileSync(
-            path.resolve(
-              this._screenshots.folder,
-              this._screenshots.filename.replace("%i", i.toString()),
-            ),
-            "",
-          );
-        }
-
-        cb();
-      }
-    } as any);
-
-    Test.mocks.ffmpeg.ffprobe.mockImplementation((file, cb: any) => {
-      cb(null, {
-        streams: [{ width: 600, height: 400 }],
-        format: {
-          duration: 1000,
-        },
-      });
-    });
-
-    Test.mocks.sharp.mockImplementation(() => {
-      return sharpMock;
-    });
-
-    Test.mocks.exifR.load.mockResolvedValue({
-      ["Image Width"]: {
-        value: 300,
-        description: "Image Width",
-      },
-      ["Image Height"]: {
-        value: 100,
-        description: "Image Height",
-      },
-    } as any);
-
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
       done: vi.fn().mockResolvedValueOnce({
@@ -175,7 +106,7 @@ describe("Create Media", () => {
       }),
     }));
 
-    Test.mocks.redis.publish.mockResolvedValueOnce(1);
+    Test.mocks.redis.publish.mockResolvedValue(1);
 
     const response = await Test.req
       .post("/v1/media")
@@ -184,28 +115,19 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
-    expect(Test.mocks.sharp).toHaveBeenCalledTimes(2);
-    expect(sharpMock.resize).toHaveBeenCalledWith({
-      width: 300,
-      fit: "cover",
-      withoutEnlargement: true,
-    });
-    expect(sharpMock.toFormat).toHaveBeenCalledWith("png");
-    expect(sharpMock.toBuffer).toHaveBeenCalledTimes(2);
+    expect(Test.mocks.redis.publish).toHaveBeenCalledTimes(2);
 
     expect(response.body.data).toMatchObject({
       ...media,
       id: expect.any(String),
       description: media.description ?? media.label,
-      thumbnail: uploadThumbLocation,
       creator: users[0].id,
       extra: {
         width: 0,
         height: expect.any(Number),
         thumbnailWidth: 0,
         thumbnailHeight: 0,
-        thumbnails: [uploadThumbLocation, uploadThumbLocation],
+        thumbnails: [],
         needRegenerateThumbnail: false,
       },
       socialPosts: [],
@@ -218,7 +140,7 @@ describe("Create Media", () => {
   test("Should create a media from iframe/video location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, id, ...m }, i) => ({
+      .map(({ createdAt, updatedAt, deletedAt, thumbnail, id, ...m }, i) => ({
         ...m,
         id,
         label: `label-${id}`,
@@ -227,28 +149,7 @@ describe("Create Media", () => {
         creator: undefined,
       }));
 
-    Test.mocks.axios.get.mockImplementation(() => {
-      return Promise.resolve({ data: Buffer.from([]) });
-    });
-
-    Test.mocks.puppeteer.page.goto.mockImplementation(() => {
-      return Promise.resolve();
-    });
-    Test.mocks.puppeteer.page.waitForSelector.mockImplementation(() => {
-      return Promise.resolve();
-    });
-    const uploadThumbLocation = "https://example.com/thumbnail.jpg";
-    Test.mocks.puppeteer.page.$eval.mockImplementation(() => {
-      return Promise.resolve(uploadThumbLocation);
-    });
-
-    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-      done: vi.fn().mockResolvedValueOnce({
-        Location: "https://example.com/thumbnail.jpg",
-      }),
-    }));
-
-    Test.mocks.redis.publish.mockResolvedValueOnce(1);
+    Test.mocks.redis.publish.mockResolvedValue(1);
 
     const response = await Test.req
       .post("/v1/media")
@@ -257,10 +158,9 @@ describe("Create Media", () => {
 
     expect(response.status).toEqual(200);
 
-    // fetch thumbnail from youtube
-    expect(Test.mocks.axios.get).toHaveBeenCalledTimes(1);
-
     expect(Test.mocks.s3.client.send).toHaveBeenCalledTimes(0);
+
+    expect(Test.mocks.redis.publish).toHaveBeenCalledTimes(2);
 
     expect({
       deletedAt: undefined,
@@ -270,14 +170,13 @@ describe("Create Media", () => {
       id: expect.any(String),
       location: `https://www.youtube.com/embed/${media.id}`,
       description: media.description ?? media.label,
-      thumbnail: uploadThumbLocation,
       creator: users[0].id,
       extra: {
         width: 0,
         height: 0,
         thumbnailWidth: 0,
         thumbnailHeight: 0,
-        thumbnails: ["https://example.com/thumbnail.jpg"],
+        thumbnails: [],
         needRegenerateThumbnail: false,
       },
       socialPosts: [],

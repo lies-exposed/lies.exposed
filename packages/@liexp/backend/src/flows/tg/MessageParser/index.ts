@@ -174,7 +174,7 @@ export const MessageParser = <
             TE.fold(
               (e) => {
                 ctx.logger.warn.log(
-                  `Failed to do download file ${pp.unique}: %O`,
+                  `Failed to do download file ${pp.unique.at(0)?.file_id}: %O`,
                   e,
                 );
                 return fp.T.of(fp.E.right([]));

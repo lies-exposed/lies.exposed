@@ -18,13 +18,10 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "../../node_modules/vitest/globals",
-    ],
+    "types": ["../../node_modules/vitest/globals"],
     "paths": {
       "#app/*": ["app/*"],
       "#context/*": ["context/*"],
-      "#entities/*": ["entities/*"],
       "#flows/*": ["flows/*"],
       "#io/*": ["io/*"],
       "#jobs/*": ["jobs/*"],
@@ -42,7 +39,7 @@
     "../../packages/@liexp/shared/typings",
     "../../packages/@liexp/backend/typings",
     "./scripts",
-    "./test",
+    "./test"
   ],
   "exclude": ["**/build", "**/lib"],
   "references": [

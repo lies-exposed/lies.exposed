@@ -14,19 +14,19 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type UUID } from "io-ts-types";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
-import { type URLMetadataContext } from "../../context";
-import { type DatabaseContext } from "../../context/db.context";
-import { type ENVContext } from "../../context/env.context";
-import { type LoggerContext } from "../../context/logger.context";
-import { type PuppeteerProviderContext } from "../../context/puppeteer.context";
-import { type QueuesProviderContext } from "../../context/queue.context";
-import { type SpaceContext } from "../../context/space.context";
-import { LinkEntity } from "../../entities/Link.entity";
-import { type UserEntity } from "../../entities/User.entity";
-import { ServerError } from "../../errors";
-import { type DBError } from "../../providers/orm";
-import { fromURL } from "../links/link.flow";
-import { takeLinkScreenshotAndSave } from "../links/takeLinkScreenshot.flow";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
+import { type URLMetadataContext } from "../../context/index.js";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
+import { type QueuesProviderContext } from "../../context/queue.context.js";
+import { type SpaceContext } from "../../context/space.context.js";
+import { LinkEntity } from "../../entities/Link.entity.js";
+import { type UserEntity } from "../../entities/User.entity.js";
+import { ServerError } from "../../errors/index.js";
+import { type DBError } from "../../providers/orm/index.js";
+import { fromURL } from "../links/link.flow.js";
+import { takeLinkScreenshotAndSave } from "../links/takeLinkScreenshot.flow.js";
 
 export const parseURLs =
   <

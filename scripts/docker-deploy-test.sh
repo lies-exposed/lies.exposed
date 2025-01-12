@@ -14,6 +14,8 @@ cp ./services/api/.env ./deploy/.env.api
 
 sed -i "s/NODE_ENV=.*/NODE_ENV=production/g" ./deploy/.env.api
 
+cp ./services/worker/.env ./deploy/.env.be-worker
+
 docker compose down
 
 ./scripts/nginx.up.sh
@@ -27,6 +29,7 @@ cd ./deploy || exit
 docker compose --env-file .env.api up --force-recreate -d --no-deps api
 docker compose --env-file .env.web up --force-recreate -d --no-deps web
 docker compose --env-file .env.ai-bot up --force-recreate -d --no-deps ai-bot
+docker compose --env-file .env.be-worker up --force-recreate -d --no-deps --build be-worker
 sleep 5
 
 docker compose logs -f

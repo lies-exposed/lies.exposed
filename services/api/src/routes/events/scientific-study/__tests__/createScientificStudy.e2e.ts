@@ -92,6 +92,7 @@ describe("Create Scientific Study", () => {
 
     const scientificStudyData = { url };
 
+    appTest.mocks.redis.publish.mockResolvedValue(1);
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
       title,
       description,

@@ -12,12 +12,17 @@ tg_bot=false
 admin=false
 storybook=false
 ai_bot=false
+be_worker=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --api)
             api=true
+            shift
+            ;;
+        --be-worker)
+            be_worker=true
             shift
             ;;
         --web)
@@ -74,6 +79,11 @@ fi
 if [ "$api" = true ] || [ "$web" = true ] || [ "$tg_bot" = true ]; then
     # deploy docker
     ./scripts/docker-deploy.sh $HOST "$username"
+fi
+
+if [ "$be_worker" = true ]; then
+    # deploy be-worker
+    ./scripts/deploy.worker.sh $HOST
 fi
 
 # reload services

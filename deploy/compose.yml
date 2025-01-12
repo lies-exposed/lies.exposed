@@ -33,13 +33,16 @@ services:
     depends_on:
       - redis
 
-  worker:
-    extends: api-base
-    container_name: liexp-worker
+  be-worker:
+    image: ghcr.io/lies-exposed/liexp-worker:alpha-latest
+    container_name: liexp-be-worker
     environment:
       TG_BOT_POLLING: "true"
       REDIS_HOST: "127.0.0.1"
-    command: node build/worker/index.js
+    env_file:
+      - .env.be-worker
+    volumes:
+      - ./be-worker-temp/:/home/node/build/temp/:rw
     mem_limit: 512M
     depends_on:
       - telegram-bot-api

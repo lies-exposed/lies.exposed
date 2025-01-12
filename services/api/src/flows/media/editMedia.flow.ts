@@ -70,12 +70,15 @@ export const editMedia = (
     fp.RTE.bind("thumbnail", ({ media: m }) =>
       O.isSome(overrideThumbnail)
         ? pipe(
-            MediaPubSub.CreateMediaThumbnailPubSub.publish({
-              ...m,
-              type: body.type,
-              thumbnail: undefined,
-              id,
-            }),
+            pipe(
+              MediaPubSub.CreateMediaThumbnailPubSub.publish({
+                ...m,
+                type: body.type,
+                thumbnail: undefined,
+                id,
+              }),
+              fp.RTE.map(() => undefined),
+            ),
           )
         : O.isSome(transferThumbnail) && m.thumbnail
           ? MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
@@ -88,20 +91,24 @@ export const editMedia = (
     ),
     fp.RTE.bind("location", ({ media }) =>
       O.isSome(transfer)
-        ? MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
-            mediaId: media.id,
-            url: media.location,
-            fileName: media.id,
-            mimeType: media.type,
-          })
-        : fp.RTE.right(0),
+        ? pipe(
+            MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
+              mediaId: media.id,
+              url: media.location,
+              fileName: media.id,
+              mimeType: media.type,
+            }),
+            fp.RTE.map(() => location),
+          )
+        : fp.RTE.right(location),
     ),
-    fp.RTE.chain(({ media }) =>
+    fp.RTE.chain(({ media, location }) =>
       pipe(
         MediaRepository.save<ServerContext>([
           {
             ...media,
             ...body,
+            location,
             keywords: body.keywords.map((id) => ({ id })),
             links: body.links.map((id) => ({ id })),
             events: body.events.map((id) => ({

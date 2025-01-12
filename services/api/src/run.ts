@@ -1,6 +1,7 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -8,7 +9,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { makeApp } from "./app/index.js";
 import { makeContext } from "./context/index.js";
 import ControllerError from "#io/ControllerError.js";
-import { parseENV } from "#utils/env.utils.js";
+import { ENV } from "#io/ENV.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -23,7 +24,7 @@ const run = (): Promise<void> => {
   }
 
   return pipe(
-    parseENV(process.env),
+    ENVParser(ENV.decode)(process.env),
     TE.fromEither,
     TE.chain(makeContext("server")),
     TE.map((ctx) => ({

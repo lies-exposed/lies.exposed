@@ -36,7 +36,6 @@ beforeAll(async () => {
 
   const configFile = path.resolve(g.appContext.config.dirs.config.nlp, "entities.json")
 
-  console.log("configFile", configFile);
   await pipe(
     getOlderThanOr(
       configFile,
@@ -54,7 +53,7 @@ afterAll(async () => {
   if (!process.env.CI) {
     await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
   }
-  g.appContext.fs._fs.rmSync(path.resolve(g.appContext.config.dirs.config.nlp, "entities.json"));
+
   g.appTest = undefined;
   g.appContext = undefined as any;
 });
