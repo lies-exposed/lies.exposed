@@ -26,7 +26,6 @@
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "bin:run": "node ./build/bin/cli.js",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build deploy",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",

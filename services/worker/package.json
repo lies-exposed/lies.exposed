@@ -31,6 +31,7 @@
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
+    "bin:run": "node ./build/bin/cli.js",
     "start": "node build/run.js",
     "test": "vitest -r ./ --workspace ./vitest.workspace.js",
     "test:all": "pnpm test:spec && pnpm test:e2e",

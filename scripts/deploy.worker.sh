@@ -23,5 +23,12 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker compose --env-file .env.be-worker pull be-worker
     docker compose --env-file .env.be-worker up -d be-worker --force-recreate -V
 
+    docker compose --env-file .env.be-worker run -d --rm --name upsert-nlp-entities be-worker pnpm bin:run upsert-nlp-entities
+    docker compose --env-file .env.be-worker run -d --rm --name upsert-tg-pinned-message be-worker pnpm bin:run upsert-tg-pinned-message
+    docker compose --env-file .env.be-worker run -d --rm --name parse-all-tg-messages be-worker pnpm bin:run parse-tg-message all true
+    docker compose --env-file .env.be-worker run -d --rm --name clean-space-media be-worker pnpm bin:run clean-space-media --dry
+    docker compose --env-file .env.be-worker run -d --rm --name extract-actor-and-group-avatar be-worker pnpm bin:run extract-actor-and-group-avatar
+    docker compose --env-file .env.be-worker run -d --rm --name assign-default-area-featured-image be-worker pnpm bin:run assign-default-area-featured-image
+
 EOF
 
