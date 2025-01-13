@@ -28,7 +28,6 @@ services:
       timeout: 10s
       retries: 10
       start_period: 30s
-    command: pnpm start
     mem_limit: 1G
     depends_on:
       - redis
