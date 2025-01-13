@@ -1,4 +1,4 @@
-import { extractEntitiesFromAnyCached } from "@liexp/backend/lib/flows/admin/nlp/extractEntitiesFromAny.flow.js";
+import { ExtractEntitiesWithNLP } from "@liexp/backend/lib/pubsub/nlp/extractEntitiesWithNLP.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,7 +11,7 @@ export const MakeAdminExtractEntitiesWithNLPRoute: Route = (r, ctx) => {
     Endpoints.Admin.Custom.ExtractEntitiesWithNLP,
     ({ body }) => {
       return pipe(
-        extractEntitiesFromAnyCached(body)(ctx),
+        ExtractEntitiesWithNLP.publish(body)(ctx),
         TE.map((data) => ({
           body: {
             data,

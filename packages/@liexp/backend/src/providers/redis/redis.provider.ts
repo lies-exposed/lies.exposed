@@ -57,7 +57,10 @@ export const RedisPubSub = <T, K extends string = string>(
           }, toRedisError),
           fp.TE.filterOrElse(
             (c) => c > 0,
-            () => toRedisError(new Error("Failed to publish message")),
+            () =>
+              toRedisError(
+                new Error(`Failed to publish message on channel: ${channel}`),
+              ),
           ),
         );
       },
