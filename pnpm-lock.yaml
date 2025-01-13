@@ -76,6 +76,9 @@ importers:
       axios:
         specifier: ^1
         version: 1.7.9(debug@4.4.0)
+      canvas:
+        specifier: ^3.0.1
+        version: 3.0.1
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -869,9 +872,6 @@ importers:
       '@liexp/shared':
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
-      '@tanstack/react-query':
-        specifier: ^5.63.0
-        version: 5.64.0(react@18.3.1)
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -881,18 +881,12 @@ importers:
       cors:
         specifier: 2.8.5
         version: 2.8.5
-      cronstrue:
-        specifier: ^2.50.0
-        version: 2.52.0
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
       debug:
         specifier: '*'
         version: 4.4.0
-      domino:
-        specifier: ^2.1.6
-        version: 2.1.6
       express:
         specifier: ^4.21.0
         version: 4.21.2
@@ -923,18 +917,9 @@ importers:
       multer:
         specifier: ^1.4.5-lts.1
         version: 1.4.5-lts.1
-      node-telegram-bot-api:
-        specifier: ^0.66.0
-        version: 0.66.0(request@2.88.2)
-      nodemw:
-        specifier: ^0.22.0
-        version: 0.22.0
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
-      parse2-kmz:
-        specifier: ^1.0.7
-        version: 1.0.7
       pg:
         specifier: ^8.11.5
         version: 8.13.1
@@ -959,15 +944,6 @@ importers:
       typescript:
         specifier: ^5.6.2
         version: 5.7.2
-      wink-eng-lite-web-model:
-        specifier: ^1.8.0
-        version: 1.8.1
-      wink-nlp:
-        specifier: ^2.3.0
-        version: 2.3.2
-      wink-nlp-utils:
-        specifier: ^2.1.0
-        version: 2.1.0
     devDependencies:
       '@liexp/test':
         specifier: workspace:*
@@ -1002,9 +978,6 @@ importers:
       '@types/node':
         specifier: ^22.10.2
         version: 22.10.2
-      '@types/node-telegram-bot-api':
-        specifier: ^0.64.7
-        version: 0.64.7
       '@types/pg':
         specifier: ^8.11.10
         version: 8.11.10
@@ -1286,9 +1259,12 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
-      canvas:
-        specifier: 3.0.1
-        version: 3.0.1
+      cronstrue:
+        specifier: ^2.50.0
+        version: 2.52.0
+      debug:
+        specifier: ^4.4.0
+        version: 4.4.0
       exifreader:
         specifier: ^4.26.0
         version: 4.26.0
@@ -1298,6 +1274,9 @@ importers:
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
+      instagram-private-api:
+        specifier: ^1.46.1
+        version: 1.46.1
       io-ts:
         specifier: ^2.2.22
         version: 2.2.22(fp-ts@2.16.9)
@@ -1313,6 +1292,9 @@ importers:
       node-telegram-bot-api:
         specifier: ^0.66.0
         version: 0.66.0(request@2.88.2)
+      nodemw:
+        specifier: ^0.22.0
+        version: 0.22.0
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -1322,6 +1304,9 @@ importers:
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
+      prompts:
+        specifier: ^2.4.2
+        version: 2.4.2
       puppeteer-core:
         specifier: ^23.11.1
         version: 23.11.1
@@ -1337,13 +1322,16 @@ importers:
       typeorm:
         specifier: ^0.3.20
         version: 0.3.20(ioredis@5.4.2)(pg@8.13.1)
+      wink-eng-lite-web-model:
+        specifier: ^1.8.0
+        version: 1.8.1
       wink-nlp:
         specifier: ^2.3.0
         version: 2.3.2
+      wink-nlp-utils:
+        specifier: ^2.1.0
+        version: 2.1.0
     devDependencies:
-      '@liexp/test':
-        specifier: workspace:*
-        version: link:../../packages/@liexp/test
       '@types/node-cron':
         specifier: ^3.0.11
         version: 3.0.11
@@ -1356,12 +1344,6 @@ importers:
       eslint:
         specifier: ^9.18.0
         version: 9.18.0(jiti@2.4.1)
-      prompts:
-        specifier: ^2.4.2
-        version: 2.4.2
-      supertest:
-        specifier: ^7.0.0
-        version: 7.0.0
       tsx:
         specifier: ^4.19.2
         version: 4.19.2
@@ -1371,9 +1353,6 @@ importers:
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(jsdom@26.0.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)
-      vitest-mock-extended:
-        specifier: ^2.0.2
-        version: 2.0.2(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@26.0.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0))
 
 packages:
 

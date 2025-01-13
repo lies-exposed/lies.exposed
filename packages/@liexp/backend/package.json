@@ -31,6 +31,7 @@
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "canvas": "^3.0.1",
     "date-fns": "^4.1.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
