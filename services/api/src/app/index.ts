@@ -41,33 +41,6 @@ export const makeApp = (ctx: ServerContext): express.Express => {
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
-  // app.use("/openai", cors(ctx.config.cors), (req, res, next) => {
-  //   void pipe(
-  //     getLangchainProviderFlow(ctx),
-  //     fp.TE.map(({ localAiProxyUrl }) =>
-  //       proxy(localAiProxyUrl, {
-  //         proxyReqOptDecorator: (req: any) => {
-  //           const proxyReq = {
-  //             ...req,
-  //             headers: {
-  //               ...req.headers,
-  //               "Access-Control-Allow-Origin": "*",
-  //               // connection: "keep-alive",
-  //             },
-  //           };
-  //           ctx.logger.debug.log("Proxy request %O", proxyReq);
-  //           return Promise.resolve(proxyReq);
-  //         },
-  //         proxyResOptDecorator: (proxyRes: any) => {
-  //           ctx.logger.debug.log("Proxy response %O", proxyRes);
-  //           return Promise.resolve(proxyRes);
-  //         },
-  //         timeout: 120 * 1000,
-  //       })(req, res, next),
-  //     ),
-  //   )();
-  // });
-
   app.use(errorHandler(ctx));
 
   return app;
