@@ -18,6 +18,7 @@ import { type DBError } from "../../../providers/orm/database.provider.js";
 import { fetchActors } from "../../../queries/actors/fetchActors.query.js";
 import { fetchGroups } from "../../../queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query.js";
+import { ensureFolderExists } from "../../fs/ensureFolderExists.flow.js";
 
 const makePatterns = (s: string, acronym: boolean): string[] => {
   const chunks = s.split(" ");
@@ -130,7 +131,10 @@ export const upsertNLPEntities = <
       ];
 
       return pipe(
-        ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4)),
+        ensureFolderExists(ctx.config.dirs.config.nlp)(ctx),
+        TE.chain(() =>
+          ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4)),
+        ),
         TE.map(() => entities),
         TE.mapLeft(ServerError.fromUnknown),
       );
