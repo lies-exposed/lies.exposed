@@ -20,6 +20,7 @@ scp -r ./resources/nginx/telegram-bot-api.conf $SSH_DOMAIN:/etc/nginx/sites-enab
 scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
 scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
 scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
+scp ./services/worker/.env.alpha $SSH_DOMAIN:docker-app/.env.be-worker
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     set -e

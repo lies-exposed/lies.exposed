@@ -5,14 +5,11 @@ set -e -x
 username=$1
 export SSH_DOMAIN=alpha.lies.exposed
 
-pnpm worker build
-
 ssh $SSH_DOMAIN "mkdir -p ~/docker-app/be-worker-temp"
-ssh $SSH_DOMAIN "chown -R pptruser:pptruser ./be-worker-temp"
+ssh $SSH_DOMAIN "chown -R pptruser:pptruser ~/docker-app/be-worker-temp"
 
 scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
-
-scp ./services/worker/.env.alpha $SSH_DOMAIN:docker-app/.env.worker
+scp ./services/worker/.env.alpha $SSH_DOMAIN:docker-app/.env.be-worker
 
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
@@ -23,8 +20,8 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     chown -R pptruser:pptruser ./be-worker-temp
 
-    docker compose pull be-worker
-    docker compose up -d be-worker --force-recreate -V
+    docker compose --env-file .env.be-worker pull be-worker
+    docker compose --env-file .env.be-worker up -d be-worker --force-recreate -V
 
 EOF
 
