@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type RTE } from "../../types.js";
 import { ExtractMediaExtraSubscriber } from "./media/extractMediaExtra.subscriber.js";
 import { GenerateThumbnailSubscriber } from "./media/generateThumbnail.subscriber.js";
+import { TransferFromExternalProviderSubscriber } from "./media/transferFromExternalProvider.subscriber.js";
 import { ExtractEntitiesWithNLPSubscriber } from "./nlp/extractEntitiesWithNLP.subscriber.js";
 import { PostToSocialPlatformsSubscriber } from "./social-post/PostToSocialPlatforms.subscriber.js";
 import { type WorkerContext } from "#context/context.js";
@@ -13,6 +14,7 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     // media
     GenerateThumbnailSubscriber,
     ExtractMediaExtraSubscriber,
+    TransferFromExternalProviderSubscriber,
     // social posts
     PostToSocialPlatformsSubscriber,
     // admin

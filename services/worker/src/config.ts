@@ -21,9 +21,11 @@ export const Config = (cwd: string): WorkerConfig => {
     tg: path.resolve(tempRoot, "tg"),
   };
 
-  Object.values(tempFolders).forEach((folder) => {
-    mkdirSync(folder, { recursive: true });
-  });
+  [...Object.values(configFolders), ...Object.values(tempFolders)].forEach(
+    (folder) => {
+      mkdirSync(folder, { recursive: true });
+    },
+  );
 
   return {
     media: {

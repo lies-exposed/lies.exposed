@@ -11,22 +11,28 @@ import { ResourceEndpoints } from "./types.js";
 const SingleMediaOutput = Output(Media.Media, "Media");
 const ListMediaOutput = ListOutput(Media.Media, "MediaList");
 
+const GetMetadataQuery = t.type(
+  {
+    url: URL,
+    type: t.union([t.literal("ScientificStudy"), t.literal("Link")]),
+  },
+  "GetMetadataQuery",
+);
+
 export const GetMetadata = Endpoint({
   Method: "GET",
   getPath: () => "/open-graph/metadata",
   Input: {
-    Query: t.type({
-      url: URL,
-      type: t.union([t.literal("ScientificStudy"), t.literal("Link")]),
-    }),
+    Query: GetMetadataQuery,
   },
-  Output: t.strict({
-    data: t.strict({
+  Output: Output(
+    t.strict({
       metadata: t.any,
       link: t.union([Link, t.undefined]),
       relations: ExtractEntitiesWithNLPOutput,
     }),
-  }),
+    "GetMetadataOutput",
+  ),
 });
 
 export const List = Endpoint({

@@ -157,8 +157,8 @@ export const SuggestedEntityRelationsBox: React.FC<
   const [importancePercentage, setImportancePercentage] = React.useState(25);
 
   const { sentences, excludedSentences } = React.useMemo(() => {
-    const excludedSentences = exclude?.sentences.map((s) => s.text) ?? [];
-    const sentences = data.sentences.map((s) => ({
+    const excludedSentences = exclude?.sentences?.map((s) => s.text) ?? [];
+    const sentences = (data.sentences ?? []).map((s) => ({
       text: s.text,
       importance: s.importance,
       excluded: excludedSentences.includes(s.text),

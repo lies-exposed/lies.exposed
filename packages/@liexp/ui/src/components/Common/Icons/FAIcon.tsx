@@ -47,20 +47,10 @@ export const FAIcon: React.FC<FAIconProps> = ({
 
 type FAIconFC = React.FC<Omit<FAIconProps, "icon">>;
 export const HashtagIcon: FAIconFC = (props) => (
-  <FAIcon
-    // color={toColorHash(generateRandomColor())}
-    color="#da27a4"
-    {...props}
-    icon={"hashtag"}
-  />
+  <FAIcon color="#da27a4" {...props} icon={"hashtag"} />
 );
 export const ActorIcon: FAIconFC = (props) => (
-  <FAIcon
-    // color={toColorHash(generateRandomColor())}
-    color="#2ad73e"
-    {...props}
-    icon={"person-half-dress"}
-  />
+  <FAIcon color="#2ad73e" {...props} icon={"person-half-dress"} />
 );
 export const GroupIcon: FAIconFC = (props) => (
   <FAIcon
@@ -88,12 +78,7 @@ export const AreaIcon: FAIconFC = (props) => (
   />
 );
 export const LinkIcon: FAIconFC = (props) => (
-  <FAIcon
-    color={toColorHash(generateRandomColor())}
-    {...props}
-    icon={"link"}
-    style={{ cursor: "pointer" }}
-  />
+  <FAIcon {...props} icon={"link"} style={{ cursor: "pointer" }} />
 );
 
 export const MediaIcon: FAIconFC = (props) => (
