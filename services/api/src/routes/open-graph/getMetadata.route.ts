@@ -33,7 +33,7 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
                   date: link.value.publishDate?.toISOString() ?? undefined,
                   title: link.value.title,
                   description: link.value.description ?? link.value.title,
-                  keywords: link.value.keywords.map((id) => id.id) ?? [],
+                  keywords: link.value.keywords?.map((id) => id.id) ?? [],
                   icon: "",
                   image: link.value.image?.location ?? null,
                   provider: link.value.provider ?? "",
