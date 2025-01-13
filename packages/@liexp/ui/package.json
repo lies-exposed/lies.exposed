@@ -124,7 +124,7 @@
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "eslint": "^9.18.0",
-    "openai": "^4.78.0",
+    "openai": "^4.78.1",
     "typescript": "^5.6.2",
     "vite": "^6.0.7",
     "vite-tsconfig-paths": "^5.1.4",
