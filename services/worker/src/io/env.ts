@@ -10,6 +10,7 @@ const CRON_ENVS = t.strict(
     SOCIAL_POSTING_CRON: t.string,
     PROCESS_DONE_JOB_CRON: t.string,
     REGENERATE_MEDIA_THUMBNAILS_CRON: t.string,
+    UPSERT_NLP_ENTITIES_CRON: t.string,
   },
   "CRON_ENVS",
 );

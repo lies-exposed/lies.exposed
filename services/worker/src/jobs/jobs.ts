@@ -8,6 +8,7 @@ import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
 import { processOpenAIJobsDone } from "./processOpenAIJobsDone.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
+import { upsertNLPEntitiesJobCron } from "./upsertNLPEntities.js";
 import { type WorkerContext } from "#context/context.js";
 
 interface CronJobsHooks {
@@ -57,6 +58,12 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
     { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: true, runOnInit: false },
   );
 
+  const upsertNLPEntitiesTask = Cron.schedule(
+    ctx.env.UPSERT_NLP_ENTITIES_CRON,
+    liftT(upsertNLPEntitiesJobCron),
+    { name: "UPSERT_NLP_ENTITIES", scheduled: true, runOnInit: true },
+  );
+
   return {
     onBootstrap() {
       Cron.getTasks().forEach((task) => {
@@ -75,6 +82,7 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
       generateMissingThumbnailsTask.start();
       regenerateMediaThumbnailTask.start();
       processOpenAIJobsDoneTask.start();
+      upsertNLPEntitiesTask.start();
     },
     onShutdown() {
       // stop all tasks
