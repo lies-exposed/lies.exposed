@@ -132,9 +132,7 @@ export const upsertNLPEntities = <
 
       return pipe(
         ensureFolderExists(ctx.config.dirs.config.nlp)(ctx),
-        TE.chain(() =>
-          ctx.fs.writeObject(nplConfig, JSON.stringify(entities, null, 4)),
-        ),
+        TE.chain(() => ctx.fs.writeObject(nplConfig, JSON.stringify(entities))),
         TE.map(() => entities),
         TE.mapLeft(ServerError.fromUnknown),
       );

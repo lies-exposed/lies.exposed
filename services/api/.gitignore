@@ -1,3 +1,2 @@
 db/dump/*.sql
 test/__databases/**
-config/nlp/*.json

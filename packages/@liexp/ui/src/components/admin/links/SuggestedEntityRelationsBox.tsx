@@ -181,6 +181,10 @@ export const SuggestedEntityRelationsBox: React.FC<
     };
   }, [data.sentences, exclude?.sentences, importancePercentage]);
 
+  if (!data.entities) {
+    return null;
+  }
+
   return (
     <SuggestedEntityRelationsStack
       direction={"column"}
