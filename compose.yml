@@ -81,6 +81,7 @@ services:
       - api-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
+      - ./services/worker/config:/usr/src/app/services/api/config:ro
     working_dir: /usr/src/app/services/api
 
   api.liexp.dev:
@@ -124,6 +125,7 @@ services:
       - worker-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/worker:/usr/src/app/services/worker:ro
+      - ./services/worker/config:/usr/src/app/services/worker/config:rw
       - ./services/worker/temp:/usr/src/app/services/worker/temp:rw
     mem_limit: 512M
     restart: always

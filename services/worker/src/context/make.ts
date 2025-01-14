@@ -159,8 +159,7 @@ export const makeContext = (
         ),
         fp.TE.map((pdf) => PDFProvider({ client: pdf })),
       ),
-      config: fp.TE.right(config),
-      queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
+      config: config({ fs: fsClient, logger: serverLogger }),
       geo: fp.TE.right(
         GeocodeProvider({
           http: HTTPProvider(
@@ -180,5 +179,8 @@ export const makeContext = (
       wp: fp.TE.right(wpProvider),
       rw: fp.TE.right(rationalWikiProvider),
     }),
+    fp.TE.bind("queue", (ctx) =>
+      fp.TE.right(GetQueueProvider(fsClient, ctx.config.dirs.temp.queue)),
+    ),
   );
 };
