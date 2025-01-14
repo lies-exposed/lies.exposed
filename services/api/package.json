@@ -102,7 +102,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@types/supertest": "^6.0.2",
-    "dockerode": "^4.0.2",
+    "dockerode": "^4.0.3",
     "dotenv": "^16.4.7",
     "eslint": "^9.18.0",
     "prompts": "^2.4.2",
