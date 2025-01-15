@@ -79,7 +79,7 @@ export const loadAppContext = async (
       ),
     }),
     TE.map(({ db, env }) => {
-      const config = Config(env, path.resolve(__dirname, ".."))
+      const config = Config(env, path.resolve(__dirname, "../temp"))
 
       return ({
       env,

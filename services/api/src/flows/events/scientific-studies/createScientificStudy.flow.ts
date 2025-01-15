@@ -1,27 +1,22 @@
 import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { createEventFromURL } from "@liexp/backend/lib/flows/event/scientific-study/createFromURL.flow.js";
+import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { CreateScientificStudyBody } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+import { type ScientificStudy } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Equal } from "typeorm";
 import { createScientificStudyFromPlainObject } from "./createFromPlainObject.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const createScientificStudy = (
-  body: CreateScientificStudyBody,
+  body: ScientificStudy.CreateScientificStudyBody,
   req: Express.Request,
 ): TEReader<EventV2Entity> => {
-  if (CreateScientificStudyBody.types[1].is(body)) {
-    return pipe(
-      ensureUserExists(req.user),
-      fp.RTE.fromEither,
-      fp.RTE.map((u) => {
-        const user = new UserEntity();
-        user.id = u.id;
-        return user;
-      }),
-      fp.RTE.chain((u) => createEventFromURL(u, body.url)),
-    );
-  }
-  return createScientificStudyFromPlainObject(body);
+  return pipe(
+    ensureUserExists(req.user),
+    fp.RTE.fromEither,
+    fp.RTE.chain((u) =>
+      UserRepository.findOneOrFail({ where: { id: Equal(u.id) } }),
+    ),
+    fp.RTE.chain((u) => createScientificStudyFromPlainObject(body, u)),
+  );
 };

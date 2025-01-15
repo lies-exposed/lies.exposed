@@ -1,6 +1,5 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
-import { URL } from "../Common/URL.js";
 import {
   CreateEventCommon,
   EditEventCommon,
@@ -21,20 +20,12 @@ export const ScientificStudyPayload = t.strict(
 
 export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
 
-export const CreateScientificStudyPlainBody = t.strict(
+export const CreateScientificStudyBody = t.strict(
   {
     ...CreateEventCommon.type.props,
     type: SCIENTIFIC_STUDY,
     payload: ScientificStudyPayload,
   },
-  "CreateScientificStudyPlainBody",
-);
-export type CreateScientificStudyPlainBody = t.TypeOf<
-  typeof CreateScientificStudyPlainBody
->;
-
-export const CreateScientificStudyBody = t.union(
-  [CreateScientificStudyPlainBody, t.strict({ url: URL })],
   "CreateScientificStudyBody",
 );
 

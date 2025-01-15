@@ -28,7 +28,7 @@ import { ServerError } from "../../errors/ServerError.js";
 import { extractRelationsFromURL } from "../admin/nlp/extractRelationsFromURL.flow.js";
 import { fetchAndSave } from "../links/link.flow.js";
 
-const extractEventFromProviderLink =
+const extractPageMetadataFromProviderLink =
   <C extends LoggerContext>(
     p: puppeteer.Page,
     host: string,
@@ -170,6 +170,7 @@ const extractByProvider =
     p: puppeteer.Page,
     host: string,
     l: LinkEntity,
+    type: EventType,
   ): ReaderTaskEither<C, ServerError, O.Option<EventV2Entity>> =>
   (ctx) => {
     return pipe(
@@ -177,7 +178,7 @@ const extractByProvider =
       TE.bind("relations", () =>
         sequenceS(TE.ApplicativePar)({
           relations: extractRelationsFromURL(p, l.url)(ctx),
-          provider: extractEventFromProviderLink(p, host, l)(ctx),
+          provider: extractPageMetadataFromProviderLink(p, host, l)(ctx),
         }),
       ),
       TE.bind(
@@ -240,7 +241,7 @@ const extractByProvider =
                 );
               }, ServerError.fromUnknown),
               TE.map((suggestions) =>
-                suggestions.find((s) => s.event.type === "ScientificStudy"),
+                suggestions.find((s) => s.event.type === type),
               ),
               TE.map(O.fromNullable),
             );
@@ -305,7 +306,10 @@ export const extractEventFromURL =
     ctx.logger.debug.log("Extracting event from host %s (%s)", host, l.url);
 
     return pipe(
-      fetchAndSave(user, l.url)(ctx),
-      TE.chain((le) => extractByProvider(p, host, le)(ctx)),
-    );
+      fp.RTE.Do,
+      fp.RTE.bind("event", () => fetchAndSave<C>(user, l.url)),
+      fp.RTE.chain(({ event }) => {
+        return pipe(extractByProvider<C>(p, host, event, l.type));
+      }),
+    )(ctx);
   };

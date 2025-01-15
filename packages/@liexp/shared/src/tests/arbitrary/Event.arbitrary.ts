@@ -13,7 +13,7 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = propsOmit(http.Events.CreateEventBody.types[4], [
+const createEventProps = propsOmit(http.Events.CreateEventPlainBody.types[4], [
   "excerpt",
   "body",
   "date",
@@ -27,7 +27,7 @@ export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds = false,
   keywordIds = false,
-}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventBody> =>
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventPlainBody> =>
   getArbitrary(t.strict(createEventProps)).map((b) => ({
     ...b,
     excerpt: undefined,

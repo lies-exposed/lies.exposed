@@ -125,8 +125,8 @@ services:
       - worker-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/worker:/usr/src/app/services/worker:ro
-      - ./services/worker/config:/usr/src/app/services/worker/config:rw
-      - ./services/worker/temp:/usr/src/app/services/worker/temp:rw
+      - ./services/worker/config:/usr/src/app/services/worker/config:cached
+      - ./services/worker/temp:/usr/src/app/services/worker/temp:cached
     mem_limit: 512M
     restart: always
     networks:

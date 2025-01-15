@@ -7,7 +7,7 @@ import { URLArb } from "../URL.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 const createScientificStudyProps = propsOmit(
-  http.Events.ScientificStudy.CreateScientificStudyBody.types[0],
+  http.Events.ScientificStudy.CreateScientificStudyBody,
   ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"],
 );
 
