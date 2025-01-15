@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { type Actor } from "../Actor.js";
 import { type Area } from "../Area.js";
-import { type UUID } from "../Common/index.js";
+import { URL, type UUID } from "../Common/index.js";
 import { type Group } from "../Group.js";
 import { type GroupMember } from "../GroupMember.js";
 import { type Keyword } from "../Keyword.js";
@@ -43,17 +43,33 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Quote: Quote.Quote,
 };
 
-export const CreateEventBody = t.union(
+export const EventFromURLBody = t.strict(
+  {
+    url: URL,
+    type: EventType,
+  },
+  "EventFromURLBody",
+);
+
+export type EventFromURLBody = t.TypeOf<typeof EventFromURLBody>;
+
+export const CreateEventPlainBody = t.union(
   [
     Book.CreateBookBody,
     Death.CreateDeathBody,
     Patent.CreatePatentBody,
-    ScientificStudy.CreateScientificStudyBody.types[0],
+    ScientificStudy.CreateScientificStudyBody,
     Uncategorized.CreateEventBody,
     Documentary.CreateDocumentaryBody,
     Transaction.CreateTransactionBody,
     Quote.CreateQuoteBody,
   ],
+  "CreateEventPlainBody",
+);
+export type CreateEventPlainBody = t.TypeOf<typeof CreateEventPlainBody>;
+
+export const CreateEventBody = t.union(
+  [CreateEventPlainBody, EventFromURLBody],
   "CreateEventBody",
 );
 

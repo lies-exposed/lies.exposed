@@ -75,7 +75,7 @@ export const Edit = Endpoint({
   Input: {
     Params: t.type({ id: UUID }),
     Body: t.strict(
-      propsOmit(CreateScientificStudyBody.types[0], ["type"]),
+      propsOmit(CreateScientificStudyBody, ["type"]),
       "CreateScientificStudyBody",
     ),
   },

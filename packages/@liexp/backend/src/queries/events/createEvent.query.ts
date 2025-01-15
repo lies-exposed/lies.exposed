@@ -14,7 +14,7 @@ import { fetchRelationIds } from "./fetchEventRelations.query.js";
 export const createEventQuery = <
   C extends DatabaseContext & URLMetadataContext & LoggerContext,
 >(
-  input: http.Events.CreateEventBody,
+  input: http.Events.CreateEventPlainBody,
 ): ReaderTaskEither<C, DBError, DeepPartial<EventV2Entity>> => {
   return pipe(
     fetchRelationIds({
