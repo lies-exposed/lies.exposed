@@ -25,7 +25,6 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { AxiosInstance } from "axios";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
@@ -129,7 +128,6 @@ export const loadAppContext = async (
       openai: {} as any,
       blocknote: {} as any,
       redis: mocks.redis,
-      pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({
         http: HTTPProvider(mocks.axios as any),
         apiKey: "fake-geo-api-key",

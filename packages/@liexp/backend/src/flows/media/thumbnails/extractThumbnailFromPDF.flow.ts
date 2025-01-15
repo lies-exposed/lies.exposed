@@ -3,7 +3,7 @@ import {
   ImageType,
   type PDFType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
-import Canvas from "canvas";
+import { createCanvas } from "@napi-rs/canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
   type PDFPageProxy,
@@ -27,7 +27,7 @@ export const extractThumbnailFromPDFPage = (
 
         const outputScale = 1;
 
-        const canvas = Canvas.createCanvas(viewport.width, viewport.height);
+        const canvas = createCanvas(viewport.width, viewport.height);
 
         const context = canvas.getContext("2d");
         canvas.height = viewport.height;
@@ -64,7 +64,9 @@ export const extractThumbnailFromPDF = <
     fp.RTE.flatMapTaskEither(fetchPDF(media.location)),
     fp.RTE.chainTaskEitherK((pdf) =>
       pipe(
-        [1, 2, 3],
+        pdf.numPages,
+        (p) => [1, p / 2, p].map(Math.floor),
+        fp.A.uniq(fp.N.Eq),
         fp.A.traverse(fp.TE.ApplicativePar)((page) =>
           pipe(
             fp.TE.tryCatch(() => pdf.getPage(page), ServerError.fromUnknown),

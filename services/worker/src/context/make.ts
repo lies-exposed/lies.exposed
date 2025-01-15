@@ -152,13 +152,6 @@ export const makeContext = (
         ),
       ),
       http: fp.TE.right(HTTPProvider(axios.default.create({}))),
-      pdf: pipe(
-        fp.TE.tryCatch(
-          () => import("pdfjs-dist/legacy/build/pdf.mjs"),
-          toWorkerError,
-        ),
-        fp.TE.map((pdf) => PDFProvider({ client: pdf })),
-      ),
       config: config({ fs: fsClient, logger: serverLogger }),
       geo: fp.TE.right(
         GeocodeProvider({
@@ -181,6 +174,22 @@ export const makeContext = (
     }),
     fp.TE.bind("queue", (ctx) =>
       fp.TE.right(GetQueueProvider(fsClient, ctx.config.dirs.temp.queue)),
+    ),
+    fp.TE.bind("pdf", ({ config }) =>
+      pipe(
+        fp.TE.tryCatch(
+          () => import("pdfjs-dist/legacy/build/pdf.mjs"),
+          toWorkerError,
+        ),
+        fp.TE.map((pdf) =>
+          PDFProvider({
+            client: pdf,
+            cMapUrl: config.dirs.pdf.cMapUrl,
+            cMapPacked: true,
+            standardFontDataUrl: config.dirs.pdf.standardFontDataUrl,
+          }),
+        ),
+      ),
     ),
   );
 };

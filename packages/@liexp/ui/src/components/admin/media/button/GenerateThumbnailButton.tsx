@@ -51,7 +51,7 @@ const SelectThumbnailModalContent: React.FC<{
             <img
               src={t}
               style={{
-                width: extra.thumbnailWidth === 0 ? 400 : extra.thumbnailWidth,
+                width: extra.thumbnailWidth === 0 ? 200 : extra.thumbnailWidth,
                 height:
                   extra.thumbnailHeight === 0 ? "auto" : extra.thumbnailHeight,
               }}
