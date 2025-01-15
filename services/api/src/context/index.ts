@@ -21,7 +21,6 @@ import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/E
 import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -29,7 +28,6 @@ import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { Redis } from "ioredis";
 import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
-import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import WinkFn from "wink-nlp";
@@ -150,7 +148,6 @@ export const makeContext =
             apiKey: env.GEO_CODE_API_KEY,
           }),
         ),
-        pdf: fp.TE.right(PDFProvider({ client: pdf })),
         wp: fp.TE.right(wpProvider),
         rw: fp.TE.right(rationalWikiProvider),
         queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),

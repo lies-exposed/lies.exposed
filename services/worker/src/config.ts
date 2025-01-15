@@ -1,4 +1,3 @@
-import { mkdirSync } from "fs";
 import path from "path";
 import { type BEConfig } from "@liexp/backend/lib/context/config.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
@@ -10,7 +9,14 @@ import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type WorkerError } from "./io/worker.error.js";
 
-export type WorkerConfig = BEConfig;
+export interface WorkerConfig extends BEConfig {
+  dirs: BEConfig["dirs"] & {
+    pdf: {
+      cMapUrl: string;
+      standardFontDataUrl: string;
+    };
+  };
+}
 
 export const Config =
   <C extends FSClientContext & LoggerContext>(
@@ -18,6 +24,14 @@ export const Config =
   ): ReaderTaskEither<C, WorkerError, WorkerConfig> =>
   (ctx) => {
     const tempRoot = path.resolve(cwd, "temp");
+
+    const pdfJSDistPath = path.resolve(cwd, "../../node_modules/pdfjs-dist/");
+    const pdfFolders = {
+      cMapUrl: path.resolve(pdfJSDistPath, "cmaps").concat(path.sep),
+      standardFontDataUrl: path
+        .resolve(pdfJSDistPath, "standard_fonts")
+        .concat(path.sep),
+    };
 
     const configFolders = {
       nlp: path.resolve(cwd, "config", "nlp"),
@@ -32,14 +46,12 @@ export const Config =
       tg: path.resolve(tempRoot, "tg"),
     };
 
-    [...Object.values(configFolders), ...Object.values(tempFolders)].forEach(
-      (folder) => {
-        mkdirSync(folder, { recursive: true });
-      },
-    );
-
     return pipe(
-      [...Object.values(configFolders), ...Object.values(tempFolders)],
+      [
+        ...Object.values(configFolders),
+        ...Object.values(tempFolders),
+        ...Object.values(pdfFolders),
+      ],
       fp.A.traverse(fp.TE.ApplicativePar)((filePath) =>
         ensureFolderExists(filePath)(ctx),
       ),
@@ -50,6 +62,7 @@ export const Config =
         },
         dirs: {
           cwd,
+          pdf: pdfFolders,
           config: configFolders,
           temp: tempFolders,
         },

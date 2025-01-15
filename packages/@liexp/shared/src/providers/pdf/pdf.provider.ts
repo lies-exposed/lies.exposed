@@ -34,6 +34,9 @@ const toError = (e: any): IOError => {
 
 interface PDFProviderContext {
   client: typeof pdf;
+  cMapUrl?: string;
+  cMapPacked?: boolean;
+  standardFontDataUrl?: string;
 }
 
 export interface PDFProvider {
@@ -47,7 +50,12 @@ export const PDFProvider = (ctx: PDFProviderContext): PDFProvider => {
   return {
     getDocument: (data) =>
       TE.tryCatch(() => {
-        return ctx.client.getDocument({ data, useSystemFonts: true }).promise;
+        return ctx.client.getDocument({
+          data,
+          cMapUrl: ctx.cMapUrl,
+          cMapPacked: ctx.cMapPacked,
+          standardFontDataUrl: ctx.standardFontDataUrl,
+        }).promise;
       }, toError),
     getAllTextContents(pdf) {
       return TE.tryCatch(async () => {

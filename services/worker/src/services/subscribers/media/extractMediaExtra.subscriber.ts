@@ -24,7 +24,7 @@ export const ExtractMediaExtraSubscriber = Subscriber(
       fp.RTE.chain(
         ({ media, extra }): RTE<MediaEntity> =>
           pipe(
-            MediaRepository.save([{ ...media, extra }]),
+            MediaRepository.save([{ id: media.id, extra }]),
             fp.RTE.map((s) => s[0]),
           ),
       ),
