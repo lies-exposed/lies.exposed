@@ -16,16 +16,11 @@ import { type SpaceContext } from "@liexp/backend/lib/context/space.context.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { type ServerBlockNoteEditor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { type PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 
 export interface ENVContext {
   env: ENV;
-}
-
-interface PDFProviderContext {
-  pdf: PDFProvider;
 }
 
 interface HTTPProviderContext {
@@ -46,7 +41,6 @@ export type ServerContext = ENVContext &
   LoggerContext &
   SpaceContext &
   FSClientContext &
-  PDFProviderContext &
   HTTPProviderContext &
   WikipediaProviderContext &
   NERProviderContext &
