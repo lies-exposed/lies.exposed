@@ -14,11 +14,11 @@ const config = mergeConfig(
       setupFiles: [toAlias(`testSetup.ts`)],
       globalSetup: [toAlias(`globalSetup.ts`)],
       exclude: ["**/build", "**/src/migrations", "**/src/scripts"],
-      pool: "threads",
+      pool: "vmThreads",
       poolOptions: {
         threads: {
-          singleThread: process.env.CI ? true : false,
-          isolate: process.env.CI ? true : false,
+          singleThread: process.env.CI === "true" ? true : false,
+          isolate: false,
         },
       },
     },
