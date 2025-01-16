@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import {
   type AvailableModels,
@@ -136,7 +137,7 @@ void pipe(
   fp.TE.bind("env", () =>
     pipe(loadAndParseENV(parseENV)(process.cwd()), fp.TE.fromEither),
   ),
-  fp.TE.bind("fs", () => fp.TE.right(GetFSClient())),
+  fp.TE.bind("fs", () => fp.TE.right(GetFSClient({ client: fs }))),
   fp.TE.bind("config", ({ fs }) => configProvider({ fs })),
   fp.TE.bind("langchain", ({ config }) =>
     fp.TE.right(

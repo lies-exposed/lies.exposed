@@ -37,9 +37,8 @@ type GetDockerContainer = (
 
 const listDatabases = async (): Promise<string[]> => {
   const databases = await fs.readdir(DATABASES_FILE_PATH());
-
   // console.log("list databases", databases);
-  return databases;
+  return databases.filter((f) => DATABASE_RUN_COUNT_FILE_PATH() !== f);
 };
 
 const readDatabases = async (): Promise<Record<string, boolean>> => {
@@ -78,8 +77,9 @@ const getFirstFree = async (logger: Logger): Promise<string | undefined> => {
 };
 
 const waitForDatabase = async (logger: Logger): Promise<string> => {
-  const [interval] = fc.sample(fc.integer({ min: 300, max: 600 }), 1);
-  return new Promise((resolve) => {
+  const [interval] = fc.sample(fc.integer({ min: 100, max: 200 }), 1);
+  return new Promise(async (resolve) => {
+
     const databaseTimer = setInterval(async () => {
       const freeDatabase = await getFirstFree(logger);
 
@@ -150,133 +150,132 @@ const safeUnlink = async (state?: STATE, db?: string) => {
   }
 };
 
-const GetDockerContainer: GetDockerContainer =
-  (logger) => (containerName) => {
-    const docker = new Docker();
+const GetDockerContainer: GetDockerContainer = (logger) => (containerName) => {
+  const docker = new Docker();
 
-    const lookup = async () => {
-      const containers = await docker.listContainers({ all: true });
+  const lookup = async () => {
+    const containers = await docker.listContainers({ all: true });
 
-      logger.debug.log(
-        "Look for %s in %O",
-        containerName,
-        containers.map((c) => c.Names),
-      );
+    logger.debug.log(
+      "Look for %s in %O",
+      containerName,
+      containers.map((c) => c.Names),
+    );
 
-      const containerInfo = containers.find((c) =>
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        c.Names.some((n) => n.indexOf(containerName) > 0),
-      );
+    const containerInfo = containers.find((c) =>
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      c.Names.some((n) => n.indexOf(containerName) > 0),
+    );
 
-      if (containerInfo) {
-        container = docker.getContainer(containerInfo.Id);
+    if (containerInfo) {
+      container = docker.getContainer(containerInfo.Id);
 
-        return container;
-      }
+      return container;
+    }
 
-      throw new Error(`Container ${containerName} not found`);
-    };
-
-    const addDatabases = async (dbCount: number): Promise<string[]> => {
-      const currentDatabases = await listDatabases();
-
-      logger.debug.log(
-        `${currentDatabases.length} databases found, expected ${dbCount}`,
-      );
-
-      await fs.writeFile(DATABASE_RUN_COUNT_FILE_PATH(), "0");
-
-      if (currentDatabases.length >= dbCount) {
-        const databases = await readDatabases();
-        await Promise.all(
-          Object.entries(databases).flatMap(async ([db, isUse]) => {
-            const promises = [];
-            if (isUse) {
-              promises.push(safeUnlink(IN_USE_STATE, db));
-            }
-            promises.push(
-              fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""),
-            );
-
-            return promises;
-          }),
-        );
-
-        return currentDatabases;
-      }
-
-      container = await lookup();
-
-      const databases = fc
-        .sample(HumanReadableStringArb(), dbCount)
-        .map((s) => s.toLowerCase().replace(/-/g, "_"));
-
-      logger.debug.log("adding databases: %s", databases);
-      await execCommand(container, {
-        Cmd: [
-          "/bin/bash",
-          "-h",
-          "/docker-entrypoint-initdb.d/psql-create-database.sh",
-        ],
-        Env: [`DBS=${databases.join(",")}`],
-        AttachStdout: true,
-        AttachStderr: true,
-      });
-
-      await Promise.all(
-        databases.map((db) =>
-          fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""),
-        ),
-      );
-
-      return databases;
-    };
-
-    const markDatabaseAsUsed = async (database: string) => {
-      await safeUnlink(IN_USE_STATE, database);
-      await fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, database), "");
-    };
-
-    const freeDatabases = async () => {
-      const databases = await readDatabases();
-
-      logger.info.log(
-        "Resetting databases %d to free %O",
-        Object.keys(databases).length,
-      );
-
-      await Promise.all(
-        Object.entries(databases).flatMap(([db, state]) => [
-          safeUnlink(state ? IN_USE_STATE : FREE_STATE, db),
-          fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""),
-        ]),
-      );
-    };
-
-    const assertLocalCacheFolder = async () => {
-      try {
-        await fs.readdir(DATABASES_FILE_PATH(), { recursive: true });
-      } catch (e: any) {
-        if (e.code !== "EEXIST") {
-          throw e;
-        }
-      }
-    };
-
-    return {
-      lookup,
-      addDatabases,
-      waitForDatabase: () => waitForDatabase(logger),
-      markDatabaseAsUsed,
-      freeDatabases,
-      assertLocalCacheFolder,
-      getRunStats: async () => {
-        return {
-          used: await fs.readFile(DATABASE_RUN_COUNT_FILE_PATH(), "utf-8").then((s) => parseInt(s)),
-        };
-      },
-    };
+    throw new Error(`Container ${containerName} not found`);
   };
+
+  const addDatabases = async (dbCount: number): Promise<string[]> => {
+    const currentDatabases = await listDatabases();
+
+    logger.debug.log(
+      `${currentDatabases.length} databases found, expected ${dbCount}`,
+    );
+
+    await fs.writeFile(DATABASE_RUN_COUNT_FILE_PATH(), "0");
+
+    if (currentDatabases.length >= dbCount) {
+      const databases = await readDatabases();
+      await Promise.all(
+        Object.entries(databases).flatMap(async ([db, isUse]) => {
+          const promises = [];
+          if (isUse) {
+            promises.push(safeUnlink(IN_USE_STATE, db));
+          }
+          promises.push(fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""));
+
+          return promises;
+        }),
+      );
+
+      return currentDatabases;
+    }
+
+    container = await lookup();
+
+    const databases = fc
+      .sample(HumanReadableStringArb(), dbCount)
+      .map((s) => s.toLowerCase().replace(/-/g, "_"));
+
+    logger.debug.log("adding databases: %s", databases);
+    await execCommand(container, {
+      Cmd: [
+        "/bin/bash",
+        "-h",
+        "/docker-entrypoint-initdb.d/psql-create-database.sh",
+      ],
+      Env: [`DBS=${databases.join(",")}`],
+      AttachStdout: true,
+      AttachStderr: true,
+    });
+
+    await Promise.all(
+      databases.map((db) =>
+        fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""),
+      ),
+    );
+
+    return databases;
+  };
+
+  const markDatabaseAsUsed = async (database: string) => {
+    await safeUnlink(IN_USE_STATE, database);
+    await fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, database), "");
+  };
+
+  const freeDatabases = async () => {
+    const databases = await readDatabases();
+
+    logger.info.log(
+      "Resetting databases %d to free %O",
+      Object.keys(databases).length,
+    );
+
+    await Promise.all(
+      Object.entries(databases).flatMap(([db, state]) => [
+        safeUnlink(state ? IN_USE_STATE : FREE_STATE, db),
+        fs.writeFile(DATABASES_FILE_PATH(FREE_STATE, db), ""),
+      ]),
+    );
+  };
+
+  const assertLocalCacheFolder = async () => {
+    try {
+      await fs.readdir(DATABASES_FILE_PATH(), { recursive: true });
+    } catch (e: any) {
+      if (e.code !== "EEXIST") {
+        throw e;
+      }
+    }
+  };
+
+  return {
+    lookup,
+    addDatabases,
+    waitForDatabase: () => waitForDatabase(logger),
+    markDatabaseAsUsed,
+    freeDatabases,
+    assertLocalCacheFolder,
+    getRunStats: async () => {
+      return {
+        used: await fs
+          .readFile(DATABASE_RUN_COUNT_FILE_PATH(), "utf-8")
+          .then((s) => parseInt(s)),
+      };
+    },
+  };
+};
 
 export const testDBContainer = GetDockerContainer(GetLogger("dkr"))(
   "db-test.liexp.dev",

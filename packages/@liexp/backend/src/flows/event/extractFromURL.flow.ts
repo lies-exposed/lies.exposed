@@ -3,8 +3,10 @@ import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/even
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
+import {
+  SCIENTIFIC_STUDY,
+  type EventType,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { parse } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -16,15 +18,14 @@ import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
-import {
-  type URLMetadataContext,
-  type NERProviderContext,
-} from "../../context/index.js";
+import { type NERProviderContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
+import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { type LinkEntity } from "../../entities/Link.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
+import { LinkIO } from "../../io/link.io.js";
 import { extractRelationsFromURL } from "../admin/nlp/extractRelationsFromURL.flow.js";
 import { fetchAndSave } from "../links/link.flow.js";
 
@@ -75,7 +76,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: "ScientificStudy",
+            type: SCIENTIFIC_STUDY.value,
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -113,7 +114,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: "ScientificStudy",
+            type: SCIENTIFIC_STUDY.value,
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -141,7 +142,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: "ScientificStudy",
+            type: SCIENTIFIC_STUDY.value,
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -176,7 +177,7 @@ const extractByProvider =
     return pipe(
       TE.Do,
       TE.bind("relations", () =>
-        sequenceS(TE.ApplicativePar)({
+        sequenceS(TE.ApplicativeSeq)({
           relations: extractRelationsFromURL(p, l.url)(ctx),
           provider: extractPageMetadataFromProviderLink(p, host, l)(ctx),
         }),
@@ -191,58 +192,46 @@ const extractByProvider =
         }) => {
           if (fp.O.isSome(provider)) {
             return pipe(
-              TE.tryCatch(() => {
-                return getSuggestions((v) =>
-                  Promise.resolve(toInitialValue(v)),
-                )(
-                  provider.value,
-                  O.some({
-                    id: l.id,
-                    title: l.title,
-                    description: l.description ?? l.title,
-                    publishDate: l.publishDate ?? undefined,
-                    provider: l.provider as any,
-                    creator: l.creator?.id,
-                    url: l.url,
-                    image: l.image
-                      ? {
-                          ...l.image,
-                          label: l.image.label ?? undefined,
-                          description: l.image.description ?? undefined,
-                          thumbnail: l.image.thumbnail ?? undefined,
-                          type: l.image as any as ImageType,
-                          extra: l.image.extra ?? undefined,
-                          events: [],
-                          links: [],
-                          keywords: [],
-                          areas: [],
-                        }
-                      : undefined,
-                    keywords: [],
-                    events: [],
-                    actors: [],
-                    groups: [],
-                    media: [],
-                    socialPosts: [],
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    deletedAt: undefined,
-                  }),
-                  O.none,
-                  getRelationIdsFromEventRelations({
-                    groupsMembers: [],
-                    media: [],
-                    areas: [],
-                    actors: entities.actors as any[],
-                    groups: entities.groups as any[],
-                    keywords: entities.keywords as any[],
-                    links: entities.links as any[],
-                  }),
+              TE.Do,
+              TE.bind("link", () => {
+                return pipe(
+                  LinkIO.decodeSingle(l),
+                  fp.E.fold(() => fp.O.none, fp.O.some),
+                  fp.TE.right,
                 );
-              }, ServerError.fromUnknown),
-              TE.map((suggestions) =>
-                suggestions.find((s) => s.event.type === type),
+              }),
+              TE.bind("relations", () =>
+                pipe(
+                  fp.TE.right(
+                    getRelationIdsFromEventRelations({
+                      groupsMembers: [],
+                      media: [],
+                      areas: [],
+                      actors: entities.actors as any[],
+                      groups: entities.groups as any[],
+                      keywords: entities.keywords as any[],
+                      links: entities.links as any[],
+                    }),
+                  ),
+                ),
               ),
+              TE.chain(({ link, relations }) =>
+                TE.tryCatch(() => {
+                  const suggestionMaker = getSuggestions((v) =>
+                    Promise.resolve(toInitialValue(v)),
+                  );
+
+                  return suggestionMaker(
+                    provider.value,
+                    link,
+                    O.none,
+                    relations,
+                  );
+                }, ServerError.fromUnknown),
+              ),
+              TE.map((suggestions) => {
+                return suggestions.find((s) => s.event.type === type);
+              }),
               TE.map(O.fromNullable),
             );
           }

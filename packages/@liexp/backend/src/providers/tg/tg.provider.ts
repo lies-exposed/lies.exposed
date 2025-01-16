@@ -3,7 +3,8 @@ import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import TelegramBot from "node-telegram-bot-api";
+import type TelegramBot from "node-telegram-bot-api";
+import { type ConstructorOptions } from "node-telegram-bot-api";
 import { IOError } from "../../errors/index.js";
 
 export interface TGBotProvider {
@@ -76,11 +77,12 @@ const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {
 };
 
 export interface TGBotProviderCtx {
+  client: (token: string, options: ConstructorOptions) => TelegramBot;
   logger: Logger;
 }
 
 export const TGBotProvider = (
-  { logger }: TGBotProviderCtx,
+  { client, logger }: TGBotProviderCtx,
   opts: TGBotProviderOpts,
 ): TGBotProvider => {
   const encryptedToken = opts.token
@@ -97,7 +99,7 @@ export const TGBotProvider = (
     ...opts,
     token: encryptedToken,
   });
-  const api = new TelegramBot(opts.token, {
+  const api = client(opts.token, {
     polling: opts.polling,
     baseApiUrl: opts.baseApiUrl,
   });

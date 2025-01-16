@@ -8,7 +8,7 @@ import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/Event.arbitr
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { GroupMemberArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
+import { fc } from "@liexp/test/lib/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";

@@ -1,7 +1,7 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type ffmpeg from "fluent-ffmpeg";
 import { pipe } from "fp-ts/lib/function";
-import { describe, test, beforeEach } from "vitest";
+import { describe, test, beforeEach, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { GetFFMPEGProvider } from "./ffmpeg.provider";
 

@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test";
+import { fc } from "@liexp/test/lib/index.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 
 export const URLArb = fc

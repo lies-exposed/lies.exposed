@@ -1,7 +1,8 @@
-import { type S3ClientConfig } from "@aws-sdk/client-s3";
+import { S3Client, type S3ClientConfig } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { type NODE_ENV } from "@liexp/core/lib/env/node-env.js";
-import { GetS3Provider } from "./s3.provider.js";
-import { type SpaceProvider } from "./space.provider.js";
+import { type MakeSpaceProviderConfig } from "./space.provider.js";
 
 interface ENV {
   NODE_ENV: NODE_ENV;
@@ -11,7 +12,9 @@ interface ENV {
   SPACE_ACCESS_KEY_SECRET: string;
 }
 
-export const createS3Provider = <E extends ENV>(env: E): SpaceProvider => {
+export const createS3ProviderConfig = <E extends ENV>(
+  env: E,
+): MakeSpaceProviderConfig => {
   const config: S3ClientConfig =
     env.NODE_ENV === "development" || env.NODE_ENV === "test"
       ? {
@@ -34,5 +37,9 @@ export const createS3Provider = <E extends ENV>(env: E): SpaceProvider => {
           tls: true,
         };
 
-  return GetS3Provider(config);
+  return {
+    client: new S3Client(config),
+    getSignedUrl,
+    classes: { Upload },
+  };
 };

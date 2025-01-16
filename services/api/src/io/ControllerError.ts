@@ -9,7 +9,7 @@ import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { type NERError } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { DBError } from "@liexp/backend/lib/providers/orm/index.js";
-import { RedisError } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { RedisError } from "@liexp/backend/lib/providers/redis/redis.error.js";
 import { SpaceError } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import {

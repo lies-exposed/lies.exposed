@@ -1,4 +1,4 @@
-import { type Subscriber } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { type Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type RTE } from "../../types.js";
 import { CreateEventFromURLSubscriber } from "./event/createEventFromURL.subscriber.js";

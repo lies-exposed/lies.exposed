@@ -29,7 +29,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import path from "path";
 import { vi } from "vitest";
-import { mocks, type AppMocks } from "@liexp/backend/lib/test/mocks.js";
+import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
 import { WorkerContext } from "#context/context.js";
 import {
   getDataSource,
@@ -53,7 +53,7 @@ vi.mock("node-telegram-bot-api");
 
 export interface WorkerTest {
   ctx: WorkerContext;
-  mocks: AppMocks;
+  mocks: DepsMocks;
   utils: {
     e2eAfterAll: () => Promise<boolean>;
   };

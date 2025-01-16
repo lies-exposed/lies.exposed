@@ -1,6 +1,6 @@
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { extractMediaExtra } from "@liexp/backend/lib/flows/media/extra/extractMediaExtra.flow.js";
-import { Subscriber } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";

@@ -1,5 +1,8 @@
 import { defineProject, mergeConfig } from "vitest/config";
-import { PathnameAlias, baseConfig } from "@liexp/backend/lib/test/vitest.base-config.js";
+import {
+  PathnameAlias,
+  baseConfig,
+} from "@liexp/backend/lib/test/vitest.base-config.js";
 
 const toAlias = PathnameAlias(import.meta.url);
 
@@ -14,10 +17,10 @@ const config = mergeConfig(
       setupFiles: [toAlias(`testSetup.ts`)],
       globalSetup: [toAlias(`globalSetup.ts`)],
       exclude: ["**/build", "**/src/migrations", "**/src/scripts"],
-      pool: "vmThreads",
+      pool: "forks",
       poolOptions: {
-        threads: {
-          singleThread: process.env.CI === "true" ? true : false,
+        forks: {
+          singleFork: process.env.CI === "true" ? true : false,
           isolate: false,
         },
       },

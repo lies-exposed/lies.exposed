@@ -1,4 +1,4 @@
-import fs from "fs";
+import type * as fs from "fs";
 import path from "path";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -29,6 +29,10 @@ export const toFSError = (e: unknown): FSError => {
   });
 };
 
+export interface GetFSClientContext {
+  client: typeof fs;
+}
+
 export interface FSClient {
   _fs: typeof fs;
   resolve: (filePath: string) => string;
@@ -41,21 +45,21 @@ export interface FSClient {
   ) => TE.TaskEither<FSError, void>;
 }
 
-export const GetFSClient = (): FSClient => {
+export const GetFSClient = (ctx: GetFSClientContext): FSClient => {
   const objectExists: FSClient["objectExists"] = (filePath) => {
     return TE.fromIOEither(
       fp.IOE.tryCatch(() => {
         const filePathDir = path.dirname(filePath);
-        const tempFolderExists = fs.existsSync(filePathDir);
+        const tempFolderExists = ctx.client.existsSync(filePathDir);
         if (!tempFolderExists) {
           fsLogger.debug.log(
             "Folder %s does not exist, creating...",
             filePathDir,
           );
-          fs.mkdirSync(filePathDir, { recursive: true });
+          ctx.client.mkdirSync(filePathDir, { recursive: true });
         }
 
-        const statsExists = fs.existsSync(filePath);
+        const statsExists = ctx.client.existsSync(filePath);
         // fsLogger.debug.log(
         //   "Network file path %s exists? %s",
         //   path.relative(process.cwd(), filePath),
@@ -69,7 +73,10 @@ export const GetFSClient = (): FSClient => {
   const getObject: FSClient["getObject"] = (filePath) => {
     fsLogger.debug.log("Getting object from path %s", filePath);
     return pipe(
-      fp.IOE.tryCatch(() => fs.readFileSync(filePath, "utf-8"), toFSError),
+      fp.IOE.tryCatch(
+        () => ctx.client.readFileSync(filePath, "utf-8"),
+        toFSError,
+      ),
       fp.TE.fromIOEither,
     );
   };
@@ -79,14 +86,14 @@ export const GetFSClient = (): FSClient => {
     return pipe(
       TE.fromIOEither(
         fp.IOE.tryCatch(() => {
-          fs.writeFileSync(filePath, data, "utf-8");
+          ctx.client.writeFileSync(filePath, data, "utf-8");
         }, toFSError),
       ),
     );
   };
 
   return {
-    _fs: fs,
+    _fs: ctx.client,
     resolve: (p) => path.resolve(process.cwd(), p),
     objectExists,
     writeObject,
@@ -98,7 +105,7 @@ export const GetFSClient = (): FSClient => {
         TE.chain((exists) => {
           if (exists) {
             return TE.fromIO(() => {
-              fs.rmSync(filePath);
+              ctx.client.rmSync(filePath);
             });
           } else {
             if (throwIfNoExists) {

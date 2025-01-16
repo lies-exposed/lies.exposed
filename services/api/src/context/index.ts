@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as path from "path";
 import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
@@ -8,7 +9,8 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
-import { createS3Provider } from "@liexp/backend/lib/providers/space/creates3.provider.js";
+import { createS3ProviderConfig } from "@liexp/backend/lib/providers/space/creates3ProviderConfig.js";
+import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import {
   getDataSource,
@@ -86,7 +88,7 @@ export const makeContext =
       }),
     });
 
-    const fsClient = GetFSClient();
+    const fsClient = GetFSClient({ client: fs });
 
     const jwtClient = GetJWTProvider({
       secret: env.JWT_SECRET,
@@ -113,24 +115,12 @@ export const makeContext =
       sequenceS(fp.TE.ApplicativePar)({
         logger: fp.TE.right(serverLogger),
         db,
-        s3: fp.TE.right(createS3Provider(env)),
+        s3: fp.TE.right(MakeSpaceProvider(createS3ProviderConfig(env))),
         fs: fp.TE.right(fsClient),
         jwt: fp.TE.right(jwtClient),
         urlMetadata: fp.TE.right(urlMetadataClient),
         env: fp.TE.right(env),
         blocknote: fp.TE.right(editor),
-        // tg: pipe(
-        //   TGBotProvider(
-        //     { logger: serverLogger },
-        //     {
-        //       token: env.TG_BOT_TOKEN,
-        //       chat: env.TG_BOT_CHAT,
-        //       polling: env.TG_BOT_POLLING,
-        //       baseApiUrl: env.TG_BOT_BASE_API_URL,
-        //     },
-        //   ),
-        //   fp.TE.right,
-        // ),
         puppeteer: fp.TE.right(
           GetPuppeteerProvider(
             puppeteer as any as VanillaPuppeteer,
