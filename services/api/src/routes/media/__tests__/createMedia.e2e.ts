@@ -42,7 +42,6 @@ describe("Create Media", () => {
     Test.mocks.puppeteer.page.goto.mockClear();
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
-    Test.mocks.sharp.mockClear();
     Test.mocks.redis.publish.mockClear();
     mockClear(sharpMock);
   });

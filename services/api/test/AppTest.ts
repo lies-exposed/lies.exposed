@@ -17,7 +17,6 @@ import { ENV } from "#io/ENV.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
-import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
@@ -35,7 +34,7 @@ import path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { vi } from "vitest";
-import { AppMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
+import { DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import {
   getDataSource,
   getORMConfig,
@@ -56,7 +55,7 @@ vi.mock("node-telegram-bot-api");
 
 export interface AppTest {
   ctx: ServerContext;
-  mocks: AppMocks;
+  mocks: DepsMocks;
   req: TestAgent<supertest.Test>;
   utils: {
     e2eAfterAll: () => Promise<boolean>;
@@ -93,10 +92,8 @@ export const loadAppContext = async (
         { headless: "shell" },
         mocks.puppeteer.devices,
       ),
-      tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
-      ig: mocks.ig,
-      fs: GetFSClient(),
+      fs: GetFSClient({ client: mocks.fs }),
       wp: mocks.wiki,
       rw: mocks.wiki,
       urlMetadata: {
@@ -114,11 +111,6 @@ export const loadAppContext = async (
         },
       },
       http: HTTPProvider(mocks.axios as any as AxiosInstance),
-      imgProc: MakeImgProcClient({
-        logger,
-        exifR: mocks.exifR,
-        client: mocks.sharp as any,
-      }),
       ner: GetNERProvider({
         logger,
         entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),

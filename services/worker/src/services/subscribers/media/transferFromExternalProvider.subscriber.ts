@@ -1,4 +1,4 @@
-import { Subscriber } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { TransferMediaFromExternalProviderPubSub } from "@liexp/backend/lib/pubsub/media/transferFromExternalProvider.pubSub.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";

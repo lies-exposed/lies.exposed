@@ -5,8 +5,7 @@ import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as puppeteer from "puppeteer-core";
-import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
-import puppeteerStealth from "puppeteer-extra-plugin-stealth";
+import { type VanillaPuppeteer } from "puppeteer-extra";
 import { IOError } from "ts-io-error";
 
 const puppeteerLogger = logger.GetLogger("puppeteer");
@@ -134,8 +133,8 @@ export type GetPuppeteerProvider = (
   browser: puppeteer.Browser,
 ) => PuppeteerProvider;
 
-export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
-  pup: P,
+export const GetPuppeteerProvider = (
+  pup: VanillaPuppeteer,
   defaultOpts: BrowserLaunchOpts,
   devices: typeof puppeteer.KnownDevices,
 ): PuppeteerProvider => {
@@ -151,9 +150,6 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
       TE.fromEither,
       TE.chain((executablePath) => {
         return TE.tryCatch(async () => {
-          const p = addExtra(pup);
-          p.use(puppeteerStealth());
-
           const options = {
             executablePath,
             headless: true,
@@ -165,7 +161,7 @@ export const GetPuppeteerProvider = <P extends VanillaPuppeteer>(
 
           puppeteerLogger.info.log("Launching browser with %O", options);
 
-          const b = await p.launch(options);
+          const b = await pup.launch(options);
           return b as puppeteer.Browser;
         }, toPuppeteerError);
       }),

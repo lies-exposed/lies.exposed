@@ -85,7 +85,7 @@ export const BuildImage = Endpoint({
       ),
     }),
   },
-  Output: t.any,
+  Output: Output(t.strict({ success: t.boolean }), "BuildImageOutput"),
 });
 
 export const SearchAreaCoordinates = Endpoint({

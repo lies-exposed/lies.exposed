@@ -10,7 +10,6 @@ import { type ENVContext } from "../../context/env.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../context/http.context.js";
 import {
-  type URLMetadataContext,
   type ImgProcClientContext,
   type TGBotProviderContext,
   type FFMPEGProviderContext,
@@ -20,6 +19,7 @@ import { type PDFProviderContext } from "../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../context/queue.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
+import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import {
   type PuppeteerError,
   toPuppeteerError,

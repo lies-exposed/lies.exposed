@@ -1,4 +1,4 @@
-import * as fs from "node:fs/promises";
+import * as fs from "fs/promises";
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {

@@ -10,6 +10,8 @@ import { mock, mockDeep } from "vitest-mock-extended";
 const queryBuilder = mockDeep<SelectQueryBuilder<ObjectLiteral>>({
   where: vi.fn().mockReturnThis(),
   orWhere: vi.fn().mockReturnThis(),
+  loadAllRelationIds: vi.fn().mockReturnThis(),
+  getOne: vi.fn().mockRejectedValue(new Error("getOne not implemented")),
   getOneOrFail: vi
     .fn()
     .mockRejectedValue(new Error("getOneOrFail not implemented")),

@@ -2,13 +2,8 @@ import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import { afterAll, beforeAll } from "vitest";
 import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
 import { testDBContainer } from "./GetDockerContainer.js";
-import { upsertNLPEntities } from "@liexp/backend/lib/flows/admin/nlp/upsertEntities.flow.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { ServerContext } from '../src/context/context.type.js'
-import path from 'path';
 
 const logger = GetLogger("testSetup");
 
@@ -33,16 +28,6 @@ beforeAll(async () => {
     logger.debug.log("loading app context");
     g.appContext = await loadAppContext(logger);
   }
-
-  const configFile = path.resolve(g.appContext.config.dirs.config.nlp, "entities.json")
-
-  await pipe(
-    getOlderThanOr(
-      configFile,
-      10,
-    )(upsertNLPEntities)(g.appContext),
-    throwTE,
-  );
 
   logger.debug.log("app context", !!g.appContext);
 
