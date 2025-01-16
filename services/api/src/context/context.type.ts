@@ -4,7 +4,6 @@ import {
   type FFMPEGProviderContext,
   type GeocodeProviderContext,
   type NERProviderContext,
-  type URLMetadataContext,
   type WikipediaProviderContext,
 } from "@liexp/backend/lib/context/index.js";
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
@@ -13,6 +12,7 @@ import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppet
 import { type QueuesProviderContext } from "@liexp/backend/lib/context/queue.context.js";
 import { type RedisContext } from "@liexp/backend/lib/context/redis.context.js";
 import { type SpaceContext } from "@liexp/backend/lib/context/space.context.js";
+import { type URLMetadataContext } from "@liexp/backend/lib/context/urlMetadata.context.js";
 import { type WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
 import { type ServerBlockNoteEditor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";

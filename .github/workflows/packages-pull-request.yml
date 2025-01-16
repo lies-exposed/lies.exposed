@@ -30,6 +30,7 @@ jobs:
           pnpm core lint
           pnpm shared lint
           pnpm test lint
+          pnpm backend lint
           pnpm ui lint
 
       - name: Run tests
@@ -37,3 +38,4 @@ jobs:
           DEBUG: "-@liexp*"
         run: |
           pnpm shared test
+          pnpm backend test

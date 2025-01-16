@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test";
+import { fc } from "@liexp/test/lib/index.js";
 import { addYears, subYears } from "date-fns";
 
 export const MIN_DATE = subYears(new Date(), 200);

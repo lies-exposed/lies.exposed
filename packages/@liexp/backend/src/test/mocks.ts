@@ -1,7 +1,10 @@
+import { type AxiosInstance } from "axios";
 import { type Mock, vi } from "vitest";
+import { mock, type MockProxy } from "vitest-mock-extended";
 import { dbMock } from "./mocks/db.mock.js";
 import { exifRMock } from "./mocks/exifreader.mock.js";
 import ffmpegMock from "./mocks/ffmpeg.mock.js";
+import { fsMock } from "./mocks/fs.mock.js";
 import { igProviderMock } from "./mocks/ig.mock.js";
 import NLPMock from "./mocks/nlp.mock.js";
 import { pdfJsMock } from "./mocks/pdfjs.mock.js";
@@ -13,8 +16,9 @@ import sharpMock from "./mocks/sharp.mock.js";
 import { tgProviderMock } from "./mocks/tg.mock.js";
 import { wikipediaProviderMock } from "./mocks/wikipedia.mock.js";
 
-export interface AppMocks {
+export interface DepsMocks {
   axios: typeof axiosMock;
+  fs: typeof fsMock;
   ffmpeg: typeof ffmpegMock;
   ner: NLPMock;
   db: typeof dbMock;
@@ -37,16 +41,30 @@ export interface AppMocks {
 const fetchHTML = vi.fn();
 const fetchMetadata = vi.fn();
 
-export const axiosMock = {
-  get: vi.fn(),
-  interceptors: {
-    request: {
-      use: vi.fn(),
-    },
-  },
-};
+export const axiosMock: MockProxy<AxiosInstance> = mock<AxiosInstance>(
+  {
+    get: vi.fn(),
+    interceptors: mock(
+      {
+        request: {
+          use: vi.fn(),
+          eject: vi.fn(),
+          clear: vi.fn(),
+        },
+        response: {
+          use: vi.fn(),
+          eject: vi.fn(),
+          clear: vi.fn(),
+        },
+      },
+      { deep: true },
+    ),
+  } as any,
+  { deep: true },
+);
 
-export const mocks: AppMocks = {
+export const mocks: DepsMocks = {
+  fs: fsMock,
   wiki: wikipediaProviderMock,
   axios: axiosMock,
   ffmpeg: ffmpegMock,

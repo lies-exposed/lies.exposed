@@ -67,13 +67,14 @@ interface NERProviderContext {
 
 export const GetNERProvider = ({
   entitiesFile,
-  logger,
+  logger: _logger,
   nlp: winkNLP,
 }: NERProviderContext): NERProvider => {
+  const logger = _logger.extend("ner");
   return {
     entitiesFile,
     process: (text, patterns) => {
-      logger.debug.log("Looking for %O", patterns);
+      logger.debug.log("Looking for patterns %O", patterns);
       return pipe(
         fp.IOE.tryCatch((): NERResults => {
           const nlp = winkNLP(model);

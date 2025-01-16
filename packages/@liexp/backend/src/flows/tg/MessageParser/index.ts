@@ -19,7 +19,6 @@ import { type ENVContext } from "../../../context/env.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import {
-  type URLMetadataContext,
   type TGBotProviderContext,
   type FFMPEGProviderContext,
   type ImgProcClientContext,
@@ -29,6 +28,7 @@ import { type PDFProviderContext } from "../../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../../context/queue.context.js";
 import { type SpaceContext } from "../../../context/space.context.js";
+import { type URLMetadataContext } from "../../../context/urlMetadata.context.js";
 import { type UserEntity } from "../../../entities/User.entity.js";
 import { type TGError } from "../../../providers/tg/tg.provider.js";
 import { LoggerService } from "../../../services/logger/logger.service.js";

@@ -27,7 +27,7 @@ export interface URLMetadataClient {
   ) => TE.TaskEither<E, string>;
 }
 
-interface MakeURLMetadataContext {
+export interface MakeURLMetadataContext {
   client: AxiosInstance;
   parser: {
     getMetadata: (dom: Document, url: string, opts?: any) => Metadata;

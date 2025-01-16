@@ -1,12 +1,8 @@
-import * as fs from "fs";
 import path from "path";
-import { GetLogger } from "@liexp/core";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
-import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { HumanReadableStringArb } from "@liexp/shared/lib/tests/arbitrary/HumanReadableString.arbitrary.js";
 import { URLArb } from "@liexp/shared/lib/tests/arbitrary/URL.arbitrary.js";
 import { UserArb } from "@liexp/shared/lib/tests/arbitrary/User.arbitrary.js";
@@ -15,15 +11,12 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
 import debug from "debug";
 import type TelegramBot from "node-telegram-bot-api";
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
-import { GetFSClient } from "../../../providers/fs/fs.provider.js";
-import { GetDatabaseClient } from "../../../providers/orm/database.provider.js";
-import { GetPuppeteerProvider } from "../../../providers/puppeteer.provider.js";
-import { EventsConfig } from "../../../queries/config/index.js";
+import { beforeAll, describe, expect, test, vi } from "vitest";
 import {
   TGMessageArb,
   TGPhotoArb,
 } from "../../../test/arbitraries/TGMessage.arb.js";
+import { initContext } from "../../../test/index.js";
 import puppeteerMocks from "../../../test/mocks/puppeteer.mock.js";
 import { mocks } from "../../../test/mocks.js";
 import { type UserTest } from "../../../test/user.utils.js";
@@ -43,25 +36,7 @@ interface MessageTest {
 
 describe("Create From TG Message", () => {
   let admin: UserTest;
-  const ctx = {
-    db: GetDatabaseClient({
-      ...mocks.db,
-      logger: GetLogger("test"),
-    }),
-    tg: mocks.tg,
-    http: HTTPProvider(mocks.axios as any),
-    logger: GetLogger("test"),
-    imgProc: {} as any,
-    s3: mocks.s3 as any,
-    env: {} as any,
-    urlMetadata: mocks.urlMetadata,
-    queue: mocks.queueFS as any,
-    config: { events: EventsConfig } as any,
-    fs: GetFSClient(),
-    ffmpeg: {} as any,
-    pdf: PDFProvider({ client: mocks.pdf }),
-    puppeteer: GetPuppeteerProvider(mocks.puppeteer, {}, {} as any),
-  };
+  const ctx = initContext();
 
   beforeAll(() => {
     [admin] = fc.sample(UserArb, 1).map((u) => ({
@@ -69,15 +44,8 @@ describe("Create From TG Message", () => {
       password: "password",
       permissions: [AdminCreate.value],
     }));
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
-    }
 
     // admin = await saveUser(ctx, [AdminCreate.value]);
-  });
-
-  afterAll(() => {
-    fs.rmSync(tempDir, { recursive: true });
   });
 
   describe.skip("createEventSuggestion", () => {
@@ -211,11 +179,10 @@ describe("Create From TG Message", () => {
         tempDir,
         `${message.message_id}.png`,
       );
-      fs.writeFileSync(tempFileLocation, new Uint8Array(10));
 
       // mock tg download
       mocks.tg.getFileStream.mockImplementationOnce(() =>
-        fp.TE.right(fs.createReadStream(tempFileLocation)),
+        fp.TE.right(mocks.fs.createReadStream(tempFileLocation)),
       );
 
       // mock puppeteer goto
@@ -502,13 +469,11 @@ describe("Create From TG Message", () => {
     test.skip.each(messageCases)(
       "Running message case $n",
       async (c: MessageTest) => {
-        const message = pipe(
-          fs.readFileSync(
-            path.resolve(__dirname, `../../../../temp/tg/messages/${c.n}.json`),
-            "utf-8",
-          ),
-          JSON.parse,
-        );
+        const message = {
+          message_id: c.n,
+          date: new Date().getTime(),
+          chat: {} as any,
+        };
 
         puppeteerMocks.page.emulate.mockReset().mockResolvedValueOnce({});
         const urls = c.urls(message);
@@ -536,11 +501,9 @@ describe("Create From TG Message", () => {
             `${message.message_id}.png`,
           );
 
-          fs.writeFileSync(tempFileLocation, new Uint8Array(10));
-
           // mock tg download
           mocks.tg.api.getFileStream.mockImplementationOnce(() =>
-            fs.createReadStream(tempFileLocation),
+            mocks.fs.createReadStream(tempFileLocation),
           );
 
           // mock s3 upload
@@ -558,13 +521,13 @@ describe("Create From TG Message", () => {
             `${message.message_id}.png`,
           );
 
-          fs.writeFileSync(tempFileLocation, new Uint8Array(10));
-
           // mock tg download
           mocks.tg.api.getFileStream
-            .mockImplementationOnce(() => fs.createReadStream(tempFileLocation))
             .mockImplementationOnce(() =>
-              fs.createReadStream(tempFileLocation),
+              mocks.fs.createReadStream(tempFileLocation),
+            )
+            .mockImplementationOnce(() =>
+              mocks.fs.createReadStream(tempFileLocation),
             );
 
           // mock s3 upload

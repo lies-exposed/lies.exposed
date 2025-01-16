@@ -33,6 +33,14 @@ const run = (): Promise<void> => {
     })),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
+      // TODO: handle properly a possible error thrown by mkdirSync
+      [
+        ...Object.values(ctx.config.dirs.config),
+        ...Object.values(ctx.config.dirs.temp),
+      ].forEach((folder) => {
+        ctx.fs._fs.mkdirSync(folder, { recursive: true });
+      });
+
       const server = app.listen(
         ctx.env.SERVER_PORT,
         ctx.env.SERVER_HOST,

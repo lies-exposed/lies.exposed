@@ -1,4 +1,3 @@
-import { mkdirSync } from "fs";
 import path from "path";
 import { type BEConfig } from "@liexp/backend/lib/context/config.context.js";
 import { EventsConfig } from "@liexp/backend/lib/queries/config/index.js";
@@ -23,13 +22,6 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
     queue: path.resolve(tempRoot, "queue"),
     stats: path.resolve(tempRoot, "stats"),
   };
-
-  // TODO: handle properly a possible error thrown by mkdirSync
-  [...Object.values(configFolders), ...Object.values(tempFolders)].forEach(
-    (folder) => {
-      mkdirSync(folder, { recursive: true });
-    },
-  );
 
   return {
     cors: {

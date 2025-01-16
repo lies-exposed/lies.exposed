@@ -8,27 +8,25 @@ import { Equal } from "typeorm";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
-import {
-  type NERProviderContext,
-  type URLMetadataContext,
-} from "../../context/index.js";
+import { type NERProviderContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
+import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
 import { findByURL } from "../../queries/events/scientificStudy.query.js";
 import { extractEventFromURL } from "./extractFromURL.flow.js";
 
-export const createEventFromURL = <
-  C extends LoggerContext &
-    ConfigContext &
-    FSClientContext &
-    NERProviderContext &
-    DatabaseContext &
-    URLMetadataContext &
-    PuppeteerProviderContext,
->(
+export type CreateEventFromURLContext = LoggerContext &
+  ConfigContext &
+  FSClientContext &
+  NERProviderContext &
+  DatabaseContext &
+  URLMetadataContext &
+  PuppeteerProviderContext;
+
+export const createEventFromURL = <C extends CreateEventFromURLContext>(
   user: UserEntity,
   eventId: UUID,
   url: URL,

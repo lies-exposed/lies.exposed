@@ -1,5 +1,5 @@
 import { createEventFromURL } from "@liexp/backend/lib/flows/event/createEventFromURL.flow.js";
-import { Subscriber } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";

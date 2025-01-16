@@ -3,14 +3,21 @@ import { ActorArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import * as E from "fp-ts/lib/Either.js";
-import { describe, test } from "vitest";
+import { describe, expect, test } from "vitest";
 import { ActorEntity } from "../../../entities/Actor.entity.js";
+import { EventV2Entity } from "../../../entities/Event.v2.entity.js";
+import { KeywordEntity } from "../../../entities/Keyword.entity.js";
+import { initContext } from "../../../test/index.js";
+import { mocks } from "../../../test/mocks.js";
 import {
   toPinnedMessage,
   upsertPinnedMessage,
 } from "../upsertPinnedMessage.flow.js";
 
 describe("Upsert Pinned Message Flow", () => {
+  const Test = {
+    ctx: initContext(),
+  };
   test.skip("Should upsert the message with 5 keywords", async () => {
     const keywordCount = 10;
     const actorCount = 10;
@@ -43,7 +50,7 @@ describe("Upsert Pinned Message Flow", () => {
       ),
     );
 
-    Test.mocks.tg.upsertPinnedMessage.mockImplementationOnce(
+    mocks.tg.upsertPinnedMessage.mockImplementationOnce(
       (text) => () => Promise.resolve(E.right({ message_id: 1, text })),
     );
 
