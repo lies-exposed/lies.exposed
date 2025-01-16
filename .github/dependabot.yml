@@ -20,6 +20,8 @@ updates:
       - "/packages/@liexp/ui"
       - "/services/api"
       - "/services/web"
+      - "/services/ai-bot"
+      - "/services/worker"
       - "/services/admin-web"
       - "/services/storybook"
     schedule:
