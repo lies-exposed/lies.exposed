@@ -1,6 +1,15 @@
 ---
 version: 2
 updates:
+  # ignore all updates for the @liexp/packages
+  - package-ecosystem: "npm"
+    directories:
+      - "/packages/@liexp/*"
+    schedule:
+      interval: "daily"
+    ignore:
+      - dependency-name: "*"
+
   - package-ecosystem: "npm"
     directories:
       - "/"
