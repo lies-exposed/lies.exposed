@@ -6,11 +6,11 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
 import { describe, expect, it } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import { EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
-import { initContext } from "../../test/index.js";
-import { mockedContext, mockTERightOnce } from "../../test/mocks/mock.utils.js";
+import { mockedContext } from "../../test/context.js";
+import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import {
   createEventFromURL,
   type CreateEventFromURLContext,
@@ -19,13 +19,11 @@ import {
 describe(createEventFromURL.name, () => {
   const appTest = {
     ctx: mockedContext<CreateEventFromURLContext>({
-      puppeteer: mockDeep(),
-      logger: mockDeep(),
-      db: mockDeep(),
-      ner: mockDeep(),
-      fs: mockDeep(),
-      urlMetadata: mockDeep(),
-      config: initContext().config,
+      puppeteer: mock(),
+      db: mock(),
+      ner: mock(),
+      fs: mock(),
+      urlMetadata: mock(),
     }),
   };
 
@@ -60,46 +58,6 @@ describe(createEventFromURL.name, () => {
     });
 
     mockTERightOnce(appTest.ctx.db.findOneOrFail, () => savedEvent);
-
-    // mocks.urlMetadata.fetchMetadata.mockResolvedValue({
-    //   title,
-    //   description,
-    //   url: scientificStudyData.url,
-    //   keywords: [],
-    // });
-
-    // mockTERightOnce(appTest.ctx.puppeteer.getBrowser, () => null);
-    // mocks.puppeteer.page.goto.mockResolvedValueOnce(undefined);
-
-    // // evaluate title
-    // mocks.puppeteer.page.$eval.mockResolvedValueOnce(title);
-    // // evaluate dropdown click
-    // mocks.puppeteer.page.click.mockResolvedValueOnce(undefined);
-    // // evaluate date string
-    // mocks.puppeteer.page.$eval.mockResolvedValueOnce([
-    //   "Received 27 July 2020",
-    //   "Accepted 1 August 2020",
-    // ]);
-    // // wait for
-    // mocks.puppeteer.page.waitForSelector.mockResolvedValueOnce(undefined);
-    // mocks.puppeteer.page.$$.mockResolvedValueOnce([
-    //   {
-    //     evaluate: vi.fn().mockResolvedValue(description),
-    //   },
-    // ]);
-
-    // mocks.puppeteer.page.$eval.mockResolvedValueOnce("page content");
-
-    // mocks.ner.winkMethods.learnCustomEntities.mockResolvedValueOnce({} as any);
-    // mocks.ner.doc.out.mockReturnValue([]);
-    // mocks.ner.doc.sentences.mockReturnValue({ each: vi.fn() } as any);
-    // mocks.ner.doc.customEntities.mockReturnValue({
-    //   out: vi.fn().mockReturnValue([]),
-    // } as any);
-    // mocks.ner.doc.tokens.mockReturnValue({ each: vi.fn() } as any);
-
-    // mocks.fs.existsSync.mockReturnValue(false);
-    // mocks.fs.readFileSync.mockReturnValue("[]");
 
     const user = new UserEntity();
 

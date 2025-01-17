@@ -9,7 +9,6 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { parse } from "date-fns";
-import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -176,97 +175,90 @@ const extractByProvider =
   (ctx) => {
     return pipe(
       TE.Do,
-      TE.bind("relations", () =>
-        sequenceS(TE.ApplicativeSeq)({
-          relations: extractRelationsFromURL(p, l.url)(ctx),
-          provider: extractPageMetadataFromProviderLink(p, host, l)(ctx),
-        }),
+      TE.bind("relations", () => extractRelationsFromURL(p, l.url)(ctx)),
+      TE.bind("provider", () =>
+        extractPageMetadataFromProviderLink(p, host, l)(ctx),
       ),
-      TE.bind(
-        "suggestions",
-        ({
-          relations: {
-            relations: { entities },
-            provider,
-          },
-        }) => {
-          if (fp.O.isSome(provider)) {
+      TE.bind("metadata", ({ provider }) => {
+        if (fp.O.isSome(provider)) {
+          return fp.TE.right(provider.value);
+        }
+
+        return fp.TE.right({
+          url: l.url,
+          title: l.title,
+          description: l.description ?? l.title,
+          keywords: [],
+          image: l.image?.id ?? null,
+          icon: "",
+          provider: undefined,
+          type,
+        } satisfies Metadata);
+      }),
+      TE.bind("suggestions", ({ relations: { entities }, metadata }) => {
+        return pipe(
+          TE.Do,
+          TE.bind("link", () => {
             return pipe(
-              TE.Do,
-              TE.bind("link", () => {
-                return pipe(
-                  LinkIO.decodeSingle(l),
-                  fp.E.fold(() => fp.O.none, fp.O.some),
-                  fp.TE.right,
-                );
-              }),
-              TE.bind("relations", () =>
-                pipe(
-                  fp.TE.right(
-                    getRelationIdsFromEventRelations({
-                      groupsMembers: [],
-                      media: [],
-                      areas: [],
-                      actors: entities.actors as any[],
-                      groups: entities.groups as any[],
-                      keywords: entities.keywords as any[],
-                      links: entities.links as any[],
-                    }),
-                  ),
-                ),
-              ),
-              TE.chain(({ link, relations }) =>
-                TE.tryCatch(() => {
-                  const suggestionMaker = getSuggestions((v) =>
-                    Promise.resolve(toInitialValue(v)),
-                  );
-
-                  return suggestionMaker(
-                    provider.value,
-                    link,
-                    O.none,
-                    relations,
-                  );
-                }, ServerError.fromUnknown),
-              ),
-              TE.map((suggestions) => {
-                return suggestions.find((s) => s.event.type === type);
-              }),
-              TE.map(O.fromNullable),
+              LinkIO.decodeSingle(l),
+              fp.E.fold(() => fp.O.none, fp.O.some),
+              fp.TE.right,
             );
-          }
-          return TE.right(O.none);
-        },
-      ),
+          }),
 
-      TE.map(
-        ({
-          relations: {
-            relations: { entities },
-          },
-          suggestions,
-        }) =>
-          pipe(
-            suggestions,
-            O.map((s) => ({
-              ...s.event,
-              id: uuid(),
-              excerpt: s.event.excerpt ?? null,
-              body: s.event.body ?? null,
-              location: null,
-              links: [l],
-              keywords: [],
-              media: [],
-              events: [],
-              socialPosts: [],
-              actors: entities.actors,
-              groups: entities.groups,
-              stories: [],
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              deletedAt: null,
-            })),
+          TE.bind("relations", () =>
+            pipe(
+              fp.TE.right(
+                getRelationIdsFromEventRelations({
+                  groupsMembers: [],
+                  media: [],
+                  areas: [],
+                  actors: entities.actors as any[],
+                  groups: entities.groups as any[],
+                  keywords: entities.keywords as any[],
+                  links: entities.links as any[],
+                }),
+              ),
+            ),
           ),
+          TE.chain(({ link, relations }) =>
+            TE.tryCatch(() => {
+              const suggestionMaker = getSuggestions((v) =>
+                Promise.resolve(toInitialValue(v)),
+              );
+
+              return suggestionMaker(metadata, link, O.none, relations);
+            }, ServerError.fromUnknown),
+          ),
+          TE.map((suggestions) => {
+            return suggestions.find((s) => s.event.type === type);
+          }),
+          TE.map(O.fromNullable),
+        );
+      }),
+
+      TE.map(({ relations: { entities }, suggestions }) =>
+        pipe(
+          suggestions,
+          O.map((s) => ({
+            ...s.event,
+            id: uuid(),
+            excerpt: s.event.excerpt ?? null,
+            body: s.event.body ?? null,
+            location: null,
+            links: [l],
+            keywords: [],
+            media: [],
+            events: [],
+            socialPosts: [],
+            actors: entities.actors,
+            groups: entities.groups,
+            stories: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: null,
+          })),
+        ),
       ),
     );
   };

@@ -1,4 +1,3 @@
-import viteTsconfigPaths from "vite-tsconfig-paths";
 import { extendBaseConfig } from "./src/test/vitest.base-config";
 
 export default extendBaseConfig(import.meta.url, (toAlias) => ({
@@ -8,6 +7,8 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     include: [toAlias("src/**/*.spec.ts")],
     watch: false,
     coverage: {
+      include: ["src/**/*.ts"],
+      exclude: ["src/test"],
       thresholds: {
         lines: 90,
         statements: 80,
@@ -15,6 +16,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       },
     },
   },
-  plugins: [viteTsconfigPaths({ root: toAlias("./") })],
-  root: toAlias("./"),
 }));

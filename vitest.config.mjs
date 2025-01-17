@@ -1,7 +1,6 @@
-import { coverageConfigDefaults, defineConfig } from 'vitest/config';
+import { coverageConfigDefaults, defineConfig } from "vitest/config";
 
 export default defineConfig({
-  root: __dirname,
   test: {
     globals: true,
     coverage: {
@@ -33,7 +32,12 @@ export default defineConfig({
         lines: 80,
         statements: 80,
         branches: 80,
-      }
-    }
-  }
-})
+      },
+    },
+    alias: {
+      "@liexp/core/lib/**": "./packages/@liexp/core/src/**",
+      "@liexp/shared/lib/**": "./packages/@liexp/shared/src/**",
+      "@liexp/backend/lib/**": "./packages/@liexp/backend/src/**",
+    },
+  },
+});

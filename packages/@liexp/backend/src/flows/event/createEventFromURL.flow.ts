@@ -16,7 +16,7 @@ import { EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
 import { findByURL } from "../../queries/events/scientificStudy.query.js";
-import { extractEventFromURL } from "./extractFromURL.flow.js";
+import { extractEventFromURL } from "./extractEventFromURL.flow.js";
 
 export type CreateEventFromURLContext = LoggerContext &
   ConfigContext &

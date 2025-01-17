@@ -35,23 +35,23 @@ export interface EventResult {
   hashtags: string[];
 }
 
+export type CreateFromTGMessageContext = LoggerContext &
+  DatabaseContext &
+  PuppeteerProviderContext &
+  TGBotProviderContext &
+  HTTPProviderContext &
+  ImgProcClientContext &
+  SpaceContext &
+  ENVContext &
+  URLMetadataContext &
+  QueuesProviderContext &
+  ConfigContext &
+  FSClientContext &
+  FFMPEGProviderContext &
+  PDFProviderContext;
+
 export const createFromTGMessage =
-  <
-    C extends LoggerContext &
-      DatabaseContext &
-      PuppeteerProviderContext &
-      TGBotProviderContext &
-      HTTPProviderContext &
-      ImgProcClientContext &
-      SpaceContext &
-      ENVContext &
-      URLMetadataContext &
-      QueuesProviderContext &
-      ConfigContext &
-      FSClientContext &
-      FFMPEGProviderContext &
-      PDFProviderContext,
-  >(
+  <C extends CreateFromTGMessageContext>(
     message: TelegramBot.Message,
     metadata: TelegramBot.Metadata,
   ): ReaderTaskEither<C, PuppeteerError, EventResult> =>
