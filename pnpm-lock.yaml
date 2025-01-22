@@ -53,13 +53,13 @@ importers:
   packages/@liexp/backend:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3.726.1
+        specifier: ^3.732.0
         version: 3.732.0
       '@aws-sdk/lib-storage':
-        specifier: ^3.726.1
+        specifier: ^3.732.0
         version: 3.732.0(@aws-sdk/client-s3@3.732.0)
       '@aws-sdk/s3-request-presigner':
-        specifier: ^3.726.1
+        specifier: ^3.732.0
         version: 3.732.0
       '@databases/escape-identifier':
         specifier: ^1.0.3
@@ -141,7 +141,7 @@ importers:
         version: 2.1.0
     devDependencies:
       '@aws-sdk/types':
-        specifier: ^3.723.0
+        specifier: ^3.731.0
         version: 3.731.0
       '@langchain/core':
         specifier: ^0.3.30
@@ -803,10 +803,10 @@ importers:
   services/ai-bot:
     dependencies:
       '@aws-sdk/client-sso-oidc':
-        specifier: ^3.726.0
+        specifier: ^3.731.1
         version: 3.731.1
       '@aws-sdk/client-sts':
-        specifier: ^3.726.1
+        specifier: ^3.731.1
         version: 3.731.1
       '@langchain/community':
         specifier: ^0.3.23
@@ -858,7 +858,7 @@ importers:
   services/api:
     dependencies:
       '@aws-sdk/client-s3':
-        specifier: ^3.726.1
+        specifier: ^3.732.0
         version: 3.732.0
       '@liexp/backend':
         specifier: workspace:*
