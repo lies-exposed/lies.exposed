@@ -9,7 +9,7 @@ import { describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { LinkEntity } from "../../entities/Link.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
-import { initContext, testConfig } from "../../test/index.js";
+import { testConfig } from "../../test/index.js";
 import { mockedContext, mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { mocks } from "../../test/mocks.js";
 import {

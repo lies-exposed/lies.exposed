@@ -1,7 +1,6 @@
 import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import {
-  type FFMPEGProviderContext,
   type GeocodeProviderContext,
   type NERProviderContext,
   type WikipediaProviderContext,
@@ -46,7 +45,6 @@ export type ServerContext = ENVContext &
   NERProviderContext &
   URLMetadataContext &
   PuppeteerProviderContext &
-  FFMPEGProviderContext &
   ConfigContext &
   QueuesProviderContext &
   BlockNoteContext &

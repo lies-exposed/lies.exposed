@@ -5,9 +5,7 @@
     "noEmit": true,
     "allowJs": true,
     "module": "commonjs",
-    "types": [
-      "vitest/globals"
-    ],
+    "types": ["vitest/globals"],
     "declaration": false,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,

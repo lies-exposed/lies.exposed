@@ -16,12 +16,10 @@ import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
+import { type FFMPEGProviderContext } from "../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../context/http.context.js";
-import {
-  type FFMPEGProviderContext,
-  type ImgProcClientContext,
-} from "../../context/index.js";
+import { type ImgProcClientContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PDFProviderContext } from "../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
@@ -31,22 +29,23 @@ import { type MediaEntity } from "../../entities/Media.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
 import { upload } from "../../flows/space/upload.flow.js";
 import { MediaRepository } from "../../services/entity-repository.service.js";
+import { LoggerService } from "../../services/logger/logger.service.js";
 import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 
-export const createAndUpload = <
-  C extends SpaceContext &
-    ENVContext &
-    QueuesProviderContext &
-    DatabaseContext &
-    LoggerContext &
-    ConfigContext &
-    FSClientContext &
-    HTTPProviderContext &
-    PDFProviderContext &
-    FFMPEGProviderContext &
-    PuppeteerProviderContext &
-    ImgProcClientContext,
->(
+export type CreateAndUploadFlowContext = SpaceContext &
+  ENVContext &
+  QueuesProviderContext &
+  DatabaseContext &
+  LoggerContext &
+  ConfigContext &
+  FSClientContext &
+  HTTPProviderContext &
+  PDFProviderContext &
+  FFMPEGProviderContext &
+  PuppeteerProviderContext &
+  ImgProcClientContext;
+
+export const createAndUpload = <C extends CreateAndUploadFlowContext>(
   createMediaData: Media.CreateMedia,
   { Body, ContentType }: { Body: any; ContentType?: MediaType },
   id: UUID | undefined,
@@ -61,6 +60,7 @@ export const createAndUpload = <
       if (IframeVideoType.is(createMediaData.type)) {
         return fp.RTE.right(createMediaData.location);
       }
+
       const mediaKey = getMediaKey(
         "media",
         mediaId,
@@ -79,6 +79,7 @@ export const createAndUpload = <
       );
     }),
     // ctx.logger.debug.logInTaskEither("Result %O"),
+    LoggerService.RTE.info("Result %O"),
     fp.RTE.bind("thumbnail", ({ mediaId, location }) =>
       pipe(
         extractThumb
@@ -98,6 +99,7 @@ export const createAndUpload = <
       MediaRepository.save<C>([
         {
           ...createMediaData,
+          description: createMediaData.description ?? createMediaData.label,
           events: [],
           links: [],
           featuredInStories: [],
