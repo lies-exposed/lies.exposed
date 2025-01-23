@@ -283,11 +283,11 @@ importers:
   packages/@liexp/shared:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.22.0
-        version: 0.22.0(@types/hast@3.0.4)
+        specifier: ^0.23.0
+        version: 0.23.0(@types/hast@3.0.4)
       '@blocknote/server-util':
-        specifier: ^0.22.0
-        version: 0.22.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.0
+        version: 0.23.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -414,14 +414,14 @@ importers:
   packages/@liexp/ui:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.22.0
-        version: 0.22.0(@types/hast@3.0.4)
+        specifier: ^0.23.0
+        version: 0.23.0(@types/hast@3.0.4)
       '@blocknote/mantine':
-        specifier: ^0.22.0
-        version: 0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.0
+        version: 0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@blocknote/react':
-        specifier: ^0.22.0
-        version: 0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.0
+        version: 0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0
@@ -1628,23 +1628,23 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@blocknote/core@0.22.0':
-    resolution: {integrity: sha512-AAEx01zK6u+b1SsZniMm/aogEMjasF4vA9ZHgFGj04G7AwK5Hjwa0Sxre58qcW+KzuvR09CQHTkwjmgVmJX/HA==}
+  '@blocknote/core@0.23.0':
+    resolution: {integrity: sha512-ulwJ6svm94rpAxzQhv4WybEbzkJUBz6lZa6HYiehHHqUkup2TgxMXqMXDV0lAl4EzuXJoYKhh1Xtv8W3MbBv2Q==}
 
-  '@blocknote/mantine@0.22.0':
-    resolution: {integrity: sha512-6irIKCGUpE47X8qWLx9oa5ndztSrvLEHgVRp+fdVUHMJCx0/OzijJyYTTFKw8yEI9qc01pjmwdYMZrMMZybyGw==}
+  '@blocknote/mantine@0.23.0':
+    resolution: {integrity: sha512-nnWGm2eTN+13iDRUAlTwfVQjjwb1m1DRNHrSpoDnHB4moECaehYxwxuDgdK/CtfG01tVcc/OcGUCQB1WwetQ6g==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/react@0.22.0':
-    resolution: {integrity: sha512-Y6Oj99iOKnlh2FE/lgy8kO5PziPnA8MyEJyjCH9Jbvlc9t493L9EFmLK8iKBZek7sh0TOzhXGBOA6lIpk02X6A==}
+  '@blocknote/react@0.23.0':
+    resolution: {integrity: sha512-FkHDVgM87aIbI1OW3XGpKrA0q7SfN433jj9UsLc79iAvSHxMRCtq+ZYW+JS9ycayutFHKVtG1sRWB99+I916Sw==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/server-util@0.22.0':
-    resolution: {integrity: sha512-d75ZSCrbwk1XdYglqUb+mKLkezIDT7J5Se9WCopc0DeKPXxoP7SbSEAjxfiAfgNGrB3Gj6um/PvbGKyF3gqB+A==}
+  '@blocknote/server-util@0.23.0':
+    resolution: {integrity: sha512-IZ5Dh5bEkFlOwzYN1HUS2areEKpmSjBtHcuMnLaNWjRv1fdm9Yu3RGhPOc7PnSpfn7h9cGU4DcREtPLdxEpDJQ==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
@@ -11203,7 +11203,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@blocknote/core@0.22.0(@types/hast@3.0.4)':
+  '@blocknote/core@0.23.0(@types/hast@3.0.4)':
     dependencies:
       '@emoji-mart/data': 1.2.1
       '@tiptap/core': 2.11.3(@tiptap/pm@2.11.3)
@@ -11256,10 +11256,10 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/mantine@0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/mantine@0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.22.0(@types/hast@3.0.4)
-      '@blocknote/react': 0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@blocknote/core': 0.23.0(@types/hast@3.0.4)
+      '@blocknote/react': 0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/core': 7.16.1(@mantine/hooks@7.16.1(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks': 7.16.1(react@18.3.1)
       '@mantine/utils': 6.0.22(react@18.3.1)
@@ -11276,9 +11276,9 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/react@0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/react@0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.22.0(@types/hast@3.0.4)
+      '@blocknote/core': 0.23.0(@types/hast@3.0.4)
       '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.11.3(@tiptap/pm@2.11.3)
       '@tiptap/react': 2.11.3(@tiptap/core@2.11.3(@tiptap/pm@2.11.3))(@tiptap/pm@2.11.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11295,10 +11295,10 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/server-util@0.22.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/server-util@0.23.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.22.0(@types/hast@3.0.4)
-      '@blocknote/react': 0.22.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@blocknote/core': 0.23.0(@types/hast@3.0.4)
+      '@blocknote/react': 0.23.0(@tiptap/pm@2.11.3)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.11.3(@tiptap/pm@2.11.3)
       '@tiptap/pm': 2.11.3
       jsdom: 25.0.1(canvas@2.11.2)
