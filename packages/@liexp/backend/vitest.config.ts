@@ -1,13 +1,11 @@
 import viteTsconfigPaths from "vite-tsconfig-paths";
-import { defineConfig, mergeConfig } from "vitest/config";
-import { baseConfig } from "./src/test/vitest.base-config";
+import { extendBaseConfig } from "./src/test/vitest.base-config";
 
-export default mergeConfig(baseConfig, defineConfig({
+export default extendBaseConfig(import.meta.url, (toAlias) => ({
   test: {
     name: "@liexp/backend",
-    root: __dirname,
     globals: true,
-    include: [__dirname + "/src/**/*.spec.ts"],
+    include: [toAlias("src/**/*.spec.ts")],
     watch: false,
     coverage: {
       thresholds: {
@@ -17,6 +15,6 @@ export default mergeConfig(baseConfig, defineConfig({
       },
     },
   },
-  plugins: [viteTsconfigPaths({ root: __dirname })],
-  root: __dirname,
+  plugins: [viteTsconfigPaths({ root: toAlias("./") })],
+  root: toAlias("./"),
 }));
