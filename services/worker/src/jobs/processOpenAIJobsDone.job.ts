@@ -13,6 +13,9 @@ import {
 } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { Equal, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
@@ -53,6 +56,33 @@ const processDoneJobBlockNoteResult =
           {
             ...entity,
             excerpt,
+          },
+        ]),
+      ),
+      fp.RTE.map(() => job),
+    );
+  };
+
+const processDoneJobEventResult =
+  (dbService: EntityRepository<EventV2Entity>) =>
+  (job: Queue.Queue): RTE<Queue.Queue> => {
+    return pipe(
+      fp.RTE.Do,
+      fp.RTE.bind("event", () => {
+        return pipe(
+          fp.RTE.of(job.result),
+          fp.RTE.chainEitherK(Event.decode),
+          fp.RTE.mapLeft((errs) => DecodeError.of("Event", errs)),
+        );
+      }),
+      fp.RTE.chain(({ event }) =>
+        dbService.save([
+          {
+            ...event,
+            links: event.links.map((l) => ({ id: l })),
+            media: event.media.map((m) => ({ id: m })),
+            keywords: event.keywords.map((k) => ({ id: k })),
+            socialPosts: event.socialPosts?.map((s) => ({ id: s })),
           },
         ]),
       ),
@@ -105,6 +135,13 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       }
 
       if (job.resource === "events") {
+        if (OpenAICreateEventFromTextType.is(job.type)) {
+          return pipe(
+            processDoneJobEventResult(EventRepository)(job),
+            fp.RTE.map(() => job),
+          );
+        }
+
         return pipe(
           processDoneJobBlockNoteResult(EventRepository)(job),
           fp.RTE.map(() => job),

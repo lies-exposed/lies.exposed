@@ -10,6 +10,7 @@ const config = extendBaseConfig(import.meta.url, (toAlias) => ({
     globalSetup: [toAlias(`globalSetup.ts`)],
     exclude: ["**/build", "**/src/migrations", "**/src/scripts"],
     pool: "forks",
+    bail: 1,
     poolOptions: {
       forks: {
         singleFork: process.env.CI === "true" ? true : false,
