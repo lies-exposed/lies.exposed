@@ -127,7 +127,6 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         <Select
           size="small"
           label="Transform in"
-          placeholder="Select type"
           onChange={handleTransform}
           value={type}
           defaultValue={type}

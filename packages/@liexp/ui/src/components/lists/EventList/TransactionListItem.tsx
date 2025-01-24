@@ -10,7 +10,7 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight.js";
+import { ArrowRight as ArrowRightIcon } from "@mui/icons-material";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { EventIcon } from "../../Common/Icons/index.js";

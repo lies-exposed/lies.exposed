@@ -49,11 +49,13 @@ import {
   StoryList,
 } from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
 import { UserEdit } from "@liexp/ui/lib/components/admin/user/UserEdit.js";
+import {
+  Assignment as AssignmentIcon,
+  PermMedia as PermMediaIcon,
+  PostAdd as PostAddIcon,
+} from "@liexp/ui/lib/components/mui/icons.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
-import AssignmentIcon from "@mui/icons-material/Assignment.js";
-import PermMediaIcon from "@mui/icons-material/PermMedia.js";
-import PostAddIcon from "@mui/icons-material/PostAdd.js";
 import * as React from "react";
 import { Route } from "react-router-dom";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
