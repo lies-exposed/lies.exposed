@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type TaskEither } from "fp-ts/lib/TaskEither";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type MockInstance } from "vitest";
 import { type DeepMockProxy } from "vitest-mock-extended";
 

@@ -6,9 +6,9 @@ import {
 import type Ffmpeg from "fluent-ffmpeg";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
+import { type FFMPEGProviderContext } from "../../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
-import { type FFMPEGProviderContext } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { ServerError } from "../../../errors/ServerError.js";
 import { downloadMP4Video } from "../downloadMP4Video.js";
