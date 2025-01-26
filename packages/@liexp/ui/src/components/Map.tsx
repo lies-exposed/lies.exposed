@@ -35,7 +35,7 @@ const Map = <G extends Geometry>({
   interactions,
   controls,
   onMapClick,
-}: MapProps<G>): JSX.Element => {
+}: MapProps<G>): React.ReactElement => {
   const mapId = `map-${id}`;
 
   React.useEffect(() => {

@@ -39,7 +39,7 @@ export interface NetworkBaseProps<
   minDate: Date;
   maxDate: Date;
   graph: NetworkGraphType<L, N>;
-  tooltipRenderer: (tooltipData: N) => JSX.Element;
+  tooltipRenderer: (tooltipData: N) => React.ReactElement;
   onEventLabelClick: (event: string) => void;
   onNodeClick: (event: NetworkPointNode<N>) => void;
   onDoubleClick: (event: NetworkPointNode<N>, scale: NetworkScale) => void;
@@ -52,7 +52,7 @@ export type NetworkProps<
 
 const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkProps<L, N>,
-): JSX.Element => {
+): React.ReactElement => {
   const handleMouseOver = (event: any, datum: any): void => {
     const coords = localPoint(event.target.ownerSVGElement, event);
     if (coords !== null) {

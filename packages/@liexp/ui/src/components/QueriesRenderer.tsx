@@ -32,7 +32,9 @@ type RenderFnData<Q extends QueriesProp> = Q extends QueriesRecord
       }
     : never;
 
-type RenderFn<Q extends QueriesProp> = (data: RenderFnData<Q>) => JSX.Element;
+type RenderFn<Q extends QueriesProp> = (
+  data: RenderFnData<Q>,
+) => React.ReactElement;
 
 interface QueriesRendererProps<Q extends QueriesProp> {
   loader?: "fullsize" | "default";

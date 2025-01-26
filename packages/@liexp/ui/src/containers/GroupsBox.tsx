@@ -11,7 +11,7 @@ interface GroupsBoxWrapperProps {
   params: GetListFnParamsE<typeof Endpoints.Group.List>;
   discrete?: boolean;
   prefix?: string;
-  children: (data: Group.GroupListOutput) => JSX.Element;
+  children: (data: Group.GroupListOutput) => React.ReactElement;
 }
 
 export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({

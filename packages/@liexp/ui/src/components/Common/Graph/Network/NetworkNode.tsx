@@ -17,7 +17,7 @@ export const NetworkNode = <D extends NetworkNodeDatum>({
   onClick,
   onMouseOver,
   onMouseOut,
-}: NetworkNodeProps<D>): JSX.Element => {
+}: NetworkNodeProps<D>): React.ReactElement => {
   const groupProps = {
     ...(onMouseOver !== undefined
       ? {

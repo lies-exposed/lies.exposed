@@ -73,7 +73,7 @@ export const ErrorBox = ({
   resetErrorBoundary,
   enableReset = false,
   style,
-}: ErrorBoxProps): JSX.Element => {
+}: ErrorBoxProps): React.ReactElement => {
   const error = React.useMemo((): APIError | CoreError => {
     if (APIError.is(e)) {
       return e;
@@ -133,4 +133,4 @@ export const ErrorBox = ({
 
 export const ResettableErrorBox = (
   props: Omit<ErrorBoxProps, "enableReset">,
-): JSX.Element => <ErrorBox enableReset {...props} />;
+): React.ReactElement => <ErrorBox enableReset {...props} />;

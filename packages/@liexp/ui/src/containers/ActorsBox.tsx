@@ -12,7 +12,7 @@ interface ActorsBoxWrapperProps {
   params: Partial<GetListParams>;
   discrete?: boolean;
   prefix?: string;
-  children: (r: { data: Actor[]; total: number }) => JSX.Element;
+  children: (r: { data: Actor[]; total: number }) => React.ReactElement;
 }
 
 export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({

@@ -79,7 +79,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
   showRelations = true,
   transform,
   ...props
-}: EventNetworkGraphBoxWrapperProps<T>): JSX.Element => {
+}: EventNetworkGraphBoxWrapperProps<T>): React.ReactElement => {
   const [relations, setRelations] = onRelationsChange
     ? [_relations, onRelationsChange]
     : React.useState(_relations);

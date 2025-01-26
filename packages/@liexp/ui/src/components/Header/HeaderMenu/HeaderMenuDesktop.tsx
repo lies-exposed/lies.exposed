@@ -13,7 +13,7 @@ const HeaderMenuItemFC: React.FC<{
   open: boolean;
   currentView: string;
   onClick: (
-    ref: React.RefObject<HTMLButtonElement> | null,
+    ref: React.RefObject<HTMLButtonElement | null> | null,
     i: HeaderMenuItem,
   ) => void;
 }> = ({ item: m, className, open, currentView, onClick }) => {
@@ -94,7 +94,7 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
     React.useState<HeaderMenuItem | null>(null);
 
   const handleToggle = (
-    ref: React.RefObject<HTMLButtonElement> | null,
+    ref: React.RefObject<HTMLButtonElement | null> | null,
     m: HeaderMenuItem,
   ): void => {
     if (m.subItems.length > 0) {
@@ -159,7 +159,7 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
       </Stack>
       {pipe(
         O.fromNullable(selectedMenuItem),
-        O.map((m): JSX.Element | null => (
+        O.map((m): React.ReactElement | null => (
           <PopperMenu
             classes={{
               menuItem: classes.menuItem,

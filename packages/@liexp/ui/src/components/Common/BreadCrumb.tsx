@@ -16,7 +16,7 @@ export const BreadCrumb: React.FC<BreadCrumbProps> = ({ view, segments }) => {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {
-        paths.reduce<{ children: JSX.Element[]; currentPath: string }>(
+        paths.reduce<{ children: React.ReactElement[]; currentPath: string }>(
           (acc, p, i) => {
             const currentSegment = p.startsWith(":")
               ? view[p.replace(":", "")]

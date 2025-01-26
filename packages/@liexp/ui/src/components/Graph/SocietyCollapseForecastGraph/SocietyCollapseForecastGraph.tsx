@@ -386,7 +386,7 @@ export const SocietyCollapseForecastGraph = withTooltip<
 );
 
 export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     const jsonClient = useJSONClient();
 
     return pipe(

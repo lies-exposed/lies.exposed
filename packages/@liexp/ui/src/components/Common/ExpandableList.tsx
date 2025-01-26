@@ -38,7 +38,7 @@ export const ExpandableList = <A, D extends React.ElementType<any> = "ul">({
   ListItem,
   filter,
   ...props
-}: ExpandableListProps<A, D>): JSX.Element => {
+}: ExpandableListProps<A, D>): React.ReactElement => {
   const [open, setOpen] = React.useState(false);
   const summaryData = open ? data.filter(filter) : data.slice(0, limit);
 

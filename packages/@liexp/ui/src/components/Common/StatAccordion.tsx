@@ -11,7 +11,7 @@ import {
 interface StatAccordionProps {
   summary: string;
   caption: string;
-  details?: JSX.Element;
+  details?: React.ReactElement;
   style?: {
     summary?: React.CSSProperties;
   };

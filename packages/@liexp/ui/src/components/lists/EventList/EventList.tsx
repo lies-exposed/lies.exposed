@@ -64,7 +64,7 @@ const renderRow = (props: {
   );
 };
 
-const renderHeaderRow: React.FC<{
+const RenderHeaderRow: React.FC<{
   index: number;
   data: EventListProps & {
     classes: {
@@ -121,16 +121,16 @@ const EventList: React.FC<EventListProps> = ({
 
   return (
     <List className={`events ${className}`} subheader={<div />} style={style}>
-      {orderedEvents.map((ee, i) =>
-        renderHeaderRow({
-          index: i,
-          data: {
+      {orderedEvents.map((ee, i) => (
+        <RenderHeaderRow
+          index={i}
+          data={{
             events: ee,
             classes,
             ...props,
-          },
-        }),
-      )}
+          }}
+        />
+      ))}
     </List>
   );
 };

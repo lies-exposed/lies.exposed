@@ -37,7 +37,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
   condensed: boolean,
-): JSX.Element => {
+): React.ReactElement => {
   if (subject.type === ByActorId.type.props.type.value) {
     return (
       <ActorListItem

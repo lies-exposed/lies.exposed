@@ -80,7 +80,7 @@ const EventListItemBase = <E extends any>({
   onRowInvalidate,
   onLoad,
   mediaLayout = "slider",
-}: EventListItemBaseProps<E>): JSX.Element => {
+}: EventListItemBaseProps<E>): React.ReactElement => {
   React.useEffect(() => {
     onLoad?.();
   }, [condensed, media.length, onLoad]);

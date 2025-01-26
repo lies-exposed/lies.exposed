@@ -8,7 +8,7 @@ export const usePopover = (
   (
     title: string,
     el: HTMLElement,
-    getContent: (onClose: () => void) => JSX.Element,
+    getContent: (onClose: () => void) => React.ReactElement,
   ) => void,
 ] => {
   const [popoverState, setPopoverState] = React.useState<{
@@ -50,7 +50,7 @@ export const usePopover = (
   const showPopover = (
     title: string,
     el: HTMLElement,
-    getContent: (onClose: () => void) => JSX.Element,
+    getContent: (onClose: () => void) => React.ReactElement,
   ): void => {
     setPopoverState({
       el,

@@ -18,7 +18,7 @@ interface HeaderMenuItemProps {
   open: boolean;
   currentView: string;
   onClick: (
-    ref: React.RefObject<HTMLButtonElement> | null,
+    ref: React.RefObject<HTMLButtonElement | null> | null,
     i: HeaderMenuItem | HeaderMenuSubItem,
   ) => void;
 }
@@ -78,7 +78,9 @@ const HeaderMenuItemFC: React.FC<HeaderMenuItemProps> = ({
         aria-controls={open ? "menu-list-grow" : undefined}
         aria-haspopup="true"
         onClick={() => {
-          onClick(buttonRef, m);
+          if (buttonRef) {
+            onClick(buttonRef, m);
+          }
         }}
       >
         {m.label}
@@ -144,10 +146,9 @@ export const HeaderMenuMobile: React.FC<HeaderMenuProps> = ({
 }) => {
   const theme = useTheme();
 
-  const [anchorRef, setAnchorRef] =
-    React.useState<React.RefObject<HTMLButtonElement> | null>(
-      React.useRef<HTMLButtonElement>(null),
-    );
+  const [anchorRef, setAnchorRef] = React.useState<
+    React.RefObject<HTMLButtonElement | null>
+  >(React.createRef<HTMLButtonElement>());
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -160,12 +161,15 @@ export const HeaderMenuMobile: React.FC<HeaderMenuProps> = ({
   };
 
   const handleToggle = (
-    ref: React.RefObject<HTMLButtonElement> | null,
+    ref: React.RefObject<HTMLButtonElement | null> | null,
     m: HeaderMenuItem | HeaderMenuSubItem,
   ): void => {
     const item: any = m;
+
     if (item.subItems && item.subItems.length > 0) {
-      setAnchorRef(ref);
+      if (ref) {
+        setAnchorRef(ref);
+      }
       setSelectedMenuItem(item);
     } else {
       onMenuItemClick(item);

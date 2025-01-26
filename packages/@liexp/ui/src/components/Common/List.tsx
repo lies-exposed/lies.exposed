@@ -34,7 +34,7 @@ export const List = <A extends any, D extends React.ElementType<any> = "ul">({
   onItemClick,
   filter,
   ...props
-}: ListProps<A, D>): JSX.Element => {
+}: ListProps<A, D>): React.ReactElement => {
   return (
     <MUIList className={className} style={style} {...props}>
       {data.map((d, i) => (

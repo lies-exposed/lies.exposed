@@ -290,7 +290,7 @@ function LegendDemo({
 }: {
   title: string;
   children: React.ReactNode;
-}): JSX.Element {
+}): React.ReactElement {
   return (
     <div className="legend">
       <div className="title">{title}</div>

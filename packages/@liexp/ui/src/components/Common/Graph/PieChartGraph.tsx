@@ -32,7 +32,7 @@ export const PieChartGraph = <S extends any>({
   getValue,
   margin = defaultMargin,
   animate = true,
-}: PieProps<S>): JSX.Element | null => {
+}: PieProps<S>): React.ReactElement | null => {
   const [selectedSlice, setSelectedSlice] = React.useState<string | null>(null);
 
   const getSliceColor = scaleOrdinal({
@@ -146,7 +146,7 @@ function AnimatedPie<Datum>({
   getLabel,
   getColor,
   onClickDatum,
-}: AnimatedPieProps<Datum>): JSX.Element {
+}: AnimatedPieProps<Datum>): React.ReactElement {
   const transitions = useTransition<PieArcDatum<Datum>, AnimatedStyles>(arcs, {
     from: animate !== null ? fromLeaveTransition : enterUpdateTransition,
     enter: enterUpdateTransition,

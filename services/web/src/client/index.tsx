@@ -33,7 +33,7 @@ dom.watch();
 // create emotion cache
 const cache = createEmotionCache();
 
-function Main(): JSX.Element {
+function Main(): React.ReactElement {
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {

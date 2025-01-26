@@ -10,7 +10,7 @@ import { Box, type BoxProps } from "./mui/index.js";
 
 interface KeywordsBoxWrapperProps {
   params: Partial<GetListParams>;
-  children: (data: Keyword.ListKeywordOutput) => JSX.Element;
+  children: (data: Keyword.ListKeywordOutput) => React.ReactElement;
 }
 
 export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({

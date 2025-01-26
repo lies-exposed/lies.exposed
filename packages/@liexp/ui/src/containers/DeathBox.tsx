@@ -7,7 +7,7 @@ import QueriesRenderer from "../components/QueriesRenderer.js";
 export class DeathBox extends React.PureComponent<{
   id: string;
 }> {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return pipe(
       O.fromNullable(this.props.id),
       O.fold(
