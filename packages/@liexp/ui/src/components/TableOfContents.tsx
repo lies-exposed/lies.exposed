@@ -17,7 +17,7 @@ interface Items {
 //   info: { depth: number };
 // }
 
-// const CustomLabel = (node: TreeNode): JSX.Element => {
+// const CustomLabel = (node: TreeNode): React.ReactElement => {
 //   const Tag = ((depth) => {
 //     switch (depth) {
 //       case 1:
@@ -33,7 +33,7 @@ interface Items {
 //   return <Tag>{node.label}</Tag>;
 // };
 
-// const CustomTreeLabel = (props: TreeLabelProps): JSX.Element => {
+// const CustomTreeLabel = (props: TreeLabelProps): React.ReactElement => {
 //   return <TreeLabel {...props} label={CustomLabel} />;
 // };
 

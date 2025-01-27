@@ -50,7 +50,7 @@ import { BNEditor } from "./BlockNote/index.js";
 //   ),
 // };
 
-// export const MarkdownRenderer: React.FC = ({ children }): JSX.Element => {
+// export const MarkdownRenderer: React.FC = ({ children }): React.ReactElement => {
 //   // eslint-disable-next-line react/no-children-prop
 //   return <MDX components={components}>{children}</MDX>;
 // };

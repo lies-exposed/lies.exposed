@@ -12,7 +12,7 @@ interface ProjectImageListProps {
 }
 
 export class ProjectImageList extends React.PureComponent<ProjectImageListProps> {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     const items = [{ id: "", location: "", description: "" }];
     return (
       <div>

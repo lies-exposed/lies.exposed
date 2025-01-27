@@ -48,7 +48,7 @@ export const InfiniteListBox = <
   useListQuery,
   filter,
   ...rest
-}: InfiniteListBoxProps<T, E>): JSX.Element => {
+}: InfiniteListBoxProps<T, E>): React.ReactElement => {
   const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
     masonryRef: Masonry | null;
     cellCache: CellMeasurerCache | null;

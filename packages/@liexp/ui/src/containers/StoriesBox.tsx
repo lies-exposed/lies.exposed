@@ -17,7 +17,7 @@ const StoriesBox = ({
   itemStyle,
   onItemClick,
   ...props
-}: ActorsBoxProps): JSX.Element | null => {
+}: ActorsBoxProps): React.ReactElement | null => {
   return (
     <QueriesRenderer
       queries={(Q) => ({

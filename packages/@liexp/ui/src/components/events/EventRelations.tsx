@@ -11,7 +11,7 @@ export const EventRelations: React.FC<{
     props: Events.EventRelations & {
       event: Event;
     },
-  ) => JSX.Element;
+  ) => React.ReactElement;
 }> = ({ event, children }) => {
   const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
 

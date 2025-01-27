@@ -218,7 +218,7 @@ const VaccineDatumTable: React.FC<VaccineDatumTableProps> = ({
   );
 };
 
-const renderTooltip = (data: VaccineDatum): JSX.Element => {
+const renderTooltip = (data: VaccineDatum): React.ReactElement => {
   return (
     <VaccineDatumTable
       labelVariant="caption"

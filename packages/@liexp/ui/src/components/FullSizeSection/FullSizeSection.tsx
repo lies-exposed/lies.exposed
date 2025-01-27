@@ -16,7 +16,7 @@ export interface FullSizeViewportProps {
 }
 
 export const FullSizeViewport: React.FC<
-  FullSizeViewportProps & { children: () => JSX.Element }
+  FullSizeViewportProps & { children: () => React.ReactElement }
 > = (props) => {
   const { id, backgroundColor, backgroundImage, children } = props;
   const [{ width, height }, setPageSize] = React.useState({

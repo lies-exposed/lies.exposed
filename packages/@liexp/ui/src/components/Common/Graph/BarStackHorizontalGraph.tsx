@@ -64,7 +64,7 @@ export const BarStackHorizontalGraph = <D, K extends StackKey>({
   axisBottom,
   axisLeft,
   tooltipRenderer,
-}: BarStackHorizontalGraphProps<D, K>): JSX.Element | null => {
+}: BarStackHorizontalGraphProps<D, K>): React.ReactElement | null => {
   const {
     tooltipOpen,
     tooltipLeft,

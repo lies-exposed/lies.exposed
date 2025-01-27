@@ -8,7 +8,7 @@ import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 
 class DocsPage extends React.PureComponent<RouteComponentProps> {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <ContentWithSidebar
         sidebar={pipe(

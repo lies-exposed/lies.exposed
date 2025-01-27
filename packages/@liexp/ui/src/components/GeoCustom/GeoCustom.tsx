@@ -27,7 +27,7 @@ export interface GeoCustomProps<P extends GeoJSON.GeoJsonProperties> {
   height: number;
   data: GeoJSON.FeatureCollection<GeoJSON.Geometry, P>;
   projection: ProjectionProps["projection"];
-  featureRenderer: (f: ParsedFeature<P>, i: number) => JSX.Element;
+  featureRenderer: (f: ParsedFeature<P>, i: number) => React.ReactElement;
 }
 
 const world = topojson.feature(

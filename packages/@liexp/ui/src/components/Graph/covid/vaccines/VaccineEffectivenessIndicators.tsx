@@ -61,7 +61,7 @@ const severeData: Data[] = [
 const graphMargin = { top: 60, right: 60, bottom: 60, left: 60 };
 const xScalePadding = 0.7;
 export class VaccineEffectivenessIndicators extends React.PureComponent {
-  render(): JSX.Element {
+  render(): React.ReactElement {
     // infections
     const infectionsXScale = scaleBand<string>({
       domain: infectionsData.map((d) => d.group),
@@ -91,7 +91,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
     const tooltipRenderer = ({
       key,
       bar: { data },
-    }: TooltipData<Data, Keys>): JSX.Element => {
+    }: TooltipData<Data, Keys>): React.ReactElement => {
       const AR = (data.infected / data.total) * 100;
       return (
         <div style={{ background: "#000" }}>
