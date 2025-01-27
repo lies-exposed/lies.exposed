@@ -38,7 +38,7 @@
     "ts-shared": "^2.0.0-alpha.6"
   },
   "devDependencies": {
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "typescript": "^5.7.3"
   }
 }
