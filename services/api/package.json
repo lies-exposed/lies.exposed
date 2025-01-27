@@ -104,7 +104,7 @@
     "@types/supertest": "^6.0.2",
     "dockerode": "^4.0.3",
     "dotenv": "^16.4.7",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "prompts": "^2.4.2",
     "supertest": "^7.0.0",
     "vite-tsconfig-paths": "^5.1.4",
