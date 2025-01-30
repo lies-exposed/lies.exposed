@@ -165,10 +165,8 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
       groups: queryUpdate?.groups ? queryUpdate.groups : query.groups,
       actors: queryUpdate?.actors ? queryUpdate.actors : query.actors,
       keywords: queryUpdate?.keywords ? queryUpdate.keywords : query.keywords,
-      startDate: queryUpdate.startDate
-        ? queryUpdate.startDate
-        : query.startDate,
-      endDate: queryUpdate.endDate ? queryUpdate.endDate : query.endDate,
+      startDate: queryUpdate.startDate ?? query.startDate,
+      endDate: queryUpdate.endDate ?? query.endDate,
       _sort: queryUpdate._sort ?? query._sort ?? null,
       _order: queryUpdate._order ?? query._order ?? null,
     };
