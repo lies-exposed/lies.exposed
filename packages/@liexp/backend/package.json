@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.734.0",
-    "@langchain/core": "^0.3.36",
+    "@langchain/core": "^0.3.37",
     "@langchain/openai": "^0.4.2",
     "@liexp/test": "workspace:*",
     "@types/fluent-ffmpeg": "^2.1.27",
@@ -55,7 +55,7 @@
     "exifreader": "^4.26.0",
     "fast-csv": "^5.0.2",
     "ioredis": "^5.4.2",
-    "langchain": "^0.3.13",
+    "langchain": "^0.3.15",
     "puppeteer-core": "^23.11.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
