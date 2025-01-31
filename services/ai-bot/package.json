@@ -23,8 +23,8 @@
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.735.0",
     "@aws-sdk/client-sts": "^3.734.0",
-    "@langchain/community": "^0.3.27",
-    "@langchain/core": "^0.3.36",
+    "@langchain/community": "^0.3.28",
+    "@langchain/core": "^0.3.37",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
@@ -32,7 +32,7 @@
     "cheerio": "^1.0.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
-    "langchain": "^0.3.13",
+    "langchain": "^0.3.15",
     "pdfjs-dist": "^4.10.38",
     "prompts": "^2.4.2",
     "ts-shared": "^2.0.0-alpha.6"
