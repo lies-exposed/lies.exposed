@@ -31,7 +31,7 @@ export const setDefaultGroupUsernames: CommandFlow = async (ctx) => {
     fp.TE.map((groups) =>
       groups.map((g) => ({
         ...g,
-        username: g.username ? g.username : getUsernameFromDisplayName(g.name),
+        username: g.username ?? getUsernameFromDisplayName(g.name),
       })),
     ),
     fp.TE.chain((groups) => ctx.db.save(GroupEntity, groups)),
