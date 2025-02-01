@@ -13,7 +13,7 @@ export const embedAndQuestionFlow: JobProcessRTE<CreateQueueURLData> =
     return pipe(
       loadDocs(job)(ctx),
       fp.TE.chain((docs) =>
-        fp.TE.tryCatch(async () => {
+        fp.TE.tryCatch(() => {
           return ctx.langchain.queryDocument(
             docs,
             job.question ?? defaultQuestion,

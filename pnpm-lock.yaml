@@ -73,6 +73,9 @@ importers:
       '@liexp/shared':
         specifier: workspace:*
         version: link:../shared
+      '@napi-rs/canvas':
+        specifier: ^0.1.65
+        version: 0.1.65
       axios:
         specifier: ^1
         version: 1.7.9(debug@4.4.0)
@@ -155,9 +158,6 @@ importers:
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
-      '@napi-rs/canvas':
-        specifier: ^0.1.65
-        version: 0.1.65
       '@types/fluent-ffmpeg':
         specifier: ^2.1.27
         version: 2.1.27
@@ -197,6 +197,9 @@ importers:
       puppeteer-extra-plugin-stealth:
         specifier: ^2.11.2
         version: 2.11.2(puppeteer-extra@3.3.6(puppeteer-core@24.1.1))
+      supertest:
+        specifier: ^7.0.0
+        version: 7.0.0
       typescript:
         specifier: ^5.7.3
         version: 5.7.3

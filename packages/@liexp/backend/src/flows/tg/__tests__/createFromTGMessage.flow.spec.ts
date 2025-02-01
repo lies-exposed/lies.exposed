@@ -12,15 +12,19 @@ import { fc } from "@liexp/test";
 import debug from "debug";
 import type TelegramBot from "node-telegram-bot-api";
 import { beforeAll, describe, expect, test, vi } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import {
   TGMessageArb,
   TGPhotoArb,
 } from "../../../test/arbitraries/TGMessage.arb.js";
-import { initContext } from "../../../test/index.js";
+import { mockedContext } from "../../../test/context.js";
 import puppeteerMocks from "../../../test/mocks/puppeteer.mock.js";
 import { mocks } from "../../../test/mocks.js";
 import { type UserTest } from "../../../test/user.utils.js";
-import { createFromTGMessage } from "../createFromTGMessage.flow.js";
+import {
+  createFromTGMessage,
+  type CreateFromTGMessageContext,
+} from "../createFromTGMessage.flow.js";
 
 const tempDir = path.resolve(__dirname, `../../../../temp/tg/media`);
 
@@ -36,7 +40,19 @@ interface MessageTest {
 
 describe("Create From TG Message", () => {
   let admin: UserTest;
-  const ctx = initContext();
+  const ctx = mockedContext<CreateFromTGMessageContext>({
+    db: mockDeep(),
+    puppeteer: mockDeep(),
+    tg: mockDeep(),
+    urlMetadata: mockDeep(),
+    s3: mockDeep(),
+    http: mockDeep(),
+    pdf: mockDeep(),
+    imgProc: mockDeep(),
+    fs: mockDeep(),
+    ffmpeg: mockDeep(),
+    queue: mockDeep(),
+  });
 
   beforeAll(() => {
     [admin] = fc.sample(UserArb, 1).map((u) => ({

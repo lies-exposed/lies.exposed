@@ -2,7 +2,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import {
   type DataPayloadLink,
   extractEventFromURL,
-} from "@liexp/backend/lib/flows/event/extractFromURL.flow.js";
+} from "@liexp/backend/lib/flows/event/extractEventFromURL.flow.js";
 import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
 import { findByURL } from "@liexp/backend/lib/queries/events/scientificStudy.query.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

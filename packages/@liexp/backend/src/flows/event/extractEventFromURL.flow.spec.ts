@@ -6,28 +6,26 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { fc } from "@liexp/test";
 import { describe, expect, it, vi } from "vitest";
-import { mock } from "vitest-mock-extended";
+import { mockDeep } from "vitest-mock-extended";
 import { LinkEntity } from "../../entities/Link.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
-import { testConfig } from "../../test/index.js";
-import { mockedContext, mockTERightOnce } from "../../test/mocks/mock.utils.js";
+import { mockedContext } from "../../test/context.js";
+import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { mocks } from "../../test/mocks.js";
 import {
   createEventFromURL,
   type CreateEventFromURLContext,
 } from "./createEventFromURL.flow.js";
-import { extractEventFromURL } from "./extractFromURL.flow.js";
+import { extractEventFromURL } from "./extractEventFromURL.flow.js";
 
 describe.skip(extractEventFromURL.name, () => {
   const appTest = {
     ctx: mockedContext<CreateEventFromURLContext>({
-      puppeteer: mock(),
-      logger: mock(),
-      db: mock(),
-      ner: mock(),
-      fs: mock(),
-      urlMetadata: mock(),
-      config: testConfig,
+      puppeteer: mockDeep(),
+      db: mockDeep(),
+      ner: mockDeep(),
+      fs: mockDeep(),
+      urlMetadata: mockDeep(),
     }),
   };
 

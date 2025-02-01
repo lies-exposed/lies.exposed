@@ -38,13 +38,13 @@ ${keywords.map((k) => `#${k.tag} (${k.eventCount})`).join("\n")}
 \n
 `;
 
+export type UpsertPinnerMessageFlowContext = DatabaseContext &
+  LoggerContext &
+  ENVContext &
+  TGBotProviderContext;
+
 export const upsertPinnedMessage =
-  <
-    C extends DatabaseContext &
-      LoggerContext &
-      ENVContext &
-      TGBotProviderContext,
-  >(
+  <C extends UpsertPinnerMessageFlowContext>(
     limit: number,
   ): ReaderTaskEither<C, DBError | TGError, TelegramBot.Message> =>
   (ctx) => {

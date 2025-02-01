@@ -1,6 +1,11 @@
 import { URL } from "url";
 import viteTsconfigPaths from "vite-tsconfig-paths";
-import { defineConfig, type ViteUserConfig } from "vitest/config";
+import {
+  defineConfig,
+  type ViteUserConfig,
+  mergeConfig,
+  coverageConfigDefaults,
+} from "vitest/config";
 
 type ToAlias = (mockPath: string) => string;
 
@@ -21,30 +26,48 @@ export const extendBaseConfig = (
   const toAlias = PathnameAlias(root);
   const config = configFn(toAlias);
 
-  return defineConfig({
-    root: toAlias("./"),
-    test: {
-      environment: "node",
-      watch: false,
-      alias: {
-        sharp: toBackendAlias("lib/test/mocks/sharp.mock.js"),
-        canvas: toBackendAlias("lib/test/mocks/canvas.mock.js"),
-        "pdfjs-dist/legacy/build/pdf.js": toBackendAlias(
-          "lib/test/mocks/pdfjs.mock.js",
-        ),
-        "@blocknote/core": toBackendAlias(
-          "lib/test/mocks/blocknote-core.mock.js",
-        ),
-        "@blocknote/react/**": toBackendAlias(
-          "lib/test/mocks/blocknote-react.mock.js",
-        ),
+  const finalConfig = mergeConfig(
+    defineConfig({
+      root: toAlias("./"),
+      test: {
+        environment: "node",
+        watch: false,
+        alias: {
+          sharp: toBackendAlias("lib/test/mocks/sharp.mock.js"),
+          canvas: toBackendAlias("lib/test/mocks/canvas.mock.js"),
+          "pdfjs-dist/legacy/build/pdf.js": toBackendAlias(
+            "lib/test/mocks/pdfjs.mock.js",
+          ),
+          "@blocknote/core": toBackendAlias(
+            "lib/test/mocks/blocknote-core.mock.js",
+          ),
+          "@blocknote/react/**": toBackendAlias(
+            "lib/test/mocks/blocknote-react.mock.js",
+          ),
+
+          "@liexp/core/lib/**": toBackendAlias("../core/src/**"),
+          "@liexp/shared/lib/**": toBackendAlias("../shared/src/**"),
+          "@liexp/backend/lib/**": toBackendAlias("../../src/**"),
+          "@liexp/test/lib/**": toBackendAlias("../test/src/**"),
+        },
+        coverage: {
+          exclude: [
+            ...coverageConfigDefaults.exclude,
+            "lib/**",
+            "src/**/*.spec.ts",
+          ],
+        },
       },
-      ...config.test,
-    },
-    plugins: [
-      viteTsconfigPaths({
-        root: toAlias("./"),
-      }) as any,
-    ].concat(config.plugins ?? []),
-  });
+      plugins: [
+        viteTsconfigPaths({
+          root: toAlias("./"),
+        }),
+      ].concat((config.plugins ?? []) as any[]),
+    }),
+    config,
+  );
+
+  // console.log(JSON.stringify(finalConfig, null, 2));
+
+  return finalConfig;
 };
