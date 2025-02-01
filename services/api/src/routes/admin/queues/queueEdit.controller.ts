@@ -10,7 +10,7 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Queues.Edit,
     ({ params: { id, resource, type }, body: { ...userData } }) => {
-      ctx.logger.debug.log("Edit setting %s  with %O", id, userData);
+      ctx.logger.debug.log("Edit queue %s  with %O", id, userData);
       return pipe(
         TE.Do,
         TE.bind("queue", () => TE.right(ctx.queue.queue(type))),

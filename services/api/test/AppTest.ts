@@ -116,8 +116,6 @@ export const loadAppContext = async (
         entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
         nlp: mocks.ner as any,
       }),
-      langchain: {} as any,
-      openai: {} as any,
       blocknote: {} as any,
       redis: mocks.redis,
       geo: GeocodeProvider({

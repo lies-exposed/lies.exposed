@@ -118,7 +118,6 @@ export const loadAppContext = async (
         nlp: mocks.ner as any,
       }),
       langchain: {} as any,
-      openai: {} as any,
       blocknote: {} as any,
       pdf: PDFProvider({ client: {} as any }),
       geo: GeocodeProvider({
