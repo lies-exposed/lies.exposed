@@ -31,6 +31,7 @@ describe("Edit Event", () => {
   const [area] = fc.sample(AreaArb, 1);
   const [actor] = fc.sample(ActorArb, 1).map((a) => ({
     ...a,
+    death: undefined,
     memberIn: [],
   }));
   const [group] = fc.sample(GroupArb, 1);

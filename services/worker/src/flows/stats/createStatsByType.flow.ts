@@ -32,6 +32,7 @@ import {
   type Events,
   type GroupMember,
 } from "@liexp/shared/lib/io/http/index.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
@@ -245,8 +246,7 @@ export const createStatsByType =
                           k.id as string,
                           {
                             ...k,
-                            id: k.id as any,
-                            color: k.color as any,
+                            color: k.color ?? generateRandomColor(),
                             events: [],
                             links: [],
                             media: [],
@@ -260,7 +260,6 @@ export const createStatsByType =
                           {
                             ...g,
                             username: g.username ?? undefined,
-                            color: g.color as any,
                             subGroups: [],
                             startDate: g.startDate ?? undefined,
                             endDate: g.endDate ?? undefined,
@@ -288,10 +287,9 @@ export const createStatsByType =
                           a.id as string,
                           {
                             ...a,
-                            death: "",
+                            death: a.death ?? undefined,
                             bornOn: (a.bornOn as any) ?? undefined,
                             diedOn: (a.diedOn as any) ?? undefined,
-                            color: a.color as any,
                             avatar: pipe(
                               fp.O.fromNullable(a.avatar),
                               fp.O.map((avatar) =>

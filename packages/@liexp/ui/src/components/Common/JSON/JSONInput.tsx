@@ -55,6 +55,7 @@ const JsonEditorReact: React.FC<JSONEditorPropsOptional> = (props) => {
 export interface JSONInputProps extends TextInputProps {
   label?: string;
   source: string;
+  parseJSON?: boolean;
   style?: React.CSSProperties;
   onClear?: () => void;
 }
@@ -64,6 +65,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
   label = source,
   style,
   onClear,
+  parseJSON,
   ...props
 }) => {
   const {
@@ -79,7 +81,9 @@ const JSONInput: React.FC<JSONInputProps> = ({
     <Labeled label={label} fullWidth>
       <>
         <JsonEditorReact
-          content={value ? { json: value } : undefined}
+          content={
+            value ? (parseJSON ? { text: value } : { json: value }) : undefined
+          }
           mode={Mode.text}
           onChange={(content, prevContent, status) => {
             if (isJSONContent(content)) {

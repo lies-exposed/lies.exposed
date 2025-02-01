@@ -119,8 +119,8 @@ export const Group = t.strict(
     avatar: t.union([Media, t.undefined]),
     subGroups: t.array(t.string),
     members: t.array(t.string),
-    excerpt: t.union([t.any, t.null]),
-    body: t.union([t.any, t.null]),
+    excerpt: t.union([BlockNoteDocument, t.null]),
+    body: t.union([BlockNoteDocument, t.null]),
   },
   "Group",
 );

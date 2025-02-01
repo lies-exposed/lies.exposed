@@ -1,6 +1,7 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
@@ -25,7 +26,7 @@ describe("List Group Member", () => {
     actor: actors[0],
     group: g,
     startDate: new Date(),
-    body: { content: "Group member" },
+    body: [toParagraph("Group member")],
     id: tests.fc.sample(UUIDArb, 1)[0],
   }));
 

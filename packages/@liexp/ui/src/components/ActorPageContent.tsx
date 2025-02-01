@@ -1,4 +1,5 @@
 import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox.js";
 import { DeathBox } from "../containers/DeathBox.js";
@@ -23,8 +24,12 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
     <Grid className="actor-page-content" container spacing={2}>
       <Grid item md={9} sm={8}>
         {actor.death ? <DeathBox id={actor.death} /> : null}
-        {actor.excerpt ? <BNEditor content={actor.excerpt} readOnly /> : null}
-        {actor.body ? <BNEditor content={actor.body} readOnly /> : null}
+        {isValidValue(actor.excerpt) ? (
+          <BNEditor content={actor.excerpt} readOnly />
+        ) : null}
+        {isValidValue(actor.body) ? (
+          <BNEditor content={actor.body} readOnly />
+        ) : null}
       </Grid>
       {groups.length > 0 ? (
         <Grid
