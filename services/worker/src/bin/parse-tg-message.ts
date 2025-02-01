@@ -31,8 +31,7 @@ export const parseTGMessage: CommandFlow = async (ctx, args): Promise<any> => {
         : [`${parseInt(tgNumber, 10)}.json`];
 
   if (!messageFile) {
-    // eslint-disable-next-line no-console
-    console.log("No file found to parse.");
+    ctx.logger.info.log("No file found to parse.");
     return;
   }
 

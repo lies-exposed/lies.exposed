@@ -11,6 +11,9 @@ export const toQueueIO = (
     io.http.Queue.Queue.decode({
       status: "pending",
       ...queue,
+      question: queue?.question ?? null,
+      result: queue?.result ?? null,
+      prompt: queue?.prompt ?? null,
       error: queue?.error ?? null,
     }),
     E.mapLeft((e) =>

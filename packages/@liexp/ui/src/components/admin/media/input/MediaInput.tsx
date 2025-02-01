@@ -42,7 +42,6 @@ export const MediaInput: React.FC<MediaInputProps> = ({
       }
     : undefined;
 
-  // console.log({ type, sourceType, sourceLocation });
   return (
     <Stack spacing={2} marginBottom={2} style={style}>
       <SelectInput

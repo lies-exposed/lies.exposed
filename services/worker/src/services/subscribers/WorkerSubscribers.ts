@@ -6,6 +6,7 @@ import { ExtractMediaExtraSubscriber } from "./media/extractMediaExtra.subscribe
 import { GenerateThumbnailSubscriber } from "./media/generateThumbnail.subscriber.js";
 import { TransferFromExternalProviderSubscriber } from "./media/transferFromExternalProvider.subscriber.js";
 import { ExtractEntitiesWithNLPSubscriber } from "./nlp/extractEntitiesWithNLP.subscriber.js";
+import { ProcessJobDoneSubscriber } from "./queue/processOpenAIJobDone.subscriber.js";
 import { PostToSocialPlatformsSubscriber } from "./social-post/PostToSocialPlatforms.subscriber.js";
 import { type WorkerContext } from "#context/context.js";
 import { type WorkerError } from "#io/worker.error.js";
@@ -23,6 +24,8 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     // admin
     // nlp
     ExtractEntitiesWithNLPSubscriber,
+    // queue
+    ProcessJobDoneSubscriber,
   ];
 
   return pipe(
