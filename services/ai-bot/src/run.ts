@@ -63,7 +63,7 @@ const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
   return pipe(
     fp.TE.tryCatch(
       () =>
-        ctx.openAI.models
+        ctx.openAI.client.models
           .list()
           .asResponse()
           .then((r) => r.json()),
@@ -157,7 +157,7 @@ void pipe(
       GetOpenAIProvider({
         baseURL: config.config.localAi.url,
         apiKey: config.config.localAi.apiKey,
-        timeout: 10 * 60, // 10 minutes
+        timeout: 20 * 60_000, // 20 minutes
       }),
     ),
   ),

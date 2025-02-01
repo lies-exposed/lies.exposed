@@ -174,8 +174,6 @@ export const transformEvent =
       },
     );
 
-    // console.log({ rawMedia, otherMedia });
-
     const mediaTask = pipe(
       rawMedia.map((r: RawMedia) =>
         uploadFile(dataProvider)(

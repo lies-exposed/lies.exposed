@@ -1,13 +1,17 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
-import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventFromURLBody } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  EventFromURLBody,
+  EVENTS,
+} from "@liexp/shared/lib/io/http/Events/index.js";
+import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
+import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";
@@ -34,11 +38,19 @@ export const CreateEventRoute: Route = (r, ctx) => {
                 uuid(),
                 TE.right,
                 TE.chainFirst((id) =>
-                  CreateEventFromURLPubSub.publish({
-                    ...body,
-                    eventId: id,
-                    userId: user.id,
-                  })(ctx),
+                  ctx.queue.queue(OpenAICreateEventFromURLType.value).addJob({
+                    id,
+                    status: PendingStatus.value,
+                    type: OpenAICreateEventFromURLType.value,
+                    resource: EVENTS.value,
+                    error: null,
+                    question: null,
+                    result: null,
+                    prompt: null,
+                    data: {
+                      ...body,
+                    },
+                  }),
                 ),
                 TE.map(
                   (id) =>

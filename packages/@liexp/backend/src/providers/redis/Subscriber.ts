@@ -55,6 +55,7 @@ export const Subscriber = <
                   pubSub.channel,
                   e,
                 );
+
                 return () => fp.T.of(undefined);
               },
               () => {
