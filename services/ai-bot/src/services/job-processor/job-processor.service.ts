@@ -1,27 +1,28 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue.js";
+import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type ClientContextRTE } from "../../types.js";
 import { toAIBotError } from "#common/error/index.js";
-import { type EmbeddingJob } from "#flows/ai/EmbeddingJob.js";
 
 type JobProcessors = (
-  job: EmbeddingJob,
+  job: Queue.Queue,
   dryRun: boolean,
-) => ClientContextRTE<EmbeddingJob>;
+) => ClientContextRTE<Queue.Queue>;
 
-export type JobProcessRTE = (job: EmbeddingJob) => ClientContextRTE<string>;
+export type JobProcessRTE<Q extends Queue.Queue["data"]> = (
+  job: Omit<Queue.Queue, "data"> & { data: Q },
+) => ClientContextRTE<string>;
 
 type JobTypesMap = {
-  [K in QueueTypes]: JobProcessRTE;
+  [K in QueueTypes]: JobProcessRTE<any>;
 };
 
 const processJob =
-  (
-    job: EmbeddingJob,
-    processTE: JobProcessRTE,
-  ): ClientContextRTE<EmbeddingJob> =>
+  <Q extends Queue.Queue["data"]>(
+    job: Omit<Queue.Queue, "data"> & { data: Q },
+    processTE: JobProcessRTE<Q>,
+  ): ClientContextRTE<Queue.Queue> =>
   (ctx) => {
     return pipe(
       fp.TE.bracket(
@@ -52,13 +53,13 @@ const processJob =
                   ...job,
                   error: e,
                   status: "failed",
-                } as EmbeddingJob),
+                } as Queue.Queue),
               (result) =>
                 fp.T.of({
                   ...job,
-                  data: { ...job.data, result },
+                  result,
                   status: "done",
-                } as EmbeddingJob),
+                } as Queue.Queue),
             ),
             fp.TE.fromTask,
           );
@@ -88,10 +89,7 @@ const processJob =
   };
 
 export const GetJobProcessor = (types: JobTypesMap): JobProcessors => {
-  return (
-    job: EmbeddingJob,
-    dryRun: boolean,
-  ): ClientContextRTE<EmbeddingJob> => {
+  return (job: Queue.Queue, dryRun: boolean): ClientContextRTE<Queue.Queue> => {
     return pipe(
       fp.RTE.Do,
       LoggerService.RTE.debug([

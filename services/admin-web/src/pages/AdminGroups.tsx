@@ -1,6 +1,6 @@
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
-import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue.js";
+import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";

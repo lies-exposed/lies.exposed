@@ -6,7 +6,7 @@ import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import {
   QueueTypes,
   type QueueResourceNames,
-} from "@liexp/shared/lib/io/http/Queue.js";
+} from "@liexp/shared/lib/io/http/Queue/index.js";
 import {
   ACTOR_GENERAL_INFO_PROMPT,
   EMBED_ACTOR_PROMPT,

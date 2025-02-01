@@ -1,4 +1,4 @@
-import type * as Queue from "@liexp/shared/lib/io/http/Queue.js";
+import type * as Queue from "@liexp/shared/lib/io/http/Queue/index.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
@@ -20,7 +20,7 @@ interface OpenAIPromptButtonProps<A extends RaRecord> {
   model?: string;
   transformValue: (
     value: A,
-  ) => Omit<Queue.CreateQueue["data"], "prompt" | "result">;
+  ) => Omit<Queue.CreateQueue["data"], "question" | "prompt" | "result">;
 }
 
 export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
