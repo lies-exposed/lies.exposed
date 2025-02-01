@@ -1,5 +1,8 @@
 import { type Document as LangchainDocument } from "@langchain/core/documents";
-import { StringOutputParser } from "@langchain/core/output_parsers";
+import {
+  JsonOutputParser,
+  StringOutputParser,
+} from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import {
   RunnablePassthrough,
@@ -7,6 +10,10 @@ import {
 } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import {
+  type CreateEventBody,
+  type EventType,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { loadSummarizationChain } from "langchain/chains";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -41,7 +48,6 @@ Below you find the text you need to summarize.
 
 export interface LangchainProvider {
   chat: ChatOpenAI;
-  // embeddings: OpenAIEmbeddings;
   queryDocument: (
     url: LangchainDocument[],
     question: string,
@@ -50,6 +56,13 @@ export interface LangchainProvider {
   summarizeText: (
     text: LangchainDocument[],
     options?: { model?: AvailableModels; prompt?: string; question?: string },
+  ) => Promise<string>;
+  createEventFromDocuments: (
+    content: LangchainDocument[],
+    question: string,
+    type: EventType,
+    prompt: string,
+    options?: { model?: AvailableModels },
   ) => Promise<string>;
 }
 
@@ -111,6 +124,7 @@ export const GetLangchainProvider = (
       const embeddings = new OpenAIEmbeddings({
         model,
         apiKey: opts.apiKey,
+        timeout: 60 * 30, // 30 minutes
         configuration: {
           baseURL: opts.baseURL,
         },
@@ -129,6 +143,7 @@ export const GetLangchainProvider = (
 
       // Retrieve and generate using the relevant snippets of the blog.
       const retriever = vectorStore.asRetriever();
+
       const prompt = PromptTemplate.fromTemplate(EMBEDDINGS_PROMPT);
 
       const ragChain = RunnableSequence.from([
@@ -189,6 +204,85 @@ export const GetLangchainProvider = (
       // console.log('output', output);
 
       return output;
+    },
+    createEventFromDocuments: async (
+      content,
+      question,
+      type,
+      prompt,
+      options,
+    ) => {
+      const model =
+        options?.model ?? opts.models?.embeddings ?? "text-embedding-ada-002";
+      const chatModel = options?.model ?? opts.models?.chat ?? "gpt-4o";
+
+      const embeddings = new OpenAIEmbeddings({
+        model,
+        apiKey: opts.apiKey,
+        configuration: {
+          baseURL: opts.baseURL,
+        },
+      });
+
+      const chat = new ChatOpenAI({
+        model: chatModel,
+        temperature: 0,
+        apiKey: opts.apiKey,
+        timeout: 60 * 30,
+        maxRetries: 3,
+        configuration: {
+          baseURL: opts.baseURL,
+        },
+        streaming: true,
+        onFailedAttempt: (error) => {
+          langchainLogger.error.log("Failed attempt", error);
+          return error;
+        },
+      });
+
+      const textSplitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 2000,
+        chunkOverlap: 100,
+      });
+      const splits = await textSplitter.splitDocuments(content);
+
+      const vectorStore = await MemoryVectorStore.fromDocuments(
+        splits,
+        embeddings,
+      );
+
+      // Retrieve and generate using the relevant snippets of the blog.
+      const retriever = vectorStore.asRetriever({ verbose: true });
+
+      const formatInstructions = `Respond with a valid JSON object, containing the fields: "title" and "date", considering the content describes an event of type "${type}".`;
+      const promptTemplate = await PromptTemplate.fromTemplate(prompt).partial({
+        format_instructions: formatInstructions,
+      });
+
+      // Set up a parser + inject instructions into the prompt template.
+      const parser = new JsonOutputParser<CreateEventBody>();
+
+      const ragChain = RunnableSequence.from([
+        {
+          context: retriever.pipe(formatDocumentsAsString),
+          question: new RunnablePassthrough(),
+        },
+        promptTemplate.pipe(chat).pipe(parser),
+      ]);
+
+      const stream = await ragChain.stream({
+        question,
+      });
+
+      let output: any;
+      for await (const chunk of stream) {
+        langchainLogger.debug.log("chunk", chunk);
+        output.push(chunk);
+      }
+
+      langchainLogger.info.log("output", output);
+
+      return JSON.stringify(output);
     },
   };
 };
