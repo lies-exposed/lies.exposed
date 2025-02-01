@@ -1,8 +1,8 @@
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import { type HTTPProviderContext } from "@liexp/backend/lib/context/http.context.js";
+import { type LangchainContext } from "@liexp/backend/lib/context/langchain.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.js";
-import { type LangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
@@ -17,10 +17,6 @@ interface EndpointsRESTClientContext {
 
 interface APIRESTClientContext {
   apiRESTClient: APIRESTClient;
-}
-
-interface LangchainContext {
-  langchain: LangchainProvider;
 }
 
 interface ENVContext {

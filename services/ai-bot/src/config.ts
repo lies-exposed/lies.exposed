@@ -7,6 +7,7 @@ export const AIBotConfig = t.strict(
       apiKey: t.string,
       models: t.union([
         t.partial({
+          chat: t.string,
           summarization: t.string,
           embeddings: t.string,
         }),

@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type Document } from "langchain/document";
-import { type ClientContextRTE } from "../../types.js";
+import { type ClientContextRTE } from "../../../types.js";
 import { loadLink } from "./loadLink.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";

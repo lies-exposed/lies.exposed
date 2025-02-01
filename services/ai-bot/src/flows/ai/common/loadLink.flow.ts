@@ -5,9 +5,9 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
-import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContext } from "../../context.js";
-import { type ClientContextRTE } from "../../types.js";
+import { toAIBotError } from "../../../common/error/index.js";
+import { type ClientContext } from "../../../context.js";
+import { type ClientContextRTE } from "../../../types.js";
 
 export const loadLink = (url: string): ClientContextRTE<Document[]> => {
   return pipe(
