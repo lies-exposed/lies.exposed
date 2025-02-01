@@ -1,9 +1,17 @@
 import * as t from "io-ts";
-import { optionFromUndefined } from "../Common/optionFromUndefined.js";
-import { UUID } from "./Common/UUID.js";
-import { PaginationQuery } from "./Query/PaginationQuery.js";
-import { SortQuery } from "./Query/SortQuery.js";
-import { ResourcesNames } from "./ResourcesNames.js";
+import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { UUID } from "../Common/UUID.js";
+import { PaginationQuery } from "../Query/PaginationQuery.js";
+import { SortQuery } from "../Query/SortQuery.js";
+import { ResourcesNames } from "../ResourcesNames.js";
+import {
+  CreateEventFromTextQueueData,
+  OpenAICreateEventFromTextType,
+} from "./CreateEventFromTextQueueData.js";
+import {
+  CreateEventFromURLQueueData,
+  OpenAICreateEventFromURLType,
+} from "./CreateEventFromURLQueue.js";
 
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = t.TypeOf<typeof QueueResourceNames>;
@@ -19,7 +27,12 @@ export type OpenAISummarizeQueueType = t.TypeOf<
 >;
 
 export const QueueTypes = t.union(
-  [OpenAIEmbeddingQueueType, OpenAISummarizeQueueType],
+  [
+    OpenAIEmbeddingQueueType,
+    OpenAISummarizeQueueType,
+    OpenAICreateEventFromURLType,
+    OpenAICreateEventFromTextType,
+  ],
   "QueueTypes",
 );
 
@@ -74,9 +87,7 @@ export type GetQueueListQuery = t.TypeOf<typeof GetQueueListQuery>;
 export const CreateQueueURLData = t.strict(
   {
     url: t.string,
-    result: t.union([t.string, t.undefined]),
     type: t.union([t.literal("link"), t.literal("pdf"), t.undefined]),
-    prompt: t.union([t.string, t.undefined]),
   },
   "CreateQueueURLData",
 );
@@ -85,8 +96,6 @@ export type CreateQueueURLData = t.TypeOf<typeof CreateQueueURLData>;
 export const CreateQueueTextData = t.strict(
   {
     text: t.string,
-    result: t.union([t.string, t.undefined]),
-    prompt: t.union([t.string, t.undefined]),
   },
   "CreateQueueTextData",
 );
@@ -95,7 +104,15 @@ export type CreateQueueTextData = t.TypeOf<typeof CreateQueueTextData>;
 export const CreateQueue = t.strict(
   {
     id: UUID,
-    data: t.union([CreateQueueURLData, CreateQueueTextData]),
+    question: t.union([t.string, t.null]),
+    result: t.union([t.string, t.null, t.any]),
+    prompt: t.union([t.string, t.null]),
+    data: t.union([
+      CreateEventFromURLQueueData,
+      CreateEventFromTextQueueData,
+      CreateQueueURLData,
+      CreateQueueTextData,
+    ]),
   },
   "CreateQueue",
 );

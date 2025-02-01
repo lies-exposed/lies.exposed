@@ -15,6 +15,9 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
         TE.right({ id, resource, type, data }),
         TE.chainFirst((job) =>
           ctx.queue.queue(type).addJob({
+            result: null,
+            prompt: null,
+            question: null,
             ...job,
             error: null,
             status: "pending",

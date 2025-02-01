@@ -1,6 +1,6 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue.js";
+import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as React from "react";

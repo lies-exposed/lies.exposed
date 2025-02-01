@@ -15,7 +15,7 @@ import * as Page from "./Page.js";
 import * as Project from "./Project.js";
 import * as ProjectImage from "./ProjectImage.js";
 import * as Query from "./Query/index.js";
-import * as Queue from "./Queue.js";
+import * as Queue from "./Queue/index.js";
 import { ResourcesNames } from "./ResourcesNames.js";
 import * as Setting from "./Setting.js";
 import * as Stats from "./Stats.js";

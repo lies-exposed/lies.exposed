@@ -1,6 +1,8 @@
+import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
+import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { SlugInput } from "@liexp/ui/lib/components/admin/common/inputs/SlugInput.js";
 import {
   Button,
@@ -21,6 +23,7 @@ import {
   type ButtonProps,
   type EditProps,
   useRefresh,
+  FormDataConsumer,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -208,6 +211,19 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
       {...props}
       id={id}
       title="Create a custom Queue"
+      transform={(data) => {
+        return {
+          ...data,
+          prompt:
+            Array.isArray(data.prompt) && data.prompt.length === 0
+              ? null
+              : data.prompt,
+          result:
+            Array.isArray(data.result) && data.result.length === 0
+              ? null
+              : data.result,
+        };
+      }}
     >
       <SimpleForm>
         <Stack
@@ -237,6 +253,22 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         </Stack>
 
         <JSONInput source="data" />
+        <BlockNoteInput source="prompt" defaultValue={null} />
+        <FormDataConsumer>
+          {({ formData }) => {
+            if (OpenAICreateEventFromTextType.is(formData.type)) {
+              return (
+                <JSONInput
+                  source="result"
+                  parseJSON={typeof formData.result === "string"}
+                />
+              );
+            }
+
+            return <BlockNoteInput source="result" defaultValue={null} />;
+          }}
+        </FormDataConsumer>
+
         <JSONInput source="error" />
         <ProcessQueueJobButton />
       </SimpleForm>

@@ -1,7 +1,8 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
-import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue.js";
+import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -80,7 +81,9 @@ const ActorEdit: React.FC<EditProps> = (props) => {
             type={OpenAISummarizeQueueType.value}
             transformValue={({ excerpt, fullName }) =>
               pipe(
-                excerpt ? getTextContents(excerpt) : "",
+                excerpt && isValidValue(excerpt)
+                  ? getTextContents(excerpt)
+                  : "",
                 (text) => (text !== "" ? text : fullName),
                 (text) => ({ text }),
               )
@@ -137,8 +140,8 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                 return {
                   draft: true,
                   type: t,
-                  excerpt: undefined,
-                  body: undefined,
+                  excerpt: null,
+                  body: null,
                   date: new Date(),
                   payload: {
                     victim: r.id,

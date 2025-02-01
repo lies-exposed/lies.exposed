@@ -34,7 +34,7 @@ const processDoneJobBlockNoteResult =
         }),
       ),
       fp.RTE.bind("excerpt", ({ entity }) => {
-        const { result } = job.data;
+        const { result } = job;
         if (!result) {
           return fp.RTE.of(entity.excerpt);
         }
@@ -66,7 +66,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
     fp.RTE.chain((job) => {
       if (job.resource === "media") {
         return pipe(
-          MediaRepository.save([{ id: job.id, description: job.data.result }]),
+          MediaRepository.save([{ id: job.id, description: job.result }]),
           fp.RTE.map(() => job),
         );
       }
@@ -76,7 +76,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
           LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
           fp.RTE.chain((link) =>
             LinkRepository.save([
-              { ...link, description: job.data.result ?? link.description },
+              { ...link, description: job.result ?? link.description },
             ]),
           ),
           fp.RTE.map(() => job),

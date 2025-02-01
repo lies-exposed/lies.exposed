@@ -5,7 +5,7 @@ import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
-} from "@liexp/shared/lib/io/http/Queue.js";
+} from "@liexp/shared/lib/io/http/Queue/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -84,11 +84,12 @@ export const parseURLs =
                   type: OpenAIEmbeddingQueueType.value,
                   resource: LINKS.value,
                   error: null,
+                  question: null,
+                  result: null,
+                  prompt: null,
                   data: {
                     url: l.url,
                     type: "link",
-                    result: undefined,
-                    prompt: undefined,
                   },
                 }),
               ),

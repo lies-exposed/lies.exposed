@@ -9,7 +9,7 @@ import {
 import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
-} from "@liexp/shared/lib/io/http/Queue.js";
+} from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -121,11 +121,12 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
             type: OpenAIEmbeddingQueueType.value,
             status: PendingStatus.value,
             error: null,
+            result: null,
+            prompt: null,
+            question: null,
             data: {
               url: m.location,
               type: "pdf",
-              result: undefined,
-              prompt: undefined,
             },
           }),
           fp.TE.mapLeft(ServerError.fromUnknown),

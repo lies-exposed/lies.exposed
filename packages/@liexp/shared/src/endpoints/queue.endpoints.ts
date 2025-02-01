@@ -1,7 +1,7 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
-import * as Queue from "../io/http/Queue.js";
+import * as Queue from "../io/http/Queue/index.js";
 import { ResourceEndpoints } from "./types.js";
 
 const SingleQueueOutput = Output(Queue.Queue, "Queue");
