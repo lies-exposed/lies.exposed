@@ -6,7 +6,7 @@ import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { type OpenAI } from "@liexp/shared/lib/providers/openai/openai.provider.js";
+import { type OpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { type AIBotConfig } from "./config.js";
 import { type ENV } from "./env.js";
 import { type ConfigProvider } from "#common/config/config.reader.js";
@@ -28,7 +28,7 @@ interface ConfigContext {
 }
 
 interface OpenAIContext {
-  openAI: OpenAI;
+  openAI: OpenAIProvider;
 }
 
 export type ClientContext = ENVContext &

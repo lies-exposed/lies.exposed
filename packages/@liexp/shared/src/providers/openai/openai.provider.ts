@@ -6,13 +6,20 @@ import { OpenAI, type ClientOptions } from "openai";
  * The base URL is set to the local development server,
  * so it can only works in the development environment.
  */
-export const GetOpenAIProvider = (ctx: ClientOptions): OpenAI => {
-  return new OpenAI({
+
+export interface OpenAIProvider {
+  client: OpenAI;
+}
+export const GetOpenAIProvider = (ctx: ClientOptions): OpenAIProvider => {
+  const client = new OpenAI({
     dangerouslyAllowBrowser: false,
-    maxRetries: 0,
-    timeout: 120 * 1000,
+    timeout: 30 * 60_1000, // 30 minutes
     ...ctx,
   });
+
+  return {
+    client,
+  };
 };
 
 export { type OpenAI };
