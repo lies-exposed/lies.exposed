@@ -1,6 +1,8 @@
 import type * as E from "fp-ts/lib/Either.js";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
+import { describe, expect, test } from "vitest";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
+import { uuid } from "../UUID.js";
 
 const expectDecodeResult = (
   result: E.Either<any[], any>,
@@ -17,7 +19,9 @@ const expectDecodeResult = (
 
 describe("BlockNoteDocument codec", () => {
   test("Should decode given input", () => {
-    const blocks = [{ type: "paragraph", content: "my content" }];
+    const blocks = [
+      { type: "paragraph", content: "my content", id: uuid(), children: [] },
+    ];
 
     expectDecodeResult(BlockNoteDocument.decode(blocks));
   });

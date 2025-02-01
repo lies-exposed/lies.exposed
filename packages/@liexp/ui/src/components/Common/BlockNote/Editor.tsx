@@ -57,7 +57,7 @@ const getCustomSlashMenuItems = (
 
 export interface BNEditorProps {
   readOnly: boolean;
-  content: BNESchemaEditor["document"];
+  content: BNESchemaEditor["document"] | null;
   onChange?: (content: BNESchemaEditor["document"]) => void;
 }
 
@@ -83,7 +83,9 @@ export const BNEditor: React.FC<BNEditorProps> = ({
 
   const editor = useCreateBlockNote({
     schema,
-    ...initialContent,
+    initialContent: initialContent.initialContent
+      ? (initialContent.initialContent as any)
+      : undefined,
   }) as unknown as BNESchemaEditor;
 
   const slashMenuItems = React.useMemo(() => {

@@ -1,6 +1,9 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import {
+  type Color,
+  type UUID,
+} from "@liexp/shared/lib/io/http/Common/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import {
   Column,
   CreateDateColumn,
@@ -33,7 +36,7 @@ export class GroupEntity {
   username: string | null;
 
   @Column({ type: "varchar", length: 6 })
-  color: string;
+  color: Color;
 
   @Column({ type: "varchar", nullable: true })
   old_avatar: string | null;
@@ -59,10 +62,10 @@ export class GroupEntity {
   endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
-  excerpt: BNEditorDocument | null;
+  excerpt: BlockNoteDocument | null;
 
   @Column({ type: "json", nullable: true })
-  body: any[] | null;
+  body: BlockNoteDocument | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.group, {
     cascade: ["insert", "soft-remove", "remove"],

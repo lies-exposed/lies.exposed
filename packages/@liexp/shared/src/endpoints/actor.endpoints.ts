@@ -48,29 +48,36 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
-    Body: nonEmptyRecordFromType({
-      username: optionFromNullable(t.string),
-      fullName: optionFromNullable(t.string),
-      color: optionFromNullable(t.string),
-      excerpt: optionFromNullable(t.array(t.any)),
-      body: optionFromNullable(t.array(t.any)),
-      avatar: optionFromNullable(t.string),
-      bornOn: optionFromNullable(DateFromISOString),
-      diedOn: optionFromNullable(DateFromISOString),
-      memberIn: optionFromNullable(
-        t.array(
-          t.union([
-            UUID,
-            t.strict({
-              group: UUID,
-              body: BlockNoteDocument,
-              startDate: DateFromISOString,
-              endDate: optionFromNullable(DateFromISOString),
-            }),
-          ]),
+    Body: nonEmptyRecordFromType(
+      {
+        username: optionFromNullable(t.string),
+        fullName: optionFromNullable(t.string),
+        color: optionFromNullable(t.string),
+        excerpt: optionFromNullable(t.array(t.any)),
+        body: optionFromNullable(t.array(t.any)),
+        avatar: optionFromNullable(t.string),
+        bornOn: optionFromNullable(DateFromISOString),
+        diedOn: optionFromNullable(DateFromISOString),
+        memberIn: optionFromNullable(
+          t.array(
+            t.union([
+              UUID,
+              t.strict(
+                {
+                  group: UUID,
+                  body: t.union([BlockNoteDocument, t.null]),
+                  startDate: DateFromISOString,
+                  endDate: optionFromNullable(DateFromISOString, "EndDate"),
+                },
+                "PartialGroupMember",
+              ),
+            ]),
+          ),
+          "MemberIn",
         ),
-      ),
-    }),
+      },
+      "EditActorBody",
+    ),
   },
   Output: SingleActorOutput,
 });

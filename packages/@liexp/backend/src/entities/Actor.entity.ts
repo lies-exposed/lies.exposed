@@ -1,5 +1,8 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import {
+  type Color,
+  type UUID,
+} from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
   CreateDateColumn,
@@ -47,7 +50,7 @@ export class ActorEntity {
   avatar: Relation<MediaEntity> | null;
 
   @Column({ type: "varchar", nullable: false })
-  color: string;
+  color: Color;
 
   @Column({ type: "date", nullable: true })
   bornOn: string | null;
@@ -68,16 +71,19 @@ export class ActorEntity {
   events: Relation<EventV2Entity[]>;
 
   @Column({ type: "json", nullable: true })
-  excerpt: BNEditorDocument | null;
+  excerpt: BlockNoteDocument | null;
 
   @Column({ type: "json", nullable: true })
-  body: any[] | null;
+  body: BlockNoteDocument | null;
 
   @ManyToMany(() => StoryEntity, (k) => k.actors, {
     cascade: false,
   })
   @JoinTable()
   stories: Relation<StoryEntity[]>;
+
+  // TODO: add relation to death event
+  death: UUID | null;
 
   @CreateDateColumn()
   createdAt: Date;

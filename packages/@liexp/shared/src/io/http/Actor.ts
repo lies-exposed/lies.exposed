@@ -56,12 +56,15 @@ export const Actor = t.strict(
     username: t.string,
     avatar: t.union([Media, t.undefined]),
     color: Color,
-    memberIn: t.array(t.string),
-    death: t.union([t.undefined, t.string]),
+    memberIn: t.array(t.union([UUID, t.any])),
     excerpt: t.union([BlockNoteDocument, t.null]),
     body: t.union([BlockNoteDocument, t.null]),
     bornOn: t.union([DateFromISOString, t.undefined]),
     diedOn: t.union([DateFromISOString, t.undefined]),
+    /**
+     * The death event of the actor, if any
+     */
+    death: t.union([UUID, t.undefined]),
   },
   "Actor",
 );

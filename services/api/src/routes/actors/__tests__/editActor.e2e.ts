@@ -3,6 +3,7 @@ import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb, GroupArb, MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
@@ -135,15 +136,17 @@ describe("Edit Actor", () => {
       const alsoMemberIn = groups.map((g) => ({
         group: g.id,
         actor: actor.id,
-        body: [{ type: "paragraph", content: "hello" }],
+        body: [toParagraph("hello everyone")],
         startDate: new Date(),
         endDate: new Date(),
       }));
 
+      const actorMemberIn = getActor.body.data.memberIn.concat(alsoMemberIn);
+
       const response = await Test.req
         .put(`/v1/actors/${actor.id}`)
         .set("Authorization", authorizationToken)
-        .send({ memberIn: getActor.body.data.memberIn.concat(alsoMemberIn) });
+        .send({ ...actor, avatar: actor.avatar.id, memberIn: actorMemberIn });
 
       expect(response.status).toEqual(200);
       expect(response.body.data).toMatchObject({

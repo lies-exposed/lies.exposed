@@ -5,6 +5,7 @@ import * as http from "../../io/http/index.js";
 import { formatDate } from "../../utils/date.utils.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
+import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
@@ -20,8 +21,8 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
       propsOmit(http.Actor.Actor, [
         "id",
         "color",
-        "death",
         "excerpt",
+        "death",
         "body",
         "memberIn",
         "createdAt",
@@ -42,7 +43,7 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
     )[0],
     color: tests.fc.sample(ColorArb, 1)[0],
     avatar: tests.fc.sample(MediaArb, 1)[0],
-    excerpt: null,
+    excerpt: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
     memberIn: [],
     body: null,
     death: undefined,

@@ -10,6 +10,7 @@ import {
   useEdgesState,
   useNodesState,
 } from "@xyflow/react";
+import { nonEmptyArray } from "fp-ts";
 import React, { useCallback } from "react";
 import { AutocompleteActorInput } from "../../../Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "../../../Input/AutocompleteGroupInput.js";
@@ -181,7 +182,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
           nodes.concat([
             {
               id: gg[0].id,
-              data: { ...group, body: [], excerpt: [] },
+              data: { ...group, body: null, excerpt: null },
               type: Group.Group.name,
               position: { x: 100, y: 100 },
             },
@@ -197,18 +198,18 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
       if (gg[0]) {
         const { body, excerpt, ...group } = gg[0];
         setNodes((nodes) =>
-          nodes.concat([
+          nonEmptyArray.concat<NodeType>([
             {
               id: gg[0].id,
               data: {
                 ...group,
-                body: [],
+                body: toInitialValue(group.fullName),
                 excerpt: toInitialValue(group.fullName),
               },
               type: http.Actor.Actor.name,
               position: { x: 100, y: 100 },
             },
-          ]),
+          ])(nodes),
         );
       }
     },

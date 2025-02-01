@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<BNEditorProps> = ({ readOnly, content }) => {
-  const [blocks, setBlocks] = React.useState<any[]>(content);
+  const [blocks, setBlocks] = React.useState<any[]>(content ?? []);
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <BNEditor readOnly={readOnly} content={blocks} onChange={setBlocks} />
