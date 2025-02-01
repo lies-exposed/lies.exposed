@@ -190,5 +190,5 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
 
 export default <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
   props: NetworkBaseProps<L, N>,
-): React.ReactElement<NetworkBaseProps<L, N>> | React.ReactNode | null =>
+): React.ReactNode | Promise<React.ReactNode> | null =>
   withTooltip<NetworkBaseProps<L, N>, N>(Network)(props);

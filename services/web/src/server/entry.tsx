@@ -10,7 +10,7 @@ import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
 import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouter } from "react-router-dom";
 import { App } from "../client/App.js";
 import { configuration } from "../client/configuration/index.js";
 // load FA icons

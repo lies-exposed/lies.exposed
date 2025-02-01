@@ -4,7 +4,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Group } from "@visx/group";
 import { HeatmapCircle } from "@visx/heatmap";
 import { scaleLinear } from "@visx/scale";
-import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
+import { withTooltip, Tooltip as TooltipWithBounds } from "@visx/tooltip";
 import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip.js";
 import { addDays, differenceInDays } from "date-fns";
 import { sequenceS } from "fp-ts/lib/Apply.js";

@@ -17,7 +17,7 @@ function LegendDemo({
 }: {
   title: string;
   children: React.ReactNode;
-}): React.ReactElement {
+}): React.JSX.Element {
   return (
     <div className="legend">
       <div className="title">{title}</div>

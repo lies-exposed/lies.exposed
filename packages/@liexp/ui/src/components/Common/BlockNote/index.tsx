@@ -6,7 +6,7 @@ let BNEditor:
   | React.LazyExoticComponent<React.FC<BNEditorProps>>;
 
 if (typeof window === "undefined") {
-  BNEditor = (): React.ReactElement => <div />;
+  BNEditor = (): React.JSX.Element => <div />;
 } else {
   BNEditor = React.lazy(() =>
     import("./Editor").then((module) => ({ default: module.BNEditor })),

@@ -3,7 +3,7 @@ import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";
 import { Pack as VXPack } from "@visx/hierarchy";
 import { type HierarchyNode } from "@visx/hierarchy/lib/types.js";
-import { withTooltip, TooltipWithBounds } from "@visx/tooltip";
+import { withTooltip, Tooltip as TooltipWithBounds } from "@visx/tooltip";
 import { type WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip.js";
 import * as React from "react";
 

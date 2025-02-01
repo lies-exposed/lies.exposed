@@ -66,7 +66,7 @@ export function HierarchicalEdgeBundling({
   hideLabels = false,
   onNodeClick,
   onLinkClick,
-}: HierarchicalEdgeBundlingProps): React.ReactElement {
+}: HierarchicalEdgeBundlingProps): React.JSX.Element {
   const svgRef = React.useRef(null);
 
   const radius = width / 2;

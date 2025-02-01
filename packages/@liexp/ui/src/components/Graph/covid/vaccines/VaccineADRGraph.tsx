@@ -22,7 +22,7 @@ import { ParentSize } from "@visx/responsive";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { Bar, LinePath } from "@visx/shape";
 import { type Accessor } from "@visx/shape/lib/types/index.js";
-import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
+import { Tooltip as TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
 import * as t from "io-ts";
 import * as React from "react";

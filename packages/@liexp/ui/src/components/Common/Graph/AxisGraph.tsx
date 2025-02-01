@@ -55,7 +55,7 @@ export const AxisGraph = <D extends any>({
   axisLeftLabel,
   axisRightLabel,
   axisBottomLabel,
-}: AxisGraphProps<D>): React.ReactElement => {
+}: AxisGraphProps<D>): React.JSX.Element => {
   // bounds
   const maxX = width - margin.left - margin.right;
   const maxY = height - margin.top - margin.bottom;

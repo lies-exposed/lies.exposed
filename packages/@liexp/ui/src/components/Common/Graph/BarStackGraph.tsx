@@ -8,7 +8,11 @@ import {
   type SeriesPoint,
   type StackKey,
 } from "@visx/shape/lib/types/index.js";
-import { defaultStyles, TooltipWithBounds, useTooltip } from "@visx/tooltip";
+import {
+  defaultStyles,
+  Tooltip as TooltipWithBounds,
+  useTooltip,
+} from "@visx/tooltip";
 import { type ScaleBand, type ScaleLinear, type ScaleOrdinal } from "d3-scale";
 import * as React from "react";
 
@@ -64,7 +68,7 @@ export const BarStackGraph = <D, K extends StackKey>({
   axisBottom,
   axisLeft,
   tooltipRenderer,
-}: BarStackGraphProps<D, K>): React.ReactElement | null => {
+}: BarStackGraphProps<D, K>): React.JSX.Element | null => {
   const {
     tooltipOpen,
     tooltipLeft,
