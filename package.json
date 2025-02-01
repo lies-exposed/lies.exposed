@@ -43,12 +43,12 @@
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
     "@commitlint/config-conventional": "^19.6.0",
-    "@types/node": "^22.10.9",
-    "@vitest/coverage-v8": "^2.1.8",
+    "@types/node": "^22.13.0",
+    "@vitest/coverage-v8": "^3.0.4",
     "eslint": "^9.19.0",
     "husky": "^9.1.7",
-    "knip": "^5.39.4",
-    "lint-staged": "^15.2.11",
+    "knip": "^5.43.6",
+    "lint-staged": "^15.4.3",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.22.0",
     "vitest": "^3.0.3"

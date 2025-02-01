@@ -49,7 +49,7 @@
     "axios": "^1.7.9",
     "cronstrue": "^2.50.0",
     "debug": "^4.4.0",
-    "exifreader": "^4.26.0",
+    "exifreader": "^4.26.1",
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.9",
     "instagram-private-api": "^1.46.1",

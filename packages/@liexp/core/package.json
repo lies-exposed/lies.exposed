@@ -32,7 +32,7 @@
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@rollup/plugin-image": "^3.0.3",
-    "@tanstack/eslint-plugin-query": "^5.62.16",
+    "@tanstack/eslint-plugin-query": "^5.66.0",
     "@types/debug": "^4.1.12",
     "@types/eslint__js": "^8.42.3",
     "@vitejs/plugin-react": "^4.3.4",
