@@ -2,7 +2,7 @@ import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueURLData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toAIBotError } from "../../common/error/index.js";
-import { loadDocs } from "./loadDocs.flow.js";
+import { loadDocs } from "./common/loadDocs.flow.js";
 import { getPromptFromResource } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 

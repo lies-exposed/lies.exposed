@@ -2,8 +2,8 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { fetchPDF } from "@liexp/backend/lib/flows/media/fetchPDF.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Document } from "langchain/document";
-import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContextRTE } from "../../types.js";
+import { toAIBotError } from "../../../common/error/index.js";
+import { type ClientContextRTE } from "../../../types.js";
 
 export const loadPDF = (url: string): ClientContextRTE<Document[]> => {
   return pipe(
