@@ -1,6 +1,6 @@
 services:
   db-test.liexp.dev:
-    image: postgres:14
+    image: postgres:17
     ports:
       - "127.0.0.1:9432:5432"
     environment:
@@ -11,7 +11,7 @@ services:
       - ./services/api/db/psql-create-database.sh:/docker-entrypoint-initdb.d/psql-create-database.sh
 
   db.liexp.dev:
-    image: postgres:14
+    image: postgres:17
     ports:
       - "127.0.0.1:8432:5432"
     environment:

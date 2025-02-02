@@ -80,7 +80,7 @@ jobs:
     needs: [install, build-packages]
     services:
       pg-db-test:
-        image: postgres:14
+        image: postgres:17
         env:
           POSTGRES_USER: liexp
           POSTGRES_PASSWORD: liexp-password
