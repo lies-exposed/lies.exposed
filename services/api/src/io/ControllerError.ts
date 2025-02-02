@@ -22,7 +22,6 @@ import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
 import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { UnauthorizedError } from "express-jwt";
 import { pipe } from "fp-ts/lib/function.js";
-import { failure } from "io-ts/lib/PathReporter.js";
 
 export type ControllerError =
   | HTTPError
@@ -117,21 +116,15 @@ export const toAPIError = (err: ControllerError): APIError => {
       };
     }
 
-    if (err.details?.kind === "DecodingError") {
+    if (
+      err.name === _DecodeError.name ||
+      err.details?.kind === "DecodingError"
+    ) {
       return {
         status: 400,
         name: "APIError",
         message: err.message,
-        details: failure((err.details as any).errors),
-      };
-    }
-
-    if (err.name === _DecodeError.name) {
-      return {
-        status: 400,
-        name: "APIError",
-        message: err.message,
-        details: failure((err.details as any).errors),
+        details: (err.details as any).errors,
       };
     }
 
