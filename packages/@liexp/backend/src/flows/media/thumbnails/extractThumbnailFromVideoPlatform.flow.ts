@@ -3,6 +3,7 @@ import {
   getPlatform,
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media.helper.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -21,7 +22,7 @@ export const extractThumbnailFromVideoPlatform =
   <C extends LoggerContext>(
     match: VideoPlatformMatch,
     page: Page,
-  ): ReaderTaskEither<C, ServerError, string> =>
+  ): ReaderTaskEither<C, ServerError, URL> =>
   (ctx) => {
     const toError = (m: VideoPlatformMatch): ServerError => {
       return ServerError.fromUnknown(
@@ -50,7 +51,7 @@ export const extractThumbnailFromVideoPlatform =
               `Thumbnail from selector ${selector}: ${coverUrl}`,
             );
 
-            return coverUrl;
+            return coverUrl as URL;
           }
           case "youtube": {
             const selector = 'div[class*="thumbnail-overlay-image"]';
@@ -68,7 +69,7 @@ export const extractThumbnailFromVideoPlatform =
               return undefined;
             });
 
-            return coverUrl;
+            return coverUrl as URL;
           }
           case "peertube":
           case "odysee": {
@@ -90,7 +91,7 @@ export const extractThumbnailFromVideoPlatform =
                 ?.replace('background-image: url("', "")
                 .replace('");', "");
 
-              return coverUrl;
+              return coverUrl as URL;
             });
           }
           case "rumble": {
@@ -111,7 +112,7 @@ export const extractThumbnailFromVideoPlatform =
               return el.getAttribute("poster");
             });
 
-            return videoPosterSrc;
+            return videoPosterSrc as URL;
           }
           case "dailymotion": {
             if (match.type === "embed") {
@@ -121,7 +122,7 @@ export const extractThumbnailFromVideoPlatform =
 
               return page.$eval(selector, (el) => {
                 return el.getAttribute("src");
-              });
+              }) as Promise<URL | null>;
             }
 
             const selector = 'meta[name="og:image:secure_url"]';
@@ -131,10 +132,10 @@ export const extractThumbnailFromVideoPlatform =
               return el.getAttribute("content");
             });
 
-            return url;
+            return url as URL;
           }
           default: {
-            return undefined;
+            return null;
           }
         }
       }, ServerError.fromUnknown),

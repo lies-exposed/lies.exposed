@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
 import {
   contentTypeFromFileExt,
@@ -48,8 +49,8 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
       links: [],
       areas: [],
       type: PngType.value,
-      location: upload.Location,
-      thumbnail: upload.Location,
+      location: upload.Location as URL,
+      thumbnail: upload.Location as URL,
     })),
   );
 };

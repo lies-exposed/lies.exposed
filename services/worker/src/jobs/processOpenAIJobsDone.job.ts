@@ -13,6 +13,7 @@ import {
 } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
@@ -45,8 +46,10 @@ const processDoneJobBlockNoteResult =
         return pipe(
           fp.RTE.asks((ctx: WorkerContext) => ctx.blocknote),
           fp.RTE.chainTaskEitherK((blocknote) =>
-            fp.TE.tryCatch(() => {
-              return blocknote.tryParseHTMLToBlocks(result);
+            fp.TE.tryCatch(async () => {
+              const docs = await blocknote.tryParseHTMLToBlocks(result);
+
+              return docs as any as BlockNoteDocument;
             }, toWorkerError),
           ),
         );

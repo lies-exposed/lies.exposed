@@ -1,4 +1,4 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   MediaType,
   type MediaExtra,
@@ -35,10 +35,10 @@ export class MediaEntity {
   label: string | null;
 
   @Column({ type: "varchar", nullable: true })
-  thumbnail: string | null;
+  thumbnail: URL | null;
 
   @Column({ type: "varchar", nullable: false, unique: true })
-  location: string;
+  location: URL;
 
   @Column({ type: "varchar", nullable: true })
   description: string | null;

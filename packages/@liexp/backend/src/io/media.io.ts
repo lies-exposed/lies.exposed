@@ -6,7 +6,7 @@ import {
 import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type MediaEntity } from "../entities/Media.entity.js";
 import { IOCodec } from "./DomainCodec.js";

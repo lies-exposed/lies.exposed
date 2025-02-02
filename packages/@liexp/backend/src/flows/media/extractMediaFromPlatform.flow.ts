@@ -64,7 +64,7 @@ const extractEmbedFromPlatform = (
   url: URL,
   m: VideoPlatformMatch,
   page: puppeteer.Page,
-): TE.TaskEither<ServerError, string> => {
+): TE.TaskEither<ServerError, URL> => {
   return pipe(
     TE.tryCatch(async () => {
       await page.goto(url);
@@ -104,7 +104,7 @@ export const extractMediaFromPlatform =
         thumbnail: pipe(
           extractThumbnailFromVideoPlatform(m, page)(ctx),
           TE.orElse(
-            (): TE.TaskEither<ServerError, string | undefined> =>
+            (): TE.TaskEither<ServerError, URL | undefined> =>
               TE.right(undefined),
           ),
         ),

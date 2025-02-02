@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
 import { CreateEventFromTextQueueData } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
+import { CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
 import {
   CreateQueueTextData,
   CreateQueueURLData,
@@ -19,9 +20,16 @@ const loadEventDocs =
     return pipe(
       ctx.endpointsRESTClient.Endpoints.Event.get({ id: job.id }),
       fp.RTE.fromTaskEither,
-      fp.RTE.map((event) => event.links),
+      fp.RTE.chainTaskEitherK((event) =>
+        ctx.endpointsRESTClient.Endpoints.Link.getList({
+          filter: { ids: event.links },
+        }),
+      ),
       fp.RTE.chain((links) =>
-        pipe(links, fp.A.traverse(fp.RTE.ApplicativePar)(loadLink)),
+        pipe(
+          links.data,
+          fp.A.traverse(fp.RTE.ApplicativePar)((l) => loadLink(l.url)),
+        ),
       ),
       fp.RTE.map(fp.A.flatten),
     )(ctx);
@@ -38,6 +46,9 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
         return loadPDF(job.data.url);
       }
 
+      return loadLink(job.data.url);
+    }
+    case CreateEventFromURLQueueData.is(job.data): {
       return loadLink(job.data.url);
     }
     case job.resource === EVENTS.value: {

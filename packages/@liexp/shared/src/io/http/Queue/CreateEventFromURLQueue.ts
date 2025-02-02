@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { URL } from "../Common/URL.js";
 import { EventType } from "../Events/index.js";
 
 export const OpenAICreateEventFromURLType = t.literal(
@@ -10,7 +11,7 @@ export type OpenAICreateEventFromURLType = t.TypeOf<
 
 export const CreateEventFromURLQueueData = t.strict(
   {
-    url: t.string,
+    url: URL,
     type: EventType,
   },
   "CreateEventFromURLQueueData",

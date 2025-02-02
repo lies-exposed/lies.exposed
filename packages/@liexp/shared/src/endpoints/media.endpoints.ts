@@ -1,9 +1,8 @@
 import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
-import { CreateMedia, MediaExtra } from "../io/http/Media/index.js";
+import { CreateMedia, EditMediaBody } from "../io/http/Media/index.js";
 import { Media } from "../io/http/index.js";
 import { ResourceEndpoints } from "./types.js";
 
@@ -43,24 +42,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: t.type({ id: UUID }),
-    Body: t.strict({
-      type: Media.MediaType,
-      thumbnail: optionFromNullable(t.string),
-      location: t.string,
-      label: t.string,
-      description: optionFromNullable(t.string),
-      extra: optionFromNullable(MediaExtra),
-      links: t.array(UUID),
-      events: t.array(UUID),
-      keywords: t.array(UUID),
-      areas: t.array(UUID),
-      creator: optionFromNullable(UUID),
-      overrideThumbnail: optionFromNullable(t.boolean),
-      overrideExtra: optionFromNullable(t.boolean),
-      transfer: optionFromNullable(t.boolean),
-      transferThumbnail: optionFromNullable(t.boolean),
-      restore: optionFromNullable(t.boolean),
-    }),
+    Body: EditMediaBody,
   },
   Output: SingleMediaOutput,
 });

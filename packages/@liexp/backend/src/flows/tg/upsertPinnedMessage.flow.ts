@@ -3,15 +3,16 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
-import { type DatabaseContext } from "../../context/db.context";
-import { type ENVContext } from "../../context/env.context";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
 import { type TGBotProviderContext } from "../../context/index.js";
-import { type LoggerContext } from "../../context/logger.context";
-import { EventV2Entity } from "../../entities/Event.v2.entity";
-import { KeywordEntity } from "../../entities/Keyword.entity";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { EventV2Entity } from "../../entities/Event.v2.entity.js";
+import { KeywordEntity } from "../../entities/Keyword.entity.js";
+import { type TG_BOT_ENV } from "../../io/ENV.js";
 import { type DBError } from "../../providers/orm/index.js";
-import { type TGError, toTGError } from "../../providers/tg/tg.provider";
-import { LoggerService } from "../../services/logger/logger.service";
+import { type TGError, toTGError } from "../../providers/tg/tg.provider.js";
+import { LoggerService } from "../../services/logger/logger.service.js";
 
 interface ToPinnedMessageOptions {
   bot: string;
@@ -40,7 +41,7 @@ ${keywords.map((k) => `#${k.tag} (${k.eventCount})`).join("\n")}
 
 export type UpsertPinnerMessageFlowContext = DatabaseContext &
   LoggerContext &
-  ENVContext &
+  ENVContext<TG_BOT_ENV> &
   TGBotProviderContext;
 
 export const upsertPinnedMessage =

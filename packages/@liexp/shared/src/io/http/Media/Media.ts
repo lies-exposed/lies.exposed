@@ -100,8 +100,8 @@ export type CreateMedia = t.TypeOf<typeof CreateMedia>;
 export const EditMediaBody = t.strict(
   {
     type: MediaType,
-    thumbnail: optionFromNullable(t.string),
-    location: t.string,
+    thumbnail: optionFromNullable(URL),
+    location: URL,
     label: t.string,
     description: optionFromNullable(t.string),
     extra: optionFromNullable(MediaExtra),
