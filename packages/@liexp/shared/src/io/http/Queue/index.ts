@@ -1,5 +1,6 @@
 import * as t from "io-ts";
 import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "../Query/PaginationQuery.js";
 import { SortQuery } from "../Query/SortQuery.js";
@@ -86,7 +87,7 @@ export type GetQueueListQuery = t.TypeOf<typeof GetQueueListQuery>;
 
 export const CreateQueueURLData = t.strict(
   {
-    url: t.string,
+    url: URL,
     type: t.union([t.literal("link"), t.literal("pdf"), t.undefined]),
   },
   "CreateQueueURLData",

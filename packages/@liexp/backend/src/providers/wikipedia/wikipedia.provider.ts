@@ -1,6 +1,6 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import {
   type AxiosRequestConfig,
   type AxiosInstance,

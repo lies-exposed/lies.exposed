@@ -1,5 +1,6 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -18,7 +19,7 @@ import { extractThumbnail } from "./extractThumbnail.flow.js";
 
 const uploadThumbnails = <C extends SpaceContext & ENVContext>(
   thumbnails: PutObjectCommandInput[],
-): ReaderTaskEither<C, SpaceError, string[]> =>
+): ReaderTaskEither<C, SpaceError, URL[]> =>
   pipe(
     thumbnails,
     fp.A.traverse(fp.RTE.ApplicativePar)((thumbnail) =>
@@ -27,7 +28,7 @@ const uploadThumbnails = <C extends SpaceContext & ENVContext>(
           ...thumbnail,
           ACL: "public-read",
         }),
-        fp.RTE.map(({ Location }) => Location),
+        fp.RTE.map(({ Location }) => Location as URL),
       ),
     ),
   );
@@ -48,6 +49,6 @@ export const createThumbnail = <
     SpaceContext,
 >(
   media: SimpleMedia,
-): ReaderTaskEither<C, SpaceError, string[]> => {
+): ReaderTaskEither<C, SpaceError, URL[]> => {
   return pipe(extractThumbnail<C>(media), fp.RTE.chain(uploadThumbnails<C>));
 };

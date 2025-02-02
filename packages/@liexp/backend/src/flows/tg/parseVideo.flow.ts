@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

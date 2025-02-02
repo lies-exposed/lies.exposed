@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   IframeVideoType,
@@ -58,7 +59,7 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
       // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
       if (IframeVideoType.is(createMediaData.type)) {
-        return fp.RTE.right(createMediaData.location);
+        return fp.RTE.right(createMediaData.location as URL);
       }
 
       const mediaKey = getMediaKey(
@@ -74,7 +75,7 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
           ContentType,
           ACL: "public-read",
         }),
-        fp.RTE.map((r) => r.Location),
+        fp.RTE.map((r) => r.Location as URL),
         fp.RTE.mapLeft(ServerError.fromUnknown),
       );
     }),

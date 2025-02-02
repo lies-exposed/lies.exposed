@@ -1,5 +1,6 @@
 import { type Monoid } from "fp-ts/lib/Monoid";
 import * as t from "io-ts";
+import { URL } from "../Common/URL.js";
 
 export const ThumbnailsExtraError = t.strict(
   {
@@ -9,7 +10,7 @@ export const ThumbnailsExtraError = t.strict(
 );
 export type ThumbnailsExtraError = t.TypeOf<typeof ThumbnailsExtraError>;
 
-export const ThumbnailsExtraLocations = t.array(t.string, "Thumbnails");
+export const ThumbnailsExtraLocations = t.array(URL, "Thumbnails");
 export type ThumbnailsExtraLocations = t.TypeOf<
   typeof ThumbnailsExtraLocations
 >;

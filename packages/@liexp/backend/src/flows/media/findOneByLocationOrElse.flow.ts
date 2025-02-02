@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -11,12 +12,12 @@ import { type DatabaseContext } from "context/db.context.js";
 export const findOneByLocationOrElse =
   <C extends DatabaseContext>(
     m: Partial<Metadata>,
-    orElse: (m: string) => Partial<MediaEntity>,
+    orElse: (m: URL) => Partial<MediaEntity>,
     creator: UserEntity,
   ): ReaderTaskEither<C, DBError, Option<MediaEntity>> =>
   (ctx) => {
     return pipe(
-      m.image,
+      m.image as URL,
       fp.O.fromNullable,
       fp.O.map((image) =>
         pipe(

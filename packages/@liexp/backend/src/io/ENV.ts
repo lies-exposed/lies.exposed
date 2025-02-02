@@ -2,6 +2,15 @@ import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 
+export const JWT_ENV = t.strict(
+  {
+    JWT_SECRET: t.string,
+  },
+  "JWT_ENV",
+);
+
+export type JWT_ENV = t.TypeOf<typeof JWT_ENV>;
+
 export const DATABASE_ENV = t.intersection(
   [
     t.strict(
@@ -58,7 +67,6 @@ export const BACKEND_ENV = t.intersection(
     t.strict({ NODE_ENV, DEFAULT_PAGE_SIZE: NumberFromString }),
     DATABASE_ENV,
     SPACE_ENV,
-    TG_BOT_ENV,
   ],
   "BACKEND_ENV",
 );

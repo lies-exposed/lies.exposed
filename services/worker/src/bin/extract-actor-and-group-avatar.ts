@@ -1,11 +1,10 @@
-// /* eslint-disable @typescript-eslint/no-var-requires */
-
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/createThumbnail.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   contentTypeFromFileExt,
@@ -20,7 +19,7 @@ import { type CommandFlow } from "./command.type.js";
 
 const convertLocationToMediaEntity =
   (ctx: WorkerContext) =>
-  (label: string, avatar: string | null): TE<MediaEntity | null> => {
+  (label: string, avatar: URL | null): TE<MediaEntity | null> => {
     if (!avatar) {
       return fp.TE.right(null);
     }
@@ -59,7 +58,7 @@ const convertLocationToMediaEntity =
         pipe(
           createThumbnail(media)(ctx),
           // if thumbnail fails, we return an empty array
-          fp.TE.orElse(() => fp.TE.right<WorkerError, string[]>([])),
+          fp.TE.orElse(() => fp.TE.right<WorkerError, URL[]>([])),
         ),
       ),
       fp.TE.map(({ media, thumbnail }) => ({
@@ -85,7 +84,10 @@ const convertManyMediaTask =
               (location as GroupEntity).name;
 
             return pipe(
-              convertLocationToMediaEntity(ctx)(label, location.old_avatar),
+              convertLocationToMediaEntity(ctx)(
+                label,
+                location.old_avatar as URL,
+              ),
               fp.TE.map((media) => [{ ...location, avatar: media }] as A),
               fp.TE.chain(save),
             );

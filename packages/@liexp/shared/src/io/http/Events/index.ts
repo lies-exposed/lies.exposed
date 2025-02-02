@@ -69,7 +69,7 @@ export const CreateEventPlainBody = t.union(
 export type CreateEventPlainBody = t.TypeOf<typeof CreateEventPlainBody>;
 
 export const CreateEventBody = t.union(
-  [CreateEventPlainBody, EventFromURLBody],
+  [EventFromURLBody, CreateEventPlainBody],
   "CreateEventBody",
 );
 

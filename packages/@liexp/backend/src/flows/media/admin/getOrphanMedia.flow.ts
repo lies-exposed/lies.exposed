@@ -1,6 +1,7 @@
 import path from "path";
 import { type ListObjectsOutput, type _Object } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getResourceAndIdFromLocation } from "@liexp/shared/lib/utils/media.utils.js";
 import { type Option } from "fp-ts/lib/Option.js";
@@ -94,7 +95,7 @@ export const getOrphanMediaFlow = <
                             return ctx.db.findOne(MediaEntity, {
                               where: [
                                 {
-                                  location: Like(`%${e.Key}`),
+                                  location: Like(`%${e.Key}` as URL),
                                 },
                               ],
                             });

@@ -1,7 +1,7 @@
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
-import { type BNEditorDocument } from "@liexp/shared/lib/providers/blocknote/type.js";
 import {
   Column,
   CreateDateColumn,
@@ -10,10 +10,10 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   type Relation,
   UpdateDateColumn,
-  ManyToOne,
 } from "typeorm";
 import { type ActorEntity } from "./Actor.entity.js";
 import { AreaEntity } from "./Area.entity.js";
@@ -39,10 +39,10 @@ export class EventV2Entity {
   date: Date;
 
   @Column({ type: "json", nullable: true })
-  excerpt: BNEditorDocument | null;
+  excerpt: BlockNoteDocument | null;
 
   @Column({ type: "json", nullable: true })
-  body: any[] | null;
+  body: BlockNoteDocument | null;
 
   @Column({
     type: "enum",

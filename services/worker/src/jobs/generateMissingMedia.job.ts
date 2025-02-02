@@ -4,9 +4,10 @@ import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/creat
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import Cron from "node-cron";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
@@ -36,7 +37,7 @@ export const generateMissingThumbnailsCron = (
                     (l) => l.length > 0,
                     () => toWorkerError(new Error("No thumbnail generated")),
                   ),
-                  fp.TE.fold<WorkerError, string[], Partial<MediaEntity>>(
+                  fp.TE.fold<WorkerError, URL[], Partial<MediaEntity>>(
                     (e) =>
                       fp.T.of({
                         extra: ImageMediaExtraMonoid.concat(

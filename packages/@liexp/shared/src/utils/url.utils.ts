@@ -19,3 +19,15 @@ export const sanitizeURL = (url: URL): URL => {
 
   return cleanURL as URL;
 };
+
+export const ensureHTTPS = (url: string): URL => {
+  if (url.startsWith("https://") || url.startsWith("http://")) {
+    return url as URL;
+  }
+
+  if (url.startsWith("//")) {
+    return `https:${url}` as URL;
+  }
+
+  return `https://${url}` as URL;
+};
