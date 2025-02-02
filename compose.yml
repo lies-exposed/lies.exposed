@@ -126,8 +126,7 @@ services:
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/worker:/usr/src/app/services/worker:ro
       - ./services/worker/config:/usr/src/app/services/worker/config:cached
-      - ./services/api/temp/queue:/usr/src/app/services/worker/temp/queue:cached
-      - ./services/worker/temp:/usr/src/app/services/worker/temp:cached
+      - ./services/api/temp:/usr/src/app/services/worker/temp:cached
     mem_limit: 512M
     restart: always
     networks:

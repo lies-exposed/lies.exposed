@@ -87,6 +87,15 @@ export const toAPIError = (e: unknown): APIError => {
     return fromIOError(e as IOError);
   }
 
+  if (e instanceof Error) {
+    return APIError.encode({
+      message: e.message,
+      name: "APIError",
+      details: e.stack ? [e.stack] : JSON.stringify(e, null, 2).split("\n"),
+      status: 500,
+    });
+  }
+
   return pipe(
     APIError.decode(e),
     fp.E.getOrElse(() => {

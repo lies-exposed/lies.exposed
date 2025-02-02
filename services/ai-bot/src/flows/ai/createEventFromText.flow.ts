@@ -29,10 +29,10 @@ export const createEventFromTextFlow: JobProcessRTE<
     fp.RTE.chain(({ docs, jsonSchema }) =>
       createEventFromText<ClientContext>(
         docs,
-        job.data.text,
         job.data.type,
         job.prompt ?? getPromptFromResource(job.resource, job.type),
         JSON.stringify(jsonSchema),
+        job.data.text,
       ),
     ),
     fp.RTE.map((event) => JSON.stringify(event)),
