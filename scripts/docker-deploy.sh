@@ -9,7 +9,8 @@ scp ./deploy/gh-token.txt $SSH_DOMAIN:docker-app/gh-token.txt
 scp ./deploy/ai-bot.config.json $SSH_DOMAIN:docker-app/ai-bot.config.json
 scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
 
-scp -r ./services/api/certs/ $SSH_DOMAIN:docker-app/certs/
+scp -r ./deploy/certs/ $SSH_DOMAIN:docker-app/certs/
+mkdir -p ./services/api/config/
 scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
 
 scp -r ./resources/nginx/snippets/ssl-params.conf $SSH_DOMAIN:/etc/nginx/snippets/ssl-params.conf

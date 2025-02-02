@@ -15,13 +15,19 @@ export const DATABASE_ENV = t.intersection(
       "DATABASE_ENV",
     ),
     t.union([
-      t.strict({
-        DB_SSL_MODE: t.literal("require"),
-        DB_SSL_CERT_PATH: t.string,
-      }),
-      t.strict({
-        DB_SSL_MODE: t.literal("off"),
-      }),
+      t.strict(
+        {
+          DB_SSL_MODE: t.literal("require"),
+          DB_SSL_CERT_PATH: t.string,
+        },
+        "DB_SSL_REQUIRE",
+      ),
+      t.strict(
+        {
+          DB_SSL_MODE: t.literal("off"),
+        },
+        "DB_SSL_OFF",
+      ),
     ]),
   ],
   "DB_ENV",
