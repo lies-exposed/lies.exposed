@@ -1,11 +1,11 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
-import * as http from "../../io/http/index.js";
-import { DateArb } from "./Date.arbitrary.js";
-import { CreateKeywordArb, TagArb } from "./Keyword.arbitrary.js";
-import { URLArb } from "./URL.arbitrary.js";
-import { UUIDArb } from "./common/UUID.arbitrary.js";
+import * as http from "../../../io/http/index.js";
+import { DateArb } from "../Date.arbitrary.js";
+import { CreateKeywordArb, TagArb } from "../Keyword.arbitrary.js";
+import { URLArb } from "../URL.arbitrary.js";
+import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 interface CreateEventBodyArbOpts {
   linksIds?: boolean;
@@ -89,13 +89,7 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "deletedAt",
 ]);
 
-export type UncategorizedArbType = Omit<
-  http.Events.Uncategorized.Uncategorized,
-  "socialPosts"
-> & {
-  socialPosts?: any[];
-};
-export const UncategorizedArb: fc.Arbitrary<UncategorizedArbType> =
+export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
   getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
     ...u,
     id: fc.sample(UUIDArb, 1)[0],

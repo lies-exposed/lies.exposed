@@ -1,6 +1,8 @@
 import { fc } from "@liexp/test";
+import { describe, expect, test } from "vitest";
 import { KeywordArb } from "../../../tests/arbitrary/Keyword.arbitrary.js";
-import { ActorArb, GroupArb, UncategorizedArb } from "../../../tests/index.js";
+import { UncategorizedArb } from "../../../tests/arbitrary/events/Uncategorized.arbitrary.js";
+import { ActorArb, GroupArb } from "../../../tests/index.js";
 import { createHierarchicalEdgeBundling } from "../createHierarchicalEdgeBundlingData.js";
 
 describe("Create Hierarchy Edge Bundling", () => {

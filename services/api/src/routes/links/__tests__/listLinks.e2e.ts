@@ -1,7 +1,8 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { LinkArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
+import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

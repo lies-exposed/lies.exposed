@@ -1,8 +1,9 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { type Uncategorized } from "@liexp/shared/lib/io/http/Events/Uncategorized.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { type UncategorizedArbType } from "@liexp/shared/lib/tests/arbitrary/Event.arbitrary.js";
-import { MediaArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
+import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
@@ -11,7 +12,7 @@ describe("List Media", () => {
   let Test: AppTest,
     authorizationToken: string,
     media: http.Media.Media[],
-    event: UncategorizedArbType;
+    event: Uncategorized;
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
