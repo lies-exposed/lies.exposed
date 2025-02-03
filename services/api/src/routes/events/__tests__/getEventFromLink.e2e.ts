@@ -2,11 +2,11 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
 import {
   ActorArb,
   GroupArb,
   GroupMemberArb,
-  UncategorizedArb,
 } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
@@ -37,8 +37,6 @@ describe("Get event from link", () => {
     links: [],
     media: [],
   }));
-  // authorizationToken: string,
-  // totalEvents: number;
 
   beforeAll(async () => {
     appTest = await GetAppTest();
@@ -54,15 +52,6 @@ describe("Get event from link", () => {
     const events = [...eventsData];
 
     await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
-
-    // totalEvents = await appTest.ctx.db
-    //   .count(EventV2Entity)()
-    //   .then((result) => (result as any).right);
-
-    // authorizationToken = `Bearer ${jwt.sign(
-    //   { id: "1" },
-    //   appTest.ctx.env.JWT_SECRET
-    // )}`;
   });
 
   afterAll(async () => {
