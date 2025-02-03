@@ -39,7 +39,7 @@
     "io-ts-types": "^0.5.19",
     "jsdom": "^26.0.0",
     "jsonwebtoken": "^9.0.2",
-    "nodemw": "^0.22.0",
+    "nodemw": "^0.23.0",
     "reflect-metadata": "^0.2.2",
     "ts-io-error": "^2.0.0",
     "typeorm": "^0.3.20"
