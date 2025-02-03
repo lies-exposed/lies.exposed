@@ -32,7 +32,7 @@
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
-    "@napi-rs/canvas": "^0.1.65",
+    "@napi-rs/canvas": "^0.1.66",
     "date-fns": "^4.1.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
