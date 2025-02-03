@@ -14,7 +14,7 @@ import {
   EMBED_ACTOR_PROMPT,
 } from "@liexp/shared/lib/io/openai/prompts/actor.prompts.js";
 import {
-  CREATE_EVENT_FROM_QUESTION,
+  CREATE_EVENT_FROM_URL_PROMPT,
   CREATE_EVENT_FROM_TEXT_PROMPT,
   EMBED_EVENT_PROMPT,
 } from "@liexp/shared/lib/io/openai/prompts/event.prompts.js";
@@ -41,11 +41,11 @@ export const getPromptFromResource = (
       return EMBED_MEDIA_PROMPT;
     case resource === EVENTS.value: {
       if (OpenAICreateEventFromTextType.is(type)) {
-        return CREATE_EVENT_FROM_QUESTION;
+        return CREATE_EVENT_FROM_TEXT_PROMPT;
       }
 
       if (OpenAICreateEventFromURLType.is(type)) {
-        return CREATE_EVENT_FROM_TEXT_PROMPT;
+        return CREATE_EVENT_FROM_URL_PROMPT;
       }
 
       return EMBED_EVENT_PROMPT;

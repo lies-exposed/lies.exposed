@@ -1,0 +1,64 @@
+import { type Document } from "@langchain/core/documents";
+import { RunnablePassthrough } from "@langchain/core/runnables";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import {
+  toAPIError,
+  type APIError,
+} from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { formatDocumentsAsString } from "langchain/util/document";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { type LangchainContext } from "../../context/langchain.context.js";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
+import { runRagChain } from "./runRagChain.js";
+
+export const createEventFromDocuments = <
+  C extends LangchainContext & LoggerContext,
+>(
+  content: Document[],
+  type: EventType,
+  prompt: string,
+  jsonSchema: unknown,
+  question: string | null,
+): ReaderTaskEither<C, APIError, Event> => {
+  return pipe(
+    fp.RTE.Do,
+    fp.RTE.bind("prompt", () =>
+      getCreateEventPromptPartial<C>(prompt, type, jsonSchema),
+    ),
+    fp.RTE.bind("retriever", () => (ctx) => {
+      return pipe(
+        fp.TE.tryCatch(async () => {
+          const textSplitter = new RecursiveCharacterTextSplitter({
+            chunkSize: 2000,
+            chunkOverlap: 500,
+          });
+          const splits = await textSplitter.splitDocuments(content);
+
+          const vectorStore = await MemoryVectorStore.fromDocuments(
+            splits,
+            ctx.langchain.embeddings,
+          );
+
+          // Retrieve and generate using the relevant snippets of the blog.
+          const retriever = vectorStore.asRetriever({ verbose: true });
+          return retriever;
+        }, toAPIError),
+      );
+    }),
+    fp.RTE.chain(({ prompt, retriever }) =>
+      runRagChain<C>(
+        {
+          context: retriever.pipe(formatDocumentsAsString),
+          question: new RunnablePassthrough(),
+        },
+        prompt,
+        question,
+      ),
+    ),
+  );
+};

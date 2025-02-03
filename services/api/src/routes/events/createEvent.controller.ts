@@ -7,6 +7,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
+  type Event,
   EventFromURLBody,
   EVENTS,
 } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -14,7 +15,7 @@ import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/Cr
 import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type DeepPartial, Equal } from "typeorm";
+import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import {
@@ -53,27 +54,40 @@ export const CreateEventRoute: Route = (r, ctx) => {
                   }),
                 ),
                 TE.map(
-                  (id) =>
-                    ({
-                      id,
-                      type: body.type,
-                      date: new Date(),
-                    }) as DeepPartial<EventV2Entity>,
+                  (id): Event => ({
+                    id,
+                    type: body.type,
+                    draft: true,
+                    excerpt: null,
+                    body: null,
+                    payload: {} as any,
+                    links: [],
+                    media: [],
+                    keywords: [],
+                    socialPosts: [],
+                    date: new Date(),
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    deletedAt: undefined,
+                  }),
                 ),
               )
-            : createEventQuery(body)(ctx),
+            : pipe(
+                createEventQuery(body)(ctx),
+                TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
+                TE.chain(([event]) =>
+                  ctx.db.findOneOrFail(EventV2Entity, {
+                    where: { id: Equal(event.id) },
+                    loadRelationIds: {
+                      relations: ["media", "links", "keywords"],
+                    },
+                  }),
+                ),
+                TE.chainEitherK(EventV2IO.decodeSingle),
+              ),
         ),
+
         LoggerService.TE.debug(ctx, "Create data %O"),
-        TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
-        TE.chain(([event]) =>
-          ctx.db.findOneOrFail(EventV2Entity, {
-            where: { id: Equal(event.id) },
-            loadRelationIds: {
-              relations: ["media", "links", "keywords"],
-            },
-          }),
-        ),
-        TE.chainEitherK(EventV2IO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

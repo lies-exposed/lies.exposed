@@ -838,6 +838,9 @@ importers:
       '@liexp/shared':
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
+      '@liexp/test':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/test
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)

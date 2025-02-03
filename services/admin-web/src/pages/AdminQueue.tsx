@@ -1,4 +1,5 @@
 import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
+import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
 import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
@@ -6,24 +7,25 @@ import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { SlugInput } from "@liexp/ui/lib/components/admin/common/inputs/SlugInput.js";
 import {
   Button,
+  type ButtonProps,
   Create,
+  type CreateProps,
   Datagrid,
   DateField,
   Edit,
+  type EditProps,
+  FormDataConsumer,
   FunctionField,
   List,
+  type ListProps,
   SelectInput,
   type SelectInputProps,
   SimpleForm,
   TextField,
-  useRecordContext,
-  type CreateProps,
-  type ListProps,
+  TextInput,
   type TransformData,
-  type ButtonProps,
-  type EditProps,
+  useRecordContext,
   useRefresh,
-  FormDataConsumer,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -253,10 +255,13 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         </Stack>
 
         <JSONInput source="data" />
-        <BlockNoteInput source="prompt" defaultValue={null} />
+        <TextInput source="prompt" defaultValue={null} multiline fullWidth />
         <FormDataConsumer>
           {({ formData }) => {
-            if (OpenAICreateEventFromTextType.is(formData.type)) {
+            if (
+              OpenAICreateEventFromTextType.is(formData.type) ||
+              OpenAICreateEventFromURLType.is(formData.type)
+            ) {
               return (
                 <JSONInput
                   source="result"
