@@ -305,7 +305,7 @@ importers:
         version: link:../core
       '@tanstack/react-query':
         specifier: ^5
-        version: 5.64.2(react@18.3.1)
+        version: 5.66.0(react@18.3.1)
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -492,8 +492,8 @@ importers:
         specifier: ^9.7.4
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.54.1
-        version: 5.64.2(react@18.3.1)
+        specifier: ^5.66.0
+        version: 5.66.0(react@18.3.1)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -751,8 +751,8 @@ importers:
         specifier: ^6.4.2
         version: 6.4.2(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.64.1
-        version: 5.64.2(react@18.3.1)
+        specifier: ^5.66.0
+        version: 5.66.0(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -1084,8 +1084,8 @@ importers:
         specifier: ^8.5.3
         version: 8.5.3(storybook@8.5.3(prettier@3.4.2))
       '@tanstack/react-query':
-        specifier: ^5.64.1
-        version: 5.64.2(react@18.3.1)
+        specifier: ^5.66.0
+        version: 5.66.0(react@18.3.1)
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1166,8 +1166,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.64.1
-        version: 5.64.2(react@18.3.1)
+        specifier: ^5.66.0
+        version: 5.66.0(react@18.3.1)
       axios:
         specifier: ^1.7.7
         version: 1.7.9(debug@4.4.0)
@@ -3093,7 +3093,6 @@ packages:
   '@mui/base@5.0.0-beta.69':
     resolution: {integrity: sha512-r2YyGUXpZxj8rLAlbjp1x2BnMERTZ/dMqd9cClKj2OJ7ALAuiv/9X5E9eHfRc9o/dGRuLSMq/WTjREktJVjxVA==}
     engines: {node: '>=14.0.0'}
-    deprecated: This package has been replaced by @base-ui-components/react
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -4067,16 +4066,8 @@ packages:
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/query-core@5.64.2':
-    resolution: {integrity: sha512-hdO8SZpWXoADNTWXV9We8CwTkXU88OVWRBcsiFrk7xJQnhm6WRlweDzMD+uH+GnuieTBVSML6xFa17C2cNV8+g==}
-
   '@tanstack/query-core@5.66.0':
     resolution: {integrity: sha512-J+JeBtthiKxrpzUu7rfIPDzhscXF2p5zE/hVdrqkACBP8Yu0M96mwJ5m/8cPPYQE9aRNvXztXHlNwIh4FEeMZw==}
-
-  '@tanstack/react-query@5.64.2':
-    resolution: {integrity: sha512-3pakNscZNm8KJkxmovvtZ4RaXLyiYYobwleTMvpIGUoKRa8j8VlrQKNl5W8VUEfVfZKkikvXVddLuWMbcSCA1Q==}
-    peerDependencies:
-      react: ^18 || ^19
 
   '@tanstack/react-query@5.66.0':
     resolution: {integrity: sha512-z3sYixFQJe8hndFnXgWu7C79ctL+pI0KAelYyW+khaNJ1m22lWrhJU2QrsTcRKMuVPtoZvfBYrTStIdKo+x0Xw==}
@@ -13696,14 +13687,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/query-core@5.64.2': {}
-
   '@tanstack/query-core@5.66.0': {}
-
-  '@tanstack/react-query@5.64.2(react@18.3.1)':
-    dependencies:
-      '@tanstack/query-core': 5.64.2
-      react: 18.3.1
 
   '@tanstack/react-query@5.66.0(react@18.3.1)':
     dependencies:
