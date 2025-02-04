@@ -17,8 +17,8 @@ importers:
   .:
     devDependencies:
       '@commitlint/cli':
-        specifier: ^19.6.0
-        version: 19.6.1(@types/node@22.13.0)(typescript@5.7.3)
+        specifier: ^19.7.1
+        version: 19.7.1(@types/node@22.13.0)(typescript@5.7.3)
       '@commitlint/config-conventional':
         specifier: ^19.7.1
         version: 19.7.1
@@ -1725,8 +1725,8 @@ packages:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
     engines: {node: '>=0.1.90'}
 
-  '@commitlint/cli@19.6.1':
-    resolution: {integrity: sha512-8hcyA6ZoHwWXC76BoC8qVOSr8xHy00LZhZpauiD0iO0VYbVhMnED0da85lTfIULxl7Lj4c6vZgF0Wu/ed1+jlQ==}
+  '@commitlint/cli@19.7.1':
+    resolution: {integrity: sha512-iObGjR1tE/PfDtDTEfd+tnRkB3/HJzpQqRTyofS2MPPkDn1mp3DBC8SoPDayokfAy+xKhF8+bwRCJO25Nea0YQ==}
     engines: {node: '>=v18'}
     hasBin: true
 
@@ -1750,12 +1750,12 @@ packages:
     resolution: {integrity: sha512-yNy088miE52stCI3dhG/vvxFo9e4jFkU1Mj3xECfzp/bIS/JUay4491huAlVcffOoMK1cd296q0W92NlER6r3A==}
     engines: {node: '>=v18'}
 
-  '@commitlint/is-ignored@19.6.0':
-    resolution: {integrity: sha512-Ov6iBgxJQFR9koOupDPHvcHU9keFupDgtB3lObdEZDroiG4jj1rzky60fbQozFKVYRTUdrBGICHG0YVmRuAJmw==}
+  '@commitlint/is-ignored@19.7.1':
+    resolution: {integrity: sha512-3IaOc6HVg2hAoGleRK3r9vL9zZ3XY0rf1RsUf6jdQLuaD46ZHnXBiOPTyQ004C4IvYjSWqJwlh0/u2P73aIE3g==}
     engines: {node: '>=v18'}
 
-  '@commitlint/lint@19.6.0':
-    resolution: {integrity: sha512-LRo7zDkXtcIrpco9RnfhOKeg8PAnE3oDDoalnrVU/EVaKHYBWYL1DlRR7+3AWn0JiBqD8yKOfetVxJGdEtZ0tg==}
+  '@commitlint/lint@19.7.1':
+    resolution: {integrity: sha512-LhcPfVjcOcOZA7LEuBBeO00o3MeZa+tWrX9Xyl1r9PMd5FWsEoZI9IgnGqTKZ0lZt5pO3ZlstgnRyY1CJJc9Xg==}
     engines: {node: '>=v18'}
 
   '@commitlint/load@19.6.1':
@@ -2943,6 +2943,7 @@ packages:
   '@mui/base@5.0.0-beta.69':
     resolution: {integrity: sha512-r2YyGUXpZxj8rLAlbjp1x2BnMERTZ/dMqd9cClKj2OJ7ALAuiv/9X5E9eHfRc9o/dGRuLSMq/WTjREktJVjxVA==}
     engines: {node: '>=14.0.0'}
+    deprecated: This package has been replaced by @base-ui-components/react
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -4345,6 +4346,9 @@ packages:
 
   '@types/node@18.19.74':
     resolution: {integrity: sha512-HMwEkkifei3L605gFdV+/UwtpxP6JSzM+xFk2Ia6DNFSwSVBRh9qp5Tgf4lNFOMfPVuU0WnkcWpXZpgn5ufO4A==}
+
+  '@types/node@18.19.75':
+    resolution: {integrity: sha512-UIksWtThob6ZVSyxcOqCLOUNg/dyO1Qvx4McgeuhrEtHTLFTf7BBhEazaE4K806FGTPtzd/2sE90qn4fVr7cyw==}
 
   '@types/node@22.13.0':
     resolution: {integrity: sha512-ClIbNe36lawluuvq3+YYhnIN2CELi+6q8NpnM7PYp4hBn/TatfboPgVSm2rwKRfnV2M+Ty9GWDFI64KEe+kysA==}
@@ -6855,6 +6859,10 @@ packages:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
 
+  import-fresh@3.3.1:
+    resolution: {integrity: sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==}
+    engines: {node: '>=6'}
+
   import-meta-resolve@4.1.0:
     resolution: {integrity: sha512-I6fiaX09Xivtk+THaMfAwnA3MVA5Big1WHF1Dfx9hFuvNIWpXnorlkzhcQf6ehrqQiiZECRt1poOAkPmer3ruw==}
 
@@ -8954,8 +8962,12 @@ packages:
     resolution: {integrity: sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==}
     engines: {node: '>= 6'}
 
-  readable-web-to-node-stream@3.0.2:
-    resolution: {integrity: sha512-ePeK6cc1EcKLEhJFt/AebMCLL+GgSKhuygrZ/GLaKZYEecIgIECf4UaUuaByiGtzckwR4ain9VzUh95T1exYGw==}
+  readable-stream@4.7.0:
+    resolution: {integrity: sha512-oIGGmcpTLwPga8Bn6/Z75SVaH1z5dUut2ibSyAMVhmUggWpmDn2dapB0n7f8nwaSiRtepAsfJyfXIO5DCVAODg==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  readable-web-to-node-stream@3.0.3:
+    resolution: {integrity: sha512-In3boYjBnbGVrLuuRu/Ath/H6h1jgk30nAsk/71tCare1dTVoe1oMBGRn5LGf0n3c1BcHwwAqpraxX4AUAP5KA==}
     engines: {node: '>=8'}
 
   readdirp@4.1.1:
@@ -9220,6 +9232,11 @@ packages:
 
   semver@7.7.0:
     resolution: {integrity: sha512-DrfFnPzblFmNrIZzg5RzHegbiRWg7KMR7btwi2yjHwx06zsUbO5g613sVwEV7FTwmzJu+Io0lJe2GJ3LxqpvBQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.1:
+    resolution: {integrity: sha512-hlq8tAfn0m/61p4BVRcPzIGr6LKiMwo4VM6dGi6pt4qcRkmNzTcWq6eCEjEh+qXjkMDvPlOFFSGwQjoEa6gyMA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -10575,7 +10592,7 @@ snapshots:
 
   '@anthropic-ai/sdk@0.27.3':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 18.19.75
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11406,7 +11423,7 @@ snapshots:
 
   '@browserbasehq/sdk@2.2.0':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 18.19.75
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11482,10 +11499,10 @@ snapshots:
 
   '@colors/colors@1.6.0': {}
 
-  '@commitlint/cli@19.6.1(@types/node@22.13.0)(typescript@5.7.3)':
+  '@commitlint/cli@19.7.1(@types/node@22.13.0)(typescript@5.7.3)':
     dependencies:
       '@commitlint/format': 19.5.0
-      '@commitlint/lint': 19.6.0
+      '@commitlint/lint': 19.7.1
       '@commitlint/load': 19.6.1(@types/node@22.13.0)(typescript@5.7.3)
       '@commitlint/read': 19.5.0
       '@commitlint/types': 19.5.0
@@ -11521,14 +11538,14 @@ snapshots:
       '@commitlint/types': 19.5.0
       chalk: 5.4.1
 
-  '@commitlint/is-ignored@19.6.0':
+  '@commitlint/is-ignored@19.7.1':
     dependencies:
       '@commitlint/types': 19.5.0
-      semver: 7.7.0
+      semver: 7.7.1
 
-  '@commitlint/lint@19.6.0':
+  '@commitlint/lint@19.7.1':
     dependencies:
-      '@commitlint/is-ignored': 19.6.0
+      '@commitlint/is-ignored': 19.7.1
       '@commitlint/parse': 19.5.0
       '@commitlint/rules': 19.6.0
       '@commitlint/types': 19.5.0
@@ -12050,7 +12067,7 @@ snapshots:
 
   '@ibm-cloud/watsonx-ai@1.3.0':
     dependencies:
-      '@types/node': 18.19.74
+      '@types/node': 18.19.75
       extend: 3.0.2
       ibm-cloud-sdk-core: 5.1.0
     transitivePeerDependencies:
@@ -12332,7 +12349,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.7.0
+      semver: 7.7.1
       tar: 6.2.1
     transitivePeerDependencies:
       - encoding
@@ -13934,6 +13951,10 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/node@18.19.75':
+    dependencies:
+      undici-types: 5.26.5
+
   '@types/node@22.13.0':
     dependencies:
       undici-types: 6.20.0
@@ -15339,7 +15360,7 @@ snapshots:
   cosmiconfig@9.0.0(typescript@5.7.3):
     dependencies:
       env-paths: 2.2.1
-      import-fresh: 3.3.0
+      import-fresh: 3.3.1
       js-yaml: 4.1.0
       parse-json: 5.2.0
     optionalDependencies:
@@ -16415,7 +16436,7 @@ snapshots:
 
   file-type@16.5.4:
     dependencies:
-      readable-web-to-node-stream: 3.0.2
+      readable-web-to-node-stream: 3.0.3
       strtok3: 6.3.0
       token-types: 4.2.1
 
@@ -17070,6 +17091,11 @@ snapshots:
     optional: true
 
   import-fresh@3.3.0:
+    dependencies:
+      parent-module: 1.0.1
+      resolve-from: 4.0.0
+
+  import-fresh@3.3.1:
     dependencies:
       parent-module: 1.0.1
       resolve-from: 4.0.0
@@ -18411,7 +18437,7 @@ snapshots:
 
   node-abi@3.74.0:
     dependencies:
-      semver: 7.7.0
+      semver: 7.7.1
     optional: true
 
   node-addon-api@7.1.1:
@@ -19524,9 +19550,18 @@ snapshots:
       string_decoder: 1.3.0
       util-deprecate: 1.0.2
 
-  readable-web-to-node-stream@3.0.2:
+  readable-stream@4.7.0:
     dependencies:
-      readable-stream: 3.6.2
+      abort-controller: 3.0.0
+      buffer: 6.0.3
+      events: 3.3.0
+      process: 0.11.10
+      string_decoder: 1.3.0
+
+  readable-web-to-node-stream@3.0.3:
+    dependencies:
+      process: 0.11.10
+      readable-stream: 4.7.0
 
   readdirp@4.1.1:
     optional: true
@@ -19867,6 +19902,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.7.0: {}
+
+  semver@7.7.1: {}
 
   send@0.19.0:
     dependencies:
