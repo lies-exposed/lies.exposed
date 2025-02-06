@@ -118,7 +118,7 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
         <FormDataConsumer>
           {({ formData }) => {
             if (formData._from === "wikipedia") {
-              return <TextInput source="q" />;
+              return <TextInput source="search" />;
             }
 
             return (
