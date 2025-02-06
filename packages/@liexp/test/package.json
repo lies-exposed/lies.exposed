@@ -21,14 +21,14 @@
   },
   "dependencies": {
     "@liexp/core": "workspace:*",
-    "fast-check": "^2.25.0",
-    "fast-check-io-ts": "^0.5.0",
-    "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.22"
+    "fast-check": "catalog:",
+    "fast-check-io-ts": "catalog:",
+    "fp-ts": "catalog:",
+    "io-ts": "catalog:"
   },
   "devDependencies": {
-    "eslint": "^9.19.0",
-    "typescript": "^5.7.3"
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "debug": "*",

@@ -24,26 +24,26 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "fp-ts": "^2.16.9",
-    "globals": "^15.14.0",
-    "io-ts": "^2.2.22",
-    "io-ts-types": "^0.5.19"
+    "fp-ts": "catalog:",
+    "globals": "catalog:",
+    "io-ts": "catalog:",
+    "io-ts-types": "catalog:"
   },
   "devDependencies": {
-    "@eslint/js": "^9.19.0",
-    "@rollup/plugin-image": "^3.0.3",
-    "@tanstack/eslint-plugin-query": "^5.66.0",
-    "@types/debug": "^4.1.12",
-    "@types/eslint__js": "^8.42.3",
-    "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.19.0",
-    "eslint-import-resolver-typescript": "^3.7.0",
-    "eslint-plugin-fp-ts": "^0.3.2",
-    "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-prettier": "^5.2.3",
-    "eslint-plugin-react": "^7.37.4",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.3"
+    "@eslint/js": "catalog:",
+    "@rollup/plugin-image": "catalog:",
+    "@tanstack/eslint-plugin-query": "catalog:",
+    "@types/debug": "catalog:",
+    "@types/eslint__js": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "eslint": "catalog:",
+    "eslint-import-resolver-typescript": "catalog:",
+    "eslint-plugin-fp-ts": "catalog:",
+    "eslint-plugin-import": "catalog:",
+    "eslint-plugin-prettier": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   },
   "peerDependencies": {
     "debug": "*",
