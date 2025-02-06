@@ -7,6 +7,7 @@ import { GenerateThumbnailSubscriber } from "./media/generateThumbnail.subscribe
 import { TransferFromExternalProviderSubscriber } from "./media/transferFromExternalProvider.subscriber.js";
 import { ExtractEntitiesWithNLPSubscriber } from "./nlp/extractEntitiesWithNLP.subscriber.js";
 import { ProcessJobDoneSubscriber } from "./queue/processOpenAIJobDone.subscriber.js";
+import { SearchFromWikipediaSubscriber } from "./searchFromWikipedia.subscriber.js";
 import { PostToSocialPlatformsSubscriber } from "./social-post/PostToSocialPlatforms.subscriber.js";
 import { type WorkerContext } from "#context/context.js";
 import { type WorkerError } from "#io/worker.error.js";
@@ -24,6 +25,8 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     // admin
     // nlp
     ExtractEntitiesWithNLPSubscriber,
+    // wikipedia
+    SearchFromWikipediaSubscriber,
     // queue
     ProcessJobDoneSubscriber,
   ];

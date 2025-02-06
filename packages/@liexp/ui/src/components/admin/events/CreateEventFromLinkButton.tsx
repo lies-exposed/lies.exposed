@@ -100,6 +100,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
       <Button
         label="Create Event"
         variant="contained"
+        // disabled={!payload}
         onClick={() => {
           void getSuggestionFromAPI(record).then(
             flow(
