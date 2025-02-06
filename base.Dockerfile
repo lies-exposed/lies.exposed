@@ -5,7 +5,7 @@ FROM base AS pnpm
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm
+RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
 WORKDIR /usr/src/app
 
@@ -13,16 +13,16 @@ FROM pnpm AS api-base
 
 RUN apk add --no-cache \
     libc6-compat \
-	build-base \
-	g++ \
-	cairo-dev \
-	jpeg-dev \
-	pango-dev \
-	giflib-dev \
+    build-base \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
     cairo \
-	jpeg \
-	pango \
-	giflib \
+    jpeg \
+    pango \
+    giflib \
     chromium \
     nss \
     freetype \
