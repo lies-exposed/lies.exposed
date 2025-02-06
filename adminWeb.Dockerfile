@@ -2,7 +2,7 @@ FROM node:22-slim AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable pnpm
+RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
 FROM base AS dev
 

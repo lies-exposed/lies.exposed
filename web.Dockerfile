@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:22-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:22-pnpm-latest AS dev
 
 COPY . /usr/src/app
 
@@ -23,7 +23,7 @@ RUN pnpm web --prod deploy /prod/web
 
 WORKDIR /prod
 
-FROM ghcr.io/lies-exposed/liexp-base:20-pnpm-latest AS production
+FROM node:22-alpine AS production
 
 WORKDIR /prod/web
 
