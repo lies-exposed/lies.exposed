@@ -108,5 +108,6 @@
       "**/build": true,
     },
     "typescript.preferences.importModuleSpecifier": "project-relative",
+    "yaml.maxItemsComputed": 500,
   },
 }

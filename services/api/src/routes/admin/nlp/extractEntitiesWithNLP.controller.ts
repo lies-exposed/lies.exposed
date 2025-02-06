@@ -14,7 +14,14 @@ export const MakeAdminExtractEntitiesWithNLPRoute: Route = (r, ctx) => {
         ExtractEntitiesWithNLP.publish(body)(ctx),
         TE.map((data) => ({
           body: {
-            data,
+            data: {
+              entities: {
+                actors: [],
+                groups: [],
+                keywords: [],
+              },
+              sentences: [],
+            },
             total: 0,
           },
           statusCode: 201,

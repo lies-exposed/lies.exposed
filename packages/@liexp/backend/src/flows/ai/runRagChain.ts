@@ -34,8 +34,8 @@ export const runRagChain =
 
       let output: any;
       for await (const chunk of stream) {
-        ctx.logger.debug.log("chunk", chunk);
         output = chunk;
+        ctx.logger.debug.log("Add chunk to output total %d", output.length);
       }
 
       ctx.logger.info.log("output", output);

@@ -13,10 +13,12 @@ Below you find the text you need to summarize.
 `;
 
 const CREATE_EVENT_PROMPT = `
-You are an expert in returning events as valid json object.
+You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
+Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in given context.
+Try to match the dates with the given fields, using ISO 8601 format.
 The event can be one of the following type: ${EventType.types.map((t) => t.value).join(", ")}.
 
-Respond with a valid JSON object, conforming to the following JSON OPENAPI schema:
+You return the summarized text in the "excerpt" key of the json object, and adapt others information to the following JSON OPENAPI schema:
 
 ---
 {jsonSchema}

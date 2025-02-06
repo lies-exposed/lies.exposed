@@ -49,17 +49,6 @@ export const Create = Endpoint({
   Output: SingleEventOutput,
 });
 
-export const CreateFromLink = Endpoint({
-  Method: "POST",
-  getPath: () => `/events/from-link`,
-  Input: {
-    Body: t.strict({
-      url: t.string,
-    }),
-  },
-  Output: SingleEventOutput,
-});
-
 export const CreateSuggestion = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions`,
@@ -213,7 +202,6 @@ const events = ResourceEndpoints({
   Edit,
   Delete,
   Custom: {
-    CreateFromLink,
     CreateSuggestion,
     EditSuggestion,
     DeleteSuggestion,

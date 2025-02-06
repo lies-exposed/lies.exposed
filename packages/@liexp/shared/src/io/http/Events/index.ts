@@ -43,11 +43,83 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Quote: Quote.Quote,
 };
 
-export const EventFromURLBody = t.strict(
-  {
-    url: URL,
-    type: EventType,
-  },
+export const EventPayload = t.union(
+  [
+    Book.BookPayload,
+    Death.DeathPayload,
+    Patent.PatentPayload,
+    ScientificStudy.ScientificStudyPayload,
+    Uncategorized.UncategorizedV2Payload,
+    Documentary.DocumentaryPayload,
+    Transaction.TransactionPayload,
+    Quote.QuotePayload,
+  ],
+  "EventPayload",
+);
+
+export type EventPayload = t.TypeOf<typeof EventPayload>;
+
+export const EventFromURLBody = t.intersection(
+  [
+    t.strict({
+      url: URL,
+    }),
+    t.union(
+      [
+        t.strict({ type: EventTypes.BOOK, payload: Book.BookPayload }),
+        t.strict(
+          {
+            type: EventTypes.DEATH,
+            payload: Death.DeathPayload,
+          },
+          "DeathTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.PATENT,
+            payload: Patent.PatentPayload,
+          },
+          "PatentTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.SCIENTIFIC_STUDY,
+            payload: ScientificStudy.ScientificStudyPayload,
+          },
+          "ScientificStudyTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.UNCATEGORIZED,
+            payload: Uncategorized.UncategorizedV2Payload,
+          },
+          "UncategorizedTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.DOCUMENTARY,
+            payload: Documentary.DocumentaryPayload,
+          },
+          "DocumentaryTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.TRANSACTION,
+            payload: Transaction.TransactionPayload,
+          },
+          "TransactionTypePayload",
+        ),
+        t.strict(
+          {
+            type: EventTypes.QUOTE,
+            payload: Quote.QuotePayload,
+          },
+          "QuoteTypwPayload",
+        ),
+      ],
+      "EventTypePayload",
+    ),
+  ],
   "EventFromURLBody",
 );
 
@@ -91,21 +163,6 @@ export const EditEventBody = t.union(
 
 export type EditEventBody = t.TypeOf<typeof EditEventBody>;
 
-export const EventPayload = t.union(
-  [
-    Book.BookPayload,
-    Death.DeathPayload,
-    Patent.PatentPayload,
-    ScientificStudy.ScientificStudyPayload,
-    Uncategorized.UncategorizedV2Payload,
-    Documentary.DocumentaryPayload,
-    Transaction.TransactionPayload,
-  ],
-  "EventPayload",
-);
-
-export type EventPayload = t.TypeOf<typeof EventPayload>;
-
 export const Event = t.union(
   [
     Book.Book,
@@ -146,22 +203,22 @@ interface EventRelations {
 }
 
 export {
+  Arrest,
+  Book,
+  Death,
+  Documentary,
+  EVENTS,
   EventType,
   EventTypes,
-  Protest,
   Fined,
-  Book,
-  Arrest,
-  PublicAnnouncement,
-  Death,
-  ScientificStudy,
-  Uncategorized,
   Patent,
-  Documentary,
-  Transaction,
+  Protest,
+  PublicAnnouncement,
   Quote,
+  ScientificStudy,
   SearchEvent,
-  EVENTS,
+  Transaction,
+  Uncategorized,
   type EventRelationIds,
   type EventRelations,
 };

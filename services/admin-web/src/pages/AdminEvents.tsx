@@ -1,4 +1,5 @@
 import {
+  type Event,
   EventType,
   EventTypes,
 } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -222,7 +223,7 @@ export const EventEdit: React.FC = (props) => {
   return (
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       {(suggestions, handlers) => (
-        <FormDataConsumer>
+        <FormDataConsumer<Event>>
           {({ formData, scopedFormData, ...rest }) => {
             if (formData.type === EventTypes.DOCUMENTARY.value) {
               return <DocumentaryEditFormTab />;
@@ -248,7 +249,7 @@ export const EventEdit: React.FC = (props) => {
               <UncategorizedEventEditTab
                 suggestions={suggestions}
                 handlers={handlers}
-                record={formData as any}
+                record={formData}
               />
             );
           }}

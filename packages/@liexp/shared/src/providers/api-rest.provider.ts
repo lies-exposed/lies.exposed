@@ -14,8 +14,8 @@ export interface APIRESTClient {
   client: AxiosInstance;
   request: <T = any>(config: AxiosRequestConfig<T>) => Promise<any>;
   get: <R = any>(url: string, params: any) => Promise<R>;
-  put: (url: string, data?: any) => Promise<AxiosResponse<any>>;
-  post: (url: string, data?: any) => Promise<AxiosResponse<any>>;
+  put: <R = any>(url: string, data?: any) => Promise<AxiosResponse<R>>;
+  post: <R = any>(url: string, data?: any) => Promise<AxiosResponse<R>>;
   getList: <R extends RA.RaRecord>(
     resource: string,
     params: RA.GetListParams,

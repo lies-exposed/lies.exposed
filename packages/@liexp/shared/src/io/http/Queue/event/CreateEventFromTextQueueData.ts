@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { EventType } from "../Events/EventType.js";
+import { EventType } from "../../Events/EventType.js";
 
 export const OpenAICreateEventFromTextType = t.literal(
   "openai-create-event-from-text",

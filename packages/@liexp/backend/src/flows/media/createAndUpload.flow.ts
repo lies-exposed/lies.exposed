@@ -7,6 +7,7 @@ import {
   PDFType,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
 import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
@@ -119,17 +120,17 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
           ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
             id: m.id,
             resource: MEDIA.value,
-            type: OpenAIEmbeddingQueueType.value,
             status: PendingStatus.value,
             error: null,
             result: null,
             prompt: null,
             question: null,
+            type: OpenAIEmbeddingQueueType.value,
             data: {
               url: m.location,
-              type: "pdf",
+              type: "pdf" as const,
             },
-          }),
+          } satisfies Queue),
           fp.TE.mapLeft(ServerError.fromUnknown),
         );
       }

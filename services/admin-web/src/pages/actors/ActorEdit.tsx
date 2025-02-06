@@ -57,6 +57,7 @@ const EditActions: React.FC = () => {
 
 const ActorEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
+
   return (
     <EditForm
       title={<EditTitle />}

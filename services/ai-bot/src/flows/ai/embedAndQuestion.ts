@@ -1,6 +1,9 @@
 import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type CreateQueueURLData } from "@liexp/shared/lib/io/http/Queue/index.js";
+import {
+  type CreateQueueURLTypeData,
+  type Queue,
+} from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
 import { getPromptFromResource } from "./prompts.js";
@@ -8,10 +11,10 @@ import { type JobProcessRTE } from "#services/job-processor/job-processor.servic
 
 const defaultQuestion = "Write a summary of the text.";
 
-export const embedAndQuestionFlow: JobProcessRTE<CreateQueueURLData> =
+export const embedAndQuestionFlow: JobProcessRTE<CreateQueueURLTypeData> =
   (job) => (ctx) => {
     return pipe(
-      loadDocs(job)(ctx),
+      loadDocs(job as Queue)(ctx),
       fp.TE.chain((docs) =>
         fp.TE.tryCatch(() => {
           return ctx.langchain.queryDocument(

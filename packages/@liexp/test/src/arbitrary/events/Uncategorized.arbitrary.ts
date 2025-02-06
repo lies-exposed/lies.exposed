@@ -6,6 +6,7 @@ import * as t from "io-ts";
 import { DateArb } from "../Date.arbitrary.js";
 import { CreateKeywordArb, TagArb } from "../Keyword.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
+import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 interface CreateEventBodyArbOpts {
@@ -99,8 +100,8 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
     deletedAt: undefined,
-    excerpt: undefined,
-    body: undefined,
+    excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
+    body: fc.sample(BlockNoteDocumentArb, 1)[0],
     media: fc.sample(UUIDArb, 5),
     keywords: fc.sample(UUIDArb, 5),
     links: fc.sample(UUIDArb, 5),

@@ -78,7 +78,7 @@
     "pdfjs-dist": "^4",
     "puppeteer-core": "^24.1.1",
     "puppeteer-extra": "^3.3.6",
-    "query-string": "^7.1.3",
+    "query-string": "^9.1.1",
     "sharp": "*",
     "typeorm": "^0.3.20",
     "wink-eng-lite-web-model": "^1.8.0",
