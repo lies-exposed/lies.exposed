@@ -1,10 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": false,
-    "types": ["node"],
-    "rootDir": "./src",
-    "tsBuildInfoFile": "lib/build.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["src/**/*.ts", "typings", "../shared/typings", "src/**/*.json"],
   "exclude": ["node_modules", "lib", "src/**/*.spec.ts", "src/**/__tests__"]
