@@ -25,11 +25,6 @@
       "path": "../test"
     }
   ],
-  "include": [
-    "./src",
-    "./typings",
-    "./src/**/*.json",
-    "./test"
-  ],
+  "include": ["./src", "./typings", "./src/**/*.json", "./test"],
   "exclude": ["node_modules", "lib"]
 }

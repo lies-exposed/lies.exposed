@@ -5,7 +5,7 @@
     "outDir": "./lib",
     "baseUrl": "./src",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["./src", "./typings", "./src/**/*.json"],
   "exclude": [

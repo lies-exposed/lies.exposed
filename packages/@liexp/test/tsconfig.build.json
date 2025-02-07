@@ -3,8 +3,13 @@
   "compilerOptions": {
     "noEmit": false,
     "lib": ["DOM", "ESNext"],
-    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["./src"],
   "exclude": ["node_modules", "eslint.config.js", "lib"],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
 }
