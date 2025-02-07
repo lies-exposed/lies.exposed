@@ -2,9 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "./src",
-    "tsBuildInfoFile": "build/.server.tsbuildinfo",
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "tsBuildInfoFile": "build/.server.tsbuildinfo"
   },
   "include": ["./src/server/server.tsx", "./typings"],
   "exclude": [

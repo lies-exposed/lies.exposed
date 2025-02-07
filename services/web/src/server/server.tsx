@@ -16,11 +16,11 @@ import compression from "compression";
 import D from "debug";
 import express from "express";
 import sirv from "sirv";
-import { routes } from "../client/routes.js";
+// import { routes } from "../client/routes.js";
 
 const webSrvLog = GetLogger("web");
 
-const run = async (base: string): Promise<void> => {
+export const run = async (base: string): Promise<void> => {
   D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
 
   webSrvLog.debug.log("Running with process.env %O", base, process.env);
@@ -53,10 +53,13 @@ const run = async (base: string): Promise<void> => {
   let getTemplate;
   let transformTemplate;
   let onRequestError;
+  let routes;
 
   if (isProduction) {
     serverEntry = () => import(path.resolve(outputDir, "server/entry.js"));
-
+    routes = await import(path.resolve(outputDir, "client/routes.js")).then(
+      (r) => r.routes,
+    );
     const templateFile = fs.readFileSync(indexFile, "utf8");
 
     getTemplate = (url: string, originalUrl: string) =>
@@ -82,6 +85,9 @@ const run = async (base: string): Promise<void> => {
       appType: "custom",
       base,
     });
+    routes = await vite
+      .ssrLoadModule("/src/client/routes.tsx")
+      .then((m) => m.routes);
 
     serverEntry = () =>
       vite.ssrLoadModule("/src/server/entry.tsx") as Promise<{

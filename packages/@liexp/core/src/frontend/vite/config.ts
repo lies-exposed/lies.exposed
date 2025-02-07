@@ -20,7 +20,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       process.env.DOTENV_CONFIG_PATH ?? ".env",
     );
 
-    loadENV(config.cwd, dotEnvFilePath, _mode === "development");
+    loadENV(config.cwd, dotEnvFilePath, false);
 
     const mode = process.env.VITE_NODE_ENV ?? _mode;
 
