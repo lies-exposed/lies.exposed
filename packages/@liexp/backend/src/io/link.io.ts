@@ -20,22 +20,24 @@ const toLinkIO = (
       title: link.title ?? undefined,
       description: link.description ?? undefined,
       image: link.image
-        ? {
-            ...link.image,
-            label: link.image.label ?? undefined,
-            description: link.image.description ?? undefined,
-            extra: link.image.extra
-              ? MediaExtraMonoid.concat(
-                  ImageMediaExtraMonoid.empty,
-                  link.image.extra,
-                )
-              : undefined,
-            thumbnail: link.image.thumbnail ?? undefined,
-            links: link.image.links ?? [],
-            events: link.image.events ?? [],
-            keywords: link.image.keywords ?? [],
-            areas: link.image.areas ?? [],
-          }
+        ? UUID.is(link.image)
+          ? link.image
+          : {
+              ...link.image,
+              label: link.image.label ?? undefined,
+              description: link.image.description ?? undefined,
+              extra: link.image.extra
+                ? MediaExtraMonoid.concat(
+                    ImageMediaExtraMonoid.empty,
+                    link.image.extra,
+                  )
+                : undefined,
+              thumbnail: link.image.thumbnail ?? undefined,
+              links: link.image.links ?? [],
+              events: link.image.events ?? [],
+              keywords: link.image.keywords ?? [],
+              areas: link.image.areas ?? [],
+            }
         : undefined,
       keywords: link.keywords ?? [],
       provider: UUID.is(link.provider) ? link.provider : undefined,

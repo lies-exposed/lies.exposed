@@ -22,10 +22,14 @@ export const MakeDeleteLinkRoute: Route = (r, ctx) => {
         TE.map((u) => checkIsAdmin(u.permissions)),
         TE.chain((isAdmin) =>
           pipe(
-            ctx.db.findOne(LinkEntity, {
-              where: { id: Equal(id) },
-              withDeleted: isAdmin,
-            }),
+            ctx.db.findOne<LinkEntity & { image: MediaEntity | null }>(
+              LinkEntity,
+              {
+                where: { id: Equal(id) },
+                withDeleted: isAdmin,
+                relations: ["image"],
+              },
+            ),
             TE.chain(TE.fromOption(() => toNotFoundError("Link"))),
             TE.chainFirst((l) =>
               pipe(

@@ -20,7 +20,7 @@ import {
 import { mockedContext } from "../../../test/context.js";
 import puppeteerMocks from "../../../test/mocks/puppeteer.mock.js";
 import { mocks } from "../../../test/mocks.js";
-import { type UserTest } from "../../../test/user.utils.js";
+import { type UserTest } from "../../../test/utils/user.utils.js";
 import {
   createFromTGMessage,
   type CreateFromTGMessageContext,

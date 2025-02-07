@@ -1,7 +1,10 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -18,7 +21,7 @@ describe("Create Death Event", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor] as any[]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
   });
 
   afterAll(async () => {

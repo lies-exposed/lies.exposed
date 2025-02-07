@@ -29,7 +29,7 @@ export const MakeTakeLinkScreenshotRoute = (
       ctx.logger.debug.log("Body %O", body);
 
       const getMediaOrMakeFromLinkTask = (
-        link: LinkEntity,
+        link: LinkEntity & { image: MediaEntity | null },
       ): TE.TaskEither<ControllerError, Partial<MediaEntity>[]> =>
         pipe(
           fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
@@ -59,10 +59,13 @@ export const MakeTakeLinkScreenshotRoute = (
           ),
         ),
         TE.bind("link", () =>
-          ctx.db.findOneOrFail(LinkEntity, {
-            where: { id: Equal(id) },
-            relations: ["image"],
-          }),
+          ctx.db.findOneOrFail<LinkEntity & { image?: MediaEntity }>(
+            LinkEntity,
+            {
+              where: { id: Equal(id) },
+              relations: ["image"],
+            },
+          ),
         ),
         TE.bind("media", ({ user, link }) =>
           pipe(

@@ -1,11 +1,15 @@
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
+import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
 import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
 import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Delete Keyword", () => {
-  let Test: AppTest, keyword: any, user: any, authorizationToken: string;
+  let Test: AppTest, keyword: Keyword, user: any, authorizationToken: string;
   beforeAll(async () => {
     Test = await GetAppTest();
     user = await saveUser(Test.ctx, ["admin:create"]);

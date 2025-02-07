@@ -2,7 +2,10 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -20,6 +23,7 @@ describe("Edit Group", () => {
     ...g,
     avatar: undefined,
     subGroups: [],
+    members: [],
   }));
   const media = [...actors.map((a) => a.avatar), group.avatar].filter(
     (m): m is Media.Media => !!m,
@@ -30,8 +34,8 @@ describe("Edit Group", () => {
     const user = await saveUser(appTest.ctx, ["admin:create"]);
     users.push(user);
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group] as any[]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
 
     const { authorization } = await loginUser(appTest)(user);
     authorizationToken = authorization;

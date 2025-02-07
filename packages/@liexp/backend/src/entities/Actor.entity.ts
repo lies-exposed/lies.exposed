@@ -47,16 +47,16 @@ export class ActorEntity {
     nullable: true,
   })
   @JoinColumn()
-  avatar: Relation<MediaEntity> | null;
+  avatar: Relation<MediaEntity> | UUID | null;
 
   @Column({ type: "varchar", nullable: false })
   color: Color;
 
   @Column({ type: "date", nullable: true })
-  bornOn: string | null;
+  bornOn: Date | null;
 
   @Column({ type: "date", nullable: true })
-  diedOn: string | null;
+  diedOn: Date | null;
 
   @OneToMany(() => GroupMemberEntity, (member) => member.actor, {
     cascade: ["insert", "soft-remove", "remove"],

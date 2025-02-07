@@ -64,7 +64,7 @@ export const NetworkLink = t.type(
 export type NetworkLink = t.TypeOf<typeof NetworkLink>;
 
 export interface NetworkNodeDatum {
-  id: string;
+  id: UUID;
   label: string;
   innerColor: string;
   outerColor: string;

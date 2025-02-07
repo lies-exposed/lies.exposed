@@ -3,9 +3,10 @@ import {
   type NetworkNode,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Actor } from "@liexp/shared/lib/io/http/index.js";
+import { type UUID } from "io-ts-types";
 
 export type ActorNetworkNodeProps = NetworkNode<{
-  id: string;
+  id: UUID;
   label: string;
   innerColor: string;
   outerColor: string;

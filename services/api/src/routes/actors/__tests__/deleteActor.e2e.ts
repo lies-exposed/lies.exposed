@@ -1,5 +1,8 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";

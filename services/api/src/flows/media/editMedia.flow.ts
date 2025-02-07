@@ -121,9 +121,7 @@ export const editMedia = (
             areas: body.areas.map((id) => ({
               id,
             })),
-            creator: O.isSome(creator)
-              ? { id: creator.value }
-              : { id: media.creator as any },
+            creator: O.isSome(creator) ? { id: creator.value } : media.creator,
             deletedAt: restore ? null : media.deletedAt,
             description,
             extra,

@@ -12,12 +12,13 @@ describe("Get Transaction List", () => {
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
   }));
 
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
   afterAll(async () => {

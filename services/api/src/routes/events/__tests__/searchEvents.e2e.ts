@@ -2,6 +2,10 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import {
+  toActorEntity,
+  toGroupEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
@@ -15,8 +19,8 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Search Events", () => {
   let appTest: AppTest, authorizationToken: string, totalEvents: number;
-  const [firstActor, secondActor] = fc.sample(ActorArb, 2);
-  const groups = fc.sample(GroupArb, 10);
+  const [firstActor, secondActor] = fc.sample(ActorArb, 2).map(toActorEntity);
+  const groups = fc.sample(GroupArb, 10).map(toGroupEntity);
 
   const [groupMember] = fc.sample(GroupMemberArb, 1).map((gm) => ({
     ...gm,
@@ -37,14 +41,10 @@ describe("Search Events", () => {
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(
-      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[]),
-    );
+    await throwTE(appTest.ctx.db.save(ActorEntity, [firstActor, secondActor]));
 
-    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
-    await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[]),
-    );
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups));
+    await throwTE(appTest.ctx.db.save(GroupMemberEntity, [groupMember]));
     const groupMemberEvents = pipe(
       eventsData,
       A.takeLeft(10),

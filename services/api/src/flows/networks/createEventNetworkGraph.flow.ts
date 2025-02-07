@@ -201,7 +201,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           const sourceEv = acc.eventNodes[index - 1];
           evLinks = [
             {
-              source: sourceEv.id as any,
+              source: sourceEv.id,
               target: e.id,
 
               sourceType: "events",
@@ -560,7 +560,7 @@ export const createEventNetworkGraph =
                     if (tuples[1].events?.[0]?.id) {
                       update.keywordLinks.push({
                         source: tuples[1].events?.[0]?.id,
-                        sourceType: "events" as any,
+                        sourceType: "events" as const,
                         target: k.toString(),
                         fill: color,
                         stroke: color,

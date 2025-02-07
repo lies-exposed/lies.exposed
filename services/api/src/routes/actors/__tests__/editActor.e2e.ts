@@ -2,8 +2,12 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { BlockNoteDocumentArb } from "@liexp/shared/lib/tests/arbitrary/common/BlockNoteDocument.arbitrary.js";
 import { ActorArb, GroupArb, MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
@@ -18,7 +22,7 @@ describe("Edit Actor", () => {
   let actor = tests.fc.sample(ActorArb, 1).map((a) => ({
     ...a,
     death: undefined,
-    memberIn: [] as any[],
+    memberIn: [],
     avatar,
   }))[0];
 
@@ -50,7 +54,7 @@ describe("Edit Actor", () => {
       Test.ctx.db.save(ActorEntity, [
         {
           ...actor,
-          avatar: actor.avatar?.id as any,
+          avatar: actor.avatar?.id,
         },
       ]),
     );
@@ -78,7 +82,14 @@ describe("Edit Actor", () => {
   });
 
   test("Should edit the actor", async () => {
-    const editActor = tests.fc.sample(ActorArb, 1)[0];
+    const editActor = tests.fc
+      .sample(ActorArb, 1)
+      .map(({ createdAt, updatedAt, avatar, ...a }) => ({
+        ...a,
+        body: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
+        avatar: avatar ? avatar.id : undefined,
+      }))[0];
+
     const response = await Test.req
       .put(`/v1/actors/${actor.id}`)
       .set("Authorization", authorizationToken)

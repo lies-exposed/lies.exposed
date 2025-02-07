@@ -22,7 +22,7 @@ import { upload } from "../space/upload.flow.js";
 import { takeURLScreenshot } from "../url/takeURLScreenshot.flow.js";
 
 const uploadScreenshot = <C extends SpaceContext & ENVContext>(
-  link: LinkEntity,
+  link: LinkEntity & { image: MediaEntity | null },
   buffer: Buffer,
 ): ReaderTaskEither<C, SpaceError, Partial<MediaEntity>> => {
   const id = link.image?.id ?? link.id;
@@ -35,7 +35,7 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
       ACL: "public-read",
     }),
     fp.RTE.map((upload) => ({
-      ...link.image,
+      ...(link.image ?? {}),
       id,
       creator: link.image?.creator ?? null,
       label: link.image?.label ?? link.title,
@@ -61,7 +61,7 @@ export const takeLinkScreenshotAndSave = <
     SpaceContext &
     ENVContext,
 >(
-  link: LinkEntity,
+  link: LinkEntity & { image: MediaEntity | null },
 ): ReaderTaskEither<C, DBError, LinkEntity> =>
   pipe(
     takeURLScreenshot(link.url)<C>,
@@ -73,7 +73,7 @@ export const takeLinkScreenshotAndSave = <
             id: link.id,
             image: screenshot.location
               ? ({
-                  ...link.image,
+                  ...(link.image ?? {}),
                   ...screenshot,
                   id: screenshot.id,
                   location: screenshot.location,

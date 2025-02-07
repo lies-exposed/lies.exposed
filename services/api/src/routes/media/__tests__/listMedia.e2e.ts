@@ -1,7 +1,6 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { type Uncategorized } from "@liexp/shared/lib/io/http/Events/Uncategorized.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -9,23 +8,25 @@ import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("List Media", () => {
-  let Test: AppTest,
-    authorizationToken: string,
-    media: http.Media.Media[],
-    event: Uncategorized;
+  let Test: AppTest, authorizationToken: string, event: Uncategorized;
+  const media = tests.fc.sample(MediaArb, 100).map((m) => ({
+    ...m,
+    location: m.location + `?timestapm=${new Date().toISOString()}`,
+    creator: undefined,
+    events: [],
+    links: [],
+    keywords: [],
+    areas: [],
+    socialPosts: [],
+    featuredInStories: [],
+  }));
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
 
-    media = tests.fc.sample(MediaArb, 100).map((m) => ({
-      ...m,
-      location: m.location + `?timestapm=${new Date().toISOString()}`,
-      creator: undefined,
-    }));
-
-    await throwTE(Test.ctx.db.save(MediaEntity, media as any[]));
+    await throwTE(Test.ctx.db.save(MediaEntity, media));
 
     [event] = tests.fc.sample(UncategorizedArb, 1);
 
@@ -71,7 +72,7 @@ describe("List Media", () => {
       label,
       socialPosts,
       ...expectedMedia
-    } = media[0] as any;
+    } = media[0];
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(1);

@@ -4,9 +4,9 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import type supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import { type DatabaseContext } from "../context/db.context.js";
-import { UserEntity } from "../entities/User.entity.js";
-import { hash } from "../utils/password.utils.js";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { UserEntity } from "../../entities/User.entity.js";
+import { hash } from "../../utils/password.utils.js";
 
 export const loginUser =
   (ctx: { req: TestAgent<supertest.Test> }) =>

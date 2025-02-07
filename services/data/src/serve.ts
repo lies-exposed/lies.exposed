@@ -3,7 +3,7 @@
 require("module-alias")(process.cwd());
 import * as fs from "fs";
 import * as path from "path";
-import { GetLogger } from "@liexp/core/lib/logger";
+import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import cors from "cors";
 import express from "express";
 import multer from "multer";
@@ -25,7 +25,7 @@ export const run = async (): Promise<void> => {
   const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
       log.debug.log("destination for file %O", { file });
-      const uploadPath = (req.params as any)[0];
+      const uploadPath = (req.params)[0];
       const basePath = path.resolve(
         __dirname,
         "../public",

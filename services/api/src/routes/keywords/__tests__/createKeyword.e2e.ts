@@ -1,4 +1,8 @@
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { TagArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/shared/lib/tests/arbitrary/common/Color.arbitrary.js";
 import { fc } from "@liexp/test";
@@ -6,7 +10,7 @@ import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Create Keyword", () => {
   let Test: AppTest;
-  const users: any[] = [];
+  const users: UserTest[] = [];
   let authorizationToken: string;
 
   beforeAll(async () => {

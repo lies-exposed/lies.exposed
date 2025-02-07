@@ -19,6 +19,7 @@ import { type NERProviderContext } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { type PDFProviderContext } from "../../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
+import { type LinkEntity } from "../../../entities/Link.entity.js";
 import { ServerError } from "../../../errors/ServerError.js";
 import { getOlderThanOr } from "../../../flows/fs/getOlderThanOr.flow.js";
 import {
@@ -95,10 +96,10 @@ const findOneResourceAndMapText = <C extends DatabaseContext>(
     return pipe(
       LinkRepository.findOneOrFail({ where: { id: Equal(body.uuid) } }),
       fp.RTE.filterOrElse(
-        (k) => !!k.description,
+        (k): k is LinkEntity & { description: string } => !!k.description,
         () => ServerError.of(["Link has no description"]),
       ),
-      fp.RTE.map((t): string => t.description as any),
+      fp.RTE.map((t) => t.description),
     );
   }
 
@@ -178,9 +179,9 @@ export const extractEntitiesFromAnyCached = <
 >(
   body: ExtractEntitiesWithNLPInput,
 ): ReaderTaskEither<C, ServerError, ExtractEntitiesWithNLPOutput> => {
-  const bodyHash = GetEncodeUtils((r) =>
-    toRecord<string, string>(r as any),
-  ).hash(body);
+  const bodyHash = GetEncodeUtils<any>((r) => toRecord<string, string>(r)).hash(
+    body,
+  );
 
   return pipe(
     fp.RTE.ask<C>(),
