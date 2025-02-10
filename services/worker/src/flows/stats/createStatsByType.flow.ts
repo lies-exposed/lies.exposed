@@ -264,7 +264,7 @@ export const createStatsByType =
                             startDate: g.startDate ?? undefined,
                             endDate: g.endDate ?? undefined,
                             avatar: pipe(
-                              fp.O.fromNullable(g.avatar),
+                              fp.O.fromNullable(g.avatar as MediaEntity),
                               fp.O.map((avatar) =>
                                 MediaIO.decodeSingle(
                                   avatar,
@@ -288,10 +288,10 @@ export const createStatsByType =
                           {
                             ...a,
                             death: a.death ?? undefined,
-                            bornOn: (a.bornOn as any) ?? undefined,
-                            diedOn: (a.diedOn as any) ?? undefined,
+                            bornOn: a.bornOn ?? undefined,
+                            diedOn: a.diedOn ?? undefined,
                             avatar: pipe(
-                              fp.O.fromNullable(a.avatar),
+                              fp.O.fromNullable(a.avatar as MediaEntity),
                               fp.O.map((avatar) =>
                                 MediaIO.decodeSingle(
                                   avatar,

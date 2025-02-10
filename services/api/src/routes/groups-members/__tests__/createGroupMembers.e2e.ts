@@ -1,7 +1,15 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  toActorEntity,
+  toGroupEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
@@ -12,7 +20,7 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Create Group Member", () => {
   let Test: AppTest;
-  const users: any[] = [];
+  const users: UserTest[] = [];
   let authorizationToken: string;
   let actors: ActorEntity[];
   let groups: GroupEntity[];
@@ -23,16 +31,9 @@ describe("Create Group Member", () => {
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
-    actors = tests.fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      death: undefined,
-      memberIn: [],
-    })) as any[];
+    actors = tests.fc.sample(ActorArb, 1).map(toActorEntity);
 
-    groups = tests.fc.sample(GroupArb, 1).map((g) => ({
-      ...g,
-      members: [],
-    })) as any[];
+    groups = tests.fc.sample(GroupArb, 1).map(toGroupEntity);
 
     await throwTE(Test.ctx.db.save(ActorEntity, actors));
     await throwTE(Test.ctx.db.save(GroupEntity, groups));

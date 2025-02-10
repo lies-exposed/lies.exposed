@@ -40,7 +40,7 @@ export class LinkEntity {
     nullable: true,
   })
   @JoinColumn()
-  image: Relation<MediaEntity | null>;
+  image: Relation<MediaEntity> | UUID | null;
 
   @Column({ type: "timestamptz", nullable: true })
   publishDate: Date | null;

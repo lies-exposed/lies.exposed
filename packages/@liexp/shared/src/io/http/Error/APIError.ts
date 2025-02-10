@@ -1,7 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as E from "fp-ts/lib/Either.js";
 import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { type IOErrorDetails } from "ts-io-error";
 import { type IOError } from "ts-io-error/lib/index.js";
 import { CoreError } from "./CoreError.js";
@@ -53,7 +51,7 @@ export const fromIOError = (e: IOError): APIError => {
         status: e.status as APIStatusCode,
         name: "APIError",
         message: e.message,
-        details: PathReporter.report(E.left(e.details.errors as any[])),
+        details: e.details.errors as any[],
       };
     case "ClientError": {
       return {

@@ -2,20 +2,13 @@ import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as tests from "@liexp/test";
 import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
-import { formatDate } from "../../utils/date.utils.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
 import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export type ActorArbType = Omit<http.Actor.Actor, "bornOn" | "diedOn"> & {
-  memberIn: any[];
-  bornOn: string;
-  diedOn: undefined;
-};
-
-export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
+export const ActorArb: tests.fc.Arbitrary<http.Actor.Actor> = tests
   .getArbitrary(
     t.strict(
       propsOmit(http.Actor.Actor, [
@@ -45,9 +38,12 @@ export const ActorArb: tests.fc.Arbitrary<ActorArbType> = tests
     avatar: tests.fc.sample(MediaArb, 1)[0],
     excerpt: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
     memberIn: [],
-    body: null,
+    body: tests.fc.sample(
+      tests.fc.oneof(tests.fc.constant(null), BlockNoteDocumentArb),
+      1,
+    )[0],
     death: undefined,
-    bornOn: formatDate(new Date()),
+    bornOn: new Date(),
     diedOn: undefined,
     createdAt: new Date(),
     updatedAt: new Date(),

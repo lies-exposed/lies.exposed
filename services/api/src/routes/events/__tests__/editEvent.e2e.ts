@@ -4,10 +4,14 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import {
+  toActorEntity,
+  toGroupEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
+import {
   loginUser,
   saveUser,
   type UserTest,
-} from "@liexp/backend/lib/test/user.utils.js";
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -29,12 +33,8 @@ describe("Edit Event", () => {
   let supporterUser: UserTest;
 
   const [area] = fc.sample(AreaArb, 1);
-  const [actor] = fc.sample(ActorArb, 1).map((a) => ({
-    ...a,
-    death: undefined,
-    memberIn: [],
-  }));
-  const [group] = fc.sample(GroupArb, 1);
+  const [actor] = fc.sample(ActorArb, 1).map(toActorEntity);
+  const [group] = fc.sample(GroupArb, 1).map(toGroupEntity);
   const groupMember = {
     id: fc.sample(UUIDArb, 1)[0],
     actor,
@@ -56,6 +56,7 @@ describe("Edit Event", () => {
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
   }));
 
   beforeAll(async () => {
@@ -64,14 +65,10 @@ describe("Edit Event", () => {
     await throwTE(
       appTest.ctx.db.save(AreaEntity, [{ ...area, featuredImage: null }]),
     );
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor as any]));
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group as any]));
-    await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, [groupMember] as any[]),
-    );
-    const result = await throwTE(
-      appTest.ctx.db.save(EventV2Entity, [event] as any[]),
-    );
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
+    await throwTE(appTest.ctx.db.save(GroupMemberEntity, [groupMember]));
+    const result = await throwTE(appTest.ctx.db.save(EventV2Entity, [event]));
 
     const eventExcerpt = toInitialValue("Death of an actor");
     const eventBody = toInitialValue("Death of an actor extended");

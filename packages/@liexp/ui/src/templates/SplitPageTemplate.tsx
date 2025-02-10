@@ -114,7 +114,14 @@ interface AsideSubject {
 }
 
 const isAsideSubject = (a: unknown): a is AsideSubject => {
-  return (a as any).id !== undefined && (a as any).name !== undefined;
+  return (
+    typeof a === "object" &&
+    !!a &&
+    "id" in a &&
+    a.id !== undefined &&
+    "name" in a &&
+    a.name !== undefined
+  );
 };
 
 export interface SplitPageTemplateProps {

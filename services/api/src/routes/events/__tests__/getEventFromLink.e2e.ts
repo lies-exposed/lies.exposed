@@ -15,11 +15,15 @@ import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 describe("Get event from link", () => {
   let appTest: AppTest;
   const [firstActor, secondActor] = fc.sample(ActorArb, 2);
-  const groups = fc.sample(GroupArb, 2);
+  const groups = fc.sample(GroupArb, 2).map((g) => ({
+    ...g,
+    subGroups: [],
+    members: [],
+  }));
   const groupsMembers = fc.sample(GroupMemberArb, 2).map((gm, i) => ({
     ...gm,
-    actor: firstActor.id,
-    group: groups[i].id,
+    actor: { id: firstActor.id },
+    group: { id: groups[i].id },
   }));
   const eventTitle = "very complicated title supercalifragilistichespiralidoso";
   const eventsData = fc.sample(UncategorizedArb, 2).map((e, i) => ({
@@ -36,22 +40,19 @@ describe("Get event from link", () => {
     keywords: [],
     links: [],
     media: [],
+    socialPosts: [],
   }));
 
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(
-      appTest.ctx.db.save(ActorEntity, [firstActor, secondActor] as any[]),
-    );
-    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
-    await throwTE(
-      appTest.ctx.db.save(GroupMemberEntity, groupsMembers as any[]),
-    );
+    await throwTE(appTest.ctx.db.save(ActorEntity, [firstActor, secondActor]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups));
+    await throwTE(appTest.ctx.db.save(GroupMemberEntity, groupsMembers));
 
     const events = [...eventsData];
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, events as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, events));
   });
 
   afterAll(async () => {

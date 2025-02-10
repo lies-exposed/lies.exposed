@@ -6,7 +6,6 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Upload file", () => {
   let Test: AppTest, authorizationToken: string;
-  // const media: any[] = [];
 
   beforeAll(async () => {
     Test = await GetAppTest();

@@ -1,4 +1,5 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { extractRelationsFromURL } from "@liexp/backend/lib/flows/admin/nlp/extractRelationsFromURL.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -21,10 +22,11 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
       return pipe(
-        ctx.db.findOne(LinkEntity, {
+        ctx.db.findOne<LinkEntity & { image: MediaEntity }>(LinkEntity, {
           where: {
             url: Equal(url),
           },
+          relations: ["image"],
         }),
         TE.chain((link) => {
           const linkAndMetadata = sequenceS(TE.ApplicativePar)({

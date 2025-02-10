@@ -1,7 +1,11 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
-import { loginUser, saveUser } from "@liexp/backend/lib/test/user.utils.js";
+import {
+  loginUser,
+  saveUser,
+  type UserTest,
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
@@ -17,7 +21,7 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Create Event", () => {
   let appTest: AppTest;
-  const users: any[] = [];
+  const users: UserTest[] = [];
   let authorizationToken: string;
 
   let event: http.Events.Uncategorized.Uncategorized;
@@ -36,7 +40,7 @@ describe("Create Event", () => {
     users.push(user);
     const { authorization } = await loginUser(appTest)(user);
     authorizationToken = authorization;
-    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors));
     await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
   });
 

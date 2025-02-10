@@ -1,3 +1,4 @@
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import {
   Column,
   CreateDateColumn,
@@ -26,10 +27,10 @@ export class GroupMemberEntity {
   endDate: Date | null;
 
   @Column({ type: "json", nullable: true })
-  excerpt: any[] | null;
+  excerpt: BlockNoteDocument | null;
 
   @Column({ type: "json", nullable: true })
-  body: any[] | null;
+  body: BlockNoteDocument | null;
 
   @ManyToOne(() => GroupEntity, (g) => g.id, {
     nullable: false,

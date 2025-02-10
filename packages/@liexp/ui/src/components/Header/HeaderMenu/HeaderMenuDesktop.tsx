@@ -75,7 +75,7 @@ const HeaderMenuDesktopDiv = styled("div")(({ theme }) => ({
   },
   [`& .${classes.menuItemLink}`]: {
     color: theme.palette.text.primary,
-    ...(theme.typography.subtitle1 as any),
+    ...theme.typography.subtitle1,
     // fontWeight: theme.typography.fontWeightBold as any,
     fontSize: 14,
     margin: 0,

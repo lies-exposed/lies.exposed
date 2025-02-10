@@ -3,6 +3,7 @@ import { fc, getArbitrary } from "@liexp/test";
 import * as t from "io-ts";
 import * as Events from "../../../io/http/Events/index.js";
 import { DateArb } from "../Date.arbitrary.js";
+import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 export const PatentEventArb = getArbitrary(
@@ -29,8 +30,8 @@ export const PatentEventArb = getArbitrary(
   createdAt: fc.sample(DateArb, 1)[0],
   updatedAt: fc.sample(DateArb, 1)[0],
   deletedAt: undefined,
-  excerpt: {},
-  body: {},
+  excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
+  body: fc.sample(BlockNoteDocumentArb, 1)[0],
   media: fc.sample(UUIDArb, 5),
   keywords: fc.sample(UUIDArb, 5),
   links: fc.sample(UUIDArb, 5),

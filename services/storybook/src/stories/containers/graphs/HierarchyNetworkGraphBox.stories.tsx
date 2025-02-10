@@ -115,19 +115,19 @@ EventsByGroups.args = {
   },
 };
 
-const OneHierarchyNetwork = Template.bind({});
-OneHierarchyNetwork.args = {
-  type: "events" as any,
-  relations: [GROUPS.value],
-  id: "c82575ea-120e-467b-8d75-cbf7e49d721a",
-  query: {
-    ...commonQuery,
-  },
-};
+// const OneHierarchyNetwork = Template.bind({});
+// OneHierarchyNetwork.args = {
+//   type: "events" as const,
+//   relations: [GROUPS.value],
+//   id: "c82575ea-120e-467b-8d75-cbf7e49d721a",
+//   query: {
+//     ...commonQuery,
+//   },
+// };
 
 export {
   EventsByActors,
   EventsByKeywords,
   EventsByGroups,
-  OneHierarchyNetwork,
+  // OneHierarchyNetwork,
 };

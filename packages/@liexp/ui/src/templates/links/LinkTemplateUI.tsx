@@ -30,6 +30,7 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
             <MediaElement
               media={{
                 ...link.image,
+                label: link.image.label ?? link.image.location,
                 events: [],
                 links: [],
                 keywords: [],

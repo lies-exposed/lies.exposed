@@ -1,4 +1,5 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
@@ -27,17 +28,18 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
     return pipe(
       TE.Do,
       TE.bind("link", () =>
-        ctx.db.findOne(LinkEntity, {
+        ctx.db.findOne<LinkEntity & { image?: MediaEntity }>(LinkEntity, {
           where: {
             url: Equal(url),
           },
+          relations: ["image"],
         }),
       ),
       TE.bind("metadata", ({ link }) => {
         if (O.isSome(link)) {
           return TE.right<ControllerError, Metadata>({
             date: link.value.publishDate?.toISOString() ?? undefined,
-            title: undefined as any,
+            title: link.value.title,
             description: link.value.description ?? link.value.title,
             keywords: [],
             icon: "",
@@ -140,7 +142,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                     owners: {
                       actors: [],
                       groups: [],
-                    } as any,
+                    },
                   },
                 },
               },
@@ -168,7 +170,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               type: Events.EventTypes.DEATH.value,
               payload: {
                 victim: uuid(),
-                location: undefined as any,
+                location: undefined,
               },
             },
           },
@@ -182,8 +184,8 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 actors: [],
                 groups: [],
                 groupsMembers: [],
-                endDate: undefined as any,
-                location: undefined as any,
+                endDate: undefined,
+                location: undefined,
               },
             },
           },

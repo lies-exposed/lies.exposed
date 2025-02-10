@@ -20,6 +20,32 @@ vi.mock("../../client/api", () => ({ apiProvider: apiProviderMock }));
 describe("EndpointQueriesProvider", () => {
   const queries = fromEndpoints(apiProviderMock)(TestEndpoints);
   const { Queries: Q } = CreateQueryProvider(queries, overrides);
+  const actorData = fc.sample(ActorArb, 10).map((a) => ({
+    ...a,
+    avatar: a.avatar
+      ? {
+          ...a.avatar,
+          createdAt: a.avatar.createdAt.toISOString(),
+          updatedAt: a.avatar.updatedAt.toISOString(),
+        }
+      : undefined,
+    bornOn: a.bornOn ? a.bornOn.toISOString() : undefined,
+    diedOn: a.diedOn ? a.diedOn.toISOString() : undefined,
+    createdAt: a.createdAt.toISOString(),
+    updatedAt: a.updatedAt.toISOString(),
+  }));
+
+  const toExpectedActor = (a: any) => ({
+    ...a,
+    avatar: {
+      ...a.avatar,
+      createdAt: parseISO(a.avatar.createdAt),
+      updatedAt: parseISO(a.avatar.updatedAt),
+    },
+    bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
+    updatedAt: parseISO(a.updatedAt),
+    createdAt: parseISO(a.createdAt),
+  });
 
   afterEach(() => {
     apiProviderMock.get.mockReset();
@@ -35,20 +61,11 @@ describe("EndpointQueriesProvider", () => {
   });
 
   it("should have Actor get", async () => {
-    const [actorData] = fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      avatar: a.avatar
-        ? {
-            ...a.avatar,
-            createdAt: a.avatar.createdAt.toISOString(),
-            updatedAt: a.avatar.updatedAt.toISOString(),
-          }
-        : undefined,
-      createdAt: a.createdAt.toISOString(),
-      updatedAt: a.updatedAt.toISOString(),
-    }));
+    const firstActor = actorData[0];
 
-    apiProviderMock.get.mockResolvedValue({ data: actorData });
+    apiProviderMock.get.mockResolvedValue({
+      data: firstActor,
+    });
 
     const params = { id: "1" };
     const actorKey = Q.Actor.get.getKey(params);
@@ -61,35 +78,15 @@ describe("EndpointQueriesProvider", () => {
       id: "1",
     });
 
-    expect(actor).toMatchObject({
-      ...actorData,
-      avatar: actorData.avatar
-        ? {
-            ...actorData.avatar,
-            createdAt: parseISO(actorData.avatar.createdAt),
-            updatedAt: parseISO(actorData.avatar.updatedAt),
-          }
-        : undefined,
-      bornOn: actorData.bornOn ? new Date(actorData.bornOn) : undefined,
-      updatedAt: parseISO(actorData.updatedAt),
-      createdAt: parseISO(actorData.createdAt),
-    });
+    expect(actor).toMatchObject(toExpectedActor(firstActor));
   });
 
   it("should have Actor getList", async () => {
-    const actorData = fc.sample(ActorArb, 10).map((a) => ({
-      ...a,
-      avatar: a.avatar
-        ? {
-            ...a.avatar,
-            createdAt: a.avatar.createdAt.toISOString(),
-            updatedAt: a.avatar.updatedAt.toISOString(),
-          }
-        : undefined,
-      createdAt: a.createdAt.toISOString(),
-      updatedAt: a.updatedAt.toISOString(),
-    }));
-    apiProviderMock.getList.mockResolvedValue({ data: actorData, total: 2 });
+    const actorList = [...actorData].slice(0, 2);
+    apiProviderMock.getList.mockResolvedValue({
+      data: actorList,
+      total: 2,
+    });
 
     expect(Q.Actor.list).toBeDefined();
     const params = {
@@ -110,34 +107,15 @@ describe("EndpointQueriesProvider", () => {
       },
     });
     expect(actor).toMatchObject({
-      data: actorData.map((a) => ({
-        ...a,
-        avatar: {
-          ...a.avatar!,
-          createdAt: parseISO(a.avatar!.createdAt),
-          updatedAt: parseISO(a.avatar!.updatedAt),
-        },
-        bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
-        updatedAt: parseISO(a.updatedAt),
-        createdAt: parseISO(a.createdAt),
-      })),
+      data: actorList.map(toExpectedActor),
       total: 2,
     });
   });
 
   it("should have Actor Custom Query", async () => {
-    const actorData = fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      avatar: {
-        ...a.avatar!,
-        createdAt: a.avatar!.createdAt.toISOString(),
-        updatedAt: a.avatar!.updatedAt.toISOString(),
-      },
-      createdAt: a.createdAt.toISOString(),
-      updatedAt: a.updatedAt.toISOString(),
-    }));
+    const data = [...actorData].slice(0, 1);
 
-    apiProviderMock.request.mockResolvedValue({ data: actorData });
+    apiProviderMock.request.mockResolvedValue({ data: data });
 
     expect(Q.Actor.Custom).toBeDefined();
 
@@ -149,6 +127,7 @@ describe("EndpointQueriesProvider", () => {
       undefined,
       false,
     ]);
+
     const actor = await Q.Actor.Custom.GetSiblings.fetch(actorParams);
 
     expect(apiProviderMock.request).toHaveBeenCalledWith({
@@ -162,33 +141,15 @@ describe("EndpointQueriesProvider", () => {
       },
     });
     expect(actor).toMatchObject({
-      data: actorData.map((a) => ({
-        ...a,
-        avatar: {
-          ...a.avatar,
-          createdAt: parseISO(a.avatar.createdAt),
-          updatedAt: parseISO(a.avatar.updatedAt),
-        },
-        bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
-        updatedAt: parseISO(a.updatedAt),
-        createdAt: parseISO(a.createdAt),
-      })),
+      data: data.map(toExpectedActor),
     });
   });
 
   it("should have Actor Custom Query Override", async () => {
-    const actorData = fc.sample(ActorArb, 1).map((a) => ({
-      ...a,
-      avatar: {
-        ...a.avatar!,
-        createdAt: a.avatar!.createdAt.toISOString(),
-        updatedAt: a.avatar!.updatedAt.toISOString(),
-      },
-      createdAt: a.createdAt.toISOString(),
-      updatedAt: a.updatedAt.toISOString(),
-    }));
-
-    apiProviderMock.getList.mockResolvedValue({ data: actorData, total: 1 });
+    apiProviderMock.getList.mockResolvedValue({
+      data: actorData,
+      total: actorData.length,
+    });
 
     expect(Q.Actor.Custom).toBeDefined();
 
@@ -217,17 +178,8 @@ describe("EndpointQueriesProvider", () => {
       },
     });
     expect(actor).toMatchObject({
-      data: actorData.map((a) => ({
-        ...a,
-        avatar: {
-          ...a.avatar,
-          createdAt: parseISO(a.avatar.createdAt),
-          updatedAt: parseISO(a.avatar.updatedAt),
-        },
-        bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
-        updatedAt: parseISO(a.updatedAt),
-        createdAt: parseISO(a.createdAt),
-      })),
+      data: actorData.map(toExpectedActor),
+      total: actorData.length,
     });
   });
 });

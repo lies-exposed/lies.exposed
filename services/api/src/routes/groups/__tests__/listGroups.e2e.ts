@@ -1,7 +1,9 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -14,16 +16,50 @@ describe("List Groups", () => {
   let appTest: AppTest;
   let authorizationToken: string;
   let totalEvents: number;
-  const actors = fc.sample(ActorArb, 10);
-  const groups = fc.sample(GroupArb, 100);
-  let groupMembers: any[];
+  const actors = fc.sample(ActorArb, 10).map((a) => ({
+    ...a,
+    avatar: a.avatar
+      ? ({
+          ...a.avatar,
+          stories: [],
+          featuredInAreas: [],
+        } as any as MediaEntity)
+      : null,
+    groups: [],
+    stories: [],
+    events: [],
+    eventCount: 0,
+    bornOn: a.bornOn ?? null,
+    diedOn: a.diedOn ?? null,
+    death: null,
+    old_avatar: null,
+    deletedAt: null,
+  }));
+  const groups = fc.sample(GroupArb, 100).map((g) => ({
+    ...g,
+    username: g.username ?? null,
+    avatar: g.avatar
+      ? ({
+          ...g.avatar,
+          stories: [],
+          featuredInAreas: [],
+        } as any as MediaEntity)
+      : null,
+    startDate: g.startDate ?? null,
+    endDate: g.endDate ?? null,
+    members: [],
+    stories: [],
+    old_avatar: null,
+    deletedAt: null,
+  }));
+  let groupMembers: Partial<GroupMemberEntity>[];
 
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, actors as any[]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, actors));
 
-    await throwTE(appTest.ctx.db.save(GroupEntity, groups as any[]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups));
 
     groupMembers = pipe(
       groups,
@@ -32,7 +68,7 @@ describe("List Groups", () => {
         actor: actors[0],
         group: g,
         startDate: new Date(),
-        body: `${g.name} => ${actors[0].fullName}`,
+        body: toInitialValue(`${g.name} => ${actors[0].fullName}`),
       })),
     );
 
@@ -49,7 +85,7 @@ describe("List Groups", () => {
     await throwTE(
       appTest.ctx.db.delete(
         GroupMemberEntity,
-        groupMembers.map((g) => g.id),
+        groupMembers.flatMap((g) => (g.id ? [g.id] : [])),
       ),
     );
     await throwTE(

@@ -23,7 +23,7 @@ export const loginCommand = ({
     logger.debug.log(`Match %O`, match);
 
     const [email, token] = match[1].split(" ");
-    const commandContext: any = {
+    const commandContext = {
       email: email.trim(),
       token: token.trim(),
     };

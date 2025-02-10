@@ -42,6 +42,7 @@ export const getSuggestions =
         l.image
           ? {
               ...l.image,
+              label: l.image.label ?? l.title ?? l.image.location,
               creator: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),

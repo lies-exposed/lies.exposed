@@ -22,6 +22,7 @@ import { type QueuesProviderContext } from "../../context/queue.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
+import { type MediaEntity } from "../../entities/Media.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/index.js";
 import { type DBError } from "../../providers/orm/index.js";
@@ -57,11 +58,15 @@ export const parseURLs =
       O.getOrElse((): URL[] => []),
       A.map((url) => {
         return pipe(
-          ctx.db.findOne(LinkEntity, {
-            where: {
-              url: Equal(url),
+          ctx.db.findOne<LinkEntity & { image: MediaEntity | null }>(
+            LinkEntity,
+            {
+              where: {
+                url: Equal(url),
+              },
+              relations: ["image"],
             },
-          }),
+          ),
           TE.chain((link) => {
             if (O.isSome(link)) {
               ctx.logger.info.log("Link found %s", link.value.id);

@@ -6,7 +6,7 @@ import {
   type UserTest,
   loginUser,
   saveUser,
-} from "@liexp/backend/lib/test/user.utils.js";
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";

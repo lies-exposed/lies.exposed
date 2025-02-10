@@ -55,7 +55,7 @@ export class MediaEntity {
     nullable: true,
   })
   @JoinTable()
-  creator: Relation<UserEntity | null>;
+  creator: Relation<UserEntity> | UUID | null;
 
   @Column({
     type: "json",
