@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
 import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
@@ -13,6 +14,7 @@ export type ACTORS = t.TypeOf<typeof ACTORS>;
 
 export const GetListActorQueryFilter = t.partial({
   ids: optionFromNullable(t.array(t.string)),
+  withDeleted: optionFromNullable(BooleanFromString),
 });
 
 export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;

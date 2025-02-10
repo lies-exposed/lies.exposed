@@ -14,6 +14,7 @@ import { DBService } from "../../services/db.service.js";
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none,
   q: O.none,
+  withDeleted: O.none,
   _end: O.some(20 as Int),
   _start: O.some(0 as Int),
   _order: O.some("DESC"),
@@ -24,10 +25,10 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
 ): ReaderTaskEither<C, DBError, { total: number; results: ActorEntity[] }> => {
   const finalQuery = { ...defaultQuery, ...query };
 
-  const { ids, q: search, ...otherQuery } = finalQuery;
+  const { ids, q: search, withDeleted, ...otherQuery } = finalQuery;
 
   return pipe(
-    DBService.getORMOptions<C>({ ...otherQuery }),
+    DBService.getORMOptions<C, typeof otherQuery>({ ...otherQuery }),
     fp.RTE.fromReader,
     fp.RTE.chain((findOptions) =>
       DBService.execQuery((em) =>
@@ -42,6 +43,11 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
                 ids: ids.value,
               });
             }
+
+            if (O.isSome(withDeleted) && withDeleted.value) {
+              q.andWhere("actors.deletedAt IS NOT NULL");
+            }
+
             if (O.isSome(search)) {
               return q.andWhere(
                 "lower(unaccent(actors.fullName)) LIKE :fullName",

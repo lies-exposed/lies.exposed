@@ -7,9 +7,11 @@ import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ValidationError } from "io-ts";
 
+type EitherE<A> = E.Either<_DecodeError, A>;
+
 export interface IOCodec<T, A, Args extends any[]> {
-  decodeSingle: (a: A, ...args: Args) => E.Either<_DecodeError, T>;
-  decodeMany: (a: A[], ...args: Args) => E.Either<_DecodeError, T[]>;
+  decodeSingle: (a: A, ...args: Args) => EitherE<T>;
+  decodeMany: (a: A[], ...args: Args) => EitherE<T[]>;
 }
 
 const toIOCodecError =
@@ -26,10 +28,10 @@ export const IOCodec = <T, A, Args extends any[]>(
   resource: string,
 ): IOCodec<T, A, Args> => {
   return {
-    decodeSingle: (b: A, ...args: Args): E.Either<_DecodeError, T> => {
+    decodeSingle: (b: A, ...args: Args): EitherE<T> => {
       return pipe(f(b, ...args), E.mapLeft(toIOCodecError(resource)));
     },
-    decodeMany: (a: A[], ...args: Args): E.Either<_DecodeError, T[]> => {
+    decodeMany: (a: A[], ...args: Args): EitherE<T[]> => {
       return pipe(
         a,
         fp.A.traverse(E.Applicative)((a) => f(a, ...args)),
