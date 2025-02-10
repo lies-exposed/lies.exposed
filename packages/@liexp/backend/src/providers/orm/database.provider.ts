@@ -124,9 +124,25 @@ const toDBErrorReader =
     l.error.log("An error occurred %O", e);
     return toDBError(o)(e);
   };
+
 const pgFormat: FormatConfig = {
   escapeIdentifier: (str) => escapePostgresIdentifier(str),
   formatValue: (value, index) => ({ placeholder: `$${index + 1}`, value }),
+};
+
+const getEntityName = (entity: EntityTarget<any>): string => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    const entityName = entity.toString();
+
+    return entityName
+      .replace("class ", "")
+      .replace(" {", "")
+      .replace("\n", "")
+      .replace("}", "");
+  } catch (e) {
+    return "UnknownEntity";
+  }
 };
 
 const GetDatabaseClient: GetDatabaseClient = (ctx) => {
@@ -158,7 +174,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     findOne: (entity, options) => {
-      ctx.logger.debug.log(`findOne %s with options %O`, entity, options);
+      ctx.logger.debug.log(
+        `findOne %s with options %O`,
+        getEntityName(entity),
+        options,
+      );
       return pipe(
         TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
@@ -170,7 +190,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     findOneOrFail: (entity, options) => {
       ctx.logger.debug.log(
         `findOneOrFail %s with options %O`,
-        entity.valueOf().constructor.name,
+        getEntityName(entity),
         options,
       );
       return TE.tryCatch(
@@ -179,7 +199,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     find: (entity, options) => {
-      ctx.logger.debug.log(`find %s with options %O`, entity, options);
+      ctx.logger.debug.log(
+        `find %s with options %O`,
+        getEntityName(entity),
+        options,
+      );
       return TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         handleError(),
@@ -188,7 +212,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     findAndCount: (entity, options) => {
       ctx.logger.debug.log(
         `find and count %s with options %O`,
-        entity,
+        getEntityName(entity),
         options,
       );
       return TE.tryCatch(
@@ -197,7 +221,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       );
     },
     count: (entity, options) => {
-      ctx.logger.debug.log(`count %s with options %O`, entity, options);
+      ctx.logger.debug.log(
+        `count %s with options %O`,
+        getEntityName(entity),
+        options,
+      );
       return TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
         handleError(),
@@ -235,7 +263,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     delete: (entity, criteria) => {
       ctx.logger.debug.log(
         `delete entity %s by criteria %O`,
-        entity.valueOf().constructor.name,
+        getEntityName(entity),
         criteria,
       );
       return TE.tryCatch(
@@ -246,7 +274,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     softDelete: (entity, criteria) => {
       ctx.logger.debug.log(
         `delete (soft) entity %s by criteria %O`,
-        entity.valueOf().constructor.name,
+        getEntityName(entity),
         criteria,
       );
       return TE.tryCatch(
