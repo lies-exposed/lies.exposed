@@ -298,11 +298,11 @@ importers:
   packages/@liexp/shared:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.23.2
-        version: 0.23.2(@types/hast@3.0.4)
+        specifier: ^0.23.3
+        version: 0.23.3(@types/hast@3.0.4)
       '@blocknote/server-util':
-        specifier: ^0.23.2
-        version: 0.23.2(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.3
+        version: 0.23.3(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -429,14 +429,14 @@ importers:
   packages/@liexp/ui:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.23.2
-        version: 0.23.2(@types/hast@3.0.4)
+        specifier: ^0.23.3
+        version: 0.23.3(@types/hast@3.0.4)
       '@blocknote/mantine':
-        specifier: ^0.23.2
-        version: 0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.3
+        version: 0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@blocknote/react':
-        specifier: ^0.23.2
-        version: 0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.23.3
+        version: 0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0
@@ -1659,23 +1659,23 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@blocknote/core@0.23.2':
-    resolution: {integrity: sha512-rPKiWJq/Tg479PFk5DPY4xMqX5puPqSidD5cYrBHYdt9dXvuqAnMNbdDhYpRM9bA7XmLXkYG46kSzUjI58ZIBA==}
+  '@blocknote/core@0.23.3':
+    resolution: {integrity: sha512-gohFsKc5vKaMs1sdE4MswKMNGNpVvxOX57Zw6JNXoIzTLU3JILGkvRwRz6bdPUrSvuF3AF7fYQ4WqIuwq167GQ==}
 
-  '@blocknote/mantine@0.23.2':
-    resolution: {integrity: sha512-rg6nD+XiS9NuMoZP1QMIT//SyDR0tukPkfJZ/P88mL9n1j0Cw3RNzKwfZgQR3WYwMMIPum2Zx++iZtAo8mONPA==}
+  '@blocknote/mantine@0.23.3':
+    resolution: {integrity: sha512-O7EL6Vag79K6imLvLRj5Y40GSH53li8dcmpIro7I5OgJQV52kQ9t7/NR2tQ1l+EVaiOdKwx04QE1ILCzpI6Mxw==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/react@0.23.2':
-    resolution: {integrity: sha512-/6eqWmA4gRDskCX/2HUAf/i4OzxeObg/59wpHu3rjQLGHCiGrgQx9pLyO2tf/sy0b+WstXpKlSj2V13YJ45E+Q==}
+  '@blocknote/react@0.23.3':
+    resolution: {integrity: sha512-6XtCzY2q7NnzKegSrq4SxvmCxjRjK2OA2W8Fe82wsXmTF+/rbJapu+pBShanRGgrI9kWhsbj2RZm9A3IO6hnjA==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/server-util@0.23.2':
-    resolution: {integrity: sha512-5QFwqtS1+Lkhtj/tdF4lH7WmfpV1WgeCo2qI6rVp/5wZkW74ph9/9cY4pzD92e1ztGv9gzfEVYAEK2/e+qbfOw==}
+  '@blocknote/server-util@0.23.3':
+    resolution: {integrity: sha512-NzgbusgvCWXWTS4Ty5x7I3/yfA4lJSx+6wdd5wFZJoAwyI7pXW9aTrk9E5VlMPzVqLAzL8l5A2QJtZFzDFs3mA==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
@@ -3062,15 +3062,15 @@ packages:
   '@lifeomic/attempt@3.1.0':
     resolution: {integrity: sha512-QZqem4QuAnAyzfz+Gj5/+SLxqwCAw2qmt7732ZXodr6VDWGeYLG6w1i/vYLa55JQM9wRuBKLmXmiZ2P0LtE5rw==}
 
-  '@mantine/core@7.16.2':
-    resolution: {integrity: sha512-6dwFz+8HrOqFan7GezgpoWyZSCxedh10S8iILGVsc3GXiD4gzo+3VZndZKccktkYZ3GVC9E3cCS3SxbiyKSAVw==}
+  '@mantine/core@7.16.3':
+    resolution: {integrity: sha512-cxhIpfd2i0Zmk9TKdejYAoIvWouMGhzK3OOX+VRViZ5HEjnTQCGl2h3db56ThqB6NfVPCno6BPbt5lwekTtmuQ==}
     peerDependencies:
-      '@mantine/hooks': 7.16.2
+      '@mantine/hooks': 7.16.3
       react: ^18.x || ^19.x
       react-dom: ^18.x || ^19.x
 
-  '@mantine/hooks@7.16.2':
-    resolution: {integrity: sha512-ZFHQhDi9T+r6VR5NEeE47gigPPIAHVIKDOCWsCsbCqHc3yz5l8kiO2RdfUmsTKV2KD/AiXnAw4b6pjQEP58GOg==}
+  '@mantine/hooks@7.16.3':
+    resolution: {integrity: sha512-B94FBWk5Sc81tAjV+B3dGh/gKzfqzpzVC/KHyBRWOOyJRqeeRbI/FAaJo4zwppyQo1POSl5ArdyjtDRrRIj2SQ==}
     peerDependencies:
       react: ^18.x || ^19.x
 
@@ -9858,8 +9858,15 @@ packages:
   tldts-core@6.1.74:
     resolution: {integrity: sha512-gTwtY6L2GfuxiL4CWpLknv9JDYYqBvKCk/BT5uAaAvCA0s6pzX7lr2IrkQZSUlnSjRHIjTl8ZwKCVXJ7XNRWYw==}
 
+  tldts-core@6.1.77:
+    resolution: {integrity: sha512-bCaqm24FPk8OgBkM0u/SrEWJgHnhBWYqeBo6yUmcZJDCHt/IfyWBb+14CXdGi4RInMv4v7eUAin15W0DoA+Ytg==}
+
   tldts@6.1.74:
     resolution: {integrity: sha512-O5vTZ1UmmEmrLl/59U9igitnSMlprALLaLgbv//dEvjobPT9vyURhHXKMCDLEhn3qxZFIkb9PwAfNYV0Ol7RPQ==}
+    hasBin: true
+
+  tldts@6.1.77:
+    resolution: {integrity: sha512-lBpoWgy+kYmuXWQ83+R7LlJCnsd9YW8DGpZSHhrMl4b8Ly/1vzOie3OdtmUJDkKxcgRGOehDu5btKkty+JEe+g==}
     hasBin: true
 
   to-no-case@1.0.2:
@@ -9901,6 +9908,10 @@ packages:
 
   tough-cookie@5.1.0:
     resolution: {integrity: sha512-rvZUv+7MoBYTiDmFPBrhL7Ujx9Sk+q9wwm22x8c8T5IJaR+Wsyc7TNxbVxo84kZoRJZZMazowFLqpankBEQrGg==}
+    engines: {node: '>=16'}
+
+  tough-cookie@5.1.1:
+    resolution: {integrity: sha512-Ek7HndSVkp10hmHP9V4qZO1u+pn1RU5sI0Fw+jCU3lyvuMZcgqsNgc6CmJJZyByK4Vm/qotGRJlfgAX8q+4JiA==}
     engines: {node: '>=16'}
 
   tr46@0.0.3:
@@ -10018,8 +10029,8 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@4.33.0:
-    resolution: {integrity: sha512-s6zVrxuyKbbAsSAD5ZPTB77q4YIdRctkTbJ2/Dqlinwz+8ooH2gd+YA7VA6Pa93KML9GockVvoxjZ2vHP+mu8g==}
+  type-fest@4.34.1:
+    resolution: {integrity: sha512-6kSc32kT0rbwxD6QL1CYe8IqdzN/J/ILMrNK+HMQCKH3insCDRY/3ITb0vcBss0a3t72fzh2YSzj8ko1HgwT3g==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -11456,7 +11467,7 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@blocknote/core@0.23.2(@types/hast@3.0.4)':
+  '@blocknote/core@0.23.3(@types/hast@3.0.4)':
     dependencies:
       '@emoji-mart/data': 1.2.1
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
@@ -11509,12 +11520,12 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/mantine@0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/mantine@0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.23.2(@types/hast@3.0.4)
-      '@blocknote/react': 0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/core': 7.16.2(@mantine/hooks@7.16.2(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.16.2(react@18.3.1)
+      '@blocknote/core': 0.23.3(@types/hast@3.0.4)
+      '@blocknote/react': 0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/core': 7.16.3(@mantine/hooks@7.16.3(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mantine/hooks': 7.16.3(react@18.3.1)
       '@mantine/utils': 6.0.22(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -11529,9 +11540,9 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/react@0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/react@0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.23.2(@types/hast@3.0.4)
+      '@blocknote/core': 0.23.3(@types/hast@3.0.4)
       '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
       '@tiptap/react': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.5))(@tiptap/pm@2.11.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11548,10 +11559,10 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/server-util@0.23.2(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/server-util@0.23.3(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.37.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.23.2(@types/hast@3.0.4)
-      '@blocknote/react': 0.23.2(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@blocknote/core': 0.23.3(@types/hast@3.0.4)
+      '@blocknote/react': 0.23.3(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
       '@tiptap/pm': 2.11.5
       jsdom: 25.0.1(canvas@2.11.2)
@@ -12546,21 +12557,21 @@ snapshots:
 
   '@lifeomic/attempt@3.1.0': {}
 
-  '@mantine/core@7.16.2(@mantine/hooks@7.16.2(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@mantine/core@7.16.3(@mantine/hooks@7.16.3(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.16.2(react@18.3.1)
+      '@mantine/hooks': 7.16.3(react@18.3.1)
       clsx: 2.1.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       react-number-format: 5.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-remove-scroll: 2.6.3(@types/react@18.3.18)(react@18.3.1)
       react-textarea-autosize: 8.5.6(@types/react@18.3.18)(react@18.3.1)
-      type-fest: 4.33.0
+      type-fest: 4.34.1
     transitivePeerDependencies:
       - '@types/react'
 
-  '@mantine/hooks@7.16.2(react@18.3.1)':
+  '@mantine/hooks@7.16.3(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
@@ -17691,7 +17702,7 @@ snapshots:
       rrweb-cssom: 0.7.1
       saxes: 6.0.0
       symbol-tree: 3.2.4
-      tough-cookie: 5.1.0
+      tough-cookie: 5.1.1
       w3c-xmlserializer: 5.0.0
       webidl-conversions: 7.0.0
       whatwg-encoding: 3.1.1
@@ -20762,9 +20773,15 @@ snapshots:
 
   tldts-core@6.1.74: {}
 
+  tldts-core@6.1.77: {}
+
   tldts@6.1.74:
     dependencies:
       tldts-core: 6.1.74
+
+  tldts@6.1.77:
+    dependencies:
+      tldts-core: 6.1.77
 
   to-no-case@1.0.2: {}
 
@@ -20808,6 +20825,10 @@ snapshots:
   tough-cookie@5.1.0:
     dependencies:
       tldts: 6.1.74
+
+  tough-cookie@5.1.1:
+    dependencies:
+      tldts: 6.1.77
 
   tr46@0.0.3: {}
 
@@ -20909,7 +20930,7 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@4.33.0: {}
+  type-fest@4.34.1: {}
 
   type-is@1.6.18:
     dependencies:
