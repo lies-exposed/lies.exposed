@@ -16,11 +16,13 @@ const execQuery =
     return pipe(ctx.db.execQuery(fn));
   };
 
+type ListQueryDefault = Omit<Query.GetListQuery, "q"> & Query.FilterQuery;
+
 export const DBService = {
   execQuery,
   getORMOptions:
-    <R extends ENVContext>(
-      opts: Omit<Query.GetListQuery, "q"> & Query.FilterQuery,
+    <R extends ENVContext, O extends ListQueryDefault = ListQueryDefault>(
+      opts: O,
       pageSize?: number,
     ): Reader<R, ORMOptions> =>
     (ctx) => {

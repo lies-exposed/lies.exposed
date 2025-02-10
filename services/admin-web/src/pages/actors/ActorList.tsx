@@ -1,9 +1,19 @@
 import { ActorDataGrid } from "@liexp/ui/lib/components/admin/actors/ActorDataGrid.js";
-import { List, TextInput } from "@liexp/ui/lib/components/admin/react-admin.js";
+import {
+  BooleanInput,
+  List,
+  TextInput,
+} from "@liexp/ui/lib/components/admin/react-admin.js";
 import * as React from "react";
 
 const actorFilters = [
   <TextInput key="search" label="fullName" source="q" alwaysOn size="small" />,
+  <BooleanInput
+    key="withDeleted"
+    label="With Deleted"
+    source="withDeleted"
+    alwaysOn
+  />,
 ];
 
 const ActorList: React.FC = () => (
