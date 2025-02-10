@@ -3,10 +3,12 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as E from "fp-ts/lib/Either.js";
+import { UUID } from "io-ts-types";
 import { type GroupEntity } from "../entities/Group.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
@@ -17,8 +19,17 @@ const toGroupIO = (
 ): E.Either<_DecodeError, io.http.Group.Group> => {
   return pipe(
     E.Do,
-    E.bind("avatar", () =>
-      avatar ? MediaIO.decodeSingle(avatar, spaceEndpoint) : E.right(undefined),
+    E.bind(
+      "avatar",
+      (): E.Either<_DecodeError, UUID | Media | undefined> =>
+        avatar
+          ? UUID.is(avatar)
+            ? E.right(avatar)
+            : pipe(
+                MediaIO.decodeSingle(avatar, spaceEndpoint),
+                E.map((media) => Media.encode(media) as any as Media),
+              )
+          : E.right(undefined),
     ),
     E.chain(({ avatar }) =>
       pipe(
@@ -30,13 +41,7 @@ const toGroupIO = (
           color: toColor(group.color),
           excerpt: toInitialValue(group.excerpt) ?? null,
           body: toInitialValue(group.body) ?? null,
-          avatar: avatar
-            ? {
-                ...avatar,
-                createdAt: avatar.createdAt.toISOString(),
-                updatedAt: avatar.updatedAt.toISOString(),
-              }
-            : undefined,
+          avatar,
           members: group.members ? group.members : [],
           subGroups: [],
           createdAt: group.createdAt.toISOString(),

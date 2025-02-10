@@ -18,7 +18,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 const isPasswordParam = (p: unknown): p is { password: string } => {
-  return p ? !!(p as any).password : false;
+  return typeof p === "object" && !!p && "password" in p ? !!p.password : false;
 };
 
 export const MakeUserLoginRoute: Route = (r, ctx) => {

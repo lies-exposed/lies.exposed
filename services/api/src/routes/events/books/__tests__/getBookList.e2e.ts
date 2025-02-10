@@ -20,7 +20,7 @@ describe("Get Book List", () => {
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
+    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
   afterAll(async () => {
@@ -45,7 +45,7 @@ describe("Get Book List", () => {
   test("Should return books by actor", async () => {
     const actor = fc.sample(ActorArb, 1)[0];
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor as any]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
 
     const [eventWithActor] = eventsData;
     await throwTE(
@@ -70,9 +70,12 @@ describe("Get Book List", () => {
   });
 
   test("Should return books by group", async () => {
-    const group = fc.sample(GroupArb, 1)[0];
+    const [group] = fc.sample(GroupArb, 1).map((g) => ({
+      ...g,
+      members: [],
+    }));
 
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group as any]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
 
     const [eventWithActor] = eventsData;
     await throwTE(
@@ -98,10 +101,13 @@ describe("Get Book List", () => {
 
   test("Should return books by either actor and group", async () => {
     const actor = fc.sample(ActorArb, 1)[0];
-    const group = fc.sample(GroupArb, 1)[0];
+    const [group] = fc.sample(GroupArb, 1).map((g) => ({
+      ...g,
+      members: [],
+    }));
 
-    await throwTE(appTest.ctx.db.save(ActorEntity, [actor as any]));
-    await throwTE(appTest.ctx.db.save(GroupEntity, [group as any]));
+    await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
+    await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
 
     const [eventWithActor] = eventsData;
     await throwTE(

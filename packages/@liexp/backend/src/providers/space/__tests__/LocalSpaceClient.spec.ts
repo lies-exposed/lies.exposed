@@ -60,9 +60,11 @@ describe("LocalSpaceClient", () => {
     })();
 
     expect(E.isRight(result)).toBe(true);
-    expect((result as any).right).toEqual({
-      Location: "",
-      $metadata: {},
-    });
+    expect(result).toEqual(
+      E.right({
+        Location: "",
+        $metadata: {},
+      }),
+    );
   });
 });

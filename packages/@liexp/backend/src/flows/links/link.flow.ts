@@ -14,6 +14,7 @@ import { type DatabaseContext } from "../../context/db.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { type LinkEntity } from "../../entities/Link.entity.js";
+import { type MediaEntity } from "../../entities/Media.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
 import { LinkRepository } from "../../services/entity-repository.service.js";
@@ -26,7 +27,12 @@ export const fromURL =
     url: URL,
     defaults: Partial<Metadata> | undefined,
   ) =>
-  (ctx: C): TE.TaskEither<APIError | ServerError, LinkEntity> => {
+  (
+    ctx: C,
+  ): TE.TaskEither<
+    APIError | ServerError,
+    LinkEntity & { image: MediaEntity | null }
+  > => {
     const urll = sanitizeURL(url);
     return pipe(
       ctx.urlMetadata.fetchMetadata(urll, {}, (e) =>
@@ -64,7 +70,7 @@ export const fromURL =
           })),
         ),
       ),
-      TE.map((meta): LinkEntity => {
+      TE.map((meta): LinkEntity & { image: MediaEntity | null } => {
         ctx.logger.debug.log("Creating link %O", meta);
         const publishDate = pipe(
           DateFromISOString.decode(meta.date),

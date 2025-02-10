@@ -125,6 +125,7 @@ export const Media = t.strict(
     ...CreateMedia.type.props,
     id: UUID,
     type: MediaType,
+    label: t.string,
     creator: t.union([UUID, t.undefined]),
     featuredInStories: t.union([t.array(UUID), t.undefined]),
     socialPosts: t.union([t.array(UUID), t.undefined]),

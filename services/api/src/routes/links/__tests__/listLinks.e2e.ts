@@ -1,6 +1,6 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { toLinkEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
 import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -8,22 +8,17 @@ import * as tests from "@liexp/test";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("List Links", () => {
-  let Test: AppTest, authorizationToken: string, links: http.Link.Link[];
+  let Test: AppTest,
+    authorizationToken: string,
+    links = tests.fc.sample(LinkArb, 10).map(toLinkEntity);
+
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
 
-    links = tests.fc.sample(LinkArb, 10).map((a) => ({
-      ...a,
-      events: [],
-      keywords: [],
-    }));
-
-    links = await throwTE<any, any>(
-      Test.ctx.db.save(LinkEntity, links as any[]),
-    );
+    links = await throwTE(Test.ctx.db.save(LinkEntity, links));
   });
 
   afterAll(async () => {
@@ -47,9 +42,10 @@ describe("List Links", () => {
         keywords: [],
         media: [],
         links: [{ id: links[0].id }],
+        socialPosts: [],
       }));
 
-      await throwTE(Test.ctx.db.save(EventV2Entity, events as any));
+      await throwTE(Test.ctx.db.save(EventV2Entity, events));
 
       const response = await Test.req
         .get("/v1/links")
@@ -70,9 +66,10 @@ describe("List Links", () => {
         keywords: [],
         media: [],
         links: [{ id: links[0].id }],
+        socialPosts: [],
       }));
 
-      await throwTE(Test.ctx.db.save(EventV2Entity, events as any));
+      await throwTE(Test.ctx.db.save(EventV2Entity, events));
 
       const response = await Test.req
         .get("/v1/links")

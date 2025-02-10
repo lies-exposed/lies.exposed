@@ -33,7 +33,7 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
   query: { ids, ...query },
   ...props
 }) => {
-  const [items, setItem] = React.useState<any>(
+  const [items, setItem] = React.useState<any[]>(
     ids ? ids.map((id: string) => ({ id })) : [],
   );
 

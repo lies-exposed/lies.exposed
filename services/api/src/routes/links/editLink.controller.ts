@@ -7,7 +7,8 @@ import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UUID, type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -20,6 +21,44 @@ import {
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
+
+const updateLinkMedia = (
+  link: LinkEntity,
+  image: UUID | LinkMedia | null,
+): MediaEntity | UUID | null => {
+  if (image === null) {
+    return null;
+  }
+
+  if (UUID.is(image)) {
+    return image;
+  }
+
+  const oldMedia: Partial<MediaEntity> =
+    UUID.is(link.image) || link.image === null ? {} : link.image;
+
+  return {
+    ...oldMedia,
+    ...image,
+    events: [],
+    keywords: [],
+    areas: [],
+    links: [],
+    stories: [],
+    featuredInAreas: [],
+    featuredInStories: [],
+    socialPosts: [],
+    label: image.label ?? oldMedia?.label ?? null,
+    thumbnail: (image.thumbnail ?? image.location) as URL,
+    location: image.location as URL,
+    description: image.description ?? oldMedia?.description ?? null,
+    extra: image.extra ?? null,
+    deletedAt: null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    creator: oldMedia.creator ?? null,
+  };
+};
 
 export const MakeEditLinkRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
@@ -40,7 +79,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           const linkUpdate = {
             ...body,
             url: sanitizeURL(url),
-            image: UUID.is(image) ? { id: image } : (image ?? null),
+            image: UUID.is(image) ? image : (image ?? null),
             events: events.map((e) => ({ id: e })) as EventV2Entity[],
             keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
             id,
@@ -75,19 +114,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...linkUpdate,
                         provider: linkUpdate.provider ?? l.provider ?? null,
                         publishDate: linkUpdate.publishDate ?? null,
-                        image: ll.image
-                          ? {
-                              ...ll.image,
-                              events: [],
-                              keywords: [],
-                              areas: [],
-                              links: [],
-                              stories: [],
-                              label: ll.image.label ?? null,
-                              description: ll.image.description ?? null,
-                              thumbnail: ll.image.thumbnail ?? null,
-                            }
-                          : null,
+                        image: updateLinkMedia(ll, linkUpdate.image),
                       })),
                     );
                   }
@@ -97,19 +124,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...linkUpdate,
                     publishDate: linkUpdate.publishDate ?? null,
                     provider: linkUpdate.provider ?? l.provider ?? null,
-                    image: l.image
-                      ? {
-                          ...l.image,
-                          events: [],
-                          keywords: [],
-                          areas: [],
-                          links: [],
-                          stories: [],
-                          label: l.image.label ?? null,
-                          description: l.image.description ?? null,
-                          thumbnail: l.image.thumbnail ?? null,
-                        }
-                      : null,
+                    image: updateLinkMedia(l, linkUpdate.image),
                   });
                 }),
                 O.getOrElse(() =>
@@ -118,7 +133,10 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...linkUpdate,
                     publishDate: linkUpdate.publishDate ?? null,
                     provider: linkUpdate.provider ?? l.provider ?? null,
-                    image: (linkUpdate.image ?? l.image) as MediaEntity | null,
+                    image: (linkUpdate.image ?? l.image) as
+                      | MediaEntity
+                      | UUID
+                      | null,
                   }),
                 ),
               );

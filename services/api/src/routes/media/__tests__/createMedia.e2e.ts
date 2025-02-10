@@ -6,7 +6,7 @@ import {
   loginUser,
   saveUser,
   type UserTest,
-} from "@liexp/backend/lib/test/user.utils.js";
+} from "@liexp/backend/lib/test/utils/user.utils.js";
 import {
   IframeVideoType,
   ImageType,

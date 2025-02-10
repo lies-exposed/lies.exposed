@@ -27,14 +27,7 @@ export const MakeEditBookEventRoute: Route = (r, ctx) => {
             },
           ]),
         ),
-        TE.chainEitherK(([book]) =>
-          EventV2IO.decodeSingle({
-            ...book,
-            keywords: book.keywords.map((k) => k.id as any),
-            media: book.media.map((m) => m.id as any),
-            links: book.links.map((l) => l.id as any),
-          }),
-        ),
+        TE.chainEitherK(([book]) => EventV2IO.decodeSingle(book)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

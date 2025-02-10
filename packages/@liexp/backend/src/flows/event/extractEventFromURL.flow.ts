@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   SCIENTIFIC_STUDY,
@@ -189,7 +189,7 @@ const extractByProvider =
           title: l.title,
           description: l.description ?? l.title,
           keywords: [],
-          image: l.image?.id ?? null,
+          image: UUID.is(l.image) ? l.image : (l.image?.id ?? null),
           icon: "",
           provider: undefined,
           type,

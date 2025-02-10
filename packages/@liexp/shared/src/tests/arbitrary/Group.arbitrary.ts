@@ -4,12 +4,11 @@ import * as t from "io-ts";
 import * as http from "../../io/http/index.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
+import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const GroupArb: tests.fc.Arbitrary<
-  http.Group.Group & { members: any[] }
-> = tests
+export const GroupArb: tests.fc.Arbitrary<http.Group.Group> = tests
   .getArbitrary(
     t.strict(
       propsOmit(http.Group.Group, [
@@ -36,8 +35,14 @@ export const GroupArb: tests.fc.Arbitrary<
     avatar: tests.fc.sample(MediaArb, 1)[0],
     color: tests.fc.sample(ColorArb, 1)[0],
     members: [],
-    excerpt: null,
-    body: null,
+    excerpt: tests.fc.sample(
+      tests.fc.oneof(tests.fc.constant(null), BlockNoteDocumentArb),
+      1,
+    )[0],
+    body: tests.fc.sample(
+      tests.fc.oneof(tests.fc.constant(null), BlockNoteDocumentArb),
+      1,
+    )[0],
     startDate: new Date(),
     endDate: new Date(),
     createdAt: new Date(),

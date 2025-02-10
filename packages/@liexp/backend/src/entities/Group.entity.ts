@@ -47,7 +47,7 @@ export class GroupEntity {
     nullable: true,
   })
   @JoinColumn()
-  avatar: Relation<MediaEntity> | null;
+  avatar: Relation<MediaEntity> | UUID | null;
 
   @Column({
     enum: io.http.Group.GroupKind.types.map((t) => t.value),

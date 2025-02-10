@@ -43,9 +43,11 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const links = await queryRunner.manager.getRepository(LinkEntity).find({
-      relations: ["image"],
-    });
+    const links = await queryRunner.manager
+      .getRepository<LinkEntity & { image: any }>(LinkEntity)
+      .find({
+        relations: ["image"],
+      });
 
     await queryRunner.query(
       `ALTER TABLE "event_links_link" DROP CONSTRAINT "FK_f4b9fff131b55febfe8e5ee8642"`,

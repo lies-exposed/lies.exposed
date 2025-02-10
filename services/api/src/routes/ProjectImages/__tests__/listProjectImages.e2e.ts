@@ -42,10 +42,19 @@ describe("List Project Images", () => {
       appTest.ctx.db.save(
         ProjectImageEntity,
         media.map((i) => ({
-          image: i,
+          image: {
+            ...i,
+            events: [],
+            links: [],
+            areas: [],
+            keywords: [],
+            socialPosts: [],
+            featuredInAreas: [],
+            featuredInStories: [],
+          },
           kind: http.ProjectImage.THEORY_KIND.value,
           project: projects[0],
-        })) as any[],
+        })),
       ),
     );
 

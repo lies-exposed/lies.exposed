@@ -1,31 +1,31 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import {
+  toActorEntity,
+  toGroupEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
 import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import * as tests from "@liexp/test";
+import * as tests from "@liexp/test/lib/index.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("List Group Member", () => {
   let authorizationToken: string;
   let Test: AppTest;
-  const actors = tests.fc.sample(ActorArb, 1).map((a) => ({
-    ...a,
-    death: undefined,
-    memberIn: [],
-  }));
-  const groups = tests.fc.sample(GroupArb, 1).map((g) => ({
-    ...g,
-    // avatar: undefined,
-    members: [],
-  }));
+  const actors = tests.fc.sample(ActorArb, 1).map(toActorEntity);
+  const groups = tests.fc.sample(GroupArb, 1).map(toGroupEntity);
   const groupsMembers = groups.map((g) => ({
     actor: actors[0],
     group: g,
     startDate: new Date(),
+    updatedAt: new Date(),
+    createdAt: new Date(),
+    deletedAt: null,
+    endDate: null,
     body: [toParagraph("Group member")],
     id: tests.fc.sample(UUIDArb, 1)[0],
   }));
@@ -36,9 +36,9 @@ describe("List Group Member", () => {
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
-    await throwTE(Test.ctx.db.save(ActorEntity, actors as any[]));
-    await throwTE(Test.ctx.db.save(GroupEntity, groups as any[]));
-    await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers as any[]));
+    await throwTE(Test.ctx.db.save(ActorEntity, actors));
+    await throwTE(Test.ctx.db.save(GroupEntity, groups));
+    await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers));
   });
 
   afterAll(async () => {
@@ -67,10 +67,13 @@ describe("List Group Member", () => {
           avatar: actorAvatar,
           createdAt: actorCreatedAt,
           updatedAt: actorUAT,
-          bornOn: actorBornOn,
           diedOn: actorDiedOn,
+          bornOn: actorBornOn,
           death,
           deletedAt: aDeletedAt,
+          eventCount,
+          events: actorEvents,
+          stories: actorStories,
           ...expectedActor
         },
         group: {
@@ -78,25 +81,26 @@ describe("List Group Member", () => {
           avatar: groupAvatar,
           createdAt: groupCreatedAt,
           updatedAt: groupUpdatedAt,
-          subGroups,
+          stories: groupStories,
           deletedAt,
+          startDate,
+          endDate: groupEndDate,
           ...expectedGroup
         },
         ...expectedResult
-      } = expectedResults[i] as any;
+      } = expectedResults[i];
 
       expect(d).toMatchObject({
         ...expectedResult,
         startDate: expectedResult.startDate.toISOString(),
         actor: {
           ...expectedActor,
-          // diedOn: actorDiedOn ?? undefined,
-          bornOn: new Date(actorBornOn).toISOString() ?? undefined,
+          // bornOn: actorBornOn
+          //   ? startOfDay(actorBornOn).toISOString()
+          //   : undefined,
         },
         group: {
           ...expectedGroup,
-          startDate: expectedGroup.startDate?.toISOString(),
-          endDate: expectedGroup.startDate?.toISOString(),
         },
       });
     });

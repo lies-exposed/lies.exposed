@@ -3,10 +3,12 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as E from "fp-ts/lib/Either.js";
+import { UUID } from "io-ts-types";
 import { type ActorEntity } from "../entities/Actor.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
@@ -17,23 +19,40 @@ const toActorIO = (
 ): E.Either<_DecodeError, io.http.Actor.Actor> => {
   return pipe(
     E.Do,
-    E.bind("avatar", () =>
-      a.avatar
-        ? MediaIO.decodeSingle(a.avatar, spaceEndpoint)
-        : E.right(undefined),
+    E.bind(
+      "avatar",
+      (): E.Either<_DecodeError, UUID | Media | undefined> =>
+        a.avatar
+          ? UUID.is(a.avatar)
+            ? E.right(a.avatar)
+            : pipe(
+                MediaIO.decodeSingle(a.avatar, spaceEndpoint),
+                E.map((media) => Media.encode(media) as any as Media),
+              )
+          : // : E.right({
+            //     ...a.avatar,
+            //     createdAt: a.avatar.createdAt.toISOString(),
+            //     updatedAt: a.avatar.updatedAt.toISOString(),
+            //     extra: a.avatar.extra ?? undefined,
+            //     description: a.avatar.description ?? undefined,
+            //     creator: undefined,
+            //     events: a.avatar.events ?? [],
+            //     links: a.avatar.links ?? [],
+            //     keywords: a.avatar.keywords ?? [],
+            //     areas: a.avatar.areas ?? [],
+            //     featuredInAreas: a.avatar.featuredInAreas ?? [],
+            //     featuredInStories: a.avatar.featuredInStories ?? [],
+            //     socialPosts: a.avatar.socialPosts ?? [],
+            //     deletedAt: a.avatar.deletedAt ?? undefined,
+            //   })
+            E.right(undefined),
     ),
-    E.chain(({ avatar }) =>
-      pipe(
+    E.chain(({ avatar }) => {
+      return pipe(
         io.http.Actor.Actor.decode({
           ...a,
           color: toColor(a.color),
-          avatar: avatar
-            ? {
-                ...avatar,
-                createdAt: avatar.createdAt.toISOString(),
-                updatedAt: avatar.updatedAt.toISOString(),
-              }
-            : undefined,
+          avatar,
           excerpt: toInitialValue(a.excerpt) ?? null,
           body: toInitialValue(a.body) ?? null,
           memberIn: a.memberIn ? a.memberIn : [],
@@ -43,8 +62,8 @@ const toActorIO = (
           diedOn: a.diedOn ?? undefined,
         }),
         E.mapLeft((e) => DecodeError.of(`Failed to decode actor (${a.id})`, e)),
-      ),
-    ),
+      );
+    }),
   );
 };
 
