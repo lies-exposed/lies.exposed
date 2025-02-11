@@ -16,7 +16,7 @@ env:
 
 jobs:
   deploy-web:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [22.x]
@@ -35,7 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Update .env file for WEB
-        run:  cp ./services/web/.env.alpha ./services/web/.env
+        run: cp ./services/web/.env.alpha ./services/web/.env
 
       - name: Build WEB image
         uses: docker/build-push-action@v6
