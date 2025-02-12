@@ -75,7 +75,7 @@
   "devDependencies": {
     "@types/node-cron": "^3.0.11",
     "dotenv": "^16.4.7",
-    "esbuild": "^0.24.2",
+    "esbuild": "^0.25.0",
     "eslint": "^9.19.0",
     "tsx": "^4.19.2",
     "vite-tsconfig-paths": "^5.1.4",
