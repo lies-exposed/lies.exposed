@@ -26,7 +26,7 @@ export default defineViteConfig({
   base: "/",
   port,
   host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
-  devServer: true,
+  devServer: process.env.VITE_NODE_ENV !== "production",
   hot: true,
   target: "custom",
   entry: "src/client/index.tsx",

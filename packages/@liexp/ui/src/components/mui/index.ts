@@ -77,8 +77,7 @@ import {
   Avatar,
   type AvatarProps,
   Popover,
-} from "@mui/material";
-import {
+  type PopoverProps,
   StyledEngineProvider,
   ThemeProvider,
   useMediaQuery as useMuiMediaQuery,
@@ -143,6 +142,7 @@ export {
   Paper,
   Popper,
   Popover,
+  type PopoverProps,
   Select,
   Slider,
   Stack,

@@ -1,12 +1,13 @@
 /* eslint-disable no-restricted-imports */
+import * as muiColors from "@mui/material/colors";
 import {
   createTheme,
-  useTheme,
-  type ThemeOptions,
+  styled,
   ThemeProvider,
-  colors as muiColors,
-} from "@mui/material";
-import { createStyled, darken, lighten } from "@mui/system";
+  type ThemeOptions,
+  useTheme,
+} from "@mui/material/styles";
+import { darken, lighten } from "@mui/system";
 
 const {
   yellow,
@@ -137,8 +138,6 @@ const themeOptions: ThemeOptions = {
 const ECOTheme = createTheme(themeOptions);
 
 type ECOTheme = typeof ECOTheme;
-
-const styled = createStyled({ defaultTheme: ECOTheme });
 
 export {
   ECOTheme,
