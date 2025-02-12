@@ -100,7 +100,6 @@ export const BNEditor: React.FC<BNEditorProps> = ({
       <BlockNoteEditorContext.Provider value={editor}>
         <StyledBlockNoteView
           editor={editor}
-          theme={"light"}
           editable={!readOnly}
           slashMenu={false}
           onChange={() => {
