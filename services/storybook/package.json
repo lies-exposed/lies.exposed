@@ -44,7 +44,7 @@
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.0.0",
     "react-virtualized": "^9.22.6",
     "storybook": "^8.5.4"
   },
