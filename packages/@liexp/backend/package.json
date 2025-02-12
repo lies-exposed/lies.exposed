@@ -46,8 +46,8 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.734.0",
-    "@langchain/core": "^0.3.37",
-    "@langchain/openai": "^0.4.2",
+    "@langchain/core": "^0.3.39",
+    "@langchain/openai": "^0.4.4",
     "@liexp/test": "workspace:*",
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsdom": "^21.1.7",
