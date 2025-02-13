@@ -7,9 +7,9 @@ import {
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type TEControllerError } from "../../types/TEControllerError.js";
 import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";
 import { createNetworkGraph } from "#flows/networks/createNetworkGraph.flow.js";
-import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
@@ -19,7 +19,7 @@ export const MakeGetNetworkRoute: Route = (r, ctx) => {
     const getCreateNetworkT = (
       type: NetworkType,
       isAdmin: boolean,
-    ): TE.TaskEither<ControllerError, NetworkGraphOutput> => {
+    ): TEControllerError<NetworkGraphOutput> => {
       switch (type) {
         case "events": {
           const ids = pipe(query.ids, fp.O.filter(fp.A.isNonEmpty));

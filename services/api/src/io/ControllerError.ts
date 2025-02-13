@@ -74,7 +74,7 @@ export const toControllerError = (e: unknown): ControllerError => {
   });
 };
 
-const report = (err: ControllerError): string => {
+export const report = (err: ControllerError): string => {
   return `[${err.name}] ${err.message}:\n${reportIOErrorDetails(err.details)}`;
 };
 
@@ -185,5 +185,3 @@ export const toAPIError = (err: ControllerError): APIError => {
     details: [JSON.stringify(err)],
   };
 };
-
-export default { report, toControllerError };

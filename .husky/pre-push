@@ -1,4 +1,4 @@
 #!/bin/sh
 
 docker compose up -d db-test.liexp.dev
-pnpm lint && pnpm build && pnpm vitest run && . "./scripts/healthcheck.sh"
+pnpm knip && pnpm lint && pnpm build && pnpm vitest run && . "./scripts/healthcheck.sh"

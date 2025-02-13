@@ -31,11 +31,11 @@ import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
+  type EventNetworkDatum,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkLink,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Group,
@@ -48,11 +48,9 @@ import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type TEReader, type Flow } from "#flows/flow.types.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { type TEControllerError } from "../../types/TEControllerError.js";
+import { type Flow, type TEReader } from "#flows/flow.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 
 interface GetEventGraphOpts {
   events: SearchEvent.SearchEvent[];
@@ -439,7 +437,7 @@ export const createEventNetworkGraph =
         const getGraph = (
           ids: UUID[],
           key: "keywords" | "actors" | "groups",
-        ): TE.TaskEither<ControllerError, NetworkGraphOutput> =>
+        ): TEControllerError<NetworkGraphOutput> =>
           pipe(
             ids,
             A.traverse(TE.ApplicativeSeq)((k) =>

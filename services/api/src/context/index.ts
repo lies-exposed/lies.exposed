@@ -26,24 +26,21 @@ import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js"
 import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { Redis } from "ioredis";
 import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import WinkFn from "wink-nlp";
+import { type TEControllerError } from "../types/TEControllerError.js";
 import { type ServerContext } from "./context.type.js";
 import { Config } from "#app/config.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { type ENV } from "#io/ENV.js";
 
 export const makeContext =
   (namespace: string) =>
-  (env: ENV): TaskEither<ControllerError, ServerContext> => {
+  (env: ENV): TEControllerError<ServerContext> => {
     const serverLogger = logger.GetLogger(namespace);
 
     const db = pipe(
