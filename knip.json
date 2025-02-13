@@ -41,17 +41,19 @@
     "services/api": {
       "entry": [
         "src/run.ts",
-        "src/bin/**/*.ts",
         "src/**/*.{spec,e2e}.ts",
         "src/worker/index.ts",
-        "test/AppTest.ts"
+        "test/AppTest.ts",
+        "ormconfig.js"
       ],
       "project": [
-        "{src,test}/**/*.ts",
+        "{build,src,test,}/**/*.{ts,js}",
         "!src/migrations/*.ts",
-        "!src/**/*.{spec,e2e}.ts",
-        "build/**/*.js"
+        "!src/**/*.{spec,e2e}.ts"
       ],
+      "typescript": {
+        "config": "tsconfig.build.json"
+      },
       "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
     },
     "services/worker": {

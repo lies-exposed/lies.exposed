@@ -28,9 +28,8 @@ export const loadAndParseENV =
 
     if (process.env.NODE_ENV === "development") {
       loadENV(root, ".env.local");
+      loadENV(root, ".env");
     }
-
-    loadENV(root, ".env");
 
     D.enable(process.env.DEBUG ?? "*");
 

@@ -1,0 +1,27 @@
+name: Root - Pull Request
+
+on:
+  pull_request:
+    branches:
+      - daily
+
+jobs:
+  knip-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name:
+        run: pnpm build
+
+      - name: Post the knip results
+        # uses: codex-/knip-reporter@v2
+        run: pnpm knip
