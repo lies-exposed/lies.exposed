@@ -11,8 +11,8 @@ import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { type TEControllerError } from "../../types/TEControllerError.js";
 import { type ServerContext } from "#context/context.type.js";
-import { type ControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import {
   RequestDecoder,
@@ -30,7 +30,7 @@ export const MakeTakeLinkScreenshotRoute = (
 
       const getMediaOrMakeFromLinkTask = (
         link: LinkEntity & { image: MediaEntity | null },
-      ): TE.TaskEither<ControllerError, Partial<MediaEntity>[]> =>
+      ): TEControllerError<Partial<MediaEntity>[]> =>
         pipe(
           fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
           fp.O.map(fp.A.of),

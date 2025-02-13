@@ -1,15 +1,13 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { makeApp } from "./app/index.js";
-import { makeContext } from "./context/index.js";
-import ControllerError from "#io/ControllerError.js";
-import { ENV } from "#io/ENV.js";
+import { loadContext } from "./context/load.js";
+import * as ControllerError from "#io/ControllerError.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -24,13 +22,9 @@ const run = (): Promise<void> => {
   }
 
   return pipe(
-    ENVParser(ENV.decode)(process.env),
-    TE.fromEither,
-    TE.chain(makeContext("server")),
-    TE.map((ctx) => ({
-      app: makeApp(ctx),
-      ctx,
-    })),
+    TE.Do,
+    TE.apS("ctx", loadContext("server")),
+    TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
       // TODO: handle properly a possible error thrown by mkdirSync

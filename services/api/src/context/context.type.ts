@@ -18,7 +18,7 @@ import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provide
 import { type AppConfig } from "#app/config.js";
 import { type ENV } from "#io/ENV.js";
 
-export interface ENVContext {
+interface ENVContext {
   env: ENV;
 }
 

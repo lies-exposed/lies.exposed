@@ -13,11 +13,9 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
+import { type TEControllerError } from "../../types/TEControllerError.js";
 import { type Route } from "../route.types.js";
-import {
-  toControllerError,
-  type ControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
@@ -100,7 +98,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
               where: { id: Equal(id) },
               relations: ["image"],
             }),
-            TE.chain((l): TE.TaskEither<ControllerError, LinkEntity> => {
+            TE.chain((l): TEControllerError<LinkEntity> => {
               return pipe(
                 overrideThumbnail,
                 O.map((t) => {

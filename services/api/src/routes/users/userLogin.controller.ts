@@ -14,6 +14,7 @@ import {
   toControllerError,
   type ControllerError,
 } from "../../io/ControllerError.js";
+import { type TEControllerError } from "../../types/TEControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -40,7 +41,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
           (e) => e.status === UserStatusApproved.value,
           () => toControllerError(ServerError.of(["User not approved"])),
         ),
-        TE.chainFirst((user): TE.TaskEither<ControllerError, boolean> => {
+        TE.chainFirst((user): TEControllerError<boolean> => {
           if (isPasswordParam(rest)) {
             return pipe(
               passwordUtils.verify(rest.password, user.passwordHash),

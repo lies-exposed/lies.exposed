@@ -1,5 +1,4 @@
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type ServerContext } from "#context/context.type.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
@@ -20,12 +19,3 @@ export type TEReader<R, Context = ServerContext> = ReaderTaskEither<
   ControllerError,
   R
 >;
-
-/**
- * TEFlow is a curried function of {@link ServerContext} that returns
- * a TaskEither
- *
- */
-export type TEFlow<Args extends any[], R, Context = ServerContext> = (
-  ...args: Args
-) => (ctx: Context) => TE.TaskEither<ControllerError, R>;
