@@ -4,9 +4,8 @@
   "ignoreWorkspaces": ["services/data"],
   "workspaces": {
     ".": {
-      "ignore": ["ecosystem.dev.config.js", "ecosystem.config.js"],
-      "ignoreBinaries": ["corepack up"],
-      "ignoreDependencies": ["husky", "lint-staged"]
+      "ignoreBinaries": ["corepack use pnpm@latest-10"],
+      "ignoreDependencies": ["husky", "lint-staged", "corepack"]
     },
     "packages/@liexp/*": {
       "includeEntryExports": false,

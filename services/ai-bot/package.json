@@ -39,6 +39,8 @@
     "ts-shared": "^2.0.0-alpha.6"
   },
   "devDependencies": {
+    "@types/prompts": "^2.4.9",
+    "esbuild": "^0.25.0",
     "eslint": "^9.20.1",
     "typescript": "^5.7.3"
   }

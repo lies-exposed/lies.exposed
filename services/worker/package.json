@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@types/node-cron": "^3.0.11",
-    "@types/prompts": "^2.4.0",
+    "@types/prompts": "^2.4.9",
     "dotenv": "^16.4.7",
     "tsx": "^4.19.2",
     "vite-tsconfig-paths": "^5.1.4",
