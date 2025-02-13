@@ -13,8 +13,8 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./",
-    "rootDir": "./",
+    "baseUrl": "./src",
+    "rootDir": "./src",
     "typeRoots": ["../shared/typings", "./typings"],
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
