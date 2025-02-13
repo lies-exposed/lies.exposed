@@ -20,7 +20,7 @@
       "../../packages/@liexp/ui/typings",
       "typings"
     ],
-    "importHelpers": true,
+    "importHelpers": false,
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "baseUrl": "./src",
     "rootDir": "./",
