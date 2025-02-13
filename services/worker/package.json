@@ -56,6 +56,7 @@
     "io-ts": "^2.2.22",
     "io-ts-types": "^0.5.19",
     "ioredis": "^5.4.2",
+    "lodash": "^4.17.21",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.66.0",
     "nodemw": "^0.23.0",
@@ -74,9 +75,8 @@
   },
   "devDependencies": {
     "@types/node-cron": "^3.0.11",
+    "@types/prompts": "^2.4.0",
     "dotenv": "^16.4.7",
-    "esbuild": "^0.25.0",
-    "eslint": "^9.20.1",
     "tsx": "^4.19.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
