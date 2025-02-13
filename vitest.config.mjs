@@ -7,8 +7,6 @@ export default defineConfig({
       exclude: [
         ...coverageConfigDefaults.exclude,
         "commitlint.config.js",
-        "ecosystem.config.js",
-        "ecosystem.dev.config.js",
         "**/lib/**",
         "**/build/**",
         "**/@liexp/ui",
