@@ -3,7 +3,6 @@ import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/crea
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
 import { sharpMock } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
 import {
-  loginUser,
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
@@ -18,6 +17,7 @@ import * as tests from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;

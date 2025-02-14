@@ -6,7 +6,6 @@ import {
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
 import {
-  loginUser,
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
@@ -17,6 +16,7 @@ import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Create Group Member", () => {
   let Test: AppTest;

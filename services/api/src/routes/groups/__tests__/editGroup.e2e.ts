@@ -2,10 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import {
-  loginUser,
-  saveUser,
-} from "@liexp/backend/lib/test/utils/user.utils.js";
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
@@ -13,6 +10,7 @@ import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Edit Group", () => {
   let appTest: AppTest;

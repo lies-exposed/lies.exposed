@@ -2,7 +2,6 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import {
-  loginUser,
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
@@ -18,6 +17,7 @@ import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Create Event", () => {
   let appTest: AppTest;

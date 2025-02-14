@@ -1,8 +1,5 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import {
-  loginUser,
-  saveUser,
-} from "@liexp/backend/lib/test/utils/user.utils.js";
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { MediaArb } from "@liexp/shared/lib/tests/index.js";
@@ -10,6 +7,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Delete Actor", () => {
   let Test: AppTest, user: any, authorizationToken: string, actor: Actor.Actor;

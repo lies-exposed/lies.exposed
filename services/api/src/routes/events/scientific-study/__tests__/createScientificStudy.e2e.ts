@@ -4,7 +4,6 @@ import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import {
   type UserTest,
-  loginUser,
   saveUser,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -20,6 +19,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
 import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
+import { loginUser } from "../../../../../test/utils/user.utils.js";
 
 describe("Create Scientific Study", () => {
   let appTest: AppTest;
