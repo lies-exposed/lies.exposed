@@ -3,7 +3,6 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
-  injectWorkspacePackages: true
 
 overrides:
   dotenv: ^16.4.7
@@ -76,7 +75,7 @@ importers:
         version: link:../core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../shared
       '@napi-rs/canvas':
         specifier: ^0.1.66
         version: 0.1.66
@@ -188,7 +187,7 @@ importers:
         version: 5.4.2
       langchain:
         specifier: ^0.3.15
-        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -470,7 +469,7 @@ importers:
         version: link:../core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@types/hast@3.0.4)(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../shared
       '@mui/icons-material':
         specifier: 7.0.0-alpha.1
         version: 7.0.0-alpha.1(@mui/material@7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
@@ -738,10 +737,10 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       '@liexp/ui':
         specifier: workspace:*
-        version: file:packages/@liexp/ui(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(jquery@3.7.1)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-is@19.0.0)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
         specifier: ^5.66.0
         version: 5.66.0(react@18.3.1)
@@ -817,7 +816,7 @@ importers:
         version: 3.744.0
       '@langchain/community':
         specifier: ^0.3.30
-        version: 0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.4.2)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.4.2)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
       '@langchain/core':
         specifier: ^0.3.40
         version: 0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))
@@ -829,7 +828,7 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
@@ -847,7 +846,7 @@ importers:
         version: 2.2.22(fp-ts@2.16.9)
       langchain:
         specifier: ^0.3.15
-        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
@@ -881,7 +880,7 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -1041,13 +1040,13 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
       '@liexp/ui':
         specifier: workspace:*
-        version: file:packages/@liexp/ui(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(jquery@3.7.1)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-is@19.0.0)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/ui
       '@mui/material':
         specifier: 7.0.0-alpha.1
         version: 7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1153,10 +1152,10 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       '@liexp/ui':
         specifier: workspace:*
-        version: file:packages/@liexp/ui(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(jquery@3.7.1)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-is@19.0.0)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
         specifier: ^5.66.0
         version: 5.66.0(react@18.3.1)
@@ -1262,7 +1261,7 @@ importers:
         version: link:../../packages/@liexp/core
       '@liexp/shared':
         specifier: workspace:*
-        version: file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+        version: link:../../packages/@liexp/shared
       axios:
         specifier: ^1.7.9
         version: 1.7.9(debug@4.4.0)
@@ -3042,33 +3041,6 @@ packages:
 
   '@lezer/lr@1.4.2':
     resolution: {integrity: sha512-pu0K1jCIdnQ12aWNaAVU5bzi7Bd1w54J3ECgANPmYLtQKP0HBj2cE/5coBD66MT10xbtIuUr7tg0Shbsvk0mDA==}
-
-  '@liexp/core@file:packages/@liexp/core':
-    resolution: {directory: packages/@liexp/core, type: directory}
-    peerDependencies:
-      debug: '*'
-      dotenv: ^16.4.7
-      query-string: ^7
-      vite: ^6
-      vite-plugin-css-injected-by-js: ^3
-      vite-plugin-optimizer: ^1
-      vite-tsconfig-paths: ^5
-
-  '@liexp/shared@file:packages/@liexp/shared':
-    resolution: {directory: packages/@liexp/shared, type: directory}
-    peerDependencies:
-      '@tanstack/react-query': ^5
-      '@visx/network': ^3.12.0
-      debug: ^4
-      openai: ^4
-      pdfjs-dist: ^4
-      react: ^18
-      react-admin: ^5
-      react-dom: ^18
-      sharp: ^0.33.5
-
-  '@liexp/ui@file:packages/@liexp/ui':
-    resolution: {directory: packages/@liexp/ui, type: directory}
 
   '@lifeomic/attempt@3.1.0':
     resolution: {integrity: sha512-QZqem4QuAnAyzfz+Gj5/+SLxqwCAw2qmt7732ZXodr6VDWGeYLG6w1i/vYLa55JQM9wRuBKLmXmiZ2P0LtE5rw==}
@@ -11579,46 +11551,7 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/mantine@0.23.6(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/react': 0.23.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/core': 7.16.3(@mantine/hooks@7.16.3(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mantine/hooks': 7.16.3(react@18.3.1)
-      '@mantine/utils': 6.0.22(react@18.3.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-icons: 5.4.0(react@18.3.1)
-    transitivePeerDependencies:
-      - '@tiptap/pm'
-      - '@types/hast'
-      - '@types/react'
-      - highlight.js
-      - lowlight
-      - refractor
-      - sugar-high
-      - supports-color
-
   '@blocknote/react@0.23.6(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
-      '@tiptap/react': 2.11.5(@tiptap/core@2.11.5(@tiptap/pm@2.11.5))(@tiptap/pm@2.11.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      lodash.merge: 4.6.2
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      react-icons: 5.4.0(react@18.3.1)
-    transitivePeerDependencies:
-      - '@tiptap/pm'
-      - '@types/hast'
-      - highlight.js
-      - lowlight
-      - refractor
-      - sugar-high
-      - supports-color
-
-  '@blocknote/react@0.23.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@blocknote/core': 0.23.6(@types/hast@3.0.4)
       '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -11644,58 +11577,6 @@ snapshots:
       '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
       '@tiptap/pm': 2.11.5
       jsdom: 25.0.1(canvas@2.11.2)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      y-prosemirror: 1.2.13(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.0)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
-      y-protocols: 1.0.6(yjs@13.6.23)
-      yjs: 13.6.23
-    transitivePeerDependencies:
-      - '@types/hast'
-      - bufferutil
-      - canvas
-      - highlight.js
-      - lowlight
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - refractor
-      - sugar-high
-      - supports-color
-      - utf-8-validate
-
-  '@blocknote/server-util@0.23.6(@types/hast@3.0.4)(canvas@3.0.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/react': 0.23.6(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
-      '@tiptap/pm': 2.11.5
-      jsdom: 25.0.1(canvas@3.0.1)
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      y-prosemirror: 1.2.13(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.0)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
-      y-protocols: 1.0.6(yjs@13.6.23)
-      yjs: 13.6.23
-    transitivePeerDependencies:
-      - '@types/hast'
-      - bufferutil
-      - canvas
-      - highlight.js
-      - lowlight
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - refractor
-      - sugar-high
-      - supports-color
-      - utf-8-validate
-
-  '@blocknote/server-util@0.23.6(canvas@3.0.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/react': 0.23.6(@tiptap/pm@2.11.5)(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tiptap/core': 2.11.5(@tiptap/pm@2.11.5)
-      '@tiptap/pm': 2.11.5
-      jsdom: 25.0.1(canvas@3.0.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       y-prosemirror: 1.2.13(prosemirror-model@1.24.1)(prosemirror-state@1.4.3)(prosemirror-view@1.38.0)(y-protocols@1.0.6(yjs@13.6.23))(yjs@13.6.23)
@@ -12589,7 +12470,7 @@ snapshots:
       - encoding
     optional: true
 
-  '@langchain/community@0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.4.2)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)':
+  '@langchain/community@0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.4.2)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(zod@3.24.2)
       '@ibm-cloud/watsonx-ai': 1.3.0
@@ -12600,7 +12481,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
+      langchain: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0)
       langsmith: 0.3.7(openai@4.83.0(ws@8.18.0)(zod@3.24.2))
       openai: 4.83.0(ws@8.18.0)(zod@3.24.2)
       uuid: 10.0.0
@@ -12689,233 +12570,6 @@ snapshots:
   '@lezer/lr@1.4.2':
     dependencies:
       '@lezer/common': 1.2.3
-
-  '@liexp/core@file:packages/@liexp/core(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(query-string@7.1.3)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
-    dependencies:
-      debug: 4.4.0
-      dotenv: 16.4.7
-      fp-ts: 2.16.9
-      globals: 15.14.0
-      io-ts: 2.2.22(fp-ts@2.16.9)
-      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
-      query-string: 7.1.3
-      vite: 6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)
-      vite-plugin-css-injected-by-js: 3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      vite-plugin-optimizer: 1.4.3
-      vite-tsconfig-paths: 5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-    transitivePeerDependencies:
-      - monocle-ts
-      - newtype-ts
-
-  '@liexp/shared@file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@types/hast@3.0.4)(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/server-util': 0.23.6(@types/hast@3.0.4)(canvas@3.0.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@liexp/core': file:packages/@liexp/core(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(query-string@7.1.3)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@tanstack/react-query': 5.66.0(react@18.3.1)
-      '@visx/network': 3.12.0(react@18.3.1)
-      axios: 1.7.9(debug@4.4.0)
-      date-fns: 4.1.0
-      debug: 4.4.0
-      fp-ts: 2.16.9
-      io-ts: 2.2.22(fp-ts@2.16.9)
-      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
-      lodash: 4.17.21
-      openai: 4.83.0(ws@8.18.0)(zod@3.24.2)
-      page-metadata-parser: 1.1.4
-      pdfjs-dist: 4.10.38
-      query-string: 7.1.3
-      react: 18.3.1
-      react-admin: 5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
-      react-dom: 18.3.1(react@18.3.1)
-      sharp: 0.33.5
-      ts-endpoint: 2.0.0
-      ts-io-error: 2.0.0
-      typelevel-ts: 0.4.0
-      uuid: 11.0.5
-    transitivePeerDependencies:
-      - '@types/hast'
-      - bufferutil
-      - canvas
-      - dotenv
-      - highlight.js
-      - lowlight
-      - monocle-ts
-      - newtype-ts
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - refractor
-      - sugar-high
-      - supports-color
-      - utf-8-validate
-      - vite
-      - vite-plugin-css-injected-by-js
-      - vite-plugin-optimizer
-      - vite-tsconfig-paths
-
-  '@liexp/shared@file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/server-util': 0.23.6(canvas@3.0.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@liexp/core': file:packages/@liexp/core(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(query-string@7.1.3)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@tanstack/react-query': 5.66.0(react@18.3.1)
-      '@visx/network': 3.12.0(react@18.3.1)
-      axios: 1.7.9(debug@4.4.0)
-      date-fns: 4.1.0
-      debug: 4.4.0
-      fp-ts: 2.16.9
-      io-ts: 2.2.22(fp-ts@2.16.9)
-      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
-      lodash: 4.17.21
-      openai: 4.83.0(ws@8.18.0)(zod@3.24.2)
-      page-metadata-parser: 1.1.4
-      pdfjs-dist: 4.10.38
-      query-string: 7.1.3
-      react: 18.3.1
-      react-admin: 5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
-      react-dom: 18.3.1(react@18.3.1)
-      sharp: 0.33.5
-      ts-endpoint: 2.0.0
-      ts-io-error: 2.0.0
-      typelevel-ts: 0.4.0
-      uuid: 11.0.5
-    transitivePeerDependencies:
-      - '@types/hast'
-      - bufferutil
-      - canvas
-      - dotenv
-      - highlight.js
-      - lowlight
-      - monocle-ts
-      - newtype-ts
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - refractor
-      - sugar-high
-      - supports-color
-      - utf-8-validate
-      - vite
-      - vite-plugin-css-injected-by-js
-      - vite-plugin-optimizer
-      - vite-tsconfig-paths
-
-  '@liexp/ui@file:packages/@liexp/ui(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(jquery@3.7.1)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-is@19.0.0)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))':
-    dependencies:
-      '@blocknote/core': 0.23.6(@types/hast@3.0.4)
-      '@blocknote/mantine': 0.23.6(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@blocknote/react': 0.23.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@emotion/cache': 11.14.0
-      '@emotion/css': 11.13.5
-      '@emotion/react': 11.14.0(@types/react@18.3.18)(react@18.3.1)
-      '@emotion/server': 11.11.0(@emotion/css@11.13.5)
-      '@emotion/styled': 11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
-      '@emotion/utils': 1.4.2
-      '@fortawesome/fontawesome-svg-core': 6.7.2
-      '@fortawesome/free-brands-svg-icons': 6.7.2
-      '@fortawesome/free-solid-svg-icons': 6.7.2
-      '@fortawesome/react-fontawesome': 0.2.2(@fortawesome/fontawesome-svg-core@6.7.2)(react@18.3.1)
-      '@liexp/core': file:packages/@liexp/core(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(query-string@7.1.3)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@liexp/shared': file:packages/@liexp/shared(@tanstack/react-query@5.66.0(react@18.3.1))(@visx/network@3.12.0(react@18.3.1))(canvas@3.0.1)(debug@4.4.0)(dotenv@16.4.7)(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(pdfjs-dist@4.10.38)(react-admin@5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sharp@0.33.5)(vite-plugin-css-injected-by-js@3.5.2(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite-plugin-optimizer@1.4.3)(vite-tsconfig-paths@5.1.4(typescript@5.7.3)(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(vite@6.1.0(@types/node@22.13.1)(jiti@2.4.2)(sass@1.82.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@mui/icons-material': 7.0.0-alpha.1(@mui/material@7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
-      '@mui/lab': 7.0.0-beta.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@mui/material@7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mui/material': 7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@mui/system': 6.4.3(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
-      '@mui/x-data-grid': 7.26.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@mui/material@7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@6.4.3(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@react-spring/web': 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tanstack/react-query': 5.66.0(react@18.3.1)
-      '@visx/axis': 3.12.0(react@18.3.1)
-      '@visx/curve': 3.12.0
-      '@visx/event': 3.12.0
-      '@visx/geo': 3.12.0(react@18.3.1)
-      '@visx/gradient': 3.12.0(react@18.3.1)
-      '@visx/grid': 3.12.0(react@18.3.1)
-      '@visx/group': 3.12.0(react@18.3.1)
-      '@visx/heatmap': 3.12.0(react@18.3.1)
-      '@visx/hierarchy': 3.12.0(react@18.3.1)
-      '@visx/legend': 3.12.0(react@18.3.1)
-      '@visx/network': 3.12.0(react@18.3.1)
-      '@visx/responsive': 3.12.0(react@18.3.1)
-      '@visx/scale': 3.12.0
-      '@visx/shape': 3.12.0(react@18.3.1)
-      '@visx/text': 3.12.0(react@18.3.1)
-      '@visx/threshold': 3.12.0(react@18.3.1)
-      '@visx/tooltip': 3.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@visx/wordcloud': 3.12.0(react@18.3.1)
-      '@visx/zoom': 3.12.0(react@18.3.1)
-      '@xyflow/react': 12.4.2(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      axios: 1.7.9(debug@4.4.0)
-      clsx: 2.1.1
-      d3: 7.9.0
-      d3-hierarchy: 3.1.2
-      d3-sankey: 0.12.3
-      d3-scale: 4.0.2
-      date-fns: 4.1.0
-      entitree-flex: 0.4.1
-      fp-ts: 2.16.9
-      io-ts: 2.2.22(fp-ts@2.16.9)
-      io-ts-types: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
-      lodash: 4.17.21
-      ol: 10.4.0
-      path-to-regexp: 8.2.0
-      query-string: 7.1.3
-      ra-core: 5.5.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react-router-dom@6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.29.0(react@18.3.1))(react@18.3.1)
-      ra-i18n-polyglot: 5.5.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react-router-dom@6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.29.0(react@18.3.1))(react@18.3.1)
-      ra-language-english: 5.5.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react-router-dom@6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.29.0(react@18.3.1))(react@18.3.1)
-      react: 18.3.1
-      react-admin: 5.5.3(@mui/utils@7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
-      react-audio-player: 0.17.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-dom: 18.3.1(react@18.3.1)
-      react-dropzone: 14.3.5(react@18.3.1)
-      react-error-boundary: 5.0.0(react@18.3.1)
-      react-helmet-async: 2.0.5(react@18.3.1)
-      react-hook-form: 7.54.2(react@18.3.1)
-      react-router: 6.29.0(react@18.3.1)
-      react-router-dom: 6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-share: 5.2.0(react@18.3.1)
-      react-slick: 0.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-toc: 3.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-virtualized: 9.22.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      slick-carousel: 1.8.1(jquery@3.7.1)
-      throttle-debounce: 5.0.2
-      topojson-client: 3.1.0
-      ts-endpoint: 2.0.0
-      ts-io-error: 2.0.0
-      vanilla-jsoneditor: 2.3.3(@lezer/common@1.2.3)
-      waveform-data: 4.5.0
-    transitivePeerDependencies:
-      - '@lezer/common'
-      - '@mui/material-pigment-css'
-      - '@mui/utils'
-      - '@tiptap/pm'
-      - '@types/hast'
-      - '@types/react'
-      - bufferutil
-      - canvas
-      - debug
-      - dotenv
-      - highlight.js
-      - immer
-      - jquery
-      - lowlight
-      - monocle-ts
-      - newtype-ts
-      - openai
-      - pdfjs-dist
-      - prosemirror-model
-      - prosemirror-state
-      - prosemirror-view
-      - react-is
-      - refractor
-      - sharp
-      - sugar-high
-      - supports-color
-      - utf-8-validate
-      - vite
-      - vite-plugin-css-injected-by-js
-      - vite-plugin-optimizer
-      - vite-tsconfig-paths
 
   '@lifeomic/attempt@3.1.0': {}
 
@@ -18127,36 +17781,6 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  jsdom@25.0.1(canvas@3.0.1):
-    dependencies:
-      cssstyle: 4.2.1
-      data-urls: 5.0.0
-      decimal.js: 10.5.0
-      form-data: 4.0.1
-      html-encoding-sniffer: 4.0.0
-      http-proxy-agent: 7.0.2
-      https-proxy-agent: 7.0.6
-      is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.16
-      parse5: 7.2.1
-      rrweb-cssom: 0.7.1
-      saxes: 6.0.0
-      symbol-tree: 3.2.4
-      tough-cookie: 5.1.1
-      w3c-xmlserializer: 5.0.0
-      webidl-conversions: 7.0.0
-      whatwg-encoding: 3.1.1
-      whatwg-mimetype: 4.0.0
-      whatwg-url: 14.1.1
-      ws: 8.18.0
-      xml-name-validator: 5.0.0
-    optionalDependencies:
-      canvas: 3.0.1
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   jsdom@26.0.0(canvas@2.11.2):
     dependencies:
       cssstyle: 4.2.1
@@ -18362,7 +17986,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0):
+  langchain@0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.83.0(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.4.2)(pg@8.13.1))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2))
       '@langchain/openai': 0.4.4(@langchain/core@0.3.40(openai@4.83.0(ws@8.18.0)(zod@3.24.2)))(ws@8.18.0)

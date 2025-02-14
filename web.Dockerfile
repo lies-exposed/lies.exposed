@@ -1,6 +1,12 @@
 FROM ghcr.io/lies-exposed/liexp-base:22-pnpm-latest AS dev
 
-COPY . /usr/src/app
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
+
+COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
+COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
+COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared
+COPY ./packages/@liexp/ui /usr/src/app/packages/@liexp/ui
+COPY ./services/web /usr/src/app/services/web
 
 WORKDIR /usr/src/app
 
@@ -19,7 +25,7 @@ FROM build AS pruned
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
 
-RUN pnpm web --prod deploy /prod/web
+RUN pnpm web --prod deploy --legacy /prod/web
 
 WORKDIR /prod
 
