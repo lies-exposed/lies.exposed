@@ -314,7 +314,7 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       debug:
-        specifier: '*'
+        specifier: ^4
         version: 4.4.0
       fp-ts:
         specifier: ^2.16.9
@@ -344,7 +344,7 @@ importers:
         specifier: ^18
         version: 18.3.1(react@18.3.1)
       sharp:
-        specifier: '*'
+        specifier: ^0.33.5
         version: 0.33.5
       ts-endpoint:
         specifier: ^2.0.0
@@ -3059,13 +3059,13 @@ packages:
     peerDependencies:
       '@tanstack/react-query': ^5
       '@visx/network': ^3.12.0
-      debug: '*'
+      debug: ^4
       openai: ^4
       pdfjs-dist: ^4
       react: ^18
       react-admin: ^5
       react-dom: ^18
-      sharp: '*'
+      sharp: ^0.33.5
 
   '@liexp/ui@file:packages/@liexp/ui':
     resolution: {directory: packages/@liexp/ui, type: directory}
