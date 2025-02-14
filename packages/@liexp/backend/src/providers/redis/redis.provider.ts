@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import { toRedisError } from "./redis.error.js";
 
 interface RedisClientContext {

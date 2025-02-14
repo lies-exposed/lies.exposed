@@ -1,5 +1,6 @@
 import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
-import { ActorArb, UncategorizedArb } from "@liexp/shared/lib/tests/index.js";
+import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
+import { ActorArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test/lib/index.js";
 import * as E from "fp-ts/lib/Either.js";

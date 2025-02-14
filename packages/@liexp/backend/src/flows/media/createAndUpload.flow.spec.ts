@@ -10,7 +10,6 @@ import * as tests from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
-import { type FSClient } from "../../providers/fs/fs.provider.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { sharpMock } from "../../test/mocks/sharp.mock.js";

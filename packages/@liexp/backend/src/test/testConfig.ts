@@ -1,4 +1,4 @@
-import { EventsConfig } from "../queries/config";
+import { EventsConfig } from "../queries/config/index.js";
 
 export const testConfig = {
   dirs: {

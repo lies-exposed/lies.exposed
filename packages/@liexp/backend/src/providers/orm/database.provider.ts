@@ -20,8 +20,8 @@ import {
   type SaveOptions,
   type UpdateResult,
 } from "typeorm";
-import { type PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+import { type PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions.js";
+import { type QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 export class DBError extends IOError {
   name = "DBError";

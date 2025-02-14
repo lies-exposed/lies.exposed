@@ -1,4 +1,4 @@
-import { type EventsConfig } from "../queries/config";
+import { type EventsConfig } from "../queries/config/index.js";
 
 export interface BEConfig {
   dirs: {
