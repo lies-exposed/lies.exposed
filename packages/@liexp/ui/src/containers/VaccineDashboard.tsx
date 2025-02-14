@@ -6,24 +6,7 @@ import {
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
 } from "@liexp/shared/lib/io/http/graphs/Graph.js";
-import { StatAccordion } from "@liexp/ui/lib/components/Common/StatAccordion.js";
-// import { VaccineEffectivenessIndicators } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
-import {
-  a11yProps,
-  TabPanel,
-} from "@liexp/ui/lib/components/Common/TabPanel.js";
-import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph.js";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import {
-  Box,
-  Grid,
-  Tab,
-  Tabs,
-  Typography,
-} from "@liexp/ui/lib/components/mui/index.js";
-import { useJSONClient } from "@liexp/ui/lib/hooks/useJSONAPI.js";
-import { useJSONDataQuery } from "@liexp/ui/lib/state/queries/DiscreteQueries.js";
-import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
+// import { VaccineEffectivenessIndicators } from "../components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
 import * as A from "fp-ts/lib/Array.js";
@@ -34,6 +17,14 @@ import * as Ord from "fp-ts/lib/Ord.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import * as React from "react";
+import { StatAccordion } from "../components/Common/StatAccordion.js";
+import { a11yProps, TabPanel } from "../components/Common/TabPanel.js";
+import { VaccineADRGraph } from "../components/Graph/covid/vaccines/VaccineADRGraph.js";
+import QueriesRenderer from "../components/QueriesRenderer.js";
+import { Box, Grid, Tab, Tabs, Typography } from "../components/mui/index.js";
+import { useJSONClient } from "../hooks/useJSONAPI.js";
+import { useJSONDataQuery } from "../state/queries/DiscreteQueries.js";
+import { useNavigateTo } from "../utils/history.utils.js";
 
 const LAST_DAY_2020 = new Date("2020-12-31");
 const LAST_DAY_2021 = new Date("2021-12-31");
