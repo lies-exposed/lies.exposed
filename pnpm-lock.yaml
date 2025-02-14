@@ -1050,6 +1050,12 @@ importers:
       '@mui/material':
         specifier: 7.0.0-alpha.1
         version: 7.0.0-alpha.1(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@storybook/addon-actions':
+        specifier: ^8.5.4
+        version: 8.5.5(storybook@8.5.5(prettier@3.4.2))
+      '@storybook/addon-backgrounds':
+        specifier: ^8.5.4
+        version: 8.5.5(storybook@8.5.5(prettier@3.4.2))
       '@storybook/addon-essentials':
         specifier: ^8.5.4
         version: 8.5.5(@types/react@18.3.18)(storybook@8.5.5(prettier@3.4.2))
@@ -1104,6 +1110,9 @@ importers:
       storybook:
         specifier: ^8.5.4
         version: 8.5.5(prettier@3.4.2)
+      uuid:
+        specifier: ^11.0.5
+        version: 11.0.5
     devDependencies:
       '@types/d3':
         specifier: ^7.4.3
@@ -1341,9 +1350,21 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@types/debug':
+        specifier: ^4.1.12
+        version: 4.1.12
+      '@types/fluent-ffmpeg':
+        specifier: ^2.1.27
+        version: 2.1.27
+      '@types/lodash':
+        specifier: ^4.17.15
+        version: 4.17.15
       '@types/node-cron':
         specifier: ^3.0.11
         version: 3.0.11
+      '@types/node-telegram-bot-api':
+        specifier: ^0.64.7
+        version: 0.64.7
       '@types/prompts':
         specifier: ^2.4.9
         version: 2.4.9

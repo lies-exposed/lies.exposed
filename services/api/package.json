@@ -48,7 +48,7 @@
     "test:e2e": "vitest -c vitest.config.e2e.ts",
     "test:spec": "vitest -c vitest.config.spec.ts",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
-    "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
+    "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config node_modules/typeorm/cli.js",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
@@ -100,13 +100,13 @@
     "dockerode": "^4.0.4",
     "dotenv": "^16.4.7",
     "eslint": "^9.20.1",
+    "nodemw": "^0.23.0",
+    "puppeteer-core": "^24.1.1",
+    "puppeteer-extra": "^3.3.6",
     "supertest": "^7.0.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5",
     "vitest-mock-extended": "^2.0.2",
-    "puppeteer-core": "^24.1.1",
-    "puppeteer-extra": "^3.3.6",
-    "nodemw": "^0.23.0",
     "wink-nlp": "^2.3.0"
   },
   "packageManager": "pnpm@10.4.0+sha512.6b849d0787d97f8f4e1f03a9b8ff8f038e79e153d6f11ae539ae7c435ff9e796df6a862c991502695c7f9e8fac8aeafc1ac5a8dab47e36148d183832d886dd52"
