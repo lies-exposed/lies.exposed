@@ -6,10 +6,10 @@ import {
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { toParagraph } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
-import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 

@@ -12,6 +12,7 @@
     "public"
   ],
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
     "build:app-server": "pnpm build:client && pnpm build:server-ssr && pnpm build:server",
     "build:client": "vite build --outDir build/client",

@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test";
+import fc from "fast-check";
 
 export const OptionArb = <T>(
   arb: fc.Arbitrary<T>,

@@ -1,9 +1,8 @@
-import { fc } from "@liexp/test";
-import { parseISO } from "date-fns";
+import { parseISO, subYears } from "date-fns";
+import fc from "fast-check";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { type MockProxy } from "vitest-mock-extended";
 import { TestEndpoints, overrides } from "../../../test/TestEndpoints.js";
-import { ActorArb } from "../../tests/index.js";
 import { fromEndpoints } from "../EndpointsRESTClient/EndpointsRESTClient.js";
 import { type APIRESTClient } from "../api-rest.provider.js";
 import { CreateQueryProvider } from "./index.js";
@@ -20,20 +19,30 @@ vi.mock("../../client/api", () => ({ apiProvider: apiProviderMock }));
 describe("EndpointQueriesProvider", () => {
   const queries = fromEndpoints(apiProviderMock)(TestEndpoints);
   const { Queries: Q } = CreateQueryProvider(queries, overrides);
-  const actorData = fc.sample(ActorArb, 10).map((a) => ({
-    ...a,
-    avatar: a.avatar
-      ? {
-          ...a.avatar,
-          createdAt: a.avatar.createdAt.toISOString(),
-          updatedAt: a.avatar.updatedAt.toISOString(),
-        }
-      : undefined,
-    bornOn: a.bornOn ? a.bornOn.toISOString() : undefined,
-    diedOn: a.diedOn ? a.diedOn.toISOString() : undefined,
-    createdAt: a.createdAt.toISOString(),
-    updatedAt: a.updatedAt.toISOString(),
-  }));
+
+  const actorData = fc.sample(
+    fc.record({
+      id: fc.uuid(),
+      name: fc.string(),
+      avatar: fc.record({
+        id: fc.uuid(),
+        url: fc.string(),
+        createdAt: fc.date().map((d) => d.toISOString()),
+        updatedAt: fc.date().map((d) => d.toISOString()),
+      }),
+      bornOn: fc.option(
+        fc.date().map((d) => d.toISOString()),
+        { nil: null },
+      ),
+      diedOn: fc.option(
+        fc.date({ min: subYears(new Date(), 200) }).map((d) => d.toISOString()),
+        { nil: null },
+      ),
+      createdAt: fc.date().map((d) => d.toISOString()),
+      updatedAt: fc.date().map((d) => d.toISOString()),
+    }),
+    10,
+  );
 
   const toExpectedActor = (a: any) => ({
     ...a,
@@ -42,7 +51,8 @@ describe("EndpointQueriesProvider", () => {
       createdAt: parseISO(a.avatar.createdAt),
       updatedAt: parseISO(a.avatar.updatedAt),
     },
-    bornOn: a.bornOn ? new Date(a.bornOn) : undefined,
+    bornOn: a.bornOn ? new Date(a.bornOn) : null,
+    diedOn: a.diedOn ? new Date(a.diedOn) : null,
     updatedAt: parseISO(a.updatedAt),
     createdAt: parseISO(a.createdAt),
   });

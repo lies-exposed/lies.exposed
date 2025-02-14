@@ -4,8 +4,8 @@ import {
   ImageType,
   MP4Type,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";

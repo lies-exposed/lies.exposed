@@ -1,3 +1,6 @@
+import { WorkerContext } from "#context/context.js";
+import { ENV } from "#io/env.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { ACTOR_ENTITY_NAME } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { AREA_ENTITY_NAME } from "@liexp/backend/lib/entities/Area.entity.js";
 import { EVENT_ENTITY_NAME } from "@liexp/backend/lib/entities/Event.v2.entity.js";
@@ -9,7 +12,6 @@ import { MEDIA_ENTITY_NAME } from "@liexp/backend/lib/entities/Media.entity.js";
 import { SOCIAL_POST_ENTITY_NAME } from "@liexp/backend/lib/entities/SocialPost.entity.js";
 import { STORY_ENTITY_NAME } from "@liexp/backend/lib/entities/Story.entity.js";
 import { USER_ENTITY_NAME } from "@liexp/backend/lib/entities/User.entity.js";
-import { ENV } from "#io/env.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
@@ -17,7 +19,13 @@ import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
+import {
+  getDataSource,
+  getORMConfig,
+} from "@liexp/backend/lib/utils/data-source.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
@@ -29,14 +37,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import path from "path";
 import { vi } from "vitest";
-import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
-import { WorkerContext } from "#context/context.js";
-import {
-  getDataSource,
-  getORMConfig,
-} from "@liexp/backend/lib/utils/data-source.js";
-import { toWorkerError } from "#io/worker.error.js";
-import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { Config } from "../src/config.js";
 
 vi.mock("axios", () => ({
@@ -75,7 +75,6 @@ export const loadAppContext = async (
       ),
     }),
     TE.map(({ db, env }) => ({
-      config: Config(process.cwd()),
       env,
       db,
       logger,
@@ -88,7 +87,7 @@ export const loadAppContext = async (
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3 as any),
       ig: mocks.ig,
-      fs: GetFSClient(),
+      fs: GetFSClient({ client: mocks.fs }),
       wp: mocks.wiki,
       rw: mocks.wiki,
       redis: mocks.redis,
@@ -126,6 +125,7 @@ export const loadAppContext = async (
       }),
       queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
     })),
+    TE.bind('config', Config(process.cwd())),
     throwTE,
   );
 };

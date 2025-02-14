@@ -1,10 +1,10 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import * as tests from "@liexp/test";
 import {
   AreaArb,
   type AreaArbType,
-} from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import * as tests from "@liexp/test";
+} from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Delete Area", () => {

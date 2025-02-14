@@ -1,5 +1,5 @@
-import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
+import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import {
   LinksList,
   type LinksListProps,

@@ -1,14 +1,14 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import { fc, getArbitrary } from "@liexp/test";
+import * as Events from "@liexp/shared/lib/io/http/Events/index.js";
+import fc from "fast-check";
+import { getArbitrary } from "fast-check-io-ts";
 import * as t from "io-ts";
-import * as Events from "../../../io/http/Events/index.js";
 import { DateArb } from "../Date.arbitrary.js";
-import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
-export const PatentEventArb = getArbitrary(
+export const DeathEventArb = getArbitrary(
   t.strict(
-    propsOmit(Events.Patent.Patent, [
+    propsOmit(Events.Death.Death, [
       "id",
       "excerpt",
       "body",
@@ -30,15 +30,14 @@ export const PatentEventArb = getArbitrary(
   createdAt: fc.sample(DateArb, 1)[0],
   updatedAt: fc.sample(DateArb, 1)[0],
   deletedAt: undefined,
-  excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
-  body: fc.sample(BlockNoteDocumentArb, 1)[0],
+  excerpt: undefined,
+  body: undefined,
   media: fc.sample(UUIDArb, 5),
   keywords: fc.sample(UUIDArb, 5),
   links: fc.sample(UUIDArb, 5),
   socialPosts: [],
   payload: {
-    title: fc.sample(fc.string(), 1)[0],
-    owners: { groups: [], actors: [] },
-    source: fc.sample(UUIDArb, 1)[0],
+    victim: fc.sample(UUIDArb, 1)[0],
+    location: undefined,
   },
 }));

@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test/lib/index.js";
+import fc from "fast-check";
 
 function capFirst(word: string): string {
   return word.charAt(0).toUpperCase() + word.slice(1);

@@ -1,5 +1,5 @@
-import { fc } from "@liexp/test/lib/index.js";
-import { type Tag } from "../../io/http/Common/Tag.js";
+import { type Tag } from "@liexp/shared/lib/io/http/Common/Tag.js";
+import fc from "fast-check";
 import { DateArb } from "./Date.arbitrary.js";
 import { getRandomInt, name1 } from "./HumanReadableString.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";

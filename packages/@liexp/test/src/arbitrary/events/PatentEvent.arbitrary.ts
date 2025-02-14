@@ -1,13 +1,15 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import { fc, getArbitrary } from "@liexp/test";
+import * as Events from "@liexp/shared/lib/io/http/Events/index.js";
+import fc from "fast-check";
+import { getArbitrary } from "fast-check-io-ts";
 import * as t from "io-ts";
-import * as Events from "../../../io/http/Events/index.js";
 import { DateArb } from "../Date.arbitrary.js";
+import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
-export const BookEventArb = getArbitrary(
+export const PatentEventArb = getArbitrary(
   t.strict(
-    propsOmit(Events.Book.Book, [
+    propsOmit(Events.Patent.Patent, [
       "id",
       "excerpt",
       "body",
@@ -29,19 +31,15 @@ export const BookEventArb = getArbitrary(
   createdAt: fc.sample(DateArb, 1)[0],
   updatedAt: fc.sample(DateArb, 1)[0],
   deletedAt: undefined,
-  excerpt: undefined,
-  body: undefined,
+  excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
+  body: fc.sample(BlockNoteDocumentArb, 1)[0],
   media: fc.sample(UUIDArb, 5),
   keywords: fc.sample(UUIDArb, 5),
   links: fc.sample(UUIDArb, 5),
   socialPosts: [],
   payload: {
     title: fc.sample(fc.string(), 1)[0],
-    authors: [],
-    media: {
-      pdf: fc.sample(UUIDArb, 1)[0],
-      audio: undefined,
-    },
-    publisher: undefined,
+    owners: { groups: [], actors: [] },
+    source: fc.sample(UUIDArb, 1)[0],
   },
 }));
