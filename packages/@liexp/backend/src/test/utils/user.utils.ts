@@ -1,5 +1,8 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type UserPermission } from "@liexp/shared/lib/io/http/User.js";
+import {
+  UserStatusApproved,
+  type UserPermission,
+} from "@liexp/shared/lib/io/http/User.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test/lib/index.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -29,7 +32,7 @@ export const saveUser = async (
         passwordHash,
         email: username,
         permissions,
-        status: "Approved",
+        status: UserStatusApproved.value,
         firstName: fc.sample(fc.string())[0],
         lastName: fc.sample(fc.string())[0],
       },

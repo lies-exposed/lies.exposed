@@ -22,7 +22,6 @@
       "project": ["src/**/*.{ts,tsx}", "build/**/*.js"],
       "ignore": [
         "src/client/components/events/AddEventModal.tsx",
-        "src/client/pages/dashboards/VaccineDashboard.tsx",
         "src/client/pages/DocsPage.tsx",
         "src/client/templates/PageTemplate.tsx",
         "src/client/state/commands.ts"

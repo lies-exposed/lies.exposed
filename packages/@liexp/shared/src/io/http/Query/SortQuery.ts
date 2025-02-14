@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import * as t from "io-ts/lib/index.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 
 export const SortOrderASC = t.literal("ASC");
