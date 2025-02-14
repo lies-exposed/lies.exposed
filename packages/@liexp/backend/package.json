@@ -61,7 +61,6 @@
     "page-metadata-parser": "^1.1.4",
     "puppeteer-core": "^24.1.1",
     "puppeteer-extra": "^3.3.6",
-    "supertest": "^7.0.0",
     "typescript": "^5.7.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5",
