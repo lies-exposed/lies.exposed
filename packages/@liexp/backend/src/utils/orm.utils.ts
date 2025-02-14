@@ -33,7 +33,7 @@ const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
     s._sort,
     O.fold(
       () => ({}),
-      (key) => {
+      (key: string) => {
         if (key === "random") {
           return {
             order: { random: true },
@@ -56,7 +56,7 @@ const getSkipAndTakeOptions = (
   defaultPageSize: number,
 ): ORMPagination => {
   const take = pipe(
-    pagination._end,
+    pagination._end as O.Option<number>,
     O.filter((n) => n > 0), // end is exclusive
     O.getOrElse(() => defaultPageSize),
   );

@@ -1,9 +1,9 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import type ffmpeg from "fluent-ffmpeg";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, beforeEach, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { GetFFMPEGProvider } from "./ffmpeg.provider";
+import { GetFFMPEGProvider } from "./ffmpeg.provider.js";
 
 describe("FFmpegProvider", () => {
   const ffmpegMock = mock<typeof ffmpeg>({} as any);

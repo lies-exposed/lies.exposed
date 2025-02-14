@@ -6,7 +6,7 @@ import { Equal } from "typeorm";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
-import { type FFMPEGProviderContext } from "../../../context/ffmpeg.context";
+import { type FFMPEGProviderContext } from "../../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { type ImgProcClientContext } from "../../../context/index.js";

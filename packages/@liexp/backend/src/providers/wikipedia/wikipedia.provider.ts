@@ -8,7 +8,7 @@ import {
 } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type Bot from "nodemw";
-import type { ArticleInfo, SearchResult } from "nodemw/lib/types";
+import type { ArticleInfo, SearchResult } from "nodemw/lib/types.js";
 
 interface RESTArticleSummary {
   title: string;

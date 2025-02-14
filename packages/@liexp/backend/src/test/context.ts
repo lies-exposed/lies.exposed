@@ -43,7 +43,7 @@ export const mockedContext = <C extends Record<string, any>>(
 ): MockedContext<Omit<C, "logger" | "config" | "env">> &
   LoggerContext &
   ConfigContext &
-  ENVContext => ({
+  ENVContext<any> => ({
   ...ctx,
   env: process.env as any,
   logger: GetLogger("test"),

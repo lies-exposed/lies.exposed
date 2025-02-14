@@ -41,7 +41,12 @@ export const EntityFromWikipediaService: EntityFromWikipediaService =
       pipe(
         getWikiProvider(wiki)(ctx).search(api.search),
         fp.TE.map((q) =>
-          q.slice(0, 5).concat({ pageid: -1, title: "Cancel" } as const),
+          q.slice(0, 5).concat({
+            pageid: -1,
+            title: "Cancel",
+            ns: 0,
+            timestamp: new Date().toISOString(),
+          }),
         ),
         fp.TE.mapLeft(toWorkerError),
         fp.TE.chain((options) => {

@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type ImgProcClientContext } from "../../../context";
-import { type ConfigContext } from "../../../context/config.context";
-import { type ImgProcError } from "../../../providers/imgproc/imgproc.provider";
+import { type ConfigContext } from "../../../context/config.context.js";
+import { type ImgProcClientContext } from "../../../context/index.js";
+import { type ImgProcError } from "../../../providers/imgproc/imgproc.provider.js";
 
 export const resizeThumbnailFlow =
   <C extends ImgProcClientContext & ConfigContext>(

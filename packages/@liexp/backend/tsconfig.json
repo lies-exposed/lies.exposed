@@ -3,13 +3,13 @@
   "compilerOptions": {
     "lib": ["DOM", "ESNext"],
     "target": "es6",
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "noEmit": false,
     "composite": true,
     "incremental": true,
     "declaration": true,
-    "skipDefaultLibCheck": true,
+    "skipDefaultLibCheck": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
@@ -28,6 +28,9 @@
     },
     {
       "path": "../shared"
+    },
+    {
+      "path": "../test"
     }
   ]
 }
