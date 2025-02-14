@@ -294,13 +294,13 @@ export const $safeEvalOrUndefined =
   async <
     Selector extends string,
     Params extends unknown[],
-    Func extends puppeteer.EvaluateFuncWith<
-      puppeteer.NodeFor<Selector>,
-      Params
-    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
+    // Func extends puppeteer.EvaluateFuncWith<
+    //   puppeteer.NodeFor<Selector>,
+    //   Params
+    // > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
   >(
     sel: Selector,
-    onEval: Func,
+    onEval: (el: puppeteer.NodeFor<Selector>, ...args: Params) => Promise<any>,
   ): Promise<string | undefined> => {
     let ret: any;
     const el = await p.$(sel);
@@ -319,16 +319,9 @@ export const $safeEvalOrUndefined =
  */
 export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
-  async <
-    Selector extends string,
-    Params extends unknown[],
-    Func extends puppeteer.EvaluateFuncWith<
-      puppeteer.NodeFor<Selector>,
-      Params
-    > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
-  >(
+  async <Selector extends string, Params extends unknown[]>(
     sel: Selector[],
-    onEval: Func,
+    onEval: (el: puppeteer.NodeFor<Selector>, ...args: Params) => Promise<any>,
   ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);
