@@ -1,10 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "composite": true,
-    "typeRoots": [
-      "./typings"
-    ],
+    "typeRoots": ["./typings"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": "./src",
@@ -12,10 +9,5 @@
     "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["./src", "!src/**/*.spec.ts"],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "src/**/*.spec.ts",
-    "test"
-  ]
+  "exclude": ["node_modules", "lib", "src/**/*.spec.ts", "test"]
 }

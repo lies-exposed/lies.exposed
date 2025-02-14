@@ -1,4 +1,5 @@
 import { fc } from "@liexp/test";
+import { describe, expect, test } from "vitest";
 import { URL } from "../URL.js";
 
 describe("URL codec", () => {

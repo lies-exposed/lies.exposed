@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { type URL } from "../../io/http/Common/index.js";
 import { sanitizeURL } from "../url.utils.js";
 

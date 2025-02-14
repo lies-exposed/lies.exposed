@@ -1,5 +1,6 @@
 import * as E from "fp-ts/lib/Either.js";
 import * as t from "io-ts";
+import { describe, expect, test } from "vitest";
 import { Tag } from "../Tag.js";
 
 describe.skip("Tag codec", () => {

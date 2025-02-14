@@ -1,13 +1,12 @@
 import * as t from "io-ts";
 import { Endpoint } from "ts-endpoint";
-import { ResourceEndpoints } from "../src/endpoints/types";
-import { Actor } from "../src/io/http";
+import { ResourceEndpoints } from "../src/endpoints/types.js";
+import { Actor } from "../src/io/http/index.js";
 import {
     type CustomQueryOverride,
   type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
-} from "../src/providers/EndpointQueriesProvider/QueryProviderOverrides";
-import { type GetDataOutputEI } from "../src/providers/EndpointsRESTClient/EndpointsRESTClient";
+} from "../src/providers/EndpointQueriesProvider/QueryProviderOverrides.js";
 
 const TestEndpoints = {
   Actor: ResourceEndpoints({
@@ -66,7 +65,7 @@ const GetSiblingsOverride: CustomQueryOverride<
   TestEndpoints,
   { id: string },
   undefined,
-  GetDataOutputEI<typeof TestEndpoints.Actor.List>
+  any
 > =
   (Q) =>
   ({ id }) => {

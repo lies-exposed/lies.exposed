@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { fc } from "@liexp/test";
+import { describe, test, expect } from "vitest";
 import { UUIDArb } from "../../tests/arbitrary/common/UUID.arbitrary.js";
 import { getPlatform } from "../media.helper.js";
 
