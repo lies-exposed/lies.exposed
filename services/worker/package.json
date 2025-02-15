@@ -59,7 +59,7 @@
     "lodash": "^4.17.21",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.66.0",
-    "nodemw": "^0.23.0",
+    "nodemw": "^0.24.0",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^4.10.38",
