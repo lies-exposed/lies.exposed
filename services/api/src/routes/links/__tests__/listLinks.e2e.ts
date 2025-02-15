@@ -1,10 +1,10 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { toLinkEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
-import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
+import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
+import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("List Links", () => {

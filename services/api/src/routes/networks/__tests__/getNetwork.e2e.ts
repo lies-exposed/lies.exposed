@@ -1,10 +1,10 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
+import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
+import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { addDays } from "date-fns";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 

@@ -4,10 +4,10 @@ import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entit
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";

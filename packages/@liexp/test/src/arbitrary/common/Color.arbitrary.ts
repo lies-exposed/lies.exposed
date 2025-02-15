@@ -1,5 +1,5 @@
-import { fc } from "@liexp/test";
-import { type Color } from "../../../io/http/Common/Color.js";
+import { type Color } from "@liexp/shared/lib/io/http/Common/Color.js";
+import fc from "fast-check";
 
 export const ColorArb: fc.Arbitrary<Color> = fc.hexaString({
   maxLength: 6,

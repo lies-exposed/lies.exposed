@@ -1,5 +1,5 @@
-import { LinkArb } from "@liexp/shared/lib/tests/index.js";
 import { fc } from "@liexp/test";
+import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import LinkCard, {
   type LinkCardProps,
 } from "@liexp/ui/lib/components/Cards/LinkCard.js";

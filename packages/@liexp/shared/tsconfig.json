@@ -20,9 +20,6 @@
   "references": [
     {
       "path": "../core"
-    },
-    {
-      "path": "../test"
     }
   ],
   "include": ["./src", "./typings", "./src/**/*.json", "./test"],

@@ -13,15 +13,15 @@ import {
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
-import { AreaArb } from "@liexp/shared/lib/tests/arbitrary/Area.arbitrary.js";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
-import { LinkArb } from "@liexp/shared/lib/tests/arbitrary/Link.arbitrary.js";
-import { MediaArb } from "@liexp/shared/lib/tests/arbitrary/Media.arbitrary.js";
-import { UUIDArb } from "@liexp/shared/lib/tests/arbitrary/common/UUID.arbitrary.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { fc } from "@liexp/test";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
+import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
+import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
+import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

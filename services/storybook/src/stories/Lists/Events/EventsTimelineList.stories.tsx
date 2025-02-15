@@ -1,9 +1,11 @@
 import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { KeywordArb } from "@liexp/shared/lib/tests/arbitrary/Keyword.arbitrary.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
-import { ActorArb, GroupArb, MediaArb } from "@liexp/shared/lib/tests/index.js";
 import { subYears } from "@liexp/shared/lib/utils/date.utils";
 import { fc } from "@liexp/test";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
+import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
+import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,

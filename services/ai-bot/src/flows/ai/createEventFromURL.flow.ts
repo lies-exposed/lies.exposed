@@ -2,7 +2,7 @@ import { createEventFromDocuments } from "@liexp/backend/lib/flows/ai/createEven
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
-import { getEventArbitrary } from "@liexp/shared/lib/tests/arbitrary/events/index.arbitrary.js";
+import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import { fc } from "@liexp/test/lib/index.js";
 import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./common/loadDocs.flow.js";

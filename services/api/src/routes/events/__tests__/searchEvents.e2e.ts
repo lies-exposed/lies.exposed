@@ -7,11 +7,11 @@ import {
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { ActorArb } from "@liexp/shared/lib/tests/arbitrary/Actor.arbitrary.js";
-import { GroupArb } from "@liexp/shared/lib/tests/arbitrary/Group.arbitrary.js";
-import { UncategorizedArb } from "@liexp/shared/lib/tests/arbitrary/events/Uncategorized.arbitrary.js";
-import { GroupMemberArb } from "@liexp/shared/lib/tests/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { GroupMemberArb } from "@liexp/test/lib/arbitrary/GroupMember.arbitrary.js";
+import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { fc } from "@liexp/test/lib/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";

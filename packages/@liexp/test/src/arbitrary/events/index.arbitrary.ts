@@ -1,7 +1,7 @@
-import { type fc } from "@liexp/test";
-import { BOOK, DEATH } from "../../../io/http/Events/EventType.js";
-import { type EventType } from "../../../io/http/Events/index.js";
-import { type Events } from "../../../io/http/index.js";
+import { BOOK, DEATH } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";
 import { DeathEventArb } from "./DeathEvent.arbitrary.js";
 import { UncategorizedArb } from "./Uncategorized.arbitrary.js";
