@@ -663,8 +663,8 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3(@lezer/common@1.2.3)
       waveform-data:
-        specifier: ^4.5.0
-        version: 4.5.0
+        specifier: ^4.5.1
+        version: 4.5.1
     devDependencies:
       '@types/d3':
         specifier: ^7.4.3
@@ -10478,8 +10478,8 @@ packages:
   warning@4.0.3:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
 
-  waveform-data@4.5.0:
-    resolution: {integrity: sha512-fLT8yLGUuVhDBMVVOD2AGqHlLLVT/zfGlSIKgfqMCwFJGtkvY9eEhu0EL9W55lFJQt4r53X5Ncj86ymTGJlJTA==}
+  waveform-data@4.5.1:
+    resolution: {integrity: sha512-0pYUui5NZRXTT9N2ZKsF4aWa1vgjP3KcMn0CvfyttDrh0agGGS0d6rXaQG/fV0EQ/NLdVz00h6s6RQ3zqa0XJw==}
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
@@ -21429,7 +21429,7 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  waveform-data@4.5.0: {}
+  waveform-data@4.5.1: {}
 
   wcwidth@1.0.1:
     dependencies:

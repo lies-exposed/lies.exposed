@@ -107,7 +107,7 @@
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
     "vanilla-jsoneditor": "^2.3.3",
-    "waveform-data": "^4.5.0"
+    "waveform-data": "^4.5.1"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
