@@ -133,7 +133,7 @@ export const run = async (base: string): Promise<void> => {
     webSrvLog.info.log(
       "Server listening on %s:%s",
       process.env.VIRTUAL_HOST,
-      process.env.VIRTUAL_PORT,
+      port,
     );
   });
 };

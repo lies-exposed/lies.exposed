@@ -6,6 +6,7 @@ import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -97,7 +98,7 @@ export const parseURLs =
                     url: l.url,
                     type: "link",
                   },
-                }),
+                } as Queue),
               ),
               TE.mapLeft(ServerError.fromUnknown),
             );

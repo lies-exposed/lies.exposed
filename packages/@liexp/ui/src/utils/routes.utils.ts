@@ -1,13 +1,19 @@
-import * as E from "fp-ts/lib/Either.js";
+import type * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
-import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as t from "io-ts";
-import * as querystring from "query-string";
+import querystring from "query-string";
 import { type Location as WindowLocation } from "react-router";
 
-const queryStringOpts: querystring.ParseOptions = {
-  arrayFormat: "comma",
+type ParsedQuery = Record<string, string | boolean | number>;
+
+export const queryStringOpts: querystring.StringifyOptions = {
+  arrayFormat: "bracket",
+  skipEmptyString: true,
+};
+
+export const toQueryParams = (params: ParsedQuery): string => {
+  return querystring.stringify(params, queryStringOpts);
 };
 
 /**
@@ -16,7 +22,7 @@ const queryStringOpts: querystring.ParseOptions = {
  * @param query parsed query
  */
 const stripInvalid = (query: Record<string, any>): querystring.ParsedQuery => {
-  return R.record.filter(query, (r) => {
+  return R.Filterable.filter(query, (r) => {
     const isUndefined = t.undefined.is(r);
     const isEmptyString = typeof r === "string" && S.Eq.equals(r, "");
     return !isUndefined && !isEmptyString;
@@ -47,9 +53,7 @@ export const parseSearch = <R extends keyof Routes>(
 ): E.Either<t.Errors, Routes[R]> => {
   const search =
     l !== undefined
-      ? stripInvalid(
-          querystring.parse(l.search.replace("?", ""), queryStringOpts),
-        )
+      ? stripInvalid(querystring.parse(l.search, queryStringOpts))
       : {};
 
   switch (route) {
@@ -69,20 +73,3 @@ export const parseSearch = <R extends keyof Routes>(
 
   return Routes.props[route].decode(search);
 };
-
-export const updateSearch =
-  <R extends keyof Routes>(route: R) =>
-  (
-    l: WindowLocation | undefined,
-    update: Partial<Routes[R]>,
-  ): E.Either<t.Errors, string> => {
-    return pipe(
-      parseSearch(l, route),
-      E.map((search) => Object.assign(search, update)),
-      E.map(stripInvalid),
-      E.map(
-        (search) =>
-          `/${route}?${querystring.stringify(search, queryStringOpts)}`,
-      ),
-    );
-  };

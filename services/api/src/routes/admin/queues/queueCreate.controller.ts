@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toQueueIO } from "./queue.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -21,7 +22,7 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
             ...job,
             error: null,
             status: "pending",
-          }),
+          } as Queue),
         ),
         TE.chainEitherK(toQueueIO),
         TE.map((data) => ({

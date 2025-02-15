@@ -8,13 +8,6 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import get from "lodash/get";
 import * as React from "react";
-import {
-  Button,
-  useDataProvider,
-  useRecordContext,
-  useRedirect,
-  type FieldProps,
-} from "react-admin";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
 import {
@@ -23,19 +16,31 @@ import {
   Select,
   type SelectChangeEvent,
 } from "../../../mui/index.js";
+import {
+  Button,
+  useDataProvider,
+  useRecordContext,
+  useRedirect,
+  type InputProps,
+} from "../../react-admin.js";
 
-export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
+export const EventTypeInput: React.FC<InputProps> = ({
+  source,
+  defaultValue,
+  onChange,
+}) => {
   const record = useRecordContext<Events.Event>();
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
   const api = useAPI();
 
-  const value = get(record, source ?? "type");
+  const value = get(record, source ?? "type") ?? defaultValue;
   const [type, setType] = React.useState(
     value ?? Events.EventTypes.UNCATEGORIZED.value,
   );
-  const handleTransform = (e: SelectChangeEvent): void => {
+  const onSelectChange = (e: SelectChangeEvent): void => {
     setType(e.target.value);
+    onChange?.(e.target.value);
   };
 
   const doTransform = async (record: Events.Event): Promise<void> => {
@@ -127,7 +132,7 @@ export const EventTypeInput: React.FC<FieldProps> = ({ source }) => {
         <Select
           size="small"
           label="Transform in"
-          onChange={handleTransform}
+          onChange={onSelectChange}
           value={type}
           defaultValue={type}
         >

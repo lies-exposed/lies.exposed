@@ -1,6 +1,8 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -13,13 +15,20 @@ import {
 export const createEventFromLink = (
   api: EndpointsRESTClient<Endpoints>,
   qc: QueryClient,
-): UseMutationResult<any, APIError, { url: string }> =>
+): UseMutationResult<any, APIError, { url: URL }> =>
   useMutation({
     mutationFn: (params) =>
       pipe(
-        api.Endpoints.Event.Custom.CreateFromLink({
-          Body: {
-            url: params.url,
+        api.Endpoints.Event.post({
+          url: params.url,
+          type: UNCATEGORIZED.value,
+          payload: {
+            title: "",
+            location: undefined,
+            endDate: undefined,
+            groups: [],
+            groupsMembers: [],
+            actors: [],
           },
         }),
         throwTE,

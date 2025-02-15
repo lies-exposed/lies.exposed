@@ -48,7 +48,6 @@
   "peerDependencies": {
     "debug": "*",
     "dotenv": "^16.4.7",
-    "query-string": "^7",
     "vite": "^6",
     "vite-plugin-css-injected-by-js": "^3",
     "vite-plugin-optimizer": "^1",

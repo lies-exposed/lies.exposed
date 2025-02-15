@@ -3,15 +3,15 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type QueueTypes } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type ClientContextRTE } from "../../types.js";
-import { toAIBotError } from "#common/error/index.js";
+import { type AIBotError, toAIBotError } from "#common/error/index.js";
 
 type JobProcessors = (
   job: Queue.Queue,
   dryRun: boolean,
 ) => ClientContextRTE<Queue.Queue>;
 
-export type JobProcessRTE<Q extends Queue.Queue["data"]> = (
-  job: Omit<Queue.Queue, "data"> & { data: Q },
+export type JobProcessRTE<Q extends Pick<Queue.Queue, "data" | "type">> = (
+  job: Omit<Queue.Queue, "data" | "type"> & Q,
 ) => ClientContextRTE<string>;
 
 type JobTypesMap = {
@@ -19,8 +19,8 @@ type JobTypesMap = {
 };
 
 const processJob =
-  <Q extends Queue.Queue["data"]>(
-    job: Omit<Queue.Queue, "data"> & { data: Q },
+  <Q extends Pick<Queue.Queue, "type" | "data">>(
+    job: Omit<Queue.Queue, "type" | "data"> & Q,
     processTE: JobProcessRTE<Q>,
   ): ClientContextRTE<Queue.Queue> =>
   (ctx) => {
@@ -30,7 +30,7 @@ const processJob =
           fp.TE.right(job),
           fp.TE.chainFirst(() =>
             ctx.endpointsRESTClient.Endpoints.Queues.edit({
-              ...job,
+              ...(job as Queue.Queue),
               status: "processing",
             }),
           ),
@@ -61,18 +61,19 @@ const processJob =
                   status: "done",
                 } as Queue.Queue),
             ),
-            fp.TE.fromTask,
+            fp.TE.fromTask<Queue.Queue, AIBotError>,
           );
         },
         (job, result) => {
           const updatedJob = pipe(
             result,
             fp.E.fold(
-              (e) => ({
-                ...job,
-                error: e,
-                status: "failed" as Queue.Status,
-              }),
+              (e) =>
+                ({
+                  ...job,
+                  error: e,
+                  status: "failed",
+                }) as Queue.Queue,
               (r) => r,
             ),
           );
@@ -80,7 +81,7 @@ const processJob =
           return pipe(
             ctx.endpointsRESTClient.Endpoints.Queues.edit({
               ...updatedJob,
-            }),
+            } as Queue.Queue),
             fp.TE.map(() => undefined),
           );
         },

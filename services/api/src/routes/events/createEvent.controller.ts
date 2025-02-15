@@ -7,11 +7,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
-  type Event,
   EventFromURLBody,
   EVENTS,
 } from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
+import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -54,22 +53,27 @@ export const CreateEventRoute: Route = (r, ctx) => {
                   }),
                 ),
                 TE.map(
-                  (id): Event => ({
-                    id,
-                    type: body.type,
-                    draft: true,
-                    excerpt: null,
-                    body: null,
-                    payload: {} as any,
-                    links: [],
-                    media: [],
-                    keywords: [],
-                    socialPosts: [],
-                    date: new Date(),
-                    createdAt: new Date(),
-                    updatedAt: new Date(),
-                    deletedAt: undefined,
-                  }),
+                  (id) =>
+                    ({
+                      id,
+                      type: body.type,
+                      draft: true,
+                      excerpt: null,
+                      body: null,
+                      payload: body.payload,
+                      links: [],
+                      media: [],
+                      keywords: [],
+                      socialPosts: [],
+                      stories: [],
+                      actors: [],
+                      groups: [],
+                      location: null,
+                      date: new Date(),
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
+                      deletedAt: null,
+                    }) as EventV2Entity,
                 ),
               )
             : pipe(
@@ -83,10 +87,9 @@ export const CreateEventRoute: Route = (r, ctx) => {
                     },
                   }),
                 ),
-                TE.chainEitherK(EventV2IO.decodeSingle),
               ),
         ),
-
+        TE.chainEitherK(EventV2IO.decodeSingle),
         LoggerService.TE.debug(ctx, "Create data %O"),
         TE.map((data) => ({
           body: {

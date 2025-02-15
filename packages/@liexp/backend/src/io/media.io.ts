@@ -29,7 +29,7 @@ const toMediaIO = (
   return pipe(
     io.http.Media.AdminMedia.decode({
       ...media,
-      label: media.label ?? undefined,
+      label: media.label ?? media.location,
       description: media.description ?? undefined,
       location: ensureHTTPS(media.location),
       creator: media.creator ?? undefined,

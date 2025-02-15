@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
-import { CreateEventFromTextQueueData } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
-import { CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/CreateEventFromURLQueue.js";
+import { CreateEventFromTextQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
+import { CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import {
   CreateQueueTextData,
   CreateQueueURLData,

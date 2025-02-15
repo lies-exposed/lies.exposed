@@ -5,6 +5,7 @@ import {
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -39,8 +40,14 @@ const toGroupIO = (
           startDate: group.startDate?.toISOString() ?? undefined,
           endDate: group.endDate?.toISOString() ?? undefined,
           color: toColor(group.color),
-          excerpt: toInitialValue(group.excerpt) ?? null,
-          body: toInitialValue(group.body) ?? null,
+          excerpt:
+            group.excerpt && isValidValue(group.excerpt)
+              ? toInitialValue(group.excerpt)
+              : null,
+          body:
+            group.body && isValidValue(group.body)
+              ? toInitialValue(group.body)
+              : null,
           avatar,
           members: group.members ? group.members : [],
           subGroups: [],

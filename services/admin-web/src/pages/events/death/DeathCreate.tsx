@@ -21,7 +21,7 @@ const DeathCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Death Event"
       {...props}
-      transform={(data: any) => transformEvent(dataProvider)(uuid(), data)}
+      transform={(data) => transformEvent(dataProvider)(uuid(), data)}
     >
       <SimpleForm>
         <BooleanInput source="draft" defaultValue={false} />

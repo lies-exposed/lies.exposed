@@ -16,7 +16,6 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/CreateEventFromTextQueueData.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { Equal, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
@@ -78,7 +77,11 @@ const processDoneJobEventResult =
       fp.RTE.Do,
       fp.RTE.bind("event", () => {
         return pipe(
-          fp.RTE.of(job.result),
+          fp.RTE.of({
+            id: job.id,
+            draft: true,
+            ...job.result,
+          }),
           fp.RTE.chainEitherK(Event.decode),
           fp.RTE.mapLeft((errs) => DecodeError.of("Event", errs)),
         );
@@ -143,15 +146,8 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       }
 
       if (job.resource === "events") {
-        if (OpenAICreateEventFromTextType.is(job.type)) {
-          return pipe(
-            processDoneJobEventResult(EventRepository)(job),
-            fp.RTE.map(() => job),
-          );
-        }
-
         return pipe(
-          processDoneJobBlockNoteResult(EventRepository)(job),
+          processDoneJobEventResult(EventRepository)(job),
           fp.RTE.map(() => job),
         );
       }

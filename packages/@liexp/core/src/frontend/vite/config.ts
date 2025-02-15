@@ -137,6 +137,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
             port: config.port,
             host: config.host,
             hmr: config.hot,
+            allowedHosts: ["*.liexp.dev", "liexp.dev"],
           }
         : undefined,
       ssr: {

@@ -8,6 +8,7 @@ import {
   type InferEndpointParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { type runtimeType } from "ts-io-error/Codec.js";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
@@ -33,12 +34,12 @@ export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
 
 export type CreateFnParams<C> = InferEndpointParams<C>["body"] extends undefined
   ? undefined
-  : serializedType<InferEndpointParams<C>["body"]>;
+  : runtimeType<InferEndpointParams<C>["body"]>;
 
 export type EditFnParams<C> = Partial<
-  serializedType<InferEndpointParams<C>["body"]>
+  runtimeType<InferEndpointParams<C>["body"]>
 > &
-  serializedType<InferEndpointParams<C>["params"]>;
+  runtimeType<InferEndpointParams<C>["params"]>;
 
 export type GetEndpointQueryType<G> =
   InferEndpointParams<G>["query"] extends t.ExactType<infer T>
