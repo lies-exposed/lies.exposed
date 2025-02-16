@@ -27,7 +27,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
 
 RUN pnpm web --prod deploy --legacy /prod/web
 
-WORKDIR /prod
+WORKDIR /prod/web
 
 FROM node:22-alpine AS production
 

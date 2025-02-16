@@ -16,7 +16,7 @@ import compression from "compression";
 import D from "debug";
 import express from "express";
 import sirv from "sirv";
-// import { routes } from "../client/routes.js";
+import { routes } from "../client/routes.js";
 
 const webSrvLog = GetLogger("web");
 
@@ -53,13 +53,13 @@ export const run = async (base: string): Promise<void> => {
   let getTemplate;
   let transformTemplate;
   let onRequestError;
-  let routes;
+  // let routes;
 
   if (isProduction) {
     serverEntry = () => import(path.resolve(outputDir, "server/entry.js"));
-    routes = await import(path.resolve(outputDir, "client/routes.js")).then(
-      (r) => r.routes,
-    );
+    // routes = await import(path.resolve(outputDir, "client/routes.js")).then(
+    //   (r) => r.routes,
+    // );
     const templateFile = fs.readFileSync(indexFile, "utf8");
 
     getTemplate = (url: string, originalUrl: string) =>
@@ -85,9 +85,9 @@ export const run = async (base: string): Promise<void> => {
       appType: "custom",
       base,
     });
-    routes = await vite
-      .ssrLoadModule("/src/client/routes.tsx")
-      .then((m) => m.routes);
+    // routes = await vite
+    //   .ssrLoadModule("/src/client/routes.tsx")
+    //   .then((m) => m.routes);
 
     serverEntry = () =>
       vite.ssrLoadModule("/src/server/entry.tsx") as Promise<{

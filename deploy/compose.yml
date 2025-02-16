@@ -44,7 +44,7 @@ services:
       - .env.be-worker
     volumes:
       - ./certs/:/prod/worker/certs/:ro
-      - ./be-worker-temp/:/prod/worker/temp/:rw
+      - ./temp/:/prod/worker/temp/:rw
     mem_limit: 512M
     depends_on:
       - telegram-bot-api
