@@ -56,7 +56,7 @@
     "eslint": "^9.20.1",
     "exifreader": "^4.26.1",
     "fast-csv": "^5.0.2",
-    "ioredis": "^5.4.2",
+    "ioredis": "^5.5.0",
     "langchain": "^0.3.15",
     "page-metadata-parser": "^1.1.4",
     "puppeteer-core": "^24.1.1",

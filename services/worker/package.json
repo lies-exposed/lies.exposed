@@ -55,7 +55,7 @@
     "instagram-private-api": "^1.46.1",
     "io-ts": "^2.2.22",
     "io-ts-types": "^0.5.19",
-    "ioredis": "^5.4.2",
+    "ioredis": "^5.5.0",
     "lodash": "^4.17.21",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.66.0",
