@@ -48,7 +48,7 @@
     "@mui/system": "^6.4.3",
     "@mui/x-data-grid": "^7.26.0",
     "@react-spring/web": "^9.7.4",
-    "@tanstack/react-query": "^5.66.0",
+    "@tanstack/react-query": "^5.66.2",
     "@visx/axis": "^3.12.0",
     "@visx/curve": "^3.12.0",
     "@visx/event": "^3.12.0",
@@ -68,7 +68,7 @@
     "@visx/tooltip": "^3.12.0",
     "@visx/wordcloud": "^3.12.0",
     "@visx/zoom": "^3.12.0",
-    "@xyflow/react": "^12.4.2",
+    "@xyflow/react": "^12.4.3",
     "axios": "^1.7.9",
     "clsx": "^2.1.0",
     "d3": "^7.9.0",
@@ -106,7 +106,7 @@
     "topojson-client": "^3.1.0",
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "vanilla-jsoneditor": "^2.3.3",
+    "vanilla-jsoneditor": "^2.4.0",
     "waveform-data": "^4.5.1"
   },
   "devDependencies": {
