@@ -43,7 +43,8 @@ services:
     env_file:
       - .env.be-worker
     volumes:
-      - ./be-worker-temp/:/home/node/build/temp/:rw
+      - ./certs/:/prod/worker/certs/:ro
+      - ./be-worker-temp/:/prod/worker/temp/:rw
     mem_limit: 512M
     depends_on:
       - telegram-bot-api

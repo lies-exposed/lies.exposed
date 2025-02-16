@@ -63,6 +63,7 @@
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
     "pdfjs-dist": "^4.10.38",
+    "pg": "^8.13.3",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.1.1",
     "puppeteer-extra": "^3.3.6",

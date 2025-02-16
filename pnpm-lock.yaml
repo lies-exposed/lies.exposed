@@ -138,7 +138,7 @@ importers:
         version: 2.0.0
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(ioredis@5.5.0)(pg@8.13.1)
+        version: 0.3.20(ioredis@5.5.0)(pg@8.13.3)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -187,7 +187,7 @@ importers:
         version: 5.5.0
       langchain:
         specifier: ^0.3.15
-        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -816,7 +816,7 @@ importers:
         version: 3.744.0
       '@langchain/community':
         specifier: ^0.3.30
-        version: 0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.5.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.5.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.3)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0)
       '@langchain/core':
         specifier: ^0.3.40
         version: 0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))
@@ -846,7 +846,7 @@ importers:
         version: 2.2.22(fp-ts@2.16.9)
       langchain:
         specifier: ^0.3.15
-        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0)
+        version: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0)
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
@@ -927,8 +927,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       pg:
-        specifier: ^8.11.5
-        version: 8.13.1
+        specifier: ^8.13.3
+        version: 8.13.3
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -943,7 +943,7 @@ importers:
         version: 4.19.2
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(ioredis@5.5.0)(pg@8.13.1)
+        version: 0.3.20(ioredis@5.5.0)(pg@8.13.3)
       typescript:
         specifier: ^5.7.3
         version: 5.7.3
@@ -1307,6 +1307,9 @@ importers:
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
+      pg:
+        specifier: ^8.13.3
+        version: 8.13.3
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -1324,7 +1327,7 @@ importers:
         version: 0.33.5
       typeorm:
         specifier: ^0.3.20
-        version: 0.3.20(ioredis@5.5.0)(pg@8.13.1)
+        version: 0.3.20(ioredis@5.5.0)(pg@8.13.3)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -8524,13 +8527,16 @@ packages:
     resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
     engines: {node: '>=4'}
 
-  pg-pool@3.7.0:
-    resolution: {integrity: sha512-ZOBQForurqh4zZWjrgSwwAtzJ7QiRX0ovFkZr2klsen3Nm0aoh33Ls0fzfv3imeH/nw/O27cjdz5kzYJfeGp/g==}
+  pg-pool@3.7.1:
+    resolution: {integrity: sha512-xIOsFoh7Vdhojas6q3596mXFsR8nwBQBXX5JiV7p9buEVAGqYL4yFzclON5P9vFrpu1u7Zwl2oriyDa89n0wbw==}
     peerDependencies:
       pg: '>=8.0'
 
   pg-protocol@1.7.0:
     resolution: {integrity: sha512-hTK/mE36i8fDDhgDFjy6xNOG+LCorxLG3WO17tku+ij6sVHXh1jQUJ8hYAnRhNla4QVD2H8er/FOjc/+EgC6yQ==}
+
+  pg-protocol@1.7.1:
+    resolution: {integrity: sha512-gjTHWGYWsEgy9MsY0Gp6ZJxV24IjDqdpTW7Eh0x+WfJLFsm/TJx1MzL6T0D88mBvkpxotCQ6TwW6N+Kko7lhgQ==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -8540,8 +8546,8 @@ packages:
     resolution: {integrity: sha512-cRL3JpS3lKMGsKaWndugWQoLOCoP+Cic8oseVcbr0qhPzYD5DWXK+RZ9LY9wxRf7RQia4SCwQlXk0q6FCPrVng==}
     engines: {node: '>=10'}
 
-  pg@8.13.1:
-    resolution: {integrity: sha512-OUir1A0rPNZlX//c7ksiu7crsGZTKSOXJPgtNiHGIlC9H0lO+NC6ZDYksSgBYY/thSWhnSRBv8w1lieNNGATNQ==}
+  pg@8.13.3:
+    resolution: {integrity: sha512-P6tPt9jXbL9HVu/SSRERNYaYG++MjnscnegFh9pPHihfoBSujsrka0hyuymMzeJKFWrcG8wvCKy8rCe8e5nDUQ==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       pg-native: '>=3.0.1'
@@ -12463,7 +12469,7 @@ snapshots:
       - encoding
     optional: true
 
-  '@langchain/community@0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.5.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.1)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0)':
+  '@langchain/community@0.3.30(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.744.0)(@aws-sdk/credential-provider-node@3.744.0)(@browserbasehq/sdk@2.3.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(zod@3.24.2))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(@smithy/util-utf8@2.3.0)(axios@1.7.9)(cheerio@1.0.0)(fast-xml-parser@4.5.1)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.5.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(pdf-parse@1.1.1)(pg@8.13.3)(playwright@1.49.0)(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.4.7)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(zod@3.24.2)
       '@ibm-cloud/watsonx-ai': 1.3.0
@@ -12474,7 +12480,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0)
+      langchain: 0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0)
       langsmith: 0.3.7(openai@4.85.1(ws@8.18.0)(zod@3.24.2))
       openai: 4.85.1(ws@8.18.0)(zod@3.24.2)
       uuid: 10.0.0
@@ -12494,9 +12500,9 @@ snapshots:
       jsonwebtoken: 9.0.2
       lodash: 4.17.21
       pdf-parse: 1.1.1
-      pg: 8.13.1
+      pg: 8.13.3
       playwright: 1.49.0
-      typeorm: 0.3.20(ioredis@5.5.0)(pg@8.13.1)
+      typeorm: 0.3.20(ioredis@5.5.0)(pg@8.13.3)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@langchain/anthropic'
@@ -15061,7 +15067,7 @@ snapshots:
   axios@1.7.4(debug@4.4.0):
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
-      form-data: 4.0.2
+      form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -17951,7 +17957,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1))(ws@8.18.0):
+  langchain@0.3.15(@langchain/anthropic@0.3.8(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))))(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(axios@1.7.9)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.85.1(ws@8.18.0)(zod@3.24.2))(typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3))(ws@8.18.0):
     dependencies:
       '@langchain/core': 0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2))
       '@langchain/openai': 0.4.4(@langchain/core@0.3.40(openai@4.85.1(ws@8.18.0)(zod@3.24.2)))(ws@8.18.0)
@@ -17971,7 +17977,7 @@ snapshots:
       axios: 1.7.9(debug@4.4.0)
       cheerio: 1.0.0
       handlebars: 4.7.8
-      typeorm: 0.3.20(ioredis@5.5.0)(pg@8.13.1)
+      typeorm: 0.3.20(ioredis@5.5.0)(pg@8.13.3)
     transitivePeerDependencies:
       - encoding
       - openai
@@ -19057,11 +19063,13 @@ snapshots:
 
   pg-numeric@1.0.2: {}
 
-  pg-pool@3.7.0(pg@8.13.1):
+  pg-pool@3.7.1(pg@8.13.3):
     dependencies:
-      pg: 8.13.1
+      pg: 8.13.3
 
   pg-protocol@1.7.0: {}
+
+  pg-protocol@1.7.1: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -19081,11 +19089,11 @@ snapshots:
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
 
-  pg@8.13.1:
+  pg@8.13.3:
     dependencies:
       pg-connection-string: 2.7.0
-      pg-pool: 3.7.0(pg@8.13.1)
-      pg-protocol: 1.7.0
+      pg-pool: 3.7.1(pg@8.13.3)
+      pg-protocol: 1.7.1
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:
@@ -20931,7 +20939,7 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.1):
+  typeorm@0.3.20(ioredis@5.5.0)(pg@8.13.3):
     dependencies:
       '@sqltools/formatter': 1.2.5
       app-root-path: 3.1.0
@@ -20950,7 +20958,7 @@ snapshots:
       yargs: 17.7.2
     optionalDependencies:
       ioredis: 5.5.0
-      pg: 8.13.1
+      pg: 8.13.3
     transitivePeerDependencies:
       - supports-color
 
