@@ -7,9 +7,10 @@ import * as React from "react";
 import {
   FormDataConsumer,
   SelectInput,
+  TextInput,
   type ReferenceInputProps,
 } from "react-admin";
-import { Stack, TextField } from "../../../../mui/index.js";
+import { Stack } from "../../../../mui/index.js";
 import ReferenceActorInput from "../../../actors/ReferenceActorInput.js";
 import ReferenceGroupInput from "../../../groups/ReferenceGroupInput.js";
 
@@ -20,9 +21,10 @@ const ReferenceBySubjectInput: React.FC<
   const idSource = source ? `${source}.id` : `id`;
 
   return (
-    <Stack direction={"row"} spacing={2}>
+    <Stack direction={"row"} spacing={2} alignItems={"center"}>
       <SelectInput
         {...props}
+        size="small"
         source={typeSource}
         choices={[ByActorId, ByGroupId]
           .map((t) => t.type.props.type.value)
@@ -32,9 +34,10 @@ const ReferenceBySubjectInput: React.FC<
           }))}
       />
 
-      <FormDataConsumer {...props}>
+      <FormDataConsumer>
         {({ formData, scopedFormData, ...rest }) => {
-          const type = get(formData, typeSource);
+          const type = get(source ? formData : scopedFormData, typeSource);
+
           if (type === "Actor") {
             return (
               <ReferenceActorInput {...props} {...rest} source={idSource} />
@@ -44,7 +47,14 @@ const ReferenceBySubjectInput: React.FC<
               <ReferenceGroupInput {...props} {...rest} source={idSource} />
             );
           }
-          return <TextField defaultValue={"Select subject type"} disabled />;
+          return (
+            <TextInput
+              defaultValue={"Select subject type"}
+              size="small"
+              source={idSource}
+              disabled
+            />
+          );
         }}
       </FormDataConsumer>
     </Stack>

@@ -4,7 +4,7 @@ import {
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
-import { Box } from "../../../mui/index.js";
+import { Box, Grid2, Stack } from "../../../mui/index.js";
 import ReferenceArrayBySubjectInput from "../../common/inputs/BySubject/ReferenceArrayBySubjectInput.js";
 import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySubjectInput.js";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
@@ -21,8 +21,16 @@ export const BookEditFormTab: React.FC = () => {
         source="payload.media.audio"
         allowedTypes={AudioType.types.map((t) => t.value)}
       />
-      <ReferenceArrayBySubjectInput source="payload.authors" />
-      <ReferenceBySubjectInput source="payload.publisher" />
+      <Stack spacing={2}>
+        <Grid2 container direction={"row"} alignItems={"center"}>
+          <Grid2 columns={6}>
+            <ReferenceArrayBySubjectInput source="payload.authors" />
+          </Grid2>
+          <Grid2 columns={6}>
+            <ReferenceBySubjectInput source="payload.publisher" />
+          </Grid2>
+        </Grid2>
+      </Stack>
     </Box>
   );
 };
