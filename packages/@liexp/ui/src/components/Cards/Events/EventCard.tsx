@@ -21,16 +21,17 @@ import {
   type CardProps,
 } from "../../mui/index.js";
 
-export interface EventCardProps extends CardProps {
-  event: SearchEvent.SearchEvent;
-  defaultImage: string;
+export interface EventCardProps<E extends SearchEvent.SearchEvent>
+  extends CardProps {
+  event: E;
+  defaultImage?: string;
   showMedia?: boolean;
   showRelations: boolean;
   layout?: "vertical" | "horizontal";
-  onEventClick?: (e: SearchEvent.SearchEvent) => void;
+  onEventClick?: (e: E) => void;
 }
 
-const EventCard: React.FC<EventCardProps> = ({
+const EventCard = <E extends SearchEvent.SearchEvent>({
   event,
   showMedia = true,
   showRelations,
@@ -38,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({
   defaultImage,
   layout = "vertical",
   ...props
-}) => {
+}: EventCardProps<E>): React.JSX.Element => {
   const { actors, groups, media, keywords } = getSearchEventRelations(event);
   const title = getTitleForSearchEvent(event);
 

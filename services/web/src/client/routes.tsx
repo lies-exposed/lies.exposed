@@ -19,6 +19,7 @@ import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { BooksPage } from "./pages/events/BooksPage.js";
 
 // lazy route components
 const NotFoundPage = React.lazy(() => import("./pages/404.js"));
@@ -29,7 +30,7 @@ const CreateStoryPage = React.lazy(
   () => import("./pages/stories/CreateStoryPage"),
 );
 const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage.js"));
-const EventsPage = React.lazy(() => import("./pages/EventsPage.js"));
+const EventsPage = React.lazy(() => import("./pages/events/EventsPage.js"));
 const GroupsPage = React.lazy(() => import("./pages/GroupsPage.js"));
 const LinksPage = React.lazy(() => import("./pages/LinksPage.js"));
 const KeywordsPage = React.lazy(() => import("./pages/KeywordsPage.js"));
@@ -440,6 +441,12 @@ export const routes: ServerRoute[] = [
         },
       ]);
     },
+  },
+  {
+    path: "/books",
+    route: () => <BooksPage />,
+    queries: (Q, conf) => async () =>
+      Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]),
   },
   {
     path: "/scientific-studies/:id",

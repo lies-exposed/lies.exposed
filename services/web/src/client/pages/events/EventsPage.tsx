@@ -17,7 +17,7 @@ import * as React from "react";
 import {
   useNavigateToResource,
   type EventsView,
-} from "../utils/location.utils";
+} from "../../utils/location.utils";
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   tab: number;
