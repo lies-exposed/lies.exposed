@@ -489,8 +489,8 @@ importers:
         specifier: ^9.7.4
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.66.2
-        version: 5.66.2(react@18.3.1)
+        specifier: ^5.66.5
+        version: 5.66.5(react@18.3.1)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -742,8 +742,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.66.2
-        version: 5.66.2(react@18.3.1)
+        specifier: ^5.66.5
+        version: 5.66.5(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -1072,8 +1072,8 @@ importers:
         specifier: ^8.5.6
         version: 8.5.6(storybook@8.5.6(prettier@3.5.1))
       '@tanstack/react-query':
-        specifier: ^5.66.2
-        version: 5.66.2(react@18.3.1)
+        specifier: ^5.66.5
+        version: 5.66.5(react@18.3.1)
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1154,8 +1154,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.66.2
-        version: 5.66.2(react@18.3.1)
+        specifier: ^5.66.5
+        version: 5.66.5(react@18.3.1)
       compression:
         specifier: ^1.8.0
         version: 1.8.0
@@ -4129,8 +4129,16 @@ packages:
   '@tanstack/query-core@5.66.2':
     resolution: {integrity: sha512-GL/Rx7rIUxyYgJPWSpFjz09lizvAAZut2RueuRXnedAJzJMI+NxpwKA6dojJ9gc26RdUviH5pvSvEiYXo8vSTg==}
 
+  '@tanstack/query-core@5.66.4':
+    resolution: {integrity: sha512-skM/gzNX4shPkqmdTCSoHtJAPMTtmIJNS0hE+xwTTUVYwezArCT34NMermABmBVUg5Ls5aiUXEDXfqwR1oVkcA==}
+
   '@tanstack/react-query@5.66.2':
     resolution: {integrity: sha512-8Dl/Aqn5VGMmxIld4n7DiWqUzif24UFdeDn1ShL9RXAy+o1gdXXGQtAdfT5QEZCWivE6EnRWFXYeO4DDQQoM7w==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.66.5':
+    resolution: {integrity: sha512-D9aABj3/aFeNmifsdllh5O3hPyA8gUnZ1jAV8MjODQ7blirfAyGed9NjAnm8rgEdr1wChyjTT738ij3vY0EREQ==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -13767,9 +13775,16 @@ snapshots:
 
   '@tanstack/query-core@5.66.2': {}
 
+  '@tanstack/query-core@5.66.4': {}
+
   '@tanstack/react-query@5.66.2(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.66.2
+      react: 18.3.1
+
+  '@tanstack/react-query@5.66.5(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.66.4
       react: 18.3.1
 
   '@testing-library/dom@10.4.0':
@@ -19480,7 +19495,7 @@ snapshots:
 
   ra-core@5.5.3(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react-router-dom@6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.29.0(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.66.2(react@18.3.1)
+      '@tanstack/react-query': 5.66.5(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
       eventemitter3: 5.0.1
@@ -19522,7 +19537,7 @@ snapshots:
       '@mui/icons-material': 6.4.2(@mui/material@6.4.2(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
       '@mui/material': 6.4.2(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/utils': 7.0.0-alpha.1(@types/react@18.3.18)(react@18.3.1)
-      '@tanstack/react-query': 5.66.2(react@18.3.1)
+      '@tanstack/react-query': 5.66.5(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
