@@ -1,4 +1,5 @@
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar.js";
 import { BNEditor } from "../../Common/BlockNote/index.js";
@@ -14,15 +15,20 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
   return (
     <Grid
       container
+      spacing={2}
       style={{
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "center",
+        justifyItems: "center",
+        width: "100%",
+        marginBottom: 50,
       }}
     >
       <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
         <Typography style={{ display: "flex" }} variant="subtitle1">
-          <BNEditor content={item.excerpt} readOnly={true} />
+          {item.payload.quote}
         </Typography>
         <Typography variant="caption" fontStyle="italic">
           {item.payload.details}
@@ -41,7 +47,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
       </Grid>
       <Grid
         item
-        md={4}
+        md={3}
         sm={6}
         xs={12}
         style={{
@@ -51,6 +57,12 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
       >
         <Avatar src={item.payload.subject.id.avatar?.location} size="xlarge" />
       </Grid>
+
+      {isValidValue(item.excerpt) ? (
+        <Grid>
+          <BNEditor content={item.excerpt} readOnly={true} />
+        </Grid>
+      ) : null}
     </Grid>
   );
 };

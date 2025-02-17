@@ -364,7 +364,6 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 <Box
                   style={{
                     display: "flex",
-                    height: "100%",
                     width: "100%",
                   }}
                 >
