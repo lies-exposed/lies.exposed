@@ -50,7 +50,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@tanstack/react-query": "^5.66.2",
-    "compression": "^1.7.4",
+    "compression": "^1.8.0",
     "date-fns": "^4.1.0",
     "debug": "^4.3.4",
     "express": "^4.21.0",
