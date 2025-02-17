@@ -22,12 +22,12 @@ services:
     container_name: liexp-api
     ports:
       - "127.0.0.1:4010:4010"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
-      start_period: 30s
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
+    #   interval: 10s
+    #   timeout: 10s
+    #   retries: 10
+    #   start_period: 30s
     restart: always
     mem_limit: 1G
     depends_on:
