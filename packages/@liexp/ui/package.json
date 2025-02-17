@@ -46,7 +46,7 @@
     "@mui/lab": "7.0.0-beta.1",
     "@mui/material": "7.0.0-alpha.1",
     "@mui/system": "^6.4.3",
-    "@mui/x-data-grid": "^7.26.0",
+    "@mui/x-data-grid": "^7.27.0",
     "@react-spring/web": "^9.7.4",
     "@tanstack/react-query": "^5.66.2",
     "@visx/axis": "^3.12.0",
