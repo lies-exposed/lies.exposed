@@ -1,9 +1,11 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
-import { type EventCardProps } from "../components/Cards/Events/EventCard.js";
-import { EventCardGrid } from "../components/Cards/Events/EventCardGrid.js";
+import {
+  EventCardGrid,
+  type EventCardGridProps,
+} from "../components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
-import { Grid, Typography } from "../components/mui/index.js";
+import { Grid2, Typography } from "../components/mui/index.js";
 import { useAPI } from "../hooks/useAPI.js";
 import {
   searchEventsQuery,
@@ -11,19 +13,18 @@ import {
 } from "../state/queries/SearchEventsQuery.js";
 import { useTheme } from "../theme/index.js";
 
-export interface EventsBoxProps {
+export interface EventsBoxProps<
+  E extends SearchEvent.SearchEvent = SearchEvent.SearchEvent,
+> extends Omit<EventCardGridProps<E>, "events"> {
   title?: string;
   query: Partial<SearchEventQueryInput>;
-  onEventClick: (e: SearchEvent.SearchEvent) => void;
-  cardLayout?: EventCardProps["layout"];
 }
 
-const EventsBox: React.FC<EventsBoxProps> = ({
+const EventsBox = <E extends SearchEvent.SearchEvent>({
   query,
   title,
-  onEventClick,
-  cardLayout,
-}) => {
+  ...eventCardGridProps
+}: EventsBoxProps<E>): React.JSX.Element => {
   const theme = useTheme();
   const api = useAPI();
 
@@ -41,26 +42,27 @@ const EventsBox: React.FC<EventsBoxProps> = ({
       }}
       render={({ events }) => {
         return (
-          <Grid
+          <Grid2
             display="flex"
             container
+            direction={"column"}
             spacing={2}
-            style={{ marginBottom: theme.spacing(2) }}
+            style={{
+              marginBottom: theme.spacing(2),
+              width: "100%",
+            }}
           >
             {title ? (
-              <Grid item xs={12}>
+              <Grid2 size={12}>
                 <Typography variant="h5">{title}</Typography>
-              </Grid>
+              </Grid2>
             ) : null}
 
-            <Grid item xs={12}>
-              <EventCardGrid
-                events={events.events}
-                onItemClick={onEventClick}
-                cardLayout={cardLayout}
-              />
-            </Grid>
-          </Grid>
+            <EventCardGrid
+              events={events.events as E[]}
+              {...eventCardGridProps}
+            />
+          </Grid2>
         );
       }}
     />

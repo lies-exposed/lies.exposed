@@ -64,7 +64,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       renderTags={(items) => (
         <EventCardGrid
           events={items.map((e) => toSearchEvent(e, {}))}
-          onItemClick={(a) => {
+          onEventClick={(a) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}
         />

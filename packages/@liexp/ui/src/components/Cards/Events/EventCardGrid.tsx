@@ -1,19 +1,25 @@
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type ResponsiveStyleValue } from "@mui/system";
 import * as A from "fp-ts/lib/Array.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { styled } from "../../../theme/index.js";
-import { Grid } from "../../mui/index.js";
+import { Grid2 } from "../../mui/index.js";
 import EventCard, { type EventCardProps } from "./EventCard.js";
 
-export interface EventCardGridProps {
-  events: Events.SearchEvent.SearchEvent[];
-  onItemClick: (e: Events.SearchEvent.SearchEvent) => void;
+export interface EventCardGridProps<
+  E extends Events.SearchEvent.SearchEvent = Events.SearchEvent.SearchEvent,
+> {
+  events: E[];
+  onEventClick: (e: E) => void;
   showItemRelations?: boolean;
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
-  cardLayout?: EventCardProps["layout"];
+  columns?: ResponsiveStyleValue<number>;
+  cardLayout?: EventCardProps<E>["layout"];
+  card?: React.FC<EventCardProps<E>>;
 }
 
 const PREFIX = "EventCardGrid";
@@ -22,13 +28,13 @@ const classes = {
   card: `${PREFIX}-card`,
 };
 
-const StyledGrid = styled(Grid)(({ theme }) => ({
+const StyledGrid = styled(Grid2)(({ theme }) => ({
   [`& .${classes.cardContainer}`]: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
-    padding: theme.spacing(2),
-    height: "100%",
+    // padding: theme.spacing(2),
+    // height: "100%",
     [theme.breakpoints.down("md")]: {
       height: "auto",
     },
@@ -42,50 +48,34 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-export const EventCardGrid: React.FC<EventCardGridProps> = ({
+export const EventCardGrid = <E extends SearchEvent>({
   events,
   itemStyle,
-  onItemClick,
+  onEventClick,
   showItemRelations = true,
   cardLayout,
+  card: Card = EventCard,
+  columns,
   ...props
-}) => {
-  const gridSize = 12 / (events.length < 3 ? events.length : 3);
+}: EventCardGridProps<E>): React.JSX.Element => {
   const conf = useConfiguration();
   return (
     <StyledGrid container spacing={2} {...props}>
       {pipe(
         events,
-        A.chunksOf(3),
-        A.map((ev) => {
+        A.map((e) => {
           return (
-            <Grid
-              item
-              container
-              spacing={2}
-              key={`events-chunk-container${ev[0].id}`}
-            >
-              {ev.map((e) => (
-                <Grid
-                  key={e.id}
-                  item
-                  className={classes.cardContainer}
-                  md={gridSize}
-                  sm={6}
-                  xs={12}
-                >
-                  <EventCard
-                    event={e}
-                    showRelations={showItemRelations}
-                    className={classes.card}
-                    onEventClick={onItemClick}
-                    defaultImage={conf.platforms.web.defaultImage}
-                    style={itemStyle}
-                    layout={cardLayout}
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <Grid2 key={e.id} className={classes.cardContainer} size={columns}>
+              <Card
+                event={e}
+                showRelations={showItemRelations}
+                className={classes.card}
+                onEventClick={onEventClick}
+                defaultImage={conf.platforms.web.defaultImage}
+                style={{ ...itemStyle, width: "100%" }}
+                layout={cardLayout}
+              />
+            </Grid2>
           );
         }),
       )}
