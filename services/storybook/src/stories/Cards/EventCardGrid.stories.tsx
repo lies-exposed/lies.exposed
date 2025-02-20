@@ -35,7 +35,7 @@ const Template: StoryFn<EventCardGridProps> = (props) => {
   );
 };
 
-const EventCardGridExample = Template.bind({});
+const EventCardGridExample = Template.bind<any>({});
 
 EventCardGridExample.args = {};
 

@@ -51,13 +51,13 @@ export interface SearchEventQueryResult {
 
 const initialSearchEventsQueryCache: SearchEventsQueryCache = {
   events: [],
-  actors: new Map(),
-  groups: new Map(),
-  groupsMembers: new Map(),
-  media: new Map(),
-  keywords: new Map(),
-  links: new Map(),
-  areas: new Map(),
+  actors: [],
+  groups: [],
+  groupsMembers: [],
+  media: [],
+  keywords: [],
+  links: [],
+  areas: [],
 };
 
 let searchEventsQueryCache: SearchEventsQueryCache =
@@ -218,8 +218,8 @@ const searchEventsQ =
 
 export const getSearchEventsQueryKey = (
   p: Partial<SearchEventQueryInput>,
-): [string, any, any, any] => {
-  return ["events-search", { _start: 0, _end: 20, ...p }, undefined, undefined];
+): [string, any, any, boolean] => {
+  return ["events-search", { _start: 0, _end: 20, ...p }, undefined, false];
 };
 
 export const fetchSearchEvents =
@@ -247,23 +247,9 @@ export const searchEventsQuery = (
 
 export const getSearchEventsInfiniteQueryKey = (
   input: Partial<SearchEventQueryInput>,
-): [string, Partial<SearchEventQueryInput>, unknown, unknown] => {
-  return ["events-search-infinite", input, undefined, undefined];
+): [string, Partial<SearchEventQueryInput>, unknown, boolean] => {
+  return ["events-search-infinite", input, undefined, false];
 };
-
-export const fetchSearchEventsInfinite =
-  (api: API) =>
-  ({ queryKey, pageParam }: any): Promise<SearchEventQueryResult> => {
-    const params = queryKey[1];
-    return pipe(
-      searchEventsQ(api)({
-        ...params,
-        _start: pageParam?.startIndex ?? 0,
-        _end: pageParam?.stopIndex ?? 20,
-      }),
-      throwTE,
-    );
-  };
 
 export const searchEventsInfiniteQuery =
   (api: API) =>
@@ -274,9 +260,19 @@ export const searchEventsInfiniteQuery =
     APIError
   > => {
     return useInfiniteQuery({
-      initialPageParam: { startIndex: 0, stopIndex: 20 },
+      initialPageParam: { _start: 0, _end: 20 },
       queryKey: getSearchEventsInfiniteQueryKey(input),
-      queryFn: fetchSearchEventsInfinite(api),
+      queryFn: ({ queryKey, pageParam }) =>
+        pipe(
+          api.Event.Custom.SearchEvents({
+            Query: {
+              ...queryKey[1],
+              _start: pageParam._start.toString(),
+              _end: pageParam._end.toString(),
+            },
+          }),
+          throwTE,
+        ),
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       getNextPageParam: (lastPage, allPages) => {
@@ -288,7 +284,7 @@ export const searchEventsInfiniteQuery =
           return undefined;
         }
 
-        return { startIndex: loadedEvents, stopIndex: loadedEvents + 20 };
+        return { _start: loadedEvents, _end: loadedEvents + 20 };
       },
     });
   };

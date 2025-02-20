@@ -1,7 +1,6 @@
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
   getColorByEventType,
   getTotals,
@@ -386,8 +385,6 @@ export const createNetworkGraph =
 
     const createNetworkGraphTask: TEReader<NetworkGraphOutput> = pipe(
       fetchEventsWithRelations(
-        type,
-        ids,
         {
           ids: O.none,
           actors:
@@ -417,7 +414,6 @@ export const createNetworkGraph =
           startDate: O.none,
           endDate: O.none,
           relations: O.some(relations),
-          emptyRelations: O.none,
         },
         isAdmin,
       ),
@@ -437,11 +433,11 @@ export const createNetworkGraph =
           _events,
           fp.A.map((aa) =>
             toSearchEvent(aa, {
-              actors: new Map(cleanedActors.map(TupleWithId.of)),
-              groups: new Map(cleanedGroups.map(TupleWithId.of)),
-              keywords: new Map(keywords.map(TupleWithId.of)),
-              media: new Map(media.map(TupleWithId.of)),
-              groupsMembers: new Map(),
+              actors: cleanedActors,
+              groups: cleanedGroups,
+              keywords: keywords,
+              media: media,
+              groupsMembers: [],
             }),
           ),
         );

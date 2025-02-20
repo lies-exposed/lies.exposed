@@ -1,17 +1,16 @@
-import { type BySubject } from "../../Common/index.js";
-import type * as Keyword from "../../Keyword.js";
-import type * as Link from "../../Link.js";
-import type * as Media from "../../Media/Media.js";
-import type * as Book from "../Book.js";
+import * as t from "io-ts";
+import { BySubject } from "../../Common/index.js";
+import * as Media from "../../Media/Media.js";
+import * as Book from "../Book.js";
+import { SearchEventCodec } from "./SearchEventCodec.js";
 
-export interface SearchBookEvent
-  extends Omit<Book.Book, "payload" | "media" | "keywords" | "links"> {
-  payload: Omit<Book.Book["payload"], "authors" | "publisher" | "media"> & {
-    authors: BySubject[];
-    publisher?: BySubject;
-    media: { pdf: Media.Media; audio?: Media.Media };
-  };
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-  links: Link.Link[];
-}
+export const SearchBookEvent = SearchEventCodec(Book.Book, {
+  authors: t.array(BySubject),
+  publisher: t.union([BySubject, t.undefined]),
+  media: t.strict({
+    pdf: Media.Media,
+    audio: t.union([Media.Media, t.undefined]),
+  }),
+});
+
+export type SearchBookEvent = t.TypeOf<typeof SearchBookEvent>;

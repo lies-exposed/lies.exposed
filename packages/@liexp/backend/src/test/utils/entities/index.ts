@@ -92,13 +92,13 @@ export const toLinkEntity = (a: Link): LinkEntity => ({
 });
 
 export const toGroupEntity = ({ subGroups, ...g }: Group): GroupEntity => ({
-  ...g,
   old_avatar: null,
-  username: g.username ?? null,
-  avatar: null,
-  startDate: null,
-  endDate: null,
-  members: [],
   stories: [],
-  deletedAt: null,
+  ...g,
+  username: g.username ?? null,
+  avatar: g.avatar ? toMediaEntity(g.avatar) : null,
+  startDate: g.startDate ?? null,
+  endDate: g.endDate ?? null,
+  members: [],
+  deletedAt: g.deletedAt ?? null,
 });

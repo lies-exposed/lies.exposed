@@ -1,4 +1,5 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import {
   EventsSankeyGraph,
@@ -6,9 +7,7 @@ import {
 } from "../components/Graph/EventsSankeyGraph.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Box } from "../components/mui/index.js";
-import { useAPI } from "../hooks/useAPI.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
-import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
 import { type EventsQueryParams } from "./EventsPanel.js";
 
 interface EventsNetworkProps
@@ -31,7 +30,6 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
   ...props
 }) => {
   // console.log(filter);
-  const api = useAPI();
 
   const { Queries } = useEndpointQueries();
 
@@ -43,13 +41,18 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
 
   return (
     <QueriesRenderer
-      queries={{
-        events: searchEventsQuery(api)({
-          hash: "events-network",
+      queries={(Q) => ({
+        events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
           ...eventsFilter,
+          _start: eventsFilter._start.toString(),
+          _end: eventsFilter._end.toString(),
         }),
-      }}
-      render={({ events: { events, actors, groups, keywords } }) => {
+      })}
+      render={({
+        events: {
+          data: { events, actors, groups, keywords },
+        },
+      }) => {
         // console.log(events);
 
         const relationIds = events.reduce(
@@ -75,9 +78,9 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
             };
           },
           {
-            actors: [] as any[],
-            groups: [] as any[],
-            groupsMembers: [] as any[],
+            actors: [] as UUID[],
+            groups: [] as UUID[],
+            groupsMembers: [] as UUID[],
           },
         );
 

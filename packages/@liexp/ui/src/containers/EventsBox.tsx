@@ -6,11 +6,7 @@ import {
 } from "../components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Grid2, Typography } from "../components/mui/index.js";
-import { useAPI } from "../hooks/useAPI.js";
-import {
-  searchEventsQuery,
-  type SearchEventQueryInput,
-} from "../state/queries/SearchEventsQuery.js";
+import { type SearchEventQueryInput } from "../state/queries/SearchEventsQuery.js";
 import { useTheme } from "../theme/index.js";
 
 export interface EventsBoxProps<
@@ -26,21 +22,21 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
   ...eventCardGridProps
 }: EventsBoxProps<E>): React.JSX.Element => {
   const theme = useTheme();
-  const api = useAPI();
-
-  const searchEventsFn = searchEventsQuery(api)({
-    hash: title ? title.trim() : JSON.stringify(query),
-    _start: 0,
-    _end: 10,
-    ...query,
-  });
 
   return (
     <QueriesRenderer
-      queries={{
-        events: searchEventsFn,
-      }}
-      render={({ events }) => {
+      queries={(Q) => ({
+        events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
+          ...query,
+          _start: query._start?.toString() ?? "0",
+          _end: query._end?.toString() ?? "10",
+        }),
+      })}
+      render={({
+        events: {
+          data: { events },
+        },
+      }) => {
         return (
           <Grid2
             display="flex"
@@ -58,10 +54,7 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
               </Grid2>
             ) : null}
 
-            <EventCardGrid
-              events={events.events as E[]}
-              {...eventCardGridProps}
-            />
+            <EventCardGrid events={events as E[]} {...eventCardGridProps} />
           </Grid2>
         );
       }}

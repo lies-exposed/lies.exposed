@@ -2,6 +2,7 @@ import * as t from "io-ts";
 import { UUID } from "io-ts-types/lib/UUID.js";
 import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
 import { Endpoint } from "ts-endpoint";
+import { SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { PaginationQuery } from "../../io/http/Query/PaginationQuery.js";
 import * as http from "../../io/http/index.js";
@@ -176,6 +177,30 @@ export const SearchEventsFromProvider = Endpoint({
   ),
 });
 
+const SearchEvents = Endpoint({
+  Method: "GET",
+  getPath: () => "/events/search",
+  Input: {
+    Query: GetSearchEventsQuery.type,
+  },
+  Output: http.Common.Output(
+    t.strict({
+      events: t.array(SearchEvent),
+      total: t.number,
+      totals: http.Events.SearchEvent.EventTotals.EventTotals,
+      actors: t.array(http.Actor.Actor),
+      groups: t.array(http.Group.Group),
+      groupsMembers: t.array(http.GroupMember.GroupMember),
+      media: t.array(http.Media.Media),
+      keywords: t.array(http.Keyword.Keyword),
+      links: t.array(http.Link.Link),
+      firstDate: t.union([t.string, t.undefined]),
+      lastDate: t.union([t.string, t.undefined]),
+    }).type,
+    "SearchEvents",
+  ),
+});
+
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
@@ -210,6 +235,7 @@ const events = ResourceEndpoints({
     GetSuggestions,
     GetSuggestion,
     SearchEventsFromProvider,
+    SearchEvents,
   },
 });
 

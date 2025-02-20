@@ -46,11 +46,11 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
     }))
     .map((ev) =>
       toSearchEvent(ev, {
-        actors: new Map(),
-        groups: new Map(),
-        keywords: new Map(),
-        media: new Map(),
-        groupsMembers: new Map(),
+        actors: [],
+        groups: [],
+        keywords: [],
+        media: [],
+        groupsMembers: [],
       }),
     );
 
