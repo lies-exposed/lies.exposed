@@ -4,8 +4,6 @@ import QueriesRenderer from "../components/QueriesRenderer.js";
 import EventsAppBar, {
   type EventsAppBarProps,
 } from "../components/events/filters/EventsAppBar.js";
-import { useAPI } from "../hooks/useAPI.js";
-import { searchEventsQuery } from "../state/queries/SearchEventsQuery.js";
 
 interface EventsAppBarBoxProps
   extends Omit<EventsAppBarProps, "events" | "totals"> {
@@ -17,25 +15,23 @@ const EventsAppBarBox: React.FC<EventsAppBarBoxProps> = ({
   hash: _hash,
   ...props
 }) => {
-  const hash = `${_hash}-totals`;
-  const api = useAPI();
-
   return (
     <QueriesRenderer
-      queries={{
-        searchEvents: searchEventsQuery(api)({
+      queries={(Q) => ({
+        searchEvents: Q.Event.Custom.SearchEvents.useQuery(undefined, {
           ...query,
-          hash,
-          _start: 0,
-          _end: 0,
+          _start: "0",
+          _end: "0",
         }),
-      }}
+      })}
       render={({
         searchEvents: {
-          totals,
-          firstDate = new Date().toISOString(),
-          lastDate = new Date().toISOString(),
-          events,
+          data: {
+            totals,
+            firstDate = new Date().toISOString(),
+            lastDate = new Date().toISOString(),
+            events,
+          },
         },
       }) => {
         return (

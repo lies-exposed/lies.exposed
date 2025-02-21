@@ -1,10 +1,11 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as A from "fp-ts/lib/Array.js";
-import * as M from "fp-ts/lib/Map.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as S from "fp-ts/lib/string.js";
 import { type BySubject } from "../../io/http/Common/index.js";
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
+import { type SearchBookEvent } from "../../io/http/Events/SearchEvents/SearchBookEvent.js";
+import { type SearchDocumentaryEvent } from "../../io/http/Events/SearchEvents/SearchDocumentaryEvent.js";
+import { type SearchQuoteEvent } from "../../io/http/Events/SearchEvents/SearchQuoteEvent.js";
+import { type SearchTransactionEvent } from "../../io/http/Events/SearchEvents/SearchTransactionEvent.js";
 import {
   Events,
   type Actor,
@@ -25,13 +26,13 @@ import { getSearchEventRelations } from "./getSearchEventRelations.js";
 
 export interface SearchEventsQueryCache {
   events: Events.SearchEvent.SearchEvent[];
-  actors: Map<string, Actor.Actor>;
-  groups: Map<string, Group.Group>;
-  groupsMembers: Map<string, GroupMember.GroupMember>;
-  media: Map<string, Media.Media>;
-  keywords: Map<string, Keyword.Keyword>;
-  links: Map<string, Link.Link>;
-  areas: Map<string, Area.Area>;
+  actors: Actor.Actor[];
+  groups: Group.Group[];
+  groupsMembers: GroupMember.GroupMember[];
+  media: Media.Media[];
+  keywords: Keyword.Keyword[];
+  links: Link.Link[];
+  areas: Area.Area[];
 }
 
 export const getNewRelationIds = (
@@ -40,13 +41,34 @@ export const getNewRelationIds = (
 ): Events.EventRelationIds => {
   // get relation ids from cache;
 
-  const actorIds = pipe(s.actors, M.keys(S.Ord));
-  const groupIds = pipe(s.groups, M.keys(S.Ord));
-  const groupsMemberIds = pipe(s.groupsMembers, M.keys(S.Ord));
-  const mediaIds = pipe(s.media, M.keys(S.Ord));
-  const keywordIds = pipe(s.keywords, M.keys(S.Ord));
-  const linkIds = pipe(s.links, M.keys(S.Ord));
-  const areaIds = pipe(s.areas, M.keys(S.Ord));
+  const actorIds = pipe(
+    s.actors,
+    A.map((a) => a.id),
+  );
+  const groupIds = pipe(
+    s.groups,
+    A.map((a) => a.id),
+  );
+  const groupsMemberIds = pipe(
+    s.groupsMembers,
+    A.map((a) => a.id),
+  );
+  const mediaIds = pipe(
+    s.media,
+    A.map((a) => a.id),
+  );
+  const keywordIds = pipe(
+    s.keywords,
+    A.map((a) => a.id),
+  );
+  const linkIds = pipe(
+    s.links,
+    A.map((a) => a.id),
+  );
+  const areaIds = pipe(
+    s.areas,
+    A.map((a) => a.id),
+  );
 
   const init: Events.EventRelationIds = eventRelationIdsMonoid.empty;
 
@@ -104,42 +126,68 @@ export const updateCache = (
   const actors = pipe(
     update.actors,
     A.reduce(s.actors, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+      const existing = accActors.some((aa) => aa.id === a.id);
+      return existing ? accActors : accActors.concat(a);
     }),
   );
 
   const groups = pipe(
     update.groups,
     A.reduce(s.groups, (accGroups, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accGroups);
+      const existing = accGroups.some((aa) => aa.id === a.id);
+      return existing ? accGroups : accGroups.concat(a);
     }),
   );
 
   const groupsMembers = pipe(
     update.groupsMembers,
-    A.reduce(s.groupsMembers, (accGroupsMembers, gm) => {
-      return M.upsertAt(S.Eq)(gm.id, gm)(accGroupsMembers);
+    A.reduce(s.groupsMembers, (acc, gm) => {
+      const index = acc.findIndex((g) => g.id === gm.id);
+      if (index === -1) {
+        return acc.concat(gm);
+      }
+      acc[index] = gm;
+
+      return acc;
     }),
   );
 
   const media = pipe(
     update.media,
-    A.reduce(s.media, (accMedia, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accMedia);
+    A.reduce(s.media, (acc, gm) => {
+      const index = acc.findIndex((g) => g.id === gm.id);
+      if (index === -1) {
+        return acc.concat(gm);
+      }
+      acc[index] = gm;
+
+      return acc;
     }),
   );
 
   const keywords = pipe(
     update.keywords,
-    A.reduce(s.keywords, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    A.reduce(s.keywords, (acc, gm) => {
+      const index = acc.findIndex((g) => g.id === gm.id);
+      if (index === -1) {
+        return acc.concat(gm);
+      }
+      acc[index] = gm;
+
+      return acc;
     }),
   );
 
   const links = pipe(
     update.links,
-    A.reduce(s.links, (accActors, a) => {
-      return M.upsertAt(S.Eq)(a.id, a)(accActors);
+    A.reduce(s.links, (acc, gm) => {
+      const index = acc.findIndex((g) => g.id === gm.id);
+      if (index === -1) {
+        return acc.concat(gm);
+      }
+      acc[index] = gm;
+
+      return acc;
     }),
   );
 
@@ -157,7 +205,7 @@ export const updateCache = (
     ),
   );
 
-  const areas = new Map();
+  const areas: Area.Area[] = [];
 
   return {
     events: newEvents,
@@ -186,50 +234,68 @@ export const toSearchEvent = (
 
   const actors = pipe(
     actorIds,
-    A.map((a) =>
-      pipe(s.actors ?? new Map<string, Actor.Actor>(), M.lookup(S.Eq)(a)),
-    ),
+    A.map((a) => {
+      return pipe(
+        s.actors?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
   const groups = pipe(
     groupIds,
-    A.map((a) =>
-      pipe(s.groups ?? new Map<string, Group.Group>(), M.lookup(S.Eq)(a)),
-    ),
+    A.map((a) => {
+      return pipe(
+        s.groups?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
   const groupsMembers = pipe(
     groupsMembersIds,
-    A.map((a) =>
-      pipe(
-        s.groupsMembers ?? new Map<string, GroupMember.GroupMember>(),
-        M.lookup(S.Eq)(a),
-      ),
-    ),
+
+    A.map((a) => {
+      return pipe(
+        s.groupsMembers?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
   const media = pipe(
     mediaIds,
-    A.map((a) =>
-      pipe(s.media ?? new Map<string, Media.Media>(), M.lookup(S.Eq)(a)),
-    ),
+    A.map((a) => {
+      return pipe(
+        s.media?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
   const keywords = pipe(
     keywordIds,
-    A.map((a) =>
-      pipe(s.keywords ?? new Map<string, Keyword.Keyword>(), M.lookup(S.Eq)(a)),
-    ),
+    A.map((a) => {
+      return pipe(
+        s.keywords?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
   const links = pipe(
     linkIds,
-    A.map((a) => pipe(s.links ?? new Map(), M.lookup(S.Eq)(a))),
+    A.map((a) => {
+      return pipe(
+        s.links?.find((actor) => actor.id === a),
+        fp.O.fromNullable,
+      );
+    }),
     A.compact,
   );
 
@@ -252,10 +318,11 @@ export const toSearchEvent = (
       const pdfMedia: Media.Media =
         media.find((m) => e.payload.media.pdf === m.id) ?? media[0];
       const audioMedia = media.find((m) => e.payload.media.audio === m.id);
+
       return {
         ...e,
         payload: {
-          ...e.payload,
+          title: e.payload.title,
           authors,
           media: { pdf: pdfMedia, audio: audioMedia },
           publisher,
@@ -263,7 +330,7 @@ export const toSearchEvent = (
         media,
         keywords,
         links,
-      };
+      } satisfies SearchBookEvent;
     }
     case Events.EventTypes.QUOTE.value: {
       return {
@@ -280,18 +347,14 @@ export const toSearchEvent = (
         media,
         keywords,
         links,
-      };
+      } satisfies SearchQuoteEvent;
     }
     case Events.EventTypes.DEATH.value: {
       return {
         ...e,
         payload: {
           ...e.payload,
-          victim:
-            actors.find((a) => a.id === e.payload.victim) ??
-            ({
-              id: e.payload.victim,
-            } as any),
+          victim: actors.find((a) => a.id === e.payload.victim)!,
         },
         media,
         keywords,
@@ -352,7 +415,7 @@ export const toSearchEvent = (
         media,
         keywords,
         links,
-      };
+      } satisfies SearchDocumentaryEvent;
     }
     case Events.EventTypes.TRANSACTION.value: {
       const from: BySubject = pipe(
@@ -375,7 +438,7 @@ export const toSearchEvent = (
         media,
         keywords,
         links,
-      };
+      } satisfies SearchTransactionEvent;
     }
     default: {
       return {
@@ -398,7 +461,8 @@ export const fromSearchEvent = (
   e: Events.SearchEvent.SearchEvent,
 ): Events.Event => {
   const relations = pipe(
-    getSearchEventRelations(e),
+    e,
+    getSearchEventRelations,
     getRelationIdsFromEventRelations,
   );
 

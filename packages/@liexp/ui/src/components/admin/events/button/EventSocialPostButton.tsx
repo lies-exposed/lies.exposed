@@ -1,5 +1,4 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
@@ -59,15 +58,7 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
 
             const title = getTitle(event, relations);
 
-            const searchEvent = toSearchEvent(event, {
-              actors: new Map(relations.actors.map(TupleWithId.of)),
-              groups: new Map(relations.groups.map(TupleWithId.of)),
-              media: new Map(relations.media.map(TupleWithId.of)),
-              keywords: new Map(relations.keywords.map(TupleWithId.of)),
-              groupsMembers: new Map(
-                relations.groupsMembers.map(TupleWithId.of),
-              ),
-            });
+            const searchEvent = toSearchEvent(event, relations);
 
             if (searchEvent.type === "Quote") {
               const { subject } = searchEvent.payload;

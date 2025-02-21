@@ -15,7 +15,7 @@ export const toEventNetworkDatum = (
     date: event.date,
     groupBy: [],
     type: event.type,
-    image: event.media.find((m) => m.thumbnail)?.thumbnail,
+    image: event.media.find((m) => m)?.thumbnail,
     actors: [],
     groups: [],
     keywords: [],

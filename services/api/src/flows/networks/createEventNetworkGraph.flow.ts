@@ -11,7 +11,6 @@ import { fetchRelations } from "@liexp/backend/lib/queries/events/fetchEventRela
 import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import {
   getColorByEventType,
   getTotals,
@@ -420,18 +419,17 @@ export const createEventNetworkGraph =
         }),
       ),
       TE.chain(({ event, actors, groups, keywords, media }) => {
-        const actorsMap = new Map(actors.map(TupleWithId.of));
-        ctx.logger.debug.log(`Actors %d: %O`, actors.length, actorsMap);
+        ctx.logger.debug.log(`Actors %d: %O`, actors.length);
         ctx.logger.debug.log(`Groups %d`, groups.length);
         ctx.logger.debug.log(`Keywords %d`, keywords.length);
         ctx.logger.debug.log(`Media %d`, media.length);
 
         const searchEvent = toSearchEvent(event, {
-          actors: actorsMap,
-          groups: new Map(groups.map(TupleWithId.of)),
-          keywords: new Map(keywords.map(TupleWithId.of)),
-          media: new Map(media.map(TupleWithId.of)),
-          groupsMembers: new Map(),
+          actors,
+          groups,
+          keywords,
+          media,
+          groupsMembers: [],
         });
 
         const getGraph = (
@@ -463,11 +461,11 @@ export const createEventNetworkGraph =
                     // },
                     fp.A.map((e) =>
                       toSearchEvent(e, {
-                        actors: new Map(actors.map(TupleWithId.of)),
-                        groups: new Map(groups.map(TupleWithId.of)),
-                        keywords: new Map(keywords.map(TupleWithId.of)),
-                        media: new Map(media.map(TupleWithId.of)),
-                        groupsMembers: new Map(),
+                        actors,
+                        groups,
+                        keywords,
+                        media,
+                        groupsMembers: [],
                       }),
                     ),
                     // (events) => {

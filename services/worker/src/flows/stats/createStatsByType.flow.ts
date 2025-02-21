@@ -169,13 +169,13 @@ export const createStatsByType =
 
     const initialSearchEventsQueryCache: SearchEventsQueryCache = {
       events: [],
-      actors: new Map(),
-      groups: new Map(),
-      groupsMembers: new Map(),
-      media: new Map(),
-      keywords: new Map(),
-      links: new Map(),
-      areas: new Map(),
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      media: [],
+      keywords: [],
+      links: [],
+      areas: [],
     };
 
     const searchEventsQueryCache: SearchEventsQueryCache =
@@ -239,76 +239,61 @@ export const createStatsByType =
                   events,
                   A.reduce(init, (acc, e) => {
                     const searchEvent = toSearchEvent(e, {
-                      media: new Map(),
-                      groupsMembers: new Map(),
-                      keywords: new Map(
-                        keywords.map((k) => [
-                          k.id as string,
-                          {
-                            ...k,
-                            color: k.color ?? generateRandomColor(),
-                            events: [],
-                            links: [],
-                            media: [],
-                            socialPosts: [],
-                          },
-                        ]),
-                      ),
-                      groups: new Map(
-                        groups.map((g) => [
-                          g.id as string,
-                          {
-                            ...g,
-                            username: g.username ?? undefined,
-                            subGroups: [],
-                            startDate: g.startDate ?? undefined,
-                            endDate: g.endDate ?? undefined,
-                            avatar: pipe(
-                              fp.O.fromNullable(g.avatar as MediaEntity),
-                              fp.O.map((avatar) =>
-                                MediaIO.decodeSingle(
-                                  avatar,
-                                  ctx.env.SPACE_ENDPOINT,
-                                ),
-                              ),
-                              fp.O.fold(
-                                () => undefined,
-                                E.getOrElse(
-                                  (): Media.Media | undefined => undefined,
-                                ),
-                              ),
+                      media: [],
+                      groupsMembers: [],
+                      keywords: keywords.map((k) => ({
+                        ...k,
+                        color: k.color ?? generateRandomColor(),
+                        events: [],
+                        links: [],
+                        media: [],
+                        socialPosts: [],
+                      })),
+                      groups: groups.map((g) => ({
+                        ...g,
+                        username: g.username ?? undefined,
+                        subGroups: [],
+                        startDate: g.startDate ?? undefined,
+                        endDate: g.endDate ?? undefined,
+                        avatar: pipe(
+                          fp.O.fromNullable(g.avatar as MediaEntity),
+                          fp.O.map((avatar) =>
+                            MediaIO.decodeSingle(
+                              avatar,
+                              ctx.env.SPACE_ENDPOINT,
                             ),
-                            members: [],
-                          },
-                        ]),
-                      ),
-                      actors: new Map(
-                        actors.map((a) => [
-                          a.id as string,
-                          {
-                            ...a,
-                            death: a.death ?? undefined,
-                            bornOn: a.bornOn ?? undefined,
-                            diedOn: a.diedOn ?? undefined,
-                            avatar: pipe(
-                              fp.O.fromNullable(a.avatar as MediaEntity),
-                              fp.O.map((avatar) =>
-                                MediaIO.decodeSingle(
-                                  avatar,
-                                  ctx.env.SPACE_ENDPOINT,
-                                ),
-                              ),
-                              fp.O.fold(
-                                () => undefined,
-                                E.getOrElse(
-                                  (): Media.Media | undefined => undefined,
-                                ),
-                              ),
+                          ),
+                          fp.O.fold(
+                            () => undefined,
+                            E.getOrElse(
+                              (): Media.Media | undefined => undefined,
                             ),
-                            memberIn: [],
-                          },
-                        ]),
-                      ),
+                          ),
+                        ),
+                        members: [],
+                      })),
+                      actors: actors.map((a) => ({
+                        ...a,
+                        death: a.death ?? undefined,
+                        bornOn: a.bornOn ?? undefined,
+                        diedOn: a.diedOn ?? undefined,
+                        avatar: pipe(
+                          fp.O.fromNullable(a.avatar as MediaEntity),
+                          fp.O.map((avatar) =>
+                            MediaIO.decodeSingle(
+                              avatar,
+                              ctx.env.SPACE_ENDPOINT,
+                            ),
+                          ),
+                          fp.O.fold(
+                            () => undefined,
+                            E.getOrElse(
+                              (): Media.Media | undefined => undefined,
+                            ),
+                          ),
+                        ),
+                        memberIn: [],
+                      })),
                     });
 
                     return updateCache(acc, searchEvent);

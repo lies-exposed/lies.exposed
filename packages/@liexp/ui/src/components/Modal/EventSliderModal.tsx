@@ -2,15 +2,11 @@ import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.j
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
-import { useAPI } from "../../hooks/useAPI.js";
-import {
-  searchEventsQuery,
-  type SearchEventsQueryInputNoPagination,
-} from "../../state/queries/SearchEventsQuery.js";
+import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";
 import { styled } from "../../theme/index.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 import EventsAppBar from "../events/filters/EventsAppBar.js";
-import { Box, Icons, IconButton, Modal } from "../mui/index.js";
+import { Box, IconButton, Icons, Modal } from "../mui/index.js";
 import { EventSlider, type EventSliderProps } from "../sliders/EventSlider.js";
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
@@ -80,9 +76,6 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   onQueryClear,
   ...props
 }) => {
-  const api = useAPI();
-  // const theme = useTheme();
-
   // const [open, setOpen] = React.useState(_open ?? false);
 
   const hash = "slider";
@@ -183,14 +176,18 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
           </Box>
           <QueriesRenderer
             loader="fullsize"
-            queries={{
-              events: searchEventsQuery(api)({
+            queries={(Q) => ({
+              events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
                 ...query,
-                _start: start,
-                _end: end,
+                _start: start.toString(),
+                _end: end.toString(),
               }),
-            }}
-            render={({ events: { events, totals, ...rest } }) => {
+            })}
+            render={({
+              events: {
+                data: { events, totals, ...rest },
+              },
+            }) => {
               const eventsChunk = events.slice(start, end);
               const appBarCurrent = start + current + 1;
               // console.log({ current, perPage, start, appBarCurrent });

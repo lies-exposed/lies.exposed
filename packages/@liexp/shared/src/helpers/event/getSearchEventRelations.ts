@@ -17,6 +17,7 @@ export const getSearchEventRelations = (
         e.payload.publisher && e.payload.publisher.type === "Actor"
           ? [e.payload.publisher.id]
           : [];
+
       const actors = e.payload.authors
         .flatMap((a) => (a.type === "Actor" ? [a.id] : []))
         .concat(publisherActors);

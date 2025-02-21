@@ -14,5 +14,5 @@ export const propsOmit = <P extends t.Props, PP extends (keyof P)[]>(
         p,
         O.fromPredicate(() => !props.includes(k)),
       ),
-    ) as any,
-  );
+    ),
+  ) as Omit<P, PP[number]>;

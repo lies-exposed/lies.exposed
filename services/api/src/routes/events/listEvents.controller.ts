@@ -3,17 +3,16 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as t from "io-ts";
-import { fetchEventsRelations } from "../../flows/events/fetchEventsRelations.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const SearchEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Event.Custom.SearchEvents, ({ query }) => {
+export const ListEventRoute: Route = (r, ctx) => {
+  AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
     ctx.logger.debug.log("Query %O", query);
     const {
       actors,
@@ -90,18 +89,13 @@ export const SearchEventRoute: Route = (r, ctx) => {
         pipe(
           results,
           EventV2IO.decodeMany,
+          E.map((data) => ({ data, ...rest })),
           TE.fromEither,
-          TE.chain((result) =>
-            pipe(
-              fetchEventsRelations(result, false)(ctx),
-              TE.map((relations) => ({ data: result, relations, ...rest })),
-            ),
-          ),
         ),
       ),
-      TE.map(({ data, relations, total, totals, firstDate, lastDate }) => ({
+      TE.map(({ data, total, totals, firstDate, lastDate }) => ({
         body: {
-          data: data.map((e) => toSearchEvent(e, relations)),
+          data,
           total,
           totals,
           firstDate: firstDate?.toISOString(),

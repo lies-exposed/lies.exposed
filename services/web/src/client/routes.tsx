@@ -10,7 +10,6 @@ import {
 } from "@liexp/ui/lib/react/types.js";
 import {
   fetchSearchEvents,
-  fetchSearchEventsInfinite,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
@@ -437,7 +436,7 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: getSearchEventsInfiniteQueryKey(q),
-          queryFn: fetchSearchEventsInfinite(Q.API),
+          queryFn: fetchSearchEvents(Q.API),
         },
       ]);
     },

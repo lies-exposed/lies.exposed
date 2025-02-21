@@ -1,4 +1,3 @@
-import { TupleWithId } from "@liexp/core/lib/fp/utils/TupleWithId.js";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -98,12 +97,12 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
       <EventRelations event={event}>
         {({ actors, groups, groupsMembers, keywords, media, links, areas }) => {
           const searchEvent = toSearchEvent(event, {
-            actors: new Map(actors.map(TupleWithId.of)),
-            groups: new Map(groups.map(TupleWithId.of)),
-            media: new Map(media.map(TupleWithId.of)),
-            links: new Map(links.map(TupleWithId.of)),
-            areas: new Map(areas.map(TupleWithId.of)),
-            keywords: new Map(keywords.map(TupleWithId.of)),
+            actors,
+            groups,
+            media,
+            links,
+            areas,
+            keywords,
           });
 
           const { title } = getEventCommonProps(event, {

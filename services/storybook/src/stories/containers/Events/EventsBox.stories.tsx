@@ -15,7 +15,7 @@ const Template: StoryFn<EventsBoxProps> = (props) => {
   return <EventsBox {...props} />;
 };
 
-const EventsBoxExample = Template.bind({});
+const EventsBoxExample = Template.bind<any>({});
 
 const args: EventsBoxProps = {
   title: "Last updated events",
