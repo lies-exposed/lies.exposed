@@ -119,7 +119,7 @@
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@types/react-slick": "^0.23.13",
-    "@types/react-virtualized": "^9.22.0",
+    "@types/react-virtualized": "^9.22.2",
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
