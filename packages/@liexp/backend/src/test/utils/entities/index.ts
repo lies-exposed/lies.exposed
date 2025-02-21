@@ -1,5 +1,4 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { type Link, type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
@@ -36,8 +35,8 @@ export const toMediaEntity = (
     return {
       ...image,
       label: image.label ?? null,
-      thumbnail: (image.thumbnail ?? image.location) as URL,
-      location: image.location as URL,
+      thumbnail: image.thumbnail ?? image.location,
+      location: image.location,
       description: image.description ?? null,
       events: [],
       links: [],
@@ -58,8 +57,8 @@ export const toMediaEntity = (
   return {
     ...image,
     label: image.label ?? null,
-    thumbnail: (image.thumbnail ?? image.location) as URL,
-    location: image.location as URL,
+    thumbnail: image.thumbnail ?? image.location,
+    location: image.location,
     description: image.description ?? null,
     events: [],
     links: [],

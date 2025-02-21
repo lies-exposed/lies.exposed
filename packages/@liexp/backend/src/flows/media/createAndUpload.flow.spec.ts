@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import {
   IframeVideoType,
   ImageType,
@@ -52,7 +53,7 @@ describe(createAndUpload.name, () => {
         ...m,
         id,
         label: `label-${id}`,
-        location: `https://example.com/${id}.jpg`,
+        location: `https://example.com/${id}.jpg` as URL,
         type: ImageType.types[0].value,
         creator: undefined,
       }));
@@ -88,7 +89,7 @@ describe(createAndUpload.name, () => {
         ...m,
         id,
         label: `label-${id}`,
-        location: `https://example.com/${id}.mp4`,
+        location: `https://example.com/${id}.mp4` as URL,
         type: MP4Type.value,
         creator: undefined,
         extra: undefined,
@@ -144,7 +145,7 @@ describe(createAndUpload.name, () => {
         ...m,
         id,
         label: `label-${id}`,
-        location: `https://www.youtube.com/watch?v=${id}`,
+        location: `https://www.youtube.com/watch?v=${id}` as URL,
         type: IframeVideoType.value,
         creator: undefined,
       }));
@@ -170,7 +171,7 @@ describe(createAndUpload.name, () => {
       ...media,
       id: expect.any(String),
       // location: `https://www.youtube.com/embed/${media.id}`,
-      location: `https://www.youtube.com/watch?v=${media.id}`,
+      location: `https://www.youtube.com/watch?v=${media.id}` as URL,
       description: media.description ?? media.label,
       creator: undefined,
       // extra: {
@@ -202,8 +203,8 @@ describe(createAndUpload.name, () => {
         areas: [],
         featuredInStories: [],
         socialPosts: [],
-        location: `https://example.com/${id}.jpg`,
-        thumbnail: `https://example.com/${id}-thumb.jpg`,
+        location: `https://example.com/${id}.jpg` as URL,
+        thumbnail: `https://example.com/${id}-thumb.jpg` as URL,
         creator: undefined,
         extra: undefined,
       }));

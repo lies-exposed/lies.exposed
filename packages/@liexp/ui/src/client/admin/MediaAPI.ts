@@ -1,4 +1,5 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import {
   MP4Type,
   type MediaType,
@@ -42,11 +43,11 @@ const getSignedUrl =
     resourceId: string,
     ContentType: MediaType,
     ContentLength: number,
-  ): TE.TaskEither<Error, { data: { url: string } }> => {
+  ): TE.TaskEither<Error, { data: { url: URL } }> => {
     return pipe(
       TE.tryCatch(
         () =>
-          client.create<{ id: string; url: string }>("/uploads/getSignedURL", {
+          client.create<{ id: string; url: URL }>("/uploads/getSignedURL", {
             data: {
               resource,
               resourceId,
@@ -66,7 +67,7 @@ export const uploadFile =
     resourceId: string,
     f: File,
     type: MediaType,
-  ): TE.TaskEither<Error, { type: MediaType; location: string }> => {
+  ): TE.TaskEither<Error, { type: MediaType; location: URL }> => {
     const videoTask = pipe(
       TE.tryCatch(async () => {
         const formData = new FormData();
@@ -119,7 +120,7 @@ export const uploadFile =
               }),
             E.toError,
           ),
-          TE.map(() => ({ type, location })),
+          TE.map(() => ({ type, location: location as URL })),
         );
       }),
     );
@@ -136,7 +137,7 @@ export const uploadImages =
     resource: string,
     resourceId: string,
     media: { type: MediaType; file: File }[],
-  ): TE.TaskEither<Error, { type: MediaType; location: string }[]> => {
+  ): TE.TaskEither<Error, { type: MediaType; location: URL }[]> => {
     return pipe(
       media.map((file) =>
         uploadFile(client)(resource, resourceId, file.file, file.type),

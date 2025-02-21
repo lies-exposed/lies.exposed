@@ -1,13 +1,16 @@
 import { propsOmit } from "@liexp/core/lib/io/utils.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import fc from "fast-check";
 import { getArbitrary } from "fast-check-io-ts";
 import * as t from "io-ts";
+import { URLArb } from "./URL.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const mediaProps = propsOmit(http.Media.Media, [
   "id",
   "type",
+  "location",
   "thumbnail",
   "createdAt",
   "updatedAt",
@@ -22,9 +25,9 @@ const mediaProps = propsOmit(http.Media.Media, [
   "socialPosts",
 ]);
 
-export const placeKitten = (): string => {
+export const placeKitten = (): URL => {
   const [width, height] = fc.sample(fc.nat({ max: 3000 }), 2);
-  return `https://placekitten.com/${width}/${height}`;
+  return `https://placekitten.com/${width}/${height}` as URL;
 };
 
 export const MediaArb: fc.Arbitrary<http.Media.Media> = getArbitrary(
@@ -32,8 +35,8 @@ export const MediaArb: fc.Arbitrary<http.Media.Media> = getArbitrary(
 ).chain((props) =>
   fc
     .record({
-      location: fc.webUrl({ size: "large" }),
-      thumbnail: fc.webUrl({ size: "large" }),
+      location: URLArb,
+      thumbnail: URLArb,
     })
     .map(({ location, thumbnail }) => {
       return {

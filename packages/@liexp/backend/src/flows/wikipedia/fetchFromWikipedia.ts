@@ -1,10 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type WikipediaProvider } from "../../providers/wikipedia/wikipedia.provider.js";
 
 export interface LoadedPage {
-  featuredMedia: string | undefined;
+  featuredMedia: URL | undefined;
   slug: string;
   intro: string;
 }
@@ -21,7 +22,9 @@ export const fetchFromWikipedia: FetchFromWikipediaFlow = (title) => (wp) => {
     fp.TE.bind("page", () => wp.articleSummary(title)),
     fp.TE.map(({ page }) => ({
       slug: getUsernameFromDisplayName(page.titles.canonical),
-      featuredMedia: page.thumbnail?.source ?? page.originalimage?.source,
+      featuredMedia: (page.thumbnail?.source ?? page.originalimage?.source) as
+        | URL
+        | undefined,
       intro: page.extract,
     })),
   );

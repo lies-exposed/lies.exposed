@@ -60,7 +60,7 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
       // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
       if (IframeVideoType.is(createMediaData.type)) {
-        return fp.RTE.right(createMediaData.location as URL);
+        return fp.RTE.right(createMediaData.location);
       }
 
       const mediaKey = getMediaKey(

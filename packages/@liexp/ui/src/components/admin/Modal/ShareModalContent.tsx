@@ -1,4 +1,5 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
@@ -347,8 +348,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               deletedAt: undefined,
               label: m.media,
               description: m.type,
-              thumbnail: m.thumbnail,
-              location: m.thumbnail,
+              thumbnail: m.thumbnail as URL,
+              location: m.thumbnail as URL,
               selected: true,
               type: contentTypeFromFileExt(m.media),
               extra: undefined,
