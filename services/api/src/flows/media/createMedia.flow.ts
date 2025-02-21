@@ -1,6 +1,5 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/createThumbnail.pubSub.js";
-import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
+import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
@@ -41,15 +40,15 @@ export const createMediaFlow =
         ]),
       ),
       fp.TE.chainFirst(({ media }) =>
-        CreateMediaThumbnailPubSub.publish({
+        MediaPubSub.CreateMediaThumbnailPubSub.publish({
           id: media[0].id,
-          type: media[0].type,
           location: media[0].location,
-          thumbnail: media[0].thumbnail ?? undefined,
+          type: media[0].type,
+          thumbnail: null,
         })(ctx),
       ),
       fp.TE.chainFirst(({ media }) =>
-        ExtractMediaExtraPubSub.publish({ id: media[0].id })(ctx),
+        MediaPubSub.ExtractMediaExtraPubSub.publish({ id: media[0].id })(ctx),
       ),
       fp.TE.chain(({ media }) => {
         return ctx.db.save(MediaEntity, [
