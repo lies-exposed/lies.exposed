@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
@@ -89,10 +90,10 @@ export const parseVideo =
         return createAndUpload(
           {
             type: MP4Type.value,
-            location: "",
+            location: "" as URL,
             label: description,
             description,
-            thumbnail: thumb,
+            thumbnail: thumb ? (thumb as URL) : undefined,
             extra: undefined,
             events: [],
             keywords: [],

@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
@@ -53,7 +54,7 @@ export const transformActor =
         if (t.string.is(data.avatar)) {
           return fp.TE.right([
             {
-              location: data.avatar,
+              location: data.avatar as URL,
               type: contentTypeFromFileExt(data.avatar),
             },
           ]);

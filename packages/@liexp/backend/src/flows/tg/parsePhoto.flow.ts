@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { ImageType, MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
 import * as A from "fp-ts/lib/Array.js";
@@ -56,7 +57,7 @@ export const parsePhoto =
             return createAndUpload(
               {
                 type: MediaType.types[0].value,
-                location: p.file_id,
+                location: p.file_id as URL,
                 label: description,
                 description,
                 thumbnail: undefined,

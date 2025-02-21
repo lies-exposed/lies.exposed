@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -57,7 +58,7 @@ export const parseDocument =
         return createAndUpload(
           {
             type: contentType,
-            location: messageDocument.file_id,
+            location: messageDocument.file_id as URL,
             label: messageDocument.file_name,
             description: messageDocument.file_name,
             thumbnail: undefined,

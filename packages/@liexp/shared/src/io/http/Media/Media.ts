@@ -81,10 +81,10 @@ export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
 
 export const CreateMedia = t.strict(
   {
-    location: t.string,
+    location: URL,
     label: t.union([t.string, t.undefined]),
     description: t.union([t.string, t.undefined]),
-    thumbnail: t.union([t.string, t.undefined]),
+    thumbnail: t.union([URL, t.undefined]),
     extra: t.union([MediaExtra, t.undefined]),
     type: MediaType,
     events: t.array(UUID),
