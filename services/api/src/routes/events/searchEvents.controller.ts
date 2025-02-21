@@ -1,7 +1,7 @@
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -63,55 +63,60 @@ export const SearchEventRoute: Route = (r, ctx) => {
     ctx.logger.debug.log("find options %O", findOptions);
 
     return pipe(
-      searchEventV2Query({
-        actors,
-        groups,
-        groupsMembers,
-        keywords,
-        links,
-        locations,
-        type,
-        q,
-        startDate,
-        endDate,
-        media,
-        exclude,
-        draft,
-        ids,
-        withDeleted: O.getOrElse(() => false)(withDeleted),
-        withDrafts: O.getOrElse(() => false)(withDrafts),
-        emptyMedia,
-        emptyLinks,
-        spCount,
-        onlyUnshared,
-        ...findOptions,
-      })(ctx),
-      TE.chain(({ results, ...rest }) =>
+      TE.Do,
+      TE.bind("events", () =>
+        searchEventV2Query({
+          actors,
+          groups,
+          groupsMembers,
+          keywords,
+          links,
+          locations,
+          type,
+          q,
+          startDate,
+          endDate,
+          media,
+          exclude,
+          draft,
+          ids,
+          withDeleted: O.getOrElse(() => false)(withDeleted),
+          withDrafts: O.getOrElse(() => false)(withDrafts),
+          emptyMedia,
+          emptyLinks,
+          spCount,
+          onlyUnshared,
+          ...findOptions,
+        })(ctx),
+      ),
+      TE.bind("searchEvents", ({ events: { results: events } }) =>
         pipe(
-          results,
-          EventV2IO.decodeMany,
+          EventV2IO.decodeMany(events),
           TE.fromEither,
-          TE.chain((result) =>
+          TE.chain((events) => fetchEventsRelations(events, false)(ctx)),
+          TE.map(({ events, ...relations }) =>
             pipe(
-              fetchEventsRelations(result, false)(ctx),
-              TE.map((relations) => ({ data: result, relations, ...rest })),
+              events,
+              fp.A.map((e) => toSearchEvent(e, relations)),
+              (events) => ({ events, ...relations }),
             ),
           ),
         ),
       ),
-      TE.map(({ data, relations, total, totals, firstDate, lastDate }) => ({
-        body: {
-          data: {
-            ...relations,
-            events: data.map((e) => toSearchEvent(e, relations)),
-            total,
-            totals,
-            firstDate: firstDate?.toISOString(),
-            lastDate: lastDate?.toISOString(),
+      TE.map(
+        ({ searchEvents, events: { firstDate, lastDate, total, totals } }) => ({
+          body: {
+            data: {
+              ...searchEvents,
+              total,
+              totals,
+              firstDate: firstDate?.toISOString(),
+              lastDate: lastDate?.toISOString(),
+            },
           },
-        },
-        statusCode: 200,
-      })),
+          statusCode: 200,
+        }),
+      ),
     );
   });
 };

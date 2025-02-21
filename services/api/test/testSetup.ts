@@ -16,6 +16,7 @@ beforeAll(async () => {
     console.time("waitForDatabase");
     const database = await testDBContainer.waitForDatabase();
     console.timeEnd("waitForDatabase");
+    console.log('database in use', database);
 
     process.env.DB_DATABASE = database;
 
@@ -40,6 +41,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   if (!process.env.CI) {
+    console.log('cooling down database', process.env.DB_DATABASE);
     await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
     g.appContext = undefined as any;
     g.appTest = undefined;

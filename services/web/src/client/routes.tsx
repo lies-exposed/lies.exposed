@@ -1,4 +1,5 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
@@ -48,6 +49,9 @@ const LinkTemplate = React.lazy(() => import("./templates/LinkTemplate.js"));
 // const PageTemplate = React.lazy(() => import("./templates/PageTemplate.js"));
 const EditStoryPage = React.lazy(
   () => import("./pages/stories/EditStoryPage.js"),
+);
+const DocumentariesPage = React.lazy(
+  () => import("./pages/events/DocumentariesPage.js"),
 );
 
 const RedirectToEventsRoute: React.FC = () => {
@@ -390,7 +394,7 @@ export const routes: ServerRoute[] = [
               ...q,
               hash: undefined,
               _start: 0,
-              _end: 0,
+              _end: 20,
             },
             false,
           ),
@@ -449,6 +453,26 @@ export const routes: ServerRoute[] = [
     route: () => <BooksPage />,
     queries: (Q, conf) => async () =>
       Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]),
+  },
+  {
+    path: "/documentaries",
+    route: () => <DocumentariesPage />,
+    queries: (Q, conf) => async () =>
+      Promise.resolve([
+        ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Queries.Event.Custom.SearchEvents.getKey(
+            undefined,
+            {
+              eventType: [DOCUMENTARY.value],
+              _start: "0",
+              _end: "20",
+            },
+            false,
+          ),
+          queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
+        },
+      ]),
   },
   {
     path: "/scientific-studies/:id",
