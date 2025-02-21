@@ -198,13 +198,17 @@ export const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
     areas: [],
   },
   concat: (x, y) => ({
-    ...x,
     keywords: x.keywords.concat(
       y.keywords.filter((a) => !x.keywords.includes(a)),
     ),
+    links: x.links.concat(y.links.filter((a) => !x.links.includes(a))),
+    media: x.media.concat(y.media.filter((a) => !x.media.includes(a))),
     actors: x.actors.concat(y.actors.filter((a) => !x.actors.includes(a))),
     groups: x.groups.concat(y.groups.filter((a) => !x.groups.includes(a))),
     areas: x.areas.concat(y.areas.filter((a) => !x.areas.includes(a))),
+    groupsMembers: x.groupsMembers.concat(
+      y.groupsMembers.filter((a) => !x.groupsMembers.includes(a)),
+    ),
   }),
 };
 

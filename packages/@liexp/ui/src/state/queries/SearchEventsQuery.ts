@@ -1,4 +1,3 @@
-import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import {
   getNewRelationIds,
   updateCache,
@@ -27,8 +26,6 @@ import {
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-
-const log = GetLogger("search-events-query");
 
 export const toKey = (cachePrefix: string, hash?: string): string => {
   const cacheKey = hash ? `${cachePrefix}-${hash}` : cachePrefix;
@@ -152,97 +149,10 @@ export type SearchEventsQueryInputNoPagination = Omit<
   "_start" | "_end"
 >;
 
-const searchEventsQ =
-  (api: API) =>
-  ({
-    _start,
-    _end,
-    hash,
-    ...query
-  }: SearchEventQueryInput): TE.TaskEither<
-    APIError,
-    SearchEventQueryResult
-  > => {
-    log.debug.log("Search events for %s from %d to %d", _start, _end);
-
-    return pipe(
-      api.Event.List({
-        Query: {
-          ...query,
-          _start: _start.toString(),
-          _end: _end.toString(),
-        },
-      }),
-      TE.mapLeft((e) => {
-        log.error.log(`API Error %O`, e.details);
-        return e;
-      }),
-      TE.chain(({ data, firstDate, lastDate, ...response }) => {
-        log.debug.log("API response %O", { data, response });
-
-        return pipe(
-          getNewRelationIds(data, searchEventsQueryCache),
-          TE.right,
-          TE.chain(fetchRelations(api)),
-          TE.map(
-            ({ actors, groups, groupsMembers, media, keywords, links }) => {
-              searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                events: { data, ...response },
-                actors: actors.data,
-                groups: groups.data,
-                groupsMembers: groupsMembers.data,
-                media: media.data,
-                keywords: keywords.data,
-                links: links.data,
-                areas: [],
-              });
-
-              return {
-                ...response,
-                actors: actors.data,
-                groups: groups.data,
-                groupsMembers: groupsMembers.data,
-                media: media.data,
-                keywords: keywords.data,
-                links: links.data,
-                events: searchEventsQueryCache.events,
-                firstDate,
-                lastDate,
-              };
-            },
-          ),
-        );
-      }),
-    );
-  };
-
 export const getSearchEventsQueryKey = (
   p: Partial<SearchEventQueryInput>,
 ): [string, any, any, boolean] => {
   return ["events-search", { _start: 0, _end: 20, ...p }, undefined, false];
-};
-
-export const fetchSearchEvents =
-  (api: API) =>
-  (ctx: any): Promise<SearchEventQueryResult> => {
-    const params = ctx.queryKey[1];
-    return pipe(searchEventsQ(api)(params), throwTE);
-  };
-
-export const searchEventsQuery = (
-  api: API,
-): ((
-  input: SearchEventQueryInput,
-) => UseQueryResult<SearchEventQueryResult, APIError>) => {
-  const searchQueryFn = fetchSearchEvents(api);
-
-  return (input) => {
-    return useQuery({
-      queryKey: getSearchEventsQueryKey(input),
-      queryFn: searchQueryFn,
-      // refetchOnWindowFocus: false,
-    });
-  };
 };
 
 export const getSearchEventsInfiniteQueryKey = (
@@ -271,6 +181,7 @@ export const searchEventsInfiniteQuery =
               _end: pageParam._end.toString(),
             },
           }),
+          TE.map((r) => r.data),
           throwTE,
         ),
       refetchOnWindowFocus: false,

@@ -3,8 +3,6 @@ import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { useAPI } from "../../../../../hooks/useAPI.js";
-import { searchEventsQuery } from "../../../../../state/queries/SearchEventsQuery.js";
 import { styled } from "../../../../../theme/index.js";
 import QueriesRenderer from "../../../../QueriesRenderer.js";
 import {
@@ -98,8 +96,6 @@ export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
   events,
   onEventClick,
 }) => {
-  const api = useAPI();
-
   if (events.length === 0) {
     return null;
   }
@@ -108,15 +104,18 @@ export const EventTimelinePlugin: React.FC<EventTimelinePluginProps> = ({
     <StyledBox className={classes.root}>
       <Typography variant="subtitle1">Event timeline</Typography>
       <QueriesRenderer
-        queries={{
-          events: searchEventsQuery(api)({
-            hash: "event-timeline",
+        queries={(Q) => ({
+          events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
             ids: events,
-            _start: 0,
-            _end: events.length,
+            _start: "0",
+            _end: events.length.toString(),
           }),
-        }}
-        render={({ events: { events } }) => {
+        })}
+        render={({
+          events: {
+            data: { events },
+          },
+        }) => {
           return <EventsTimeline events={events} onEventClick={onEventClick} />;
         }}
       />

@@ -4,7 +4,6 @@ import {
 } from "@liexp/ui/lib/components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
-import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -20,15 +19,18 @@ const Template: StoryFn<EventCardGridProps> = (props) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        events: searchEventsQuery(api)({
+        events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
           _order: "DESC",
           _sort: "updatedAt",
-          _start: 0,
-          _end: 3,
-          hash: "event-card-grid-stories",
+          _start: "0",
+          _end: "3",
         }),
       })}
-      render={({ events: { events } }) => {
+      render={({
+        events: {
+          data: { events },
+        },
+      }) => {
         return <EventCardGrid {...props} events={events} />;
       }}
     />

@@ -1,4 +1,5 @@
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import fc from "fast-check";
 import { getArbitrary } from "fast-check-io-ts";
 import * as t from "io-ts";
@@ -36,7 +37,7 @@ export const AreaArb: fc.Arbitrary<AreaArbType> = getArbitrary(
   slug: fc.sample(fc.string({ minLength: 40 }), 1)[0],
   media: [],
   events: [],
-  body: {},
+  body: toInitialValue("Area content body"),
   featuredImage: null,
   geometry: fc.sample(
     fc.record({

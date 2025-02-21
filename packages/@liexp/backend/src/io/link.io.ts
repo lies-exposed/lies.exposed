@@ -34,16 +34,19 @@ const toLinkIO = (
                 : undefined,
               thumbnail: link.image.thumbnail ?? undefined,
               links: link.image.links ?? [],
-              events: link.image.events ?? [],
+              events: (link.image.events ?? []).map((e) =>
+                UUID.is(e) ? e : e.id,
+              ),
               keywords: link.image.keywords ?? [],
               areas: link.image.areas ?? [],
             }
         : undefined,
-      keywords: link.keywords ?? [],
+
       provider: UUID.is(link.provider) ? link.provider : undefined,
       creator: UUID.is(link.creator) ? link.creator : undefined,
       publishDate: link.publishDate?.toISOString() ?? undefined,
-      events: link.events ?? [],
+      events: (link.events ?? []).map((e) => (UUID.is(e) ? e : e.id)),
+      keywords: (link.keywords ?? []).map((k) => (UUID.is(k) ? k : k.id)),
       socialPosts: link.socialPosts ?? [],
       createdAt: link.createdAt.toISOString(),
       updatedAt: link.updatedAt.toISOString(),

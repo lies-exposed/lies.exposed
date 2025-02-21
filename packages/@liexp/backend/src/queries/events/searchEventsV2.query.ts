@@ -313,7 +313,7 @@ const addWhereToQueryBuilder = (
 
   if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
     q.andWhere("links.id IS NULL");
-  } else if (O.isSome(links)) {
+  } else if (O.isSome(links) && links.value.length > 0) {
     const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
     where("links.id IN (:...links)", {
       links: links.value,

@@ -99,6 +99,10 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
     case Events.EventTypes.DOCUMENTARY.value: {
       return {
         ...commonIds,
+        links: commonIds.links.concat(
+          e.payload.website ? [e.payload.website] : [],
+        ),
+        media: commonIds.media.concat(e.payload.media),
         actors: [
           ...e.payload.authors.actors,
           ...e.payload.subjects.actors,

@@ -47,10 +47,13 @@ export const SearchEventCodec = <
   const codec = t.strict(
     {
       ...eventType.type.props,
-      payload: t.strict({
-        ...payloadProps,
-        ...payloadOverride,
-      }),
+      payload: t.strict(
+        {
+          ...payloadProps,
+          ...payloadOverride,
+        },
+        `SearchEvent${eventType.name}Payload`,
+      ),
       media: t.array(Media),
       keywords: t.array(Keyword),
       links: t.array(Link),

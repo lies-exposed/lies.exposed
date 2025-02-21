@@ -18,7 +18,7 @@ export const SearchDocumentaryEvent = SearchEventCodec(
       actors: t.array(Actor),
       groups: t.array(Group.Group),
     }),
-    website: Link.Link,
+    website: t.union([Link.Link, t.undefined]),
   },
 );
 

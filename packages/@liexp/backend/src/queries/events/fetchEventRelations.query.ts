@@ -25,6 +25,7 @@ import { type DBError } from "../../providers/orm/index.js";
 import { fetchActors } from "../actors/fetchActors.query.js";
 import { fetchGroups } from "../groups/fetchGroups.query.js";
 import { fetchKeywords } from "../keywords/fetchKeywords.query.js";
+import { fetchLinks } from "../links/fetchLinks.query.js";
 import { fetchManyMedia } from "../media/fetchManyMedia.query.js";
 
 const fetchLinksT =
@@ -141,10 +142,11 @@ export const fetchRelationIds =
 
 export const fetchRelations =
   <C extends LoggerContext & DatabaseContext & ENVContext>(
-    input: Pick<http.Events.EditEventBody, "links" | "keywords"> & {
+    input: Pick<http.Events.EditEventBody, "keywords"> & {
       actors: O.Option<UUID[]>;
       groups: O.Option<UUID[]>;
       media: O.Option<UUID[]>;
+      links: O.Option<UUID[]>;
       groupsMembers: O.Option<UUID[]>;
     },
     isAdmin: boolean,
@@ -156,7 +158,7 @@ export const fetchRelations =
       groups: GroupEntity[];
       keywords: KeywordEntity[];
       media: MediaEntity[];
-      // links: LinkEntity[];
+      links: LinkEntity[];
     }
   > =>
   (ctx) => {
@@ -213,6 +215,21 @@ export const fetchRelations =
                 fp.O.map((m) => m.length as Int),
               ),
             })(ctx),
+            fp.TE.map(([results]) => results),
+          )
+        : TE.right([]),
+      links: O.isSome(input.links)
+        ? pipe(
+            fetchLinks(
+              {
+                ids: input.links,
+                _end: pipe(
+                  input.links,
+                  fp.O.map((a) => a.length as Int),
+                ),
+              },
+              false,
+            )(ctx),
             fp.TE.map(([results]) => results),
           )
         : TE.right([]),
