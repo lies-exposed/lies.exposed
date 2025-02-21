@@ -90,7 +90,7 @@ export const transformActor =
         excerpt: data.excerpt,
         id,
         avatar: avatarMedia.id,
-        memberIn: data.memberIn.concat(
+        memberIn: (data.memberIn ?? []).concat(
           newMemberIn.map((m: any) => ({
             ...m,
             endDate: m.endDate !== "" ? m.endDate : undefined,

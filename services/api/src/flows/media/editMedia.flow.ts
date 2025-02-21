@@ -74,8 +74,7 @@ export const editMedia = (
               MediaPubSub.CreateMediaThumbnailPubSub.publish({
                 ...m,
                 type: body.type,
-                thumbnail: undefined,
-                id,
+                thumbnail: null,
               }),
               fp.RTE.map(() => null),
             ),
