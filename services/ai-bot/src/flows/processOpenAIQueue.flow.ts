@@ -1,3 +1,4 @@
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type ClientContext } from "../context.js";
 import { type ClientContextRTE } from "../types.js";
@@ -15,20 +16,31 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
             filter: {
               resource: undefined,
               type: undefined,
-              status: "pending",
+              status: ["pending", "processing"],
             },
           }),
         ),
       ),
     ),
-    fp.RTE.chain(({ queue }) => {
-      return pipe(
-        queue.data,
-        fp.A.traverse(fp.RTE.ApplicativeSeq)((job) =>
-          JobProcessor(job, dryRun),
-        ),
-      );
-    }),
+    fp.RTE.chain(({ queue }) =>
+      pipe(
+        queue.data.some((job) => job.status === "processing"),
+        (processing) => {
+          if (processing) {
+            return pipe(
+              fp.RTE.right(undefined),
+              LoggerService.RTE.info("There are jobs already processing"),
+            );
+          }
+          return pipe(
+            queue.data,
+            fp.A.traverse(fp.RTE.ApplicativeSeq)((job) =>
+              JobProcessor(job, dryRun),
+            ),
+          );
+        },
+      ),
+    ),
     fp.RTE.orLeft((e) => (ctx) => {
       ctx.logger.error.log("Error processing embeddings queue task %O", e);
       return fp.T.of(e);

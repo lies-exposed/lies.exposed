@@ -74,7 +74,7 @@ export const GetQueueListQuery = t.type(
     ...PaginationQuery.props,
     resource: optionFromUndefined(QueueResourceNames),
     type: optionFromUndefined(QueueTypes),
-    status: optionFromUndefined(Status),
+    status: optionFromUndefined(t.array(Status)),
   },
   "GetQueueListQuery",
 );

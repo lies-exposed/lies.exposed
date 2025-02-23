@@ -171,7 +171,7 @@ export const processOpenAIJobsDone: CronJobTE = (opts) => {
       "doneJobs",
       pipe(
         fp.RTE.ask<WorkerContext>(),
-        fp.RTE.chainTaskEitherK((ctx) => ctx.queue.list({ status: "done" })),
+        fp.RTE.chainTaskEitherK((ctx) => ctx.queue.list({ status: ["done"] })),
         fp.RTE.mapLeft(toWorkerError),
       ),
     ),

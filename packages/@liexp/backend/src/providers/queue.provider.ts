@@ -92,7 +92,7 @@ export interface QueuesProvider {
   list: <J extends Queue.Queue>(opts?: {
     resource?: Queue.QueueResourceNames;
     type?: string;
-    status?: Queue.Status;
+    status?: Queue.Status[];
   }) => TaskEither<FSError, J[]>;
 }
 
@@ -119,7 +119,7 @@ export const GetQueueProvider = (
             // fp.TE.mapLeft(toControllerError),
             fp.TE.map((data) => JSON.parse(data)),
             fp.TE.chain((data) => {
-              if (opts?.status && data.status !== opts.status) {
+              if (opts?.status && !opts.status.includes(data.status)) {
                 return fp.TE.right([]);
               }
               return fp.TE.right([data]);
