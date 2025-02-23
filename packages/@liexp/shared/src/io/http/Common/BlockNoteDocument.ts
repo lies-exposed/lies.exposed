@@ -1,6 +1,6 @@
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import * as t from "io-ts";
-import { type NonEmptyArrayC } from "io-ts-types";
+import { type NonEmptyArrayC } from "io-ts-types/lib/nonEmptyArray.js";
 
 export interface BlockNoteDocumentBrand {
   readonly BlockNoteDocument: unique symbol;

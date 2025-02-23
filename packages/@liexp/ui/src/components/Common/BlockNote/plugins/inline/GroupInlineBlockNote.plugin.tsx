@@ -5,12 +5,14 @@ import {
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import GroupChipBox from "../../../../../containers/groups/GroupChipBox.js";
+import { Typography } from "../../../../mui/index.js";
 import { GroupIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
 
 export interface GroupInlineState {
   id: string;
+  name: string;
   displayAvatar: boolean;
 }
 
@@ -25,6 +27,7 @@ export const groupItem = (editor: BNESchemaEditor) => ({
         type: "group",
         props: {
           id: undefined as any,
+          name: undefined as any,
           className: "",
           displayAvatar: true,
         },
@@ -42,18 +45,18 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, className },
+        props: { id, name, className },
       },
     }): React.ReactNode => {
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
-            editor ? (
+            editor?.isEditable ? (
               <RelationInlineContentComponent
                 editor={editor}
                 relation="group"
                 id={id}
-                relationProps={{ id, className }}
+                relationProps={{ id, name, className }}
                 relationRenderer={{
                   group: (props) => (
                     <GroupChipBox
@@ -71,7 +74,9 @@ export const groupInlineContentSpec = createReactInlineContentSpec(
                   ),
                 }}
               />
-            ) : null
+            ) : (
+              <Typography>{name}</Typography>
+            )
           }
         </BlockNoteEditorContext.Consumer>
       );

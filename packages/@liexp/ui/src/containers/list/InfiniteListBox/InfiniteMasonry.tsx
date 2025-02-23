@@ -96,7 +96,7 @@ const cellCache = new CellMeasurerCache({
   fixedHeight: false,
 });
 
-type InfiniteMasonryProps = React.PropsWithoutRef<MasonryProps> &
+type InfiniteMasonryProps = MasonryProps &
   InfiniteListBaseProps & {
     CellRenderer: CellRenderer;
     columnCount?: number;

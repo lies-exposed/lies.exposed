@@ -1,7 +1,12 @@
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
+import {
+  type EndpointDataOutput,
+  type EndpointOutput,
+  type GetEndpointQueryType,
+  type GetListFnParamsE,
+} from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import * as React from "react";
@@ -13,6 +18,7 @@ import {
   type Masonry,
 } from "react-virtualized";
 import { type MinimalEndpointInstance } from "ts-endpoint";
+import { ErrorBox } from "../../../components/Common/ErrorBox.js";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
 import { InfiniteList, type InfiniteListProps } from "./InfiniteList.js";
@@ -33,12 +39,21 @@ type ListProps<T extends ListType> = T extends "masonry"
       "width" | "height" | "items" | "onRowsRendered"
     >;
 
-export interface InfiniteListBoxProps<T extends ListType, E> {
+export interface InfiniteListBoxProps<
+  T extends ListType,
+  E extends MinimalEndpointInstance,
+> {
   listProps: ListProps<T>;
   useListQuery: (
     queryProvider: EndpointsQueryProvider,
-  ) => ResourceQuery<GetListFnParamsE<E>, any, any>;
+  ) => ResourceQuery<
+    GetListFnParamsE<E>,
+    Partial<GetEndpointQueryType<E>>,
+    EndpointDataOutput<E>
+  >;
   filter: GetListFnParamsE<E>;
+  toItems?: (data: EndpointDataOutput<E>) => any[];
+  getTotal?: (data: EndpointDataOutput<E>) => number;
 }
 
 export const InfiniteListBox = <
@@ -47,6 +62,9 @@ export const InfiniteListBox = <
 >({
   useListQuery,
   filter,
+  listProps,
+  toItems = (r: any) => r.data,
+  getTotal = (r: any) => r.total,
   ...rest
 }: InfiniteListBoxProps<T, E>): React.ReactElement => {
   const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
@@ -56,7 +74,9 @@ export const InfiniteListBox = <
     masonryRef: null,
     cellCache: null,
   });
+
   const Q = useEndpointQueries();
+
   const query = React.useMemo(() => {
     return useListQuery(Q);
   }, [useListQuery]);
@@ -65,26 +85,28 @@ export const InfiniteListBox = <
 
   const {
     data,
+    error,
     hasNextPage,
     isFetching,
     isFetchingNextPage,
     fetchNextPage,
     isRefetching,
+    isError,
   } = useInfiniteQuery<
     any,
     APIError,
     {
-      pages: { data: any[]; total: number }[];
+      pages: EndpointOutput<E>[];
       pageParams: Array<{ _start: number; _end: number }>;
     },
     any,
     { _start: number; _end: number }
   >({
-    initialPageParam: { _start: 0, _end: 50 },
+    initialPageParam: { _start: 0, _end: 20 },
     // eslint-disable-next-line @tanstack/query/exhaustive-deps
     queryKey,
     queryFn: (opts) => {
-      const pageParam: any = paramsToPagination(
+      const pageParam = paramsToPagination(
         opts.pageParam._start,
         opts.pageParam._end,
       );
@@ -95,7 +117,11 @@ export const InfiniteListBox = <
           filter: filter.filter,
           pagination: pageParam,
         },
-        undefined,
+        {
+          ...filter.filter,
+          ...opts.pageParam,
+          pagination: pageParam,
+        } as any,
         false,
       );
     },
@@ -116,9 +142,8 @@ export const InfiniteListBox = <
   };
 
   const { items, total } = React.useMemo(() => {
-    // console.log('data', data);
-    const items = data?.pages.flatMap((p) => p.data) ?? [];
-    const total = data?.pages[0]?.total ?? 0;
+    const items = (data?.pages ?? []).flatMap((p) => toItems(p));
+    const total = data?.pages?.[0] ? getTotal(data.pages[0]) : 0;
     return { items, total };
   }, [data, filter]);
 
@@ -130,7 +155,7 @@ export const InfiniteListBox = <
         //   _end: props.stopIndex + 1 - props.startIndex,
         // } as any;
         // console.log("handleLoadMoreRows", pageParams);
-        await fetchNextPage({ cancelRefetch: false });
+        await fetchNextPage({ cancelRefetch: true });
       }
     },
     [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching],
@@ -144,6 +169,10 @@ export const InfiniteListBox = <
       masonryRef.forceUpdate();
     }
   }, [filter, total]);
+
+  if (isError || error) {
+    return <ErrorBox error={error} resetErrorBoundary={() => {}} />;
+  }
 
   if (isFetching && items.length === 0) {
     return <FullSizeLoader />;
@@ -159,10 +188,10 @@ export const InfiniteListBox = <
       {({ onRowsRendered, registerChild }) => (
         <AutoSizer style={{ height: "100%", width: "100%" }}>
           {({ width, height }) => {
-            if (rest.listProps.type === "masonry") {
+            if (listProps.type === "masonry") {
               return (
                 <InfiniteMasonry
-                  {...rest.listProps}
+                  {...listProps}
                   width={width}
                   height={height}
                   total={total}
@@ -182,7 +211,7 @@ export const InfiniteListBox = <
                 height={height}
                 onRowsRendered={onRowsRendered}
                 items={items}
-                {...rest.listProps}
+                {...listProps}
               />
             );
           }}
