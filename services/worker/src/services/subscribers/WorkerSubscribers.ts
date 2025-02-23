@@ -10,6 +10,7 @@ import { ExtractEntitiesWithNLPSubscriber } from "./nlp/extractEntitiesWithNLP.s
 import { ProcessJobDoneSubscriber } from "./queue/processOpenAIJobDone.subscriber.js";
 import { SearchFromWikipediaSubscriber } from "./searchFromWikipedia.subscriber.js";
 import { PostToSocialPlatformsSubscriber } from "./social-post/PostToSocialPlatforms.subscriber.js";
+import { CreateEntityStatsSubscriber } from "./stats/CreateEntityStats.subscriber.js";
 import { type WorkerContext } from "#context/context.js";
 import { type WorkerError } from "#io/worker.error.js";
 
@@ -29,6 +30,8 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     ExtractEntitiesWithNLPSubscriber,
     // wikipedia
     SearchFromWikipediaSubscriber,
+    // stats
+    CreateEntityStatsSubscriber,
     // queue
     ProcessJobDoneSubscriber,
   ];
