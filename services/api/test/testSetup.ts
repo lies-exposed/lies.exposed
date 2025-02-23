@@ -31,14 +31,17 @@ beforeAll(async () => {
 
   logger.debug.log("app context", !!g.appContext);
 
-  g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
+  if (!process.env.CI) {
+    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
+  } else if (!g.appTest) {
+    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
+  }
 });
 
 afterAll(async () => {
   if (!process.env.CI) {
     await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
+    g.appContext = undefined as any;
+    g.appTest = undefined;
   }
-
-  g.appTest = undefined;
-  g.appContext = undefined as any;
 });
