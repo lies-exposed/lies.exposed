@@ -56,16 +56,13 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
   const date =
     typeof event.date === "string" ? parseISO(event.date as any) : event.date;
 
-  const handleClick = onEventClick
-    ? () => {
-        onEventClick(event);
-      }
-    : undefined;
-
+  const handleClick = () => {
+    onEventClick?.(event);
+  };
   const isVertical = layout === "vertical";
   return (
-    <Card onClick={handleClick} {...props}>
-      <CardActionArea>
+    <Card {...props}>
+      <CardActionArea onClick={handleClick}>
         <Stack
           direction={isVertical ? "column" : "row"}
           alignItems={"flex-start"}
@@ -143,7 +140,6 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
           </Stack>
         </Stack>
       </CardActionArea>
-      {/* <CardActions disableSpacing></CardActions> */}
     </Card>
   );
 };

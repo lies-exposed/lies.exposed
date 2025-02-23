@@ -11,7 +11,7 @@ import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry";
 
 type InfiniteMediaListBoxProps = Omit<
   InfiniteListBoxProps<ListType, typeof Endpoints.Media.List>,
-  "useListQuery"
+  "useListQuery" | "toItems"
 > & {
   onMediaClick?: (media: Media.Media) => void;
 };

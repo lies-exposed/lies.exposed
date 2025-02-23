@@ -1,8 +1,9 @@
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType";
-import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent.js";
 import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
-import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { Container, Grid2, Stack } from "@liexp/ui/lib/components/mui/index.js";
+import { CellRenderer } from "@liexp/ui/lib/containers/list/InfiniteListBox/CellRenderer.js";
+import { InfiniteListBox } from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteListBox.js";
 import * as React from "react";
 import { useNavigate } from "react-router";
 
@@ -13,42 +14,34 @@ export const BooksPage: React.FC = () => {
     navigate(`/events/${book.id}`);
   };
   return (
-    <QueriesRenderer
-      queries={(Q) => ({
-        books: Q.Event.Custom.SearchEvents.useQuery(undefined, {
+    <InfiniteListBox<"masonry", typeof Endpoints.Event.Custom.SearchEvents>
+      useListQuery={(Q) => Q.Queries.Event.Custom.SearchEvents as any}
+      filter={{
+        filter: {
           eventType: [BOOK.value],
           _start: "0",
-          _end: "100",
-        }),
-      })}
-      render={({
-        books: {
-          data: { events: books },
+          _end: "50",
         },
-      }) => {
-        return (
-          <Container>
-            <Stack>
-              <Grid2
-                container
-                columnSpacing={1}
-                alignItems={"flex-start"}
-                justifyContent={"flex-start"}
-              >
-                {books.map((book) => (
-                  <Grid2 size={3}>
-                    <BookCard
-                      key={book.id}
-                      event={book as SearchBookEvent}
-                      onEventClick={onBookClick}
-                      showRelations={false}
-                    />
-                  </Grid2>
-                ))}
-              </Grid2>
-            </Stack>
-          </Container>
-        );
+      }}
+      toItems={(r) => r.data.events}
+      getTotal={(r) => r.data.total}
+      listProps={{
+        type: "masonry",
+        getItem: (data: any[], index: any) => {
+          return data[index];
+        },
+        CellRenderer: CellRenderer((props) => (
+          <BookCard
+            event={props.item as SearchBookEvent}
+            showRelations={false}
+            onLoad={props.measure}
+            onEventClick={onBookClick}
+            style={{
+              width: props.columnWidth,
+              height: "100%",
+            }}
+          />
+        )),
       }}
     />
   );

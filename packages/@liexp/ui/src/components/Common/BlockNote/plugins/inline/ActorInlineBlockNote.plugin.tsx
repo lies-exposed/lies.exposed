@@ -5,6 +5,7 @@ import {
 } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import ActorChipBox from "../../../../../containers/actors/ActorChipBox.js";
+import { Typography } from "../../../../mui/index.js";
 import { ActorIcon } from "../../../Icons/FAIcon.js";
 import { BlockNoteEditorContext } from "../../BlockNoteEditorContext.js";
 import { RelationInlineContentComponent } from "./RelationInlineBlockNote.plugin.js";
@@ -26,6 +27,7 @@ export const actorItem = (editor: BNESchemaEditor) => ({
         type: "actor",
         props: {
           id: undefined as any,
+          fullName: "",
           className: "",
           displayAvatar: true,
           displayFullName: true,
@@ -44,13 +46,13 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
   {
     render: ({
       inlineContent: {
-        props: { id, className, displayFullName, displayAvatar },
+        props: { id, fullName, className, displayFullName, displayAvatar },
       },
     }): React.ReactNode => {
       return (
         <BlockNoteEditorContext.Consumer>
           {(editor) =>
-            editor ? (
+            editor?.isEditable ? (
               <RelationInlineContentComponent
                 editor={editor}
                 relation="actor"
@@ -73,7 +75,9 @@ export const actorInlineContentSpec = createReactInlineContentSpec(
                   ),
                 }}
               />
-            ) : null
+            ) : (
+              <Typography>{fullName}</Typography>
+            )
           }
         </BlockNoteEditorContext.Consumer>
       );

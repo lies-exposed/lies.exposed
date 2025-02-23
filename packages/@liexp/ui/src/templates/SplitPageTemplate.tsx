@@ -183,7 +183,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   const asideNode = React.useMemo((): React.ReactNode => {
     if (isAsideSubject(aside)) {
       return (
-        <Stack>
+        <Stack alignItems={"flex-end"} justifyContent={"start"}>
           {pipe(
             fp.O.fromNullable(aside.avatar?.thumbnail),
             fp.O.fold(

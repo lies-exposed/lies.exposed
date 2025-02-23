@@ -8,6 +8,9 @@ export const actorInlineSpec = {
     id: {
       default: DEFAULT_ACTOR_ID,
     },
+    fullName: {
+      default: "",
+    },
     className: {
       default: "",
     },

@@ -1,7 +1,7 @@
 import { type NetworkLink } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type NetworkNode } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Keyword } from "@liexp/shared/lib/io/http/index.js";
-import { type UUID } from "io-ts-types";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 
 export type KeywordNetworkNodeProps = NetworkNode<{
   id: UUID;

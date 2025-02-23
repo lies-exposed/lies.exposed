@@ -3,7 +3,7 @@ import {
   type NetworkNode,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Group } from "@liexp/shared/lib/io/http/index.js";
-import { type UUID } from "io-ts-types";
+import { type UUID } from "io-ts-types/lib/UUID.js";
 
 export type GroupNetworkNodeProps = NetworkNode<{
   id: UUID;

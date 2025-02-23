@@ -6,6 +6,9 @@ export const groupInlineSpec = {
     id: {
       default: "",
     },
+    name: {
+      default: "",
+    },
     className: {
       default: "",
     },
