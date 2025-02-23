@@ -10,7 +10,7 @@ export const SearchScientificStudyEvent = SearchEventCodec(
   {
     authors: t.array(Actor.Actor),
     publisher: t.union([Group.Group, t.undefined]),
-    url: Link.Link,
+    url: t.union([Link.Link, t.undefined]),
   },
 );
 

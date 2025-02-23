@@ -8,6 +8,7 @@ import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
+import { UUID } from "io-ts-types";
 import { type MediaEntity } from "../entities/Media.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -35,9 +36,9 @@ const toMediaIO = (
       creator: media.creator ?? undefined,
       extra,
       links: media.links ?? [],
-      events: media.events ?? [],
+      events: (media.events ?? []).map((e) => (UUID.is(e) ? e : e.id)),
       keywords: media.keywords ?? [],
-      areas: media.areas ?? [],
+      areas: (media.areas ?? []).map((a) => (UUID.is(a) ? a : a.id)),
       featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
       thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,

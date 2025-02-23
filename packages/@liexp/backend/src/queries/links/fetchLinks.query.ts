@@ -1,18 +1,42 @@
-import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { type Int } from "io-ts";
+import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
+import { LinkEntity } from "../../entities/Link.entity.js";
+import { type DBError } from "../../providers/orm/database.provider.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
-} from "@liexp/backend/lib/queries/social-post/leftJoinSocialPosts.query.js";
-import { DBService } from "@liexp/backend/lib/services/db.service.js";
-import { addOrder } from "@liexp/backend/lib/utils/orm.utils.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
-import { type TEReader } from "#flows/flow.types.js";
+} from "../../queries/social-post/leftJoinSocialPosts.query.js";
+import { DBService } from "../../services/db.service.js";
+import { addOrder } from "../../utils/orm.utils.js";
 
-export const fetchLinks = (
-  query: GetListLinkQuery,
+const getListQueryEmpty: GetListLinkQuery = {
+  q: fp.O.none,
+  ids: fp.O.none,
+  _sort: fp.O.none,
+  _order: fp.O.none,
+  onlyDeleted: fp.O.none,
+  onlyUnshared: fp.O.none,
+  provider: fp.O.none,
+  creator: fp.O.none,
+  url: fp.O.none,
+  noPublishDate: fp.O.none,
+  events: fp.O.none,
+  emptyEvents: fp.O.none,
+  keywords: fp.O.none,
+  startDate: fp.O.none,
+  endDate: fp.O.none,
+  _start: fp.O.some(20 as Int),
+  _end: fp.O.some(0 as Int),
+};
+
+export const fetchLinks = <C extends DatabaseContext & ENVContext>(
+  query: Partial<GetListLinkQuery>,
   isAdmin: boolean,
-): TEReader<[LinkEntity[], number]> => {
+): ReaderTaskEither<C, DBError, [LinkEntity[], number]> => {
   const {
     events,
     keywords,
@@ -25,7 +49,7 @@ export const fetchLinks = (
     onlyUnshared: _onlyUnshared,
     noPublishDate: _noPublishDate,
     ...others
-  } = query;
+  } = { ...getListQueryEmpty, ...query };
 
   // const findOptions = getORMOptions({ ...others }, ctx.env.DEFAULT_PAGE_SIZE);
   const onlyUnshared = pipe(
@@ -96,7 +120,7 @@ export const fetchLinks = (
               });
             }
 
-            if (fp.O.isSome(ids)) {
+            if (fp.O.isSome(ids) && ids.value.length > 0) {
               return q.where("link.id IN (:...ids)", {
                 ids: ids.value,
               });

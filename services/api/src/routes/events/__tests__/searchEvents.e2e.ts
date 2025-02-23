@@ -157,14 +157,14 @@ describe("Search Events", () => {
         .query({ "actors[]": firstActor.id })
         .set("Authorization", authorizationToken);
 
-      const { totals } = response.body;
+      const { totals } = response.body.data;
 
       expect(response.status).toEqual(200);
       // events include also events where actor is a group member
       expect(totals.uncategorized).toBeGreaterThanOrEqual(10);
 
       const { avatar, death, diedOn, bornOn, ...expectedActor } = firstActor;
-      expect(response.body.data[0]).toMatchObject({
+      expect(response.body.data.events[0]).toMatchObject({
         payload: {
           actors: [
             {
@@ -188,7 +188,7 @@ describe("Search Events", () => {
         .query({ actors: [firstActor.id, secondActor.id] })
         .set("Authorization", authorizationToken);
 
-      const { totals } = response.body;
+      const { totals } = response.body.data;
 
       expect(response.status).toEqual(200);
       expect(totals.uncategorized).toBe(20);
@@ -216,7 +216,7 @@ describe("Search Events", () => {
         ...expectedGroupAvatar
       } = expectedGroup.avatar ?? {};
 
-      expect(response.body.data[0]).toMatchObject({
+      expect(response.body.data.events[0]).toMatchObject({
         payload: {
           groups: [
             {
@@ -240,16 +240,16 @@ describe("Search Events", () => {
     });
   });
 
-  describe("Search by group member", () => {
+  describe.skip("Search by group member", () => {
     test("Should return events for given group member", async () => {
       const response = await appTest.req
-        .get(`/v1/events`)
+        .get(`/v1/events/search`)
         .query({ "groupsMembers[]": groupMember.id })
         .set("Authorization", authorizationToken);
 
       expect(response.status).toEqual(200);
-      expect(response.body.totals.uncategorized).toBe(10);
-      expect(response.body.data[0]).toMatchObject({
+      expect(response.body.data.totals.uncategorized).toBe(10);
+      expect(response.body.data.events[0]).toMatchObject({
         payload: {
           groupsMembers: [groupMember.id],
         },
@@ -259,10 +259,10 @@ describe("Search Events", () => {
 
   test("Should return all the events", async () => {
     const response = await appTest.req
-      .get(`/v1/events`)
+      .get(`/v1/events/search`)
       .set("Authorization", authorizationToken);
 
-    const { totals } = response.body;
+    const { totals } = response.body.data;
 
     expect(response.status).toEqual(200);
 

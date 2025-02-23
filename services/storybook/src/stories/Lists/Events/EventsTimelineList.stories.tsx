@@ -11,7 +11,6 @@ import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
 import { useAPI } from "@liexp/ui/lib/hooks/useAPI.js";
-import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
@@ -30,14 +29,13 @@ const Template: StoryFn<EventsTimelineListProps> = (props) => {
   return (
     <div style={{ height: "100%" }}>
       <QueriesRenderer
-        queries={{
-          events: searchEventsQuery(api)({
-            hash: "events-timeline-storybook",
-            _start: 0,
-            _end: 100,
+        queries={(Q) => ({
+          events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
+            _start: "0",
+            _end: "100",
           }),
-        }}
-        render={({ events }) => {
+        })}
+        render={({ events: { data: events } }) => {
           return (
             <AutoSizer>
               {({ width, height }) => {

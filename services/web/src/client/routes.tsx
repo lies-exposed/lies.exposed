@@ -9,7 +9,6 @@ import {
   type ServerRoute,
 } from "@liexp/ui/lib/react/types.js";
 import {
-  fetchSearchEvents,
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
@@ -340,7 +339,7 @@ export const routes: ServerRoute[] = [
               _start: 0,
               _end: 3,
             }),
-            queryFn: fetchSearchEvents(Q.API),
+            queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
           },
           {
             queryKey: getSearchEventsQueryKey({
@@ -349,7 +348,7 @@ export const routes: ServerRoute[] = [
               _start: 0,
               _end: 3,
             }),
-            queryFn: fetchSearchEvents(Q.API),
+            queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
           },
           {
             queryKey: getSearchEventsQueryKey({
@@ -358,7 +357,7 @@ export const routes: ServerRoute[] = [
               _end: 3,
               exclude: [event.id],
             }),
-            queryFn: fetchSearchEvents(Q.API),
+            queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
           },
         ];
       },
@@ -391,7 +390,7 @@ export const routes: ServerRoute[] = [
             _start: 0,
             _end: 0,
           }),
-          queryFn: fetchSearchEvents(Q.API),
+          queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
         },
         {
           queryKey: Q.Queries.Actor.list.getKey(
@@ -436,7 +435,7 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: getSearchEventsInfiniteQueryKey(q),
-          queryFn: fetchSearchEvents(Q.API),
+          queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
         },
       ]);
     },
@@ -765,7 +764,7 @@ export const routes: ServerRoute[] = [
             _start: 0,
             _end: 6,
           }),
-          queryFn: fetchSearchEvents(Q.API),
+          queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
         },
         {
           queryKey: Q.Queries.Media.list.getKey(

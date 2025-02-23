@@ -101,11 +101,14 @@ export const SearchEventRoute: Route = (r, ctx) => {
       ),
       TE.map(({ data, relations, total, totals, firstDate, lastDate }) => ({
         body: {
-          data: data.map((e) => toSearchEvent(e, relations)),
-          total,
-          totals,
-          firstDate: firstDate?.toISOString(),
-          lastDate: lastDate?.toISOString(),
+          data: {
+            ...relations,
+            events: data.map((e) => toSearchEvent(e, relations)),
+            total,
+            totals,
+            firstDate: firstDate?.toISOString(),
+            lastDate: lastDate?.toISOString(),
+          },
         },
         statusCode: 200,
       })),

@@ -292,7 +292,7 @@ export const toSearchEvent = (
     linkIds,
     A.map((a) => {
       return pipe(
-        s.links?.find((actor) => actor.id === a),
+        s.links?.find((l) => l.id === a),
         fp.O.fromNullable,
       );
     }),
@@ -510,7 +510,7 @@ export const fromSearchEvent = (
         ...relations,
         payload: {
           ...e.payload,
-          url: e.payload.url.id,
+          url: e.payload.url!.id,
           authors: e.payload.authors.map((a) => a.id),
           publisher: e.payload.publisher?.id,
         },
@@ -539,7 +539,7 @@ export const fromSearchEvent = (
         payload: {
           ...e.payload,
           media: e.payload.media.id,
-          website: e.payload.website.id,
+          website: e.payload.website?.id,
           authors: {
             actors: e.payload.authors.actors.map((a) => a.id),
             groups: e.payload.authors.groups.map((g) => g.id),

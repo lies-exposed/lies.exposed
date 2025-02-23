@@ -11,7 +11,6 @@ import {
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { Button, Box } from "@liexp/ui/lib/components/mui/index.js";
 import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
-import { searchEventsQuery } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -50,14 +49,17 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
 
   return (
     <QueriesRenderer
-      queries={{
-        events: searchEventsQuery(api)({
-          hash: `edit-event-modal-story-${start}-${end}`,
-          _start: start,
-          _end: end,
+      queries={(Q) => ({
+        events: Q.Event.Custom.SearchEvents.useQuery(undefined, {
+          _start: start.toString(),
+          _end: end.toString(),
         }),
-      }}
-      render={({ events: { events, ...relations } }) => {
+      })}
+      render={({
+        events: {
+          data: { events, ...relations },
+        },
+      }) => {
         const e: any = events[0];
         return (
           <Box>
