@@ -20,7 +20,7 @@ export type GetFnParams<G> =
     ? t.TypeOf<T>
     : InferEndpointParams<G>["params"] extends undefined
       ? undefined
-      : serializedType<InferEndpointParams<G>["params"]>;
+      : runtimeType<InferEndpointParams<G>["params"]>;
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   filter?: Partial<
@@ -29,7 +29,7 @@ export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
         ? InferEndpointInstanceParams<L>["query"]
         : InferEndpointParams<L>["query"]
     >
-  > | null;
+  >;
 };
 
 export type CreateFnParams<C> = InferEndpointParams<C>["body"] extends undefined

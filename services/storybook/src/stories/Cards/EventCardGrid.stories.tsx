@@ -1,3 +1,4 @@
+import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import {
   EventCardGrid,
   type EventCardGridProps,
@@ -14,7 +15,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn<EventCardGridProps> = (props) => {
+const Template: StoryFn<EventCardGridProps<SearchEvent>> = (props) => {
   const api = useAPI();
   return (
     <QueriesRenderer

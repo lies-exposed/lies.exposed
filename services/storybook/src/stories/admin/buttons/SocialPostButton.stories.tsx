@@ -27,7 +27,7 @@ const Template: StoryFn<SocialPostButtonProps> = (props) => {
       <QueriesRenderer
         queries={(Q) => ({
           events: Q.Event.list.useQuery(
-            { filter: null, pagination: { perPage: 1, page: 1 } },
+            { pagination: { perPage: 1, page: 1 } },
             undefined,
             false,
           ),

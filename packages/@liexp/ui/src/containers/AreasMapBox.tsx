@@ -9,7 +9,6 @@ const AreasMapBox: React.FC<AreasMapProps> = (props) => {
         areas: Q.Area.list.useQuery(
           {
             pagination: { perPage: 20, page: 1 },
-            filter: null,
             sort: {
               field: "id",
               order: "DESC",
