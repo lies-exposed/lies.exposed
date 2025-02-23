@@ -12,12 +12,8 @@ import { type PuppeteerProviderContext } from "../../context/puppeteer.context.j
 import { type SpaceContext } from "../../context/space.context.js";
 import { type LinkEntity } from "../../entities/Link.entity.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
-import {
-  toDBError,
-  type DBError,
-} from "../../providers/orm/database.provider.js";
+import { type DBError } from "../../providers/orm/database.provider.js";
 import { type SpaceError } from "../../providers/space/space.provider.js";
-import { LinkRepository } from "../../services/entity-repository.service.js";
 import { upload } from "../space/upload.flow.js";
 import { takeURLScreenshot } from "../url/takeURLScreenshot.flow.js";
 
@@ -55,7 +51,7 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
   );
 };
 
-export const takeLinkScreenshotAndSave = <
+export const takeLinkScreenshot = <
   C extends DatabaseContext &
     PuppeteerProviderContext &
     SpaceContext &
@@ -66,33 +62,24 @@ export const takeLinkScreenshotAndSave = <
   pipe(
     takeURLScreenshot(link.url)<C>,
     fp.RTE.chain((buffer) => uploadScreenshot(link, buffer)),
-    fp.RTE.chain((screenshot) =>
-      pipe(
-        LinkRepository.save<C>([
-          {
-            id: link.id,
-            image: screenshot.location
-              ? ({
-                  ...(link.image ?? {}),
-                  ...screenshot,
-                  id: screenshot.id,
-                  location: screenshot.location,
-                  thumbnail:
-                    screenshot.thumbnail ?? (link.image?.thumbnail as any),
-                  extra: screenshot.extra ?? link.image?.extra,
-                  type:
-                    screenshot.type ??
-                    (link.image?.location
-                      ? contentTypeFromFileExt(link.image?.location)
-                      : PngType.value),
-                  label: link.title,
-                  description: link.description,
-                } as any)
-              : link.image,
-          },
-        ]),
-        fp.RTE.mapLeft(toDBError()),
-      ),
-    ),
-    fp.RTE.map((l) => l[0]),
+    fp.RTE.map((screenshot) => ({
+      ...link,
+      image: screenshot.location
+        ? ({
+            ...(link.image ?? {}),
+            ...screenshot,
+            id: screenshot.id,
+            location: screenshot.location,
+            thumbnail: screenshot.thumbnail ?? (link.image?.thumbnail as any),
+            extra: screenshot.extra ?? link.image?.extra,
+            type:
+              screenshot.type ??
+              (link.image?.location
+                ? contentTypeFromFileExt(link.image?.location)
+                : PngType.value),
+            label: link.title,
+            description: link.description,
+          } as any)
+        : link.image,
+    })),
   );

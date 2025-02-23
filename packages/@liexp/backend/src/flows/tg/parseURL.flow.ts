@@ -28,8 +28,9 @@ import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/index.js";
 import { type DBError } from "../../providers/orm/index.js";
 import { LinkRepository } from "../../services/entity-repository.service.js";
+import { LoggerService } from "../../services/logger/logger.service.js";
 import { fromURL } from "../links/link.flow.js";
-import { takeLinkScreenshotAndSave } from "../links/takeLinkScreenshot.flow.js";
+import { takeLinkScreenshot } from "../links/takeLinkScreenshot.flow.js";
 
 export const parseURLs =
   <
@@ -77,11 +78,12 @@ export const parseURLs =
             return pipe(
               fromURL(user, url, {})(ctx),
               TE.mapLeft(ServerError.fromUnknown),
+              LoggerService.TE.info(ctx, ["Link created %O"]),
               TE.chain((link) =>
                 pipe(
                   link.image?.thumbnail
                     ? TE.right(link)
-                    : takeLinkScreenshotAndSave(link)(ctx),
+                    : takeLinkScreenshot(link)(ctx),
                 ),
               ),
               TE.chainFirst((l) =>

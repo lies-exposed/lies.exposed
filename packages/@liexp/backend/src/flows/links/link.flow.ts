@@ -46,8 +46,9 @@ export const fromURL =
       ),
       TE.map((m) => ({
         ...m,
-        title: defaults?.title ?? m.title ?? url,
-        description: defaults?.description ?? m.description ?? url,
+        url: urll,
+        title: defaults?.title ?? m.title ?? urll,
+        description: defaults?.description ?? m.description ?? urll,
         image: defaults?.image ?? m.image ?? null,
       })),
       TE.chain((m) =>
@@ -70,27 +71,27 @@ export const fromURL =
           })),
         ),
       ),
-      TE.map((meta): LinkEntity & { image: MediaEntity | null } => {
-        ctx.logger.debug.log("Creating link %O", meta);
+      TE.map((link): LinkEntity & { image: MediaEntity | null } => {
+        ctx.logger.debug.log("Creating link %O", link);
         const publishDate = pipe(
-          DateFromISOString.decode(meta.date),
+          DateFromISOString.decode(link.date),
           E.getOrElse((): Date | null => null),
         );
 
         return {
           id: uuid(),
-          title: meta.title,
-          url,
-          description: meta.description ?? meta.title,
+          title: link.title,
+          url: urll,
+          description: link.description ?? link.title,
           publishDate,
-          image: meta.image
+          image: link.image
             ? {
-                ...meta.image,
-                label: meta.image.label ?? meta.title,
-                description: meta.image.description ?? meta.title,
-                thumbnail: meta.image.thumbnail ?? null,
+                ...link.image,
+                label: link.image.label ?? link.title,
+                description: link.image.description ?? link.title,
+                thumbnail: link.image.thumbnail ?? null,
                 creator: null,
-                extra: meta.image.extra ?? null,
+                extra: link.image.extra ?? null,
                 deletedAt: null,
                 socialPosts: [],
                 events: [],

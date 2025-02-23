@@ -24,7 +24,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm worker fetch --prod
 
 RUN pnpm worker --prod deploy --legacy /prod/worker
 
-FROM node:22-slim AS production
+FROM ghcr.io/lies-exposed/liexp-base:22-latest AS production
 
 WORKDIR /prod/worker
 

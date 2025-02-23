@@ -1,7 +1,7 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { takeLinkScreenshotAndSave } from "@liexp/backend/lib/flows/links/takeLinkScreenshot.flow.js";
+import { takeLinkScreenshot } from "@liexp/backend/lib/flows/links/takeLinkScreenshot.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -72,9 +72,7 @@ export const MakeTakeLinkScreenshotRoute = (
             getMediaOrMakeFromLinkTask(link),
             TE.map(([media]) => ({ ...link, image: media as any })),
             // TODO: use pub sub
-            TE.chain((linkWithMedia) =>
-              takeLinkScreenshotAndSave(linkWithMedia)(ctx),
-            ),
+            TE.chain((linkWithMedia) => takeLinkScreenshot(linkWithMedia)(ctx)),
           ),
         ),
         TE.map(({ media, link }) => ({ link: { ...link, media } })),
