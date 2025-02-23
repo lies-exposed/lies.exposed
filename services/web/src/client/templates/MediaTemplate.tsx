@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
@@ -6,7 +7,7 @@ import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const MediaTemplate: React.FC<{ mediaId: string }> = ({ mediaId }) => {
+const MediaTemplate: React.FC<{ mediaId: UUID }> = ({ mediaId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
   const { tab = "0" } = useRouteQuery();

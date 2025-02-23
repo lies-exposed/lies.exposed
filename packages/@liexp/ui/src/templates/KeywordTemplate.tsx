@@ -1,4 +1,5 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
@@ -24,7 +25,7 @@ import { type SearchEventsQueryInputNoPagination } from "../state/queries/Search
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface KeywordTemplateProps {
-  id: string;
+  id: UUID;
   tab: number;
   onTabChange: (t: number) => void;
   onEventClick: (e: SearchEvent) => void;

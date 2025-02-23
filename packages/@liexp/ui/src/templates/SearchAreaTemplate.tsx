@@ -33,7 +33,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
         queries={(Q) => ({
           areas: Q.Area.list.useQuery(
             {
-              filter: null,
+              filter: undefined,
             },
             undefined,
             false,

@@ -81,7 +81,7 @@ const commonQueries = [githubQuery];
 const linkRoute: ServerRoute = {
   path: "/links/:linkId",
   route: () => {
-    const params = useParams<{ linkId: string }>();
+    const params = useParams<{ linkId: UUID }>();
     if (params.linkId) {
       return <LinkTemplate linkId={params.linkId} />;
     }
@@ -117,7 +117,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/groups/:groupId",
     route: () => {
-      const params = useParams<{ groupId: string }>();
+      const params = useParams<{ groupId: UUID }>();
       if (params.groupId) {
         return <GroupTemplate groupId={params.groupId} />;
       }
@@ -182,7 +182,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/actors/:actorId",
     route: () => {
-      const params = useParams<{ actorId: string }>();
+      const params = useParams<{ actorId: UUID }>();
       if (params.actorId) {
         return <ActorTemplate actorId={params.actorId} />;
       }
@@ -190,7 +190,7 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ actorId }: { actorId: string }) =>
+      async ({ actorId }: { actorId: UUID }) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -243,7 +243,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/events/:eventId",
     route: () => {
-      const params = useParams<{ eventId: string }>();
+      const params = useParams<{ eventId: UUID }>();
       if (params.eventId) {
         return <EventTemplate eventId={params.eventId} />;
       }
@@ -384,12 +384,16 @@ export const routes: ServerRoute[] = [
       return Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
-          queryKey: getSearchEventsQueryKey({
-            ...q,
-            hash: undefined,
-            _start: 0,
-            _end: 0,
-          }),
+          queryKey: Q.Queries.Event.Custom.SearchEvents.getKey(
+            undefined,
+            {
+              ...q,
+              hash: undefined,
+              _start: 0,
+              _end: 0,
+            },
+            false,
+          ),
           queryFn: Q.Queries.Event.Custom.SearchEvents.fetch,
         },
         {
@@ -480,7 +484,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/keywords/:keywordId",
     route: () => {
-      const params = useParams<{ keywordId: string }>();
+      const params = useParams<{ keywordId: UUID }>();
       if (params.keywordId) {
         return <KeywordTemplate keywordId={params.keywordId} />;
       }
@@ -511,7 +515,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/areas/:areaId",
     route: () => {
-      const params = useParams<{ areaId: string }>();
+      const params = useParams<{ areaId: UUID }>();
       if (params.areaId) {
         return <AreaTemplate areaId={params.areaId} />;
       }
@@ -519,7 +523,7 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ areaId }: any) =>
+      async ({ areaId }) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -541,7 +545,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Queries.Area.list.getKey(
             {
-              filter: null,
+              filter: undefined,
             },
             // true,
           ),
@@ -553,7 +557,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/media/:mediaId",
     route: () => {
-      const params = useParams<{ mediaId: string }>();
+      const params = useParams<{ mediaId: UUID }>();
       if (params.mediaId) {
         return <MediaTemplate mediaId={params.mediaId} />;
       }
@@ -561,7 +565,7 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ mediaId }: any) =>
+      async ({ mediaId }) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
@@ -583,7 +587,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Queries.Media.list.getKey(
             {
-              filter: null,
+              filter: undefined,
             },
             // false,
           ),

@@ -1,4 +1,5 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
@@ -10,7 +11,6 @@ import {
 } from "@liexp/ui/lib/components/Modal/EditEventModal.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { Button, Box } from "@liexp/ui/lib/components/mui/index.js";
-import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 
@@ -23,7 +23,6 @@ const meta: Meta<EditEventModalProps> = {
 export default meta;
 
 const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
-  const api = useAPI();
   const [{ start, end }, setStartEnd] = React.useState({
     start: 0,
     end: 1,
@@ -60,7 +59,7 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
           data: { events, ...relations },
         },
       }) => {
-        const e: any = events[0];
+        const e = events[0];
         return (
           <Box>
             <Button
@@ -70,7 +69,7 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
             >
               Pick another event
             </Button>
-            Open {getTitle(e, { ...relations, areas: [] })}:{" "}
+            Open {getTitle(fromSearchEvent(e), { ...relations, areas: [] })}:{" "}
             <EditEventButton id={e.id} />
           </Box>
         );

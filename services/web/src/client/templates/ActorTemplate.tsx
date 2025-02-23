@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
@@ -7,7 +8,7 @@ import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useNavigateToResource } from "../utils/location.utils";
 
-const ActorPage: React.FC<{ actorId: string }> = ({ actorId }) => {
+const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
   // const params = useParams();
   const navigateToResource = useNavigateToResource();
   const { tab: _tab = "0", ...query } = useRouteQuery();

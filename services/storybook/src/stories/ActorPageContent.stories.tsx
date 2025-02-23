@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   ActorPageContent,
   type ActorPageContentProps,
@@ -15,7 +16,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<
-  Omit<ActorPageContentProps, "actor"> & { id: string }
+  Omit<ActorPageContentProps, "actor"> & { id: UUID }
 > = ({ id, ...props }) => {
   return (
     <QueriesRenderer
@@ -45,7 +46,7 @@ const Template: StoryFn<
 const ActorPageExample = Template.bind({});
 
 ActorPageExample.args = {
-  id: "1bde0d49-03a1-411d-9f18-2e70a722532b",
+  id: "1bde0d49-03a1-411d-9f18-2e70a722532b" as UUID,
   groups: [],
   onGroupClick: () => {},
   onActorClick: () => {},
