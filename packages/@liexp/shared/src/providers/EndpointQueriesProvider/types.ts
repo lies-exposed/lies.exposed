@@ -3,6 +3,7 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
+import { type runtimeType } from "ts-io-error/Codec.js";
 import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
@@ -51,11 +52,11 @@ export interface ResourceQueries<G, L, CC> {
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: ResourceQuery<
-          serializedType<
+          runtimeType<
             InferEndpointInstanceParams<CC[K]>["params"]
           > extends never
             ? undefined
-            : serializedType<InferEndpointInstanceParams<CC[K]>["params"]>,
+            : runtimeType<InferEndpointInstanceParams<CC[K]>["params"]>,
           Partial<serializedType<InferEndpointInstanceParams<CC[K]>["query"]>>,
           EndpointDataOutput<CC[K]>
         >;

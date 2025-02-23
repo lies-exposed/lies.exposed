@@ -22,7 +22,6 @@ const Template: StoryFn<MediaTemplateUIProps> = (props) => {
         media: Q.Media.list.useQuery(
           {
             pagination: { perPage: 1, page: 1 },
-            filter: null,
           },
           undefined,
           false,

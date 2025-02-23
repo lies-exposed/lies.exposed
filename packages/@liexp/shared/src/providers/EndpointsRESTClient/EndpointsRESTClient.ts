@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { isAxiosError } from "axios";
 import * as A from "fp-ts/lib/Array.js";
@@ -6,7 +7,6 @@ import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as t from "io-ts";
-// eslint-disable-next-line no-restricted-imports
 import type { CreateParams, GetListResult, GetOneResult } from "react-admin";
 import {
   type InferEndpointInstanceParams,
@@ -161,12 +161,12 @@ const restFromResourceEndpoints = <
               apiClient.request({
                 method: ee.Method,
                 url,
-                params: (params as any).Query,
-                data: (params as any).Body,
+                params: params?.Query,
+                data: params?.Body,
                 responseType: "json",
                 headers: {
                   Accept: "application/json",
-                  ...(params as any).Headers,
+                  ...params?.Headers,
                 },
               }),
             ee.Output.decode,

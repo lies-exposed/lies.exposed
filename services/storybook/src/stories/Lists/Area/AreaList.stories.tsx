@@ -20,7 +20,7 @@ const Template: StoryFn<AreaListProps> = (props) => {
         queries={(Q) => ({
           areas: Q.Area.list.useQuery(
             {
-              filter: null,
+              filter: undefined,
               pagination: {
                 perPage: 20,
                 page: 1,

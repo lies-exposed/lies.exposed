@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
@@ -101,7 +102,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
 
   return (
     <QueriesRenderer
-      queries={{ data: Queries.Graph.get.useQuery({ id }) }}
+      queries={{ data: Queries.Graph.get.useQuery({ id: id as UUID }) }}
       render={({ data }) => (
         <ParentSize
           style={{ height: 400, width: "100%", ...style }}

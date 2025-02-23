@@ -10,7 +10,6 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
-import { useAPI } from "@liexp/ui/lib/hooks/useAPI.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
@@ -24,7 +23,6 @@ export default meta;
 
 const Template: StoryFn<EventsTimelineListProps> = (props) => {
   const ref = React.createRef();
-  const api = useAPI();
 
   return (
     <div style={{ height: "100%" }}>

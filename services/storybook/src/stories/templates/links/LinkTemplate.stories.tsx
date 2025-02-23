@@ -28,7 +28,6 @@ const Template: StoryFn<LinkTemplateUIProps> = (props) => {
               page: 1,
               perPage: 3,
             },
-            filter: null,
           },
           undefined,
           false,

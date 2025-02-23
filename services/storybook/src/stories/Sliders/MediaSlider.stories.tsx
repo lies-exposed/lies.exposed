@@ -26,7 +26,7 @@ const Template: StoryFn<Omit<MediaSliderProps, "media"> & { id: string }> = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        media: Q.Media.list.useQuery({ filter: null }, undefined, false),
+        media: Q.Media.list.useQuery({ filter: undefined }, undefined, false),
       })}
       render={({ media }) => {
         return (
