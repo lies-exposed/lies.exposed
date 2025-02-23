@@ -5,7 +5,7 @@ import {
 } from "@liexp/shared/lib/io/http/User.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { Equal, In } from "typeorm";
+import { Equal, Raw } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type UserEntity } from "../../entities/User.entity.js";
@@ -22,14 +22,14 @@ export const getUserByTelegramId = <C extends LoggerContext & DatabaseContext>(
     fp.RTE.chain(() => {
       return pipe(
         UserRepository.findOneOrFail<C>({
-          where: {
-            telegramId: Equal(telegramId.toString()),
-            permissions: In([
-              AdminCreate.value,
-              EventSuggestionEdit.value,
-              EventSuggestionEdit.value,
-            ]),
-          },
+          where: [AdminCreate, EventSuggestionEdit, EventSuggestionEdit].map(
+            (permission) => ({
+              telegramId: Equal(telegramId.toString()),
+              permissions: Raw(
+                (alias) => `(${alias})::jsonb ? '${permission.value}'`,
+              ),
+            }),
+          ),
         }),
       );
     }),
