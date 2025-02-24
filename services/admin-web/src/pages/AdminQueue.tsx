@@ -18,6 +18,8 @@ import {
   FunctionField,
   List,
   type ListProps,
+  SelectArrayInput,
+  type SelectArrayInputProps,
   SelectInput,
   type SelectInputProps,
   SimpleForm,
@@ -108,10 +110,27 @@ const SelectQueueStatusInput: React.FC<SelectInputProps> = ({
   );
 };
 
+const SelectQueueStatusArrayInput: React.FC<SelectArrayInputProps> = ({
+  source = "status",
+  ...props
+}) => {
+  return (
+    <SelectArrayInput
+      label={source}
+      source={source}
+      {...props}
+      choices={Queue.Status.types.map((resource) => ({
+        id: resource.value,
+        name: resource.value,
+      }))}
+    />
+  );
+};
+
 const filters = [
   <SelectQueueTypeInput key="type" alwaysOn />,
   <SelectQueueResourceInput key="resource" alwaysOn />,
-  <SelectQueueStatusInput key="status" alwaysOn />,
+  <SelectQueueStatusArrayInput key="status" alwaysOn />,
 ];
 
 const getBorderStyleFromStatus = (status: string) => {
