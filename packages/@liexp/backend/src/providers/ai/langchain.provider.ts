@@ -124,7 +124,7 @@ export const GetLangchainProvider = (
       const embeddings = new OpenAIEmbeddings({
         model,
         apiKey: opts.apiKey,
-        timeout: 60 * 30, // 30 minutes
+        timeout: 60 * 30 * 1000, // 30 minutes
         configuration: {
           baseURL: opts.baseURL,
         },
