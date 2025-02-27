@@ -82,7 +82,7 @@ updates:
       storybook:
         patterns:
           - "@storybook/*"
-          - "storybook"
+          - storybook
       visx:
         patterns:
           - "*visx*"
