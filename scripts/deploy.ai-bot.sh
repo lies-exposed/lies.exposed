@@ -16,6 +16,7 @@ scp ./deploy/ai-bot.config.json $SSH_DOMAIN:docker-app/ai-bot.config.json
 scp ./ai-bot.Dockerfile $SSH_DOMAIN:docker-app/ai-bot.Dockerfile
 
 scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
+scp ./node_modules/pdfjs-dist/build/pdf.worker.mjs $SSH_DOMAIN:docker-app/services/ai-bot/build/pdf.worker.mjs
 scp ./services/ai-bot/build/run-esbuild.js $SSH_DOMAIN:docker-app/services/ai-bot/build/run-esbuild.js
 scp ./services/ai-bot/sea-config.json $SSH_DOMAIN:docker-app/services/ai-bot/sea-config.json
 

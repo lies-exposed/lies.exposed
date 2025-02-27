@@ -5,6 +5,8 @@ WORKDIR /home/node
 RUN mkdir build scripts
 
 COPY services/ai-bot/build/run-esbuild.js build/run-esbuild.js
+COPY services/ai-bot/build/pdf.worker.mjs pdf.worker.mjs
+
 COPY services/ai-bot/sea-config.json sea-config.json
 
 RUN node --experimental-sea-config sea-config.json
@@ -20,6 +22,7 @@ FROM node:22-slim AS production
 
 WORKDIR /home/node
 
+COPY --from=dev /home/node/pdf.worker.mjs pdf.worker.mjs
 COPY --from=dev /home/node/ai-bot ai-bot
 
 CMD ["./ai-bot"]
