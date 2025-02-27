@@ -9,5 +9,9 @@ export interface EventQueryConfig {
     qb: WhereExpressionBuilder,
     groupIds: string[],
   ) => WhereExpressionBuilder;
+  whereMediaIn: (
+    qb: WhereExpressionBuilder,
+    mediaIds: string[],
+  ) => WhereExpressionBuilder;
   whereTitleIn: (qb: WhereExpressionBuilder) => string;
 }
