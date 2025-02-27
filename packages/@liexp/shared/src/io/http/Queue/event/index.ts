@@ -33,7 +33,7 @@ export type CreateEventFromURLTypeData = t.TypeOf<
 >;
 
 export const CreateQueueEvent = t.union(
-  [CreateEventFromURLTypeData, CreateEventFromTextTypeData],
+  [CreateEventFromTextTypeData, CreateEventFromURLTypeData],
   "CreateQueueEvent",
 );
 

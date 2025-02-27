@@ -5,17 +5,18 @@ import * as E from "fp-ts/lib/Either.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
 export const toQueueIO = (
-  queue: Record<string, unknown>,
+  unknownQueue: Record<string, unknown>,
 ): E.Either<ControllerError, io.http.Queue.Queue> => {
+  const queue = {
+    status: "pending",
+    ...unknownQueue,
+    question: unknownQueue?.question ?? null,
+    result: unknownQueue?.result ?? null,
+    prompt: unknownQueue?.prompt ?? null,
+    error: unknownQueue?.error ?? null,
+  };
   return pipe(
-    io.http.Queue.Queue.decode({
-      status: "pending",
-      ...queue,
-      question: queue?.question ?? null,
-      result: queue?.result ?? null,
-      prompt: queue?.prompt ?? null,
-      error: queue?.error ?? null,
-    }),
+    io.http.Queue.Queue.decode(queue),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode queue (${JSON.stringify(queue)})`, e),
     ),
