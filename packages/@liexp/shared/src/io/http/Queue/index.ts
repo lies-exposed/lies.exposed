@@ -5,8 +5,14 @@ import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "../Query/PaginationQuery.js";
 import { SortQuery } from "../Query/SortQuery.js";
 import { ResourcesNames } from "../ResourcesNames.js";
-import { OpenAICreateEventFromTextType } from "./event/CreateEventFromTextQueueData.js";
-import { OpenAICreateEventFromURLType } from "./event/CreateEventFromURLQueue.js";
+import {
+  CreateEventFromTextQueueData,
+  OpenAICreateEventFromTextType,
+} from "./event/CreateEventFromTextQueueData.js";
+import {
+  CreateEventFromURLQueueData,
+  OpenAICreateEventFromURLType,
+} from "./event/CreateEventFromURLQueue.js";
 import { CreateQueueEvent } from "./event/index.js";
 
 export const QueueResourceNames = ResourcesNames;
@@ -89,16 +95,6 @@ export const CreateQueueURLData = t.strict(
 );
 export type CreateQueueURLData = t.TypeOf<typeof CreateQueueURLData>;
 
-export const CreateQueueURLTypeData = t.strict(
-  {
-    type: OpenAIEmbeddingQueueType,
-    data: CreateQueueURLData,
-  },
-  "CreateQueueURLTypeData",
-);
-
-export type CreateQueueURLTypeData = t.TypeOf<typeof CreateQueueURLTypeData>;
-
 export const CreateQueueTextData = t.strict(
   {
     text: t.string,
@@ -106,6 +102,18 @@ export const CreateQueueTextData = t.strict(
   "CreateQueueTextData",
 );
 export type CreateQueueTextData = t.TypeOf<typeof CreateQueueTextData>;
+
+export type CreateQueueEmbeddingTypeData = t.TypeOf<
+  typeof CreateQueueEmbeddingTypeData
+>;
+
+export const CreateQueueEmbeddingTypeData = t.strict(
+  {
+    type: OpenAIEmbeddingQueueType,
+    data: t.union([CreateQueueURLData, CreateQueueTextData]),
+  },
+  "CreateQueueURLTypeData",
+);
 
 export const CreateQueueTextTypeData = t.strict(
   {
@@ -116,31 +124,42 @@ export const CreateQueueTextTypeData = t.strict(
 );
 export type CreateQueueTextTypeData = t.TypeOf<typeof CreateQueueTextTypeData>;
 
-const CreateQueueTypeData = t.union([
-  CreateQueueEvent,
-  CreateQueueURLTypeData,
-  CreateQueueTextTypeData,
-]);
-
-export const CreateQueue = t.intersection(
+const CreateQueueData = t.union(
   [
-    t.strict({
-      id: UUID,
-      question: t.union([t.string, t.null]),
-      result: t.union([t.string, t.null, t.any]),
-      prompt: t.union([t.string, t.null]),
-    }),
-    CreateQueueTypeData,
+    CreateEventFromTextQueueData,
+    CreateQueueTextData,
+    CreateQueueURLData,
+    CreateEventFromURLQueueData,
   ],
+  "CreateQueueData",
+);
+
+export const CreateQueue = t.strict(
+  {
+    id: UUID,
+    question: optionFromUndefined(t.string),
+    result: optionFromUndefined(t.string),
+    prompt: optionFromUndefined(t.string),
+    data: CreateQueueData,
+  },
   "CreateQueue",
 );
 
 export type CreateQueue = t.TypeOf<typeof CreateQueue>;
 
+const CreateQueueTypeData = t.union([
+  ...CreateQueueEvent.types,
+  CreateQueueEmbeddingTypeData,
+  CreateQueueTextTypeData,
+]);
+
 export const Queue = t.intersection([
   t.strict(
     {
-      ...CreateQueue.types[0].type.props,
+      id: UUID,
+      question: t.union([t.string, t.null]),
+      result: t.union([t.string, t.null, t.any]),
+      prompt: t.union([t.string, t.null]),
       resource: QueueResourceNames,
       status: Status,
       error: t.union([t.record(t.string, t.any), t.null]),

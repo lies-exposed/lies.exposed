@@ -157,6 +157,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           resource="events"
           transformValue={(event) => ({
             text: getOpenAIPromptText(event),
+            type: event.type,
           })}
         />
         <BlockNoteInput label="excerpt" source="excerpt" onlyText />

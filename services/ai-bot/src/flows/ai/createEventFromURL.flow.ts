@@ -27,7 +27,6 @@ export const createEventFromURLFlow: JobProcessRTE<
           media: [],
           keywords: [],
           links: [],
-          payload: job.data.payload,
         })),
         fp.RTE.mapLeft(toAIBotError),
       ),
@@ -42,11 +41,6 @@ export const createEventFromURLFlow: JobProcessRTE<
       ),
     ),
     LoggerService.RTE.debug("`createEventFlow` result: %O"),
-    fp.RTE.map((event) =>
-      JSON.stringify({
-        ...event,
-        payload: { ...job.data.payload, ...event.payload },
-      }),
-    ),
+    fp.RTE.map((event) => JSON.stringify(event)),
   );
 };

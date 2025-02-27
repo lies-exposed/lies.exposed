@@ -48,7 +48,8 @@ export const CreateEventRoute: Route = (r, ctx) => {
                     result: null,
                     prompt: null,
                     data: {
-                      ...body,
+                      type: body.type,
+                      url: body.url,
                     },
                   }),
                 ),
