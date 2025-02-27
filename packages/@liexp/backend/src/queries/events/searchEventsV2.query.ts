@@ -157,6 +157,38 @@ const whereGroupInArray =
     return q.setParameter("groups", groups);
   };
 
+const whereMediaInArray =
+  (config: EventsConfig) =>
+  (
+    // q: WhereExpressionBuilder,
+    media: string[],
+    eventType: O.Option<EventType[]>,
+  ): Brackets => {
+    return new Brackets((subQ) => {
+      Object.entries(config)
+        .filter(
+          ([key]) =>
+            O.isNone(eventType) || eventType.value.includes(key as any),
+        )
+        .forEach(([eventType, fn], i) => {
+          const where =
+            i === 0 ? subQ.where.bind(subQ) : subQ.orWhere.bind(subQ);
+
+          where(
+            new Brackets((qqb) => {
+              fn.whereMediaIn(
+                qqb.where(` event.type = '${eventType}' `),
+                media,
+              );
+            }),
+          );
+        });
+      return subQ;
+    });
+
+    // return q.setParameter("media", media);
+  };
+
 type SearchEventQuery = Omit<
   GetSearchEventsQuery,
   | "eventType"
@@ -306,9 +338,10 @@ const addWhereToQueryBuilder = (
   if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
     q.andWhere("media.id IS NULL");
   } else if (O.isSome(media)) {
-    q.andWhere("media.id IN (:...media)", {
-      media: media.value,
-    });
+    q.andWhere(whereMediaInArray(config)(media.value, O.none)).setParameter(
+      "media",
+      media.value,
+    );
   }
 
   if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {

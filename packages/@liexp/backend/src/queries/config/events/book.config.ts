@@ -58,5 +58,12 @@ export const Book: EventQueryConfig = {
     // )
     return qb;
   },
-  whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'::text`,
+  whereMediaIn: (qb) => {
+    return qb
+      .where(`"event"."payload"::jsonb -> 'media' -> 'pdf' ?| array[:...media]`)
+      .orWhere(
+        `"event"."payload"::jsonb -> 'media' -> 'audio' ?| array[:...media]`,
+      );
+  },
+  whereTitleIn: () => `"event"."payload"::jsonb ->> 'title'::text`,
 };
