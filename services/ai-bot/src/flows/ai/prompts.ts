@@ -21,11 +21,12 @@ import {
 import { EMBED_GROUP_SUMMARIZE_PROMPT } from "@liexp/shared/lib/io/openai/prompts/group.prompts.js";
 import { EMBED_LINK_PROMPT } from "@liexp/shared/lib/io/openai/prompts/link.prompts.js";
 import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/io/openai/prompts/media.prompts.js";
+import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 
 export const getPromptFromResource = (
   resource: QueueResourceNames,
   type: QueueTypes,
-): string => {
+): PromptFn => {
   switch (true) {
     case resource === ACTORS.value: {
       if (type === QueueTypes.types[0].value) {
@@ -51,6 +52,6 @@ export const getPromptFromResource = (
       return EMBED_EVENT_PROMPT;
     }
     default:
-      return "Reply with fail";
+      return () => "Reply with fail";
   }
 };

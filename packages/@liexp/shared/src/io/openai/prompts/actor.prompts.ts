@@ -1,4 +1,6 @@
-export const EMBED_ACTOR_PROMPT = `
+import { type PromptFn } from "./prompt.type.js";
+
+export const EMBED_ACTOR_PROMPT: PromptFn = () => `
 You are an expert in giving description about people.
 Your goal is to give a description of this person in a text format, including the requested fields, without inventing details.
 The text should be minimum 100 words long, but not exceeding 300 words long.
@@ -15,7 +17,7 @@ The requested fields are:
 ----
 `;
 
-export const ACTOR_GENERAL_INFO_PROMPT = `
+export const ACTOR_GENERAL_INFO_PROMPT: PromptFn = () => `
 You are an expert in giving description about people.
 Your goal is to create a description including the requested fields about a given person, without inventing details.
 

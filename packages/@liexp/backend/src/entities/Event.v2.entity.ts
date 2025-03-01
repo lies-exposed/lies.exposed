@@ -1,6 +1,10 @@
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import {
+  SCIENTIFIC_STUDY,
+  UNCATEGORIZED,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { ScientificStudyPayload } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,
@@ -100,4 +104,9 @@ export class EventV2Entity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
+}
+
+export class ScientificStudyEntity extends EventV2Entity {
+  declare type: SCIENTIFIC_STUDY;
+  declare payload: ScientificStudyPayload;
 }

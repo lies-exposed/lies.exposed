@@ -35,15 +35,12 @@ export const CreateEventBodyArb = ({
     excerpt: undefined,
     body: undefined,
     payload: {
-      title: "",
+      title: fc.sample(fc.string(), 1)[0],
       actors: fc.sample(UUIDArb),
       groups: fc.sample(UUIDArb),
       groupsMembers: fc.sample(UUIDArb),
       location: undefined,
-      endDate: fc.sample(
-        fc.oneof(fc.constant(undefined), DateArb),
-        1,
-      )[0] as any,
+      endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0],
     } as any,
     media: fc.sample(
       fc.record({

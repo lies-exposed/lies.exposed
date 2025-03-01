@@ -66,6 +66,7 @@
       "coverage/**": true,
       "lib/**": true,
     },
+    "typescript.format.enable": true,
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
       "./packages/@liexp/shared",

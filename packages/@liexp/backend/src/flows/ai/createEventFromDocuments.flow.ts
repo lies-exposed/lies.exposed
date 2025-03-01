@@ -7,6 +7,7 @@ import {
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { formatDocumentsAsString } from "langchain/util/document";
@@ -21,7 +22,7 @@ export const createEventFromDocuments = <
 >(
   content: Document[],
   type: EventType,
-  prompt: string,
+  prompt: PromptFn,
   jsonSchema: unknown,
   question: string | null,
 ): ReaderTaskEither<C, APIError, Event> => {
@@ -35,7 +36,7 @@ export const createEventFromDocuments = <
         fp.TE.tryCatch(async () => {
           const textSplitter = new RecursiveCharacterTextSplitter({
             chunkSize: 2000,
-            chunkOverlap: 500,
+            chunkOverlap: 1000,
           });
           const splits = await textSplitter.splitDocuments(content);
 
@@ -43,6 +44,8 @@ export const createEventFromDocuments = <
             splits,
             ctx.langchain.embeddings,
           );
+
+          ctx.logger.info.log("Vector store generated");
 
           // Retrieve and generate using the relevant snippets of the blog.
           const retriever = vectorStore.asRetriever({ verbose: true });

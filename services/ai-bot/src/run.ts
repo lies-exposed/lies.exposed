@@ -21,6 +21,7 @@ import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { parseENV } from "./env.js";
 import { type ClientContextRTE } from "./types.js";
+import { exponentialWait } from "./utils/exponentialWait.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
 import { report, toAIBotError } from "#common/error/index.js";
 import { clearToken } from "#flows/clearToken.flow.js";
@@ -28,22 +29,6 @@ import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
 import { userLogin } from "#flows/userLogin.flow.js";
 
 let token: string | null = null;
-
-const exponentialWait =
-  (delay: number, retries: number, action: string): ClientContextRTE<void> =>
-  (ctx) => {
-    const newDelay = delay * Math.pow(2, retries);
-
-    return fp.TE.tryCatch(() => {
-      ctx.logger.debug.log(
-        "Retrying (%d) %s in %ds",
-        retries,
-        action,
-        newDelay / 1000,
-      );
-      return new Promise((resolve) => setTimeout(resolve, newDelay));
-    }, toAIBotError);
-  };
 
 let waitForLoginRetry = 0;
 const waitForLogin = (): ClientContextRTE<string> => {

@@ -80,6 +80,8 @@ export const CreateEventFromLinkButton: React.FC = () => {
               type,
               url: record.url,
               links: [record.id],
+              media: [],
+              keywords: [],
             } as EventFromURLBody);
           }}
         />
