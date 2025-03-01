@@ -19,7 +19,7 @@
         "src/server/entry.tsx"
       ],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}", "build/**/*.js"],
+      "project": ["src/**/*.{ts,tsx}"],
       "ignore": [
         "src/client/components/events/AddEventModal.tsx",
         "src/client/pages/DocsPage.tsx",
@@ -30,39 +30,35 @@
     "services/admin-web": {
       "entry": ["src/index.tsx"],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}", "build/**/*.js"]
+      "project": ["src/**/*.{ts,tsx}"]
     },
     "services/ai-bot": {
       "entry": ["src/run.ts"],
-      "project": ["src/**/*.{ts,tsx}", "build/**/*.js"],
+      "project": ["src/**/*.{ts,tsx}"],
       "ignoreDependencies": ["@aws-sdk/client-sso-oidc", "@aws-sdk/client-sts"]
     },
     "services/api": {
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
-        "src/worker/index.ts",
         "test/AppTest.ts",
         "ormconfig.js"
       ],
       "project": [
-        "{build,src,test,}/**/*.{ts,js}",
+        "**/*.{ts,js}",
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
       ],
-      "typescript": {
-        "config": "tsconfig.build.json"
-      },
       "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
     },
     "services/worker": {
       "entry": ["src/run.ts", "src/bin/cli.ts"],
-      "project": ["src/**/*.ts", "build/**/*.js"]
+      "project": ["src/**/*.ts"]
     },
     "services/storybook": {
       "entry": [".storybook/*.{ts,tsx}", "src/stories/**/*.tsx"],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}", "build/**/*.js"]
+      "project": ["src/**/*.{ts,tsx}"]
     }
   }
 }
