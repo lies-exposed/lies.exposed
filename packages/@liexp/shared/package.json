@@ -21,7 +21,12 @@
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
-    "watch": "tsc -b -w"
+    "watch": "tsc -b -w",
+    "promptfoo:eval": "AGENT_API_TOKEN=$(grep API_TOKEN ../../../services/agent/.env.local | cut -d= -f2-) promptfoo eval -c promptfoo/actor.yaml",
+    "promptfoo:eval:actor": "AGENT_API_TOKEN=$(grep API_TOKEN ../../../services/agent/.env.local | cut -d= -f2-) promptfoo eval -c promptfoo/actor.yaml",
+    "promptfoo:eval:event": "promptfoo eval -c promptfoo/event.yaml",
+    "promptfoo:eval:group": "promptfoo eval -c promptfoo/group.yaml",
+    "promptfoo:eval:link": "promptfoo eval -c promptfoo/link.yaml"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
@@ -52,6 +57,7 @@
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.4.530",
+    "promptfoo": "^0.120.27",
     "react-admin": "^5.14.3",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^6.1.1",
