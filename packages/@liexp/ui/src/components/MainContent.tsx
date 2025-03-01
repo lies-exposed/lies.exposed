@@ -17,7 +17,7 @@ export const MainContent: React.FC<
       style={style}
     >
       <Grid2 container>
-        <Grid2>{children}</Grid2>
+        <Grid2 size={12}>{children}</Grid2>
       </Grid2>
     </Container>
   );
