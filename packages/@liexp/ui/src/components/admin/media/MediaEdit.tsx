@@ -225,7 +225,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               <TextInput source="description" fullWidth multiline />
               <OpenAIEmbeddingJobButton<Media>
                 resource={"media"}
-                question={EMBED_MEDIA_PROMPT}
+                question={EMBED_MEDIA_PROMPT()}
                 transformValue={({ type, location, label, description }) => {
                   if (PDFType.is(type)) {
                     return {

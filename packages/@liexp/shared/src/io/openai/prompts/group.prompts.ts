@@ -1,4 +1,6 @@
-export const EMBED_GROUP_SUMMARIZE_PROMPT = `
+import { type PromptFn } from "./prompt.type.js";
+
+export const EMBED_GROUP_SUMMARIZE_PROMPT: PromptFn = () => `
 You are an expert in giving description about group.
 The group can be either a company or a website entity, a group of people, a family group.
 

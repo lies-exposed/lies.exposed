@@ -26,11 +26,17 @@ export const createEventFromTextFlow: JobProcessRTE<
           fp.TE.mapLeft(toAIBotError),
         ),
     ),
-    fp.RTE.chain(({ docs, jsonSchema }) =>
+    fp.RTE.bind("prompt", () => {
+      if (job.prompt) {
+        return fp.RTE.right(() => job.prompt!);
+      }
+      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+    }),
+    fp.RTE.chain(({ docs, jsonSchema, prompt }) =>
       createEventFromText<ClientContext>(
         docs,
         job.data.type,
-        job.prompt ?? getPromptFromResource(job.resource, job.type),
+        prompt,
         JSON.stringify(jsonSchema),
         job.data.text,
       ),

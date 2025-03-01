@@ -6,19 +6,30 @@ import { loadDocs } from "./common/loadDocs.flow.js";
 import { getPromptFromResource } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-export const summarizeTextFlow: JobProcessRTE<CreateQueueTextTypeData> =
-  (job) => (ctx) => {
-    return pipe(
-      loadDocs(job)(ctx),
-      fp.TE.chain((docs) =>
-        fp.TE.tryCatch(() => {
-          return ctx.langchain.summarizeText(docs, {
-            model: ctx.config.config.localAi.models
-              ?.summarization as AvailableModels,
-            prompt: job.prompt ?? getPromptFromResource(job.resource, job.type),
-            question: job.question ?? undefined,
-          });
-        }, toAIBotError),
-      ),
-    );
-  };
+export const summarizeTextFlow: JobProcessRTE<CreateQueueTextTypeData> = (
+  job,
+) => {
+  return pipe(
+    fp.RTE.Do,
+    fp.RTE.bind("docs", () => loadDocs(job)),
+
+    fp.RTE.bind("prompt", () => {
+      if (job.prompt) {
+        return fp.RTE.right(() => job.prompt!);
+      }
+      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+    }),
+    fp.RTE.chain(
+      ({ docs, prompt }) =>
+        (ctx) =>
+          fp.TE.tryCatch(() => {
+            return ctx.langchain.summarizeText(docs, {
+              model: ctx.config.config.localAi.models
+                ?.summarization as AvailableModels,
+              prompt: prompt(),
+              question: job.question ?? undefined,
+            });
+          }, toAIBotError),
+    ),
+  );
+};

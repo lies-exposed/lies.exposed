@@ -4,7 +4,6 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
 import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import type * as O from "fp-ts/lib/Option.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { Events, type Common, type Network } from "../../io/http/index.js";
 import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
@@ -228,10 +227,7 @@ export const transform =
   (
     e: Events.Event,
     type: Events.EventType,
-    props: EventCommonProps &
-      Events.EventRelationIds & {
-        links: UUID[];
-      },
+    props: EventCommonProps & Events.EventRelationIds,
   ): O.Option<Events.Event> => {
     switch (type) {
       case Events.EventTypes.DEATH.value: {

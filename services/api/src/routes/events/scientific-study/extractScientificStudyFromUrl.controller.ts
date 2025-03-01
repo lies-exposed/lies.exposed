@@ -1,4 +1,5 @@
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { ScientificStudyEntity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -32,18 +33,26 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
       return pipe(
         TE.Do,
         TE.bind("event", () =>
-          ctx.db.findOneOrFail(EventV2Entity, { where: { id: Equal(id) } }),
+          ctx.db.findOneOrFail(ScientificStudyEntity, {
+            where: { id: Equal(id) },
+          }),
         ),
+        TE.bind("link", ({ event }) =>
+          ctx.db.findOneOrFail(LinkEntity, {
+            where: { id: Equal(event.payload.url) },
+          }),
+        ),
+
         TE.bind("user", () =>
           pipe(
             RequestDecoder.decodeUserFromRequest(req, [AdminCreate.value])(ctx),
             fp.TE.fromIOEither,
           ),
         ),
-        TE.chainFirst(({ user, event }) =>
+        TE.chainFirst(({ user, event, link }) =>
           CreateEventFromURLPubSub.publish({
             type: SCIENTIFIC_STUDY.value,
-            url: (event.payload as any).url,
+            url: link.url,
             eventId: event.id,
             userId: user.id,
           })(ctx),

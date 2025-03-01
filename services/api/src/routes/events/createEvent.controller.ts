@@ -7,6 +7,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
+  type Event,
   EventFromURLBody,
   EVENTS,
 } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -15,6 +16,7 @@ import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
+import { type ControllerError } from "../../io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 import {
@@ -32,65 +34,44 @@ export const CreateEventRoute: Route = (r, ctx) => {
         TE.chain((u) =>
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
         ),
-        TE.chain((user) =>
-          EventFromURLBody.is(body)
-            ? pipe(
-                uuid(),
-                TE.right,
-                TE.chainFirst((id) =>
-                  ctx.queue.queue(OpenAICreateEventFromURLType.value).addJob({
-                    id,
-                    status: PendingStatus.value,
-                    type: OpenAICreateEventFromURLType.value,
-                    resource: EVENTS.value,
-                    error: null,
-                    question: null,
-                    result: null,
-                    prompt: null,
-                    data: {
-                      type: body.type,
-                      url: body.url,
-                    },
-                  }),
-                ),
-                TE.map(
-                  (id) =>
-                    ({
+        TE.chain(
+          (user): TE.TaskEither<ControllerError, { success: true } | Event> =>
+            EventFromURLBody.is(body)
+              ? pipe(
+                  uuid(),
+                  TE.right,
+                  TE.chainFirst((id) =>
+                    ctx.queue.queue(OpenAICreateEventFromURLType.value).addJob({
                       id,
-                      type: body.type,
-                      draft: true,
-                      excerpt: null,
-                      body: null,
-                      payload: body.payload,
-                      links: [],
-                      media: [],
-                      keywords: [],
-                      socialPosts: [],
-                      stories: [],
-                      actors: [],
-                      groups: [],
-                      location: null,
-                      date: new Date(),
-                      createdAt: new Date(),
-                      updatedAt: new Date(),
-                      deletedAt: null,
-                    }) as EventV2Entity,
+                      status: PendingStatus.value,
+                      type: OpenAICreateEventFromURLType.value,
+                      resource: EVENTS.value,
+                      error: null,
+                      question: null,
+                      result: null,
+                      prompt: null,
+                      data: {
+                        type: body.type,
+                        url: body.url,
+                      },
+                    }),
+                  ),
+                  TE.map((id) => ({ success: true })),
+                )
+              : pipe(
+                  createEventQuery(body)(ctx),
+                  TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
+                  TE.chain(([event]) =>
+                    ctx.db.findOneOrFail(EventV2Entity, {
+                      where: { id: Equal(event.id) },
+                      loadRelationIds: {
+                        relations: ["media", "links", "keywords"],
+                      },
+                    }),
+                  ),
+                  TE.chainEitherK(EventV2IO.decodeSingle),
                 ),
-              )
-            : pipe(
-                createEventQuery(body)(ctx),
-                TE.chain((data) => ctx.db.save(EventV2Entity, [data])),
-                TE.chain(([event]) =>
-                  ctx.db.findOneOrFail(EventV2Entity, {
-                    where: { id: Equal(event.id) },
-                    loadRelationIds: {
-                      relations: ["media", "links", "keywords"],
-                    },
-                  }),
-                ),
-              ),
         ),
-        TE.chainEitherK(EventV2IO.decodeSingle),
         LoggerService.TE.debug(ctx, "Create data %O"),
         TE.map((data) => ({
           body: {

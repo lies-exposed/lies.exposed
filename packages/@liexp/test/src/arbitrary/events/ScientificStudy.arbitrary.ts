@@ -57,7 +57,6 @@ export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.Scient
     body: {},
     payload: {
       title: fc.sample(fc.string(), 1)[0],
-      body: fc.sample(fc.object(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
       publisher: fc.sample(UUIDArb, 1)[0],
       image: fc.sample(URLArb, 1)[0],

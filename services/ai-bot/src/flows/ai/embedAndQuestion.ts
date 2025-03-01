@@ -10,21 +10,30 @@ const defaultQuestion = "Write a summary of the text.";
 
 export const embedAndQuestionFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData
-> = (job) => (ctx) => {
+> = (job) => {
   return pipe(
-    loadDocs(job)(ctx),
-    fp.TE.chain((docs) =>
-      fp.TE.tryCatch(() => {
-        return ctx.langchain.queryDocument(
-          docs,
-          job.question ?? defaultQuestion,
-          {
-            model: ctx.config.config.localAi.models
-              ?.embeddings as AvailableModels,
-            prompt: job.prompt ?? getPromptFromResource(job.resource, job.type),
-          },
-        );
-      }, toAIBotError),
+    fp.RTE.Do,
+    fp.RTE.apS("docs", loadDocs(job)),
+    fp.RTE.bind("prompt", () => {
+      if (job.prompt) {
+        return fp.RTE.right(() => job.prompt!);
+      }
+      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+    }),
+    fp.RTE.chain(
+      ({ docs, prompt }) =>
+        (ctx) =>
+          fp.TE.tryCatch(() => {
+            return ctx.langchain.queryDocument(
+              docs,
+              job.question ?? defaultQuestion,
+              {
+                model: ctx.config.config.localAi.models
+                  ?.embeddings as AvailableModels,
+                prompt: prompt(),
+              },
+            );
+          }, toAIBotError),
     ),
   );
 };

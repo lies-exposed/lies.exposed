@@ -24,6 +24,7 @@ export const createEventFromURLFlow: JobProcessRTE<
         fp.RTE.right,
         fp.RTE.map((event) => ({
           ...event,
+          type: job.data.type,
           media: [],
           keywords: [],
           links: [],
@@ -31,11 +32,17 @@ export const createEventFromURLFlow: JobProcessRTE<
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
-    fp.RTE.chainW(({ docs, jsonSchema }) =>
+    fp.RTE.bind("prompt", () => {
+      if (job.prompt) {
+        return fp.RTE.right(() => job.prompt!);
+      }
+      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+    }),
+    fp.RTE.chainW(({ docs, prompt, jsonSchema }) =>
       createEventFromDocuments(
         docs,
         job.data.type,
-        job.prompt ?? getPromptFromResource(job.resource, job.type),
+        prompt,
         jsonSchema,
         job.question ?? defaultQuestion,
       ),

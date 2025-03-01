@@ -10,6 +10,7 @@ import {
   type Event,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -18,23 +19,25 @@ import { runRagChain } from "./runRagChain.js";
 
 export const getCreateEventPromptPartial =
   <C extends LoggerContext>(
-    promptTemplate: string,
+    promptTemplate: PromptFn,
     type: EventType,
     jsonSchema: any,
   ): ReaderTaskEither<C, APIError, PromptTemplate> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
-      ctx.logger.info.log(
-        "Populating template \n%s with even type %s \n and json schema %O",
-        promptTemplate,
-        type,
-        jsonSchema,
-      );
-
-      const prompt = await PromptTemplate.fromTemplate(promptTemplate).partial({
+      const prompt = await PromptTemplate.fromTemplate(
+        promptTemplate({ type, jsonSchema }),
+      ).partial({
         evenType: type,
         jsonSchema: JSON.stringify(jsonSchema),
       });
+
+      const promptValue = await prompt.invoke({});
+      ctx.logger.info.log(
+        "Populating template with even type %s \n %s",
+        type,
+        promptValue,
+      );
 
       return prompt;
     }, toAPIError);
@@ -43,7 +46,7 @@ export const getCreateEventPromptPartial =
 export const createEventFromText = <C extends LoggerContext & LangchainContext>(
   text: Document[],
   type: EventType,
-  promptTemplate: string,
+  promptTemplate: PromptFn,
   jsonSchema: string,
   question: string,
 ): ReaderTaskEither<C, APIError | DBError, Event> => {

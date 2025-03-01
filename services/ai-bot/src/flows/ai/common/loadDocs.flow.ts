@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
 import { CreateEventFromTextQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
+import { CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import {
   CreateQueueTextData,
   CreateQueueURLData,
@@ -40,6 +41,7 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
     case CreateEventFromTextQueueData.is(job.data): {
       return loadText(job.data.text);
     }
+    case CreateEventFromURLQueueData.is(job.data):
     case CreateQueueURLData.is(job.data): {
       if (job.resource === "media") {
         return loadPDF(job.data.url);

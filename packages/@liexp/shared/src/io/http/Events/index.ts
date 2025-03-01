@@ -59,67 +59,11 @@ export const EventPayload = t.union(
 
 export type EventPayload = t.TypeOf<typeof EventPayload>;
 
-export const EventFromURLBody = t.intersection(
-  [
-    t.strict({
-      url: URL,
-    }),
-    t.union(
-      [
-        t.strict({ type: EventTypes.BOOK, payload: Book.BookPayload }),
-        t.strict(
-          {
-            type: EventTypes.DEATH,
-            payload: Death.DeathPayload,
-          },
-          "DeathTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.PATENT,
-            payload: Patent.PatentPayload,
-          },
-          "PatentTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.SCIENTIFIC_STUDY,
-            payload: ScientificStudy.ScientificStudyPayload,
-          },
-          "ScientificStudyTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.UNCATEGORIZED,
-            payload: Uncategorized.UncategorizedV2Payload,
-          },
-          "UncategorizedTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.DOCUMENTARY,
-            payload: Documentary.DocumentaryPayload,
-          },
-          "DocumentaryTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.TRANSACTION,
-            payload: Transaction.TransactionPayload,
-          },
-          "TransactionTypePayload",
-        ),
-        t.strict(
-          {
-            type: EventTypes.QUOTE,
-            payload: Quote.QuotePayload,
-          },
-          "QuoteTypwPayload",
-        ),
-      ],
-      "EventTypePayload",
-    ),
-  ],
+export const EventFromURLBody = t.strict(
+  {
+    url: URL,
+    type: EventType,
+  },
   "EventFromURLBody",
 );
 
