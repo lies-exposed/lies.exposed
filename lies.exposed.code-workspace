@@ -90,7 +90,7 @@
       "tsconfig.json": "tsconfig.*.json",
       "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
     },
-    "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
+    "cSpell.words": ["healthcheck", "langchain", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "pnpm",
     "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",
     "pnpm-vscode-helper.extraWorkspaceScripts": [],

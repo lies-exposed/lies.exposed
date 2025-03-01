@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Learn more about building a configuration: https://promptfoo.dev/docs/configuration/guide
+
+description: "Actor configuration"
+
+evaluateOptions:
+  maxConcurrency: 1
+
+sharing: false
+
+prompts:
+  # actor prompts
+  - id: file://../src/io/openai/prompts/actor.prompts.ts:EMBED_ACTOR_PROMPT
+    label: EMBED_ACTOR_PROMPT
+  - id: file://../src/io/openai/prompts/actor.prompts.ts:ACTOR_GENERAL_INFO_PROMPT
+    label: ACTOR_GENERAL_INFO_PROMPT
+  # event prompts
+  # - id: file://src/io/openai/prompts/event.prompts.ts:EMBED_EVENT_PROMPT
+  #   label: EMBED_EVENT_PROMPT
+  # - id: file://src/io/openai/prompts/event.prompts.ts:CREATE_EVENT_FROM_URL_PROMPT
+  #   label: CREATE_EVENT_FROM_URL_PROMPT
+  # - id: file://src/io/openai/prompts/event.prompts.ts:CREATE_EVENT_FROM_TEXT_PROMPT
+  #   label: CREATE_EVENT_FROM_TEXT_PROMPT
+
+providers:
+  - id: localai:salamandra-7b-instruct
+    config:
+      temperature: 0
+      apiKey: no-key-is-a-good-key
+      apiBaseUrl: http://0.0.0.0:8080
+  # - id: localai::gpt-4o
+  #   config:
+  #     temperature: 0
+  #     apiKey: no-key-is-a-good-key
+  #     apiBaseUrl: http://localai.liexp.dev:8080
+
+tests:
+  - vars:
+      text: Stanley Kubrick
+      question: When and how did he died?
+  - vars:
+      text: David Rockefeller
+      question: When and how did he died?
+  - vars:
+      text: David Irving
+      question: Who was and what he was famous for?

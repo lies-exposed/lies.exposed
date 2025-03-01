@@ -21,7 +21,8 @@
     "clean": "rm -rf lib",
     "lint": "eslint src",
     "test": "vitest",
-    "watch": "tsc -b -w"
+    "watch": "tsc -b -w",
+    "promptfoo:eval": "promptfoo eval"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
@@ -49,6 +50,7 @@
     "fast-check": "^3.23.1",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^4.10.38",
+    "promptfoo": "^0.106.3",
     "react-admin": "^5.7.3",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",

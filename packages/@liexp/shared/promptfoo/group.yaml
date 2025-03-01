@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Learn more about building a configuration: https://promptfoo.dev/docs/configuration/guide
+
+description: "Group configuration"
+
+evaluateOptions:
+  maxConcurrency: 1
+
+prompts:
+  - id: file://../src/io/openai/prompts/group.prompts.ts:EMBED_GROUP_SUMMARIZE_PROMPT
+    label: EMBED_GROUP_SUMMARIZE_PROMPT
+
+providers:
+  - id: localai:salamandra-7b-instruct
+    config:
+      temperature: 0
+      apiKey: no-key-is-a-good-key
+      apiBaseUrl: http://0.0.0.0:8080/v1
+  # - id: localai::gpt-4o
+  #   config:
+  #     temperature: 0
+  #     apiKey: no-key-is-a-good-key
+  #     apiBaseUrl: http://localai.liexp.dev:8080
+
+tests:
+  - vars:
+      text: Coca cola
+  - vars:
+      text: Dodge Brothers
+  - vars:
+      text: Rothschild family

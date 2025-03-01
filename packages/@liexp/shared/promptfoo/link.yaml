@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: "Link configuration"
+
+sharing: false
+
+prompts:
+  # link prompts
+  - id: file://../src/io/openai/prompts/link.prompts.ts:EMBED_LINK_PROMPT
+    label: EMBED_LINK_PROMPT
+
+providers:
+  - id: localai:salamandra-7b-instruct
+    config:
+      temperature: 0
+      apiKey: no-key-is-a-good-key
+      apiBaseUrl: http://0.0.0.0:8080
+
+tests:
+  - vars:
+      text: file://./tests/links/link-1.txt
