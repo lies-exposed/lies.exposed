@@ -29,7 +29,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
-    "axios": "^1.7.9",
+    "axios": "^1.8.1",
     "cheerio": "^1.0.0",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
