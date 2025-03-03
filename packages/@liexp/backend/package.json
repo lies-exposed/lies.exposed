@@ -42,7 +42,7 @@
     "nodemw": "^0.24.0",
     "reflect-metadata": "^0.2.2",
     "ts-io-error": "^2.0.0",
-    "typeorm": "^0.3.20"
+    "typeorm": "^0.3.21"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.734.0",
