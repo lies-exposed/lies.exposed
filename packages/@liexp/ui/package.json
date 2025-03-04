@@ -106,7 +106,7 @@
     "topojson-client": "^3.1.0",
     "ts-endpoint": "^2.0.0",
     "ts-io-error": "^2.0.0",
-    "vanilla-jsoneditor": "^2.4.0",
+    "vanilla-jsoneditor": "^3.0.0",
     "waveform-data": "^4.5.1"
   },
   "devDependencies": {
