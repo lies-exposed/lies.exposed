@@ -660,8 +660,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       vanilla-jsoneditor:
-        specifier: ^2.4.0
-        version: 2.4.0
+        specifier: ^3.0.0
+        version: 3.0.0
       waveform-data:
         specifier: ^4.5.1
         version: 4.5.1
@@ -1698,14 +1698,14 @@ packages:
   '@codemirror/lint@6.8.4':
     resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
 
-  '@codemirror/search@6.5.9':
-    resolution: {integrity: sha512-7DdQ9aaZMMxuWB1u6IIFWWuK9NocVZwvo4nG8QjJTS6oZGvteoLSiXw3EbVZVlO08Ri2ltO89JVInMpfcJxhtg==}
+  '@codemirror/search@6.5.10':
+    resolution: {integrity: sha512-RMdPdmsrUf53pb2VwflKGHEe1XVM07hI7vV2ntgw1dmqhimpatSJKva4VA9h4TLUDOD4EIF02201oZurpnEFsg==}
 
   '@codemirror/state@6.5.2':
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
 
-  '@codemirror/view@6.36.2':
-    resolution: {integrity: sha512-DZ6ONbs8qdJK0fdN7AB82CgI6tYXf4HWk1wSVa0+9bhVznCuuvhQtX8bFBoy3dv8rZSQqUd8GvhVAcielcidrA==}
+  '@codemirror/view@6.36.4':
+    resolution: {integrity: sha512-ZQ0V5ovw/miKEXTvjgzRyjnrk9TwriUB1k4R5p7uNnHR9Hus+D1SXHGdJshijEzPFjU25xea/7nhIeSqYFKdbA==}
 
   '@colors/colors@1.6.0':
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -9393,8 +9393,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte@5.20.1:
-    resolution: {integrity: sha512-aCARru2WTdzJl55Ws8SK27+kvQwd8tijl4kY7NoDUXUHtTHhxMa8Lf6QNZKmU7cuPu3jjFloDO1j5HgYJNIIWg==}
+  svelte@5.22.0:
+    resolution: {integrity: sha512-Av/1qn4JEhuLB5xHMoiaKhxnBgf4NfDarvCh7mplaNqwXWpNq+3IPCDAHS31HGsRaclexhYLb3y4vxdgkrN0JQ==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -9960,8 +9960,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  vanilla-jsoneditor@2.4.0:
-    resolution: {integrity: sha512-v/c8Zxr0mOcagXzJ+Gar2qhkG20RpuowVDTJshsZPFxN6OZ3bo7gWoNUcuFyVbuJyy96P9CHLrZ5DQJkLfD9wQ==}
+  vanilla-jsoneditor@3.0.0:
+    resolution: {integrity: sha512-bO9ihCFf6bsslmbz3A9dwXF6UelY5ZFUr7hulXRovbsQBYgwPtX3mvvT4I6DyvDXkcpvwxHeXHj/SK02MR/vcA==}
 
   vanilla-picker@2.12.3:
     resolution: {integrity: sha512-qVkT1E7yMbUsB2mmJNFmaXMWE2hF8ffqzMMwe9zdAikd8u2VfnsVY2HQcOUi2F38bgbxzlJBEdS1UUhOXdF9GQ==}
@@ -11228,14 +11228,14 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.10.8
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       '@lezer/common': 1.2.3
 
   '@codemirror/commands@6.8.0':
     dependencies:
       '@codemirror/language': 6.10.8
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       '@lezer/common': 1.2.3
 
   '@codemirror/lang-json@6.0.1':
@@ -11246,7 +11246,7 @@ snapshots:
   '@codemirror/language@6.10.8':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
@@ -11255,20 +11255,20 @@ snapshots:
   '@codemirror/lint@6.8.4':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       crelt: 1.0.6
 
-  '@codemirror/search@6.5.9':
+  '@codemirror/search@6.5.10':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       crelt: 1.0.6
 
   '@codemirror/state@6.5.2':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
 
-  '@codemirror/view@6.36.2':
+  '@codemirror/view@6.36.4':
     dependencies:
       '@codemirror/state': 6.5.2
       style-mod: 4.1.2
@@ -12520,11 +12520,11 @@ snapshots:
 
   '@remix-run/router@1.22.0': {}
 
-  '@replit/codemirror-indentation-markers@6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.2)':
+  '@replit/codemirror-indentation-markers@6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)':
     dependencies:
       '@codemirror/language': 6.10.8
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
 
   '@rollup/plugin-image@3.0.3(rollup@4.34.8)':
     dependencies:
@@ -14831,11 +14831,11 @@ snapshots:
 
   cluster-key-slot@1.1.2: {}
 
-  codemirror-wrapped-line-indent@1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.2):
+  codemirror-wrapped-line-indent@1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4):
     dependencies:
       '@codemirror/language': 6.10.8
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
 
   color-convert@1.9.3:
     dependencies:
@@ -19908,7 +19908,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte@5.20.1:
+  svelte@5.22.0:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -20468,23 +20468,23 @@ snapshots:
       kleur: 4.1.5
       sade: 1.8.1
 
-  vanilla-jsoneditor@2.4.0:
+  vanilla-jsoneditor@3.0.0:
     dependencies:
       '@codemirror/autocomplete': 6.18.6
       '@codemirror/commands': 6.8.0
       '@codemirror/lang-json': 6.0.1
       '@codemirror/language': 6.10.8
       '@codemirror/lint': 6.8.4
-      '@codemirror/search': 6.5.9
+      '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.2
+      '@codemirror/view': 6.36.4
       '@fortawesome/free-regular-svg-icons': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2
       '@jsonquerylang/jsonquery': 4.1.1
       '@lezer/highlight': 1.2.1
-      '@replit/codemirror-indentation-markers': 6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.2)
+      '@replit/codemirror-indentation-markers': 6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)
       ajv: 8.17.1
-      codemirror-wrapped-line-indent: 1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.2)
+      codemirror-wrapped-line-indent: 1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)
       diff-sequences: 29.6.3
       immutable-json-patch: 6.0.1
       jmespath: 0.16.0
@@ -20494,7 +20494,7 @@ snapshots:
       lodash-es: 4.17.21
       memoize-one: 6.0.0
       natural-compare-lite: 1.4.0
-      svelte: 5.20.1
+      svelte: 5.22.0
       vanilla-picker: 2.12.3
 
   vanilla-picker@2.12.3:
