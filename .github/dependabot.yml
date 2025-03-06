@@ -45,6 +45,14 @@ updates:
         versions: ["3.x"]
       - dependency-name: "query-string"
         versions: ["8.x", "9.x"]
+      - dependency-name: react
+        versions: ["19.x"]
+      - dependency-name: react-dom
+        versions: ["19.x"]
+      - dependency-name: "@types/react"
+        versions: ["19.x"]
+      - dependency-name: "@types/react-dom"
+        versions: ["19.x"]
     groups:
       aws-sdk:
         patterns:
