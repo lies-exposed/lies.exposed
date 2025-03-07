@@ -33,7 +33,7 @@ const toMediaIO = (
       label: media.label ?? media.location,
       description: media.description ?? undefined,
       location: ensureHTTPS(media.location),
-      creator: media.creator ?? undefined,
+      creator: UUID.is(media.creator) ? media.creator : media.creator?.id,
       extra,
       links: media.links ?? [],
       events: (media.events ?? []).map((e) => (UUID.is(e) ? e : e.id)),
