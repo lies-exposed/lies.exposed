@@ -63,7 +63,7 @@
     "puppeteer-extra": "^3.3.6",
     "typescript": "^5.8.2",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.7",
+    "vitest": "^3.0.8",
     "vitest-mock-extended": "^3.0.1"
   },
   "peerDependencies": {
