@@ -250,8 +250,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(rollup@4.34.9)
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.66.1
-        version: 5.66.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
+        specifier: ^5.67.2
+        version: 5.67.2(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -296,7 +296,7 @@ importers:
         version: link:../core
       '@tanstack/react-query':
         specifier: ^5
-        version: 5.66.11(react@18.3.1)
+        version: 5.67.2(react@18.3.1)
       '@visx/network':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -486,8 +486,8 @@ importers:
         specifier: ^9.7.4
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.66.9
-        version: 5.66.11(react@18.3.1)
+        specifier: ^5.67.2
+        version: 5.67.2(react@18.3.1)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -739,8 +739,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.66.9
-        version: 5.66.11(react@18.3.1)
+        specifier: ^5.67.2
+        version: 5.67.2(react@18.3.1)
       debug:
         specifier: ^4.3.4
         version: 4.4.0
@@ -1072,8 +1072,8 @@ importers:
         specifier: ^8.6.4
         version: 8.6.4(storybook@8.6.4(prettier@3.5.3))
       '@tanstack/react-query':
-        specifier: ^5.66.9
-        version: 5.66.11(react@18.3.1)
+        specifier: ^5.67.2
+        version: 5.67.2(react@18.3.1)
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1154,8 +1154,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.66.9
-        version: 5.66.11(react@18.3.1)
+        specifier: ^5.67.2
+        version: 5.67.2(react@18.3.1)
       compression:
         specifier: ^1.8.0
         version: 1.8.0
@@ -2789,7 +2789,6 @@ packages:
   '@mui/base@5.0.0-beta.69':
     resolution: {integrity: sha512-r2YyGUXpZxj8rLAlbjp1x2BnMERTZ/dMqd9cClKj2OJ7ALAuiv/9X5E9eHfRc9o/dGRuLSMq/WTjREktJVjxVA==}
     engines: {node: '>=14.0.0'}
-    deprecated: This package has been replaced by @base-ui-components/react
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -3825,16 +3824,16 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
-  '@tanstack/eslint-plugin-query@5.66.1':
-    resolution: {integrity: sha512-pYMVTGgJ7yPk9Rm6UWEmbY6TX0EmMmxJqYkthgeDCwEznToy2m+W928nUODFirtZBZlhBsqHy33LO0kyTlgf0w==}
+  '@tanstack/eslint-plugin-query@5.67.2':
+    resolution: {integrity: sha512-bWAA/0lYGBNv7lIV6tID2o5wC6yWUjkh9yx8ow9YMP3brxIhuUPdCAtJBhXL2nVzJTnc6FRrL401KFG5PPEkZg==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
-  '@tanstack/query-core@5.66.11':
-    resolution: {integrity: sha512-ZEYxgHUcohj3sHkbRaw0gYwFxjY5O6M3IXOYXEun7E1rqNhsP8fOtqjJTKPZpVHcdIdrmX4lzZctT4+pts0OgA==}
+  '@tanstack/query-core@5.67.2':
+    resolution: {integrity: sha512-+iaFJ/pt8TaApCk6LuZ0WHS/ECVfTzrxDOEL9HH9Dayyb5OVuomLzDXeSaI2GlGT/8HN7bDGiRXDts3LV+u6ww==}
 
-  '@tanstack/react-query@5.66.11':
-    resolution: {integrity: sha512-uPDiQbZScWkAeihmZ9gAm3wOBA1TmLB1KCB1fJ1hIiEKq3dTT+ja/aYM7wGUD+XiEsY4sDSE7p8VIz/21L2Dow==}
+  '@tanstack/react-query@5.67.2':
+    resolution: {integrity: sha512-6Sa+BVNJWhAV4QHvIqM73norNeGRWGC3ftN0Ix87cmMvI215I1wyJ44KUTt/9a0V9YimfGcg25AITaYVel71Og==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -4254,8 +4253,8 @@ packages:
   '@types/node@10.14.22':
     resolution: {integrity: sha512-9taxKC944BqoTVjE+UT3pQH0nHZlTvITwfsOZqyc+R3sfJuxaTtxWjfn1K2UlxyPcKHf0rnaXcVFrS9F9vf0bw==}
 
-  '@types/node@18.19.79':
-    resolution: {integrity: sha512-90K8Oayimbctc5zTPHPfZloc/lGVs7f3phUAAMcTgEPtg8kKquGZDERC8K4vkBYkQQh48msiYUslYtxTWvqcAg==}
+  '@types/node@18.19.80':
+    resolution: {integrity: sha512-kEWeMwMeIvxYkeg1gTc01awpwLbfMRZXdIhwRcakd/KlK53jmRC26LqcbIt7fnAQTu5GzlnWmzA3H6+l1u6xxQ==}
 
   '@types/node@22.13.9':
     resolution: {integrity: sha512-acBjXdRJ3A6Pb3tqnw9HZmyR3Fiol3aGxRCK1x3d+6CDAMjl7I649wpSd+yNURCjbOUGu9tqtLKnTGxmK6CyGw==}
@@ -10364,7 +10363,7 @@ snapshots:
 
   '@anthropic-ai/sdk@0.27.3':
     dependencies:
-      '@types/node': 18.19.79
+      '@types/node': 18.19.80
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11199,7 +11198,7 @@ snapshots:
 
   '@browserbasehq/sdk@2.3.0':
     dependencies:
-      '@types/node': 18.19.79
+      '@types/node': 18.19.80
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11771,7 +11770,7 @@ snapshots:
 
   '@ibm-cloud/watsonx-ai@1.3.0':
     dependencies:
-      '@types/node': 18.19.79
+      '@types/node': 18.19.80
       extend: 3.0.2
       ibm-cloud-sdk-core: 5.1.0
     transitivePeerDependencies:
@@ -13198,7 +13197,7 @@ snapshots:
     dependencies:
       storybook: 8.6.4(prettier@3.5.3)
 
-  '@tanstack/eslint-plugin-query@5.66.1(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)':
+  '@tanstack/eslint-plugin-query@5.67.2(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)':
     dependencies:
       '@typescript-eslint/utils': 8.26.0(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
       eslint: 9.21.0(jiti@2.4.2)
@@ -13206,11 +13205,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tanstack/query-core@5.66.11': {}
+  '@tanstack/query-core@5.67.2': {}
 
-  '@tanstack/react-query@5.66.11(react@18.3.1)':
+  '@tanstack/react-query@5.67.2(react@18.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.66.11
+      '@tanstack/query-core': 5.67.2
       react: 18.3.1
 
   '@testing-library/dom@10.4.0':
@@ -13691,7 +13690,7 @@ snapshots:
 
   '@types/node@10.14.22': {}
 
-  '@types/node@18.19.79':
+  '@types/node@18.19.80':
     dependencies:
       undici-types: 5.26.5
 
@@ -13773,7 +13772,7 @@ snapshots:
 
   '@types/ssh2@1.15.4':
     dependencies:
-      '@types/node': 18.19.79
+      '@types/node': 18.19.80
 
   '@types/superagent@8.1.9':
     dependencies:
@@ -18171,7 +18170,7 @@ snapshots:
 
   openai@4.86.2(ws@8.18.1)(zod@3.24.2):
     dependencies:
-      '@types/node': 18.19.79
+      '@types/node': 18.19.80
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -18775,7 +18774,7 @@ snapshots:
 
   ra-core@5.6.2(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.54.2(react@18.3.1))(react-router-dom@6.29.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.29.0(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.66.11(react@18.3.1)
+      '@tanstack/react-query': 5.67.2(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
       eventemitter3: 5.0.1
@@ -18817,7 +18816,7 @@ snapshots:
       '@mui/icons-material': 6.4.6(@mui/material@6.4.6(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@types/react@18.3.18)(react@18.3.1)
       '@mui/material': 6.4.6(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react@18.3.1))(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/utils': 7.0.0-alpha.2(@types/react@18.3.18)(react@18.3.1)
-      '@tanstack/react-query': 5.66.11(react@18.3.1)
+      '@tanstack/react-query': 5.67.2(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
