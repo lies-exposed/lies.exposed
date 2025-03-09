@@ -1,20 +1,20 @@
 services:
-  reverseproxy.dev:
-    restart: always
-    image: nginxproxy/nginx-proxy:1.6
-    ports:
-      - "80:80"
-      # - 127.0.0.1:443:443
-    volumes:
-      - ./resources/reverse-proxy/default.conf:/etc/nginx/conf.d/custom-settings.conf:ro
-      - ./_data/html:/usr/share/nginx/html:rw
-      - ./_data/certs:/etc/nginx/certs:rw
-      - ./_data/logs:/var/log/nginx:rw
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    environment:
-      DEFAULT_HOST: liexp.dev
-    networks:
-      - reverseproxy
+  # reverseproxy.dev:
+  #   restart: always
+  #   image: nginxproxy/nginx-proxy:1.6
+  #   ports:
+  #     - "80:80"
+  #     # - 127.0.0.1:443:443
+  #   volumes:
+  #     - ./resources/reverse-proxy/default.conf:/etc/nginx/conf.d/custom-settings.conf:ro
+  #     - ./_data/html:/usr/share/nginx/html:rw
+  #     - ./_data/certs:/etc/nginx/certs:rw
+  #     - ./_data/logs:/var/log/nginx:rw
+  #     - /var/run/docker.sock:/tmp/docker.sock:ro
+  #   environment:
+  #     DEFAULT_HOST: liexp.dev
+  #   networks:
+  #     - reverseproxy
 
   telegram-bot-api:
     image: aiogram/telegram-bot-api:latest

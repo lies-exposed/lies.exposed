@@ -1,3 +1,8 @@
+
+x-service: &base_service
+    networks:
+      - reverseproxy
+
 services:
   db-test.liexp.dev:
     image: postgres:17
@@ -24,8 +29,8 @@ services:
     volumes:
       - ./services/api/db/dump:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
-    networks:
-      - reverseproxy
+    <<: *base_service
+      
 
   fra1.space.liexp.dev:
     image: minio/minio:latest
@@ -41,8 +46,7 @@ services:
     volumes:
       - space-data:/data
     restart: on-failure
-    networks:
-      - reverseproxy
+    <<: *base_service
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://fra1.space.liexp.dev:9000/minio/health/live"]
     #   interval: 10s
@@ -53,11 +57,10 @@ services:
     restart: always
     image: "redis:7.2"
     ports:
-      - "127.0.0.1:6379:6379"
+      - "127.0.0.1:16379:6379"
     volumes:
       - redis-data:/data
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   api-base:
     build:
@@ -98,8 +101,7 @@ services:
     command: pnpm docker:dev
     restart: always
     mem_limit: 1G
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   worker.liexp.dev:
     build:
@@ -129,8 +131,7 @@ services:
       - ./services/api/temp:/usr/src/app/services/worker/temp:cached
     mem_limit: 512M
     restart: always
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   ai-bot:
     build:
@@ -149,8 +150,7 @@ services:
     mem_limit: 512M
     depends_on:
       - api.liexp.dev
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   liexp.dev:
     build:
@@ -183,8 +183,7 @@ services:
     #   timeout: 20s
     #   retries: 10
     #   start_period: 15s
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   admin.liexp.dev:
     build:
@@ -211,8 +210,7 @@ services:
     #   timeout: 20s
     #   retries: 10
     #   start_period: 15s
-    networks:
-      - reverseproxy
+    <<: *base_service
 
   localai.liexp.dev:
     image: localai/localai:latest-aio-cpu
@@ -242,8 +240,7 @@ services:
       - ./models:/build/models:cached
     devices:
       - /dev/dri
-    networks:
-      - reverseproxy
+    <<: *base_service
 
 volumes:
   db-data: {}
