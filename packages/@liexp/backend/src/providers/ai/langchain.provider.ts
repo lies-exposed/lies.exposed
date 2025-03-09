@@ -7,49 +7,61 @@ import {
 } from "@langchain/core/runnables";
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { loadSummarizationChain } from "langchain/chains";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { formatDocumentsAsString } from "langchain/util/document";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
-export const EMBEDDINGS_PROMPT = `You are an assistant for question-answering tasks.
+export const EMBEDDINGS_PROMPT: PromptFn<{
+  text: string;
+  question: string;
+}> = ({
+  vars: { text, question },
+}) => `You are an assistant for question-answering tasks.
 Use the following pieces of retrieved context to answer the question.
 If you don't know the answer, just say that you don't know.
 Use 300 chars maximum and keep the answers concise.
 
 ---
-{context}
+${text}
 ---
 
-Question: {question}
+Question: ${question}
 
 Answer:
 `;
 
 // const DEFAULT_SUMMARIZATION_QUESTION = "Can you summarize this article for me?";
 
-export const DEFAULT_SUMMARIZE_PROMPT = `
+export const DEFAULT_SUMMARIZE_PROMPT: PromptFn<{ text: string }> = ({
+  vars: { text },
+}) => `
 You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
 Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in the text.
 Below you find the text you need to summarize.
 
 --------
-{text}
+${text}
 --------
 `;
 
 export interface LangchainProvider {
   chat: ChatOpenAI;
   embeddings: OpenAIEmbeddings;
-  queryDocument: (
+  queryDocument: <Args extends { text: string; question?: string }>(
     url: LangchainDocument[],
     question: string,
-    options?: { model?: AvailableModels; prompt?: string },
+    options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
   ) => Promise<string>;
-  summarizeText: (
+  summarizeText: <Args extends { text: string }>(
     text: LangchainDocument[],
-    options?: { model?: AvailableModels; prompt?: string; question?: string },
+    options?: {
+      model?: AvailableModels;
+      prompt?: PromptFn<Args>;
+      question?: string;
+    },
   ) => Promise<string>;
 }
 
@@ -144,11 +156,13 @@ export const GetLangchainProvider = (
       // Retrieve and generate using the relevant snippets of the blog.
       const retriever = vectorStore.asRetriever();
 
-      const prompt = PromptTemplate.fromTemplate(EMBEDDINGS_PROMPT);
+      const prompt = PromptTemplate.fromTemplate(
+        EMBEDDINGS_PROMPT({ vars: { question: "{question}", text: "{text}" } }),
+      );
 
       const ragChain = RunnableSequence.from([
         {
-          context: retriever.pipe(formatDocumentsAsString),
+          text: retriever.pipe(formatDocumentsAsString),
           question: new RunnablePassthrough(),
         },
         prompt,
@@ -165,7 +179,14 @@ export const GetLangchainProvider = (
 
       return output;
     },
-    summarizeText: async (text, options) => {
+    summarizeText: async <Args extends { text: string }>(
+      text: LangchainDocument[],
+      options?: {
+        model?: AvailableModels;
+        prompt?: PromptFn<Args>;
+        question?: string;
+      },
+    ) => {
       const model = options?.model ?? opts.models?.chat ?? "gpt-4o";
       const prompt = options?.prompt ?? DEFAULT_SUMMARIZE_PROMPT;
 
@@ -185,7 +206,13 @@ export const GetLangchainProvider = (
       });
       const docsSummary = await textSplitter.splitDocuments(text);
 
-      const SUMMARY_PROMPT = PromptTemplate.fromTemplate(prompt);
+      const SUMMARY_PROMPT = PromptTemplate.fromTemplate(
+        prompt({
+          vars: {
+            text: docsSummary.flatMap((doc) => doc.pageContent).join("\n"),
+          } as Args,
+        }),
+      );
 
       const summarizeChain = loadSummarizationChain(chat, {
         type: "stuff",

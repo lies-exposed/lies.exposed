@@ -26,7 +26,7 @@ export const summarizeTextFlow: JobProcessRTE<CreateQueueTextTypeData> = (
             return ctx.langchain.summarizeText(docs, {
               model: ctx.config.config.localAi.models
                 ?.summarization as AvailableModels,
-              prompt: prompt(),
+              prompt,
               question: job.question ?? undefined,
             });
           }, toAIBotError),

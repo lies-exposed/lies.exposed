@@ -6,7 +6,7 @@ import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitr
 import { fc } from "@liexp/test/lib/index.js";
 import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
-import { getPromptFromResource } from "./prompts.js";
+import { getEventFromJsonPrompt } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion =
@@ -36,7 +36,7 @@ export const createEventFromURLFlow: JobProcessRTE<
       if (job.prompt) {
         return fp.RTE.right(() => job.prompt!);
       }
-      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+      return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
     fp.RTE.chainW(({ docs, prompt, jsonSchema }) =>
       createEventFromDocuments(

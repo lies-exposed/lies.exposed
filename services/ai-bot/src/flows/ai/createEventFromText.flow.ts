@@ -5,7 +5,7 @@ import { type CreateEventFromTextTypeData } from "@liexp/shared/lib/io/http/Queu
 import { toAIBotError } from "../../common/error/index.js";
 import { type ClientContext } from "../../context.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
-import { getPromptFromResource } from "./prompts.js";
+import { getEventFromJsonPrompt } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 export const createEventFromTextFlow: JobProcessRTE<
@@ -30,7 +30,7 @@ export const createEventFromTextFlow: JobProcessRTE<
       if (job.prompt) {
         return fp.RTE.right(() => job.prompt!);
       }
-      return fp.RTE.right(getPromptFromResource(job.resource, job.type));
+      return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
     fp.RTE.chain(({ docs, jsonSchema, prompt }) =>
       createEventFromText<ClientContext>(

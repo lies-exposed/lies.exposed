@@ -22,7 +22,12 @@ export const createEventFromDocuments = <
 >(
   content: Document[],
   type: EventType,
-  prompt: PromptFn,
+  prompt: PromptFn<{
+    type: EventType;
+    jsonSchema: string;
+    question: string;
+    context: string;
+  }>,
   jsonSchema: unknown,
   question: string | null,
 ): ReaderTaskEither<C, APIError, Event> => {

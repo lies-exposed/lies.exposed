@@ -6,6 +6,8 @@ import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import {
+  type OpenAIEmbeddingQueueType,
+  type OpenAISummarizeQueueType,
   QueueTypes,
   type QueueResourceNames,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
@@ -25,8 +27,8 @@ import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.j
 
 export const getPromptFromResource = (
   resource: QueueResourceNames,
-  type: QueueTypes,
-): PromptFn => {
+  type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType,
+): PromptFn<{ text: string; question: string }> => {
   switch (true) {
     case resource === ACTORS.value: {
       if (type === QueueTypes.types[0].value) {
@@ -41,17 +43,23 @@ export const getPromptFromResource = (
     case resource === MEDIA.value:
       return EMBED_MEDIA_PROMPT;
     case resource === EVENTS.value: {
-      if (OpenAICreateEventFromTextType.is(type)) {
-        return CREATE_EVENT_FROM_TEXT_PROMPT;
-      }
-
-      if (OpenAICreateEventFromURLType.is(type)) {
-        return CREATE_EVENT_FROM_URL_PROMPT;
-      }
-
       return EMBED_EVENT_PROMPT;
     }
     default:
       return () => "Reply with fail";
   }
+};
+
+export const getEventFromJsonPrompt = (
+  type: OpenAICreateEventFromTextType | OpenAICreateEventFromURLType,
+) => {
+  if (OpenAICreateEventFromTextType.is(type)) {
+    return CREATE_EVENT_FROM_TEXT_PROMPT;
+  }
+
+  if (OpenAICreateEventFromURLType.is(type)) {
+    return CREATE_EVENT_FROM_URL_PROMPT;
+  }
+
+  return () => "Reply with fail";
 };

@@ -30,7 +30,7 @@ export const embedAndQuestionFlow: JobProcessRTE<
               {
                 model: ctx.config.config.localAi.models
                   ?.embeddings as AvailableModels,
-                prompt: prompt(),
+                prompt,
               },
             );
           }, toAIBotError),

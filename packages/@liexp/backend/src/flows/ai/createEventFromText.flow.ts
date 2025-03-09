@@ -19,14 +19,26 @@ import { runRagChain } from "./runRagChain.js";
 
 export const getCreateEventPromptPartial =
   <C extends LoggerContext>(
-    promptTemplate: PromptFn,
+    promptTemplate: PromptFn<{
+      type: EventType;
+      jsonSchema: string;
+      context: string;
+      question: string;
+    }>,
     type: EventType,
     jsonSchema: any,
   ): ReaderTaskEither<C, APIError, PromptTemplate> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
       const prompt = await PromptTemplate.fromTemplate(
-        promptTemplate({ type, jsonSchema }),
+        promptTemplate({
+          vars: {
+            type,
+            jsonSchema,
+            question: "{question}",
+            context: "{context}",
+          },
+        }),
       ).partial({
         evenType: type,
         jsonSchema: JSON.stringify(jsonSchema),
@@ -46,7 +58,12 @@ export const getCreateEventPromptPartial =
 export const createEventFromText = <C extends LoggerContext & LangchainContext>(
   text: Document[],
   type: EventType,
-  promptTemplate: PromptFn,
+  promptTemplate: PromptFn<{
+    jsonSchema: string;
+    type: EventType;
+    context: string;
+    question: string;
+  }>,
   jsonSchema: string,
   question: string,
 ): ReaderTaskEither<C, APIError | DBError, Event> => {

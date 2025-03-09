@@ -1,6 +1,8 @@
 import { type PromptFn } from "./prompt.type.js";
 
-export const EMBED_GROUP_SUMMARIZE_PROMPT: PromptFn = () => `
+export const EMBED_GROUP_SUMMARIZE_PROMPT: PromptFn<{ text: string }> = ({
+  vars: { text },
+}) => `
 You are an expert in giving description about group.
 The group can be either a company or a website entity, a group of people, a family group.
 
@@ -16,8 +18,9 @@ The requested fields are:
 
 The text should be maximum 200 words long.
 
-----
-{text}
-----
+Here's the text for the group:
 
+---------------------------------------------------------------
+${text}
+---------------------------------------------------------------
 `;

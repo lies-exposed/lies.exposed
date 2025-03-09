@@ -1,1 +1,3 @@
-export type PromptFn = (...args: any[]) => string;
+export type PromptFn<Vars = undefined> = Vars extends undefined
+  ? () => string
+  : (args: { vars: Vars }) => string;
