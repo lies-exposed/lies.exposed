@@ -2,11 +2,13 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Stack } from "@mui/system";
 import { parseISO } from "date-fns";
 import * as React from "react";
-import { BNEditor } from "../../Common/BlockNote/index.js";
+import EllipsesContent from "../../Common/EllipsedContent.js";
 import { EventIcon } from "../../Common/Icons/index.js";
 import { ActorList } from "../../lists/ActorList.js";
 import GroupsList from "../../lists/GroupList.js";
@@ -92,14 +94,17 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
             />
 
             <CardContent>
-              {event.excerpt ? (
+              {isValidValue(event.excerpt) ? (
                 <Box
                   style={{
                     maxHeight: 100,
                     overflow: "hidden",
                   }}
                 >
-                  <BNEditor content={event.excerpt} readOnly />
+                  <EllipsesContent
+                    text={getTextContents(event.excerpt)}
+                    maxLine={3}
+                  />
                 </Box>
               ) : null}
 

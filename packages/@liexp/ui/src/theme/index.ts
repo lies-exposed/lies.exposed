@@ -96,6 +96,7 @@ const themeOptions: ThemeOptions = {
       fontFamily: secondaryFontFamily,
       marginBottom: 20,
       fontWeight: 600,
+      fontSize: "1rem",
     },
     body1: {
       fontFamily: secondaryFontFamily,

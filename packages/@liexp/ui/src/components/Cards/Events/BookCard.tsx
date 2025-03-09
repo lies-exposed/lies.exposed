@@ -1,8 +1,9 @@
 import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent.js";
+import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { BNEditor } from "../../Common/BlockNote/index.js";
+import EllipsesContent from "../../Common/EllipsedContent.js";
 import { SubjectList } from "../../lists/SubjectsList.js";
 import {
   Card,
@@ -23,14 +24,21 @@ export const BookCard: React.FC<BookCardProps> = ({
   defaultImage,
   showRelations,
   showMedia,
-
   ...rest
 }) => {
   const media = event.media?.[0]?.thumbnail;
 
   return (
     <Card {...rest}>
-      <CardActionArea onClick={() => onEventClick?.(event)}>
+      <CardActionArea
+        onClick={() => onEventClick?.(event)}
+        style={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+        }}
+      >
         {media && (
           <CardMedia
             component="img"
@@ -40,7 +48,13 @@ export const BookCard: React.FC<BookCardProps> = ({
         )}
         <Stack direction="column" style={{ flexGrow: 2 }}>
           <CardHeader
-            title={event.payload.title}
+            title={
+              <EllipsesContent
+                text={event.payload.title}
+                maxLine={2}
+                variant="h6"
+              />
+            }
             slotProps={{
               title: { style: { fontSize: "1rem", marginBottom: 0 } },
             }}
@@ -56,27 +70,42 @@ export const BookCard: React.FC<BookCardProps> = ({
           >
             <Stack
               alignItems="center"
-              direction={"row"}
+              direction={"column"}
               justifyItems={"center"}
               spacing={1}
-              style={{ width: "100%" }}
+              width={"100%"}
             >
-              <Stack flex={1}>
-                <Typography>{formatDate(event.date)}</Typography>
+              <Stack
+                direction={"row"}
+                spacing={1}
+                alignItems={"center"}
+                justifyItems={"space-between"}
+                justifyContent={"space-between"}
+                width={"100%"}
+              >
+                <Stack flex={1}>
+                  <Typography>{formatDate(event.date)}</Typography>
+                </Stack>
+                <Stack direction={"row"} justifyContent={"flex-end"} flex={1}>
+                  <SubjectList
+                    subjects={event.payload.authors.map((a) => ({
+                      ...a,
+                      selected: true,
+                    }))}
+                    onSubjectClick={() => {}}
+                  />
+                </Stack>
               </Stack>
-              <Stack direction={"column"} justifyContent={"flex-end"} flex={1}>
-                <SubjectList
-                  subjects={event.payload.authors.map((a) => ({
-                    ...a,
-                    selected: true,
-                  }))}
-                  onSubjectClick={() => {}}
-                />
-              </Stack>
+
+              {isValidValue(event.excerpt) ? (
+                <Stack>
+                  <EllipsesContent
+                    text={getTextContents(event.excerpt)}
+                    maxLine={3}
+                  />
+                </Stack>
+              ) : null}
             </Stack>
-            {isValidValue(event.excerpt) ? (
-              <BNEditor content={event.excerpt} readOnly />
-            ) : null}
           </CardContent>
         </Stack>
       </CardActionArea>
