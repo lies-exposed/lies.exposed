@@ -105,6 +105,7 @@ const themeOptions: ThemeOptions = {
     body2: {
       fontFamily: primaryFontFamily,
       fontWeight: 300,
+      fontSize: "1rem",
     },
   }),
   components: {

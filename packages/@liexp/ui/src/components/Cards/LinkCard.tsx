@@ -1,6 +1,7 @@
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
+import EllipsesContent from "../Common/EllipsedContent.js";
 import {
   Card,
   CardActions,
@@ -83,9 +84,13 @@ const LinkCard: React.FC<LinkCardProps> = ({
             }
           />
           <CardContent>
-            <Typography variant="body2">
-              {link.description?.substring(0, 40).concat("...")}
-            </Typography>
+            {link.description ? (
+              <EllipsesContent
+                text={link.description}
+                variant="body2"
+                maxLine={4}
+              />
+            ) : null}
           </CardContent>
           <CardActions disableSpacing>
             <IconButton

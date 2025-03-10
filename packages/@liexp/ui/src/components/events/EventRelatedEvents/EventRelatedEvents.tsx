@@ -15,11 +15,17 @@ export const EventRelatedEvents: React.FC<{
       _sort: "random",
       exclude: [event.id],
     };
+
+    const commonProps = {
+      hideIfEmpty: true,
+      columns: { sm: 12, md: 4, lg: 4 },
+    };
     const boxes: React.ReactNode[] = [];
     if (Events.EventTypes.DEATH.is(event.type)) {
       const e = event as Events.SearchEvent.SearchDeathEvent;
       boxes.push(
         <EventsBox
+          {...commonProps}
           key={`actor-${event.id}`}
           title={`Last ${e.payload.victim.fullName} events`}
           query={{
@@ -34,6 +40,7 @@ export const EventRelatedEvents: React.FC<{
     if (Events.EventTypes.DOCUMENTARY.is(event.type)) {
       boxes.push(
         <EventsBox
+          {...commonProps}
           key={`authors-${event.id}`}
           title={`Last authors events`}
           query={{
@@ -47,6 +54,7 @@ export const EventRelatedEvents: React.FC<{
 
     boxes.push(
       <EventsBox
+        {...commonProps}
         key={`keywords-${event.id}`}
         title={`Last keywords events`}
         query={{

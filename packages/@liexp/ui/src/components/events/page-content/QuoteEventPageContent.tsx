@@ -3,7 +3,7 @@ import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue
 import * as React from "react";
 import { Avatar } from "../../Common/Avatar.js";
 import { BNEditor } from "../../Common/BlockNote/index.js";
-import { Box, Grid, Typography } from "../../mui/index.js";
+import { Box, Grid2, Typography } from "../../mui/index.js";
 
 interface QuoteEventPageContentProps {
   event: Events.SearchEvent.SearchQuoteEvent;
@@ -13,7 +13,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
   event: item,
 }) => {
   return (
-    <Grid
+    <Grid2
       container
       spacing={2}
       style={{
@@ -26,7 +26,7 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
         marginBottom: 50,
       }}
     >
-      <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
+      <Grid2 size={{ md: 6, sm: 6, xs: 12 }} style={{ padding: 10 }}>
         <Typography style={{ display: "flex" }} variant="subtitle1">
           {item.payload.quote}
         </Typography>
@@ -44,25 +44,22 @@ export const QuoteEventPageContent: React.FC<QuoteEventPageContentProps> = ({
               : item.payload.subject.id.fullName}
           </Typography>
         </Box>
-      </Grid>
-      <Grid
-        item
-        md={3}
-        sm={6}
-        xs={12}
+      </Grid2>
+      <Grid2
+        size={{ md: 3, sm: 6, xs: 12 }}
         style={{
           display: "flex",
           justifyContent: "center",
         }}
       >
         <Avatar src={item.payload.subject.id.avatar?.location} size="xlarge" />
-      </Grid>
+      </Grid2>
 
       {isValidValue(item.excerpt) ? (
-        <Grid>
+        <Grid2>
           <BNEditor content={item.excerpt} readOnly={true} />
-        </Grid>
+        </Grid2>
       ) : null}
-    </Grid>
+    </Grid2>
   );
 };
