@@ -138,7 +138,7 @@ importers:
         version: 2.0.0
       typeorm:
         specifier: ^0.3.21
-        version: 0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2)
+        version: 0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -183,8 +183,8 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
       ioredis:
-        specifier: ^5.5.0
-        version: 5.5.0
+        specifier: ^5.6.0
+        version: 5.6.0
       langchain:
         specifier: ^0.3.19
         version: 0.3.19(@langchain/anthropic@0.3.8(@langchain/core@0.3.42(openai@4.86.2(ws@8.18.1)(zod@3.24.2))))(@langchain/core@0.3.42(openai@4.86.2(ws@8.18.1)(zod@3.24.2)))(axios@1.8.2)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.86.2(ws@8.18.1)(zod@3.24.2))(typeorm@0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2))(ws@8.18.1)
@@ -912,8 +912,8 @@ importers:
         specifier: ^0.5.19
         version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       ioredis:
-        specifier: ^5.5.0
-        version: 5.5.0
+        specifier: ^5.6.0
+        version: 5.6.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
@@ -940,7 +940,7 @@ importers:
         version: 4.19.3
       typeorm:
         specifier: ^0.3.21
-        version: 0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2)
+        version: 0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2)
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -1284,8 +1284,8 @@ importers:
         specifier: ^0.5.19
         version: 0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9)))
       ioredis:
-        specifier: ^5.5.0
-        version: 5.5.0
+        specifier: ^5.6.0
+        version: 5.6.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1327,7 +1327,7 @@ importers:
         version: 0.33.5
       typeorm:
         specifier: ^0.3.21
-        version: 0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2)
+        version: 0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -6762,8 +6762,8 @@ packages:
     peerDependencies:
       fp-ts: ^2.5.0
 
-  ioredis@5.5.0:
-    resolution: {integrity: sha512-7CutT89g23FfSa8MDoIFs2GYYa0PaNiW/OrT+nRyjRXHDZd17HmIgy+reOQ/yhh72NznNjGuS8kbCAcA4Ro4mw==}
+  ioredis@5.6.0:
+    resolution: {integrity: sha512-tBZlIIWbndeWBWCXWZiqtOF/yxf6yZX3tAlTJ7nfo5jhd6dctNxF7QnYlZLZ1a0o0pDoen7CgZqO+zjNaFbJAg==}
     engines: {node: '>=12.22.0'}
 
   ip-address@9.0.5:
@@ -11946,14 +11946,14 @@ snapshots:
       cheerio: 1.0.0
       fast-xml-parser: 4.5.3
       ignore: 5.3.2
-      ioredis: 5.5.0
+      ioredis: 5.6.0
       jsdom: 26.0.0(canvas@3.0.1)
       jsonwebtoken: 9.0.2
       lodash: 4.17.21
       pdf-parse: 1.1.1
       pg: 8.13.3
       playwright: 1.49.0
-      typeorm: 0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2)
+      typeorm: 0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2)
       ws: 8.18.1
     transitivePeerDependencies:
       - '@langchain/anthropic'
@@ -16780,7 +16780,7 @@ snapshots:
     dependencies:
       fp-ts: 2.16.9
 
-  ioredis@5.5.0:
+  ioredis@5.6.0:
     dependencies:
       '@ioredis/commands': 1.2.0
       cluster-key-slot: 1.1.2
@@ -17290,7 +17290,7 @@ snapshots:
       axios: 1.8.2(debug@4.4.0)
       cheerio: 1.0.0
       handlebars: 4.7.8
-      typeorm: 0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2)
+      typeorm: 0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - encoding
       - openai
@@ -20220,7 +20220,7 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm@0.3.21(ioredis@5.5.0)(pg@8.13.3)(reflect-metadata@0.2.2):
+  typeorm@0.3.21(ioredis@5.6.0)(pg@8.13.3)(reflect-metadata@0.2.2):
     dependencies:
       '@sqltools/formatter': 1.2.5
       ansis: 3.17.0
@@ -20237,7 +20237,7 @@ snapshots:
       uuid: 11.1.0
       yargs: 17.7.2
     optionalDependencies:
-      ioredis: 5.5.0
+      ioredis: 5.6.0
       pg: 8.13.3
     transitivePeerDependencies:
       - supports-color
