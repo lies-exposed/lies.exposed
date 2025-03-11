@@ -18,7 +18,8 @@
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
     "start": "node build/run.js",
-    "pkg": "./scripts/pkg.sh"
+    "pkg": "./scripts/pkg.sh",
+    "postinstall": "mkdir build && cp ../../node_modules/pdfjs-dist/build/pdf.worker.mjs ./build/pdf.worker.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.758.0",
