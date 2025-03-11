@@ -20,7 +20,7 @@ services:
       POSTGRES_DB: liexp
       VIRTUAL_HOST: db.liexp.dev
       VIRTUAL_PORT: 5432
-    restart: on-failure
+    restart: unless-stopped
     volumes:
       - ./services/api/db/dump:/docker-entrypoint-initdb.d
       - db-data:/var/lib/postgresql/data
