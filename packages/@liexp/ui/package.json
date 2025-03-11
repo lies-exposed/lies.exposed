@@ -69,7 +69,7 @@
     "@visx/wordcloud": "^3.12.0",
     "@visx/zoom": "^3.12.0",
     "@xyflow/react": "^12.4.4",
-    "axios": "^1.8.1",
+    "axios": "^1.8.2",
     "clsx": "^2.1.0",
     "d3": "^7.9.0",
     "d3-hierarchy": "^3.1.2",
