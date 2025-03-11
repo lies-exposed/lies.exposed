@@ -1,9 +1,10 @@
-
 packages:
-  - "packages/@liexp/*"
-  - "services/api"
-  - "services/worker"
-  - "services/ai-bot"
-  - "services/web"
-  - "services/admin-web"
-  - "services/storybook"
+  - packages/@liexp/*
+  - services/api
+  - services/worker
+  - services/ai-bot
+  - services/web
+  - services/admin-web
+  - services/storybook
+onlyBuiltDependencies:
+  - exifreader
