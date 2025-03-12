@@ -8,3 +8,4 @@ packages:
   - services/storybook
 onlyBuiltDependencies:
   - exifreader
+  - esbuild
