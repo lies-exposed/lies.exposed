@@ -1,8 +1,10 @@
-import { type Media, type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
+import { BNEditor } from "../../Common/BlockNote/Editor.js";
 import MediaElement from "../../Media/MediaElement.js";
-import { Grid, Typography } from "../../mui/index.js";
+import { Grid2, Typography } from "../../mui/index.js";
 
 interface BookEventPageContentProps {
   event: Events.SearchEvent.SearchBookEvent;
@@ -19,7 +21,7 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
   } = item;
 
   return (
-    <Grid
+    <Grid2
       container
       style={{
         display: "flex",
@@ -27,11 +29,8 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
         alignItems: "center",
       }}
     >
-      <Grid
-        item
-        lg={12}
-        md={12}
-        xs={12}
+      <Grid2
+        size={12}
         style={{
           alignContent: "flex-start",
           marginBottom: theme.spacing(5),
@@ -54,12 +53,19 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
             onClick={onMediaClick}
           />
         ) : null}
-      </Grid>
-      <Grid item md={6} sm={6} xs={12} style={{ padding: 10 }}>
-        <Typography style={{ display: "flex" }} variant="subtitle1">
+      </Grid2>
+      <Grid2
+        size={{ md: 12, sm: 12, xs: 12 }}
+        style={{ padding: 10 }}
+        width="100%"
+      >
+        <Typography style={{ display: "flex" }} variant="h5">
           {item.payload.title}
         </Typography>
-      </Grid>
-    </Grid>
+        {isValidValue(item.excerpt) ? (
+          <BNEditor content={item.excerpt} readOnly />
+        ) : null}
+      </Grid2>
+    </Grid2>
   );
 };

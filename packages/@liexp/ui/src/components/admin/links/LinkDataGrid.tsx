@@ -90,7 +90,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
                   alignItems="center"
                   justifyItems="center"
                 >
-                  <Typography variant="body1">{relation.label}: </Typography>
+                  <Typography variant="body1">{relation.label}: </Typography>{" "}
                   <Typography variant="body1" fontWeight="semibold">
                     {relation.value ?? "-"}
                   </Typography>

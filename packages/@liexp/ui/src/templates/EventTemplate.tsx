@@ -24,6 +24,7 @@ import GroupList from "../components/lists/GroupList.js";
 import {
   Box,
   Grid,
+  Grid2,
   Stack,
   Typography,
   useMuiMediaQuery,
@@ -297,7 +298,10 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 ]}
                 resource={{ name: "events", item: event }}
               >
-                <Grid item lg={8} md={8} sm={12} style={{ height: "100%" }}>
+                <Grid2
+                  size={{ lg: 8, md: 8, sm: 12 }}
+                  style={{ height: "100%" }}
+                >
                   <EventPageContent
                     event={searchEvent}
                     relations={{
@@ -330,7 +334,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     }}
                     onEventClick={onEventClick}
                   />
-                </Grid>
+                </Grid2>
 
                 <EventsFlowGraphBox
                   type="events"
