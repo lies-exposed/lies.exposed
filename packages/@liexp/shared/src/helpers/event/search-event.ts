@@ -523,7 +523,7 @@ export const fromSearchEvent = (
         ...relations,
         payload: {
           ...e.payload,
-          source: e.payload.source.id,
+          source: e.payload.source?.id,
           owners: {
             actors: e.payload.owners.actors.map((a) => a.id),
             groups: e.payload.owners.groups.map((g) => g.id),

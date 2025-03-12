@@ -6,7 +6,7 @@ import * as Patent from "../Patent.js";
 import { SearchEventCodec } from "./SearchEventCodec.js";
 
 export const SearchPatentEvent = SearchEventCodec(Patent.Patent, {
-  source: Link.Link,
+  source: t.union([Link.Link, t.undefined]),
   owners: t.strict({
     actors: t.array(Actor.Actor),
     groups: t.array(Group.Group),
