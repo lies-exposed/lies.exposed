@@ -14,11 +14,13 @@ export interface EventsBoxProps<
 > extends Omit<EventCardGridProps<E>, "events"> {
   title?: string;
   query: Partial<SearchEventQueryInput>;
+  hideIfEmpty?: boolean;
 }
 
 const EventsBox = <E extends SearchEvent.SearchEvent>({
   query,
   title,
+  hideIfEmpty = false,
   ...eventCardGridProps
 }: EventsBoxProps<E>): React.JSX.Element => {
   const theme = useTheme();
@@ -37,6 +39,10 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
           data: { events },
         },
       }) => {
+        if (hideIfEmpty && events.length === 0) {
+          return <div />;
+        }
+
         return (
           <Grid2
             display="flex"
@@ -54,7 +60,9 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
               </Grid2>
             ) : null}
 
-            <EventCardGrid events={events as E[]} {...eventCardGridProps} />
+            <Grid2 size={12}>
+              <EventCardGrid events={events as E[]} {...eventCardGridProps} />
+            </Grid2>
           </Grid2>
         );
       }}

@@ -64,10 +64,14 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
   const isVertical = layout === "vertical";
   return (
     <Card {...props}>
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea
+        style={{ height: "100%", display: "flex", alignItems: "flex-start" }}
+        onClick={handleClick}
+      >
         <Stack
           direction={isVertical ? "column" : "row"}
           alignItems={"flex-start"}
+          justifyContent={"flex-start"}
           width={"100%"}
         >
           {showMedia ? (
@@ -86,7 +90,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
               />
             </Stack>
           ) : null}
-          <Stack direction={"column"}>
+          <Stack direction={"column"} flexGrow={2}>
             <CardHeader
               avatar={<EventIcon size="2x" type={event.type} />}
               title={title}

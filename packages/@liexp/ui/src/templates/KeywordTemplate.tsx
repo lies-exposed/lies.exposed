@@ -122,7 +122,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               <LinksListBox
                 filter={{ keywords: [keyword.id] }}
                 onItemClick={() => {}}
-                column={2}
+                column={3}
               />
 
               <EventNetworkGraphBoxWithFilters
