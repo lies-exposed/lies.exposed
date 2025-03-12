@@ -28,7 +28,7 @@ export const PatentPayload = t.strict(
       actors: t.array(UUID),
       groups: t.array(UUID),
     }),
-    source: UUID,
+    source: t.union([UUID, t.undefined]),
   },
   "PatentPayload",
 );
