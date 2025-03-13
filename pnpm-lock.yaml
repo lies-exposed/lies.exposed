@@ -663,8 +663,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       vanilla-jsoneditor:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       waveform-data:
         specifier: ^4.5.1
         version: 4.5.1
@@ -2792,6 +2792,7 @@ packages:
   '@mui/base@5.0.0-beta.69':
     resolution: {integrity: sha512-r2YyGUXpZxj8rLAlbjp1x2BnMERTZ/dMqd9cClKj2OJ7ALAuiv/9X5E9eHfRc9o/dGRuLSMq/WTjREktJVjxVA==}
     engines: {node: '>=14.0.0'}
+    deprecated: This package has been replaced by @base-ui-components/react
     peerDependencies:
       '@types/react': ^17.0.0 || ^18.0.0 || ^19.0.0
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -3827,6 +3828,11 @@ packages:
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
+  '@sveltejs/acorn-typescript@1.0.5':
+    resolution: {integrity: sha512-IwQk4yfwLdibDlrXVE04jTZYlLnwsTT2PIOQQGNLWfjavGifnk1JD1LcZjZaBTRcxZu2FfPfNLOE04DSu9lqtQ==}
+    peerDependencies:
+      acorn: ^8.9.0
+
   '@tanstack/eslint-plugin-query@5.67.2':
     resolution: {integrity: sha512-bWAA/0lYGBNv7lIV6tID2o5wC6yWUjkh9yx8ow9YMP3brxIhuUPdCAtJBhXL2nVzJTnc6FRrL401KFG5PPEkZg==}
     peerDependencies:
@@ -4634,11 +4640,6 @@ packages:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  acorn-typescript@1.4.13:
-    resolution: {integrity: sha512-xsc9Xv0xlVfwp2o7sQ+GCQ1PgbkdcpWdTzrwXxO3xDMTAywVS3oXVOcOHuRjAPkS4P9b+yc/qNF15460v+jp4Q==}
-    peerDependencies:
-      acorn: '>=8.9.0'
 
   acorn@8.14.1:
     resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
@@ -9398,8 +9399,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte@5.22.0:
-    resolution: {integrity: sha512-Av/1qn4JEhuLB5xHMoiaKhxnBgf4NfDarvCh7mplaNqwXWpNq+3IPCDAHS31HGsRaclexhYLb3y4vxdgkrN0JQ==}
+  svelte@5.23.0:
+    resolution: {integrity: sha512-v0lL3NuKontiCxholEiAXCB+BYbndlKbwlDMK0DS86WgGELMJSpyqCSbJeMEMBDwOglnS7Ar2Rq0wwa/z2L8Vg==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -9965,8 +9966,8 @@ packages:
     engines: {node: '>=8'}
     hasBin: true
 
-  vanilla-jsoneditor@3.0.0:
-    resolution: {integrity: sha512-bO9ihCFf6bsslmbz3A9dwXF6UelY5ZFUr7hulXRovbsQBYgwPtX3mvvT4I6DyvDXkcpvwxHeXHj/SK02MR/vcA==}
+  vanilla-jsoneditor@3.1.0:
+    resolution: {integrity: sha512-4c8rB8JO+Yb1d58UXuNGrzhrPyOg4EDe8/7U4tYZY0mb0xyN5g8KREAvnK0vPhcovDa02l8ud2wrMciFJFNtog==}
 
   vanilla-picker@2.12.3:
     resolution: {integrity: sha512-qVkT1E7yMbUsB2mmJNFmaXMWE2hF8ffqzMMwe9zdAikd8u2VfnsVY2HQcOUi2F38bgbxzlJBEdS1UUhOXdF9GQ==}
@@ -13206,6 +13207,10 @@ snapshots:
     dependencies:
       storybook: 8.6.4(prettier@3.5.3)
 
+  '@sveltejs/acorn-typescript@1.0.5(acorn@8.14.1)':
+    dependencies:
+      acorn: 8.14.1
+
   '@tanstack/eslint-plugin-query@5.67.2(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)':
     dependencies:
       '@typescript-eslint/utils': 8.26.0(eslint@9.21.0(jiti@2.4.2))(typescript@5.8.2)
@@ -14263,10 +14268,6 @@ snapshots:
       negotiator: 0.6.3
 
   acorn-jsx@5.3.2(acorn@8.14.1):
-    dependencies:
-      acorn: 8.14.1
-
-  acorn-typescript@1.4.13(acorn@8.14.1):
     dependencies:
       acorn: 8.14.1
 
@@ -19910,13 +19911,13 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte@5.22.0:
+  svelte@5.23.0:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.5.0
+      '@sveltejs/acorn-typescript': 1.0.5(acorn@8.14.1)
       '@types/estree': 1.0.6
       acorn: 8.14.1
-      acorn-typescript: 1.4.13(acorn@8.14.1)
       aria-query: 5.3.2
       axobject-query: 4.1.0
       clsx: 2.1.1
@@ -20470,7 +20471,7 @@ snapshots:
       kleur: 4.1.5
       sade: 1.8.1
 
-  vanilla-jsoneditor@3.0.0:
+  vanilla-jsoneditor@3.1.0:
     dependencies:
       '@codemirror/autocomplete': 6.18.6
       '@codemirror/commands': 6.8.0
@@ -20496,7 +20497,7 @@ snapshots:
       lodash-es: 4.17.21
       memoize-one: 6.0.0
       natural-compare-lite: 1.4.0
-      svelte: 5.22.0
+      svelte: 5.23.0
       vanilla-picker: 2.12.3
 
   vanilla-picker@2.12.3:
