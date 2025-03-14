@@ -1,6 +1,5 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
-
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as Stats from "../io/http/Stats.js";
 import { ResourceEndpoints } from "./types.js";
@@ -9,14 +8,13 @@ export const List = Endpoint({
   Method: "GET",
   getPath: () => "/stats",
   Input: {
-    Query: t.type(
-      {
-        ...GetListQuery.props,
-        type: Stats.StatsType,
-        id: t.string,
-      },
-      "GetStatsListQuery",
-    ),
+    Query: Schema.Struct({
+      ...GetListQuery.fields,
+      type: Stats.StatsType,
+      id: Schema.String,
+    }).annotations({
+      title: "GetStatsListQuery",
+    }),
   },
   Output: Stats.OutputList,
 });
@@ -26,7 +24,7 @@ export const Create = Endpoint({
   getPath: () => "/stats",
   Input: {
     Query: undefined,
-    Body: t.unknown,
+    Body: Schema.Unknown,
   },
   Output: Stats.SingleOutput,
 });
@@ -36,9 +34,9 @@ export const Get = Endpoint({
   getPath: ({ type, id }) => `/stats/${type}/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({
+    Params: Schema.Struct({
       type: Stats.StatsType,
-      id: t.string,
+      id: Schema.String,
     }),
   },
   Output: Stats.SingleOutput,
@@ -49,8 +47,8 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/stats/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: t.string }),
-    Body: t.unknown,
+    Params: Schema.Struct({ id: Schema.String }),
+    Body: Schema.Unknown,
   },
   Output: Stats.SingleOutput,
 });
@@ -60,7 +58,7 @@ export const Delete = Endpoint({
   getPath: ({ id }) => `/stats/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: Stats.SingleOutput,
 });

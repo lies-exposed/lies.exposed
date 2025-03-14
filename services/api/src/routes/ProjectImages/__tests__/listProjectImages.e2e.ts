@@ -96,7 +96,8 @@ describe("List Project Images", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      t.array(http.ProjectImage.ProjectImage).decode(response.body.data)._tag,
+      Schema.Array(http.ProjectImage.ProjectImage).decode(response.body.data)
+        ._tag,
     ).toEqual("Right");
   });
 });

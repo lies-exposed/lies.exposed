@@ -4,5 +4,5 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const ExtractMediaExtraPubSub = RedisPubSub(
   "media:extract-media-extra",
-  t.strict({ id: UUID }),
+  Schema.Struct({ id: UUID }),
 );

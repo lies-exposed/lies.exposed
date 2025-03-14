@@ -1,84 +1,92 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { Schema } from "effect";
 
-export const Pfizer = t.literal("pfizer", "Pfizer");
-export const Astrazeneca = t.literal("astrazeneca", "Astrazeneca");
-export const Moderna = t.literal("moderna", "Moderna");
-export const Janssen = t.literal("janssen", "Janssen");
+export const Pfizer = Schema.Literal("pfizer", "Pfizer");
+export const Astrazeneca = Schema.Literal("astrazeneca", "Astrazeneca");
+export const Moderna = Schema.Literal("moderna", "Moderna");
+export const Janssen = Schema.Literal("janssen", "Janssen");
 
-export const Manufacturer = t.union(
-  [Astrazeneca, Janssen, Moderna, Pfizer],
-  "Manufacturer",
-);
+export const Manufacturer = Schema.Union(
+  Astrazeneca,
+  Janssen,
+  Moderna,
+  Pfizer,
+).annotations({
+  title: "Manufacturer",
+});
 
-export const Female = t.literal("female", "Female");
-export const Male = t.literal("male", "Male");
-export const NotSpecified = t.literal("not-specified", "NotSpecified");
-export const Sex = t.union([Female, Male, NotSpecified], "Sex");
-export type Sex = t.TypeOf<typeof Sex>;
+export const Female = Schema.Literal("female", "Female");
+export const Male = Schema.Literal("male", "Male");
+export const NotSpecified = Schema.Literal("not-specified", "NotSpecified");
+export const Sex = Schema.Union(Female, Male, NotSpecified).annotations({
+  title: "Sex",
+});
+export type Sex = typeof Sex.Type;
 
-export const ZeroToOneMonth = t.literal("0-1-months", "01Month");
-export const TwoMonthsToTwoYears = t.literal(
+export const ZeroToOneMonth = Schema.Literal("0-1-months", "01Month");
+export const TwoMonthsToTwoYears = Schema.Literal(
   "2-months-2-years",
   "2MonthsTo2Years",
 );
-export const ThreeToTwelveYears = t.literal("3-12-years", "3To12Years");
-export const TwelveToSixteenYears = t.literal("12-17-years", "12To17Years");
-export const EighteenToSixtyFourYears = t.literal("18-64-years", "18To64Years");
-export const SixtyFiveToEightyfiveYears = t.literal(
+export const ThreeToTwelveYears = Schema.Literal("3-12-years", "3To12Years");
+export const TwelveToSixteenYears = Schema.Literal(
+  "12-17-years",
+  "12To17Years",
+);
+export const EighteenToSixtyFourYears = Schema.Literal(
+  "18-64-years",
+  "18To64Years",
+);
+export const SixtyFiveToEightyfiveYears = Schema.Literal(
   "65-85-years",
   "65To85Years",
 );
-export const MoreThanEightyFiveYears = t.literal(
+export const MoreThanEightyFiveYears = Schema.Literal(
   "more-than-85-years",
   "MoreThan85Years",
 );
 
-export const AgeGroup = t.union(
-  [
-    ZeroToOneMonth,
-    TwoMonthsToTwoYears,
-    ThreeToTwelveYears,
-    TwelveToSixteenYears,
-    EighteenToSixtyFourYears,
-    SixtyFiveToEightyfiveYears,
-    MoreThanEightyFiveYears,
-    NotSpecified,
-  ],
-  "AgeGroup",
-);
-export type AgeGroup = t.TypeOf<typeof AgeGroup>;
+export const AgeGroup = Schema.Union(
+  ZeroToOneMonth,
+  TwoMonthsToTwoYears,
+  ThreeToTwelveYears,
+  TwelveToSixteenYears,
+  EighteenToSixtyFourYears,
+  SixtyFiveToEightyfiveYears,
+  MoreThanEightyFiveYears,
+  NotSpecified,
+).annotations({
+  title: "AgeGroup",
+});
+export type AgeGroup = typeof AgeGroup.Type;
 
-export const VaccineDatum = t.strict(
-  {
-    date: DateFromISOString,
-    deaths: NumberFromString,
-    death_0_1_month: NumberFromString,
-    death_2_month_2_years: NumberFromString,
-    death_3_11_years: NumberFromString,
-    death_12_17_years: NumberFromString,
-    death_18_64_years: NumberFromString,
-    death_65_85_years: NumberFromString,
-    death_more_than_85_years: NumberFromString,
-    death_years_not_specified: NumberFromString,
-    injuries: NumberFromString,
-    reported: NumberFromString,
-    severe: NumberFromString,
-    total_reported: NumberFromString,
-    total_severe: NumberFromString,
-    total_deaths: NumberFromString,
-    total_death_0_1_month: NumberFromString,
-    total_death_2_month_2_years: NumberFromString,
-    total_death_3_11_years: NumberFromString,
-    total_death_12_17_years: NumberFromString,
-    total_death_18_64_years: NumberFromString,
-    total_death_65_85_years: NumberFromString,
-    total_death_more_than_85_years: NumberFromString,
-    total_death_years_not_specified: NumberFromString,
-    total_injuries: NumberFromString,
-  },
-  "VaccineDatum",
-);
+export const VaccineDatum = Schema.Struct({
+  date: Schema.DateFromString,
+  deaths: Schema.NumberFromString,
+  death_0_1_month: Schema.NumberFromString,
+  death_2_month_2_years: Schema.NumberFromString,
+  death_3_11_years: Schema.NumberFromString,
+  death_12_17_years: Schema.NumberFromString,
+  death_18_64_years: Schema.NumberFromString,
+  death_65_85_years: Schema.NumberFromString,
+  death_more_than_85_years: Schema.NumberFromString,
+  death_years_not_specified: Schema.NumberFromString,
+  injuries: Schema.NumberFromString,
+  reported: Schema.NumberFromString,
+  severe: Schema.NumberFromString,
+  total_reported: Schema.NumberFromString,
+  total_severe: Schema.NumberFromString,
+  total_deaths: Schema.NumberFromString,
+  total_death_0_1_month: Schema.NumberFromString,
+  total_death_2_month_2_years: Schema.NumberFromString,
+  total_death_3_11_years: Schema.NumberFromString,
+  total_death_12_17_years: Schema.NumberFromString,
+  total_death_18_64_years: Schema.NumberFromString,
+  total_death_65_85_years: Schema.NumberFromString,
+  total_death_more_than_85_years: Schema.NumberFromString,
+  total_death_years_not_specified: Schema.NumberFromString,
+  total_injuries: Schema.NumberFromString,
+}).annotations({
+  title: "VaccineDatum",
+});
 
-export type VaccineDatum = t.TypeOf<typeof VaccineDatum>;
+export type VaccineDatum = typeof VaccineDatum.Type;

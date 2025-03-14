@@ -1,5 +1,6 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type AxiosInstance, type AxiosResponse } from "axios";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -7,13 +8,14 @@ import { pipe } from "fp-ts/lib/function.js";
 import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,
+  type TypeOfEndpointInstanceInput,
 } from "ts-endpoint";
-import { type Codec, type serializedType } from "ts-io-error/lib/Codec.js";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
 import { type RequiredKeys } from "typelevel-ts";
 import { Endpoints } from "../../endpoints/index.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
-import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
+import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 
@@ -23,20 +25,6 @@ export type SerializedPropsType<P> =
         [k in RequiredKeys<P>]: serializedType<P[k]>;
       }
     : never;
-
-export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
-  RequiredKeys<E["Input"]>,
-] extends [never]
-  ? void
-  : {
-      [K in keyof NonNullable<E["Input"]>]: NonNullable<
-        E["Input"]
-      >[K] extends Codec<any, any, any>
-        ? K extends "Query"
-          ? Partial<serializedType<NonNullable<E["Input"]>[K]>>
-          : serializedType<NonNullable<E["Input"]>[K]>
-        : never;
-    };
 
 export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstanceInput<E>,
@@ -70,23 +58,26 @@ const API = (client: AxiosInstance): API => {
     return (b: TypeOfEndpointInstanceInput<E>) => {
       const url = e.getPath(b?.Params);
       return pipe(
-        liftFetch<TypeOfEndpointInstance<E>["Output"]>(() => {
-          apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
+        liftFetch<TypeOfEndpointInstance<E>["Output"]>(
+          () => {
+            apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
-          return client.request<
-            TypeOfEndpointInstanceInput<E>,
-            AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
-          >({
-            method: e.Method,
-            url,
-            params: b?.Query,
-            data: b?.Body,
-            responseType: "json",
-            headers: {
-              Accept: "application/json",
-            },
-          });
-        }, e.Output.decode),
+            return client.request<
+              TypeOfEndpointInstanceInput<E>,
+              AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
+            >({
+              method: e.Method,
+              url,
+              params: b?.Query,
+              data: b?.Body,
+              responseType: "json",
+              headers: {
+                Accept: "application/json",
+              },
+            });
+          },
+          Schema.decodeUnknownEither(e.Output as Schema.Schema<any>),
+        ),
         TE.mapLeft((err) => {
           const apiError = toAPIError(err);
           apiLogger.error.log(`${e.Method} ${url} error: %O`, apiError);

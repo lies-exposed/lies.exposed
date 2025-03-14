@@ -22,7 +22,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     base: "/",
     host: "localhost",
     port: config.server?.port ?? 6006,
-    env: t.strict({ VITE_API_URL: t.string, VITE_PUBLIC_URL: t.string }),
+    env: Schema.Struct({ VITE_API_URL: Schema.String, VITE_PUBLIC_URL: Schema.String }),
     target: "spa",
     devServer: configType === "DEVELOPMENT" ? true : false,
     hot: true,

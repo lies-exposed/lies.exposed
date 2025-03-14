@@ -300,7 +300,7 @@ export const toSearchEvent = (
   );
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.value: {
+    case Events.EventTypes.BOOK.Type: {
       const authors = BySubjectUtils.toBySubjectArray(
         e.payload.authors,
         actors,
@@ -332,7 +332,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchBookEvent;
     }
-    case Events.EventTypes.QUOTE.value: {
+    case Events.EventTypes.QUOTE.Type: {
       return {
         ...e,
         payload: {
@@ -349,7 +349,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchQuoteEvent;
     }
-    case Events.EventTypes.DEATH.value: {
+    case Events.EventTypes.DEATH.Type: {
       return {
         ...e,
         payload: {
@@ -361,7 +361,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return {
         ...e,
         payload: {
@@ -375,7 +375,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.PATENT.value: {
+    case Events.EventTypes.PATENT.Type: {
       return {
         ...e,
         payload: {
@@ -388,7 +388,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.Type: {
       return {
         ...e,
         payload: {
@@ -417,7 +417,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchDocumentaryEvent;
     }
-    case Events.EventTypes.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.Type: {
       const from: BySubject = pipe(
         BySubjectUtils.lookupForSubject(e.payload.from, actors, groups),
         fp.O.toUndefined,
@@ -467,7 +467,7 @@ export const fromSearchEvent = (
   );
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.value: {
+    case Events.EventTypes.BOOK.Type: {
       return {
         ...e,
         ...relations,
@@ -477,14 +477,14 @@ export const fromSearchEvent = (
             pdf: e.payload.media.pdf.id,
             audio: e.payload.media.audio?.id,
           },
-          authors: BySubjectUtils.toSubjectIds(e.payload.authors),
+          authors: BySubjectUtils.toSubjectIds([...e.payload.authors]),
           publisher: e.payload.publisher
             ? BySubjectUtils.toSubjectId(e.payload.publisher)
             : undefined,
         },
       };
     }
-    case Events.EventTypes.QUOTE.value: {
+    case Events.EventTypes.QUOTE.Type: {
       return {
         ...e,
         ...relations,
@@ -494,7 +494,7 @@ export const fromSearchEvent = (
         },
       };
     }
-    case Events.EventTypes.DEATH.value: {
+    case Events.EventTypes.DEATH.Type: {
       return {
         ...e,
         ...relations,
@@ -504,7 +504,7 @@ export const fromSearchEvent = (
         },
       };
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return {
         ...e,
         ...relations,
@@ -517,7 +517,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.PATENT.value: {
+    case Events.EventTypes.PATENT.Type: {
       return {
         ...e,
         ...relations,
@@ -532,7 +532,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.Type: {
       return {
         ...e,
         ...relations,
@@ -552,7 +552,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.Type: {
       return {
         ...e,
         ...relations,

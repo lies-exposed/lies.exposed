@@ -14,10 +14,10 @@ export interface TreeEvent {
 }
 
 export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
-  t.type({
-    name: t.string,
+  Schema.Struct({
+    name: Schema.String,
     date,
-    children: t.array(TreeEvent),
+    children: Schema.Array(TreeEvent),
   }),
 );
 
@@ -115,14 +115,14 @@ function ParentNode({
 
 const TreeProps = t.interface(
   {
-    events: t.array(TreeEvent),
-    width: t.number,
-    height: t.number,
+    events: Schema.Array(TreeEvent),
+    width: Schema.Number,
+    height: Schema.Number,
     margin: t.interface({
-      top: t.number,
-      left: t.number,
-      right: t.number,
-      bottom: t.number,
+      top: Schema.Number,
+      left: Schema.Number,
+      right: Schema.Number,
+      bottom: Schema.Number,
     }),
   },
   "TreeProps",

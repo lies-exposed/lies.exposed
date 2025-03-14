@@ -40,7 +40,7 @@ export const postToIG =
           body.media,
           text.length,
         );
-        const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
+        const media: SocialPostBodyMultipleMedia = Schema.String.is(body.media)
           ? [{ type: "photo", media: body.media, thumbnail: body.media }]
           : body.media;
         return pipe(

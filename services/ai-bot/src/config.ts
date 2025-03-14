@@ -1,21 +1,21 @@
 import * as t from "io-ts";
 
-export const AIBotConfig = t.strict(
+export const AIBotConfig = Schema.Struct(
   {
-    localAi: t.strict({
-      url: t.string,
-      apiKey: t.string,
-      models: t.union([
+    localAi: Schema.Struct({
+      url: Schema.String,
+      apiKey: Schema.String,
+      models: Schema.Union([
         t.partial({
-          chat: t.string,
-          summarization: t.string,
-          embeddings: t.string,
+          chat: Schema.String,
+          summarization: Schema.String,
+          embeddings: Schema.String,
         }),
-        t.undefined,
+        Schema.Undefined,
       ]),
     }),
-    api: t.strict({
-      url: t.string,
+    api: Schema.Struct({
+      url: Schema.String,
     }),
   },
   "AIBotConfig",

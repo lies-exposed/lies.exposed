@@ -151,9 +151,9 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
   onEventClick,
 }) => {
   const [relations, setRelations] = React.useState([
-    KEYWORDS.value,
-    GROUPS.value,
-    ACTORS.value,
+    KEYWORDS.Type,
+    GROUPS.Type,
+    ACTORS.Type,
   ]);
 
   const [condensedList, setCondensedList] = React.useState(false);
@@ -392,7 +392,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         fp.O.getOrElse(
                           () =>
                             EventType.types.map(
-                              (t) => t.value,
+                              (t) => t.Type,
                             ) as NonEmptyArray<EventType>,
                         ),
                       ),

@@ -77,7 +77,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 { label: "Networks" },
               ]}
               resource={{
-                name: KEYWORDS.value,
+                name: KEYWORDS.Type,
                 item: keyword,
               }}
             >
@@ -126,13 +126,13 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               />
 
               <EventNetworkGraphBoxWithFilters
-                type={KEYWORDS.value}
+                type={KEYWORDS.Type}
                 query={{
                   ids: [keyword.id],
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}
-                relations={[GROUPS.value, ACTORS.value]}
+                relations={[GROUPS.Type, ACTORS.Type]}
                 onKeywordClick={onKeywordClick}
                 onEventClick={onEventClick}
                 onActorClick={onActorClick}

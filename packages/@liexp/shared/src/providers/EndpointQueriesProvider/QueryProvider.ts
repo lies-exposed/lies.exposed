@@ -4,22 +4,22 @@ import { useQuery } from "@tanstack/react-query";
 import * as R from "fp-ts/lib/Record.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
-  type InferEndpointParams,
-  type MinimalEndpoint,
+  type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import { throwTE } from "../../utils/task.utils.js";
 import {
-  type EndpointOutput,
+  type EndpointDataOutput,
+  type EndpointDataOutputType,
+  type EndpointREST,
+  type GetEndpointQueryType,
   type GetFn,
   type GetFnParams,
   type GetListFn,
   type GetListFnParamsE,
-  type GetEndpointQueryType,
-  type EndpointREST,
 } from "../EndpointsRESTClient/types.js";
 import {
   type GetQueryOverride,
@@ -37,7 +37,12 @@ const queryProviderLogger = GetLogger("QueryProvider");
 
 export const getDefaultKey =
   (key: string) =>
-  <P, Q>(p: P, q?: Q, d?: boolean, prefix?: string): QueryFnKey<P, Q> => [
+  <P, Q>(
+    p: P,
+    q?: Q,
+    d?: boolean,
+    prefix?: string,
+  ): QueryFnKey<P, Q | undefined> => [
     `${prefix ? `${prefix}-` : ""}${key}`,
     p,
     q ?? undefined,
@@ -51,7 +56,7 @@ export const emptyQuery = (): Promise<any> =>
   });
 
 export type FetchQuery<FN extends (...args: any[]) => Promise<any>> =
-  FN extends (p: infer P, q: infer Q, discrete: infer D) => Promise<infer O>
+  FN extends (p: infer P, q: infer Q, discrete: boolean) => Promise<infer O>
     ? (p: P, q?: Q, discrete?: boolean) => Promise<O>
     : never;
 
@@ -70,26 +75,27 @@ export const fetchQuery =
     return pipe(q(params, query), throwTE);
   };
 
-const toGetResourceQuery = <G>(
+const toGetResourceQuery = <G extends MinimalEndpointInstance>(
   getFn: GetFn<G>,
   key: string,
   override?: GetQueryOverride<
     GetFnParams<G>,
-    Partial<serializedType<InferEndpointParams<G>["query"]>>
+    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
   >,
 ): ResourceQuery<
   GetFnParams<G>,
-  Partial<serializedType<InferEndpointParams<G>["query"]>>,
-  EndpointOutput<G>
+  Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+  EndpointDataOutputType<G>
 > => {
   const getKey: GetKeyFn<
     GetFnParams<G>,
-    Partial<serializedType<InferEndpointParams<G>["query"]>>
+    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
   > = override?.getKey ?? getDefaultKey(key);
+
   const fetch: QueryPromiseFunction<
     GetFnParams<G>,
-    Partial<serializedType<InferEndpointParams<G>["query"]>>,
-    EndpointOutput<G>
+    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+    EndpointDataOutputType<G>
   > = (params, query) => {
     return pipe(getFn(params, query), throwTE);
   };
@@ -118,7 +124,7 @@ export const toGetListResourceQuery = <L>(
 ): ResourceQuery<
   GetListFnParamsE<L>,
   Partial<GetEndpointQueryType<L>>,
-  EndpointOutput<L>
+  EndpointDataOutput<L>
 > => {
   const getKey: GetKeyFn<
     GetListFnParamsE<L>,
@@ -128,8 +134,9 @@ export const toGetListResourceQuery = <L>(
   const fetch: QueryPromiseFunction<
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>,
-    EndpointOutput<L>
+    EndpointDataOutput<L>
   > = fetchQuery((p: any, q: any) => getListFn(p));
+
   return {
     getKey,
     fetch,
@@ -147,11 +154,11 @@ export const toGetListResourceQuery = <L>(
 
 export const toQueries = <
   ES extends EndpointsMapType,
-  G extends MinimalEndpoint,
-  L extends MinimalEndpoint,
-  C extends MinimalEndpoint,
-  E extends MinimalEndpoint,
-  D extends MinimalEndpoint,
+  G extends MinimalEndpointInstance,
+  L extends MinimalEndpointInstance,
+  C extends MinimalEndpointInstance,
+  E extends MinimalEndpointInstance,
+  D extends MinimalEndpointInstance,
   CC extends Record<string, MinimalEndpointInstance>,
 >(
   key: string,
@@ -159,8 +166,8 @@ export const toQueries = <
   override?: ResourceEndpointsQueriesOverride<ES, G, L, CC>,
 ): ResourceQueries<G, L, CC> => {
   return {
-    get: toGetResourceQuery(e.get, key, override?.get),
-    list: toGetListResourceQuery(e.getList, key, override?.list),
+    get: toGetResourceQuery<G>(e.get, key, override?.get),
+    list: toGetListResourceQuery<L>(e.getList, key, override?.list),
     Custom: pipe(
       e.Custom,
       fp.Rec.mapWithIndex((index, ee) => {

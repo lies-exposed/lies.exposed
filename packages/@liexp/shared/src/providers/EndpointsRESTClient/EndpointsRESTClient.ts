@@ -1,16 +1,17 @@
 /* eslint-disable no-restricted-imports */
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { isAxiosError } from "axios";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import * as A from "fp-ts/lib/Array.js";
 import type * as E from "fp-ts/lib/Either.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import type * as t from "io-ts";
 import type { CreateParams, GetListResult, GetOneResult } from "react-admin";
 import {
-  type InferEndpointInstanceParams,
   type EndpointInstance,
+  type InferEndpointInstanceParams,
   type InferEndpointParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
@@ -28,14 +29,14 @@ import { fromValidationErrors } from "../../providers/http/http.provider.js";
 import {
   type CustomEndpointFn,
   type CustomEndpointsRecord,
-  type EndpointOutput,
+  type EndpointDataOutputType,
   type EndpointREST,
   type EndpointsRESTClient,
 } from "./types.js";
 
 const toError = (e: unknown): APIError => {
   if (isAxiosError(e)) {
-    if (APIError.is(e.response?.data)) {
+    if (Schema.is(APIError)(e.response?.data)) {
       return e.response?.data;
     }
 
@@ -46,7 +47,7 @@ const toError = (e: unknown): APIError => {
 
 export const dataProviderRequestLift = <B extends { data: any }>(
   lp: () => Promise<GetOneResult<any>> | Promise<GetListResult<any>>,
-  decode: <A>(a: A) => E.Either<t.Errors, B>,
+  decode: <A = unknown>(a: A) => E.Either<ParseError, B>,
 ): TE.TaskEither<APIError, B> => {
   return pipe(
     TE.tryCatch(lp, toError),
@@ -93,7 +94,9 @@ const restFromResourceEndpoints = <
                 id: string;
               }
             >(url, getParams),
-          e.Get.Output.decode,
+          Schema.decodeUnknownEither(
+            e.Get.Output as Schema.Schema<{ data: any }, unknown>,
+          ),
         ),
         TE.map((r) => r.data),
       );
@@ -106,7 +109,9 @@ const restFromResourceEndpoints = <
             apiClient.getList<{
               id: string;
             }>(e.List.getPath(params), params),
-          e.List.Output.decode,
+          Schema.decodeUnknownEither(
+            e.List.Output as Schema.Schema<any, unknown>,
+          ),
         ),
       );
     },
@@ -120,7 +125,12 @@ const restFromResourceEndpoints = <
                 id: string;
               }
             >(e.Create.getPath(params), { data: params } as CreateParams),
-          e.Create.Output.decode,
+          Schema.decodeUnknownEither(
+            e.Create.Output as Schema.Schema<
+              EndpointDataOutputType<C>,
+              unknown
+            >,
+          ),
         ),
         TE.map((r) => r.data),
       );
@@ -133,7 +143,9 @@ const restFromResourceEndpoints = <
             apiClient.put<
               runtimeType<InferEndpointInstanceParams<E>["output"]>
             >(e.Edit.getPath(params), params),
-          e.Edit.Output.decode,
+          Schema.decodeUnknownEither(
+            e.Edit.Output as Schema.Schema<{ data: any }, unknown>,
+          ),
         ),
         TE.map((r) => r.data),
       );
@@ -142,7 +154,12 @@ const restFromResourceEndpoints = <
       return pipe(
         dataProviderRequestLift(
           () => apiClient.delete(e.Delete.getPath(params), params),
-          e.Delete.Output.decode,
+          Schema.decodeUnknownEither(
+            e.Delete.Output as Schema.Schema<
+              EndpointDataOutputType<D>,
+              unknown
+            >,
+          ),
         ),
       );
     },
@@ -151,9 +168,8 @@ const restFromResourceEndpoints = <
       R.mapWithIndex((key, ee) => {
         const fetch = (
           params: TypeOfEndpointInstance<typeof ee>["Input"],
-        ): TE.TaskEither<APIError, EndpointOutput<typeof ee>> => {
-          const url = ee.getPath((params as any).Params);
-
+        ): TE.TaskEither<APIError, EndpointDataOutputType<typeof ee>> => {
+          const url = !params ? ee.getPath() : ee.getPath(params.Params);
           log.debug.log("(custom) %s %s: %j", ee.Method, url, params);
 
           return dataProviderRequestLift(
@@ -169,7 +185,7 @@ const restFromResourceEndpoints = <
                   ...params?.Headers,
                 },
               }),
-            ee.Output.decode,
+            Schema.decodeUnknownEither(ee.Output as any),
           );
         };
 

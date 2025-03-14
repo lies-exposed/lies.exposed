@@ -1,19 +1,17 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { Schema } from "effect";
 import { BaseProps } from "../Common/BaseProps.js";
 import { BySubjectId } from "../Common/BySubject.js";
 import { For } from "../Common/For.js";
 
-export const Arrest = t.strict(
-  {
-    ...BaseProps.type.props,
-    title: t.string,
-    type: t.literal("Arrest"),
-    who: BySubjectId,
-    for: t.array(For),
-    date: DateFromISOString,
-  },
-  "Arrest",
-);
+export const Arrest = Schema.Struct({
+  ...BaseProps.fields,
+  title: Schema.String,
+  type: Schema.Literal("Arrest"),
+  who: BySubjectId,
+  for: Schema.Array(For),
+  date: Schema.DateFromString,
+}).annotations({
+  title: "Arrest",
+});
 
-export type Arrest = t.TypeOf<typeof Arrest>;
+export type Arrest = typeof Arrest.Type;

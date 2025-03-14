@@ -5,14 +5,14 @@ export const getSearchEventRelations = (
   e: SearchEvent,
 ): Events.EventRelations => {
   const commonRelations = {
-    media: e.media,
-    keywords: e.keywords,
-    links: e.links,
+    media: [...e.media],
+    keywords: [...e.keywords],
+    links: [...e.links],
     areas: [],
   };
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.value: {
+    case Events.EventTypes.BOOK.Type: {
       const publisherActors =
         e.payload.publisher && e.payload.publisher.type === "Actor"
           ? [e.payload.publisher.id]
@@ -47,7 +47,7 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.DEATH.value: {
+    case Events.EventTypes.DEATH.Type: {
       return {
         ...commonRelations,
         actors: e.payload.victim ? [e.payload.victim] : [],
@@ -55,7 +55,7 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.Type: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
@@ -71,16 +71,16 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.PATENT.value: {
+    case Events.EventTypes.PATENT.Type: {
       return {
         ...commonRelations,
-        actors: e.payload.owners.actors,
-        groups: e.payload.owners.groups,
+        actors: [...e.payload.owners.actors],
+        groups: [...e.payload.owners.groups],
         groupsMembers: [],
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.Type: {
       return {
         ...commonRelations,
         actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
@@ -93,16 +93,16 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return {
         ...commonRelations,
-        actors: e.payload.authors,
+        actors: [...e.payload.authors],
         groups: e.payload.publisher ? [e.payload.publisher] : [],
         groupsMembers: [],
       };
     }
 
-    case Events.EventTypes.QUOTE.value: {
+    case Events.EventTypes.QUOTE.Type: {
       const quote =
         e.payload.subject.type === "Group"
           ? {
@@ -121,12 +121,12 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.UNCATEGORIZED.value: {
+    case Events.EventTypes.UNCATEGORIZED.Type: {
       return {
         ...commonRelations,
-        actors: e.payload.actors,
-        groups: e.payload.groups,
-        groupsMembers: e.payload.groupsMembers,
+        actors: [...e.payload.actors],
+        groups: [...e.payload.groups],
+        groupsMembers: [...e.payload.groupsMembers],
       };
     }
   }

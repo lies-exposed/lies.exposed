@@ -1,16 +1,17 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const Currency = t.union(
-  [t.literal("eur"), t.literal("dollar")],
-  "Currency",
-);
-export type Currency = t.TypeOf<typeof Currency>;
+export const Currency = Schema.Union(
+  Schema.Literal("eur"),
+  Schema.Literal("dollar"),
+).annotations({
+  title: "Currency",
+});
+export type Currency = typeof Currency.Type;
 
-export const MoneyAmount = t.strict(
-  {
-    amount: t.number,
-    currency: Currency,
-  },
-  "MoneyAmount",
-);
-export type MoneyAmount = t.TypeOf<typeof MoneyAmount>;
+export const MoneyAmount = Schema.Struct({
+  amount: Schema.Number,
+  currency: Currency,
+}).annotations({
+  title: "MoneyAmount",
+});
+export type MoneyAmount = typeof MoneyAmount.Type;

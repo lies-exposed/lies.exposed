@@ -393,12 +393,15 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
       <QueriesRenderer
         queries={{
           data: useJSONDataQuery(jsonClient)(
-            t.strict({ data: t.array(ClimateChangeForecast.types[1]) }).decode,
+            Schema.Struct({
+              data: Schema.Array(ClimateChangeForecast.types[1]),
+            }).decode,
             "climate-change/forecast.csv",
           ),
           events: useJSONDataQuery(jsonClient)(
-            t.strict({ data: t.array(ClimateChangeHistoryOfSummits.types[1]) })
-              .decode,
+            Schema.Struct({
+              data: Schema.Array(ClimateChangeHistoryOfSummits.types[1]),
+            }).decode,
             "climate-change/history-of-climate-summits.csv",
           ),
         }}

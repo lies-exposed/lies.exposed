@@ -1,67 +1,68 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { Schema } from "effect";
 import { Actor, ACTORS } from "../Actor.js";
+import { UUID } from "../Common/UUID.js";
 import { EventTotals } from "../Events/EventTotals.js";
 import { EVENTS, type EventType } from "../Events/index.js";
 import { Group, GROUPS } from "../Group.js";
 import { Keyword, KEYWORDS } from "../Keyword.js";
 import { Media } from "../Media/Media.js";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 
-export const NetworkType = t.union(
-  [KEYWORDS, ACTORS, GROUPS, EVENTS, t.literal("hierarchy")],
-  "NetworkType",
-);
-export type NetworkType = t.TypeOf<typeof NetworkType>;
+export const NetworkType = Schema.Union(
+  KEYWORDS,
+  ACTORS,
+  GROUPS,
+  EVENTS,
+  Schema.Literal("hierarchy"),
+).annotations({
+  title: "NetworkType",
+});
+export type NetworkType = typeof NetworkType.Type;
 
-export const NetworkGroupBy = t.union(
-  [KEYWORDS, ACTORS, GROUPS],
-  "NetworkGroupBy",
-);
-export type NetworkGroupBy = t.TypeOf<typeof NetworkGroupBy>;
+export const NetworkGroupBy = Schema.Union(
+  KEYWORDS,
+  ACTORS,
+  GROUPS,
+).annotations({
+  title: "NetworkGroupBy",
+});
+export type NetworkGroupBy = typeof NetworkGroupBy.Type;
 
-export const GetNetworkQuery = t.type(
-  {
-    ids: optionFromNullable(nonEmptyArray(UUID)),
-    startDate: optionFromNullable(t.string),
-    endDate: optionFromNullable(t.string),
-    relations: optionFromNullable(t.array(NetworkGroupBy)),
-    emptyRelations: optionFromNullable(BooleanFromString),
-    keywords: optionFromNullable(nonEmptyArray(UUID)),
-    groups: optionFromNullable(nonEmptyArray(UUID)),
-    actors: optionFromNullable(nonEmptyArray(UUID)),
-  },
-  "GetNetworkQuery",
-);
+export const GetNetworkQuery = Schema.Struct({
+  ids: OptionFromNullishToNull(Schema.NonEmptyArray(UUID)),
+  startDate: OptionFromNullishToNull(Schema.String),
+  endDate: OptionFromNullishToNull(Schema.String),
+  relations: OptionFromNullishToNull(Schema.Array(NetworkGroupBy)),
+  emptyRelations: OptionFromNullishToNull(Schema.BooleanFromString),
+  keywords: OptionFromNullishToNull(Schema.NonEmptyArray(UUID)),
+  groups: OptionFromNullishToNull(Schema.NonEmptyArray(UUID)),
+  actors: OptionFromNullishToNull(Schema.NonEmptyArray(UUID)),
+}).annotations({
+  title: "GetNetworkQuery",
+});
 
-export type GetNetworkQuery = t.TypeOf<typeof GetNetworkQuery>;
-export type GetNetworkQuerySerialized = serializedType<typeof GetNetworkQuery>;
+export type GetNetworkQuery = typeof GetNetworkQuery.Type;
+export type GetNetworkQuerySerialized = typeof GetNetworkQuery.Encoded;
 
-export const GetNetworkParams = t.type(
-  {
-    type: NetworkType,
-    // id: UUID
-  },
-  "GetNetworkParams",
-);
-export type GetNetworkParams = t.TypeOf<typeof GetNetworkParams>;
+export const GetNetworkParams = Schema.Struct({
+  type: NetworkType,
+  // id: UUID
+}).annotations({
+  title: "GetNetworkParams",
+});
+export type GetNetworkParams = typeof GetNetworkParams.Type;
 
-export const NetworkLink = t.type(
-  {
-    source: UUID,
-    target: UUID,
-    fill: t.string,
-    value: t.number,
-    stroke: t.string,
-    sourceType: NetworkType,
-  },
-  "NetworkLink",
-);
-export type NetworkLink = t.TypeOf<typeof NetworkLink>;
+export const NetworkLink = Schema.Struct({
+  source: UUID,
+  target: UUID,
+  fill: Schema.String,
+  value: Schema.Number,
+  stroke: Schema.String,
+  sourceType: NetworkType,
+}).annotations({
+  title: "NetworkLink",
+});
+export type NetworkLink = typeof NetworkLink.Type;
 
 export interface NetworkNodeDatum {
   id: UUID;
@@ -92,26 +93,25 @@ export interface EventNetworkDatum extends NetworkNodeDatum {
   selected: boolean;
 }
 
-export const NetworkGraphOutput = t.strict(
-  {
-    events: t.array(t.any),
-    actors: t.array(Actor),
-    groups: t.array(Group),
-    keywords: t.array(Keyword),
-    media: t.array(Media),
-    eventLinks: t.array(NetworkLink),
-    selectedLinks: t.array(NetworkLink),
-    actorLinks: t.array(NetworkLink),
-    groupLinks: t.array(NetworkLink),
-    keywordLinks: t.array(NetworkLink),
-    startDate: DateFromISOString,
-    endDate: DateFromISOString,
-    totals: EventTotals,
-  },
-  "NetworkGraphOutput",
-);
+export const NetworkGraphOutput = Schema.Struct({
+  events: Schema.Array(Schema.Any),
+  actors: Schema.Array(Actor),
+  groups: Schema.Array(Group),
+  keywords: Schema.Array(Keyword),
+  media: Schema.Array(Media),
+  eventLinks: Schema.Array(NetworkLink),
+  selectedLinks: Schema.Array(NetworkLink),
+  actorLinks: Schema.Array(NetworkLink),
+  groupLinks: Schema.Array(NetworkLink),
+  keywordLinks: Schema.Array(NetworkLink),
+  startDate: Schema.DateFromString,
+  endDate: Schema.DateFromString,
+  totals: EventTotals,
+}).annotations({
+  title: "NetworkGraphOutput",
+});
 
 export type NetworkGraphOutput = Omit<
-  t.TypeOf<typeof NetworkGraphOutput>,
+  typeof NetworkGraphOutput.Type,
   "events"
 > & { events: EventNetworkDatum[] };

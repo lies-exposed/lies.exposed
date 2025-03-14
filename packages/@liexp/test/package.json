@@ -23,10 +23,9 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "date-fns": "^4.1.0",
-    "fast-check": "^2.25.0",
-    "fast-check-io-ts": "^0.5.0",
-    "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.22"
+    "effect": "^3.13.10",
+    "fast-check": "^3.23.1",
+    "fp-ts": "^2.16.9"
   },
   "devDependencies": {
     "eslint": "^9.21.0",
@@ -34,7 +33,7 @@
   },
   "peerDependencies": {
     "debug": "*",
-    "fast-check": "^2"
+    "fast-check": "^3.23.1"
   },
   "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c"
 }

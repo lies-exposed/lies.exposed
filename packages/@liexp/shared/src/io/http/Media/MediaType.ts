@@ -1,58 +1,68 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-const JpgType = t.literal("image/jpg");
-type JpgType = t.TypeOf<typeof JpgType>;
-const JpegType = t.literal("image/jpeg");
-type JpegType = t.TypeOf<typeof JpegType>;
-export const PngType = t.literal("image/png");
-export type PngType = t.TypeOf<typeof PngType>;
+const JpgType = Schema.Literal("image/jpg");
+type JpgType = typeof JpgType.Type;
+const JpegType = Schema.Literal("image/jpeg");
+type JpegType = typeof JpegType.Type;
+export const PngType = Schema.Literal("image/png");
+export type PngType = typeof PngType.Type;
 
 /** audio types */
-export const MP3Type = t.literal("audio/mp3");
-export type MP3Type = t.TypeOf<typeof MP3Type>;
-export const OGGType = t.literal("audio/ogg");
-export type OGGType = t.TypeOf<typeof OGGType>;
+export const MP3Type = Schema.Literal("audio/mp3");
+export type MP3Type = typeof MP3Type.Type;
+export const OGGType = Schema.Literal("audio/ogg");
+export type OGGType = typeof OGGType.Type;
 
-export const MP4Type = t.literal("video/mp4");
-export type MP4Type = t.TypeOf<typeof MP4Type>;
-export const PDFType = t.literal("application/pdf");
-export type PDFType = t.TypeOf<typeof PDFType>;
-export const IframeVideoType = t.literal("iframe/video");
-export type IframeVideoType = t.TypeOf<typeof IframeVideoType>;
+export const MP4Type = Schema.Literal("video/mp4");
+export type MP4Type = typeof MP4Type.Type;
+export const PDFType = Schema.Literal("application/pdf");
+export type PDFType = typeof PDFType.Type;
+export const IframeVideoType = Schema.Literal("iframe/video");
+export type IframeVideoType = typeof IframeVideoType.Type;
 
-export const MediaType = t.union(
-  [
-    JpgType,
-    JpegType,
-    PngType,
-    MP3Type,
-    OGGType,
-    MP4Type,
-    PDFType,
-    IframeVideoType,
-  ],
-  "MediaType",
-);
-export type MediaType = t.TypeOf<typeof MediaType>;
+export const MediaType = Schema.Union(
+  JpgType,
+  JpegType,
+  PngType,
+  MP3Type,
+  OGGType,
+  MP4Type,
+  PDFType,
+  IframeVideoType,
+).annotations({
+  title: "MediaType",
+});
+export type MediaType = typeof MediaType.Type;
 
-export const ImageType = t.union([JpgType, JpegType, PngType], "ImageType");
-export type ImageType = t.TypeOf<typeof ImageType>;
-export const AudioType = t.union([OGGType, MP3Type], "AudioType");
-export type AudioType = t.TypeOf<typeof AudioType>;
+export const ImageType = Schema.Union(JpgType, JpegType, PngType).annotations({
+  title: "ImageType",
+});
+export type ImageType = typeof ImageType.Type;
+export const AudioType = Schema.Union(OGGType, MP3Type).annotations({
+  title: "AudioType",
+});
+export type AudioType = typeof AudioType.Type;
 
-export const ValidContentType = t.union([
-  MediaType.types[0],
-  MediaType.types[1],
-  MediaType.types[2],
-  MediaType.types[3],
-  MediaType.types[4],
-  MediaType.types[5],
-  MediaType.types[6],
-]);
-export type ValidContentType = t.TypeOf<typeof ValidContentType>;
+export const ValidContentType = Schema.Union(
+  MediaType.members[0],
+  MediaType.members[1],
+  MediaType.members[2],
+  MediaType.members[3],
+  MediaType.members[4],
+  MediaType.members[5],
+  MediaType.members[6],
+).annotations({
+  title: "ValidContentType",
+});
+export type ValidContentType = typeof ValidContentType.Type;
 
-export const TransferableType = t.union(
-  [ImageType, AudioType, MP3Type, MP4Type, PDFType],
-  "TransferableType",
-);
-export type TransferableType = t.TypeOf<typeof TransferableType>;
+export const TransferableType = Schema.Union(
+  ImageType,
+  AudioType,
+  MP3Type,
+  MP4Type,
+  PDFType,
+).annotations({
+  title: "TransferableType",
+});
+export type TransferableType = typeof TransferableType.Type;

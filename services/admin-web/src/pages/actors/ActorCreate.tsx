@@ -27,7 +27,6 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { toError } from "fp-ts/lib/Either";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function";
-import * as t from "io-ts";
 import * as React from "react";
 
 export const transformActor =
@@ -51,7 +50,7 @@ export const transformActor =
           );
         }
 
-        if (t.string.is(data.avatar)) {
+        if (Schema.String.is(data.avatar)) {
           return fp.TE.right([
             {
               location: data.avatar as URL,

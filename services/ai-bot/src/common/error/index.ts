@@ -54,7 +54,7 @@ export const report = (err: AIBotError): string => {
 
   const parsedError = !err.details
     ? []
-    : t.array(t.string).is(err.details)
+    : Schema.Array(Schema.String).is(err.details)
       ? err.details
       : decodeIOErrorDetails(err.details);
 

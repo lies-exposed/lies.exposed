@@ -1,19 +1,20 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
+import { UUID } from "../../io/http/Common/UUID.js";
 import { Events } from "../../io/http/index.js";
 import { ResourceEndpoints } from "../types.js";
 
-const SinglePatentOutput = Output(Events.Patent.Patent, "Patent");
+const SinglePatentOutput = Output(Events.Patent.Patent).annotations({
+  title: "SinglePatentOutput",
+});
 const ListPatentsOutput = ListOutput(Events.Patent.Patent, "Patents");
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/patents",
   Input: {
-    Query: Events.Patent.PatentListQuery.type,
+    Query: Events.Patent.PatentListQuery,
   },
   Output: ListPatentsOutput,
 });
@@ -22,7 +23,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SinglePatentOutput,
 });
@@ -32,10 +33,11 @@ export const Create = Endpoint({
   getPath: () => "/patents",
   Input: {
     Query: undefined,
-    Body: t.strict(
-      propsOmit(Events.Patent.CreatePatentBody, ["type"]),
-      "CreateDeathBody",
-    ),
+    Body: Schema.Struct({
+      ...Events.Patent.CreatePatentBody.omit("type").fields,
+    }).annotations({
+      title: "CreateDeathBody",
+    }),
   },
   Output: SinglePatentOutput,
 });
@@ -44,11 +46,10 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.strict(
-      propsOmit(Events.Patent.EditPatentBody, ["type"]),
-      "EditPatentBody",
-    ),
+    Params: Schema.Struct({ id: UUID }),
+    Body: Events.Patent.EditPatentBody.omit("type").annotations({
+      title: "EditPatentBody",
+    }),
   },
   Output: SinglePatentOutput,
 });
@@ -57,7 +58,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/patents/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SinglePatentOutput,
 });

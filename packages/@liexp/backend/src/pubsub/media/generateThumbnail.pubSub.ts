@@ -4,5 +4,5 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const GenerateThumbnailPubSub = RedisPubSub(
   "media:generate-thumbnail",
-  t.strict({ id: UUID }),
+  Schema.Struct({ id: UUID }),
 );

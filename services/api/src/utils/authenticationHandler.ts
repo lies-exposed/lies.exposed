@@ -22,9 +22,9 @@ import * as IOE from "fp-ts/lib/IOEither.js";
 import * as t from "io-ts";
 import { PathReporter } from "io-ts/lib/PathReporter.js";
 
-const HeadersWithAuthorization = t.strict(
+const HeadersWithAuthorization = Schema.Struct(
   {
-    authorization: t.string,
+    authorization: Schema.String,
   },
   "HeadersWithAuthorization",
 );

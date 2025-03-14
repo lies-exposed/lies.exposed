@@ -1,42 +1,41 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
+import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
+import { UUID } from "../../io/http/Common/UUID.js";
 import { SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { PaginationQuery } from "../../io/http/Query/PaginationQuery.js";
 import * as http from "../../io/http/index.js";
 import { ResourceEndpoints } from "../types.js";
 
-const SingleEventOutput = http.Common.Output(http.Events.Event, "Event");
-export const ListEventOutput = t.strict(
-  {
-    data: t.array(
-      t.intersection(
-        [
-          http.Events.Event,
-          t.partial({
-            score: t.number,
-          }),
-        ],
-        "EventWithScore",
-      ),
-      "Data",
-    ),
-    total: t.number,
-    totals: http.Events.SearchEvent.EventTotals.EventTotals,
-    firstDate: t.union([t.string, t.undefined]),
-    lastDate: t.union([t.string, t.undefined]),
-  },
-  "Events",
-);
-export type ListEventOutput = t.TypeOf<typeof ListEventOutput>;
+const SingleEventOutput = http.Common.Output(http.Events.Event).annotations({
+  title: "Event",
+});
+export const ListEventOutput = Schema.Struct({
+  data: Schema.Array(
+    Schema.extend(
+      Schema.Struct({
+        score: Schema.Union(Schema.Number, Schema.Undefined),
+      }),
+      http.Events.Event,
+    ).annotations({
+      title: "EventWithScore",
+    }),
+  ),
+  total: Schema.Number,
+  totals: http.Events.SearchEvent.EventTotals.EventTotals,
+  firstDate: Schema.Union(Schema.String, Schema.Undefined),
+  lastDate: Schema.Union(Schema.String, Schema.Undefined),
+}).annotations({
+  title: "Events",
+});
+export type ListEventOutput = typeof ListEventOutput.Type;
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => `/events`,
   Input: {
-    Query: GetSearchEventsQuery.type,
+    Query: GetSearchEventsQuery,
   },
   Output: ListEventOutput,
 });
@@ -56,52 +55,49 @@ export const CreateSuggestion = Endpoint({
   Input: {
     Body: http.EventSuggestion.CreateEventSuggestion,
   },
-  Output: t.strict(
-    {
-      data: t.any,
-    },
-    "CreateSuggestionOutput",
-  ),
+  Output: Schema.Struct({
+    data: Schema.Any,
+  }).annotations({
+    title: "CreateSuggestionOutput",
+  }),
 });
 
 export const EditSuggestion = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: http.EventSuggestion.EventSuggestion,
   },
-  Output: t.strict(
-    {
-      data: t.any,
-    },
-    "CreateSuggestionOutput",
-  ),
+  Output: Schema.Struct({
+    data: Schema.Any,
+  }).annotations({
+    title: "CreateSuggestionOutput",
+  }),
 });
 
 export const DeleteSuggestion = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.strict(
-    {
-      data: t.any,
-    },
-    "DeleteSuggestionOutput",
-  ),
+  Output: Schema.Struct({
+    data: Schema.Any,
+  }).annotations({
+    title: "DeleteSuggestionOutput",
+  }),
 });
 
 export const CreateFromSuggestion = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/events/suggestions/${id}/event`,
   Input: {
-    Params: t.type({ id: t.string }),
-    Body: t.unknown,
+    Params: Schema.Struct({ id: Schema.String }),
+    Body: Schema.Unknown,
   },
-  Output: t.strict({
-    data: t.any,
+  Output: Schema.Struct({
+    data: Schema.Any,
   }),
 });
 
@@ -109,7 +105,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleEventOutput,
 });
@@ -118,23 +114,18 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: t.type({ url: http.Common.URL, ...PaginationQuery.props }),
+    Query: Schema.Struct({ url: http.Common.URL, ...PaginationQuery.fields }),
   },
-  Output: t.intersection(
-    [
-      ListEventOutput,
-      t.type({
-        suggestions: t.array(http.EventSuggestion.CreateEventSuggestion),
-      }),
-    ],
-    "GetEventsFromLinkOutput",
-  ),
+  Output: Schema.Struct({
+    ...ListEventOutput.fields,
+    suggestions: Schema.Array(http.EventSuggestion.CreateEventSuggestion),
+  }).annotations({ title: "GetEventsFromLinkOutput" }),
 });
 
 export const GetSuggestion = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/suggestions/${id}`,
-  Input: { Params: t.type({ id: UUID }) },
+  Input: { Params: Schema.Struct({ id: UUID }) },
   Output: http.Common.ListOutput(
     http.EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput",
@@ -145,12 +136,14 @@ export const GetSuggestions = Endpoint({
   Method: "GET",
   getPath: () => `/events/suggestions`,
   Input: {
-    Query: t.type({
-      ...http.Query.SortQuery.props,
-      ...http.Query.PaginationQuery.props,
-      status: optionFromNullable(http.EventSuggestion.EventSuggestionStatus),
-      links: optionFromNullable(t.array(UUID)),
-      creator: optionFromNullable(UUID),
+    Query: Schema.Struct({
+      ...http.Query.SortQuery.fields,
+      ...http.Query.PaginationQuery.fields,
+      status: OptionFromNullishToNull(
+        http.EventSuggestion.EventSuggestionStatus,
+      ),
+      links: OptionFromNullishToNull(Schema.Array(UUID)),
+      creator: OptionFromNullishToNull(UUID),
     }),
   },
   Output: http.Common.ListOutput(
@@ -163,12 +156,12 @@ export const SearchEventsFromProvider = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions-by-provider`,
   Input: {
-    Body: t.type({
-      q: t.string,
-      p: t.number,
-      providers: t.array(t.string),
-      keywords: t.array(t.string),
-      date: optionFromNullable(t.string),
+    Body: Schema.Struct({
+      q: Schema.String,
+      p: Schema.Number,
+      providers: Schema.Array(Schema.String),
+      keywords: Schema.Array(Schema.String),
+      date: OptionFromNullishToNull(Schema.String),
     }),
   },
   Output: http.Common.ListOutput(
@@ -181,34 +174,34 @@ const SearchEvents = Endpoint({
   Method: "GET",
   getPath: () => "/events/search",
   Input: {
-    Query: GetSearchEventsQuery.type,
+    Query: GetSearchEventsQuery,
   },
   Output: http.Common.Output(
-    t.strict(
-      {
-        events: t.array(SearchEvent),
-        total: t.number,
-        totals: http.Events.SearchEvent.EventTotals.EventTotals,
-        actors: t.array(http.Actor.Actor),
-        groups: t.array(http.Group.Group),
-        groupsMembers: t.array(http.GroupMember.GroupMember),
-        media: t.array(http.Media.Media),
-        keywords: t.array(http.Keyword.Keyword),
-        links: t.array(http.Link.Link),
-        firstDate: t.union([t.string, t.undefined]),
-        lastDate: t.union([t.string, t.undefined]),
-      },
-      "Data",
-    ).type,
-    "SearchEvents",
-  ),
+    Schema.Struct({
+      events: Schema.Array(SearchEvent),
+      total: Schema.Number,
+      totals: http.Events.SearchEvent.EventTotals.EventTotals,
+      actors: Schema.Array(http.Actor.Actor),
+      groups: Schema.Array(http.Group.Group),
+      groupsMembers: Schema.Array(http.GroupMember.GroupMember),
+      media: Schema.Array(http.Media.Media),
+      keywords: Schema.Array(http.Keyword.Keyword),
+      links: Schema.Array(http.Link.Link),
+      firstDate: Schema.Union(Schema.String, Schema.Undefined),
+      lastDate: Schema.Union(Schema.String, Schema.Undefined),
+    }).annotations({
+      title: "Data",
+    }),
+  ).annotations({
+    title: "SearchEvents",
+  }),
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: http.Events.EditEventBody,
   },
   Output: SingleEventOutput,
@@ -218,7 +211,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleEventOutput,
 });

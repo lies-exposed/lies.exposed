@@ -5,14 +5,14 @@ export const getTitle = (
   relations: http.Events.EventRelations,
 ): string => {
   switch (e.type) {
-    case http.Events.EventTypes.BOOK.value:
-    case http.Events.EventTypes.DOCUMENTARY.value:
-    case http.Events.EventTypes.PATENT.value:
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
-    case http.Events.EventTypes.TRANSACTION.value:
-    case http.Events.EventTypes.UNCATEGORIZED.value:
+    case http.Events.EventTypes.BOOK.Type:
+    case http.Events.EventTypes.DOCUMENTARY.Type:
+    case http.Events.EventTypes.PATENT.Type:
+    case http.Events.EventTypes.SCIENTIFIC_STUDY.Type:
+    case http.Events.EventTypes.TRANSACTION.Type:
+    case http.Events.EventTypes.UNCATEGORIZED.Type:
       return e.payload.title;
-    case http.Events.EventTypes.QUOTE.value: {
+    case http.Events.EventTypes.QUOTE.Type: {
       const byActor = relations?.actors?.[0] ?? { fullName: "Unknown" };
       return `${byActor.fullName} - `.concat(
         e.payload.details
@@ -21,7 +21,7 @@ export const getTitle = (
               ""),
       );
     }
-    case http.Events.EventTypes.DEATH.value: {
+    case http.Events.EventTypes.DEATH.Type: {
       const victimName =
         (e.payload?.victim as any)?.fullName ??
         (relations?.actors ?? []).find((a) => a.id === e.payload.victim)
@@ -36,20 +36,20 @@ export const getTitleForSearchEvent = (
   e: http.Events.SearchEvent.SearchEvent,
 ): string => {
   switch (e.type) {
-    case http.Events.EventTypes.QUOTE.value:
+    case http.Events.EventTypes.QUOTE.Type:
       return `Quote by ${
         e.payload.subject.type === "Group"
           ? e.payload.subject.id?.name
           : e.payload.subject.id?.fullName
       }`;
-    case http.Events.EventTypes.DEATH.value:
+    case http.Events.EventTypes.DEATH.Type:
       return `Death of ${e.payload?.victim?.fullName}`;
-    case http.Events.EventTypes.DOCUMENTARY.value:
-    case http.Events.EventTypes.PATENT.value:
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
-    case http.Events.EventTypes.TRANSACTION.value:
-    case http.Events.EventTypes.UNCATEGORIZED.value:
-    case http.Events.EventTypes.BOOK.value:
+    case http.Events.EventTypes.DOCUMENTARY.Type:
+    case http.Events.EventTypes.PATENT.Type:
+    case http.Events.EventTypes.SCIENTIFIC_STUDY.Type:
+    case http.Events.EventTypes.TRANSACTION.Type:
+    case http.Events.EventTypes.UNCATEGORIZED.Type:
+    case http.Events.EventTypes.BOOK.Type:
       return e.payload.title;
     default:
       return "no title given";

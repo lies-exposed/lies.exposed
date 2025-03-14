@@ -5,8 +5,8 @@ import { RedisPubSub } from "../providers/redis/RedisPubSub.js";
 
 export const BuildImageWithSharpPubSub = RedisPubSub(
   "image:build-with-sharp",
-  t.strict({
-    image: t.union([UUID, t.null]),
-    layers: t.array(BuildImageLayer),
+  Schema.Struct({
+    image: Schema.Union([UUID, Schema.Null]),
+    layers: Schema.Array(BuildImageLayer),
   }),
 );

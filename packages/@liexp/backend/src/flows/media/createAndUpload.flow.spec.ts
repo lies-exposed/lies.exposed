@@ -118,13 +118,13 @@ describe(createAndUpload.name, () => {
 
     expect(result).toMatchObject({
       ...media,
-      id: expect.any(String),
+      id: expecSchema.Any(String),
       description: media.description ?? media.label,
       creator: undefined,
       location: mediaUploadLocation,
       // extra: {
       //   width: 0,
-      //   height: expect.any(Number),
+      //   height: expecSchema.Any(Number),
       //   thumbnailWidth: 0,
       //   thumbnailHeight: 0,
       //   thumbnails: [],
@@ -133,8 +133,8 @@ describe(createAndUpload.name, () => {
       extra: undefined,
       // socialPosts: [],
       // transferable: true,
-      // createdAt: expect.any(String),
-      // updatedAt: expect.any(String),
+      // createdAt: expecSchema.Any(String),
+      // updatedAt: expecSchema.Any(String),
     });
   });
 
@@ -169,7 +169,7 @@ describe(createAndUpload.name, () => {
 
     expect(response).toMatchObject({
       ...media,
-      id: expect.any(String),
+      id: expecSchema.Any(String),
       // location: `https://www.youtube.com/embed/${media.id}`,
       location: `https://www.youtube.com/watch?v=${media.id}` as URL,
       description: media.description ?? media.label,
@@ -184,8 +184,8 @@ describe(createAndUpload.name, () => {
       // },
       // socialPosts: [],
       // transferable: true,
-      // createdAt: expect.any(String),
-      // updatedAt: expect.any(String),
+      // createdAt: expecSchema.Any(String),
+      // updatedAt: expecSchema.Any(String),
     });
   });
 

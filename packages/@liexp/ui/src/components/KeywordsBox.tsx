@@ -36,7 +36,7 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
 };
 
 interface KeywordsBoxProps extends BoxProps {
-  ids: string[];
+  ids: readonly string[];
   onItemClick: (k: Keyword.Keyword, e: React.SyntheticEvent) => void;
   listStyle?: React.CSSProperties;
 }
@@ -50,7 +50,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
   return (
     <Box {...props}>
       {pipe(
-        ids,
+        [...ids],
         NEA.fromArray,
         O.fold(
           () => null,

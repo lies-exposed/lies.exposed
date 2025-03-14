@@ -115,11 +115,12 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
     <QueriesRenderer
       queries={{
         whoData: useJSONDataQuery(jsonClient)(
-          t.strict({ data: CovidWHOWorldData.types[1] }).decode,
+          Schema.Struct({ data: CovidWHOWorldData.types[1] }).decode,
           CovidWHOWorldData.types[0].value,
         ),
         distribution: useJSONDataQuery(jsonClient)(
-          t.strict({ data: Covid19WorldVaccineDistribution.types[1] }).decode,
+          Schema.Struct({ data: Covid19WorldVaccineDistribution.types[1] })
+            .decode,
           Covid19WorldVaccineDistribution.types[0].value,
         ),
       }}

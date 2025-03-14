@@ -13,7 +13,10 @@ import multer, { memoryStorage } from "multer";
 import { toControllerError } from "#io/ControllerError.js";
 import { type Route } from "#routes/route.types.js";
 
-const UploadFileData = t.strict({ key: t.string, resource: UploadResource });
+const UploadFileData = Schema.Struct({
+  key: Schema.String,
+  resource: UploadResource,
+});
 
 export const MakeUploadMultipartFileRoute: Route = (r, ctx): void => {
   const uploads = multer({

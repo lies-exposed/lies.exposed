@@ -4,11 +4,12 @@ import { dataProviderRequestLift } from "@liexp/shared/lib/providers/EndpointsRE
 import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
-import type * as t from "io-ts";
+import { type ParseError } from "effect/ParseResult";
+import { type Either } from "fp-ts/lib/Either";
 
 export const jsonData =
   (jsonClient: APIRESTClient) =>
-  <A>(decode: t.Decode<unknown, { data: A }>) =>
+  <A>(decode: () => Either<ParseError, { data: A }>) =>
   ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
       dataProviderRequestLift(() => jsonClient.get<any>(id, {}), decode),
@@ -18,7 +19,7 @@ export const jsonData =
 export const useJSONDataQuery =
   (jsonClient: APIRESTClient) =>
   <A>(
-    decode: t.Decode<unknown, { data: A }>,
+    decode: () => Either<ParseError, { data: A }>,
     id: string,
   ): UseQueryResult<{ data: A }, APIError> => {
     return useQuery({

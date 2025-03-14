@@ -1,74 +1,75 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
+import { UUID } from "./Common/UUID.js";
 import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
+import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
-export const ACTORS = t.literal("actors");
-export type ACTORS = t.TypeOf<typeof ACTORS>;
+export const ACTORS = Schema.Literal("actors");
+export type ACTORS = typeof ACTORS.Type;
 
-export const GetListActorQueryFilter = t.partial({
-  ids: optionFromNullable(t.array(t.string)),
-  withDeleted: optionFromNullable(BooleanFromString),
+const GetListActorQueryStruct = Schema.Struct({
+  ids: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  withDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
 });
 
-export type GetListActorQueryFilter = t.TypeOf<typeof GetListActorQueryFilter>;
+export const GetListActorQueryFilter = Schema.partial(GetListActorQueryStruct);
 
-export const GetListActorQuery = t.type(
-  {
-    ...GetListQuery.props,
-    ...GetListActorQueryFilter.props,
-  },
-  "GetListActorQuery",
-);
-export type GetListActorQuery = t.TypeOf<typeof GetListActorQuery>;
+export type GetListActorQueryFilter = typeof GetListActorQueryFilter.Type;
 
-export const AddActorBody = t.strict(
-  {
-    username: t.string,
-    fullName: t.string,
-    color: t.string,
-    excerpt: BlockNoteDocument,
-    body: t.union([BlockNoteDocument, t.any, t.undefined]),
-    avatar: t.union([UUID, CreateMedia, t.undefined]),
-    bornOn: t.union([DateFromISOString, t.undefined]),
-    diedOn: t.union([DateFromISOString, t.undefined]),
-  },
-  "AddActorBody",
-);
+export const GetListActorQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  ...GetListActorQueryStruct.fields,
+}).annotations({
+  title: "GetListActorQuery",
+});
+export type GetListActorQuery = typeof GetListActorQuery.Type;
 
-export type AddActorBody = t.TypeOf<typeof AddActorBody>;
+export const AddActorBody = Schema.Struct({
+  username: Schema.String,
+  fullName: Schema.String,
+  color: Schema.String,
+  excerpt: BlockNoteDocument,
+  body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
+  avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined),
+  bornOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  diedOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+}).annotations({
+  title: "AddActorBody",
+});
 
-export const SearchActorBody = t.type({ search: t.string }, "SearchActorBody");
-export const CreateActorBody = t.union(
-  [SearchActorBody, AddActorBody],
-  "CreateActorBody",
-);
-export type CreateActorBody = t.TypeOf<typeof CreateActorBody>;
+export type AddActorBody = typeof AddActorBody.Type;
 
-export const Actor = t.strict(
-  {
-    ...BaseProps.type.props,
-    fullName: t.string,
-    username: t.string,
-    avatar: t.union([Media, t.undefined]),
-    color: Color,
-    memberIn: t.array(t.union([UUID, t.any])),
-    excerpt: t.union([BlockNoteDocument, t.null]),
-    body: t.union([BlockNoteDocument, t.null]),
-    bornOn: t.union([DateFromISOString, t.undefined]),
-    diedOn: t.union([DateFromISOString, t.undefined]),
-    /**
-     * The death event of the actor, if any
-     */
-    death: t.union([UUID, t.undefined]),
-  },
-  "Actor",
-);
+export const SearchActorBody = Schema.Struct({
+  search: Schema.String,
+}).annotations({
+  title: "SearchActorBody",
+});
+export const CreateActorBody = Schema.Union(
+  SearchActorBody,
+  AddActorBody,
+).annotations({ title: "CreateActorBody" });
+export type CreateActorBody = typeof CreateActorBody.Type;
 
-export type Actor = t.TypeOf<typeof Actor>;
+export const Actor = Schema.Struct({
+  ...BaseProps.fields,
+  fullName: Schema.String,
+  username: Schema.String,
+  avatar: Schema.Union(Media, Schema.Undefined),
+  color: Color,
+  memberIn: Schema.Array(Schema.Union(UUID, Schema.Any)),
+  excerpt: Schema.Union(BlockNoteDocument, Schema.Null),
+  body: Schema.Union(BlockNoteDocument, Schema.Null),
+  bornOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  diedOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  /**
+   * The death event of the actor, if any
+   */
+  death: Schema.Union(UUID, Schema.Undefined),
+}).annotations({
+  title: "Actor",
+});
+
+export type Actor = typeof Actor.Type;

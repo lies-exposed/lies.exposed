@@ -37,20 +37,20 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
   // const { url } = getEventCommonProps(event, relations);
   const link =
-    event.type === http.Events.EventTypes.DOCUMENTARY.value
+    event.type === http.Events.EventTypes.DOCUMENTARY.Type
       ? event.payload.website
-      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value
+      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type
         ? event.payload.url
-        : event.type === http.Events.EventTypes.PATENT.value
+        : event.type === http.Events.EventTypes.PATENT.Type
           ? event.payload.source
           : undefined;
 
   const eventPageContent =
-    event.type === EventTypes.BOOK.value ? (
+    event.type === EventTypes.BOOK.Type ? (
       <BookEventPageContent event={event} onMediaClick={onMediaClick} />
-    ) : event.type === EventTypes.QUOTE.value ? (
+    ) : event.type === EventTypes.QUOTE.Type ? (
       <QuoteEventPageContent event={event} />
-    ) : event.type === EventTypes.DOCUMENTARY.value ? (
+    ) : event.type === EventTypes.DOCUMENTARY.Type ? (
       <DocumentaryPageContent
         event={event}
         media={relations.media[0]}

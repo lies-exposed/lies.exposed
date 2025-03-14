@@ -56,7 +56,7 @@ export const ListEventRoute: Route = (r, ctx) => {
 
     const type = pipe(
       _type,
-      O.map((tp) => (t.array(EventType).is(tp) ? tp : [tp])),
+      O.map((tp) => (Schema.Array(EventType).is(tp) ? tp : [tp])),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);

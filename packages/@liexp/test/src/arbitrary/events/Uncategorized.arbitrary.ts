@@ -1,8 +1,6 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { DateArb } from "../Date.arbitrary.js";
 import { CreateKeywordArb, TagArb } from "../Keyword.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
@@ -15,7 +13,7 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = propsOmit(http.Events.CreateEventPlainBody.types[4], [
+const createEventProps = http.Events.CreateEventPlainBody.members[4].omit(
   "excerpt",
   "body",
   "date",
@@ -23,14 +21,14 @@ const createEventProps = propsOmit(http.Events.CreateEventPlainBody.types[4], [
   "links",
   "keywords",
   "payload",
-]);
+);
 
 export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds = false,
   keywordIds = false,
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventPlainBody> =>
-  getArbitrary(t.strict(createEventProps)).map((b) => ({
+  Arbitrary.make(createEventProps).map((b) => ({
     ...b,
     excerpt: undefined,
     body: undefined,
@@ -73,7 +71,7 @@ export const CreateEventBodyArb = ({
     date: fc.sample(DateArb, 1)[0],
   }));
 
-const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
+const uncategorizedProps = http.Events.Uncategorized.Uncategorized.omit(
   "id",
   "date",
   "excerpt",
@@ -86,13 +84,13 @@ const uncategorizedProps = propsOmit(http.Events.Uncategorized.Uncategorized, [
   "createdAt",
   "updatedAt",
   "deletedAt",
-]);
+);
 
 export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
-  getArbitrary(t.strict(uncategorizedProps)).map((u) => ({
+  Arbitrary.make(uncategorizedProps).map((u) => ({
     ...u,
     id: fc.sample(UUIDArb, 1)[0],
-    type: http.Events.EventTypes.UNCATEGORIZED.value,
+    type: http.Events.EventTypes.UNCATEGORIZED.Type,
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],

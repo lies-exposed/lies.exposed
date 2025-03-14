@@ -1,24 +1,27 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import { ACTORS } from "./Actor.js";
 import { ListOutput, Output } from "./Common/Output.js";
+import { UUID } from "./Common/UUID.js";
 import { GROUPS } from "./Group.js";
 import { KEYWORDS } from "./Keyword.js";
 
-export const StatsType = t.union([KEYWORDS, ACTORS, GROUPS], "StatsType");
-export type StatsType = t.TypeOf<typeof StatsType>;
+export const StatsType = Schema.Union(KEYWORDS, ACTORS, GROUPS).annotations({
+  title: "StatsType",
+});
+export type StatsType = typeof StatsType.Type;
 
-export const Stats = t.strict(
-  {
-    actors: t.record(UUID, t.number),
-    groups: t.record(UUID, t.number),
-    keywords: t.record(UUID, t.number),
-  },
-  "Stats",
-);
-export type Stats = t.TypeOf<typeof Stats>;
+export const Stats = Schema.Struct({
+  actors: Schema.Record({ key: UUID, value: Schema.Number }),
+  groups: Schema.Record({ key: UUID, value: Schema.Number }),
+  keywords: Schema.Record({ key: UUID, value: Schema.Number }),
+}).annotations({
+  title: "Stats",
+});
+export type Stats = typeof Stats.Type;
 
-export const SingleOutput = Output(Stats, "Stats");
+export const SingleOutput = Output(Stats).annotations({
+  title: "StatsOutput",
+});
 export type SingleOutput = Output<Stats>;
 export const OutputList = ListOutput(Stats, "StatsList");
 export type OutputList = ListOutput<Stats>;

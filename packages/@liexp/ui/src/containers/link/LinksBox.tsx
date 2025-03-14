@@ -1,6 +1,8 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec";
+import {
+  type RecordCodecEncoded
+} from "ts-io-error/lib/Codec";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
   LinksList,
@@ -16,7 +18,7 @@ import {
 } from "../../components/mui/index.js";
 
 export interface LinksBoxProps extends Omit<LinksListProps, "links"> {
-  filter: Partial<serializedType<typeof GetListLinkQuery>>;
+  filter: Partial<RecordCodecEncoded<typeof GetListLinkQuery>>;
   defaultExpanded?: boolean;
   style?: React.CSSProperties;
   onOpen?: () => void;

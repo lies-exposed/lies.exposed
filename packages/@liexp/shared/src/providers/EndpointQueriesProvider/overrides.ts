@@ -2,22 +2,25 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type MinimalEndpointInstance } from "ts-endpoint";
 import { type Endpoints } from "../../endpoints/index.js";
 import {
-  type GetListFnParamsE,
-  type EndpointOutput,
+  type EndpointOutputType,
+  type EndpointDataOutputType,
   type GetFnParams,
+  type GetListFnParamsE,
 } from "../EndpointsRESTClient/types.js";
 import {
-  type QueryProviderOverrides,
   type CustomQueryOverride,
+  type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
 } from "./QueryProviderOverrides.js";
 import { defaultUseQueryListParams } from "./params.js";
 
+type GetHierarchyNetworkParams = GetFnParams<typeof Endpoints.Networks.Get>;
+
 const GetHierarchyNetwork: CustomQueryOverride<
   Endpoints,
-  GetFnParams<typeof Endpoints.Networks.Get>,
+  GetHierarchyNetworkParams,
   GetListFnParamsE<typeof Endpoints.Networks.Get>,
-  EndpointOutput<typeof Endpoints.Networks.Get>
+  EndpointDataOutputType<typeof Endpoints.Networks.Get>
 > = (Q) => (p) => Q.Networks.get({ ...p, type: "hierarchy" });
 
 const NetworksOverride: ResourceEndpointsQueriesOverride<
@@ -37,7 +40,7 @@ const GetPageContentByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  EndpointOutput<typeof Endpoints.Page.Get>
+  EndpointDataOutputType<typeof Endpoints.Page.Get>
 > = (Q) => (path) => {
   return pipe(
     Q.Page.getList({
@@ -53,12 +56,13 @@ const GetByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  EndpointOutput<typeof Endpoints.Story.Get>
-> = (Q) => (p) =>
-  pipe(
+  EndpointOutputType<typeof Endpoints.Story.Get>["data"]
+> = (Q) => (p) => {
+  return pipe(
     Q.Story.getList({ ...defaultUseQueryListParams, filter: { path: p } }),
     fp.TE.map((r) => r.data[0]),
   );
+};
 
 const PageOverride: ResourceEndpointsQueriesOverride<
   Endpoints,

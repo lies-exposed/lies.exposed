@@ -1,10 +1,13 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-const DEVELOPMENT = t.literal("development");
-const PRODUCTION = t.literal("production");
+const DEVELOPMENT = Schema.Literal("development");
+const PRODUCTION = Schema.Literal("production");
 
-export const NODE_ENV = t.union(
-  [DEVELOPMENT, t.literal("test"), PRODUCTION],
-  "NODE_ENV",
-);
-export type NODE_ENV = t.TypeOf<typeof NODE_ENV>;
+export const NODE_ENV = Schema.Union(
+  DEVELOPMENT,
+  Schema.Literal("test"),
+  PRODUCTION,
+).annotations({
+  title: "NODE_ENV",
+});
+export type NODE_ENV = typeof NODE_ENV.Type;

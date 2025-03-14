@@ -79,19 +79,19 @@ export const EventsInfiniteLoader: React.FC<EventsInfiniteLoaderProps> = (
   const totalEvents = React.useMemo(
     () =>
       [
-        queryParams.eventType?.includes(EventTypes.DEATH.value)
+        queryParams.eventType?.includes(EventTypes.DEATH.Type)
           ? (searchEvents?.totals.deaths ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.UNCATEGORIZED.value)
+        queryParams.eventType?.includes(EventTypes.UNCATEGORIZED.Type)
           ? (searchEvents?.totals.uncategorized ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.SCIENTIFIC_STUDY.value)
+        queryParams.eventType?.includes(EventTypes.SCIENTIFIC_STUDY.Type)
           ? (searchEvents?.totals.scientificStudies ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.PATENT.value)
+        queryParams.eventType?.includes(EventTypes.PATENT.Type)
           ? (searchEvents?.totals.patents ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.DOCUMENTARY.value)
+        queryParams.eventType?.includes(EventTypes.DOCUMENTARY.Type)
           ? (searchEvents?.totals.documentaries ?? 0)
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),

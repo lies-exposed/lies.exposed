@@ -1,3 +1,4 @@
+import { Schema } from "effect";
 import { VideoExtra } from "../../io/http/Media/index.js";
 import {
   type SocialPost,
@@ -10,16 +11,16 @@ export const getShareMultipleMedia = (
   defaultImage: string,
 ): SocialPostBodyMultipleMedia => {
   const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
-    if (http.Media.MP4Type.is(m.type)) {
+    if (Schema.is(http.Media.MP4Type)(m.type)) {
       return acc.concat([
         {
           type: "video",
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
-          duration: VideoExtra.is(m.extra) ? m.extra.duration : 0,
+          duration: Schema.is(VideoExtra)(m.extra) ? m.extra.duration : 0,
         },
       ]);
-    } else if (http.Media.PDFType.is(m.type)) {
+    } else if (Schema.is(http.Media.PDFType)(m.type)) {
       return acc.concat([
         {
           type: "photo",
@@ -27,7 +28,10 @@ export const getShareMultipleMedia = (
           thumbnail: m.thumbnail ?? defaultImage,
         },
       ]);
-    } else if (http.Media.MP3Type.is(m.type) || http.Media.OGGType.is(m.type)) {
+    } else if (
+      Schema.is(http.Media.MP3Type)(m.type) ||
+      Schema.is(http.Media.OGGType)(m.type)
+    ) {
       // return acc.concat([
       //   {
       //     type: "photo",

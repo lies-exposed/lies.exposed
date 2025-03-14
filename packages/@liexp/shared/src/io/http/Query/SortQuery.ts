@@ -1,17 +1,18 @@
-import * as t from "io-ts/lib/index.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull';
 
-export const SortOrderASC = t.literal("ASC");
-export const SortOrderDESC = t.literal("DESC");
-export const SortOrder = t.union([SortOrderASC, SortOrderDESC], "SortOrder");
-export type SortOrder = t.TypeOf<typeof SortOrder>;
+export const SortOrderASC = Schema.Literal("ASC");
+export const SortOrderDESC = Schema.Literal("DESC");
+export const SortOrder = Schema.Union(SortOrderASC, SortOrderDESC).annotations({
+  title: "SortOrder",
+});
+export type SortOrder = typeof SortOrder.Type;
 
-export const SortQuery = t.type(
-  {
-    _sort: optionFromNullable(t.string),
-    _order: optionFromNullable(SortOrder),
-  },
-  "SortQuery",
-);
+export const SortQuery = Schema.Struct({
+  _sort: OptionFromNullishToNull(Schema.String),
+  _order: OptionFromNullishToNull(SortOrder),
+}).annotations({
+  title: "SortQuery",
+});
 
-export type SortQuery = t.TypeOf<typeof SortQuery>;
+export type SortQuery = typeof SortQuery.Type;

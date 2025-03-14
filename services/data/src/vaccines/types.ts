@@ -17,7 +17,7 @@ const {
   total_death_years_not_specified,
   ...vaccineDatumProps
 } = VaccineDatum.type.props;
-export const VaccineEntry = t.strict(
+export const VaccineEntry = Schema.Struct(
   {
     ...vaccineDatumProps,
   },

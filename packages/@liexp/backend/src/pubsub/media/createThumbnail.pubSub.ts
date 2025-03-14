@@ -7,10 +7,10 @@ const { id, type } = Media.type.props;
 
 export const CreateMediaThumbnailPubSub = RedisPubSub(
   "media:create-thumbnail",
-  t.strict({
+  Schema.Struct({
     id,
     location: URL,
-    thumbnail: t.union([URL, t.null]),
+    thumbnail: Schema.Union([URL, Schema.Null]),
     type,
   }),
 );

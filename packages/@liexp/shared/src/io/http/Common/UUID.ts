@@ -1,6 +1,9 @@
-/* eslint-disable no-restricted-imports */
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
+// eslint-disable-next-line no-restricted-imports
 import { v6, type Version6Options, validate } from "uuid";
+
+const UUID = Schema.UUID.pipe(Schema.brand("UUID"));
+type UUID = typeof UUID.Type;
 
 function uuid(opts?: Version6Options): UUID {
   return v6(opts) as unknown as UUID;

@@ -1,28 +1,27 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { type DecodingError, type CommunicationError } from "ts-io-error";
 
-export const IOErrorSchema = t.strict(
-  {
-    name: t.string,
-    status: t.number,
-    details: t.union([
-      t.type({
-        kind: t.literal<DecodingError>("DecodingError"),
-        errors: t.array(t.unknown),
-        status: t.string,
-      }),
-      t.type({
-        kind: t.union([
-          t.literal<CommunicationError>("ClientError"),
-          t.literal<CommunicationError>("ServerError"),
-          t.literal<CommunicationError>("NetworkError"),
-        ]),
-        meta: t.union([t.unknown, t.undefined]),
-        status: t.string,
-      }),
-    ]),
-  },
-  "IOError",
-);
+export const IOErrorSchema = Schema.Struct({
+  name: Schema.String,
+  status: Schema.Number,
+  details: Schema.Union(
+    Schema.Struct({
+      kind: Schema.Literal("DecodingError" as DecodingError),
+      errors: Schema.Array(Schema.Unknown),
+      status: Schema.String,
+    }),
+    Schema.Struct({
+      kind: Schema.Union(
+        Schema.Literal("ClientError" as CommunicationError),
+        Schema.Literal("ServerError" as CommunicationError),
+        Schema.Literal("NetworkError" as CommunicationError),
+      ),
+      meta: Schema.Union(Schema.Unknown, Schema.Undefined),
+      status: Schema.String,
+    }),
+  ),
+}).annotations({
+  title: "IOError",
+});
 
-export type IOErrorSchema = t.TypeOf<typeof IOErrorSchema>;
+export type IOErrorSchema = typeof IOErrorSchema.Type;

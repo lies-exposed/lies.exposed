@@ -1,9 +1,9 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type NetworkLink,
   type NetworkNode,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Group } from "@liexp/shared/lib/io/http/index.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 
 export type GroupNetworkNodeProps = NetworkNode<{
   id: UUID;
@@ -27,8 +27,8 @@ export const toGroupNodes = (
       innerColor: g.color,
       outerColor: g.color,
       name: g.name,
-      group: Group.GROUPS.value,
-      type: Group.GROUPS.value,
+      group: Group.GROUPS.Type,
+      type: Group.GROUPS.Type,
       count: links.filter((kk) => kk.source === g.id || kk.target === g.id)
         .length,
     },

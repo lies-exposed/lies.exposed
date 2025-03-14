@@ -44,7 +44,7 @@ export const fetchManyMedia =
 
     const type = pipe(
       _type,
-      fp.O.map((tp) => (t.array(t.string).is(tp) ? tp : [tp])),
+      fp.O.map((tp) => (Schema.Array(Schema.String).is(tp) ? tp : [tp])),
     );
 
     return pipe(

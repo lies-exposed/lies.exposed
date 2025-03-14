@@ -67,6 +67,7 @@
       "lib/**": true,
     },
     "typescript.format.enable": true,
+    "eslint.codeActionsOnSave.mode": "problems",
     "eslint.workingDirectories": [
       "./packages/@liexp/core",
       "./packages/@liexp/shared",
@@ -89,7 +90,6 @@
       "tsconfig.json": "tsconfig.*.json",
       "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
     },
-    "eslint.codeActionsOnSave.mode": "all",
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "pnpm",
     "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",

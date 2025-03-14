@@ -8,7 +8,7 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const ProcessJobDonePubSub = RedisPubSub(
   "job:process-done",
-  t.strict({
+  Schema.Struct({
     id: UUID,
     type: QueueTypes,
     resource: QueueResourceNames,

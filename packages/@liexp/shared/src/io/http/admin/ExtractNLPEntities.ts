@@ -1,44 +1,45 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import { URL } from "../Common/URL.js";
+import { UUID } from "../Common/UUID.js";
 import { ResourcesNames } from "../ResourcesNames.js";
 
-const ExtractEntitiesWithNLPFromURLInput = t.strict({ url: URL });
-const ExtractEntitiesWithNLPFromPDFInput = t.strict({ pdf: URL });
-const ExtractEntitiesWithNLPFromTextInput = t.strict({ text: t.string });
-export const ExtractEntitiesWithNLPFromResourceInput = t.strict({
+const ExtractEntitiesWithNLPFromURLInput = Schema.Struct({ url: URL });
+const ExtractEntitiesWithNLPFromPDFInput = Schema.Struct({ pdf: URL });
+const ExtractEntitiesWithNLPFromTextInput = Schema.Struct({
+  text: Schema.String,
+});
+export const ExtractEntitiesWithNLPFromResourceInput = Schema.Struct({
   resource: ResourcesNames,
   uuid: UUID,
 });
-export type ExtractEntitiesWithNLPFromResourceInput = t.TypeOf<
-  typeof ExtractEntitiesWithNLPFromResourceInput
->;
+export type ExtractEntitiesWithNLPFromResourceInput =
+  typeof ExtractEntitiesWithNLPFromResourceInput.Type;
 
-export const ExtractEntitiesWithNLPInput = t.union([
+export const ExtractEntitiesWithNLPInput = Schema.Union(
   ExtractEntitiesWithNLPFromURLInput,
   ExtractEntitiesWithNLPFromPDFInput,
   ExtractEntitiesWithNLPFromTextInput,
   ExtractEntitiesWithNLPFromResourceInput,
-]);
+).annotations({
+  title: "ExtractEntitiesWithNLPInput",
+});
 
-export type ExtractEntitiesWithNLPInput = t.TypeOf<
-  typeof ExtractEntitiesWithNLPInput
->;
+export type ExtractEntitiesWithNLPInput =
+  typeof ExtractEntitiesWithNLPInput.Type;
 
-export const ExtractEntitiesWithNLPOutput = t.strict({
-  entities: t.strict({
-    actors: t.array(t.any),
-    groups: t.array(t.any),
-    keywords: t.array(t.any),
+export const ExtractEntitiesWithNLPOutput = Schema.Struct({
+  entities: Schema.Struct({
+    actors: Schema.Array(Schema.Any),
+    groups: Schema.Array(Schema.Any),
+    keywords: Schema.Array(Schema.Any),
   }),
-  sentences: t.array(
-    t.strict({
-      text: t.string,
-      importance: t.number,
+  sentences: Schema.Array(
+    Schema.Struct({
+      text: Schema.String,
+      importance: Schema.Number,
     }),
   ),
 });
 
-export type ExtractEntitiesWithNLPOutput = t.TypeOf<
-  typeof ExtractEntitiesWithNLPOutput
->;
+export type ExtractEntitiesWithNLPOutput =
+  typeof ExtractEntitiesWithNLPOutput.Type;

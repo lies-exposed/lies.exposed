@@ -5,10 +5,10 @@ import {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from "axios";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { IOError } from "ts-io-error";
 
 export class HTTPError extends IOError {
@@ -40,17 +40,17 @@ export const toHTTPError = (e: unknown): HTTPError => {
 };
 
 export const fromValidationErrors = flow(
-  E.mapLeft((e: t.Errors): HTTPError => {
+  E.mapLeft((e: ParseError): HTTPError => {
     return new HTTPError("Validation failed.", {
       kind: "DecodingError",
-      errors: PathReporter.report(E.left(e)),
+      errors: [e],
     });
   }),
 );
 
 export const liftFetch = <B>(
   lp: () => Promise<AxiosResponse<B>>,
-  decode: <A>(a: A) => E.Either<t.Errors, B>,
+  decode: <A>(a: A) => E.Either<ParseError, B>,
 ): TE.TaskEither<HTTPError, B> => {
   return pipe(
     TE.tryCatch(lp, toHTTPError),
@@ -83,21 +83,27 @@ const HTTPProvider = (client: AxiosInstance): HTTPProvider => {
     url: string,
     config?: AxiosRequestConfig<any>,
   ): TE.TaskEither<HTTPError, T> =>
-    liftFetch(() => client.get(url, config), t.any.decode);
+    liftFetch(() => client.get(url, config), Schema.decodeEither(Schema.Any));
 
   const post = <T, R>(
     url: string,
     data?: T,
     config?: AxiosRequestConfig<T>,
   ): TE.TaskEither<HTTPError, R> =>
-    liftFetch(() => client.post(url, data, config), t.any.decode);
+    liftFetch(
+      () => client.post(url, data, config),
+      Schema.decodeEither(Schema.Any),
+    );
 
   const put = <T, R>(
     url: string,
     data?: T,
     config?: AxiosRequestConfig<T>,
   ): TE.TaskEither<HTTPError, R> =>
-    liftFetch(() => client.put(url, data, config), t.any.decode);
+    liftFetch(
+      () => client.put(url, data, config),
+      Schema.decodeEither(Schema.Any),
+    );
 
   return {
     get,

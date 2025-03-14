@@ -152,7 +152,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 }) => {
   const slide = (_slide as any) === "true";
   const query = {
-    type: EventType.types.map((t) => t.value),
+    type: EventType.members.map((t) => t.Type),
     ..._query,
   };
   const handleUpdateEventsSearch = React.useCallback(

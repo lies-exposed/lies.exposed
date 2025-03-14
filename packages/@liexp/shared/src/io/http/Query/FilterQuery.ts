@@ -1,19 +1,18 @@
-import * as t from "io-ts";
-import { BigIntFromString } from "io-ts-types/lib/BigIntFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
-export const FilterQuery = t.record(
-  t.string,
-  optionFromNullable(
-    t.union([
-      t.number,
-      t.string,
-      t.array(t.string),
-      DateFromISOString,
-      BigIntFromString,
-    ]),
+export const FilterQuery = Schema.Record({
+  key: Schema.String,
+  value: OptionFromNullishToNull(
+    Schema.Union(
+      Schema.Number,
+      Schema.String,
+      Schema.Array(Schema.String),
+      Schema.DateFromString,
+      Schema.BigInt,
+    ),
   ),
-  "FilterQuery",
-);
-export type FilterQuery = t.TypeOf<typeof FilterQuery>;
+}).annotations({
+  title: "FilterQuery",
+});
+export type FilterQuery = typeof FilterQuery.Type;

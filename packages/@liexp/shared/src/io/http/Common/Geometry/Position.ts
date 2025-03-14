@@ -1,4 +1,6 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const Position = t.tuple([t.number, t.number], "Position");
-export type Position = t.TypeOf<typeof Position>;
+export const Position = Schema.Tuple(Schema.Number, Schema.Number).annotations({
+  title: "Position",
+});
+export type Position = typeof Position.Type;

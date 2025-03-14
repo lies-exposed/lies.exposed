@@ -1,17 +1,18 @@
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
+import { UUID } from "../../io/http/Common/UUID.js";
 import { Events } from "../../io/http/index.js";
 
 export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   const commonIds = {
-    media: e.media,
-    keywords: e.keywords,
-    links: e.links,
+    media: [...e.media],
+    keywords: [...e.keywords],
+    links: [...e.links],
     areas: [],
     socialPosts: [],
   };
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.value: {
+    case Events.EventTypes.BOOK.Type: {
       const publisherActors =
         e.payload.publisher && e.payload.publisher.type === "Actor"
           ? [e.payload.publisher.id]
@@ -30,7 +31,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         .concat(publisherGroups);
 
       const bookMedia = [e.payload.media.pdf, e.payload.media.audio].filter(
-        UUID.is,
+        Schema.is(UUID),
       );
       return {
         ...commonIds,
@@ -40,7 +41,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.QUOTE.value: {
+    case Events.EventTypes.QUOTE.Type: {
       const quote =
         e.payload.subject?.type === "Actor"
           ? {
@@ -63,7 +64,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.DEATH.value: {
+    case Events.EventTypes.DEATH.Type: {
       return {
         ...commonIds,
         actors: [e.payload.victim],
@@ -71,15 +72,15 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.Type: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
-      ].filter(UUID.is);
+      ].filter(Schema.is(UUID));
       const groups = [
         e.payload.from.type === "Group" ? e.payload.from.id : undefined,
         e.payload.to.type === "Group" ? e.payload.to.id : undefined,
-      ].filter(UUID.is);
+      ].filter(Schema.is(UUID));
       return {
         ...commonIds,
         actors,
@@ -87,16 +88,16 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.PATENT.value: {
+    case Events.EventTypes.PATENT.Type: {
       return {
         ...commonIds,
-        actors: e.payload.owners.actors,
-        groups: e.payload.owners.groups,
+        actors: [...e.payload.owners.actors],
+        groups: [...e.payload.owners.groups],
         groupsMembers: [],
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.Type: {
       return {
         ...commonIds,
         links: commonIds.links.concat(
@@ -115,22 +116,22 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return {
         ...commonIds,
         links: commonIds.links.concat(e.payload.url),
-        actors: e.payload.authors,
+        actors: [...e.payload.authors],
         groups: e.payload.publisher ? [e.payload.publisher] : [],
         groupsMembers: [],
       };
     }
 
-    case Events.EventTypes.UNCATEGORIZED.value: {
+    case Events.EventTypes.UNCATEGORIZED.Type: {
       return {
         ...commonIds,
-        actors: e.payload.actors,
-        groups: e.payload.groups,
-        groupsMembers: e.payload.groupsMembers,
+        actors: [...e.payload.actors],
+        groups: [...e.payload.groups],
+        groupsMembers: [...e.payload.groupsMembers],
       };
     }
   }

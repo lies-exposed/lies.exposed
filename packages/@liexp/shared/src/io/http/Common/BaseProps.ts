@@ -1,16 +1,12 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
+import { Schema } from "effect";
 import { UUID } from "./UUID.js";
 
-export const BaseProps = t.strict(
-  {
-    id: UUID,
-    // type: t.string,
-    createdAt: DateFromISOString,
-    updatedAt: DateFromISOString,
-    deletedAt: t.union([DateFromISOString, t.null, t.undefined]),
-  },
-  "BaseProps",
-);
+export const BaseProps = Schema.Struct({
+  id: UUID,
+  // type: Schema.String,
+  createdAt: Schema.DateFromString,
+  updatedAt: Schema.DateFromString,
+  deletedAt: Schema.Union(Schema.DateFromString, Schema.Null, Schema.Undefined),
+}).annotations({ title: "BaseProps" });
 
-export type BaseProps = t.TypeOf<typeof BaseProps>;
+export type BaseProps = typeof BaseProps.Type;

@@ -3,12 +3,12 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const CreateEntityStatsPubSub = RedisPubSub(
   "stats:create-entity",
-  t.strict({
-    type: t.union([
-      t.literal("keywords"),
-      t.literal("groups"),
-      t.literal("actors"),
+  Schema.Struct({
+    type: Schema.Union([
+      Schema.Literal("keywords"),
+      Schema.Literal("groups"),
+      Schema.Literal("actors"),
     ]),
-    id: t.string,
+    id: Schema.String,
   }),
 );

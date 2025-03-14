@@ -1,65 +1,60 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Geometry } from "./Common/Geometry/index.js";
 import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
+import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
-export const AREAS = t.literal("areas");
-export type AREAS = t.TypeOf<typeof AREAS>;
+export const AREAS = Schema.Literal("areas");
+export type AREAS = typeof AREAS.Type;
 
-export const ListAreaQuery = t.type(
-  {
-    ...GetListQuery.props,
-    ids: optionFromNullable(t.array(UUID)),
-    draft: optionFromNullable(BooleanFromString),
-    withDeleted: optionFromNullable(BooleanFromString),
-  },
-  "ListAreaQuery",
-);
+export const ListAreaQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  draft: OptionFromNullishToNull(Schema.BooleanFromString),
+  withDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
+}).annotations({
+  title: "ListAreaQuery",
+});
 
-export type ListAreaQuery = t.TypeOf<typeof ListAreaQuery>;
+export type ListAreaQuery = typeof ListAreaQuery;
 
-export const CreateAreaBody = t.strict(
-  {
-    label: t.string,
-    slug: t.string,
-    draft: t.boolean,
-    geometry: Geometry,
-    body: BlockNoteDocument,
-  },
-  "CreateAreaBody",
-);
+export const CreateAreaBody = Schema.Struct({
+  label: Schema.String,
+  slug: Schema.String,
+  draft: Schema.Boolean,
+  geometry: Geometry,
+  body: BlockNoteDocument,
+}).annotations({
+  title: "CreateAreaBody",
+});
 
-export const EditAreaBody = t.strict(
-  {
-    geometry: optionFromNullable(Geometry),
-    label: optionFromNullable(t.string),
-    slug: optionFromNullable(t.string),
-    draft: optionFromNullable(t.boolean),
-    body: optionFromNullable(BlockNoteDocument),
-    featuredImage: optionFromNullable(UUID),
-    media: t.array(UUID),
-    events: optionFromNullable(t.array(UUID)),
-    updateGeometry: optionFromNullable(t.boolean),
-  },
-  "EditAreaBody",
-);
+export const EditAreaBody = Schema.Struct({
+  geometry: OptionFromNullishToNull(Geometry),
+  label: OptionFromNullishToNull(Schema.String),
+  slug: OptionFromNullishToNull(Schema.String),
+  draft: OptionFromNullishToNull(Schema.Boolean),
+  body: OptionFromNullishToNull(BlockNoteDocument),
+  featuredImage: OptionFromNullishToNull(UUID),
+  media: Schema.Array(UUID),
+  events: OptionFromNullishToNull(Schema.Array(UUID)),
+  updateGeometry: OptionFromNullishToNull(Schema.Boolean),
+}).annotations({
+  title: "EditAreaBody",
+});
 
-export const Area = t.strict(
-  {
-    ...BaseProps.type.props,
-    ...CreateAreaBody.type.props,
-    body: t.union([BlockNoteDocument, t.any, t.null]),
-    featuredImage: t.union([Media, t.null]),
-    media: t.array(UUID),
-    events: t.array(UUID),
-    socialPosts: t.array(UUID),
-  },
-  "Area",
-);
+export const Area = Schema.Struct({
+  ...BaseProps.fields,
+  ...CreateAreaBody.fields,
+  body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Null),
+  featuredImage: Schema.Union(Media, Schema.Null),
+  media: Schema.Array(UUID),
+  events: Schema.Array(UUID),
+  socialPosts: Schema.Array(UUID),
+}).annotations({
+  title: "Area",
+});
 
-export type Area = t.TypeOf<typeof Area>;
+export type Area = typeof Area.Type;

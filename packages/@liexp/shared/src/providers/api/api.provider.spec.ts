@@ -8,21 +8,21 @@ describe("ApiProvider", () => {
   it("should be defined", () => {
     const api = API(axiosMock);
     expect(api.Admin).toMatchObject({
-      Get: expect.any(Function),
-      Create: expect.any(Function),
-      Edit: expect.any(Function),
-      List: expect.any(Function),
+      Get: expecSchema.Any(Function),
+      Create: expecSchema.Any(Function),
+      Edit: expecSchema.Any(Function),
+      List: expecSchema.Any(Function),
       Custom: {
-        BuildImage: expect.anything(),
-        GetMediaStats: expect.anything(),
+        BuildImage: expecSchema.Anything(),
+        GetMediaStats: expecSchema.Anything(),
       },
     });
 
     expect(api.Actor).toMatchObject({
-      Get: expect.any(Function),
-      Create: expect.any(Function),
-      Edit: expect.any(Function),
-      List: expect.any(Function),
+      Get: expecSchema.Any(Function),
+      Create: expecSchema.Any(Function),
+      Edit: expecSchema.Any(Function),
+      List: expecSchema.Any(Function),
       Custom: {},
     });
   });

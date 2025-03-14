@@ -1,10 +1,7 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const Color = t.brand(
-  t.string,
-  (s): s is t.Branded<string, { readonly ColorType: symbol }> =>
-    s.length === 6 && !s.includes("#"),
-  "ColorType",
+export const Color = Schema.String.pipe(Schema.brand("Color")).pipe(
+  Schema.filter((s) => s.length === 6 && !s.includes("#")),
 );
 
-export type Color = t.TypeOf<typeof Color>;
+export type Color = typeof Color.Type;

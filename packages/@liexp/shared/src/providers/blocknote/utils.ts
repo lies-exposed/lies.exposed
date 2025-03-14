@@ -1,3 +1,4 @@
+import { Schema } from "effect";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
@@ -41,7 +42,7 @@ function toInitialValue(v: any): BlockNoteDocument | undefined {
     return toInitialValueS(v);
   }
 
-  if (Array.isArray(v) && BlockNoteDocument.is(v)) {
+  if (Array.isArray(v) && Schema.is(BlockNoteDocument)(v)) {
     return v;
   }
 

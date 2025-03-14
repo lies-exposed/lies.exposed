@@ -1,22 +1,22 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Group } from "../Group.js";
 import { Project } from "../Project.js";
 
-export const ForProject = t.strict(
-  {
-    type: t.literal("Project"),
-    project: Project,
-  },
-  "ForProject",
-);
+export const ForProject = Schema.Struct({
+  type: Schema.Literal("Project"),
+  project: Project,
+}).annotations({
+  title: "ForProject",
+});
 
-export const ForGroup = t.strict(
-  {
-    type: t.literal("Group"),
-    group: Group,
-  },
-  "ForGroup",
-);
+export const ForGroup = Schema.Struct({
+  type: Schema.Literal("Group"),
+  group: Group,
+}).annotations({
+  title: "ForGroup",
+});
 
-export const For = t.union([ForProject, ForGroup], "For");
-export type For = t.TypeOf<typeof For>;
+export const For = Schema.Union(ForProject, ForGroup).annotations({
+  title: "For",
+});
+export type For = typeof For.Type;

@@ -6,27 +6,23 @@ export const searchEventQueryToEventTypeFilters = (
   query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
-    [EventTypes.BOOK.value]: !!query.eventType?.includes(EventTypes.BOOK.value),
-    [EventTypes.DEATH.value]: !!query.eventType?.includes(
-      EventTypes.DEATH.value,
+    [EventTypes.BOOK.Type]: !!query.eventType?.includes(EventTypes.BOOK.Type),
+    [EventTypes.DEATH.Type]: !!query.eventType?.includes(EventTypes.DEATH.Type),
+    [EventTypes.UNCATEGORIZED.Type]: !!query.eventType?.includes(
+      EventTypes.UNCATEGORIZED.Type,
     ),
-    [EventTypes.UNCATEGORIZED.value]: !!query.eventType?.includes(
-      EventTypes.UNCATEGORIZED.value,
+    [EventTypes.SCIENTIFIC_STUDY.Type]: !!query.eventType?.includes(
+      EventTypes.SCIENTIFIC_STUDY.Type,
     ),
-    [EventTypes.SCIENTIFIC_STUDY.value]: !!query.eventType?.includes(
-      EventTypes.SCIENTIFIC_STUDY.value,
+    [EventTypes.PATENT.Type]: !!query.eventType?.includes(
+      EventTypes.PATENT.Type,
     ),
-    [EventTypes.PATENT.value]: !!query.eventType?.includes(
-      EventTypes.PATENT.value,
+    [EventTypes.DOCUMENTARY.Type]: !!query.eventType?.includes(
+      EventTypes.DOCUMENTARY.Type,
     ),
-    [EventTypes.DOCUMENTARY.value]: !!query.eventType?.includes(
-      EventTypes.DOCUMENTARY.value,
+    [EventTypes.TRANSACTION.Type]: !!query.eventType?.includes(
+      EventTypes.TRANSACTION.Type,
     ),
-    [EventTypes.TRANSACTION.value]: !!query.eventType?.includes(
-      EventTypes.TRANSACTION.value,
-    ),
-    [EventTypes.QUOTE.value]: !!query.eventType?.includes(
-      EventTypes.QUOTE.value,
-    ),
+    [EventTypes.QUOTE.Type]: !!query.eventType?.includes(EventTypes.QUOTE.Type),
   };
 };

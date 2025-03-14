@@ -1,74 +1,74 @@
 import { BACKEND_ENV } from "@liexp/backend/lib/io/ENV.js";
 import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
+import { pipe, Schema } from "effect";
 
-const CRON_ENVS = t.strict(
-  {
-    GENERATE_MISSING_THUMBNAILS_CRON: t.string,
-    TEMP_FOLDER_CLEAN_UP_CRON: t.string,
-    SOCIAL_POSTING_CRON: t.string,
-    PROCESS_DONE_JOB_CRON: t.string,
-    REGENERATE_MEDIA_THUMBNAILS_CRON: t.string,
-    UPSERT_NLP_ENTITIES_CRON: t.string,
-  },
-  "CRON_ENVS",
-);
+const CRON_ENVS = Schema.Struct({
+  GENERATE_MISSING_THUMBNAILS_CRON: Schema.String,
+  TEMP_FOLDER_CLEAN_UP_CRON: Schema.String,
+  SOCIAL_POSTING_CRON: Schema.String,
+  PROCESS_DONE_JOB_CRON: Schema.String,
+  REGENERATE_MEDIA_THUMBNAILS_CRON: Schema.String,
+  UPSERT_NLP_ENTITIES_CRON: Schema.String,
+}).annotations({ title: "CRON_ENVS" });
 
-const SERVICES_ENVS = t.intersection(
-  [
-    t.strict(
-      {
-        TG_BOT_TOKEN: t.string,
-        TG_BOT_CHAT: t.string,
-        TG_BOT_USERNAME: t.string,
-        TG_BOT_POLLING: BooleanFromString,
-        TG_BOT_BASE_API_URL: t.string,
-        IG_USERNAME: t.string,
-        IG_PASSWORD: t.string,
-      },
-      "TG_BOT_ENV",
+const SERVICES_ENVS = pipe(
+  Schema.Struct({
+    TG_BOT_TOKEN: Schema.String,
+    TG_BOT_CHAT: Schema.String,
+    TG_BOT_USERNAME: Schema.String,
+    TG_BOT_POLLING: Schema.BooleanFromString,
+    TG_BOT_BASE_API_URL: Schema.String,
+    IG_USERNAME: Schema.String,
+    IG_PASSWORD: Schema.String,
+  }).annotations({
+    title: "TG_BOT_ENV",
+  }),
+  (schema) =>
+    Schema.extend(
+      schema,
+      Schema.Struct({
+        REDIS_HOST: Schema.String,
+        REDIS_CONNECT: Schema.BooleanFromString,
+      }).annotations({
+        title: "REDIS_ENV",
+      }),
     ),
-    t.strict(
-      {
-        REDIS_HOST: t.string,
-        REDIS_CONNECT: BooleanFromString,
-      },
-      "REDIS_ENV",
-    ),
-    t.strict(
-      {
+  (schema) =>
+    Schema.extend(
+      schema,
+      Schema.Struct({
         // SPACES
-        SPACE_BUCKET: t.string,
-        SPACE_ENDPOINT: t.string,
-        SPACE_REGION: t.string,
-        SPACE_ACCESS_KEY_ID: t.string,
-        SPACE_ACCESS_KEY_SECRET: t.string,
-      },
-      "SPACE_ENV",
+        SPACE_BUCKET: Schema.String,
+        SPACE_ENDPOINT: Schema.String,
+        SPACE_REGION: Schema.String,
+        SPACE_ACCESS_KEY_ID: Schema.String,
+        SPACE_ACCESS_KEY_SECRET: Schema.String,
+      }).annotations({ title: "SPACE_ENV" }),
     ),
-    t.strict(
-      {
-        GEO_CODE_BASE_URL: t.string,
-        GEO_CODE_API_KEY: t.string,
-      },
-      "GEO_CODE_ENV",
-    ),
-  ],
-  "SERVICES_ENVS",
+  (schema) =>
+    Schema.extend(
+      schema,
+      Schema.Struct({
+        GEO_CODE_BASE_URL: Schema.String,
+        GEO_CODE_API_KEY: Schema.String,
+      }).annotations({ title: "GEO_CODE_ENV" }),
+    ).annotations({
+      title: "SERVICES_ENVS",
+    }),
 );
 
-export const ENV = t.intersection([
-  t.strict(
-    {
+export const ENV = pipe(
+  Schema.extend(
+    Schema.Struct({
       NODE_ENV,
-      DEBUG: t.string,
-      WEB_URL: t.string,
-    },
-    "ENV",
+      DEBUG: Schema.String,
+      WEB_URL: Schema.String,
+    }).annotations({
+      title: "ENV",
+    }),
+    BACKEND_ENV,
   ),
-  BACKEND_ENV,
-  SERVICES_ENVS,
-  CRON_ENVS,
-]);
-export type ENV = t.TypeOf<typeof ENV>;
+  (schema) => Schema.extend(schema, SERVICES_ENVS),
+  (schema) => Schema.extend(schema, CRON_ENVS),
+);
+export type ENV = typeof ENV.Type;

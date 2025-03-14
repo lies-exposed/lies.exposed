@@ -24,6 +24,7 @@ import { Bar, LinePath } from "@visx/shape";
 import { type Accessor } from "@visx/shape/lib/types/index.js";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
+import { Schema } from "effect";
 import * as t from "io-ts";
 import * as React from "react";
 import { useJSONClient } from "../../../../hooks/useJSONAPI.js";
@@ -70,14 +71,14 @@ const Root = styled("div")(({ theme }) => ({
 
 const ageGroupColors = {
   all: "#b623ad",
-  [NotSpecified.value]: "#6b707a",
-  [ZeroToOneMonth.value]: "#886398",
-  [TwoMonthsToTwoYears.value]: "#58ef28",
-  [ThreeToTwelveYears.value]: "#65c3b9",
-  [TwelveToSixteenYears.value]: "#cd23d9",
-  [EighteenToSixtyFourYears.value]: "#83db7e",
-  [SixtyFiveToEightyfiveYears.value]: "#c0cbcf",
-  [MoreThanEightyFiveYears.value]: "#5175dc",
+  [NotSpecified.Type]: "#6b707a",
+  [ZeroToOneMonth.Type]: "#886398",
+  [TwoMonthsToTwoYears.Type]: "#58ef28",
+  [ThreeToTwelveYears.Type]: "#65c3b9",
+  [TwelveToSixteenYears.Type]: "#cd23d9",
+  [EighteenToSixtyFourYears.Type]: "#83db7e",
+  [SixtyFiveToEightyfiveYears.Type]: "#c0cbcf",
+  [MoreThanEightyFiveYears.Type]: "#5175dc",
 };
 
 const getByAgeGroup =
@@ -160,7 +161,7 @@ const getDatumTableData = (v: VaccineDatum): [string, string, number][] => {
     v.total_death_years_not_specified,
     v.total_deaths,
   ].map((v, i) => {
-    const ageGroup = AgeGroup.types[i] ? AgeGroup.types[i].value : "all";
+    const ageGroup = AgeGroup.members[i] ? AgeGroup.members[i].Type : "all";
     const color = getAgeGroupColor(ageGroup);
     return [ageGroup, color, v];
   });
@@ -507,7 +508,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
       <QueriesRenderer
         queries={{
           data: useJSONDataQuery(jsonClient)(
-            t.strict({ data: t.array(VaccineDatum) }).decode,
+            Schema.encodeUnknownEither(
+              Schema.Struct({ data: Schema.Array(VaccineDatum) }),
+            ),
             id,
           ),
         }}
@@ -581,9 +584,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                       <MenuItem key={"All"} value={"All"}>
                         All
                       </MenuItem>
-                      {Manufacturer.types.map((t) => (
-                        <MenuItem key={t.value} value={t.value}>
-                          {t.name}
+                      {Manufacturer.members.map((t) => (
+                        <MenuItem key={t.Type} value={t.Type}>
+                          {t.Type}
                         </MenuItem>
                       ))}
                     </Select>

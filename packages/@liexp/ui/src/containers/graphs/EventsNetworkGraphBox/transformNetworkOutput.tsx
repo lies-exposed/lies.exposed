@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EventType,
@@ -19,7 +20,6 @@ import { differenceInDays, parseISO } from "date-fns";
 import { type Either } from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import {
   type ActorNetworkNodeProps,
   toActorNodes,
@@ -122,7 +122,7 @@ const hasType =
         EventType.is(et) ? fp.O.some(et === e.type) : fp.O.none,
       ),
       fp.O.alt(() =>
-        t.array(EventType).is(eventType)
+        Schema.Array(EventType).is(eventType)
           ? fp.O.some(eventType.includes(e.type))
           : fp.O.none,
       ),

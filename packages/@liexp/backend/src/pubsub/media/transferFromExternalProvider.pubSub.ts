@@ -5,10 +5,10 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const TransferMediaFromExternalProviderPubSub = RedisPubSub(
   "media:transfer-from-external-provider",
-  t.strict({
+  Schema.Struct({
     mediaId: UUID,
-    url: t.string,
-    fileName: t.string,
+    url: Schema.String,
+    fileName: Schema.String,
     mimeType: MediaType,
   }),
 );

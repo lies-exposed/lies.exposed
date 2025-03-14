@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as EventTotals from "../EventTotals.js";
 import { SearchBookEvent } from "./SearchBookEvent.js";
 import { SearchDeathEvent } from "./SearchDeathEvent.js";
@@ -10,21 +10,20 @@ import { SearchScientificStudyEvent } from "./SearchScientificStudyEvent.js";
 import { SearchTransactionEvent } from "./SearchTransactionEvent.js";
 import { SearchUncategorizedEvent } from "./SearchUncategorizedEvent.js";
 
-const SearchEvent = t.union(
-  [
-    SearchBookEvent,
-    SearchDeathEvent,
-    SearchDocumentaryEvent,
-    SearchPatentEvent,
-    SearchScientificStudyEvent,
-    SearchTransactionEvent,
-    SearchQuoteEvent,
-    SearchUncategorizedEvent,
-  ],
-  "SearchEvent",
-);
+const SearchEvent = Schema.Union(
+  SearchBookEvent,
+  SearchDeathEvent,
+  SearchDocumentaryEvent,
+  SearchPatentEvent,
+  SearchScientificStudyEvent,
+  SearchTransactionEvent,
+  SearchQuoteEvent,
+  SearchUncategorizedEvent,
+).annotations({
+  title: "SearchEvent",
+});
 
-type SearchEvent = t.TypeOf<typeof SearchEvent>;
+type SearchEvent = typeof SearchEvent.Type;
 
 export {
   EventTotals,

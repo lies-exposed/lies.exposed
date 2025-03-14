@@ -90,7 +90,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 },
               ]}
               resource={{
-                name: Group.GROUPS.value,
+                name: Group.GROUPS.Type,
                 item: group,
               }}
             >
@@ -103,7 +103,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 <Grid item md={8}>
                   <GroupPageContent
                     group={group}
-                    groupsMembers={groupsMembers.data}
+                    groupsMembers={[...groupsMembers.data]}
                     funds={[]}
                     projects={[]}
                     onMemberClick={onActorClick}
@@ -144,13 +144,13 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
               />
 
               <EventNetworkGraphBoxWithFilters
-                type={Group.GROUPS.value}
+                type={Group.GROUPS.Type}
                 query={{
                   ids: [group.id],
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}
-                relations={[Keyword.KEYWORDS.value]}
+                relations={[Keyword.KEYWORDS.Type]}
                 onActorClick={onActorClick}
                 onGroupClick={onGroupClick}
                 onKeywordClick={onKeywordClick}

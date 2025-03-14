@@ -1,13 +1,13 @@
-import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull';
 
-export const PaginationQuery = t.type(
-  {
-    _start: optionFromNullable(NumberFromString.pipe(t.Int)),
-    _end: optionFromNullable(NumberFromString.pipe(t.Int)),
-  },
-  "PaginationQuery",
-);
+const IntFromString = Schema.NumberFromString.pipe(Schema.filter(s => Schema.is( Schema.Int)(s)))
 
-export type PaginationQuery = t.TypeOf<typeof PaginationQuery>;
+export const PaginationQuery = Schema.Struct({
+  _start: OptionFromNullishToNull(IntFromString),
+  _end: OptionFromNullishToNull(IntFromString),
+}).annotations({
+  title: "PaginationQuery",
+});
+
+export type PaginationQuery = typeof PaginationQuery.Type;

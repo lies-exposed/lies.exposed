@@ -1,5 +1,4 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { BySubjectId } from "../Common/BySubject.js";
 import {
   CreateEventCommon,
@@ -9,54 +8,50 @@ import {
 import { TRANSACTION } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
-export const TransactionListQuery = t.strict(
-  {
-    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
-  },
-  "TransactionListQuery",
-);
-export type TransactionListQuery = t.TypeOf<typeof TransactionListQuery>;
+export const TransactionListQuery = GetSearchEventsQuery.omit(
+  "eventType",
+).annotations({
+  title: "TransactionListQuery",
+});
 
-export const TransactionPayload = t.strict(
-  {
-    title: t.string,
-    total: t.number,
-    currency: t.string,
-    from: BySubjectId,
-    to: BySubjectId,
-  },
-  "TransactionPayload",
-);
-export type TransactionPayload = t.TypeOf<typeof TransactionPayload>;
+export type TransactionListQuery = typeof TransactionListQuery.Type;
 
-export const CreateTransactionBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: TRANSACTION,
-    payload: TransactionPayload,
-  },
-  "CreateTransactionBody",
-);
+export const TransactionPayload = Schema.Struct({
+  title: Schema.String,
+  total: Schema.Number,
+  currency: Schema.String,
+  from: BySubjectId,
+  to: BySubjectId,
+}).annotations({
+  title: "TransactionPayload",
+});
+export type TransactionPayload = typeof TransactionPayload.Type;
 
-export type CreateTransactionBody = t.TypeOf<typeof CreateTransactionBody>;
+export const CreateTransactionBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: TRANSACTION,
+  payload: TransactionPayload,
+}).annotations({
+  title: "CreateTransactionBody",
+});
 
-export const EditTransactionBody = t.strict(
-  {
-    ...EditEventCommon.type.props,
-    type: TRANSACTION,
-    payload: TransactionPayload,
-  },
-  "EditTransactionBody",
-);
+export type CreateTransactionBody = typeof CreateTransactionBody.Type;
 
-export type EditTransactionBody = t.TypeOf<typeof EditTransactionBody>;
+export const EditTransactionBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: TRANSACTION,
+  payload: TransactionPayload,
+}).annotations({
+  title: "EditTransactionBody",
+});
 
-export const Transaction = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: TRANSACTION,
-    payload: TransactionPayload,
-  },
-  "TransactionEvent",
-);
-export type Transaction = t.TypeOf<typeof Transaction>;
+export type EditTransactionBody = typeof EditTransactionBody.Type;
+
+export const Transaction = Schema.Struct({
+  ...EventCommon.fields,
+  type: TRANSACTION,
+  payload: TransactionPayload,
+}).annotations({
+  title: "TransactionEvent",
+});
+export type Transaction = typeof Transaction.Type;

@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
@@ -11,14 +11,16 @@ import {
 import { CreateGraphData, Graph } from "../io/http/graphs/Graph.js";
 import { ResourceEndpoints } from "./types.js";
 
-const SingleGraphOutput = Output(Graph, "Graph");
+const SingleGraphOutput = Output(Graph).annotations({
+  title: "Graph",
+});
 const ListGraphsOutput = ListOutput(Graph, "Graphs");
 
 export const GetGraph = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/graphs/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleGraphOutput,
 });
@@ -27,9 +29,7 @@ export const ListGraphs = Endpoint({
   Method: "GET",
   getPath: () => `/graphs`,
   Input: {
-    Query: t.partial({
-      ...GetListQuery.props,
-    }),
+    Query: GetListQuery,
   },
   Output: ListGraphsOutput,
 });
@@ -47,7 +47,7 @@ export const EditGraph = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/graphs/${id}`,
   Input: {
-    Params: t.type({
+    Params: Schema.Struct({
       id: UUID,
     }),
     Body: CreateGraphData,
@@ -59,7 +59,7 @@ export const DeleteGraph = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/graphs/${id}`,
   Input: {
-    Params: t.type({
+    Params: Schema.Struct({
       id: UUID,
     }),
   },
@@ -73,7 +73,7 @@ export const GetFlowGraph = Endpoint({
     Params: GetFlowGraphParams,
     Query: GetNetworkQuery,
   },
-  Output: t.strict({ data: FlowGraphOutput }),
+  Output: Schema.Struct({ data: FlowGraphOutput }),
 });
 
 export const EditFlowGraph = Endpoint({
@@ -81,11 +81,11 @@ export const EditFlowGraph = Endpoint({
   getPath: ({ id, type }) => `/graphs/flows/${type}/${id}`,
   Input: {
     Params: GetFlowGraphParams,
-    Body: t.strict({
-      regenerate: t.boolean,
+    Body: Schema.Struct({
+      regenerate: Schema.Boolean,
     }),
   },
-  Output: t.strict({ data: FlowGraphOutput }),
+  Output: Schema.Struct({ data: FlowGraphOutput }),
 });
 
 export const graphs = ResourceEndpoints({

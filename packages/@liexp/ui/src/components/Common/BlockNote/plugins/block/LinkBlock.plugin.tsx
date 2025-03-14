@@ -1,7 +1,8 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { LinksBox } from "../../../../../containers/link/LinksBox.js";
 import { AutocompleteLinkInput } from "../../../../Input/AutocompleteLinkInput.js";
@@ -46,7 +47,7 @@ export const insertLinkBlock = (editor: BNESchemaEditor) => ({
 export const LinkBlockPluginRenderer: React.FC<{
   data: LinkBlockProps;
 }> = ({ ...props }) => {
-  const ids = props.data?.id.split(",").filter(UUID.is) ?? [];
+  const ids = props.data?.id.split(",").filter(Schema.is(UUID)) ?? [];
   const height = props.data.height ?? 200;
 
   if (ids.length > 0) {

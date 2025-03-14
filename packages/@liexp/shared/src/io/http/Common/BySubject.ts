@@ -1,52 +1,52 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Actor } from "../Actor.js";
 import { Group } from "../Group.js";
 import { UUID } from "./UUID.js";
 
-export const ACTOR = t.literal("Actor");
-export type ACTOR = t.TypeOf<typeof ACTOR>;
-export const GROUP = t.literal("Group");
-export type GROUP = t.TypeOf<typeof GROUP>;
+export const ACTOR = Schema.Literal("Actor");
+export type ACTOR = typeof ACTOR.Type;
+export const GROUP = Schema.Literal("Group");
+export type GROUP = typeof GROUP.Type;
 
-export const ByGroupId = t.strict(
-  {
-    type: GROUP,
-    id: UUID,
-  },
-  "ByGroup",
-);
+export const ByGroupId = Schema.Struct({
+  type: GROUP,
+  id: UUID,
+}).annotations({
+  title: "ByGroup",
+});
 
-export type ByGroupId = t.TypeOf<typeof ByGroupId>;
+export type ByGroupId = typeof ByGroupId.Type;
 
-export const ByActorId = t.strict(
-  {
-    type: t.literal("Actor"),
-    id: UUID,
-  },
-  "ByActor",
-);
-export type ByActorId = t.TypeOf<typeof ByActorId>;
+export const ByActorId = Schema.Struct({
+  type: Schema.Literal("Actor"),
+  id: UUID,
+}).annotations({
+  title: "ByActor",
+});
+export type ByActorId = typeof ByActorId.Type;
 
-export const BySubjectId = t.union([ByGroupId, ByActorId], "ByGroupOrActor");
-export type BySubjectId = t.TypeOf<typeof BySubjectId>;
+export const BySubjectId = Schema.Union(ByGroupId, ByActorId).annotations({
+  title: "ByGroupOrActor",
+});
+export type BySubjectId = typeof BySubjectId.Type;
 
-export const ByActor = t.strict(
-  {
-    type: ACTOR,
-    id: Actor,
-  },
-  "ByActor",
-);
-export type ByActor = t.TypeOf<typeof ByActor>;
+export const ByActor = Schema.Struct({
+  type: ACTOR,
+  id: Actor,
+}).annotations({
+  title: "ByActor",
+});
+export type ByActor = typeof ByActor.Type;
 
-export const ByGroup = t.strict(
-  {
-    type: GROUP,
-    id: Group,
-  },
-  "ByGroup",
-);
-export type ByGroup = t.TypeOf<typeof ByGroup>;
+export const ByGroup = Schema.Struct({
+  type: GROUP,
+  id: Group,
+}).annotations({
+  title: "ByGroup",
+});
+export type ByGroup = typeof ByGroup.Type;
 
-export const BySubject = t.union([ByActor, ByGroup], "ByGroupOrActor");
-export type BySubject = t.TypeOf<typeof BySubject>;
+export const BySubject = Schema.Union(ByActor, ByGroup).annotations({
+  title: "ByGroupOrActor",
+});
+export type BySubject = typeof BySubject.Type;

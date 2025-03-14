@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
@@ -8,16 +8,17 @@ import * as Media from "../io/http/Media/index.js";
 import { ExtractEntitiesWithNLPOutput } from "../io/http/admin/ExtractNLPEntities.js";
 import { ResourceEndpoints } from "./types.js";
 
-const SingleMediaOutput = Output(Media.Media, "Media");
+const SingleMediaOutput = Output(Media.Media).annotations({
+  title: "SingleMediaMedia",
+});
 const ListMediaOutput = ListOutput(Media.Media, "MediaList");
 
-const GetMetadataQuery = t.type(
-  {
-    url: URL,
-    type: t.union([t.literal("ScientificStudy"), t.literal("Link")]),
-  },
-  "GetMetadataQuery",
-);
+const GetMetadataQuery = Schema.Struct({
+  url: URL,
+  type: Schema.Union(Schema.Literal("ScientificStudy"), Schema.Literal("Link")),
+}).annotations({
+  title: "GetMetadataQuery",
+});
 
 export const GetMetadata = Endpoint({
   Method: "GET",
@@ -26,20 +27,19 @@ export const GetMetadata = Endpoint({
     Query: GetMetadataQuery,
   },
   Output: Output(
-    t.strict({
-      metadata: t.any,
-      link: t.union([Link, t.undefined]),
+    Schema.Struct({
+      metadata: Schema.Any,
+      link: Schema.Union(Link, Schema.Undefined),
       relations: ExtractEntitiesWithNLPOutput,
     }),
-    "GetMetadataOutput",
-  ),
+  ).annotations({ title: "GetMetadataOutput" }),
 });
 
 export const List = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/open-graph/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: ListMediaOutput,
 });
@@ -48,9 +48,9 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/open-graph/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const Create = Endpoint({
@@ -58,15 +58,13 @@ export const Create = Endpoint({
   getPath: () => "/open-graph",
   Input: {
     Query: undefined,
-    Body: t.strict(
-      {
-        type: Media.MediaType,
-        location: t.string,
-        description: t.string,
-        // events: t.array(t.string),
-      },
-      "CreateImageBody",
-    ),
+    Body: Schema.Struct({
+      type: Media.MediaType,
+      location: Schema.String,
+      description: Schema.String,
+    }).annotations({
+      title: "CreateImageBody",
+    }),
   },
   Output: SingleMediaOutput,
 });
@@ -75,12 +73,11 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/open-graph/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
     Body: nonEmptyRecordFromType({
       type: Media.MediaType,
-      location: t.string,
-      description: t.string,
-      // events: t.array(t.string),
+      location: Schema.String,
+      description: Schema.String,
     }),
   },
   Output: SingleMediaOutput,
@@ -90,7 +87,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/open-graph/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleMediaOutput,
 });

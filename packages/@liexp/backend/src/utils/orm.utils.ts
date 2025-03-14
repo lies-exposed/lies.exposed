@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as Query from "@liexp/shared/lib/io/http/Query/index.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { contramap } from "fp-ts/lib/Ord.js";
 import * as R from "fp-ts/lib/Record.js";
-import * as t from "io-ts";
 import { BigIntFromString } from "io-ts-types/lib/BigIntFromString.js";
 import {
   Equal,
@@ -73,13 +73,16 @@ const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
     _f,
     R.filter(O.isSome),
     R.mapWithIndex((key, e) => {
-      if (UUID.is(e.value)) {
+      if (Schema.is(UUID)(e.value)) {
         return Equal(e.value);
       }
       if (BigIntFromString.is(e.value)) {
         return Equal(e.value.toString());
       }
-      if (t.array(t.string).is(e.value) || t.array(UUID).is(e.value)) {
+      if (
+        Schema.is(Schema.Array(Schema.String))(e.value) ||
+        Schema.is(Schema.Array(UUID))(e.value)
+      ) {
         return In(e.value);
       }
       if (key === "path") {

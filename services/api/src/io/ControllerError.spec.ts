@@ -64,7 +64,7 @@ describe("ControllerError", () => {
       const error = DecodeError.of(
         "Failed to decode melon",
         pipe(
-          t.array(t.string).decode("melon"),
+          Schema.Array(Schema.String).decode("melon"),
           fp.E.fold(
             (e) => e,
             () => [],

@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { UUID } from "../io/http/Common/index.js";
 import * as Keyword from "../io/http/Keyword.js";
@@ -17,7 +17,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: Keyword.SingleKeywordOutput,
 });
@@ -35,7 +35,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Keyword.CreateKeyword,
   },
   Output: Keyword.SingleKeywordOutput,
@@ -45,7 +45,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/keywords/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: Keyword.SingleKeywordOutput,
 });
@@ -56,9 +56,9 @@ export const Distribution = Endpoint({
   Input: {
     Query: Keyword.GetKeywordListQuery,
   },
-  Output: t.strict({
-    data: t.any,
-    total: t.number,
+  Output: Schema.Struct({
+    data: Schema.Any,
+    total: Schema.Number,
   }),
 });
 

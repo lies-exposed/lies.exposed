@@ -13,7 +13,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.SocialPosts.Create,
     ({ params: { id, type }, body: { platforms, ...body } }) => {
-      const saveInDb = t.number.is(body.schedule)
+      const saveInDb = Schema.Number.is(body.schedule)
         ? pipe(
             ctx.db.save(SocialPostEntity, [
               {

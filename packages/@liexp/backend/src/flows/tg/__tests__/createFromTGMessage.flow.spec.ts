@@ -127,7 +127,7 @@ describe("Create From TG Message", () => {
         // );
 
         expect(result).toMatchObject({
-          link: [expect.any(String)],
+          link: [expecSchema.Any(String)],
           photos: [],
           videos: [],
         });
@@ -174,7 +174,7 @@ describe("Create From TG Message", () => {
         );
 
         expect(result).toMatchObject({
-          link: expect.any(Array),
+          link: expecSchema.Any(Array),
         });
       },
     );
@@ -216,7 +216,7 @@ describe("Create From TG Message", () => {
 
       expect(result).toMatchObject({
         link: [],
-        photos: [expect.any(String)],
+        photos: [expecSchema.Any(String)],
         hashtags: [],
         videos: [],
       });

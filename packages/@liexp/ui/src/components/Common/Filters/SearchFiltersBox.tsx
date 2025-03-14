@@ -7,7 +7,9 @@ import {
 } from "@liexp/shared/lib/io/http/Query/GetListQuery.js";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import {
+  type RecordCodecEncoded
+} from "ts-io-error/lib/Codec.js";
 import ActorsBox from "../../../containers/ActorsBox.js";
 import { GroupsBox } from "../../../containers/GroupsBox.js";
 import { styled, useTheme } from "../../../theme/index.js";
@@ -28,13 +30,13 @@ import {
 } from "../../mui/index.js";
 
 export type SearchFilters = Omit<
-  serializedType<typeof GetListQuery>,
+  RecordCodecEncoded<typeof GetListQuery>,
   "_start" | "_end"
 > &
-  serializedType<typeof GetListQueryActors> &
-  serializedType<typeof GetListQueryGroups> &
-  serializedType<typeof GetListQueryKeywords> &
-  serializedType<typeof GetListQueryDateRange>;
+  RecordCodecEncoded<typeof GetListQueryActors> &
+  RecordCodecEncoded<typeof GetListQueryGroups> &
+  RecordCodecEncoded<typeof GetListQueryKeywords> &
+  RecordCodecEncoded<typeof GetListQueryDateRange>;
 
 const PREFIX = "SearchFiltersBar";
 

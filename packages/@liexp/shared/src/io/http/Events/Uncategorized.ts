@@ -1,6 +1,4 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { Schema } from "effect";
 import { UUID } from "../Common/index.js";
 import {
   CreateEventCommon,
@@ -8,64 +6,61 @@ import {
   EventCommon,
 } from "./BaseEvent.js";
 import { UNCATEGORIZED } from "./EventType.js";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
-export const CreateEventBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: UNCATEGORIZED,
-    payload: t.strict({
-      title: t.string,
-      actors: t.array(UUID),
-      groups: t.array(UUID),
-      groupsMembers: t.array(UUID),
-      location: optionFromUndefined(UUID),
-      endDate: optionFromUndefined(DateFromISOString),
-    }),
-  },
-  "CreateEventBody",
-);
+export const CreateEventBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: UNCATEGORIZED,
+  payload: Schema.Struct({
+    title: Schema.String,
+    actors: Schema.Array(UUID),
+    groups: Schema.Array(UUID),
+    groupsMembers: Schema.Array(UUID),
+    location: OptionFromNullishToNull(UUID),
+    endDate: OptionFromNullishToNull(Schema.DateFromString),
+  }),
+}).annotations({
+  title: "CreateEventBody",
+});
 
-export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
+export type CreateEventBody = typeof CreateEventBody.Type;
 
-export const EditEventBody = t.strict(
-  {
-    ...EditEventCommon.type.props,
-    type: UNCATEGORIZED,
-    payload: t.strict({
-      title: t.string,
-      location: optionFromUndefined(UUID),
-      actors: t.array(t.string),
-      groups: t.array(t.string),
-      groupsMembers: t.array(t.string),
-      endDate: optionFromUndefined(DateFromISOString),
-    }),
-  },
-  "EditEventPayload",
-);
+export const EditEventBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: UNCATEGORIZED,
+  payload: Schema.Struct({
+    title: Schema.String,
+    location: OptionFromNullishToNull(UUID),
+    actors: Schema.Array(Schema.String),
+    groups: Schema.Array(Schema.String),
+    groupsMembers: Schema.Array(Schema.String),
+    endDate: OptionFromNullishToNull(Schema.DateFromString),
+  }),
+}).annotations({
+  title: "EditEventPayload",
+});
 
-export type EditEventBody = t.TypeOf<typeof EditEventBody>;
+export type EditEventBody = typeof EditEventBody.Type;
 
-export const UncategorizedV2Payload = t.strict(
-  {
-    title: t.string,
-    location: t.union([UUID, t.undefined]),
-    endDate: t.union([DateFromISOString, t.undefined]),
-    actors: t.array(UUID),
-    groups: t.array(UUID),
-    groupsMembers: t.array(UUID),
-  },
-  "UncategorizedV2Payload",
-);
+export const UncategorizedV2Payload = Schema.Struct({
+  title: Schema.String,
+  location: Schema.Union(UUID, Schema.Undefined),
+  endDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  actors: Schema.Array(UUID),
+  groups: Schema.Array(UUID),
+  groupsMembers: Schema.Array(UUID),
+}).annotations({
+  title: "UncategorizedV2Payload",
+});
 
-export type UncategorizedV2Payload = t.TypeOf<typeof UncategorizedV2Payload>;
+export type UncategorizedV2Payload = typeof UncategorizedV2Payload.Type;
 
-export const Uncategorized = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: UNCATEGORIZED,
-    payload: UncategorizedV2Payload,
-  },
-  "UncategorizedEvent",
-);
+export const Uncategorized = Schema.Struct({
+  ...EventCommon.fields,
+  type: UNCATEGORIZED,
+  payload: UncategorizedV2Payload,
+}).annotations({
+  title: "UncategorizedEvent",
+});
 
-export type Uncategorized = t.TypeOf<typeof Uncategorized>;
+export type Uncategorized = typeof Uncategorized.Type;

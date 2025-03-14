@@ -3,21 +3,30 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type runtimeType } from "ts-io-error/Codec.js";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import {
+  type RecordCodecEncoded,
+  type runtimeType,
+  type serializedType,
+} from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
-  type GetListFnParamsE,
-  type EndpointsRESTClient,
-  type EndpointOutput,
-  type GetFnParams,
-  type GetEndpointQueryType,
-  type EndpointREST,
   type EndpointDataOutput,
+  type EndpointDataOutputType,
+  type EndpointREST,
+  type EndpointsRESTClient,
+  type GetEndpointQueryType,
+  type GetFnParams,
+  type GetListFnParamsE,
 } from "../EndpointsRESTClient/types.js";
 
-export type QueryFnKey<P, Q = undefined> = [string, P, Q | undefined, boolean];
+export type QueryFnKey<P, Q = undefined> = [
+  string, //prefix
+  P, // params type
+  Q | undefined, // query type
+  boolean, // discrete - it means it only fetches the data when non empty ids are given
+];
+
 export type GetKeyFn<P, Q = undefined> = (
   p: P,
   q?: Q,
@@ -43,11 +52,15 @@ export interface ResourceQuery<P, Q, A> {
 }
 
 export interface ResourceQueries<G, L, CC> {
-  get: ResourceQuery<GetFnParams<G>, any, EndpointOutput<G>>;
+  get: ResourceQuery<
+    GetFnParams<G>,
+    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+    EndpointDataOutputType<G>
+  >;
   list: ResourceQuery<
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>,
-    EndpointOutput<L>
+    EndpointDataOutput<L>
   >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {

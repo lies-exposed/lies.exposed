@@ -1,8 +1,7 @@
-import type * as t from "io-ts";
-import { failure } from "io-ts/lib/PathReporter.js";
+import { type ParseError } from "effect/ParseResult";
 
-export const throwValidationErrors = (errs: t.Errors): null => {
+export const throwValidationErrors = (errs: ParseError): null => {
   // eslint-disable-next-line no-console
-  console.log(failure(errs));
+  console.log(errs.toJSON());
   return null;
 };

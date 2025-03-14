@@ -3,17 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {
-  type InferEndpointParams,
+  type InferEndpointInstanceParams,
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
   type EndpointsRESTClient,
-  type GetFnParams,
   type GetEndpointQueryType,
+  type GetFnParams,
   type GetListFnParamsE,
 } from "../EndpointsRESTClient/types.js";
 import { fetchQuery, getDefaultKey } from "./QueryProvider.js";
@@ -38,7 +38,7 @@ export interface ResourceEndpointsQueriesOverride<
   get?: G extends MinimalEndpointInstance
     ? GetQueryOverride<
         GetFnParams<G>,
-        Partial<serializedType<InferEndpointParams<G>["query"]>>
+        Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
       >
     : never;
   list?: L extends MinimalEndpointInstance

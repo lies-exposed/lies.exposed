@@ -1,12 +1,14 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import { CreateMedia, EditMediaBody } from "../io/http/Media/index.js";
 import { Media } from "../io/http/index.js";
 import { ResourceEndpoints } from "./types.js";
 
-const SingleMediaOutput = Output(Media.Media, "Media");
+const SingleMediaOutput = Output(Media.Media).annotations({
+  title: "Media",
+});
 const ListMediaOutput = ListOutput(Media.Media, "MediaList");
 
 export const List = Endpoint({
@@ -22,7 +24,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleMediaOutput,
 });
@@ -41,7 +43,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: EditMediaBody,
   },
   Output: SingleMediaOutput,
@@ -51,7 +53,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/media/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleMediaOutput,
 });
@@ -67,9 +69,9 @@ export const media = ResourceEndpoints({
       Method: "POST",
       getPath: ({ id }) => `/media/${id}/thumbnails`,
       Input: {
-        Params: t.type({ id: UUID }),
+        Params: Schema.Struct({ id: UUID }),
       },
-      Output: t.strict({ data: t.boolean }),
+      Output: Schema.Struct({ data: Schema.Boolean }),
     }),
   },
 });

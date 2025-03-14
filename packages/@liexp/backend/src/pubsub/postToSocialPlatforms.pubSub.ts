@@ -5,5 +5,5 @@ import { RedisPubSub } from "../providers/redis/RedisPubSub.js";
 
 export const PostToSocialPlatformsPubSub = RedisPubSub(
   "post-social-post",
-  t.intersection([t.strict({ id: UUID }), CreateSocialPost]),
+  t.intersection([Schema.Struct({ id: UUID }), CreateSocialPost]),
 );

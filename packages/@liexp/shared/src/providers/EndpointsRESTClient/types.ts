@@ -1,5 +1,4 @@
 import type * as TE from "fp-ts/lib/TaskEither.js";
-import type * as t from "io-ts";
 // eslint-disable-next-line no-restricted-imports
 import type { DeleteParams, GetListParams } from "react-admin";
 import {
@@ -8,23 +7,28 @@ import {
   type InferEndpointParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type runtimeType } from "ts-io-error/Codec.js";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
+import {
+  type Codec,
+  type RecordCodec,
+  type RecordCodecEncoded,
+  type RecordSchemaType,
+  type runtimeType,
+  type serializedType,
+} from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../api-rest.provider.js";
 
-export type GetFnParams<G> =
-  InferEndpointParams<G>["params"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : InferEndpointParams<G>["params"] extends undefined
-      ? undefined
-      : runtimeType<InferEndpointParams<G>["params"]>;
+export type GetFnParams<G> = G extends MinimalEndpointInstance
+  ? InferEndpointInstanceParams<G>["params"] extends undefined
+    ? undefined
+    : serializedType<InferEndpointInstanceParams<G>["params"]>
+  : never;
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   filter?: Partial<
-    serializedType<
+    RecordCodecEncoded<
       L extends MinimalEndpointInstance
         ? InferEndpointInstanceParams<L>["query"]
         : InferEndpointParams<L>["query"]
@@ -42,28 +46,38 @@ export type EditFnParams<C> = Partial<
   runtimeType<InferEndpointParams<C>["params"]>;
 
 export type GetEndpointQueryType<G> =
-  InferEndpointParams<G>["query"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
-    : InferEndpointParams<G>["query"] extends undefined
-      ? undefined
-      : serializedType<InferEndpointParams<G>["query"]>;
+  InferEndpointInstanceParams<G>["query"] extends undefined
+    ? undefined
+    : G extends MinimalEndpointInstance
+      ? RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>
+      : RecordCodecEncoded<InferEndpointParams<G>["query"]>;
 
-export type EndpointOutput<L> =
-  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>["data"] extends unknown[]
-      ? t.TypeOf<T>
-      : t.TypeOf<T>["data"]
+export type EndpointDataOutputType<L> = L extends MinimalEndpointInstance
+  ? InferEndpointInstanceParams<L>["output"] extends RecordCodec<infer T>
+    ? RecordSchemaType<T>["data"] extends unknown[]
+      ? RecordSchemaType<T>
+      : RecordSchemaType<T>["data"]
+    : never
+  : InferEndpointParams<L>["output"] extends RecordCodec<infer T>
+    ? RecordSchemaType<T>["data"] extends unknown[]
+      ? RecordSchemaType<T>
+      : RecordSchemaType<T>["data"]
     : never;
 
 export type EndpointDataOutput<L> =
-  InferEndpointParams<L>["output"] extends t.ExactType<infer T>
-    ? t.TypeOf<T>
+  InferEndpointInstanceParams<L>["output"] extends RecordCodec<infer T>
+    ? RecordSchemaType<T>
+    : never;
+
+export type EndpointOutputType<L> =
+  InferEndpointParams<L>["output"] extends RecordCodec<infer T>
+    ? RecordSchemaType<T>
     : never;
 
 export type GetFn<G> = (
   params: GetFnParams<G>,
-  query?: Partial<serializedType<InferEndpointParams<G>["query"]>>,
-) => TE.TaskEither<APIError, EndpointOutput<G>>;
+  query?: Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+) => TE.TaskEither<APIError, EndpointDataOutputType<G>>;
 
 type GetListFnParams<L, O = undefined> = O extends undefined
   ? Omit<GetListParams, "filter"> & { filter: Partial<GetEndpointQueryType<L>> }
@@ -71,22 +85,22 @@ type GetListFnParams<L, O = undefined> = O extends undefined
 
 export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>,
-) => TE.TaskEither<APIError, EndpointOutput<L>>;
+) => TE.TaskEither<APIError, EndpointDataOutput<L>>;
 
 type CreateFn<C> = (
   params: CreateFnParams<C>,
-) => TE.TaskEither<APIError, EndpointOutput<C>>;
+) => TE.TaskEither<APIError, EndpointDataOutputType<C>>;
 
 type EditFn<C> = (
   params: EditFnParams<C>,
-) => TE.TaskEither<APIError, EndpointOutput<C>>;
+) => TE.TaskEither<APIError, EndpointDataOutputType<C>>;
 
 type DeleteFn<C> = (
   params: DeleteParams<any>,
-) => TE.TaskEither<APIError, EndpointOutput<C>>;
+) => TE.TaskEither<APIError, EndpointDataOutputType<C>>;
 
 type CustomEndpointParams<C> =
-  (InferEndpointInstanceParams<C>["headers"] extends t.Mixed
+  (InferEndpointInstanceParams<C>["headers"] extends Codec<any>
     ? {
         Headers: serializedType<InferEndpointInstanceParams<C>["headers"]>;
       }
@@ -100,7 +114,7 @@ type CustomEndpointParams<C> =
 export type CustomEndpointFn<C extends MinimalEndpointInstance> = (
   params: CustomEndpointParams<C>,
   q?: any,
-) => TE.TaskEither<APIError, EndpointDataOutput<C>>;
+) => TE.TaskEither<APIError, InferEndpointInstanceParams<C>["output"]>;
 
 export type CustomEndpointsRecord<CC> =
   CC extends Record<string, MinimalEndpointInstance>
@@ -127,7 +141,14 @@ export type FromRestEndpoints<E> =
     EndpointInstance<infer D>,
     infer CC
   >
-    ? EndpointREST<G, L, C, E, D, CC>
+    ? EndpointREST<
+        EndpointInstance<G>,
+        EndpointInstance<L>,
+        EndpointInstance<C>,
+        EndpointInstance<E>,
+        EndpointInstance<D>,
+        CC
+      >
     : never;
 
 export interface EndpointsRESTClient<ES extends EndpointsMapType> {

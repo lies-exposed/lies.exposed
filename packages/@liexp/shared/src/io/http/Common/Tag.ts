@@ -1,7 +1,7 @@
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
 
 export interface TagBrand {
   readonly Tag: unique symbol;
@@ -9,9 +9,8 @@ export interface TagBrand {
 
 const tagPattern = /^((?!_)[A-Za-z0-9]+)(?:$)/i;
 
-export const Tag = t.brand(
-  t.string,
-  (s): s is t.Branded<string, TagBrand> =>
+export const Tag = Schema.String.pipe(
+  Schema.filter((s) =>
     pipe(
       IOE.tryCatch(() => tagPattern.test(s), E.toError),
       IOE.mapLeft((e) => false),
@@ -20,7 +19,9 @@ export const Tag = t.brand(
         (r) => () => r,
       ),
     )(),
-  "Tag",
-);
+  ),
+).annotations({
+  title: "Tag",
+});
 
-export type Tag = t.TypeOf<typeof Tag>;
+export type Tag = typeof Tag;

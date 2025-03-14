@@ -9,7 +9,7 @@ import {
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as React from "react";
 import { useTheme } from "../../theme/index.js";
 import { BNEditor } from "../Common/BlockNote/index.js";
@@ -103,7 +103,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
             <div style={{ marginBottom: 50 }}>
               <Typography className="label" style={{}}>
                 {formatDate(
-                  t.string.is(story.createdAt)
+                  Schema.is(Schema.String)(story.createdAt)
                     ? parseISO(story.createdAt)
                     : story.createdAt,
                 )}

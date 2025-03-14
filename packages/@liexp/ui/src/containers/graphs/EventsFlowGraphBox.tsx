@@ -1,10 +1,10 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type GetNetworkQuerySerialized } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { type Node } from "@xyflow/react";
 import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
@@ -30,11 +30,11 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   const [state, setState] = React.useState<{
     startDate: string | undefined;
     endDate: string | undefined;
-    ids: string[];
+    ids: UUID[];
     type: string[] | string | undefined;
-    selectedActorIds: string[];
-    selectedGroupIds: string[];
-    selectedKeywordIds: string[];
+    selectedActorIds: UUID[];
+    selectedGroupIds: UUID[];
+    selectedKeywordIds: UUID[];
   }>({
     startDate: _query.startDate ?? undefined,
     endDate: _query.endDate ?? undefined,
@@ -51,7 +51,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
       ids: _query.ids ?? undefined,
       actors: (state.selectedActorIds.length > 0
         ? state.selectedActorIds
-        : _query.actors) as NonEmptyArray<string>,
+        : _query.actors) as NonEmptyArray<UUID>,
       groups: (state.selectedGroupIds.length > 0
         ? state.selectedGroupIds
         : _query.groups) as NonEmptyArray<string>,

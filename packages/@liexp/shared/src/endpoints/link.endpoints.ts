@@ -1,10 +1,12 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Endpoint } from "ts-endpoint";
 import { ListOutput, Output, URL, UUID } from "../io/http/Common/index.js";
 import * as Link from "../io/http/Link.js";
 import { ResourceEndpoints } from "./types.js";
 
-const OneLinkOutput = Output(Link.Link, "Link");
+const OneLinkOutput = Output(Link.Link).annotations({
+  title: "Link",
+});
 const ManyLinkOutput = ListOutput(Link.Link, "Links");
 
 export const List = Endpoint({
@@ -20,7 +22,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: OneLinkOutput,
 });
@@ -38,7 +40,7 @@ export const CreateMany = Endpoint({
   Method: "POST",
   getPath: () => "/links/many",
   Input: {
-    Body: t.array(Link.CreateLink),
+    Body: Schema.Array(Link.CreateLink),
   },
   Output: ManyLinkOutput,
 });
@@ -47,7 +49,7 @@ export const Submit = Endpoint({
   Method: "POST",
   getPath: () => `/links/submit`,
   Input: {
-    Body: t.strict({
+    Body: Schema.Struct({
       url: URL,
     }),
   },
@@ -58,7 +60,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Link.EditLink,
   },
   Output: OneLinkOutput,
@@ -68,7 +70,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/links/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: OneLinkOutput,
 });
@@ -77,7 +79,7 @@ export const UpdateMetadata = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/links/${id}/metadata`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: OneLinkOutput,
 });
@@ -86,7 +88,7 @@ export const TakeLinkScreenshot = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/links/${id}/screenshot`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Link.EditLink,
   },
   Output: OneLinkOutput,

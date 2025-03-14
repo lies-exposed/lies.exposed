@@ -100,15 +100,15 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         position: {
           y: 200 + i * 50,
           x:
-            data.type === Events.EventTypes.UNCATEGORIZED.value
+            data.type === Events.EventTypes.UNCATEGORIZED.Type
               ? -50
-              : data.type === Events.EventTypes.SCIENTIFIC_STUDY.value
+              : data.type === Events.EventTypes.SCIENTIFIC_STUDY.Type
                 ? -25
-                : data.type === Events.EventTypes.PATENT.value
+                : data.type === Events.EventTypes.PATENT.Type
                   ? 0
-                  : data.type === Events.EventTypes.DEATH.value
+                  : data.type === Events.EventTypes.DEATH.Type
                     ? 25
-                    : data.type === Events.EventTypes.DOCUMENTARY.value
+                    : data.type === Events.EventTypes.DOCUMENTARY.Type
                       ? 50
                       : 75,
         },

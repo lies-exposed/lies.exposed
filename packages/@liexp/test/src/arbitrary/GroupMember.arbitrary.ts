@@ -1,15 +1,13 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { ActorArb } from "./Actor.arbitrary.js";
 import { GroupArb } from "./Group.arbitrary.js";
 import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-const groupMemberProps = propsOmit(http.GroupMember.GroupMember, [
+const groupMemberProps = http.GroupMember.GroupMember.omit(
   "id",
   "body",
   "excerpt",
@@ -22,10 +20,10 @@ const groupMemberProps = propsOmit(http.GroupMember.GroupMember, [
   "createdAt",
   "updatedAt",
   "deletedAt",
-]);
+);
 
-export const GroupMemberArb: fc.Arbitrary<GroupMember> = getArbitrary(
-  t.strict({ ...groupMemberProps }, "GroupMember"),
+export const GroupMemberArb: fc.Arbitrary<GroupMember> = Arbitrary.make(
+  groupMemberProps,
 ).map((p) => ({
   ...p,
   id: fc.sample(UUIDArb, 1)[0],

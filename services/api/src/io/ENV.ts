@@ -6,25 +6,25 @@ import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 const ENV = t.intersection(
   [
     BACKEND_ENV,
-    t.strict(
+    Schema.Struct(
       {
         REDIS_CONNECT: BooleanFromString,
-        REDIS_HOST: t.string,
+        REDIS_HOST: Schema.String,
       },
       "REDIS_ENV",
     ),
     JWT_ENV,
-    t.strict(
+    Schema.Struct(
       {
-        DEBUG: t.string,
-        SERVER_HOST: t.string,
+        DEBUG: Schema.String,
+        SERVER_HOST: Schema.String,
         SERVER_PORT: NumberFromString,
         VIRTUAL_PORT: NumberFromString,
-        VIRTUAL_HOST: t.string,
-        WEB_URL: t.string,
+        VIRTUAL_HOST: Schema.String,
+        WEB_URL: Schema.String,
         // geo coding
-        GEO_CODE_BASE_URL: t.string,
-        GEO_CODE_API_KEY: t.string,
+        GEO_CODE_BASE_URL: Schema.String,
+        GEO_CODE_API_KEY: Schema.String,
       },
       "API_ENV",
     ),

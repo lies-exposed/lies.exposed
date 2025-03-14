@@ -3,11 +3,11 @@ import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
 
 export const AppEnv = defineEnv((t) => ({
-  VITE_NODE_ENV: t.string,
-  VITE_PUBLIC_URL: t.string,
-  VITE_API_URL: t.string,
-  VITE_ADMIN_URL: t.string,
-  VITE_DEBUG: t.string,
+  VITE_NODE_ENV: Schema.String,
+  VITE_PUBLIC_URL: Schema.String,
+  VITE_API_URL: Schema.String,
+  VITE_ADMIN_URL: Schema.String,
+  VITE_DEBUG: Schema.String,
 }));
 
 export const port =

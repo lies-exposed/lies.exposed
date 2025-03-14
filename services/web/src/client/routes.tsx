@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/core/lib/io/http/Common/UUID.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -15,7 +16,6 @@ import {
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github.js";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooksPage } from "./pages/events/BooksPage.js";

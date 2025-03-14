@@ -31,7 +31,7 @@ export const editMedia = (
     _overrideThumbnail,
     O.filter((o) => !!o),
   );
-  const overrideExtra = pipe(_overrideExtra, O.filter(t.boolean.is));
+  const overrideExtra = pipe(_overrideExtra, O.filter(Schema.Boolean.is));
 
   const transfer = pipe(
     _transfer,

@@ -1,7 +1,4 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { ACTORS, Actor } from "./Actor.js";
 import { AREAS } from "./Area.js";
 import { UUID } from "./Common/index.js";
@@ -11,135 +8,137 @@ import { KEYWORDS, Keyword } from "./Keyword.js";
 import { LINKS } from "./Link.js";
 import { MEDIA } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
+import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
-export const SocialPostPhoto = t.type(
+export const SocialPostPhoto = Schema.Struct({
+  type: Schema.Literal("photo"),
+  media: Schema.String,
+  thumbnail: Schema.String,
+}).annotations({
+  title: "SocialPostPhoto",
+});
+export type SocialPostPhoto = typeof SocialPostPhoto.Type;
+
+export const SocialPostDocument = Schema.Struct({
+  type: Schema.Literal("document"),
+  filename: Schema.String,
+  media: Schema.String,
+  thumbnail: Schema.String,
+}).annotations({
+  title: "SocialPostDocument",
+});
+export type SocialPostDocument = typeof SocialPostDocument.Type;
+
+export const SocialPostVideo = Schema.Struct({
+  type: Schema.Literal("video"),
+  media: Schema.String,
+  thumbnail: Schema.String,
+  duration: Schema.Union(Schema.Number, Schema.Undefined),
+}).annotations({
+  title: "SocialPostVideo",
+});
+export type SocialPostVideo = typeof SocialPostVideo.Type;
+
+export const SocialPostBodyMultipleMedia = Schema.Array(
+  Schema.Union(SocialPostPhoto, SocialPostVideo, SocialPostDocument),
+).annotations({
+  title: "SocialPostBodyMultipleMedia",
+});
+export type SocialPostBodyMultipleMedia =
+  typeof SocialPostBodyMultipleMedia.Type;
+export const IGPlatform = Schema.Literal("IG");
+export type IGPlatform = typeof IGPlatform.Type;
+
+export const TGPlatform = Schema.Literal("TG");
+export type TGPlatform = typeof TGPlatform.Type;
+
+export const SocialPlatform = Schema.Union(IGPlatform, TGPlatform).annotations({
+  title: "SharePlatform",
+});
+export type SocialPlatform = typeof SocialPlatform.Type;
+
+export const SocialPostResourceType = Schema.Union(
+  ACTORS,
+  GROUPS,
+  KEYWORDS,
+  MEDIA,
+  EVENTS,
+  LINKS,
+  AREAS,
+  Schema.Literal("stories"),
+).annotations({
+  title: "SocialPostResourceType",
+});
+
+export type SocialPostResourceType = typeof SocialPostResourceType.Type;
+
+export const TO_PUBLISH = Schema.Literal("TO_PUBLISH");
+export type TO_PUBLISH = typeof TO_PUBLISH.Type;
+export const PUBLISHED = Schema.Literal("PUBLISHED");
+export type PUBLISHED = typeof PUBLISHED.Type;
+export const SocialPostStatus = Schema.Union(TO_PUBLISH, PUBLISHED).annotations(
   {
-    type: t.literal("photo"),
-    media: t.string,
-    thumbnail: t.string,
+    title: "SocialPostStatus",
   },
-  "SocialPostPhoto",
-);
-export type SocialPostPhoto = t.TypeOf<typeof SocialPostPhoto>;
-
-export const SocialPostDocument = t.type(
-  {
-    type: t.literal("document"),
-    filename: t.string,
-    media: t.string,
-    thumbnail: t.string,
-  },
-  "SocialPostPhoto",
-);
-export type SocialPostDocument = t.TypeOf<typeof SocialPostDocument>;
-
-export const SocialPostVideo = t.type(
-  {
-    type: t.literal("video"),
-    media: t.string,
-    thumbnail: t.string,
-    duration: t.union([t.number, t.undefined]),
-  },
-  "SocialPostVideo",
-);
-export type SocialPostVideo = t.TypeOf<typeof SocialPostVideo>;
-
-export const SocialPostBodyMultipleMedia = t.array(
-  t.union([SocialPostPhoto, SocialPostVideo, SocialPostDocument]),
-  "SocialPostBodyMultipleMedia",
-);
-export type SocialPostBodyMultipleMedia = t.TypeOf<
-  typeof SocialPostBodyMultipleMedia
->;
-export const IGPlatform = t.literal("IG");
-export type IGPlatform = t.TypeOf<typeof IGPlatform>;
-
-export const TGPlatform = t.literal("TG");
-export type TGPlatform = t.TypeOf<typeof TGPlatform>;
-
-export const SocialPlatform = t.union(
-  [IGPlatform, TGPlatform],
-  "SharePlatform",
-);
-export type SocialPlatform = t.TypeOf<typeof SocialPlatform>;
-
-export const SocialPostResourceType = t.union(
-  [ACTORS, GROUPS, KEYWORDS, MEDIA, EVENTS, LINKS, AREAS, t.literal("stories")],
-  "SocialPostResourceType",
-);
-export type SocialPostResourceType = t.TypeOf<typeof SocialPostResourceType>;
-
-export const TO_PUBLISH = t.literal("TO_PUBLISH");
-export type TO_PUBLISH = t.TypeOf<typeof TO_PUBLISH>;
-export const PUBLISHED = t.literal("PUBLISHED");
-export type PUBLISHED = t.TypeOf<typeof PUBLISHED>;
-export const SocialPostStatus = t.union(
-  [TO_PUBLISH, PUBLISHED],
-  "SocialPostStatus",
 );
 
-export type SocialPostStatus = t.TypeOf<typeof SocialPostStatus>;
+export type SocialPostStatus = typeof SocialPostStatus;
 
-export const GetListSocialPostQuery = t.type(
-  {
-    ...GetListQuery.props,
-    distinct: optionFromNullable(BooleanFromString),
-    scheduleAt: optionFromNullable(DateFromISOString),
-    type: optionFromNullable(SocialPostResourceType),
-    status: optionFromNullable(SocialPostStatus),
-    entity: optionFromNullable(UUID),
-  },
-  "GetListSocialPostQuery",
-);
+export const GetListSocialPostQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  distinct: OptionFromNullishToNull(Schema.BooleanFromString),
+  scheduleAt: OptionFromNullishToNull(Schema.DateFromString),
+  type: OptionFromNullishToNull(SocialPostResourceType),
+  status: OptionFromNullishToNull(SocialPostStatus),
+  entity: OptionFromNullishToNull(UUID),
+}).annotations({
+  title: "GetListSocialPostQuery",
+});
 
-export const CreateSocialPost = t.strict(
-  {
-    title: t.string,
-    url: t.string,
-    date: t.string,
-    content: t.union([t.string, t.undefined]),
-    useReply: t.boolean,
-    media: SocialPostBodyMultipleMedia,
-    actors: t.array(Actor),
-    groups: t.array(Group),
-    keywords: t.array(Keyword),
-    platforms: t.record(SocialPlatform, t.boolean),
-    schedule: t.union([t.number, t.undefined]),
-  },
-  "CreateSocialPost",
-);
-export type CreateSocialPost = t.TypeOf<typeof CreateSocialPost>;
+export const CreateSocialPost = Schema.Struct({
+  title: Schema.String,
+  url: Schema.String,
+  date: Schema.String,
+  content: Schema.Union(Schema.String, Schema.Undefined),
+  useReply: Schema.Boolean,
+  media: SocialPostBodyMultipleMedia,
+  actors: Schema.Array(Actor),
+  groups: Schema.Array(Group),
+  keywords: Schema.Array(Keyword),
+  platforms: Schema.Record({ key: SocialPlatform, value: Schema.Boolean }),
+  schedule: Schema.Union(Schema.Number, Schema.Undefined),
+}).annotations({
+  title: "CreateSocialPost",
+});
+export type CreateSocialPost = typeof CreateSocialPost.Type;
 
-export const SocialPostPublishResult = t.strict(
-  {
-    tg: t.any,
-    ig: t.any,
-  },
-  "SocialPostPublishResult",
-);
-export type SocialPostPublishResult = t.TypeOf<typeof SocialPostPublishResult>;
+export const SocialPostPublishResult = Schema.Struct({
+  tg: Schema.Any,
+  ig: Schema.Any,
+}).annotations({
+  title: "SocialPostPublishResult",
+});
+export type SocialPostPublishResult = typeof SocialPostPublishResult.Type;
 
-export const SocialPost = t.strict(
-  {
-    ...CreateSocialPost.type.props,
-    type: SocialPostResourceType,
-    entity: UUID,
-    publishCount: t.number,
-    status: SocialPostStatus,
-    result: SocialPostPublishResult,
-    scheduledAt: DateFromISOString,
-  },
-  "ShareMessageBody",
-);
-export type SocialPost = t.TypeOf<typeof SocialPost>;
+export const SocialPost = Schema.Struct({
+  ...CreateSocialPost.fields,
+  type: SocialPostResourceType,
+  entity: UUID,
+  publishCount: Schema.Number,
+  status: SocialPostStatus,
+  result: SocialPostPublishResult,
+  scheduledAt: Schema.DateFromString,
+}).annotations({
+  title: "ShareMessageBody",
+});
+export type SocialPost = typeof SocialPost.Type;
 
-export const EditSocialPost = t.strict(
-  {
-    ...SocialPost.type.props,
-    keywords: t.array(UUID),
-    groups: t.array(UUID),
-    actors: t.array(UUID),
-  },
-  "EditSocialPost",
-);
-export type EditSocialPost = t.TypeOf<typeof EditSocialPost>;
+export const EditSocialPost = Schema.Struct({
+  ...SocialPost.fields,
+  keywords: Schema.Array(UUID),
+  groups: Schema.Array(UUID),
+  actors: Schema.Array(UUID),
+}).annotations({
+  title: "EditSocialPost",
+});
+export type EditSocialPost = typeof EditSocialPost.Type;

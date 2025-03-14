@@ -1,7 +1,7 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common";
 import { type NetworkLink } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type NetworkNode } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Keyword } from "@liexp/shared/lib/io/http/index.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 
 export type KeywordNetworkNodeProps = NetworkNode<{
   id: UUID;
@@ -25,8 +25,8 @@ export const toKeywordNodes = (
       innerColor: g.color,
       outerColor: g.color,
       name: g.tag,
-      group: Keyword.KEYWORDS.value,
-      type: Keyword.KEYWORDS.value,
+      group: Keyword.KEYWORDS.Type,
+      type: Keyword.KEYWORDS.Type,
       count: links.filter((kk) => kk.source === g.id || kk.target === g.id)
         .length,
     },

@@ -11,7 +11,7 @@ import { type Route } from "#routes/route.types.js";
 // import multer from 'multer';
 // const uploads = multer({ dest: '../../media'})
 
-const UploadFileData = t.strict({ key: t.string, file: t.any });
+const UploadFileData = Schema.Struct({ key: Schema.String, file: Schema.Any });
 
 export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(

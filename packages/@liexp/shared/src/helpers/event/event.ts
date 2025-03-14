@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { format, subWeeks } from "date-fns";
+import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import type * as O from "fp-ts/lib/Option.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { Events, type Common, type Network } from "../../io/http/index.js";
@@ -152,9 +152,9 @@ export const eventsInDateRange =
     );
   };
 
-const nonEmptyArrayOrNull = <A>(x: A[]): NonEmptyArray<A> | null => {
+const nonEmptyArrayOrNull = <A>(x: A[]): [A, ...A[]] | null => {
   const z = pipe(fp.NEA.fromArray(x ?? []), fp.O.toNullable);
-  return z;
+  return z as [A, ...A[]] | null;
 };
 
 // const concatToNEAOrNull = <A>(x: A[], y: A[]): NonEmptyArray<A> | null => {
@@ -230,13 +230,13 @@ export const transform =
     props: EventCommonProps & Events.EventRelationIds,
   ): O.Option<Events.Event> => {
     switch (type) {
-      case Events.EventTypes.DEATH.value: {
+      case Events.EventTypes.DEATH.Type: {
         return pipe(
           props.actors.at(0),
           fp.O.fromNullable,
           fp.O.map((v) => ({
             ...e,
-            type: Events.EventTypes.DEATH.value,
+            type: Events.EventTypes.DEATH.Type,
             payload: {
               victim: v,
               location: undefined,
@@ -244,7 +244,7 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.TRANSACTION.value: {
+      case Events.EventTypes.TRANSACTION.Type: {
         const from = pipe(
           props.actors,
           fp.A.head,
@@ -280,7 +280,7 @@ export const transform =
           }),
           fp.O.map(({ to, from }) => ({
             ...e,
-            type: Events.EventTypes.TRANSACTION.value,
+            type: Events.EventTypes.TRANSACTION.Type,
             payload: {
               currency: "USD",
               total: 0,
@@ -291,13 +291,13 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.PATENT.value: {
+      case Events.EventTypes.PATENT.Type: {
         return pipe(
           props.links.at(0),
           fp.O.fromNullable,
           fp.O.map((source) => ({
             ...e,
-            type: Events.EventTypes.PATENT.value,
+            type: Events.EventTypes.PATENT.Type,
             payload: {
               title: props.title,
               source,
@@ -309,7 +309,7 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.DOCUMENTARY.value: {
+      case Events.EventTypes.DOCUMENTARY.Type: {
         return pipe(
           sequenceS(fp.O.Applicative)({
             media: pipe(props.media, fp.A.head),
@@ -317,7 +317,7 @@ export const transform =
           }),
           fp.O.map(({ media, website }) => ({
             ...e,
-            type: Events.EventTypes.DOCUMENTARY.value,
+            type: Events.EventTypes.DOCUMENTARY.Type,
             payload: {
               title: props.title,
               website,
@@ -335,13 +335,13 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+      case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
         return pipe(
           props.links,
           fp.A.head,
           fp.O.map((url) => ({
             ...e,
-            type: Events.EventTypes.SCIENTIFIC_STUDY.value,
+            type: Events.EventTypes.SCIENTIFIC_STUDY.Type,
             payload: {
               title: props.title,
               image: props.media.at(0),
@@ -353,7 +353,7 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.QUOTE.value: {
+      case Events.EventTypes.QUOTE.Type: {
         const subjectOpt = pipe(
           props.actors,
           fp.A.head,
@@ -371,7 +371,7 @@ export const transform =
           subjectOpt,
           fp.O.map((subject) => ({
             ...e,
-            type: Events.EventTypes.QUOTE.value,
+            type: Events.EventTypes.QUOTE.Type,
             payload: {
               quote: e.excerpt ? getTextContents(e.excerpt) : undefined,
               actor: undefined,
@@ -382,7 +382,7 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.BOOK.value: {
+      case Events.EventTypes.BOOK.Type: {
         return pipe(
           sequenceS(fp.O.Applicative)({
             actorAuthors: fp.O.some(props.actors),
@@ -390,7 +390,7 @@ export const transform =
           }),
           fp.O.map(({ actorAuthors, media }) => ({
             ...e,
-            type: Events.EventTypes.BOOK.value,
+            type: Events.EventTypes.BOOK.Type,
             payload: {
               title: props.title,
               media: { pdf: media, audio: undefined },
@@ -404,7 +404,7 @@ export const transform =
       default: {
         return fp.O.some({
           ...e,
-          type: Events.EventTypes.UNCATEGORIZED.value,
+          type: Events.EventTypes.UNCATEGORIZED.Type,
           payload: {
             title: props.title,
             location: props.location,
@@ -424,17 +424,20 @@ export const getTotals = (
 ): Events.SearchEvent.EventTotals.EventTotals => {
   return {
     uncategorized:
-      acc.uncategorized + (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
+      acc.uncategorized + (Schema.is(Events.EventTypes.UNCATEGORIZED)(e.type) ? 1 : 0),
     scientificStudies:
       acc.scientificStudies +
-      (Events.EventTypes.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
+      (Schema.is(Events.EventTypes.SCIENTIFIC_STUDY)(e.type) ? 1 : 0),
     transactions:
-      acc.transactions + (Events.EventTypes.TRANSACTION.is(e.type) ? 1 : 0),
-    patents: acc.patents + (Events.EventTypes.PATENT.is(e.type) ? 1 : 0),
-    deaths: acc.deaths + (Events.EventTypes.DEATH.is(e.type) ? 1 : 0),
-    books: acc.books + (Events.EventTypes.BOOK.is(e.type) ? 1 : 0),
+      acc.transactions +
+      (Schema.is(Events.EventTypes.TRANSACTION)(e.type) ? 1 : 0),
+    patents:
+      acc.patents + (Schema.is(Events.EventTypes.PATENT)(e.type) ? 1 : 0),
+    deaths: acc.deaths + (Schema.is(Events.EventTypes.DEATH)(e.type) ? 1 : 0),
+    books: acc.books + (Schema.is(Events.EventTypes.BOOK)(e.type) ? 1 : 0),
     documentaries:
-      acc.documentaries + (Events.EventTypes.DOCUMENTARY.is(e.type) ? 1 : 0),
-    quotes: acc.quotes + (Events.EventTypes.QUOTE.is(e.type) ? 1 : 0),
+      acc.documentaries +
+      (Schema.is(Events.EventTypes.DOCUMENTARY)(e.type) ? 1 : 0),
+    quotes: acc.quotes + (Schema.is(Events.EventTypes.QUOTE)(e.type) ? 1 : 0),
   };
 };

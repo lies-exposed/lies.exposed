@@ -1,26 +1,19 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { BaseProps } from "../Common/BaseProps.js";
-import { markdownRemark } from "../Common/Markdown.js";
 import { BySubjectId, For } from "../Common/index.js";
 import { Media } from "../Media/Media.js";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
-export const PROTEST = t.literal("Protest");
-export const Protest = t.strict(
-  {
-    ...BaseProps.type.props,
-    title: t.string,
-    type: PROTEST,
-    for: For,
-    organizers: t.array(BySubjectId),
-    media: optionFromNullable(nonEmptyArray(Media)),
-    date: DateFromISOString,
-  },
-  PROTEST.value,
-);
-export type Protest = t.TypeOf<typeof Protest>;
-
-export const ProtestMD = markdownRemark(Protest, "ProtestMD");
-export type ProtestMD = t.TypeOf<typeof ProtestMD>;
+export const PROTEST = Schema.Literal("Protest");
+export const Protest = Schema.Struct({
+  ...BaseProps.fields,
+  title: Schema.String,
+  type: PROTEST,
+  for: For,
+  organizers: Schema.Array(BySubjectId),
+  media: OptionFromNullishToNull(Schema.NonEmptyArray(Media)),
+  date: Schema.DateFromString,
+}).annotations({
+  title: PROTEST.Type,
+});
+export type Protest = typeof Protest;

@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { type IOErrorDetails } from "ts-io-error";
 import { type IOError } from "ts-io-error/lib/index.js";
 import { CoreError } from "./CoreError.js";
@@ -19,30 +19,28 @@ export const decodeIOErrorDetails = (
 //   name = "APIError";
 // }
 
-export const APIStatusCode = t.union(
-  [
-    t.literal(200),
-    t.literal(201),
-    t.literal(400),
-    t.literal(401),
-    t.literal(404),
-    t.literal(500),
-  ],
-  "StatusCode",
-);
+export const APIStatusCode = Schema.Union(
+  Schema.Literal(200),
+  Schema.Literal(201),
+  Schema.Literal(400),
+  Schema.Literal(401),
+  Schema.Literal(404),
+  Schema.Literal(500),
+).annotations({
+  title: "StatusCode",
+});
 
-export type APIStatusCode = t.TypeOf<typeof APIStatusCode>;
+export type APIStatusCode = typeof APIStatusCode.Type;
 
-export const APIError = t.strict(
-  {
-    ...CoreError.type.props,
-    status: APIStatusCode,
-    name: t.literal("APIError"),
-  },
-  "APIError",
-);
+export const APIError = Schema.Struct({
+  ...CoreError.fields,
+  status: APIStatusCode,
+  name: Schema.Literal("APIError"),
+}).annotations({
+  title: "APIError",
+});
 
-export type APIError = t.TypeOf<typeof APIError>;
+export type APIError = typeof APIError.Type;
 
 export const fromIOError = (e: IOError): APIError => {
   switch (e.details.kind) {
@@ -77,16 +75,16 @@ export const toAPIError = (e: unknown): APIError => {
   // console.log("to api error", e);
   // console.dir(e);
 
-  if (APIError.is(e)) {
+  if (Schema.is(APIError)(e)) {
     return e;
   }
 
-  if (IOErrorSchema.is(e)) {
+  if (Schema.is(IOErrorSchema)(e)) {
     return fromIOError(e as IOError);
   }
 
   if (e instanceof Error) {
-    return APIError.encode({
+    return Schema.encodeSync(APIError)({
       message: e.message,
       name: "APIError",
       details: e.stack ? [e.stack] : JSON.stringify(e, null, 2).split("\n"),
@@ -95,9 +93,10 @@ export const toAPIError = (e: unknown): APIError => {
   }
 
   return pipe(
-    APIError.decode(e),
+    e,
+    Schema.decodeUnknownEither(APIError),
     fp.E.getOrElse(() => {
-      return APIError.encode({
+      return Schema.encodeSync(APIError)({
         message: "An error occurred",
         name: "APIError",
         details: [JSON.stringify(e)],
@@ -110,7 +109,7 @@ export const toAPIError = (e: unknown): APIError => {
 export const reportIOErrorDetails = (details: IOErrorDetails<any>): string => {
   const parsedError = !details
     ? []
-    : t.array(t.string).is(details)
+    : Schema.is(Schema.Array(Schema.String))(details)
       ? details
       : decodeIOErrorDetails(details);
 

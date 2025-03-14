@@ -1,8 +1,5 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { UUID } from "../Common/UUID.js";
 import {
   CreateEventCommon,
   EditEventCommon,
@@ -10,61 +7,51 @@ import {
 } from "./BaseEvent.js";
 import { DEATH } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
+import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
-export const DeathListQuery = t.strict(
-  {
-    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
-    victim: optionFromNullable(t.array(UUID)),
-    minDate: optionFromNullable(DateFromISOString),
-    maxDate: optionFromNullable(DateFromISOString),
-  },
-  "DeathListQuery",
-);
-export type DeathListQuery = t.TypeOf<typeof DeathListQuery>;
+export const DeathListQuery = Schema.Struct({
+  ...GetSearchEventsQuery.omit("eventType").fields,
+  victim: OptionFromNullishToNull(Schema.Array(UUID)),
+  minDate: OptionFromNullishToNull(Schema.DateFromString),
+  maxDate: OptionFromNullishToNull(Schema.DateFromString),
+}).annotations({ title: "DeathListQuery" });
 
-export const CreateDeathBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: DEATH,
-    payload: t.strict({
-      victim: UUID,
-      location: optionFromNullable(UUID),
-    }),
-  },
-  "CreateDeathBody",
-);
+export type DeathListQuery = typeof DeathListQuery.Type;
 
-export type CreateDeathBody = t.TypeOf<typeof CreateDeathBody>;
-
-export const EditDeathBody = t.strict(
-  {
-    ...EditEventCommon.type.props,
-    type: DEATH,
-    payload: t.strict({
-      victim: UUID,
-      location: optionFromNullable(UUID),
-    }),
-  },
-  "CreateDeathBody",
-);
-
-export type EditDeathBody = t.TypeOf<typeof EditDeathBody>;
-
-export const DeathPayload = t.strict(
-  {
+export const CreateDeathBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: DEATH,
+  payload: Schema.Struct({
     victim: UUID,
-    location: t.union([UUID, t.undefined]),
-  },
-  "DeathV2",
-);
-export type DeathPayload = t.TypeOf<typeof DeathPayload>;
+    location: OptionFromNullishToNull(UUID),
+  }),
+}).annotations({
+  title: "CreateDeathBody",
+});
 
-export const Death = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: DEATH,
-    payload: DeathPayload,
-  },
-  "DeathEvent",
-);
-export type Death = t.TypeOf<typeof Death>;
+export type CreateDeathBody = typeof CreateDeathBody.Type;
+
+export const EditDeathBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: DEATH,
+  payload: Schema.Struct({
+    victim: UUID,
+    location: OptionFromNullishToNull(UUID),
+  }),
+}).annotations({ title: "CreateDeathBody" });
+
+export type EditDeathBody = typeof EditDeathBody.Type;
+
+export const DeathPayload = Schema.Struct({
+  victim: UUID,
+  location: Schema.Union(UUID, Schema.Undefined),
+}).annotations({ title: "DeathPayload" });
+export type DeathPayload = typeof DeathPayload.Type;
+
+export const Death = Schema.Struct({
+  ...EventCommon.fields,
+  type: DEATH,
+  payload: DeathPayload,
+}).annotations({ title: "DeathEvent" });
+
+export type Death = typeof Death.Type;

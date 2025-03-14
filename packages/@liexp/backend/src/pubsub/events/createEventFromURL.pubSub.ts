@@ -6,7 +6,7 @@ import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const CreateEventFromURLPubSub = RedisPubSub(
   "event:create-from-url",
-  t.strict({
+  Schema.Struct({
     url: URL,
     type: EventType,
     eventId: UUID,

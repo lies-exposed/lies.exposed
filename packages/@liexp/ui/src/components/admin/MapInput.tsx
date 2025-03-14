@@ -165,11 +165,11 @@ const MapInputWrapper: React.FC<
       <SelectInput
         label="type"
         source={typeField.field.name}
-        choices={http.Common.Geometry.Geometry.types.map((g) => ({
-          id: g.type.props.type.value,
-          name: g.type.props.type.value,
+        choices={http.Common.Geometry.Geometry.members.map((g) => ({
+          id: g.fields.type.Type,
+          name: g.fields.type.Type,
         }))}
-        defaultValue={http.Common.Geometry.Point.type.props.type.value}
+        defaultValue={http.Common.Geometry.Point.fields.type.Type}
         onChange={(e) => {
           typeField.field.onChange({ type: e.target.value, coordinates: [] });
         }}
@@ -179,7 +179,7 @@ const MapInputWrapper: React.FC<
           const type =
             get(formData, typeField.field.name) ?? typeField.field.value;
 
-          if (type === Polygon.type.props.type.value) {
+          if (type === Polygon.fields.type.Type) {
             return (
               <MapInput
                 {...props}
