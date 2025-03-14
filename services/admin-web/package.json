@@ -57,7 +57,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^9.21.0",
     "typescript": "^5.8.2",
-    "vite": "^6.2.1",
+    "vite": "^6.2.2",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-optimizer": "^1.4.3",
     "vite-tsconfig-paths": "^5.1.4"
