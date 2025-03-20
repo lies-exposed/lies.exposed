@@ -16,7 +16,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.types[0].value,
+    io.http.Events.EventType.members[0].Type,
   );
 
   const handleSubmit = async (media: Media): Promise<void> => {
@@ -57,9 +57,9 @@ export const CreateEventFromMediaButton: React.FC = () => {
           setType(e.target.value);
         }}
       >
-        {io.http.Events.EventType.types.map((t) => (
-          <MenuItem key={t.value} value={t.value}>
-            {t.value}
+        {io.http.Events.EventType.members.map((t) => (
+          <MenuItem key={t.Type} value={t.Type}>
+            {t.Type}
           </MenuItem>
         ))}
       </Select>

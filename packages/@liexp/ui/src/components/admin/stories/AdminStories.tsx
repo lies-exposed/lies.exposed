@@ -167,7 +167,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
             <Grid item md={6}>
               <ReferenceMediaInput
                 source="featuredImage.id"
-                allowedTypes={ImageType.types.map((t) => t.value)}
+                allowedTypes={ImageType.members.map((t) => t.Type)}
                 fullWidth
               />
             </Grid>
@@ -206,7 +206,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"
-          allowedTypes={ImageType.types.map((t) => t.value)}
+          allowedTypes={ImageType.members.map((t) => t.Type)}
         />
         <DateInput source="date" />
         <ArrayInput source="links">

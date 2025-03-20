@@ -15,10 +15,10 @@ import { Bar, Line, LinePath } from "@visx/shape";
 import { Text } from "@visx/text";
 import { Threshold } from "@visx/threshold";
 import { Tooltip, defaultStyles, withTooltip } from "@visx/tooltip";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
 import * as React from "react";
 import { useJSONClient } from "../../../hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "../../../state/queries/DiscreteQueries.js";
@@ -393,15 +393,19 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
       <QueriesRenderer
         queries={{
           data: useJSONDataQuery(jsonClient)(
-            Schema.Struct({
-              data: Schema.Array(ClimateChangeForecast.types[1]),
-            }).decode,
+            Schema.decodeUnknownEither(
+              Schema.Struct({
+                data: Schema.Array(ClimateChangeForecast.elements[1]),
+              }),
+            ),
             "climate-change/forecast.csv",
           ),
           events: useJSONDataQuery(jsonClient)(
-            Schema.Struct({
-              data: Schema.Array(ClimateChangeHistoryOfSummits.types[1]),
-            }).decode,
+            Schema.decodeUnknownEither(
+              Schema.Struct({
+                data: Schema.Array(ClimateChangeHistoryOfSummits.elements[1]),
+              }),
+            ),
             "climate-change/history-of-climate-summits.csv",
           ),
         }}
@@ -416,8 +420,8 @@ export class SocietyCollapseForecastGraphContainer extends React.PureComponent {
                   <SocietyCollapseForecastGraph
                     width={width}
                     height={height}
-                    data={data.data}
-                    events={events.data}
+                    data={[...data.data]}
+                    events={[...events.data]}
                     points={[
                       {
                         year: 2021,

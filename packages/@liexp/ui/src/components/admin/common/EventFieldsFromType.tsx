@@ -19,14 +19,14 @@ export const EventFieldsFromType: React.FC<EventFieldsFromTypeProps> = ({
 }) => {
   const fields = React.useMemo(() => {
     switch (eventType) {
-      case DEATH.value: {
+      case DEATH.Type: {
         return (
           <Stack spacing={1}>
             <ReferenceActorInput source={`payload.victim`} />
           </Stack>
         );
       }
-      case UNCATEGORIZED.value:
+      case UNCATEGORIZED.Type:
       default: {
         return (
           <Stack spacing={1}>

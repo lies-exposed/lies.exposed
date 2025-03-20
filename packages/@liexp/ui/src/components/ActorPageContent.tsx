@@ -9,7 +9,7 @@ import { Box, Grid, Typography } from "./mui/index.js";
 
 export interface ActorPageContentProps {
   actor: Actor.Actor;
-  groups: Group.Group[];
+  groups: readonly Group.Group[];
   onGroupClick: (a: Group.Group) => void;
   onActorClick: (a: Actor.Actor) => void;
 }

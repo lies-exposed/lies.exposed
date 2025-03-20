@@ -3,23 +3,16 @@ import { Group } from "@visx/group";
 import { Tree as VXTree } from "@visx/hierarchy";
 import { LinkHorizontal } from "@visx/shape";
 import { hierarchy, type HierarchyPointNode } from "d3-hierarchy";
-import * as t from "io-ts";
-import { date } from "io-ts-types/lib/date.js";
+import { Schema } from "effect";
 import * as React from "react";
 
-export interface TreeEvent {
-  name: string;
-  date: Date;
-  children: TreeEvent[];
-}
-
-export const TreeEvent: t.Type<TreeEvent> = t.recursion("TreeEvent", () =>
-  Schema.Struct({
-    name: Schema.String,
-    date,
-    children: Schema.Array(TreeEvent),
-  }),
-);
+class TreeEvent extends Schema.Class<TreeEvent>("TreeEvent")({
+  name: Schema.String,
+  date: Schema.ValidDateFromSelf,
+  children: Schema.Array(
+    Schema.suspend((): Schema.Schema<TreeEvent> => TreeEvent),
+  ),
+}) {}
 
 const peach = "#fd9b93";
 const pink = "#fe6e9e";
@@ -113,22 +106,19 @@ function ParentNode({
   );
 }
 
-const TreeProps = t.interface(
-  {
-    events: Schema.Array(TreeEvent),
-    width: Schema.Number,
-    height: Schema.Number,
-    margin: t.interface({
-      top: Schema.Number,
-      left: Schema.Number,
-      right: Schema.Number,
-      bottom: Schema.Number,
-    }),
-  },
-  "TreeProps",
-);
+const TreeProps = Schema.Struct({
+  events: Schema.Array(TreeEvent),
+  width: Schema.Number,
+  height: Schema.Number,
+  margin: Schema.Struct({
+    top: Schema.Number,
+    left: Schema.Number,
+    right: Schema.Number,
+    bottom: Schema.Number,
+  }),
+});
 
-type TreeProps = t.TypeOf<typeof TreeProps>;
+type TreeProps = typeof TreeProps.Type;
 
 const Tree: React.FC<TreeProps> = ({ width, height, margin, events }) => {
   const data = hierarchy(events);

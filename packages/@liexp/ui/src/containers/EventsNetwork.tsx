@@ -117,8 +117,8 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                     {...props}
                     events={[...events]}
                     actors={[...actors]}
-                    groups={groups}
-                    keywords={keywords}
+                    groups={[...groups]}
+                    keywords={[...keywords]}
                     selectedActorIds={filter.actors ?? []}
                     selectedGroupIds={filter.groups ?? []}
                     selectedKeywordIds={filter.keywords ?? []}

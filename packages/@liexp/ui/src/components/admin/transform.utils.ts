@@ -7,6 +7,7 @@ import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextCo
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -129,13 +130,13 @@ const transformByType = (
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
-    case EventTypes.DEATH.value:
+    case EventTypes.DEATH.Type:
       return transformDeath(data, relations);
-    case EventTypes.SCIENTIFIC_STUDY.value:
+    case EventTypes.SCIENTIFIC_STUDY.Type:
       return transformScientificStudy(data, relations);
-    case EventTypes.QUOTE.value:
+    case EventTypes.QUOTE.Type:
       return transformQuote(data, relations);
-    case EventTypes.BOOK.value:
+    case EventTypes.BOOK.Type:
       return transformBook(data, relations);
     default:
       return transformUncategorized(data, relations);
@@ -191,7 +192,7 @@ export const transformEvent =
           A.map(([location, media]: [any, any]) => ({
             ...media,
             ...location,
-            thumbnail: http.Media.ImageType.is(location.type)
+            thumbnail: Schema.is(http.Media.ImageType)(location.type)
               ? location.location
               : undefined,
           })),

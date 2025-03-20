@@ -2,7 +2,7 @@ import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
-import type * as t from "io-ts";
+import { Schema } from "effect";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { AxisGraph } from "../Common/Graph/AxisGraph.js";
@@ -60,15 +60,14 @@ import { Checkbox } from "../mui/index.js";
 
 // type EPAIceCoreMeasurement = t.TypeOf<typeof EPAIceCoreMeasurement>
 
-const CO2LevelDatum = Schema.Struct(
-  {
-    value: Schema.Number,
-    year: Schema.Number,
-  },
-  "CO2LEvelDatum",
-);
+const CO2LevelDatum = Schema.Struct({
+  value: Schema.Number,
+  year: Schema.Number,
+}).annotations({
+  title: "CO2LEvelDatum",
+});
 
-type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>;
+type CO2LevelDatum = typeof CO2LevelDatum.Type;
 
 export interface CO2LevelsGraphProps {
   showPoints: boolean;

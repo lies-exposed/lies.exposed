@@ -15,11 +15,11 @@ export const BookEditFormTab: React.FC = () => {
       <TextInput source="payload.title" fullWidth />
       <ReferenceMediaInput
         source="payload.media.pdf"
-        allowedTypes={[PDFType.value]}
+        allowedTypes={[PDFType.Type]}
       />
       <ReferenceMediaInput
         source="payload.media.audio"
-        allowedTypes={AudioType.types.map((t) => t.value)}
+        allowedTypes={AudioType.members.map((t) => t.Type)}
       />
       <Stack spacing={2}>
         <Grid2 container direction={"row"} alignItems={"center"}>

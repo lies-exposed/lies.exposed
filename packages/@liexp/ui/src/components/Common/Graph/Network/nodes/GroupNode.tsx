@@ -17,8 +17,8 @@ export type GroupNetworkNodeProps = NetworkNode<{
 }>;
 
 export const toGroupNodes = (
-  groups: Group.Group[],
-  links: NetworkLink[],
+  groups: readonly Group.Group[],
+  links: readonly NetworkLink[],
 ): GroupNetworkNodeProps[] => {
   return groups.map((g) => ({
     data: {

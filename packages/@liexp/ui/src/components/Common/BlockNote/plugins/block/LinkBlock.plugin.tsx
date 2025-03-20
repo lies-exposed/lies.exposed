@@ -74,7 +74,9 @@ export const LinkBlockPluginControl: React.FC<{
 }> = ({ onRemove: remove, data, ...props }) => {
   const [s, setS] = React.useState({
     links:
-      data.id?.split(",").flatMap((id) => (UUID.is(id) ? [{ id }] : [])) ?? [],
+      data.id
+        ?.split(",")
+        .flatMap((id) => (Schema.is(UUID)(id) ? [{ id }] : [])) ?? [],
     height: data.height ?? 200,
   });
 

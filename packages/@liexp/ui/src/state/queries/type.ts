@@ -7,6 +7,6 @@ export type UseListQueryFn<T> = (
   q: any,
   discrete: boolean,
   suffix?: string,
-) => UseQueryResult<{ data: T[]; total: number }, APIError>;
+) => UseQueryResult<{ data: readonly T[]; total: number }, APIError>;
 
 export type UseQueryFn<P, T> = (params: P) => UseQueryResult<T, APIError>;

@@ -33,7 +33,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
     if (!type) {
       formGroupState.setValue(
         "type",
-        io.http.Events.EventTypes.UNCATEGORIZED.value,
+        io.http.Events.EventTypes.UNCATEGORIZED.Type,
       );
     }
     return { payload, type };
@@ -62,7 +62,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
       <Stack direction="row">
         <EventTypeInput
           source="type"
-          defaultValue={io.http.Events.EventTypes.UNCATEGORIZED.value}
+          defaultValue={io.http.Events.EventTypes.UNCATEGORIZED.Type}
           onChange={(value) => {
             formGroupState.setValue("type", value);
             void formGroupState.trigger();

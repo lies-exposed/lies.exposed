@@ -1,10 +1,16 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  type EventType,
+  type SearchEvent,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import { type GetNetworkQuerySerialized } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+import {
+  nonEmptyArrayOr,
+  type NonEmptyArray,
+} from "@liexp/shared/lib/utils/array.utils.js";
 import { type Node } from "@xyflow/react";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import * as React from "react";
 import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";
 import { EventsFlowGraph } from "../../components/Graph/EventsFlowGraph.js";
@@ -30,19 +36,28 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   const [state, setState] = React.useState<{
     startDate: string | undefined;
     endDate: string | undefined;
-    ids: UUID[];
-    type: string[] | string | undefined;
-    selectedActorIds: UUID[];
-    selectedGroupIds: UUID[];
-    selectedKeywordIds: UUID[];
+    ids: readonly UUID[];
+    type: readonly EventType[] | string | undefined;
+    selectedActorIds: readonly UUID[];
+    selectedGroupIds: readonly UUID[];
+    selectedKeywordIds: readonly UUID[];
   }>({
     startDate: _query.startDate ?? undefined,
     endDate: _query.endDate ?? undefined,
     type,
-    ids: _query.ids ?? [],
-    selectedActorIds: _query.actors ?? [],
-    selectedGroupIds: _query.groups ?? [],
-    selectedKeywordIds: _query.keywords ?? [],
+    ids: nonEmptyArrayOr(_query.ids as UUID[] | undefined, [] as UUID[]),
+    selectedActorIds: nonEmptyArrayOr(
+      _query.actors as UUID[] | undefined,
+      [] as UUID[],
+    ),
+    selectedGroupIds: nonEmptyArrayOr(
+      _query.groups as UUID[] | undefined,
+      [] as UUID[],
+    ),
+    selectedKeywordIds: nonEmptyArrayOr(
+      _query.keywords as UUID[] | undefined,
+      [] as UUID[],
+    ),
   });
 
   const query = React.useMemo(() => {
@@ -68,9 +83,9 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   const onNodeClick = (e: any, n: Node): void => {
     switch (n.type) {
       case Actor.Actor.name: {
-        const actorIds = state.selectedActorIds.includes(n.id)
+        const actorIds = state.selectedActorIds.includes(n.id as UUID)
           ? state.selectedActorIds.filter((aa) => aa !== n.id)
-          : state.selectedActorIds.concat([n.id]);
+          : state.selectedActorIds.concat([n.id as UUID]);
         setState({
           ...state,
           ids: actorIds,
@@ -79,9 +94,9 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         break;
       }
       case Group.Group.name: {
-        const groupIds = state.selectedGroupIds.includes(n.id)
+        const groupIds = state.selectedGroupIds.includes(n.id as UUID)
           ? state.selectedGroupIds.filter((aa) => aa !== n.id)
-          : state.selectedGroupIds.concat([n.id]);
+          : state.selectedGroupIds.concat([n.id as UUID]);
         setState({
           ...state,
           selectedGroupIds: groupIds,
@@ -89,9 +104,9 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         break;
       }
       case Keyword.Keyword.name: {
-        const keywordIds = state.selectedKeywordIds.includes(n.id)
+        const keywordIds = state.selectedKeywordIds.includes(n.id as UUID)
           ? state.selectedKeywordIds.filter((aa) => aa !== n.id)
-          : state.selectedKeywordIds.concat([n.id]);
+          : state.selectedKeywordIds.concat([n.id as UUID]);
         setState({
           ...state,
           selectedKeywordIds: keywordIds,
@@ -136,13 +151,19 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
         dateRange={[graph.startDate, graph.endDate]}
         totals={graph.totals}
         onQueryChange={({ actors, groups, keywords, ...q }) => {
-          setState((s) => ({
-            ...s,
-            ...q,
-            selectedActorIds: actors ?? [],
-            selectedGroupIds: groups ?? [],
-            selectedKeywordIds: keywords ?? [],
-          }));
+          setState(
+            (s) =>
+              ({
+                ...s,
+                ...q,
+                ids: q.ids ?? s.ids ?? undefined,
+                startDate: q.startDate ?? s.startDate ?? undefined,
+                endDate: q.endDate ?? s.endDate ?? undefined,
+                selectedActorIds: actors ?? [],
+                selectedGroupIds: groups ?? [],
+                selectedKeywordIds: keywords ?? [],
+              }) as any,
+          );
         }}
         onQueryClear={() => {}}
         layout={{

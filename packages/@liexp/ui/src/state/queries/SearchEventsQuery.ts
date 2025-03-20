@@ -33,13 +33,13 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
 };
 
 export interface SearchEventQueryResult {
-  events: Events.SearchEvent.SearchEvent[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-  links: Link.Link[];
+  events: readonly Events.SearchEvent.SearchEvent[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  groupsMembers: readonly GroupMember.GroupMember[];
+  media: readonly Media.Media[];
+  keywords: readonly Keyword.Keyword[];
+  links: readonly Link.Link[];
   totals: EventTotals;
   firstDate?: string;
   lastDate?: string;
@@ -76,12 +76,12 @@ export const fetchRelations =
   }: Events.EventRelationIds): TE.TaskEither<
     APIError,
     {
-      actors: { data: Actor.Actor[] };
-      groups: { data: Group.Group[] };
-      groupsMembers: { data: GroupMember.GroupMember[] };
-      keywords: { data: Keyword.Keyword[] };
-      media: { data: Media.Media[] };
-      links: { data: Link.Link[] };
+      actors: { data: readonly Actor.Actor[] };
+      groups: { data: readonly Group.Group[] };
+      groupsMembers: { data: readonly GroupMember.GroupMember[] };
+      keywords: { data: readonly Keyword.Keyword[] };
+      media: { data: readonly Media.Media[] };
+      links: { data: readonly Link.Link[] };
     }
   > => {
     return sequenceS(TE.ApplicativePar)({
@@ -222,7 +222,7 @@ export const getEventsFromLinkQuery =
               TE.map(
                 ({ actors, groups, groupsMembers, media, keywords, links }) => {
                   searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                    events: { data, total, totals },
+                    events: { data: [...data], total, totals },
                     actors: actors.data,
                     groups: groups.data,
                     groupsMembers: groupsMembers.data,

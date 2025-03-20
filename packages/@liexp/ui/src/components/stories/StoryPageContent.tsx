@@ -121,7 +121,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
               keywords,
               media,
               links,
-              events,
+              events: [...events],
               groupsMembers: [],
               areas: [],
             }}

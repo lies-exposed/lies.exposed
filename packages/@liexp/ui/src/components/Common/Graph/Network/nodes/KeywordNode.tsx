@@ -15,8 +15,8 @@ export type KeywordNetworkNodeProps = NetworkNode<{
 }>;
 
 export const toKeywordNodes = (
-  groups: Keyword.Keyword[],
-  links: NetworkLink[],
+  groups: readonly Keyword.Keyword[],
+  links: readonly NetworkLink[],
 ): KeywordNetworkNodeProps[] => {
   return groups.map((g) => ({
     data: {

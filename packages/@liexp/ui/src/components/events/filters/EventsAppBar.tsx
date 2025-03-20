@@ -152,10 +152,10 @@ export interface EventsAppBarProps {
   className?: string;
   query: SearchEventsQueryInputNoPagination;
   current?: number;
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
-  groupsMembers: GroupMember.GroupMember[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  keywords: readonly Keyword.Keyword[];
+  groupsMembers: readonly GroupMember.GroupMember[];
   layout?: Partial<{
     searchBox: number;
     eventTypes: number;
@@ -163,7 +163,7 @@ export interface EventsAppBarProps {
     relations: number;
   }>;
   defaultExpanded?: boolean;
-  events: SearchEvent.SearchEvent[];
+  events: readonly SearchEvent.SearchEvent[];
   dateRange?: [Date, Date];
   onQueryChange: (e: SearchEventsQueryInputNoPagination) => void;
   onQueryClear: () => void;
@@ -203,14 +203,14 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
       const type = [
-        [ff.Uncategorized, EventTypes.UNCATEGORIZED.value],
-        [ff.Death, EventTypes.DEATH.value],
-        [ff.Documentary, EventTypes.DOCUMENTARY.value],
-        [ff.Patent, EventTypes.PATENT.value],
-        [ff.ScientificStudy, EventTypes.SCIENTIFIC_STUDY.value],
-        [ff.Transaction, EventTypes.TRANSACTION.value],
-        [ff.Quote, EventTypes.QUOTE.value],
-        [ff.Book, EventTypes.BOOK.value],
+        [ff.Uncategorized, EventTypes.UNCATEGORIZED.Type],
+        [ff.Death, EventTypes.DEATH.Type],
+        [ff.Documentary, EventTypes.DOCUMENTARY.Type],
+        [ff.Patent, EventTypes.PATENT.Type],
+        [ff.ScientificStudy, EventTypes.SCIENTIFIC_STUDY.Type],
+        [ff.Transaction, EventTypes.TRANSACTION.Type],
+        [ff.Quote, EventTypes.QUOTE.Type],
+        [ff.Book, EventTypes.BOOK.Type],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);

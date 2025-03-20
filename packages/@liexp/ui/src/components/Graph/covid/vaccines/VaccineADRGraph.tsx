@@ -25,7 +25,6 @@ import { type Accessor } from "@visx/shape/lib/types/index.js";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
 import { Schema } from "effect";
-import * as t from "io-ts";
 import * as React from "react";
 import { useJSONClient } from "../../../../hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries.js";
@@ -232,8 +231,8 @@ const renderTooltip = (data: VaccineDatum): React.ReactElement => {
 interface VaccineADRGraphComponentProps {
   width: number;
   height: number;
-  data: VaccineDatum[];
-  distribution: VaccineDistributionDatum[];
+  data: readonly VaccineDatum[];
+  distribution: readonly VaccineDistributionDatum[];
   adrReportFactor: number;
   ageGroup?: AgeGroup;
 }
@@ -374,7 +373,7 @@ const VaccineADRGraphComponent = withTooltip<
           {/** And are then referenced for a style attribute. */}
           <Group top={margin.top} left={margin.left}>
             <LinePath
-              data={distribution}
+              data={[...distribution]}
               x={(d) => xScale(getDistributionX(d))?.valueOf() ?? 0}
               y={(d) => yRightScale(getDistributionY(d)) ?? 0}
               stroke={`url('#${europeVaccineDistributionFirstDoseLineId}')`}
@@ -383,7 +382,7 @@ const VaccineADRGraphComponent = withTooltip<
               shapeRendering="geometricPrecision"
             />
             <LinePath
-              data={data}
+              data={[...data]}
               x={(d) => {
                 const x = xScale(getReportX(d))?.valueOf() ?? 0;
                 return x;
@@ -466,7 +465,7 @@ const adrReportRate1 = 1;
 
 interface VaccineADRGraphProps {
   id: string;
-  distribution: VaccineDistributionDatum[];
+  distribution: readonly VaccineDistributionDatum[];
 }
 
 export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
@@ -508,7 +507,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
       <QueriesRenderer
         queries={{
           data: useJSONDataQuery(jsonClient)(
-            Schema.encodeUnknownEither(
+            Schema.decodeUnknownEither(
               Schema.Struct({ data: Schema.Array(VaccineDatum) }),
             ),
             id,
@@ -563,9 +562,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                       MenuProps={MenuProps}
                     >
                       <MenuItem value={"All"}>All</MenuItem>
-                      {AgeGroup.types.map((t) => (
-                        <MenuItem key={t.value} value={t.value}>
-                          {t.name}
+                      {AgeGroup.members.map((t) => (
+                        <MenuItem key={t.Type} value={t.Type}>
+                          {t.Type}
                         </MenuItem>
                       ))}
                     </Select>
@@ -648,8 +647,8 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                           todayDatum.total_death_years_not_specified,
                           todayDatum.total_deaths,
                         ].map((v, i) => {
-                          const ageGroup = AgeGroup.types[i]
-                            ? AgeGroup.types[i].value
+                          const ageGroup = AgeGroup.members[i]
+                            ? AgeGroup.members[i].Type
                             : "all";
                           const color = getAgeGroupColor(ageGroup);
                           return [ageGroup, color, v];

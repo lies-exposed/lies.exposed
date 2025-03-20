@@ -23,29 +23,29 @@ export const EventTitle: React.FC<EventTitleProps> = ({
   const record = _record ?? useRecordContext<http.Events.Event>();
   if (record?.payload) {
     switch (record.type) {
-      case http.Events.EventTypes.UNCATEGORIZED.value:
+      case http.Events.EventTypes.UNCATEGORIZED.Type:
         return <UncategorizedEventTitle {...{ ...props, source, record }} />;
-      case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
+      case http.Events.EventTypes.SCIENTIFIC_STUDY.Type:
         return <ScientificStudyEventTitle {...{ ...props, source, record }} />;
-      case http.Events.EventTypes.DEATH.value:
+      case http.Events.EventTypes.DEATH.Type:
         return (
           <DeathEventTitle {...{ ...props, source: source as any, record }} />
         );
-      case http.Events.EventTypes.PATENT.value:
+      case http.Events.EventTypes.PATENT.Type:
         return (
           <PatentEventTitle {...{ ...props, source: source as any, record }} />
         );
-      case http.Events.EventTypes.DOCUMENTARY.value:
+      case http.Events.EventTypes.DOCUMENTARY.Type:
         return (
           <DocumentaryReleaseTitle
             {...{ ...props, source: source as any, record }}
           />
         );
-      case http.Events.EventTypes.TRANSACTION.value:
+      case http.Events.EventTypes.TRANSACTION.Type:
         return <TransactionTitle {...props} record={record} />;
-      case http.Events.EventTypes.QUOTE.value:
+      case http.Events.EventTypes.QUOTE.Type:
         return <QuoteTitle {...{ ...props, source: source as any, record }} />;
-      case http.Events.EventTypes.BOOK.value:
+      case http.Events.EventTypes.BOOK.Type:
         return <BookTitle {...{ ...props, source: source as any, record }} />;
     }
   }

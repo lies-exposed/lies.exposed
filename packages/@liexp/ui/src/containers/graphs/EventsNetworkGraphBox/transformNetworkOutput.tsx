@@ -17,9 +17,9 @@ import {
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
 import { differenceInDays, parseISO } from "date-fns";
+import { Schema } from "effect";
 import { type Either } from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
 import {
   type ActorNetworkNodeProps,
   toActorNodes,
@@ -35,8 +35,8 @@ import {
 } from "../../../components/Common/Graph/Network/nodes/KeywordNode";
 
 type Validator = (
-  selectedKeywordIds: string[] | undefined,
-  relationIds: UUID[],
+  selectedKeywordIds: readonly string[] | undefined,
+  relationIds: readonly UUID[],
 ) => (e: EventNetworkDatum) => Either<string, EventNetworkDatum>;
 const hasKeywords: Validator = (selectedKeywordIds, relationIds) => (e) => {
   if (selectedKeywordIds && selectedKeywordIds.length > 0) {
@@ -113,16 +113,16 @@ const isBetweenDates =
     return fp.E.right(e);
   };
 const hasType =
-  (eventType: string | string[] | undefined) =>
+  (eventType: string | readonly string[] | undefined) =>
   (e: EventNetworkDatum): Either<string, EventNetworkDatum> => {
     const isTypeIncluded: boolean = pipe(
       eventType,
       fp.O.fromNullable,
       fp.O.chain((et) =>
-        EventType.is(et) ? fp.O.some(et === e.type) : fp.O.none,
+        Schema.is(EventType)(et) ? fp.O.some(et === e.type) : fp.O.none,
       ),
       fp.O.alt(() =>
-        Schema.Array(EventType).is(eventType)
+        Schema.is(Schema.Array(EventType))(eventType)
           ? fp.O.some(eventType.includes(e.type))
           : fp.O.none,
       ),
@@ -139,12 +139,12 @@ const hasType =
 export interface TransformNetworkOutputProps {
   startDate: Date;
   endDate: Date;
-  ids?: string[];
+  ids?: readonly string[];
   type: string;
-  eventType?: string | string[];
-  selectedActorIds?: string[];
-  selectedGroupIds?: string[];
-  selectedKeywordIds?: string[];
+  eventType?: string | readonly string[];
+  selectedActorIds?: readonly UUID[];
+  selectedGroupIds?: readonly UUID[];
+  selectedKeywordIds?: readonly UUID[];
   count?: number;
 }
 
@@ -295,9 +295,9 @@ export const transformNetworkOutput = (
   return {
     ...otherProps,
     events: [],
-    actors,
-    groups,
-    keywords,
+    actors: [...actors],
+    groups: [...groups],
+    keywords: [...keywords],
     graph: {
       nodes: [...eventNodes, ...relationNodes],
       links: [...links],

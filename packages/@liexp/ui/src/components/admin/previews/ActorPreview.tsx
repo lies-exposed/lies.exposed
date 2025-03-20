@@ -1,5 +1,6 @@
 import { http } from "@liexp/shared/lib/io/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -16,7 +17,7 @@ const ActorPreview: React.FC = () => {
 
   const result = React.useMemo(
     () =>
-      http.Actor.Actor.decode({
+      Schema.decodeUnknownEither(http.Actor.Actor)({
         ...(record ?? {}),
       }),
     [record],

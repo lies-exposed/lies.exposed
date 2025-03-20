@@ -129,11 +129,11 @@ export const MediaCreateMany: React.FC<any> = (props) => {
 
   const { isDragActive, getRootProps } = useDropzone({
     accept: [
-      ...ImageType.types.map((t) => t.value),
-      PDFType.value,
-      MP4Type.value,
-      MP3Type.value,
-      OGGType.value,
+      ...ImageType.members.map((t) => t.Type),
+      PDFType.Type,
+      MP4Type.Type,
+      MP3Type.Type,
+      OGGType.Type,
     ].reduce((acc, k) => ({ ...acc, [k]: [] }), {}),
     multiple: true,
     onDrop,

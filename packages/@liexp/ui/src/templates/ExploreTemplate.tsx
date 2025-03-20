@@ -1,11 +1,15 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal.js";
@@ -217,17 +221,20 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
           filterKeywords,
         }) => {
           const selectedKeywordIds = pipe(
-            fp.NEA.fromArray(filterKeywords.data.map((d) => d.id)),
+            filterKeywords.data.map((d) => d.id),
+            fp.O.fromPredicate(isNonEmpty),
             fp.O.toUndefined,
-          );
+          ) as NonEmptyArray<UUID> | undefined;
           const selectedActorIds = pipe(
-            fp.NEA.fromArray(filterActors.data.map((a) => a.id)),
+            [...filterActors.data.map((a) => a.id)],
+            fp.O.fromPredicate(isNonEmpty),
             fp.O.toUndefined,
-          );
+          ) as NonEmptyArray<UUID> | undefined;
           const selectedGroupIds = pipe(
-            fp.NEA.fromArray(filterGroups.data.map((a) => a.id)),
+            [...filterGroups.data.map((a) => a.id)],
+            fp.O.fromPredicate(isNonEmpty),
             fp.O.toUndefined,
-          );
+          ) as NonEmptyArray<UUID> | undefined;
 
           return (
             <Box
@@ -387,13 +394,13 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         params.eventType,
                         fp.O.fromPredicate(
                           (arr): arr is NonEmptyArray<EventType> =>
-                            !!arr && fp.A.isNonEmpty(arr),
+                            !!arr && isNonEmpty(arr),
                         ),
                         fp.O.getOrElse(
                           () =>
-                            EventType.types.map(
+                            EventType.members.map(
                               (t) => t.Type,
-                            ) as NonEmptyArray<EventType>,
+                            ) as unknown as NonEmptyArray<EventType>,
                         ),
                       ),
                       startDate: params.startDate,

@@ -1,8 +1,6 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import * as React from "react";
-import {
-  type RecordCodecEncoded
-} from "ts-io-error/lib/Codec";
+import { type RecordCodecEncoded } from "ts-io-error/lib/Codec";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
   LinksList,

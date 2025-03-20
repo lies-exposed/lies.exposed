@@ -33,9 +33,9 @@ const nodePosition = (
 interface EventFlowGraphProps extends FlowGraphProps {
   graph: FlowGraphOutput;
   filters: {
-    actors: string[];
-    groups: string[];
-    keywords: string[];
+    actors: readonly string[];
+    groups: readonly string[];
+    keywords: readonly string[];
     minDate: Date;
     maxDate: Date;
   };
@@ -88,7 +88,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
     }));
 
     const eventNodes = pipe(
-      graph.events,
+      [...graph.events],
       fp.A.reverse,
       fp.A.mapWithIndex((i, data) => ({
         id: data.id,

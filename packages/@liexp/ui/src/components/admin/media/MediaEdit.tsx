@@ -6,6 +6,7 @@ import {
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/io/openai/prompts/media.prompts.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { Schema } from "effect";
 import * as React from "react";
 import {
   DateField,
@@ -59,7 +60,7 @@ const TransferButton: React.FC<FieldProps & { target?: "thumbnail" }> = ({
   const record = useRecordContext(props);
   const apiProvider = useDataProvider();
 
-  if (!TransferableType.is(record?.type)) {
+  if (!Schema.is(TransferableType)(record?.type)) {
     return null;
   }
 
@@ -129,7 +130,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 {...props}
                 label="Location"
                 sourceLocation="thumbnail"
-                sourceType={ImageType.types[0].value}
+                sourceType={ImageType.members[0].Type}
                 showInputOnClick
               />
               <Button
@@ -227,7 +228,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
                 resource={"media"}
                 question={EMBED_MEDIA_PROMPT()}
                 transformValue={({ type, location, label, description }) => {
-                  if (PDFType.is(type)) {
+                  if (Schema.is(PDFType)(type)) {
                     return {
                       url: location,
                       type: "pdf",

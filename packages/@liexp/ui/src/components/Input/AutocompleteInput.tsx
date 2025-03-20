@@ -21,7 +21,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
   placeholder?: string;
   query: (
     params: GetListParams,
-  ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
+  ) => UseQueryResult<{ data: readonly T[]; total: number }, APIError>;
   searchToFilter: (t: string) => Record<string, string>;
   getOptionLabel: (v: T | string) => string;
   selectedItems: T[];

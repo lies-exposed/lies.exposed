@@ -32,7 +32,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
         ),
       }}
       render={({ groups }) => {
-        return children(groups);
+        return children({ ...groups, data: [...groups.data] });
       }}
     />
   );

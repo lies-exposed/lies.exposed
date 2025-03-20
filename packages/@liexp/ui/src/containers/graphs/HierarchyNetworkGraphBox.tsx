@@ -389,13 +389,13 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
-    type: EventType[] | undefined;
+    type: readonly EventType[] | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
   }>({
     startDate: query.startDate,
-    type: query.eventType ?? EventType.types.map((t) => t.Type),
+    type: query.eventType ?? EventType.members.map((t) => t.Type),
     endDate: query.endDate,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],
@@ -462,12 +462,12 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
               onQueryChange={(q) => {
                 setState((s) => ({
                   ...s,
-                  type: q.eventType,
+                  type: q.eventType ?? undefined,
                   startDate: q.startDate ?? state.startDate,
                   endDate: q.endDate ?? state.endDate,
-                  selectedActorIds: q.actors ?? [],
-                  selectedGroupIds: q.groups ?? [],
-                  selectedKeywordIds: q.keywords ?? [],
+                  selectedActorIds: [...(q.actors ?? [])],
+                  selectedGroupIds: [...(q.groups ?? [])],
+                  selectedKeywordIds: [...(q.keywords ?? [])],
                 }));
               }}
               onQueryClear={() => {

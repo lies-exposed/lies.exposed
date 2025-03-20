@@ -9,7 +9,7 @@ import { type Either } from "fp-ts/lib/Either";
 
 export const jsonData =
   (jsonClient: APIRESTClient) =>
-  <A>(decode: () => Either<ParseError, { data: A }>) =>
+  <A>(decode: (u: unknown) => Either<ParseError, { readonly data: A }>) =>
   ({ id }: { id: string }): Promise<{ data: A }> =>
     pipe(
       dataProviderRequestLift(() => jsonClient.get<any>(id, {}), decode),
@@ -19,7 +19,7 @@ export const jsonData =
 export const useJSONDataQuery =
   (jsonClient: APIRESTClient) =>
   <A>(
-    decode: () => Either<ParseError, { data: A }>,
+    decode: (u: unknown) => Either<ParseError, { readonly data: A }>,
     id: string,
   ): UseQueryResult<{ data: A }, APIError> => {
     return useQuery({

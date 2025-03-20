@@ -54,9 +54,9 @@ const eventSuggestionListFilter = [
   <SelectInput
     key="status"
     source="status"
-    choices={EventSuggestionStatus.types.map((tt) => ({
-      name: tt.value,
-      id: tt.value,
+    choices={EventSuggestionStatus.members.map((tt) => ({
+      name: tt.Type,
+      id: tt.Type,
     }))}
   />,
 ];
@@ -97,9 +97,9 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
                   {r.payload.type}
                 </Typography>{" "}
                 {[
-                  io.http.Events.EventTypes.UNCATEGORIZED.value,
-                  io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-                  io.http.Events.EventTypes.PATENT.value,
+                  io.http.Events.EventTypes.UNCATEGORIZED.Type,
+                  io.http.Events.EventTypes.SCIENTIFIC_STUDY.Type,
+                  io.http.Events.EventTypes.PATENT.Type,
                 ].includes(r.payload.event.type) ? (
                   <Typography>
                     {getTitle(r.payload.event, {
@@ -227,9 +227,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
             {({ formData, scopedFormData, ...rest }) => {
               // console.log({ formData, scopedFormData, rest });
 
-              if (
-                formData.payload.event.type === EventTypes.DOCUMENTARY.value
-              ) {
+              if (formData.payload.event.type === EventTypes.DOCUMENTARY.Type) {
                 return <DocumentaryEditFormTab {...rest} />;
               }
               if (formData.payload.event.type === "Death") {
@@ -238,7 +236,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
               if (formData.payload.event.type === "ScientificStudy") {
                 return <ScientificStudyEventEditTab {...rest} />;
               }
-              if (formData.payload.event.type === EventTypes.PATENT.value) {
+              if (formData.payload.event.type === EventTypes.PATENT.Type) {
                 return <PatentEventEditFormTab {...rest} />;
               }
 
@@ -357,9 +355,7 @@ export const EventSuggestionCreate: React.FC<
             {({ formData, scopedFormData, ...rest }) => {
               // console.log({ formData, scopedFormData, rest });
 
-              if (
-                formData.payload.event.type === EventTypes.DOCUMENTARY.value
-              ) {
+              if (formData.payload.event.type === EventTypes.DOCUMENTARY.Type) {
                 return <DocumentaryEditFormTab {...rest} />;
               }
               if (formData.payload.event.type === "Death") {
@@ -368,7 +364,7 @@ export const EventSuggestionCreate: React.FC<
               if (formData.payload.event.type === "ScientificStudy") {
                 return <ScientificStudyEventEditTab {...rest} />;
               }
-              if (formData.payload.event.type === EventTypes.PATENT.value) {
+              if (formData.payload.event.type === EventTypes.PATENT.Type) {
                 return <PatentEventEditFormTab {...rest} />;
               }
 

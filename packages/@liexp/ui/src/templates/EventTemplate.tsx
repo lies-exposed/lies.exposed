@@ -1,15 +1,16 @@
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
+import { type NonEmptyArray } from "@liexp/shared/lib/utils/array.utils.js";
 import {
   formatAnyDateToShort,
   formatDate,
 } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import * as React from "react";
 import { EventIcon } from "../components/Common/Icons/EventIcon.js";
 import { EventPageContent } from "../components/EventPageContent.js";
@@ -58,9 +59,9 @@ export interface EventTemplateProps {
   event: http.Events.Event;
   tab: number;
   filters: {
-    actors: string[];
-    groups: string[];
-    keywords: string[];
+    actors: UUID[];
+    groups: UUID[];
+    keywords: UUID[];
     eventType: EventType[];
   };
   onTabChange: (t: number) => void;
@@ -354,9 +355,9 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     selectedKeywordIds={filters.keywords}
                     query={{
                       ids: [event.id],
-                      eventType: EventType.types.map(
-                        (t) => t.value,
-                      ) as NonEmptyArray<EventType>,
+                      eventType: EventType.members.map(
+                        (t) => t.Type,
+                      ) as unknown as NonEmptyArray<EventType>,
                       startDate: formatDate(subYears(new Date(), 1)),
                       endDate: formatDate(new Date()),
                     }}

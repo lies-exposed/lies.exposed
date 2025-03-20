@@ -10,9 +10,9 @@ export const EventSuggestionStatusInput: React.FC<SelectInputProps> = (
       label="Suggestion status"
       source="status"
       {...props}
-      choices={EventSuggestionStatus.types.map((t) => ({
-        id: t.value,
-        name: t.value,
+      choices={EventSuggestionStatus.members.map((t) => ({
+        id: t.Type,
+        name: t.Type,
       }))}
     />
   );

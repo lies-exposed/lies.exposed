@@ -3,7 +3,7 @@ import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/Endpoin
 import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
 import {
   type EndpointDataOutput,
-  type EndpointOutput,
+  type EndpointOutputType,
   type GetEndpointQueryType,
   type GetListFnParamsE,
 } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
@@ -96,7 +96,7 @@ export const InfiniteListBox = <
     any,
     APIError,
     {
-      pages: EndpointOutput<E>[];
+      pages: EndpointOutputType<E>[];
       pageParams: Array<{ _start: number; _end: number }>;
     },
     any,
@@ -120,7 +120,6 @@ export const InfiniteListBox = <
         {
           ...filter.filter,
           ...opts.pageParam,
-          pagination: pageParam,
         } as any,
         false,
       );

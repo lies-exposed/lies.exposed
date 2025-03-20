@@ -103,7 +103,7 @@ export const MediaDataGrid: React.FC = () => {
               <Box>
                 <Typography variant="subtitle1">
                   {r.type}
-                  {r.type === MP4Type.value &&
+                  {r.type === MP4Type.Type &&
                     r.extra?.duration &&
                     ` - ${toFormattedDuration(r.extra.duration)}`}
                 </Typography>
@@ -215,15 +215,15 @@ const MediaListAside: React.FC = () => {
           />
         </FilterList>
         <FilterList label="Type" icon={<MediaIcon />}>
-          {MediaType.types.map((t) => (
+          {MediaType.members.map((t) => (
             <FilterListItem
-              key={t.value}
+              key={t.Type}
               label={
                 <span>
-                  <MediaIcon /> {t.value}
+                  <MediaIcon /> {t.Type}
                 </span>
               }
-              value={{ type: [t.value] }}
+              value={{ type: [t.Type] }}
             />
           ))}
         </FilterList>

@@ -1,8 +1,7 @@
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { ParentSize } from "@visx/responsive";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { Schema } from "effect";
 import Feature from "ol/Feature.js";
 import * as React from "react";
 import { geoJSONFormat } from "../utils/map.utils.js";
@@ -10,7 +9,7 @@ import Map from "./Map.js";
 import QueriesRenderer from "./QueriesRenderer.js";
 
 interface EventsMapComponentProps {
-  events: Events.Event[];
+  events: readonly Events.Event[];
   center?: [number, number];
   zoom?: number;
   onMapClick: (features: any[]) => void;
@@ -24,21 +23,21 @@ const EventsMapComponent: React.FC<EventsMapComponentProps> = ({
 }) => {
   const data = pipe(
     events,
-    A.filter(Events.Uncategorized.Uncategorized.is),
-    A.filterMap((e) =>
+    fp.A.filter(Schema.is(Events.Uncategorized.Uncategorized)),
+    fp.A.filterMap((e) =>
       e.payload.location
-        ? O.some({ ...e, geometry: e.payload.location })
-        : O.none,
+        ? fp.O.some({ ...e, geometry: e.payload.location })
+        : fp.O.none,
     ),
   );
 
   const deathsData = pipe(
     events,
-    A.filter(Events.Death.Death.is),
-    A.filterMap((e) =>
+    fp.A.filter(Schema.is(Events.Death.Death)),
+    fp.A.filterMap((e) =>
       e.payload.location
-        ? O.some({ ...e, geometry: e.payload.location })
-        : O.none,
+        ? fp.O.some({ ...e, geometry: e.payload.location })
+        : fp.O.none,
     ),
   );
 
@@ -107,7 +106,7 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
             pagination: { page: 1, perPage: 100 },
             sort: { field: "startDate", order: "DESC" },
             filter: {
-              title: pipe(title ?? O.none, O.toUndefined),
+              title: pipe(title ?? fp.O.none, fp.O.toUndefined),
               startDate:
                 startDate?._tag === "Some"
                   ? startDate.value.toISOString()

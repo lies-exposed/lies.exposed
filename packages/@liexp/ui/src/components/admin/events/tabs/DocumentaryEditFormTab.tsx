@@ -17,7 +17,7 @@ export const DocumentaryEditFormTab: React.FC = () => (
     <ReferenceAreaInput source="payload.location" />
     <ReferenceLinkInput source="payload.website" fullWidth />
     <ReferenceMediaInput
-      allowedTypes={[MP4Type.value, IframeVideoType.value]}
+      allowedTypes={[MP4Type.Type, IframeVideoType.Type]}
       source="payload.media"
     />
 

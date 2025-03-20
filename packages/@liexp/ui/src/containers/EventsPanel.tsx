@@ -132,10 +132,10 @@ export interface EventsQueryParams {
 interface EventsPanelProps {
   query: SearchEventsQueryInputNoPagination;
   tab: number;
-  keywords: Keyword.Keyword[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
+  keywords: readonly Keyword.Keyword[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  groupsMembers: readonly GroupMember.GroupMember[];
   onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
 }

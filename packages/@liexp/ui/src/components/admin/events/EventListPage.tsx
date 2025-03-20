@@ -46,9 +46,9 @@ const eventsFilter = [
     source="type"
     alwaysOn
     size="small"
-    choices={io.http.Events.EventType.types.map((t) => ({
-      id: t.value,
-      name: t.value,
+    choices={io.http.Events.EventType.members.map((t) => ({
+      id: t.Type,
+      name: t.Type,
     }))}
   />,
   <ReferenceArrayKeywordInput
@@ -68,10 +68,10 @@ export const EventDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick={(_props, _id, record) => {
-        if (record.type === SCIENTIFIC_STUDY.value) {
+        if (record.type === SCIENTIFIC_STUDY.Type) {
           return `/scientific-studies/${record.id}`;
         }
-        if (record.type === DEATH.value) {
+        if (record.type === DEATH.Type) {
           return `/deaths/${record.id}`;
         }
         return `/events/${record.id}`;
@@ -85,13 +85,13 @@ export const EventDataGrid: React.FC = () => {
             <Box>
               <EventIcon color="primary" type={r.type} />{" "}
               {[
-                io.http.Events.EventTypes.UNCATEGORIZED.value,
-                io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-                io.http.Events.EventTypes.BOOK.value,
+                io.http.Events.EventTypes.UNCATEGORIZED.Type,
+                io.http.Events.EventTypes.SCIENTIFIC_STUDY.Type,
+                io.http.Events.EventTypes.BOOK.Type,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : null}
-              {r.type === io.http.Events.EventTypes.DEATH.value && (
+              {r.type === io.http.Events.EventTypes.DEATH.Type && (
                 <ReferenceField source="payload.victim" reference="actors">
                   <TextField source="username" />
                 </ReferenceField>
@@ -114,11 +114,11 @@ export const EventDataGrid: React.FC = () => {
         label="actors"
         source="payload"
         render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
+          if (r?.type === Events.EventTypes.UNCATEGORIZED.Type) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
+          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.Type) {
             return r.payload.authors.length;
           }
 

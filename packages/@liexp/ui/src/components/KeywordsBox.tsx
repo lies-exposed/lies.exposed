@@ -1,5 +1,5 @@
 import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
-import * as NEA from "fp-ts/lib/NonEmptyArray.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -28,8 +28,8 @@ export const KeywordsBoxWrapper: React.FC<KeywordsBoxWrapperProps> = ({
           true,
         ),
       })}
-      render={({ keywords }) => {
-        return children(keywords);
+      render={({ keywords: { data, total } }) => {
+        return children({ data: [...data], total });
       }}
     />
   );
@@ -51,7 +51,7 @@ export const KeywordsBox: React.FC<KeywordsBoxProps> = ({
     <Box {...props}>
       {pipe(
         [...ids],
-        NEA.fromArray,
+        O.fromPredicate(isNonEmpty),
         O.fold(
           () => null,
           (ids) => (

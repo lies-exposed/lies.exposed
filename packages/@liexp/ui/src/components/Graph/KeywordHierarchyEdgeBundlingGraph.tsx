@@ -32,7 +32,7 @@ export const KeywordHierarchyEdgeBundlingGraph: React.FC<
         return (
           <HierarchicalEdgeBundling
             {...props}
-            graph={{ nodes: [], links: graph.keywordLinks }}
+            graph={{ nodes: [], links: [...graph.keywordLinks] }}
           />
         );
       }}

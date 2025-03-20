@@ -4,7 +4,7 @@ import { Grid } from "../mui/index.js";
 import { StoryCard } from "./StoryCard.js";
 
 interface StoryListProps {
-  stories: Story[];
+  stories: readonly Story[];
   style?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   onClick: (a: Story) => void;

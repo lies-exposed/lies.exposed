@@ -3,7 +3,7 @@ import {
   type QueryFnKey,
   type QueryPromiseFunction,
 } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
-import { type Configuration } from "../context/ConfigurationContext";
+import { type Configuration } from "../context/ConfigurationContext.js";
 
 interface BaseRoute {
   path: string;
@@ -12,18 +12,18 @@ interface BaseRoute {
 
 type RedirectRoute = BaseRoute & { redirect: string };
 
-export interface AsyncDataRouteQuery<P = any, Q = any, A = any> {
-  queryKey: QueryFnKey<P, Q>;
-  queryFn: QueryPromiseFunction<P, Q, A>;
+export interface AsyncDataRouteQuery<P, Q, A> {
+  queryKey: QueryFnKey<P, Q | undefined>;
+  queryFn: QueryPromiseFunction<P, Q | undefined, A>;
 }
 
 export type AsyncDataRoute = BaseRoute & {
   queries: (
     Q: EndpointsQueryProvider,
     conf: Configuration,
-  ) => (
-    params: any,
-    query: any,
+  ) => <P, Q, A>(
+    params: P,
+    query: Q | undefined,
   ) => Promise<AsyncDataRouteQuery<any, any, any>[]>;
 };
 

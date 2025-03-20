@@ -115,7 +115,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
           media: [],
           keywords: [],
           locations: [area.id],
-          eventType: EventType.types.map((t) => t.value),
+          eventType: EventType.members.map((t) => t.Type),
           _sort: "createdAt",
           _order: "DESC",
         }}

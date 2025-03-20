@@ -47,9 +47,9 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
 
   const defaultMedia = media[0]?.thumbnail ?? defaultImage;
   const _image =
-    event.type === Events.EventTypes.DEATH.value
+    event.type === Events.EventTypes.DEATH.Type
       ? event.payload.victim?.avatar?.thumbnail
-      : event.type === Events.EventTypes.QUOTE.value
+      : event.type === Events.EventTypes.QUOTE.Type
         ? (event.payload.subject.id.avatar?.thumbnail ?? defaultMedia)
         : defaultMedia;
 

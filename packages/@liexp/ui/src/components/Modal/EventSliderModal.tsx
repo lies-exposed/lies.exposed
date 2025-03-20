@@ -84,7 +84,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   const [{ start, current, eventType }, setBounds] = React.useState({
     current: _start,
     start: _start,
-    eventType: query.eventType ?? EventType.types.map((t) => t.value),
+    eventType: query.eventType ?? EventType.members.map((t) => t.Type),
   });
   const end = start + perPage + 1;
 
@@ -220,7 +220,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
                       onQueryChange({ ...q, slide: open });
                     }}
                     onQueryClear={() => {}}
-                    events={events}
+                    events={[...events]}
                     actors={rest.actors.map((a) => ({
                       ...a,
                       selected: query.actors?.includes(a.id) ?? false,

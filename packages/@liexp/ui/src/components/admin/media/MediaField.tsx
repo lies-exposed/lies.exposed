@@ -37,15 +37,15 @@ export const MediaField: React.FC<MediaFieldProps> = ({
     sourceType ??
     type ??
     (src?.includes(".png")
-      ? MediaType.types[2].value
-      : (record?.type ?? MediaType.types[0].value));
+      ? MediaType.members[2].Type
+      : (record?.type ?? MediaType.members[0].Type));
 
   switch (mediaType) {
-    case MediaType.types[7].value:
+    case MediaType.members[7].Type:
       return <iframe src={src} style={{ maxWidth: 500, height: 300 }} />;
-    case MediaType.types[6].value:
+    case MediaType.members[6].Type:
       return <UrlField {...props} target="_blank" />;
-    case MediaType.types[5].value:
+    case MediaType.members[5].Type:
       return (
         <video
           controls={controls}
@@ -56,8 +56,8 @@ export const MediaField: React.FC<MediaFieldProps> = ({
           <source src={src} />
         </video>
       );
-    case MediaType.types[4].value:
-    case MediaType.types[3].value:
+    case MediaType.members[4].Type:
+    case MediaType.members[3].Type:
       return <ReactAudioPlayer src={src} />;
     default:
       return (

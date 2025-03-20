@@ -36,7 +36,7 @@ export const EventTypeInput: React.FC<InputProps> = ({
 
   const value = get(record, source ?? "type") ?? defaultValue;
   const [type, setType] = React.useState(
-    value ?? Events.EventTypes.UNCATEGORIZED.value,
+    value ?? Events.EventTypes.UNCATEGORIZED.Type,
   );
   const onSelectChange = (e: SelectChangeEvent): void => {
     setType(e.target.value);
@@ -136,9 +136,9 @@ export const EventTypeInput: React.FC<InputProps> = ({
           value={type}
           defaultValue={type}
         >
-          {Events.EventType.types.map((t) => (
-            <MenuItem key={t.value} value={t.value}>
-              {t.value}
+          {Events.EventType.members.map((t) => (
+            <MenuItem key={t.Type} value={t.Type}>
+              {t.Type}
             </MenuItem>
           ))}
         </Select>

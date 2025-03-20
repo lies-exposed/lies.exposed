@@ -27,7 +27,7 @@ const StyledSlider = styled(Slider)(({ theme }) => ({
   },
 }));
 export interface MediaSliderProps extends Omit<SliderProps, "slides"> {
-  data: Media.Media[];
+  data: readonly Media.Media[];
   disableZoom?: boolean;
   enableDescription?: boolean;
   onClick?: (e: Media.Media) => void;

@@ -24,7 +24,7 @@ interface ShareModalProps {
   onPost?: (b: CreateSocialPost) => void;
   onClose?: () => void;
   payload?: Partial<CreateSocialPost>;
-  media: Media.Media[];
+  media: readonly Media.Media[];
 }
 
 export const emptySharePayload: CreateSocialPost = {
@@ -63,7 +63,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 
   const [{ payload, multipleMedia, media }, setState] = React.useState<{
     payload: CreateSocialPost;
-    media: Media.Media[];
+    media: readonly Media.Media[];
     multipleMedia: boolean;
   }>({
     multipleMedia: _multipleMedia,
