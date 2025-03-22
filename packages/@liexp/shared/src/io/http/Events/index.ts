@@ -126,23 +126,23 @@ const EVENTS = Schema.Literal("events");
 type EVENTS = typeof EVENTS.Type;
 
 interface EventRelationIds {
-  actors: UUID[];
-  areas: UUID[];
-  groups: UUID[];
-  groupsMembers: UUID[];
-  keywords: UUID[];
-  media: UUID[];
-  links: UUID[];
+  actors: readonly UUID[];
+  areas: readonly UUID[];
+  groups: readonly UUID[];
+  groupsMembers: readonly UUID[];
+  keywords: readonly UUID[];
+  media: readonly UUID[];
+  links: readonly UUID[];
 }
 
 interface EventRelations {
-  actors: Actor[];
-  groups: Group[];
-  groupsMembers: GroupMember[];
-  keywords: Keyword[];
-  media: Media[];
-  links: Link[];
-  areas: Area[];
+  actors: readonly Actor[];
+  groups: readonly Group[];
+  groupsMembers: readonly GroupMember[];
+  keywords: readonly Keyword[];
+  media: readonly Media[];
+  links: readonly Link[];
+  areas: readonly Area[];
 }
 
 export {

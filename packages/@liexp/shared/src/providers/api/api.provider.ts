@@ -8,10 +8,8 @@ import { pipe } from "fp-ts/lib/function.js";
 import {
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,
-  type TypeOfEndpointInstanceInput,
+  type EndpointInstanceEncodedInputs,
 } from "ts-endpoint";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
-import { type RequiredKeys } from "typelevel-ts";
 import { Endpoints } from "../../endpoints/index.js";
 import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
@@ -19,15 +17,8 @@ import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 
-export type SerializedPropsType<P> =
-  P extends Record<string, unknown>
-    ? {
-        [k in RequiredKeys<P>]: serializedType<P[k]>;
-      }
-    : never;
-
 export type TERequest<E extends MinimalEndpointInstance> = (
-  input: TypeOfEndpointInstanceInput<E>,
+  input: EndpointInstanceEncodedInputs<E>,
 ) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
 
 type API = {
@@ -40,8 +31,8 @@ type API = {
     infer CC
   >
     ? {
-        List: TERequest<List>;
         Get: TERequest<Get>;
+        List: TERequest<List>;
         Custom: CC extends Record<string, MinimalEndpointInstance>
           ? {
               [K in keyof CC]: TERequest<CC[K]>;
@@ -55,7 +46,7 @@ const API = (client: AxiosInstance): API => {
   const toTERequest = <E extends MinimalEndpointInstance>(
     e: E,
   ): TERequest<E> => {
-    return (b: TypeOfEndpointInstanceInput<E>) => {
+    return (b: EndpointInstanceEncodedInputs<E>) => {
       const url = e.getPath(b?.Params);
       return pipe(
         liftFetch<TypeOfEndpointInstance<E>["Output"]>(
@@ -63,7 +54,7 @@ const API = (client: AxiosInstance): API => {
             apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
             return client.request<
-              TypeOfEndpointInstanceInput<E>,
+              EndpointInstanceEncodedInputs<E>,
               AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
             >({
               method: e.Method,

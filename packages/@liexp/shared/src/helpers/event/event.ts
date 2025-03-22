@@ -7,6 +7,7 @@ import type * as O from "fp-ts/lib/Option.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { Events, type Common, type Network } from "../../io/http/index.js";
 import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
+import { isNonEmpty } from "../../utils/array.utils.js";
 import { type EventCommonProps } from "./getCommonProps.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
@@ -112,7 +113,7 @@ interface EventsInDateRangeProps {
 
 export const eventsInDateRange =
   (props: EventsInDateRangeProps) =>
-  (events: Events.Event[]): Events.Event[] => {
+  (events: Events.Event[]): readonly Events.Event[] => {
     return pipe(
       events,
       fp.A.sort(fp.Ord.reverse(ordEventDate)),
@@ -152,9 +153,10 @@ export const eventsInDateRange =
     );
   };
 
-const nonEmptyArrayOrNull = <A>(x: A[]): [A, ...A[]] | null => {
-  const z = pipe(fp.NEA.fromArray(x ?? []), fp.O.toNullable);
-  return z as [A, ...A[]] | null;
+const nonEmptyArrayOrNull = <A>(
+  x: readonly A[],
+): readonly [A, ...A[]] | null => {
+  return pipe(x ?? [], fp.O.fromPredicate(isNonEmpty), fp.O.toNullable);
 };
 
 // const concatToNEAOrNull = <A>(x: A[], y: A[]): NonEmptyArray<A> | null => {
@@ -259,13 +261,13 @@ export const transform =
         );
 
         const to = pipe(
-          props.actors,
+          [...props.actors],
           fp.A.takeLeft(2),
           fp.A.head,
           fp.O.map((id) => makeBySubjectId("Actor", id)),
           fp.O.alt(() =>
             pipe(
-              props.groups,
+              [...props.groups],
               fp.A.takeLeft(2),
               fp.A.head,
               fp.O.map((id) => makeBySubjectId("Group", id)),
@@ -312,8 +314,8 @@ export const transform =
       case Events.EventTypes.DOCUMENTARY.Type: {
         return pipe(
           sequenceS(fp.O.Applicative)({
-            media: pipe(props.media, fp.A.head),
-            website: pipe(props.links, fp.A.head),
+            media: pipe([...props.media], fp.A.head),
+            website: pipe([...props.links], fp.A.head),
           }),
           fp.O.map(({ media, website }) => ({
             ...e,
@@ -424,7 +426,8 @@ export const getTotals = (
 ): Events.SearchEvent.EventTotals.EventTotals => {
   return {
     uncategorized:
-      acc.uncategorized + (Schema.is(Events.EventTypes.UNCATEGORIZED)(e.type) ? 1 : 0),
+      acc.uncategorized +
+      (Schema.is(Events.EventTypes.UNCATEGORIZED)(e.type) ? 1 : 0),
     scientificStudies:
       acc.scientificStudies +
       (Schema.is(Events.EventTypes.SCIENTIFIC_STUDY)(e.type) ? 1 : 0),

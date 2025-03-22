@@ -7,7 +7,7 @@ import {
 import * as http from "../../io/http/index.js";
 
 export const getShareMultipleMedia = (
-  media: http.Media.Media[],
+  media: readonly http.Media.Media[],
   defaultImage: string,
 ): SocialPostBodyMultipleMedia => {
   const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
@@ -57,7 +57,7 @@ export const getShareMultipleMedia = (
 };
 
 export const getShareMedia = (
-  media: http.Media.Media[],
+  media: readonly http.Media.Media[],
   defaultImage: string,
 ): SocialPost["media"] => {
   return getShareMultipleMedia(media, defaultImage);

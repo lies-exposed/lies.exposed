@@ -1,21 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as A from "fp-ts/lib/Array.js";
 import { type BySubject } from "../../io/http/Common/index.js";
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
 import { type SearchBookEvent } from "../../io/http/Events/SearchEvents/SearchBookEvent.js";
 import { type SearchDocumentaryEvent } from "../../io/http/Events/SearchEvents/SearchDocumentaryEvent.js";
 import { type SearchQuoteEvent } from "../../io/http/Events/SearchEvents/SearchQuoteEvent.js";
 import { type SearchTransactionEvent } from "../../io/http/Events/SearchEvents/SearchTransactionEvent.js";
-import {
-  Events,
-  type Actor,
-  type Area,
-  type Group,
-  type GroupMember,
-  type Keyword,
-  type Link,
-  type Media,
-} from "../../io/http/index.js";
+import { type EventRelations } from "../../io/http/Events/index.js";
+import { Events, type Area, type Media } from "../../io/http/index.js";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
 import { eventRelationIdsMonoid } from "./event.js";
 import {
@@ -24,57 +15,50 @@ import {
 } from "./getEventRelationIds.js";
 import { getSearchEventRelations } from "./getSearchEventRelations.js";
 
-export interface SearchEventsQueryCache {
-  events: Events.SearchEvent.SearchEvent[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-  links: Link.Link[];
-  areas: Area.Area[];
+export interface SearchEventsQueryCache extends EventRelations {
+  events: readonly Events.SearchEvent.SearchEvent[];
 }
 
 export const getNewRelationIds = (
-  events: Events.Event[],
+  events: readonly Events.Event[],
   s: SearchEventsQueryCache,
 ): Events.EventRelationIds => {
   // get relation ids from cache;
 
   const actorIds = pipe(
     s.actors,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const groupIds = pipe(
     s.groups,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const groupsMemberIds = pipe(
     s.groupsMembers,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const mediaIds = pipe(
     s.media,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const keywordIds = pipe(
     s.keywords,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const linkIds = pipe(
     s.links,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
   const areaIds = pipe(
     s.areas,
-    A.map((a) => a.id),
+    fp.A.map((a) => a.id),
   );
 
   const init: Events.EventRelationIds = eventRelationIdsMonoid.empty;
 
   return pipe(
     events,
-    A.reduce(init, (acc, e) => {
+    fp.A.reduce(init, (acc, e) => {
       const { actors, groups, groupsMembers, media, keywords, links, areas } =
         getRelationIds(e);
 
@@ -125,7 +109,7 @@ export const updateCache = (
 ): SearchEventsQueryCache => {
   const actors = pipe(
     update.actors,
-    A.reduce(s.actors, (accActors, a) => {
+    fp.A.reduce(s.actors, (accActors, a) => {
       const existing = accActors.some((aa) => aa.id === a.id);
       return existing ? accActors : accActors.concat(a);
     }),
@@ -133,7 +117,7 @@ export const updateCache = (
 
   const groups = pipe(
     update.groups,
-    A.reduce(s.groups, (accGroups, a) => {
+    fp.A.reduce(s.groups, (accGroups, a) => {
       const existing = accGroups.some((aa) => aa.id === a.id);
       return existing ? accGroups : accGroups.concat(a);
     }),
@@ -141,7 +125,7 @@ export const updateCache = (
 
   const groupsMembers = pipe(
     update.groupsMembers,
-    A.reduce(s.groupsMembers, (acc, gm) => {
+    fp.A.reduce([...s.groupsMembers], (acc, gm) => {
       const index = acc.findIndex((g) => g.id === gm.id);
       if (index === -1) {
         return acc.concat(gm);
@@ -154,7 +138,7 @@ export const updateCache = (
 
   const media = pipe(
     update.media,
-    A.reduce(s.media, (acc, gm) => {
+    fp.A.reduce([...s.media], (acc, gm) => {
       const index = acc.findIndex((g) => g.id === gm.id);
       if (index === -1) {
         return acc.concat(gm);
@@ -167,7 +151,7 @@ export const updateCache = (
 
   const keywords = pipe(
     update.keywords,
-    A.reduce(s.keywords, (acc, gm) => {
+    fp.A.reduce([...s.keywords], (acc, gm) => {
       const index = acc.findIndex((g) => g.id === gm.id);
       if (index === -1) {
         return acc.concat(gm);
@@ -180,7 +164,7 @@ export const updateCache = (
 
   const links = pipe(
     update.links,
-    A.reduce(s.links, (acc, gm) => {
+    fp.A.reduce([...s.links], (acc, gm) => {
       const index = acc.findIndex((g) => g.id === gm.id);
       if (index === -1) {
         return acc.concat(gm);
@@ -193,7 +177,7 @@ export const updateCache = (
 
   const newEvents = pipe(
     update.events.data,
-    A.map((e) =>
+    fp.A.map((e) =>
       toSearchEvent(e, {
         actors,
         groups,
@@ -233,70 +217,63 @@ export const toSearchEvent = (
   } = getRelationIds(e);
 
   const actors = pipe(
-    actorIds,
-    A.map((a) => {
+    actorIds.map((a) => {
       return pipe(
         s.actors?.find((actor) => actor.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   const groups = pipe(
-    groupIds,
-    A.map((a) => {
+    groupIds.map((a) => {
       return pipe(
         s.groups?.find((actor) => actor.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   const groupsMembers = pipe(
-    groupsMembersIds,
-
-    A.map((a) => {
+    groupsMembersIds.map((a) => {
       return pipe(
         s.groupsMembers?.find((actor) => actor.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   const media = pipe(
-    mediaIds,
-    A.map((a) => {
+    mediaIds.map((a) => {
       return pipe(
         s.media?.find((actor) => actor.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   const keywords = pipe(
-    keywordIds,
-    A.map((a) => {
+    keywordIds.map((a) => {
       return pipe(
         s.keywords?.find((actor) => actor.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   const links = pipe(
-    linkIds,
-    A.map((a) => {
+    linkIds.map((a) => {
       return pipe(
         s.links?.find((l) => l.id === a),
         fp.O.fromNullable,
       );
     }),
-    A.compact,
+    fp.A.compact,
   );
 
   switch (e.type) {

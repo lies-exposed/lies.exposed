@@ -114,7 +114,10 @@ type CustomEndpointParams<C> =
 export type CustomEndpointFn<C extends MinimalEndpointInstance> = (
   params: CustomEndpointParams<C>,
   q?: any,
-) => TE.TaskEither<APIError, InferEndpointInstanceParams<C>["output"]>;
+) => TE.TaskEither<
+  APIError,
+  serializedType<InferEndpointInstanceParams<C>["output"]>
+>;
 
 export type CustomEndpointsRecord<CC> =
   CC extends Record<string, MinimalEndpointInstance>

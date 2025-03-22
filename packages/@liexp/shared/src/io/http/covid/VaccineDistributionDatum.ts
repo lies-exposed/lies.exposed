@@ -1,6 +1,6 @@
 import { ParseResult, Schema } from "effect";
 
-const NumberFromEmptyString = Schema.transformOrFail(
+export const NumberFromEmptyString = Schema.transformOrFail(
   Schema.String,
   Schema.Number,
   {
@@ -21,6 +21,8 @@ const NumberFromEmptyString = Schema.transformOrFail(
     encode: (n) => ParseResult.succeed(n.toString()),
   },
 ).pipe(Schema.brand("NumberFromEmptyString"));
+
+export type NumberFromEmptyString = typeof NumberFromEmptyString.Type;
 
 export const VaccineDistributionDatum = Schema.Struct({
   date: Schema.DateFromString,

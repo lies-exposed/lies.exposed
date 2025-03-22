@@ -28,7 +28,7 @@ export const GetSearchEventsQuery = Schema.Struct({
   ...GetListQueryLocations.fields,
   ids: OptionFromNullishToNull(Schema.Array(UUID)),
   eventType: OptionFromNullishToNull(Schema.Array(EventType)),
-  groupsMembers: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  groupsMembers: OptionFromNullishToNull(Schema.Array(UUID)),
   exclude: OptionFromNullishToNull(Schema.Array(UUID)),
   withDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
   withDrafts: OptionFromNullishToNull(Schema.BooleanFromString),

@@ -32,7 +32,7 @@ export const UserStatus = Schema.Union(
 ).annotations({
   title: "UserStatus",
 });
-export type UserStatus = typeof UserStatus;
+export type UserStatus = typeof UserStatus.Type;
 
 export const SignUpUserBody = Schema.Struct({
   username: Schema.String,

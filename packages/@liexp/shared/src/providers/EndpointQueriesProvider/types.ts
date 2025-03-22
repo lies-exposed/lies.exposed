@@ -3,11 +3,7 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import {
-  type RecordCodecEncoded,
-  type runtimeType,
-  type serializedType,
-} from "ts-io-error/lib/Codec.js";
+import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
@@ -65,12 +61,12 @@ export interface ResourceQueries<G, L, CC> {
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
         [K in keyof CC]: ResourceQuery<
-          runtimeType<
-            InferEndpointInstanceParams<CC[K]>["params"]
-          > extends never
+          InferEndpointInstanceParams<CC[K]>["params"] extends undefined
             ? undefined
-            : runtimeType<InferEndpointInstanceParams<CC[K]>["params"]>,
-          Partial<serializedType<InferEndpointInstanceParams<CC[K]>["query"]>>,
+            : RecordCodecEncoded<InferEndpointInstanceParams<CC[K]>["params"]>,
+          Partial<
+            RecordCodecEncoded<InferEndpointInstanceParams<CC[K]>["query"]>
+          >,
           EndpointDataOutput<CC[K]>
         >;
       }

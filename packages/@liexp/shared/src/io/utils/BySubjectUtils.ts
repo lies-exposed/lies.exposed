@@ -79,8 +79,8 @@ const toBySubjectArray = (
 
 const lookupForSubject = (
   subject: BySubjectId,
-  actors: Actor.Actor[],
-  groups: Group.Group[],
+  actors: readonly Actor.Actor[],
+  groups: readonly Group.Group[],
 ): Option<BySubject> => {
   return pipe(
     findBySubject(subject, actors, groups),
@@ -96,7 +96,7 @@ const toSubjectId = (s: BySubject): BySubjectId => {
   };
 };
 
-const toSubjectIds = (ss: BySubject[]): BySubjectId[] => {
+const toSubjectIds = (ss: readonly BySubject[]): BySubjectId[] => {
   return ss.map(toSubjectId);
 };
 

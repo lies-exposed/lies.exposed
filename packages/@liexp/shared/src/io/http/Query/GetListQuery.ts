@@ -1,8 +1,8 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "./PaginationQuery.js";
 import { SortQuery } from "./SortQuery.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const GetListQuery = Schema.Struct({
   ...SortQuery.fields,
@@ -10,7 +10,7 @@ export const GetListQuery = Schema.Struct({
   q: OptionFromNullishToNull(Schema.String),
 }).annotations({ title: "GetListQuery" });
 
-export type GetListQuery = typeof GetListQuery;
+export type GetListQuery = typeof GetListQuery.Type;
 
 export const GetListQueryActors = Schema.Struct({
   actors: OptionFromNullishToNull(Schema.Array(UUID)),
