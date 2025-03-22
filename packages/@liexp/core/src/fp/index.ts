@@ -1,5 +1,4 @@
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as date from "fp-ts/lib/Date.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as Eq from "fp-ts/lib/Eq.js";
@@ -12,6 +11,7 @@ import * as O from "fp-ts/lib/Option.js";
 import * as Ord from "fp-ts/lib/Ord.js";
 import * as R from "fp-ts/lib/Reader.js";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
+import * as A from "fp-ts/lib/ReadonlyArray.js";
 import * as Rec from "fp-ts/lib/Record.js";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
