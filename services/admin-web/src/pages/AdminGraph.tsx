@@ -73,7 +73,7 @@ const GraphTypeInput: React.FC<SelectInputProps> = (props) => {
     <SelectInput
       source="type"
       label="Graph Type"
-      choices={GraphType.types.map((t) => ({ id: t.value, name: t.value }))}
+      choices={GraphType.members.map((t) => ({ id: t.Type, name: t.Type }))}
       {...props}
     />
   );

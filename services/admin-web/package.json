@@ -40,6 +40,7 @@
     "@liexp/ui": "workspace:*",
     "@tanstack/react-query": "^5.69.0",
     "debug": "^4.3.4",
+    "effect": "^3.14.1",
     "fp-ts": "^2.16.9",
     "openai": "^4.87.3",
     "react": "^18.3.1",

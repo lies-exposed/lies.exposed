@@ -1,4 +1,5 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
@@ -36,6 +37,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -79,7 +81,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <DateInput source="diedOn" />
           <OpenAIEmbeddingJobButton<Actor>
             resource="actors"
-            type={OpenAISummarizeQueueType.value}
+            type={OpenAISummarizeQueueType.Type}
             transformValue={({ excerpt, fullName }) =>
               pipe(
                 excerpt && isValidValue(excerpt)
@@ -137,7 +139,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
             transform={async (t, r) => {
-              if (t === http.Events.EventTypes.DEATH.value) {
+              if (t === http.Events.EventTypes.DEATH.Type) {
                 return {
                   draft: true,
                   type: t,
@@ -146,7 +148,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                   date: new Date(),
                   payload: {
                     victim: r.id,
-                    location: O.none,
+                    location: O.none as Option<UUID>,
                   },
                   media: [],
                   keywords: [],

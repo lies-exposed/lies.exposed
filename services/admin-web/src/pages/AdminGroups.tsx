@@ -52,6 +52,7 @@ import {
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
 import { toError } from "fp-ts/lib/Either";
@@ -63,9 +64,9 @@ const GroupKindInput: React.FC<SelectInputProps> = (props) => {
   return (
     <SelectInput
       {...props}
-      choices={io.http.Group.GroupKind.types.map((t) => ({
-        id: t.value,
-        name: t.value,
+      choices={io.http.Group.GroupKind.members.map((t) => ({
+        id: t.Type,
+        name: t.Type,
       }))}
     />
   );
@@ -137,7 +138,7 @@ const transformGroup =
           );
         }
 
-        if (UUID.is(data.avatar?.id)) {
+        if (Schema.is(UUID)(data.avatar?.id)) {
           return TE.right([
             {
               id: data.avatar.id,
@@ -145,7 +146,7 @@ const transformGroup =
           ]);
         }
 
-        if (!UUID.is(data.avatar)) {
+        if (!Schema.is(UUID)(data.avatar)) {
           return TE.right([
             {
               id: data.avatar.id,
@@ -156,7 +157,7 @@ const transformGroup =
         return TE.right([]);
       }),
       TE.bind("avatarMedia", ({ avatar }) => {
-        if (UUID.is(avatar[0]?.id)) {
+        if (Schema.is(UUID)(avatar[0]?.id)) {
           return TE.right({ id: avatar[0].id });
         }
         return pipe(
@@ -242,7 +243,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </Grid>
           <OpenAIEmbeddingJobButton<Group>
             resource="groups"
-            type={OpenAISummarizeQueueType.value}
+            type={OpenAISummarizeQueueType.Type}
             transformValue={({ name, excerpt }) =>
               pipe(
                 excerpt ? getTextContents(excerpt) : "",

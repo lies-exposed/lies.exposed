@@ -24,6 +24,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { Schema } from "effect";
 import { toError } from "fp-ts/lib/Either";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function";
@@ -50,7 +51,7 @@ export const transformActor =
           );
         }
 
-        if (Schema.String.is(data.avatar)) {
+        if (Schema.is(Schema.String)(data.avatar)) {
           return fp.TE.right([
             {
               location: data.avatar as URL,
@@ -62,7 +63,7 @@ export const transformActor =
         return fp.TE.right([data.avatar]);
       }),
       fp.TE.bind("avatarMedia", ({ avatar }) => {
-        if (UUID.is(avatar[0].id)) {
+        if (Schema.is(UUID)(avatar[0].id)) {
           return fp.TE.right({ id: avatar[0].id });
         }
         return pipe(
