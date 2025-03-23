@@ -1,6 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import { type Schema } from "effect";
+import * as O from "effect/Option";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -9,14 +10,12 @@ import { GroupEntity } from "../../entities/Group.entity.js";
 import { type DBError } from "../../providers/orm/index.js";
 import { addOrder, getORMOptions } from "../../utils/orm.utils.js";
 
-// import * as O from 'fp-ts/lib/Option.js'
-
 const defaultQuery: http.Group.GetGroupListQuery = {
-  ids: O.none,
-  q: O.none,
-  members: O.none,
-  _end: O.some(20 as Int),
-  _start: O.some(0 as Int),
+  ids: O.none(),
+  q: O.none(),
+  members: O.none(),
+  _end: O.some(20 as typeof Schema.Int.Type),
+  _start: O.some(0 as typeof Schema.Int.Type),
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };

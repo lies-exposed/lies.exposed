@@ -14,6 +14,7 @@ import {
 } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -59,7 +60,7 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
     fp.RTE.bind("location", ({ mediaId }) => {
       // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
-      if (IframeVideoType.is(createMediaData.type)) {
+      if (Schema.is(IframeVideoType)(createMediaData.type)) {
         return fp.RTE.right(createMediaData.location);
       }
 
@@ -115,17 +116,17 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
     ),
     fp.RTE.map((m) => m[0]),
     fp.RTE.chainFirst((m) => (ctx) => {
-      if (PDFType.is(m.type)) {
+      if (Schema.is(PDFType)(m.type)) {
         return pipe(
-          ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
+          ctx.queue.queue(OpenAIEmbeddingQueueType.Type).addJob({
             id: m.id,
-            resource: MEDIA.value,
-            status: PendingStatus.value,
+            resource: MEDIA.Type,
+            status: PendingStatus.Type,
             error: null,
             result: null,
             prompt: null,
             question: null,
-            type: OpenAIEmbeddingQueueType.value,
+            type: OpenAIEmbeddingQueueType.Type,
             data: {
               url: m.location,
               type: "pdf" as const,

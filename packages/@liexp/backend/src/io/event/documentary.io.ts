@@ -4,6 +4,7 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
@@ -13,7 +14,7 @@ const toDocumentaryIO = (
 ): E.Either<_DecodeError, io.http.Events.Documentary.Documentary> => {
   const p: any = event.payload;
   return pipe(
-    io.http.Events.Documentary.Documentary.decode({
+    {
       ...event,
       payload: {
         ...p,
@@ -25,7 +26,8 @@ const toDocumentaryIO = (
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString() ?? undefined,
-    }),
+    },
+    Schema.decodeUnknownEither(io.http.Events.Documentary.Documentary),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
   );
 };

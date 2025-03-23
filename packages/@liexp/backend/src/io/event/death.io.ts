@@ -4,6 +4,7 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type DeathEventViewEntity } from "../../entities/events/DeathEvent.entity.js";
 import { IOCodec } from "../DomainCodec.js";
@@ -12,7 +13,7 @@ const toDeathIO = (
   event: DeathEventViewEntity,
 ): E.Either<_DecodeError, io.http.Events.Death.Death> => {
   return pipe(
-    io.http.Events.Death.Death.decode({
+    {
       ...event,
       type: "Death",
       victim: event.victim,
@@ -22,7 +23,8 @@ const toDeathIO = (
       suspects: [],
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
-    }),
+    },
+    Schema.decodeUnknownEither(io.http.Events.Death.Death),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode death event (${event.id})`, e),
     ),

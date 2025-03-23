@@ -1,6 +1,5 @@
 import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
 import { pipe, Schema } from "effect";
-import type * as t from "io-ts";
 
 export const JWT_ENV = Schema.Struct({
   JWT_SECRET: Schema.String,

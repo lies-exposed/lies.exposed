@@ -6,6 +6,7 @@ import {
 import * as io from "@liexp/shared/lib/io/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
 import { type GroupMemberEntity } from "../entities/GroupMember.entity.js";
@@ -24,7 +25,7 @@ const toGroupMemberIO = (
     }),
     E.chain(({ group, actor }) =>
       pipe(
-        io.http.GroupMember.GroupMember.decode({
+        {
           ...groupMember,
           excerpt:
             groupMember.excerpt && isValidValue(groupMember.excerpt)
@@ -34,13 +35,14 @@ const toGroupMemberIO = (
             groupMember.body && isValidValue(groupMember.body)
               ? toInitialValue(groupMember.body)
               : null,
-          actor: io.http.Actor.Actor.encode(actor),
-          group: io.http.Group.Group.encode(group),
+          actor,
+          group,
           startDate: (groupMember.startDate ?? new Date()).toISOString(),
           endDate: groupMember.endDate?.toISOString() ?? undefined,
           createdAt: groupMember.createdAt.toISOString(),
           updatedAt: groupMember.updatedAt.toISOString(),
-        }),
+        },
+        Schema.decodeUnknownEither(io.http.GroupMember.GroupMember),
         E.mapLeft((e) =>
           DecodeError.of(
             `Failed to decode group member (${groupMember.id})`,

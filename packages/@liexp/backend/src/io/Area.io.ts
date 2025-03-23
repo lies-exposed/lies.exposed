@@ -1,9 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type AreaEntity } from "../entities/Area.entity.js";
 import { IOCodec } from "./DomainCodec.js";
@@ -19,7 +21,7 @@ const toAreaIO = (
       : E.right<_DecodeError, io.http.Media.Media | null>(null),
     fp.E.chain((media) =>
       pipe(
-        io.http.Area.Area.decode({
+        {
           ...area,
           featuredImage: media
             ? {
@@ -28,18 +30,17 @@ const toAreaIO = (
                 updatedAt: media.updatedAt.toISOString(),
               }
             : null,
-          media: (area.media ?? []).map((m) =>
-            io.http.Common.UUID.is(m) ? m : m.id,
-          ),
+          media: (area.media ?? []).map((m) => (Schema.is(UUID)(m) ? m : m.id)),
           events: (area.events ?? []).map((e) =>
-            io.http.Common.UUID.is(e) ? e : e.id,
+            Schema.is(UUID)(e) ? e : e.id,
           ),
           socialPosts: area.socialPosts ?? [],
           geometry: area.geometry,
           createdAt: area.createdAt.toISOString(),
           updatedAt: area.updatedAt.toISOString(),
           deletedAt: area.deletedAt?.toISOString(),
-        }),
+        },
+        Schema.decodeUnknownEither(io.http.Area.Area),
         E.mapLeft((e) =>
           DecodeError.of(`Failed to decode area (${area.id})`, e),
         ),

@@ -182,7 +182,7 @@ export const TGBotProvider = (
             parse_mode: "HTML",
             ...videoOpts,
           },
-          { contentType: MP4Type.value },
+          { contentType: MP4Type.Type },
         ),
       );
     },
@@ -198,7 +198,7 @@ export const TGBotProvider = (
         ),
       );
     },
-    postFile(text, filename, file, contentType = PDFType.value) {
+    postFile(text, filename, file, contentType = PDFType.Type) {
       return liftTGTE(() =>
         api.sendDocument(
           opts.chat,

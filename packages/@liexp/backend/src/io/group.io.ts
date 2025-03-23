@@ -1,13 +1,15 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type GroupEntity } from "../entities/Group.entity.js";
 import { IOCodec } from "./DomainCodec.js";
@@ -23,17 +25,14 @@ const toGroupIO = (
       "avatar",
       (): E.Either<_DecodeError, UUID | Media | undefined> =>
         avatar
-          ? UUID.is(avatar)
+          ? Schema.is(UUID)(avatar)
             ? E.right(avatar)
-            : pipe(
-                MediaIO.decodeSingle(avatar, spaceEndpoint),
-                E.map((media) => Media.encode(media) as any as Media),
-              )
+            : MediaIO.decodeSingle(avatar, spaceEndpoint)
           : E.right(undefined),
     ),
     E.chain(({ avatar }) =>
       pipe(
-        io.http.Group.Group.decode({
+        {
           ...group,
           username: group.username ?? undefined,
           startDate: group.startDate?.toISOString() ?? undefined,
@@ -53,7 +52,8 @@ const toGroupIO = (
           createdAt: group.createdAt.toISOString(),
           updatedAt: group.updatedAt.toISOString(),
           deletedAt: group.deletedAt?.toISOString(),
-        }),
+        },
+        Schema.decodeUnknownEither(io.http.Group.Group),
         E.mapLeft((e) =>
           DecodeError.of(`Failed to decode group (${group.id})`, e),
         ),

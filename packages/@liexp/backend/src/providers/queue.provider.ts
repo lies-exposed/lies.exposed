@@ -14,7 +14,7 @@ interface QueueProvider<J extends Queue.Queue> {
   updateJob: (job: J, status: Queue.Status) => TaskEither<FSError, void>;
   listJobs: (opts?: {
     resource?: Queue.QueueResourceNames;
-  }) => TaskEither<FSError, J[]>;
+  }) => TaskEither<FSError, readonly J[]>;
   exists: (job: J) => TaskEither<FSError, boolean>;
   deleteJob: (
     resource: Queue.QueueResourceNames,
@@ -93,7 +93,7 @@ export interface QueuesProvider {
     resource?: Queue.QueueResourceNames;
     type?: string;
     status?: Queue.Status[];
-  }) => TaskEither<FSError, J[]>;
+  }) => TaskEither<FSError, readonly J[]>;
 }
 
 export const GetQueueProvider = (

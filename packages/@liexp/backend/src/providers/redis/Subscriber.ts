@@ -2,7 +2,6 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { failure } from "io-ts/lib/PathReporter.js";
 import type { LoggerContext } from "../../context/logger.context.js";
 import type { RedisContext } from "../../context/redis.context.js";
 import type { RedisPubSub } from "./RedisPubSub.js";
@@ -38,12 +37,12 @@ export const Subscriber = <
 
           ctx.logger.debug.log(`Received message on channel ${pubSub.channel}`);
           void pipe(
-            pubSub.decoder.decode(JSON.parse(message)),
+            pubSub.decoder(JSON.parse(message)),
             fp.E.mapLeft(
               (err) =>
                 new RedisError("Failed to decode message", {
                   kind: "DecodingError",
-                  errors: failure(err),
+                  errors: [err],
                 }) as E,
             ),
             fp.RTE.fromEither,

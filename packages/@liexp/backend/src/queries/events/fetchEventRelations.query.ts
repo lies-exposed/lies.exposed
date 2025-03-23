@@ -1,12 +1,14 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type CreateLink } from "@liexp/shared/lib/io/http/Link.js";
+import {
+  type CreateEventLink,
+  type EditEventCommon,
+} from "@liexp/shared/lib/io/http/Events/BaseEvent.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
+import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
@@ -31,12 +33,12 @@ import { fetchManyMedia } from "../media/fetchManyMedia.query.js";
 const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
   (
-    links: readonly (http.Common.UUID | CreateLink)[],
-  ): TE.TaskEither<DBError, DeepPartial<LinkEntity>[]> => {
+    links: readonly (http.Common.UUID | CreateEventLink)[],
+  ): TE.TaskEither<DBError, readonly DeepPartial<LinkEntity>[]> => {
     return pipe(
       links,
-      A.reduce(
-        { uuids: [] as UUID[], newLinks: [] as CreateLink[] },
+      fp.A.reduce(
+        { uuids: [] as UUID[], newLinks: [] as CreateEventLink[] },
         (acc, l) => {
           if (Schema.is(http.Common.UUID)(l)) {
             return {
@@ -55,7 +57,7 @@ const fetchLinksT =
           sequenceS(TE.ApplicativePar)({
             linkWithMetadata: pipe(
               newLinks,
-              A.map((link) =>
+              fp.A.map((link) =>
                 pipe(
                   urlMetadata.fetchMetadata(
                     link.url,
@@ -84,7 +86,7 @@ const fetchLinksT =
 
             linkUUIDs: pipe(
               uuids,
-              A.map((id): DeepPartial<LinkEntity> => ({ id })),
+              fp.A.map((id): DeepPartial<LinkEntity> => ({ id })),
               TE.right,
             ),
           }),
@@ -97,16 +99,16 @@ const fetchLinksT =
   };
 
 export const fetchRelationIds =
-  (input: Pick<http.Events.EditEventBody, "links" | "keywords" | "media">) =>
+  (input: Pick<EditEventCommon, "links" | "keywords" | "media">) =>
   <C extends URLMetadataContext & LoggerContext>({
     urlMetadata,
     logger,
   }: C): TE.TaskEither<
     DBError,
     {
-      keywords: DeepPartial<KeywordEntity>[];
-      links: DeepPartial<LinkEntity>[];
-      media: DeepPartial<MediaEntity>[];
+      keywords: readonly DeepPartial<KeywordEntity>[];
+      links: readonly DeepPartial<LinkEntity>[];
+      media: readonly DeepPartial<MediaEntity>[];
     }
   > => {
     logger.debug.log("Links %O", input.links);
@@ -121,8 +123,8 @@ export const fetchRelationIds =
       media: pipe(
         input.media,
         O.getOrElse((): any[] => []),
-        A.map((i) =>
-          UUID.is(i)
+        fp.A.map((i) =>
+          Schema.is(UUID)(i)
             ? { id: i }
             : {
                 id: uuid(),
@@ -134,7 +136,7 @@ export const fetchRelationIds =
       keywords: pipe(
         input.keywords,
         O.getOrElse((): UUID[] => []),
-        A.map((k) => ({ id: k })),
+        fp.A.map((k) => ({ id: k })),
         TE.right,
       ),
     });
@@ -142,12 +144,12 @@ export const fetchRelationIds =
 
 export const fetchRelations =
   <C extends LoggerContext & DatabaseContext & ENVContext>(
-    input: Pick<http.Events.EditEventBody, "keywords"> & {
-      actors: O.Option<UUID[]>;
-      groups: O.Option<UUID[]>;
-      media: O.Option<UUID[]>;
-      links: O.Option<UUID[]>;
-      groupsMembers: O.Option<UUID[]>;
+    input: Pick<EditEventCommon, "keywords"> & {
+      actors: O.Option<readonly UUID[]>;
+      groups: O.Option<readonly UUID[]>;
+      media: O.Option<readonly UUID[]>;
+      links: O.Option<readonly UUID[]>;
+      groupsMembers: O.Option<readonly UUID[]>;
     },
     isAdmin: boolean,
   ): ReaderTaskEither<
@@ -173,7 +175,7 @@ export const fetchRelations =
               ids: input.actors,
               _end: pipe(
                 input.actors,
-                fp.O.map((a) => a.length as Int),
+                O.map((a) => a.length),
               ),
             })(ctx),
             fp.TE.map((r) => r.results),
@@ -185,7 +187,7 @@ export const fetchRelations =
               ids: input.groups,
               _end: pipe(
                 input.groups,
-                fp.O.map((a) => a.length as Int),
+                O.map((a) => a.length),
               ),
             })(ctx),
             fp.TE.map(([results]) => results),
@@ -198,7 +200,7 @@ export const fetchRelations =
                 ids: input.keywords,
                 _end: pipe(
                   input.keywords,
-                  fp.O.map((a) => a.length as Int),
+                  O.map((a) => a.length),
                 ),
               },
               isAdmin,
@@ -212,7 +214,7 @@ export const fetchRelations =
               ids: input.media,
               _end: pipe(
                 input.media,
-                fp.O.map((m) => m.length as Int),
+                O.map((m) => m.length),
               ),
             })(ctx),
             fp.TE.map(([results]) => results),
@@ -225,7 +227,7 @@ export const fetchRelations =
                 ids: input.links,
                 _end: pipe(
                   input.links,
-                  fp.O.map((a) => a.length as Int),
+                  O.map((a) => a.length),
                 ),
               },
               false,

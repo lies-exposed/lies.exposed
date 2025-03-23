@@ -20,7 +20,7 @@ export class ProjectImageEntity {
 
   @Column({
     type: "enum",
-    enum: http.ProjectImage.Kind.types.map((t) => t.value),
+    enum: http.ProjectImage.Kind.members.map((t) => t.Type),
   })
   kind: http.ProjectImage.Kind;
 

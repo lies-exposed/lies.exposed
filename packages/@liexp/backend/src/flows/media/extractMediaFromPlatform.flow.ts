@@ -108,7 +108,7 @@ export const extractMediaFromPlatform =
               TE.right(undefined),
           ),
         ),
-        type: TE.right(IframeVideoType.value),
+        type: TE.right(IframeVideoType.Type),
       }),
     );
   };

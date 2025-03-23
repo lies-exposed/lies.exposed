@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as S from "fp-ts/lib/string.js";
@@ -12,9 +12,9 @@ import { type DBError } from "../../providers/orm/database.provider.js";
 import { DBService } from "../../services/db.service.js";
 
 const defaultQuery: http.Actor.GetListActorQuery = {
-  ids: O.none,
-  q: O.none,
-  withDeleted: O.none,
+  ids: O.none(),
+  q: O.none(),
+  withDeleted: O.none(),
   _end: O.some(20 as Int),
   _start: O.some(0 as Int),
   _order: O.some("DESC"),

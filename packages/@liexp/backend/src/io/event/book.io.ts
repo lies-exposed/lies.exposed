@@ -4,13 +4,14 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Book } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
 const toBookIO = (book: EventV2Entity): E.Either<_DecodeError, Book.Book> => {
   return pipe(
-    Book.Book.decode({
+    {
       ...book,
       excerpt: book.excerpt ?? undefined,
       body: book.body ?? undefined,
@@ -22,7 +23,8 @@ const toBookIO = (book: EventV2Entity): E.Either<_DecodeError, Book.Book> => {
       createdAt: book.createdAt.toISOString(),
       updatedAt: book.updatedAt.toISOString(),
       deletedAt: book.deletedAt?.toISOString() ?? undefined,
-    }),
+    },
+    Schema.decodeUnknownEither(Book.Book),
     E.mapLeft((errors) => DecodeError.of("Failed to decode book", errors)),
   );
 };

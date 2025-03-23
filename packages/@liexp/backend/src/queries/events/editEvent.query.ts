@@ -22,6 +22,11 @@ export const editEventQuery =
   ): TE.TaskEither<DBError, EditEventEntity> => {
     return pipe(
       fetchRelationIds(input)(ctx),
+      TE.map(({ links, keywords, media }) => ({
+        links: [...links],
+        keywords: [...keywords],
+        media: [...media],
+      })),
       TE.chain((commonData) => {
         ctx.logger.debug.log("event relations %O", commonData);
         // const oldMedia = storedEvent.media ?? [];

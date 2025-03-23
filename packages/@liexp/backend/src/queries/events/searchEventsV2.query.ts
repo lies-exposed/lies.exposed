@@ -8,8 +8,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -92,7 +91,7 @@ const whereActorInArray =
   (config: EventsConfig) =>
   (
     selectQ: SelectQueryBuilder<EventV2Entity>,
-    actors: string[],
+    actors: readonly string[],
     eventType: O.Option<EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
@@ -126,7 +125,7 @@ const whereGroupInArray =
   (config: EventsConfig) =>
   (
     q: SelectQueryBuilder<EventV2Entity>,
-    groups: string[],
+    groups: readonly string[],
     eventType: O.Option<EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
@@ -161,7 +160,7 @@ const whereMediaInArray =
   (config: EventsConfig) =>
   (
     // q: WhereExpressionBuilder,
-    media: string[],
+    media: readonly string[],
     eventType: O.Option<EventType[]>,
   ): Brackets => {
     return new Brackets((subQ) => {
@@ -207,40 +206,40 @@ type SearchEventQuery = Omit<
 } & ORMOrder;
 
 const searchQueryDefaults: SearchEventQuery = {
-  ids: O.none,
-  q: O.none,
-  startDate: O.none,
-  endDate: O.none,
-  exclude: O.none,
+  ids: O.none(),
+  q: O.none(),
+  startDate: O.none(),
+  endDate: O.none(),
+  exclude: O.none(),
   withDeleted: false,
   withDrafts: false,
-  spCount: O.none,
-  keywords: O.none,
-  groups: O.none,
-  actors: O.none,
+  spCount: O.none(),
+  keywords: O.none(),
+  groups: O.none(),
+  actors: O.none(),
   skip: 0,
   take: 100,
-  links: O.none,
-  media: O.none,
-  locations: O.none,
-  type: O.none,
-  draft: O.none,
-  groupsMembers: O.none,
-  emptyLinks: O.none,
-  emptyMedia: O.none,
-  emptyKeywords: O.none,
-  emptyActors: O.none,
-  emptyGroups: O.none,
-  onlyUnshared: O.none,
+  links: O.none(),
+  media: O.none(),
+  locations: O.none(),
+  type: O.none(),
+  draft: O.none(),
+  groupsMembers: O.none(),
+  emptyLinks: O.none(),
+  emptyMedia: O.none(),
+  emptyKeywords: O.none(),
+  emptyActors: O.none(),
+  emptyGroups: O.none(),
+  onlyUnshared: O.none(),
   order: {},
-  relations: O.none,
+  relations: O.none(),
 };
 
 const addWhereToQueryBuilder = (
   q: SelectQueryBuilder<EventV2Entity>,
   config: EventsConfig,
   opts: Omit<SearchEventQuery, "startDate" | "endDate">,
-  groupsMembers: string[],
+  groupsMembers: readonly string[],
 ): SelectQueryBuilder<EventV2Entity> => {
   const {
     exclude,
@@ -335,16 +334,16 @@ const addWhereToQueryBuilder = (
     });
   }
 
-  if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
+  if (O.isSome(emptyMedia) && O.getOrUndefined(emptyMedia)) {
     q.andWhere("media.id IS NULL");
   } else if (O.isSome(media)) {
-    q.andWhere(whereMediaInArray(config)(media.value, O.none)).setParameter(
+    q.andWhere(whereMediaInArray(config)(media.value, O.none())).setParameter(
       "media",
       media.value,
     );
   }
 
-  if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
+  if (O.isSome(emptyLinks) && O.getOrUndefined(emptyLinks)) {
     q.andWhere("links.id IS NULL");
   } else if (O.isSome(links) && links.value.length > 0) {
     const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
@@ -357,7 +356,7 @@ const addWhereToQueryBuilder = (
     q.andWhere('"socialPosts_spCount" >= :spCount', {
       spCount: spCount.value,
     });
-  } else if (O.isSome(onlyUnshared)) {
+  } else if (fp.O.isSome(onlyUnshared)) {
     q.andWhere('"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL');
   }
 
@@ -409,7 +408,7 @@ export const searchEventV2Query =
                     actor: { id: In(actors.value) },
                   },
                 }),
-                TE.map(A.map((gm) => gm.id)),
+                TE.map(fp.A.map((gm) => gm.id)),
               )
             : TE.right<DBError, string[]>([]),
           TE.map((gm) =>
@@ -484,7 +483,7 @@ export const searchEventV2Query =
           (q) => {
             logger.debug.log(
               `Find options for event (type: %s) %O`,
-              O.toUndefined(type),
+              O.getOrUndefined(type),
               opts,
             );
 
@@ -565,11 +564,11 @@ export const searchEventV2Query =
 
             const quotesCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.QUOTE.value}'`);
+              .andWhere(`event.type = '${EventTypes.QUOTE.Type}'`);
 
             const booksCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.BOOK.value}'`);
+              .andWhere(`event.type = '${EventTypes.BOOK.Type}'`);
 
             if (O.isSome(type)) {
               q.andWhere('"event"."type"::text IN (:...types)', {

@@ -1,8 +1,8 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type ConfigContext } from "../../../context/config.context.js";
@@ -20,7 +20,7 @@ import { fetchGroups } from "../../../queries/groups/fetchGroups.query.js";
 import { fetchKeywords } from "../../../queries/keywords/fetchKeywords.query.js";
 import { ensureFolderExists } from "../../fs/ensureFolderExists.flow.js";
 
-const makePatterns = (s: string, acronym: boolean): string[] => {
+const makePatterns = (s: string, acronym: boolean): readonly string[] => {
   const chunks = s.split(" ");
   const chunkAbove3 = chunks.filter((c) => c.length > 2);
 

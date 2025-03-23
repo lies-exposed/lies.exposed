@@ -4,6 +4,7 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type StoryEntity } from "../entities/Story.entity.js";
 import { IOCodec } from "./DomainCodec.js";
@@ -15,7 +16,7 @@ const toStoryIO = ({
   ...story
 }: StoryEntity): E.Either<_DecodeError, io.http.Story.Story> => {
   return pipe(
-    io.http.Story.Story.decode({
+    {
       ...story,
       creator: creator ?? undefined,
       body,
@@ -45,7 +46,8 @@ const toStoryIO = ({
       date: story.date?.toISOString() ?? new Date().toISOString(),
       createdAt: story.createdAt.toISOString(),
       updatedAt: story.updatedAt.toISOString(),
-    }),
+    },
+    Schema.decodeUnknownEither(io.http.Story.Story),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode "Story" (${story.id})`, e),
     ),

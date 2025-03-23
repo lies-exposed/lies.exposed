@@ -33,7 +33,7 @@ export const findOneByLocationOrElse =
                   thumbnail: image,
                   location: image,
                   description: image,
-                  type: ImageType.types[1].value,
+                  type: ImageType.members[1].Type,
                   createdAt: new Date(),
                   updatedAt: new Date(),
                   creator,

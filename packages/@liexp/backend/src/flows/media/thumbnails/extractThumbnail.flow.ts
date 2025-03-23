@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -45,31 +46,31 @@ export const extractThumbnail = <
     fp.RTE.bind("bucket", () => fp.RTE.asks((ctx: C) => ctx.env.SPACE_BUCKET)),
     fp.RTE.bind(
       "thumbnails",
-      (): ReaderTaskEither<C, ServerError, ArrayBuffer[]> => {
+      (): ReaderTaskEither<C, ServerError, readonly ArrayBuffer[]> => {
         const { type, ...m } = media;
 
-        if (Media.PDFType.is(type)) {
+        if (Schema.is(Media.PDFType)(type)) {
           return extractThumbnailFromPDF({
             ...m,
             type,
           });
         }
 
-        if (Media.MP4Type.is(type)) {
+        if (Schema.is(Media.MP4Type)(type)) {
           return extractMP4Thumbnail({
             ...m,
             type,
           });
         }
 
-        if (Media.ImageType.is(type)) {
+        if (Schema.is(Media.ImageType)(type)) {
           return extractThumbnailFromImage({
             ...m,
             type,
           });
         }
 
-        if (Media.AudioType.is(type)) {
+        if (Schema.is(Media.AudioType)(type)) {
           return fp.RTE.right([]);
         }
 
@@ -87,7 +88,7 @@ export const extractThumbnail = <
     }),
     fp.RTE.map(({ resizedThumbnail, bucket }) => {
       return resizedThumbnail.map((Body, index) => ({
-        Key: getMediaThumbKey(media.id, ImageType.types[2].value, index + 1),
+        Key: getMediaThumbKey(media.id, ImageType.members[2].Type, index + 1),
         Body,
         ACL: "public-read",
         Bucket: bucket,

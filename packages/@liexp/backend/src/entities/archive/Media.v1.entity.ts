@@ -27,8 +27,8 @@ export class MediaV1Entity {
 
   @Column({
     type: "enum",
-    enum: MediaType.types.map((t) => t.value),
-    default: MediaType.types[0].value,
+    enum: MediaType.members.map((t) => t.Type),
+    default: MediaType.members[0].Type,
   })
   type: MediaType;
 

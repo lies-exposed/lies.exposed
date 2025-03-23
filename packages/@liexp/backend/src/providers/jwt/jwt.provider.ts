@@ -1,6 +1,7 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { User } from "@liexp/shared/lib/io/http/User.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { Schema } from "effect";
 import * as IO from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -60,7 +61,9 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
         IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
         IOE.chain((result) =>
           pipe(
-            IOE.fromEither(fromValidationErrors(User.decode(result))),
+            IOE.fromEither(
+              fromValidationErrors(Schema.decodeUnknownEither(User)(result)),
+            ),
             IOE.mapLeft(toError(ctx.logger)({})),
           ),
         ),

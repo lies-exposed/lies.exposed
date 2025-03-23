@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
 import { type Schema } from "effect";
-import { None, type Option } from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -15,23 +15,23 @@ import { DBService } from "../../services/db.service.js";
 import { addOrder } from "../../utils/orm.utils.js";
 
 const getListQueryEmpty: GetListLinkQuery = {
-  q: fp.O.none,
-  ids: fp.O.none,
-  _sort: fp.O.none,
-  _order: fp.O.none,
-  onlyDeleted: fp.O.none,
-  onlyUnshared: fp.O.none,
-  provider: fp.O.none,
-  creator: fp.O.none,
-  url: fp.O.none,
-  noPublishDate: fp.O.none,
-  events: fp.O.none,
-  emptyEvents: fp.O.none,
-  keywords: fp.O.none,
-  startDate: fp.O.none,
-  endDate: fp.O.none,
-  _start: fp.O.some(20 as typeof Schema.Int.Type),
-  _end: fp.O.some(0 as typeof Schema.Int.Type),
+  q: O.none(),
+  ids: O.none(),
+  _sort: O.none(),
+  _order: O.none(),
+  onlyDeleted: O.none(),
+  onlyUnshared: O.none(),
+  provider: O.none(),
+  creator: O.none(),
+  url: O.none(),
+  noPublishDate: O.none(),
+  events: O.none(),
+  emptyEvents: O.none(),
+  keywords: O.none(),
+  startDate: O.none(),
+  endDate: O.none(),
+  _start: O.some(20 as typeof Schema.Int.Type),
+  _end: O.some(0 as typeof Schema.Int.Type),
 };
 
 export const fetchLinks = <C extends DatabaseContext & ENVContext>(

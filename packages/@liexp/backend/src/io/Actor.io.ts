@@ -4,10 +4,11 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type ActorEntity } from "../entities/Actor.entity.js";
 import { IOCodec } from "./DomainCodec.js";
@@ -23,12 +24,9 @@ const toActorIO = (
       "avatar",
       (): E.Either<_DecodeError, UUID | Media | undefined> =>
         a.avatar
-          ? UUID.is(a.avatar)
+          ? Schema.is(UUID)(a.avatar)
             ? E.right(a.avatar)
-            : pipe(
-                MediaIO.decodeSingle(a.avatar, spaceEndpoint),
-                E.map((media) => Media.encode(media) as any as Media),
-              )
+            : MediaIO.decodeSingle(a.avatar, spaceEndpoint)
           : // : E.right({
             //     ...a.avatar,
             //     createdAt: a.avatar.createdAt.toISOString(),
@@ -49,7 +47,7 @@ const toActorIO = (
     ),
     E.chain(({ avatar }) => {
       return pipe(
-        io.http.Actor.Actor.decode({
+        {
           ...a,
           color: toColor(a.color),
           avatar,
@@ -60,7 +58,8 @@ const toActorIO = (
           updatedAt: a.updatedAt.toISOString(),
           bornOn: a.bornOn ?? undefined,
           diedOn: a.diedOn ?? undefined,
-        }),
+        },
+        Schema.decodeUnknownEither(io.http.Actor.Actor),
         E.mapLeft((e) => DecodeError.of(`Failed to decode actor (${a.id})`, e)),
       );
     }),

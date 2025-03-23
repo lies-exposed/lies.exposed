@@ -3,14 +3,16 @@ import {
   QueueResourceNames,
   QueueTypes,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const ProcessJobDonePubSub = RedisPubSub(
   "job:process-done",
-  Schema.Struct({
-    id: UUID,
-    type: QueueTypes,
-    resource: QueueResourceNames,
-  }),
+  Schema.decodeUnknownEither(
+    Schema.Struct({
+      id: UUID,
+      type: QueueTypes,
+      resource: QueueResourceNames,
+    }),
+  ),
 );
