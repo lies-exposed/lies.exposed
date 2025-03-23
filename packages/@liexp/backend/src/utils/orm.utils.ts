@@ -5,7 +5,6 @@ import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { contramap } from "fp-ts/lib/Ord.js";
 import * as R from "fp-ts/lib/Record.js";
-import { BigIntFromString } from "io-ts-types/lib/BigIntFromString.js";
 import {
   Equal,
   type FindOperator,
@@ -41,9 +40,9 @@ const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
         }
         return {
           order: {
-            [key]: O.getOrElse(
-              (): Query.SortOrder => Query.SortOrderDESC.value,
-            )(s._order),
+            [key]: O.getOrElse((): Query.SortOrder => Query.SortOrderDESC.Type)(
+              s._order,
+            ),
           },
         };
       },
@@ -71,12 +70,12 @@ const getSkipAndTakeOptions = (
 const getWhereOption = (_f: Query.FilterQuery): Partial<ORMFilter> => {
   return pipe(
     _f,
-    R.filter(O.isSome),
+    R.filter((opt) => O.isSome(opt)),
     R.mapWithIndex((key, e) => {
       if (Schema.is(UUID)(e.value)) {
         return Equal(e.value);
       }
-      if (BigIntFromString.is(e.value)) {
+      if (Schema.is(Schema.BigInt)(e.value)) {
         return Equal(e.value.toString());
       }
       if (

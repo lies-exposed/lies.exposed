@@ -47,7 +47,7 @@ export const editEventQuery =
         // };
 
         switch (input.type) {
-          case http.Events.EventTypes.BOOK.value: {
+          case http.Events.EventTypes.BOOK.Type: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -67,7 +67,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.QUOTE.value: {
+          case http.Events.EventTypes.QUOTE.Type: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -87,7 +87,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.TRANSACTION.value: {
+          case http.Events.EventTypes.TRANSACTION.Type: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -107,7 +107,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.DOCUMENTARY.value: {
+          case http.Events.EventTypes.DOCUMENTARY.Type: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -127,7 +127,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.PATENT.value: {
+          case http.Events.EventTypes.PATENT.Type: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -147,7 +147,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.DEATH.value: {
+          case http.Events.EventTypes.DEATH.Type: {
             const { excerpt, body, payload, draft, date } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -168,7 +168,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
+          case http.Events.EventTypes.SCIENTIFIC_STUDY.Type: {
             const { type, date, draft, excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               date,
@@ -187,7 +187,7 @@ export const editEventQuery =
               ...commonData,
             });
           }
-          case http.Events.EventTypes.UNCATEGORIZED.value:
+          case http.Events.EventTypes.UNCATEGORIZED.Type:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
 

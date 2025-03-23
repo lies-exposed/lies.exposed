@@ -3,12 +3,12 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type CreateLink } from "@liexp/shared/lib/io/http/Link.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type Int } from "io-ts";
 import { type DeepPartial } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -31,14 +31,14 @@ import { fetchManyMedia } from "../media/fetchManyMedia.query.js";
 const fetchLinksT =
   (urlMetadata: URLMetadataClient) =>
   (
-    links: (http.Common.UUID | CreateLink)[],
+    links: readonly (http.Common.UUID | CreateLink)[],
   ): TE.TaskEither<DBError, DeepPartial<LinkEntity>[]> => {
     return pipe(
       links,
       A.reduce(
         { uuids: [] as UUID[], newLinks: [] as CreateLink[] },
         (acc, l) => {
-          if (http.Common.UUID.is(l)) {
+          if (Schema.is(http.Common.UUID)(l)) {
             return {
               ...acc,
               uuids: acc.uuids.concat(l),

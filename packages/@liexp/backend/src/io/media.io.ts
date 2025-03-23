@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type _DecodeError,
   DecodeError,
@@ -7,8 +8,8 @@ import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js"
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { UUID } from "io-ts-types";
 import { type MediaEntity } from "../entities/Media.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -28,17 +29,19 @@ const toMediaIO = (
     : undefined;
 
   return pipe(
-    io.http.Media.AdminMedia.decode({
+    {
       ...media,
       label: media.label ?? media.location,
       description: media.description ?? undefined,
       location: ensureHTTPS(media.location),
-      creator: UUID.is(media.creator) ? media.creator : media.creator?.id,
+      creator: Schema.is(UUID)(media.creator)
+        ? media.creator
+        : media.creator?.id,
       extra,
       links: media.links ?? [],
-      events: (media.events ?? []).map((e) => (UUID.is(e) ? e : e.id)),
+      events: (media.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
       keywords: media.keywords ?? [],
-      areas: (media.areas ?? []).map((a) => (UUID.is(a) ? a : a.id)),
+      areas: (media.areas ?? []).map((a) => (Schema.is(UUID)(a) ? a : a.id)),
       featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
       thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
@@ -46,7 +49,8 @@ const toMediaIO = (
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,
-    }),
+    },
+    Schema.decodeUnknownEither(io.http.Media.AdminMedia),
     E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
   );
 };

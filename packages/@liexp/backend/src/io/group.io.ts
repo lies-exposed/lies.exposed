@@ -9,7 +9,6 @@ import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as E from "fp-ts/lib/Either.js";
-import { UUID } from "io-ts-types";
 import { type GroupEntity } from "../entities/Group.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";

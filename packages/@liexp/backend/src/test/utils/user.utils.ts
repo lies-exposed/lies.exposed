@@ -4,7 +4,7 @@ import {
   type UserPermission,
 } from "@liexp/shared/lib/io/http/User.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test/lib/index.js";
+import fc from "fast-check";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { UserEntity } from "../../entities/User.entity.js";
 import { hash } from "../../utils/password.utils.js";
@@ -32,7 +32,7 @@ export const saveUser = async (
         passwordHash,
         email: username,
         permissions,
-        status: UserStatusApproved.value,
+        status: UserStatusApproved.Type,
         firstName: fc.sample(fc.string())[0],
         lastName: fc.sample(fc.string())[0],
       },

@@ -1,7 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { type Schema } from "effect";
+import { None, type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type Int } from "io-ts";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
@@ -29,8 +30,8 @@ const getListQueryEmpty: GetListLinkQuery = {
   keywords: fp.O.none,
   startDate: fp.O.none,
   endDate: fp.O.none,
-  _start: fp.O.some(20 as Int),
-  _end: fp.O.some(0 as Int),
+  _start: fp.O.some(20 as typeof Schema.Int.Type),
+  _end: fp.O.some(0 as typeof Schema.Int.Type),
 };
 
 export const fetchLinks = <C extends DatabaseContext & ENVContext>(

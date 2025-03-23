@@ -1,4 +1,4 @@
-import { fc } from "@liexp/test/lib/index.js";
+import fc from "fast-check";
 import type TelegramBot from "node-telegram-bot-api";
 
 const TGFromArb = fc.record({
