@@ -41,11 +41,9 @@ const EventSuggestionLinks = Schema.Array(
     Schema.Struct({
       fromURL: Schema.Boolean,
       url: URL,
-      publishDate: Schema.Union(Schema.DateFromString, Schema.Null).annotations(
-        {
-          title: "PublishDate?",
-        },
-      ),
+      publishDate: Schema.Union(Schema.Date, Schema.Null).annotations({
+        title: "PublishDate?",
+      }),
     }),
   ),
 ).annotations({ title: "EventSuggestionLinks" });
@@ -137,8 +135,8 @@ export const EventSuggestion = Schema.Struct({
   id: UUID,
   ...CreateEventSuggestion.members[0].fields,
   creator: Schema.Union(UUID, Schema.Undefined),
-  createdAt: Schema.DateFromString,
-  updatedAt: Schema.DateFromString,
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
 }).annotations({
   title: "EventSuggestion",
 });

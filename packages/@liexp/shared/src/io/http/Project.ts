@@ -13,8 +13,8 @@ export const Project = Schema.Struct({
   color: Color,
   areas: Schema.Array(Area),
   media: Schema.Array(Media),
-  startDate: Schema.DateFromString,
-  endDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  startDate: Schema.Date,
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
   body: Schema.String,
 }).annotations({ title: "Project" });
 

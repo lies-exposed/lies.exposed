@@ -1,12 +1,11 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from '../io/http/Common/OptionFromNullishToNull.js';
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
 import { Actor } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 export const SingleActorOutput = Output(Actor.Actor).annotations({
   title: "SingleActorOutput",
@@ -56,8 +55,8 @@ export const Edit = Endpoint({
       excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
       body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
       avatar: OptionFromNullishToNull(Schema.String),
-      bornOn: OptionFromNullishToNull(Schema.DateFromString),
-      diedOn: OptionFromNullishToNull(Schema.DateFromString),
+      bornOn: OptionFromNullishToNull(Schema.Date),
+      diedOn: OptionFromNullishToNull(Schema.Date),
       memberIn: OptionFromNullishToNull(
         Schema.Array(
           Schema.Union(
@@ -65,8 +64,8 @@ export const Edit = Endpoint({
             Schema.Struct({
               group: UUID,
               body: Schema.Union(BlockNoteDocument, Schema.Null),
-              startDate: Schema.DateFromString,
-              endDate: OptionFromNullishToNull(Schema.DateFromString).annotations({
+              startDate: Schema.Date,
+              endDate: OptionFromNullishToNull(Schema.Date).annotations({
                 title: "End Date",
               }),
             }).annotations({

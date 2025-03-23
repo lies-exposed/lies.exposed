@@ -3,7 +3,10 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
+import {
+  type PartialSerializedType,
+  type RecordCodecEncoded,
+} from "ts-io-error/lib/Codec.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
@@ -30,7 +33,7 @@ export type GetKeyFn<P, Q = undefined> = (
   prefix?: string,
 ) => QueryFnKey<P, Q>;
 
-export type QueryPromiseFunction<P, Q, A> = (
+export type QueryPromiseFunction<P, Q = undefined, A = unknown> = (
   params: P,
   query?: Q,
   discrete?: boolean,
@@ -41,7 +44,7 @@ export interface ResourceQuery<P, Q, A> {
   fetch: QueryPromiseFunction<P, Q, A>;
   useQuery: (
     p: P,
-    q?: Partial<Q>,
+    q?: Q,
     discrete?: boolean,
     prefix?: string,
   ) => UseQueryResult<A, APIError>;
@@ -50,7 +53,7 @@ export interface ResourceQuery<P, Q, A> {
 export interface ResourceQueries<G, L, CC> {
   get: ResourceQuery<
     GetFnParams<G>,
-    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+    PartialSerializedType<InferEndpointInstanceParams<G>["query"]>,
     EndpointDataOutputType<G>
   >;
   list: ResourceQuery<
@@ -64,9 +67,7 @@ export interface ResourceQueries<G, L, CC> {
           InferEndpointInstanceParams<CC[K]>["params"] extends undefined
             ? undefined
             : RecordCodecEncoded<InferEndpointInstanceParams<CC[K]>["params"]>,
-          Partial<
-            RecordCodecEncoded<InferEndpointInstanceParams<CC[K]>["query"]>
-          >,
+          PartialSerializedType<InferEndpointInstanceParams<CC[K]>["query"]>,
           EndpointDataOutput<CC[K]>
         >;
       }

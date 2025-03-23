@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
@@ -10,7 +10,6 @@ import {
 } from "../io/http/Network/Network.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { StatsType } from "../io/http/Stats.js";
-import { ResourceEndpoints } from "./types.js";
 
 const SingleOutput = Output(NetworkGraphOutput).annotations({
   title: "Network",

@@ -60,7 +60,7 @@ export const AgeGroup = Schema.Union(
 export type AgeGroup = typeof AgeGroup.Type;
 
 export const VaccineDatum = Schema.Struct({
-  date: Schema.DateFromString,
+  date: Schema.Date,
   deaths: Schema.NumberFromString,
   death_0_1_month: Schema.NumberFromString,
   death_2_month_2_years: Schema.NumberFromString,

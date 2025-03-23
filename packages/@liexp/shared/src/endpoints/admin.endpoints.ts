@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import {
@@ -15,7 +15,6 @@ import {
   AdminMediaStats,
   AdminMediaStatsTotals,
 } from "../io/http/admin/stats/AdminMediaStats.js";
-import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

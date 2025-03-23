@@ -1,5 +1,6 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
+import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
 import { UUID } from "../../io/http/Common/index.js";
 import {
@@ -7,10 +8,10 @@ import {
   ScientificStudy,
 } from "../../io/http/Events/ScientificStudy.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
-import { ResourceEndpoints } from "../types.js";
-import { OptionFromNullishToNull } from '../../io/http/Common/OptionFromNullishToNull.js';
 
-const SingleStudyOutput = Output(ScientificStudy).annotations({ title: "ScientificStudy" });
+const SingleStudyOutput = Output(ScientificStudy).annotations({
+  title: "ScientificStudy",
+});
 const ListStudyOutput = ListOutput(ScientificStudy, "Deaths");
 
 export const List = Endpoint({
@@ -20,7 +21,7 @@ export const List = Endpoint({
     Query: Schema.Struct({
       ...GetSearchEventsQuery.fields,
       provider: OptionFromNullishToNull(UUID),
-      publishedDate: OptionFromNullishToNull(Schema.DateFromString),
+      publishedDate: OptionFromNullishToNull(Schema.Date),
       authors: OptionFromNullishToNull(Schema.Array(UUID)),
     }),
   },

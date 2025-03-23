@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { CreateAreaBody } from "../io/http/Area.js";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
@@ -7,7 +7,6 @@ import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Project from "../io/http/Project.js";
 import * as ProjectImage from "../io/http/ProjectImage.js";
 import { GetListQuery } from "../io/http/Query/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const SingleGroupOutput = Output(Project.Project).annotations({
   title: "Project",
@@ -38,8 +37,8 @@ const CreateBody = Schema.Struct({
     }),
   ),
   areas: Schema.Array(CreateAreaBody),
-  startDate: Schema.DateFromString,
-  endDate: OptionFromNullishToNull(Schema.DateFromString),
+  startDate: Schema.Date,
+  endDate: OptionFromNullishToNull(Schema.Date),
   body: Schema.String,
 });
 
@@ -75,8 +74,8 @@ const EditBody = nonEmptyRecordFromType({
       }),
     ),
   ),
-  startDate: OptionFromNullishToNull(Schema.DateFromString),
-  endDate: OptionFromNullishToNull(Schema.DateFromString),
+  startDate: OptionFromNullishToNull(Schema.Date),
+  endDate: OptionFromNullishToNull(Schema.Date),
   body: OptionFromNullishToNull(Schema.String),
 });
 

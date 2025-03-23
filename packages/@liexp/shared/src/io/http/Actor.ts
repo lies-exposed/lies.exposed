@@ -2,10 +2,10 @@ import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
 import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const ACTORS = Schema.Literal("actors");
 export type ACTORS = typeof ACTORS.Type;
@@ -34,8 +34,8 @@ export const AddActorBody = Schema.Struct({
   excerpt: BlockNoteDocument,
   body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
   avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined),
-  bornOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
-  diedOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  bornOn: Schema.Union(Schema.Date, Schema.Undefined),
+  diedOn: Schema.Union(Schema.Date, Schema.Undefined),
 }).annotations({
   title: "AddActorBody",
 });
@@ -62,8 +62,8 @@ export const Actor = Schema.Struct({
   memberIn: Schema.Array(Schema.Union(UUID, Schema.Any)),
   excerpt: Schema.Union(BlockNoteDocument, Schema.Null),
   body: Schema.Union(BlockNoteDocument, Schema.Null),
-  bornOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
-  diedOn: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  bornOn: Schema.Union(Schema.Date, Schema.Undefined),
+  diedOn: Schema.Union(Schema.Date, Schema.Undefined),
   /**
    * The death event of the actor, if any
    */

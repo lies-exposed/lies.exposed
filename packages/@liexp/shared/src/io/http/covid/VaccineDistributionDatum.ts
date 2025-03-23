@@ -25,7 +25,7 @@ export const NumberFromEmptyString = Schema.transformOrFail(
 export type NumberFromEmptyString = typeof NumberFromEmptyString.Type;
 
 export const VaccineDistributionDatum = Schema.Struct({
-  date: Schema.DateFromString,
+  date: Schema.Date,
   location: Schema.String,
   iso_code: Schema.String,
   total_vaccinations: NumberFromEmptyString,

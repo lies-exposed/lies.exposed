@@ -1,12 +1,11 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { URL } from "../io/http/Common/index.js";
 import { Link } from "../io/http/Link.js";
 import * as Media from "../io/http/Media/index.js";
 import { ExtractEntitiesWithNLPOutput } from "../io/http/admin/ExtractNLPEntities.js";
-import { ResourceEndpoints } from "./types.js";
 
 const SingleMediaOutput = Output(Media.Media).annotations({
   title: "SingleMediaMedia",

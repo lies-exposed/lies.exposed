@@ -1,10 +1,9 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { Page } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const ListPages = Endpoint({
   Method: "GET",

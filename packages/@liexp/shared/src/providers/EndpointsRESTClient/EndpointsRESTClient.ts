@@ -16,13 +16,10 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
   type TypeOfEndpointInstance,
+  type ResourceEndpoints,
 } from "ts-endpoint";
-import {
-  type runtimeType,
-  type serializedType,
-} from "ts-io-error/lib/Codec.js";
+import { type runtimeType } from "ts-io-error";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
-import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { APIError, toAPIError } from "../../io/http/Error/APIError.js";
 import { type APIRESTClient } from "../../providers/api-rest.provider.js";
 import { fromValidationErrors } from "../../providers/http/http.provider.js";
@@ -90,7 +87,7 @@ const restFromResourceEndpoints = <
         dataProviderRequestLift(
           () =>
             apiClient.get<
-              serializedType<InferEndpointParams<G>["output"]> & {
+              runtimeType<InferEndpointParams<G>["output"]> & {
                 id: string;
               }
             >(url, getParams),

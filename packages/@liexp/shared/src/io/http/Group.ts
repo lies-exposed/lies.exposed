@@ -2,11 +2,11 @@ import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "./Common/Output.js";
 import { UUID } from "./Common/UUID.js";
 import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const GROUPS = Schema.Literal("groups");
 export type GROUPS = typeof GROUPS.Type;
@@ -21,8 +21,8 @@ export type GroupKind = typeof GroupKind.Type;
 
 export interface GroupC {
   id: Schema.String;
-  createdAt: Schema.DateFromString;
-  updatedAt: Schema.DateFromString;
+  createdAt: Schema.Date;
+  updatedAt: Schema.Date;
   name: Schema.String;
   username: Schema.Union<[typeof Schema.String, typeof Schema.Undefined]>;
   kind: Schema.Union<[Schema.Literal<["Public"]>, Schema.Literal<["Private"]>]>;
@@ -62,14 +62,14 @@ export const CreateGroupBody = Schema.Struct({
   avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined),
   excerpt: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
   body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
-  startDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
-  endDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  startDate: Schema.Union(Schema.Date, Schema.Undefined),
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
   members: Schema.Array(
     Schema.Struct({
       actor: UUID,
       body: BlockNoteDocument,
-      startDate: Schema.DateFromString,
-      endDate: OptionFromNullishToNull(Schema.DateFromString),
+      startDate: Schema.Date,
+      endDate: OptionFromNullishToNull(Schema.Date),
     }).annotations({
       title: "CreateGroupMember",
     }),
@@ -88,8 +88,8 @@ export const EditGroupBody = Schema.Struct({
       Schema.Struct({
         actor: UUID,
         body: BlockNoteDocument,
-        startDate: Schema.DateFromString,
-        endDate: OptionFromNullishToNull(Schema.DateFromString),
+        startDate: Schema.Date,
+        endDate: OptionFromNullishToNull(Schema.Date),
       }).annotations({
         title: "CreateGroupMember",
       }),
@@ -107,8 +107,8 @@ export const Group = Schema.Struct({
   username: Schema.Union(Schema.String, Schema.Undefined),
   kind: GroupKind,
   color: Color,
-  startDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
-  endDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  startDate: Schema.Union(Schema.Date, Schema.Undefined),
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
   avatar: Schema.Union(Media, Schema.Undefined),
   subGroups: Schema.Array(Schema.String),
   members: Schema.Array(Schema.String),

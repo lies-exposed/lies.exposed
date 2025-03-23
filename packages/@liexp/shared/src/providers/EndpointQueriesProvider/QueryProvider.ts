@@ -7,7 +7,7 @@ import {
   type InferEndpointInstanceParams,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
+import { type PartialSerializedType } from "ts-io-error";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import { throwTE } from "../../utils/task.utils.js";
@@ -80,25 +80,26 @@ const toGetResourceQuery = <G extends MinimalEndpointInstance>(
   key: string,
   override?: GetQueryOverride<
     GetFnParams<G>,
-    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
+    PartialSerializedType<InferEndpointInstanceParams<G>["query"]>
   >,
 ): ResourceQuery<
   GetFnParams<G>,
-  Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+  PartialSerializedType<InferEndpointInstanceParams<G>["query"]>,
   EndpointDataOutputType<G>
 > => {
   const getKey: GetKeyFn<
     GetFnParams<G>,
-    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
+    PartialSerializedType<InferEndpointInstanceParams<G>["query"]>
   > = override?.getKey ?? getDefaultKey(key);
 
   const fetch: QueryPromiseFunction<
     GetFnParams<G>,
-    Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>,
+    PartialSerializedType<InferEndpointInstanceParams<G>["query"]>,
     EndpointDataOutputType<G>
   > = (params, query) => {
     return pipe(getFn(params, query), throwTE);
   };
+
   return {
     getKey,
     fetch,

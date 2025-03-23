@@ -1,6 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { Schema } from "effect";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import {
@@ -13,7 +14,6 @@ import {
 } from "../Query/index.js";
 import { MediaExtra } from "./MediaExtra.js";
 import { type ImageType, MediaType } from "./MediaType.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const MEDIA = Schema.Literal("media");
 export type MEDIA = typeof MEDIA.Type;
@@ -25,7 +25,9 @@ export const GetListMediaQuery = Schema.Struct({
   ...GetListQueryEvents.fields,
   ...GetListQueryAreas.fields,
   ...GetListQueryLocations.fields,
-  type: OptionFromNullishToNull(Schema.Union(Schema.Array(MediaType), Schema.String)),
+  type: OptionFromNullishToNull(
+    Schema.Union(Schema.Array(MediaType), Schema.String),
+  ),
   location: OptionFromNullishToNull(URL),
   ids: OptionFromNullishToNull(Schema.Array(UUID)),
   exclude: OptionFromNullishToNull(Schema.Array(UUID)),
@@ -122,9 +124,9 @@ export const Media = Schema.Struct({
   creator: Schema.Union(UUID, Schema.Undefined),
   featuredInStories: Schema.Union(Schema.Array(UUID), Schema.Undefined),
   socialPosts: Schema.Union(Schema.Array(UUID), Schema.Undefined),
-  createdAt: Schema.DateFromString,
-  updatedAt: Schema.DateFromString,
-  deletedAt: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+  deletedAt: Schema.Union(Schema.Date, Schema.Undefined),
 }).annotations({
   title: "Media",
 });

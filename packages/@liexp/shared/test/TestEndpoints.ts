@@ -1,5 +1,4 @@
-import { Endpoint } from "ts-endpoint";
-import { ResourceEndpoints } from "../src/endpoints/types.js";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import {
     type CustomQueryOverride,
   type QueryProviderOverrides,
@@ -13,13 +12,13 @@ const Actor = Schema.Struct({
   avatar: Schema.Struct({
     id: Schema.String,
     url: Schema.String,
-    createdAt: Schema.DateFromString,
-    updatedAt: Schema.DateFromString,
+    createdAt: Schema.Date,
+    updatedAt: Schema.Date,
   }).annotations({ title: "Avatar" }),
-  bornOn: Schema.Union(Schema.Null, Schema.DateFromString),
-  diedOn: Schema.Union(Schema.Null, Schema.DateFromString),
-  createdAt: Schema.DateFromString,
-  updatedAt: Schema.DateFromString,
+  bornOn: Schema.Union(Schema.Null, Schema.Date),
+  diedOn: Schema.Union(Schema.Null, Schema.Date),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
 }).annotations({ title: "Actor" });
 
 const TestEndpoints = {
@@ -34,7 +33,7 @@ const TestEndpoints = {
       Method: "GET",
       getPath: () => `/actors`,
       Input: {
-        Query: t.partial({
+        Query: Schema.Struct({
           _start: Schema.Number,
           _end: Schema.Number,
           ids: Schema.Array(Schema.String),

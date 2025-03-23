@@ -214,7 +214,7 @@ export const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
 };
 
 export const takeEventRelations = (
-  ev: Events.Event[],
+  ev: readonly Events.Event[],
 ): Events.EventRelationIds => {
   return pipe(
     ev.reduce(

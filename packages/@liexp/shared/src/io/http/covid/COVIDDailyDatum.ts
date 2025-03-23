@@ -1,7 +1,7 @@
 import { Schema } from "effect";
 
 export const WHOCovid19GlobalData = Schema.Struct({
-  Date_reported: Schema.DateFromString,
+  Date_reported: Schema.Date,
   Country_code: Schema.String,
   Country: Schema.String,
   WHO_region: Schema.String,

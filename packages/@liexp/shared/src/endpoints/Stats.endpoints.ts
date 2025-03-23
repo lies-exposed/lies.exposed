@@ -1,8 +1,7 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as Stats from "../io/http/Stats.js";
-import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",

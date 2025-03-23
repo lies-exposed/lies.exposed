@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import {
   Area,
   CreateAreaBody,
@@ -8,7 +8,6 @@ import {
 } from "../io/http/Area.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const SingleAreaOutput = Output(Area).annotations({
   title: "Area",

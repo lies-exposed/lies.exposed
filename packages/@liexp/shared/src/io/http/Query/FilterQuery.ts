@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 
 export const FilterQuery = Schema.Record({
   key: Schema.String,
@@ -8,7 +8,7 @@ export const FilterQuery = Schema.Record({
       Schema.Number,
       Schema.String,
       Schema.Array(Schema.String),
-      Schema.DateFromString,
+      Schema.Date,
       Schema.BigInt,
     ),
   ),

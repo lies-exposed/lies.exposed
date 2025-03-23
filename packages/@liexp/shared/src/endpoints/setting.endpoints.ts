@@ -1,13 +1,11 @@
-
-import { Endpoint } from "ts-endpoint";
+import { Schema } from "effect";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Setting from "../io/http/Setting.js";
-import { ResourceEndpoints } from "./types.js";
-import { Schema } from 'effect';
 
 const SingleSettingOutput = Output(Setting.Setting).annotations({
   title: "Setting",
-})
+});
 
 export const List = Endpoint({
   Method: "GET",

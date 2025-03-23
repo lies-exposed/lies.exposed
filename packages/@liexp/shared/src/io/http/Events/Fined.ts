@@ -10,7 +10,7 @@ export const Fined = Schema.Struct({
   amount: MoneyAmount,
   who: BySubjectId,
   from: Schema.NonEmptyArray(BySubjectId),
-  date: Schema.DateFromString,
+  date: Schema.Date,
 }).annotations({ title: FINED_FRONTMATTER.Type });
 
 export type Fined = typeof Fined.Type;

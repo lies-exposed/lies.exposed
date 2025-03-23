@@ -61,7 +61,7 @@ export const GetListQueryEvents = Schema.Struct({
 export type GetListQueryEvents = typeof GetListQueryEvents.Type;
 
 export const GetListQueryDateRange = Schema.Struct({
-  startDate: OptionFromNullishToNull(Schema.DateFromString),
-  endDate: OptionFromNullishToNull(Schema.DateFromString),
+  startDate: OptionFromNullishToNull(Schema.Date),
+  endDate: OptionFromNullishToNull(Schema.Date),
 }).annotations({ title: "GetListQueryDateRange" });
 export type GetListQueryDateRange = typeof GetListQueryDateRange.Type;

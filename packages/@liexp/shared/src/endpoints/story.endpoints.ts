@@ -1,11 +1,10 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { Story } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const StoryOutput = Output(Story.Story).annotations({ title: "StoryOutput" });
 const ListStoryQuery = Schema.Struct({
@@ -42,7 +41,7 @@ export const CreateStory = Endpoint({
       title: Schema.String,
       path: Schema.String,
       draft: Schema.Boolean,
-      date: Schema.DateFromString,
+      date: Schema.Date,
       featuredImage: OptionFromNullishToNull(UUID),
       creator: OptionFromNullishToNull(UUID),
       body2: Schema.Unknown,

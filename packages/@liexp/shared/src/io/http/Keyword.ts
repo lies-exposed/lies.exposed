@@ -1,9 +1,9 @@
 import { Schema } from "effect";
 import { Color } from "./Common/Color.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "./Common/Output.js";
 import { UUID, Tag, BaseProps } from "./Common/index.js";
 import { GetListQuery } from "./Query/index.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const KEYWORDS = Schema.Literal("keywords");
 export type KEYWORDS = typeof KEYWORDS.Type;
@@ -31,7 +31,9 @@ export const Keyword = Schema.Struct({
 }).annotations({ title: "Keyword" });
 export type Keyword = typeof Keyword.Type;
 
-export const SingleKeywordOutput = Output(Keyword).annotations({ title: "Keyword" });
+export const SingleKeywordOutput = Output(Keyword).annotations({
+  title: "Keyword",
+});
 export type SingleKeywordOutput = Output<Keyword>;
 export const ListKeywordOutput = ListOutput(Keyword, "Keywords");
 export type ListKeywordOutput = ListOutput<Keyword>;

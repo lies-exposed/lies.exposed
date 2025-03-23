@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { URL, UUID } from "./Common/index.js";
 import { CreateMedia, MediaType } from "./Media/index.js";
 import {
@@ -7,7 +8,6 @@ import {
   GetListQueryEvents,
   GetListQueryKeywords,
 } from "./Query/index.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const LINKS = Schema.Literal("links");
 export type LINKS = typeof LINKS.Type;
@@ -32,10 +32,7 @@ export type GetListLinkQuery = typeof GetListLinkQuery.Type;
 
 export const CreateLink = Schema.Struct({
   url: URL,
-  publishDate: Schema.Union(
-    Schema.DateFromString,
-    Schema.Undefined,
-  ).annotations({
+  publishDate: Schema.Union(Schema.Date, Schema.Undefined).annotations({
     title: "PublishDate",
   }),
   description: Schema.Union(Schema.String, Schema.Undefined),
@@ -79,16 +76,16 @@ export const Link = Schema.Struct({
   id: UUID,
   title: Schema.Union(Schema.String, Schema.Undefined),
   description: Schema.Union(Schema.String, Schema.Undefined),
-  publishDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
-  image: Schema.Union(LinkMedia, Schema.Undefined),
+  publishDate: Schema.Union(Schema.Date, Schema.Undefined),
+  image: Schema.Union(LinkMedia, Schema.Undefined, Schema.Null),
   keywords: Schema.Array(UUID),
   provider: Schema.Union(UUID, Schema.Undefined),
   creator: Schema.Union(UUID, Schema.Undefined),
   events: Schema.Array(UUID),
   socialPosts: Schema.Array(UUID),
-  createdAt: Schema.DateFromString,
-  updatedAt: Schema.DateFromString,
-  deletedAt: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+  deletedAt: Schema.Union(Schema.Date, Schema.Undefined),
 }).annotations({ title: "Link" });
 
 export type Link = typeof Link.Type;

@@ -11,8 +11,8 @@ import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
 export const PatentListQuery = Schema.Struct({
   ...GetSearchEventsQuery.omit("eventType").fields,
-  minDate: OptionFromNullishToNull(Schema.DateFromString),
-  maxDate: OptionFromNullishToNull(Schema.DateFromString),
+  minDate: OptionFromNullishToNull(Schema.Date),
+  maxDate: OptionFromNullishToNull(Schema.Date),
 }).annotations({
   title: "PatentListQuery",
 });

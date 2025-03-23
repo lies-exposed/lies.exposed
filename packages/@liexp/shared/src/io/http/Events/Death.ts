@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/UUID.js";
 import {
   CreateEventCommon,
@@ -7,13 +8,12 @@ import {
 } from "./BaseEvent.js";
 import { DEATH } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const DeathListQuery = Schema.Struct({
   ...GetSearchEventsQuery.omit("eventType").fields,
   victim: OptionFromNullishToNull(Schema.Array(UUID)),
-  minDate: OptionFromNullishToNull(Schema.DateFromString),
-  maxDate: OptionFromNullishToNull(Schema.DateFromString),
+  minDate: OptionFromNullishToNull(Schema.Date),
+  maxDate: OptionFromNullishToNull(Schema.Date),
 }).annotations({ title: "DeathListQuery" });
 
 export type DeathListQuery = typeof DeathListQuery.Type;

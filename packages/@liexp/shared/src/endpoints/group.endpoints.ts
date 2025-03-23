@@ -1,10 +1,9 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "../io/http/Common/index.js";
 import * as Group from "../io/http/Group.js";
 import { GetListQuery } from "../io/http/Query/index.js";
-import { ResourceEndpoints } from "./types.js";
-import { OptionFromNullishToNull } from '../io/http/Common/OptionFromNullishToNull.js';
 
 export const List = Endpoint({
   Method: "GET",

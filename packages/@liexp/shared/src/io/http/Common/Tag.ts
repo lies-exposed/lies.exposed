@@ -24,4 +24,4 @@ export const Tag = Schema.String.pipe(
   title: "Tag",
 });
 
-export type Tag = typeof Tag;
+export type Tag = typeof Tag.Type;

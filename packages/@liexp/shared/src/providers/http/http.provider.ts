@@ -48,9 +48,9 @@ export const fromValidationErrors = flow(
   }),
 );
 
-export const liftFetch = <B>(
-  lp: () => Promise<AxiosResponse<B>>,
-  decode: <A>(a: A) => E.Either<ParseError, B>,
+export const liftFetch = <A, B>(
+  lp: () => Promise<AxiosResponse<A>>,
+  decode: (a: A) => E.Either<ParseError, B>,
 ): TE.TaskEither<HTTPError, B> => {
   return pipe(
     TE.tryCatch(lp, toHTTPError),

@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "../Query/PaginationQuery.js";
@@ -13,7 +14,6 @@ import {
   OpenAICreateEventFromURLType,
 } from "./event/CreateEventFromURLQueue.js";
 import { CreateQueueEvent } from "./event/index.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = typeof QueueResourceNames.Type;

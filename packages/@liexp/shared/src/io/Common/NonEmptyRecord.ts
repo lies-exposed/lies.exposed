@@ -39,4 +39,4 @@ export const nonEmptyRecordFromType = <P extends Schema.Struct.Fields>(
     // .pipe(Schema.asSchema);
     .annotations({
       title: `NonEmptyRecord<${name}>`,
-    })
+    });

@@ -1,28 +1,28 @@
 import { type AxiosInstance } from "axios";
 import { describe, it, expect } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { API } from "./api.provider.js";
+import { GetAPIProvider } from "./api.provider.js";
 
 describe("ApiProvider", () => {
   const axiosMock = mock<AxiosInstance>();
   it("should be defined", () => {
-    const api = API(axiosMock);
+    const api = GetAPIProvider(axiosMock);
     expect(api.Admin).toMatchObject({
-      Get: expecSchema.Any(Function),
-      Create: expecSchema.Any(Function),
-      Edit: expecSchema.Any(Function),
-      List: expecSchema.Any(Function),
+      Get: expect.any(Function),
+      Create: expect.any(Function),
+      Edit: expect.any(Function),
+      List: expect.any(Function),
       Custom: {
-        BuildImage: expecSchema.Anything(),
-        GetMediaStats: expecSchema.Anything(),
+        BuildImage: expect.anything(),
+        GetMediaStats: expect.anything(),
       },
     });
 
     expect(api.Actor).toMatchObject({
-      Get: expecSchema.Any(Function),
-      Create: expecSchema.Any(Function),
-      Edit: expecSchema.Any(Function),
-      List: expecSchema.Any(Function),
+      Get: expect.any(Function),
+      Create: expect.any(Function),
+      Edit: expect.any(Function),
+      List: expect.any(Function),
       Custom: {},
     });
   });

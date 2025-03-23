@@ -1,7 +1,7 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { BaseProps, JSONFromString } from "./Common/index.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const GetSettingListQuery = Schema.Struct({
   ...GetListQuery.fields,

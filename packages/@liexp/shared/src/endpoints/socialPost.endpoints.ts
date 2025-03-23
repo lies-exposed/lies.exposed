@@ -1,5 +1,6 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
 import {
@@ -9,10 +10,10 @@ import {
   SocialPost,
   SocialPostResourceType,
 } from "../io/http/SocialPost.js";
-import { ResourceEndpoints } from "./types.js";
-import { OptionFromNullishToNull } from '../io/http/Common/OptionFromNullishToNull.js';
 
-export const SingleSocialPostOutput = Output(SocialPost).annotations({ title: "SocialPost"});
+export const SingleSocialPostOutput = Output(SocialPost).annotations({
+  title: "SocialPost",
+});
 export type SingleSocialPostOutput = typeof SingleSocialPostOutput.Type;
 
 export const ListSocialPostOutput = ListOutput(SocialPost, "SocialPosts");
@@ -43,7 +44,10 @@ export const Create = Endpoint({
     Params: Schema.Struct({ id: UUID, type: SocialPostResourceType }),
     Body: CreateSocialPost,
   },
-  Output: SingleSocialPostOutput,
+  Output: Schema.Union(
+    SingleSocialPostOutput,
+    Schema.Struct({ success: Schema.Boolean }),
+  ),
 });
 
 export const Edit = Endpoint({
@@ -77,7 +81,7 @@ export const Publish = Endpoint({
       }),
     }),
   },
-  Output: Output(Schema.Boolean).annotations({ title:  "SocialPostPublish"}),
+  Output: Output(Schema.Boolean).annotations({ title: "SocialPostPublish" }),
 });
 
 export const socialPosts = ResourceEndpoints({

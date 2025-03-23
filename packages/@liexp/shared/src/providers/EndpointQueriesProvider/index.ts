@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type Endpoints } from "../../endpoints/index.js";
 import { type EndpointsRESTClient } from "../EndpointsRESTClient/types.js";
-import { API } from "../api/api.provider.js";
+import { type API, GetAPIProvider } from "../api/api.provider.js";
 import { toQueries } from "./QueryProvider.js";
 import {
   toOverrideQueries,
@@ -109,7 +109,7 @@ const CreateQueryProvider = <
   return {
     Queries: patchedQueryProvider,
     REST: endpointsRESTClient,
-    API: API(endpointsRESTClient.client.client),
+    API: GetAPIProvider(endpointsRESTClient.client.client),
   };
 };
 

@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/index.js";
 import {
   CreateEventCommon,
@@ -6,7 +7,6 @@ import {
   EventCommon,
 } from "./BaseEvent.js";
 import { UNCATEGORIZED } from "./EventType.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const CreateEventBody = Schema.Struct({
   ...CreateEventCommon.fields,
@@ -17,7 +17,7 @@ export const CreateEventBody = Schema.Struct({
     groups: Schema.Array(UUID),
     groupsMembers: Schema.Array(UUID),
     location: OptionFromNullishToNull(UUID),
-    endDate: OptionFromNullishToNull(Schema.DateFromString),
+    endDate: OptionFromNullishToNull(Schema.Date),
   }),
 }).annotations({
   title: "CreateEventBody",
@@ -34,7 +34,7 @@ export const EditEventBody = Schema.Struct({
     actors: Schema.Array(Schema.String),
     groups: Schema.Array(Schema.String),
     groupsMembers: Schema.Array(Schema.String),
-    endDate: OptionFromNullishToNull(Schema.DateFromString),
+    endDate: OptionFromNullishToNull(Schema.Date),
   }),
 }).annotations({
   title: "EditEventPayload",
@@ -45,7 +45,7 @@ export type EditEventBody = typeof EditEventBody.Type;
 export const UncategorizedV2Payload = Schema.Struct({
   title: Schema.String,
   location: Schema.Union(UUID, Schema.Undefined),
-  endDate: Schema.Union(Schema.DateFromString, Schema.Undefined),
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
   actors: Schema.Array(UUID),
   groups: Schema.Array(UUID),
   groupsMembers: Schema.Array(UUID),

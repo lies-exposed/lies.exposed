@@ -1,12 +1,11 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "../../io/http/Common/UUID.js";
 import { SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { PaginationQuery } from "../../io/http/Query/PaginationQuery.js";
 import * as http from "../../io/http/index.js";
-import { ResourceEndpoints } from "../types.js";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event).annotations({
   title: "Event",

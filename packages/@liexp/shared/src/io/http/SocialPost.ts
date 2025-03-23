@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import { ACTORS, Actor } from "./Actor.js";
 import { AREAS } from "./Area.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/index.js";
 import { EVENTS } from "./Events/index.js";
 import { GROUPS, Group } from "./Group.js";
@@ -8,7 +9,6 @@ import { KEYWORDS, Keyword } from "./Keyword.js";
 import { LINKS } from "./Link.js";
 import { MEDIA } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const SocialPostPhoto = Schema.Struct({
   type: Schema.Literal("photo"),
@@ -82,12 +82,12 @@ export const SocialPostStatus = Schema.Union(TO_PUBLISH, PUBLISHED).annotations(
   },
 );
 
-export type SocialPostStatus = typeof SocialPostStatus;
+export type SocialPostStatus = typeof SocialPostStatus.Type;
 
 export const GetListSocialPostQuery = Schema.Struct({
   ...GetListQuery.fields,
   distinct: OptionFromNullishToNull(Schema.BooleanFromString),
-  scheduleAt: OptionFromNullishToNull(Schema.DateFromString),
+  scheduleAt: OptionFromNullishToNull(Schema.Date),
   type: OptionFromNullishToNull(SocialPostResourceType),
   status: OptionFromNullishToNull(SocialPostStatus),
   entity: OptionFromNullishToNull(UUID),
@@ -127,7 +127,7 @@ export const SocialPost = Schema.Struct({
   publishCount: Schema.Number,
   status: SocialPostStatus,
   result: SocialPostPublishResult,
-  scheduledAt: Schema.DateFromString,
+  scheduledAt: Schema.Date,
 }).annotations({
   title: "ShareMessageBody",
 });

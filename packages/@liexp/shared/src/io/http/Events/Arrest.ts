@@ -9,7 +9,7 @@ export const Arrest = Schema.Struct({
   type: Schema.Literal("Arrest"),
   who: BySubjectId,
   for: Schema.Array(For),
-  date: Schema.DateFromString,
+  date: Schema.Date,
 }).annotations({
   title: "Arrest",
 });

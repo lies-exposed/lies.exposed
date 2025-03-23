@@ -1,15 +1,15 @@
 import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media/Media.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const EditStoryBody = Schema.Struct({
   title: Schema.String,
   path: Schema.String,
   draft: Schema.Boolean,
   creator: UUID,
-  date: Schema.DateFromString,
+  date: Schema.Date,
   featuredImage: OptionFromNullishToNull(Schema.Struct({ id: UUID })),
   body2: Schema.Unknown,
   keywords: Schema.Array(UUID),
@@ -28,7 +28,7 @@ export const Story = Schema.Struct({
   path: Schema.String,
   draft: Schema.Boolean,
   creator: Schema.Union(UUID, Schema.Undefined),
-  date: Schema.DateFromString,
+  date: Schema.Date,
   featuredImage: Schema.Union(Media, Schema.Undefined),
   body: Schema.String,
   body2: Schema.Union(Schema.Unknown, Schema.Null),

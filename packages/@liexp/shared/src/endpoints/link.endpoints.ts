@@ -1,8 +1,7 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output, URL, UUID } from "../io/http/Common/index.js";
 import * as Link from "../io/http/Link.js";
-import { ResourceEndpoints } from "./types.js";
 
 const OneLinkOutput = Output(Link.Link).annotations({
   title: "Link",

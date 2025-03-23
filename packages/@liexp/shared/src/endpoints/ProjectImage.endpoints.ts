@@ -1,9 +1,8 @@
-import { Endpoint } from "ts-endpoint";
+import { Schema } from "effect";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput } from "../io/http/Common/Output.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as http from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
-import { Schema } from 'effect';
 
 const ListProjectImageOutput = ListOutput(
   http.ProjectImage.ProjectImage,

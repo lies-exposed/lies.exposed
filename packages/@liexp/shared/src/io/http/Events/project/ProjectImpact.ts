@@ -10,7 +10,7 @@ export const ProjectImpact = Schema.Struct({
   title: Schema.String,
   type: Schema.Literal(PROJECT_IMPACT),
   project: Schema.String,
-  date: Schema.DateFromString,
+  date: Schema.Date,
   approvedBy: Schema.Array(BySubjectId),
   executedBy: Schema.Array(BySubjectId),
   media: Schema.Array(Schema.String),

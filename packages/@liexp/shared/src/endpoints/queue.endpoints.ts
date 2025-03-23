@@ -1,11 +1,11 @@
-import { Endpoint } from "ts-endpoint";
+import { Schema } from "effect";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Queue from "../io/http/Queue/index.js";
-import { ResourceEndpoints } from "./types.js";
-import { Schema } from 'effect';
 
-const SingleQueueOutput = Output(Queue.Queue).annotations({ title: "SingleQueueOutput" });
-
+const SingleQueueOutput = Output(Queue.Queue).annotations({
+  title: "SingleQueueOutput",
+});
 
 export const List = Endpoint({
   Method: "GET",

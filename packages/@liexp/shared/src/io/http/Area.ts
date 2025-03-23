@@ -2,10 +2,10 @@ import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Geometry } from "./Common/Geometry/index.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
-import { OptionFromNullishToNull } from './Common/OptionFromNullishToNull.js';
 
 export const AREAS = Schema.Literal("areas");
 export type AREAS = typeof AREAS.Type;
@@ -19,7 +19,7 @@ export const ListAreaQuery = Schema.Struct({
   title: "ListAreaQuery",
 });
 
-export type ListAreaQuery = typeof ListAreaQuery;
+export type ListAreaQuery = typeof ListAreaQuery.Type;
 
 export const CreateAreaBody = Schema.Struct({
   label: Schema.String,
@@ -30,6 +30,8 @@ export const CreateAreaBody = Schema.Struct({
 }).annotations({
   title: "CreateAreaBody",
 });
+
+export type CreateAreaBody = typeof CreateAreaBody.Type;
 
 export const EditAreaBody = Schema.Struct({
   geometry: OptionFromNullishToNull(Geometry),
@@ -44,6 +46,8 @@ export const EditAreaBody = Schema.Struct({
 }).annotations({
   title: "EditAreaBody",
 });
+
+export type EditAreaBody = typeof EditAreaBody.Type;
 
 export const Area = Schema.Struct({
   ...BaseProps.fields,

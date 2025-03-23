@@ -1,12 +1,12 @@
 import { Schema } from "effect";
 import { Actor, ACTORS } from "../Actor.js";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/UUID.js";
 import { EventTotals } from "../Events/EventTotals.js";
 import { EVENTS, type EventType } from "../Events/index.js";
 import { Group, GROUPS } from "../Group.js";
 import { Keyword, KEYWORDS } from "../Keyword.js";
 import { Media } from "../Media/Media.js";
-import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 
 export const NetworkType = Schema.Union(
   KEYWORDS,
@@ -86,10 +86,10 @@ export interface EventNetworkDatum extends NetworkNodeDatum {
   date: Date;
   type: EventType;
   image: string | undefined;
-  groupBy: NetworkGroupBy[];
-  actors: Actor[];
-  groups: Group[];
-  keywords: Keyword[];
+  groupBy: readonly NetworkGroupBy[];
+  actors: readonly Actor[];
+  groups: readonly Group[];
+  keywords: readonly Keyword[];
   selected: boolean;
 }
 
@@ -104,8 +104,8 @@ export const NetworkGraphOutput = Schema.Struct({
   actorLinks: Schema.Array(NetworkLink),
   groupLinks: Schema.Array(NetworkLink),
   keywordLinks: Schema.Array(NetworkLink),
-  startDate: Schema.DateFromString,
-  endDate: Schema.DateFromString,
+  startDate: Schema.Date,
+  endDate: Schema.Date,
   totals: EventTotals,
 }).annotations({
   title: "NetworkGraphOutput",

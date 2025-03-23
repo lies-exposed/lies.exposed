@@ -1,5 +1,6 @@
 import { Schema } from "effect";
 import { BySubjectId } from "../Common/BySubject.js";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/index.js";
 import {
   CreateEventCommon,
@@ -8,7 +9,6 @@ import {
 } from "./BaseEvent.js";
 import { BOOK } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
-import { OptionFromNullishToNull } from '../Common/OptionFromNullishToNull.js';
 
 export const BookListQuery = Schema.Struct({
   ...GetSearchEventsQuery.omit("eventType").fields,

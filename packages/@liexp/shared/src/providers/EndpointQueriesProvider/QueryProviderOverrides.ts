@@ -7,7 +7,7 @@ import {
   type MinimalEndpoint,
   type MinimalEndpointInstance,
 } from "ts-endpoint";
-import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
+import { type PartialSerializedType } from "ts-io-error";
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
@@ -38,7 +38,7 @@ export interface ResourceEndpointsQueriesOverride<
   get?: G extends MinimalEndpointInstance
     ? GetQueryOverride<
         GetFnParams<G>,
-        Partial<RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>>
+        PartialSerializedType<InferEndpointInstanceParams<G>["query"]>
       >
     : never;
   list?: L extends MinimalEndpointInstance

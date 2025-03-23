@@ -9,7 +9,7 @@ export const PublicAnnouncement = Schema.Struct({
   from: Schema.NonEmptyArray(BySubjectId),
   publishedBy: Schema.NonEmptyArray(BySubjectId),
   // for: For,
-  date: Schema.DateFromString,
+  date: Schema.Date,
 }).annotations({ title: "PublicAnnouncement" });
 
 export type PublicAnnouncement = typeof PublicAnnouncement.Type;

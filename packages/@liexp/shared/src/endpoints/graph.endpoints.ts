@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import { GetNetworkQuery } from "../io/http/Network/Network.js";
@@ -9,7 +9,6 @@ import {
   GetFlowGraphParams,
 } from "../io/http/graphs/FlowGraph.js";
 import { CreateGraphData, Graph } from "../io/http/graphs/Graph.js";
-import { ResourceEndpoints } from "./types.js";
 
 const SingleGraphOutput = Output(Graph).annotations({
   title: "Graph",

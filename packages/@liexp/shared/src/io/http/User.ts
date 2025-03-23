@@ -64,8 +64,10 @@ export const User = Schema.Struct({
   permissions: Schema.Array(UserPermission),
   telegramId: Schema.Union(Schema.String, Schema.Null),
   telegramToken: Schema.Union(Schema.String, Schema.Null),
-  createdAt: Schema.String,
-  updatedAt: Schema.String,
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
 }).annotations({ title: "User" });
 
 export type User = typeof User.Type;
+
+export type UserEncoded = Schema.Schema.Encoded<typeof User>;
