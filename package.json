@@ -50,7 +50,7 @@
     "corepack": "^0.32.0",
     "eslint": "^9.21.0",
     "husky": "^9.1.7",
-    "knip": "^5.43.6",
+    "knip": "^5.46.0",
     "lint-staged": "^15.4.3",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.26.0",
