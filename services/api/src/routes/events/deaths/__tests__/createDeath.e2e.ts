@@ -5,8 +5,8 @@ import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import fc from "fast-check";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
@@ -40,7 +40,7 @@ describe("Create Death Event", () => {
     const { authorization } = await loginUser(appTest)(user);
 
     const deathData = {
-      type: http.Events.EventTypes.DEATH.value,
+      type: http.Events.EventTypes.DEATH.Type,
       payload: {
         victim: actor.id,
         body: {},
@@ -62,7 +62,7 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      type: http.Events.EventTypes.DEATH.value,
+      type: http.Events.EventTypes.DEATH.Type,
       date: deathData.date,
       payload: {
         victim: actor.id,

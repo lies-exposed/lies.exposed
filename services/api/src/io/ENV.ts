@@ -1,37 +1,23 @@
 import { BACKEND_ENV, JWT_ENV } from "@liexp/backend/lib/io/ENV.js";
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { Schema } from "effect";
 
-const ENV = t.intersection(
-  [
-    BACKEND_ENV,
-    Schema.Struct(
-      {
-        REDIS_CONNECT: BooleanFromString,
-        REDIS_HOST: Schema.String,
-      },
-      "REDIS_ENV",
-    ),
-    JWT_ENV,
-    Schema.Struct(
-      {
-        DEBUG: Schema.String,
-        SERVER_HOST: Schema.String,
-        SERVER_PORT: NumberFromString,
-        VIRTUAL_PORT: NumberFromString,
-        VIRTUAL_HOST: Schema.String,
-        WEB_URL: Schema.String,
-        // geo coding
-        GEO_CODE_BASE_URL: Schema.String,
-        GEO_CODE_API_KEY: Schema.String,
-      },
-      "API_ENV",
-    ),
-  ],
-  "ENV",
+const ENV = Schema.extend(
+  BACKEND_ENV,
+  Schema.Struct({
+    ...JWT_ENV.fields,
+    REDIS_CONNECT: Schema.BooleanFromString,
+    REDIS_HOST: Schema.String,
+    DEBUG: Schema.String,
+    SERVER_HOST: Schema.String,
+    SERVER_PORT: Schema.NumberFromString,
+    VIRTUAL_PORT: Schema.NumberFromString,
+    VIRTUAL_HOST: Schema.String,
+    WEB_URL: Schema.String,
+    // geo coding
+    GEO_CODE_BASE_URL: Schema.String,
+    GEO_CODE_API_KEY: Schema.String,
+  }).annotations({ title: "API_ENV" }),
 );
-
-type ENV = t.TypeOf<typeof ENV>;
+type ENV = typeof ENV.Type;
 
 export { ENV };

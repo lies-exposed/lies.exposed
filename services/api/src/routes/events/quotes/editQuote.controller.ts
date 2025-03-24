@@ -4,6 +4,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -16,7 +17,7 @@ export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
       const quoteData = {
         ...body,
         links: body.links.map((l) => {
-          if (UUID.is(l)) {
+          if (Schema.is(UUID)(l)) {
             return {
               id: l,
             };
@@ -35,7 +36,7 @@ export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
         db.save(EventV2Entity, [
           {
             id,
-            type: QUOTE.value,
+            type: QUOTE.Type,
             ...quoteData,
             payload,
           },

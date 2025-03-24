@@ -2,6 +2,7 @@ import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
 import { deleteFromSpace } from "@liexp/backend/lib/flows/space/deleteFromSpace.flow.js";
+import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -41,14 +42,15 @@ export const MakeDeleteMediaRoute: Route = (r, ctx) => {
                 )
               : TE.right(undefined),
           space: m.deletedAt ? deleteFromSpace(m)(ctx) : TE.right(undefined),
-          media: m.deletedAt
+          media: TE.fromEither(MediaIO.decodeSingle(m, ctx.env.SPACE_ENDPOINT)),
+          result: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)
             : ctx.db.softDelete(MediaEntity, id),
         }),
       ),
-      TE.map(() => ({
+      TE.map(({ media }) => ({
         body: {
-          data: true,
+          data: media,
         },
         statusCode: 200,
       })),

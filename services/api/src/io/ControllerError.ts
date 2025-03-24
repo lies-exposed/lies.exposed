@@ -20,6 +20,7 @@ import {
 import { _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
 import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { Schema } from "effect";
 import { UnauthorizedError } from "express-jwt";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -41,7 +42,7 @@ export type ControllerError =
 export const toControllerError = (e: unknown): ControllerError => {
   const isIOErrorSchema = pipe(
     e,
-    IOErrorSchema.decode,
+    Schema.decodeUnknownEither(IOErrorSchema),
     (e) => {
       // console.log(PathReporter.report(e));
       return e;
@@ -165,11 +166,11 @@ export const toAPIError = (err: ControllerError): APIError => {
     }
   }
 
-  if (IOErrorSchema.is(err)) {
+  if (Schema.is(IOErrorSchema)(err)) {
     return fromIOError(err);
   }
 
-  if (APIError.is(err)) {
+  if (Schema.is(APIError)(err)) {
     return err;
   }
 

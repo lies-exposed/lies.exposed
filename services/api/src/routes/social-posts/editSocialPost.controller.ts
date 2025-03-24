@@ -2,6 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -54,7 +55,8 @@ export const MakeEditSocialPostRoute: Route = (r, ctx) => {
             },
           ]),
         ),
-        TE.map(([sp]) => ({
+        TE.chainEitherK((e) => SocialPostIO.decodeSingle(e[0])),
+        TE.map((sp) => ({
           body: {
             data: sp,
           },

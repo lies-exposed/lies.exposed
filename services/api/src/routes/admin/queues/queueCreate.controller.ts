@@ -38,7 +38,7 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
           ctx.queue.queue(type).addJob({
             ...job,
             error: null,
-            status: PendingStatus.value,
+            status: PendingStatus.Type,
           } as Queue),
         ),
         TE.chainEitherK(toQueueIO),

@@ -21,7 +21,7 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
           {
             ...body,
             body: "",
-            body2: body2 as any,
+            body2: body2,
             creator: { id: r.user?.id },
             keywords: keywords.map((k) => ({ id: k })),
             actors: actors.map((k) => ({ id: k })),

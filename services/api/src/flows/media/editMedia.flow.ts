@@ -4,8 +4,8 @@ import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EditMediaBody } from "@liexp/shared/lib/io/http/Media/index.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
-import * as t from "io-ts";
 import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
@@ -31,7 +31,10 @@ export const editMedia = (
     _overrideThumbnail,
     O.filter((o) => !!o),
   );
-  const overrideExtra = pipe(_overrideExtra, O.filter(Schema.Boolean.is));
+  const overrideExtra = pipe(
+    _overrideExtra,
+    O.filter(Schema.is(Schema.Boolean)),
+  );
 
   const transfer = pipe(
     _transfer,

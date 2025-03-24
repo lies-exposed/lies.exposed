@@ -21,7 +21,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chain((event) =>
           editEventQuery(event, {
             ...body,
-            type: EventTypes.DOCUMENTARY.value,
+            type: EventTypes.DOCUMENTARY.Type,
             payload,
             media,
             keywords,

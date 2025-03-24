@@ -1,4 +1,5 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -14,6 +15,7 @@ export const MakeGetSocialPostRoute: Route = (r, ctx) => {
           id: Equal(id),
         },
       }),
+      TE.chainEitherK(SocialPostIO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

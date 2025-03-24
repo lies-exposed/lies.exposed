@@ -5,9 +5,9 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as t from "io-ts";
 import { fetchEventsRelations } from "../../flows/events/fetchEventsRelations.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -57,7 +57,7 @@ export const SearchEventRoute: Route = (r, ctx) => {
 
     const type = pipe(
       _type,
-      O.map((tp) => (Schema.Array(EventType).is(tp) ? tp : [tp])),
+      O.map((tp) => (Schema.is(Schema.Array(EventType))(tp) ? tp : [tp])),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);

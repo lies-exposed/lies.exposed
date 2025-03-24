@@ -38,7 +38,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
         TE.mapLeft(() => toControllerError(toNotFoundError("User"))),
         LoggerService.TE.debug(ctx, "User %O"),
         TE.filterOrElse(
-          (e) => e.status === UserStatusApproved.value,
+          (e) => e.status === UserStatusApproved.Type,
           () => toControllerError(ServerError.of(["User not approved"])),
         ),
         TE.chainFirst((user): TEControllerError<boolean> => {
@@ -64,6 +64,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
                 ...user,
                 createdAt: user.createdAt.toISOString(),
                 updatedAt: user.updatedAt.toISOString(),
+                deletedAt: user.deletedAt?.toISOString(),
               }),
             ),
             TE.map((token) => ({ token, id: user.id })),

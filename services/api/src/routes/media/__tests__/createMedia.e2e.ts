@@ -54,7 +54,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.jpg`,
-        type: ImageType.types[0].value,
+        type: ImageType.members[0].Type,
         creator: undefined,
       }));
 
@@ -76,12 +76,12 @@ describe("Create Media", () => {
 
     expect(Test.mocks.redis.publish).toHaveBeenCalledWith(
       ExtractMediaExtraPubSub.channel,
-      expecSchema.Any(String),
+      expect.any(String),
     );
 
     expect(Test.mocks.redis.publish).toHaveBeenCalledWith(
       CreateMediaThumbnailPubSub.channel,
-      expecSchema.Any(String),
+      expect.any(String),
     );
   });
 
@@ -93,7 +93,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.mp4`,
-        type: MP4Type.value,
+        type: MP4Type.Type,
         creator: undefined,
         extra: undefined,
       }));
@@ -118,12 +118,12 @@ describe("Create Media", () => {
 
     expect(response.body.data).toMatchObject({
       ...media,
-      id: expecSchema.Any(String),
+      id: expect.any(String),
       description: media.description ?? media.label,
       creator: users[0].id,
       extra: {
         width: 0,
-        height: expecSchema.Any(Number),
+        height: expect.any(Number),
         thumbnailWidth: 0,
         thumbnailHeight: 0,
         thumbnails: [],
@@ -131,8 +131,8 @@ describe("Create Media", () => {
       },
       socialPosts: [],
       transferable: true,
-      createdAt: expecSchema.Any(String),
-      updatedAt: expecSchema.Any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
     });
   });
 
@@ -144,7 +144,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://www.youtube.com/watch?v=${id}`,
-        type: IframeVideoType.value,
+        type: IframeVideoType.Type,
         creator: undefined,
       }));
 
@@ -166,7 +166,7 @@ describe("Create Media", () => {
       ...response.body.data,
     }).toMatchObject({
       ...media,
-      id: expecSchema.Any(String),
+      id: expect.any(String),
       location: `https://www.youtube.com/embed/${media.id}`,
       description: media.description ?? media.label,
       creator: users[0].id,
@@ -180,8 +180,8 @@ describe("Create Media", () => {
       },
       socialPosts: [],
       transferable: true,
-      createdAt: expecSchema.Any(String),
-      updatedAt: expecSchema.Any(String),
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
     });
   });
 

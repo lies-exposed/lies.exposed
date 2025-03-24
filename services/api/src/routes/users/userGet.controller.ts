@@ -11,7 +11,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeUserGetRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(
     Endpoints.User.Get,
-    ({ params: { id } }, req) => {
+    ({ params: { id } }) => {
       return pipe(
         ctx.db.findOneOrFail(UserEntity, { where: { id: Equal(id) } }),
         TE.chainEitherK(UserIO.decodeSingle),

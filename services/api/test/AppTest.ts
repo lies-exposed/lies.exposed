@@ -40,6 +40,7 @@ import {
   getORMConfig,
 } from "@liexp/backend/lib/utils/data-source.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { Schema } from 'effect';
 
 vi.mock("axios", () => ({
   default: {
@@ -72,7 +73,8 @@ export const loadAppContext = async (
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
-        ENV.decode(process.env),
+        process.env,
+        Schema.decodeUnknownEither(ENV),
         TE.fromEither,
         TE.mapLeft(toControllerError),
       ),

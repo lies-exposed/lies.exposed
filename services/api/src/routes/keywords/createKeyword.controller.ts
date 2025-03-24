@@ -12,10 +12,10 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.value])({ logger, jwt }))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.Type])({ logger, jwt }))(
     Endpoints.Keyword.Create,
-    ({ body, headers }) => {
-      logger.debug.log("Headers %O", { headers, body });
+    ({ body }) => {
+      logger.debug.log("Headers %O", { body });
 
       return pipe(
         db.findOne(KeywordEntity, { where: { tag: Equal(body.tag) } }),

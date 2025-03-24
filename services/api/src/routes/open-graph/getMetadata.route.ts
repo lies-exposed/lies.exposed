@@ -66,7 +66,27 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
         }),
         TE.map((data) => ({
           body: {
-            data,
+            data: {
+              ...data,
+              link: {
+                ...data.link,
+                id: data.link?.id as string,
+                url: data.link?.url as string,
+                title: data.link?.title ?? data.metadata.title,
+                description:
+                  data.link?.description ?? data.metadata.description,
+                image: data.link?.image,
+                provider: data.link?.provider,
+                creator: data.link?.creator,
+                keywords: [],
+                events: [],
+                socialPosts: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString(),
+                deletedAt: undefined,
+                publishDate: data.link?.publishDate?.toISOString(),
+              },
+            },
           },
           statusCode: 200,
         })),

@@ -4,6 +4,7 @@ import {
   type FlowGraphOutput,
   type FlowGraphType,
 } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+import * as O from "effect/Option";
 import { type TEReader } from "../flow.types.js";
 import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";
 
@@ -25,14 +26,14 @@ export const regenerateFlowGraph = (
         type,
         id,
         {
-          ids: fp.O.none,
-          startDate: fp.O.none,
-          endDate: fp.O.none,
-          relations: fp.O.some(["actors", "groups", "keywords"]),
-          groups: fp.O.none,
-          actors: fp.O.none,
-          keywords: fp.O.none,
-          emptyRelations: fp.O.none,
+          ids: O.none(),
+          startDate: O.none(),
+          endDate: O.none(),
+          relations: O.some(["actors", "groups", "keywords"]),
+          groups: O.none(),
+          actors: O.none(),
+          keywords: O.none(),
+          emptyRelations: O.none(),
         },
         isAdmin,
       ),

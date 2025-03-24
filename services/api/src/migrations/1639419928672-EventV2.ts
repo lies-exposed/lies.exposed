@@ -111,7 +111,7 @@ export class EventV21639419928672 implements MigrationInterface {
             ...(s as any),
             draft: false,
             excerpt: {},
-            type: EventTypes.DEATH.value,
+            type: EventTypes.DEATH.Type,
             payload: {
               location: (s as any).location ?? undefined,
               victim: s.victim as any,
@@ -135,7 +135,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (s): EventV2Entity => ({
             ...(s as any),
             draft: false,
-            type: EventTypes.SCIENTIFIC_STUDY.value,
+            type: EventTypes.SCIENTIFIC_STUDY.Type,
             payload: {
               title: s.title,
               url: s.url as any,

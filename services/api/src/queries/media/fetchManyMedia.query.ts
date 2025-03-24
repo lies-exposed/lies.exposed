@@ -3,7 +3,7 @@ import { leftJoinSocialPosts } from "@liexp/backend/lib/queries/social-post/left
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Brackets } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 
@@ -41,7 +41,9 @@ export const fetchManyMedia =
 
     const type = pipe(
       _type,
-      fp.O.map((tp) => (Schema.Array(Schema.String).is(tp) ? tp : [tp])),
+      fp.O.map((tp) =>
+        Schema.is(Schema.Array(Schema.String))(tp) ? tp : [tp],
+      ),
     );
 
     return pipe(

@@ -1,10 +1,10 @@
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -40,18 +40,18 @@ export const MakeListScientificStudyRoute: Route = (
       return pipe(
         searchEventV2Query<ServerContext>({
           ids,
-          type: O.some([SCIENTIFIC_STUDY.value]),
+          type: O.some([SCIENTIFIC_STUDY.Type]),
           groups: pipe(
             provider,
             O.map((p) => [p]),
           ),
-          actors: O.none,
-          groupsMembers: O.none,
-          keywords: O.none,
-          links: O.none,
-          media: O.none,
-          exclude: O.none,
-          locations: O.none,
+          actors: O.none(),
+          groupsMembers: O.none(),
+          keywords: O.none(),
+          links: O.none(),
+          media: O.none(),
+          exclude: O.none(),
+          locations: O.none(),
           q,
           draft,
           startDate: publishedDate,
@@ -67,7 +67,7 @@ export const MakeListScientificStudyRoute: Route = (
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
             results,
-            EventV2IO.decodeMany,
+            ScientificStudyIO.encodeMany,
             TE.fromEither,
             TE.map((data) => ({ data, total: scientificStudies })),
           ),

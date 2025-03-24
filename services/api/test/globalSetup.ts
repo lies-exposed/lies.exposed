@@ -6,10 +6,10 @@ import * as dotenv from "dotenv";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { PathReporter } from "io-ts/PathReporter";
-import { TestENV } from "./TestENV.js";
 import { testDBContainer } from "./GetDockerContainer.js";
 import D from "debug";
+import { Schema } from 'effect';
+import { ENV } from '../src/io/ENV.js';
 
 const moduleLogger = logger.GetLogger("global-setup");
 
@@ -38,10 +38,11 @@ export default async (): Promise<() => void> => {
     }
 
     await pipe(
-      TestENV.decode(process.env),
+      (process.env),
+      Schema.decodeUnknownEither(ENV),
       E.mapLeft((errs) => {
-        const err = new Error();
-        (err as any).details = PathReporter.report(E.left(errs));
+        const err = new Error(errs.message);
+        // (err as any).details = PathReporter.report(E.left(errs));
         return err as any;
       }),
       TE.fromEither,

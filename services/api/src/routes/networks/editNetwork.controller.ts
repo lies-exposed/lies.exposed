@@ -39,7 +39,7 @@ export const MakeEditNetworkRoute: Route = (r, ctx) => {
       };
 
       return pipe(
-        RequestDecoder.decodeNullableUser(req, [AdminRead.value])(ctx),
+        RequestDecoder.decodeNullableUser(req, [AdminRead.Type])(ctx),
         TE.fromIO,
         TE.chain((user) => getCreateNetworkT(type, !!user)),
         TE.map((data) => ({

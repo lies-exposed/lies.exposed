@@ -32,8 +32,11 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
+import { Schema } from "effect";
+import * as O from "effect/Option";
+import { type Option } from "effect/Option";
 import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as S from "fp-ts/lib/string.js";
 import { cleanItemsFromSlateFields } from "../../utils/clean.utils.js";
 import { fetchEventsWithRelations } from "../events/fetchWithRelations.flow.js";
@@ -41,11 +44,11 @@ import { type TEReader } from "#flows/flow.types.js";
 
 const uniqueId = GetEncodeUtils<
   {
-    ids: string[];
-    relations: string[];
-    actors: string[];
-    groups: string[];
-    keywords: string[];
+    ids: readonly string[];
+    relations: readonly string[];
+    actors: readonly string[];
+    groups: readonly string[];
+    keywords: readonly string[];
   },
   {
     ids: string;
@@ -63,14 +66,14 @@ const uniqueId = GetEncodeUtils<
 }));
 
 export const emptyGetNetworkQuery: GetNetworkQuery = {
-  ids: fp.O.none,
-  startDate: fp.O.none,
-  endDate: fp.O.none,
-  relations: fp.O.some(["actors", "groups", "keywords"]),
-  groups: fp.O.none,
-  actors: fp.O.none,
-  keywords: fp.O.none,
-  emptyRelations: fp.O.none,
+  ids: O.none(),
+  startDate: O.none(),
+  endDate: O.none(),
+  relations: O.some(["actors", "groups", "keywords"]),
+  groups: O.none(),
+  actors: O.none(),
+  keywords: O.none(),
+  emptyRelations: O.none(),
 };
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
@@ -110,13 +113,13 @@ export const getRelationLinks =
   };
 
 interface GetEventGraphOpts {
-  events: SearchEvent.SearchEvent[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  keywords: Keyword.Keyword[];
-  media: Media.Media[];
+  events: readonly SearchEvent.SearchEvent[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  keywords: readonly Keyword.Keyword[];
+  media: readonly Media.Media[];
   emptyRelations: boolean;
-  relations: NetworkGroupBy[];
+  relations: readonly NetworkGroupBy[];
 }
 
 export const getEventGraph = (
@@ -133,7 +136,7 @@ export const getEventGraph = (
 ): NetworkGraphOutput => {
   return pipe(
     events,
-    A.reduceWithIndex(initialResult, (index, acc, e) => {
+    fp.A.reduceWithIndex(initialResult, (index, acc, e) => {
       // get topic from relative directory
       // console.log('event', e)
       const {
@@ -147,22 +150,25 @@ export const getEventGraph = (
 
       const nonEmptyEventActors = pipe(
         allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty),
+        O.fromNullable,
+        O.filter(isNonEmpty),
       );
 
       const nonEmptyEventGroups = pipe(
         allGroups.filter((a) => eventGroups.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty),
+        O.fromNullable,
+        O.filter(isNonEmpty),
       );
 
       const nonEmptyEventKeywords = pipe(
         allKeywords.filter((a) => eventKeywords.some((aa) => aa.id === a.id)),
-        O.fromPredicate(A.isNonEmpty),
+        O.fromNullable,
+        O.filter(isNonEmpty),
       );
 
       const featuredImage = pipe(
         eventMedia,
-        fp.A.filter((m) => m && ValidContentType.is(m.type)),
+        fp.A.filter((m) => m && Schema.is(ValidContentType)(m.type)),
         fp.O.fromPredicate((mm) => mm.length > 0),
         fp.O.map((mm) => mm[0].thumbnail),
         fp.O.toUndefined,
@@ -187,23 +193,23 @@ export const getEventGraph = (
 
       // console.log('actor links in acc', acc.actorLinks);
       const actorLinks = pipe(
-        relations.includes(ACTORS.value) ? nonEmptyEventActors : O.none,
-        O.getOrElse((): Actor.Actor[] => []),
-        getRelationLinks(ACTORS.value, e)(acc.actorLinks),
+        relations.includes(ACTORS.Type) ? nonEmptyEventActors : fp.O.none,
+        fp.O.getOrElse((): Actor.Actor[] => []),
+        getRelationLinks(ACTORS.Type, e)(acc.actorLinks),
       );
 
       // console.log("actor links", actorLinks);
 
       const groupLinks = pipe(
-        relations.includes(GROUPS.value) ? nonEmptyEventGroups : O.none,
-        O.getOrElse((): Group.Group[] => []),
-        getRelationLinks(GROUPS.value, e)(acc.groupLinks),
+        relations.includes(GROUPS.Type) ? nonEmptyEventGroups : fp.O.none,
+        fp.O.getOrElse((): Group.Group[] => []),
+        getRelationLinks(GROUPS.Type, e)(acc.groupLinks),
       );
 
       const keywordLinks = pipe(
-        relations.includes(KEYWORDS.value) ? nonEmptyEventKeywords : O.none,
-        O.getOrElse((): Keyword.Keyword[] => []),
-        getRelationLinks(KEYWORDS.value, e)(acc.keywordLinks),
+        relations.includes(KEYWORDS.Type) ? nonEmptyEventKeywords : fp.O.none,
+        fp.O.getOrElse((): Keyword.Keyword[] => []),
+        getRelationLinks(KEYWORDS.Type, e)(acc.keywordLinks),
       );
 
       const evLinks: NetworkLink[] =
@@ -299,9 +305,9 @@ export const getEventGraph = (
 };
 
 interface Result {
-  eventNodes: EventNetworkDatum[];
-  eventLinks: NetworkLink[];
-  selectedLinks: NetworkLink[];
+  eventNodes: readonly EventNetworkDatum[];
+  eventLinks: readonly NetworkLink[];
+  selectedLinks: readonly NetworkLink[];
   actorLinks: Map<string, NetworkLink[]>;
   groupLinks: Map<string, NetworkLink[]>;
   keywordLinks: Map<string, NetworkLink[]>;
@@ -353,7 +359,7 @@ export const createNetworkGraph =
 
     const keywordIds = pipe(
       keywords,
-      O.fold(
+      fp.O.fold(
         () => [],
         (): UUID[] => [],
       ),
@@ -364,14 +370,14 @@ export const createNetworkGraph =
       relations,
       actors: pipe(
         actors,
-        O.fold(
+        fp.O.fold(
           () => [],
-          (): UUID[] => [],
+          (): readonly UUID[] => [],
         ),
       ),
       groups: pipe(
         groups,
-        O.fold(
+        fp.O.fold(
           () => [],
           (): UUID[] => [],
         ),
@@ -386,33 +392,51 @@ export const createNetworkGraph =
     const createNetworkGraphTask: TEReader<NetworkGraphOutput> = pipe(
       fetchEventsWithRelations(
         {
-          ids: O.none,
+          ids: O.none(),
           actors:
-            type === ACTORS.value
+            type === ACTORS.Type
               ? pipe(
                   actors,
-                  fp.O.map(fp.NEA.concat(ids)),
-                  fp.O.alt(() => fp.NEA.fromArray(ids)),
+                  fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),
+                  fp.O.alt(
+                    () => fp.NEA.fromArray(ids) as Option<[UUID, ...UUID[]]>,
+                  ),
+                  fp.O.fold(
+                    () => O.none(),
+                    (arr) => O.some(arr),
+                  ),
                 )
               : actors,
           groups:
-            type === GROUPS.value
+            type === GROUPS.Type
               ? pipe(
                   groups,
-                  fp.O.map(fp.NEA.concat(ids)),
-                  fp.O.alt(() => fp.NEA.fromArray(ids)),
+                  fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),
+                  fp.O.alt(
+                    () => fp.NEA.fromArray(ids) as Option<[UUID, ...UUID[]]>,
+                  ),
+                  fp.O.fold(
+                    () => O.none(),
+                    (arr) => O.some(arr),
+                  ),
                 )
               : groups,
           keywords:
-            type === KEYWORDS.value
+            type === KEYWORDS.Type
               ? pipe(
                   keywords,
-                  fp.O.map(fp.NEA.concat(ids)),
-                  fp.O.alt(() => fp.NEA.fromArray(ids)),
+                  fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),
+                  fp.O.alt(
+                    () => fp.NEA.fromArray(ids) as Option<[UUID, ...UUID[]]>,
+                  ),
+                  fp.O.fold(
+                    () => O.none(),
+                    (arr) => O.some(arr),
+                  ),
                 )
               : keywords,
-          startDate: O.none,
-          endDate: O.none,
+          startDate: O.none(),
+          endDate: O.none(),
           relations: O.some(relations),
         },
         isAdmin,

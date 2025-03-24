@@ -10,6 +10,7 @@ import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
@@ -28,12 +29,12 @@ const updateLinkMedia = (
     return null;
   }
 
-  if (UUID.is(image)) {
+  if (Schema.is(UUID)(image)) {
     return image;
   }
 
   const oldMedia: Partial<MediaEntity> =
-    UUID.is(link.image) || link.image === null ? {} : link.image;
+    Schema.is(UUID)(link.image) || link.image === null ? {} : link.image;
 
   return {
     ...oldMedia,
@@ -77,7 +78,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           const linkUpdate = {
             ...body,
             url: sanitizeURL(url),
-            image: UUID.is(image) ? image : (image ?? null),
+            image: Schema.is(UUID)(image) ? image : (image ?? null),
             events: events.map((e) => ({ id: e })) as EventV2Entity[],
             keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
             id,

@@ -3,6 +3,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
@@ -10,7 +11,10 @@ export const toEventSuggestion = (
   event: EventSuggestionEntity,
 ): E.Either<
   ControllerError,
-  { id: string; payload: io.http.EventSuggestion.EventSuggestion }
+  {
+    id: string;
+    payload: typeof io.http.EventSuggestion.EventSuggestion.Encoded;
+  }
 > => {
   const { links, newLinks } = event.payload.event.links.reduce(
     (acc, l) => {
@@ -20,7 +24,7 @@ export const toEventSuggestion = (
           links: acc.links.concat(l as any),
         };
       }
-      if (UUID.is((l as any).id)) {
+      if (Schema.is(UUID)((l as any).id)) {
         return {
           ...acc,
           links: acc.links.concat((l as any).id),
@@ -59,7 +63,8 @@ export const toEventSuggestion = (
   };
 
   return pipe(
-    io.http.EventSuggestion.EventSuggestion.decode(eventEncoded),
+    eventEncoded,
+    Schema.encodeUnknownEither(io.http.EventSuggestion.EventSuggestion),
     E.map((payload) => ({
       ...event,
       payload,

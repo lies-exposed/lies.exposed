@@ -3,7 +3,7 @@ import {
   type SearchEventOutput,
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type SearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
@@ -14,6 +14,7 @@ import {
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchEventsRelations } from "./fetchEventsRelations.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
@@ -42,8 +43,8 @@ export const fetchEventsWithRelations =
             ...rest,
             withDeleted: isAdmin,
             withDrafts: isAdmin,
-            startDate: pipe(startDate ?? fp.O.none),
-            endDate: pipe(endDate ?? fp.O.none),
+            startDate: pipe(startDate ?? O.none()),
+            endDate: pipe(endDate ?? O.none()),
             skip,
             take: amount,
             order: { date: "DESC" },

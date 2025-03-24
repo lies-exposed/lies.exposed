@@ -12,7 +12,7 @@ export const MakeGetDocumentaryEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.DocumentaryEvent.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventV2Entity, {
-        where: { type: Equal(EventTypes.DOCUMENTARY.value), id: Equal(id) },
+        where: { type: Equal(EventTypes.DOCUMENTARY.Type), id: Equal(id) },
         loadRelationIds: {
           relations: ["media", "keywords", "links"],
         },

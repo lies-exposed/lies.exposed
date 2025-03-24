@@ -10,6 +10,7 @@ import {
   type CreateActorBody,
 } from "@liexp/shared/lib/io/http/Actor.js";
 import { ACTOR } from "@liexp/shared/lib/io/http/Common/BySubject.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
@@ -37,7 +38,7 @@ const createActorFromBody = (body: AddActorBody): TEReader<ActorEntity> => {
 export const createActor = (
   body: CreateActorBody,
 ): TEReader<Actor | { success: true }> => {
-  if (AddActorBody.is(body)) {
+  if (Schema.is(AddActorBody)(body)) {
     return pipe(
       createActorFromBody(body),
       fp.RTE.chain((actor) =>
@@ -59,7 +60,7 @@ export const createActor = (
     SearchFromWikipediaPubSub.publish({
       search: body.search,
       provider: "wikipedia",
-      type: ACTOR.value,
+      type: ACTOR.Type,
     }),
     fp.RTE.map(() => ({ success: true })),
   );

@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/Logger.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
-import { fc } from "@liexp/test/lib/index.js";
+import fc from 'fast-check';
 import Docker from "dockerode";
 import fs from "fs/promises";
 import path from "path";

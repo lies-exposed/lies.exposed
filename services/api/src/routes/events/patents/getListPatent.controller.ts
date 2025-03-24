@@ -1,4 +1,4 @@
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -39,7 +39,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query({
           ...query,
-          type: O.some([EventTypes.PATENT.value]),
+          type: O.some([EventTypes.PATENT.Type]),
           draft,
           actors: O.none,
           keywords,
@@ -57,7 +57,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { patents } }) =>
           pipe(
             results,
-            EventV2IO.decodeMany,
+            PatentIO.encodeMany,
             E.map((data) => ({ data, total: patents })),
           ),
         ),

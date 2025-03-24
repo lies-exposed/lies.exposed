@@ -5,7 +5,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -29,7 +29,7 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
               socialPosts: [],
               id:
                 suggestion.payload.type ===
-                EventSuggestion.EventSuggestionType.types[1].value
+                EventSuggestion.EventSuggestionType.members[1].Type
                   ? suggestion.payload.eventId
                   : uuid(),
             })),

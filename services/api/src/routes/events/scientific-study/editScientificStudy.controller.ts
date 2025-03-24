@@ -1,9 +1,10 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -17,7 +18,7 @@ export const MakeEditScientificStudyRoute: Route = (
     const scientificStudyData = {
       ...body,
       media: body.media.map((l) => {
-        if (UUID.is(l)) {
+        if (Schema.is(UUID)(l)) {
           return { id: l };
         }
         return {
@@ -25,7 +26,7 @@ export const MakeEditScientificStudyRoute: Route = (
         };
       }) as DeepPartial<MediaEntity[]>,
       links: body.links.map((l) => {
-        if (UUID.is(l)) {
+        if (Schema.is(UUID)(l)) {
           return { id: l };
         }
         return {
@@ -56,7 +57,7 @@ export const MakeEditScientificStudyRoute: Route = (
           loadRelationIds: true,
         }),
       ),
-      TE.chainEitherK(EventV2IO.decodeSingle),
+      TE.chainEitherK(ScientificStudyIO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

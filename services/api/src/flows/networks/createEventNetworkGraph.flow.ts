@@ -41,10 +41,11 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
+import * as O from "effect/Option";
 import { type Monoid } from "fp-ts/Monoid";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type TEControllerError } from "../../types/TEControllerError.js";
@@ -88,7 +89,8 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
 
         const actorLinks = pipe(
           eventActors,
-          O.fromPredicate((aa) => (emptyRelations ? true : aa.length > 0)),
+          O.fromNullable,
+          O.filter((aa) => (emptyRelations ? true : isNonEmpty(aa))),
           O.map((aa) =>
             allActors.filter((a) => aa.some((aa) => aa.id === a.id)),
           ),
@@ -114,7 +116,8 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
 
         const groupLinks = pipe(
           eventGroups,
-          O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
+          O.fromNullable,
+          O.filter((gg) => (emptyRelations ? true : isNonEmpty(gg))),
           O.map((gg) =>
             allGroups.filter((a) => gg.some((aa) => aa.id === a.id)),
           ),
@@ -140,7 +143,8 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
 
         const keywordLinks = pipe(
           eventKeywords,
-          O.fromPredicate((gg) => (emptyRelations ? true : gg.length > 0)),
+          O.fromNullable,
+          O.filter((gg) => (emptyRelations ? true : isNonEmpty(gg))),
           O.map((gg) =>
             allKeywords.filter((a) => gg.some((aa) => aa.id === a.id)),
           ),
@@ -367,21 +371,24 @@ export const createEventNetworkGraph =
             {
               keywords: pipe(
                 keywords,
-                O.fromPredicate((a) => a.length > 0),
+
+                O.fromNullable,
+                O.filter(isNonEmpty),
               ),
               actors: pipe(
                 actors,
-                O.fromPredicate((a) => a.length > 0),
+
+                O.fromNullable,
+                O.filter(isNonEmpty),
               ),
-              groups: pipe(
-                groups,
-                O.fromPredicate((g) => g.length > 0),
-              ),
+              groups: pipe(groups, O.fromNullable, O.filter(isNonEmpty)),
               groupsMembers: O.some(groupsMembers),
-              links: O.none,
+              links: O.none(),
               media: pipe(
                 media,
-                O.fromPredicate((m) => m.length > 0),
+
+                O.fromNullable,
+                O.filter(isNonEmpty),
               ),
             },
             isAdmin,
@@ -438,7 +445,7 @@ export const createEventNetworkGraph =
         ): TEControllerError<NetworkGraphOutput> =>
           pipe(
             ids,
-            A.traverse(TE.ApplicativeSeq)((k) =>
+            fp.A.traverse(TE.ApplicativeSeq)((k) =>
               pipe(
                 infiniteSearchEventQuery({
                   exclude: O.some([event.id]),
@@ -588,15 +595,15 @@ export const createEventNetworkGraph =
           sequenceS(TE.ApplicativePar)({
             keywords: getGraph(
               keywords.map((k) => k.id),
-              KEYWORDS.value,
+              KEYWORDS.Type,
             ),
             actors: getGraph(
               actors.map((a) => a.id),
-              ACTORS.value,
+              ACTORS.Type,
             ),
             groups: getGraph(
               groups.map((g) => g.id),
-              GROUPS.value,
+              GROUPS.Type,
             ),
           }),
           TE.map(({ keywords, groups, actors }) =>

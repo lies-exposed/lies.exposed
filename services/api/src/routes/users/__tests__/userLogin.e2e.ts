@@ -3,7 +3,7 @@ import { hash } from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
+import fc from "fast-check";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 

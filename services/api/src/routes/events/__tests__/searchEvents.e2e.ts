@@ -173,7 +173,7 @@ describe("Search Events", () => {
               createdAt: expectedActor.createdAt.toISOString(),
               memberIn: [
                 // groups[0].id
-                expecSchema.Any(String),
+                expect.any(String),
               ],
               deletedAt: null,
             },

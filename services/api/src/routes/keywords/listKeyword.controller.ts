@@ -13,7 +13,7 @@ export const MakeListKeywordRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Keyword.List, ({ query }, req) => {
     return pipe(
       fp.RTE.asks((ctx: ServerContext) =>
-        RequestDecoder.decodeNullableUser(req, [AdminRead.value])(ctx)(),
+        RequestDecoder.decodeNullableUser(req, [AdminRead.Type])(ctx)(),
       ),
       fp.RTE.chain((user) =>
         pipe(
@@ -24,7 +24,7 @@ export const MakeListKeywordRoute: Route = (r, ctx) => {
       fp.RTE.chainEitherK(([data, total]) =>
         pipe(
           data,
-          KeywordIO.decodeMany,
+          KeywordIO.encodeMany,
           fp.E.map((results) => ({
             total,
             data: results,

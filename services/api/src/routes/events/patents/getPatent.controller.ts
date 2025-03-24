@@ -1,5 +1,5 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -12,12 +12,12 @@ export const MakeGetPatentEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.PatentEvent.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventV2Entity, {
-        where: { type: Equal(EventTypes.PATENT.value), id: Equal(id) },
+        where: { type: Equal(EventTypes.PATENT.Type), id: Equal(id) },
         loadRelationIds: {
           relations: ["media", "keywords", "links"],
         },
       }),
-      TE.chainEitherK(EventV2IO.decodeSingle),
+      TE.chainEitherK(PatentIO.decodeSingle),
       TE.map((data) => ({
         body: { data },
         statusCode: 200,
