@@ -18,12 +18,12 @@ export const BooksPage: React.FC = () => {
       useListQuery={(Q) => Q.Queries.Event.Custom.SearchEvents as any}
       filter={{
         filter: {
-          eventType: [BOOK.value],
+          eventType: [BOOK.Type],
           _start: "0",
           _end: "50",
         },
       }}
-      toItems={(r) => r.data.events}
+      toItems={(r) => [...r.data.events]}
       getTotal={(r) => r.data.total}
       listProps={{
         type: "masonry",

@@ -64,8 +64,8 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   showRelations={false}
                   count={100}
-                  type={ACTORS.value}
-                  relations={[ACTORS.value]}
+                  type={ACTORS.Type}
+                  relations={[ACTORS.Type]}
                   selectedActorIds={actors.map((a) => a.id)}
                   query={{
                     startDate: formatDate(subYears(new Date(), 1)),

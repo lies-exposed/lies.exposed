@@ -1,5 +1,5 @@
-import { UUID } from "@liexp/core/lib/io/http/Common/UUID.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
@@ -16,6 +16,7 @@ import {
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github.js";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooksPage } from "./pages/events/BooksPage.js";
@@ -70,7 +71,7 @@ const RedirectToEventsRoute: React.FC = () => {
 const githubQuery = (
   _: EndpointsQueryProvider,
   conf: Configuration,
-): AsyncDataRouteQuery => ({
+): AsyncDataRouteQuery<any, any, any> => ({
   queryKey: [
     "github",
     { user: "lies-exposed", repo: "lies.exposed" },
@@ -100,7 +101,7 @@ const linkRoute: ServerRoute = {
           queryKey: Q.Queries.Link.get.getKey({ id: linkId }),
           queryFn: Q.Queries.Link.get.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
 };
 
 const linksRoute: ServerRoute = {
@@ -112,7 +113,7 @@ const linksRoute: ServerRoute = {
       {
         queryKey: Q.Queries.Link.list.getKey(defaultUseQueryListParams),
         queryFn: Q.Queries.Link.list.fetch,
-      },
+      } as AsyncDataRouteQuery<any, any, any>,
     ]),
 };
 
@@ -151,12 +152,12 @@ export const routes: ServerRoute[] = [
             queryKey: Q.Queries.Stats.list.getKey({
               filter: {
                 id: groupId,
-                type: StatsType.types[2].value,
+                type: StatsType.members[2].Type,
               },
             }),
             queryFn: Q.Queries.Stats.list.fetch,
           },
-        ]),
+        ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // groups
   {
@@ -194,13 +195,13 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ actorId }: { actorId: UUID }) =>
+      ({ actorId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
             queryKey: Q.Queries.Actor.get.getKey({ id: actorId }),
             queryFn: Q.Queries.Actor.get.fetch,
-          },
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Queries.Group.list.getKey(
               {
@@ -211,16 +212,16 @@ export const routes: ServerRoute[] = [
               // false,
             ),
             queryFn: Q.Queries.Group.list.fetch,
-          },
+          } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Queries.Stats.list.getKey({
               filter: {
                 id: actorId,
-                type: StatsType.types[1].value,
+                type: StatsType.members[1].Type,
               },
             }),
             queryFn: Q.Queries.Stats.list.fetch,
-          },
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   // actors
@@ -241,7 +242,7 @@ export const routes: ServerRoute[] = [
           ),
           queryFn: Q.Queries.Actor.list.fetch,
         },
-      ]),
+      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // event page
   {
@@ -311,7 +312,7 @@ export const routes: ServerRoute[] = [
           {
             queryKey: Q.Queries.Area.list.getKey(
               {
-                filter: UUID.is((event.payload as any).location)
+                filter: Schema.is(UUID)((event.payload as any).location)
                   ? { ids: [(event.payload as any).location] }
                   : {},
                 pagination: {
@@ -370,7 +371,7 @@ export const routes: ServerRoute[] = [
   {
     path: "/events",
     route: () => <EventsPage />,
-    queries: (Q, conf) => async (params, query) => {
+    queries: (Q, conf) => async (params, query: any) => {
       const q = hashToQuery(query.hash);
 
       q.hash = query.hash;
@@ -379,7 +380,7 @@ export const routes: ServerRoute[] = [
       q.media = query.media ?? [];
       q.locations = query.locations ?? [];
       q._sort = q._sort ?? "date";
-      q.type = q.type ?? EventType.types.map((t) => t.value);
+      q.type = q.type ?? EventType.members.map((t) => t.Type);
       q.keywords = q.keywords ?? [];
       q.actors = q.actors ?? [];
       q.groups = q.groups ?? [];
@@ -464,7 +465,7 @@ export const routes: ServerRoute[] = [
           queryKey: Q.Queries.Event.Custom.SearchEvents.getKey(
             undefined,
             {
-              eventType: [DOCUMENTARY.value],
+              eventType: [DOCUMENTARY.Type],
               _start: "0",
               _end: "20",
             },
@@ -520,7 +521,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Queries.Stats.list.getKey(
             {
-              filter: { id: params.keywordId, type: StatsType.types[0].value },
+              filter: { id: params.keywordId, type: StatsType.members[0].Type },
             },
             // true,
           ),
@@ -547,13 +548,13 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ areaId }) =>
+      async ({ areaId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
             queryKey: Q.Queries.Area.get.getKey({ id: areaId }),
             queryFn: Q.Queries.Area.get.fetch,
-          },
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   {
@@ -589,13 +590,13 @@ export const routes: ServerRoute[] = [
     },
     queries:
       (Q, conf) =>
-      async ({ mediaId }) =>
+      async ({ mediaId }: any) =>
         Promise.resolve([
           ...commonQueries.flatMap((c) => c(Q, conf)),
           {
             queryKey: Q.Queries.Media.get.getKey({ id: mediaId }),
             queryFn: Q.Queries.Media.get.fetch,
-          },
+          } as AsyncDataRouteQuery<any, any, any>,
         ]),
   },
   {

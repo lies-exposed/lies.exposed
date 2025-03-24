@@ -21,7 +21,8 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
             tab={tab}
             query={{
               ...query,
-              eventType: query.eventType ?? EventType.types.map((t) => t.value),
+              eventType:
+                query.eventType ?? EventType.members.map((t) => t.Type),
             }}
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: t });

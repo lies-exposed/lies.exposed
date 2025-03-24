@@ -32,7 +32,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
               query={{
                 ...query,
                 eventType:
-                  query.eventType ?? EventType.types.map((t) => t.value),
+                  query.eventType ?? EventType.members.map((t) => t.Type),
               }}
               onQueryChange={(q) => {
                 navigateToResource.actors({ id: actor.id }, { ...q, tab });

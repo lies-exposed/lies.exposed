@@ -1,5 +1,6 @@
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { type NonEmptyArray } from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
@@ -9,7 +10,6 @@ import { Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/GroupEventNetworkGraphBox.js";
 import { subYears } from "date-fns";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils";
@@ -68,14 +68,14 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                       page: 1,
                     },
                   }}
-                  type={GROUPS.value}
+                  type={GROUPS.Type}
                   count={100}
-                  relations={[GROUPS.value]}
+                  relations={[GROUPS.Type]}
                   selectedGroupIds={groups.map((g) => g.id)}
                   query={{
-                    eventType: EventType.types.map(
-                      (t) => t.value,
-                    ) as NonEmptyArray<EventType>,
+                    eventType: EventType.members.map(
+                      (t) => t.Type,
+                    ) as unknown as NonEmptyArray<EventType>,
                     startDate: formatDate(subYears(new Date(), 2)),
                     endDate: formatDate(new Date()),
                   }}

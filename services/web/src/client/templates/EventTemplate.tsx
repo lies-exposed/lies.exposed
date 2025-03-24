@@ -14,7 +14,7 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
     actors: query.actors ?? [],
     groups: query.groups ?? [],
     keywords: query.keywords ?? [],
-    eventType: query.eventType ?? EventType.types.map((v) => v.value),
+    eventType: query.eventType ?? EventType.members.map((v) => v.Type),
   };
 
   return (
