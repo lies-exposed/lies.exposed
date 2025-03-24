@@ -8,7 +8,7 @@ export const UserArb: fc.Arbitrary<http.User.User> = Arbitrary.make(
 ).map((u) => ({
   ...u,
   id: fc.sample(UUIDArb, 1)[0],
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  createdAt: new Date(),
+  updatedAt: new Date(),
   deletedAt: undefined,
 }));
