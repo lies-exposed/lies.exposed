@@ -10,18 +10,12 @@ import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
-const toQuoteIO = (
+const toTransactionIO = (
   event: EventV2Entity,
-): E.Either<_DecodeError, io.http.Events.Quote.Quote> => {
-  const p: any = event.payload;
+): E.Either<_DecodeError, io.http.Events.Transaction.Transaction> => {
   return pipe(
     {
       ...event,
-      payload: {
-        ...p,
-        actor: undefined,
-        subject: p.subject ?? { type: "Actor", id: p.actor },
-      },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
       date: event.date.toISOString(),
@@ -29,15 +23,17 @@ const toQuoteIO = (
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Events.Quote.Quote),
-    E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
+    Schema.decodeUnknownEither(io.http.Events.Transaction.Transaction),
+    E.mapLeft((e) =>
+      DecodeError.of(`Failed to decode Transaction (${event.id})`, e),
+    ),
   );
 };
 
-export const QuoteIO = IOCodec(
-  io.http.Events.Quote.Quote,
+export const TransactionIO = IOCodec(
+  io.http.Events.Transaction.Transaction,
   {
-    decode: toQuoteIO,
+    decode: toTransactionIO,
     encode: () =>
       E.left(
         new IOError("Not implemented", {
@@ -46,5 +42,5 @@ export const QuoteIO = IOCodec(
         }),
       ),
   },
-  "quote",
+  "Transaction",
 );

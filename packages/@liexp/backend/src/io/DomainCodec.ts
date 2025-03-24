@@ -3,15 +3,19 @@ import {
   _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { type Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
 type EitherE<A> = E.Either<_DecodeError, A>;
 
-export interface IOCodec<T, A, Args extends any[]> {
-  decodeSingle: (a: A, ...args: Args) => EitherE<T>;
-  decodeMany: (a: A[], ...args: Args) => EitherE<readonly T[]>;
+export interface IOCodec<A, I, D, E, Args extends any[]> {
+  decodeSingle: (a: D, ...args: Args) => EitherE<A>;
+  decodeMany: (a: readonly D[], ...args: Args) => EitherE<readonly A[]>;
+
+  encodeSingle: (a: E, ...args: Args) => EitherE<I>;
+  encodeMany: (a: readonly E[], ...args: Args) => EitherE<readonly I[]>;
 }
 
 const toIOCodecError =
@@ -23,18 +27,35 @@ const toIOCodecError =
     return e;
   };
 
-export const IOCodec = <T, A, Args extends any[]>(
-  f: (a: A, ...args: Args) => E.Either<ParseError | _DecodeError, T>,
+export const IOCodec = <A, I, D, E, Args extends any[]>(
+  codec: Schema.Schema<A, I, never>,
+  {
+    decode,
+    encode,
+  }: {
+    decode: (a: D, ...args: Args) => E.Either<ParseError | _DecodeError, A>;
+    encode: (a: E, ...args: Args) => E.Either<ParseError | _DecodeError, I>;
+  },
   resource: string,
-): IOCodec<T, A, Args> => {
+): IOCodec<A, I, D, E, Args> => {
   return {
-    decodeSingle: (b: A, ...args: Args): EitherE<T> => {
-      return pipe(f(b, ...args), E.mapLeft(toIOCodecError(resource)));
+    decodeSingle: (b: D, ...args: Args): EitherE<A> => {
+      return pipe(decode(b, ...args), E.mapLeft(toIOCodecError(resource)));
     },
-    decodeMany: (a: A[], ...args: Args): EitherE<readonly T[]> => {
+    decodeMany: (a: readonly D[], ...args: Args): EitherE<readonly A[]> => {
       return pipe(
         a,
-        fp.A.traverse(E.Applicative)((a) => f(a, ...args)),
+        fp.A.traverse(E.Applicative)((a) => decode(a, ...args)),
+        E.mapLeft(toIOCodecError(resource)),
+      );
+    },
+    encodeSingle: (a: E, ...args: Args): EitherE<I> => {
+      return pipe(encode(a, ...args), E.mapLeft(toIOCodecError(resource)));
+    },
+    encodeMany: (a: readonly E[], ...args: Args): EitherE<readonly I[]> => {
+      return pipe(
+        a,
+        fp.A.traverse(E.Applicative)((a) => encode(a, ...args)),
         E.mapLeft(toIOCodecError(resource)),
       );
     },

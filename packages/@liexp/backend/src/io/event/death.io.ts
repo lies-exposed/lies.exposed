@@ -6,6 +6,7 @@ import {
 import * as io from "@liexp/shared/lib/io/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type DeathEventViewEntity } from "../../entities/events/DeathEvent.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
@@ -31,4 +32,17 @@ const toDeathIO = (
   );
 };
 
-export const DeathIO = IOCodec(toDeathIO, "death");
+export const DeathIO = IOCodec(
+  io.http.Events.Death.Death,
+  {
+    decode: toDeathIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "death",
+);

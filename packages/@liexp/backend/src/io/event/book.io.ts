@@ -6,6 +6,7 @@ import {
 import { Book } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
@@ -29,4 +30,17 @@ const toBookIO = (book: EventV2Entity): E.Either<_DecodeError, Book.Book> => {
   );
 };
 
-export const BookIO = IOCodec(toBookIO, "book");
+export const BookIO = IOCodec(
+  Book.Book,
+  {
+    decode: toBookIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "book",
+);

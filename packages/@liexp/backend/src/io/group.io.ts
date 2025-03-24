@@ -11,6 +11,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type GroupEntity } from "../entities/Group.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
@@ -62,4 +63,17 @@ const toGroupIO = (
   );
 };
 
-export const GroupIO = IOCodec(toGroupIO, "group");
+export const GroupIO = IOCodec(
+  io.http.Group.Group,
+  {
+    decode: toGroupIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "group",
+);

@@ -79,7 +79,7 @@ export const fromURL =
           link.date,
           (d) =>
             d
-              ? Schema.decodeEither(Schema.DateFromString)(d)
+              ? Schema.decodeEither(Schema.Date)(d)
               : E.right<ParseError, Date | null>(null),
           E.getOrElse((): Date | null => null),
         );

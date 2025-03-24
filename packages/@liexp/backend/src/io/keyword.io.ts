@@ -7,6 +7,7 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type KeywordEntity } from "../entities/Keyword.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -29,4 +30,17 @@ const toKeywordIO = (
   );
 };
 
-export const KeywordIO = IOCodec(toKeywordIO, "keyword");
+export const KeywordIO = IOCodec(
+  io.http.Keyword.Keyword,
+  {
+    decode: toKeywordIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "keyword",
+);

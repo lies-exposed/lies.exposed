@@ -664,7 +664,7 @@ export const searchEventV2Query =
 export const infiniteSearchEventQuery =
   <C extends LoggerContext & DatabaseContext & ConfigContext>(
     query: Partial<SearchEventQuery>,
-  ): ReaderTaskEither<C, DBError, EventV2Entity[]> =>
+  ): ReaderTaskEither<C, DBError, readonly EventV2Entity[]> =>
   (ctx) => {
     ctx.logger.debug.log("Infinite search event query %O", query);
 

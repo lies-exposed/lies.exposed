@@ -1,5 +1,5 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { User } from "@liexp/shared/lib/io/http/User.js";
+import { User, type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { Schema } from "effect";
 import * as IO from "fp-ts/lib/IO.js";
@@ -35,7 +35,7 @@ export const toError =
   };
 
 export interface JWTProvider {
-  signUser: (user: User) => IO.IO<string>;
+  signUser: (user: UserEncoded) => IO.IO<string>;
   verifyUser: (string: string) => IOE.IOEither<JWTError, User>;
 }
 
@@ -46,7 +46,7 @@ export interface JWTClientContext {
 
 export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
   return {
-    signUser: (user: User) => {
+    signUser: (user: UserEncoded) => {
       // ctx.logger.debug.log("Signing payload %O", user);
       return IO.of(
         jwt.sign(user, ctx.secret, {

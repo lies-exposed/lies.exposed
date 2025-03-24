@@ -10,6 +10,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type ActorEntity } from "../entities/Actor.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
@@ -66,4 +67,17 @@ const toActorIO = (
   );
 };
 
-export const ActorIO = IOCodec(toActorIO, "actor");
+export const ActorIO = IOCodec(
+  io.http.Actor.Actor,
+  {
+    decode: toActorIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "actor",
+);

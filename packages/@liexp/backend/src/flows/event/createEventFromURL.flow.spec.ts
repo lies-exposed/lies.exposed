@@ -3,8 +3,8 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { fc } from "@liexp/test";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
+import fc from "fast-check";
 import { describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { EventV2Entity } from "../../entities/Event.v2.entity.js";
@@ -40,7 +40,7 @@ describe(createEventFromURL.name, () => {
     // event by url
     mockTERightOnce(appTest.ctx.puppeteer.execute, () =>
       fp.O.some({
-        type: SCIENTIFIC_STUDY.value,
+        type: SCIENTIFIC_STUDY.Type,
         date: new Date(),
         payload: {
           title,
@@ -62,18 +62,13 @@ describe(createEventFromURL.name, () => {
     const user = new UserEntity();
 
     const event: any = await pipe(
-      createEventFromURL(
-        user,
-        uuid(),
-        url,
-        SCIENTIFIC_STUDY.value,
-      )(appTest.ctx),
+      createEventFromURL(user, uuid(), url, SCIENTIFIC_STUDY.Type)(appTest.ctx),
       throwTE,
     );
 
     expect(appTest.ctx.db.save).toHaveBeenCalledWith(EventV2Entity, [
       expect.objectContaining({
-        type: SCIENTIFIC_STUDY.value,
+        type: SCIENTIFIC_STUDY.Type,
         payload: {
           title,
           description,
@@ -82,7 +77,7 @@ describe(createEventFromURL.name, () => {
       }),
     ]);
 
-    expect(event.type).toBe(SCIENTIFIC_STUDY.value);
+    expect(event.type).toBe(SCIENTIFIC_STUDY.Type);
     expect(event.date).toBe(savedEvent.date);
 
     expect(event.payload).toMatchObject(savedEvent.payload);

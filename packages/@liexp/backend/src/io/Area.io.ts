@@ -7,6 +7,7 @@ import {
 import * as io from "@liexp/shared/lib/io/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type AreaEntity } from "../entities/Area.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
@@ -49,4 +50,17 @@ const toAreaIO = (
   );
 };
 
-export const AreaIO = IOCodec(toAreaIO, "area");
+export const AreaIO = IOCodec(
+  io.http.Area.Area,
+  {
+    decode: toAreaIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "area",
+);

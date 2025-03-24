@@ -34,14 +34,14 @@
     "@liexp/shared": "workspace:*",
     "@napi-rs/canvas": "^0.1.68",
     "date-fns": "^4.1.0",
-    "effect": "^3.13.10",
+    "effect": "^3.14.1",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
     "jsdom": "^26.0.0",
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.24.0",
     "reflect-metadata": "^0.2.2",
-    "ts-io-error": "^2.0.0",
+    "ts-io-error": "link:../ts-endpoint/packages/ts-io-error",
     "typeorm": "^0.3.21"
   },
   "devDependencies": {

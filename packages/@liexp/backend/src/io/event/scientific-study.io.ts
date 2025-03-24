@@ -10,18 +10,12 @@ import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 
-const toQuoteIO = (
+const toScientificStudyIO = (
   event: EventV2Entity,
-): E.Either<_DecodeError, io.http.Events.Quote.Quote> => {
-  const p: any = event.payload;
+): E.Either<_DecodeError, io.http.Events.ScientificStudy.ScientificStudy> => {
   return pipe(
     {
       ...event,
-      payload: {
-        ...p,
-        actor: undefined,
-        subject: p.subject ?? { type: "Actor", id: p.actor },
-      },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
       date: event.date.toISOString(),
@@ -29,15 +23,15 @@ const toQuoteIO = (
       updatedAt: event.updatedAt.toISOString(),
       deletedAt: event.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Events.Quote.Quote),
+    Schema.decodeUnknownEither(io.http.Events.ScientificStudy.ScientificStudy),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
   );
 };
 
-export const QuoteIO = IOCodec(
-  io.http.Events.Quote.Quote,
+export const ScientificStudyIO = IOCodec(
+  io.http.Events.ScientificStudy.ScientificStudy,
   {
-    decode: toQuoteIO,
+    decode: toScientificStudyIO,
     encode: () =>
       E.left(
         new IOError("Not implemented", {
@@ -46,5 +40,5 @@ export const QuoteIO = IOCodec(
         }),
       ),
   },
-  "quote",
+  "ScientificStudy",
 );

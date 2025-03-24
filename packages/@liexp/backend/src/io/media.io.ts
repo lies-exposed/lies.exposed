@@ -10,6 +10,7 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type MediaEntity } from "../entities/Media.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -20,10 +21,10 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
   type: T;
 };
 
-const toMediaIO = (
+const decodeMedia = (
   media: MediaEntity,
   spaceEndpoint: string,
-): E.Either<_DecodeError, io.http.Media.Media> => {
+): E.Either<_DecodeError, io.http.Media.AdminMedia> => {
   const extra = media.extra
     ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
     : undefined;
@@ -55,4 +56,17 @@ const toMediaIO = (
   );
 };
 
-export const MediaIO = IOCodec(toMediaIO, "media");
+export const MediaIO = IOCodec(
+  io.http.Media.AdminMedia,
+  {
+    decode: decodeMedia,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "media",
+);

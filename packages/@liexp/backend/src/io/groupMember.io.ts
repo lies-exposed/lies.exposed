@@ -9,6 +9,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type GroupMemberEntity } from "../entities/GroupMember.entity.js";
 import { ActorIO } from "./Actor.io.js";
 import { IOCodec } from "./DomainCodec.js";
@@ -54,4 +55,17 @@ const toGroupMemberIO = (
   );
 };
 
-export const GroupMemberIO = IOCodec(toGroupMemberIO, "GroupMember");
+export const GroupMemberIO = IOCodec(
+  io.http.GroupMember.GroupMember,
+  {
+    decode: toGroupMemberIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "GroupMember",
+);

@@ -4,11 +4,14 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
-import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+import {
+  ImageMediaExtraMonoid,
+  MediaExtraMonoid,
+} from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type LinkEntity } from "../entities/Link.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -60,4 +63,17 @@ const toLinkIO = (
   );
 };
 
-export const LinkIO = IOCodec(toLinkIO, "link");
+export const LinkIO = IOCodec(
+  io.http.Link.Link,
+  {
+    decode: toLinkIO,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "link",
+);

@@ -3,8 +3,8 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { fc } from "@liexp/test";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
+import fc from "fast-check";
 import { describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { LinkEntity } from "../../entities/Link.entity.js";
@@ -47,7 +47,7 @@ describe.skip(extractEventFromURL.name, () => {
     let savedEvent: any;
     appTest.ctx.db.save.mockImplementation((_, link) => {
       const l: any = link;
-      if (l[0].type === SCIENTIFIC_STUDY.value) {
+      if (l[0].type === SCIENTIFIC_STUDY.Type) {
         savedEvent = l[0];
       }
       return fp.TE.right(link);
@@ -103,7 +103,7 @@ describe.skip(extractEventFromURL.name, () => {
         user,
         uuid(),
         scientificStudyData.url,
-        SCIENTIFIC_STUDY.value,
+        SCIENTIFIC_STUDY.Type,
       )(appTest.ctx),
       throwTE,
     );
@@ -124,7 +124,7 @@ describe.skip(extractEventFromURL.name, () => {
       undefined,
     );
 
-    expect(event.type).toBe(SCIENTIFIC_STUDY.value);
+    expect(event.type).toBe(SCIENTIFIC_STUDY.Type);
     expect(event.date).toBeDefined();
 
     expect(event.payload.url).toBeInstanceOf(String);

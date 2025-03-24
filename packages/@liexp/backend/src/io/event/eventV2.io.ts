@@ -6,13 +6,14 @@ import {
 import * as io from "@liexp/shared/lib/io/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
+import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 import { BookIO } from "./book.io.js";
 import { DocumentaryIO } from "./documentary.io.js";
 import { QuoteIO } from "./quote.io.js";
 
-const toEventV2IO = (
+const decodeEvent = (
   event: EventV2Entity,
 ): E.Either<_DecodeError, io.http.Events.Event> => {
   return pipe(
@@ -50,4 +51,17 @@ const toEventV2IO = (
   );
 };
 
-export const EventV2IO = IOCodec(toEventV2IO, "event");
+export const EventV2IO = IOCodec(
+  io.http.Events.Event,
+  {
+    decode: decodeEvent,
+    encode: () =>
+      E.left(
+        new IOError("Not implemented", {
+          kind: "DecodingError",
+          errors: [],
+        }),
+      ),
+  },
+  "event",
+);
