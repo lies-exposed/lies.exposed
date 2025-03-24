@@ -4,6 +4,7 @@ import {
   type EventsSankeyGraphProps,
 } from "@liexp/ui/lib/components/Graph/EventsSankeyGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -18,7 +19,7 @@ export default meta;
 
 const uncategorizedEvents: Events.Uncategorized.Uncategorized[] = pipe(
   [],
-  A.filter(Events.Uncategorized.Uncategorized.is),
+  A.filter(Schema.is(Events.Uncategorized.Uncategorized)),
   A.mapWithIndex((index, e) => ({
     ...e,
     title: `Event ${index}`,

@@ -27,7 +27,7 @@ const Template: StoryFn<KeywordTemplateProps> = (props) => {
       groupsMembers: [],
       media: [],
       locations: [],
-      eventType: EventType.types.map((t) => t.value),
+      eventType: EventType.members.map((t) => t.Type),
       _sort: "date",
       _order: "DESC",
     });

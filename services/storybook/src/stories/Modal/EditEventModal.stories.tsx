@@ -41,7 +41,7 @@ const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
     localStorage.setItem(
       "user",
       JSON.stringify({
-        permissions: [EventSuggestionCreate.value, EventSuggestionEdit.value],
+        permissions: [EventSuggestionCreate.Type, EventSuggestionEdit.Type],
       }),
     );
   }, []);

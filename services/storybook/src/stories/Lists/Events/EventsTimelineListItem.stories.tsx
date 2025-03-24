@@ -15,7 +15,10 @@ const meta: Meta = {
   component: EventTimelineItem,
   argTypes: {
     type: {
-      control: { type: "select", options: EventType.types.map((t) => t.value) },
+      control: {
+        type: "select",
+        options: EventType.members.map((t) => t.Type),
+      },
     },
   },
 };
@@ -51,7 +54,7 @@ const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
 const DeathEventTimelineListItem = Template.bind({});
 
 DeathEventTimelineListItem.args = {
-  type: EventTypes.DEATH.value,
+  type: EventTypes.DEATH.Type,
   isLast: false,
   onActorClick: () => {},
   onGroupClick() {},
@@ -64,7 +67,7 @@ DeathEventTimelineListItem.args = {
 
 const QuoteEventTimelineListItem = Template.bind({});
 QuoteEventTimelineListItem.args = {
-  type: EventTypes.QUOTE.value,
+  type: EventTypes.QUOTE.Type,
   isLast: false,
 };
 
