@@ -258,7 +258,7 @@ export const createStatsByType =
                         avatar: pipe(
                           fp.O.fromNullable(g.avatar as MediaEntity),
                           fp.O.map((avatar) =>
-                            MediaIO.decodeSingle(
+                            MediaIO.encodeSingle(
                               avatar,
                               ctx.env.SPACE_ENDPOINT,
                             ),
@@ -280,7 +280,7 @@ export const createStatsByType =
                         avatar: pipe(
                           fp.O.fromNullable(a.avatar as MediaEntity),
                           fp.O.map((avatar) =>
-                            MediaIO.decodeSingle(
+                            MediaIO.encodeSingle(
                               avatar,
                               ctx.env.SPACE_ENDPOINT,
                             ),

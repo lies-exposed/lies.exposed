@@ -43,7 +43,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
                 GroupRepository.save([
                   {
                     ...g,
-                    avatar: UUID.is(g.avatar)
+                    avatar: Schema.is(UUID)(g.avatar)
                       ? {
                           id: g.avatar,
                         }

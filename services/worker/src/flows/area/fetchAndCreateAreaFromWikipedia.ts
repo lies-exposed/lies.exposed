@@ -137,7 +137,7 @@ export const fetchAndCreateAreaFromWikipedia = (
             //     fp.RTE.ask<WorkerContext>(),
             //     fp.RTE.chainEitherK((ctx) =>
             //       sequenceS(fp.E.Applicative)({
-            //         area: AreaIO.decodeSingle(area, ctx.env.SPACE_ENDPOINT),
+            //         area: AreaIO.encodeSingle(area, ctx.env.SPACE_ENDPOINT),
             //         media: pipe(
             //           MediaIO.decodeMany(
             //             (area.media ?? []).map((m) => ({

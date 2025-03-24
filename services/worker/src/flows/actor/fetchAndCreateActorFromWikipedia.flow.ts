@@ -80,7 +80,7 @@ export const fetchAndCreateActorFromWikipedia =
             return ctx.db.save(ActorEntity, [
               {
                 ...actor,
-                avatar: UUID.is(actor.avatar)
+                avatar: Schema.is(UUID)(actor.avatar)
                   ? { id: actor.avatar }
                   : {
                       ...actor.avatar,
