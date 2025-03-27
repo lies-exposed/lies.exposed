@@ -92,7 +92,7 @@ const whereActorInArray =
   (
     selectQ: SelectQueryBuilder<EventV2Entity>,
     actors: readonly string[],
-    eventType: O.Option<EventType[]>,
+    eventType: O.Option<readonly EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
     const outerWhere = getWhere(selectQ, whereT);
@@ -126,7 +126,7 @@ const whereGroupInArray =
   (
     q: SelectQueryBuilder<EventV2Entity>,
     groups: readonly string[],
-    eventType: O.Option<EventType[]>,
+    eventType: O.Option<readonly EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
     const outerWhere = getWhere(q, whereT);
@@ -198,7 +198,7 @@ type SearchEventQuery = Omit<
   | "_sort"
   | "_order"
 > & {
-  type: O.Option<EventType[]>;
+  type: O.Option<readonly EventType[]>;
   withDeleted: boolean;
   withDrafts: boolean;
   skip: number;

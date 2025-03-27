@@ -92,7 +92,7 @@ export interface QueuesProvider {
   list: <J extends Queue.Queue>(opts?: {
     resource?: Queue.QueueResourceNames;
     type?: string;
-    status?: Queue.Status[];
+    status?: readonly Queue.Status[];
   }) => TaskEither<FSError, readonly J[]>;
 }
 

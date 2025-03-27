@@ -34,7 +34,7 @@
     "@liexp/shared": "workspace:*",
     "@napi-rs/canvas": "^0.1.68",
     "date-fns": "^4.1.0",
-    "effect": "^3.14.1",
+    "effect": "^3.14.2",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22",
     "jsdom": "^26.0.0",
