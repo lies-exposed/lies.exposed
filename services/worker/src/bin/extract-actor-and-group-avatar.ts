@@ -58,7 +58,7 @@ const convertLocationToMediaEntity =
         pipe(
           createThumbnail(media)(ctx),
           // if thumbnail fails, we return an empty array
-          fp.TE.orElse(() => fp.TE.right<WorkerError, URL[]>([])),
+          fp.TE.orElse(() => fp.TE.right<WorkerError, readonly URL[]>([])),
         ),
       ),
       fp.TE.map(({ media, thumbnail }) => ({

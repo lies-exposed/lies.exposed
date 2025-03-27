@@ -36,7 +36,7 @@ export const actorCommand = (ctx: WorkerContext): TGBotProvider => {
 
     void pipe(
       EntityFromWikipediaService({
-        type: ACTORS.value,
+        type: ACTORS.Type,
         search: commandContext.search,
         chatId: msg.chat.id,
         fromId: userId,

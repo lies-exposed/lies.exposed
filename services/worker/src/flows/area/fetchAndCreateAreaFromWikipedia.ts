@@ -46,7 +46,10 @@ export const fetchAndCreateAreaFromWikipedia = (
           label: title,
           slug,
           excerpt: toInitialValue(intro),
-          geometry: { type: "Point" as const, coordinates: [0, 0] },
+          geometry: {
+            type: "Point" as const,
+            coordinates: [0, 0] as [number, number],
+          },
           color: generateRandomColor(),
           media: [],
           body: null,

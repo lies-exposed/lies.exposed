@@ -28,24 +28,21 @@ import {
   type SearchEvent,
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
-  type Media,
   type Events,
   type GroupMember,
+  type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
+import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
 import { toWorkerError, type WorkerError } from "../../io/worker.error.js";
 import { type RTE } from "../../types.js";
 
 interface StatsCache {
-  events: string[];
+  events: readonly string[];
   actors: Map<string, number>;
   groups: Map<string, number>;
   keywords: Map<string, number>;
@@ -57,11 +54,11 @@ interface StatsCache {
 
 const updateMap = (
   c: Map<string, number>,
-  arr: { id: string }[],
+  arr: readonly { id: string }[],
 ): Map<string, number> => {
   return pipe(
     arr,
-    A.reduce(c, (acc, a) => {
+    fp.A.reduce(c, (acc, a) => {
       return pipe(
         acc,
         fp.Map.lookup(fp.S.Eq)(a.id),
@@ -112,7 +109,7 @@ export const createStatsByType =
       media,
       keywords,
     }: // links,
-    Events.EventRelationIds): TE.TaskEither<
+    Events.EventRelationIds): TaskEither<
       DBError,
       {
         actors: ActorEntity[];
@@ -122,10 +119,10 @@ export const createStatsByType =
         media: MediaEntity[];
       }
     > => {
-      return sequenceS(TE.ApplicativePar)({
+      return sequenceS(fp.TE.ApplicativePar)({
         actors:
           actors.length === 0
-            ? TE.right([])
+            ? fp.TE.right([])
             : ctx.db.find(ActorEntity, {
                 where: {
                   id: In(actors),
@@ -133,7 +130,7 @@ export const createStatsByType =
               }),
         groups:
           groups.length === 0
-            ? TE.right([])
+            ? fp.TE.right([])
             : ctx.db.find(GroupEntity, {
                 where: {
                   id: In(groups),
@@ -141,7 +138,7 @@ export const createStatsByType =
               }),
         groupsMembers:
           groupsMembers.length === 0
-            ? TE.right([])
+            ? fp.TE.right([])
             : ctx.db.find(GroupMemberEntity, {
                 where: {
                   id: In(groupsMembers),
@@ -150,7 +147,7 @@ export const createStatsByType =
               }),
         media:
           media.length === 0
-            ? TE.right([])
+            ? fp.TE.right([])
             : ctx.db.find(MediaEntity, {
                 where: {
                   id: In(media),
@@ -158,7 +155,7 @@ export const createStatsByType =
               }),
         keywords:
           keywords.length === 0
-            ? TE.right([])
+            ? fp.TE.right([])
             : ctx.db.find(KeywordEntity, {
                 where: {
                   id: In(keywords),
@@ -183,24 +180,24 @@ export const createStatsByType =
 
     return pipe(
       ensureFolderExists(filePath)(ctx),
-      TE.chain(() =>
+      fp.TE.chain(() =>
         walkPaginatedRequest<SearchEventOutput, WorkerError, EventV2Entity>(
           ({ skip, amount }) =>
             searchEventV2Query({
-              ids: O.none,
-              actors: type === "actors" ? O.some([id as UUID]) : O.none,
-              groups: type === "groups" ? O.some([id as UUID]) : O.none,
-              keywords: type === "keywords" ? O.some([id as UUID]) : O.none,
-              groupsMembers: O.none,
-              links: O.none,
-              locations: O.none,
-              type: O.some(EventType.types.map((t) => t.value)),
-              q: O.none,
-              startDate: O.none,
-              endDate: O.none,
-              media: O.none,
-              exclude: O.none,
-              draft: O.none,
+              ids: O.none(),
+              actors: type === "actors" ? O.some([id as UUID]) : O.none(),
+              groups: type === "groups" ? O.some([id as UUID]) : O.none(),
+              keywords: type === "keywords" ? O.some([id as UUID]) : O.none(),
+              groupsMembers: O.none(),
+              links: O.none(),
+              locations: O.none(),
+              type: O.some(EventType.members.map((t) => t.Type)),
+              q: O.none(),
+              startDate: O.none(),
+              endDate: O.none(),
+              media: O.none(),
+              exclude: O.none(),
+              draft: O.none(),
               withDeleted: false,
               withDrafts: false,
               order: {
@@ -210,103 +207,105 @@ export const createStatsByType =
               take: amount,
             })(ctx),
           (r) => r.total,
-          (r) => TE.right(r.results),
+          (r) => fp.TE.right(r.results),
           0,
           50,
         )(ctx),
       ),
-      TE.chain((results) =>
+      fp.TE.chain((results) =>
         pipe(
           results,
           EventV2IO.decodeMany,
-          TE.fromEither,
-          TE.chain((events) => {
+          fp.TE.fromEither,
+          fp.TE.chain((events) => {
             return pipe(
               getNewRelationIds(events, searchEventsQueryCache),
-              TE.right,
+              fp.TE.right,
               LoggerService.TE.debug(ctx, `new relation ids %O`),
-              TE.chain(fetchRelations),
-              TE.map(({ actors, groups, groupsMembers, media, keywords }) => {
-                const init: StatsCache = {
-                  events: [],
-                  media: new Map(),
-                  actors: new Map(actors.map((a) => [a.id as string, 0])),
-                  groups: new Map(groups.map((a) => [a.id as string, 0])),
-                  keywords: new Map(keywords.map((k) => [k.id as string, 0])),
-                  groupsMembers: new Map(),
-                };
-                const result = pipe(
-                  events,
-                  A.reduce(init, (acc, e) => {
-                    const searchEvent = toSearchEvent(e, {
-                      media: [],
-                      groupsMembers: [],
-                      keywords: keywords.map((k) => ({
-                        ...k,
-                        color: k.color ?? generateRandomColor(),
-                        events: [],
-                        links: [],
+              fp.TE.chain(fetchRelations),
+              fp.TE.map(
+                ({ actors, groups, groupsMembers, media, keywords }) => {
+                  const init: StatsCache = {
+                    events: [],
+                    media: new Map(),
+                    actors: new Map(actors.map((a) => [a.id as string, 0])),
+                    groups: new Map(groups.map((a) => [a.id as string, 0])),
+                    keywords: new Map(keywords.map((k) => [k.id as string, 0])),
+                    groupsMembers: new Map(),
+                  };
+                  const result = pipe(
+                    events,
+                    fp.A.reduce(init, (acc, e) => {
+                      const searchEvent = toSearchEvent(e, {
                         media: [],
-                        socialPosts: [],
-                      })),
-                      groups: groups.map((g) => ({
-                        ...g,
-                        username: g.username ?? undefined,
-                        subGroups: [],
-                        startDate: g.startDate ?? undefined,
-                        endDate: g.endDate ?? undefined,
-                        avatar: pipe(
-                          fp.O.fromNullable(g.avatar as MediaEntity),
-                          fp.O.map((avatar) =>
-                            MediaIO.encodeSingle(
-                              avatar,
-                              ctx.env.SPACE_ENDPOINT,
+                        groupsMembers: [],
+                        keywords: keywords.map((k) => ({
+                          ...k,
+                          color: k.color ?? generateRandomColor(),
+                          events: [],
+                          links: [],
+                          media: [],
+                          socialPosts: [],
+                        })),
+                        groups: groups.map((g) => ({
+                          ...g,
+                          username: g.username ?? undefined,
+                          subGroups: [],
+                          startDate: g.startDate ?? undefined,
+                          endDate: g.endDate ?? undefined,
+                          avatar: pipe(
+                            fp.O.fromNullable(g.avatar as MediaEntity),
+                            fp.O.map((avatar) =>
+                              MediaIO.decodeSingle(
+                                avatar,
+                                ctx.env.SPACE_ENDPOINT,
+                              ),
+                            ),
+                            fp.O.fold(
+                              () => undefined,
+                              fp.E.getOrElse(
+                                (): Media.Media | undefined => undefined,
+                              ),
                             ),
                           ),
-                          fp.O.fold(
-                            () => undefined,
-                            E.getOrElse(
-                              (): Media.Media | undefined => undefined,
+                          members: [],
+                        })),
+                        actors: actors.map((a) => ({
+                          ...a,
+                          death: a.death ?? undefined,
+                          bornOn: a.bornOn ?? undefined,
+                          diedOn: a.diedOn ?? undefined,
+                          avatar: pipe(
+                            fp.O.fromNullable(a.avatar as MediaEntity),
+                            fp.O.map((avatar) =>
+                              MediaIO.decodeSingle(
+                                avatar,
+                                ctx.env.SPACE_ENDPOINT,
+                              ),
+                            ),
+                            fp.O.fold(
+                              () => undefined,
+                              fp.E.getOrElse(
+                                (): Media.Media | undefined => undefined,
+                              ),
                             ),
                           ),
-                        ),
-                        members: [],
-                      })),
-                      actors: actors.map((a) => ({
-                        ...a,
-                        death: a.death ?? undefined,
-                        bornOn: a.bornOn ?? undefined,
-                        diedOn: a.diedOn ?? undefined,
-                        avatar: pipe(
-                          fp.O.fromNullable(a.avatar as MediaEntity),
-                          fp.O.map((avatar) =>
-                            MediaIO.encodeSingle(
-                              avatar,
-                              ctx.env.SPACE_ENDPOINT,
-                            ),
-                          ),
-                          fp.O.fold(
-                            () => undefined,
-                            E.getOrElse(
-                              (): Media.Media | undefined => undefined,
-                            ),
-                          ),
-                        ),
-                        memberIn: [],
-                      })),
-                    });
+                          memberIn: [],
+                        })),
+                      });
 
-                    return updateCache(acc, searchEvent);
-                  }),
-                );
+                      return updateCache(acc, searchEvent);
+                    }),
+                  );
 
-                return result;
-              }),
+                  return result;
+                },
+              ),
             );
           }),
         ),
       ),
-      TE.map((stats) => {
+      fp.TE.map((stats) => {
         return {
           stats: {
             actors: fp.Map.toArray(fp.S.Ord)(stats.actors)
@@ -323,8 +322,8 @@ export const createStatsByType =
           },
         };
       }),
-      TE.chainIOEitherK(({ stats }) => {
-        return IOE.tryCatch(() => {
+      fp.TE.chainIOEitherK(({ stats }) => {
+        return fp.IOE.tryCatch(() => {
           fs.writeFileSync(filePath, JSON.stringify(stats));
           return stats;
         }, toWorkerError);

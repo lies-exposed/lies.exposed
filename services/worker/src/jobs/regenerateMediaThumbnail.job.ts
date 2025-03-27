@@ -10,6 +10,7 @@ import {
   ThumbnailsExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import * as O from "effect/Option";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Int } from "io-ts";
 import { type RTE } from "../types.js";
@@ -95,11 +96,11 @@ export const regenerateMediaThumbnailJob: CronJobTE = (opts) => {
     fp.RTE.bind("media", () =>
       pipe(
         fetchManyMedia<WorkerContext>({
-          type: fp.O.some(ImageType.types.map((t) => t.value)),
-          needRegenerateThumbnail: fp.O.some(true),
-          hasExtraThumbnailsError: fp.O.some(false),
-          _start: fp.O.some(0 as Int),
-          _end: fp.O.some(50 as Int),
+          type: O.some(ImageType.members.map((t) => t.Type)),
+          needRegenerateThumbnail: O.some(true),
+          hasExtraThumbnailsError: O.some(false),
+          _start: O.some(0 as Int),
+          _end: O.some(50 as Int),
         }),
         LoggerService.RTE.debug((mm) => [
           "Regenerating %d thumbnails over %d media without thumbnail",
