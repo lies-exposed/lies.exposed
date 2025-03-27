@@ -122,14 +122,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
             find: /^fp-ts\/(\w+)$/,
             replacement: "fp-ts/lib/$1.js",
           },
-          {
-            find: /^io-ts\/(\w+)$/,
-            replacement: "io-ts/lib/$1.js",
-          },
-          {
-            find: /^io-ts-types\/(\w+)$/,
-            replacement: "io-ts-types/lib/$1.js",
-          },
         ],
       },
       server: config.devServer
