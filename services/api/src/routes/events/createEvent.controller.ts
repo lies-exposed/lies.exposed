@@ -73,7 +73,6 @@ export const CreateEventRoute: Route = (r, ctx) => {
                   TE.chainEitherK(EventV2IO.decodeSingle),
                 ),
         ),
-        TE.chainEitherK(EventV2IO.decodeSingle),
         LoggerService.TE.debug(ctx, "Create data %O"),
         TE.map((data) => ({
           body: {

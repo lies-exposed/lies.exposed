@@ -4,8 +4,8 @@ import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -41,7 +41,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
           ...query,
           type: O.some([EventTypes.PATENT.Type]),
           draft,
-          actors: O.none,
+          actors: O.none(),
           keywords,
           links,
           media,
@@ -57,7 +57,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { patents } }) =>
           pipe(
             results,
-            PatentIO.encodeMany,
+            PatentIO.decodeMany,
             E.map((data) => ({ data, total: patents })),
           ),
         ),

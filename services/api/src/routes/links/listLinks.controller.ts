@@ -26,7 +26,7 @@ export const MakeListLinksRoute: Route = (r, ctx) => {
             keywords: r.keywords.map((e) => e.id) as any[],
             socialPosts: r.socialPosts ?? [],
           })),
-          LinkIO.encodeMany,
+          LinkIO.decodeMany,
           E.map((data) => ({ data, total })),
         ),
       ),

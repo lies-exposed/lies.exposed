@@ -7,6 +7,7 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -15,7 +16,9 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
     Endpoints.Event.Custom.CreateFromSuggestion,
     ({ params: { id }, body }) => {
       return pipe(
-        ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),
+        ctx.db.findOneOrFail(EventSuggestionEntity, {
+          where: { id: Equal(id) },
+        }),
         TE.chain((suggestion) => {
           return pipe(
             fetchRelationIds({
@@ -25,7 +28,9 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
             })(ctx),
             TE.map((relations) => ({
               ...suggestion.payload.event,
-              ...relations,
+              media: [...relations.media],
+              links: [...relations.links],
+              keywords: [...relations.keywords],
               socialPosts: [],
               id:
                 suggestion.payload.type ===

@@ -24,7 +24,7 @@ export const MakeListKeywordRoute: Route = (r, ctx) => {
       fp.RTE.chainEitherK(([data, total]) =>
         pipe(
           data,
-          KeywordIO.encodeMany,
+          KeywordIO.decodeMany,
           fp.E.map((results) => ({
             total,
             data: results,

@@ -91,11 +91,11 @@ const getFlowGraph =
     keywords,
     media,
   }: {
-    events: Events.Event[];
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    keywords: Keyword.Keyword[];
-    media: Media.Media[];
+    events: readonly Events.Event[];
+    actors: readonly Actor.Actor[];
+    groups: readonly Group.Group[];
+    keywords: readonly Keyword.Keyword[];
+    media: readonly Media.Media[];
   }) =>
   (l: Logger): FlowGraphOutput => {
     l.debug.log("Actors %O", actors);

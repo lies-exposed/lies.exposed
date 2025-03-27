@@ -11,7 +11,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeDeleteActorRoute: Route = (r, { db, env, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler([AdminDelete.value])({ logger, jwt }))(
+  AddEndpoint(r, authenticationHandler([AdminDelete.Type])({ logger, jwt }))(
     Endpoints.Actor.Delete,
     ({ params: { id } }) => {
       return pipe(

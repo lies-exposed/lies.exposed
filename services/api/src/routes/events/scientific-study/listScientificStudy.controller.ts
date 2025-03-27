@@ -67,7 +67,7 @@ export const MakeListScientificStudyRoute: Route = (
         TE.chain(({ results, totals: { scientificStudies } }) =>
           pipe(
             results,
-            ScientificStudyIO.encodeMany,
+            ScientificStudyIO.decodeMany,
             TE.fromEither,
             TE.map((data) => ({ data, total: scientificStudies })),
           ),

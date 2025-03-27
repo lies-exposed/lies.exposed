@@ -245,7 +245,10 @@ export const getEventGraph = (
 
       // console.log("ev links", evLinks);
 
-      const evNodes: EventNetworkDatum[] = [...acc.eventNodes, eventDatum];
+      const evNodes: readonly EventNetworkDatum[] = [
+        ...acc.eventNodes,
+        eventDatum,
+      ];
 
       return {
         eventNodes: evNodes,
@@ -261,7 +264,7 @@ export const getEventGraph = (
       const dateRange =
         eventNodes.length > 0
           ? pipe(
-              eventNodes,
+              [...eventNodes],
               A.foldMap({
                 empty: {
                   startDate: eventNodes[0].date,
@@ -293,7 +296,7 @@ export const getEventGraph = (
         keywordLinks: fp.Map.toArray(S.Ord)(keywordLinks).flatMap(
           ([_k, links]) => links,
         ),
-        events: eventNodes,
+        events: [...eventNodes],
         actors: allActors,
         groups: allGroups,
         keywords: allKeywords,

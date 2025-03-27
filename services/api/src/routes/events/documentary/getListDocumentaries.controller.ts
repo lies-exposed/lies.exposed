@@ -68,7 +68,7 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { documentaries } }) =>
           pipe(
             results,
-            DocumentaryIO.encodeMany,
+            DocumentaryIO.decodeMany,
             E.map((data) => ({ data, total: documentaries })),
           ),
         ),

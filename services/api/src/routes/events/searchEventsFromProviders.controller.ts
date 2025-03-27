@@ -1,9 +1,10 @@
 import { type LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { toPuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { searchWithGoogle } from "@liexp/backend/lib/scrapers/searchLinksWithGoogle.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import { type Router } from "express";
@@ -39,12 +40,12 @@ export const SearchEventsFromProviderRoute = (
         TE.chain(({ browser, user }) =>
           pipe(
             providers,
-            A.map((provider) => {
+            fp.A.map((provider) => {
               const site = (defaultSites as any)[provider];
               ctx.logger.debug.log("Provider %s (%s)", provider, site);
               return site;
             }),
-            A.map((site) => {
+            fp.A.map((site) => {
               return pipe(
                 searchWithGoogle(ctx, browser)(site, p, q, date, keywords),
                 TE.mapLeft(toControllerError),
@@ -59,7 +60,7 @@ export const SearchEventsFromProviderRoute = (
                 }),
               );
             }),
-            A.sequence(TE.ApplicativeSeq),
+            fp.A.sequence(TE.ApplicativeSeq),
             TE.chainFirst(() => {
               return TE.tryCatch(() => browser.close(), toControllerError);
             }),
@@ -71,20 +72,30 @@ export const SearchEventsFromProviderRoute = (
 
       return pipe(
         tasks,
-        TE.map((links) => {
+        TE.chainEitherK((links) => {
           ctx.logger.debug.log("Links found %O", links);
           return pipe(
-            A.flatten(links),
-            A.uniq(Ord.contramap((p: LinkEntity) => p.url)(S.Ord)),
-            (data) => ({
+            fp.A.flatten(links),
+            fp.A.uniq(Ord.contramap((p: LinkEntity) => p.url)(S.Ord)),
+            LinkIO.decodeMany,
+            fp.E.map((data) => ({
               data,
               total: data.length,
-            }),
+            })),
           );
         }),
         TE.map(({ data, total }) => ({
           body: {
-            data,
+            data: data.map(
+              (d) =>
+                ({
+                  ...d,
+                  // TODO: fix this
+                  type: "Update" as const,
+                  eventId: "" as any,
+                  event: {} as any,
+                }) as any,
+            ),
             total,
           },
           statusCode: 200,

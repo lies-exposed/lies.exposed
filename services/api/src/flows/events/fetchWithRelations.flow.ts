@@ -29,11 +29,11 @@ export const fetchEventsWithRelations =
     }: Partial<SearchEventsQuery.GetSearchEventsQuery>,
     isAdmin: boolean,
   ): TEReader<{
-    events: Events.Event[];
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    keywords: Keyword.Keyword[];
-    media: Media.Media[];
+    events: readonly Events.Event[];
+    actors: readonly Actor.Actor[];
+    groups: readonly Group.Group[];
+    keywords: readonly Keyword.Keyword[];
+    media: readonly Media.Media[];
   }> =>
   (ctx) => {
     return pipe(

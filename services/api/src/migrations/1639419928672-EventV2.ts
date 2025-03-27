@@ -83,7 +83,7 @@ export class EventV21639419928672 implements MigrationInterface {
             excerpt: {},
             body: (e.body2 as any) ?? {},
             draft: false,
-            type: EventTypes.UNCATEGORIZED.value,
+            type: "Uncategorized",
             payload: {
               title: e.title,
               location: undefined,

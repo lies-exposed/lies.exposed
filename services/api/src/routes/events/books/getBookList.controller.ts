@@ -4,8 +4,8 @@ import { DBService } from "@liexp/backend/lib/services/db.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -72,7 +72,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
         fp.RTE.chainEitherK(({ results, totals: { books } }) =>
           pipe(
             results,
-            BookIO.encodeMany,
+            BookIO.decodeMany,
             E.map((data) => ({ data, total: books })),
           ),
         ),

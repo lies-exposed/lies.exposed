@@ -8,10 +8,7 @@ import { type ControllerError } from "#io/ControllerError.js";
 
 export const toProjectIO = (
   project: ProjectEntity,
-): E.Either<
-  ControllerError,
-  Schema.Schema.Encoded<typeof io.http.Project.Project>
-> => {
+): E.Either<ControllerError, io.http.Project.Project> => {
   return pipe(
     {
       ...project,
@@ -38,7 +35,7 @@ export const toProjectIO = (
       createdAt: project.createdAt.toISOString(),
       updatedAt: project.updatedAt.toISOString(),
     },
-    Schema.encodeUnknownEither(io.http.Project.Project),
+    Schema.decodeUnknownEither(io.http.Project.Project),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode project (${project.id})`, e),
     ),

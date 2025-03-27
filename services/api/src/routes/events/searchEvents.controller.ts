@@ -6,7 +6,7 @@ import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Schema } from "effect";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { fetchEventsRelations } from "../../flows/events/fetchEventsRelations.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -49,7 +49,7 @@ export const SearchEventRoute: Route = (r, ctx) => {
         ...queryRest,
         _sort: pipe(
           queryRest._sort,
-          O.alt(() => O.some("date")),
+          O.orElse(() => O.some("date")),
         ),
       },
       ctx.env.DEFAULT_PAGE_SIZE,
@@ -57,7 +57,7 @@ export const SearchEventRoute: Route = (r, ctx) => {
 
     const type = pipe(
       _type,
-      O.map((tp) => (Schema.is(Schema.Array(EventType))(tp) ? tp : [tp])),
+      O.map((tp) => (Schema.is(Schema.Array(EventType))(tp) ? tp : [])),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);

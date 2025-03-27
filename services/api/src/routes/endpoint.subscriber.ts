@@ -15,10 +15,10 @@ export const AddEndpoint = GetEndpointSubscriber({
     );
   },
   decode:
-    <A, I>(S: Codec<A, I, never>) =>
+    <A, I, E = unknown>(S: Codec<A, I, E>) =>
     (u) =>
       pipe(
-        Schema.encodeUnknownEither(S as Schema.Schema<A, I>)(u),
+        Schema.decodeUnknownEither(S as Schema.Schema<A, I, never>)(u),
         E.mapLeft((e) => DecodeError.of("Endpoint validation failed", e)),
       ),
 });

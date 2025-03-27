@@ -16,9 +16,9 @@ export const MakeSettingDeleteRoute: Route = (r, ctx) => {
       return pipe(
         ctx.db.findOneOrFail(SettingEntity, { where: { id: Equal(id) } }),
         TE.tap((u) => ctx.db.softDelete(SettingEntity, u.id)),
-        TE.chainEitherK((user) => toSettingIO(user)),
-        TE.map(() => ({
-          body: undefined,
+        TE.chainEitherK(toSettingIO),
+        TE.map((data) => ({
+          body: { data },
           statusCode: 200,
         })),
       );

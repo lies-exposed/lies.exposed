@@ -53,7 +53,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { patents } }) =>
           pipe(
             results,
-            TransactionIO.encodeMany,
+            TransactionIO.decodeMany,
             E.map((data) => ({ data, total: patents })),
           ),
         ),

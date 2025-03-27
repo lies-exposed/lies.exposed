@@ -34,10 +34,10 @@ export const MakeGetNetworkRoute: Route = (r, ctx) => {
 
       const ids = pipe(
         query.ids,
-        fp.O.getOrElse((): UUID[] => []),
+        fp.O.getOrElse((): readonly UUID[] => []),
       );
 
-      return createNetworkGraph(type, ids, query, isAdmin)(ctx);
+      return createNetworkGraph(type, [...ids], query, isAdmin)(ctx);
     };
 
     return pipe(

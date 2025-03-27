@@ -3,10 +3,10 @@ import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extract
 import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type EditMediaBody } from "@liexp/shared/lib/io/http/Media/index.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
-import { type UUID } from "io-ts-types";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";

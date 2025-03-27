@@ -12,7 +12,8 @@ export const MakeDeleteGroupRoute: Route = (r, ctx) => {
     Endpoints.Group.Delete,
     ({ params: { id } }) => {
       return pipe(
-        ctx.db.softDelete(GroupEntity, id),
+        ctx.db.findOneOrFail(GroupEntity, { where: { id } }),
+        TE.tap(() => ctx.db.softDelete(GroupEntity, id)),
         TE.chainEitherK((data) =>
           GroupIO.decodeSingle(data, ctx.env.SPACE_ENDPOINT),
         ),

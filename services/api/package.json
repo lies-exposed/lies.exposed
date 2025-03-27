@@ -64,7 +64,7 @@
     "cors": "2.8.5",
     "date-fns": "^4.1.0",
     "debug": "*",
-    "effect": "^3.14.1",
+    "effect": "^3.14.2",
     "express": "^4.21.0",
     "express-jwt": "^8.5.1",
     "express-unless": "^2.1.3",

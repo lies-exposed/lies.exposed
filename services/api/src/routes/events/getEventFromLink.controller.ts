@@ -214,6 +214,8 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               exclude: O.none(),
               links: pipe(
                 link,
+                fp.O.toNullable,
+                O.fromNullable,
                 O.map((l) => [l.id]),
               ),
               ids: O.none(),
@@ -227,9 +229,9 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             TE.chain(({ results, firstDate, lastDate, ...rest }) =>
               pipe(
                 results,
-                EventV2IO.encodeMany,
+                EventV2IO.decodeMany,
                 E.map((data) => ({
-                  data,
+                  data: data.map((d) => ({ ...d, score: 1 })),
                   suggestions,
                   firstDate: firstDate?.toISOString(),
                   lastDate: lastDate?.toISOString(),

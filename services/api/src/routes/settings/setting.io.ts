@@ -10,10 +10,7 @@ export const toSettingIO = ({
   value,
   id,
   ...setting
-}: SettingEntity): E.Either<
-  ControllerError,
-  Schema.Schema.Encoded<typeof io.http.Setting.Setting>
-> => {
+}: SettingEntity): E.Either<ControllerError, io.http.Setting.Setting> => {
   return pipe(
     {
       id,
@@ -21,7 +18,7 @@ export const toSettingIO = ({
       createdAt: setting.createdAt.toISOString(),
       updatedAt: setting.updatedAt.toISOString(),
     },
-    Schema.encodeUnknownEither(io.http.Setting.Setting),
+    Schema.decodeUnknownEither(io.http.Setting.Setting),
     E.mapLeft((e) => DecodeError.of(`Failed to decode setting (${id})`, e)),
   );
 };

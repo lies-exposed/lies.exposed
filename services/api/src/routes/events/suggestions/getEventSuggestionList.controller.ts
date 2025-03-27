@@ -43,7 +43,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         pipe(
           status,
           O.map((s) => [s]),
-          O.orElseSome(
+          O.orElse(
             (): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
               O.some([
                 "PENDING",
@@ -55,10 +55,10 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
       ctx.logger.debug.log("_Creator %O", _creator);
       const creator = pipe(
         _creator,
-        O.orElseSome(() =>
+        O.orElse(() =>
           [EventSuggestionRead.Type].some((p) => u.permissions.includes(p))
             ? O.some(u.id)
-            : O.none,
+            : O.none(),
         ),
       );
 

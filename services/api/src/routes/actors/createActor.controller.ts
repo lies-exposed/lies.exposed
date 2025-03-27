@@ -8,7 +8,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateActorRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.Type])(ctx))(
     Endpoints.Actor.Create,
     ({ body }) => {
       return pipe(

@@ -56,7 +56,16 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
       return pipe(
         db.findOneOrFail(ActorEntity, { where: { id: Equal(id) } }),
         TE.chain((actor) =>
-          db.save(ActorEntity, [{ ...actor, id, ...updateData }]),
+          db.save(ActorEntity, [
+            {
+              ...actor,
+              id,
+              ...updateData,
+              memberIn: [...updateData.memberIn],
+              excerpt: [...updateData.excerpt],
+              body: [...updateData.body],
+            },
+          ]),
         ),
         TE.chain(() =>
           db.findOneOrFail(ActorEntity, {

@@ -70,7 +70,7 @@ export const MakeGetListQuoteRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { quotes } }) =>
           pipe(
             results,
-            QuoteIO.encodeMany,
+            QuoteIO.decodeMany,
             E.map((data) => ({ data, total: quotes })),
           ),
         ),
