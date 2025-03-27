@@ -11,11 +11,7 @@ import {
   type ResourceEndpoints,
   type TypeOfEndpointInstanceInput,
 } from "ts-endpoint";
-import {
-  type runtimeType,
-  type EncodedType,
-  type serializedType,
-} from "ts-io-error";
+import { type runtimeType, type serializedType } from "ts-io-error";
 import { Endpoints } from "../../endpoints/index.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
@@ -24,7 +20,7 @@ const apiLogger = GetLogger("API");
 
 export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstanceInput<E>,
-) => TE.TaskEither<APIError, EncodedType<E["Output"]>>;
+) => TE.TaskEither<APIError, runtimeType<E["Output"]>>;
 
 export type API = {
   [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
@@ -55,7 +51,7 @@ export const toTERequest =
     return (b: TypeOfEndpointInstanceInput<E>) => {
       const url = e.getPath(b?.Params);
       return pipe(
-        liftFetch<serializedType<E["Output"]>, EncodedType<E["Output"]>>(
+        liftFetch<serializedType<E["Output"]>, runtimeType<E["Output"]>>(
           () => {
             apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
@@ -74,7 +70,7 @@ export const toTERequest =
             });
           },
           Schema.encodeUnknownEither(
-            e.Output as Schema.Schema<any, EncodedType<E["Output"]>>,
+            e.Output as Schema.Schema<any, runtimeType<E["Output"]>>,
           ),
         ),
         TE.mapLeft((err) => {

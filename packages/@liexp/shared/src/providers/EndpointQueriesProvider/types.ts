@@ -10,7 +10,7 @@ import {
 import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import {
-  type EndpointDataOutput,
+  type EndpointOutputType,
   type EndpointDataOutputType,
   type EndpointREST,
   type EndpointsRESTClient,
@@ -59,7 +59,7 @@ export interface ResourceQueries<G, L, CC> {
   list: ResourceQuery<
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>,
-    EndpointDataOutput<L>
+    EndpointOutputType<L>
   >;
   Custom: CC extends Record<string, MinimalEndpointInstance>
     ? {
@@ -68,7 +68,7 @@ export interface ResourceQueries<G, L, CC> {
             ? undefined
             : RecordCodecEncoded<InferEndpointInstanceParams<CC[K]>["params"]>,
           PartialSerializedType<InferEndpointInstanceParams<CC[K]>["query"]>,
-          EndpointDataOutput<CC[K]>
+          EndpointOutputType<CC[K]>
         >;
       }
     : never;

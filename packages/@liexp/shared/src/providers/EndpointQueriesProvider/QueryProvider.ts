@@ -12,7 +12,7 @@ import { type EndpointsMapType } from "../../endpoints/Endpoints.js";
 import { type APIError } from "../../io/http/Error/APIError.js";
 import { throwTE } from "../../utils/task.utils.js";
 import {
-  type EndpointDataOutput,
+  type EndpointOutputType,
   type EndpointDataOutputType,
   type EndpointREST,
   type GetEndpointQueryType,
@@ -125,7 +125,7 @@ export const toGetListResourceQuery = <L>(
 ): ResourceQuery<
   GetListFnParamsE<L>,
   Partial<GetEndpointQueryType<L>>,
-  EndpointDataOutput<L>
+  EndpointOutputType<L>
 > => {
   const getKey: GetKeyFn<
     GetListFnParamsE<L>,
@@ -135,7 +135,7 @@ export const toGetListResourceQuery = <L>(
   const fetch: QueryPromiseFunction<
     GetListFnParamsE<L>,
     Partial<GetEndpointQueryType<L>>,
-    EndpointDataOutput<L>
+    EndpointOutputType<L>
   > = fetchQuery((p: any, q: any) => getListFn(p));
 
   return {

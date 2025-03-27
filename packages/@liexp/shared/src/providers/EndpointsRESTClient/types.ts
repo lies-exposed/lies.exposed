@@ -11,9 +11,7 @@ import {
 import {
   type PartialSerializedType,
   type Codec,
-  type RecordCodec,
-  type RecordCodecEncoded,
-  type RecordCodecSerialized,
+  type RecordEncoded,
   type runtimeType,
   type serializedType,
 } from "ts-io-error";
@@ -29,7 +27,7 @@ export type GetFnParams<G> = G extends MinimalEndpointInstance
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   filter?: Partial<
-    RecordCodecEncoded<
+    RecordEncoded<
       L extends MinimalEndpointInstance
         ? InferEndpointInstanceParams<L>["query"]
         : InferEndpointParams<L>["query"]
@@ -50,30 +48,38 @@ export type GetEndpointQueryType<G> =
   InferEndpointInstanceParams<G>["query"] extends undefined
     ? undefined
     : G extends MinimalEndpointInstance
-      ? RecordCodecEncoded<InferEndpointInstanceParams<G>["query"]>
-      : RecordCodecEncoded<InferEndpointParams<G>["query"]>;
+      ? serializedType<InferEndpointInstanceParams<G>["query"]>
+      : serializedType<InferEndpointParams<G>["query"]>;
 
 export type EndpointDataOutputType<L> = L extends MinimalEndpointInstance
-  ? InferEndpointInstanceParams<L>["output"] extends RecordCodec<infer T>
-    ? RecordCodecSerialized<T>["data"] extends unknown[]
-      ? RecordCodecSerialized<T>
-      : RecordCodecSerialized<T>["data"]
+  ? InferEndpointInstanceParams<L>["output"] extends Codec<any, any>
+    ? runtimeType<
+        InferEndpointInstanceParams<L>["output"]
+      >["data"] extends unknown[]
+      ? runtimeType<InferEndpointInstanceParams<L>["output"]>
+      : runtimeType<InferEndpointInstanceParams<L>["output"]>["data"]
     : never
-  : InferEndpointParams<L>["output"] extends RecordCodec<infer T>
-    ? RecordCodecSerialized<T>["data"] extends unknown[]
-      ? RecordCodecSerialized<T>
-      : RecordCodecSerialized<T>["data"]
+  : InferEndpointParams<L>["output"] extends Codec<any, any>
+    ? runtimeType<InferEndpointParams<L>["output"]>["data"] extends unknown[]
+      ? runtimeType<InferEndpointParams<L>["output"]>
+      : runtimeType<InferEndpointParams<L>["output"]>["data"]
     : never;
 
-export type EndpointDataOutput<L> =
-  InferEndpointInstanceParams<L>["output"] extends RecordCodec<infer T>
-    ? RecordCodecSerialized<T>
-    : never;
+// export type EndpointDataOutputType<L> = L extends MinimalEndpointInstance
+//   ? InferEndpointInstanceParams<L>["output"] extends RecordCodec<infer T>
+//     ? RecordEncoded<T>["data"] extends unknown[]
+//       ? RecordEncoded<T>
+//       : RecordEncoded<T>["data"]
+//     : never
+//   : InferEndpointParams<L>["output"] extends RecordCodec<infer T>
+//     ? RecordEncoded<T>["data"] extends unknown[]
+//       ? RecordEncoded<T>
+//       : RecordSerialized<T>["data"]
+//     : never;
 
-export type EndpointOutputType<L> =
-  InferEndpointParams<L>["output"] extends RecordCodec<infer T>
-    ? RecordCodecSerialized<T>
-    : never;
+export type EndpointOutputType<L> = runtimeType<
+  InferEndpointInstanceParams<L>["output"]
+>;
 
 export type GetFn<G> = (
   params: GetFnParams<G>,
@@ -86,7 +92,7 @@ type GetListFnParams<L, O = undefined> = O extends undefined
 
 export type GetListFn<L, O = undefined> = (
   params: GetListFnParams<L, O>,
-) => TE.TaskEither<APIError, EndpointDataOutput<L>>;
+) => TE.TaskEither<APIError, EndpointOutputType<L>>;
 
 type CreateFn<C> = (
   params: CreateFnParams<C>,
