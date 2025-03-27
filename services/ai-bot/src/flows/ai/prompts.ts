@@ -24,25 +24,26 @@ import { EMBED_GROUP_SUMMARIZE_PROMPT } from "@liexp/shared/lib/io/openai/prompt
 import { EMBED_LINK_PROMPT } from "@liexp/shared/lib/io/openai/prompts/link.prompts.js";
 import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/io/openai/prompts/media.prompts.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+import { Schema } from "effect";
 
 export const getPromptFromResource = (
   resource: QueueResourceNames,
   type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType,
 ): PromptFn<{ text: string; question: string }> => {
   switch (true) {
-    case resource === ACTORS.value: {
-      if (type === QueueTypes.types[0].value) {
+    case resource === ACTORS.Type: {
+      if (type === QueueTypes.members[0].Type) {
         return ACTOR_GENERAL_INFO_PROMPT;
       }
       return EMBED_ACTOR_PROMPT;
     }
-    case resource === GROUPS.value:
+    case resource === GROUPS.Type:
       return EMBED_GROUP_SUMMARIZE_PROMPT;
-    case resource === LINKS.value:
+    case resource === LINKS.Type:
       return EMBED_LINK_PROMPT;
-    case resource === MEDIA.value:
+    case resource === MEDIA.Type:
       return EMBED_MEDIA_PROMPT;
-    case resource === EVENTS.value: {
+    case resource === EVENTS.Type: {
       return EMBED_EVENT_PROMPT;
     }
     default:
@@ -53,11 +54,11 @@ export const getPromptFromResource = (
 export const getEventFromJsonPrompt = (
   type: OpenAICreateEventFromTextType | OpenAICreateEventFromURLType,
 ) => {
-  if (OpenAICreateEventFromTextType.is(type)) {
+  if (Schema.is(OpenAICreateEventFromTextType)(type)) {
     return CREATE_EVENT_FROM_TEXT_PROMPT;
   }
 
-  if (OpenAICreateEventFromURLType.is(type)) {
+  if (Schema.is(OpenAICreateEventFromURLType)(type)) {
     return CREATE_EVENT_FROM_URL_PROMPT;
   }
 
