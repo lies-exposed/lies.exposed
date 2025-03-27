@@ -59,7 +59,7 @@ const DeleteManyPage = Endpoint({
   getPath: () => `/pages`,
   Input: {
     Query: Schema.Struct({
-      ids: OptionFromNullishToNull(Schema.Array(Schema.String)),
+      ids: Schema.Array(UUID),
     }),
   },
   Output: Schema.Struct({ data: Schema.Array(Schema.String) }),

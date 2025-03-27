@@ -1,5 +1,6 @@
 import { Schema } from "effect";
 import { Endpoint, ResourceEndpoints } from "ts-endpoint";
+import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
@@ -44,7 +45,7 @@ export const CreateStory = Endpoint({
       date: Schema.Date,
       featuredImage: OptionFromNullishToNull(UUID),
       creator: OptionFromNullishToNull(UUID),
-      body2: Schema.Unknown,
+      body2: BlockNoteDocument,
       keywords: Schema.Array(UUID),
       actors: Schema.Array(UUID),
       groups: Schema.Array(UUID),

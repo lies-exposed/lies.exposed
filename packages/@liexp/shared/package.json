@@ -32,7 +32,7 @@
     "@liexp/core": "workspace:*",
     "axios": "^1.8.3",
     "date-fns": "^4.1.0",
-    "effect": "^3.14.1",
+    "effect": "^3.14.2",
     "fp-ts": "^2.16.9",
     "lodash": "^4.17.21",
     "page-metadata-parser": "^1.1.4",

@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
+import { Output } from "../../io/http/Common/Output.js";
 import { UUID } from "../../io/http/Common/UUID.js";
 import { SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
@@ -45,7 +46,9 @@ export const Create = Endpoint({
   Input: {
     Body: http.Events.CreateEventBody,
   },
-  Output: SingleEventOutput,
+  Output: Output(
+    Schema.Union(http.Events.Event, Schema.Struct({ success: Schema.Boolean })),
+  ),
 });
 
 export const CreateSuggestion = Endpoint({
@@ -55,7 +58,7 @@ export const CreateSuggestion = Endpoint({
     Body: http.EventSuggestion.CreateEventSuggestion,
   },
   Output: Schema.Struct({
-    data: Schema.Any,
+    data: http.EventSuggestion.EventSuggestion,
   }).annotations({
     title: "CreateSuggestionOutput",
   }),
@@ -92,7 +95,7 @@ export const CreateFromSuggestion = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/events/suggestions/${id}/event`,
   Input: {
-    Params: Schema.Struct({ id: Schema.String }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Schema.Unknown,
   },
   Output: Schema.Struct({

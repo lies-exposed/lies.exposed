@@ -44,9 +44,8 @@ export const Create = Endpoint({
     Params: Schema.Struct({ id: UUID, type: SocialPostResourceType }),
     Body: CreateSocialPost,
   },
-  Output: Schema.Union(
-    SingleSocialPostOutput,
-    Schema.Struct({ success: Schema.Boolean }),
+  Output: Output(
+    Schema.Union(SocialPost, Schema.Struct({ success: Schema.Boolean })),
   ),
 });
 

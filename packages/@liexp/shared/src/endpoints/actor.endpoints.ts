@@ -40,7 +40,14 @@ export const Create = Endpoint({
     Query: undefined,
     Body: Actor.CreateActorBody,
   },
-  Output: SingleActorOutput,
+  Output: Output(
+    Schema.Union(
+      Actor.Actor,
+      Schema.Struct({
+        success: Schema.Boolean,
+      }),
+    ),
+  ),
 });
 
 export const Edit = Endpoint({

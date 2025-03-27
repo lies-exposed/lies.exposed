@@ -133,7 +133,7 @@ export type CreateEventSuggestion = typeof CreateEventSuggestion.Type;
 
 export const EventSuggestion = Schema.Struct({
   id: UUID,
-  ...CreateEventSuggestion.members[0].fields,
+  payload: CreateEventSuggestion,
   creator: Schema.Union(UUID, Schema.Undefined),
   createdAt: Schema.Date,
   updatedAt: Schema.Date,
