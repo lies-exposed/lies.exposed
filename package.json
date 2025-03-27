@@ -73,6 +73,6 @@
   "dependencies": {
     "ts-endpoint": "link:../ts-endpoint/packages/ts-endpoint",
     "ts-endpoint-express": "link:../ts-endpoint/packages/ts-endpoint-express",
-    "ts-io-error": "link:../ts-endpoint/packages/ts-endpoint"
+    "ts-io-error": "link:../ts-endpoint/packages/ts-io-error"
   }
 }
