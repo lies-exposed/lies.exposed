@@ -110,10 +110,7 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
 };
 
 const configFile = path.resolve(process.cwd(), "ai-bot.config.json");
-const configProvider = ConfigProviderReader<AIBotConfig>(
-  configFile,
-  AIBotConfig,
-);
+const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 
 const dryRun = false;
 

@@ -7,6 +7,8 @@ import {
   CreateQueueURLData,
   type Queue,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { Schema } from "effect";
+import * as A from "fp-ts/lib/Array.js";
 import { type Document } from "langchain/document";
 import { type ClientContextRTE } from "../../../types.js";
 import { loadLink } from "./loadLink.flow.js";
@@ -27,31 +29,32 @@ const loadEventDocs =
       ),
       fp.RTE.chain((links) =>
         pipe(
-          links.data,
-          fp.A.traverse(fp.RTE.ApplicativePar)((l) => loadLink(l.url)),
+          [...links.data],
+          A.traverse(fp.RTE.ApplicativePar)((l) => loadLink(l.url)),
         ),
       ),
-      fp.RTE.map(fp.A.flatten),
+      fp.RTE.map(A.flatten),
     )(ctx);
   };
 
 export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
   switch (true) {
-    case CreateQueueTextData.is(job.data):
-    case CreateEventFromTextQueueData.is(job.data): {
+    case Schema.is(CreateQueueTextData)(job.data):
+    case Schema.is(CreateEventFromTextQueueData)(job.data): {
       return loadText(job.data.text);
     }
-    case CreateEventFromURLQueueData.is(job.data):
-    case CreateQueueURLData.is(job.data): {
+    case Schema.is(CreateEventFromURLQueueData)(job.data):
+    case Schema.is(CreateQueueURLData)(job.data): {
       if (job.resource === "media") {
         return loadPDF(job.data.url);
       }
 
       return loadLink(job.data.url);
     }
-    case job.resource === EVENTS.value: {
+    case Schema.is(EVENTS)(job.resource): {
       return loadEventDocs(job);
     }
+
     default: {
       return fp.RTE.left(toAIBotError(new Error("Invalid job data")));
     }

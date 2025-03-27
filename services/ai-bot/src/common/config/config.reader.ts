@@ -1,12 +1,11 @@
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Schema } from "effect";
 import { parse } from "fp-ts/lib/Json.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type Decoder } from "io-ts";
 import { type AIBotError } from "../error/index.js";
 import { toAIBotError } from "#common/error/index.js";
-
 export interface ConfigProvider<C extends Record<string, unknown>> {
   config: C;
   save: (config: C) => void;
@@ -14,12 +13,16 @@ export interface ConfigProvider<C extends Record<string, unknown>> {
 
 export const ConfigProviderReader =
   <
-    C extends Record<string, unknown>,
+    C extends Schema.Schema<any, any, never>,
     R extends FSClientContext = FSClientContext,
   >(
     path: string,
-    decoder: Decoder<unknown, C>,
-  ): ReaderTaskEither<R, AIBotError, ConfigProvider<C>> =>
+    decoder: C,
+  ): ReaderTaskEither<
+    R,
+    AIBotError,
+    ConfigProvider<Schema.Schema.Encoded<C>>
+  > =>
   (ctx) => {
     return pipe(
       ctx.fs.getObject(path),
@@ -28,7 +31,7 @@ export const ConfigProviderReader =
       }),
       fp.TE.chainEitherK((e) =>
         pipe(
-          decoder.decode(e),
+          Schema.encodeUnknownEither(decoder)(e),
           fp.E.mapLeft(
             (errors): AIBotError =>
               DecodeError.of("Can't parse configuration", errors),
@@ -36,7 +39,7 @@ export const ConfigProviderReader =
         ),
       ),
       fp.TE.map(
-        (config): ConfigProvider<C> => ({
+        (config): ConfigProvider<Schema.Schema.Encoded<C>> => ({
           config: config,
           save: (config) => ctx.fs.writeObject(path, JSON.stringify(config)),
         }),
