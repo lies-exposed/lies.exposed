@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.1",
-    "eslint": "^9.21.0",
+    "eslint": "^9.23.0",
     "typescript": "^5.8.2"
   }
 }
