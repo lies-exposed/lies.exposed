@@ -30,7 +30,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
     Endpoints.Event.Create,
     ({ body }, req) => {
       return pipe(
-        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.Type])(ctx),
+        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.literals[0]])(ctx),
         TE.fromIOEither,
         TE.chain((u) =>
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),

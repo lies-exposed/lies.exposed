@@ -3,7 +3,7 @@ import { DocumentaryIO } from "@liexp/backend/lib/io/event/documentary.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -35,7 +35,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
       return pipe(
         db.save(EventV2Entity, [
           {
-            type: EventTypes.DOCUMENTARY.Type,
+            type: EVENT_TYPES.DOCUMENTARY,
             ...documentaryData,
             payload,
           },

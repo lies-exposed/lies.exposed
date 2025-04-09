@@ -1,13 +1,13 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { type RecordCodecEncoded } from "ts-io-error/lib/Codec.js";
+import { type serializedType } from "ts-io-error/lib/Codec.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { MediaList } from "../components/lists/MediaList.js";
 import { Box, Pagination, Stack } from "../components/mui/index.js";
 
 export interface MediaBoxProps {
-  filter: Partial<RecordCodecEncoded<typeof Endpoints.Media.List.Input.Query>>;
+  filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
   onClick: (e: Media.Media) => void;
   style?: React.CSSProperties;
   limit?: number;

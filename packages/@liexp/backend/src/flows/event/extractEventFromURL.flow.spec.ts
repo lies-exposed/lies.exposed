@@ -47,7 +47,7 @@ describe.skip(extractEventFromURL.name, () => {
     let savedEvent: any;
     appTest.ctx.db.save.mockImplementation((_, link) => {
       const l: any = link;
-      if (l[0].type === SCIENTIFIC_STUDY.Type) {
+      if (l[0].type === SCIENTIFIC_STUDY.literals[0]) {
         savedEvent = l[0];
       }
       return fp.TE.right(link);
@@ -103,7 +103,7 @@ describe.skip(extractEventFromURL.name, () => {
         user,
         uuid(),
         scientificStudyData.url,
-        SCIENTIFIC_STUDY.Type,
+        SCIENTIFIC_STUDY.literals[0],
       )(appTest.ctx),
       throwTE,
     );
@@ -124,7 +124,7 @@ describe.skip(extractEventFromURL.name, () => {
       undefined,
     );
 
-    expect(event.type).toBe(SCIENTIFIC_STUDY.Type);
+    expect(event.type).toBe(SCIENTIFIC_STUDY.literals[0]);
     expect(event.date).toBeDefined();
 
     expect(event.payload.url).toBeInstanceOf(String);

@@ -54,7 +54,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.jpg`,
-        type: ImageType.members[0].Type,
+        type: ImageType.members[0].literals[0],
         creator: undefined,
       }));
 
@@ -93,7 +93,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.mp4`,
-        type: MP4Type.Type,
+        type: MP4Type.literals[0],
         creator: undefined,
         extra: undefined,
       }));
@@ -144,7 +144,7 @@ describe("Create Media", () => {
         id,
         label: `label-${id}`,
         location: `https://www.youtube.com/watch?v=${id}`,
-        type: IframeVideoType.Type,
+        type: IframeVideoType.literals[0],
         creator: undefined,
       }));
 

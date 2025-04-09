@@ -7,9 +7,12 @@ import {
   saveUser,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import {
+  EVENT_TYPES,
+  SCIENTIFIC_STUDY,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
@@ -49,7 +52,7 @@ describe("Create Scientific Study", () => {
       ]),
     );
 
-    admin = await saveUser(appTest.ctx, [AdminCreate.value]);
+    admin = await saveUser(appTest.ctx, [AdminCreate.literals[0]]);
 
     authorizationToken = await loginUser(appTest)(admin).then(
       ({ authorization }) => authorization,
@@ -105,7 +108,7 @@ describe("Create Scientific Study", () => {
 
     const scientificStudyData: http.Events.ScientificStudy.CreateScientificStudyBody =
       {
-        type: http.Events.EventTypes.SCIENTIFIC_STUDY.Type,
+        type: EVENT_TYPES.SCIENTIFIC_STUDY,
         draft: true,
         date: new Date(),
         excerpt,
@@ -130,7 +133,7 @@ describe("Create Scientific Study", () => {
     const body = response.body.data;
     expect(response.status).toEqual(201);
 
-    expect(body.type).toBe(SCIENTIFIC_STUDY.Type);
+    expect(body.type).toBe(EVENT_TYPES.SCIENTIFIC_STUDY);
     expect(body.date).toBeDefined();
     expect(body.excerpt).toEqual(excerpt);
     expect(body.payload.url).toEqual(link.id);

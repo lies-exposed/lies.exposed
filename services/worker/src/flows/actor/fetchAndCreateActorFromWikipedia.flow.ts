@@ -43,7 +43,7 @@ export const fetchActorFromWikipedia =
                   location: avatar,
                   thumbnail: undefined,
                   extra: undefined,
-                  type: ImageType.members[0].Type,
+                  type: ImageType.members[0].literals[0],
                   events: [],
                   links: [],
                   keywords: [],

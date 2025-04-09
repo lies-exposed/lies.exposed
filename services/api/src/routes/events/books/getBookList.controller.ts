@@ -49,7 +49,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
             ...query,
             q,
             draft,
-            type: O.some([BOOK.Type]),
+            type: O.some([BOOK.literals[0]]),
             actors,
             groups,
             keywords,

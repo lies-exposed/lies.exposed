@@ -118,7 +118,7 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
     fp.RTE.chainFirst((m) => (ctx) => {
       if (Schema.is(PDFType)(m.type)) {
         return pipe(
-          ctx.queue.queue(OpenAIEmbeddingQueueType.Type).addJob({
+          ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
             id: m.id,
             resource: MEDIA.Type,
             status: PendingStatus.Type,

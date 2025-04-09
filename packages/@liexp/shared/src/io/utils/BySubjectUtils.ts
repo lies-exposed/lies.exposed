@@ -31,14 +31,14 @@ export const makeBySubject = <T extends ACTOR | GROUP>(
   if (type === "Actor") {
     const id = _id as Actor.Actor;
     const byActor = {
-      type: ACTOR.Type,
+      type: ACTOR.literals[0],
       id,
     };
     return byActor;
   }
 
   return {
-    type: GROUP.Type,
+    type: GROUP.literals[0],
     id: _id as Group.Group,
   };
 };

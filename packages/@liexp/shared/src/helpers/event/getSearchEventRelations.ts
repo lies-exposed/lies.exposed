@@ -1,5 +1,6 @@
+import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
 import { type SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
-import { Events, type Actor, type Group } from "../../io/http/index.js";
+import { type Events, type Actor, type Group } from "../../io/http/index.js";
 
 export const getSearchEventRelations = (
   e: SearchEvent,
@@ -12,7 +13,7 @@ export const getSearchEventRelations = (
   };
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       const publisherActors =
         e.payload.publisher && e.payload.publisher.type === "Actor"
           ? [e.payload.publisher.id]
@@ -47,7 +48,7 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return {
         ...commonRelations,
         actors: e.payload.victim ? [e.payload.victim] : [],
@@ -55,7 +56,7 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
@@ -71,7 +72,7 @@ export const getSearchEventRelations = (
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return {
         ...commonRelations,
         actors: [...e.payload.owners.actors],
@@ -80,7 +81,7 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return {
         ...commonRelations,
         actors: [...e.payload.authors.actors, ...e.payload.subjects.actors],
@@ -93,7 +94,7 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return {
         ...commonRelations,
         actors: [...e.payload.authors],
@@ -102,7 +103,7 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       const quote =
         e.payload.subject.type === "Group"
           ? {
@@ -121,7 +122,7 @@ export const getSearchEventRelations = (
       };
     }
 
-    case Events.EventTypes.UNCATEGORIZED.Type: {
+    case EVENT_TYPES.UNCATEGORIZED: {
       return {
         ...commonRelations,
         actors: [...e.payload.actors],

@@ -130,7 +130,7 @@ export const ThumbnailEditField: React.FC<FieldProps> = (props) => {
                 {...props}
                 label="Location"
                 sourceLocation="thumbnail"
-                sourceType={ImageType.members[0].Type}
+                sourceType={ImageType.members[0].literals[0]}
                 showInputOnClick
               />
               <Button

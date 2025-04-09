@@ -2,8 +2,8 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
 import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
 import {
-  type EndpointDataOutput,
   type EndpointOutputType,
+  type EndpointDataOutputType,
   type GetEndpointQueryType,
   type GetListFnParamsE,
 } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
@@ -11,9 +11,9 @@ import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provide
 import { useInfiniteQuery } from "@tanstack/react-query";
 import * as React from "react";
 import {
-  type Index,
   AutoSizer,
   type CellMeasurerCache,
+  type Index,
   InfiniteLoader,
   type Masonry,
 } from "react-virtualized";
@@ -49,11 +49,11 @@ export interface InfiniteListBoxProps<
   ) => ResourceQuery<
     GetListFnParamsE<E>,
     Partial<GetEndpointQueryType<E>>,
-    EndpointDataOutput<E>
+    EndpointOutputType<E>
   >;
   filter: GetListFnParamsE<E>;
-  toItems?: (data: EndpointDataOutput<E>) => any[];
-  getTotal?: (data: EndpointDataOutput<E>) => number;
+  toItems?: (data: EndpointDataOutputType<E>) => any[];
+  getTotal?: (data: EndpointDataOutputType<E>) => number;
 }
 
 export const InfiniteListBox = <
@@ -96,7 +96,7 @@ export const InfiniteListBox = <
     any,
     APIError,
     {
-      pages: EndpointOutputType<E>[];
+      pages: EndpointDataOutputType<E>[];
       pageParams: Array<{ _start: number; _end: number }>;
     },
     any,

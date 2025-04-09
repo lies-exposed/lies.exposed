@@ -116,13 +116,13 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
             Schema.decodeUnknownEither(
               Schema.Struct({ data: CovidWHOWorldData.members[1] }),
             )(u),
-          CovidWHOWorldData.members[0].Type,
+          CovidWHOWorldData.members[0].literals[0],
         ),
         distribution: useJSONDataQuery(jsonClient)(
           Schema.decodeUnknownEither(
             Schema.Struct({ data: Covid19WorldVaccineDistribution.members[1] }),
           ),
-          Covid19WorldVaccineDistribution.members[0].Type,
+          Covid19WorldVaccineDistribution.members[0].literals[0],
         ),
       }}
       render={({
@@ -292,13 +292,13 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 </Tabs>
                 <TabPanel value={adrTab} index={0}>
                   <VaccineADRGraph
-                    id={Covid19ADRs.members[0].Type}
+                    id={Covid19ADRs.members[0].literals[0]}
                     distribution={totalDistribution}
                   />
                 </TabPanel>
                 <TabPanel value={adrTab} index={1}>
                   <VaccineADRGraph
-                    id={Covid19VAERS.members[0].Type}
+                    id={Covid19VAERS.members[0].literals[0]}
                     distribution={distribution.filter(
                       (d) => d.iso_code === "USA",
                     )}
@@ -306,7 +306,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 </TabPanel>
                 <TabPanel value={adrTab} index={2}>
                   <VaccineADRGraph
-                    id={Covid19EUDR.members[0].Type}
+                    id={Covid19EUDR.members[0].literals[0]}
                     distribution={distribution.filter(
                       (d) => d.iso_code === "OWID_EUR",
                     )}

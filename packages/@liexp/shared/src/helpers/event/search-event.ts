@@ -1,12 +1,13 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BySubject } from "../../io/http/Common/index.js";
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
+import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
 import { type SearchBookEvent } from "../../io/http/Events/SearchEvents/SearchBookEvent.js";
 import { type SearchDocumentaryEvent } from "../../io/http/Events/SearchEvents/SearchDocumentaryEvent.js";
 import { type SearchQuoteEvent } from "../../io/http/Events/SearchEvents/SearchQuoteEvent.js";
 import { type SearchTransactionEvent } from "../../io/http/Events/SearchEvents/SearchTransactionEvent.js";
 import { type EventRelations } from "../../io/http/Events/index.js";
-import { Events, type Area, type Media } from "../../io/http/index.js";
+import { type Events, type Area, type Media } from "../../io/http/index.js";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
 import { eventRelationIdsMonoid } from "./event.js";
 import {
@@ -277,7 +278,7 @@ export const toSearchEvent = (
   );
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       const authors = BySubjectUtils.toBySubjectArray(
         e.payload.authors,
         actors,
@@ -309,7 +310,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchBookEvent;
     }
-    case Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       return {
         ...e,
         payload: {
@@ -326,7 +327,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchQuoteEvent;
     }
-    case Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return {
         ...e,
         payload: {
@@ -338,7 +339,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return {
         ...e,
         payload: {
@@ -352,7 +353,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return {
         ...e,
         payload: {
@@ -365,7 +366,7 @@ export const toSearchEvent = (
         links,
       };
     }
-    case Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return {
         ...e,
         payload: {
@@ -394,7 +395,7 @@ export const toSearchEvent = (
         links,
       } satisfies SearchDocumentaryEvent;
     }
-    case Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       const from: BySubject = pipe(
         BySubjectUtils.lookupForSubject(e.payload.from, actors, groups),
         fp.O.toUndefined,
@@ -444,7 +445,7 @@ export const fromSearchEvent = (
   );
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       return {
         ...e,
         ...relations,
@@ -461,7 +462,7 @@ export const fromSearchEvent = (
         },
       };
     }
-    case Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       return {
         ...e,
         ...relations,
@@ -471,7 +472,7 @@ export const fromSearchEvent = (
         },
       };
     }
-    case Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return {
         ...e,
         ...relations,
@@ -481,7 +482,7 @@ export const fromSearchEvent = (
         },
       };
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return {
         ...e,
         ...relations,
@@ -494,7 +495,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return {
         ...e,
         ...relations,
@@ -509,7 +510,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return {
         ...e,
         ...relations,
@@ -529,7 +530,7 @@ export const fromSearchEvent = (
       };
     }
 
-    case Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       return {
         ...e,
         ...relations,

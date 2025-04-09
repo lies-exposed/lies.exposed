@@ -23,7 +23,7 @@ export const MakeTakeLinkScreenshotRoute = (
   r: Router,
   ctx: ServerContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler([AdminEdit.Type])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Link.Custom.TakeLinkScreenshot,
     ({ params: { id }, body }, req) => {
       ctx.logger.debug.log("Body %O", body);

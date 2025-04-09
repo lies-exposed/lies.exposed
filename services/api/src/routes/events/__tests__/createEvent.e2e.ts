@@ -12,6 +12,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { CreateEventBodyArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
+import { Schema } from "effect";
 import fc from "fast-check";
 import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -96,7 +97,9 @@ describe("Create Event", () => {
       .send(eventData);
 
     const body = response.body.data;
-    const decodedBody = http.Events.Uncategorized.Uncategorized.decode(body);
+    const decodedBody = Schema.decodeUnknownEither(
+      http.Events.Uncategorized.Uncategorized,
+    )(body);
 
     expect(response.status).toEqual(201);
 
@@ -123,7 +126,9 @@ describe("Create Event", () => {
       .send(eventData);
 
     const body = response.body.data;
-    const decodedBody = http.Events.Uncategorized.Uncategorized.decode(body);
+    const decodedBody = Schema.decodeUnknownEither(
+      http.Events.Uncategorized.Uncategorized,
+    )(body);
 
     expect(response.status).toEqual(201);
 
@@ -136,11 +141,11 @@ describe("Create Event", () => {
   test.todo("Should create an event with groups");
   test.todo("Should create an event with group members");
 
-  test(`Should create a ${EventTypes.QUOTE.value} event `, async () => {
+  test(`Should create a ${EventTypes.QUOTE.literals[0]} event `, async () => {
     const eventData = {
       date: new Date().toISOString(),
       draft: false,
-      type: EventTypes.QUOTE.value,
+      type: EventTypes.QUOTE.literals[0],
       payload: {
         quote: fc.sample(fc.string(), 1)[0],
         actor: actors[0].id,
@@ -155,7 +160,9 @@ describe("Create Event", () => {
       .send(eventData);
 
     const body = response.body.data;
-    const decodedBody = http.Events.Quote.Quote.decode(body);
+    const decodedBody = Schema.decodeUnknownEither(http.Events.Quote.Quote)(
+      body,
+    );
 
     expect(response.status).toEqual(201);
 

@@ -50,8 +50,10 @@ export class EventV2Entity {
 
   @Column({
     type: "enum",
-    enum: http.Events.Event.members.map((eventC) => eventC.fields.type.Type),
-    default: UNCATEGORIZED.Type,
+    enum: http.Events.Event.members.map(
+      (eventC) => eventC.fields.type.literals[0],
+    ),
+    default: UNCATEGORIZED.literals[0],
   })
   type: http.Events.Event["type"];
 

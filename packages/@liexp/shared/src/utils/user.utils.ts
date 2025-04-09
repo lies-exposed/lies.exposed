@@ -4,8 +4,10 @@ import { type User } from "../io/http/index.js";
 export const checkIsAdmin = (pp: readonly User.UserPermission[]): boolean => {
   return (
     pp &&
-    [AdminDelete.Type, AdminEdit.Type, AdminCreate.Type].some((p) =>
-      pp.includes(p),
-    )
+    [
+      AdminDelete.literals[0],
+      AdminEdit.literals[0],
+      AdminCreate.literals[0],
+    ].some((p) => pp.includes(p))
   );
 };

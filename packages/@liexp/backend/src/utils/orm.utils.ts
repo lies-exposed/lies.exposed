@@ -40,9 +40,9 @@ const getOrderQuery = (s: Query.SortQuery): Partial<ORMOrder> => {
         }
         return {
           order: {
-            [key]: O.getOrElse((): Query.SortOrder => Query.SortOrderDESC.Type)(
-              s._order,
-            ),
+            [key]: O.getOrElse(
+              (): Query.SortOrder => Query.SortOrderDESC.literals[0],
+            )(s._order),
           },
         };
       },

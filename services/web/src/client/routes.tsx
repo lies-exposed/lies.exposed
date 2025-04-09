@@ -521,7 +521,7 @@ export const routes: ServerRoute[] = [
         {
           queryKey: Q.Queries.Stats.list.getKey(
             {
-              filter: { id: params.keywordId, type: StatsType.members[0].Type },
+              filter: { id: params.keywordId, type: StatsType.members[0].literals[0] },
             },
             // true,
           ),

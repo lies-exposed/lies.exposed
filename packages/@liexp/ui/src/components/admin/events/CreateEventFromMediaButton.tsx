@@ -16,7 +16,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<string>(
-    io.http.Events.EventType.members[0].Type,
+    io.http.Events.EventType.members[0].literals[0],
   );
 
   const handleSubmit = async (media: Media): Promise<void> => {

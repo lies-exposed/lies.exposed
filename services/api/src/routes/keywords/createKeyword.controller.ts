@@ -12,7 +12,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.Type])({ logger, jwt }))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])({ logger, jwt }))(
     Endpoints.Keyword.Create,
     ({ body }) => {
       logger.debug.log("Headers %O", { body });

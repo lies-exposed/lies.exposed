@@ -58,7 +58,7 @@ describe("Create From TG Message", () => {
     [admin] = fc.sample(UserArb, 1).map((u) => ({
       ...u,
       password: "password",
-      permissions: [AdminCreate.value],
+      permissions: [AdminCreate.literals[0]],
     }));
 
     // admin = await saveUser(ctx, [AdminCreate.value]);

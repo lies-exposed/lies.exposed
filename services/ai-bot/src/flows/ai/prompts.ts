@@ -32,7 +32,7 @@ export const getPromptFromResource = (
 ): PromptFn<{ text: string; question: string }> => {
   switch (true) {
     case resource === ACTORS.Type: {
-      if (type === QueueTypes.members[0].Type) {
+      if (type === QueueTypes.members[0].literals[0]) {
         return ACTOR_GENERAL_INFO_PROMPT;
       }
       return EMBED_ACTOR_PROMPT;

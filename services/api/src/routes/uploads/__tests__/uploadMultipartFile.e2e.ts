@@ -79,7 +79,7 @@ describe("Upload file", () => {
     const expectedLocation = await throwTE(
       Test.ctx.s3.getEndpoint(
         Test.ctx.env.SPACE_BUCKET,
-        getMediaKey("media", mediaId, mediaId, PngType.Type),
+        getMediaKey("media", mediaId, mediaId, PngType.literals[0]),
       ),
     );
 

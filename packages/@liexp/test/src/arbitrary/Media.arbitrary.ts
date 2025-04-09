@@ -44,7 +44,7 @@ export const MediaArb: fc.Arbitrary<http.Media.Media> = Arbitrary.make(
         keywords: [],
         featuredInStories: [],
         areas: [],
-        type: http.Media.PngType.Type,
+        type: http.Media.PngType.literals[0],
         creator: undefined,
         extra: undefined,
         socialPosts: undefined,

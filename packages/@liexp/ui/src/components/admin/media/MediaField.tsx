@@ -38,7 +38,7 @@ export const MediaField: React.FC<MediaFieldProps> = ({
     type ??
     (src?.includes(".png")
       ? MediaType.members[2].Type
-      : (record?.type ?? MediaType.members[0].Type));
+      : (record?.type ?? MediaType.members[0].literals[0]));
 
   switch (mediaType) {
     case MediaType.members[7].Type:

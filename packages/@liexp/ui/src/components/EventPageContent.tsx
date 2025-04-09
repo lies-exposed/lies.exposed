@@ -1,4 +1,4 @@
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
@@ -37,20 +37,20 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
   // const { url } = getEventCommonProps(event, relations);
   const link =
-    event.type === http.Events.EventTypes.DOCUMENTARY.Type
+    event.type === http.Events.EventTypes.DOCUMENTARY.literals[0]
       ? event.payload.website
-      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type
+      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.literals[0]
         ? event.payload.url
-        : event.type === http.Events.EventTypes.PATENT.Type
+        : event.type === http.Events.EventTypes.PATENT.literals[0]
           ? event.payload.source
           : undefined;
 
   const eventPageContent =
-    event.type === EventTypes.BOOK.Type ? (
+    event.type === EVENT_TYPES.BOOK ? (
       <BookEventPageContent event={event} onMediaClick={onMediaClick} />
-    ) : event.type === EventTypes.QUOTE.Type ? (
+    ) : event.type === EVENT_TYPES.QUOTE ? (
       <QuoteEventPageContent event={event} />
-    ) : event.type === EventTypes.DOCUMENTARY.Type ? (
+    ) : event.type === EVENT_TYPES.DOCUMENTARY ? (
       <DocumentaryPageContent
         event={event}
         media={relations.media[0]}

@@ -8,6 +8,8 @@ declare global {
       firstName: string;
       lastName: string;
       username: string;
+      createdAt: Date;
+      updatedAt: Date;
     }
 
     interface Request {

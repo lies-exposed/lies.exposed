@@ -40,7 +40,7 @@ describe(createEventFromURL.name, () => {
     // event by url
     mockTERightOnce(appTest.ctx.puppeteer.execute, () =>
       fp.O.some({
-        type: SCIENTIFIC_STUDY.Type,
+        type: SCIENTIFIC_STUDY.literals[0],
         date: new Date(),
         payload: {
           title,
@@ -62,13 +62,18 @@ describe(createEventFromURL.name, () => {
     const user = new UserEntity();
 
     const event: any = await pipe(
-      createEventFromURL(user, uuid(), url, SCIENTIFIC_STUDY.Type)(appTest.ctx),
+      createEventFromURL(
+        user,
+        uuid(),
+        url,
+        SCIENTIFIC_STUDY.literals[0],
+      )(appTest.ctx),
       throwTE,
     );
 
     expect(appTest.ctx.db.save).toHaveBeenCalledWith(EventV2Entity, [
       expect.objectContaining({
-        type: SCIENTIFIC_STUDY.Type,
+        type: SCIENTIFIC_STUDY.literals[0],
         payload: {
           title,
           description,
@@ -77,7 +82,7 @@ describe(createEventFromURL.name, () => {
       }),
     ]);
 
-    expect(event.type).toBe(SCIENTIFIC_STUDY.Type);
+    expect(event.type).toBe(SCIENTIFIC_STUDY.literals[0]);
     expect(event.date).toBe(savedEvent.date);
 
     expect(event.payload).toMatchObject(savedEvent.payload);

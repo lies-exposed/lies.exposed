@@ -10,38 +10,38 @@ import { ResourcesNames } from "../io/http/ResourcesNames.js";
 export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
   switch (c) {
     case "pdf":
-      return Media.MediaType.members[6].Type;
+      return Media.MediaType.members[6].literals[0];
     case "mp4":
-      return Media.MediaType.members[5].Type;
+      return Media.MediaType.members[5].literals[0];
     case "ogg":
-      return Media.MediaType.members[4].Type;
+      return Media.MediaType.members[4].literals[0];
     case "mp3":
-      return Media.MediaType.members[3].Type;
+      return Media.MediaType.members[3].literals[0];
     case "png":
-      return Media.MediaType.members[2].Type;
+      return Media.MediaType.members[2].literals[0];
     case "jpeg":
-      return Media.MediaType.members[1].Type;
+      return Media.MediaType.members[1].literals[0];
     case "jpg":
     default:
-      return Media.MediaType.members[0].Type;
+      return Media.MediaType.members[0].literals[0];
   }
 };
 
 export const fileExtFromContentType = (c: Media.ValidContentType): string => {
   switch (c) {
-    case Media.MediaType.members[6].Type:
+    case Media.MediaType.members[6].literals[0]:
       return "pdf";
-    case Media.MediaType.members[5].Type:
+    case Media.MediaType.members[5].literals[0]:
       return "mp4";
-    case Media.MediaType.members[4].Type:
+    case Media.MediaType.members[4].literals[0]:
       return "ogg";
-    case Media.MediaType.members[3].Type:
+    case Media.MediaType.members[3].literals[0]:
       return "mp3";
-    case Media.MediaType.members[2].Type:
+    case Media.MediaType.members[2].literals[0]:
       return "png";
-    case Media.MediaType.members[1].Type:
+    case Media.MediaType.members[1].literals[0]:
       return "jpeg";
-    case Media.MediaType.members[0].Type:
+    case Media.MediaType.members[0].literals[0]:
       return "jpg";
   }
 };

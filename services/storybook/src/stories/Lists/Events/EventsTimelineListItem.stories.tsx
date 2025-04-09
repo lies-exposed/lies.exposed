@@ -1,7 +1,8 @@
 import {
   EventType,
   EventTypes,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+  EVENT_TYPES,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventTimelineItem, {
@@ -17,7 +18,7 @@ const meta: Meta = {
     type: {
       control: {
         type: "select",
-        options: EventType.members.map((t) => t.Type),
+        options: EventType.members.map((t) => t.literals[0]),
       },
     },
   },
@@ -54,7 +55,7 @@ const Template: StoryFn<EventTimelineItemStoryProps> = ({ type, ...props }) => {
 const DeathEventTimelineListItem = Template.bind({});
 
 DeathEventTimelineListItem.args = {
-  type: EventTypes.DEATH.Type,
+  type: EVENT_TYPES.DEATH,
   isLast: false,
   onActorClick: () => {},
   onGroupClick() {},
@@ -67,7 +68,7 @@ DeathEventTimelineListItem.args = {
 
 const QuoteEventTimelineListItem = Template.bind({});
 QuoteEventTimelineListItem.args = {
-  type: EventTypes.QUOTE.Type,
+  type: EVENT_TYPES.QUOTE,
   isLast: false,
 };
 

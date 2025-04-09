@@ -11,7 +11,6 @@ import {
 import {
   type PartialSerializedType,
   type Codec,
-  type RecordEncoded,
   type runtimeType,
   type serializedType,
 } from "ts-io-error";
@@ -27,7 +26,7 @@ export type GetFnParams<G> = G extends MinimalEndpointInstance
 
 export type GetListFnParamsE<L> = Partial<Omit<GetListParams, "filter">> & {
   filter?: Partial<
-    RecordEncoded<
+    serializedType<
       L extends MinimalEndpointInstance
         ? InferEndpointInstanceParams<L>["query"]
         : InferEndpointParams<L>["query"]

@@ -130,13 +130,13 @@ const transformByType = (
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
-    case EventTypes.DEATH.Type:
+    case EventTypes.DEATH:
       return transformDeath(data, relations);
-    case EventTypes.SCIENTIFIC_STUDY.Type:
+    case EventTypes.SCIENTIFIC_STUDY:
       return transformScientificStudy(data, relations);
-    case EventTypes.QUOTE.Type:
+    case EventTypes.QUOTE:
       return transformQuote(data, relations);
-    case EventTypes.BOOK.Type:
+    case EventTypes.BOOK:
       return transformBook(data, relations);
     default:
       return transformUncategorized(data, relations);

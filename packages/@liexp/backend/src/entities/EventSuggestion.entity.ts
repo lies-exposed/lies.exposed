@@ -24,7 +24,9 @@ export class EventSuggestionEntity {
 
   @Column({
     type: "enum",
-    enum: http.EventSuggestion.EventSuggestionStatus.members.map((t) => t.Type),
+    enum: http.EventSuggestion.EventSuggestionStatus.members.map(
+      (t) => t.literals[0],
+    ),
   })
   status: http.EventSuggestion.EventSuggestionStatus;
 

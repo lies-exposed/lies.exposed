@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import { UUID } from "../../io/http/Common/UUID.js";
-import { Events } from "../../io/http/index.js";
+import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
+import { type Events } from "../../io/http/index.js";
 
 export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   const commonIds = {
@@ -12,7 +13,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   };
 
   switch (e.type) {
-    case Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       const publisherActors =
         e.payload.publisher && e.payload.publisher.type === "Actor"
           ? [e.payload.publisher.id]
@@ -41,7 +42,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       const quote =
         e.payload.subject?.type === "Actor"
           ? {
@@ -64,7 +65,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return {
         ...commonIds,
         actors: [e.payload.victim],
@@ -72,7 +73,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       const actors = [
         e.payload.from.type === "Actor" ? e.payload.from.id : undefined,
         e.payload.to.type === "Actor" ? e.payload.to.id : undefined,
@@ -88,7 +89,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
         groupsMembers: [],
       };
     }
-    case Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return {
         ...commonIds,
         actors: [...e.payload.owners.actors],
@@ -97,7 +98,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return {
         ...commonIds,
         links: commonIds.links.concat(
@@ -116,7 +117,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return {
         ...commonIds,
         links: commonIds.links.concat(e.payload.url),
@@ -126,7 +127,7 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
       };
     }
 
-    case Events.EventTypes.UNCATEGORIZED.Type: {
+    case EVENT_TYPES.UNCATEGORIZED: {
       return {
         ...commonIds,
         actors: [...e.payload.actors],

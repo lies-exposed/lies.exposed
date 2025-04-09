@@ -32,7 +32,7 @@ export const saveUser = async (
         passwordHash,
         email: username,
         permissions,
-        status: UserStatusApproved.Type,
+        status: UserStatusApproved.literals[0],
         firstName: fc.sample(fc.string())[0],
         lastName: fc.sample(fc.string())[0],
       },

@@ -1,5 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -25,7 +26,7 @@ export const createEventQuery = <
     }),
     fp.RTE.chainTaskEitherK(({ keywords, links, media }) => {
       switch (input.type) {
-        case http.Events.EventTypes.PATENT.Type: {
+        case EVENT_TYPES.PATENT: {
           const { type, date, draft, excerpt, payload } = input;
           return TE.right({
             type,
@@ -38,7 +39,7 @@ export const createEventQuery = <
             media,
           } as any);
         }
-        case http.Events.EventTypes.DEATH.Type: {
+        case EVENT_TYPES.DEATH: {
           const { type, date, draft, excerpt, payload } = input;
           return TE.right({
             type,
@@ -54,11 +55,11 @@ export const createEventQuery = <
             media,
           });
         }
-        case http.Events.EventTypes.QUOTE.Type:
-        case http.Events.EventTypes.SCIENTIFIC_STUDY.Type:
-        case http.Events.EventTypes.BOOK.Type:
-        case http.Events.EventTypes.DOCUMENTARY.Type:
-        case http.Events.EventTypes.TRANSACTION.Type: {
+        case EVENT_TYPES.QUOTE:
+        case EVENT_TYPES.SCIENTIFIC_STUDY:
+        case EVENT_TYPES.BOOK:
+        case EVENT_TYPES.DOCUMENTARY:
+        case EVENT_TYPES.TRANSACTION: {
           const { type, draft, excerpt, date, payload } = input;
           return TE.right({
             type,
@@ -71,7 +72,7 @@ export const createEventQuery = <
             media,
           });
         }
-        case http.Events.EventTypes.UNCATEGORIZED.Type:
+        case EVENT_TYPES.UNCATEGORIZED:
         default: {
           const { excerpt, type, draft, date, payload } = input;
           const uncategorizedEvent: DeepPartial<EventV2Entity> = {

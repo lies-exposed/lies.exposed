@@ -1,5 +1,6 @@
 import { type UUID } from "../../io/http/Common/UUID.js";
-import * as http from "../../io/http/index.js";
+import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
+import type * as http from "../../io/http/index.js";
 import { getTitle } from "./getTitle.helper.js";
 
 export interface EventCommonProps {
@@ -15,21 +16,21 @@ export const getEventCommonProps = (
 ): EventCommonProps => {
   const title = getTitle(e, relations);
   switch (e.type) {
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return {
         title,
         url: e.payload.url,
         date: [e.date],
       };
     }
-    case http.Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return {
         title,
         url: e.payload.source,
         date: [e.date],
       };
     }
-    case http.Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return {
         title,
         url:
@@ -40,7 +41,7 @@ export const getEventCommonProps = (
         date: [e.date],
       };
     }
-    case http.Events.EventTypes.UNCATEGORIZED.Type: {
+    case EVENT_TYPES.UNCATEGORIZED: {
       return {
         title,
         url: undefined,

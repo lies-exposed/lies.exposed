@@ -3,7 +3,7 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -39,7 +39,7 @@ export const MakeGetListPatentEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query({
           ...query,
-          type: O.some([EventTypes.PATENT.Type]),
+          type: O.some([EVENT_TYPES.PATENT]),
           draft,
           actors: O.none(),
           keywords,

@@ -46,8 +46,8 @@ export class UserEntity {
 
   @Column({
     type: "enum",
-    enum: UserStatus.members.map((t) => t.Type),
-    default: UserStatusPending.Type,
+    enum: UserStatus.members.map((t) => t.literals[0]),
+    default: UserStatusPending.literals[0],
   })
   status: UserStatus;
 

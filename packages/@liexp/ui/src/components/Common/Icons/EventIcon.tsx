@@ -3,10 +3,8 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import {
-  EventTypes,
-  type Event,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 
@@ -23,25 +21,25 @@ const Root = styled("text")(() => ({
 }));
 
 export const EventTypeColor = {
-  [EventTypes.BOOK.Type]: "#B5F425",
-  [EventTypes.UNCATEGORIZED.Type]: "#EC3535",
-  [EventTypes.DEATH.Type]: "#111111",
-  [EventTypes.SCIENTIFIC_STUDY.Type]: "#2596be",
-  [EventTypes.PATENT.Type]: "#BE259E",
-  [EventTypes.DOCUMENTARY.Type]: "#2538BE",
-  [EventTypes.TRANSACTION.Type]: "#2DBE25",
-  [EventTypes.QUOTE.Type]: "#451ade",
+  [EVENT_TYPES.BOOK]: "#B5F425",
+  [EVENT_TYPES.UNCATEGORIZED]: "#EC3535",
+  [EVENT_TYPES.DEATH]: "#111111",
+  [EVENT_TYPES.SCIENTIFIC_STUDY]: "#2596be",
+  [EVENT_TYPES.PATENT]: "#BE259E",
+  [EVENT_TYPES.DOCUMENTARY]: "#2538BE",
+  [EVENT_TYPES.TRANSACTION]: "#2DBE25",
+  [EVENT_TYPES.QUOTE]: "#451ade",
 };
 
 export const EventTypeIconClass = {
-  [EventTypes.BOOK.Type]: "book" as IconName,
-  [EventTypes.DEATH.Type]: "skull-crossbones" as IconName,
-  [EventTypes.SCIENTIFIC_STUDY.Type]: "flask" as IconName,
-  [EventTypes.PATENT.Type]: "barcode" as IconName,
-  [EventTypes.DOCUMENTARY.Type]: "film" as IconName,
-  [EventTypes.TRANSACTION.Type]: "money-bill-1-wave" as IconName,
-  [EventTypes.QUOTE.Type]: "quote-left" as IconName,
-  [EventTypes.UNCATEGORIZED.Type]: "calendar" as IconName,
+  [EVENT_TYPES.BOOK]: "book" as IconName,
+  [EVENT_TYPES.DEATH]: "skull-crossbones" as IconName,
+  [EVENT_TYPES.SCIENTIFIC_STUDY]: "flask" as IconName,
+  [EVENT_TYPES.PATENT]: "barcode" as IconName,
+  [EVENT_TYPES.DOCUMENTARY]: "film" as IconName,
+  [EVENT_TYPES.TRANSACTION]: "money-bill-1-wave" as IconName,
+  [EVENT_TYPES.QUOTE]: "quote-left" as IconName,
+  [EVENT_TYPES.UNCATEGORIZED]: "calendar" as IconName,
 };
 
 interface EventIconProps extends Omit<FontAwesomeIconProps, "icon"> {
@@ -56,7 +54,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
 }) => {
   const props = { ..._props, width, height };
   switch (type) {
-    case EventTypes.BOOK.Type:
+    case EVENT_TYPES.BOOK:
       return (
         <FontAwesomeIcon
           {...props}
@@ -65,7 +63,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.Book }}
         />
       );
-    case EventTypes.QUOTE.Type:
+    case EVENT_TYPES.QUOTE:
       return (
         <FontAwesomeIcon
           {...props}
@@ -74,7 +72,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.Quote }}
         />
       );
-    case EventTypes.SCIENTIFIC_STUDY.Type:
+    case EVENT_TYPES.SCIENTIFIC_STUDY:
       return (
         <FontAwesomeIcon
           {...props}
@@ -83,7 +81,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.ScientificStudy }}
         />
       );
-    case EventTypes.DEATH.Type:
+    case EVENT_TYPES.DEATH:
       return (
         <FontAwesomeIcon
           {...props}
@@ -92,7 +90,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.Death }}
         />
       );
-    case EventTypes.PATENT.Type:
+    case EVENT_TYPES.PATENT:
       return (
         <FontAwesomeIcon
           {...props}
@@ -101,7 +99,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.Patent }}
         />
       );
-    case EventTypes.DOCUMENTARY.Type:
+    case EVENT_TYPES.DOCUMENTARY:
       return (
         <FontAwesomeIcon
           {...props}
@@ -110,7 +108,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           style={{ ...props.style, color: EventTypeColor.Documentary }}
         />
       );
-    case EventTypes.TRANSACTION.Type:
+    case EVENT_TYPES.TRANSACTION:
       return (
         <FontAwesomeIcon
           {...props}

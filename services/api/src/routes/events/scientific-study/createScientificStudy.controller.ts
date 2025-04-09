@@ -9,7 +9,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.Type])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.ScientificStudy.Create,
     ({ body }, req) => {
       return pipe(

@@ -22,9 +22,11 @@ import {
 export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(
     r,
-    authenticationHandler([AdminCreate.Type, AdminEdit.Type, AdminDelete.Type])(
-      ctx,
-    ),
+    authenticationHandler([
+      AdminCreate.literals[0],
+      AdminEdit.literals[0],
+      AdminDelete.literals[0],
+    ])(ctx),
   )(
     Endpoints.ScientificStudy.Custom.ExtractFromURL,
     ({ params: { id } }, req) => {
@@ -43,7 +45,9 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
 
         TE.bind("user", () =>
           pipe(
-            RequestDecoder.decodeUserFromRequest(req, [AdminCreate.Type])(ctx),
+            RequestDecoder.decodeUserFromRequest(req, [
+              AdminCreate.literals[0],
+            ])(ctx),
             fp.TE.fromIOEither,
           ),
         ),

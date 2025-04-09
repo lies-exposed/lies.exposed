@@ -7,7 +7,8 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as O from "effect/Option";
@@ -112,10 +113,11 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             link,
             fp.O.map((l) => [
               {
-                type: EventSuggestion.EventSuggestionType.members[0].Type,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.DOCUMENTARY.Type,
+                  type: EVENT_TYPES.DOCUMENTARY,
                   payload: {
                     title: suggestedTitle,
                     website: l.id,
@@ -132,10 +134,11 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: EventSuggestion.EventSuggestionType.members[0].Type,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.PATENT.Type,
+                  type: EVENT_TYPES.PATENT,
                   payload: {
                     title: suggestedTitle,
                     source: l.id,
@@ -147,10 +150,11 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: EventSuggestion.EventSuggestionType.members[0].Type,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.SCIENTIFIC_STUDY.Type,
+                  type: EVENT_TYPES.SCIENTIFIC_STUDY,
                   payload: {
                     title: suggestedTitle,
                     url: l.id,
@@ -164,10 +168,10 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             fp.O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => []),
           ),
           {
-            type: EventSuggestion.EventSuggestionType.members[0].Type,
+            type: EventSuggestion.EventSuggestionType.members[0].literals[0],
             event: {
               ...commonSuggestion,
-              type: Events.EventTypes.DEATH.Type,
+              type: EVENT_TYPES.DEATH,
               payload: {
                 victim: uuid(),
                 location: undefined,
@@ -175,10 +179,10 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             },
           },
           {
-            type: EventSuggestion.EventSuggestionType.members[0].Type,
+            type: EventSuggestion.EventSuggestionType.members[0].literals[0],
             event: {
               ...commonSuggestion,
-              type: Events.EventTypes.UNCATEGORIZED.Type,
+              type: EVENT_TYPES.UNCATEGORIZED,
               payload: {
                 title: suggestedTitle,
                 actors: [],

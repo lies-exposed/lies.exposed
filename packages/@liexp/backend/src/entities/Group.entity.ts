@@ -50,7 +50,7 @@ export class GroupEntity {
   avatar: Relation<MediaEntity> | UUID | null;
 
   @Column({
-    enum: io.http.Group.GroupKind.members.map((t) => t.Type),
+    enum: io.http.Group.GroupKind.members.map((t) => t.literals[0]),
     type: "enum",
   })
   kind: io.http.Group.GroupKind;

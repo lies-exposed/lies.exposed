@@ -109,7 +109,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
-      case Media.AudioType.members[0].Type:
+      case Media.AudioType.members[0].literals[0]:
       case Media.AudioType.members[1].Type: {
         return (
           <AudioMediaElement

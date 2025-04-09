@@ -76,7 +76,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.Type,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -114,7 +114,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.Type,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -142,7 +142,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.Type,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",

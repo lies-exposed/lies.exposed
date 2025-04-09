@@ -39,15 +39,12 @@ const decodeUserFromRequest =
       req.headers,
     );
 
-    // logger.debug.log(
-    //   "Decoded headers errors %O",
-    //   PathReporter.report(decodedHeaders),
-    // );
+    logger.debug.log("Decoded headers errors %O", decodedHeaders);
 
     return pipe(
       decodedHeaders,
       IOE.fromEither,
-      IOE.mapLeft(() => toNotAuthorizedError()),
+      IOE.mapLeft((e) => toNotAuthorizedError()),
       IOE.chain((s) => jwt.verifyUser(s.authorization)),
       IOE.filterOrElse(
         (u) => {
@@ -55,37 +52,37 @@ const decodeUserFromRequest =
             return true;
           }
 
-          const perms: UserPermission[] = [AdminDelete.Type];
+          const perms: UserPermission[] = [AdminDelete.literals[0]];
 
-          if (routePerms.includes(AdminDelete.Type)) {
+          if (routePerms.includes(AdminDelete.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
-          perms.push(AdminEdit.Type);
-          if (routePerms.includes(AdminEdit.Type)) {
+          perms.push(AdminEdit.literals[0]);
+          if (routePerms.includes(AdminEdit.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
-          perms.push(AdminCreate.Type);
-          if (routePerms.includes(AdminCreate.Type)) {
-            return perms.some((p) => u.permissions.includes(p));
-          }
-
-          perms.push(AdminRead.Type);
-          if (routePerms.includes(AdminRead.Type)) {
+          perms.push(AdminCreate.literals[0]);
+          if (routePerms.includes(AdminCreate.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionEdit.Type);
-          if (routePerms.includes(EventSuggestionEdit.Type)) {
+          perms.push(AdminRead.literals[0]);
+          if (routePerms.includes(AdminRead.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionCreate.Type);
-          if (routePerms.includes(EventSuggestionCreate.Type)) {
+          perms.push(EventSuggestionEdit.literals[0]);
+          if (routePerms.includes(EventSuggestionEdit.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionRead.Type);
-          if (routePerms.includes(EventSuggestionRead.Type)) {
+          perms.push(EventSuggestionCreate.literals[0]);
+          if (routePerms.includes(EventSuggestionCreate.literals[0])) {
+            return perms.some((p) => u.permissions.includes(p));
+          }
+
+          perms.push(EventSuggestionRead.literals[0]);
+          if (routePerms.includes(EventSuggestionRead.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 

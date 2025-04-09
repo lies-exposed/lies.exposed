@@ -3,7 +3,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
-  EventTypes,
+  EVENT_TYPES,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
@@ -564,11 +564,11 @@ export const searchEventV2Query =
 
             const quotesCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.QUOTE.Type}'`);
+              .andWhere(`event.type = '${EVENT_TYPES.QUOTE}'`);
 
             const booksCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.BOOK.Type}'`);
+              .andWhere(`event.type = '${EVENT_TYPES.BOOK}'`);
 
             if (O.isSome(type)) {
               q.andWhere('"event"."type"::text IN (:...types)', {

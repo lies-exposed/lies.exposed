@@ -10,7 +10,6 @@ import * as io from "@liexp/shared/lib/io/index.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type MediaEntity } from "../entities/Media.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
@@ -21,6 +20,38 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
   type: T;
 };
 
+const encodeMedia = (
+  media: MediaEntity,
+  spaceEndpoint: string,
+): E.Either<
+  _DecodeError,
+  Schema.Schema.Encoded<typeof io.http.Media.AdminMedia>
+> => {
+  return pipe(
+    Schema.encodeEither(io.http.Media.AdminMedia)({
+      ...media,
+      label: media.label ?? media.location,
+      description: media.description ?? undefined,
+      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
+      transferable: !media.location.includes(spaceEndpoint),
+      creator: Schema.is(UUID)(media.creator)
+        ? media.creator
+        : media.creator?.id,
+      extra: media.extra
+        ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
+        : undefined,
+      featuredInStories: media.featuredInStories?.map((s) => s.id) ?? [],
+      socialPosts: media.socialPosts?.map((s) => s.id) ?? [],
+      events: media.events?.map((e) => (Schema.is(UUID)(e) ? e : e.id)) ?? [],
+      keywords:
+        media.keywords?.map((k) => (Schema.is(UUID)(k) ? k : k.id)) ?? [],
+      areas: media.areas?.map((a) => (Schema.is(UUID)(a) ? a : a.id)) ?? [],
+      links: media.links?.map((l) => (Schema.is(UUID)(l) ? l : l.id)) ?? [],
+      deletedAt: media.deletedAt ?? undefined,
+    }),
+    E.mapLeft((e) => DecodeError.of(`Failed to encode media (${media.id})`, e)),
+  );
+};
 const decodeMedia = (
   media: MediaEntity,
   spaceEndpoint: string,
@@ -60,13 +91,7 @@ export const MediaIO = IOCodec(
   io.http.Media.AdminMedia,
   {
     decode: decodeMedia,
-    encode: () =>
-      E.left(
-        new IOError("Not implemented", {
-          kind: "DecodingError",
-          errors: [],
-        }),
-      ),
+    encode: encodeMedia,
   },
   "media",
 );

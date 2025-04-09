@@ -56,7 +56,7 @@ export const parsePhoto =
 
             return createAndUpload(
               {
-                type: MediaType.members[0].Type,
+                type: MediaType.members[0].literals[0],
                 location: p.file_id as URL,
                 label: description,
                 description,
@@ -69,7 +69,7 @@ export const parsePhoto =
               },
               {
                 Body: f,
-                ContentType: ImageType.members[0].Type,
+                ContentType: ImageType.members[0].literals[0],
               },
               mediaId,
               false,

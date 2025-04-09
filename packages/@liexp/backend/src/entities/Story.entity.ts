@@ -1,3 +1,4 @@
+import { UUID } from '@liexp/shared/lib/io/http/Common/UUID.js';
 import {
   Column,
   CreateDateColumn,
@@ -22,7 +23,7 @@ export const STORY_ENTITY_NAME = "story";
 @Entity(STORY_ENTITY_NAME)
 export class StoryEntity {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id: UUID;
 
   @Column({ type: "varchar" })
   title: string;

@@ -44,7 +44,9 @@ export const CreateEventFromLinkButton: React.FC = () => {
       setState({ error: undefined });
       await pipe(apiProvider.Endpoints.Event.post(event), throwTE)
         .then((event) => {
-          navigate(`/events/${event.id}`);
+          if ("id" in event) {
+            navigate(`/events/${event.id}`);
+          }
         })
         .catch((e) => {
           setState({ error: e });

@@ -31,6 +31,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
       //   passwordUtils.hash(password),
       //   ctx.logger.debug.logInTaskEither('Password hash %s')
       // )()
+
       return pipe(
         ctx.db.findOneOrFail(UserEntity, {
           where: [{ username }, { email: username }],
@@ -38,7 +39,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
         TE.mapLeft(() => toControllerError(toNotFoundError("User"))),
         LoggerService.TE.debug(ctx, "User %O"),
         TE.filterOrElse(
-          (e) => e.status === UserStatusApproved.Type,
+          (e) => e.status === UserStatusApproved.literals[0],
           () => toControllerError(ServerError.of(["User not approved"])),
         ),
         TE.chainFirst((user): TEControllerError<boolean> => {

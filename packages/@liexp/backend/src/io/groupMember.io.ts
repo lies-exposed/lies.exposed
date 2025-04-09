@@ -21,29 +21,30 @@ const toGroupMemberIO = (
 ): E.Either<_DecodeError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
-      group: GroupIO.decodeSingle(groupMember.group, spaceEndpoint),
-      actor: ActorIO.decodeSingle(groupMember.actor, spaceEndpoint),
+      group: GroupIO.encodeSingle(groupMember.group, spaceEndpoint),
+      actor: ActorIO.encodeSingle(groupMember.actor, spaceEndpoint),
     }),
     E.chain(({ group, actor }) =>
       pipe(
         {
           ...groupMember,
           excerpt:
-            groupMember.excerpt && isValidValue(groupMember.excerpt)
+            (groupMember.excerpt && isValidValue(groupMember.excerpt)
               ? toInitialValue(groupMember.excerpt)
-              : null,
+              : null) ?? null,
           body:
-            groupMember.body && isValidValue(groupMember.body)
+            (groupMember.body && isValidValue(groupMember.body)
               ? toInitialValue(groupMember.body)
-              : null,
+              : null) ?? null,
           actor,
           group,
           startDate: (groupMember.startDate ?? new Date()).toISOString(),
           endDate: groupMember.endDate?.toISOString() ?? undefined,
           createdAt: groupMember.createdAt.toISOString(),
           updatedAt: groupMember.updatedAt.toISOString(),
+          deletedAt: groupMember.deletedAt?.toISOString() ?? undefined,
         },
-        Schema.decodeUnknownEither(io.http.GroupMember.GroupMember),
+        Schema.decodeEither(io.http.GroupMember.GroupMember),
         E.mapLeft((e) =>
           DecodeError.of(
             `Failed to decode group member (${groupMember.id})`,

@@ -23,8 +23,8 @@ const DocumentariesPage: React.FC = () => {
           _end: "20",
         },
       }}
-      toItems={(r) => [...r.data.events]}
-      getTotal={(r) => r.data.total}
+      toItems={(r) => [...r.events]}
+      getTotal={(r) => r.total}
       listProps={{
         type: "masonry",
         getItem: (data: any[], index: any) => {

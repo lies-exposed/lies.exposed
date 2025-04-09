@@ -71,7 +71,7 @@ describe.skip("Create Network Graph", () => {
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev),
+        getLink(keywords[0], KEYWORDS.Type, ev),
       );
       expect(links).toMatchObject(expectedLinks);
     });
@@ -91,7 +91,7 @@ describe.skip("Create Network Graph", () => {
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev),
+        getLink(keywords[0], KEYWORDS.Type, ev),
       );
       expectedLinks.set(keywords[1].id, []);
       expect(links).toMatchObject(expectedLinks);
@@ -171,7 +171,7 @@ describe.skip("Create Network Graph", () => {
         groups,
         keywords,
         media: [],
-        relations: [KEYWORDS.value],
+        relations: [KEYWORDS.Type],
         emptyRelations: false,
       });
 

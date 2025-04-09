@@ -1,14 +1,15 @@
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import {
-  toNotAuthorizedError,
   IOError,
+  toNotAuthorizedError,
 } from "@liexp/backend/lib/errors/index.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import { UnauthorizedError } from "express-jwt";
-import * as t from "io-ts";
 import { toAPIError, toControllerError } from "./ControllerError.js";
 
 describe("ControllerError", () => {
@@ -64,10 +65,10 @@ describe("ControllerError", () => {
       const error = DecodeError.of(
         "Failed to decode melon",
         pipe(
-          Schema.Array(Schema.String).decode("melon"),
+          Schema.decodeUnknownEither(Schema.Array(Schema.String))("melon"),
           fp.E.fold(
             (e) => e,
-            () => [],
+            () => ({}) as ParseError,
           ),
         ),
       );
@@ -76,7 +77,7 @@ describe("ControllerError", () => {
         status: 400,
         name: "APIError",
         message: "Failed to decode melon",
-        details: ['Invalid value "melon" supplied to : Array<string>'],
+        details: ['Expected ReadonlyArray<string>, actual "melon"'],
       });
     });
 

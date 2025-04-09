@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
@@ -52,7 +53,7 @@ export const editEventQuery =
         // };
 
         switch (input.type) {
-          case http.Events.EventTypes.BOOK.Type: {
+          case EVENT_TYPES.BOOK: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -72,7 +73,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.QUOTE.Type: {
+          case EVENT_TYPES.QUOTE: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -92,7 +93,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.TRANSACTION.Type: {
+          case EVENT_TYPES.TRANSACTION: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -112,7 +113,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.DOCUMENTARY.Type: {
+          case EVENT_TYPES.DOCUMENTARY: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -132,7 +133,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.PATENT.Type: {
+          case EVENT_TYPES.PATENT: {
             const { excerpt, body, payload, date, draft } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -152,7 +153,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.DEATH.Type: {
+          case EVENT_TYPES.DEATH: {
             const { excerpt, body, payload, draft, date } = input;
             const baseProps = optionalsToUndefined({
               excerpt,
@@ -173,7 +174,7 @@ export const editEventQuery =
             };
             return TE.right(event);
           }
-          case http.Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+          case EVENT_TYPES.SCIENTIFIC_STUDY: {
             const { type, date, draft, excerpt, body, payload } = input;
             const baseProps = optionalsToUndefined({
               date,
@@ -192,7 +193,7 @@ export const editEventQuery =
               ...commonData,
             });
           }
-          case http.Events.EventTypes.UNCATEGORIZED.Type:
+          case EVENT_TYPES.UNCATEGORIZED:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
 

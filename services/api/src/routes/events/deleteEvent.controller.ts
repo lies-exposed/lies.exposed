@@ -9,20 +9,20 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const DeleteEventRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler([AdminDelete.Type])({ jwt, logger }))(
-    Endpoints.Event.Delete,
-    ({ params: { id } }) => {
-      return pipe(
-        db.findOneOrFail(EventV2Entity, { where: { id } }),
-        TE.tap(() => db.softDelete(EventV2Entity, id)),
-        TE.chainEitherK(EventV2IO.decodeSingle),
-        TE.map((data) => ({
-          body: {
-            data,
-          },
-          statusCode: 200,
-        })),
-      );
-    },
-  );
+  AddEndpoint(
+    r,
+    authenticationHandler([AdminDelete.literals[0]])({ jwt, logger }),
+  )(Endpoints.Event.Delete, ({ params: { id } }) => {
+    return pipe(
+      db.findOneOrFail(EventV2Entity, { where: { id } }),
+      TE.tap(() => db.softDelete(EventV2Entity, id)),
+      TE.chainEitherK(EventV2IO.decodeSingle),
+      TE.map((data) => ({
+        body: {
+          data,
+        },
+        statusCode: 200,
+      })),
+    );
+  });
 };

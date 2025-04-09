@@ -28,7 +28,7 @@ export const ResourceEntityInput: React.FC = () => {
   }
 
   const referenceInput = React.useMemo(() => {
-    if (record.type === SocialPostResourceType.members[0].Type) {
+    if (record.type === SocialPostResourceType.members[0].literals[0]) {
       return <ReferenceActorInput source="entity" />;
     }
 
