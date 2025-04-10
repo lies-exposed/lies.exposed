@@ -29,9 +29,16 @@ const processJob =
         pipe(
           fp.TE.right(job),
           fp.TE.chainFirst(() =>
-            ctx.endpointsRESTClient.Endpoints.Queues.edit({
-              ...(job as Queue.Queue),
-              status: "processing",
+            ctx.endpointsRESTClient.Queues.Edit({
+              Params: {
+                id: job.id,
+                type: job.type,
+                resource: job.resource,
+              },
+              Body: {
+                ...(job as Queue.Queue),
+                status: "processing",
+              },
             }),
           ),
         ),
@@ -79,9 +86,16 @@ const processJob =
           );
 
           return pipe(
-            ctx.endpointsRESTClient.Endpoints.Queues.edit({
-              ...updatedJob,
-            } as Queue.Queue),
+            ctx.endpointsRESTClient.Queues.Edit({
+              Params: {
+                id: job.id,
+                type: job.type,
+                resource: job.resource,
+              },
+              Body: {
+                ...updatedJob,
+              },
+            }),
             fp.TE.map(() => undefined),
           );
         },

@@ -1,18 +1,19 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import {
   CreateQueryProvider,
-  QueryProviderCustomQueries,
   type EndpointsQueryProvider,
-} from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
+} from "@ts-endpoint/tanstack-query";
 import * as React from "react";
-import { useEndpointsRESTClient } from "./useEndpointRestClient.js";
+import { useAPI } from "./useAPI.js";
 
-const useEndpointQueries = (): EndpointsQueryProvider => {
-  const client = useEndpointsRESTClient();
+const useEndpointQueries = (): EndpointsQueryProvider<
+  Endpoints,
+  QueryProviderCustomQueries
+> => {
+  const client = useAPI();
   const queries = React.useMemo(() => {
-    return CreateQueryProvider(
-      client,
-      QueryProviderCustomQueries,
-    ) as EndpointsQueryProvider;
+    return CreateQueryProvider(client, QueryProviderCustomQueries);
   }, [client]);
 
   return queries;

@@ -4,7 +4,6 @@ import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type Int } from "io-ts";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type DatabaseContext } from "../../../context/db.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -68,8 +67,8 @@ export const upsertNLPEntities = <
       >(
         ({ skip, amount }) =>
           fetchActors({
-            _start: O.some(skip as Int),
-            _end: O.some(amount as Int),
+            _start: O.some(skip),
+            _end: O.some(amount),
           })(ctx),
         ({ total }) => total,
         ({ results }) => TE.right(results),
@@ -83,8 +82,8 @@ export const upsertNLPEntities = <
       >(
         ({ skip, amount }) =>
           fetchGroups({
-            _start: O.some(skip as Int),
-            _end: O.some(amount as Int),
+            _start: O.some(skip),
+            _end: O.some(amount),
           })(ctx),
         ([, t]) => t,
         ([rr]) => TE.right(rr),
@@ -99,8 +98,8 @@ export const upsertNLPEntities = <
         ({ skip, amount }) =>
           fetchKeywords(
             {
-              _start: O.some(skip as Int),
-              _end: O.some(amount as Int),
+              _start: O.some(skip),
+              _end: O.some(amount),
             },
             true,
           )(ctx),

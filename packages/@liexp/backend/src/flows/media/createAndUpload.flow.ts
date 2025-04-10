@@ -120,13 +120,13 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
         return pipe(
           ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
             id: m.id,
-            resource: MEDIA.Type,
-            status: PendingStatus.Type,
+            resource: MEDIA.literals[0],
+            status: PendingStatus.literals[0],
             error: null,
             result: null,
             prompt: null,
             question: null,
-            type: OpenAIEmbeddingQueueType.Type,
+            type: OpenAIEmbeddingQueueType.literals[0],
             data: {
               url: m.location,
               type: "pdf" as const,

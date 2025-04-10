@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { URL } from "../io/http/Common/index.js";

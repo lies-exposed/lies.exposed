@@ -1,7 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type IOErrorDetails, type IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { type IOErrorDetails } from "ts-io-error";
-import { type IOError } from "ts-io-error/lib/index.js";
 import { CoreError } from "./CoreError.js";
 import { IOErrorSchema } from "./IOError.js";
 

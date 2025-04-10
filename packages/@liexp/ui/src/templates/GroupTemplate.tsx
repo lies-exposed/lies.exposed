@@ -90,7 +90,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 },
               ]}
               resource={{
-                name: Group.GROUPS.Type,
+                name: Group.GROUPS.literals[0],
                 item: group,
               }}
             >

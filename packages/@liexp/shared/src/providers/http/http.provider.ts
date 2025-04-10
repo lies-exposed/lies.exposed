@@ -1,4 +1,5 @@
 import { flow, pipe } from "@liexp/core/lib/fp/index.js";
+import { IOError } from "@ts-endpoint/core";
 import {
   isAxiosError,
   type AxiosInstance,
@@ -9,7 +10,6 @@ import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { IOError } from "ts-io-error";
 
 export class HTTPError extends IOError {
   name = "HTTPError";

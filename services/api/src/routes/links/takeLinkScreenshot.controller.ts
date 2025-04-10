@@ -39,7 +39,7 @@ export const MakeTakeLinkScreenshotRoute = (
               id: uuid(),
               label: link.title,
               description: link.description ?? link.title,
-              type: PngType.Type,
+              type: PngType.literals[0],
             },
           ]),
           TE.right,

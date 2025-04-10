@@ -1,3 +1,4 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventFromURLBody } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/Link.js";
 import * as io from "@liexp/shared/lib/io/index.js";
@@ -33,7 +34,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
     if (!type) {
       formGroupState.setValue(
         "type",
-        io.http.Events.EventTypes.UNCATEGORIZED.Type,
+        io.http.Events.EventTypes.UNCATEGORIZED.literals[0],
       );
     }
     return { payload, type };
@@ -64,7 +65,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
       <Stack direction="row">
         <EventTypeInput
           source="type"
-          defaultValue={io.http.Events.EventTypes.UNCATEGORIZED.Type}
+          defaultValue={EVENT_TYPES.UNCATEGORIZED}
           onChange={(value) => {
             formGroupState.setValue("type", value);
             void formGroupState.trigger();

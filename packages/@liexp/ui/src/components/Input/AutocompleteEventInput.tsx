@@ -26,7 +26,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   filter,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const conf = useConfiguration();
   return (
     <AutocompleteInput<Events.Event>

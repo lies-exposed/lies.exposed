@@ -32,7 +32,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   showInputOnClick = false,
   ...props
 }) => {
-  const types = supportedTypes ?? MediaType.members.map((a) => a.Type);
+  const types = supportedTypes ?? MediaType.members.map((a) => a.literals[0]);
   const [editMode, setEditMode] = React.useState(showInputOnClick);
 
   const handleClickOnField = showInputOnClick
@@ -112,8 +112,8 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                   {...rest}
                   source={sourceType}
                   choices={MediaType.members.map((v) => ({
-                    id: v.Type,
-                    name: v.Type,
+                    id: v.literals[0],
+                    name: v.literals[0],
                   }))}
                   defaultValue={mediaType}
                 />

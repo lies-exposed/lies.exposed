@@ -92,8 +92,8 @@ export const UserEditForm: React.FC<Omit<TabbedFormProps, "children">> = (
               <SelectInput
                 source="status"
                 choices={UserStatus.members.map((t) => ({
-                  id: t.Type,
-                  name: t.Type,
+                  id: t.literals[0],
+                  name: t.literals[0],
                 }))}
               />
               <UserTGTokenBox />

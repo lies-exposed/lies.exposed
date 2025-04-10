@@ -48,8 +48,8 @@ const eventsFilter = [
     alwaysOn
     size="small"
     choices={io.http.Events.EventType.members.map((t) => ({
-      id: t.Type,
-      name: t.Type,
+      id: t.literals[0],
+      name: t.literals[0],
     }))}
   />,
   <ReferenceArrayKeywordInput

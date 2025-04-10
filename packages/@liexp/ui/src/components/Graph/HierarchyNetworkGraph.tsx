@@ -72,28 +72,32 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       linkSource={(l) => l.source}
       linkTarget={(l) => l.target}
       onClick={(m) => {
-        if (m.type === ACTORS.Type) {
+        if (m.type === ACTORS.literals[0]) {
           onActorClick?.(m);
-        } else if (m.type === GROUPS.Type) {
+        } else if (m.type === GROUPS.literals[0]) {
           onGroupClick?.(m);
-        } else if (m.type === KEYWORDS.Type) {
+        } else if (m.type === KEYWORDS.literals[0]) {
           onKeywordClick?.(m);
         } else {
           onEventClick?.(m);
         }
       }}
-      nodeGroups={[ACTORS.Type, KEYWORDS.Type, GROUPS.Type]}
+      nodeGroups={[
+        ACTORS.literals[0],
+        KEYWORDS.literals[0],
+        GROUPS.literals[0],
+      ]}
       colors={colors}
       nodeId={(n) => n.data.id}
       linkStrokeWidth={(l) => l.value}
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
-        if (n.data.type === KEYWORDS.Type) {
+        if (n.data.type === KEYWORDS.literals[0]) {
           return n.data.tag;
-        } else if (n.data.type === GROUPS.Type) {
+        } else if (n.data.type === GROUPS.literals[0]) {
           return n.data.name;
-        } else if (n.data.type === ACTORS.Type) {
+        } else if (n.data.type === ACTORS.literals[0]) {
           return n.data.fullName;
         }
 

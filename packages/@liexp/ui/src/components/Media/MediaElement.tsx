@@ -68,7 +68,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
 }) => {
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
-      case Media.IframeVideoType.Type:
+      case Media.IframeVideoType.literals[0]:
         return (
           <IframeMediaElement
             {...props}
@@ -76,7 +76,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={style}
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: Media.IframeVideoType.Type }}
+            media={{ ...media, type: Media.IframeVideoType.literals[0] }}
           />
         );
       case Media.PDFType.Type: {

@@ -9,9 +9,9 @@ import {
   MediaExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type LinkEntity } from "../entities/Link.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 

@@ -54,8 +54,8 @@ const eventSuggestionListFilter = [
     key="status"
     source="status"
     choices={EventSuggestionStatus.members.map((tt) => ({
-      name: tt.Type,
-      id: tt.Type,
+      name: tt.literals[0],
+      id: tt.literals[0],
     }))}
   />,
 ];

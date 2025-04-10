@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-// eslint-disable-next-line no-restricted-imports
+
 import { v6, type Version6Options, validate } from "uuid";
 
 const UUID = Schema.UUID.pipe(Schema.brand("UUID"));

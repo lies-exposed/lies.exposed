@@ -1,9 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { dataProviderRequestLift } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
+import {
+  dataProviderRequestLift,
+  type APIRESTClient,
+} from "@ts-endpoint/react-admin";
 import { type ParseError } from "effect/ParseResult";
 import { type Either } from "fp-ts/lib/Either";
 
@@ -21,7 +23,7 @@ export const useJSONDataQuery =
   <A>(
     decode: (u: unknown) => Either<ParseError, { readonly data: A }>,
     id: string,
-  ): UseQueryResult<{ data: A }, APIError> => {
+  ): UseQueryResult<{ data: A }, IOError | ParseError> => {
     return useQuery({
       // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["json", id],

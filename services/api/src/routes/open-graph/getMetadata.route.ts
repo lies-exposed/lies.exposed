@@ -4,8 +4,6 @@ import { extractRelationsFromURL } from "@liexp/backend/lib/flows/admin/nlp/extr
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -68,27 +66,7 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
         }),
         TE.map((data) => ({
           body: {
-            data: {
-              ...data,
-              link: {
-                ...data.link,
-                id: data.link?.id as UUID,
-                url: data.link?.url as URL,
-                title: data.link?.title ?? data.metadata.title,
-                description:
-                  data.link?.description ?? data.metadata.description,
-                image: data.link?.image,
-                provider: data.link?.provider,
-                creator: data.link?.creator,
-                keywords: [],
-                events: [],
-                socialPosts: [],
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                deletedAt: undefined,
-                publishDate: data.link?.publishDate,
-              },
-            },
+            data,
           },
           statusCode: 200,
         })),

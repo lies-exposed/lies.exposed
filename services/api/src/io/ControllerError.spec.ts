@@ -1,12 +1,10 @@
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
-import {
-  IOError,
-  toNotAuthorizedError,
-} from "@liexp/backend/lib/errors/index.js";
+import { toNotAuthorizedError } from "@liexp/backend/lib/errors/index.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { UnauthorizedError } from "express-jwt";

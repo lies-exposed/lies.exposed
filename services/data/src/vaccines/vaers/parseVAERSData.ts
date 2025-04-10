@@ -14,7 +14,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { Schema } from 'effect';
 import { TotalsReporter } from "../reporters/TotalReporter";
 import { VaccineEntry } from "../types";
 import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";

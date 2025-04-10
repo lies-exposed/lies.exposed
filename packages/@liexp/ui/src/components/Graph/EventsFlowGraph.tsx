@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import {
   Actor,
@@ -100,15 +101,15 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         position: {
           y: 200 + i * 50,
           x:
-            data.type === Events.EventTypes.UNCATEGORIZED.Type
+            data.type === EVENT_TYPES.UNCATEGORIZED
               ? -50
-              : data.type === Events.EventTypes.SCIENTIFIC_STUDY.Type
+              : data.type === EVENT_TYPES.SCIENTIFIC_STUDY
                 ? -25
-                : data.type === Events.EventTypes.PATENT.Type
+                : data.type === EVENT_TYPES.PATENT
                   ? 0
-                  : data.type === Events.EventTypes.DEATH.Type
+                  : data.type === EVENT_TYPES.DEATH
                     ? 25
-                    : data.type === Events.EventTypes.DOCUMENTARY.Type
+                    : data.type === EVENT_TYPES.DOCUMENTARY
                       ? 50
                       : 75,
         },

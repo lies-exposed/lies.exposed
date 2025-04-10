@@ -58,8 +58,8 @@ export const CreateEventFromMediaButton: React.FC = () => {
         }}
       >
         {io.http.Events.EventType.members.map((t) => (
-          <MenuItem key={t.Type} value={t.Type}>
-            {t.Type}
+          <MenuItem key={t.literals[0]} value={t.literals[0]}>
+            {t.literals[0]}
           </MenuItem>
         ))}
       </Select>

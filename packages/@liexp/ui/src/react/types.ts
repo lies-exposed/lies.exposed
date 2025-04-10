@@ -1,8 +1,10 @@
-import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import {
   type QueryFnKey,
   type QueryPromiseFunction,
-} from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
+  type EndpointsQueryProvider,
+} from "@ts-endpoint/tanstack-query";
 import { type Configuration } from "../context/ConfigurationContext.js";
 
 interface BaseRoute {
@@ -19,7 +21,7 @@ export interface AsyncDataRouteQuery<P, Q, A> {
 
 export type AsyncDataRoute = BaseRoute & {
   queries: (
-    Q: EndpointsQueryProvider,
+    Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
     conf: Configuration,
   ) => <P, Q, A>(
     params: P,

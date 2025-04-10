@@ -1,13 +1,14 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { OptionFromNullishToNull } from "@liexp/shared/lib/io/http/Common/OptionFromNullishToNull.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Schema } from "effect";
 import { type Either } from "fp-ts/lib/Either.js";
 import { type AIBotError } from "#common/error/index.js";
 
 const ENV = Schema.Struct({
-  LIEXP_USERNAME: Schema.Option(Schema.String),
-  LIEXP_PASSWORD: Schema.Option(Schema.String),
-  DEBUG: Schema.Option(Schema.String),
+  LIEXP_USERNAME: OptionFromNullishToNull(Schema.String),
+  LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
+  DEBUG: OptionFromNullishToNull(Schema.String),
 }).annotations({
   title: "ENV",
 });

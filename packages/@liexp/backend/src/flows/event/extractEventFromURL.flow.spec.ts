@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -32,7 +33,7 @@ describe.skip(extractEventFromURL.name, () => {
   it("should create an event from a URL", async () => {
     const [url] = fc
       .sample(fc.nat(), 1)
-      .map((id) => `https://www.sciencedirect.com/article/${id}` as any);
+      .map((id) => `https://www.sciencedirect.com/article/${id}` as URL);
 
     const title = fc.sample(HumanReadableStringArb(), 1)[0];
     const description = fc.sample(HumanReadableStringArb(), 1)[0];

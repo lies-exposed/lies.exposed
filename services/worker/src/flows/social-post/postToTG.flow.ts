@@ -128,7 +128,12 @@ export const postToTG =
 
               if (Schema.is(SocialPostDocument)(m)) {
                 return pipe(
-                  ctx.tg.postFile(mediaText, m.filename, m.media, PDFType.Type),
+                  ctx.tg.postFile(
+                    mediaText,
+                    m.filename,
+                    m.media,
+                    PDFType.literals[0],
+                  ),
                   fp.TE.map((message) => [message]),
                 );
               }

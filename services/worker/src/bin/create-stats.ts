@@ -1,6 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { type CommandFlow } from "./command.type.js";
 import { createEntityStats } from "#flows/stats/createStats.flow.js";
 
@@ -33,10 +32,7 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
     fp.TE.bimap(
       (err) => {
         ctx.logger.error.log("Error %O", err);
-        ctx.logger.error.log(
-          "Details %O",
-          PathReporter.report((err.details as any).errors),
-        );
+
         return err;
       },
       (r) => {

@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
+import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import GroupList from "../components/lists/GroupList.js";
@@ -20,7 +20,7 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
   prefix = "group-box-wrapper",
   children,
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{

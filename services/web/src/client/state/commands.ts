@@ -1,10 +1,11 @@
-import { pipe, fp } from "@liexp/core/lib/fp/index.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { useMutation, type UseMutationResult } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
+import { type EndpointsRESTClient } from "@ts-endpoint/react-admin";
 
 export const getEventFromLink = (
   api: EndpointsRESTClient<Endpoints>,
@@ -42,7 +43,7 @@ export const createEventSuggestion = (
 
 export const getURLMetadata = (
   api: EndpointsRESTClient<Endpoints>,
-): UseMutationResult<any, APIError, { url: string }> =>
+): UseMutationResult<any, IOError, { url: string }> =>
   useMutation({
     mutationFn: (params) =>
       pipe(

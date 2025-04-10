@@ -3,9 +3,9 @@ import { IOCodec } from "@liexp/backend/lib/io/DomainCodec.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type ControllerError } from "#io/ControllerError.js";
 
 const toGraphIO = (

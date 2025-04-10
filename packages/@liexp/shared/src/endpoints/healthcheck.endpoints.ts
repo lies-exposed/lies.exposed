@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { UUID } from "../io/http/Common/UUID.js";
 
 export const ListHealthcheck = Endpoint({

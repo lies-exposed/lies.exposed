@@ -65,7 +65,7 @@ DefaultEventPageContent.args = {
 
 const QuoteEventPageContent = Template.bind({});
 QuoteEventPageContent.args = {
-  type: EventTypes.QUOTE.Type,
+  type: EventTypes.QUOTE.literals[0],
 };
 
 export { DefaultEventPageContent, QuoteEventPageContent };

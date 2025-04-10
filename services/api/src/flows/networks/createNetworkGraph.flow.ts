@@ -193,23 +193,29 @@ export const getEventGraph = (
 
       // console.log('actor links in acc', acc.actorLinks);
       const actorLinks = pipe(
-        relations.includes(ACTORS.Type) ? nonEmptyEventActors : fp.O.none,
+        relations.includes(ACTORS.literals[0])
+          ? nonEmptyEventActors
+          : fp.O.none,
         fp.O.getOrElse((): Actor.Actor[] => []),
-        getRelationLinks(ACTORS.Type, e)(acc.actorLinks),
+        getRelationLinks(ACTORS.literals[0], e)(acc.actorLinks),
       );
 
       // console.log("actor links", actorLinks);
 
       const groupLinks = pipe(
-        relations.includes(GROUPS.Type) ? nonEmptyEventGroups : fp.O.none,
+        relations.includes(GROUPS.literals[0])
+          ? nonEmptyEventGroups
+          : fp.O.none,
         fp.O.getOrElse((): Group.Group[] => []),
-        getRelationLinks(GROUPS.Type, e)(acc.groupLinks),
+        getRelationLinks(GROUPS.literals[0], e)(acc.groupLinks),
       );
 
       const keywordLinks = pipe(
-        relations.includes(KEYWORDS.Type) ? nonEmptyEventKeywords : fp.O.none,
+        relations.includes(KEYWORDS.literals[0])
+          ? nonEmptyEventKeywords
+          : fp.O.none,
         fp.O.getOrElse((): Keyword.Keyword[] => []),
-        getRelationLinks(KEYWORDS.Type, e)(acc.keywordLinks),
+        getRelationLinks(KEYWORDS.literals[0], e)(acc.keywordLinks),
       );
 
       const evLinks: NetworkLink[] =

@@ -90,7 +90,7 @@ const initialState: State = {
   toggleData: "last-2000-years",
 };
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const { showPoints, showGrid = true, style } = props;
 
   const [{ toggleData }, setToggleData] = React.useState(initialState);
@@ -102,7 +102,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{ data: Queries.Graph.get.useQuery({ id: id as UUID }) }}
-      render={({ data }) => (
+      render={({ data: { data } }) => (
         <ParentSize
           style={{ height: 400, width: "100%", ...style }}
           debounceTime={30}
@@ -149,8 +149,8 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
                 minYRange={toggleData === "last-2000-years" ? 240 : 150}
                 getX={(d) => d.year}
                 getY={(d) => d.value}
-                axisLeftLabel={"CO2 cocentration (part per million)"}
-                axisRightLabel={"CO2 cocentration (part per million)"}
+                axisLeftLabel={"CO2 concentration (part per million)"}
+                axisRightLabel={"CO2 concentration (part per million)"}
                 axisBottomLabel={"Date"}
               />
 

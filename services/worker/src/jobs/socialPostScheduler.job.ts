@@ -13,7 +13,7 @@ export const postOnSocialJob: CronJobTE = (opts) => (ctx) => {
   return pipe(
     ctx.db.find(SocialPostEntity, {
       where: {
-        status: TO_PUBLISH.Type,
+        status: TO_PUBLISH.literals[0],
         scheduledAt: LessThanOrEqual(date),
       },
       take: 5,

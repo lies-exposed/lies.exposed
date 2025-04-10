@@ -60,7 +60,7 @@ export const createActor = (
     SearchFromWikipediaPubSub.publish({
       search: body.search,
       provider: "wikipedia",
-      type: ACTOR.Type,
+      type: ACTOR.literals[0],
     }),
     fp.RTE.map(() => ({ success: true })),
   );

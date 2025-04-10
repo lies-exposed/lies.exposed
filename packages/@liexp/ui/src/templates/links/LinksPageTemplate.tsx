@@ -1,7 +1,7 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
-import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
+import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
+import { defaultUseQueryListParams } from "@ts-endpoint/tanstack-query";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBox } from "../../components/Common/ErrorBox.js";
@@ -28,7 +28,7 @@ export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
     ..._filter,
     filter: {
       ...defaultUseQueryListParams.filter,
-      ..._filter.filter,
+      ...(_filter.filter ?? {}),
     },
   };
   return (

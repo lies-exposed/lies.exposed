@@ -9,9 +9,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
+import { APIRESTClient } from "@ts-endpoint/react-admin";
 import compression from "compression";
 import D from "debug";
 import express from "express";

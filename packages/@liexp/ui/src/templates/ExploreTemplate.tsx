@@ -155,14 +155,14 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
   onEventClick,
 }) => {
   const [relations, setRelations] = React.useState([
-    KEYWORDS.Type,
-    GROUPS.Type,
-    ACTORS.Type,
+    KEYWORDS.literals[0],
+    GROUPS.literals[0],
+    ACTORS.literals[0],
   ]);
 
   const [condensedList, setCondensedList] = React.useState(false);
 
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   return (
     <StyledGrid container justifyContent="center" style={{ height: "100%" }}>
@@ -399,7 +399,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         fp.O.getOrElse(
                           () =>
                             EventType.members.map(
-                              (t) => t.Type,
+                              (t) => t.literals[0],
                             ) as unknown as NonEmptyArray<EventType>,
                         ),
                       ),

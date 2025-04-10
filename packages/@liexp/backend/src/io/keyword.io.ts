@@ -5,9 +5,9 @@ import {
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type KeywordEntity } from "../entities/Keyword.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 

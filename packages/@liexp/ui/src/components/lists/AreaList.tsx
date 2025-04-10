@@ -41,7 +41,7 @@ export const AreaListItem: React.FC<
     style?: React.CSSProperties;
   }
 > = ({ item, onClick, defaultImage, style }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const media = Queries.Media.list.useQuery(
     {
       filter: { ids: item.media },

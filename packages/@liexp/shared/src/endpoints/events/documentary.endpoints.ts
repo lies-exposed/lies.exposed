@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
 import { UUID } from "../../io/http/Common/UUID.js";
 import * as Documentary from "../../io/http/Events/Documentary.js";

@@ -17,7 +17,7 @@ const AreaTemplate: React.FC<{ areaId: UUID }> = ({ areaId }) => {
       queries={(Q) => ({
         area: Q.Area.get.useQuery({ id: areaId }),
       })}
-      render={({ area }) => {
+      render={({ area: { data: area } }) => {
         return (
           <Box style={{ width: "100%", height: "100%" }}>
             <SEO

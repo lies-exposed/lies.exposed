@@ -1,17 +1,18 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import {
+  type EndpointInstance,
+  type MinimalEndpointInstance,
+  type ResourceEndpoints,
+  type TypeOfEndpointInstanceInput,
+  type runtimeType,
+  type serializedType,
+} from "@ts-endpoint/core";
 import { type AxiosInstance, type AxiosResponse } from "axios";
 import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import {
-  type EndpointInstance,
-  type MinimalEndpointInstance,
-  type ResourceEndpoints,
-  type TypeOfEndpointInstanceInput,
-} from "ts-endpoint";
-import { type runtimeType, type serializedType } from "ts-io-error";
 import { Endpoints } from "../../endpoints/index.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { liftFetch, type HTTPProvider } from "../http/http.provider.js";

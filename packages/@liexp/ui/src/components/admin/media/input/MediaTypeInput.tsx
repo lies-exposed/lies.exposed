@@ -9,8 +9,8 @@ export const MediaTypeInput: React.FC<Omit<SelectInputProps, "choices">> = (
     <SelectInput
       {...props}
       choices={MediaType.members.map((v) => ({
-        id: v.Type,
-        name: v.Type,
+        id: v.literals[0],
+        name: v.literals[0],
       }))}
     />
   );

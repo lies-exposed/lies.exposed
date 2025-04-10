@@ -28,7 +28,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
                 entity: id,
                 type,
                 content: { ...body, platforms },
-                status: TO_PUBLISH.Type,
+                status: TO_PUBLISH.literals[0],
                 scheduledAt: addHours(new Date(), body.schedule ?? 0),
               },
             ]),

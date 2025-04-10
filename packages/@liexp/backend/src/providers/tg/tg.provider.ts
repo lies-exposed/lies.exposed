@@ -2,10 +2,10 @@ import { type Readable, type Stream } from "stream";
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { IOError } from "@ts-endpoint/core";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { type ConstructorOptions } from "node-telegram-bot-api";
-import { IOError } from "../../errors/index.js";
 
 export interface TGBotProvider {
   api: TelegramBot;
@@ -72,7 +72,7 @@ export const toTGError = (e: unknown): TGError => {
   });
 };
 
-const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<Error, A> => {
+const liftTGTE = <A>(p: () => Promise<A>): TE.TaskEither<TGError, A> => {
   return TE.tryCatch(p, toTGError);
 };
 
@@ -182,7 +182,7 @@ export const TGBotProvider = (
             parse_mode: "HTML",
             ...videoOpts,
           },
-          { contentType: MP4Type.Type },
+          { contentType: MP4Type.literals[0] },
         ),
       );
     },
@@ -198,7 +198,7 @@ export const TGBotProvider = (
         ),
       );
     },
-    postFile(text, filename, file, contentType = PDFType.Type) {
+    postFile(text, filename, file, contentType = PDFType.literals[0]) {
       return liftTGTE(() =>
         api.sendDocument(
           opts.chat,

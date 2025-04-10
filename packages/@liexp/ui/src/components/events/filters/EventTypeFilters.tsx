@@ -1,6 +1,7 @@
 import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
+  EVENT_TYPES,
   EventTypes,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -67,14 +68,14 @@ export interface EventTypeFiltersProps {
 }
 
 export const setAllFiltersTo = (b: boolean): EventTypeMap => ({
-  [EventTypes.BOOK.Type]: b,
-  [EventTypes.DEATH.Type]: b,
-  [EventTypes.UNCATEGORIZED.Type]: b,
-  [EventTypes.SCIENTIFIC_STUDY.Type]: b,
-  [EventTypes.PATENT.Type]: b,
-  [EventTypes.DOCUMENTARY.Type]: b,
-  [EventTypes.TRANSACTION.Type]: b,
-  [EventTypes.QUOTE.Type]: b,
+  [EVENT_TYPES.BOOK]: b,
+  [EVENT_TYPES.DEATH]: b,
+  [EVENT_TYPES.UNCATEGORIZED]: b,
+  [EVENT_TYPES.SCIENTIFIC_STUDY]: b,
+  [EVENT_TYPES.PATENT]: b,
+  [EVENT_TYPES.DOCUMENTARY]: b,
+  [EVENT_TYPES.TRANSACTION]: b,
+  [EVENT_TYPES.QUOTE]: b,
 });
 
 const toEnabled = flow<[EventTypeMap], boolean>(
@@ -168,7 +169,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             color="primary"
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.UNCATEGORIZED.Type);
+              handleFilterChange(EVENT_TYPES.UNCATEGORIZED);
             }}
             size="large"
           >
@@ -186,7 +187,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.DEATH.Type);
+              handleFilterChange(EVENT_TYPES.DEATH);
             }}
             size="large"
           >
@@ -204,7 +205,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.SCIENTIFIC_STUDY.Type);
+              handleFilterChange(EVENT_TYPES.SCIENTIFIC_STUDY);
             }}
             size="large"
           >
@@ -222,11 +223,11 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.DOCUMENTARY.Type);
+              handleFilterChange(EVENT_TYPES.DOCUMENTARY);
             }}
             size="large"
           >
-            <EventIcon type={EventTypes.DOCUMENTARY.Type} {...eventIconProps} />
+            <EventIcon type={EVENT_TYPES.DOCUMENTARY} {...eventIconProps} />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.documentaries}
             </Typography>
@@ -240,11 +241,11 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.BOOK.Type);
+              handleFilterChange(EVENT_TYPES.BOOK);
             }}
             size="large"
           >
-            <EventIcon type={EventTypes.BOOK.Type} {...eventIconProps} />
+            <EventIcon type={EVENT_TYPES.BOOK} {...eventIconProps} />
             <Typography variant="caption" className={classes.typeTotal}>
               {totals.books}
             </Typography>
@@ -258,7 +259,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.PATENT.Type);
+              handleFilterChange(EVENT_TYPES.PATENT);
             }}
             size="large"
           >
@@ -276,7 +277,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.TRANSACTION.Type);
+              handleFilterChange(EventTypes.TRANSACTION.literals[0]);
             }}
             size="large"
           >
@@ -294,7 +295,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.QUOTE.Type);
+              handleFilterChange(EventTypes.QUOTE.literals[0]);
             }}
             size="large"
           >

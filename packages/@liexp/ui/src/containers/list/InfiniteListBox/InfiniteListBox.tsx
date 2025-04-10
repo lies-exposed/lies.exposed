@@ -1,14 +1,21 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import { type ResourceQuery } from "@liexp/shared/lib/providers/EndpointQueriesProvider/types.js";
+import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   type EndpointOutputType,
+  type EndpointQueryType,
+  type MinimalEndpointInstance,
+} from "@ts-endpoint/core";
+import {
   type EndpointDataOutputType,
-  type GetEndpointQueryType,
   type GetListFnParamsE,
-} from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
-import { paramsToPagination } from "@liexp/shared/lib/providers/api-rest.provider.js";
-import { useInfiniteQuery } from "@tanstack/react-query";
+  paramsToPagination,
+} from "@ts-endpoint/react-admin";
+import {
+  type EndpointsQueryProvider,
+  type ResourceQuery,
+} from "@ts-endpoint/tanstack-query";
 import * as React from "react";
 import {
   AutoSizer,
@@ -17,7 +24,6 @@ import {
   InfiniteLoader,
   type Masonry,
 } from "react-virtualized";
-import { type MinimalEndpointInstance } from "ts-endpoint";
 import { ErrorBox } from "../../../components/Common/ErrorBox.js";
 import { FullSizeLoader } from "../../../components/Common/FullSizeLoader.js";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
@@ -45,10 +51,13 @@ export interface InfiniteListBoxProps<
 > {
   listProps: ListProps<T>;
   useListQuery: (
-    queryProvider: EndpointsQueryProvider,
+    queryProvider: EndpointsQueryProvider<
+      Endpoints,
+      QueryProviderCustomQueries
+    >,
   ) => ResourceQuery<
     GetListFnParamsE<E>,
-    Partial<GetEndpointQueryType<E>>,
+    Partial<EndpointQueryType<E>>,
     EndpointOutputType<E>
   >;
   filter: GetListFnParamsE<E>;

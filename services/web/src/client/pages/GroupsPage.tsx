@@ -68,13 +68,13 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
                       page: 1,
                     },
                   }}
-                  type={GROUPS.Type}
+                  type={GROUPS.literals[0]}
                   count={100}
-                  relations={[GROUPS.Type]}
+                  relations={[GROUPS.literals[0]]}
                   selectedGroupIds={groups.map((g) => g.id)}
                   query={{
                     eventType: EventType.members.map(
-                      (t) => t.Type,
+                      (t) => t.literals[0],
                     ) as unknown as NonEmptyArray<EventType>,
                     startDate: formatDate(subYears(new Date(), 2)),
                     endDate: formatDate(new Date()),

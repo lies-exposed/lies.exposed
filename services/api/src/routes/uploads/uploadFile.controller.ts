@@ -3,7 +3,7 @@ import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import * as bodyParser from "body-parser";
+import bodyParser from "body-parser";
 import { Schema } from "effect";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -17,7 +17,7 @@ export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(
     "/uploads/:key",
     // uploads.single('media'),
-    bodyParser.default.urlencoded({
+    bodyParser.urlencoded({
       extended: false,
       // 2 GB
       limit: 2048 * 1000 * 1000,

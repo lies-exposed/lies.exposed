@@ -13,6 +13,7 @@ export const fetchManyMedia =
   ): TEReader<[MediaEntity[], number]> =>
   (ctx) => {
     const query = { ...http.Media.GetListMediaQueryMonoid.empty, ..._query };
+
     const {
       q: search,
       ids,

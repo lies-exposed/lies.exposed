@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";

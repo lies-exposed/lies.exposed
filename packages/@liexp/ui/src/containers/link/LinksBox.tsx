@@ -1,6 +1,6 @@
 import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { type serializedType } from "@ts-endpoint/core";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
   LinksList,

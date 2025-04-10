@@ -53,7 +53,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
                 actors: [],
                 groups: [],
                 keywords: [],
-                eventType: Events.EventType.members.map((t) => t.Type),
+                eventType: Events.EventType.members.map((t) => t.literals[0]),
               }}
               onTabChange={() => {}}
               onActorClick={() => undefined}

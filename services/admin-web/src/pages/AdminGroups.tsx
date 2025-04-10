@@ -3,7 +3,6 @@ import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -52,10 +51,11 @@ import {
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { Schema } from "effect";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toError } from "fp-ts/lib/Either";
+import { toError } from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 
 const RESOURCE = "groups";
@@ -65,8 +65,8 @@ const GroupKindInput: React.FC<SelectInputProps> = (props) => {
     <SelectInput
       {...props}
       choices={io.http.Group.GroupKind.members.map((t) => ({
-        id: t.Type,
-        name: t.Type,
+        id: t.literals[0],
+        name: t.literals[0],
       }))}
     />
   );

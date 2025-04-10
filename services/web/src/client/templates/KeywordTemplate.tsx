@@ -17,7 +17,8 @@ const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
       tab={tab}
       query={{
         ...query,
-        eventType: query.eventType ?? EventType.members.map((t) => t.Type),
+        eventType:
+          query.eventType ?? EventType.members.map((t) => t.literals[0]),
       }}
       onTabChange={(tab) => {
         navigateTo.keywords({ id: keywordId }, { tab });

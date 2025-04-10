@@ -4,9 +4,9 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { SocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type SocialPostEntity } from "../entities/SocialPost.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 

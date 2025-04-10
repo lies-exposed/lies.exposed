@@ -43,6 +43,7 @@ export const generateMissingThumbnailsCron = (
                         extra: ImageMediaExtraMonoid.concat(
                           ImageMediaExtraMonoid.empty,
                           {
+                            ...ImageMediaExtraMonoid.empty,
                             ...m.extra,
                             thumbnails: { error: e.message },
                           },
@@ -54,6 +55,7 @@ export const generateMissingThumbnailsCron = (
                         extra: ImageMediaExtraMonoid.concat(
                           ImageMediaExtraMonoid.empty,
                           {
+                            ...ImageMediaExtraMonoid.empty,
                             ...m.extra,
                             thumbnails: l,
                           },

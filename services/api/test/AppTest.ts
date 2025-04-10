@@ -30,7 +30,7 @@ import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
 import { toError } from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import path from "path";
+import * as path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { vi } from "vitest";
@@ -40,7 +40,7 @@ import {
   getORMConfig,
 } from "@liexp/backend/lib/utils/data-source.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
-import { Schema } from 'effect';
+import { Schema } from "effect";
 
 vi.mock("axios", () => ({
   default: {
@@ -80,53 +80,53 @@ export const loadAppContext = async (
       ),
     }),
     TE.map(({ db, env }) => {
-      const config = Config(env, path.resolve(__dirname, "../temp"))
+      const config = Config(env, path.resolve(__dirname, "../temp"));
 
-      return ({
-      env,
-      db,
-      logger,
-      config,
-      jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
-      ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
-      puppeteer: GetPuppeteerProvider(
-        mocks.puppeteer,
-        { headless: "shell" },
-        mocks.puppeteer.devices,
-      ),
-      s3: MakeSpaceProvider(mocks.s3 as any),
-      fs: GetFSClient({ client: mocks.fs }),
-      wp: mocks.wiki,
-      rw: mocks.wiki,
-      urlMetadata: {
-        fetchHTML: (url: string, opts: any) => {
-          return TE.tryCatch(
-            () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
-            (e) => e as any,
-          );
-        },
-        fetchMetadata: (url: string, opts: any) => {
-          return TE.tryCatch(
-            () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
-            (e) => e as any,
-          );
-        },
-      },
-      http: HTTPProvider(mocks.axios as any as AxiosInstance),
-      ner: GetNERProvider({
+      return {
+        env,
+        db,
         logger,
-        entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
-        nlp: mocks.ner as any,
-      }),
-      blocknote: {} as any,
-      redis: mocks.redis,
-      geo: GeocodeProvider({
-        http: HTTPProvider(mocks.axios as any),
-        apiKey: "fake-geo-api-key",
-      }),
-      queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
-    })
-}),
+        config,
+        jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
+        ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
+        puppeteer: GetPuppeteerProvider(
+          mocks.puppeteer,
+          { headless: "shell" },
+          mocks.puppeteer.devices,
+        ),
+        s3: MakeSpaceProvider(mocks.s3 as any),
+        fs: GetFSClient({ client: mocks.fs }),
+        wp: mocks.wiki,
+        rw: mocks.wiki,
+        urlMetadata: {
+          fetchHTML: (url: string, opts: any) => {
+            return TE.tryCatch(
+              () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
+              (e) => e as any,
+            );
+          },
+          fetchMetadata: (url: string, opts: any) => {
+            return TE.tryCatch(
+              () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
+              (e) => e as any,
+            );
+          },
+        },
+        http: HTTPProvider(mocks.axios as any as AxiosInstance),
+        ner: GetNERProvider({
+          logger,
+          entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
+          nlp: mocks.ner as any,
+        }),
+        blocknote: {} as any,
+        redis: mocks.redis,
+        geo: GeocodeProvider({
+          http: HTTPProvider(mocks.axios as any),
+          apiKey: "fake-geo-api-key",
+        }),
+        queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
+      };
+    }),
     throwTE,
   );
 };

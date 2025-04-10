@@ -235,28 +235,28 @@ export const parseURL = (
 ): E.Either<Error, { type: MediaType; location: string }> => {
   if (url.includes(".jpg") ?? url.includes(".jpeg")) {
     return E.right({
-      type: MediaType.members[1].Type,
+      type: MediaType.members[1].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".png")) {
     return E.right({
-      type: MediaType.members[2].Type,
+      type: MediaType.members[2].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".pdf")) {
     return E.right({
-      type: MediaType.members[6].Type,
+      type: MediaType.members[6].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".mp4")) {
     return E.right({
-      type: MediaType.members[5].Type,
+      type: MediaType.members[5].literals[0],
       location: url,
     });
   }
@@ -267,7 +267,7 @@ export const parseURL = (
     return pipe(
       parsePlatformURL(url as any),
       E.map((location) => ({
-        type: MediaType.members[7].Type,
+        type: MediaType.members[7].literals[0],
         location,
       })),
     );

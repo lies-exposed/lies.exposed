@@ -3,10 +3,11 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 import { BookIO } from "./book.io.js";
@@ -19,13 +20,13 @@ const decodeEvent = (
   return pipe(
     E.Do,
     E.bind("eventSpecs", () => {
-      if (event.type === io.http.Events.EventTypes.QUOTE.Type) {
+      if (event.type === EVENT_TYPES.QUOTE) {
         return QuoteIO.decodeSingle(event);
       }
-      if (event.type === io.http.Events.EventTypes.DOCUMENTARY.Type) {
+      if (event.type === EVENT_TYPES.DOCUMENTARY) {
         return DocumentaryIO.decodeSingle(event);
       }
-      if (event.type === io.http.Events.EventTypes.BOOK.Type) {
+      if (event.type === EVENT_TYPES.BOOK) {
         return BookIO.decodeSingle(event);
       }
       return E.right(event as any);

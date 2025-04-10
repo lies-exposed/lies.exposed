@@ -26,7 +26,7 @@ export const MakeUserCreateRoute: Route = (r, ctx) => {
               id: uuid(),
               ...userData,
               permissions: [...userData.permissions],
-              status: UserStatusApproved.Type,
+              status: UserStatusApproved.literals[0],
               passwordHash: pw,
               deletedAt: null,
             },

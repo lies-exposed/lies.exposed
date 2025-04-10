@@ -101,7 +101,6 @@
       "source.organizeImports": "never",
       "source.fixAll.eslint": "explicit"
     },
-    "files.autoSave": "off",
     "explorer.autoRevealExclude": {
       "**/node_modules": true,
       "**/bower_components": true,

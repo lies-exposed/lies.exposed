@@ -8,10 +8,9 @@ import {
 import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
 import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
-
-import { IOError } from "ts-shared/lib/errors.js";
 
 export type AIBotError =
   | _DecodeError

@@ -1,5 +1,5 @@
+import { Endpoint } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint } from "ts-endpoint";
 import { ACTORS } from "../io/http/Actor.js";
 import { GROUPS } from "../io/http/Group.js";
 import { ValidContentType } from "../io/http/Media/MediaType.js";

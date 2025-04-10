@@ -1,9 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "typeRoots": ["typings"],
+    "typeRoots": [],
     "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
-  "include": ["./src"],
+  "include": ["./src", "./typings"],
   "exclude": ["node_modules", "lib", "eslint.config.js"]
 }

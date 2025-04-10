@@ -88,7 +88,11 @@ export const extractThumbnail = <
     }),
     fp.RTE.map(({ resizedThumbnail, bucket }) => {
       return resizedThumbnail.map((Body, index) => ({
-        Key: getMediaThumbKey(media.id, ImageType.members[2].Type, index + 1),
+        Key: getMediaThumbKey(
+          media.id,
+          ImageType.members[2].literals[0],
+          index + 1,
+        ),
         Body,
         ACL: "public-read",
         Bucket: bucket,

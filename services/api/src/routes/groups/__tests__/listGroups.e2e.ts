@@ -25,6 +25,7 @@ describe("List Groups", () => {
           featuredInAreas: [],
         } as any as MediaEntity)
       : null,
+    memberIn: [],
     groups: [],
     stories: [],
     events: [],

@@ -92,7 +92,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                   _order: "DESC",
                   _start: 0,
                   _end: 6,
-                  eventType: [BOOK.Type],
+                  eventType: [BOOK.literals[0]],
                 }}
                 onEventClick={(e) => {
                   navigateTo.events({ id: e.id });

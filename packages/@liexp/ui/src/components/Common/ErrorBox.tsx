@@ -52,7 +52,7 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
       );
     }
 
-    return null;
+    return JSON.stringify(error, null, 2);
   }, [error]);
 
   return (

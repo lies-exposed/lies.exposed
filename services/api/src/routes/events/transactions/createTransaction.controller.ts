@@ -37,7 +37,7 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
         fetchOwnersTask,
         TE.chain(({ from, to }) =>
           createEventQuery({
-            type: TRANSACTION.Type,
+            type: TRANSACTION.literals[0],
             ...body,
             payload: {
               ...payload,

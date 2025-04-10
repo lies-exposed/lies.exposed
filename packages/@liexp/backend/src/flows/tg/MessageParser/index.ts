@@ -142,7 +142,7 @@ export const MessageParser = <
       pipe(
         messageDocument,
         O.fold(
-          () => TE.right([]),
+          () => TE.right([] as UUID[]),
           (m) => parseDocument(m)(ctx),
         ),
       ),
@@ -186,7 +186,7 @@ export const MessageParser = <
       pipe(
         messageVideo,
         O.fold(
-          () => TE.right([]),
+          () => TE.right([] as UUID[]),
           (v) =>
             parseVideo(
               message.caption ??

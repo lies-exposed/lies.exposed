@@ -1,12 +1,12 @@
-// import { EOL } from "os";
 import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { type FormatConfig, type SQLQuery } from "@databases/sql";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import { IOError } from "@ts-endpoint/core";
+import type * as O from "fp-ts/lib/Option.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
+import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { IOError } from "ts-io-error";
 import {
   type DataSource,
   type DeepPartial,
@@ -161,7 +161,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
   const execQuery = <T>(
     lazyQ: (db: EntityManager) => Promise<T>,
   ): TE.TaskEither<DBError, T> =>
-    TE.tryCatch(() => lazyQ(ctx.connection.manager), handleError());
+    fp.TE.tryCatch(() => lazyQ(ctx.connection.manager), handleError());
 
   return {
     manager: ctx.connection.manager,
@@ -180,11 +180,11 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         options,
       );
       return pipe(
-        TE.tryCatch(
+        fp.TE.tryCatch(
           () => ctx.connection.manager.findOne(entity, options),
           handleError(),
         ),
-        TE.map(O.fromNullable),
+        fp.TE.map(fp.O.fromNullable),
       );
     },
     findOneOrFail: (entity, options) => {
@@ -193,7 +193,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         options,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.findOneOrFail(entity, options),
         handleError({ status: 404 }),
       );
@@ -204,7 +204,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         options,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.find(entity, options),
         handleError(),
       );
@@ -215,7 +215,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         options,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.findAndCount(entity, options),
         handleError(),
       );
@@ -226,7 +226,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         options,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.count(entity, options),
         handleError(),
       );
@@ -242,7 +242,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       //   data,
       //   options
       // );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () =>
           ctx.connection.manager.save(entity, data, options) as Promise<E[]>,
         handleError(),
@@ -255,7 +255,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         criteria,
         data,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.update(entity, criteria, data),
         handleError(),
       );
@@ -266,7 +266,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         criteria,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.delete(entity, criteria),
         handleError(),
       );
@@ -277,7 +277,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
         getEntityName(entity),
         criteria,
       );
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => ctx.connection.manager.softDelete(entity, criteria),
         handleError(),
       );
@@ -286,7 +286,7 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
       task: (db: DatabaseClient) => TE.TaskEither<DBError, T>,
     ) => {
       return pipe(
-        TE.tryCatch(
+        fp.TE.tryCatch(
           () =>
             ctx.connection.manager.transaction((e) => {
               const transactionClient = GetDatabaseClient({
@@ -297,10 +297,10 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
             }),
           handleError(),
         ),
-        TE.chain(TE.fromEither),
+        fp.TE.chain(fp.TE.fromEither),
       );
     },
-    close: () => TE.tryCatch(() => ctx.connection.destroy(), handleError()),
+    close: () => fp.TE.tryCatch(() => ctx.connection.destroy(), handleError()),
   };
 };
 
@@ -329,12 +329,12 @@ const MakeDatabaseClient: MakeDatabaseClient =
       if (dataSource.isInitialized) {
         logger.debug.log("The connection is already initialized...");
 
-        return TE.right(dataSource);
+        return fp.TE.right(dataSource);
       }
 
       logger.debug.log("Connection %s not found, creating...", connectionName);
 
-      return TE.tryCatch(
+      return fp.TE.tryCatch(
         () => dataSource.initialize(),
         toDBErrorReader(logger)(),
       );
@@ -342,7 +342,7 @@ const MakeDatabaseClient: MakeDatabaseClient =
 
     return pipe(
       getConnection(ctx),
-      TE.map((connection) => {
+      fp.TE.map((connection) => {
         return GetDatabaseClient({ connection, logger });
       }),
     );

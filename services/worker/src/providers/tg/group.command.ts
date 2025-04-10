@@ -30,7 +30,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
     return pipe(
       EntityFromWikipediaService({
         search: match[1],
-        type: GROUPS.Type,
+        type: GROUPS.literals[0],
         chatId: msg.chat.id,
         fromId: msg.from?.id,
         getIdentifier: getUsernameFromDisplayName,

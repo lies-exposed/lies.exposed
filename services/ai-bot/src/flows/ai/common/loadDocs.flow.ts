@@ -20,11 +20,11 @@ const loadEventDocs =
   (job: Queue): ClientContextRTE<Document[]> =>
   (ctx) => {
     return pipe(
-      ctx.endpointsRESTClient.Endpoints.Event.get({ id: job.id }),
+      ctx.endpointsRESTClient.Event.Get({ Params: { id: job.id } }),
       fp.RTE.fromTaskEither,
       fp.RTE.chainTaskEitherK((event) =>
-        ctx.endpointsRESTClient.Endpoints.Link.getList({
-          filter: { ids: event.links },
+        ctx.endpointsRESTClient.Link.List({
+          Query: { ids: event.data.links },
         }),
       ),
       fp.RTE.chain((links) =>

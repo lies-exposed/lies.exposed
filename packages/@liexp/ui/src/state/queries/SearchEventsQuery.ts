@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import {
   getNewRelationIds,
   updateCache,
@@ -15,7 +16,6 @@ import {
   type Link,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { type API } from "@liexp/shared/lib/providers/api/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import {
   useInfiniteQuery,
@@ -23,6 +23,8 @@ import {
   type UseInfiniteQueryResult,
   type UseQueryResult,
 } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
+import { type API } from "@ts-endpoint/resource-client";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -65,7 +67,7 @@ export const clearSearchEventsQueryCache = (): void => {
 };
 
 export const fetchRelations =
-  (api: API) =>
+  (api: API<Endpoints>) =>
   ({
     actors,
     groups,
@@ -74,7 +76,7 @@ export const fetchRelations =
     keywords,
     links,
   }: Events.EventRelationIds): TE.TaskEither<
-    APIError,
+    IOError,
     {
       actors: { data: readonly Actor.Actor[] };
       groups: { data: readonly Group.Group[] };
@@ -162,7 +164,7 @@ export const getSearchEventsInfiniteQueryKey = (
 };
 
 export const searchEventsInfiniteQuery =
-  (api: API) =>
+  (api: API<Endpoints>) =>
   (
     input: Partial<SearchEventQueryInput>,
   ): UseInfiniteQueryResult<
@@ -201,8 +203,8 @@ export const searchEventsInfiniteQuery =
   };
 
 export const getEventsFromLinkQuery =
-  (api: API) =>
-  ({ url }: { url: string }): UseQueryResult<any, APIError> => {
+  (api: API<Endpoints>) =>
+  ({ url }: { url: string }): UseQueryResult<any, IOError> => {
     return useQuery({
       queryKey: ["events-from-link", url],
       queryFn: async () => {

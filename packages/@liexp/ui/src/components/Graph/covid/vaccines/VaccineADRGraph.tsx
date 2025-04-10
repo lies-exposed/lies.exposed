@@ -70,14 +70,14 @@ const Root = styled("div")(({ theme }) => ({
 
 const ageGroupColors = {
   all: "#b623ad",
-  [NotSpecified.Type]: "#6b707a",
-  [ZeroToOneMonth.Type]: "#886398",
-  [TwoMonthsToTwoYears.Type]: "#58ef28",
-  [ThreeToTwelveYears.Type]: "#65c3b9",
-  [TwelveToSixteenYears.Type]: "#cd23d9",
-  [EighteenToSixtyFourYears.Type]: "#83db7e",
-  [SixtyFiveToEightyfiveYears.Type]: "#c0cbcf",
-  [MoreThanEightyFiveYears.Type]: "#5175dc",
+  [NotSpecified.literals[0]]: "#6b707a",
+  [ZeroToOneMonth.literals[0]]: "#886398",
+  [TwoMonthsToTwoYears.literals[0]]: "#58ef28",
+  [ThreeToTwelveYears.literals[0]]: "#65c3b9",
+  [TwelveToSixteenYears.literals[0]]: "#cd23d9",
+  [EighteenToSixtyFourYears.literals[0]]: "#83db7e",
+  [SixtyFiveToEightyfiveYears.literals[0]]: "#c0cbcf",
+  [MoreThanEightyFiveYears.literals[0]]: "#5175dc",
 };
 
 const getByAgeGroup =
@@ -563,8 +563,8 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                     >
                       <MenuItem value={"All"}>All</MenuItem>
                       {AgeGroup.members.map((t) => (
-                        <MenuItem key={t.Type} value={t.Type}>
-                          {t.Type}
+                        <MenuItem key={t.literals[0]} value={t.literals[0]}>
+                          {t.literals[0]}
                         </MenuItem>
                       ))}
                     </Select>

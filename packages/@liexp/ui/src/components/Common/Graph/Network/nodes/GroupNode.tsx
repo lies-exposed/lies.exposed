@@ -27,8 +27,8 @@ export const toGroupNodes = (
       innerColor: g.color,
       outerColor: g.color,
       name: g.name,
-      group: Group.GROUPS.Type,
-      type: Group.GROUPS.Type,
+      group: Group.GROUPS.literals[0],
+      type: Group.GROUPS.literals[0],
       count: links.filter((kk) => kk.source === g.id || kk.target === g.id)
         .length,
     },

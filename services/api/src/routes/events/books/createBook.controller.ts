@@ -14,7 +14,7 @@ export const MakeCreateBookEventRoute: Route = (r, ctx) => {
       return pipe(
         ctx.db.save(EventV2Entity, [
           {
-            type: BOOK.Type,
+            type: BOOK.literals[0],
             draft,
             keywords: keywords.map((id) => ({ id })),
             media: media.map((id) => ({ id })),

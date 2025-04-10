@@ -30,8 +30,8 @@ const socialPostFilters = [
     key="status"
     source="status"
     choices={[PUBLISHED, TO_PUBLISH].map((t) => ({
-      id: t.Type,
-      name: t.Type,
+      id: t.literals[0],
+      name: t.literals[0],
     }))}
     alwaysOn
     size="small"

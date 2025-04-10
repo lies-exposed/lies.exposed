@@ -19,7 +19,7 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
       queries={(Q) => ({
         actor: Q.Actor.get.useQuery({ id: actorId }),
       })}
-      render={({ actor }) => {
+      render={({ actor: { data: actor } }) => {
         return (
           <Box style={{ height: "100%" }}>
             <SEO
@@ -32,7 +32,8 @@ const ActorPage: React.FC<{ actorId: UUID }> = ({ actorId }) => {
               query={{
                 ...query,
                 eventType:
-                  query.eventType ?? EventType.members.map((t) => t.Type),
+                  query.eventType ??
+                  EventType.members.map((t) => t.literals[0]),
               }}
               onQueryChange={(q) => {
                 navigateToResource.actors({ id: actor.id }, { ...q, tab });

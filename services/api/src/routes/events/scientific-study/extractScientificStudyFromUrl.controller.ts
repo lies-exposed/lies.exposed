@@ -53,7 +53,7 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
         ),
         TE.chainFirst(({ user, event, link }) =>
           CreateEventFromURLPubSub.publish({
-            type: SCIENTIFIC_STUDY.Type,
+            type: SCIENTIFIC_STUDY.literals[0],
             url: link.url,
             eventId: event.id,
             userId: user.id,

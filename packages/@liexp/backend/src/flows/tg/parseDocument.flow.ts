@@ -54,7 +54,8 @@ export const parseDocument =
       TE.chain((f) => {
         ctx.logger.debug.log("File downloaded %s", messageDocument.file_name);
 
-        const contentType = (messageDocument.mime_type as any) ?? PDFType.Type;
+        const contentType =
+          (messageDocument.mime_type as any) ?? PDFType.literals[0];
 
         return createAndUpload(
           {

@@ -22,12 +22,12 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
 
   const canSuggestEntities =
     record?.type &&
-    (record.type === PDFType.Type ||
+    (record.type === PDFType.literals[0] ||
       ImageType.members.includes(record.type as any));
 
   const doExtractNLPEntities = React.useCallback((): void => {
     const body =
-      record?.type === PDFType.Type
+      record?.type === PDFType.literals[0]
         ? {
             pdf: record.location,
           }

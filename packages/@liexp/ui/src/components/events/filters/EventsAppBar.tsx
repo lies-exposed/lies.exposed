@@ -1,6 +1,6 @@
 import { getTotal } from "@liexp/shared/lib/helpers/event/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type EventType,
   type SearchEvent,
@@ -28,12 +28,12 @@ import GroupList from "../../lists/GroupList.js";
 import { GroupsMembersList } from "../../lists/GroupMemberList.js";
 import KeywordList from "../../lists/KeywordList.js";
 import {
+  alpha,
   Box,
   Grid,
   IconButton,
-  Typography,
-  alpha,
   Icons,
+  Typography,
 } from "../../mui/index.js";
 import SearchEventInput, {
   type SearchFilter,
@@ -203,14 +203,14 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   const handleFilterChange = React.useCallback(
     (ff: EventTypeMap, filterK: EventType) => {
       const type = [
-        [ff.Uncategorized, EventTypes.UNCATEGORIZED.Type],
-        [ff.Death, EventTypes.DEATH.Type],
-        [ff.Documentary, EventTypes.DOCUMENTARY.Type],
-        [ff.Patent, EventTypes.PATENT.Type],
-        [ff.ScientificStudy, EventTypes.SCIENTIFIC_STUDY.Type],
-        [ff.Transaction, EventTypes.TRANSACTION.Type],
-        [ff.Quote, EventTypes.QUOTE.Type],
-        [ff.Book, EventTypes.BOOK.Type],
+        [ff.Uncategorized, EVENT_TYPES.UNCATEGORIZED],
+        [ff.Death, EVENT_TYPES.DEATH],
+        [ff.Documentary, EVENT_TYPES.DOCUMENTARY],
+        [ff.Patent, EVENT_TYPES.PATENT],
+        [ff.ScientificStudy, EVENT_TYPES.SCIENTIFIC_STUDY],
+        [ff.Transaction, EVENT_TYPES.TRANSACTION],
+        [ff.Quote, EVENT_TYPES.QUOTE],
+        [ff.Book, EVENT_TYPES.BOOK],
       ]
         .map(([enabled, key]: any[]) => (enabled ? key : undefined))
         .filter((a) => a !== undefined);

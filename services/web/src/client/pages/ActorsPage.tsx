@@ -1,5 +1,4 @@
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { defaultUseQueryListParams } from "@liexp/shared/lib/providers/EndpointQueriesProvider/params.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
@@ -8,6 +7,7 @@ import { ActorList } from "@liexp/ui/lib/components/lists/ActorList.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox.js";
+import { defaultUseQueryListParams } from "@ts-endpoint/tanstack-query";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
@@ -64,8 +64,8 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
                   }}
                   showRelations={false}
                   count={100}
-                  type={ACTORS.Type}
-                  relations={[ACTORS.Type]}
+                  type={ACTORS.literals[0]}
+                  relations={[ACTORS.literals[0]]}
                   selectedActorIds={actors.map((a) => a.id)}
                   query={{
                     startDate: formatDate(subYears(new Date(), 1)),

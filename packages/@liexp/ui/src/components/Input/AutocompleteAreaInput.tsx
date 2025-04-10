@@ -20,7 +20,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
   className,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const conf = useConfiguration();
   return (
     <AutocompleteInput<Area.Area>

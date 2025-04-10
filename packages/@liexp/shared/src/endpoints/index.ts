@@ -1,4 +1,4 @@
-import { type EndpointsMapType } from "./Endpoints.js";
+import { type EndpointsMapType } from "@ts-endpoint/core";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";
 import * as OpenGraph from "./OpenGraph.endpoints.js";

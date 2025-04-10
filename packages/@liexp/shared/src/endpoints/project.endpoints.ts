@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { CreateAreaBody } from "../io/http/Area.js";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";

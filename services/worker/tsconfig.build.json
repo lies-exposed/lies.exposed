@@ -11,5 +11,11 @@
     "strictPropertyInitialization": false
   },
   "include": ["./src", "./typings", "../../packages/@liexp/shared/typings"],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
+  "exclude": [
+    "node_modules",
+    "**/__tests__/**",
+    "*/__mocks__/**",
+    "./test/**",
+    "**/*.spec.ts"
+  ]
 }

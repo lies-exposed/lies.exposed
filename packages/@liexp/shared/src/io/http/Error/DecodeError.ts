@@ -1,5 +1,5 @@
+import { IOError } from "@ts-endpoint/core";
 import { type ParseError } from "effect/ParseResult";
-import { IOError } from "ts-io-error";
 
 export class _DecodeError extends IOError {
   status: number = 400;

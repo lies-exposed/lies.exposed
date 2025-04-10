@@ -1,5 +1,5 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type UseQueryResult } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
 import { type GetListParams } from "react-admin";
 
 export type UseListQueryFn<T> = (
@@ -7,6 +7,6 @@ export type UseListQueryFn<T> = (
   q: any,
   discrete: boolean,
   suffix?: string,
-) => UseQueryResult<{ data: readonly T[]; total: number }, APIError>;
+) => UseQueryResult<{ data: readonly T[]; total: number }, IOError>;
 
-export type UseQueryFn<P, T> = (params: P) => UseQueryResult<T, APIError>;
+export type UseQueryFn<P, T> = (params: P) => UseQueryResult<T, IOError>;

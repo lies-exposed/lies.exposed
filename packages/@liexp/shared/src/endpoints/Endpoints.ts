@@ -1,19 +1,4 @@
-import {
-  type MinimalEndpointInstance,
-  type ResourceEndpoints,
-} from "ts-endpoint";
-
-export type EndpointsMapType = Record<
-  string,
-  ResourceEndpoints<
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    MinimalEndpointInstance,
-    Record<string, MinimalEndpointInstance>
-  >
->;
+import { type EndpointsMapType } from "@ts-endpoint/core";
 
 type Endpoints<ES extends EndpointsMapType> = {
   [K in keyof ES]: ES[K];

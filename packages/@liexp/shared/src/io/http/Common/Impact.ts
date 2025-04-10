@@ -35,7 +35,7 @@ export const BiodiversityLoss = Schema.Struct({
   specie: Schema.String,
   deaths: Schema.Number,
 }).annotations({
-  title: BIODIVERSITY_LOSS.Type,
+  title: BIODIVERSITY_LOSS.literals[0],
 });
 
 export const Impact = Schema.Union(

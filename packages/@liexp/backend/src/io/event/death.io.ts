@@ -5,9 +5,9 @@ import {
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { type DeathPayload } from "@liexp/shared/lib/io/http/Events/Death.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { IOCodec } from "../DomainCodec.js";
 

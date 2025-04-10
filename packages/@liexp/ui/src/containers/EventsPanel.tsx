@@ -312,7 +312,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
   query,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   return (
     <QueriesRenderer

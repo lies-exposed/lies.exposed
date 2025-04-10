@@ -59,7 +59,7 @@ const takeVideoScreenshots =
               "media",
               media.id,
               thumbnailName.replace(".png", ""),
-              PngType.Type,
+              PngType.literals[0],
             );
 
             ctx.logger.debug.log("Thumbnail key %s", key);

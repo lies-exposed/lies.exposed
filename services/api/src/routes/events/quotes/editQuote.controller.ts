@@ -36,7 +36,7 @@ export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
         db.save(EventV2Entity, [
           {
             id,
-            type: QUOTE.Type,
+            type: QUOTE.literals[0],
             ...quoteData,
             payload,
           },

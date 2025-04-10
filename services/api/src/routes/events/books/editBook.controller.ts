@@ -19,7 +19,7 @@ export const MakeEditBookEventRoute: Route = (r, ctx) => {
           ctx.db.save(EventV2Entity, [
             {
               ...book,
-              type: BOOK.Type,
+              type: BOOK.literals[0],
               keywords: keywords.map((id) => ({ id })),
               media: media.map((id) => ({ id })),
               links: links.map((id) => ({ id })),

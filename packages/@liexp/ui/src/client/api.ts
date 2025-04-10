@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import type * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { type AxiosError } from "axios";
 import {
   type AuthProvider,
@@ -17,7 +17,7 @@ export const getAuthFromLocalStorage = (): string | null => {
 };
 
 export const GetAuthProvider = (
-  publicDataProvider: http.APIRESTClient,
+  publicDataProvider: APIRESTClient,
 ): AuthProvider => {
   const clearLocalStorage = (): void => {
     localStorage.removeItem("auth");

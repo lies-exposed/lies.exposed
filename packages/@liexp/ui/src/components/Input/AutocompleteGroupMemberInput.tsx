@@ -16,7 +16,7 @@ interface AutocompleteGroupMemberInputProps {
 export const AutocompleteGroupMemberInput: React.FC<
   AutocompleteGroupMemberInputProps
 > = ({ selectedItems, onItemClick, ...props }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<GroupMember.GroupMember>
       placeholder="Group Member..."

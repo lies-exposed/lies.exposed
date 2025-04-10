@@ -45,42 +45,42 @@ const insertEventBlock =
 
 export const insertBookEventBlock = insertEventBlock({
   title: "Book",
-  type: EventTypes.BOOK.Type,
+  type: EventTypes.BOOK.literals[0],
 });
 
 export const insertDeathEventBlock = insertEventBlock({
   title: "Death",
-  type: EventTypes.DEATH.Type,
+  type: EventTypes.DEATH.literals[0],
 });
 
 export const insertDocumentaryEventBlock = insertEventBlock({
   title: "Documentary",
-  type: EventTypes.DOCUMENTARY.Type,
+  type: EventTypes.DOCUMENTARY.literals[0],
 });
 
 export const insertPatentEventBlock = insertEventBlock({
   title: "Event",
-  type: EventTypes.PATENT.Type,
+  type: EventTypes.PATENT.literals[0],
 });
 
 export const insertQuoteEventBlock = insertEventBlock({
   title: "Quote",
-  type: EventTypes.QUOTE.Type,
+  type: EventTypes.QUOTE.literals[0],
 });
 
 export const insertScientificStudyEventBlock = insertEventBlock({
   title: "Scientific",
-  type: EventTypes.SCIENTIFIC_STUDY.Type,
+  type: EventTypes.SCIENTIFIC_STUDY.literals[0],
 });
 
 export const insertTransactionEventBlock = insertEventBlock({
   title: "Transaction",
-  type: EventTypes.TRANSACTION.Type,
+  type: EventTypes.TRANSACTION.literals[0],
 });
 
 export const insertUncategorizedEventBlock = insertEventBlock({
   title: "Uncategorized",
-  type: EventTypes.UNCATEGORIZED.Type,
+  type: EventTypes.UNCATEGORIZED.literals[0],
 });
 
 export const EventBlockPluginControl: React.FC<{

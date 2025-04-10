@@ -12,7 +12,10 @@ import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Get event from link", () => {
   let appTest: AppTest;
-  const [firstActor, secondActor] = fc.sample(ActorArb, 2);
+  const [firstActor, secondActor] = fc.sample(ActorArb, 2).map((a) => ({
+    ...a,
+    memberIn: [],
+  }));
   const groups = fc.sample(GroupArb, 2).map((g) => ({
     ...g,
     subGroups: [],

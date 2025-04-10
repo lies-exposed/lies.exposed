@@ -1,6 +1,6 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EVENT_TYPES,
@@ -10,8 +10,6 @@ import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/Sear
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -398,8 +396,8 @@ export const searchEventV2Query =
     } = opts;
 
     return pipe(
-      TE.Do,
-      TE.bind("groupsMembers", () =>
+      fp.TE.Do,
+      fp.TE.bind("groupsMembers", () =>
         pipe(
           O.isSome(actors)
             ? pipe(
@@ -408,15 +406,15 @@ export const searchEventV2Query =
                     actor: { id: In(actors.value) },
                   },
                 }),
-                TE.map(fp.A.map((gm) => gm.id)),
+                fp.TE.map(fp.A.map((gm) => gm.id)),
               )
-            : TE.right<DBError, string[]>([]),
-          TE.map((gm) =>
+            : fp.TE.right<DBError, string[]>([]),
+          fp.TE.map((gm) =>
             O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
           ),
         ),
       ),
-      TE.bind("firstDate", ({ groupsMembers }) => {
+      fp.TE.bind("firstDate", ({ groupsMembers }) => {
         const dates = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -441,7 +439,7 @@ export const searchEventV2Query =
 
         return db.execQuery(() => dates.getRawOne<{ firstDate: Date }>());
       }),
-      TE.bind("lastDate", ({ groupsMembers }) => {
+      fp.TE.bind("lastDate", ({ groupsMembers }) => {
         const dates = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -465,7 +463,7 @@ export const searchEventV2Query =
 
         return db.execQuery(() => dates.getRawOne<{ lastDate: Date }>());
       }),
-      TE.bind("results", ({ groupsMembers }) => {
+      fp.TE.bind("results", ({ groupsMembers }) => {
         const queryBuilder = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -642,8 +640,7 @@ export const searchEventV2Query =
           books: db.execQuery(() => queryBuilder.booksCount.getCount()),
         });
       }),
-
-      TE.map(({ results: { results, ...totals }, firstDate, lastDate }) => ({
+      fp.TE.map(({ results: { results, ...totals }, firstDate, lastDate }) => ({
         results,
         totals,
         firstDate: firstDate?.firstDate,
@@ -672,7 +669,7 @@ export const infiniteSearchEventQuery =
       ({ skip, amount }) =>
         searchEventV2Query({ ...query, skip, take: amount })(ctx),
       (r) => r.total,
-      (r) => TE.right(r.results),
+      (r) => fp.TE.right(r.results),
       0,
       50,
     )(ctx);

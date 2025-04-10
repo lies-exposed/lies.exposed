@@ -31,7 +31,7 @@ export const EventsFlowGraphBox: React.FC<EventsFlowGraphBoxProps> = ({
   id,
   onEventClick,
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   const [state, setState] = React.useState<{
     startDate: string | undefined;

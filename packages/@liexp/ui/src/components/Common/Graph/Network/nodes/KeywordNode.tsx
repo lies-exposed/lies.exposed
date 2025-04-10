@@ -25,8 +25,8 @@ export const toKeywordNodes = (
       innerColor: g.color,
       outerColor: g.color,
       name: g.tag,
-      group: Keyword.KEYWORDS.Type,
-      type: Keyword.KEYWORDS.Type,
+      group: Keyword.KEYWORDS.literals[0],
+      type: Keyword.KEYWORDS.literals[0],
       count: links.filter((kk) => kk.source === g.id || kk.target === g.id)
         .length,
     },

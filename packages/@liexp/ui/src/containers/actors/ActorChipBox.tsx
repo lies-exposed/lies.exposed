@@ -17,7 +17,7 @@ const ActorChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ actor: Q.Actor.get.useQuery({ id }) })}
-      render={({ actor }) => {
+      render={({ actor: { data: actor } }) => {
         return <ActorChip {...props} actor={actor} />;
       }}
     />

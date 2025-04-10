@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 
 export const SortOrderASC = Schema.Literal("ASC");
 export const SortOrderDESC = Schema.Literal("DESC");

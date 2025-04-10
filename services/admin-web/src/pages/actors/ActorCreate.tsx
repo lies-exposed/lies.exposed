@@ -2,7 +2,6 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -24,6 +23,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { Schema } from "effect";
 import { toError } from "fp-ts/lib/Either";
 import type * as TE from "fp-ts/lib/TaskEither.js";

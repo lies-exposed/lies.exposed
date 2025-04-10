@@ -1,7 +1,7 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
@@ -47,9 +47,9 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
 
   const defaultMedia = media[0]?.thumbnail ?? defaultImage;
   const _image =
-    event.type === Events.EventTypes.DEATH.Type
+    event.type === EVENT_TYPES.DEATH
       ? event.payload.victim?.avatar?.thumbnail
-      : event.type === Events.EventTypes.QUOTE.Type
+      : event.type === EVENT_TYPES.QUOTE
         ? (event.payload.subject.id.avatar?.thumbnail ?? defaultMedia)
         : defaultMedia;
 

@@ -134,7 +134,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
           false,
         ),
       })}
-      render={({ graph }) => {
+      render={({ graph: { data: graph } }) => {
         const startDate = parseISO(
           query.startDate ?? graph.startDate.toISOString(),
         );
@@ -284,7 +284,7 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
       eventType:
         query.eventType ??
         (EventType.members.map(
-          (t) => t.Type,
+          (t) => t.literals[0],
         ) as unknown as NonEmptyArray<EventType>),
       endDate: query.endDate,
       selectedActorIds: props.selectedActorIds ?? [],

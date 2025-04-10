@@ -156,7 +156,7 @@ describe("Search Events", () => {
         .get(`/v1/events/search`)
         .query({ "actors[]": firstActor.id })
         .set("Authorization", authorizationToken);
-      console.log(response.body);
+
       const { totals } = response.body.data;
 
       expect(response.status).toEqual(200);

@@ -1,8 +1,9 @@
+import { type DecodingError, type CommunicationError } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { type DecodingError, type CommunicationError } from "ts-io-error";
 
 export const IOErrorSchema = Schema.Struct({
   name: Schema.String,
+  message: Schema.String,
   status: Schema.Number,
   details: Schema.Union(
     Schema.Struct({

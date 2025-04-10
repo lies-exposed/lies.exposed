@@ -31,7 +31,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
 }) => {
   // console.log(filter);
 
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   const eventsFilter = {
     ...filter,

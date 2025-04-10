@@ -1,7 +1,7 @@
 import * as path from "path";
 import image from "@rollup/plugin-image";
-import react from "@vitejs/plugin-react";
-import { failure } from "io-ts/lib/PathReporter.js";
+import * as react from "@vitejs/plugin-react";
+import { Schema } from "effect";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import optimizer from "vite-plugin-optimizer";
@@ -43,10 +43,10 @@ export const defineViteConfig = <A extends Record<string, any>>(
       }),
       (env) => {
         if (validateEnv) {
-          return pipe(env, config.env.decode, (env) => {
+          return pipe(env, Schema.decodeUnknownEither(config.env), (env) => {
             if (env._tag === "Left") {
               // eslint-disable-next-line no-console
-              console.error(`process.env decode failed: \n`, failure(env.left));
+              console.error(`process.env decode failed: \n`, env.left);
               throw new Error("process.env decode failed");
             }
 
@@ -143,7 +143,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           root: config.cwd,
           projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,
         }),
-        react(),
+        (react as any).default(),
         ...(config.plugins ?? []),
       ],
       esbuild: {

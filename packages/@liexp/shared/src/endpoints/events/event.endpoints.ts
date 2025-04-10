@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
 import { Output } from "../../io/http/Common/Output.js";
 import { UUID } from "../../io/http/Common/UUID.js";

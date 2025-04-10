@@ -1,7 +1,7 @@
 import { type StorybookConfig } from "@storybook/react-vite";
 import type { ViteFinal } from "@storybook/builder-vite";
 import path from "path";
-import * as t from "io-ts";
+import {Schema} from 'effect'
 
 const viteFinal: ViteFinal = async (config, { configType }) => {
   const { mergeConfig } = await import("vite");

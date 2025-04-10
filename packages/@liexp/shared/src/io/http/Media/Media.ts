@@ -71,8 +71,8 @@ export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
     hasExtraThumbnailsError: fp.O.none,
     _sort: fp.O.some("updatedAt"),
     _order: fp.O.some("DESC"),
-    _end: fp.O.some(Schema.encode(Schema.Int)(20)),
-    _start: fp.O.some(Schema.encode(Schema.Int)(0)),
+    _end: fp.O.some(20),
+    _start: fp.O.some(0),
   },
   concat: (x, y) => ({ ...x, ...y }),
 } as Monoid<GetListMediaQuery>;

@@ -27,7 +27,7 @@ const ReferenceBySubjectInput: React.FC<
         size="small"
         source={typeSource}
         choices={[ByActorId, ByGroupId]
-          .map((t) => t.fields.type.Type)
+          .map((t) => t.fields.type.literals[0])
           .map((v) => ({
             id: v,
             name: v,

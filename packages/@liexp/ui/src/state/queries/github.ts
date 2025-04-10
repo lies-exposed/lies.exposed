@@ -1,5 +1,5 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
 import axios from "axios";
 import { type Configuration } from "../../context/ConfigurationContext.js";
 
@@ -27,7 +27,7 @@ export const fetchGithubRepo =
 
 export const githubRepo =
   (conf: Configuration) =>
-  ({ repo, user }: GithubRepo): UseQueryResult<any, APIError> =>
+  ({ repo, user }: GithubRepo): UseQueryResult<any, IOError> =>
     useQuery({
       queryKey: ["github", { user, repo }],
       queryFn: fetchGithubRepo(conf),

@@ -17,7 +17,7 @@ export const AreaChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ area: Q.Area.get.useQuery({ id }) })}
-      render={({ area }) => {
+      render={({ area: { data: area } }) => {
         return <AreaChip {...props} area={area} />;
       }}
     />

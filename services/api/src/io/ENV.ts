@@ -5,6 +5,7 @@ const ENV = Schema.extend(
   BACKEND_ENV,
   Schema.Struct({
     ...JWT_ENV.fields,
+
     REDIS_CONNECT: Schema.BooleanFromString,
     REDIS_HOST: Schema.String,
     DEBUG: Schema.String,
@@ -16,8 +17,9 @@ const ENV = Schema.extend(
     // geo coding
     GEO_CODE_BASE_URL: Schema.String,
     GEO_CODE_API_KEY: Schema.String,
-  }).annotations({ title: "API_ENV" }),
-);
+  }),
+).annotations({ title: "API_ENV" });
+
 type ENV = typeof ENV.Type;
 
 export { ENV };

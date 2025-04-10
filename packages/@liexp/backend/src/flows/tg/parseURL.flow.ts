@@ -88,11 +88,11 @@ export const parseURLs =
                 ),
               ),
               TE.chainFirst((l) =>
-                ctx.queue.queue(OpenAIEmbeddingQueueType.Type).addJob({
+                ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
                   id: l.id,
-                  status: PendingStatus.Type,
-                  type: OpenAIEmbeddingQueueType.Type,
-                  resource: LINKS.Type,
+                  status: PendingStatus.literals[0],
+                  type: OpenAIEmbeddingQueueType.literals[0],
+                  resource: LINKS.literals[0],
                   error: null,
                   question: null,
                   result: null,

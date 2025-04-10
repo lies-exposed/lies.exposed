@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
 
+COPY patches patches
 COPY packages/@liexp/core packages/@liexp/core
 COPY packages/@liexp/test packages/@liexp/test
 COPY packages/@liexp/shared packages/@liexp/shared

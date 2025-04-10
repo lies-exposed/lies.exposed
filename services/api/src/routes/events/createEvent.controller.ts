@@ -30,7 +30,9 @@ export const CreateEventRoute: Route = (r, ctx) => {
     Endpoints.Event.Create,
     ({ body }, req) => {
       return pipe(
-        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.literals[0]])(ctx),
+        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.literals[0]])(
+          ctx,
+        ),
         TE.fromIOEither,
         TE.chain((u) =>
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
@@ -42,20 +44,22 @@ export const CreateEventRoute: Route = (r, ctx) => {
                   uuid(),
                   TE.right,
                   TE.chainFirst((id) =>
-                    ctx.queue.queue(OpenAICreateEventFromURLType.Type).addJob({
-                      id,
-                      status: PendingStatus.Type,
-                      type: OpenAICreateEventFromURLType.Type,
-                      resource: EVENTS.Type,
-                      error: null,
-                      question: null,
-                      result: null,
-                      prompt: null,
-                      data: {
-                        type: body.type,
-                        url: body.url,
-                      },
-                    }),
+                    ctx.queue
+                      .queue(OpenAICreateEventFromURLType.literals[0])
+                      .addJob({
+                        id,
+                        status: PendingStatus.literals[0],
+                        type: OpenAICreateEventFromURLType.literals[0],
+                        resource: EVENTS.literals[0],
+                        error: null,
+                        question: null,
+                        result: null,
+                        prompt: null,
+                        data: {
+                          type: body.type,
+                          url: body.url,
+                        },
+                      }),
                   ),
                   TE.map((id) => ({ success: true })),
                 )

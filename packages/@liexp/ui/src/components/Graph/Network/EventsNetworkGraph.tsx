@@ -79,18 +79,22 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkTarget={(l) => l.target}
       onClick={(m) => {
         if (m.data) {
-          if (m.data.type === ACTORS.Type) {
+          if (m.data.type === ACTORS.literals[0]) {
             onActorClick?.(m);
-          } else if (m.data.type === GROUPS.Type) {
+          } else if (m.data.type === GROUPS.literals[0]) {
             onGroupClick?.(m);
-          } else if (m.data.type === KEYWORDS.Type) {
+          } else if (m.data.type === KEYWORDS.literals[0]) {
             onKeywordClick?.(m);
           } else {
             onEventClick?.(m);
           }
         }
       }}
-      nodeGroups={[ACTORS.Type, KEYWORDS.Type, GROUPS.Type]}
+      nodeGroups={[
+        ACTORS.literals[0],
+        KEYWORDS.literals[0],
+        GROUPS.literals[0],
+      ]}
       colors={colors}
       nodeId={(n) => n.data.id}
       linkStrokeWidth={(l) => l.value}
@@ -98,11 +102,11 @@ export const EventsNetworkGraph: React.FC<EventsNetworkGraphProps> = ({
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
         // console.log('node title', n);
-        if (n.data.type === KEYWORDS.Type) {
+        if (n.data.type === KEYWORDS.literals[0]) {
           return n.data.tag;
-        } else if (n.data.type === GROUPS.Type) {
+        } else if (n.data.type === GROUPS.literals[0]) {
           return n.data.name;
-        } else if (n.data.type === ACTORS.Type) {
+        } else if (n.data.type === ACTORS.literals[0]) {
           return n.data.fullName;
         }
 

@@ -1,12 +1,12 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import { User, type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as IO from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import jwt from "jsonwebtoken";
-import { IOError } from "ts-io-error";
 
 export class JWTError extends IOError {
   name = "JWTError";

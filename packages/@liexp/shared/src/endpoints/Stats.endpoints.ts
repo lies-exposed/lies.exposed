@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as Stats from "../io/http/Stats.js";
 

@@ -27,8 +27,8 @@ export const toActorNodes = (
       innerColor: a.color,
       outerColor: a.color,
       name: a.fullName,
-      group: Actor.ACTORS.Type,
-      type: Actor.ACTORS.Type,
+      group: Actor.ACTORS.literals[0],
+      type: Actor.ACTORS.literals[0],
       count: links.filter((kk) => kk.source === a.id || kk.target === a.id)
         .length,
     },

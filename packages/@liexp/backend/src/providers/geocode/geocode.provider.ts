@@ -1,7 +1,7 @@
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { IOError } from "@ts-endpoint/core";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { IOError } from "ts-io-error";
 
 interface GeocodeSearch {
   display_name: string;

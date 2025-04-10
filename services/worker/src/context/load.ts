@@ -30,7 +30,9 @@ export const loadImplementation = (env: ENV): ContextImplementation => {
   p.use(puppeteerStealth());
   return {
     redis: {
-      client: Redis.Redis as any,
+      client: new Redis({
+        lazyConnect: true,
+      }),
     },
     pdf: {
       client: pdfJs,

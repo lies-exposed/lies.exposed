@@ -26,7 +26,7 @@ export const getUserByTelegramId = <C extends LoggerContext & DatabaseContext>(
             (permission) => ({
               telegramId: Equal(telegramId.toString()),
               permissions: Raw(
-                (alias) => `(${alias})::jsonb ? '${permission.Type}'`,
+                (alias) => `(${alias})::jsonb ? '${permission.literals[0]}'`,
               ),
             }),
           ),

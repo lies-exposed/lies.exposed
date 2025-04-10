@@ -1,7 +1,6 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GraphType } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { type Graph } from "@liexp/shared/lib/io/http/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
@@ -28,6 +27,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as React from "react";
 
 const actorFilters = [
@@ -73,7 +73,10 @@ const GraphTypeInput: React.FC<SelectInputProps> = (props) => {
     <SelectInput
       source="type"
       label="Graph Type"
-      choices={GraphType.members.map((t) => ({ id: t.Type, name: t.Type }))}
+      choices={GraphType.members.map((t) => ({
+        id: t.literals[0],
+        name: t.literals[0],
+      }))}
       {...props}
     />
   );

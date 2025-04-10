@@ -1,10 +1,10 @@
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import {
-    type CustomQueryOverride,
+  type CustomQueryOverride,
   type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
-} from "../src/providers/EndpointQueriesProvider/QueryProviderOverrides.js";
-import { Schema } from 'effect';
+} from "@ts-endpoint/tanstack-query";
+import { Schema } from "effect";
 
 const Actor = Schema.Struct({
   id: Schema.String,
@@ -39,7 +39,10 @@ const TestEndpoints = {
           ids: Schema.Array(Schema.String),
         }),
       },
-      Output: Schema.Struct({ data: Schema.Array(Actor), total: Schema.Number }),
+      Output: Schema.Struct({
+        data: Schema.Array(Actor),
+        total: Schema.Number,
+      }),
     }),
     Create: Endpoint({
       Method: "POST",
@@ -82,12 +85,11 @@ const GetSiblingsOverride: CustomQueryOverride<
 > =
   (Q) =>
   ({ id }) => {
-    return Q.Actor.getList({
-      pagination: { perPage: 10, page: 1 },
-      filter: { ids: [id] },
-      sort: {
-        field: "createdAt",
-        order: "ASC",
+    return Q.Actor.List({
+      Query: {
+        _start: 0,
+        _end: 10,
+        ids: [id],
       },
     });
   };
@@ -112,5 +114,4 @@ export const overrides: QueryProviderOverrides<
   Actor: ActorOverride,
 };
 
-
-export { TestEndpoints }
+export { TestEndpoints };

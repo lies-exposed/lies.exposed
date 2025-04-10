@@ -35,7 +35,7 @@ export const MakeCreateQuoteRoute: Route = (r, { db }) => {
       return pipe(
         db.save(EventV2Entity, [
           {
-            type: QUOTE.Type,
+            type: QUOTE.literals[0],
             ...documentaryData,
             payload,
           },

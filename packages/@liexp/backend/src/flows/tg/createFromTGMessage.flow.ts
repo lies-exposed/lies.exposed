@@ -24,6 +24,7 @@ import {
   type PuppeteerError,
   toPuppeteerError,
 } from "../../providers/puppeteer.provider.js";
+import { type TGError } from "../../providers/tg/tg.provider.js";
 import { getOneAdminOrFail } from "../user/getOneUserOrFail.flow.js";
 import { MessageParser } from "./MessageParser/index.js";
 
@@ -54,7 +55,7 @@ export const createFromTGMessage =
   <C extends CreateFromTGMessageContext>(
     message: TelegramBot.Message,
     metadata: TelegramBot.Metadata,
-  ): ReaderTaskEither<C, PuppeteerError, EventResult> =>
+  ): ReaderTaskEither<C, PuppeteerError | TGError, EventResult> =>
   (ctx) => {
     ctx.logger.info.log(
       "Received message %O with metadata %O",

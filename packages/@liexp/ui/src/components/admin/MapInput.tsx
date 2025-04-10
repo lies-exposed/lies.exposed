@@ -167,10 +167,10 @@ const MapInputWrapper: React.FC<
         label="type"
         source={typeField.field.name}
         choices={http.Common.Geometry.Geometry.members.map((g) => ({
-          id: g.fields.type.Type,
-          name: g.fields.type.Type,
+          id: g.fields.type.literals[0],
+          name: g.fields.type.literals[0],
         }))}
-        defaultValue={http.Common.Geometry.Point.fields.type.Type}
+        defaultValue={http.Common.Geometry.Point.fields.type.literals[0]}
         onChange={(e) => {
           typeField.field.onChange({ type: e.target.value, coordinates: [] });
         }}

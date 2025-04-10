@@ -191,7 +191,7 @@ export const createStatsByType =
               groupsMembers: O.none(),
               links: O.none(),
               locations: O.none(),
-              type: O.some(EventType.members.map((t) => t.Type)),
+              type: O.some(EventType.members.map((t) => t.literals[0])),
               q: O.none(),
               startDate: O.none(),
               endDate: O.none(),

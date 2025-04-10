@@ -23,7 +23,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
   excludeIds,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Group.Group>
       placeholder="Groups..."

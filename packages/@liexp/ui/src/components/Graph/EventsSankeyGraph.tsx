@@ -397,7 +397,7 @@ const getLinks =
                   value: (1 / relations.length) * 100,
                   stroke: `#${relation.color}`,
                   fill: `#${relation.color}`,
-                  sourceType: ACTORS.Type,
+                  sourceType: ACTORS.literals[0],
                 },
               ];
               return pipe(acc1, Map.upsertAt(S.Eq)(relation.id, links));
@@ -413,7 +413,7 @@ const getLinks =
                 value: (1 / relations.length) * 100,
                 stroke: `#${relation.color}`,
                 fill: `#${relation.color}`,
-                sourceType: GROUPS.Type,
+                sourceType: GROUPS.literals[0],
               },
             ];
 

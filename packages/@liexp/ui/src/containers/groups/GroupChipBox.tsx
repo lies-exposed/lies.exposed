@@ -17,7 +17,7 @@ const GroupChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ group: Q.Group.get.useQuery({ id }) })}
-      render={({ group }) => {
+      render={({ group: { data: group } }) => {
         return <GroupChip {...props} group={group} />;
       }}
     />

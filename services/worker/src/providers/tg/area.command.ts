@@ -19,7 +19,7 @@ export const areaCommand = (ctx: WorkerContext): TGBotProvider => {
 
     void pipe(
       EntityFromWikipediaService({
-        type: AREAS.Type,
+        type: AREAS.literals[0],
         search: match[1],
         chatId: msg.chat.id,
         fromId: msg.from?.id,

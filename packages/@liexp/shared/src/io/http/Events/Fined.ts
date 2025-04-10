@@ -11,6 +11,6 @@ export const Fined = Schema.Struct({
   who: BySubjectId,
   from: Schema.NonEmptyArray(BySubjectId),
   date: Schema.Date,
-}).annotations({ title: FINED_FRONTMATTER.Type });
+}).annotations({ title: FINED_FRONTMATTER.literals[0] });
 
 export type Fined = typeof Fined.Type;

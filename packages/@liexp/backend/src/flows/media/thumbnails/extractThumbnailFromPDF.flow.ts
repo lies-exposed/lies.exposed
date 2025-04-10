@@ -46,7 +46,7 @@ export const extractThumbnailFromPDFPage = (
 
         await page.render(renderContext).promise;
 
-        return canvas.toBuffer(ImageType.members[2].Type);
+        return canvas.toBuffer(ImageType.members[2].literals[0]);
       },
       (e) => ServerError.fromUnknown(e),
     ),

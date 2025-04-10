@@ -45,7 +45,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
               SearchFromWikipediaPubSub.publish({
                 search: body.search,
                 provider: "wikipedia",
-                type: GROUP.Type,
+                type: GROUP.literals[0],
               })(ctx),
               TE.map(() => new GroupEntity()),
             ),

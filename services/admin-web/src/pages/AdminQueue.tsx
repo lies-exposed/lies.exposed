@@ -72,8 +72,8 @@ const SelectQueueTypeInput: React.FC<SelectInputProps> = ({
     source={source}
     {...props}
     choices={Queue.QueueTypes.members.map((resource) => ({
-      id: resource.Type,
-      name: resource.Type,
+      id: resource.literals[0],
+      name: resource.literals[0],
     }))}
   />
 );
@@ -87,8 +87,8 @@ const SelectQueueResourceInput: React.FC<SelectInputProps> = ({
       source={source}
       {...props}
       choices={Queue.QueueResourceNames.members.map((resource) => ({
-        id: resource.Type,
-        name: resource.Type,
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );
@@ -104,8 +104,8 @@ const SelectQueueStatusInput: React.FC<SelectInputProps> = ({
       source={source}
       {...props}
       choices={Queue.Status.members.map((resource) => ({
-        id: resource.Type,
-        name: resource.Type,
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );
@@ -121,8 +121,8 @@ const SelectQueueStatusArrayInput: React.FC<SelectArrayInputProps> = ({
       source={source}
       {...props}
       choices={Queue.Status.members.map((resource) => ({
-        id: resource.Type,
-        name: resource.Type,
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );

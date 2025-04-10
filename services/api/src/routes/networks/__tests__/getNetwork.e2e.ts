@@ -54,8 +54,8 @@ describe("Get Network", () => {
       .set("Authorization", authorizationToken)
       .query({
         "ids[]": keyword.id,
-        groupBy: KEYWORDS.Type,
-        relation: KEYWORDS.Type,
+        groupBy: KEYWORDS.literals[0],
+        relation: KEYWORDS.literals[0],
       })
       .expect(200);
 

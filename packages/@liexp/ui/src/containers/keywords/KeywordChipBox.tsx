@@ -17,7 +17,7 @@ const KeywordChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ keyword: Q.Keyword.get.useQuery({ id }) })}
-      render={({ keyword }) => {
+      render={({ keyword: { data: keyword } }) => {
         return <KeywordChip {...props} keyword={keyword} />;
       }}
     />

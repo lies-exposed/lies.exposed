@@ -11,8 +11,8 @@ export const EventSuggestionStatusInput: React.FC<SelectInputProps> = (
       source="status"
       {...props}
       choices={EventSuggestionStatus.members.map((t) => ({
-        id: t.Type,
-        name: t.Type,
+        id: t.literals[0],
+        name: t.literals[0],
       }))}
     />
   );

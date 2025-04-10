@@ -21,7 +21,7 @@ export const ActorHierarchyEdgeBundlingGraph: React.FC<
         graph: Q.Stats.list.useQuery({
           filter: {
             id: actor,
-            type: StatsType.members[1].Type,
+            type: StatsType.members[1].literals[0],
           },
         }),
       })}

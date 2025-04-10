@@ -32,27 +32,27 @@ export const ResourceEntityInput: React.FC = () => {
       return <ReferenceActorInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[1].Type) {
+    if (record.type === SocialPostResourceType.members[1].literals[0]) {
       return <ReferenceGroupInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[2].Type) {
+    if (record.type === SocialPostResourceType.members[2].literals[0]) {
       return <ReferenceKeywordInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[3].Type) {
+    if (record.type === SocialPostResourceType.members[3].literals[0]) {
       return <ReferenceMediaInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[4].Type) {
+    if (record.type === SocialPostResourceType.members[4].literals[0]) {
       return <ReferenceEventInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[5].Type) {
+    if (record.type === SocialPostResourceType.members[5].literals[0]) {
       return <ReferenceLinkInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.members[6].Type) {
+    if (record.type === SocialPostResourceType.members[6].literals[0]) {
       return <ReferenceAreaInput source="entity" />;
     }
 
@@ -68,8 +68,8 @@ export const ResourceEntityInput: React.FC = () => {
       <SelectInput
         source="type"
         choices={SocialPostResourceType.members.map((t) => ({
-          id: t.Type,
-          name: t.Type,
+          id: t.literals[0],
+          name: t.literals[0],
         }))}
       />
       {referenceInput}

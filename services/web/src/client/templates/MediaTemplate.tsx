@@ -17,7 +17,7 @@ const MediaTemplate: React.FC<{ mediaId: UUID }> = ({ mediaId }) => {
       queries={(Q) => ({
         media: Q.Media.get.useQuery({ id: mediaId }),
       })}
-      render={({ media: m }) => {
+      render={({ media: { data: m } }) => {
         return (
           <Box>
             <SEO

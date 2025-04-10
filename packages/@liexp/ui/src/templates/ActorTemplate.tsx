@@ -99,7 +99,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 },
               ]}
               resource={{
-                name: ACTORS.Type,
+                name: ACTORS.literals[0],
                 item: actor,
               }}
             >

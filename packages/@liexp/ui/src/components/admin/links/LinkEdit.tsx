@@ -74,7 +74,7 @@ export const LinkEdit: React.FC = () => {
               />
               <ReferenceMediaInput
                 source="image.id"
-                allowedTypes={ImageType.members.map((t) => t.Type)}
+                allowedTypes={ImageType.members.map((t) => t.literals[0])}
               />
               <Stack direction={"row"} spacing={2}>
                 <OverrideThumbnail />

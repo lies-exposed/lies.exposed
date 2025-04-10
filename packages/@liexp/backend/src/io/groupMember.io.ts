@@ -6,10 +6,10 @@ import {
 import * as io from "@liexp/shared/lib/io/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
-import { IOError } from "ts-io-error";
 import { type GroupMemberEntity } from "../entities/GroupMember.entity.js";
 import { ActorIO } from "./Actor.io.js";
 import { IOCodec } from "./DomainCodec.js";

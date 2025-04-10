@@ -1,10 +1,10 @@
-import type * as t from "io-ts";
+import { type Schema } from "effect";
 import { type AppType } from "vite";
 
-export interface GetViteConfigParams<A extends Record<string, t.Mixed>> {
+export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
   cwd: string;
   base: string;
-  env: t.ExactC<t.TypeC<A>>;
+  env: Schema.Schema<A>;
   envFileDir: string;
   port: number;
   host: string;

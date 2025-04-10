@@ -6,23 +6,29 @@ export const searchEventQueryToEventTypeFilters = (
   query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
-    [EventTypes.BOOK.Type]: !!query.eventType?.includes(EventTypes.BOOK.Type),
-    [EventTypes.DEATH.Type]: !!query.eventType?.includes(EventTypes.DEATH.Type),
-    [EventTypes.UNCATEGORIZED.Type]: !!query.eventType?.includes(
-      EventTypes.UNCATEGORIZED.Type,
+    [EventTypes.BOOK.literals[0]]: !!query.eventType?.includes(
+      EventTypes.BOOK.literals[0],
     ),
-    [EventTypes.SCIENTIFIC_STUDY.Type]: !!query.eventType?.includes(
-      EventTypes.SCIENTIFIC_STUDY.Type,
+    [EventTypes.DEATH.literals[0]]: !!query.eventType?.includes(
+      EventTypes.DEATH.literals[0],
     ),
-    [EventTypes.PATENT.Type]: !!query.eventType?.includes(
-      EventTypes.PATENT.Type,
+    [EventTypes.UNCATEGORIZED.literals[0]]: !!query.eventType?.includes(
+      EventTypes.UNCATEGORIZED.literals[0],
     ),
-    [EventTypes.DOCUMENTARY.Type]: !!query.eventType?.includes(
-      EventTypes.DOCUMENTARY.Type,
+    [EventTypes.SCIENTIFIC_STUDY.literals[0]]: !!query.eventType?.includes(
+      EventTypes.SCIENTIFIC_STUDY.literals[0],
     ),
-    [EventTypes.TRANSACTION.Type]: !!query.eventType?.includes(
-      EventTypes.TRANSACTION.Type,
+    [EventTypes.PATENT.literals[0]]: !!query.eventType?.includes(
+      EventTypes.PATENT.literals[0],
     ),
-    [EventTypes.QUOTE.Type]: !!query.eventType?.includes(EventTypes.QUOTE.Type),
+    [EventTypes.DOCUMENTARY.literals[0]]: !!query.eventType?.includes(
+      EventTypes.DOCUMENTARY.literals[0],
+    ),
+    [EventTypes.TRANSACTION.literals[0]]: !!query.eventType?.includes(
+      EventTypes.TRANSACTION.literals[0],
+    ),
+    [EventTypes.QUOTE.literals[0]]: !!query.eventType?.includes(
+      EventTypes.QUOTE.literals[0],
+    ),
   };
 };

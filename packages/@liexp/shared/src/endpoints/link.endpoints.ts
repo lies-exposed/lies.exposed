@@ -1,5 +1,5 @@
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { Endpoint, ResourceEndpoints } from "ts-endpoint";
 import { ListOutput, Output, URL, UUID } from "../io/http/Common/index.js";
 import * as Link from "../io/http/Link.js";
 

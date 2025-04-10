@@ -52,7 +52,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ keyword: Q.Keyword.get.useQuery({ id: keywordId }) })}
-      render={({ keyword }) => {
+      render={({ keyword: { data: keyword } }) => {
         return (
           <Box
             display="flex"
@@ -77,7 +77,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                 { label: "Networks" },
               ]}
               resource={{
-                name: KEYWORDS.Type,
+                name: KEYWORDS.literals[0],
                 item: keyword,
               }}
             >
@@ -132,7 +132,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),
                 }}
-                relations={[GROUPS.Type, ACTORS.Type]}
+                relations={[GROUPS.literals[0], ACTORS.literals[0]]}
                 onKeywordClick={onKeywordClick}
                 onEventClick={onEventClick}
                 onActorClick={onActorClick}

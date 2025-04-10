@@ -65,15 +65,16 @@ export const TG_BOT_ENV = Schema.Struct({
 });
 export type TG_BOT_ENV = typeof TG_BOT_ENV.Type;
 
-export const BACKEND_ENV = pipe(
+export const BACKEND_ENV = Schema.extend(
+  DATABASE_ENV,
   Schema.Struct({
+    ...SPACE_ENV.fields,
     NODE_ENV,
+    DEBUG: Schema.String,
     DEFAULT_PAGE_SIZE: Schema.NumberFromString,
   }).annotations({
     title: "BACKEND_ENV",
   }),
-  (schema) => Schema.extend(schema, DATABASE_ENV),
-  (schema) => Schema.extend(schema, SPACE_ENV),
 );
 
 export type BACKEND_ENV = typeof BACKEND_ENV.Type;

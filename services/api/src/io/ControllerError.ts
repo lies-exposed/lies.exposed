@@ -3,7 +3,6 @@ import {
   ServerError,
   BadRequestError,
   NotAuthorizedError,
-  IOError,
 } from "@liexp/backend/lib/errors/index.js";
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
@@ -20,6 +19,7 @@ import {
 import { _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
 import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { UnauthorizedError } from "express-jwt";
 import { pipe } from "fp-ts/lib/function.js";

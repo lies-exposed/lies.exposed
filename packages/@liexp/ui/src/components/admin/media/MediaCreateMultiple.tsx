@@ -7,8 +7,8 @@ import {
   OGGType,
   PDFType,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -129,11 +129,11 @@ export const MediaCreateMany: React.FC<any> = (props) => {
 
   const { isDragActive, getRootProps } = useDropzone({
     accept: [
-      ...ImageType.members.map((t) => t.Type),
-      PDFType.Type,
-      MP4Type.Type,
-      MP3Type.Type,
-      OGGType.Type,
+      ...ImageType.members.map((t) => t.literals[0]),
+      PDFType.literals[0],
+      MP4Type.literals[0],
+      MP3Type.literals[0],
+      OGGType.literals[0],
     ].reduce((acc, k) => ({ ...acc, [k]: [] }), {}),
     multiple: true,
     onDrop,

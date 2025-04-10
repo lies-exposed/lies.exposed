@@ -356,7 +356,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     query={{
                       ids: [event.id],
                       eventType: EventType.members.map(
-                        (t) => t.Type,
+                        (t) => t.literals[0],
                       ) as unknown as NonEmptyArray<EventType>,
                       startDate: formatDate(subYears(new Date(), 1)),
                       endDate: formatDate(new Date()),

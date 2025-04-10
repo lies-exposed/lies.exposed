@@ -14,6 +14,6 @@ export const Protest = Schema.Struct({
   media: OptionFromNullishToNull(Schema.NonEmptyArray(Media)),
   date: Schema.Date,
 }).annotations({
-  title: PROTEST.Type,
+  title: PROTEST.literals[0],
 });
 export type Protest = typeof Protest;

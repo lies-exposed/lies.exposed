@@ -20,7 +20,7 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   disableZoom,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{ media: Queries.Media.list.useQuery(query, undefined, false) }}

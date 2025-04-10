@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 
 const IntFromString = Schema.NumberFromString.pipe(
   Schema.filter((s) => Schema.is(Schema.Int)(s)),

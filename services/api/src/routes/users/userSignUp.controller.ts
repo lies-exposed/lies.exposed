@@ -23,10 +23,10 @@ export const MakeSignUpUserRoute: Route = (r, ctx) => {
               id: uuid(),
               ...userData,
               permissions: [
-                http.User.EventSuggestionCreate.Type,
-                http.User.EventSuggestionEdit.Type,
+                http.User.EventSuggestionCreate.literals[0],
+                http.User.EventSuggestionEdit.literals[0],
               ],
-              status: UserStatusPending.Type,
+              status: UserStatusPending.literals[0],
               passwordHash: pw,
             },
           ]),

@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import path from "path";
+import * as path from "path";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
@@ -596,15 +596,15 @@ export const createEventNetworkGraph =
           sequenceS(TE.ApplicativePar)({
             keywords: getGraph(
               keywords.map((k) => k.id),
-              KEYWORDS.Type,
+              KEYWORDS.literals[0],
             ),
             actors: getGraph(
               actors.map((a) => a.id),
-              ACTORS.Type,
+              ACTORS.literals[0],
             ),
             groups: getGraph(
               groups.map((g) => g.id),
-              GROUPS.Type,
+              GROUPS.literals[0],
             ),
           }),
           TE.map(({ keywords, groups, actors }) =>

@@ -1,21 +1,20 @@
 import { type Logger } from "@liexp/core/lib/logger/index.js";
+import { Schema } from "effect";
 import * as csv from "fast-csv";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import type * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 
 interface ParseFileOpts<A, O = A, I = unknown> {
   mapper?: (a: I) => A;
-  decoder: t.Type<A, O, I>;
+  decoder: Schema.Schema<A, O, never>;
 }
 
 export interface CSVUtil {
   parseString: <A, O = A, I = unknown>(
     content: string,
-    decoder: t.Type<A, O, I>,
+    decoder: Schema.Schema<A, O, never>,
     mapper?: (a: I) => A,
   ) => TE.TaskEither<Error, A[]>;
   parseFile: <A, O = A, I = unknown>(
@@ -46,18 +45,18 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
         csv
           .parseFile(location, parseOptions)
           .on("data", (item) => {
-            const decoded = opts.decoder.decode(
+            const result = Schema.decodeUnknownEither(opts.decoder)(
               opts.mapper ? opts.mapper(item) : item,
             );
 
-            if (E.isLeft(decoded)) {
-              log.debug.log("Decode failed %O", PathReporter.report(decoded));
+            if (E.isLeft(result)) {
+              log.debug.log("Decode failed %O", result);
               // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-              reject(decoded.left);
+              reject(result.left);
               return;
             }
 
-            data.push(decoded.right);
+            data.push(result.right);
           })
           .on("end", () => {
             resolve(data);
@@ -69,7 +68,7 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
 
   const parseString = <A, O = A, I = unknown>(
     content: string,
-    decoder: t.Type<A, O, I>,
+    decoder: Schema.Schema<A, O, never>,
     mapper?: (v: I) => A,
   ): TE.TaskEither<Error, A[]> => {
     return pipe(
@@ -89,19 +88,25 @@ export const GetCSVUtil = ({ log }: CSVUtilOptions): CSVUtil => {
             });
         });
       }, E.toError),
-      TE.mapLeft(() => []),
       TE.chainEitherK((results) => {
         const r = pipe(
           results,
-          A.map((v) => decoder.decode(mapper ? mapper(v) : v)),
+          A.map((v) =>
+            Schema.decodeUnknownEither(decoder)(mapper ? mapper(v) : v),
+          ),
           A.sequence(E.Applicative),
+          E.mapLeft((errs) => {
+            // eslint-disable-next-line
+            console.log(errs);
+            return new Error();
+          }),
         );
 
-        return r as E.Either<t.ValidationError[], A[]>;
+        return r;
       }),
       TE.mapLeft((errs) => {
         // eslint-disable-next-line
-        console.log(PathReporter.report(E.left(errs)));
+        console.log(errs);
         return new Error();
       }),
     );

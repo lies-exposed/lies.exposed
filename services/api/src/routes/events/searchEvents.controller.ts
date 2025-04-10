@@ -15,6 +15,7 @@ import { type Route } from "#routes/route.types.js";
 export const SearchEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.Custom.SearchEvents, ({ query }) => {
     ctx.logger.debug.log("Query %O", query);
+
     const {
       actors,
       groups,

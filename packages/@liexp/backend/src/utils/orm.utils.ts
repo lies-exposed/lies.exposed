@@ -55,7 +55,7 @@ const getSkipAndTakeOptions = (
   defaultPageSize: number,
 ): ORMPagination => {
   const take = pipe(
-    pagination._end as O.Option<number>,
+    pagination._end,
     O.filter((n) => n > 0), // end is exclusive
     O.getOrElse(() => defaultPageSize),
   );
