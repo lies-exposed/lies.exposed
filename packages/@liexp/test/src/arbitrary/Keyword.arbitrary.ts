@@ -2,6 +2,7 @@ import { Tag } from "@liexp/shared/lib/io/http/Common/Tag.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb } from "./Date.arbitrary.js";
+import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
@@ -33,7 +34,8 @@ import { UUIDArb } from "./common/UUID.arbitrary.js";
 //   }) as fc.Arbitrary<Tag>;
 // };
 
-export const TagArb = () => Arbitrary.make(Tag);
+export const TagArb = () =>
+  Arbitrary.make(Tag).chain(() => HumanReadableStringArb({ joinChar: "" }));
 
 export const CreateKeywordArb = fc.record({
   tag: TagArb(),

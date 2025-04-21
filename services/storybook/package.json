@@ -29,6 +29,7 @@
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@mui/material": "7.0.0-alpha.2",
+    "@ts-endpoint/resource-client": "^0.1.0",
     "@storybook/addon-essentials": "^8.6.4",
     "@storybook/addon-interactions": "^8.6.4",
     "@storybook/addon-links": "^8.6.4",

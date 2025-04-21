@@ -69,5 +69,13 @@ describe("Create Keyword", () => {
       });
 
     expect(response.status).toEqual(201);
+    expect(response.body.data).toEqual({
+      id: expect.any(String),
+      tag: expect.any(String),
+      color: expect.any(String),
+      socialPosts: [],
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    });
   });
 });

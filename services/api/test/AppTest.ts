@@ -148,10 +148,10 @@ export const initAppTest = async (
             tableName: string,
           ): TE.TaskEither<Error, boolean> =>
             pipe(
-              TE.tryCatch(
-                () => ctx.db.manager.query(`TRUNCATE "${tableName}" CASCADE;`),
-                toError,
-              ),
+              TE.tryCatch(() => {
+                ctx.logger.debug.log(`Truncating table ${tableName}`);
+                return ctx.db.manager.query(`TRUNCATE "${tableName}" CASCADE;`);
+              }, toError),
             );
 
           return pipe(
