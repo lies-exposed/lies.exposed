@@ -1,29 +1,28 @@
-import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "../io/http/Common/index.js";
 import * as Group from "../io/http/Group.js";
 import { GetListQuery } from "../io/http/Query/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/groups",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      _sort: optionFromNullable(
-        t.union([
-          t.literal("id"),
-          t.literal("name"),
-          t.literal("createdAt"),
-          t.literal("updatedAt"),
-        ]),
+    Query: Schema.Struct({
+      ...GetListQuery.fields,
+      _sort: OptionFromNullishToNull(
+        Schema.Union(
+          Schema.Literal("id"),
+          Schema.Literal("name"),
+          Schema.Literal("createdAt"),
+          Schema.Literal("updatedAt"),
+        ),
       ),
-      name: optionFromNullable(t.string),
-      username: optionFromNullable(t.string),
-      ids: optionFromNullable(t.array(UUID)),
-      members: optionFromNullable(t.array(t.string)),
+      name: OptionFromNullishToNull(Schema.String),
+      username: OptionFromNullishToNull(Schema.String),
+      ids: OptionFromNullishToNull(Schema.Array(UUID)),
+      members: OptionFromNullishToNull(Schema.Array(Schema.String)),
     }),
   },
   Output: Group.GroupListOutput,
@@ -34,7 +33,10 @@ export const Create = Endpoint({
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: t.union([t.type({ search: t.string }), Group.CreateGroupBody]),
+    Body: Schema.Union(
+      Schema.Struct({ search: Schema.String }),
+      Group.CreateGroupBody,
+    ),
   },
   Output: Group.GroupOutput,
 });
@@ -44,7 +46,7 @@ export const Get = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: Group.GroupOutput,
 });
@@ -54,7 +56,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Group.EditGroupBody,
   },
   Output: Group.GroupOutput,
@@ -65,7 +67,7 @@ export const Delete = Endpoint({
   getPath: ({ id }) => `/groups/${id}`,
   Input: {
     Query: undefined,
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: Group.GroupOutput,
 });

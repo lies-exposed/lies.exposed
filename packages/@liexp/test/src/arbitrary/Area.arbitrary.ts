@@ -1,8 +1,8 @@
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { Schema } from "effect";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const {
@@ -18,20 +18,9 @@ const {
   socialPosts,
   featuredImage,
   ...areaProps
-} = http.Area.Area.type.props;
+} = http.Area.Area.fields;
 
-export type AreaArbType = Omit<
-  http.Area.Area,
-  "media" | "events" | "socialPosts"
-> & {
-  events: any[];
-  media: any[];
-  socialPosts: any[];
-};
-
-export const AreaArb: fc.Arbitrary<AreaArbType> = getArbitrary(
-  t.strict({ ...areaProps }),
-).map((p) => ({
+export const AreaArb = Arbitrary.make(Schema.Struct(areaProps)).map((p) => ({
   ...p,
   id: fc.sample(UUIDArb, 1)[0],
   slug: fc.sample(fc.string({ minLength: 40 }), 1)[0],

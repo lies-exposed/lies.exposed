@@ -1,18 +1,19 @@
-import * as http from "../../io/http/index.js";
+import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
+import type * as http from "../../io/http/index.js";
 
 export const getTitle = (
   e: http.Events.Event,
   relations: http.Events.EventRelations,
 ): string => {
   switch (e.type) {
-    case http.Events.EventTypes.BOOK.value:
-    case http.Events.EventTypes.DOCUMENTARY.value:
-    case http.Events.EventTypes.PATENT.value:
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
-    case http.Events.EventTypes.TRANSACTION.value:
-    case http.Events.EventTypes.UNCATEGORIZED.value:
+    case EVENT_TYPES.BOOK:
+    case EVENT_TYPES.DOCUMENTARY:
+    case EVENT_TYPES.PATENT:
+    case EVENT_TYPES.SCIENTIFIC_STUDY:
+    case EVENT_TYPES.TRANSACTION:
+    case EVENT_TYPES.UNCATEGORIZED:
       return e.payload.title;
-    case http.Events.EventTypes.QUOTE.value: {
+    case EVENT_TYPES.QUOTE: {
       const byActor = relations?.actors?.[0] ?? { fullName: "Unknown" };
       return `${byActor.fullName} - `.concat(
         e.payload.details
@@ -21,7 +22,7 @@ export const getTitle = (
               ""),
       );
     }
-    case http.Events.EventTypes.DEATH.value: {
+    case EVENT_TYPES.DEATH: {
       const victimName =
         (e.payload?.victim as any)?.fullName ??
         (relations?.actors ?? []).find((a) => a.id === e.payload.victim)
@@ -36,20 +37,20 @@ export const getTitleForSearchEvent = (
   e: http.Events.SearchEvent.SearchEvent,
 ): string => {
   switch (e.type) {
-    case http.Events.EventTypes.QUOTE.value:
+    case EVENT_TYPES.QUOTE:
       return `Quote by ${
         e.payload.subject.type === "Group"
           ? e.payload.subject.id?.name
           : e.payload.subject.id?.fullName
       }`;
-    case http.Events.EventTypes.DEATH.value:
+    case EVENT_TYPES.DEATH:
       return `Death of ${e.payload?.victim?.fullName}`;
-    case http.Events.EventTypes.DOCUMENTARY.value:
-    case http.Events.EventTypes.PATENT.value:
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
-    case http.Events.EventTypes.TRANSACTION.value:
-    case http.Events.EventTypes.UNCATEGORIZED.value:
-    case http.Events.EventTypes.BOOK.value:
+    case EVENT_TYPES.DOCUMENTARY:
+    case EVENT_TYPES.PATENT:
+    case EVENT_TYPES.SCIENTIFIC_STUDY:
+    case EVENT_TYPES.TRANSACTION:
+    case EVENT_TYPES.UNCATEGORIZED:
+    case EVENT_TYPES.BOOK:
       return e.payload.title;
     default:
       return "no title given";

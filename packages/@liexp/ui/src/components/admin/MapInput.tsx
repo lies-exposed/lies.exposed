@@ -1,6 +1,7 @@
 import { Polygon } from "@liexp/shared/lib/io/http/Common/Geometry/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { http } from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import get from "lodash/get";
 import type Feature from "ol/Feature.js";
 import { type FeatureLike } from "ol/Feature.js";
@@ -165,11 +166,11 @@ const MapInputWrapper: React.FC<
       <SelectInput
         label="type"
         source={typeField.field.name}
-        choices={http.Common.Geometry.Geometry.types.map((g) => ({
-          id: g.type.props.type.value,
-          name: g.type.props.type.value,
+        choices={http.Common.Geometry.Geometry.members.map((g) => ({
+          id: g.fields.type.literals[0],
+          name: g.fields.type.literals[0],
         }))}
-        defaultValue={http.Common.Geometry.Point.type.props.type.value}
+        defaultValue={http.Common.Geometry.Point.fields.type.literals[0]}
         onChange={(e) => {
           typeField.field.onChange({ type: e.target.value, coordinates: [] });
         }}
@@ -179,7 +180,7 @@ const MapInputWrapper: React.FC<
           const type =
             get(formData, typeField.field.name) ?? typeField.field.value;
 
-          if (type === Polygon.type.props.type.value) {
+          if (Schema.is(Polygon.fields.type)(type)) {
             return (
               <MapInput
                 {...props}

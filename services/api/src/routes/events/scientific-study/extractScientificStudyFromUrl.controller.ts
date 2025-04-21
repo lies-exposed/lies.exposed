@@ -1,6 +1,6 @@
 import { ScientificStudyEntity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -23,9 +23,9 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(
     r,
     authenticationHandler([
-      AdminCreate.value,
-      AdminEdit.value,
-      AdminDelete.value,
+      AdminCreate.literals[0],
+      AdminEdit.literals[0],
+      AdminDelete.literals[0],
     ])(ctx),
   )(
     Endpoints.ScientificStudy.Custom.ExtractFromURL,
@@ -45,19 +45,21 @@ export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
 
         TE.bind("user", () =>
           pipe(
-            RequestDecoder.decodeUserFromRequest(req, [AdminCreate.value])(ctx),
+            RequestDecoder.decodeUserFromRequest(req, [
+              AdminCreate.literals[0],
+            ])(ctx),
             fp.TE.fromIOEither,
           ),
         ),
         TE.chainFirst(({ user, event, link }) =>
           CreateEventFromURLPubSub.publish({
-            type: SCIENTIFIC_STUDY.value,
+            type: SCIENTIFIC_STUDY.literals[0],
             url: link.url,
             eventId: event.id,
             userId: user.id,
           })(ctx),
         ),
-        TE.chainEitherK(({ event }) => EventV2IO.decodeSingle(event)),
+        TE.chainEitherK(({ event }) => ScientificStudyIO.decodeSingle(event)),
         TE.map((data) => ({
           body: {
             data,

@@ -17,6 +17,7 @@ import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDoc
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import { Equal, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
 import { type CronJobTE } from "./cron-task.type.js";
@@ -52,7 +53,7 @@ const processDoneJobBlockNoteResult =
           ),
           fp.RTE.chainEitherK((doc) =>
             pipe(
-              BlockNoteDocument.decode(doc),
+              Schema.decodeEither(BlockNoteDocument)(doc),
               fp.E.mapLeft((errs) => DecodeError.of("BlockNoteDocument", errs)),
             ),
           ),
@@ -82,7 +83,7 @@ const processDoneJobEventResult =
             draft: true,
             ...job.result,
           }),
-          fp.RTE.chainEitherK(Event.decode),
+          fp.RTE.chainEitherK(Schema.decodeUnknownEither(Event)),
           fp.RTE.mapLeft((errs) => DecodeError.of("Event", errs)),
         );
       }),

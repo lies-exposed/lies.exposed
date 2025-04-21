@@ -47,7 +47,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       <Grid container spacing={2} style={{ width: "100%", maxWidth: "100%" }}>
         <EventListItemBase
           event={item}
-          type={Events.EventTypes.UNCATEGORIZED.value}
+          type={Events.EventTypes.UNCATEGORIZED.Type}
           title={item.payload.title}
           excerpt={item.excerpt}
           keywords={item.keywords}

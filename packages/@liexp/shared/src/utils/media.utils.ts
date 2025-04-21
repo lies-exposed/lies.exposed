@@ -1,46 +1,47 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { Schema } from "effect";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
 import { type UploadResource } from "../endpoints/upload.endpoints.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import * as Media from "../io/http/Media/index.js";
 import { ResourcesNames } from "../io/http/ResourcesNames.js";
 
 export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
   switch (c) {
     case "pdf":
-      return Media.MediaType.types[6].value;
+      return Media.MediaType.members[6].literals[0];
     case "mp4":
-      return Media.MediaType.types[5].value;
+      return Media.MediaType.members[5].literals[0];
     case "ogg":
-      return Media.MediaType.types[4].value;
+      return Media.MediaType.members[4].literals[0];
     case "mp3":
-      return Media.MediaType.types[3].value;
+      return Media.MediaType.members[3].literals[0];
     case "png":
-      return Media.MediaType.types[2].value;
+      return Media.MediaType.members[2].literals[0];
     case "jpeg":
-      return Media.MediaType.types[1].value;
+      return Media.MediaType.members[1].literals[0];
     case "jpg":
     default:
-      return Media.MediaType.types[0].value;
+      return Media.MediaType.members[0].literals[0];
   }
 };
 
 export const fileExtFromContentType = (c: Media.ValidContentType): string => {
   switch (c) {
-    case Media.MediaType.types[6].value:
+    case Media.MediaType.members[6].literals[0]:
       return "pdf";
-    case Media.MediaType.types[5].value:
+    case Media.MediaType.members[5].literals[0]:
       return "mp4";
-    case Media.MediaType.types[4].value:
+    case Media.MediaType.members[4].literals[0]:
       return "ogg";
-    case Media.MediaType.types[3].value:
+    case Media.MediaType.members[3].literals[0]:
       return "mp3";
-    case Media.MediaType.types[2].value:
+    case Media.MediaType.members[2].literals[0]:
       return "png";
-    case Media.MediaType.types[1].value:
+    case Media.MediaType.members[1].literals[0]:
       return "jpeg";
-    case Media.MediaType.types[0].value:
+    case Media.MediaType.members[0].literals[0]:
       return "jpg";
   }
 };
@@ -58,7 +59,7 @@ export const getResourceAndIdFromLocation = (
 ): Option<{ resource: string; id: UUID }> => {
   const [, resource, id] = pipe(u.split("/"));
 
-  if (ResourcesNames.is(resource) && UUID.is(id)) {
+  if (Schema.is(ResourcesNames)(resource) && Schema.is(UUID)(id)) {
     return fp.O.some({ resource, id });
   }
 

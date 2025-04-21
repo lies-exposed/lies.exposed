@@ -1,8 +1,6 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
+import { UUID } from "../Common/UUID.js";
 import {
   CreateEventCommon,
   EditEventCommon,
@@ -11,60 +9,53 @@ import {
 import { PATENT } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
-export const PatentListQuery = t.strict(
-  {
-    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
-    minDate: optionFromNullable(DateFromISOString),
-    maxDate: optionFromNullable(DateFromISOString),
-  },
-  "PatentListQuery",
-);
-export type PatentListQuery = t.TypeOf<typeof PatentListQuery>;
+export const PatentListQuery = Schema.Struct({
+  ...GetSearchEventsQuery.omit("eventType").fields,
+  minDate: OptionFromNullishToNull(Schema.Date),
+  maxDate: OptionFromNullishToNull(Schema.Date),
+}).annotations({
+  title: "PatentListQuery",
+});
+export type PatentListQuery = typeof PatentListQuery.Type;
 
-export const PatentPayload = t.strict(
-  {
-    title: t.string,
-    owners: t.strict({
-      actors: t.array(UUID),
-      groups: t.array(UUID),
-    }),
-    source: t.union([UUID, t.undefined]),
-  },
-  "PatentPayload",
-);
-export type PatentPayload = t.TypeOf<typeof PatentPayload>;
+export const PatentPayload = Schema.Struct({
+  title: Schema.String,
+  owners: Schema.Struct({
+    actors: Schema.Array(UUID),
+    groups: Schema.Array(UUID),
+  }),
+  source: Schema.Union(UUID, Schema.Undefined),
+});
+export type PatentPayload = typeof PatentPayload.Type;
 
-export const Patent = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: PATENT,
-    payload: PatentPayload,
-  },
-  PATENT.value,
-);
-export type Patent = t.TypeOf<typeof Patent>;
-
-export const CreatePatentBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: PATENT,
-    payload: t.strict({
-      title: t.string,
-      owners: t.strict({
-        actors: t.array(UUID),
-        groups: t.array(UUID),
-      }),
-      source: UUID,
-    }),
-  },
-  "CreatePatentBody",
-);
-
-export type CreatePatentBody = t.TypeOf<typeof CreatePatentBody>;
-
-export const EditPatentBody = t.strict({
-  ...EditEventCommon.type.props,
+export const Patent = Schema.Struct({
+  ...EventCommon.fields,
   type: PATENT,
   payload: PatentPayload,
 });
-export type EditPatentBody = t.TypeOf<typeof EditPatentBody>;
+
+export type Patent = typeof Patent.Type;
+
+export const CreatePatentBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: PATENT,
+  payload: Schema.Struct({
+    title: Schema.String,
+    owners: Schema.Struct({
+      actors: Schema.Array(UUID),
+      groups: Schema.Array(UUID),
+    }),
+    source: UUID,
+  }),
+}).annotations({
+  title: "CreatePatentBody",
+});
+
+export type CreatePatentBody = typeof CreatePatentBody.Type;
+
+export const EditPatentBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: PATENT,
+  payload: PatentPayload,
+});
+export type EditPatentBody = typeof EditPatentBody.Type;

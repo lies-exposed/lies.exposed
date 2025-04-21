@@ -35,7 +35,11 @@ const Template: StoryFn<
       render={({ actor, groups }) => {
         return (
           <MainContent>
-            <ActorPageContent {...props} actor={actor} groups={groups.data} />
+            <ActorPageContent
+              {...props}
+              actor={actor.data}
+              groups={groups.data}
+            />
           </MainContent>
         );
       }}

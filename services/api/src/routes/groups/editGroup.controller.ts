@@ -3,6 +3,7 @@ import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -18,7 +19,7 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
 
       const groupUpdate = {
         ...body,
-        avatar: UUID.is(avatar)
+        avatar: Schema.is(UUID)(avatar)
           ? { id: avatar }
           : {
               ...avatar,
@@ -29,7 +30,7 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
               stories: [],
             },
         members: members.map((m) => {
-          if (UUID.is(m)) {
+          if (Schema.is(UUID)(m)) {
             return {
               id: m,
               group: { id },

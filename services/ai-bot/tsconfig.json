@@ -9,8 +9,6 @@
     "lib": ["DOM", "ES2022"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "target": "ES6",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "allowJs": true,
     "esModuleInterop": true,
     "declaration": true,

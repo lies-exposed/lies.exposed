@@ -6,6 +6,20 @@ packages:
   - services/web
   - services/admin-web
   - services/storybook
+
 onlyBuiltDependencies:
   - exifreader
   - esbuild
+
+publicHoistPattern:
+  - "*vite*"
+  - "*rollup*"
+  - "*eslint*"
+  - "*prettier*"
+
+nodeLinker: hoisted
+linkWorkspacePackages: deep
+preferWorkspacePackages: true
+
+# keep the PNPM legacy workspace hoisting behavior
+injectWorkspacePackages: false

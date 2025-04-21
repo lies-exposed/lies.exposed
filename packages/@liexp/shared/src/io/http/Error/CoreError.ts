@@ -1,12 +1,11 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const CoreError = t.strict(
-  {
-    name: t.string,
-    message: t.string,
-    details: t.union([t.undefined, t.array(t.string)]),
-  },
-  "CoreError",
-);
+export const CoreError = Schema.Struct({
+  name: Schema.String,
+  message: Schema.String,
+  details: Schema.Union(Schema.Undefined, Schema.Array(Schema.String)),
+}).annotations({
+  title: "CoreError",
+});
 
-export type CoreError = t.TypeOf<typeof CoreError>;
+export type CoreError = typeof CoreError.Type;

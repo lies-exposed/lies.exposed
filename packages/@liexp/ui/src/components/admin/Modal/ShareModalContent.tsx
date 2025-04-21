@@ -8,6 +8,7 @@ import {
   contentTypeFromFileExt,
   fileExtFromContentType,
 } from "@liexp/shared/lib/utils/media.utils.js";
+import { Schema } from "effect";
 import kebabCase from "lodash/kebabCase.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
@@ -32,11 +33,11 @@ import { BuildImageButton } from "../media/button/BuildImageButton.js";
 export interface ShareModalContentProps {
   post: CreateSocialPost;
   multipleMedia: boolean;
-  media: Media.Media[];
+  media: readonly Media.Media[];
   onChange: (p: {
     payload: CreateSocialPost;
     multipleMedia: boolean;
-    media: Media.Media[];
+    media: readonly Media.Media[];
   }) => void;
 }
 
@@ -355,7 +356,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               extra: undefined,
             }))}
             onItemClick={(m) => {
-              if (ImageType.is(m.type)) {
+              if (Schema.is(ImageType)(m.type)) {
                 const downloadLink = document.createElement("a");
                 downloadLink.href = m.location;
                 downloadLink.download = `${kebabCase(

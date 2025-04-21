@@ -74,7 +74,7 @@ export const LinkEdit: React.FC = () => {
               />
               <ReferenceMediaInput
                 source="image.id"
-                allowedTypes={ImageType.types.map((t) => t.value)}
+                allowedTypes={ImageType.members.map((t) => t.literals[0])}
               />
               <Stack direction={"row"} spacing={2}>
                 <OverrideThumbnail />
@@ -83,7 +83,7 @@ export const LinkEdit: React.FC = () => {
               <Stack>
                 <OpenAIEmbeddingJobButton<Link>
                   resource="links"
-                  type={OpenAIEmbeddingQueueType.value}
+                  type={OpenAIEmbeddingQueueType.Type}
                   transformValue={({ url }) => ({
                     url,
                     type: "link",

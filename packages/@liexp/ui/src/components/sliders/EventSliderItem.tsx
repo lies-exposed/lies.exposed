@@ -3,8 +3,8 @@ import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
-import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -37,11 +37,11 @@ export interface EventSliderItemBaseProps
   date: Date;
   excerpt: any;
   url?: string;
-  actors: http.Actor.Actor[];
-  groups: http.Group.Group[];
-  keywords: http.Keyword.Keyword[];
-  media: http.Media.Media[];
-  links: http.Link.Link[];
+  actors: readonly http.Actor.Actor[];
+  groups: readonly http.Group.Group[];
+  keywords: readonly http.Keyword.Keyword[];
+  media: readonly http.Media.Media[];
+  links: readonly http.Link.Link[];
 }
 
 const EVENT_SLIDER_ITEM_BASE_PREFIX = "event-slider-item-base";
@@ -124,7 +124,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
         </Box>
         {pipe(
           keywords,
-          O.fromPredicate(A.isNonEmpty),
+          O.fromPredicate(isNonEmpty),
           O.fold(
             () => null,
             (kk) => (
@@ -209,7 +209,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
       </Grid>
       {pipe(
         links,
-        O.fromPredicate(A.isNonEmpty),
+        O.fromPredicate(isNonEmpty),
         O.fold(
           () => null,
           (ll) => (
@@ -240,7 +240,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
 }) => {
   const { actors, groups, keywords, links, media } = getSearchEventRelations(e);
   switch (e.type) {
-    case http.Events.EventTypes.BOOK.value: {
+    case http.Events.EventTypes.BOOK.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -252,7 +252,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.QUOTE.value: {
+    case http.Events.EventTypes.QUOTE.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -263,7 +263,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.TRANSACTION.value: {
+    case http.Events.EventTypes.TRANSACTION.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -275,7 +275,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.DOCUMENTARY.value: {
+    case http.Events.EventTypes.DOCUMENTARY.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -287,7 +287,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.DEATH.value: {
+    case http.Events.EventTypes.DEATH.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -299,7 +299,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case http.Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return (
         <EventSliderItemBase
           {...props}
@@ -311,7 +311,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.PATENT.value: {
+    case http.Events.EventTypes.PATENT.Type: {
       return (
         <EventSliderItemBase
           {...props}

@@ -2,6 +2,7 @@ import { type SettingEntity } from "@liexp/backend/lib/entities/Setting.entity.j
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
@@ -11,12 +12,13 @@ export const toSettingIO = ({
   ...setting
 }: SettingEntity): E.Either<ControllerError, io.http.Setting.Setting> => {
   return pipe(
-    io.http.Setting.Setting.decode({
+    {
       id,
       value: JSON.stringify(value),
       createdAt: setting.createdAt.toISOString(),
       updatedAt: setting.updatedAt.toISOString(),
-    }),
+    },
+    Schema.decodeUnknownEither(io.http.Setting.Setting),
     E.mapLeft((e) => DecodeError.of(`Failed to decode setting (${id})`, e)),
   );
 };

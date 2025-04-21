@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import * as t from "io-ts";
 import { Brackets } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
@@ -44,7 +44,9 @@ export const fetchManyMedia =
 
     const type = pipe(
       _type,
-      fp.O.map((tp) => (t.array(t.string).is(tp) ? tp : [tp])),
+      fp.O.map((tp) =>
+        Schema.is(Schema.Array(Schema.String))(tp) ? tp : [tp],
+      ),
     );
 
     return pipe(

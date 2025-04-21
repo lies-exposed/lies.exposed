@@ -1,5 +1,6 @@
 import { http } from "@liexp/shared/lib/io/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -12,7 +13,7 @@ import { ThemeProvider } from "../../mui/index.js";
 
 const GraphRenderer: React.FC<{ graph: http.Graph.Graph }> = ({ graph }) => {
   const component = React.useMemo(() => {
-    if (http.Graph.GraphType.types[0].is(graph.type)) {
+    if (Schema.is(http.Graph.GraphType.members[0])(graph.type)) {
       return <FlowGraph nodes={graph.data.nodes} edges={graph.data.edges} />;
     }
     return <div>Render graph here</div>;
@@ -28,7 +29,7 @@ const GraphPreview: React.FC = () => {
 
   const result = React.useMemo(
     () =>
-      http.Graph.Graph.decode({
+      Schema.decodeUnknownEither(http.Graph.Graph)({
         ...(record ?? {}),
       }),
     [record],

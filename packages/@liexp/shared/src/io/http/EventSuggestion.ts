@@ -1,8 +1,5 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { URL } from "./Common/index.js";
+import { Schema } from "effect";
+import { URL, UUID } from "./Common/index.js";
 import {
   Book,
   Death,
@@ -14,147 +11,134 @@ import {
   Uncategorized,
 } from "./Events/index.js";
 
-const EventSuggestionNewType = t.literal("New");
-const EventSuggestionUpdateType = t.literal("Update");
+const EventSuggestionNewType = Schema.Literal("New");
+const EventSuggestionUpdateType = Schema.Literal("Update");
 
-export const EventSuggestionType = t.union(
-  [EventSuggestionNewType, EventSuggestionUpdateType],
-  "EventSuggestionType",
-);
-export type EventSuggestionType = t.TypeOf<typeof EventSuggestionType>;
+export const EventSuggestionType = Schema.Union(
+  EventSuggestionNewType,
+  EventSuggestionUpdateType,
+).annotations({
+  title: "EventSuggestionType",
+});
+export type EventSuggestionType = typeof EventSuggestionType.Type;
 
-const PendingStatus = t.literal("PENDING");
-const CompletedStatus = t.literal("COMPLETED");
-const DiscardedStatus = t.literal("DISCARDED");
+const PendingStatus = Schema.Literal("PENDING");
+const CompletedStatus = Schema.Literal("COMPLETED");
+const DiscardedStatus = Schema.Literal("DISCARDED");
 
-export const EventSuggestionStatus = t.union(
-  [PendingStatus, CompletedStatus, DiscardedStatus],
-  "EventSuggestionStatus",
-);
-export type EventSuggestionStatus = t.TypeOf<typeof EventSuggestionStatus>;
+export const EventSuggestionStatus = Schema.Union(
+  PendingStatus,
+  CompletedStatus,
+  DiscardedStatus,
+).annotations({
+  title: "EventSuggestionStatus",
+});
+export type EventSuggestionStatus = typeof EventSuggestionStatus.Type;
 
-const EventSuggestionLinks = t.array(
-  t.union(
-    [
-      UUID,
-      t.type({
-        fromURL: t.boolean,
-        url: URL,
-        publishDate: t.union([DateFromISOString, t.null], "PublishDate?"),
+const EventSuggestionLinks = Schema.Array(
+  Schema.Union(
+    UUID,
+    Schema.Struct({
+      fromURL: Schema.Boolean,
+      url: URL,
+      publishDate: Schema.Union(Schema.Date, Schema.Null).annotations({
+        title: "PublishDate?",
       }),
-    ],
-    "EventSuggestionLinks",
+    }),
   ),
-);
+).annotations({ title: "EventSuggestionLinks" });
 
-const UpdateEventSuggestion = t.type(
-  {
-    type: EventSuggestionUpdateType,
-    eventId: UUID,
-    event: t.intersection(
-      [Event, t.strict({ newLinks: EventSuggestionLinks })],
-      "Event",
-    ),
-  },
-  "UpdateEventSuggestion",
-);
+const UpdateEventSuggestion = Schema.Struct({
+  type: EventSuggestionUpdateType,
+  eventId: UUID,
+  event: Schema.extend(
+    Schema.Struct({ newLinks: EventSuggestionLinks }),
+    Event,
+  ),
+}).annotations({
+  title: "UpdateEventSuggestion",
+});
 
-const NewBookEvent = t.strict(
-  {
-    ...propsOmit(Book.Book, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewBookEvent",
-);
+const NewBookEvent = Schema.Struct({
+  ...Book.Book.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewBookEvent",
+});
 
-const NewDeathEvent = t.strict(
-  {
-    ...propsOmit(Death.Death, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewDeathEvent",
-);
-const NewScientificStudyEvent = t.strict(
-  {
-    ...propsOmit(ScientificStudy.ScientificStudy, [
-      "id",
-      "createdAt",
-      "updatedAt",
-    ]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewScientificStudyEvent",
-);
-const NewPatentEvent = t.strict(
-  {
-    ...propsOmit(Patent.Patent, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewPatentEvent",
-);
-const NewDocumentaryEvent = t.strict(
-  {
-    ...propsOmit(Documentary.Documentary, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewDocumentaryEvent",
-);
-const NewQuoteEvent = t.strict(
-  {
-    ...propsOmit(Quote.Quote, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewQuoteEvent",
-);
+const NewDeathEvent = Schema.Struct({
+  ...Death.Death.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewDeathEvent",
+});
+const NewScientificStudyEvent = Schema.Struct({
+  ...ScientificStudy.ScientificStudy.omit("id", "createdAt", "updatedAt")
+    .fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewScientificStudyEvent",
+});
+const NewPatentEvent = Schema.Struct({
+  ...Patent.Patent.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewPatentEvent",
+});
+const NewDocumentaryEvent = Schema.Struct({
+  ...Documentary.Documentary.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewDocumentaryEvent",
+});
+const NewQuoteEvent = Schema.Struct({
+  ...Quote.Quote.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewQuoteEvent",
+});
 
-const NewUncategorizedEvent = t.strict(
-  {
-    ...propsOmit(Uncategorized.Uncategorized, ["id", "createdAt", "updatedAt"]),
-    newLinks: EventSuggestionLinks,
-  },
-  "NewUncategorizedEvent",
-);
+const NewUncategorizedEvent = Schema.Struct({
+  ...Uncategorized.Uncategorized.omit("id", "createdAt", "updatedAt").fields,
+  newLinks: EventSuggestionLinks,
+}).annotations({
+  title: "NewUncategorizedEvent",
+});
 
-export const NewEventSuggestion = t.strict(
-  {
-    type: EventSuggestionNewType,
-    event: t.union(
-      [
-        NewBookEvent,
-        NewDeathEvent,
-        NewScientificStudyEvent,
-        NewPatentEvent,
-        NewUncategorizedEvent,
-        NewDocumentaryEvent,
-        NewQuoteEvent,
-      ],
-      "Event",
-    ),
-  },
-  "NewEventSuggestion",
-);
-export type NewEventSuggestion = t.TypeOf<typeof NewEventSuggestion>;
+export const NewEventSuggestion = Schema.Struct({
+  type: EventSuggestionNewType,
+  event: Schema.Union(
+    NewBookEvent,
+    NewDeathEvent,
+    NewScientificStudyEvent,
+    NewPatentEvent,
+    NewUncategorizedEvent,
+    NewDocumentaryEvent,
+    NewQuoteEvent,
+  ).annotations({
+    title: "Event",
+  }),
+}).annotations({
+  title: "NewEventSuggestion",
+});
+export type NewEventSuggestion = typeof NewEventSuggestion.Type;
 
-export const CreateEventSuggestion = t.union(
-  [UpdateEventSuggestion, NewEventSuggestion],
-  "EventSuggestion",
-);
-export type CreateEventSuggestion = t.TypeOf<typeof CreateEventSuggestion>;
+export const CreateEventSuggestion = Schema.Union(
+  UpdateEventSuggestion,
+  NewEventSuggestion,
+).annotations({
+  title: "EventSuggestion",
+});
+export type CreateEventSuggestion = typeof CreateEventSuggestion.Type;
 
-export const EventSuggestion = t.intersection(
-  [
-    t.strict(
-      {
-        id: UUID,
-        creator: t.union([UUID, t.undefined]),
-        createdAt: DateFromISOString,
-        updatedAt: DateFromISOString,
-      },
-      "EventSuggestionBase",
-    ),
-    CreateEventSuggestion,
-  ],
-  "EventSuggestion",
-);
+export const EventSuggestion = Schema.Struct({
+  id: UUID,
+  payload: CreateEventSuggestion,
+  creator: Schema.Union(UUID, Schema.Undefined),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+}).annotations({
+  title: "EventSuggestion",
+});
 
-export type EventSuggestion = t.TypeOf<typeof EventSuggestion>;
+export type EventSuggestion = typeof EventSuggestion.Type;

@@ -1,4 +1,5 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminDelete } from "@liexp/shared/lib/io/http/User.js";
@@ -8,18 +9,20 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const DeleteEventRoute: Route = (r, { db, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler([AdminDelete.value])({ jwt, logger }))(
-    Endpoints.Event.Delete,
-    ({ params: { id } }) => {
-      return pipe(
-        db.softDelete(EventV2Entity, id),
-        TE.map((data) => ({
-          body: {
-            data: true,
-          },
-          statusCode: 200,
-        })),
-      );
-    },
-  );
+  AddEndpoint(
+    r,
+    authenticationHandler([AdminDelete.literals[0]])({ jwt, logger }),
+  )(Endpoints.Event.Delete, ({ params: { id } }) => {
+    return pipe(
+      db.findOneOrFail(EventV2Entity, { where: { id } }),
+      TE.tap(() => db.softDelete(EventV2Entity, id)),
+      TE.chainEitherK(EventV2IO.decodeSingle),
+      TE.map((data) => ({
+        body: {
+          data,
+        },
+        statusCode: 200,
+      })),
+    );
+  });
 };

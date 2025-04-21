@@ -1,10 +1,10 @@
+import { IOError } from "@ts-endpoint/core";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import type {
   PDFDocumentProxy,
   TextItem,
 } from "pdfjs-dist/types/src/display/api.js";
-import { IOError } from "ts-io-error";
 
 export class PDFError extends IOError {
   name = "PDFError";

@@ -22,12 +22,12 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
   buffer: Buffer,
 ): ReaderTaskEither<C, SpaceError, Partial<MediaEntity>> => {
   const id = link.image?.id ?? link.id;
-  const mediaKey = getMediaThumbKey(id, PngType.value);
+  const mediaKey = getMediaThumbKey(id, PngType.literals[0]);
   return pipe(
     upload({
       Key: mediaKey,
       Body: buffer,
-      ContentType: PngType.value,
+      ContentType: PngType.literals[0],
       ACL: "public-read",
     }),
     fp.RTE.map((upload) => ({
@@ -44,7 +44,7 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
       keywords: [],
       links: [],
       areas: [],
-      type: PngType.value,
+      type: PngType.literals[0],
       location: upload.Location as URL,
       thumbnail: upload.Location as URL,
     })),
@@ -76,7 +76,7 @@ export const takeLinkScreenshot = <
               screenshot.type ??
               (link.image?.location
                 ? contentTypeFromFileExt(link.image?.location)
-                : PngType.value),
+                : PngType.literals[0]),
             label: link.title,
             description: link.description,
           } as any)

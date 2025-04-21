@@ -1,5 +1,5 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -16,7 +16,7 @@ export const MakeGetScientificStudyRoute: Route = (r, { db }) => {
           relations: ["media", "keywords", "links"],
         },
       }),
-      TE.chainEitherK(EventV2IO.decodeSingle),
+      TE.chainEitherK(ScientificStudyIO.decodeSingle),
       TE.map((data) => ({
         body: {
           data,

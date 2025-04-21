@@ -1,7 +1,7 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import {
   MediaImageLayer,
   TextLayer,
@@ -15,114 +15,114 @@ import {
   AdminMediaStats,
   AdminMediaStatsTotals,
 } from "../io/http/admin/stats/AdminMediaStats.js";
-import { ResourceEndpoints } from "./types.js";
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => `/admins`,
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/admins",
   Input: {
-    Body: t.unknown,
+    Body: Schema.Unknown,
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 // export const PostToPlatform = Endpoint({
 //   Method: "POST",
 //   getPath: ({ type, id }) => `/admins/share/${type}/${id}`,
 //   Input: {
-//     Params: t.type({ id: UUID, type: SocialPostResourceType }),
+//     Params: Schema.Struct({ id: UUID, type: SocialPostResourceType }),
 //     Body: SocialPost,
 //   },
-//   Output: t.any,
+//   Output: Schema.Any,
 // });
 
 export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/admins/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/admins/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.unknown,
+    Params: Schema.Struct({ id: UUID }),
+    Body: Schema.Unknown,
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/admins/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const BuildImage = Endpoint({
   Method: "POST",
   getPath: () => `/admins/images/build`,
   Input: {
-    Body: t.strict({
-      layers: t.strict(
-        {
-          media: t.union([MediaImageLayer, t.undefined]),
-          text: t.union([TextLayer, t.undefined]),
-          watermark: t.union([WatermarkLayer, t.undefined]),
-        },
-        "Layers",
-      ),
+    Body: Schema.Struct({
+      layers: Schema.Struct({
+        media: Schema.Union(MediaImageLayer, Schema.Undefined),
+        text: Schema.Union(TextLayer, Schema.Undefined),
+        watermark: Schema.Union(WatermarkLayer, Schema.Undefined),
+      }).annotations({
+        title: "Layers",
+      }),
     }),
   },
-  Output: Output(t.strict({ success: t.boolean }), "BuildImageOutput"),
+  Output: Output(Schema.Struct({ success: Schema.Boolean })).annotations({
+    title: "BuildImageOutput",
+  }),
 });
 
 export const SearchAreaCoordinates = Endpoint({
   Method: "POST",
   getPath: ({ id }) => `/admins/areas/${id}/search-coordinates`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.strict({
-      label: t.string,
+    Params: Schema.Struct({ id: UUID }),
+    Body: Schema.Struct({
+      label: Schema.String,
     }),
   },
-  Output: t.any,
+  Output: Schema.Any,
 });
 
 export const GetMediaStats = Endpoint({
   Method: "GET",
   getPath: () => `/admins/media/stats`,
-  Output: t.strict({
+  Output: Schema.Struct({
     data: AdminMediaStats,
     totals: AdminMediaStatsTotals,
-    total: t.number,
+    total: Schema.Number,
   }),
 });
 
 export const GetLinkStats = Endpoint({
   Method: "GET",
   getPath: () => `/admins/link/stats`,
-  Output: t.strict({
-    data: t.strict({
-      // noPublishDate: t.number,
-      // noThumbnails: t.number,
+  Output: Schema.Struct({
+    data: Schema.Struct({
+      // noPublishDate: Schema.Number,
+      // noThumbnails: Schema.Number,
     }),
-    totals: t.strict({
-      noPublishDate: t.number,
-      noThumbnails: t.number,
+    totals: Schema.Struct({
+      noPublishDate: Schema.Number,
+      noThumbnails: Schema.Number,
     }),
-    total: t.number,
+    total: Schema.Number,
   }),
 });
 
@@ -132,7 +132,9 @@ const ExtractEntitiesWithNLP = Endpoint({
   Input: {
     Body: ExtractEntitiesWithNLPInput,
   },
-  Output: Output(ExtractEntitiesWithNLPOutput, "ExtractEntitiesWithNLPOutput"),
+  Output: Output(ExtractEntitiesWithNLPOutput).annotations({
+    title: "ExtractEntitiesWithNLPOutput",
+  }),
 });
 
 const admin = ResourceEndpoints({

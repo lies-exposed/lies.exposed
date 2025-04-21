@@ -5,6 +5,7 @@ import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type CreateScientificStudyBody } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
@@ -18,7 +19,7 @@ export const createScientificStudyFromPlainObject =
     const scientificStudyData = {
       ...body,
       links: body.links.map((l) => {
-        if (UUID.is(l)) {
+        if (Schema.is(UUID)(l)) {
           return {
             id: l,
           };
@@ -28,7 +29,7 @@ export const createScientificStudyFromPlainObject =
         };
       }),
       media: body.media.map((l) => {
-        if (UUID.is(l)) {
+        if (Schema.is(UUID)(l)) {
           return {
             id: l,
           };
@@ -38,7 +39,7 @@ export const createScientificStudyFromPlainObject =
         };
       }) as DeepPartial<MediaEntity[]>,
       keywords: body.media.map((l) => {
-        if (UUID.is(l)) {
+        if (Schema.is(UUID)(l)) {
           return {
             id: l,
           };

@@ -4,19 +4,14 @@ import { type LangchainContext } from "@liexp/backend/lib/context/langchain.cont
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { type OpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
+import { type API } from "@ts-endpoint/resource-client";
 import { type AIBotConfig } from "./config.js";
 import { type ENV } from "./env.js";
 import { type ConfigProvider } from "#common/config/config.reader.js";
 
 interface EndpointsRESTClientContext {
-  endpointsRESTClient: EndpointsRESTClient<Endpoints>;
-}
-
-interface APIRESTClientContext {
-  apiRESTClient: APIRESTClient;
+  endpointsRESTClient: API<Endpoints>;
 }
 
 interface ENVContext {
@@ -37,7 +32,6 @@ export type ClientContext = ENVContext &
   OpenAIContext &
   HTTPProviderContext &
   PDFProviderContext &
-  APIRESTClientContext &
   EndpointsRESTClientContext &
   FSClientContext &
   LoggerContext;

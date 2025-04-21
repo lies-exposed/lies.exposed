@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import {
   getNewRelationIds,
   updateCache,
@@ -15,7 +16,6 @@ import {
   type Link,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { type API } from "@liexp/shared/lib/providers/api/api.provider";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import {
   useInfiniteQuery,
@@ -23,6 +23,8 @@ import {
   type UseInfiniteQueryResult,
   type UseQueryResult,
 } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
+import { type API } from "@ts-endpoint/resource-client";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -33,13 +35,13 @@ export const toKey = (cachePrefix: string, hash?: string): string => {
 };
 
 export interface SearchEventQueryResult {
-  events: Events.SearchEvent.SearchEvent[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
-  media: Media.Media[];
-  keywords: Keyword.Keyword[];
-  links: Link.Link[];
+  events: readonly Events.SearchEvent.SearchEvent[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  groupsMembers: readonly GroupMember.GroupMember[];
+  media: readonly Media.Media[];
+  keywords: readonly Keyword.Keyword[];
+  links: readonly Link.Link[];
   totals: EventTotals;
   firstDate?: string;
   lastDate?: string;
@@ -65,7 +67,7 @@ export const clearSearchEventsQueryCache = (): void => {
 };
 
 export const fetchRelations =
-  (api: API) =>
+  (api: API<Endpoints>) =>
   ({
     actors,
     groups,
@@ -74,14 +76,14 @@ export const fetchRelations =
     keywords,
     links,
   }: Events.EventRelationIds): TE.TaskEither<
-    APIError,
+    IOError,
     {
-      actors: { data: Actor.Actor[] };
-      groups: { data: Group.Group[] };
-      groupsMembers: { data: GroupMember.GroupMember[] };
-      keywords: { data: Keyword.Keyword[] };
-      media: { data: Media.Media[] };
-      links: { data: Link.Link[] };
+      actors: { data: readonly Actor.Actor[] };
+      groups: { data: readonly Group.Group[] };
+      groupsMembers: { data: readonly GroupMember.GroupMember[] };
+      keywords: { data: readonly Keyword.Keyword[] };
+      media: { data: readonly Media.Media[] };
+      links: { data: readonly Link.Link[] };
     }
   > => {
     return sequenceS(TE.ApplicativePar)({
@@ -162,7 +164,7 @@ export const getSearchEventsInfiniteQueryKey = (
 };
 
 export const searchEventsInfiniteQuery =
-  (api: API) =>
+  (api: API<Endpoints>) =>
   (
     input: Partial<SearchEventQueryInput>,
   ): UseInfiniteQueryResult<
@@ -201,8 +203,8 @@ export const searchEventsInfiniteQuery =
   };
 
 export const getEventsFromLinkQuery =
-  (api: API) =>
-  ({ url }: { url: string }): UseQueryResult<any, APIError> => {
+  (api: API<Endpoints>) =>
+  ({ url }: { url: string }): UseQueryResult<any, IOError> => {
     return useQuery({
       queryKey: ["events-from-link", url],
       queryFn: async () => {
@@ -222,7 +224,7 @@ export const getEventsFromLinkQuery =
               TE.map(
                 ({ actors, groups, groupsMembers, media, keywords, links }) => {
                   searchEventsQueryCache = updateCache(searchEventsQueryCache, {
-                    events: { data, total, totals },
+                    events: { data: [...data], total, totals },
                     actors: actors.data,
                     groups: groups.data,
                     groupsMembers: groupsMembers.data,

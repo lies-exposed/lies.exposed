@@ -37,7 +37,7 @@ export const searchWithGoogle =
     pageTotal: number,
     q: string,
     date: string | undefined,
-    keywords: string[],
+    keywords: readonly string[],
   ): TE.TaskEither<PuppeteerError, string[]> => {
     return pipe(
       TE.tryCatch(async () => {

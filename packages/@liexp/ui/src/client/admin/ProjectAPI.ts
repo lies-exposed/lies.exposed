@@ -1,6 +1,6 @@
 import { type Project } from "@liexp/shared/lib/io/http/Project.js";
-import type * as http from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -14,7 +14,7 @@ import {
 import { uploadImages } from "./MediaAPI.js";
 
 export const editProject =
-  (client: http.APIRESTClient) =>
+  (client: APIRESTClient) =>
   (resource: string, params: UpdateParams): Promise<CreateResult<Project>> => {
     const {
       newImages = [],
@@ -70,7 +70,7 @@ export const editProject =
   };
 
 export const createProject =
-  (client: http.APIRESTClient) =>
+  (client: APIRESTClient) =>
   (resource: string, params: CreateParams): Promise<CreateResult<Project>> => {
     const images = params.data.images ? params.data.images : [];
     const createParams: CreateParams = {

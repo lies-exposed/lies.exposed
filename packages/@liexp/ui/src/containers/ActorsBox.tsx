@@ -21,7 +21,7 @@ export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
   prefix = "actors-wrapper",
   children,
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
       queries={{
@@ -32,7 +32,7 @@ export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
           prefix,
         ),
       }}
-      render={({ actors }) => children(actors)}
+      render={({ actors }) => children({ ...actors, data: [...actors.data] })}
     />
   );
 };

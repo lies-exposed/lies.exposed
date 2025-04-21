@@ -1,7 +1,7 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type serializedType } from "@ts-endpoint/core";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { MediaList } from "../components/lists/MediaList.js";
 import { Box, Pagination, Stack } from "../components/mui/index.js";

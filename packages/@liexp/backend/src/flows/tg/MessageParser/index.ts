@@ -5,12 +5,13 @@ import {
   getPlatform,
 } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type UUID } from "io-ts-types";
 import type TelegramBot from "node-telegram-bot-api";
 import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../../context/config.context.js";
@@ -54,11 +55,11 @@ interface MessageParserAPI<
   parseURLs: (
     page: puppeteer.Page,
     user: UserEntity,
-  ) => ReaderTaskEither<C, TGError, UUID[]>;
+  ) => ReaderTaskEither<C, TGError, readonly UUID[]>;
   parsePlatformMedia: (
     page: puppeteer.Page,
     user: UserEntity,
-  ) => ReaderTaskEither<C, TGError, UUID[]>;
+  ) => ReaderTaskEither<C, TGError, readonly UUID[]>;
 }
 
 const takeURLsFromMessageEntity =
@@ -130,10 +131,7 @@ export const MessageParser = <
     O.fromPredicate((u) => u.length > 0),
   );
 
-  const platformMediaURLs = pipe(
-    videoURLS,
-    O.fromPredicate((v) => v.length > 0),
-  );
+  const platformMediaURLs = pipe(videoURLS, O.fromPredicate(isNonEmpty));
 
   const messageDocument = pipe(O.fromNullable(message.document));
   const messagePhoto = message.photo ?? [];
@@ -144,7 +142,7 @@ export const MessageParser = <
       pipe(
         messageDocument,
         O.fold(
-          () => TE.right([]),
+          () => TE.right([] as UUID[]),
           (m) => parseDocument(m)(ctx),
         ),
       ),
@@ -188,7 +186,7 @@ export const MessageParser = <
       pipe(
         messageVideo,
         O.fold(
-          () => TE.right([]),
+          () => TE.right([] as UUID[]),
           (v) =>
             parseVideo(
               message.caption ??

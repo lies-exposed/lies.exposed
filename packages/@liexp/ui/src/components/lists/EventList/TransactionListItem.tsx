@@ -38,7 +38,7 @@ const getSubject = (
   subject: Events.SearchEvent.SearchTransactionEvent["payload"]["from"],
   condensed: boolean,
 ): React.ReactElement => {
-  if (subject.type === ByActorId.type.props.type.value) {
+  if (subject.type === ByActorId.fields.type.Type) {
     return (
       <ActorListItem
         avatarSize={condensed ? "xsmall" : "small"}
@@ -47,7 +47,7 @@ const getSubject = (
       />
     );
   }
-  if (subject.type === ByGroupId.type.props.type.value) {
+  if (subject.type === ByGroupId.fields.type.Type) {
     return (
       <GroupListItem
         avatarSize={condensed ? "xsmall" : "small"}
@@ -93,7 +93,7 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
         <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
           <EventIcon
             className={classes.eventIcon}
-            type={TRANSACTION.value}
+            type={TRANSACTION.Type}
             size="2x"
           />
           <Typography variant="h6">{item.payload.title}</Typography>

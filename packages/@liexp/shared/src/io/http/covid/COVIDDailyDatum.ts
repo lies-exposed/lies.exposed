@@ -1,19 +1,16 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { Schema } from "effect";
 
-export const WHOCovid19GlobalData = t.strict(
-  {
-    Date_reported: DateFromISOString,
-    Country_code: t.string,
-    Country: t.string,
-    WHO_region: t.string,
-    New_cases: NumberFromString,
-    Cumulative_cases: NumberFromString,
-    New_deaths: NumberFromString,
-    Cumulative_deaths: NumberFromString,
-  },
-  "WHOCovid19GlobalData",
-);
+export const WHOCovid19GlobalData = Schema.Struct({
+  Date_reported: Schema.Date,
+  Country_code: Schema.String,
+  Country: Schema.String,
+  WHO_region: Schema.String,
+  New_cases: Schema.NumberFromString,
+  Cumulative_cases: Schema.NumberFromString,
+  New_deaths: Schema.NumberFromString,
+  Cumulative_deaths: Schema.NumberFromString,
+}).annotations({
+  title: "WHOCovid19GlobalData",
+});
 
-export type WHOCovid19GlobalData = t.TypeOf<typeof WHOCovid19GlobalData>;
+export type WHOCovid19GlobalData = typeof WHOCovid19GlobalData.Type;

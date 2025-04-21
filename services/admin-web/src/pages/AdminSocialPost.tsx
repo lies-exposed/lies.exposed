@@ -19,6 +19,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Box, Stack, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
+import { Schema } from "effect";
 import * as React from "react";
 
 const RESOURCE = "social-posts";
@@ -29,8 +30,8 @@ const socialPostFilters = [
     key="status"
     source="status"
     choices={[PUBLISHED, TO_PUBLISH].map((t) => ({
-      id: t.value,
-      name: t.value,
+      id: t.literals[0],
+      name: t.literals[0],
     }))}
     alwaysOn
     size="small"
@@ -43,7 +44,7 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       rowClick="edit"
       rowSx={(record) =>
         getBorderLeftStyle(
-          TO_PUBLISH.is(record.status) ? "orange" : "transparent",
+          Schema.is(TO_PUBLISH)(record.status) ? "orange" : "transparent",
         )
       }
       {...props}
@@ -94,7 +95,7 @@ export const SocialPostCreate: React.FC = () => {
         <TextInput source="text" />
         <ReferenceArrayMediaInput
           source="media"
-          allowedTypes={ImageType.types.map((t) => t.value)}
+          allowedTypes={ImageType.members.map((t) => t.Type)}
         />
       </SimpleForm>
     </Create>

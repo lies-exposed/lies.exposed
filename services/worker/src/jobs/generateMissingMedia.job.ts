@@ -37,12 +37,13 @@ export const generateMissingThumbnailsCron = (
                     (l) => l.length > 0,
                     () => toWorkerError(new Error("No thumbnail generated")),
                   ),
-                  fp.TE.fold<WorkerError, URL[], Partial<MediaEntity>>(
+                  fp.TE.fold<WorkerError, readonly URL[], Partial<MediaEntity>>(
                     (e) =>
                       fp.T.of({
                         extra: ImageMediaExtraMonoid.concat(
                           ImageMediaExtraMonoid.empty,
                           {
+                            ...ImageMediaExtraMonoid.empty,
                             ...m.extra,
                             thumbnails: { error: e.message },
                           },
@@ -54,6 +55,7 @@ export const generateMissingThumbnailsCron = (
                         extra: ImageMediaExtraMonoid.concat(
                           ImageMediaExtraMonoid.empty,
                           {
+                            ...ImageMediaExtraMonoid.empty,
                             ...m.extra,
                             thumbnails: l,
                           },

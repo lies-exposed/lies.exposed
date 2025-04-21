@@ -1,12 +1,10 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { In } from "typeorm";
 import { fetchAndSave } from "#flows/links/link.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -19,11 +17,11 @@ export const MakeCreateManyLinkRoute: Route = (r, ctx) => {
     Endpoints.Link.Custom.CreateMany,
     ({ body }, req) => {
       return pipe(
-        sequenceS(TE.ApplicativePar)({
+        sequenceS(fp.TE.ApplicativePar)({
           user: pipe(
             ensureUserExists(req.user),
-            TE.fromEither,
-            TE.map((u) => {
+            fp.TE.fromEither,
+            fp.TE.map((u) => {
               const c = new UserEntity();
               c.id = u.id;
               return c;
@@ -35,23 +33,23 @@ export const MakeCreateManyLinkRoute: Route = (r, ctx) => {
             },
           }),
         }),
-        TE.chain(({ user, links }) => {
+        fp.TE.chain(({ user, links }) => {
           return pipe(
             body,
-            A.map((b) => {
-              const u = links.find((l) => l.url === sanitizeURL(b.url as any));
+            fp.A.map((b) => {
+              const u = links.find((l) => l.url === sanitizeURL(b.url));
 
               if (!u) {
                 return fetchAndSave(user, b.url)(ctx);
               }
-              return TE.right(u);
+              return fp.TE.right(u);
             }),
-            A.sequence(TE.ApplicativeSeq),
+            fp.A.sequence(fp.TE.ApplicativeSeq),
           );
         }),
-        TE.chainEitherK(LinkIO.decodeMany),
-        TE.map((data) => ({
-          body: { data },
+        fp.TE.chainEitherK(LinkIO.decodeMany),
+        fp.TE.map((data) => ({
+          body: { data, total: data.length },
           statusCode: 200,
         })),
       );

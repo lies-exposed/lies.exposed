@@ -23,7 +23,7 @@ export interface SocialPostButtonProps extends Omit<FieldProps, "source"> {
   type: SocialPostResourceType;
   onLoadSharePayloadClick: (opts: OnLoadSharePayloadClickOpts) => Promise<
     Omit<CreateSocialPost, "media"> & {
-      media: Media.Media[];
+      media: readonly Media.Media[];
     }
   >;
 }
@@ -38,7 +38,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   const [{ payload, media, multipleMedia }, setState] = React.useState<{
     payload: CreateSocialPost | undefined;
     multipleMedia: boolean;
-    media: Media.Media[];
+    media: readonly Media.Media[];
   }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
 
   return (

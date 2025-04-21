@@ -45,11 +45,11 @@ const Template: StoryFn<EventNetworkGraphBoxProps> = ({
     },
   };
   const input =
-    props.type === KEYWORDS.value ? (
+    props.type === KEYWORDS.literals[0] ? (
       <AutocompleteKeywordInput {...inputProps} />
-    ) : props.type === ACTORS.value ? (
+    ) : props.type === ACTORS.literals[0] ? (
       <AutocompleteActorInput {...inputProps} />
-    ) : props.type === GROUPS.value ? (
+    ) : props.type === GROUPS.literals[0] ? (
       <AutocompleteGroupInput {...inputProps} />
     ) : (
       <div />
@@ -90,8 +90,8 @@ const commonQuery = {
 
 EventsByActors.args = {
   count: 20,
-  type: ACTORS.value,
-  relations: [ACTORS.value, KEYWORDS.value],
+  type: ACTORS.literals[0],
+  relations: [ACTORS.literals[0], KEYWORDS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["4163db78-67ca-4243-80fe-05ff920e70e1"],
@@ -103,8 +103,8 @@ const EventsByKeywords = Template.bind({});
 
 EventsByKeywords.args = {
   count: 10,
-  type: KEYWORDS.value,
-  relations: [GROUPS.value],
+  type: KEYWORDS.literals[0],
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["fe502631-ef4e-4dfc-a1ff-c2cd04f3ff6d"],
@@ -115,8 +115,8 @@ const EventsByGroups = Template.bind({});
 
 EventsByGroups.args = {
   count: 10,
-  type: GROUPS.value,
-  relations: [GROUPS.value],
+  type: GROUPS.literals[0],
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["3879feae-a4f8-4f12-ad8d-3f199050afcd"],
@@ -126,7 +126,7 @@ EventsByGroups.args = {
 const EventsTimelineNetwork = Template.bind({});
 EventsTimelineNetwork.args = {
   type: "events",
-  relations: [GROUPS.value],
+  relations: [GROUPS.literals[0]],
   query: {
     startDate: subWeeks(new Date(), 5).toISOString(),
     endDate: new Date().toISOString(),
@@ -136,7 +136,7 @@ EventsTimelineNetwork.args = {
 const OneEventNetwork = Template.bind({});
 OneEventNetwork.args = {
   type: "events",
-  relations: [GROUPS.value],
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
     ids: ["c82575ea-120e-467b-8d75-cbf7e49d721a"],

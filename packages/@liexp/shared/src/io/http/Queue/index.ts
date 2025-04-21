@@ -1,5 +1,5 @@
-import * as t from "io-ts";
-import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "../Query/PaginationQuery.js";
@@ -16,157 +16,147 @@ import {
 import { CreateQueueEvent } from "./event/index.js";
 
 export const QueueResourceNames = ResourcesNames;
-export type QueueResourceNames = t.TypeOf<typeof QueueResourceNames>;
+export type QueueResourceNames = typeof QueueResourceNames.Type;
 
-export const OpenAIEmbeddingQueueType = t.literal("openai-embedding");
-export type OpenAIEmbeddingQueueType = t.TypeOf<
-  typeof OpenAIEmbeddingQueueType
->;
+export const OpenAIEmbeddingQueueType = Schema.Literal("openai-embedding");
+export type OpenAIEmbeddingQueueType = typeof OpenAIEmbeddingQueueType.Type;
 
-export const OpenAISummarizeQueueType = t.literal("openai-summarize");
-export type OpenAISummarizeQueueType = t.TypeOf<
-  typeof OpenAISummarizeQueueType
->;
+export const OpenAISummarizeQueueType = Schema.Literal("openai-summarize");
+export type OpenAISummarizeQueueType = typeof OpenAISummarizeQueueType.Type;
 
-export const QueueTypes = t.union(
-  [
-    OpenAIEmbeddingQueueType,
-    OpenAISummarizeQueueType,
-    OpenAICreateEventFromURLType,
-    OpenAICreateEventFromTextType,
-  ],
-  "QueueTypes",
-);
+export const QueueTypes = Schema.Union(
+  OpenAIEmbeddingQueueType,
+  OpenAISummarizeQueueType,
+  OpenAICreateEventFromURLType,
+  OpenAICreateEventFromTextType,
+).annotations({
+  title: "QueueTypes",
+});
 
-export type QueueTypes = t.TypeOf<typeof QueueTypes>;
+export type QueueTypes = typeof QueueTypes.Type;
 
-export const PendingStatus = t.literal("pending");
-export type PendingStatus = t.TypeOf<typeof PendingStatus>;
+export const PendingStatus = Schema.Literal("pending");
+export type PendingStatus = typeof PendingStatus.Type;
 
-export const ProcessingStatus = t.literal("processing");
-export type ProcessingStatus = t.TypeOf<typeof ProcessingStatus>;
+export const ProcessingStatus = Schema.Literal("processing");
+export type ProcessingStatus = typeof ProcessingStatus.Type;
 
-export const DoneStatus = t.literal("done");
-export type DoneStatus = t.TypeOf<typeof DoneStatus>;
+export const DoneStatus = Schema.Literal("done");
+export type DoneStatus = typeof DoneStatus.Type;
 
-export const CompletedStatus = t.literal("completed");
-export type CompletedStatus = t.TypeOf<typeof CompletedStatus>;
+export const CompletedStatus = Schema.Literal("completed");
+export type CompletedStatus = typeof CompletedStatus.Type;
 
-export const FailedStatus = t.literal("failed");
-export type FailedStatus = t.TypeOf<typeof FailedStatus>;
+export const FailedStatus = Schema.Literal("failed");
+export type FailedStatus = typeof FailedStatus.Type;
 
-export const Status = t.union([
+export const Status = Schema.Union(
   PendingStatus,
   ProcessingStatus,
   DoneStatus,
   CompletedStatus,
   FailedStatus,
-]);
-export type Status = t.TypeOf<typeof Status>;
-
-export const GetQueueParams = t.type(
-  {
-    resource: QueueResourceNames,
-    type: QueueTypes,
-    id: UUID,
-  },
-  "GetQueueParams",
 );
-export type GetQueueParams = t.TypeOf<typeof GetQueueParams>;
+export type Status = typeof Status.Type;
 
-export const GetQueueListQuery = t.type(
-  {
-    ...SortQuery.props,
-    ...PaginationQuery.props,
-    resource: optionFromUndefined(QueueResourceNames),
-    type: optionFromUndefined(QueueTypes),
-    status: optionFromUndefined(t.array(Status)),
-  },
-  "GetQueueListQuery",
-);
-export type GetQueueListQuery = t.TypeOf<typeof GetQueueListQuery>;
+export const GetQueueParams = Schema.Struct({
+  resource: QueueResourceNames,
+  type: QueueTypes,
+  id: UUID,
+}).annotations({
+  title: "GetQueueParams",
+});
+export type GetQueueParams = typeof GetQueueParams.Type;
 
-export const CreateQueueURLData = t.strict(
-  {
-    url: URL,
-    type: t.union([t.literal("link"), t.literal("pdf"), t.undefined]),
-  },
-  "CreateQueueURLData",
-);
-export type CreateQueueURLData = t.TypeOf<typeof CreateQueueURLData>;
+export const GetQueueListQuery = Schema.Struct({
+  ...SortQuery.fields,
+  ...PaginationQuery.fields,
+  resource: OptionFromNullishToNull(QueueResourceNames),
+  type: OptionFromNullishToNull(QueueTypes),
+  status: OptionFromNullishToNull(Schema.Array(Status)),
+}).annotations({
+  title: "GetQueueListQuery",
+});
+export type GetQueueListQuery = typeof GetQueueListQuery.Type;
 
-export const CreateQueueTextData = t.strict(
-  {
-    text: t.string,
-  },
-  "CreateQueueTextData",
-);
-export type CreateQueueTextData = t.TypeOf<typeof CreateQueueTextData>;
+export const CreateQueueURLData = Schema.Struct({
+  url: URL,
+  type: Schema.Union(
+    Schema.Literal("link"),
+    Schema.Literal("pdf"),
+    Schema.Undefined,
+  ),
+}).annotations({
+  title: "CreateQueueURLData",
+});
+export type CreateQueueURLData = typeof CreateQueueURLData.Type;
 
-export type CreateQueueEmbeddingTypeData = t.TypeOf<
-  typeof CreateQueueEmbeddingTypeData
->;
+export const CreateQueueTextData = Schema.Struct({
+  text: Schema.String,
+}).annotations({
+  title: "CreateQueueTextData",
+});
+export type CreateQueueTextData = typeof CreateQueueTextData.Type;
 
-export const CreateQueueEmbeddingTypeData = t.strict(
-  {
-    type: OpenAIEmbeddingQueueType,
-    data: t.union([CreateQueueURLData, CreateQueueTextData]),
-  },
-  "CreateQueueURLTypeData",
-);
+export type CreateQueueEmbeddingTypeData =
+  typeof CreateQueueEmbeddingTypeData.Type;
 
-export const CreateQueueTextTypeData = t.strict(
-  {
-    type: OpenAISummarizeQueueType,
-    data: CreateQueueTextData,
-  },
-  "CreateQueueText",
-);
-export type CreateQueueTextTypeData = t.TypeOf<typeof CreateQueueTextTypeData>;
+export const CreateQueueEmbeddingTypeData = Schema.Struct({
+  type: OpenAIEmbeddingQueueType,
+  data: Schema.Union(CreateQueueURLData, CreateQueueTextData),
+}).annotations({
+  title: "CreateQueueURLTypeData",
+});
 
-const CreateQueueData = t.union(
-  [
-    CreateEventFromTextQueueData,
-    CreateQueueTextData,
-    CreateQueueURLData,
-    CreateEventFromURLQueueData,
-  ],
-  "CreateQueueData",
-);
+export const CreateQueueTextTypeData = Schema.Struct({
+  type: OpenAISummarizeQueueType,
+  data: CreateQueueTextData,
+}).annotations({
+  title: "CreateQueueText",
+});
+export type CreateQueueTextTypeData = typeof CreateQueueTextTypeData.Type;
 
-export const CreateQueue = t.strict(
-  {
-    id: UUID,
-    question: optionFromUndefined(t.string),
-    result: optionFromUndefined(t.string),
-    prompt: optionFromUndefined(t.string),
-    data: CreateQueueData,
-  },
-  "CreateQueue",
-);
+const CreateQueueData = Schema.Union(
+  CreateEventFromTextQueueData,
+  CreateQueueTextData,
+  CreateQueueURLData,
+  CreateEventFromURLQueueData,
+).annotations({
+  title: "CreateQueueData",
+});
 
-export type CreateQueue = t.TypeOf<typeof CreateQueue>;
+export const CreateQueue = Schema.Struct({
+  id: UUID,
+  question: OptionFromNullishToNull(Schema.String),
+  result: OptionFromNullishToNull(Schema.String),
+  prompt: OptionFromNullishToNull(Schema.String),
+  data: CreateQueueData,
+}).annotations({
+  title: "CreateQueue",
+});
 
-const CreateQueueTypeData = t.union([
-  ...CreateQueueEvent.types,
+export type CreateQueue = typeof CreateQueue.Type;
+
+const CreateQueueTypeData = Schema.Union(
+  ...CreateQueueEvent.members,
   CreateQueueEmbeddingTypeData,
   CreateQueueTextTypeData,
-]);
+);
 
-export const Queue = t.intersection([
-  t.strict(
-    {
-      id: UUID,
-      question: t.union([t.string, t.null]),
-      result: t.union([t.string, t.null, t.any]),
-      prompt: t.union([t.string, t.null]),
-      resource: QueueResourceNames,
-      status: Status,
-      error: t.union([t.record(t.string, t.any), t.null]),
-    },
-    "Queue",
-  ),
+export const Queue = Schema.extend(
+  Schema.Struct({
+    id: UUID,
+    question: Schema.Union(Schema.String, Schema.Null),
+    result: Schema.Union(Schema.String, Schema.Null, Schema.Any),
+    prompt: Schema.Union(Schema.String, Schema.Null),
+    resource: QueueResourceNames,
+    status: Status,
+    error: Schema.Union(
+      Schema.Record({ key: Schema.String, value: Schema.Any }),
+      Schema.Null,
+    ),
+  }),
   CreateQueueTypeData,
-]);
+).annotations({ title: "Queue" });
 
-export type Queue = t.TypeOf<typeof Queue>;
+export type Queue = typeof Queue.Type;

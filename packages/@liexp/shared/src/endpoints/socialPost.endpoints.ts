@@ -1,6 +1,6 @@
-import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
 import {
@@ -10,13 +10,14 @@ import {
   SocialPost,
   SocialPostResourceType,
 } from "../io/http/SocialPost.js";
-import { ResourceEndpoints } from "./types.js";
 
-export const SingleSocialPostOutput = Output(SocialPost, "SocialPost");
-export type SingleSocialPostOutput = t.TypeOf<typeof SingleSocialPostOutput>;
+export const SingleSocialPostOutput = Output(SocialPost).annotations({
+  title: "SocialPost",
+});
+export type SingleSocialPostOutput = typeof SingleSocialPostOutput.Type;
 
 export const ListSocialPostOutput = ListOutput(SocialPost, "SocialPosts");
-export type ListSocialPostOutput = t.TypeOf<typeof ListSocialPostOutput>;
+export type ListSocialPostOutput = typeof ListSocialPostOutput.Type;
 
 export const List = Endpoint({
   Method: "GET",
@@ -31,7 +32,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/social-posts/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleSocialPostOutput,
 });
@@ -40,17 +41,19 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: ({ id, type }) => `/social-posts/${type}/${id}`,
   Input: {
-    Params: t.type({ id: UUID, type: SocialPostResourceType }),
+    Params: Schema.Struct({ id: UUID, type: SocialPostResourceType }),
     Body: CreateSocialPost,
   },
-  Output: SingleSocialPostOutput,
+  Output: Output(
+    Schema.Union(SocialPost, Schema.Struct({ success: Schema.Boolean })),
+  ),
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/social-posts/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: EditSocialPost,
   },
   Output: SingleSocialPostOutput,
@@ -60,7 +63,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/social-posts/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleSocialPostOutput,
 });
@@ -69,15 +72,15 @@ export const Publish = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/social-posts/${id}/publish`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.type({
-      platforms: t.type({
-        IG: optionFromNullable(t.boolean),
-        TG: optionFromNullable(t.boolean),
+    Params: Schema.Struct({ id: UUID }),
+    Body: Schema.Struct({
+      platforms: Schema.Struct({
+        IG: OptionFromNullishToNull(Schema.Boolean),
+        TG: OptionFromNullishToNull(Schema.Boolean),
       }),
     }),
   },
-  Output: Output(t.boolean, "SocialPostPublish"),
+  Output: Output(Schema.Boolean).annotations({ title: "SocialPostPublish" }),
 });
 
 export const socialPosts = ResourceEndpoints({

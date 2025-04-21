@@ -47,6 +47,7 @@ const blockSerializer =
           fp.A.map(f),
           fp.A.compact,
           fp.A.flatten,
+          (a) => [...a],
         );
       }
       default: {
@@ -88,6 +89,7 @@ const inlineRelationsPluginSerializer = (
         fp.A.map((c) => inlineRelationsPluginSerializer(c as any)),
         fp.A.compact,
         fp.A.flatten,
+        (a) => [...a],
         fp.O.fromPredicate((arr) => arr.length > 0),
       );
     }
@@ -101,15 +103,15 @@ export interface InlineRelations extends EventRelationIds {
 export const relationsTransformer = (
   value: BNESchemaEditor["document"],
 ): InlineRelations => {
-  const relations: InlineRelations = {
-    actors: [],
-    groups: [],
-    keywords: [],
-    media: [],
-    events: [],
-    links: [],
-    areas: [],
-    groupsMembers: [],
+  const relations = {
+    actors: [] as UUID[],
+    groups: [] as UUID[],
+    keywords: [] as UUID[],
+    media: [] as UUID[],
+    events: [] as UUID[],
+    links: [] as UUID[],
+    areas: [] as UUID[],
+    groupsMembers: [] as UUID[],
   };
 
   return pipe(

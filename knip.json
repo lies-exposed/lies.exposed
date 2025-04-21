@@ -5,7 +5,8 @@
   "workspaces": {
     ".": {
       "ignoreBinaries": ["corepack use pnpm@latest-10"],
-      "ignoreDependencies": ["husky", "lint-staged", "corepack"]
+      "ignoreDependencies": ["husky", "lint-staged", "corepack"],
+      "ignoreUnresolved": ["tslib"]
     },
     "packages/@liexp/*": {
       "includeEntryExports": false,
@@ -35,7 +36,7 @@
     "services/ai-bot": {
       "entry": ["src/run.ts"],
       "project": ["src/**/*.{ts,tsx}"],
-      "ignoreDependencies": ["@aws-sdk/client-sso-oidc", "@aws-sdk/client-sts"]
+      "ignoreDependencies": ["@aws-sdk/client-sso-oidc", "@aws-sdk/client-sts", "@esbuild/aix-ppc64"]
     },
     "services/api": {
       "entry": [

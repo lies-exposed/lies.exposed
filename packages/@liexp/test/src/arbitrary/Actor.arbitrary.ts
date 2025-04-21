@@ -1,17 +1,15 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
 import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const ActorArb: fc.Arbitrary<http.Actor.Actor> = getArbitrary(
-  t.strict(
-    propsOmit(http.Actor.Actor, [
+export const ActorArb: fc.Arbitrary<http.Actor.Actor> = Arbitrary.make(
+  Schema.Struct(
+    http.Actor.Actor.omit(
       "id",
       "color",
       "excerpt",
@@ -24,7 +22,7 @@ export const ActorArb: fc.Arbitrary<http.Actor.Actor> = getArbitrary(
       "bornOn",
       "diedOn",
       "avatar",
-    ]),
+    ).fields,
   ),
 ).map((p) => ({
   ...p,

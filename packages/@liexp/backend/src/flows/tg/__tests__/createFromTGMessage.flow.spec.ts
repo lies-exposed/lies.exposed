@@ -5,11 +5,11 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
-import { fc } from "@liexp/test";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
 import { URLArb } from "@liexp/test/lib/arbitrary/URL.arbitrary.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
 import debug from "debug";
+import fc from "fast-check";
 import type TelegramBot from "node-telegram-bot-api";
 import { beforeAll, describe, expect, test, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
@@ -58,7 +58,7 @@ describe("Create From TG Message", () => {
     [admin] = fc.sample(UserArb, 1).map((u) => ({
       ...u,
       password: "password",
-      permissions: [AdminCreate.value],
+      permissions: [AdminCreate.literals[0]],
     }));
 
     // admin = await saveUser(ctx, [AdminCreate.value]);

@@ -132,10 +132,10 @@ export interface EventsQueryParams {
 interface EventsPanelProps {
   query: SearchEventsQueryInputNoPagination;
   tab: number;
-  keywords: Keyword.Keyword[];
-  actors: Actor.Actor[];
-  groups: Group.Group[];
-  groupsMembers: GroupMember.GroupMember[];
+  keywords: readonly Keyword.Keyword[];
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  groupsMembers: readonly GroupMember.GroupMember[];
   onQueryChange: (q: SearchEventsQueryInputNoPagination, tab: number) => void;
   onEventClick: (e: SearchEvent.SearchEvent) => void;
 }
@@ -152,7 +152,7 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
 }) => {
   const slide = (_slide as any) === "true";
   const query = {
-    type: EventType.types.map((t) => t.value),
+    type: EventType.members.map((t) => t.Type),
     ..._query,
   };
   const handleUpdateEventsSearch = React.useCallback(
@@ -312,7 +312,7 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
   query,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   return (
     <QueriesRenderer

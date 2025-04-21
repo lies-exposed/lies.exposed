@@ -15,13 +15,13 @@ export const getOneAdminOrFail = <C extends DatabaseContext>(
     em
       .createQueryBuilder(UserEntity, "u")
       .where(`u.permissions::jsonb ? :perm`, {
-        perm: AdminDelete.value,
+        perm: AdminDelete.literals[0],
       })
       .orWhere(`u.permissions::jsonb ? :perm`, {
-        perm: AdminEdit.value,
+        perm: AdminEdit.literals[0],
       })
       .orWhere("u.permissions::jsonb ? :perm", {
-        perm: AdminCreate.value,
+        perm: AdminCreate.literals[0],
       })
       .getOneOrFail(),
   );

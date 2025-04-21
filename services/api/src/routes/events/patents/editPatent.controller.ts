@@ -1,9 +1,9 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
@@ -21,7 +21,7 @@ export const MakeEditPatentEventRoute: Route = (r, ctx) => {
         TE.chain((event) =>
           editEventQuery(event, {
             ...body,
-            type: EventTypes.PATENT.value,
+            type: EVENT_TYPES.PATENT,
             payload,
             media,
             keywords,
@@ -35,7 +35,7 @@ export const MakeEditPatentEventRoute: Route = (r, ctx) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(EventV2IO.decodeSingle),
+        TE.chainEitherK(PatentIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

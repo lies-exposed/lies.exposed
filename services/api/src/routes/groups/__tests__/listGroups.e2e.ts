@@ -5,9 +5,9 @@ import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { FastCheck } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
@@ -16,7 +16,7 @@ describe("List Groups", () => {
   let appTest: AppTest;
   let authorizationToken: string;
   let totalEvents: number;
-  const actors = fc.sample(ActorArb, 10).map((a) => ({
+  const actors = FastCheck.sample(ActorArb, 10).map((a) => ({
     ...a,
     avatar: a.avatar
       ? ({
@@ -25,6 +25,7 @@ describe("List Groups", () => {
           featuredInAreas: [],
         } as any as MediaEntity)
       : null,
+    memberIn: [],
     groups: [],
     stories: [],
     events: [],
@@ -35,7 +36,7 @@ describe("List Groups", () => {
     old_avatar: null,
     deletedAt: null,
   }));
-  const groups = fc.sample(GroupArb, 100).map((g) => ({
+  const groups = FastCheck.sample(GroupArb, 100).map((g) => ({
     ...g,
     username: g.username ?? null,
     avatar: g.avatar

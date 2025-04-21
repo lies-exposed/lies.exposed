@@ -2,18 +2,21 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import fc from "fast-check";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
 describe("Create Death Event", () => {
   let appTest: AppTest;
   const users: any[] = [];
-  const [actor] = fc.sample(ActorArb, 1);
+  const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
+    ...actor,
+    memberIn: [],
+  }));
 
   let deathEvent: EventV2Entity;
 
@@ -40,7 +43,7 @@ describe("Create Death Event", () => {
     const { authorization } = await loginUser(appTest)(user);
 
     const deathData = {
-      type: http.Events.EventTypes.DEATH.value,
+      type: EVENT_TYPES.DEATH,
       payload: {
         victim: actor.id,
         body: {},
@@ -62,7 +65,7 @@ describe("Create Death Event", () => {
     expect(response.status).toEqual(201);
 
     expect(body).toMatchObject({
-      type: http.Events.EventTypes.DEATH.value,
+      type: EVENT_TYPES.DEATH,
       date: deathData.date,
       payload: {
         victim: actor.id,

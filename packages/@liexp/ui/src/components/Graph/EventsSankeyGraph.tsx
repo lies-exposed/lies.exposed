@@ -1,3 +1,4 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   eqByUUID,
   ordEventDate,
@@ -21,17 +22,18 @@ import {
   type Group,
   type Keyword,
   type Page,
-  type Topic,
 } from "@liexp/shared/lib/io/http/index.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/shared/lib/utils/array.utils.js";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { ParentSize } from "@visx/responsive";
 import ordinalScale from "@visx/scale/lib/scales/ordinal.js";
 import { type ScaleOrdinal } from "d3-scale";
 import { subWeeks } from "date-fns";
 import * as Ord from "fp-ts/Ord";
-import * as A from "fp-ts/lib/Array.js";
 import * as Map from "fp-ts/lib/Map.js";
-import type * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
@@ -354,10 +356,10 @@ function LegendDemo({
 
 const updateMap =
   <F extends Common.BaseProps>(acc: Map<string, F>) =>
-  (items: F[]): Map<string, F> => {
+  (items: readonly F[]): Map<string, F> => {
     return pipe(
       items,
-      A.reduce(acc, (r, t) => {
+      fp.A.reduce(acc, (r, t) => {
         if (Map.elem(eqByUUID)(t, r)) {
           return r;
         }
@@ -367,32 +369,35 @@ const updateMap =
   };
 
 const getLinks =
-  (nodes: EventNetworkDatum[], relationLinks: Map<string, NetworkLink[]>) =>
   (
-    relations: (Common.BaseProps & { color: string })[],
-  ): Map<string, NetworkLink[]> => {
+    nodes: readonly EventNetworkDatum[],
+    relationLinks: Map<string, readonly NetworkLink[]>,
+  ) =>
+  (
+    relations: readonly (Common.BaseProps & { color: string })[],
+  ): Map<string, readonly NetworkLink[]> => {
     return pipe(
       nodes,
-      A.reduce(relationLinks, (acc, p) => {
+      fp.A.reduce(relationLinks, (acc, p) => {
         const newLinks = pipe(
           relations,
-          A.reduce(acc, (acc1, relation) => {
+          fp.A.reduce(acc, (acc1, relation) => {
             const lastLinks = pipe(
-              Map.lookup(S.Ord)(relation.id, acc1),
-              O.getOrElse((): NetworkLink[] => []),
+              fp.Map.lookup(S.Ord)(relation.id, acc1),
+              O.getOrElse((): readonly NetworkLink[] => []),
             );
 
             // console.log('last links', lastLinks);
 
             if (lastLinks.length === 0) {
-              const links: NetworkLink[] = [
+              const links: readonly NetworkLink[] = [
                 {
                   source: relation.id,
                   target: p.id as UUID,
                   value: (1 / relations.length) * 100,
                   stroke: `#${relation.color}`,
                   fill: `#${relation.color}`,
-                  sourceType: ACTORS.value,
+                  sourceType: ACTORS.literals[0],
                 },
               ];
               return pipe(acc1, Map.upsertAt(S.Eq)(relation.id, links));
@@ -400,7 +405,7 @@ const getLinks =
 
             const lastLink = lastLinks[lastLinks.length - 1];
 
-            const eventLinks: NetworkLink[] = [
+            const eventLinks: readonly NetworkLink[] = [
               ...lastLinks,
               {
                 source: lastLink.target,
@@ -408,7 +413,7 @@ const getLinks =
                 value: (1 / relations.length) * 100,
                 stroke: `#${relation.color}`,
                 fill: `#${relation.color}`,
-                sourceType: GROUPS.value,
+                sourceType: GROUPS.literals[0],
               },
             ];
 
@@ -427,19 +432,19 @@ interface Result {
   maxSize: number;
   // group by
   groupByItems: Map<string, GroupByItem>;
-  groupByLinks: Map<string, NetworkLink[]>;
+  groupByLinks: Map<string, readonly NetworkLink[]>;
   // actors
   actors: Map<string, Actor.Actor>;
-  actorLinks: Map<string, NetworkLink[]>;
+  actorLinks: Map<string, readonly NetworkLink[]>;
   // groups
   groups: Map<string, Group.Group>;
-  groupLinks: Map<string, NetworkLink[]>;
+  groupLinks: Map<string, readonly NetworkLink[]>;
 }
 
 export interface EventsNetworkGraphData {
   pageContent: Page.Page;
-  topics: {
-    nodes: Topic.TopicMD[];
+  keywords: {
+    nodes: Keyword.Keyword[];
   };
   actors: {
     nodes: Actor.Actor[];
@@ -489,16 +494,16 @@ export function createEventNetworkGraphProps({
   height: number;
   margin: { vertical: number; horizontal: number };
 }): EventsNetworkGraphDataProps {
-  const orderedEvents = pipe(events, A.sort(ordEventDate));
+  const orderedEvents = pipe(events, fp.A.sort(ordEventDate));
 
   const minDate = pipe(
-    A.head(orderedEvents),
+    fp.A.head(orderedEvents),
     O.map((e) => e.date),
     O.getOrElse(() => subWeeks(new Date(), 1)),
   );
 
   const maxDate = pipe(
-    A.last(orderedEvents),
+    fp.A.last(orderedEvents),
     O.map((e) => e.date),
     O.getOrElse(() => new Date()),
   );
@@ -543,7 +548,7 @@ export function createEventNetworkGraphProps({
     maxSize,
   } = pipe(
     orderedEvents,
-    A.reduce(result, (acc, e) => {
+    fp.A.reduce(result, (acc, e) => {
       // get topic from relative directory
       const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
         e.date,
@@ -573,7 +578,7 @@ export function createEventNetworkGraphProps({
           !includeEmptyRelations &&
           (filteredEventActors.length > 0 || filteredEventGroups.length > 0)
         ) {
-          const groupByEventList: GroupByItem[] =
+          const groupByEventList: readonly GroupByItem[] =
             groupBy === "group"
               ? eventGroups
               : groupBy === "actor"
@@ -598,8 +603,8 @@ export function createEventNetworkGraphProps({
 
           const actors = pipe(
             allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
-            O.fromPredicate(A.isNonEmpty),
-            O.getOrElse((): Actor.Actor[] => []),
+            O.fromPredicate(isNonEmpty),
+            O.getOrElse((): readonly Actor.Actor[] => []),
             updateMap(acc.actors),
           );
 
@@ -607,8 +612,8 @@ export function createEventNetworkGraphProps({
 
           const groups = pipe(
             allGroups.filter((a) => eventGroups.some((aa) => aa.id === a.id)),
-            O.fromPredicate(A.isNonEmpty),
-            O.getOrElse((): Group.Group[] => []),
+            O.fromPredicate(isNonEmpty),
+            O.getOrElse((): readonly Group.Group[] => []),
             updateMap(acc.groups),
           );
 
@@ -687,7 +692,7 @@ export function createEventNetworkGraphProps({
     }),
   );
 
-  const groupByArray: NEA.NonEmptyArray<GroupByItem> = Map.toArray(S.Ord)(
+  const groupByArray: NonEmptyArray<GroupByItem> = Map.toArray(S.Ord)(
     groupByItems,
   ).flatMap(([_k, items]) => items) as any;
 
@@ -757,7 +762,7 @@ export function createEventNetworkGraphProps({
 
   return {
     minDate: pipe(
-      A.head(selectedEvents),
+      fp.A.head(selectedEvents),
       O.map((e) => e.date),
       O.getOrElse(() => subWeeks(new Date(), 1)),
     ),
@@ -774,5 +779,6 @@ export function createEventNetworkGraphProps({
     selectedEvents,
     width,
     height: maxSize * (45 + 10),
+    // keywords: [],
   };
 }

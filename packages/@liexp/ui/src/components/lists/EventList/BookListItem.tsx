@@ -35,7 +35,7 @@ export const BookListItem: React.FC<BookListItemProps> = ({
           {...props}
           event={item}
           title={item.payload.title}
-          type={Events.EventTypes.DEATH.value}
+          type={Events.EventTypes.DEATH.literals[0]}
           excerpt={item.excerpt}
           keywords={item.keywords}
           links={item.links}

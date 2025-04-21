@@ -3,7 +3,7 @@ import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelation
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
@@ -11,7 +11,6 @@ import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import * as React from "react";
 import { useDataProvider, useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";

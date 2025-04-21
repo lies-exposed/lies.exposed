@@ -14,7 +14,7 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
     actors: query.actors ?? [],
     groups: query.groups ?? [],
     keywords: query.keywords ?? [],
-    eventType: query.eventType ?? EventType.types.map((v) => v.value),
+    eventType: query.eventType ?? EventType.members.map((v) => v.literals[0]),
   };
 
   return (
@@ -23,7 +23,7 @@ const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
       queries={(Q) => ({
         event: Q.Event.get.useQuery({ id: eventId }),
       })}
-      render={({ event }) => {
+      render={({ event: { data: event } }) => {
         return (
           <EventTemplateUI
             filters={filters}

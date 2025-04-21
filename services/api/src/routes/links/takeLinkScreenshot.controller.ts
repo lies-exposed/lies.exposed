@@ -23,23 +23,23 @@ export const MakeTakeLinkScreenshotRoute = (
   r: Router,
   ctx: ServerContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Link.Custom.TakeLinkScreenshot,
     ({ params: { id }, body }, req) => {
       ctx.logger.debug.log("Body %O", body);
 
       const getMediaOrMakeFromLinkTask = (
         link: LinkEntity & { image: MediaEntity | null },
-      ): TEControllerError<Partial<MediaEntity>[]> =>
+      ): TEControllerError<readonly Partial<MediaEntity>[]> =>
         pipe(
           fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
           fp.O.map(fp.A.of),
-          fp.O.getOrElse((): Partial<MediaEntity>[] => [
+          fp.O.getOrElse((): readonly Partial<MediaEntity>[] => [
             {
               id: uuid(),
               label: link.title,
               description: link.description ?? link.title,
-              type: PngType.value,
+              type: PngType.literals[0],
             },
           ]),
           TE.right,

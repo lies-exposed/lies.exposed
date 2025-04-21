@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -91,11 +91,11 @@ const getFlowGraph =
     keywords,
     media,
   }: {
-    events: Events.Event[];
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    keywords: Keyword.Keyword[];
-    media: Media.Media[];
+    events: readonly Events.Event[];
+    actors: readonly Actor.Actor[];
+    groups: readonly Group.Group[];
+    keywords: readonly Keyword.Keyword[];
+    media: readonly Media.Media[];
   }) =>
   (l: Logger): FlowGraphOutput => {
     l.debug.log("Actors %O", actors);

@@ -68,7 +68,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
 }) => {
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
-      case Media.IframeVideoType.value:
+      case Media.IframeVideoType.literals[0]:
         return (
           <IframeMediaElement
             {...props}
@@ -76,21 +76,21 @@ const MediaElement: React.FC<MediaElementProps> = ({
             style={style}
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: Media.IframeVideoType.value }}
+            media={{ ...media, type: Media.IframeVideoType.literals[0] }}
           />
         );
-      case Media.PDFType.value: {
+      case Media.PDFType.Type: {
         return (
           <PDFMediaElement
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: Media.PDFType.value }}
+            media={{ ...media, type: Media.PDFType.Type }}
             disableOpen={disableZoom}
           />
         );
       }
-      case Media.MP4Type.value: {
+      case Media.MP4Type.Type: {
         return (
           <Video
             {...props}
@@ -109,8 +109,8 @@ const MediaElement: React.FC<MediaElementProps> = ({
           />
         );
       }
-      case Media.AudioType.types[0].value:
-      case Media.AudioType.types[1].value: {
+      case Media.AudioType.members[0].literals[0]:
+      case Media.AudioType.members[1].Type: {
         return (
           <AudioMediaElement
             {...props}

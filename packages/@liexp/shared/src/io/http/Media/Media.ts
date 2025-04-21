@@ -1,10 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { Schema } from "effect";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { URL } from "../Common/URL.js";
 import { UUID } from "../Common/UUID.js";
 import {
@@ -18,35 +15,36 @@ import {
 import { MediaExtra } from "./MediaExtra.js";
 import { type ImageType, MediaType } from "./MediaType.js";
 
-export const MEDIA = t.literal("media");
-export type MEDIA = t.TypeOf<typeof MEDIA>;
+export const MEDIA = Schema.Literal("media");
+export type MEDIA = typeof MEDIA.Type;
 
-export const GetListMediaQuery = t.type(
-  {
-    ...GetListQuery.props,
-    ...GetListQueryDateRange.props,
-    ...GetListQueryKeywords.props,
-    ...GetListQueryEvents.props,
-    ...GetListQueryAreas.props,
-    ...GetListQueryLocations.props,
-    type: optionFromNullable(t.union([t.array(MediaType), t.string])),
-    location: optionFromNullable(URL),
-    ids: optionFromNullable(t.array(UUID)),
-    exclude: optionFromNullable(t.array(UUID)),
-    emptyThumbnail: optionFromNullable(BooleanFromString),
-    emptyEvents: optionFromNullable(BooleanFromString),
-    emptyLinks: optionFromNullable(BooleanFromString),
-    emptyAreas: optionFromNullable(BooleanFromString),
-    includeDeleted: optionFromNullable(BooleanFromString),
-    creator: optionFromNullable(UUID),
-    spCount: optionFromNullable(NumberFromString),
-    onlyUnshared: optionFromNullable(BooleanFromString),
-    needRegenerateThumbnail: optionFromNullable(BooleanFromString),
-    hasExtraThumbnailsError: optionFromNullable(BooleanFromString),
-  },
-  "MediaListQuery",
-);
-export type GetListMediaQuery = t.TypeOf<typeof GetListMediaQuery>;
+export const GetListMediaQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  ...GetListQueryDateRange.fields,
+  ...GetListQueryKeywords.fields,
+  ...GetListQueryEvents.fields,
+  ...GetListQueryAreas.fields,
+  ...GetListQueryLocations.fields,
+  type: OptionFromNullishToNull(
+    Schema.Union(Schema.Array(MediaType), Schema.String),
+  ),
+  location: OptionFromNullishToNull(URL),
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  exclude: OptionFromNullishToNull(Schema.Array(UUID)),
+  emptyThumbnail: OptionFromNullishToNull(Schema.BooleanFromString),
+  emptyEvents: OptionFromNullishToNull(Schema.BooleanFromString),
+  emptyLinks: OptionFromNullishToNull(Schema.BooleanFromString),
+  emptyAreas: OptionFromNullishToNull(Schema.BooleanFromString),
+  includeDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
+  creator: OptionFromNullishToNull(UUID),
+  spCount: OptionFromNullishToNull(Schema.NumberFromString),
+  onlyUnshared: OptionFromNullishToNull(Schema.BooleanFromString),
+  needRegenerateThumbnail: OptionFromNullishToNull(Schema.BooleanFromString),
+  hasExtraThumbnailsError: OptionFromNullishToNull(Schema.BooleanFromString),
+}).annotations({
+  title: "GetListMediaQuery",
+});
+export type GetListMediaQuery = typeof GetListMediaQuery.Type;
 
 export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
   empty: {
@@ -73,74 +71,73 @@ export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
     hasExtraThumbnailsError: fp.O.none,
     _sort: fp.O.some("updatedAt"),
     _order: fp.O.some("DESC"),
-    _end: fp.O.some(20 as t.Int),
-    _start: fp.O.some(0 as t.Int),
+    _end: fp.O.some(20),
+    _start: fp.O.some(0),
   },
   concat: (x, y) => ({ ...x, ...y }),
-};
+} as Monoid<GetListMediaQuery>;
 
-export const CreateMedia = t.strict(
-  {
-    location: URL,
-    label: t.union([t.string, t.undefined]),
-    description: t.union([t.string, t.undefined]),
-    thumbnail: t.union([URL, t.undefined]),
-    extra: t.union([MediaExtra, t.undefined]),
-    type: MediaType,
-    events: t.array(UUID),
-    links: t.array(UUID),
-    keywords: t.array(UUID),
-    areas: t.array(UUID),
-  },
-  "CreateMedia",
-);
+export const CreateMedia = Schema.Struct({
+  location: URL,
+  label: Schema.Union(Schema.String, Schema.Undefined),
+  description: Schema.Union(Schema.String, Schema.Undefined),
+  thumbnail: Schema.Union(URL, Schema.Undefined),
+  extra: Schema.Union(MediaExtra, Schema.Undefined),
+  type: MediaType,
+  events: Schema.Array(UUID),
+  links: Schema.Array(UUID),
+  keywords: Schema.Array(UUID),
+  areas: Schema.Array(UUID),
+}).annotations({
+  title: "CreateMedia",
+});
 
-export type CreateMedia = t.TypeOf<typeof CreateMedia>;
+export type CreateMedia = typeof CreateMedia.Type;
 
-export const EditMediaBody = t.strict(
-  {
-    type: MediaType,
-    thumbnail: optionFromNullable(URL),
-    location: URL,
-    label: t.string,
-    description: optionFromNullable(t.string),
-    extra: optionFromNullable(MediaExtra),
-    links: t.array(UUID),
-    events: t.array(UUID),
-    keywords: t.array(UUID),
-    areas: t.array(UUID),
-    creator: optionFromNullable(UUID),
-    overrideThumbnail: optionFromNullable(t.boolean),
-    overrideExtra: optionFromNullable(t.boolean),
-    transfer: optionFromNullable(t.boolean),
-    transferThumbnail: optionFromNullable(t.boolean),
-    restore: optionFromNullable(t.boolean),
-  },
-  "EditMediaBody",
-);
-export type EditMediaBody = t.TypeOf<typeof EditMediaBody>;
+export const EditMediaBody = Schema.Struct({
+  type: MediaType,
+  thumbnail: OptionFromNullishToNull(URL),
+  location: URL,
+  label: Schema.String,
+  description: OptionFromNullishToNull(Schema.String),
+  extra: OptionFromNullishToNull(MediaExtra),
+  links: Schema.Array(UUID),
+  events: Schema.Array(UUID),
+  keywords: Schema.Array(UUID),
+  areas: Schema.Array(UUID),
+  creator: OptionFromNullishToNull(UUID),
+  overrideThumbnail: OptionFromNullishToNull(Schema.Boolean),
+  overrideExtra: OptionFromNullishToNull(Schema.Boolean),
+  transfer: OptionFromNullishToNull(Schema.Boolean),
+  transferThumbnail: OptionFromNullishToNull(Schema.Boolean),
+  restore: OptionFromNullishToNull(Schema.Boolean),
+}).annotations({
+  title: "EditMediaBody",
+});
+export type EditMediaBody = typeof EditMediaBody.Type;
 
-export const Media = t.strict(
-  {
-    ...CreateMedia.type.props,
-    id: UUID,
-    type: MediaType,
-    label: t.string,
-    creator: t.union([UUID, t.undefined]),
-    featuredInStories: t.union([t.array(UUID), t.undefined]),
-    socialPosts: t.union([t.array(UUID), t.undefined]),
-    createdAt: DateFromISOString,
-    updatedAt: DateFromISOString,
-    deletedAt: t.union([DateFromISOString, t.undefined]),
-  },
-  "Media",
-);
-export type Media = t.TypeOf<typeof Media>;
+export const Media = Schema.Struct({
+  ...CreateMedia.fields,
+  id: UUID,
+  type: MediaType,
+  label: Schema.String,
+  creator: Schema.Union(UUID, Schema.Undefined),
+  featuredInStories: Schema.Union(Schema.Array(UUID), Schema.Undefined),
+  socialPosts: Schema.Union(Schema.Array(UUID), Schema.Undefined),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+  deletedAt: Schema.Union(Schema.Date, Schema.Undefined),
+}).annotations({
+  title: "Media",
+});
+export type Media = typeof Media.Type;
 
 export type ImageMedia = Omit<Media, "type"> & { type: ImageType };
 
-export const AdminMedia = t.intersection(
-  [Media, t.strict({ transferable: t.boolean })],
-  "AdminMedia",
-);
-export type AdminMedia = t.TypeOf<typeof AdminMedia>;
+export const AdminMedia = Schema.Struct({
+  ...Media.fields,
+  transferable: Schema.Boolean,
+}).annotations({
+  title: "AdminMedia",
+});
+export type AdminMedia = typeof AdminMedia.Type;

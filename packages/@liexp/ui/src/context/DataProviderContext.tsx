@@ -1,4 +1,4 @@
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { APIRESTClient } from "@ts-endpoint/react-admin";
 import * as React from "react";
 import { getAuthFromLocalStorage } from "../client/api.js";
 

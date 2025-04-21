@@ -33,6 +33,7 @@ import { Box, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { colors } from "@liexp/ui/lib/theme/index.js";
 import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -70,9 +71,9 @@ const SelectQueueTypeInput: React.FC<SelectInputProps> = ({
     label={source}
     source={source}
     {...props}
-    choices={Queue.QueueTypes.types.map((resource) => ({
-      id: resource.value,
-      name: resource.value,
+    choices={Queue.QueueTypes.members.map((resource) => ({
+      id: resource.literals[0],
+      name: resource.literals[0],
     }))}
   />
 );
@@ -85,9 +86,9 @@ const SelectQueueResourceInput: React.FC<SelectInputProps> = ({
       label={source}
       source={source}
       {...props}
-      choices={Queue.QueueResourceNames.types.map((resource) => ({
-        id: resource.value,
-        name: resource.value,
+      choices={Queue.QueueResourceNames.members.map((resource) => ({
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );
@@ -102,9 +103,9 @@ const SelectQueueStatusInput: React.FC<SelectInputProps> = ({
       label={source}
       source={source}
       {...props}
-      choices={Queue.Status.types.map((resource) => ({
-        id: resource.value,
-        name: resource.value,
+      choices={Queue.Status.members.map((resource) => ({
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );
@@ -119,9 +120,9 @@ const SelectQueueStatusArrayInput: React.FC<SelectArrayInputProps> = ({
       label={source}
       source={source}
       {...props}
-      choices={Queue.Status.types.map((resource) => ({
-        id: resource.value,
-        name: resource.value,
+      choices={Queue.Status.members.map((resource) => ({
+        id: resource.literals[0],
+        name: resource.literals[0],
       }))}
     />
   );
@@ -278,8 +279,8 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         <FormDataConsumer>
           {({ formData }) => {
             if (
-              OpenAICreateEventFromTextType.is(formData.type) ||
-              OpenAICreateEventFromURLType.is(formData.type)
+              Schema.is(OpenAICreateEventFromTextType)(formData.type) ||
+              Schema.is(OpenAICreateEventFromURLType)(formData.type)
             ) {
               return (
                 <JSONInput

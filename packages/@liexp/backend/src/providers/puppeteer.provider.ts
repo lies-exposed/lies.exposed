@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { IOError } from "@ts-endpoint/core";
 import { differenceInSeconds } from "date-fns";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
-import { IOError } from "ts-io-error";
 
 const puppeteerLogger = logger.GetLogger("puppeteer");
 

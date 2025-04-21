@@ -3,7 +3,8 @@ import { DocumentaryIO } from "@liexp/backend/lib/io/event/documentary.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -16,7 +17,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
       const documentaryData = {
         ...body,
         links: body.links.map((l) => {
-          if (UUID.is(l)) {
+          if (Schema.is(UUID)(l)) {
             return {
               id: l,
             };
@@ -34,7 +35,7 @@ export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
       return pipe(
         db.save(EventV2Entity, [
           {
-            type: EventTypes.DOCUMENTARY.value,
+            type: EVENT_TYPES.DOCUMENTARY,
             ...documentaryData,
             payload,
           },

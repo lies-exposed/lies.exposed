@@ -1,4 +1,5 @@
 import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { colors } from "../../../theme/index.js";
 import { getBorderLeftStyle } from "../../../utils/style.utils.js";
@@ -20,7 +21,9 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       rowClick="edit"
       rowSx={(record) =>
         getBorderLeftStyle(
-          TO_PUBLISH.is(record.status) ? colors.lightBlue : "transparent",
+          Schema.is(TO_PUBLISH)(record.status)
+            ? colors.lightBlue
+            : "transparent",
         )
       }
       {...props}

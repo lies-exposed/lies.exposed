@@ -15,20 +15,20 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 import { NumberFromString } from "io-ts-types/lib/NumberFromString";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable";
+import { OptionFromNullishToNull } from '@liexp/shared/lib/io/http/Common/OptionFromNullishToNull';
 
 const log = GetLogger("vaccine-parse-distribution");
 const csvUtil = GetCSVUtil({ log });
 
-const OWIDDatumValue = optionFromNullable(
-  t.union([NumberFromString, t.string])
+const OWIDDatumValue = OptionFromNullishToNull(
+  Schema.Union([NumberFromString, Schema.String])
 );
 
-export const OWIDDatum = t.strict(
+export const OWIDDatum = Schema.Struct(
   {
-    location: t.string,
-    iso_code: t.string,
-    date: t.string,
+    location: Schema.String,
+    iso_code: Schema.String,
+    date: Schema.String,
     total_vaccinations: OWIDDatumValue,
     people_vaccinated: OWIDDatumValue,
     people_fully_vaccinated: OWIDDatumValue,

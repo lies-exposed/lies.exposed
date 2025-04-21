@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
 import {
   Actor,
@@ -33,9 +34,9 @@ const nodePosition = (
 interface EventFlowGraphProps extends FlowGraphProps {
   graph: FlowGraphOutput;
   filters: {
-    actors: string[];
-    groups: string[];
-    keywords: string[];
+    actors: readonly string[];
+    groups: readonly string[];
+    keywords: readonly string[];
     minDate: Date;
     maxDate: Date;
   };
@@ -88,7 +89,7 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
     }));
 
     const eventNodes = pipe(
-      graph.events,
+      [...graph.events],
       fp.A.reverse,
       fp.A.mapWithIndex((i, data) => ({
         id: data.id,
@@ -100,15 +101,15 @@ export const EventsFlowGraph: React.FC<EventFlowGraphProps> = ({
         position: {
           y: 200 + i * 50,
           x:
-            data.type === Events.EventTypes.UNCATEGORIZED.value
+            data.type === EVENT_TYPES.UNCATEGORIZED
               ? -50
-              : data.type === Events.EventTypes.SCIENTIFIC_STUDY.value
+              : data.type === EVENT_TYPES.SCIENTIFIC_STUDY
                 ? -25
-                : data.type === Events.EventTypes.PATENT.value
+                : data.type === EVENT_TYPES.PATENT
                   ? 0
-                  : data.type === Events.EventTypes.DEATH.value
+                  : data.type === EVENT_TYPES.DEATH
                     ? 25
-                    : data.type === Events.EventTypes.DOCUMENTARY.value
+                    : data.type === EVENT_TYPES.DOCUMENTARY
                       ? 50
                       : 75,
         },

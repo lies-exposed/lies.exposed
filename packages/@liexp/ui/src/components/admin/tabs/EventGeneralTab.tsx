@@ -153,7 +153,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
       </Grid>
       <Grid item {...{ md: 12 }}>
         <OpenAIEmbeddingJobButton<Event>
-          type={OpenAIEmbeddingQueueType.value}
+          type={OpenAIEmbeddingQueueType.literals[0]}
           resource="events"
           transformValue={(event) => ({
             text: getOpenAIPromptText(event),

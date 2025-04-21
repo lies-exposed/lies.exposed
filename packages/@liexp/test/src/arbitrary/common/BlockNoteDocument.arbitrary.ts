@@ -10,4 +10,4 @@ export const BlockNoteBlockArb: fc.Arbitrary<BlockNoteBlock> = fc
   .map((block) => toParagraph(block));
 
 export const BlockNoteDocumentArb: fc.Arbitrary<BlockNoteDocument> =
-  BlockNoteBlockArb.map((blocks) => [blocks] as BlockNoteDocument);
+  BlockNoteBlockArb.map((blocks) => [blocks] as any as BlockNoteDocument);

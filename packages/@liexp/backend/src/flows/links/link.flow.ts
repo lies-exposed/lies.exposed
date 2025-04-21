@@ -4,10 +4,11 @@ import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -61,7 +62,7 @@ export const fromURL =
               thumbnail: image,
               location: image,
               description: defaults?.title ?? m.description ?? m.url,
-              type: ImageType.types[0].value,
+              type: ImageType.members[0].Encoded,
               creator,
             }),
             creator,
@@ -75,7 +76,11 @@ export const fromURL =
       TE.map((link): LinkEntity & { image: MediaEntity | null } => {
         ctx.logger.debug.log("Creating link %O", link);
         const publishDate = pipe(
-          DateFromISOString.decode(link.date),
+          link.date,
+          (d) =>
+            d
+              ? Schema.decodeEither(Schema.Date)(d)
+              : E.right<ParseError, Date | null>(null),
           E.getOrElse((): Date | null => null),
         );
 

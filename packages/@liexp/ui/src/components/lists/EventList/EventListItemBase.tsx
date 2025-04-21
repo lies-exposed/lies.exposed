@@ -2,7 +2,8 @@ import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media/index.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
-import * as A from "fp-ts/lib/Array.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -51,12 +52,12 @@ interface EventListItemBaseProps<E> {
   type: EventType;
   link?: http.Link.Link;
   excerpt: any;
-  keywords: http.Keyword.Keyword[];
-  media: http.Media.Media[];
+  keywords: readonly http.Keyword.Keyword[];
+  media: readonly http.Media.Media[];
   condensed?: boolean;
   mediaDescription?: boolean;
   disableMediaAction?: boolean;
-  links: http.Link.Link[];
+  links: readonly http.Link.Link[];
   onKeywordClick?: (k: http.Keyword.Keyword) => void;
   onRowInvalidate: (e: E) => void;
   onLoad?: () => void;
@@ -96,7 +97,7 @@ const EventListItemBase = <E extends any>({
 
       {pipe(
         keywords,
-        O.fromPredicate(A.isNonEmpty),
+        O.fromPredicate(isNonEmpty),
         O.fold(
           () => null,
           (kk) => (
@@ -148,7 +149,10 @@ const EventListItemBase = <E extends any>({
                 data={media}
                 itemStyle={(m) => ({
                   maxHeight: 400,
-                  height: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 300,
+                  height:
+                    Schema.is(MP3Type)(m.type) || Schema.is(OGGType)(m.type)
+                      ? 100
+                      : 300,
                   maxWidth: 600,
                 })}
                 onLoad={onLoad}

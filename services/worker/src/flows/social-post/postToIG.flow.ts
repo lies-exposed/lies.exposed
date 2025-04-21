@@ -6,9 +6,9 @@ import {
   type CreateSocialPost,
   type SocialPostBodyMultipleMedia,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";
-import * as t from "io-ts";
 import { type RTE } from "../../types.js";
 
 export const postToIG =
@@ -40,7 +40,9 @@ export const postToIG =
           body.media,
           text.length,
         );
-        const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
+        const media: SocialPostBodyMultipleMedia = Schema.is(Schema.String)(
+          body.media,
+        )
           ? [{ type: "photo", media: body.media, thumbnail: body.media }]
           : body.media;
         return pipe(
@@ -62,7 +64,7 @@ export const postToIG =
               responseType: "arraybuffer",
             }),
             TE.chain((stream) => {
-              if (SocialPostPhoto.is(m)) {
+              if (Schema.is(SocialPostPhoto)(m)) {
                 return ctx.ig.postPhoto(stream, text);
               }
 
@@ -92,7 +94,9 @@ export const postToIG =
               fp.TE.map((b) => ({ file: b })),
             ),
           ),
-          TE.chain((items) => ctx.ig.postAlbum({ items, caption: text })),
+          TE.chain((items) =>
+            ctx.ig.postAlbum({ items: [...items], caption: text }),
+          ),
         );
       }),
       TE.mapLeft((e) => ServerError.of([e.message])),

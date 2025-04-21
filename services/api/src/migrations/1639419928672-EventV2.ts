@@ -2,7 +2,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { DeathEventEntity } from "@liexp/backend/lib/entities/archive/DeathEvent.entity.js";
 import { EventEntity } from "@liexp/backend/lib/entities/archive/Event.entity.js";
 import { ScientificStudyEntity } from "@liexp/backend/lib/entities/archive/ScientificStudy.entity.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EventV21639419928672 implements MigrationInterface {
@@ -83,7 +83,7 @@ export class EventV21639419928672 implements MigrationInterface {
             excerpt: {},
             body: (e.body2 as any) ?? {},
             draft: false,
-            type: EventTypes.UNCATEGORIZED.value,
+            type: "Uncategorized",
             payload: {
               title: e.title,
               location: undefined,
@@ -111,7 +111,7 @@ export class EventV21639419928672 implements MigrationInterface {
             ...(s as any),
             draft: false,
             excerpt: {},
-            type: EventTypes.DEATH.value,
+            type: EVENT_TYPES.DEATH,
             payload: {
               location: (s as any).location ?? undefined,
               victim: s.victim as any,
@@ -135,7 +135,7 @@ export class EventV21639419928672 implements MigrationInterface {
           (s): EventV2Entity => ({
             ...(s as any),
             draft: false,
-            type: EventTypes.SCIENTIFIC_STUDY.value,
+            type: EVENT_TYPES.SCIENTIFIC_STUDY,
             payload: {
               title: s.title,
               url: s.url as any,

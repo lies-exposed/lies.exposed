@@ -8,9 +8,9 @@ export const EventSuggestionTypeInput: React.FC<SelectInputProps> = (props) => {
       source="type"
       label="Suggestion Type"
       {...props}
-      choices={EventSuggestionType.types.map((t) => ({
-        id: t.value,
-        name: t.value,
+      choices={EventSuggestionType.members.map((t) => ({
+        id: t.literals[0],
+        name: t.literals[0],
       }))}
     />
   );

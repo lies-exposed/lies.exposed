@@ -1,6 +1,7 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { flow, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
@@ -70,6 +71,7 @@ export const MakeDeleteLinkRoute: Route = (r, ctx) => {
             ),
           ),
         ),
+        TE.chainEitherK(LinkIO.decodeSingle),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

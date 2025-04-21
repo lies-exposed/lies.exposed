@@ -3,10 +3,11 @@ import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import type * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { ENV } from "#io/ENV.js";
 
 const log = logger.GetLogger("database:dump");
@@ -20,11 +21,12 @@ const run = (): T.Task<void> => {
   loadENV(process.cwd(), process.env.DOTENV_CONFIG_PATH ?? ".env", true);
 
   return pipe(
-    ENV.decode(process.env),
+    process.env,
+    Schema.decodeUnknownEither(ENV),
     E.orElse((e) => {
       log.error.log(
         "process.env decode failed %O",
-        PathReporter.report(E.left(e)),
+        DecodeError.of("Failed to decode process.env", e),
       );
       return E.left(new Error("process.env decode failed"));
     }),

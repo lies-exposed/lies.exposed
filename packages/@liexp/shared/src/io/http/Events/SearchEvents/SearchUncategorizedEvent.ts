@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as Actor from "../../Actor.js";
 import * as Group from "../../Group.js";
 import * as GroupMember from "../../GroupMember.js";
@@ -6,14 +6,12 @@ import * as Uncategorized from "../Uncategorized.js";
 import { SearchEventCodec } from "./SearchEventCodec.js";
 
 export const SearchUncategorizedEvent = SearchEventCodec(
-  Uncategorized.Uncategorized,
+  Uncategorized.Uncategorized.fields,
   {
-    actors: t.array(Actor.Actor),
-    groups: t.array(Group.Group),
-    groupsMembers: t.array(GroupMember.GroupMember),
+    actors: Schema.Array(Actor.Actor),
+    groups: Schema.Array(Group.Group),
+    groupsMembers: Schema.Array(GroupMember.GroupMember),
   },
 );
 
-export type SearchUncategorizedEvent = t.TypeOf<
-  typeof SearchUncategorizedEvent
->;
+export type SearchUncategorizedEvent = typeof SearchUncategorizedEvent.Type;

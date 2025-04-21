@@ -17,7 +17,7 @@ interface AutocompleteKeywordInputProps {
 export const AutocompleteKeywordInput: React.FC<
   AutocompleteKeywordInputProps
 > = ({ discrete = true, selectedItems, onChange, options, ...props }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   return (
     <AutocompleteInput<Keyword.Keyword>

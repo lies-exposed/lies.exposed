@@ -5,9 +5,9 @@ import {
   type Group,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
-import { isNonEmpty } from "fp-ts/lib/Array.js";
 import * as React from "react";
 import { ActorPageContent } from "../components/ActorPageContent.js";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";
@@ -99,7 +99,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 },
               ]}
               resource={{
-                name: ACTORS.value,
+                name: ACTORS.literals[0],
                 item: actor,
               }}
             >
@@ -152,7 +152,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               </Box>
 
               <EventNetworkGraphBoxWithFilters
-                type={ACTORS.value}
+                type={ACTORS.Type}
                 query={{
                   ...query,
                   relations: ["actors", "groups", "keywords"],

@@ -1,11 +1,11 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import {
-  CreateQueryProvider,
-  QueryProviderCustomQueries,
-} from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
+import { GetResourceClient } from "@ts-endpoint/resource-client";
+import { CreateQueryProvider } from "@ts-endpoint/tanstack-query";
 import type * as express from "express";
 import { pathToRegexp } from "path-to-regexp";
 import { type Configuration } from "../context/ConfigurationContext.js";
@@ -41,7 +41,9 @@ export const getServer = (
   // viteServer: ViteDevServer,
 ): express.Express => {
   const Q = CreateQueryProvider(
-    fromEndpoints(apiProvider.ssr)(Endpoints),
+    GetResourceClient(apiProvider.ssr.client, Endpoints, {
+      decode: EffectDecoder((e) => DecodeError.of("APIError", e)),
+    }),
     QueryProviderCustomQueries,
   );
 

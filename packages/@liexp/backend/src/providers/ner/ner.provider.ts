@@ -1,8 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
+import { IOError } from "@ts-endpoint/core";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { IOError } from "ts-io-error";
 import model from "wink-eng-lite-web-model";
 import type winkNLP from "wink-nlp";
 import {

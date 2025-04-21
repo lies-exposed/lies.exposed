@@ -2,10 +2,10 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { BookEventArb } from "@liexp/test/lib/arbitrary/events/BookEvent.arbitrary.js";
+import fc from "fast-check";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 
 describe("Get Book List", () => {
@@ -44,7 +44,10 @@ describe("Get Book List", () => {
   });
 
   test("Should return books by actor", async () => {
-    const actor = fc.sample(ActorArb, 1)[0];
+    const actor = fc.sample(ActorArb, 1).map((actor) => ({
+      ...actor,
+      memberIn: [],
+    }))[0];
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
 
@@ -101,7 +104,10 @@ describe("Get Book List", () => {
   });
 
   test("Should return books by either actor and group", async () => {
-    const actor = fc.sample(ActorArb, 1)[0];
+    const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
+      ...actor,
+      memberIn: [],
+    }));
     const [group] = fc.sample(GroupArb, 1).map((g) => ({
       ...g,
       members: [],

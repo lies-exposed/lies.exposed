@@ -1,28 +1,26 @@
-import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { Schema } from "effect";
 
-export const Forecast = t.strict(
-  {
-    id: t.string,
-    label: t.string,
-    lowerColor: t.string,
-    upperColor: t.string,
-    gtCO2: NumberFromString,
-    datenum: NumberFromString,
-    year: NumberFromString,
-    month: NumberFromString,
-    day: NumberFromString,
-    datetime: t.string,
-    data_mean_global: NumberFromString,
-    data_mean_nh: NumberFromString,
-    data_mean_sh: NumberFromString,
-    low: NumberFromString,
-    median: NumberFromString,
-    high: NumberFromString,
-    temp_high: NumberFromString,
-    temp_low: NumberFromString,
-  },
-  "Forecast",
-);
+export const Forecast = Schema.Struct({
+  id: Schema.String,
+  label: Schema.String,
+  lowerColor: Schema.String,
+  upperColor: Schema.String,
+  gtCO2: Schema.NumberFromString,
+  datenum: Schema.NumberFromString,
+  year: Schema.NumberFromString,
+  month: Schema.NumberFromString,
+  day: Schema.NumberFromString,
+  datetime: Schema.String,
+  data_mean_global: Schema.NumberFromString,
+  data_mean_nh: Schema.NumberFromString,
+  data_mean_sh: Schema.NumberFromString,
+  low: Schema.NumberFromString,
+  median: Schema.NumberFromString,
+  high: Schema.NumberFromString,
+  temp_high: Schema.NumberFromString,
+  temp_low: Schema.NumberFromString,
+}).annotations({
+  title: "Forecast",
+});
 
-export type Forecast = t.TypeOf<typeof Forecast>;
+export type Forecast = typeof Forecast.Type;

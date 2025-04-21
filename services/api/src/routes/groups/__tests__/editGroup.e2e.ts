@@ -6,9 +6,9 @@ import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import fc from "fast-check";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -16,7 +16,10 @@ describe("Edit Group", () => {
   let appTest: AppTest;
   const users: any[] = [];
   let authorizationToken: string;
-  const actors = fc.sample(ActorArb, 10);
+  const actors = fc.sample(ActorArb, 10).map((a) => ({
+    ...a,
+    memberIn: [],
+  }));
   const [group] = fc.sample(GroupArb, 1).map((g) => ({
     ...g,
     avatar: undefined,

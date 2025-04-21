@@ -9,6 +9,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { parse } from "date-fns";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -75,7 +76,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.value,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -113,7 +114,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.value,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -141,7 +142,7 @@ const extractPageMetadataFromProviderLink =
           );
 
           return O.some({
-            type: SCIENTIFIC_STUDY.value,
+            type: SCIENTIFIC_STUDY.literals[0],
             title,
             date: date.toISOString(),
             description: contentText ?? "",
@@ -189,7 +190,7 @@ const extractByProvider =
           title: l.title,
           description: l.description ?? l.title,
           keywords: [],
-          image: UUID.is(l.image) ? l.image : (l.image?.id ?? null),
+          image: Schema.is(UUID)(l.image) ? l.image : (l.image?.id ?? null),
           icon: "",
           provider: undefined,
           type,

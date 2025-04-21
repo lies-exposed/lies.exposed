@@ -8,9 +8,9 @@ import {
 import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
 import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import { IOError } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
-import { IOError } from "ts-shared/lib/errors.js";
 
 export type AIBotError =
   | _DecodeError
@@ -21,13 +21,17 @@ export type AIBotError =
   | IOError;
 
 export const toAIBotError = (e: unknown): AIBotError => {
-  const isIOErrorSchema = pipe(e, IOErrorSchema.decode, fp.E.isRight);
+  const isIOErrorSchema = pipe(
+    e,
+    Schema.decodeUnknownEither(IOErrorSchema),
+    fp.E.isRight,
+  );
 
   if (isIOErrorSchema) {
     return e as IOError;
   }
 
-  if (APIError.is(e)) {
+  if (Schema.is(APIError)(e)) {
     return e;
   }
 
@@ -54,7 +58,7 @@ export const report = (err: AIBotError): string => {
 
   const parsedError = !err.details
     ? []
-    : t.array(t.string).is(err.details)
+    : Schema.is(Schema.Array(Schema.String))(err.details)
       ? err.details
       : decodeIOErrorDetails(err.details);
 

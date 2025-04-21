@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/Logger.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
-import { fc } from "@liexp/test/lib/index.js";
+import fc from "fast-check";
 import Docker from "dockerode";
-import fs from "fs/promises";
-import path from "path";
+import * as fs from "fs/promises";
+import * as path from "path";
 
 interface DBTestDockerContainer {
   assertLocalCacheFolder: () => Promise<void>;
@@ -79,7 +79,6 @@ const getFirstFree = async (logger: Logger): Promise<string | undefined> => {
 const waitForDatabase = async (logger: Logger): Promise<string> => {
   const [interval] = fc.sample(fc.integer({ min: 100, max: 200 }), 1);
   return new Promise(async (resolve) => {
-
     const databaseTimer = setInterval(async () => {
       const freeDatabase = await getFirstFree(logger);
 

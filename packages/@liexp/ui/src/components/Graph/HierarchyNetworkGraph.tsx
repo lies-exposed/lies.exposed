@@ -8,6 +8,7 @@ import {
   type Group,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
@@ -71,28 +72,32 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
       linkSource={(l) => l.source}
       linkTarget={(l) => l.target}
       onClick={(m) => {
-        if (m.type === ACTORS.value) {
+        if (m.type === ACTORS.literals[0]) {
           onActorClick?.(m);
-        } else if (m.type === GROUPS.value) {
+        } else if (m.type === GROUPS.literals[0]) {
           onGroupClick?.(m);
-        } else if (m.type === KEYWORDS.value) {
+        } else if (m.type === KEYWORDS.literals[0]) {
           onKeywordClick?.(m);
         } else {
           onEventClick?.(m);
         }
       }}
-      nodeGroups={[ACTORS.value, KEYWORDS.value, GROUPS.value]}
+      nodeGroups={[
+        ACTORS.literals[0],
+        KEYWORDS.literals[0],
+        GROUPS.literals[0],
+      ]}
       colors={colors}
       nodeId={(n) => n.data.id}
       linkStrokeWidth={(l) => l.value}
       linkStrength={(l) => l.value}
       linkStroke={(l) => l.fill}
       nodeTitle={(n) => {
-        if (n.data.type === KEYWORDS.value) {
+        if (n.data.type === KEYWORDS.literals[0]) {
           return n.data.tag;
-        } else if (n.data.type === GROUPS.value) {
+        } else if (n.data.type === GROUPS.literals[0]) {
           return n.data.name;
-        } else if (n.data.type === ACTORS.value) {
+        } else if (n.data.type === ACTORS.literals[0]) {
           return n.data.fullName;
         }
 
@@ -122,19 +127,19 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
           return 2;
         }
 
-        if (EventTypes.DEATH.is(n.data.type)) {
+        if (Schema.is(EventTypes.DEATH)(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.DOCUMENTARY.is(n.data.type)) {
+        if (Schema.is(EventTypes.DOCUMENTARY)(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.SCIENTIFIC_STUDY.is(n.data.type)) {
+        if (Schema.is(EventTypes.SCIENTIFIC_STUDY)(n.data.type)) {
           return 3;
         }
 
-        if (EventTypes.PATENT.is(n.data.type)) {
+        if (Schema.is(EventTypes.PATENT)(n.data.type)) {
           return 3;
         }
 

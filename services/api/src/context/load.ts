@@ -1,5 +1,6 @@
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { ENV } from "../io/ENV.js";
@@ -11,7 +12,7 @@ export const loadContext = (
   namespace: string,
 ): TEControllerError<ServerContext> => {
   return pipe(
-    loadAndParseENV(ENVParser(ENV.decode))(process.cwd()),
+    loadAndParseENV(ENVParser(Schema.decodeUnknownEither(ENV)))(process.cwd()),
     TE.fromEither,
     TE.chain(makeContext(namespace)),
   );

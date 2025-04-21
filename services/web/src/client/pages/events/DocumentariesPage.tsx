@@ -15,16 +15,16 @@ const DocumentariesPage: React.FC = () => {
   };
   return (
     <InfiniteListBox<"masonry", typeof Endpoints.Event.Custom.SearchEvents>
-      useListQuery={(Q) => Q.Queries.Event.Custom.SearchEvents as any}
+      useListQuery={(Q) => Q.Event.Custom.SearchEvents as any}
       filter={{
         filter: {
-          eventType: [DOCUMENTARY.value],
+          eventType: [DOCUMENTARY.literals[0]],
           _start: "0",
           _end: "20",
         },
       }}
-      toItems={(r) => r.data.events}
-      getTotal={(r) => r.data.total}
+      toItems={(r) => [...r.events]}
+      getTotal={(r) => r.total}
       listProps={{
         type: "masonry",
         getItem: (data: any[], index: any) => {

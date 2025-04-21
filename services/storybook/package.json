@@ -38,11 +38,14 @@
     "@storybook/react-vite": "^8.6.4",
     "@storybook/theming": "^8.6.4",
     "@tanstack/react-query": "^5.69.0",
+    "@ts-endpoint/resource-client": "^0.1.0",
     "@visx/gradient": "^3.12.0",
+    "axios": "^1.8.0",
     "d3": "^7.9.0",
     "date-fns": "^4.1.0",
+    "effect": "^3.14.8",
+    "fast-check": "^4.1.1",
     "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.22",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-virtualized": "^9.22.6",
@@ -61,5 +64,5 @@
     "vite-plugin-optimizer": "^1.4.3",
     "vite-tsconfig-paths": "^5.1.4"
   },
-  "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c"
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677"
 }

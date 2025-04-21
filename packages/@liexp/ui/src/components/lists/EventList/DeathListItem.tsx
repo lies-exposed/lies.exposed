@@ -40,7 +40,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           title={`Death: ${
             item.payload.victim?.fullName ?? item.payload.victim
           }`}
-          type={Events.EventTypes.DEATH.value}
+          type={Events.EventTypes.DEATH.literals[0]}
           excerpt={item.excerpt}
           keywords={item.keywords}
           links={item.links}

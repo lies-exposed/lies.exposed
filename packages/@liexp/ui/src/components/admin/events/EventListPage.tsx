@@ -5,6 +5,7 @@ import {
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
+import { Schema } from "effect";
 import * as R from "fp-ts/lib/Record.js";
 import * as React from "react";
 import {
@@ -46,9 +47,9 @@ const eventsFilter = [
     source="type"
     alwaysOn
     size="small"
-    choices={io.http.Events.EventType.types.map((t) => ({
-      id: t.value,
-      name: t.value,
+    choices={io.http.Events.EventType.members.map((t) => ({
+      id: t.literals[0],
+      name: t.literals[0],
     }))}
   />,
   <ReferenceArrayKeywordInput
@@ -68,10 +69,10 @@ export const EventDataGrid: React.FC = () => {
   return (
     <Datagrid
       rowClick={(_props, _id, record) => {
-        if (record.type === SCIENTIFIC_STUDY.value) {
+        if (Schema.is(SCIENTIFIC_STUDY)(record.type)) {
           return `/scientific-studies/${record.id}`;
         }
-        if (record.type === DEATH.value) {
+        if (Schema.is(DEATH)(record.type)) {
           return `/deaths/${record.id}`;
         }
         return `/events/${record.id}`;
@@ -85,13 +86,13 @@ export const EventDataGrid: React.FC = () => {
             <Box>
               <EventIcon color="primary" type={r.type} />{" "}
               {[
-                io.http.Events.EventTypes.UNCATEGORIZED.value,
-                io.http.Events.EventTypes.SCIENTIFIC_STUDY.value,
-                io.http.Events.EventTypes.BOOK.value,
+                io.http.Events.EventTypes.UNCATEGORIZED,
+                io.http.Events.EventTypes.SCIENTIFIC_STUDY,
+                io.http.Events.EventTypes.BOOK,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : null}
-              {r.type === io.http.Events.EventTypes.DEATH.value && (
+              {r.type === io.http.Events.EventTypes.DEATH && (
                 <ReferenceField source="payload.victim" reference="actors">
                   <TextField source="username" />
                 </ReferenceField>
@@ -114,11 +115,11 @@ export const EventDataGrid: React.FC = () => {
         label="actors"
         source="payload"
         render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
+          if (r?.type === Events.EventTypes.UNCATEGORIZED) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
+          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY) {
             return r.payload.authors.length;
           }
 

@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
@@ -8,11 +9,15 @@ import {
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+  nonEmptyArrayOr,
+} from "@liexp/shared/lib/utils/array.utils.js";
 import { ParentSize } from "@visx/responsive";
 import { parseISO } from "date-fns";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
+import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import {
@@ -43,12 +48,12 @@ export interface EventNetworkGraphBoxProps
   type: NetworkType;
   relations?: NetworkGroupBy[];
   showRelations?: boolean;
-  selectedActorIds?: string[];
-  selectedGroupIds?: string[];
-  selectedKeywordIds?: string[];
+  selectedActorIds?: readonly UUID[];
+  selectedGroupIds?: readonly UUID[];
+  selectedKeywordIds?: readonly UUID[];
   query: Partial<
     GetNetworkQuerySerialized & {
-      eventType: NonEmptyArray<EventType> | undefined;
+      eventType?: NonEmptyArray<EventType>;
     }
   >;
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
@@ -74,7 +79,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
   selectedActorIds,
   selectedGroupIds,
   selectedKeywordIds,
-  relations: _relations = [KEYWORDS.value],
+  relations: _relations = [KEYWORDS.Type],
   onRelationsChange,
   showRelations = true,
   transform,
@@ -103,49 +108,52 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
             relations,
             actors: pipe(
               query.actors,
-              fp.O.fromPredicate(t.array(t.string).is),
-              fp.O.chain(fp.NEA.fromArray),
+              fp.O.fromPredicate(Schema.is(Schema.Array(Schema.String))),
+              fp.O.filter(isNonEmpty),
               fp.O.toNullable,
             ),
             groups: pipe(
               query.groups,
-              fp.O.fromPredicate(t.array(t.string).is),
-              fp.O.chain(fp.NEA.fromArray),
+              fp.O.fromPredicate(Schema.is(Schema.Array(Schema.String))),
+              fp.O.filter(isNonEmpty),
               fp.O.toNullable,
             ),
             keywords: pipe(
               query.keywords,
-              fp.O.fromPredicate(t.array(t.string).is),
-              fp.O.chain(fp.NEA.fromArray),
+              fp.O.fromPredicate(Schema.is(Schema.Array(Schema.String))),
+              fp.O.filter(isNonEmpty),
               fp.O.toNullable,
             ),
             ids: pipe(
               ids,
-              fp.O.fromPredicate(t.array(t.string).is),
-              fp.O.chain(fp.NEA.fromArray),
+              fp.O.fromPredicate(Schema.is(Schema.Array(Schema.String))),
+              fp.O.filter(isNonEmpty),
               fp.O.toNullable,
             ),
           },
           false,
         ),
       })}
-      render={({ graph }) => {
+      render={({ graph: { data: graph } }) => {
         const startDate = parseISO(
           query.startDate ?? graph.startDate.toISOString(),
         );
         const endDate = parseISO(query.endDate ?? graph.endDate.toISOString());
 
-        const innerProps = transform(graph, {
-          startDate,
-          endDate,
-          ids: ids ?? undefined,
-          eventType,
-          type,
-          count,
-          selectedActorIds,
-          selectedGroupIds,
-          selectedKeywordIds,
-        });
+        const innerProps = transform(
+          { ...graph, events: [...graph.events] },
+          {
+            startDate,
+            endDate,
+            ids: nonEmptyArrayOr(ids, undefined),
+            eventType,
+            type,
+            count,
+            selectedActorIds,
+            selectedGroupIds,
+            selectedKeywordIds,
+          },
+        );
 
         return (
           <Box
@@ -199,8 +207,8 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Actors</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Actor.ACTORS.value)}
-                        onChange={handleRelationChange(Actor.ACTORS.value)}
+                        checked={relations.includes(Actor.ACTORS.Type)}
+                        onChange={handleRelationChange(Actor.ACTORS.Type)}
                       />
                     }
                   />
@@ -208,8 +216,8 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Groups</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Group.GROUPS.value)}
-                        onChange={handleRelationChange(Group.GROUPS.value)}
+                        checked={relations.includes(Group.GROUPS.Type)}
+                        onChange={handleRelationChange(Group.GROUPS.Type)}
                       />
                     }
                   />
@@ -217,8 +225,8 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Keywords</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Keyword.KEYWORDS.value)}
-                        onChange={handleRelationChange(Keyword.KEYWORDS.value)}
+                        checked={relations.includes(Keyword.KEYWORDS.Type)}
+                        onChange={handleRelationChange(Keyword.KEYWORDS.Type)}
                       />
                     }
                   />
@@ -275,7 +283,9 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
       startDate: query.startDate,
       eventType:
         query.eventType ??
-        (EventType.types.map((t) => t.value) as NonEmptyArray<EventType>),
+        (EventType.members.map(
+          (t) => t.literals[0],
+        ) as unknown as NonEmptyArray<EventType>),
       endDate: query.endDate,
       selectedActorIds: props.selectedActorIds ?? [],
       selectedGroupIds: props.selectedGroupIds ?? [],

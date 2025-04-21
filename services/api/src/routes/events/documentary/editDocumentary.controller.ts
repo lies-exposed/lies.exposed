@@ -3,7 +3,7 @@ import { DocumentaryIO } from "@liexp/backend/lib/io/event/documentary.io.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../../route.types.js";
@@ -21,7 +21,7 @@ export const MakeEditDocumentaryEventRoute: Route = (r, ctx) => {
         TE.chain((event) =>
           editEventQuery(event, {
             ...body,
-            type: EventTypes.DOCUMENTARY.value,
+            type: EVENT_TYPES.DOCUMENTARY,
             payload,
             media,
             keywords,

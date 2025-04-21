@@ -1,10 +1,10 @@
-import { fc } from "@liexp/test";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import {
   LinksList,
   type LinksListProps,
 } from "@liexp/ui/lib/components/lists/LinkList.js";
 import { type Meta, type StoryFn } from "@storybook/react";
+import fc from "fast-check";
 import * as React from "react";
 
 const meta: Meta = {

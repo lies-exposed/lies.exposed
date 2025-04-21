@@ -2,9 +2,9 @@ import {
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { fc } from "@liexp/test";
 import { TagArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { ColorArb } from "@liexp/test/lib/arbitrary/common/Color.arbitrary.js";
+import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -69,5 +69,13 @@ describe("Create Keyword", () => {
       });
 
     expect(response.status).toEqual(201);
+    expect(response.body.data).toEqual({
+      id: expect.any(String),
+      tag: expect.any(String),
+      color: expect.any(String),
+      socialPosts: [],
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String),
+    });
   });
 });

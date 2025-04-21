@@ -14,6 +14,7 @@ import {
 import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type ControllerError } from "../../io/ControllerError.js";
@@ -29,32 +30,36 @@ export const CreateEventRoute: Route = (r, ctx) => {
     Endpoints.Event.Create,
     ({ body }, req) => {
       return pipe(
-        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.value])(ctx),
+        RequestDecoder.decodeUserFromRequest(req, [AdminCreate.literals[0]])(
+          ctx,
+        ),
         TE.fromIOEither,
         TE.chain((u) =>
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
         ),
         TE.chain(
           (user): TE.TaskEither<ControllerError, { success: true } | Event> =>
-            EventFromURLBody.is(body)
+            Schema.is(EventFromURLBody)(body)
               ? pipe(
                   uuid(),
                   TE.right,
                   TE.chainFirst((id) =>
-                    ctx.queue.queue(OpenAICreateEventFromURLType.value).addJob({
-                      id,
-                      status: PendingStatus.value,
-                      type: OpenAICreateEventFromURLType.value,
-                      resource: EVENTS.value,
-                      error: null,
-                      question: null,
-                      result: null,
-                      prompt: null,
-                      data: {
-                        type: body.type,
-                        url: body.url,
-                      },
-                    }),
+                    ctx.queue
+                      .queue(OpenAICreateEventFromURLType.literals[0])
+                      .addJob({
+                        id,
+                        status: PendingStatus.literals[0],
+                        type: OpenAICreateEventFromURLType.literals[0],
+                        resource: EVENTS.literals[0],
+                        error: null,
+                        question: null,
+                        result: null,
+                        prompt: null,
+                        data: {
+                          type: body.type,
+                          url: body.url,
+                        },
+                      }),
                   ),
                   TE.map((id) => ({ success: true })),
                 )

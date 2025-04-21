@@ -40,7 +40,7 @@ const UncategorizedEventCreate: React.FC = (props) => {
           <UncategorizedEventEditTab />
           <TextInput
             source="type"
-            defaultValue={Events.EventTypes.UNCATEGORIZED.value}
+            defaultValue={Events.EventTypes.UNCATEGORIZED.Type}
             hidden={true}
           />
           <TextInput source="payload.title" validate={[required()]} />

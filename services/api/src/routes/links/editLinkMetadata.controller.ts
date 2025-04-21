@@ -17,7 +17,7 @@ export const MakeEditLinkMetadataRoute = (
   r: Router,
   ctx: ServerContext,
 ): void => {
-  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     UpdateMetadata,
     ({ params: { id } }) => {
       return pipe(

@@ -7,9 +7,9 @@ import {
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import { fc } from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
+import fc from "fast-check";
 import { getEventGraph, getRelationLinks } from "../createNetworkGraph.flow.js";
 
 const getLink = (
@@ -71,7 +71,7 @@ describe.skip("Create Network Graph", () => {
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev),
+        getLink(keywords[0], KEYWORDS.literals[0], ev),
       );
       expect(links).toMatchObject(expectedLinks);
     });
@@ -91,7 +91,7 @@ describe.skip("Create Network Graph", () => {
       const expectedLinks = new Map();
       expectedLinks.set(
         keywords[0].id,
-        getLink(keywords[0], KEYWORDS.value, ev),
+        getLink(keywords[0], KEYWORDS.literals[0], ev),
       );
       expectedLinks.set(keywords[1].id, []);
       expect(links).toMatchObject(expectedLinks);
@@ -171,7 +171,7 @@ describe.skip("Create Network Graph", () => {
         groups,
         keywords,
         media: [],
-        relations: [KEYWORDS.value],
+        relations: [KEYWORDS.Type],
         emptyRelations: false,
       });
 

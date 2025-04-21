@@ -1,14 +1,16 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 
 export const CreateEntityStatsPubSub = RedisPubSub(
   "stats:create-entity",
-  t.strict({
-    type: t.union([
-      t.literal("keywords"),
-      t.literal("groups"),
-      t.literal("actors"),
-    ]),
-    id: t.string,
-  }),
+  Schema.decodeUnknownEither(
+    Schema.Struct({
+      type: Schema.Union(
+        Schema.Literal("keywords"),
+        Schema.Literal("groups"),
+        Schema.Literal("actors"),
+      ),
+      id: Schema.String,
+    }),
+  ),
 );

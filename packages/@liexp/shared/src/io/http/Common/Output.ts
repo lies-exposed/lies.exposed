@@ -1,31 +1,24 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
 export interface Output<T> {
   data: T;
 }
 
-export const Output = <T extends t.Any>(
+export const Output = <T extends Schema.Schema.Any>(
   data: T,
-  name: string,
-): t.ExactType<t.TypeC<{ data: T }>> =>
-  t.strict(
-    {
-      data,
-    },
-    name,
-  );
+): Schema.Struct<{ data: T }> =>
+  Schema.Struct({
+    data,
+  });
 
-export const ListOutput = <T extends t.Any>(
+export const ListOutput = <T extends Schema.Schema.Any>(
   data: T,
   name: string,
-): t.ExactType<t.TypeC<{ data: t.ArrayC<T>; total: t.NumberC }>> =>
-  t.strict(
-    {
-      data: t.array(data),
-      total: t.number,
-    },
-    name,
-  );
+): Schema.Struct<{ data: Schema.Array$<T>; total: typeof Schema.Number }> =>
+  Schema.Struct({
+    data: Schema.Array(data),
+    total: Schema.Number,
+  }).annotations({ title: name });
 
 export interface ListOutput<T> {
   data: T[];

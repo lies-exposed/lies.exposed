@@ -72,7 +72,7 @@ export const userLogin = (): ClientContextRTE<string> => {
           ({ username, password }) =>
             (ctx: ClientContext) =>
               pipe(
-                ctx.endpointsRESTClient.Endpoints.User.Custom.UserLogin({
+                ctx.endpointsRESTClient.User.Custom.UserLogin({
                   Body: {
                     username: username,
                     password: password,

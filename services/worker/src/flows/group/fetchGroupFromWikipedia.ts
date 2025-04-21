@@ -38,7 +38,7 @@ export const fetchGroupFromWikipedia =
                 description: intro,
                 location: avatar,
                 thumbnail: undefined,
-                type: ImageType.types[0].value,
+                type: ImageType.members[0].literals[0],
                 extra: undefined,
                 events: [],
                 links: [],

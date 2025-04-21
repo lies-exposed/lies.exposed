@@ -1,4 +1,5 @@
 import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { Schema } from "effect";
 import * as React from "react";
 import {
   Button,
@@ -36,7 +37,7 @@ export const PublishNowButton: React.FC<{
   const missingTGResult = platforms.TG ? !record.result?.tg : true;
   const missingIGResult = platforms.IG ? !record.result?.ig : true;
   const needPublishing = missingIGResult || missingTGResult;
-  if (TO_PUBLISH.is(record.status) || needPublishing) {
+  if (Schema.is(TO_PUBLISH)(record.status) || needPublishing) {
     return (
       <Button
         label="Publish now"

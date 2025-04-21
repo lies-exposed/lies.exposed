@@ -14,7 +14,7 @@ export const findByURL = <C extends DatabaseContext>(
     DBService.execQuery((em) =>
       em
         .createQueryBuilder(EventV2Entity, "event")
-        .where("type = :type", { type: SCIENTIFIC_STUDY.value })
+        .where("type = :type", { type: SCIENTIFIC_STUDY.literals[0] })
         .where("payload::jsonb ->> 'url' = :url", {
           url,
         })

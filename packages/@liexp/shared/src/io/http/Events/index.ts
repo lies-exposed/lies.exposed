@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { type Actor } from "../Actor.js";
 import { type Area } from "../Area.js";
 import { URL, type UUID } from "../Common/index.js";
@@ -32,7 +32,9 @@ export interface EventListMap {
   Transaction: Transaction.Transaction[];
 }
 
-export const EventMap: { [key in Event["type"]]: t.Mixed } = {
+export const EventMap: {
+  [key in Event["type"]]: Schema.Any;
+} = {
   Book: Book.Book,
   Death: Death.Death,
   Patent: Patent.Patent,
@@ -43,107 +45,104 @@ export const EventMap: { [key in Event["type"]]: t.Mixed } = {
   Quote: Quote.Quote,
 };
 
-export const EventPayload = t.union(
-  [
-    Book.BookPayload,
-    Death.DeathPayload,
-    Patent.PatentPayload,
-    ScientificStudy.ScientificStudyPayload,
-    Uncategorized.UncategorizedV2Payload,
-    Documentary.DocumentaryPayload,
-    Transaction.TransactionPayload,
-    Quote.QuotePayload,
-  ],
-  "EventPayload",
-);
+export const EventPayload = Schema.Union(
+  Book.BookPayload,
+  Death.DeathPayload,
+  Patent.PatentPayload,
+  ScientificStudy.ScientificStudyPayload,
+  Uncategorized.UncategorizedV2Payload,
+  Documentary.DocumentaryPayload,
+  Transaction.TransactionPayload,
+  Quote.QuotePayload,
+).annotations({
+  title: "EventPayload",
+});
 
-export type EventPayload = t.TypeOf<typeof EventPayload>;
+export type EventPayload = typeof EventPayload.Type;
 
-export const EventFromURLBody = t.strict(
-  {
-    url: URL,
-    type: EventType,
-  },
-  "EventFromURLBody",
-);
+export const EventFromURLBody = Schema.Struct({
+  url: URL,
+  type: EventType,
+}).annotations({
+  title: "EventFromURLBody",
+});
 
-export type EventFromURLBody = t.TypeOf<typeof EventFromURLBody>;
+export type EventFromURLBody = typeof EventFromURLBody.Type;
 
-export const CreateEventPlainBody = t.union(
-  [
-    Book.CreateBookBody,
-    Death.CreateDeathBody,
-    Patent.CreatePatentBody,
-    ScientificStudy.CreateScientificStudyBody,
-    Uncategorized.CreateEventBody,
-    Documentary.CreateDocumentaryBody,
-    Transaction.CreateTransactionBody,
-    Quote.CreateQuoteBody,
-  ],
-  "CreateEventPlainBody",
-);
-export type CreateEventPlainBody = t.TypeOf<typeof CreateEventPlainBody>;
+export const CreateEventPlainBody = Schema.Union(
+  Book.CreateBookBody,
+  Death.CreateDeathBody,
+  Patent.CreatePatentBody,
+  ScientificStudy.CreateScientificStudyBody,
+  Uncategorized.CreateEventBody,
+  Documentary.CreateDocumentaryBody,
+  Transaction.CreateTransactionBody,
+  Quote.CreateQuoteBody,
+).annotations({
+  title: "CreateEventPlainBody",
+});
+export type CreateEventPlainBody = typeof CreateEventPlainBody.Type;
 
-export const CreateEventBody = t.union(
-  [EventFromURLBody, ...CreateEventPlainBody.types],
-  "CreateEventBody",
-);
+export const CreateEventBody = Schema.Union(
+  EventFromURLBody,
+  ...CreateEventPlainBody.members,
+).annotations({
+  title: "CreateEventBody",
+});
 
-export type CreateEventBody = t.TypeOf<typeof CreateEventBody>;
+export type CreateEventBody = typeof CreateEventBody.Type;
 
-export const EditEventBody = t.union(
-  [
-    Book.EditBookBody,
-    Death.EditDeathBody,
-    Patent.EditPatentBody,
-    ScientificStudy.EditScientificStudyBody,
-    Uncategorized.EditEventBody,
-    Documentary.EditDocumentaryBody,
-    Transaction.EditTransactionBody,
-    Quote.EditQuoteBody,
-  ],
-  "EditEventBody",
-);
+export const EditEventBody = Schema.Union(
+  Book.EditBookBody,
+  Death.EditDeathBody,
+  Patent.EditPatentBody,
+  ScientificStudy.EditScientificStudyBody,
+  Uncategorized.EditEventBody,
+  Documentary.EditDocumentaryBody,
+  Transaction.EditTransactionBody,
+  Quote.EditQuoteBody,
+).annotations({
+  title: "EditEventBody",
+});
 
-export type EditEventBody = t.TypeOf<typeof EditEventBody>;
+export type EditEventBody = typeof EditEventBody.Type;
 
-export const Event = t.union(
-  [
-    Book.Book,
-    Death.Death,
-    ScientificStudy.ScientificStudy,
-    Uncategorized.Uncategorized,
-    Patent.Patent,
-    Documentary.Documentary,
-    Transaction.Transaction,
-    Quote.Quote,
-  ],
-  "EventV2",
-);
+export const Event = Schema.Union(
+  Book.Book,
+  Death.Death,
+  ScientificStudy.ScientificStudy,
+  Uncategorized.Uncategorized,
+  Patent.Patent,
+  Documentary.Documentary,
+  Transaction.Transaction,
+  Quote.Quote,
+).annotations({
+  title: "EventV2",
+});
 
-export type Event = t.TypeOf<typeof Event>;
+export type Event = typeof Event.Type;
 
-const EVENTS = t.literal("events");
-type EVENTS = t.TypeOf<typeof EVENTS>;
+const EVENTS = Schema.Literal("events");
+type EVENTS = typeof EVENTS.Type;
 
 interface EventRelationIds {
-  actors: UUID[];
-  areas: UUID[];
-  groups: UUID[];
-  groupsMembers: UUID[];
-  keywords: UUID[];
-  media: UUID[];
-  links: UUID[];
+  actors: readonly UUID[];
+  areas: readonly UUID[];
+  groups: readonly UUID[];
+  groupsMembers: readonly UUID[];
+  keywords: readonly UUID[];
+  media: readonly UUID[];
+  links: readonly UUID[];
 }
 
 interface EventRelations {
-  actors: Actor[];
-  groups: Group[];
-  groupsMembers: GroupMember[];
-  keywords: Keyword[];
-  media: Media[];
-  links: Link[];
-  areas: Area[];
+  actors: readonly Actor[];
+  groups: readonly Group[];
+  groupsMembers: readonly GroupMember[];
+  keywords: readonly Keyword[];
+  media: readonly Media[];
+  links: readonly Link[];
+  areas: readonly Area[];
 }
 
 export {

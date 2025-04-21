@@ -1,13 +1,11 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { URLArb } from "./URL.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-const mediaProps = propsOmit(http.Media.Media, [
+const mediaProps = http.Media.Media.omit(
   "id",
   "type",
   "location",
@@ -23,15 +21,15 @@ const mediaProps = propsOmit(http.Media.Media, [
   "areas",
   "featuredInStories",
   "socialPosts",
-]);
+);
 
 export const placeKitten = (): URL => {
   const [width, height] = fc.sample(fc.nat({ max: 3000 }), 2);
   return `https://placekitten.com/${width}/${height}` as URL;
 };
 
-export const MediaArb: fc.Arbitrary<http.Media.Media> = getArbitrary(
-  t.strict(mediaProps),
+export const MediaArb: fc.Arbitrary<http.Media.Media> = Arbitrary.make(
+  mediaProps,
 ).chain((props) =>
   fc
     .record({
@@ -46,7 +44,7 @@ export const MediaArb: fc.Arbitrary<http.Media.Media> = getArbitrary(
         keywords: [],
         featuredInStories: [],
         areas: [],
-        type: http.Media.PngType.value,
+        type: http.Media.PngType.literals[0],
         creator: undefined,
         extra: undefined,
         socialPosts: undefined,

@@ -6,6 +6,7 @@ import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { Schema } from "effect";
 import type TelegramBot from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { fetchGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
@@ -29,7 +30,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
     return pipe(
       EntityFromWikipediaService({
         search: match[1],
-        type: GROUPS.value,
+        type: GROUPS.literals[0],
         chatId: msg.chat.id,
         fromId: msg.from?.id,
         getIdentifier: getUsernameFromDisplayName,
@@ -43,7 +44,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
                 GroupRepository.save([
                   {
                     ...g,
-                    avatar: UUID.is(g.avatar)
+                    avatar: Schema.is(UUID)(g.avatar)
                       ? {
                           id: g.avatar,
                         }

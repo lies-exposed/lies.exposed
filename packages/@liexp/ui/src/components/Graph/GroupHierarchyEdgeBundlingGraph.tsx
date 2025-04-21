@@ -20,7 +20,7 @@ export const GroupHierarchyEdgeBundlingGraph: React.FC<
       queries={(Q) => ({
         graph: Q.Networks.Custom.GetHierarchyNetwork.useQuery(
           {
-            type: StatsType.types[2].value,
+            type: StatsType.members[2].literals[0],
           },
           {
             filter: {

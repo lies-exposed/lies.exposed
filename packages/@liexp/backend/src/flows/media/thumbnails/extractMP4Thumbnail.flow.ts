@@ -34,7 +34,7 @@ const takeVideoScreenshots =
   }): ReaderTaskEither<
     C,
     ServerError,
-    Array<{ key: string; thumbnailName: string }>
+    ReadonlyArray<{ key: string; thumbnailName: string }>
   > =>
   (ctx) => {
     return pipe(
@@ -59,7 +59,7 @@ const takeVideoScreenshots =
               "media",
               media.id,
               thumbnailName.replace(".png", ""),
-              PngType.value,
+              PngType.literals[0],
             );
 
             ctx.logger.debug.log("Thumbnail key %s", key);
@@ -85,7 +85,7 @@ export const extractMP4Thumbnail = <
     FFMPEGProviderContext,
 >(
   media: SimpleMP4Media,
-): ReaderTaskEither<C, ServerError, ArrayBuffer[]> => {
+): ReaderTaskEither<C, ServerError, readonly ArrayBuffer[]> => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("tempVideoFilePath", () =>
@@ -119,7 +119,9 @@ export const extractMP4Thumbnail = <
     }),
     fp.RTE.bind(
       "buffers",
-      ({ screenshots }): ReaderTaskEither<C, ServerError, ArrayBuffer[]> => {
+      ({
+        screenshots,
+      }): ReaderTaskEither<C, ServerError, readonly ArrayBuffer[]> => {
         return pipe(
           screenshots,
           fp.A.traverse(TE.ApplicativePar)((screenshot) => {

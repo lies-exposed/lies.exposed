@@ -14,7 +14,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString";
+import { Schema } from 'effect';
 import { TotalsReporter } from "../reporters/TotalReporter";
 import { VaccineEntry } from "../types";
 import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";
@@ -22,82 +22,82 @@ import { computeTotals, reduceToDateEntry } from "../utils/parse.utils";
 const log = GetLogger("parse-vaers-data");
 const csvUtils = GetCSVUtil({ log });
 
-const Pfizer = t.literal("PFIZER\\BIONTECH");
-const Moderna = t.literal("MODERNA");
-const Janssen = t.literal("JANSSEN");
-const Astrazenenca = t.literal("ASTRAZENECA");
-const Manufacturer = t.union(
-  [Pfizer, Moderna, Janssen, Astrazenenca, t.any],
+const Pfizer = Schema.Literal("PFIZER\\BIONTECH");
+const Moderna = Schema.Literal("MODERNA");
+const Janssen = Schema.Literal("JANSSEN");
+const Astrazenenca = Schema.Literal("ASTRAZENECA");
+const Manufacturer = Schema.Union(
+  [Pfizer, Moderna, Janssen, Astrazenenca, Schema.Any],
   "Manufacturer"
 );
 type Manufacturer = t.TypeOf<typeof Manufacturer>;
 
-export const VAERSVax = t.strict(
+export const VAERSVax = Schema.Struct(
   {
-    VAERS_ID: t.string,
-    VAX_TYPE: t.string,
+    VAERS_ID: Schema.String,
+    VAX_TYPE: Schema.String,
     VAX_MANU: Manufacturer,
-    VAX_LOT: t.string,
-    VAX_DOSE_SERIES: t.string,
-    VAX_ROUTE: t.string,
-    VAX_SITE: t.string,
-    VAX_NAME: t.string,
+    VAX_LOT: Schema.String,
+    VAX_DOSE_SERIES: Schema.String,
+    VAX_ROUTE: Schema.String,
+    VAX_SITE: Schema.String,
+    VAX_NAME: Schema.String,
   },
   "VAERSVAX"
 );
 export type VAERSVax = t.TypeOf<typeof VAERSVax>;
 
-export const VAERSSymptom = t.strict(
+export const VAERSSymptom = Schema.Struct(
   {
-    VAERS_ID: t.string,
-    SYMPTOM1: t.string,
-    SYMPTOM2: t.string,
-    SYMPTOM3: t.string,
-    SYMPTOM4: t.string,
-    SYMPTOM5: t.string,
+    VAERS_ID: Schema.String,
+    SYMPTOM1: Schema.String,
+    SYMPTOM2: Schema.String,
+    SYMPTOM3: Schema.String,
+    SYMPTOM4: Schema.String,
+    SYMPTOM5: Schema.String,
   },
   "VAERSSymptom"
 );
 
 export type VAERSSymptom = t.TypeOf<typeof VAERSSymptom>;
 
-export const VAERSData = t.strict(
+export const VAERSData = Schema.Struct(
   {
-    VAERS_ID: t.union([t.undefined, t.string]),
-    RECVDATE: t.union([t.undefined, t.string]),
-    STATE: t.union([t.undefined, t.string]),
-    AGE_YRS: t.union([t.undefined, NumberFromString]),
-    CAGE_YR: t.union([t.undefined, t.string]),
-    CAGE_MO: t.union([t.undefined, t.string]),
-    SEX: t.union([t.undefined, t.string]),
-    RPT_DATE: t.union([t.undefined, t.string]),
-    SYMPTOM_TEXT: t.union([t.undefined, t.string]),
-    DIED: t.union([t.undefined, t.string]),
-    DATEDIED: t.union([t.undefined, t.string]),
-    L_THREAD: t.union([t.undefined, t.string]),
-    ER_VISIT: t.union([t.undefined, t.string]),
-    HOSPITAL: t.union([t.undefined, t.string]),
-    HOSPDAYS: t.union([t.undefined, t.string]),
-    X_STAY: t.union([t.undefined, t.string]),
-    DISABLE: t.union([t.undefined, t.string]),
-    RECOVD: t.union([t.undefined, t.string]),
-    VAX_DATE: t.union([t.undefined, t.string]),
-    ONSET_DATE: t.union([t.undefined, t.string]),
-    NUMDAYS: t.union([t.undefined, t.string]),
-    V_ADMINBY: t.union([t.undefined, t.string]),
-    LAB_DATA: t.union([t.undefined, t.string]),
-    V_FUNDBY: t.union([t.undefined, t.string]),
-    OTHER_MEDS: t.union([t.undefined, t.string]),
-    CUR_ILL: t.union([t.undefined, t.string]),
-    HISTORY: t.union([t.undefined, t.string]),
-    PRIOR_VAX: t.union([t.undefined, t.string]),
-    SPLITTYPE: t.union([t.undefined, t.string]),
-    FORM_VERS: t.union([t.undefined, t.string]),
-    TODAYS_DATE: t.union([t.undefined, t.string]),
-    BIRTH_DEFECT: t.union([t.undefined, t.string]),
-    OFC_VISIT: t.union([t.undefined, t.string]),
-    ER_ED_VISIT: t.union([t.undefined, t.string]),
-    ALLERGIES: t.union([t.undefined, t.string]),
+    VAERS_ID: Schema.Union([Schema.Undefined, Schema.String]),
+    RECVDATE: Schema.Union([Schema.Undefined, Schema.String]),
+    STATE: Schema.Union([Schema.Undefined, Schema.String]),
+    AGE_YRS: Schema.Union([Schema.Undefined, NumberFromString]),
+    CAGE_YR: Schema.Union([Schema.Undefined, Schema.String]),
+    CAGE_MO: Schema.Union([Schema.Undefined, Schema.String]),
+    SEX: Schema.Union([Schema.Undefined, Schema.String]),
+    RPT_DATE: Schema.Union([Schema.Undefined, Schema.String]),
+    SYMPTOM_TEXT: Schema.Union([Schema.Undefined, Schema.String]),
+    DIED: Schema.Union([Schema.Undefined, Schema.String]),
+    DATEDIED: Schema.Union([Schema.Undefined, Schema.String]),
+    L_THREAD: Schema.Union([Schema.Undefined, Schema.String]),
+    ER_VISIT: Schema.Union([Schema.Undefined, Schema.String]),
+    HOSPITAL: Schema.Union([Schema.Undefined, Schema.String]),
+    HOSPDAYS: Schema.Union([Schema.Undefined, Schema.String]),
+    X_STAY: Schema.Union([Schema.Undefined, Schema.String]),
+    DISABLE: Schema.Union([Schema.Undefined, Schema.String]),
+    RECOVD: Schema.Union([Schema.Undefined, Schema.String]),
+    VAX_DATE: Schema.Union([Schema.Undefined, Schema.String]),
+    ONSET_DATE: Schema.Union([Schema.Undefined, Schema.String]),
+    NUMDAYS: Schema.Union([Schema.Undefined, Schema.String]),
+    V_ADMINBY: Schema.Union([Schema.Undefined, Schema.String]),
+    LAB_DATA: Schema.Union([Schema.Undefined, Schema.String]),
+    V_FUNDBY: Schema.Union([Schema.Undefined, Schema.String]),
+    OTHER_MEDS: Schema.Union([Schema.Undefined, Schema.String]),
+    CUR_ILL: Schema.Union([Schema.Undefined, Schema.String]),
+    HISTORY: Schema.Union([Schema.Undefined, Schema.String]),
+    PRIOR_VAX: Schema.Union([Schema.Undefined, Schema.String]),
+    SPLITTYPE: Schema.Union([Schema.Undefined, Schema.String]),
+    FORM_VERS: Schema.Union([Schema.Undefined, Schema.String]),
+    TODAYS_DATE: Schema.Union([Schema.Undefined, Schema.String]),
+    BIRTH_DEFECT: Schema.Union([Schema.Undefined, Schema.String]),
+    OFC_VISIT: Schema.Union([Schema.Undefined, Schema.String]),
+    ER_ED_VISIT: Schema.Union([Schema.Undefined, Schema.String]),
+    ALLERGIES: Schema.Union([Schema.Undefined, Schema.String]),
   },
   "VAERSData"
 );

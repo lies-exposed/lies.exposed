@@ -1,11 +1,12 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { User } from "@liexp/shared/lib/io/http/User.js";
+import { User, type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { IOError } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import * as IO from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import jwt from "jsonwebtoken";
-import { IOError } from "ts-io-error";
 
 export class JWTError extends IOError {
   name = "JWTError";
@@ -34,7 +35,7 @@ export const toError =
   };
 
 export interface JWTProvider {
-  signUser: (user: User) => IO.IO<string>;
+  signUser: (user: UserEncoded) => IO.IO<string>;
   verifyUser: (string: string) => IOE.IOEither<JWTError, User>;
 }
 
@@ -45,7 +46,7 @@ export interface JWTClientContext {
 
 export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
   return {
-    signUser: (user: User) => {
+    signUser: (user: UserEncoded) => {
       // ctx.logger.debug.log("Signing payload %O", user);
       return IO.of(
         jwt.sign(user, ctx.secret, {
@@ -60,7 +61,9 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
         IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
         IOE.chain((result) =>
           pipe(
-            IOE.fromEither(fromValidationErrors(User.decode(result))),
+            IOE.fromEither(
+              fromValidationErrors(Schema.decodeUnknownEither(User)(result)),
+            ),
             IOE.mapLeft(toError(ctx.logger)({})),
           ),
         ),

@@ -1,7 +1,7 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { TransactionIO } from "@liexp/backend/lib/io/event/transaction.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -37,7 +37,7 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
         fetchOwnersTask,
         TE.chain(({ from, to }) =>
           createEventQuery({
-            type: TRANSACTION.value,
+            type: TRANSACTION.literals[0],
             ...body,
             payload: {
               ...payload,
@@ -62,7 +62,7 @@ export const MakeCreateTransactionEventRoute: Route = (r, ctx) => {
             loadRelationIds: true,
           }),
         ),
-        TE.chainEitherK(EventV2IO.decodeSingle),
+        TE.chainEitherK(TransactionIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

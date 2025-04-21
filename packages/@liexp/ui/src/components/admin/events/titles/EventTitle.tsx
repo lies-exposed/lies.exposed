@@ -1,4 +1,5 @@
-import { http } from "@liexp/shared/lib/io/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type http } from "@liexp/shared/lib/io/index.js";
 import * as React from "react";
 import { type FieldProps, useRecordContext } from "../../react-admin.js";
 import { BookTitle } from "./BookTitle.js";
@@ -23,29 +24,29 @@ export const EventTitle: React.FC<EventTitleProps> = ({
   const record = _record ?? useRecordContext<http.Events.Event>();
   if (record?.payload) {
     switch (record.type) {
-      case http.Events.EventTypes.UNCATEGORIZED.value:
+      case EVENT_TYPES.UNCATEGORIZED:
         return <UncategorizedEventTitle {...{ ...props, source, record }} />;
-      case http.Events.EventTypes.SCIENTIFIC_STUDY.value:
+      case EVENT_TYPES.SCIENTIFIC_STUDY:
         return <ScientificStudyEventTitle {...{ ...props, source, record }} />;
-      case http.Events.EventTypes.DEATH.value:
+      case EVENT_TYPES.DEATH:
         return (
           <DeathEventTitle {...{ ...props, source: source as any, record }} />
         );
-      case http.Events.EventTypes.PATENT.value:
+      case EVENT_TYPES.PATENT:
         return (
           <PatentEventTitle {...{ ...props, source: source as any, record }} />
         );
-      case http.Events.EventTypes.DOCUMENTARY.value:
+      case EVENT_TYPES.DOCUMENTARY:
         return (
           <DocumentaryReleaseTitle
             {...{ ...props, source: source as any, record }}
           />
         );
-      case http.Events.EventTypes.TRANSACTION.value:
+      case EVENT_TYPES.TRANSACTION:
         return <TransactionTitle {...props} record={record} />;
-      case http.Events.EventTypes.QUOTE.value:
+      case EVENT_TYPES.QUOTE:
         return <QuoteTitle {...{ ...props, source: source as any, record }} />;
-      case http.Events.EventTypes.BOOK.value:
+      case EVENT_TYPES.BOOK:
         return <BookTitle {...{ ...props, source: source as any, record }} />;
     }
   }

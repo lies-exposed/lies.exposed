@@ -3,15 +3,15 @@ import { type WhereExpressionBuilder } from "typeorm";
 export interface EventQueryConfig {
   whereActorsIn: (
     qb: WhereExpressionBuilder,
-    actorIds: string[],
+    actorIds: readonly string[],
   ) => WhereExpressionBuilder;
   whereGroupsIn: (
     qb: WhereExpressionBuilder,
-    groupIds: string[],
+    groupIds: readonly string[],
   ) => WhereExpressionBuilder;
   whereMediaIn: (
     qb: WhereExpressionBuilder,
-    mediaIds: string[],
+    mediaIds: readonly string[],
   ) => WhereExpressionBuilder;
   whereTitleIn: (qb: WhereExpressionBuilder) => string;
 }

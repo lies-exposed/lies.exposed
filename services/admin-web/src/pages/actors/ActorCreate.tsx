@@ -2,7 +2,6 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -24,10 +23,11 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
+import { Schema } from "effect";
 import { toError } from "fp-ts/lib/Either";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function";
-import * as t from "io-ts";
 import * as React from "react";
 
 export const transformActor =
@@ -51,7 +51,7 @@ export const transformActor =
           );
         }
 
-        if (t.string.is(data.avatar)) {
+        if (Schema.is(Schema.String)(data.avatar)) {
           return fp.TE.right([
             {
               location: data.avatar as URL,
@@ -63,7 +63,7 @@ export const transformActor =
         return fp.TE.right([data.avatar]);
       }),
       fp.TE.bind("avatarMedia", ({ avatar }) => {
-        if (UUID.is(avatar[0].id)) {
+        if (Schema.is(UUID)(avatar[0].id)) {
           return fp.TE.right({ id: avatar[0].id });
         }
         return pipe(

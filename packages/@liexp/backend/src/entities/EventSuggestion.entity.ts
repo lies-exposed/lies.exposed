@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,
@@ -16,14 +17,16 @@ import { UserEntity } from "./User.entity.js";
 export class EventSuggestionEntity {
   @PrimaryGeneratedColumn("uuid")
   @Index()
-  id: string;
+  id: UUID;
 
   @Column({ type: "json", nullable: true })
-  payload: http.EventSuggestion.EventSuggestion;
+  payload: http.EventSuggestion.CreateEventSuggestion;
 
   @Column({
     type: "enum",
-    enum: http.EventSuggestion.EventSuggestionStatus.types.map((t) => t.value),
+    enum: http.EventSuggestion.EventSuggestionStatus.members.map(
+      (t) => t.literals[0],
+    ),
   })
   status: http.EventSuggestion.EventSuggestionStatus;
 

@@ -19,7 +19,7 @@ import { extractThumbnail } from "./extractThumbnail.flow.js";
 
 const uploadThumbnails = <C extends SpaceContext & ENVContext>(
   thumbnails: PutObjectCommandInput[],
-): ReaderTaskEither<C, SpaceError, URL[]> =>
+): ReaderTaskEither<C, SpaceError, readonly URL[]> =>
   pipe(
     thumbnails,
     fp.A.traverse(fp.RTE.ApplicativePar)((thumbnail) =>
@@ -49,6 +49,6 @@ export const createThumbnail = <
     SpaceContext,
 >(
   media: SimpleMedia,
-): ReaderTaskEither<C, SpaceError, URL[]> => {
+): ReaderTaskEither<C, SpaceError, readonly URL[]> => {
   return pipe(extractThumbnail<C>(media), fp.RTE.chain(uploadThumbnails<C>));
 };

@@ -19,8 +19,8 @@ export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
  * @returns
  */
 export const separateTE = <E, A>(
-  tasks: TE.TaskEither<E, A>[],
-): T.Task<{ left: E[]; right: A[] }> => {
+  tasks: readonly TE.TaskEither<E, A>[],
+): T.Task<{ left: readonly E[]; right: readonly A[] }> => {
   return pipe(
     tasks,
     fp.A.traverse(T.ApplicativeSeq)((te) =>

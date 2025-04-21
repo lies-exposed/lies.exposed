@@ -1,33 +1,30 @@
-import * as t from "io-ts";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { ACTORS } from "../io/http/Actor.js";
 import { GROUPS } from "../io/http/Group.js";
 import { ValidContentType } from "../io/http/Media/MediaType.js";
 
-export const UploadResource = t.union(
-  [
-    ACTORS,
-    GROUPS,
-    t.literal("stories"),
-    t.literal("media"),
-    t.literal("projects"),
-    t.literal("areas"),
-  ],
-  "UploadResource",
-);
+export const UploadResource = Schema.Union(
+  ACTORS,
+  GROUPS,
+  Schema.Literal("stories"),
+  Schema.Literal("media"),
+  Schema.Literal("projects"),
+  Schema.Literal("areas"),
+).annotations({ title: "UploadResource" });
 
-export type UploadResource = t.TypeOf<typeof UploadResource>;
+export type UploadResource = typeof UploadResource.Type;
 
 export const GetSignedURL = Endpoint({
   Method: "POST",
   getPath: () => `/uploads/getSignedURL`,
   Input: {
-    Body: t.strict({
+    Body: Schema.Struct({
       resource: UploadResource,
-      resourceId: t.string,
+      resourceId: Schema.String,
       ContentType: ValidContentType,
-      ContentLength: t.number,
+      ContentLength: Schema.Number,
     }),
   },
-  Output: t.strict({ data: t.strict({ url: t.string }) }),
+  Output: Schema.Struct({ data: Schema.Struct({ url: Schema.String }) }),
 });

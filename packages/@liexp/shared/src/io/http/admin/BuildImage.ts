@@ -1,75 +1,69 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Color, MaybeURL } from "../Common/index.js";
 
-const CommonImageLayerProps = t.strict(
-  {
-    blend: t.string,
-    gravity: t.string,
-    width: t.union([t.number, t.undefined]),
-    height: t.union([t.number, t.undefined]),
-    background: t.union([Color, t.undefined]),
-  },
-  "CommonLayerProps",
-);
+const CommonImageLayerProps = Schema.Struct({
+  blend: Schema.String,
+  gravity: Schema.String,
+  width: Schema.Union(Schema.Number, Schema.Undefined),
+  height: Schema.Union(Schema.Number, Schema.Undefined),
+  background: Schema.Union(Color, Schema.Undefined),
+}).annotations({
+  title: "CommonLayerProps",
+});
 
-export const MediaImageLayerProps = t.strict(
-  {
-    type: t.literal("media"),
-    url: MaybeURL,
-  },
-  "MediaImageLayerProps",
-);
+export const MediaImageLayerProps = Schema.Struct({
+  type: Schema.Literal("media"),
+  url: MaybeURL,
+}).annotations({ title: "MediaImageLayerProps" });
 
-export type MediaImageLayerProps = t.TypeOf<typeof MediaImageLayerProps>;
+export type MediaImageLayerProps = typeof MediaImageLayerProps.Type;
 
-export const MediaImageLayer = t.strict(
-  {
-    ...MediaImageLayerProps.type.props,
-    ...CommonImageLayerProps.type.props,
-  },
-  "MediaImageLayer",
-);
+export const MediaImageLayer = Schema.extend(
+  MediaImageLayerProps,
+  CommonImageLayerProps,
+).annotations({
+  title: "MediaImageLayer",
+});
 
-export type MediaImageLayer = t.TypeOf<typeof MediaImageLayer>;
+export type MediaImageLayer = typeof MediaImageLayer.Type;
 
-export const TextLayerProps = t.strict(
-  {
-    type: t.literal("text"),
-    text: t.string,
-    color: t.union([Color, t.undefined]),
-  },
-  "TextLayer",
-);
-export type TextLayerProps = t.TypeOf<typeof TextLayerProps>;
+export const TextLayerProps = Schema.Struct({
+  type: Schema.Literal("text"),
+  text: Schema.String,
+  color: Schema.Union(Color, Schema.Undefined),
+}).annotations({
+  title: "TextLayerProps",
+});
+export type TextLayerProps = typeof TextLayerProps.Type;
 
-export const TextLayer = t.strict(
-  {
-    ...TextLayerProps.type.props,
-    ...CommonImageLayerProps.type.props,
-  },
-  "TextLayer",
-);
-export type TextLayer = t.TypeOf<typeof TextLayer>;
+export const TextLayer = Schema.extend(
+  TextLayerProps,
+  CommonImageLayerProps,
+).annotations({
+  title: "TextLayer",
+});
+export type TextLayer = typeof TextLayer.Type;
 
-export const WatermarkLayerProps = t.strict(
-  {
-    type: t.literal("watermark"),
-  },
-  "WaterMarkLayerProps",
-);
-export type WatermarkLayerProps = t.TypeOf<typeof WatermarkLayerProps>;
+export const WatermarkLayerProps = Schema.Struct({
+  type: Schema.Literal("watermark"),
+}).annotations({
+  title: "WaterMarkLayerProps",
+});
+export type WatermarkLayerProps = typeof WatermarkLayerProps.Type;
 
-export const WatermarkLayer = t.strict(
-  {
-    ...WatermarkLayerProps.type.props,
-    ...CommonImageLayerProps.type.props,
-  },
-  "WaterMarkLayer",
-);
-export type WatermarkLayer = t.TypeOf<typeof WatermarkLayer>;
+export const WatermarkLayer = Schema.extend(
+  WatermarkLayerProps,
+  CommonImageLayerProps,
+).annotations({
+  title: "WaterMarkLayer",
+});
+export type WatermarkLayer = typeof WatermarkLayer.Type;
 
-export const BuildImageLayer = t.union(
-  [TextLayer, MediaImageLayer, WatermarkLayer],
-  "BuildImageLayer",
-);
-export type BuildImageLayer = t.TypeOf<typeof BuildImageLayer>;
+export const BuildImageLayer = Schema.Union(
+  TextLayer,
+  MediaImageLayer,
+  WatermarkLayer,
+).annotations({
+  title: "BuildImageLayer",
+});
+export type BuildImageLayer = typeof BuildImageLayer.Type;

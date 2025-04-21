@@ -1,50 +1,49 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { Endpoint } from "ts-endpoint";
-import { ResourceEndpoints } from "./types.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { UUID } from "../io/http/Common/UUID.js";
 
 export const ListHealthcheck = Endpoint({
   Method: "GET",
   getPath: () => "/healthcheck",
   Input: undefined,
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const GetHealthcheck = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/healthcheck/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const CreateHealthcheck = Endpoint({
   Method: "POST",
   getPath: () => `/healthcheck`,
   Input: {
-    Body: t.unknown,
+    Body: Schema.Unknown,
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const EditPage = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/healthcheck/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.unknown,
+    Params: Schema.Struct({ id: UUID }),
+    Body: Schema.Unknown,
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const DeleteHealthcheck = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/healthcheck/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.unknown,
+  Output: Schema.Unknown,
 });
 
 export const healthcheck = ResourceEndpoints({

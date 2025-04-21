@@ -5,10 +5,11 @@ import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { ProjectArb } from "@liexp/test/lib/arbitrary/Project.arbitrary.js";
+import { Schema } from "effect";
+import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -70,9 +71,9 @@ describe.skip("Edit Project ", () => {
 
     expect(response.status).toEqual(200);
 
-    expect(http.Project.Project.decode(response.body.data)._tag).toEqual(
-      "Right",
-    );
+    expect(
+      Schema.decodeUnknownEither(http.Project.Project)(response.body.data)._tag,
+    ).toEqual("Right");
 
     const { updatedAt, ...receivedBody } = response.body.data;
     const { updatedAt: _, deletedAt: _deletedAt, ...expectedBody } = project;
@@ -107,7 +108,7 @@ describe.skip("Edit Project ", () => {
 
     expect(response.status).toEqual(200);
     const body = response.body.data;
-    const decodedBody = http.Project.Project.decode(body);
+    const decodedBody = Schema.decodeUnknownEither(http.Project.Project)(body);
     expect(decodedBody._tag).toEqual("Right");
 
     const { updatedAt, ...receivedBody } = response.body.data;

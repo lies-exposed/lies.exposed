@@ -1,10 +1,11 @@
-import * as t from "io-ts";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Queue from "../io/http/Queue/index.js";
-import { ResourceEndpoints } from "./types.js";
 
-const SingleQueueOutput = Output(Queue.Queue, "Queue");
+const SingleQueueOutput = Output(Queue.Queue).annotations({
+  title: "SingleQueueOutput",
+});
 
 export const List = Endpoint({
   Method: "GET",
@@ -19,7 +20,7 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: ({ type, resource }) => `/queues/${type}/${resource}`,
   Input: {
-    Params: t.type({
+    Params: Schema.Struct({
       resource: Queue.QueueResourceNames,
       type: Queue.QueueTypes,
     }),

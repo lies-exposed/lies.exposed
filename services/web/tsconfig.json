@@ -2,9 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "build",
-    "module": "ESNext",
     "target": "ES6",
-    "moduleResolution": "Node",
     "jsx": "react-jsx",
     "noEmit": false,
     "strict": true,

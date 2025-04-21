@@ -11,7 +11,7 @@ interface GroupMembersBoxProps {
 }
 
 export const GroupMembersList: React.FC<{
-  groupsMembers: GroupMember.GroupMember[];
+  groupsMembers: readonly GroupMember.GroupMember[];
   onItemClick: (g: GroupMember.GroupMember) => void;
   style?: React.CSSProperties;
 }> = ({ groupsMembers, ...props }) => {

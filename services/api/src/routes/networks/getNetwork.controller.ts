@@ -34,14 +34,14 @@ export const MakeGetNetworkRoute: Route = (r, ctx) => {
 
       const ids = pipe(
         query.ids,
-        fp.O.getOrElse((): UUID[] => []),
+        fp.O.getOrElse((): readonly UUID[] => []),
       );
 
-      return createNetworkGraph(type, ids, query, isAdmin)(ctx);
+      return createNetworkGraph(type, [...ids], query, isAdmin)(ctx);
     };
 
     return pipe(
-      RequestDecoder.decodeNullableUser(req, [AdminRead.value])(ctx),
+      RequestDecoder.decodeNullableUser(req, [AdminRead.Type])(ctx),
       TE.fromIO,
       TE.chain((user) => getCreateNetworkT(type, !!user)),
       TE.map((data) => ({

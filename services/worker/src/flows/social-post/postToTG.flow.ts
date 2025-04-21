@@ -11,7 +11,7 @@ import {
   type CreateSocialPost,
   type SocialPostBodyMultipleMedia,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import type TelegramBot from "node-telegram-bot-api";
 import { type ENV } from "../../io/env.js";
 import { type RTE } from "../../types.js";
@@ -101,7 +101,9 @@ export const postToTG =
           body.media,
           text.length,
         );
-        const media: SocialPostBodyMultipleMedia = t.string.is(body.media)
+        const media: SocialPostBodyMultipleMedia = Schema.is(Schema.String)(
+          body.media,
+        )
           ? [{ type: "photo", media: body.media, thumbnail: body.media }]
           : body.media;
 
@@ -117,26 +119,26 @@ export const postToTG =
           fp.TE.chain((media) => {
             if (media.length === 1) {
               const m = media[0];
-              if (SocialPostPhoto.is(m)) {
+              if (Schema.is(SocialPostPhoto)(m)) {
                 return pipe(
                   ctx.tg.postPhoto(m.media, mediaText),
                   fp.TE.map((message) => [message]),
                 );
               }
 
-              if (SocialPostDocument.is(m)) {
+              if (Schema.is(SocialPostDocument)(m)) {
                 return pipe(
                   ctx.tg.postFile(
                     mediaText,
                     m.filename,
                     m.media,
-                    PDFType.value,
+                    PDFType.literals[0],
                   ),
                   fp.TE.map((message) => [message]),
                 );
               }
 
-              if (SocialPostVideo.is(m)) {
+              if (Schema.is(SocialPostVideo)(m)) {
                 return pipe(
                   ctx.http.get<Stream>(m.media, {
                     responseType: "stream",

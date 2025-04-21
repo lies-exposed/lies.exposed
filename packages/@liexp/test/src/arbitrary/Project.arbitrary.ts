@@ -1,7 +1,6 @@
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { AreaArb } from "./Area.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
@@ -17,10 +16,10 @@ const {
   id,
   color,
   ...projectProps
-} = http.Project.Project.type.props;
+} = http.Project.Project.fields;
 
-export const ProjectArb: fc.Arbitrary<http.Project.Project> = getArbitrary(
-  t.strict({ ...projectProps }),
+export const ProjectArb: fc.Arbitrary<http.Project.Project> = Arbitrary.make(
+  Schema.Struct({ ...projectProps }),
 ).map((p) => ({
   ...p,
   id: fc.sample(UUIDArb, 1)[0],

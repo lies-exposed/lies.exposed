@@ -1,15 +1,16 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type ParseError } from "effect/ParseResult";
+import { type Either } from "fp-ts/lib/Either.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import type { Decoder } from "io-ts";
 import type { LoggerContext } from "../../context/logger.context.js";
 import type { RedisContext } from "../../context/redis.context.js";
 import { type RedisError, toRedisError } from "./redis.error.js";
 
 export interface RedisPubSub<T, K> {
   channel: K;
-  decoder: Decoder<unknown, T>;
+  decoder: (u: unknown) => Either<ParseError, T>;
   publish: <C extends LoggerContext & RedisContext>(
     message: T,
   ) => ReaderTaskEither<C, RedisError, number>;
@@ -17,7 +18,7 @@ export interface RedisPubSub<T, K> {
 
 export const RedisPubSub = <T, K extends string = string>(
   channel: K,
-  decoder: Decoder<unknown, T>,
+  decoder: (u: unknown) => Either<ParseError, T>,
 ): RedisPubSub<T, K> => {
   return {
     channel,

@@ -13,8 +13,8 @@ import { Grid, Typography } from "./mui/index.js";
 
 export interface GroupPageContentProps {
   group: Group.Group;
-  groupsMembers: GroupMember[];
-  projects: Project.Project[];
+  groupsMembers: readonly GroupMember[];
+  projects: readonly Project.Project[];
   funds: any[];
   ownedGroups: Group.Group[];
   onMemberClick: (m: Actor.Actor) => void;
@@ -45,7 +45,10 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
         }}
       >
         <Grid item lg={6} md={6} sm={12}>
-          <BNEditor content={group.excerpt} readOnly={true} />
+          <BNEditor
+            content={group.excerpt ? [...group.excerpt] : null}
+            readOnly={true}
+          />
         </Grid>
         <Grid item lg={6}>
           <Typography variant="h6">Members</Typography>

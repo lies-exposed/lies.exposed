@@ -13,7 +13,7 @@ export const MakeDeleteManyPageRoute: Route = (r, ctx) => {
     ({ query: { ids } }) => {
       return pipe(
         ctx.db.find(PageEntity, { where: { id: In(ids) } }),
-        TE.chainFirst(() => ctx.db.softDelete(PageEntity, ids)),
+        TE.chainFirst(() => ctx.db.softDelete(PageEntity, [...ids])),
         TE.map(() => ({
           body: { data: ids },
           statusCode: 200,

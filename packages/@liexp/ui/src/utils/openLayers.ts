@@ -1,4 +1,5 @@
 import type * as http from "@liexp/shared/lib/io/http/index.js";
+import { type Coordinate } from "ol/coordinate";
 import { Polygon } from "ol/geom.js";
 import { getArea } from "ol/sphere.js";
 
@@ -13,7 +14,11 @@ interface DatumWithGeometry {
  */
 export const calculateAreaInSQM = (data: DatumWithGeometry[]): number => {
   const totalArea = data.reduce((acc, a) => {
-    const polygon = new Polygon(a.geometry.coordinates);
+    const polygon = new Polygon([
+      ...a.geometry.coordinates.map((coords) => [
+        ...coords.map(([lng, lat]) => [lng, lat]),
+      ]),
+    ] as Coordinate[][]);
     const area = getArea(polygon, { projection: "EPSG:4326" });
     return acc + area;
   }, 0);

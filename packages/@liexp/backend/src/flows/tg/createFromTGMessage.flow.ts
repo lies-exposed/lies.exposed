@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type UUID } from "io-ts-types";
 import type TelegramBot from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -24,11 +24,12 @@ import {
   type PuppeteerError,
   toPuppeteerError,
 } from "../../providers/puppeteer.provider.js";
+import { type TGError } from "../../providers/tg/tg.provider.js";
 import { getOneAdminOrFail } from "../user/getOneUserOrFail.flow.js";
 import { MessageParser } from "./MessageParser/index.js";
 
 export interface EventResult {
-  link: UUID[];
+  link: readonly UUID[];
   photos: UUID[];
   videos: UUID[];
   areas: UUID[];
@@ -54,7 +55,7 @@ export const createFromTGMessage =
   <C extends CreateFromTGMessageContext>(
     message: TelegramBot.Message,
     metadata: TelegramBot.Metadata,
-  ): ReaderTaskEither<C, PuppeteerError, EventResult> =>
+  ): ReaderTaskEither<C, PuppeteerError | TGError, EventResult> =>
   (ctx) => {
     ctx.logger.info.log(
       "Received message %O with metadata %O",

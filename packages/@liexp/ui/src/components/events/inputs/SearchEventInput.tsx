@@ -82,7 +82,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
   inputParams,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const [search, setSearch] = React.useState(query.q ?? "");
   const [searchOptions, setSearchOptions] = React.useState<SearchOption[]>([]);
 

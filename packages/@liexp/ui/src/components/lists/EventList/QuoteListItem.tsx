@@ -60,7 +60,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
         <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
           <EventIcon
             className={classes.eventIcon}
-            type={EventTypes.QUOTE.value}
+            type={EventTypes.QUOTE.Type}
             size="2x"
           />
         </Grid>

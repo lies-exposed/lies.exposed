@@ -7,7 +7,12 @@ import { Decorator, Parameters } from "@storybook/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import { DataProviderContext } from "@liexp/ui/lib/components/admin/react-admin.js";
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { GetResourceClient } from "@ts-endpoint/resource-client";
+import axios from "axios";
+import { Endpoints } from "@liexp/shared/lib/endpoints/Endpoints.js";
+import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+
 // styles
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
@@ -18,9 +23,15 @@ config.autoAddCss = false;
 // watch for font awesome icons
 dom.watch();
 
-const apiProvider = APIRESTClient({
-  url: import.meta.env.VITE_API_URL ?? "https://alpha.api.lies.exposed/v1",
-});
+const apiProvider = GetResourceClient(
+  axios.create({
+    url: import.meta.env.VITE_API_URL ?? "https://alpha.api.lies.exposed/v1",
+  }),
+  Endpoints,
+  {
+    decode: EffectDecoder((e) => DecodeError.of(e)),
+  },
+);
 const qc = new QueryClient();
 
 const cache = createCache({ key: "css", prepend: true });

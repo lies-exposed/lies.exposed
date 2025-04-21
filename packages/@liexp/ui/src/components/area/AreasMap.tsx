@@ -8,7 +8,7 @@ import Map, { type MapProps } from "../Map.js";
 export interface AreasMapProps extends Pick<MapProps<any>, "onMapClick"> {
   center?: [number, number];
   zoom?: number;
-  areas: Area.Area[];
+  areas: readonly Area.Area[];
   height?: number;
 }
 

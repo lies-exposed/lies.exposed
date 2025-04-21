@@ -54,7 +54,7 @@ describe(createAndUpload.name, () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.jpg` as URL,
-        type: ImageType.types[0].value,
+        type: ImageType.members[0].literals[0],
         creator: undefined,
       }));
 
@@ -70,7 +70,7 @@ describe(createAndUpload.name, () => {
           location: media.location,
           thumbnail: undefined,
         },
-        { Body: "image", ContentType: ImageType.types[0].value },
+        { Body: "image", ContentType: ImageType.members[0].literals[0] },
         media.id,
         false,
       )(Test.ctx),
@@ -90,7 +90,7 @@ describe(createAndUpload.name, () => {
         id,
         label: `label-${id}`,
         location: `https://example.com/${id}.mp4` as URL,
-        type: MP4Type.value,
+        type: MP4Type.literals[0],
         creator: undefined,
         extra: undefined,
       }));
@@ -107,7 +107,7 @@ describe(createAndUpload.name, () => {
           location: media.location,
           thumbnail: undefined,
         },
-        { Body: {}, ContentType: MP4Type.value },
+        { Body: {}, ContentType: MP4Type.literals[0] },
         media.id,
         false,
       )(Test.ctx),
@@ -146,7 +146,7 @@ describe(createAndUpload.name, () => {
         id,
         label: `label-${id}`,
         location: `https://www.youtube.com/watch?v=${id}` as URL,
-        type: IframeVideoType.value,
+        type: IframeVideoType.literals[0],
         creator: undefined,
       }));
 
@@ -157,7 +157,7 @@ describe(createAndUpload.name, () => {
           location: media.location,
           thumbnail: undefined,
         },
-        { Body: {}, ContentType: IframeVideoType.value },
+        { Body: {}, ContentType: IframeVideoType.literals[0] },
         media.id,
         false,
       )(Test.ctx),
@@ -224,7 +224,7 @@ describe(createAndUpload.name, () => {
           location: media.location,
           thumbnail: undefined,
         },
-        { Body: {}, ContentType: IframeVideoType.value },
+        { Body: {}, ContentType: IframeVideoType.literals[0] },
         media.id,
         true,
       )(Test.ctx),

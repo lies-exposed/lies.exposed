@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type * as logger from "@liexp/core/lib/logger/index.js";
+import { IOError } from "@ts-endpoint/core";
 import type ExifReader from "exifreader";
 import type { load } from "exifreader";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type sharp from "sharp";
-import { IOError } from "ts-io-error";
 
 export class ImgProcError extends IOError {
   name = "ImgProcError";

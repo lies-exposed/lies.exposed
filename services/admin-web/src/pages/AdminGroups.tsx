@@ -3,7 +3,6 @@ import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -52,9 +51,11 @@ import {
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
 import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
-import { toError } from "fp-ts/lib/Either";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
+import { Schema } from "effect";
+import { toError } from "fp-ts/lib/Either.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 
 const RESOURCE = "groups";
@@ -63,9 +64,9 @@ const GroupKindInput: React.FC<SelectInputProps> = (props) => {
   return (
     <SelectInput
       {...props}
-      choices={io.http.Group.GroupKind.types.map((t) => ({
-        id: t.value,
-        name: t.value,
+      choices={io.http.Group.GroupKind.members.map((t) => ({
+        id: t.literals[0],
+        name: t.literals[0],
       }))}
     />
   );
@@ -137,7 +138,7 @@ const transformGroup =
           );
         }
 
-        if (UUID.is(data.avatar?.id)) {
+        if (Schema.is(UUID)(data.avatar?.id)) {
           return TE.right([
             {
               id: data.avatar.id,
@@ -145,7 +146,7 @@ const transformGroup =
           ]);
         }
 
-        if (!UUID.is(data.avatar)) {
+        if (!Schema.is(UUID)(data.avatar)) {
           return TE.right([
             {
               id: data.avatar.id,
@@ -156,7 +157,7 @@ const transformGroup =
         return TE.right([]);
       }),
       TE.bind("avatarMedia", ({ avatar }) => {
-        if (UUID.is(avatar[0]?.id)) {
+        if (Schema.is(UUID)(avatar[0]?.id)) {
           return TE.right({ id: avatar[0].id });
         }
         return pipe(
@@ -242,7 +243,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </Grid>
           <OpenAIEmbeddingJobButton<Group>
             resource="groups"
-            type={OpenAISummarizeQueueType.value}
+            type={OpenAISummarizeQueueType.Type}
             transformValue={({ name, excerpt }) =>
               pipe(
                 excerpt ? getTextContents(excerpt) : "",

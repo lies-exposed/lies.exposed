@@ -1,48 +1,29 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import {
+  type EndpointInstance,
+  type MinimalEndpointInstance,
+  type ResourceEndpoints,
+  type TypeOfEndpointInstanceInput,
+  type runtimeType,
+  type serializedType,
+} from "@ts-endpoint/core";
 import { type AxiosInstance, type AxiosResponse } from "axios";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import {
-  type MinimalEndpointInstance,
-  type TypeOfEndpointInstance,
-} from "ts-endpoint";
-import { type Codec, type serializedType } from "ts-io-error/lib/Codec.js";
-import { type RequiredKeys } from "typelevel-ts";
 import { Endpoints } from "../../endpoints/index.js";
-import { type ResourceEndpoints } from "../../endpoints/types.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
-import { type HTTPProvider, liftFetch } from "../http/http.provider.js";
+import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");
 
-export type SerializedPropsType<P> =
-  P extends Record<string, unknown>
-    ? {
-        [k in RequiredKeys<P>]: serializedType<P[k]>;
-      }
-    : never;
-
-export type TypeOfEndpointInstanceInput<E extends MinimalEndpointInstance> = [
-  RequiredKeys<E["Input"]>,
-] extends [never]
-  ? void
-  : {
-      [K in keyof NonNullable<E["Input"]>]: NonNullable<
-        E["Input"]
-      >[K] extends Codec<any, any, any>
-        ? K extends "Query"
-          ? Partial<serializedType<NonNullable<E["Input"]>[K]>>
-          : serializedType<NonNullable<E["Input"]>[K]>
-        : never;
-    };
-
 export type TERequest<E extends MinimalEndpointInstance> = (
   input: TypeOfEndpointInstanceInput<E>,
-) => TE.TaskEither<APIError, TypeOfEndpointInstance<E>["Output"]>;
+) => TE.TaskEither<APIError, runtimeType<E["Output"]>>;
 
-type API = {
+export type API = {
   [K in keyof Endpoints]: Endpoints[K] extends ResourceEndpoints<
     infer Get,
     infer List,
@@ -52,41 +33,47 @@ type API = {
     infer CC
   >
     ? {
-        List: TERequest<List>;
         Get: TERequest<Get>;
+        List: TERequest<List>;
         Custom: CC extends Record<string, MinimalEndpointInstance>
           ? {
-              [K in keyof CC]: TERequest<CC[K]>;
+              [K in keyof CC]: CC[K] extends EndpointInstance<infer E>
+                ? TERequest<EndpointInstance<E>>
+                : never;
             }
           : object;
       }
     : never;
 } & HTTPProvider;
 
-const API = (client: AxiosInstance): API => {
-  const toTERequest = <E extends MinimalEndpointInstance>(
-    e: E,
-  ): TERequest<E> => {
+export const toTERequest =
+  <E extends MinimalEndpointInstance>(e: E) =>
+  (client: AxiosInstance): TERequest<E> => {
     return (b: TypeOfEndpointInstanceInput<E>) => {
       const url = e.getPath(b?.Params);
       return pipe(
-        liftFetch<TypeOfEndpointInstance<E>["Output"]>(() => {
-          apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
+        liftFetch<serializedType<E["Output"]>, runtimeType<E["Output"]>>(
+          () => {
+            apiLogger.debug.log("%s %s req: %O", e.Method, url, b);
 
-          return client.request<
-            TypeOfEndpointInstanceInput<E>,
-            AxiosResponse<TypeOfEndpointInstance<E>["Output"]>
-          >({
-            method: e.Method,
-            url,
-            params: b?.Query,
-            data: b?.Body,
-            responseType: "json",
-            headers: {
-              Accept: "application/json",
-            },
-          });
-        }, e.Output.decode),
+            return client.request<
+              TypeOfEndpointInstanceInput<E>,
+              AxiosResponse<serializedType<E["Output"]>>
+            >({
+              method: e.Method,
+              url,
+              params: b?.Query,
+              data: b?.Body,
+              responseType: "json",
+              headers: {
+                Accept: "application/json",
+              },
+            });
+          },
+          Schema.encodeUnknownEither(
+            e.Output as Schema.Schema<any, runtimeType<E["Output"]>>,
+          ),
+        ),
         TE.mapLeft((err) => {
           const apiError = toAPIError(err);
           apiLogger.error.log(`${e.Method} ${url} error: %O`, apiError);
@@ -99,6 +86,7 @@ const API = (client: AxiosInstance): API => {
     };
   };
 
+const GetAPIProvider = (client: AxiosInstance): API => {
   const apiImpl = pipe(
     R.toArray(Endpoints),
     A.reduce<
@@ -114,23 +102,27 @@ const API = (client: AxiosInstance): API => {
         >,
       ],
       API
-    >({} as API, (q, [k, { Custom, ...e }]) => ({
-      ...q,
-      [k]: pipe(
-        e,
-        R.map((ee: MinimalEndpointInstance) => toTERequest(ee)),
-        (ends) => ({
-          ...ends,
-          Custom: pipe(
-            Custom,
-            R.map((ee: MinimalEndpointInstance) => toTERequest(ee)),
+    >(
+      {} as API,
+      (q, [k, { Custom, ...e }]) =>
+        ({
+          ...q,
+          [k]: pipe(
+            e,
+            R.map((ee: MinimalEndpointInstance) => toTERequest(ee)(client)),
+            (ends) => ({
+              ...ends,
+              Custom: pipe(
+                Custom,
+                R.map((ee: MinimalEndpointInstance) => toTERequest(ee)(client)),
+              ),
+            }),
           ),
-        }),
-      ),
-    })),
+        }) as API,
+    ),
   );
 
   return apiImpl;
 };
 
-export { API };
+export { GetAPIProvider };

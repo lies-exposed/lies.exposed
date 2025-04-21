@@ -14,7 +14,7 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeUserCreateRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.User.Create,
     ({ body: { password, ...userData } }) => {
       ctx.logger.debug.log("Creating new user %O", userData);
@@ -25,8 +25,10 @@ export const MakeUserCreateRoute: Route = (r, ctx) => {
             {
               id: uuid(),
               ...userData,
-              status: UserStatusApproved.value,
+              permissions: [...userData.permissions],
+              status: UserStatusApproved.literals[0],
               passwordHash: pw,
+              deletedAt: null,
             },
           ]),
         ),

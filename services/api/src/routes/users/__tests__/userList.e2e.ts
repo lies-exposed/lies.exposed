@@ -2,7 +2,7 @@ import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { hash } from "@liexp/backend/lib/utils/password.utils.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
+import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("User List", () => {

@@ -1,48 +1,45 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
+import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media/Media.js";
 
-export const EditStoryBody = t.strict(
-  {
-    title: t.string,
-    path: t.string,
-    draft: t.boolean,
-    creator: UUID,
-    date: DateFromISOString,
-    featuredImage: optionFromNullable(t.strict({ id: UUID })),
-    body2: t.unknown,
-    keywords: t.array(UUID),
-    groups: t.array(UUID),
-    actors: t.array(UUID),
-    events: t.array(UUID),
-    media: t.array(UUID),
-  },
-  "EditStoryBody",
-);
-export type EditStoryBody = t.TypeOf<typeof EditStoryBody>;
+export const EditStoryBody = Schema.Struct({
+  title: Schema.String,
+  path: Schema.String,
+  draft: Schema.Boolean,
+  creator: UUID,
+  date: Schema.Date,
+  featuredImage: OptionFromNullishToNull(Schema.Struct({ id: UUID })),
+  body2: Schema.Unknown,
+  keywords: Schema.Array(UUID),
+  groups: Schema.Array(UUID),
+  actors: Schema.Array(UUID),
+  events: Schema.Array(UUID),
+  media: Schema.Array(UUID),
+}).annotations({
+  title: "EditStoryBody",
+});
+export type EditStoryBody = typeof EditStoryBody.Type;
 
-export const Story = t.strict(
-  {
-    ...BaseProps.type.props,
-    title: t.string,
-    path: t.string,
-    draft: t.boolean,
-    creator: t.union([UUID, t.undefined]),
-    date: DateFromISOString,
-    featuredImage: t.union([Media, t.undefined]),
-    body: t.string,
-    body2: t.union([t.unknown, t.null]),
-    keywords: t.array(UUID),
-    links: t.array(UUID),
-    media: t.array(UUID),
-    actors: t.array(UUID),
-    groups: t.array(UUID),
-    events: t.array(UUID),
-  },
-  "Story",
-);
+export const Story = Schema.Struct({
+  ...BaseProps.fields,
+  title: Schema.String,
+  path: Schema.String,
+  draft: Schema.Boolean,
+  creator: Schema.Union(UUID, Schema.Undefined),
+  date: Schema.Date,
+  featuredImage: Schema.Union(Media, Schema.Undefined),
+  body: Schema.String,
+  body2: Schema.Union(Schema.Unknown, Schema.Null),
+  keywords: Schema.Array(UUID),
+  links: Schema.Array(UUID),
+  media: Schema.Array(UUID),
+  actors: Schema.Array(UUID),
+  groups: Schema.Array(UUID),
+  events: Schema.Array(UUID),
+}).annotations({
+  title: "Story",
+});
 
-export type Story = t.TypeOf<typeof Story>;
+export type Story = typeof Story.Type;

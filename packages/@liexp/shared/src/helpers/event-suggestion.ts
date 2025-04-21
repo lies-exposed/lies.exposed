@@ -1,8 +1,8 @@
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type Metadata } from "page-metadata-parser";
-import { uuid } from "../io/http/Common/UUID.js";
+import { type UUID, uuid } from "../io/http/Common/UUID.js";
+import { EVENT_TYPES } from "../io/http/Events/EventType.js";
 import { http } from "../io/index.js";
 
 export const getSuggestions =
@@ -92,10 +92,11 @@ export const getSuggestions =
           ? [
               // Book
               {
-                type: http.EventSuggestion.EventSuggestionType.types[0].value,
+                type: http.EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: http.Events.EventTypes.BOOK.value,
+                  type: EVENT_TYPES.BOOK,
                   payload: {
                     title: suggestedTitle,
                     media: {
@@ -109,10 +110,11 @@ export const getSuggestions =
               },
               // Documentary
               {
-                type: http.EventSuggestion.EventSuggestionType.types[0].value,
+                type: http.EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: http.Events.EventTypes.DOCUMENTARY.value,
+                  type: EVENT_TYPES.DOCUMENTARY,
                   payload: {
                     title: suggestedTitle,
                     website: pipe(
@@ -137,10 +139,11 @@ export const getSuggestions =
         ...(O.isSome(link)
           ? [
               {
-                type: http.EventSuggestion.EventSuggestionType.types[0].value,
+                type: http.EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: http.Events.EventTypes.PATENT.value,
+                  type: EVENT_TYPES.PATENT,
                   payload: {
                     title: suggestedTitle,
                     source: link.value.id,
@@ -156,10 +159,11 @@ export const getSuggestions =
         ...(O.isSome(link)
           ? [
               {
-                type: http.EventSuggestion.EventSuggestionType.types[0].value,
+                type: http.EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: http.Events.EventTypes.SCIENTIFIC_STUDY.value,
+                  type: EVENT_TYPES.SCIENTIFIC_STUDY,
                   payload: {
                     title: suggestedTitle,
                     url: link.value.id,
@@ -177,10 +181,10 @@ export const getSuggestions =
           : []),
       ]),
       {
-        type: http.EventSuggestion.EventSuggestionType.types[0].value,
+        type: http.EventSuggestion.EventSuggestionType.members[0].literals[0],
         event: {
           ...commonSuggestion,
-          type: http.Events.EventTypes.UNCATEGORIZED.value,
+          type: EVENT_TYPES.UNCATEGORIZED,
           payload: {
             title: suggestedTitle,
             actors: relations.actors,

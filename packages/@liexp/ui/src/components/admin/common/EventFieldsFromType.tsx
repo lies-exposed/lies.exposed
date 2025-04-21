@@ -1,7 +1,4 @@
-import {
-  DEATH,
-  UNCATEGORIZED,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
@@ -19,14 +16,14 @@ export const EventFieldsFromType: React.FC<EventFieldsFromTypeProps> = ({
 }) => {
   const fields = React.useMemo(() => {
     switch (eventType) {
-      case DEATH.value: {
+      case EVENT_TYPES.DEATH: {
         return (
           <Stack spacing={1}>
             <ReferenceActorInput source={`payload.victim`} />
           </Stack>
         );
       }
-      case UNCATEGORIZED.value:
+      case EVENT_TYPES.UNCATEGORIZED:
       default: {
         return (
           <Stack spacing={1}>

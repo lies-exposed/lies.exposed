@@ -1,8 +1,9 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { type Link, type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { UUID } from "io-ts-types";
+import { Schema } from "effect";
 import { type ActorEntity } from "../../../entities/Actor.entity.js";
 import { type GroupEntity } from "../../../entities/Group.entity.js";
 import { type LinkEntity } from "../../../entities/Link.entity.js";
@@ -27,11 +28,11 @@ export const toActorEntity = (actor: Actor): ActorEntity => {
 export const toMediaEntity = (
   image: LinkMedia | Media | UUID,
 ): MediaEntity | UUID => {
-  if (UUID.is(image)) {
+  if (Schema.is(UUID)(image)) {
     return image;
   }
 
-  if (Media.is(image)) {
+  if (Schema.is(Media)(image)) {
     return {
       ...image,
       label: image.label ?? null,
@@ -82,7 +83,11 @@ export const toLinkEntity = (a: Link): LinkEntity => ({
   description: a.description ?? null,
   publishDate: a.publishDate ?? null,
   provider: null,
-  image: UUID.is(a.image) ? a.image : a.image ? toMediaEntity(a.image) : null,
+  image: Schema.is(UUID)(a.image)
+    ? a.image
+    : a.image
+      ? toMediaEntity(a.image)
+      : null,
   creator: null,
   events: [],
   keywords: [],

@@ -1,18 +1,19 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type UUID } from "io-ts-types";
 import type * as puppeteer from "puppeteer-core";
 import { Equal } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -51,7 +52,7 @@ export const parseURLs =
       urls,
       O.map((urls) =>
         urls.filter((u) => {
-          const isURL = E.isRight(URL.decode(u));
+          const isURL = E.isRight(Schema.decodeUnknownEither(URL)(u));
           const isAllowed = !isExcludedURL(u);
 
           return isURL && isAllowed;
@@ -87,11 +88,11 @@ export const parseURLs =
                 ),
               ),
               TE.chainFirst((l) =>
-                ctx.queue.queue(OpenAIEmbeddingQueueType.value).addJob({
+                ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
                   id: l.id,
-                  status: PendingStatus.value,
-                  type: OpenAIEmbeddingQueueType.value,
-                  resource: LINKS.value,
+                  status: PendingStatus.literals[0],
+                  type: OpenAIEmbeddingQueueType.literals[0],
+                  resource: LINKS.literals[0],
                   error: null,
                   question: null,
                   result: null,

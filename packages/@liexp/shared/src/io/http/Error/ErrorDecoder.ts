@@ -1,9 +1,10 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import { type Either } from "fp-ts/lib/Either.js";
-import type * as t from "io-ts";
 import { CoreError } from "./CoreError.js";
 
-const decode = (e: unknown): Either<t.Errors, CoreError> => {
+const decode = (e: unknown): Either<ParseError, CoreError> => {
   // match the instance classes first
   if (e instanceof TypeError) {
     return fp.E.right({
@@ -23,12 +24,12 @@ const decode = (e: unknown): Either<t.Errors, CoreError> => {
     });
   }
 
-  if (CoreError.is(e)) {
+  if (Schema.is(CoreError)(e)) {
     return fp.E.right(e);
   }
 
   // decode the value with schema
-  return CoreError.decode(e);
+  return Schema.decodeUnknownEither(CoreError)(e);
 };
 
 export const ErrorDecoder = {

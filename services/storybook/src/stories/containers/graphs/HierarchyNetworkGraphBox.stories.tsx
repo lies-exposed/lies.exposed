@@ -44,11 +44,11 @@ const Template: StoryFn<HierarchyNetworkGraphBoxProps> = ({
     },
   };
   const input =
-    props.type === KEYWORDS.value ? (
+    props.type === KEYWORDS.literals[0] ? (
       <AutocompleteKeywordInput {...inputProps} />
-    ) : props.type === ACTORS.value ? (
+    ) : props.type === ACTORS.literals[0] ? (
       <AutocompleteActorInput {...inputProps} />
-    ) : props.type === GROUPS.value ? (
+    ) : props.type === GROUPS.literals[0] ? (
       <AutocompleteGroupInput {...inputProps} />
     ) : (
       <div />
@@ -83,9 +83,9 @@ const commonQuery = {
 
 EventsByActors.args = {
   count: 20,
-  type: ACTORS.value,
+  type: ACTORS.literals[0],
   id: "4163db78-67ca-4243-80fe-05ff920e70e1",
-  relations: [ACTORS.value],
+  relations: [ACTORS.literals[0]],
   query: {
     ...commonQuery,
   },
@@ -95,8 +95,8 @@ const EventsByKeywords = Template.bind({});
 
 EventsByKeywords.args = {
   count: 10,
-  type: KEYWORDS.value,
-  relations: [GROUPS.value],
+  type: KEYWORDS.literals[0],
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
   },
@@ -107,9 +107,9 @@ const EventsByGroups = Template.bind({});
 
 EventsByGroups.args = {
   count: 10,
-  type: GROUPS.value,
+  type: GROUPS.literals[0],
   id: "3879feae-a4f8-4f12-ad8d-3f199050afcd",
-  relations: [GROUPS.value],
+  relations: [GROUPS.literals[0]],
   query: {
     ...commonQuery,
   },
@@ -118,7 +118,7 @@ EventsByGroups.args = {
 // const OneHierarchyNetwork = Template.bind({});
 // OneHierarchyNetwork.args = {
 //   type: "events" as const,
-//   relations: [GROUPS.value],
+//   relations: [GROUPS.Type],
 //   id: "c82575ea-120e-467b-8d75-cbf7e49d721a",
 //   query: {
 //     ...commonQuery,

@@ -4,9 +4,10 @@ import {
   MP4Type,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import axios from "axios";
+import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -125,7 +126,7 @@ export const uploadFile =
       }),
     );
 
-    if (MP4Type.is(type)) {
+    if (Schema.is(MP4Type)(type)) {
       return videoTask;
     }
     return othersTask;

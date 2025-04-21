@@ -1,12 +1,10 @@
-import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { Schema } from "effect";
 
-export const SummitEvent = t.strict(
-  {
-    year: NumberFromString,
-    label: t.string,
-  },
-  "SummitEvent",
-);
+export const SummitEvent = Schema.Struct({
+  year: Schema.NumberFromString,
+  label: Schema.String,
+}).annotations({
+  title: "SummitEvent",
+});
 
-export type SummitEvent = t.TypeOf<typeof SummitEvent>;
+export type SummitEvent = typeof SummitEvent.Type;

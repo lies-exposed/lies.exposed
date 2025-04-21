@@ -3,16 +3,19 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { GroupMemberArb } from "@liexp/test/lib/arbitrary/GroupMember.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
+import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Get event from link", () => {
   let appTest: AppTest;
-  const [firstActor, secondActor] = fc.sample(ActorArb, 2);
+  const [firstActor, secondActor] = fc.sample(ActorArb, 2).map((a) => ({
+    ...a,
+    memberIn: [],
+  }));
   const groups = fc.sample(GroupArb, 2).map((g) => ({
     ...g,
     subGroups: [],

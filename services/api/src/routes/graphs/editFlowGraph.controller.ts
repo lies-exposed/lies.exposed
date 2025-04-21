@@ -14,7 +14,7 @@ export const MakeEditFlowGraphRoute: Route = (r, ctx) => {
     Endpoints.Graph.Custom.EditFlowGraph,
     ({ params: { type, id }, body: { regenerate } }, req) => {
       return pipe(
-        RequestDecoder.decodeNullableUser(req, [AdminEdit.value])(ctx),
+        RequestDecoder.decodeNullableUser(req, [AdminEdit.literals[0]])(ctx),
         TE.fromIO,
         TE.chain((user) => {
           const isAdmin = !!user;

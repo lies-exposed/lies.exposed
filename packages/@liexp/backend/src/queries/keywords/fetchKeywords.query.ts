@@ -1,8 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
-import * as O from "fp-ts/lib/Option.js";
+import { type Schema } from "effect";
+import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type Int } from "io-ts";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -15,11 +15,11 @@ import {
 } from "../social-post/leftJoinSocialPosts.query.js";
 
 const defaultQuery: http.Keyword.GetKeywordListQuery = {
-  ids: O.none,
-  q: O.none,
-  events: O.none,
-  _end: O.some(20 as Int),
-  _start: O.some(0 as Int),
+  ids: O.none(),
+  q: O.none(),
+  events: O.none(),
+  _end: O.some(20 as typeof Schema.Int.Type),
+  _start: O.some(0 as typeof Schema.Int.Type),
   _order: O.some("DESC"),
   _sort: O.some("createdAt"),
 };

@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";

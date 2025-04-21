@@ -2,6 +2,7 @@ import {
   ByActor,
   type ByGroup,
 } from "@liexp/shared/lib/io/http/Common/BySubject.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { type AvatarSize } from "../Common/Avatar.js";
 import { ExpandableList } from "../Common/ExpandableList.js";
@@ -48,7 +49,7 @@ export const SubjectList: React.FC<SubjectListProps> = ({
       filter={(a) => true}
       onItemClick={onSubjectClick}
       ListItem={(p) =>
-        ByActor.is(p.item) ? (
+        Schema.is(ByActor)(p.item) ? (
           <ActorListItem
             avatarSize={avatarSize}
             displayFullName={displayFullName}
@@ -93,7 +94,7 @@ export const ExpandableSubjectList: React.FC<
       filter={(a) => a.selected}
       onItemClick={onSubjectClick}
       ListItem={(p) =>
-        ByActor.is(p.item) ? (
+        Schema.is(ByActor)(p.item) ? (
           <ActorListItem
             avatarSize={avatarSize}
             displayFullName={displayFullName}
