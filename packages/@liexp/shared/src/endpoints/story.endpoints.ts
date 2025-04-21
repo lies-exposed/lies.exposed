@@ -1,24 +1,20 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { Story } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
-const ListStoryQuery = t.type(
-  {
-    ...GetListQuery.props,
-    draft: optionFromNullable(BooleanFromString),
-    exclude: optionFromNullable(t.array(UUID)),
-    path: optionFromNullable(t.string),
-    creator: optionFromNullable(UUID),
-  },
-  "ListStoryQuery",
-);
+const StoryOutput = Output(Story.Story).annotations({ title: "StoryOutput" });
+const ListStoryQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  draft: OptionFromNullishToNull(Schema.BooleanFromString),
+  exclude: OptionFromNullishToNull(Schema.Array(UUID)),
+  path: OptionFromNullishToNull(Schema.String),
+  creator: OptionFromNullishToNull(UUID),
+}).annotations({ title: "ListStoryQuery" });
 
 export const ListStory = Endpoint({
   Method: "GET",
@@ -33,53 +29,50 @@ export const GetStory = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/stories/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: Output(Story.Story, "Story"),
+  Output: StoryOutput,
 });
 
 export const CreateStory = Endpoint({
   Method: "POST",
   getPath: () => "/stories",
   Input: {
-    Body: t.strict(
-      {
-        title: t.string,
-        path: t.string,
-        draft: t.boolean,
-        date: DateFromISOString,
-        featuredImage: optionFromNullable(UUID),
-        creator: optionFromNullable(UUID),
-        body2: t.unknown,
-        keywords: t.array(UUID),
-        actors: t.array(UUID),
-        groups: t.array(UUID),
-        events: t.array(UUID),
-        media: t.array(UUID),
-      },
-      "CreateStoryBody",
-    ),
+    Body: Schema.Struct({
+      title: Schema.String,
+      path: Schema.String,
+      draft: Schema.Boolean,
+      date: Schema.Date,
+      featuredImage: OptionFromNullishToNull(UUID),
+      creator: OptionFromNullishToNull(UUID),
+      body2: BlockNoteDocument,
+      keywords: Schema.Array(UUID),
+      actors: Schema.Array(UUID),
+      groups: Schema.Array(UUID),
+      events: Schema.Array(UUID),
+      media: Schema.Array(UUID),
+    }).annotations({ title: "CreateStoryBody" }),
   },
-  Output: Output(Story.Story, "Story"),
+  Output: StoryOutput,
 });
 
 const EditStory = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/stories/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Story.EditStoryBody,
   },
-  Output: Output(Story.Story, "Story"),
+  Output: StoryOutput,
 });
 
 const DeleteStory = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/stories/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: Output(Story.Story, "Story"),
+  Output: StoryOutput,
 });
 
 export const stories = ResourceEndpoints({

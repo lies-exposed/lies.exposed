@@ -1,4 +1,4 @@
-import { type UUID } from "io-ts-types/lib/UUID.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as React from "react";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
@@ -17,7 +17,7 @@ const KeywordChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ keyword: Q.Keyword.get.useQuery({ id }) })}
-      render={({ keyword }) => {
+      render={({ keyword: { data: keyword } }) => {
         return <KeywordChip {...props} keyword={keyword} />;
       }}
     />

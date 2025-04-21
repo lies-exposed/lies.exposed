@@ -5,6 +5,7 @@ import {
   OGGType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { useModal } from "../../../hooks/useModal.js";
 import { useTheme } from "../../../theme/index.js";
@@ -16,7 +17,7 @@ import { MediaSlider } from "../../sliders/MediaSlider.js";
 
 interface DefaultEventPageContentProps {
   event: Events.SearchEvent.SearchEvent;
-  media: Media.Media[];
+  media: readonly Media.Media[];
   onMediaClick?: (m: Media.Media) => void;
   mediaLayout?: "slider" | "masonry";
 }
@@ -27,11 +28,10 @@ export const DefaultEventPageContent: React.FC<
   const [modal, showModal] = useModal();
 
   const isOnlyOneMedia =
-    media.length === 1 &&
-    (IframeVideoType.is(media[0].type) ||
-      MP4Type.is(media[0].type) ||
-      MP3Type.is(media[0].type) ||
-      OGGType.is(media[0].type));
+    (media.length === 1 && Schema.is(IframeVideoType)(media[0].type)) ||
+    Schema.is(MP4Type)(media[0].type) ||
+    Schema.is(MP3Type)(media[0].type) ||
+    Schema.is(OGGType)(media[0].type);
 
   const handleMediaClick = React.useCallback(
     (m: Media.Media) => {
@@ -75,7 +75,10 @@ export const DefaultEventPageContent: React.FC<
               onClick={!isOnlyOneMedia ? handleMediaClick : undefined}
               itemStyle={(m) => ({
                 maxWidth: 800,
-                minHeight: MP3Type.is(m.type) || OGGType.is(m.type) ? 100 : 400,
+                minHeight:
+                  Schema.is(MP3Type)(m.type) || Schema.is(OGGType)(m.type)
+                    ? 100
+                    : 400,
                 margin: "auto",
               })}
               disableZoom={!isOnlyOneMedia}

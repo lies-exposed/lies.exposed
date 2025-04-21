@@ -1,4 +1,4 @@
-import { IOError } from "ts-io-error";
+import { IOError } from "@ts-endpoint/core";
 
 export class BadRequestError extends IOError {
   name = "BadRequestError";

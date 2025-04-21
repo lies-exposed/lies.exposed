@@ -28,31 +28,31 @@ export const ResourceEntityInput: React.FC = () => {
   }
 
   const referenceInput = React.useMemo(() => {
-    if (record.type === SocialPostResourceType.types[0].value) {
+    if (record.type === SocialPostResourceType.members[0].literals[0]) {
       return <ReferenceActorInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[1].value) {
+    if (record.type === SocialPostResourceType.members[1].literals[0]) {
       return <ReferenceGroupInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[2].value) {
+    if (record.type === SocialPostResourceType.members[2].literals[0]) {
       return <ReferenceKeywordInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[3].value) {
+    if (record.type === SocialPostResourceType.members[3].literals[0]) {
       return <ReferenceMediaInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[4].value) {
+    if (record.type === SocialPostResourceType.members[4].literals[0]) {
       return <ReferenceEventInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[5].value) {
+    if (record.type === SocialPostResourceType.members[5].literals[0]) {
       return <ReferenceLinkInput source="entity" />;
     }
 
-    if (record.type === SocialPostResourceType.types[6].value) {
+    if (record.type === SocialPostResourceType.members[6].literals[0]) {
       return <ReferenceAreaInput source="entity" />;
     }
 
@@ -67,9 +67,9 @@ export const ResourceEntityInput: React.FC = () => {
     <Stack direction={"row"} spacing={2}>
       <SelectInput
         source="type"
-        choices={SocialPostResourceType.types.map((t) => ({
-          id: t.value,
-          name: t.value,
+        choices={SocialPostResourceType.members.map((t) => ({
+          id: t.literals[0],
+          name: t.literals[0],
         }))}
       />
       {referenceInput}

@@ -1,7 +1,5 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { BySubjectId } from "../Common/index.js";
+import { Schema } from "effect";
+import { BySubjectId, UUID } from "../Common/index.js";
 import {
   CreateEventCommon,
   EditEventCommon,
@@ -10,53 +8,49 @@ import {
 import { QUOTE } from "./EventType.js";
 import { GetSearchEventsQuery } from "./SearchEvents/SearchEventsQuery.js";
 
-export const QuoteListQuery = t.strict(
-  {
-    ...propsOmit(GetSearchEventsQuery, ["eventType"]),
-  },
-  "QuoteListQuery",
-);
-export type QuoteListQuery = t.TypeOf<typeof QuoteListQuery>;
+export const QuoteListQuery = Schema.Struct({
+  ...GetSearchEventsQuery.omit("eventType").fields,
+}).annotations({
+  title: "QuoteListQuery",
+});
+export type QuoteListQuery = typeof QuoteListQuery.Type;
 
-export const QuotePayload = t.strict(
-  {
-    actor: t.union([UUID, t.undefined]),
-    subject: t.union([BySubjectId, t.undefined]),
-    quote: t.union([t.string, t.undefined]),
-    details: t.union([t.string, t.undefined]),
-  },
-  "QuotePayload",
-);
-export type QuotePayload = t.TypeOf<typeof QuotePayload>;
+export const QuotePayload = Schema.Struct({
+  actor: Schema.Union(UUID, Schema.Undefined),
+  subject: Schema.Union(BySubjectId, Schema.Undefined),
+  quote: Schema.Union(Schema.String, Schema.Undefined),
+  details: Schema.Union(Schema.String, Schema.Undefined),
+}).annotations({
+  title: "QuotePayload",
+});
+export type QuotePayload = typeof QuotePayload.Type;
 
-export const CreateQuoteBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: QUOTE,
-    payload: QuotePayload,
-  },
-  "CreateQuoteBody",
-);
-export type CreateQuoteBody = t.TypeOf<typeof CreateQuoteBody>;
+export const CreateQuoteBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: QUOTE,
+  payload: QuotePayload,
+}).annotations({
+  title: "CreateQuoteBody",
+});
 
-export const EditQuoteBody = t.strict(
-  {
-    ...EditEventCommon.type.props,
-    type: QUOTE,
-    payload: QuotePayload,
-  },
-  "EditQuoteBody",
-);
+export type CreateQuoteBody = typeof CreateQuoteBody.Type;
 
-export type EditQuoteBody = t.TypeOf<typeof EditQuoteBody>;
+export const EditQuoteBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: QUOTE,
+  payload: QuotePayload,
+}).annotations({
+  title: "EditQuoteBody",
+});
 
-export const Quote = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: QUOTE,
-    payload: QuotePayload,
-  },
-  "Quote",
-);
+export type EditQuoteBody = typeof EditQuoteBody.Type;
 
-export type Quote = t.TypeOf<typeof Quote>;
+export const Quote = Schema.Struct({
+  ...EventCommon.fields,
+  type: QUOTE,
+  payload: QuotePayload,
+}).annotations({
+  title: "Quote",
+});
+
+export type Quote = typeof Quote.Type;

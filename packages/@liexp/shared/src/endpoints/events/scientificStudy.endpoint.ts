@@ -1,8 +1,6 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
 import { UUID } from "../../io/http/Common/index.js";
 import {
@@ -10,20 +8,21 @@ import {
   ScientificStudy,
 } from "../../io/http/Events/ScientificStudy.js";
 import { GetSearchEventsQuery } from "../../io/http/Events/SearchEvents/SearchEventsQuery.js";
-import { ResourceEndpoints } from "../types.js";
 
-const SingleStudyOutput = Output(ScientificStudy, "Death");
+const SingleStudyOutput = Output(ScientificStudy).annotations({
+  title: "ScientificStudy",
+});
 const ListStudyOutput = ListOutput(ScientificStudy, "Deaths");
 
 export const List = Endpoint({
   Method: "GET",
   getPath: () => "/scientific-studies",
   Input: {
-    Query: t.type({
-      ...GetSearchEventsQuery.type.props,
-      provider: optionFromNullable(UUID),
-      publishedDate: optionFromNullable(DateFromISOString),
-      authors: optionFromNullable(t.array(UUID)),
+    Query: Schema.Struct({
+      ...GetSearchEventsQuery.fields,
+      provider: OptionFromNullishToNull(UUID),
+      publishedDate: OptionFromNullishToNull(Schema.Date),
+      authors: OptionFromNullishToNull(Schema.Array(UUID)),
     }),
   },
   Output: ListStudyOutput,
@@ -33,7 +32,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleStudyOutput,
 });
@@ -53,7 +52,7 @@ export const Create = Endpoint({
 //   getPath: () => "/scientific-studies/from-url",
 //   Input: {
 //     Query: undefined,
-//     Body: t.strict({
+//     Body: Schema.Struct({
 //       url: URL,
 //     }),
 //   },
@@ -64,7 +63,7 @@ export const ExtractFromURL = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/scientific-studies/${id}/extract`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleStudyOutput,
 });
@@ -73,11 +72,8 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: t.strict(
-      propsOmit(CreateScientificStudyBody, ["type"]),
-      "CreateScientificStudyBody",
-    ),
+    Params: Schema.Struct({ id: UUID }),
+    Body: CreateScientificStudyBody.omit("type"),
   },
   Output: SingleStudyOutput,
 });
@@ -86,7 +82,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/scientific-studies/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleStudyOutput,
 });

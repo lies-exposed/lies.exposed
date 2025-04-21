@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
     "target": "ESNext",
     "jsx": "react",
     "noEmit": true,
@@ -19,7 +18,6 @@
     "typeRoots": ["../../node_modules/@types", "./typings"],
     "baseUrl": "./src",
     "rootDir": "./",
-    "moduleResolution": "node10",
     "isolatedModules": true
   },
   "include": [".storybook", "src", "typings"],

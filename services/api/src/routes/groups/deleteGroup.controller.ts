@@ -1,4 +1,5 @@
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -11,10 +12,14 @@ export const MakeDeleteGroupRoute: Route = (r, ctx) => {
     Endpoints.Group.Delete,
     ({ params: { id } }) => {
       return pipe(
-        ctx.db.softDelete(GroupEntity, id),
+        ctx.db.findOneOrFail(GroupEntity, { where: { id } }),
+        TE.tap(() => ctx.db.softDelete(GroupEntity, id)),
+        TE.chainEitherK((data) =>
+          GroupIO.decodeSingle(data, ctx.env.SPACE_ENDPOINT),
+        ),
         TE.map((data) => ({
           body: {
-            data: true,
+            data,
           },
           statusCode: 200,
         })),

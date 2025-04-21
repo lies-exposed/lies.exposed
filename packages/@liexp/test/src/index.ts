@@ -1,4 +1,4 @@
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
+import * as Media from "./arbitrary/Media.arbitrary.js";
 
-export { fc, getArbitrary };
+export { fc, Media };

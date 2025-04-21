@@ -1,4 +1,4 @@
-import { type UUID } from "io-ts-types/lib/UUID.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as React from "react";
 import QueriesRenderer from "../../components/QueriesRenderer.js";
 import {
@@ -17,7 +17,7 @@ const ActorChipBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({ actor: Q.Actor.get.useQuery({ id }) })}
-      render={({ actor }) => {
+      render={({ actor: { data: actor } }) => {
         return <ActorChip {...props} actor={actor} />;
       }}
     />

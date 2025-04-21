@@ -105,23 +105,23 @@ export const EventList: React.FC = () => (
         };
       }}
       rowClick={(_props, _id, record) => {
-        if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
+        if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type) {
           return `/scientific-studies/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.DEATH.value) {
+        if (record.type === http.Events.EventTypes.DEATH.Type) {
           return `/deaths/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.PATENT.value) {
+        if (record.type === http.Events.EventTypes.PATENT.Type) {
           return `/patents/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.DOCUMENTARY.value) {
+        if (record.type === http.Events.EventTypes.DOCUMENTARY.Type) {
           return `/documentaries/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.TRANSACTION.value) {
+        if (record.type === http.Events.EventTypes.TRANSACTION.Type) {
           return `/transactions/${record.id}`;
         }
 
@@ -160,11 +160,11 @@ export const EventList: React.FC = () => (
         label="actors"
         source="payload"
         render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED.value) {
+          if (r?.type === Events.EventTypes.UNCATEGORIZED.Type) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.value) {
+          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.Type) {
             return r.payload.authors.length;
           }
 
@@ -195,11 +195,11 @@ export const EventList: React.FC = () => (
         label="groupsMembers"
         source="payload"
         render={(r) => {
-          if (r?.type === http.Events.EventTypes.UNCATEGORIZED.value) {
+          if (r?.type === http.Events.EventTypes.UNCATEGORIZED.Type) {
             return r.payload.groupsMembers.length;
           }
 
-          if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.value) {
+          if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type) {
             return 0;
           }
 
@@ -225,23 +225,23 @@ export const EventEdit: React.FC = (props) => {
       {(suggestions, handlers) => (
         <FormDataConsumer<Event>>
           {({ formData, scopedFormData, ...rest }) => {
-            if (formData.type === EventTypes.DOCUMENTARY.value) {
+            if (formData.type === EventTypes.DOCUMENTARY.Type) {
               return <DocumentaryEditFormTab />;
             }
-            if (formData.type === EventTypes.DEATH.value) {
+            if (formData.type === EventTypes.DEATH.Type) {
               return <DeathEventEditFormTab />;
             }
-            if (formData.type === EventTypes.SCIENTIFIC_STUDY.value) {
+            if (formData.type === EventTypes.SCIENTIFIC_STUDY.Type) {
               return <ScientificStudyEventEditTab />;
             }
-            if (formData.type === EventTypes.QUOTE.value) {
+            if (formData.type === EventTypes.QUOTE.Type) {
               return <QuoteEditFormTab />;
             }
-            if (formData.type === EventTypes.PATENT.value) {
+            if (formData.type === EventTypes.PATENT.Type) {
               return <PatentEventEditFormTab />;
             }
 
-            if (formData.type === EventTypes.BOOK.value) {
+            if (formData.type === EventTypes.BOOK.Type) {
               return <BookEditFormTab />;
             }
 
@@ -280,15 +280,15 @@ const EventListAside: React.FC = () => {
           <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
         </FilterList>
         <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
-          {EventType.types.map((t) => (
+          {EventType.members.map((t) => (
             <FilterListItem
-              key={t.value}
+              key={t.Type}
               label={
                 <span>
-                  <EventIcon type={t.value} /> {t.value}
+                  <EventIcon type={t.Type} /> {t.Type}
                 </span>
               }
-              value={{ eventType: [t.value] }}
+              value={{ eventType: [t.Type] }}
             />
           ))}
         </FilterList>

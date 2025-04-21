@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { Schema } from "effect";
 import { toError } from "fp-ts/lib/Either.js";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
 import * as React from "react";
 import { useLocation } from "react-router";
 
@@ -17,7 +17,7 @@ export const LazyFormTabContent: React.FC<
       fp.A.last,
       fp.O.filter((n) => {
         return pipe(
-          NumberFromString.decode(n),
+          Schema.decodeUnknownEither(Schema.NumberFromString)(n),
           fp.E.mapLeft(toError),
           fp.E.filterOrElse((n) => n === tab, toError),
           fp.E.isRight,

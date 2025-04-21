@@ -218,7 +218,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
         .selectAll("text")
         .data(
           nodes.filter((n) =>
-            EventType.types.flatMap((t) => t.value).includes(n.data.type),
+            EventType.members
+              .flatMap((t) => t.literals[0])
+              .includes(n.data.type),
           ),
         )
         .join("text")
@@ -260,7 +262,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
     //   .style("height", (d) => nodeRadius(d) * 2 + "px");
 
     const actorOrGroupNode = nodeG.filter((n) =>
-      [ACTORS.value, GROUPS.value].includes(n.data.type),
+      [ACTORS.literals[0], GROUPS.literals[0]].includes(n.data.type),
     );
 
     actorOrGroupNode
@@ -287,7 +289,11 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
 
     const eventNodeNode = nodeG.filter(
       (n) =>
-        ![ACTORS.value, GROUPS.value, KEYWORDS.value].includes(n.data.type),
+        ![
+          ACTORS.literals[0],
+          GROUPS.literals[0],
+          KEYWORDS.literals[0],
+        ].includes(n.data.type),
     );
 
     // eventNodeNode
@@ -321,7 +327,11 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .attr("fill", "#fff")
       .attr("fill", (d) => {
         if (
-          [ACTORS.value, GROUPS.value, KEYWORDS.value].includes(d.data.type)
+          [
+            ACTORS.literals[0],
+            GROUPS.literals[0],
+            KEYWORDS.literals[0],
+          ].includes(d.data.type)
         ) {
           return `url(#${d.data.type}-${d.data.id})`;
         }
@@ -330,7 +340,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
           return `url(#event-image-${d.data.id})`;
         }
 
-        if (EventType.types.flatMap((t) => t.value).includes(d.data.type)) {
+        if (
+          EventType.members.flatMap((t) => t.literals[0]).includes(d.data.type)
+        ) {
           return `url(#event-${d.data.type.toLowerCase()})`;
         }
 
@@ -348,7 +360,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .call(drag(simulation));
 
     const keywordPattern = nodeG
-      .filter((n) => KEYWORDS.value === n.data.type)
+      .filter((n) => KEYWORDS.literals[0] === n.data.type)
       .append("text")
       .text(`#`)
       .attr("fill", (d) => `#${d.data.color}`)
@@ -380,7 +392,9 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       );
 
     node
-      .filter((n) => EventType.types.map((t) => t.value).includes(n.data.type))
+      .filter((n) =>
+        EventType.members.map((t) => t.literals[0]).includes(n.data.type),
+      )
       .on("mouseenter", function (this: any) {
         const n = d3.select(this);
         const dataId = n.attr("data-id");

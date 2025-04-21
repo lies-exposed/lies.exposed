@@ -1,4 +1,5 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import * as React from "react";
 import EventsBox from "../../../containers/EventsBox.js";
 import { Stack } from "../../mui/index.js";
@@ -21,7 +22,7 @@ export const EventRelatedEvents: React.FC<{
       columns: { sm: 12, md: 4, lg: 4 },
     };
     const boxes: React.ReactNode[] = [];
-    if (Events.EventTypes.DEATH.is(event.type)) {
+    if (Schema.is(Events.EventTypes.DEATH)(event.type)) {
       const e = event as Events.SearchEvent.SearchDeathEvent;
       boxes.push(
         <EventsBox
@@ -37,7 +38,7 @@ export const EventRelatedEvents: React.FC<{
       );
     }
 
-    if (Events.EventTypes.DOCUMENTARY.is(event.type)) {
+    if (Schema.is(Events.EventTypes.DOCUMENTARY)(event.type)) {
       boxes.push(
         <EventsBox
           {...commonProps}

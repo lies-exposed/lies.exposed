@@ -12,8 +12,8 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
       pipe(
         fp.RTE.ask<ClientContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
-          ctx.endpointsRESTClient.Endpoints.Queues.getList({
-            filter: {
+          ctx.endpointsRESTClient.Queues.List({
+            Query: {
               resource: undefined,
               type: undefined,
               status: ["pending", "processing"],

@@ -4,11 +4,10 @@ import {
   toAPIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { CoreError } from "@liexp/shared/lib/io/http/Error/CoreError.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { ErrorDecoder } from "@liexp/shared/lib/io/http/Error/ErrorDecoder.js";
-import { type Either } from "fp-ts/lib/Either.js";
+import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import * as React from "react";
 import { type FallbackProps } from "react-error-boundary";
 import {
@@ -27,7 +26,8 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
   error,
 }) => {
   const details = React.useMemo(() => {
-    const isAPIError = APIError.is(error) && (error.details?.length ?? 0) > 0;
+    const isAPIError =
+      Schema.is(APIError)(error) && (error.details?.length ?? 0) > 0;
     if (isAPIError) {
       return (
         <div>
@@ -38,7 +38,8 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
       );
     }
 
-    const isCoreError = CoreError.is(error) && (error.details?.length ?? 0) > 0;
+    const isCoreError =
+      Schema.is(CoreError)(error) && (error.details?.length ?? 0) > 0;
     if (isCoreError) {
       return (
         <div>
@@ -51,7 +52,7 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
       );
     }
 
-    return null;
+    return JSON.stringify(error, null, 2);
   }, [error]);
 
   return (
@@ -75,26 +76,19 @@ export const ErrorBox = ({
   style,
 }: ErrorBoxProps): React.ReactElement => {
   const error = React.useMemo((): APIError | CoreError => {
-    if (APIError.is(e)) {
+    if (Schema.is(APIError)(e)) {
       return e;
     }
 
     return pipe(
       toAPIError(e),
       fp.E.right,
-      fp.E.alt(
-        (): Either<t.Errors, APIError | CoreError> => ErrorDecoder.decode(e),
-      ),
+      fp.E.alt(() => ErrorDecoder.decode(e)),
       fp.E.match(
-        (e) => {
-          return {
-            name: "DecodingError",
-            message: "Failed to decode error",
-            details: PathReporter.report(t.failures(e)),
-            status: 500,
-          };
+        (e): CoreError => {
+          return toAPIError(DecodeError.of("Failed to decode error", e));
         },
-        (e) => e,
+        (e): CoreError => e,
       ),
     );
   }, [e]);
@@ -105,7 +99,8 @@ export const ErrorBox = ({
         title={
           <Stack direction="column" alignItems="flex-start" spacing={1}>
             <Typography variant="h5" marginBottom={0}>
-              {error.name} {APIError.is(error) ? `(${error.status})` : ""}
+              {error.name}{" "}
+              {Schema.is(APIError)(error) ? `(${error.status})` : ""}
             </Typography>
             <Typography variant="subtitle1" marginBottom={0}>
               {error.message}

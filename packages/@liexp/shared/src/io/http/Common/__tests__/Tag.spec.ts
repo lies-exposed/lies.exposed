@@ -1,5 +1,5 @@
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
-import * as t from "io-ts";
 import { describe, expect, test } from "vitest";
 import { Tag } from "../Tag.js";
 
@@ -7,11 +7,11 @@ describe.skip("Tag codec", () => {
   test("Should decode given input", () => {
     const tags = ["firstkeyword", "otherkeyword"];
 
-    expect(E.isRight(t.array(Tag).decode(tags))).toBe(true);
+    expect(E.isRight(decode(tags))).toBe(true);
 
     const fastCheckTest = ["tag", "tag1", "another"];
 
-    expect(E.isRight(t.array(Tag).decode(fastCheckTest))).toBe(true);
+    expect(E.isRight(decode(fastCheckTest))).toBe(true);
   });
 
   test("Should failed to decode given input", () => {
@@ -23,6 +23,8 @@ describe.skip("Tag codec", () => {
       "$notvalid",
     ];
 
-    expect(E.isLeft(t.array(Tag).decode(tags))).toBe(true);
+    expect(E.isLeft(decode(tags))).toBe(true);
   });
+
+  const decode = Schema.decodeUnknownEither(Schema.Array(Tag));
 });

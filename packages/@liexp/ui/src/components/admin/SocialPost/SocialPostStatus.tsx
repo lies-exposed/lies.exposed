@@ -9,9 +9,9 @@ export const SocialPostStatus: React.FC = () => {
     <Box style={{ display: "flex", alignItems: "center" }}>
       <SelectInput
         source="status"
-        choices={SocialPost.SocialPostStatus.types.map((t) => ({
-          id: t.value,
-          name: t.value,
+        choices={SocialPost.SocialPostStatus.members.map((t) => ({
+          id: t.literals[0],
+          name: t.literals[0],
         }))}
       />
       <PublishNowButton platforms={{ IG: true, TG: true }} />

@@ -27,7 +27,7 @@ export const assignDefaultAreaFeaturedImage: CommandFlow = async (ctx) => {
       ),
     ),
     fp.TE.chain((areas) => {
-      return ctx.db.save(AreaEntity, areas);
+      return ctx.db.save(AreaEntity, [...areas]);
     }),
     throwTE,
   )

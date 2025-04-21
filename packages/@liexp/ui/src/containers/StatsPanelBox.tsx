@@ -89,7 +89,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
   onGroupClick,
   onKeywordClick,
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <StyledBox
       id={`stats-panel-${type}-${id}`}

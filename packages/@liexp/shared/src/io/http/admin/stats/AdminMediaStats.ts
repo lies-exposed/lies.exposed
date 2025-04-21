@@ -1,25 +1,23 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const AdminMediaStatsTotals = t.strict(
-  {
-    orphans: t.number,
-    match: t.number,
-    temp: t.number,
-    noThumbnails: t.number,
-    needRegenerateThumbnail: t.number,
-  },
-  "AdminMediaStatsTotals",
-);
-export type AdminMediaStatsTotals = t.TypeOf<typeof AdminMediaStatsTotals>;
+export const AdminMediaStatsTotals = Schema.Struct({
+  orphans: Schema.Number,
+  match: Schema.Number,
+  temp: Schema.Number,
+  noThumbnails: Schema.Number,
+  needRegenerateThumbnail: Schema.Number,
+}).annotations({
+  title: "AdminMediaStatsTotals",
+});
+export type AdminMediaStatsTotals = typeof AdminMediaStatsTotals.Type;
 
-export const AdminMediaStats = t.strict(
-  {
-    orphans: t.array(t.any),
-    match: t.array(t.any),
-    temp: t.array(t.any),
-    noThumbnails: t.array(t.any),
-    needRegenerateThumbnail: t.array(t.any),
-  },
-  "AdminMediaStats",
-);
-export type AdminMediaStats = t.TypeOf<typeof AdminMediaStats>;
+export const AdminMediaStats = Schema.Struct({
+  orphans: Schema.Array(Schema.Any),
+  match: Schema.Array(Schema.Any),
+  temp: Schema.Array(Schema.Any),
+  noThumbnails: Schema.Array(Schema.Any),
+  needRegenerateThumbnail: Schema.Array(Schema.Any),
+}).annotations({
+  title: "AdminMediaStats",
+});
+export type AdminMediaStats = typeof AdminMediaStats.Type;

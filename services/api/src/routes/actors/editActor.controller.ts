@@ -1,11 +1,11 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
+import { Schema } from "effect";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
@@ -21,18 +21,18 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
     }) => {
       const updateData = {
         ...foldOptionals({ ...body }),
-        bornOn: O.toUndefined(bornOn) as any,
-        diedOn: O.toUndefined(diedOn) as any,
+        bornOn: O.getOrUndefined(bornOn),
+        diedOn: O.getOrUndefined(diedOn),
         avatar: pipe(
           avatar,
           O.map((a) => ({ id: a })),
-          O.toUndefined,
+          O.getOrUndefined,
         ),
         memberIn: pipe(
           memberIn,
           O.map(
-            A.map((m) => {
-              if (UUID.is(m)) {
+            fp.A.map((m) => {
+              if (Schema.is(UUID)(m)) {
                 return {
                   id: m,
                   actor: { id },
@@ -42,13 +42,13 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
               return {
                 ...m,
                 startDate: m.startDate,
-                endDate: O.toNullable(m.endDate),
+                endDate: O.getOrNull(m.endDate),
                 actor: { id },
                 group: { id: m.group },
               };
             }),
           ),
-          O.getOrElse((): any[] => []),
+          O.getOrElse(() => []),
         ),
       };
 
@@ -56,7 +56,16 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
       return pipe(
         db.findOneOrFail(ActorEntity, { where: { id: Equal(id) } }),
         TE.chain((actor) =>
-          db.save(ActorEntity, [{ ...actor, id, ...updateData }]),
+          db.save(ActorEntity, [
+            {
+              ...actor,
+              id,
+              ...updateData,
+              memberIn: [...updateData.memberIn],
+              excerpt: [...updateData.excerpt],
+              body: [...updateData.body],
+            },
+          ]),
         ),
         TE.chain(() =>
           db.findOneOrFail(ActorEntity, {

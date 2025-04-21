@@ -1,10 +1,10 @@
-import { fc } from "@liexp/test";
 import {
   AxisGraph,
   type AxisGraphProps,
 } from "@liexp/ui/lib/components/Common/Graph/AxisGraph.js";
 import { type Meta, type StoryFn } from "@storybook/react";
 import { LinearGradient } from "@visx/gradient";
+import fc from "fast-check";
 import * as React from "react";
 
 const meta: Meta = {

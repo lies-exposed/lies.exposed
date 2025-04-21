@@ -4,10 +4,10 @@ import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { Schema } from "effect";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as t from "io-ts";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -48,7 +48,7 @@ export const ListEventRoute: Route = (r, ctx) => {
         ...queryRest,
         _sort: pipe(
           queryRest._sort,
-          O.alt(() => O.some("date")),
+          O.orElse(() => O.some("date")),
         ),
       },
       ctx.env.DEFAULT_PAGE_SIZE,
@@ -56,7 +56,7 @@ export const ListEventRoute: Route = (r, ctx) => {
 
     const type = pipe(
       _type,
-      O.map((tp) => (t.array(EventType).is(tp) ? tp : [tp])),
+      O.map((tp) => (Schema.is(Schema.Array(EventType))(tp) ? tp : [])),
     );
 
     ctx.logger.debug.log("find options %O", findOptions);
@@ -89,7 +89,14 @@ export const ListEventRoute: Route = (r, ctx) => {
         pipe(
           results,
           EventV2IO.decodeMany,
-          E.map((data) => ({ data, ...rest })),
+          E.map((data) => ({
+            data: data.map((d) => ({
+              ...d,
+              // TODO: fix this
+              score: 1,
+            })),
+            ...rest,
+          })),
           TE.fromEither,
         ),
       ),

@@ -8,6 +8,7 @@ import {
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { Schema } from "effect";
 import { type RTE } from "../../types.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
@@ -24,7 +25,8 @@ export const transferFromExternalProvider =
     return pipe(
       mimeType,
       fp.RTE.fromPredicate(
-        (t): t is TransferableMediaType => ImageType.is(t) || PDFType.is(t),
+        (t): t is TransferableMediaType =>
+          Schema.is(Schema.Union(ImageType, PDFType))(t),
         () =>
           toWorkerError(
             new Error(`Can't transfer this media type: ${mimeType}`),

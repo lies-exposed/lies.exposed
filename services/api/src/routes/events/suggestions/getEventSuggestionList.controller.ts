@@ -6,9 +6,9 @@ import {
   type User,
 } from "@liexp/shared/lib/io/http/User.js";
 import { type EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
+import * as O from "effect/Option";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toEventSuggestion } from "./eventSuggestion.io.js";
 import { searchEventSuggestion } from "#flows/event-suggestion/searchEventSuggestion.flow.js";
@@ -43,19 +43,22 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         pipe(
           status,
           O.map((s) => [s]),
-          O.alt(
+          O.orElse(
             (): O.Option<EventSuggestion.EventSuggestionStatus[]> =>
-              O.some(["PENDING", "COMPLETED"]),
+              O.some([
+                "PENDING",
+                "COMPLETED",
+              ] as EventSuggestion.EventSuggestionStatus[]),
           ),
         );
 
       ctx.logger.debug.log("_Creator %O", _creator);
       const creator = pipe(
         _creator,
-        O.alt(() =>
-          [EventSuggestionRead.value].some((p) => u.permissions.includes(p))
+        O.orElse(() =>
+          [EventSuggestionRead.Type].some((p) => u.permissions.includes(p))
             ? O.some(u.id)
-            : O.none,
+            : O.none(),
         ),
       );
 
@@ -65,7 +68,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         searchEventSuggestion({
           status: statusFilter,
           links,
-          newLinks: O.none,
+          newLinks: O.none(),
           order: {
             [ordering._sort]: ordering._order,
           },

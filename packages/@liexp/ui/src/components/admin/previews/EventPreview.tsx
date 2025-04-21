@@ -1,6 +1,7 @@
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -21,7 +22,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
 
   const result = React.useMemo(
     () =>
-      http.Events.Event.decode({
+      Schema.decodeUnknownEither(http.Events.Event)({
         ...(record ?? {}),
         payload: {
           ...record?.payload,
@@ -52,7 +53,7 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
                 actors: [],
                 groups: [],
                 keywords: [],
-                eventType: Events.EventType.types.map((t) => t.value),
+                eventType: Events.EventType.members.map((t) => t.literals[0]),
               }}
               onTabChange={() => {}}
               onActorClick={() => undefined}

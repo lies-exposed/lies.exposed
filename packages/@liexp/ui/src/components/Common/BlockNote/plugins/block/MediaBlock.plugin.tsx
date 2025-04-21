@@ -1,11 +1,12 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import {
   mediaBlockSpecs,
   DEFAULT_ID,
 } from "@liexp/shared/lib/providers/blocknote/index.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import * as React from "react";
 import MediaSliderBox from "../../../../../containers/MediaSliderBox.js";
 import { AutocompleteMediaInput } from "../../../../Input/AutocompleteMediaInput.js";
@@ -50,7 +51,8 @@ export const insertMediaBlock = (editor: BNESchemaEditor) => ({
 export const MediaBlockPluginRenderer: React.FC<{
   data: MediaBlockProps;
 }> = ({ ...props }) => {
-  const ids = props.data?.id.split(",").filter(UUID.is) ?? [];
+  const ids =
+    props.data?.id.split(",").filter((id) => Schema.is(UUID)(id)) ?? [];
   const height = props.data.height ?? 200;
   const enableDescription = props.data.enableDescription ?? false;
 
@@ -84,7 +86,9 @@ export const MediaBlockPluginControl: React.FC<{
 }> = ({ onRemove: remove, data, ...props }) => {
   const [s, setS] = React.useState({
     media:
-      data.id?.split(",").flatMap((id) => (UUID.is(id) ? [{ id }] : [])) ?? [],
+      data.id
+        ?.split(",")
+        .flatMap((id) => (Schema.is(UUID)(id) ? [{ id }] : [])) ?? [],
     height: data.height ?? 200,
     enableDescription: data.enableDescription ?? false,
   });

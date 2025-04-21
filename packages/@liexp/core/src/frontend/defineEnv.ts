@@ -1,7 +1,9 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const defineEnv = <P extends t.Props>(
-  fn: (io: typeof t) => P,
-): t.ExactC<t.TypeC<P>> => {
-  return t.strict<P>(fn(t), "AppEnv");
+export const defineEnv = <P extends Schema.Struct.Fields>(
+  fn: (io: typeof Schema) => P,
+): Schema.Struct<P> => {
+  return Schema.Struct<P>(fn(Schema)).annotations({
+    title: "AppEnv",
+  });
 };

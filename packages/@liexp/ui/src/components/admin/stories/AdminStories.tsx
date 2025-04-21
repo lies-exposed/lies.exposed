@@ -1,8 +1,8 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -167,7 +167,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
             <Grid item md={6}>
               <ReferenceMediaInput
                 source="featuredImage.id"
-                allowedTypes={ImageType.types.map((t) => t.value)}
+                allowedTypes={ImageType.members.map((t) => t.literals[0])}
                 fullWidth
               />
             </Grid>
@@ -206,7 +206,7 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
         <ReferenceMediaInput
           source="featuredImage"
-          allowedTypes={ImageType.types.map((t) => t.value)}
+          allowedTypes={ImageType.members.map((t) => t.literals[0])}
         />
         <DateInput source="date" />
         <ArrayInput source="links">

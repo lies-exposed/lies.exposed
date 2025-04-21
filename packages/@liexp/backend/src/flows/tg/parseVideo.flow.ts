@@ -89,7 +89,7 @@ export const parseVideo =
       TE.chain(({ video, thumb }) => {
         return createAndUpload(
           {
-            type: MP4Type.value,
+            type: MP4Type.literals[0],
             location: "" as URL,
             label: description,
             description,
@@ -102,7 +102,7 @@ export const parseVideo =
           },
           {
             Body: video,
-            ContentType: MP4Type.value,
+            ContentType: MP4Type.literals[0],
           },
           mediaId,
           false,

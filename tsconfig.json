@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "lib": ["ESNext"],
-    "module": "ESNext",
+    "module": "ES2022",
     "target": "es6",
-    "moduleResolution": "Node",
+    "moduleResolution": "node10",
     "incremental": true,
     "strict": true,
     "declaration": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "noUncheckedSideEffectImports": false,
+    "importHelpers": true,
     "noUnusedLocals": true,
     "isolatedModules": true,
     "resolveJsonModule": true,

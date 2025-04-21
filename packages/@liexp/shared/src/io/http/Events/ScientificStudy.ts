@@ -1,5 +1,5 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
+import { UUID } from "../Common/UUID.js";
 import {
   CreateEventCommon,
   EditEventCommon,
@@ -7,50 +7,44 @@ import {
 } from "./BaseEvent.js";
 import { SCIENTIFIC_STUDY } from "./EventType.js";
 
-export const ScientificStudyPayload = t.strict(
-  {
-    title: t.string,
-    url: UUID,
-    image: t.union([UUID, t.string, t.undefined]),
-    authors: t.array(UUID),
-    publisher: t.union([UUID, t.undefined]),
-  },
-  "ScientificStudyPayload",
-);
+export const ScientificStudyPayload = Schema.Struct({
+  title: Schema.String,
+  url: UUID,
+  image: Schema.Union(UUID, Schema.String, Schema.Undefined),
+  authors: Schema.Array(UUID),
+  publisher: Schema.Union(UUID, Schema.Undefined),
+}).annotations({
+  title: "ScientificStudyPayload",
+});
 
-export type ScientificStudyPayload = t.TypeOf<typeof ScientificStudyPayload>;
+export type ScientificStudyPayload = typeof ScientificStudyPayload.Type;
 
-export const CreateScientificStudyBody = t.strict(
-  {
-    ...CreateEventCommon.type.props,
-    type: SCIENTIFIC_STUDY,
-    payload: ScientificStudyPayload,
-  },
-  "CreateScientificStudyBody",
-);
+export const CreateScientificStudyBody = Schema.Struct({
+  ...CreateEventCommon.fields,
+  type: SCIENTIFIC_STUDY,
+  payload: ScientificStudyPayload,
+}).annotations({
+  title: "CreateScientificStudyBody",
+});
 
-export type CreateScientificStudyBody = t.TypeOf<
-  typeof CreateScientificStudyBody
->;
+export type CreateScientificStudyBody = typeof CreateScientificStudyBody.Type;
 
-export const EditScientificStudyBody = t.strict(
-  {
-    ...EditEventCommon.type.props,
-    type: SCIENTIFIC_STUDY,
-    payload: ScientificStudyPayload,
-  },
-  "EditScientificStudyBody",
-);
+export const EditScientificStudyBody = Schema.Struct({
+  ...EditEventCommon.fields,
+  type: SCIENTIFIC_STUDY,
+  payload: ScientificStudyPayload,
+}).annotations({
+  title: "EditScientificStudyBody",
+});
 
-export type EditScientificStudyBody = t.TypeOf<typeof EditScientificStudyBody>;
+export type EditScientificStudyBody = typeof EditScientificStudyBody.Type;
 
-export const ScientificStudy = t.strict(
-  {
-    ...EventCommon.type.props,
-    type: SCIENTIFIC_STUDY,
-    payload: ScientificStudyPayload,
-  },
-  "ScientificStudy",
-);
+export const ScientificStudy = Schema.Struct({
+  ...EventCommon.fields,
+  type: SCIENTIFIC_STUDY,
+  payload: ScientificStudyPayload,
+}).annotations({
+  title: "ScientificStudy",
+});
 
-export type ScientificStudy = t.TypeOf<typeof ScientificStudy>;
+export type ScientificStudy = typeof ScientificStudy.Type;

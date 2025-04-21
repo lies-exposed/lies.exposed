@@ -17,8 +17,8 @@ export type ActorNetworkNodeProps = NetworkNode<{
 }>;
 
 export const toActorNodes = (
-  actors: Actor.Actor[],
-  links: NetworkLink[],
+  actors: readonly Actor.Actor[],
+  links: readonly NetworkLink[],
 ): ActorNetworkNodeProps[] => {
   return actors.map((a) => ({
     data: {
@@ -27,8 +27,8 @@ export const toActorNodes = (
       innerColor: a.color,
       outerColor: a.color,
       name: a.fullName,
-      group: Actor.ACTORS.value,
-      type: Actor.ACTORS.value,
+      group: Actor.ACTORS.literals[0],
+      type: Actor.ACTORS.literals[0],
       count: links.filter((kk) => kk.source === a.id || kk.target === a.id)
         .length,
     },

@@ -15,23 +15,24 @@ import {
   type Media,
   type Link,
 } from "@liexp/shared/lib/io/http/index.js";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
+import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 export const fetchEventsRelations =
   (
-    events: Events.Event[],
+    events: readonly Events.Event[],
     isAdmin: boolean,
   ): TEReader<{
-    events: Events.Event[];
-    actors: Actor.Actor[];
-    groups: Group.Group[];
-    keywords: Keyword.Keyword[];
-    media: Media.Media[];
-    links: Link.Link[];
-    groupsMembers: GroupMember.GroupMember[];
+    events: readonly Events.Event[];
+    actors: readonly Actor.Actor[];
+    groups: readonly Group.Group[];
+    keywords: readonly Keyword.Keyword[];
+    media: readonly Media.Media[];
+    links: readonly Link.Link[];
+    groupsMembers: readonly GroupMember.GroupMember[];
   }> =>
   (ctx) => {
     return pipe(
@@ -42,15 +43,25 @@ export const fetchEventsRelations =
             {
               keywords: pipe(
                 relations.keywords,
-                O.fromPredicate(fp.A.isNonEmpty),
+                O.fromNullable,
+                O.filter(isNonEmpty),
               ),
-              actors: pipe(relations.actors, O.fromPredicate(fp.A.isNonEmpty)),
-              groups: pipe(relations.groups, O.fromPredicate(fp.A.isNonEmpty)),
+              actors: pipe(
+                relations.actors,
+                O.fromNullable,
+                O.filter(isNonEmpty),
+              ),
+              groups: pipe(
+                relations.groups,
+                O.fromNullable,
+                O.filter(isNonEmpty),
+              ),
               groupsMembers: O.some(relations.groupsMembers),
               links: O.some(relations.links),
               media: pipe(
                 relations.media,
-                O.fromPredicate((m) => m.length > 0),
+                O.fromNullable,
+                O.filter(isNonEmpty),
               ),
             },
             isAdmin,

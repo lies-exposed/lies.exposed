@@ -2,6 +2,7 @@ FROM ghcr.io/lies-exposed/liexp-base:22-pnpm-latest AS dev
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
 
+COPY patches patches
 COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
 COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
 COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared

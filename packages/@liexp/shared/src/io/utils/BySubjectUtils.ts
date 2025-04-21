@@ -31,22 +31,22 @@ export const makeBySubject = <T extends ACTOR | GROUP>(
   if (type === "Actor") {
     const id = _id as Actor.Actor;
     const byActor = {
-      type: ACTOR.value,
+      type: ACTOR.literals[0],
       id,
     };
     return byActor;
   }
 
   return {
-    type: GROUP.value,
+    type: GROUP.literals[0],
     id: _id as Group.Group,
   };
 };
 
 export const findBySubject = (
   s: BySubjectId,
-  actors: Actor.Actor[],
-  groups: Group.Group[],
+  actors: readonly Actor.Actor[],
+  groups: readonly Group.Group[],
 ): Actor.Actor | Group.Group | undefined => {
   if (s.type === "Actor") {
     return actors.find((a) => a.id === s.id);
@@ -56,9 +56,9 @@ export const findBySubject = (
 };
 
 const toBySubjectArray = (
-  ss: BySubjectId[],
-  actors: Actor.Actor[],
-  groups: Group.Group[],
+  ss: readonly BySubjectId[],
+  actors: readonly Actor.Actor[],
+  groups: readonly Group.Group[],
 ): BySubject[] => {
   return ss.flatMap((s) => {
     const subject: BySubject["id"] | undefined = findBySubject(
@@ -79,8 +79,8 @@ const toBySubjectArray = (
 
 const lookupForSubject = (
   subject: BySubjectId,
-  actors: Actor.Actor[],
-  groups: Group.Group[],
+  actors: readonly Actor.Actor[],
+  groups: readonly Group.Group[],
 ): Option<BySubject> => {
   return pipe(
     findBySubject(subject, actors, groups),
@@ -96,7 +96,7 @@ const toSubjectId = (s: BySubject): BySubjectId => {
   };
 };
 
-const toSubjectIds = (ss: BySubject[]): BySubjectId[] => {
+const toSubjectIds = (ss: readonly BySubject[]): BySubjectId[] => {
   return ss.map(toSubjectId);
 };
 

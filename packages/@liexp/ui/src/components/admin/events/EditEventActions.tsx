@@ -20,7 +20,7 @@ export const EventEditActions: React.FC = () => {
     return {
       title: "",
       date: undefined,
-      type: EventTypes.UNCATEGORIZED.value,
+      type: EventTypes.UNCATEGORIZED.literals[0],
     };
   }, [record]);
 

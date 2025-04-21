@@ -1,5 +1,5 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as React from "react";
 import {
   EventsSankeyGraph,
@@ -31,7 +31,7 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
 }) => {
   // console.log(filter);
 
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
 
   const eventsFilter = {
     ...filter,
@@ -115,10 +115,10 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
                 return (
                   <EventsSankeyGraph
                     {...props}
-                    events={events}
-                    actors={actors}
-                    groups={groups}
-                    keywords={keywords}
+                    events={[...events]}
+                    actors={[...actors]}
+                    groups={[...groups]}
+                    keywords={[...keywords]}
                     selectedActorIds={filter.actors ?? []}
                     selectedGroupIds={filter.groups ?? []}
                     selectedKeywordIds={filter.keywords ?? []}

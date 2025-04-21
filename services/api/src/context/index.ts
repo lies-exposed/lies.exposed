@@ -18,17 +18,18 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
+import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Redis } from "ioredis";
 import MW from "nodemw";
-import metadataParser from "page-metadata-parser";
+import * as metadataParser from "page-metadata-parser";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import WinkFn from "wink-nlp";
@@ -99,12 +100,24 @@ export const makeContext =
       },
     });
 
-    const restClient = APIRESTClient({
-      getAuth: jwtClient.signUser({} as any),
-      url: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
+    const client = axios.default.create({
+      baseURL: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
     });
 
-    const apiClient = fromEndpoints(restClient)(Endpoints);
+    client.interceptors.request.use((req) => {
+      req.headers.set(
+        "Authorization",
+        `Bearer ${jwtClient.signUser({} as any)}`,
+      );
+
+      return req;
+    });
+
+    const apiClient = GetResourceClient(client, Endpoints, {
+      decode: EffectDecoder((e) =>
+        DecodeError.of("Resource client decode error", e),
+      ),
+    });
 
     const config = Config(env, process.cwd());
 

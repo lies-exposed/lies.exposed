@@ -5,6 +5,7 @@ import {
   MP4Type,
   ThumbnailsExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/index.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ENVContext } from "../../../context/env.context.js";
@@ -38,10 +39,10 @@ export const extractMediaExtra = <
     fp.RTE.Do,
     fp.RTE.bind("media", () => fp.RTE.of(media)),
     fp.RTE.bind("mediaExtra", ({ media }) => {
-      if (ImageType.is(media.type)) {
+      if (Schema.is(ImageType)(media.type)) {
         return extractImageTypeExtra<C>(media as SimpleImageMedia);
       }
-      if (MP4Type.is(media.type)) {
+      if (Schema.is(MP4Type)(media.type)) {
         return extractMP4Extra<C>(media as SimpleMP4Media);
       }
 

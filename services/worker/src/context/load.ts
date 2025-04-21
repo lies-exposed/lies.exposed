@@ -7,6 +7,7 @@ import {
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import axios from "axios";
+import { Schema } from "effect";
 import Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -29,7 +30,9 @@ export const loadImplementation = (env: ENV): ContextImplementation => {
   p.use(puppeteerStealth());
   return {
     redis: {
-      client: Redis.Redis as any,
+      client: new Redis({
+        lazyConnect: true,
+      }),
     },
     pdf: {
       client: pdfJs,
@@ -92,7 +95,7 @@ export const loadImplementation = (env: ENV): ContextImplementation => {
 
 export const loadContext = (): TE.TaskEither<WorkerError, WorkerContext> => {
   return pipe(
-    loadAndParseENV(ENVParser(ENV.decode))(process.cwd()),
+    loadAndParseENV(ENVParser(Schema.decodeUnknownEither(ENV)))(process.cwd()),
     TE.fromEither,
     TE.chain((env) => makeContext(env, loadImplementation(env))),
   );

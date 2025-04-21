@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import path from "path";
+import * as path from "path";
 import { CreateEntityStatsPubSub } from "@liexp/backend/lib/pubsub/stats/createEntityStats.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";

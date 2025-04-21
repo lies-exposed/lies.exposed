@@ -77,7 +77,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
       transform={(r: any) =>
         transformEvent(dataProvider)(uuid(), {
           ...r,
-          type: EventTypes.SCIENTIFIC_STUDY.value,
+          type: EventTypes.SCIENTIFIC_STUDY.literals[0],
         })
       }
     >
@@ -115,7 +115,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
             return (
               <URLMetadataInput
                 source="url"
-                type={EventTypes.SCIENTIFIC_STUDY.value}
+                type={EventTypes.SCIENTIFIC_STUDY.Type}
               />
             );
           }}

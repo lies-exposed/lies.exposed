@@ -1,4 +1,5 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -88,7 +89,11 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
 
       return pipe(
         sequenceS(TE.ApplicativePar)({
-          data: ctx.db.execQuery(() => findSocialPostQuery.getRawAndEntities()),
+          data: pipe(
+            ctx.db.execQuery(() => findSocialPostQuery.getRawAndEntities()),
+            TE.map((data) => data.raw),
+            TE.chainEitherK(SocialPostIO.decodeMany),
+          ),
           total: ctx.db.count(SocialPostEntity),
         }),
         // TE.chain(({ data, total }) =>
@@ -100,9 +105,10 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
         //     TE.map((data) => ({ total, data }))
         //   )
         // ),
+
         TE.map(({ data, total }) => ({
           body: {
-            data: data.raw,
+            data: data,
             total,
           },
           statusCode: 200,

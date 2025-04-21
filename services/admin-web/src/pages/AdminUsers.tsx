@@ -46,13 +46,13 @@ export const UserCreate: React.FC<CreateProps> = (props) => (
       <AutocompleteArrayInput
         source="permissions"
         choices={[
-          AdminDelete.value,
-          AdminEdit.value,
-          AdminCreate.value,
-          AdminRead.value,
-          EventSuggestionEdit.value,
-          EventSuggestionCreate.value,
-          EventSuggestionRead.value,
+          AdminDelete.literals[0],
+          AdminEdit.literals[0],
+          AdminCreate.literals[0],
+          AdminRead.literals[0],
+          EventSuggestionEdit.literals[0],
+          EventSuggestionCreate.literals[0],
+          EventSuggestionRead.literals[0],
         ].map((v) => ({ name: v, id: v }))}
       />
       <TextInput type="password" source="password" />

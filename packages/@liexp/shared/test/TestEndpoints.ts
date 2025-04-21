@@ -1,75 +1,76 @@
-import * as t from "io-ts";
-import { Endpoint } from "ts-endpoint";
-import { ResourceEndpoints } from "../src/endpoints/types.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import {
-    type CustomQueryOverride,
+  type CustomQueryOverride,
   type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
-} from "../src/providers/EndpointQueriesProvider/QueryProviderOverrides.js";
-import { DateFromISOString } from 'io-ts-types';
+} from "@ts-endpoint/tanstack-query";
+import { Schema } from "effect";
 
-const Actor = t.strict({
-  id: t.string,
-  name: t.string,
-  avatar: t.strict({
-    id: t.string,
-    url: t.string,
-    createdAt: DateFromISOString,
-    updatedAt: DateFromISOString,
-  }, 'Avatar'),
-  bornOn: t.union([t.null, DateFromISOString]),
-  diedOn: t.union([t.null, DateFromISOString]),
-  createdAt: DateFromISOString,
-  updatedAt: DateFromISOString,
-}, 'Actor');
+const Actor = Schema.Struct({
+  id: Schema.String,
+  name: Schema.String,
+  avatar: Schema.Struct({
+    id: Schema.String,
+    url: Schema.String,
+    createdAt: Schema.Date,
+    updatedAt: Schema.Date,
+  }).annotations({ title: "Avatar" }),
+  bornOn: Schema.Union(Schema.Null, Schema.Date),
+  diedOn: Schema.Union(Schema.Null, Schema.Date),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+}).annotations({ title: "Actor" });
 
 const TestEndpoints = {
   Actor: ResourceEndpoints({
     Get: Endpoint({
       Method: "GET",
       getPath: ({ id }) => `/actors/${id}`,
-      Input: { Params: t.type({ id: t.string }), Query: undefined },
-      Output: t.strict({ data: Actor }),
+      Input: { Params: Schema.Struct({ id: Schema.String }), Query: undefined },
+      Output: Schema.Struct({ data: Actor }),
     }),
     List: Endpoint({
       Method: "GET",
       getPath: () => `/actors`,
       Input: {
-        Query: t.partial({
-          _start: t.number,
-          _end: t.number,
-          ids: t.array(t.string),
+        Query: Schema.Struct({
+          _start: Schema.Number,
+          _end: Schema.Number,
+          ids: Schema.Array(Schema.String),
         }),
       },
-      Output: t.strict({ data: t.array(Actor), total: t.number }),
+      Output: Schema.Struct({
+        data: Schema.Array(Actor),
+        total: Schema.Number,
+      }),
     }),
     Create: Endpoint({
       Method: "POST",
       getPath: () => `/actors`,
       Input: { Body: Actor },
-      Output: t.strict({ data: Actor }),
+      Output: Schema.Struct({ data: Actor }),
     }),
     Edit: Endpoint({
       Method: "PUT",
       getPath: ({ id }) => `/actors/${id}`,
       Input: {
-        Params: t.type({ id: t.string }),
+        Params: Schema.Struct({ id: Schema.String }),
         Body: Actor,
       },
-      Output: t.strict({ data: Actor }),
+      Output: Schema.Struct({ data: Actor }),
     }),
     Delete: Endpoint({
       Method: "DELETE",
       getPath: ({ id }) => `/actors/${id}`,
-      Input: { Params: t.type({ id: t.string }) },
-      Output: t.boolean,
+      Input: { Params: Schema.Struct({ id: Schema.String }) },
+      Output: Schema.Boolean,
     }),
     Custom: {
       GetSiblings: Endpoint({
         Method: "GET",
         getPath: ({ id }) => `/actors/${id}/siblings`,
-        Input: { Params: t.type({ id: t.string }) },
-        Output: t.strict({ data: t.array(Actor) }),
+        Input: { Params: Schema.Struct({ id: Schema.String }) },
+        Output: Schema.Struct({ data: Schema.Array(Actor) }),
       }),
     },
   }),
@@ -84,12 +85,11 @@ const GetSiblingsOverride: CustomQueryOverride<
 > =
   (Q) =>
   ({ id }) => {
-    return Q.Actor.getList({
-      pagination: { perPage: 10, page: 1 },
-      filter: { ids: [id] },
-      sort: {
-        field: "createdAt",
-        order: "ASC",
+    return Q.Actor.List({
+      Query: {
+        _start: 0,
+        _end: 10,
+        ids: [id],
       },
     });
   };
@@ -114,5 +114,4 @@ export const overrides: QueryProviderOverrides<
   Actor: ActorOverride,
 };
 
-
-export { TestEndpoints }
+export { TestEndpoints };

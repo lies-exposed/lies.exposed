@@ -14,14 +14,15 @@ const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({ group: Q.Group.get.useQuery({ id: groupId }) })}
-      render={({ group }) => {
+      render={({ group: { data: group } }) => {
         return (
           <GroupTemplate
             group={group}
             tab={tab}
             query={{
               ...query,
-              eventType: query.eventType ?? EventType.types.map((t) => t.value),
+              eventType:
+                query.eventType ?? EventType.members.map((t) => t.literals[0]),
             }}
             onTabChange={(t) => {
               navigateTo.groups({ id: groupId }, { tab: t });

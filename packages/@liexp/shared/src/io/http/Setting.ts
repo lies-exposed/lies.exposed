@@ -1,34 +1,31 @@
-import * as t from "io-ts";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { BaseProps, JSONFromString } from "./Common/index.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
 
-export const GetSettingListQuery = t.type(
-  {
-    ...GetListQuery.props,
-    id: optionFromNullable(t.array(t.string)),
-  },
-  "GetSettingListQuery",
-);
+export const GetSettingListQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  id: OptionFromNullishToNull(Schema.Array(Schema.String)),
+}).annotations({
+  title: "GetSettingListQuery",
+});
 
-export type GetSettingListQuery = t.TypeOf<typeof GetSettingListQuery>;
+export type GetSettingListQuery = typeof GetSettingListQuery.Type;
 
-export const CreateSetting = t.strict(
-  {
-    id: t.string,
-    value: JSONFromString,
-  },
-  "CreateSetting",
-);
-export type CreateSetting = t.TypeOf<typeof CreateSetting>;
+export const CreateSetting = Schema.Struct({
+  id: Schema.String,
+  value: JSONFromString,
+}).annotations({
+  title: "CreateSetting",
+});
+export type CreateSetting = typeof CreateSetting.Type;
 
-const { id: _id, ...baseProps } = BaseProps.type.props;
-export const Setting = t.strict(
-  {
-    ...baseProps,
-    ...CreateSetting.type.props,
-  },
-  "Setting",
-);
+const { id: _id, ...baseProps } = BaseProps.fields;
+export const Setting = Schema.Struct({
+  ...baseProps,
+  ...CreateSetting.fields,
+}).annotations({
+  title: "Setting",
+});
 
-export type Setting = t.TypeOf<typeof Setting>;
+export type Setting = typeof Setting.Type;

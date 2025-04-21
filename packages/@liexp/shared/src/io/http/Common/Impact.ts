@@ -1,38 +1,48 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-const LandUseUnit = t.union([t.literal("mq"), t.literal("kmq")], "LandUseUnit");
+const LandUseUnit = Schema.Union(
+  Schema.Literal("mq"),
+  Schema.Literal("kmq"),
+).annotations({
+  title: "LandUseUnit",
+});
 
-const LandUsed = t.strict(
-  {
-    type: t.literal("LandUsed"),
-    area: t.number,
-    unit: LandUseUnit,
-  },
-  "LandUsed",
-);
-const EmissionUnit = t.union([t.literal("t"), t.literal("gt")], "EmissionUnit");
+const LandUsed = Schema.Struct({
+  type: Schema.Literal("LandUsed"),
+  area: Schema.Number,
+  unit: LandUseUnit,
+}).annotations({
+  title: "LandUsed",
+});
+const EmissionUnit = Schema.Union(
+  Schema.Literal("t"),
+  Schema.Literal("gt"),
+).annotations({
+  title: "EmissionUnit",
+});
 
-const CO2Emitted = t.strict(
-  {
-    type: t.literal("CO2Emitted"),
-    amount: t.number,
-    unit: EmissionUnit,
-  },
-  "CO2Emitted",
-);
-const BIODIVERSITY_LOSS = t.literal("BiodiversityLoss");
+const CO2Emitted = Schema.Struct({
+  type: Schema.Literal("CO2Emitted"),
+  amount: Schema.Number,
+  unit: EmissionUnit,
+}).annotations({
+  title: "CO2Emitted",
+});
+const BIODIVERSITY_LOSS = Schema.Literal("BiodiversityLoss");
 
-export const BiodiversityLoss = t.strict(
-  {
-    type: BIODIVERSITY_LOSS,
-    specie: t.string,
-    deaths: t.number,
-  },
-  BIODIVERSITY_LOSS.value,
-);
+export const BiodiversityLoss = Schema.Struct({
+  type: BIODIVERSITY_LOSS,
+  specie: Schema.String,
+  deaths: Schema.Number,
+}).annotations({
+  title: BIODIVERSITY_LOSS.literals[0],
+});
 
-export const Impact = t.union(
-  [LandUsed, CO2Emitted, BiodiversityLoss],
-  "Impact",
-);
-export type Impact = t.TypeOf<typeof Impact>;
+export const Impact = Schema.Union(
+  LandUsed,
+  CO2Emitted,
+  BiodiversityLoss,
+).annotations({
+  title: "Impact",
+});
+export type Impact = typeof Impact.Type;

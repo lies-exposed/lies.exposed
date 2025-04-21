@@ -15,7 +15,7 @@ export class DeathBox extends React.PureComponent<{
         (deathId) => (
           <QueriesRenderer
             queries={(Q) => ({ death: Q.Event.get.useQuery({ id: deathId }) })}
-            render={({ death }) => {
+            render={({ death: { data: death } }) => {
               return <div>Died on {formatDate(death.date)}</div>;
             }}
           />

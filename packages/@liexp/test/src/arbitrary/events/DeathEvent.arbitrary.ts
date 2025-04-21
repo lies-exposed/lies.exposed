@@ -1,27 +1,23 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as Events from "@liexp/shared/lib/io/http/Events/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { DateArb } from "../Date.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
-export const DeathEventArb = getArbitrary(
-  t.strict(
-    propsOmit(Events.Death.Death, [
-      "id",
-      "excerpt",
-      "body",
-      "date",
-      "media",
-      "links",
-      "keywords",
-      "payload",
-      "socialPosts",
-      "createdAt",
-      "updatedAt",
-      "deletedAt",
-    ]),
+export const DeathEventArb = Arbitrary.make(
+  Events.Death.Death.omit(
+    "id",
+    "excerpt",
+    "body",
+    "date",
+    "media",
+    "links",
+    "keywords",
+    "payload",
+    "socialPosts",
+    "createdAt",
+    "updatedAt",
+    "deletedAt",
   ),
 ).map((p) => ({
   ...p,

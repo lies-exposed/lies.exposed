@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
+import { Schema } from "effect";
 import { type WorkerContext } from "../context/context.js";
 import { loadImplementation } from "../context/load.js";
 import { makeContext } from "../context/make.js";
@@ -19,7 +20,11 @@ export const startContext = async (env?: any): Promise<WorkerContext> => {
   process.env.TG_BOT_POLLING = "false";
 
   return pipe(
-    ENVParser(ENV.decode)({ ...process.env, TG_BOT_POLLING: "false", ...env }),
+    ENVParser(Schema.decodeUnknownEither(ENV))({
+      ...process.env,
+      TG_BOT_POLLING: "false",
+      ...env,
+    }),
     fp.TE.fromEither,
     fp.TE.chain((env) => makeContext(env, loadImplementation(env))),
     throwTE,

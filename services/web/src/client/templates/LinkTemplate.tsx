@@ -17,7 +17,7 @@ const LinkTemplate: React.FC<{ linkId: UUID }> = ({ linkId }) => {
       queries={(Q) => ({
         link: Q.Link.get.useQuery({ id: linkId }),
       })}
-      render={({ link }) => {
+      render={({ link: { data: link } }) => {
         return (
           <Box>
             <SEO

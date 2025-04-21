@@ -1,73 +1,80 @@
 import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
-import * as t from "io-ts";
-import { NumberFromString } from "io-ts-types/lib/NumberFromString.js";
+import { pipe, Schema } from "effect";
 
-export const JWT_ENV = t.strict(
-  {
-    JWT_SECRET: t.string,
-  },
-  "JWT_ENV",
-);
+export const JWT_ENV = Schema.Struct({
+  JWT_SECRET: Schema.String,
+}).annotations({
+  title: "JWT_ENV",
+});
 
-export type JWT_ENV = t.TypeOf<typeof JWT_ENV>;
+export type JWT_ENV = typeof JWT_ENV.Type;
 
-export const DATABASE_ENV = t.intersection(
-  [
-    t.strict(
-      {
-        DB_USERNAME: t.string,
-        DB_PASSWORD: t.string,
-        DB_HOST: t.string,
-        DB_PORT: NumberFromString,
-        DB_DATABASE: t.string,
-      },
-      "DATABASE_ENV",
-    ),
-    t.union([
-      t.strict(
-        {
-          DB_SSL_MODE: t.literal("require"),
-          DB_SSL_CERT_PATH: t.string,
-        },
-        "DB_SSL_REQUIRE",
+export const DATABASE_ENV = pipe(
+  Schema.Struct({
+    DB_USERNAME: Schema.String,
+    DB_PASSWORD: Schema.String,
+    DB_HOST: Schema.String,
+    DB_PORT: Schema.NumberFromString,
+    DB_DATABASE: Schema.String,
+  }).annotations({
+    title: "DATABASE_ENV",
+  }),
+  (schema) =>
+    Schema.extend(
+      schema,
+      Schema.Union(
+        Schema.Struct({
+          DB_SSL_MODE: Schema.Literal("require"),
+          DB_SSL_CERT_PATH: Schema.String,
+        }).annotations({
+          title: "DB_SSL_REQUIRE",
+        }),
+        Schema.Struct({
+          DB_SSL_MODE: Schema.Literal("off"),
+        }).annotations({
+          title: "DB_SSL_OFF",
+        }),
       ),
-      t.strict(
-        {
-          DB_SSL_MODE: t.literal("off"),
-        },
-        "DB_SSL_OFF",
-      ),
-    ]),
-  ],
-  "DB_ENV",
-);
-export type DATABASE_ENV = t.TypeOf<typeof DATABASE_ENV>;
+    ).annotations({
+      title: "DB_ENV",
+    }),
+).annotations({
+  title: "DB_ENV",
+});
 
-export const SPACE_ENV = t.strict(
-  {
-    // SPACES
-    SPACE_BUCKET: t.string,
-    SPACE_ENDPOINT: t.string,
-    SPACE_REGION: t.string,
-    SPACE_ACCESS_KEY_ID: t.string,
-    SPACE_ACCESS_KEY_SECRET: t.string,
-  },
-  "SPACE_ENV",
-);
-export type SPACE_ENV = t.TypeOf<typeof SPACE_ENV>;
+export type DATABASE_ENV = typeof DATABASE_ENV.Type;
 
-export const TG_BOT_ENV = t.strict(
-  { TG_BOT_TOKEN: t.string, TG_BOT_USERNAME: t.string, TG_BOT_CHAT: t.string },
-  "TG_BOT_ENV",
-);
-export type TG_BOT_ENV = t.TypeOf<typeof TG_BOT_ENV>;
+export const SPACE_ENV = Schema.Struct({
+  // SPACES
+  SPACE_BUCKET: Schema.String,
+  SPACE_ENDPOINT: Schema.String,
+  SPACE_REGION: Schema.String,
+  SPACE_ACCESS_KEY_ID: Schema.String,
+  SPACE_ACCESS_KEY_SECRET: Schema.String,
+}).annotations({
+  title: "SPACE_ENV",
+});
+export type SPACE_ENV = typeof SPACE_ENV.Type;
 
-export const BACKEND_ENV = t.intersection(
-  [
-    t.strict({ NODE_ENV, DEFAULT_PAGE_SIZE: NumberFromString }),
-    DATABASE_ENV,
-    SPACE_ENV,
-  ],
-  "BACKEND_ENV",
+export const TG_BOT_ENV = Schema.Struct({
+  TG_BOT_TOKEN: Schema.String,
+  TG_BOT_USERNAME: Schema.String,
+  TG_BOT_CHAT: Schema.String,
+}).annotations({
+  title: "TG_BOT_ENV",
+});
+export type TG_BOT_ENV = typeof TG_BOT_ENV.Type;
+
+export const BACKEND_ENV = Schema.extend(
+  DATABASE_ENV,
+  Schema.Struct({
+    ...SPACE_ENV.fields,
+    NODE_ENV,
+    DEBUG: Schema.String,
+    DEFAULT_PAGE_SIZE: Schema.NumberFromString,
+  }).annotations({
+    title: "BACKEND_ENV",
+  }),
 );
-export type BACKEND_ENV = t.TypeOf<typeof BACKEND_ENV>;
+
+export type BACKEND_ENV = typeof BACKEND_ENV.Type;

@@ -1,15 +1,13 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
 import { DateArb } from "./Date.arbitrary.js";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 import { MediaArb } from "./Media.arbitrary.js";
 import { URLArb } from "./URL.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-const linksProps = propsOmit(http.Link.Link, [
+const linksProps = http.Link.Link.omit(
   "id",
   "url",
   "image",
@@ -22,10 +20,10 @@ const linksProps = propsOmit(http.Link.Link, [
   "createdAt",
   "updatedAt",
   "deletedAt",
-]);
+);
 
-export const LinkArb: fc.Arbitrary<http.Link.Link> = getArbitrary(
-  t.strict(linksProps),
+export const LinkArb: fc.Arbitrary<http.Link.Link> = Arbitrary.make(
+  linksProps,
 ).map((a) => ({
   ...a,
   title: fc.sample(HumanReadableStringArb(), 3).join(" "),

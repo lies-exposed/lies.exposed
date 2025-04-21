@@ -13,7 +13,8 @@ export const GetEventSuggestionRoute: Route = (r, ctx) => {
       TE.chainEitherK(toEventSuggestion),
       TE.map((data) => ({
         body: {
-          data,
+          data: [data],
+          total: 1,
         },
         statusCode: 201,
       })),

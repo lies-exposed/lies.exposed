@@ -1,10 +1,11 @@
-import * as t from "io-ts";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Setting from "../io/http/Setting.js";
-import { ResourceEndpoints } from "./types.js";
 
-const SingleSettingOutput = Output(Setting.Setting, "Setting");
+const SingleSettingOutput = Output(Setting.Setting).annotations({
+  title: "Setting",
+});
 
 export const List = Endpoint({
   Method: "GET",
@@ -28,7 +29,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/settings/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleSettingOutput,
 });
@@ -37,7 +38,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/settings/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
     Body: Setting.Setting,
   },
   Output: SingleSettingOutput,
@@ -47,7 +48,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/settings/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleSettingOutput,
 });

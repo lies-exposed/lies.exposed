@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { type BEConfig } from "@liexp/backend/lib/context/config.context.js";
 import { EventsConfig } from "@liexp/backend/lib/queries/config/index.js";
 import type * as cors from "cors";

@@ -1,20 +1,15 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { nonEmptyArray } from "io-ts-types/lib/nonEmptyArray.js";
+import { Schema } from "effect";
 import { BaseProps } from "../Common/BaseProps.js";
 import { BySubjectId } from "../Common/BySubject.js";
 
-export const PublicAnnouncement = t.strict(
-  {
-    ...BaseProps.type.props,
-    title: t.string,
-    type: t.literal("PublicAnnouncement"),
-    from: nonEmptyArray(BySubjectId),
-    publishedBy: nonEmptyArray(BySubjectId),
-    // for: For,
-    date: DateFromISOString,
-  },
-  "PublicAnnouncement",
-);
+export const PublicAnnouncement = Schema.Struct({
+  ...BaseProps.fields,
+  title: Schema.String,
+  type: Schema.Literal("PublicAnnouncement"),
+  from: Schema.NonEmptyArray(BySubjectId),
+  publishedBy: Schema.NonEmptyArray(BySubjectId),
+  // for: For,
+  date: Schema.Date,
+}).annotations({ title: "PublicAnnouncement" });
 
-export type PublicAnnouncement = t.TypeOf<typeof PublicAnnouncement>;
+export type PublicAnnouncement = typeof PublicAnnouncement.Type;

@@ -1,18 +1,19 @@
+import { Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import type * as E from "fp-ts/lib/Either.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { describe, expect, test } from "vitest";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
 import { uuid } from "../UUID.js";
 
-const expectDecodeResult = (
-  result: E.Either<any[], any>,
+const expectDecodeResult = <E extends ParseError>(
+  result: E.Either<E, any>,
   r: "Right" | "Left" = "Right",
 ): void => {
   const isExpected = result._tag === r;
 
   if (!isExpected && r === "Right") {
     // eslint-disable-next-line no-console
-    console.log(PathReporter.report(result));
+    console.log(result);
   }
   expect(isExpected).toBe(true);
 };
@@ -23,12 +24,15 @@ describe("BlockNoteDocument codec", () => {
       { type: "paragraph", content: "my content", id: uuid(), children: [] },
     ];
 
-    expectDecodeResult(BlockNoteDocument.decode(blocks));
+    expectDecodeResult(Schema.decodeUnknownEither(BlockNoteDocument)(blocks));
   });
 
   test("Should failed to decode given input", () => {
     const tags: any[] = [];
 
-    expectDecodeResult(BlockNoteDocument.decode(tags), "Left");
+    expectDecodeResult(
+      Schema.decodeUnknownEither(BlockNoteDocument)(tags),
+      "Left",
+    );
   });
 });

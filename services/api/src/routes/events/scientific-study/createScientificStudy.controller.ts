@@ -1,4 +1,4 @@
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
@@ -9,12 +9,12 @@ import { type Route } from "#routes/route.types.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateScientificStudyRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([AdminCreate.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminCreate.literals[0]])(ctx))(
     Endpoints.ScientificStudy.Create,
     ({ body }, req) => {
       return pipe(
         createScientificStudy(body, req)(ctx),
-        TE.chainEitherK(EventV2IO.decodeSingle),
+        TE.chainEitherK(ScientificStudyIO.decodeSingle),
         TE.map((data) => ({
           body: {
             data,

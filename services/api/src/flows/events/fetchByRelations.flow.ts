@@ -12,7 +12,7 @@ import {
   type GetNetworkQuery,
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";
 import { toControllerError } from "#io/ControllerError.js";
@@ -31,46 +31,46 @@ export const fetchEventsByRelation =
       TE.fromOption(() => toControllerError(new Error("ids can't be empty"))),
       TE.chain((ids) =>
         searchEventV2Query({
-          ids: type === EVENTS.value ? O.some(ids) : O.none,
+          ids: type === EVENTS.Type ? O.some(ids) : O.none(),
           actors:
-            type === ACTORS.value
+            type === ACTORS.Type
               ? pipe(
                   ids.concat(
                     pipe(
                       actors,
-                      fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => []),
+                      fp.O.map((kk): readonly UUID[] => kk),
+                      fp.O.getOrElse((): readonly UUID[] => []),
                     ),
                   ),
-                  fp.O.some,
+                  O.some,
                 )
-              : O.none,
+              : O.none(),
           groups:
-            type === GROUPS.value
+            type === GROUPS.Type
               ? pipe(
                   ids.concat(
                     pipe(
                       groups,
-                      fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => []),
+                      fp.O.map((kk): readonly UUID[] => kk),
+                      fp.O.getOrElse((): readonly UUID[] => []),
                     ),
                   ),
-                  fp.O.some,
+                  O.some,
                 )
-              : O.none,
+              : O.none(),
           keywords:
-            type === KEYWORDS.value
+            type === KEYWORDS.Type
               ? pipe(
                   ids.concat(
                     pipe(
                       keywords,
-                      fp.O.map((kk): UUID[] => kk),
-                      fp.O.getOrElse((): UUID[] => []),
+                      fp.O.map((kk): readonly UUID[] => kk),
+                      fp.O.getOrElse((): readonly UUID[] => []),
                     ),
                   ),
-                  fp.O.some,
+                  O.some,
                 )
-              : O.none,
+              : O.none(),
         })(ctx),
       ),
     );

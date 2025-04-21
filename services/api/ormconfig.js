@@ -1,9 +1,9 @@
 import { getORMConfig } from "@liexp/backend/lib/utils/data-source.js";
 import { ENV } from "./build/io/ENV.js";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import D from "debug";
 import { DataSource } from "typeorm";
+import { Schema } from "effect";
 
 loadENV(
   process.cwd(),
@@ -14,10 +14,10 @@ loadENV(
 
 D.enable(process.env.DEBUG ?? "@liexp:*");
 
-const decodedEnv = ENV.decode(process.env);
+const decodedEnv = Schema.decodeUnknownEither(ENV)(process.env);
 
 if (decodedEnv._tag === "Left") {
-  console.error(PathReporter.report(decodedEnv));
+  console.error(decodedEnv.left);
   throw new Error("process.env is malformed");
 }
 const env = decodedEnv.right;

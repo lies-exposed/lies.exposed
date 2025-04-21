@@ -3,9 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "noEmit": false,
-    "target": "es6",
-    "module": "esnext",
-    "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": false,
@@ -20,6 +17,6 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo",
     "typeRoots": ["../../../node_modules/@types"]
   },
-  "include": ["./src", "typings"],
+  "include": ["./src", "./typings"],
   "exclude": ["node_modules", "lib"]
 }

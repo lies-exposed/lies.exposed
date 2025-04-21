@@ -1,6 +1,6 @@
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
 import { type URL } from "../io/http/Common/index.js";
 import { MediaType } from "../io/http/Media/MediaType.js";
 
@@ -125,8 +125,8 @@ export const getPlatform = (
   const rumbleMatch = rumbleEmbedVideoRegExp.exec(url);
   if (
     rumbleMatch &&
-    t.string.is(rumbleMatch[1]) &&
-    t.string.is(rumbleMatch?.[2])
+    Schema.is(Schema.String)(rumbleMatch[1]) &&
+    Schema.is(Schema.String)(rumbleMatch?.[2])
   ) {
     return E.right({
       platform: "rumble",
@@ -235,28 +235,28 @@ export const parseURL = (
 ): E.Either<Error, { type: MediaType; location: string }> => {
   if (url.includes(".jpg") ?? url.includes(".jpeg")) {
     return E.right({
-      type: MediaType.types[1].value,
+      type: MediaType.members[1].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".png")) {
     return E.right({
-      type: MediaType.types[2].value,
+      type: MediaType.members[2].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".pdf")) {
     return E.right({
-      type: MediaType.types[6].value,
+      type: MediaType.members[6].literals[0],
       location: url,
     });
   }
 
   if (url.includes(".mp4")) {
     return E.right({
-      type: MediaType.types[5].value,
+      type: MediaType.members[5].literals[0],
       location: url,
     });
   }
@@ -267,7 +267,7 @@ export const parseURL = (
     return pipe(
       parsePlatformURL(url as any),
       E.map((location) => ({
-        type: MediaType.types[7].value,
+        type: MediaType.members[7].literals[0],
         location,
       })),
     );

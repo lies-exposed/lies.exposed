@@ -1,12 +1,9 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 import { Position } from "./Position.js";
 
-export const Point = t.strict(
-  {
-    type: t.literal("Point"),
-    coordinates: Position,
-  },
-  "Point",
-);
+export const Point = Schema.Struct({
+  type: Schema.Literal("Point"),
+  coordinates: Position,
+}).annotations({ title: "Point" });
 
-export type Point = t.TypeOf<typeof Point>;
+export type Point = typeof Point.Type;

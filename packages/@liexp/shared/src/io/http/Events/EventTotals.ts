@@ -1,20 +1,19 @@
+import { Schema } from "effect";
 import { type Monoid } from "fp-ts/Monoid";
-import * as t from "io-ts";
 
-export const EventTotals = t.strict(
-  {
-    uncategorized: t.number,
-    books: t.number,
-    deaths: t.number,
-    scientificStudies: t.number,
-    patents: t.number,
-    documentaries: t.number,
-    transactions: t.number,
-    quotes: t.number,
-  },
-  "EventTotals",
-);
-export type EventTotals = t.TypeOf<typeof EventTotals>;
+export const EventTotals = Schema.Struct({
+  uncategorized: Schema.Number,
+  books: Schema.Number,
+  deaths: Schema.Number,
+  scientificStudies: Schema.Number,
+  patents: Schema.Number,
+  documentaries: Schema.Number,
+  transactions: Schema.Number,
+  quotes: Schema.Number,
+}).annotations({
+  title: "EventTotals",
+});
+export type EventTotals = typeof EventTotals.Type;
 
 export const EventTotalsMonoid: Monoid<EventTotals> = {
   empty: {

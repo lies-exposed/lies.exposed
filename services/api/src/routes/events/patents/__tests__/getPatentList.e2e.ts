@@ -1,7 +1,7 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { PatentEventArb } from "@liexp/test/lib/arbitrary/events/PatentEvent.arbitrary.js";
+import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest.js";
 
 describe("Get Patent List", () => {

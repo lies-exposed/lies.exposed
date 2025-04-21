@@ -11,6 +11,7 @@ import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type RTE } from "../../types.js";
@@ -42,7 +43,7 @@ export const fetchActorFromWikipedia =
                   location: avatar,
                   thumbnail: undefined,
                   extra: undefined,
-                  type: ImageType.types[0].value,
+                  type: ImageType.members[0].literals[0],
                   events: [],
                   links: [],
                   keywords: [],
@@ -80,7 +81,7 @@ export const fetchAndCreateActorFromWikipedia =
             return ctx.db.save(ActorEntity, [
               {
                 ...actor,
-                avatar: UUID.is(actor.avatar)
+                avatar: Schema.is(UUID)(actor.avatar)
                   ? { id: actor.avatar }
                   : {
                       ...actor.avatar,

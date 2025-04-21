@@ -1,11 +1,10 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const VideoFileNode = t.interface(
-  {
-    publicURL: t.string,
-    extension: t.string,
-  },
-  "VideoFileNode",
-);
+export const VideoFileNode = Schema.Struct({
+  publicURL: Schema.String,
+  extension: Schema.String,
+}).annotations({
+  title: "VideoFileNode",
+});
 
-export type VideoFileNode = t.TypeOf<typeof VideoFileNode>;
+export type VideoFileNode = typeof VideoFileNode.Type;

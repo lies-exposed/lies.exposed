@@ -40,7 +40,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const EventsTimeline: React.FC<{
-  events: SearchEvent.SearchEvent[];
+  events: readonly SearchEvent.SearchEvent[];
   onEventClick: (e: SearchEvent.SearchEvent) => void;
 }> = ({ events, onEventClick }) => {
   return (

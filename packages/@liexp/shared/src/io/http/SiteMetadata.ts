@@ -1,24 +1,21 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const SiteMetadata = t.strict(
-  {
-    title: t.string,
-    github: t.interface(
-      {
-        user: t.string,
-        repo: t.string,
-        link: t.string,
-      },
-      "GithubMetadata",
-    ),
-    slack: t.interface(
-      {
-        team: t.string,
-      },
-      "SlackMetadata",
-    ),
-  },
-  "SiteMetadata",
-);
+export const SiteMetadata = Schema.Struct({
+  title: Schema.String,
+  github: Schema.Struct({
+    user: Schema.String,
+    repo: Schema.String,
+    link: Schema.String,
+  }).annotations({
+    title: "GithubMetadata",
+  }),
+  slack: Schema.Struct({
+    team: Schema.String,
+  }).annotations({
+    title: "SlackMetadata",
+  }),
+}).annotations({
+  title: "SiteMetadata",
+});
 
-export type SiteMetadata = t.TypeOf<typeof SiteMetadata>;
+export type SiteMetadata = typeof SiteMetadata.Type;

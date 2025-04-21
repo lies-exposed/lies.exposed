@@ -18,7 +18,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
   discrete = true,
   ...props
 }) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   return (
     <AutocompleteInput<Link.Link>
       placeholder="Search in links..."

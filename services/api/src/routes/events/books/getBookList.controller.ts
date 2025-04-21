@@ -1,11 +1,11 @@
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { BookIO } from "@liexp/backend/lib/io/event/book.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { DBService } from "@liexp/backend/lib/services/db.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -49,7 +49,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
             ...query,
             q,
             draft,
-            type: O.some([BOOK.value]),
+            type: O.some([BOOK.literals[0]]),
             actors,
             groups,
             keywords,
@@ -72,7 +72,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
         fp.RTE.chainEitherK(({ results, totals: { books } }) =>
           pipe(
             results,
-            EventV2IO.decodeMany,
+            BookIO.decodeMany,
             E.map((data) => ({ data, total: books })),
           ),
         ),

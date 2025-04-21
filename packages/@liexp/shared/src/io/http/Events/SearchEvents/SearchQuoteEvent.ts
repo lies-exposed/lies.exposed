@@ -1,10 +1,9 @@
-import type * as t from "io-ts";
 import { BySubject } from "../../Common/index.js";
 import * as Quote from "../Quote.js";
 import { SearchEventCodec } from "./SearchEventCodec.js";
 
-export const SearchQuoteEvent = SearchEventCodec(Quote.Quote, {
+export const SearchQuoteEvent = SearchEventCodec(Quote.Quote.fields, {
   subject: BySubject,
 });
 
-export type SearchQuoteEvent = t.TypeOf<typeof SearchQuoteEvent>;
+export type SearchQuoteEvent = typeof SearchQuoteEvent.Type;

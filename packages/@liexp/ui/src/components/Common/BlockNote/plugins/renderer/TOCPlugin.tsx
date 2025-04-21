@@ -39,7 +39,7 @@ const extractHeaders = (
 
 const serializeToTypography = (
   value: BNEditorDocument,
-): [string, React.ReactNode][] => {
+): readonly [string, React.ReactNode][] => {
   return pipe(
     extractHeaders(value),
     fp.O.fromNullable,

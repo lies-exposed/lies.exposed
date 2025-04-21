@@ -1,57 +1,59 @@
-import { propsOmit } from "@liexp/core/lib/io/utils.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
+import { Arbitrary } from "effect";
 import fc from "fast-check";
-import { getArbitrary } from "fast-check-io-ts";
-import * as t from "io-ts";
-import { MIN_DATE, MAX_DATE, DateArb } from "../Date.arbitrary.js";
+import { DateArb, MAX_DATE, MIN_DATE } from "../Date.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
-const createScientificStudyProps = propsOmit(
-  http.Events.ScientificStudy.CreateScientificStudyBody,
-  ["excerpt", "body", "date", "draft", "payload", "media", "links", "keywords"],
-);
+const createScientificStudyProps =
+  http.Events.ScientificStudy.CreateScientificStudyBody.omit(
+    "excerpt",
+    "body",
+    "date",
+    "draft",
+    "payload",
+    "media",
+    "links",
+    "keywords",
+  );
 
 export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
-  getArbitrary(t.strict(createScientificStudyProps)).map((body) => ({
+  Arbitrary.make(createScientificStudyProps).map((body) => ({
     ...body,
     draft: false,
     date: fc.sample(DateArb, 1)[0],
     excerpt: {} as any,
     body: {} as any,
     payload: {
-      title: fc.sample(fc.string(), 1)[0] as any,
+      title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
       image: fc.sample(URLArb, 1)[0],
       publisher: fc.sample(UUIDArb, 1)[0],
       url: fc.sample(URLArb, 1)[0],
     },
-    media: [] as any,
-    links: [] as any,
+    media: [],
+    links: [],
     keywords: [],
   }));
 
-const scientificStudyProps = propsOmit(
-  http.Events.ScientificStudy.ScientificStudy,
-  [
-    "id",
-    "excerpt",
-    "body",
-    "payload",
-    "date",
-    "media",
-    "keywords",
-    "links",
-    "createdAt",
-    "updatedAt",
-    "deletedAt",
-  ],
+const scientificStudyProps = http.Events.ScientificStudy.ScientificStudy.omit(
+  "id",
+  "excerpt",
+  "body",
+  "payload",
+  "date",
+  "media",
+  "keywords",
+  "links",
+  "createdAt",
+  "updatedAt",
+  "deletedAt",
 );
 
 export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.ScientificStudy> =
-  getArbitrary(t.strict(scientificStudyProps)).map((body) => ({
+  Arbitrary.make(scientificStudyProps).map((body) => ({
     ...body,
-    id: fc.sample(UUIDArb, 1)[0] as any,
+    id: fc.sample(UUIDArb, 1)[0],
     date: fc.sample(fc.date({ min: MIN_DATE, max: MAX_DATE }))[0],
     excerpt: {},
     body: {},

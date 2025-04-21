@@ -1,30 +1,29 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import { Page } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const ListPages = Endpoint({
   Method: "GET",
   getPath: () => "/pages",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      path: optionFromNullable(t.string),
+    Query: Schema.Struct({
+      ...GetListQuery.fields,
+      path: OptionFromNullishToNull(Schema.String),
     }),
   },
-  Output: t.strict({ data: t.array(Page.Page) }),
+  Output: Schema.Struct({ data: Schema.Array(Page.Page) }),
 });
 
 const GetPage = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.strict({ data: Page.Page }),
+  Output: Schema.Struct({ data: Page.Page }),
 });
 
 const CreatePage = Endpoint({
@@ -33,35 +32,37 @@ const CreatePage = Endpoint({
   Input: {
     Body: Page.CreatePage,
   },
-  Output: t.strict({ data: Page.Page }),
+  Output: Schema.Struct({ data: Page.Page }),
 });
 
 const EditPage = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: Page.EditPage,
   },
-  Output: t.strict({ data: Page.Page }),
+  Output: Schema.Struct({ data: Page.Page }),
 });
 
 const DeletePage = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/pages/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.strict({ data: Page.Page }),
+  Output: Schema.Struct({ data: Page.Page }),
 });
 
 const DeleteManyPage = Endpoint({
   Method: "DELETE",
   getPath: () => `/pages`,
   Input: {
-    Query: t.partial({ ids: t.array(t.string) }),
+    Query: Schema.Struct({
+      ids: Schema.Array(UUID),
+    }),
   },
-  Output: t.strict({ data: t.array(t.string) }),
+  Output: Schema.Struct({ data: Schema.Array(Schema.String) }),
 });
 
 export const pages = ResourceEndpoints({

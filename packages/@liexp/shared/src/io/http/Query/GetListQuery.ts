@@ -1,86 +1,67 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromUndefined } from "../../Common/optionFromUndefined.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
+import { UUID } from "../Common/UUID.js";
 import { PaginationQuery } from "./PaginationQuery.js";
 import { SortQuery } from "./SortQuery.js";
 
-export const GetListQuery = t.type(
-  {
-    ...SortQuery.props,
-    ...PaginationQuery.props,
-    q: optionFromUndefined(t.string),
-  },
-  "GetListQuery",
-);
+export const GetListQuery = Schema.Struct({
+  ...SortQuery.fields,
+  ...PaginationQuery.fields,
+  q: OptionFromNullishToNull(Schema.String),
+}).annotations({ title: "GetListQuery" });
 
-export type GetListQuery = t.TypeOf<typeof GetListQuery>;
+export type GetListQuery = typeof GetListQuery.Type;
 
-export const GetListQueryActors = t.type({
-  actors: optionFromUndefined(t.array(UUID)),
+export const GetListQueryActors = Schema.Struct({
+  actors: OptionFromNullishToNull(Schema.Array(UUID)),
 });
-export type GetListQueryActors = t.TypeOf<typeof GetListQueryActors>;
+export type GetListQueryActors = typeof GetListQueryActors.Type;
 
-export const GetListQueryAreas = t.type({
-  areas: optionFromUndefined(t.array(UUID)),
+export const GetListQueryAreas = Schema.Struct({
+  areas: OptionFromNullishToNull(Schema.Array(UUID)),
 });
-export type GetListQueryAreas = t.TypeOf<typeof GetListQueryAreas>;
+export type GetListQueryAreas = typeof GetListQueryAreas.Type;
 
-export const GetListQueryGroups = t.type(
-  {
-    groups: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryGroups",
-);
-export type GetListQueryGroups = t.TypeOf<typeof GetListQueryGroups>;
+export const GetListQueryGroups = Schema.Struct({
+  groups: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({ title: "GetListQueryGroups" });
+export type GetListQueryGroups = typeof GetListQueryGroups.Type;
 
-export const GetListQueryKeywords = t.type(
-  {
-    keywords: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryKeywords",
-);
-export type GetListQueryKeywords = t.TypeOf<typeof GetListQueryKeywords>;
+export const GetListQueryKeywords = Schema.Struct({
+  keywords: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({
+  title: "GetListQueryKeywords",
+});
+export type GetListQueryKeywords = typeof GetListQueryKeywords.Type;
 
-export const GetListQueryLinks = t.type(
-  {
-    links: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryLinks",
-);
-export type GetListQueryLinks = t.TypeOf<typeof GetListQueryLinks>;
+export const GetListQueryLinks = Schema.Struct({
+  links: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({
+  title: "GetListQueryLinks",
+});
+export type GetListQueryLinks = typeof GetListQueryLinks.Type;
 
-export const GetListQueryMedia = t.type(
-  {
-    media: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryMedia",
-);
+export const GetListQueryMedia = Schema.Struct({
+  media: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({
+  title: "GetListQueryMedia",
+});
 
-export type GetListQueryMedia = t.TypeOf<typeof GetListQueryMedia>;
+export type GetListQueryMedia = typeof GetListQueryMedia.Type;
 
-export const GetListQueryLocations = t.type(
-  {
-    locations: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryLocations",
-);
+export const GetListQueryLocations = Schema.Struct({
+  locations: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({ title: "GetListQueryLocations" });
 
-export type GetListQueryLocations = t.TypeOf<typeof GetListQueryLocations>;
+export type GetListQueryLocations = typeof GetListQueryLocations.Type;
 
-export const GetListQueryEvents = t.type(
-  {
-    events: optionFromUndefined(t.array(UUID)),
-  },
-  "GetListQueryEvents",
-);
-export type GetListQueryEvents = t.TypeOf<typeof GetListQueryEvents>;
+export const GetListQueryEvents = Schema.Struct({
+  events: OptionFromNullishToNull(Schema.Array(UUID)),
+}).annotations({ title: "GetListQueryEvents" });
+export type GetListQueryEvents = typeof GetListQueryEvents.Type;
 
-export const GetListQueryDateRange = t.type(
-  {
-    startDate: optionFromUndefined(DateFromISOString),
-    endDate: optionFromUndefined(DateFromISOString),
-  },
-  "GetListQueryDateRange",
-);
-export type GetListQueryDateRange = t.TypeOf<typeof GetListQueryDateRange>;
+export const GetListQueryDateRange = Schema.Struct({
+  startDate: OptionFromNullishToNull(Schema.Date),
+  endDate: OptionFromNullishToNull(Schema.Date),
+}).annotations({ title: "GetListQueryDateRange" });
+export type GetListQueryDateRange = typeof GetListQueryDateRange.Type;

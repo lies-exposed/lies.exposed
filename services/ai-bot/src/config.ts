@@ -1,24 +1,25 @@
-import * as t from "io-ts";
+import { Schema } from "effect";
 
-export const AIBotConfig = t.strict(
-  {
-    localAi: t.strict({
-      url: t.string,
-      apiKey: t.string,
-      models: t.union([
-        t.partial({
-          chat: t.string,
-          summarization: t.string,
-          embeddings: t.string,
+export const AIBotConfig = Schema.Struct({
+  localAi: Schema.Struct({
+    url: Schema.String,
+    apiKey: Schema.String,
+    models: Schema.Union(
+      Schema.partial(
+        Schema.Struct({
+          chat: Schema.String,
+          summarization: Schema.String,
+          embeddings: Schema.String,
         }),
-        t.undefined,
-      ]),
-    }),
-    api: t.strict({
-      url: t.string,
-    }),
-  },
-  "AIBotConfig",
-);
+      ),
+      Schema.Undefined,
+    ),
+  }),
+  api: Schema.Struct({
+    url: Schema.String,
+  }),
+}).annotations({
+  title: "AIBotConfig",
+});
 
-export type AIBotConfig = t.TypeOf<typeof AIBotConfig>;
+export type AIBotConfig = typeof AIBotConfig.Type;

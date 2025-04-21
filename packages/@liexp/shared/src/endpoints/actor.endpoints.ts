@@ -1,19 +1,19 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/index.js";
 import { Actor } from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
-export const SingleActorOutput = Output(Actor.Actor, "Actor");
-export type SingleActorOutput = t.TypeOf<typeof SingleActorOutput>;
+export const SingleActorOutput = Output(Actor.Actor).annotations({
+  title: "SingleActorOutput",
+});
+export type SingleActorOutput = typeof SingleActorOutput.Type;
 
 export const ListActorOutput = ListOutput(Actor.Actor, "Actors");
-export type ListActorOutput = t.TypeOf<typeof ListActorOutput>;
+export type ListActorOutput = typeof ListActorOutput.Type;
 
 export const List = Endpoint({
   Method: "GET",
@@ -28,7 +28,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleActorOutput,
 });
@@ -40,44 +40,52 @@ export const Create = Endpoint({
     Query: undefined,
     Body: Actor.CreateActorBody,
   },
-  Output: SingleActorOutput,
+  Output: Output(
+    Schema.Union(
+      Actor.Actor,
+      Schema.Struct({
+        success: Schema.Boolean,
+      }),
+    ),
+  ),
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
-    Body: nonEmptyRecordFromType(
-      {
-        username: optionFromNullable(t.string),
-        fullName: optionFromNullable(t.string),
-        color: optionFromNullable(t.string),
-        excerpt: optionFromNullable(t.array(t.any)),
-        body: optionFromNullable(t.array(t.any)),
-        avatar: optionFromNullable(t.string),
-        bornOn: optionFromNullable(DateFromISOString),
-        diedOn: optionFromNullable(DateFromISOString),
-        memberIn: optionFromNullable(
-          t.array(
-            t.union([
-              UUID,
-              t.strict(
-                {
-                  group: UUID,
-                  body: t.union([BlockNoteDocument, t.null]),
-                  startDate: DateFromISOString,
-                  endDate: optionFromNullable(DateFromISOString, "EndDate"),
-                },
-                "PartialGroupMember",
-              ),
-            ]),
+    Params: Schema.Struct({ id: UUID }),
+    Body: nonEmptyRecordFromType({
+      username: OptionFromNullishToNull(Schema.String),
+      fullName: OptionFromNullishToNull(Schema.String),
+      color: OptionFromNullishToNull(Schema.String),
+      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      avatar: OptionFromNullishToNull(Schema.String),
+      bornOn: OptionFromNullishToNull(Schema.Date),
+      diedOn: OptionFromNullishToNull(Schema.Date),
+      memberIn: OptionFromNullishToNull(
+        Schema.Array(
+          Schema.Union(
+            UUID,
+            Schema.Struct({
+              group: UUID,
+              body: Schema.Union(BlockNoteDocument, Schema.Null),
+              startDate: Schema.Date,
+              endDate: OptionFromNullishToNull(Schema.Date).annotations({
+                title: "End Date",
+              }),
+            }).annotations({
+              title: "PartialGroupMember",
+            }),
           ),
-          "MemberIn",
-        ),
-      },
-      "EditActorBody",
-    ),
+        ).annotations({
+          title: "MemberIn",
+        }),
+      ),
+    }).annotations({
+      title: "EditActorBody",
+    }),
   },
   Output: SingleActorOutput,
 });
@@ -86,7 +94,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/actors/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleActorOutput,
 });

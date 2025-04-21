@@ -1,3 +1,4 @@
+import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum.js";
 import {
   Covid19ADRs,
@@ -6,16 +7,12 @@ import {
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
 } from "@liexp/shared/lib/io/http/graphs/Graph.js";
-// import { VaccineEffectivenessIndicators } from "../components/Graph/covid/vaccines/VaccineEffectivenessIndicators";
+import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
-import * as A from "fp-ts/lib/Array.js";
+import { Schema } from "effect";
 import * as D from "fp-ts/lib/Date.js";
-import * as NEA from "fp-ts/lib/NonEmptyArray.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as Ord from "fp-ts/lib/Ord.js";
-import { pipe } from "fp-ts/lib/function.js";
-import * as t from "io-ts";
+import { type Some } from "fp-ts/lib/Option.js";
 import * as React from "react";
 import { StatAccordion } from "../components/Common/StatAccordion.js";
 import { a11yProps, TabPanel } from "../components/Common/TabPanel.js";
@@ -68,7 +65,7 @@ const colorDomain = [
 
 const byEqDate = pipe(
   D.Ord,
-  Ord.contramap<Date, VaccineDistributionDatum>((d) => d.date),
+  fp.Ord.contramap<Date, VaccineDistributionDatum>((d) => d.date),
 );
 
 const getColorByRange = (
@@ -78,7 +75,7 @@ const getColorByRange = (
 ): string => {
   const delta = (range[1] - range[0]) / 30;
 
-  const domain = A.range(0, 30).reduce(
+  const domain = fp.A.range(0, 30).reduce(
     (acc, v) => acc.concat(v * delta),
     [] as number[],
   );
@@ -115,12 +112,17 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
     <QueriesRenderer
       queries={{
         whoData: useJSONDataQuery(jsonClient)(
-          t.strict({ data: CovidWHOWorldData.types[1] }).decode,
-          CovidWHOWorldData.types[0].value,
+          (u) =>
+            Schema.decodeUnknownEither(
+              Schema.Struct({ data: CovidWHOWorldData.members[1] }),
+            )(u),
+          CovidWHOWorldData.members[0].literals[0],
         ),
         distribution: useJSONDataQuery(jsonClient)(
-          t.strict({ data: Covid19WorldVaccineDistribution.types[1] }).decode,
-          Covid19WorldVaccineDistribution.types[0].value,
+          Schema.decodeUnknownEither(
+            Schema.Struct({ data: Covid19WorldVaccineDistribution.members[1] }),
+          ),
+          Covid19WorldVaccineDistribution.members[0].literals[0],
         ),
       }}
       render={({
@@ -128,30 +130,35 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
         whoData: { data: whoData },
       }) => {
         const totalDistribution = pipe(
-          distribution,
-          A.sort(byEqDate),
-          NEA.fromArray,
-          O.fold(
+          [...distribution],
+          fp.A.sort(byEqDate),
+          fp.O.fromPredicate(isNonEmpty),
+          fp.O.fold(
             () => [],
-            (data): VaccineDistributionDatum[] => {
+            (data): readonly VaccineDistributionDatum[] => {
               const [init, ...rest] = data;
               return pipe(
                 rest,
-                A.reduceWithIndex(NEA.of(init), (index, acc, e) => {
-                  const last = NEA.last(acc);
-                  const lastDate = index % 4 === 1 ? e.date : last.date;
-                  return NEA.concat([
-                    {
-                      ...e,
-                      date: lastDate,
-
-                      people_vaccinated:
-                        last.people_vaccinated + e.people_vaccinated,
-                      total_vaccinations:
-                        last.total_vaccinations + e.total_vaccinations,
-                    },
-                  ])(acc);
-                }),
+                fp.A.fromArray,
+                fp.A.reduceWithIndex(
+                  [init] as readonly VaccineDistributionDatum[],
+                  (index, acc, e) => {
+                    const last = fp.A.last(
+                      acc,
+                    ) as Some<VaccineDistributionDatum>;
+                    const lastDate = index % 4 === 1 ? e.date : last.value.date;
+                    return fp.A.concat([
+                      {
+                        ...e,
+                        date: lastDate,
+                        people_vaccinated:
+                          last.value.people_vaccinated + e.people_vaccinated,
+                        total_vaccinations:
+                          last.value.total_vaccinations + e.total_vaccinations,
+                      } as VaccineDistributionDatum,
+                    ])(acc);
+                  },
+                ),
               );
             },
           ),
@@ -159,8 +166,8 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
 
         const covid2020TotalDeaths = pipe(
           whoData,
-          A.findLast((w) => isBefore(w.Date_reported, LAST_DAY_2020)),
-          O.fold(
+          fp.A.findLast((w) => isBefore(w.Date_reported, LAST_DAY_2020)),
+          fp.O.fold(
             () => 0,
             (d) => d.Cumulative_deaths,
           ),
@@ -168,12 +175,12 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
 
         const covid2021TotalDeaths = pipe(
           whoData,
-          A.findLast(
+          fp.A.findLast(
             (w) =>
               isAfter(w.Date_reported, LAST_DAY_2020) &&
               isBefore(w.Date_reported, LAST_DAY_2021),
           ),
-          O.fold(
+          fp.O.fold(
             () => 0,
             (d) => d.Cumulative_deaths - covid2020TotalDeaths,
           ),
@@ -285,13 +292,13 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 </Tabs>
                 <TabPanel value={adrTab} index={0}>
                   <VaccineADRGraph
-                    id={Covid19ADRs.types[0].value}
+                    id={Covid19ADRs.members[0].literals[0]}
                     distribution={totalDistribution}
                   />
                 </TabPanel>
                 <TabPanel value={adrTab} index={1}>
                   <VaccineADRGraph
-                    id={Covid19VAERS.types[0].value}
+                    id={Covid19VAERS.members[0].literals[0]}
                     distribution={distribution.filter(
                       (d) => d.iso_code === "USA",
                     )}
@@ -299,7 +306,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                 </TabPanel>
                 <TabPanel value={adrTab} index={2}>
                   <VaccineADRGraph
-                    id={Covid19EUDR.types[0].value}
+                    id={Covid19EUDR.members[0].literals[0]}
                     distribution={distribution.filter(
                       (d) => d.iso_code === "OWID_EUR",
                     )}

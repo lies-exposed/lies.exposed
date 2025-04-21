@@ -1,9 +1,8 @@
-import * as t from "io-ts";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { ListOutput } from "../io/http/Common/Output.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import * as http from "../io/http/index.js";
-import { ResourceEndpoints } from "./types.js";
 
 const ListProjectImageOutput = ListOutput(
   http.ProjectImage.ProjectImage,
@@ -14,7 +13,7 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => `/project/images`,
   Input: {
-    Body: t.strict({}),
+    Body: Schema.Any,
   },
   Output: ListProjectImageOutput,
 });
@@ -32,7 +31,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/project/images/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: ListProjectImageOutput,
 });
@@ -45,14 +44,14 @@ export const projectImages = ResourceEndpoints({
     Method: "PUT",
     getPath: () => `/articles`,
     Input: {
-      Body: t.unknown,
+      Body: Schema.Unknown,
     },
-    Output: t.undefined,
+    Output: Schema.Undefined,
   }),
   Delete: Endpoint({
     Method: "DELETE",
     getPath: () => `/articles`,
-    Output: t.undefined,
+    Output: Schema.Undefined,
   }),
   Custom: {},
 });

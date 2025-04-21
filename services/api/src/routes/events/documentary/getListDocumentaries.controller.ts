@@ -4,8 +4,8 @@ import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -49,10 +49,10 @@ export const MakeGetListDocumentaryEventRoute: Route = (r, ctx) => {
           draft,
           locations,
           exclude,
-          type: O.some([DOCUMENTARY.value]),
+          type: O.some([DOCUMENTARY.Type]),
           startDate,
           endDate,
-          actors: O.none,
+          actors: O.none(),
           keywords,
           links,
           media,

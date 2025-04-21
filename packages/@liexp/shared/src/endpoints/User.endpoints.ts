@@ -1,8 +1,8 @@
-import * as t from "io-ts";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 import {
   EditUserBody,
@@ -10,35 +10,31 @@ import {
   User,
   UserPermission,
 } from "../io/http/User.js";
-import { ResourceEndpoints } from "./types.js";
+
+const OutputUser = Output(User).annotations({ title: "User" });
 
 const UserCreate = Endpoint({
   Method: "POST",
   getPath: () => "/users",
   Input: {
-    Body: t.strict(
-      {
-        ...SignUpUserBody.type.props,
-        permissions: t.array(UserPermission),
-      },
-      "UserCreateBody",
-    ),
+    Body: Schema.Struct({
+      ...SignUpUserBody.fields,
+      permissions: Schema.Array(UserPermission),
+    }).annotations({
+      title: "UserCreateBody",
+    }),
   },
-  Output: t.strict({
-    data: User,
-  }),
+  Output: OutputUser,
 });
 
 const UserEdit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/users/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
     Body: EditUserBody,
   },
-  Output: t.strict({
-    data: User,
-  }),
+  Output: OutputUser,
 });
 
 const SignUpUser = Endpoint({
@@ -47,7 +43,7 @@ const SignUpUser = Endpoint({
   Input: {
     Body: SignUpUserBody,
   },
-  Output: t.strict({
+  Output: Schema.Struct({
     data: User,
   }),
 });
@@ -57,9 +53,9 @@ const UserGet = Endpoint({
   getPath: ({ id }) => `/users/${id}`,
   Input: {
     Query: GetListQuery,
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.strict({ data: User }),
+  Output: OutputUser,
 });
 
 const GetUserMe = Endpoint({
@@ -68,7 +64,7 @@ const GetUserMe = Endpoint({
   Input: {
     Query: GetListQuery,
   },
-  Output: Output(User, "user"),
+  Output: OutputUser,
 });
 
 const EditUserMe = Endpoint({
@@ -77,30 +73,30 @@ const EditUserMe = Endpoint({
   Input: {
     Body: EditUserBody,
   },
-  Output: Output(User, "user"),
+  Output: OutputUser,
 });
 
 const UserList = Endpoint({
   Method: "GET",
   getPath: () => "/users",
   Input: {
-    Query: t.type({
-      ...GetListQuery.props,
-      ids: optionFromNullable(t.array(UUID)),
-      telegramId: optionFromNullable(t.string),
-      permissions: optionFromNullable(t.array(UserPermission)),
+    Query: Schema.Struct({
+      ...GetListQuery.fields,
+      ids: OptionFromNullishToNull(Schema.Array(UUID)),
+      telegramId: OptionFromNullishToNull(Schema.String),
+      permissions: OptionFromNullishToNull(Schema.Array(UserPermission)),
     }),
   },
-  Output: t.strict({ data: t.array(User), total: t.number }),
+  Output: Schema.Struct({ data: Schema.Array(User), total: Schema.Number }),
 });
 
 const UserDelete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/users/${id}`,
   Input: {
-    Params: t.type({ id: UUID }),
+    Params: Schema.Struct({ id: UUID }),
   },
-  Output: t.undefined,
+  Output: Schema.Undefined,
 });
 
 // custom
@@ -109,24 +105,23 @@ const UserLogin = Endpoint({
   Method: "POST",
   getPath: () => "/users/login",
   Input: {
-    Body: t.intersection([
-      t.strict({ username: t.string }),
-      t.union([
-        t.strict({ password: t.string }),
-        t.strict({ token: t.string }),
-      ]),
-    ]),
+    Body: Schema.Union(
+      Schema.Struct({ username: Schema.String, password: Schema.String }),
+      Schema.Struct({ username: Schema.String, token: Schema.String }),
+    ),
   },
-  Output: t.strict({ data: t.strict({ id: UUID, token: t.string }) }),
+  Output: Schema.Struct({
+    data: Schema.Struct({ id: UUID, token: Schema.String }),
+  }),
 });
 
 const UserTGTokenGenerate = Endpoint({
   Method: "POST",
   getPath: () => "/users/tg/token",
   Input: {
-    Body: t.strict({}),
+    Body: Schema.Struct({}),
   },
-  Output: t.strict({ data: t.strict({ token: t.string }) }),
+  Output: Schema.Struct({ data: Schema.Struct({ token: Schema.String }) }),
 });
 
 export const users = ResourceEndpoints({

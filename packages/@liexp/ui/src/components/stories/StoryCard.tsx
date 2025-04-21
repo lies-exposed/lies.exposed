@@ -1,7 +1,7 @@
 import { type Story } from "@liexp/shared/lib/io/http/Story.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as React from "react";
 import { Card, CardActionArea, CardHeader, CardMedia } from "../mui/index.js";
 
@@ -39,7 +39,9 @@ export const StoryCard: React.FC<StoryCardProps> = ({
         subheader={
           <p style={{ fontSize: 11 }}>
             {formatDate(
-              t.string.is(a.createdAt) ? parseISO(a.createdAt) : a.createdAt,
+              Schema.is(Schema.String)(a.createdAt)
+                ? parseISO(a.createdAt)
+                : a.createdAt,
             )}
           </p>
         }

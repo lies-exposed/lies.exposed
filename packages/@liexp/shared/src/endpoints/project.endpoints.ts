@@ -1,24 +1,21 @@
-import * as t from "io-ts";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { Endpoint } from "ts-endpoint";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { CreateAreaBody } from "../io/http/Area.js";
+import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import * as Project from "../io/http/Project.js";
 import * as ProjectImage from "../io/http/ProjectImage.js";
 import { GetListQuery } from "../io/http/Query/index.js";
-import { ResourceEndpoints } from "./types.js";
 
-const SingleGroupOutput = Output(Project.Project, "Project");
+const SingleGroupOutput = Output(Project.Project).annotations({
+  title: "Project",
+});
 const ListGroupOutput = ListOutput(Project.Project, "ListProject");
 
-const GetProjectListQuery = t.partial(
-  {
-    ...GetListQuery.props,
-  },
-  "GetProjectListQuery",
-);
+const GetProjectListQuery = GetListQuery.annotations({
+  title: "GetProjectListQuery",
+});
 
 export const List = Endpoint({
   Method: "GET",
@@ -29,20 +26,20 @@ export const List = Endpoint({
   Output: ListGroupOutput,
 });
 
-const CreateBody = t.strict({
-  name: t.string,
-  color: t.string,
-  media: t.array(
-    t.strict({
+const CreateBody = Schema.Struct({
+  name: Schema.String,
+  color: Schema.String,
+  media: Schema.Array(
+    Schema.Struct({
       kind: ProjectImage.Kind,
-      description: t.string,
-      location: t.string,
+      description: Schema.String,
+      location: Schema.String,
     }),
   ),
-  areas: t.array(CreateAreaBody),
-  startDate: DateFromISOString,
-  endDate: optionFromNullable(DateFromISOString),
-  body: t.string,
+  areas: Schema.Array(CreateAreaBody),
+  startDate: Schema.Date,
+  endDate: OptionFromNullishToNull(Schema.Date),
+  body: Schema.String,
 });
 
 export const Create = Endpoint({
@@ -59,34 +56,34 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleGroupOutput,
 });
 
 const EditBody = nonEmptyRecordFromType({
-  name: optionFromNullable(t.string),
-  color: optionFromNullable(t.string),
-  areas: optionFromNullable(t.array(CreateAreaBody)),
-  media: optionFromNullable(
-    t.array(
-      t.strict({
+  name: OptionFromNullishToNull(Schema.String),
+  color: OptionFromNullishToNull(Schema.String),
+  areas: OptionFromNullishToNull(Schema.Array(CreateAreaBody)),
+  media: OptionFromNullishToNull(
+    Schema.Array(
+      Schema.Struct({
         kind: ProjectImage.Kind,
-        description: t.string,
-        location: t.string,
+        description: Schema.String,
+        location: Schema.String,
       }),
     ),
   ),
-  startDate: optionFromNullable(DateFromISOString),
-  endDate: optionFromNullable(DateFromISOString),
-  body: optionFromNullable(t.string),
+  startDate: OptionFromNullishToNull(Schema.Date),
+  endDate: OptionFromNullishToNull(Schema.Date),
+  body: OptionFromNullishToNull(Schema.String),
 });
 
 export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
     Body: EditBody,
   },
   Output: SingleGroupOutput,
@@ -96,7 +93,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: t.type({ id: t.string }),
+    Params: Schema.Struct({ id: Schema.String }),
   },
   Output: SingleGroupOutput,
 });

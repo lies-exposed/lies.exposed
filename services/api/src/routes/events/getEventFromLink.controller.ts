@@ -4,14 +4,15 @@ import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventSuggestion, Events } from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { addWeeks, subWeeks } from "date-fns";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Metadata } from "page-metadata-parser";
 import { Equal } from "typeorm";
@@ -36,7 +37,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
         }),
       ),
       TE.bind("metadata", ({ link }) => {
-        if (O.isSome(link)) {
+        if (fp.O.isSome(link)) {
           return TE.right<ControllerError, Metadata>({
             date: link.value.publishDate?.toISOString() ?? undefined,
             title: link.value.title,
@@ -70,20 +71,20 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
         const maxDate = addWeeks(urlDate, 1);
 
         const suggestedTitle = pipe(
-          O.fromNullable(metadata.title),
-          O.alt(() =>
+          fp.O.fromNullable(metadata.title),
+          fp.O.alt(() =>
             pipe(
               link,
-              O.map((l) => l.title),
+              fp.O.map((l) => l.title),
             ),
           ),
-          O.getOrElse(() => ""),
+          fp.O.getOrElse(() => ""),
         );
 
         const suggestedEventLinks = pipe(
           link,
-          O.map((l) => [l.id]),
-          O.getOrElse((): any[] => [
+          fp.O.map((l) => [l.id]),
+          fp.O.getOrElse((): any[] => [
             {
               url: metadata.url,
               publishDate: urlDate.toISOString(),
@@ -110,12 +111,13 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
         const suggestions: EventSuggestion.CreateEventSuggestion[] = [
           ...pipe(
             link,
-            O.map((l) => [
+            fp.O.map((l) => [
               {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.DOCUMENTARY.value,
+                  type: EVENT_TYPES.DOCUMENTARY,
                   payload: {
                     title: suggestedTitle,
                     website: l.id,
@@ -132,10 +134,11 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.PATENT.value,
+                  type: EVENT_TYPES.PATENT,
                   payload: {
                     title: suggestedTitle,
                     source: l.id,
@@ -147,10 +150,11 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
               {
-                type: EventSuggestion.EventSuggestionType.types[0].value,
+                type: EventSuggestion.EventSuggestionType.members[0]
+                  .literals[0],
                 event: {
                   ...commonSuggestion,
-                  type: Events.EventTypes.SCIENTIFIC_STUDY.value,
+                  type: EVENT_TYPES.SCIENTIFIC_STUDY,
                   payload: {
                     title: suggestedTitle,
                     url: l.id,
@@ -161,13 +165,13 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 },
               },
             ]),
-            O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => []),
+            fp.O.getOrElse((): EventSuggestion.CreateEventSuggestion[] => []),
           ),
           {
-            type: EventSuggestion.EventSuggestionType.types[0].value,
+            type: EventSuggestion.EventSuggestionType.members[0].literals[0],
             event: {
               ...commonSuggestion,
-              type: Events.EventTypes.DEATH.value,
+              type: EVENT_TYPES.DEATH,
               payload: {
                 victim: uuid(),
                 location: undefined,
@@ -175,10 +179,10 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
             },
           },
           {
-            type: EventSuggestion.EventSuggestionType.types[0].value,
+            type: EventSuggestion.EventSuggestionType.members[0].literals[0],
             event: {
               ...commonSuggestion,
-              type: Events.EventTypes.UNCATEGORIZED.value,
+              type: EVENT_TYPES.UNCATEGORIZED,
               payload: {
                 title: suggestedTitle,
                 actors: [],
@@ -205,20 +209,22 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
               withDrafts: false,
               skip: 0,
               take: 10,
-              type: O.none,
-              actors: O.none,
-              groups: O.none,
-              groupsMembers: O.none,
-              keywords: O.none,
-              media: O.none,
-              exclude: O.none,
+              type: O.none(),
+              actors: O.none(),
+              groups: O.none(),
+              groupsMembers: O.none(),
+              keywords: O.none(),
+              media: O.none(),
+              exclude: O.none(),
               links: pipe(
                 link,
+                fp.O.toNullable,
+                O.fromNullable,
                 O.map((l) => [l.id]),
               ),
-              ids: O.none,
-              draft: O.none,
-              locations: O.none,
+              ids: O.none(),
+              draft: O.none(),
+              locations: O.none(),
               startDate: O.some(minDate),
               endDate: O.some(maxDate),
               q: O.fromNullable(metadata.title),
@@ -229,7 +235,7 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
                 results,
                 EventV2IO.decodeMany,
                 E.map((data) => ({
-                  data,
+                  data: data.map((d) => ({ ...d, score: 1 })),
                   suggestions,
                   firstDate: firstDate?.toISOString(),
                   lastDate: lastDate?.toISOString(),

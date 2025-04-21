@@ -5,6 +5,7 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { GROUP } from "@liexp/shared/lib/io/http/Common/BySubject.js";
 import { CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
+import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -17,7 +18,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
     Endpoints.Group.Create,
     ({ body }) => {
       return pipe(
-        CreateGroupBody.is(body)
+        Schema.is(CreateGroupBody)(body)
           ? pipe(
               TE.right(body),
               TE.chain(({ color, avatar, ...b }) =>
@@ -44,7 +45,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
               SearchFromWikipediaPubSub.publish({
                 search: body.search,
                 provider: "wikipedia",
-                type: GROUP.value,
+                type: GROUP.literals[0],
               })(ctx),
               TE.map(() => new GroupEntity()),
             ),

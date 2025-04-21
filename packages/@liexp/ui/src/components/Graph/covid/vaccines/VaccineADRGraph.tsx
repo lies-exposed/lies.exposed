@@ -24,7 +24,7 @@ import { Bar, LinePath } from "@visx/shape";
 import { type Accessor } from "@visx/shape/lib/types/index.js";
 import { TooltipWithBounds, withTooltip } from "@visx/tooltip";
 import { isDate } from "date-fns";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as React from "react";
 import { useJSONClient } from "../../../../hooks/useJSONAPI.js";
 import { useJSONDataQuery } from "../../../../state/queries/DiscreteQueries.js";
@@ -70,14 +70,14 @@ const Root = styled("div")(({ theme }) => ({
 
 const ageGroupColors = {
   all: "#b623ad",
-  [NotSpecified.value]: "#6b707a",
-  [ZeroToOneMonth.value]: "#886398",
-  [TwoMonthsToTwoYears.value]: "#58ef28",
-  [ThreeToTwelveYears.value]: "#65c3b9",
-  [TwelveToSixteenYears.value]: "#cd23d9",
-  [EighteenToSixtyFourYears.value]: "#83db7e",
-  [SixtyFiveToEightyfiveYears.value]: "#c0cbcf",
-  [MoreThanEightyFiveYears.value]: "#5175dc",
+  [NotSpecified.literals[0]]: "#6b707a",
+  [ZeroToOneMonth.literals[0]]: "#886398",
+  [TwoMonthsToTwoYears.literals[0]]: "#58ef28",
+  [ThreeToTwelveYears.literals[0]]: "#65c3b9",
+  [TwelveToSixteenYears.literals[0]]: "#cd23d9",
+  [EighteenToSixtyFourYears.literals[0]]: "#83db7e",
+  [SixtyFiveToEightyfiveYears.literals[0]]: "#c0cbcf",
+  [MoreThanEightyFiveYears.literals[0]]: "#5175dc",
 };
 
 const getByAgeGroup =
@@ -160,7 +160,7 @@ const getDatumTableData = (v: VaccineDatum): [string, string, number][] => {
     v.total_death_years_not_specified,
     v.total_deaths,
   ].map((v, i) => {
-    const ageGroup = AgeGroup.types[i] ? AgeGroup.types[i].value : "all";
+    const ageGroup = AgeGroup.members[i] ? AgeGroup.members[i].Type : "all";
     const color = getAgeGroupColor(ageGroup);
     return [ageGroup, color, v];
   });
@@ -231,8 +231,8 @@ const renderTooltip = (data: VaccineDatum): React.ReactElement => {
 interface VaccineADRGraphComponentProps {
   width: number;
   height: number;
-  data: VaccineDatum[];
-  distribution: VaccineDistributionDatum[];
+  data: readonly VaccineDatum[];
+  distribution: readonly VaccineDistributionDatum[];
   adrReportFactor: number;
   ageGroup?: AgeGroup;
 }
@@ -373,7 +373,7 @@ const VaccineADRGraphComponent = withTooltip<
           {/** And are then referenced for a style attribute. */}
           <Group top={margin.top} left={margin.left}>
             <LinePath
-              data={distribution}
+              data={[...distribution]}
               x={(d) => xScale(getDistributionX(d))?.valueOf() ?? 0}
               y={(d) => yRightScale(getDistributionY(d)) ?? 0}
               stroke={`url('#${europeVaccineDistributionFirstDoseLineId}')`}
@@ -382,7 +382,7 @@ const VaccineADRGraphComponent = withTooltip<
               shapeRendering="geometricPrecision"
             />
             <LinePath
-              data={data}
+              data={[...data]}
               x={(d) => {
                 const x = xScale(getReportX(d))?.valueOf() ?? 0;
                 return x;
@@ -465,7 +465,7 @@ const adrReportRate1 = 1;
 
 interface VaccineADRGraphProps {
   id: string;
-  distribution: VaccineDistributionDatum[];
+  distribution: readonly VaccineDistributionDatum[];
 }
 
 export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
@@ -507,7 +507,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
       <QueriesRenderer
         queries={{
           data: useJSONDataQuery(jsonClient)(
-            t.strict({ data: t.array(VaccineDatum) }).decode,
+            Schema.decodeUnknownEither(
+              Schema.Struct({ data: Schema.Array(VaccineDatum) }),
+            ),
             id,
           ),
         }}
@@ -560,9 +562,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                       MenuProps={MenuProps}
                     >
                       <MenuItem value={"All"}>All</MenuItem>
-                      {AgeGroup.types.map((t) => (
-                        <MenuItem key={t.value} value={t.value}>
-                          {t.name}
+                      {AgeGroup.members.map((t) => (
+                        <MenuItem key={t.literals[0]} value={t.literals[0]}>
+                          {t.literals[0]}
                         </MenuItem>
                       ))}
                     </Select>
@@ -581,9 +583,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                       <MenuItem key={"All"} value={"All"}>
                         All
                       </MenuItem>
-                      {Manufacturer.types.map((t) => (
-                        <MenuItem key={t.value} value={t.value}>
-                          {t.name}
+                      {Manufacturer.members.map((t) => (
+                        <MenuItem key={t.Type} value={t.Type}>
+                          {t.Type}
                         </MenuItem>
                       ))}
                     </Select>
@@ -645,8 +647,8 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                           todayDatum.total_death_years_not_specified,
                           todayDatum.total_deaths,
                         ].map((v, i) => {
-                          const ageGroup = AgeGroup.types[i]
-                            ? AgeGroup.types[i].value
+                          const ageGroup = AgeGroup.members[i]
+                            ? AgeGroup.members[i].Type
                             : "all";
                           const color = getAgeGroupColor(ageGroup);
                           return [ageGroup, color, v];

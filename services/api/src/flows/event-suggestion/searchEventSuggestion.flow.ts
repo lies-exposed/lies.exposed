@@ -8,9 +8,9 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 interface SearchEventSuggestionFilter {
-  status: O.Option<http.EventSuggestion.EventSuggestionStatus[]>;
-  links: O.Option<UUID[]>;
-  newLinks: O.Option<Partial<http.Link.CreateLink>[]>;
+  status: O.Option<readonly http.EventSuggestion.EventSuggestionStatus[]>;
+  links: O.Option<readonly UUID[]>;
+  newLinks: O.Option<readonly Partial<http.Link.CreateLink>[]>;
   order: Record<string, "ASC" | "DESC">;
   skip: number;
   take: number;

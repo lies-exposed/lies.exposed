@@ -31,7 +31,7 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
       return pipe(
         BuildImageWithSharpPubSub.publish({ image: null, layers })(ctx),
         TE.map(() => ({
-          body: { success: true },
+          body: { data: { success: true } },
           statusCode: 201,
         })),
       );

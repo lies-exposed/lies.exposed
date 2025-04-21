@@ -11,8 +11,8 @@ import { summarizeTextFlow } from "./summarizeTexFlow.js";
 import { GetJobProcessor } from "#services/job-processor/job-processor.service.js";
 
 export const JobProcessor = GetJobProcessor({
-  [OpenAISummarizeQueueType.value]: summarizeTextFlow,
-  [OpenAIEmbeddingQueueType.value]: embedAndQuestionFlow,
-  [OpenAICreateEventFromURLType.value]: createEventFromURLFlow,
-  [OpenAICreateEventFromTextType.value]: createEventFromTextFlow,
+  [OpenAISummarizeQueueType.Type]: summarizeTextFlow,
+  [OpenAIEmbeddingQueueType.Type]: embedAndQuestionFlow,
+  [OpenAICreateEventFromURLType.Type]: createEventFromURLFlow,
+  [OpenAICreateEventFromTextType.Type]: createEventFromTextFlow,
 });

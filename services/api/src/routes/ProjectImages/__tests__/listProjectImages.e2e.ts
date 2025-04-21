@@ -3,10 +3,10 @@ import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
 import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { ProjectArb } from "@liexp/test/lib/arbitrary/Project.arbitrary.js";
-import * as t from "io-ts";
+import { Schema } from "effect";
+import fc from "fast-check";
 import jwt from "jsonwebtoken";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
@@ -53,7 +53,7 @@ describe("List Project Images", () => {
             featuredInAreas: [],
             featuredInStories: [],
           },
-          kind: http.ProjectImage.THEORY_KIND.value,
+          kind: http.ProjectImage.THEORY_KIND.literals[0],
           project: projects[0],
         })),
       ),
@@ -96,7 +96,9 @@ describe("List Project Images", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      t.array(http.ProjectImage.ProjectImage).decode(response.body.data)._tag,
+      Schema.decodeUnknownEither(Schema.Array(http.ProjectImage.ProjectImage))(
+        response.body.data,
+      )._tag,
     ).toEqual("Right");
   });
 });

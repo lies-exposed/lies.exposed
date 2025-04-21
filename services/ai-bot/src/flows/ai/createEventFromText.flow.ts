@@ -18,9 +18,12 @@ export const createEventFromTextFlow: JobProcessRTE<
       "jsonSchema",
       () => (ctx) =>
         pipe(
-          ctx.endpointsRESTClient.Endpoints.Event.getList({
-            filter: { eventType: [job.data.type] },
-            sort: { field: "updatedAt", order: "DESC" },
+          ctx.endpointsRESTClient.Event.List({
+            Query: {
+              eventType: [job.data.type],
+              _order: "DESC",
+              _sort: "updatedAt",
+            },
           }),
           fp.TE.map((events) => events.data[0]),
           fp.TE.mapLeft(toAIBotError),

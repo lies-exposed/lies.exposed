@@ -20,24 +20,24 @@ import {
 const logger = GetLogger("vaccines:parse");
 const csvUtil = GetCSVUtil({ log: logger });
 
-const EUDRVIGILANCE = t.strict(
+const EUDRVIGILANCE = Schema.Struct(
   {
-    "EU Local Number": t.union([t.undefined, t.string]),
-    "Report Type": t.string,
-    "EV Gateway Receipt Date": t.string,
-    "Primary Source Qualification": t.string,
-    "Primary Source Country for Regulatory Purposes": t.string,
-    "Literature Reference": t.string,
-    "Patient Age Group": t.string,
-    "Patient Age Group (as per reporter)": t.string,
-    "Parent Child Report": t.string,
-    "Patient Sex": t.string,
-    "Reaction List PT (Duration – Outcome - Seriousness Criteria)": t.string,
+    "EU Local Number": Schema.Union([Schema.Undefined, Schema.String]),
+    "Report Type": Schema.String,
+    "EV Gateway Receipt Date": Schema.String,
+    "Primary Source Qualification": Schema.String,
+    "Primary Source Country for Regulatory Purposes": Schema.String,
+    "Literature Reference": Schema.String,
+    "Patient Age Group": Schema.String,
+    "Patient Age Group (as per reporter)": Schema.String,
+    "Parent Child Report": Schema.String,
+    "Patient Sex": Schema.String,
+    "Reaction List PT (Duration – Outcome - Seriousness Criteria)": Schema.String,
     "Suspect/interacting Drug List (Drug Char - Indication PT - Action taken - [Duration - Dose - Route])":
-      t.string,
+      Schema.String,
     "Concomitant/Not Administered Drug List (Drug Char - Indication PT - Action taken - [Duration - Dose - Route])":
-      t.string,
-    "ICSR Form": t.string,
+      Schema.String,
+    "ICSR Form": Schema.String,
   },
   "EUDRVIGILANCE"
 );

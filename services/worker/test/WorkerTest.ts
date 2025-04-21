@@ -38,6 +38,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import path from "path";
 import { vi } from "vitest";
 import { Config } from "../src/config.js";
+import { Schema } from "effect";
 
 vi.mock("axios", () => ({
   default: {
@@ -69,7 +70,7 @@ export const loadAppContext = async (
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
-        ENV.decode(process.env),
+        Schema.decodeUnknownEither(ENV)(process.env),
         TE.fromEither,
         TE.mapLeft(toWorkerError),
       ),
@@ -125,7 +126,7 @@ export const loadAppContext = async (
       }),
       queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
     })),
-    TE.bind('config', Config(process.cwd())),
+    TE.bind("config", Config(process.cwd())),
     throwTE,
   );
 };

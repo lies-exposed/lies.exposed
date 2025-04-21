@@ -1,8 +1,8 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type UUID } from "io-ts-types/lib/UUID.js";
 import { type FSError, type FSClient } from "./fs/fs.provider.js";
 
 interface QueueProvider<J extends Queue.Queue> {
@@ -14,7 +14,7 @@ interface QueueProvider<J extends Queue.Queue> {
   updateJob: (job: J, status: Queue.Status) => TaskEither<FSError, void>;
   listJobs: (opts?: {
     resource?: Queue.QueueResourceNames;
-  }) => TaskEither<FSError, J[]>;
+  }) => TaskEither<FSError, readonly J[]>;
   exists: (job: J) => TaskEither<FSError, boolean>;
   deleteJob: (
     resource: Queue.QueueResourceNames,
@@ -92,8 +92,8 @@ export interface QueuesProvider {
   list: <J extends Queue.Queue>(opts?: {
     resource?: Queue.QueueResourceNames;
     type?: string;
-    status?: Queue.Status[];
-  }) => TaskEither<FSError, J[]>;
+    status?: readonly Queue.Status[];
+  }) => TaskEither<FSError, readonly J[]>;
 }
 
 export const GetQueueProvider = (

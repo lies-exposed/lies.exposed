@@ -1,5 +1,5 @@
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type UseQueryResult } from "@tanstack/react-query";
+import { type IOError } from "@ts-endpoint/core";
 import { type GetListParams } from "ra-core";
 import * as React from "react";
 import { ErrorBox } from "../Common/ErrorBox.js";
@@ -21,7 +21,7 @@ export interface AutocompleteInputProps<T extends SearchableItem>
   placeholder?: string;
   query: (
     params: GetListParams,
-  ) => UseQueryResult<{ data: T[]; total: number }, APIError>;
+  ) => UseQueryResult<{ data: readonly T[]; total: number }, IOError>;
   searchToFilter: (t: string) => Record<string, string>;
   getOptionLabel: (v: T | string) => string;
   selectedItems: T[];

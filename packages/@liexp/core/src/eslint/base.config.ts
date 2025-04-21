@@ -53,19 +53,6 @@ const config: any = tseslint.config(
           tsx: "never",
         },
       ],
-      "no-restricted-imports": [
-        "error",
-        {
-          patterns: [
-            "react-admin",
-            "!@liexp/ui/lib/components/admin/react-admin",
-            "@liexp/core/src",
-            "@liexp/shared/src",
-            "@liexp/ui/src",
-            "uuid",
-          ],
-        },
-      ],
       "no-console": "error",
       "@typescript-eslint/restrict-template-expressions": ["off"],
       "@typescript-eslint/no-redeclare": ["off"],

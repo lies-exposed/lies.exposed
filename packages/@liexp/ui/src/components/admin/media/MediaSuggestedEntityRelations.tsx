@@ -22,16 +22,16 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
 
   const canSuggestEntities =
     record?.type &&
-    (record.type === PDFType.value ||
-      ImageType.types.includes(record.type as any));
+    (record.type === PDFType.literals[0] ||
+      ImageType.members.includes(record.type as any));
 
   const doExtractNLPEntities = React.useCallback((): void => {
     const body =
-      record?.type === PDFType.value
+      record?.type === PDFType.literals[0]
         ? {
             pdf: record.location,
           }
-        : record?.type && ImageType.types.includes(record.type as any)
+        : record?.type && ImageType.members.includes(record.type as any)
           ? {
               url: record.description,
             }
@@ -54,7 +54,10 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
           id: record.id,
           data: {
             ...record,
-            keywords: ((record.keywords as string[]) ?? []).concat([entity]),
+            keywords: (record.keywords
+              ? ([...record.keywords] as string[])
+              : []
+            ).concat([entity]),
           },
         });
       }

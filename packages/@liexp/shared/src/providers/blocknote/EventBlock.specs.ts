@@ -12,7 +12,7 @@ export const eventBlockSpecs = {
     },
     type: {
       default: DEFAULT_TYPE as EventType | typeof DEFAULT_TYPE,
-      values: [...EventType.types.map((v) => v.value), DEFAULT_TYPE],
+      values: [...EventType.members.map((v) => v.Type), DEFAULT_TYPE],
     },
   },
   content: "inline",

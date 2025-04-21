@@ -1,133 +1,128 @@
-import * as t from "io-ts";
-import {
-  DateFromISOString,
-  type DateFromISOStringC,
-} from "io-ts-types/lib/DateFromISOString.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
+import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "./Common/Output.js";
+import { UUID } from "./Common/UUID.js";
 import { CreateMedia, Media } from "./Media/Media.js";
 import { GetListQuery } from "./Query/index.js";
 
-export const GROUPS = t.literal("groups");
-export type GROUPS = t.TypeOf<typeof GROUPS>;
+export const GROUPS = Schema.Literal("groups");
+export type GROUPS = typeof GROUPS.Type;
 
-export const GroupKind = t.union(
-  [t.literal("Public"), t.literal("Private")],
-  "GroupKind",
-);
-export type GroupKind = t.TypeOf<typeof GroupKind>;
+export const GroupKind = Schema.Union(
+  Schema.Literal("Public"),
+  Schema.Literal("Private"),
+).annotations({
+  title: "GroupKind",
+});
+export type GroupKind = typeof GroupKind.Type;
 
-export interface GroupC extends t.Props {
-  id: t.StringC;
-  createdAt: DateFromISOStringC;
-  updatedAt: DateFromISOStringC;
-  name: t.StringC;
-  username: t.UnionC<[t.StringC, t.UndefinedC]>;
-  kind: t.UnionC<[t.LiteralC<"Public">, t.LiteralC<"Private">]>;
-  color: t.StringC;
-  avatar: t.UnionC<[t.StringC, t.UndefinedC]>;
-  members: t.ArrayC<t.StringC>;
-  subGroups: t.ArrayC<t.ExactType<t.TypeC<GroupC>>>;
-  body: t.StringC;
-  body2: t.UnionC<[typeof BlockNoteDocument, t.UndefinedC]>;
+export interface GroupC {
+  id: Schema.String;
+  createdAt: Schema.Date;
+  updatedAt: Schema.Date;
+  name: Schema.String;
+  username: Schema.Union<[typeof Schema.String, typeof Schema.Undefined]>;
+  kind: Schema.Union<[Schema.Literal<["Public"]>, Schema.Literal<["Private"]>]>;
+  color: Schema.String;
+  avatar: Schema.Union<[typeof Schema.String, typeof Schema.Undefined]>;
+  members: Schema.Array$<typeof Schema.String>;
+  subGroups: Schema.Array$<typeof Schema.Any>;
+  body: Schema.String;
+  body2: Schema.Union<[typeof BlockNoteDocument, typeof Schema.Undefined]>;
 }
 
-export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
+// export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
+export type GroupType = any;
 
-export const GetGroupListQuery = t.type(
-  {
-    ...GetListQuery.props,
-    _sort: optionFromNullable(
-      t.union([
-        t.literal("id"),
-        t.literal("name"),
-        t.literal("createdAt"),
-        t.literal("updatedAt"),
-      ]),
+export const GetGroupListQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  _sort: OptionFromNullishToNull(
+    Schema.Union(
+      Schema.Literal("id"),
+      Schema.Literal("name"),
+      Schema.Literal("createdAt"),
+      Schema.Literal("updatedAt"),
     ),
-    ids: optionFromNullable(t.array(UUID)),
-    members: optionFromNullable(t.array(t.string)),
-  },
-  "GetGroupListQuery",
-);
-export type GetGroupListQuery = t.TypeOf<typeof GetGroupListQuery>;
+  ),
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  members: OptionFromNullishToNull(Schema.Array(Schema.String)),
+}).annotations({
+  title: "GetGroupListQuery",
+});
+export type GetGroupListQuery = typeof GetGroupListQuery.Type;
 
-export const CreateGroupBody = t.strict(
-  {
-    name: t.string,
-    username: t.string,
-    color: t.string,
-    kind: GroupKind,
-    avatar: t.union([UUID, CreateMedia, t.undefined]),
-    excerpt: t.union([BlockNoteDocument, t.any, t.undefined]),
-    body: t.union([BlockNoteDocument, t.any, t.undefined]),
-    startDate: t.union([DateFromISOString, t.undefined]),
-    endDate: t.union([DateFromISOString, t.undefined]),
-    members: t.array(
-      t.strict(
-        {
-          actor: UUID,
-          body: BlockNoteDocument,
-          startDate: DateFromISOString,
-          endDate: optionFromNullable(DateFromISOString),
-        },
-        "CreateGroupMember",
-      ),
+export const CreateGroupBody = Schema.Struct({
+  name: Schema.String,
+  username: Schema.String,
+  color: Schema.String,
+  kind: GroupKind,
+  avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined),
+  excerpt: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
+  body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
+  startDate: Schema.Union(Schema.Date, Schema.Undefined),
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
+  members: Schema.Array(
+    Schema.Struct({
+      actor: UUID,
+      body: BlockNoteDocument,
+      startDate: Schema.Date,
+      endDate: OptionFromNullishToNull(Schema.Date),
+    }).annotations({
+      title: "CreateGroupMember",
+    }),
+  ),
+}).annotations({
+  title: "CreateGroupBody",
+});
+
+export type CreateGroupBody = typeof CreateGroupBody.Type;
+
+export const EditGroupBody = Schema.Struct({
+  ...CreateGroupBody.fields,
+  members: Schema.Array(
+    Schema.Union(
+      UUID,
+      Schema.Struct({
+        actor: UUID,
+        body: BlockNoteDocument,
+        startDate: Schema.Date,
+        endDate: OptionFromNullishToNull(Schema.Date),
+      }).annotations({
+        title: "CreateGroupMember",
+      }),
     ),
-  },
-  "CreateGroupBody",
-);
+  ),
+}).annotations({
+  title: "EditGroupBody",
+});
 
-export type CreateGroupBody = t.TypeOf<typeof CreateGroupBody>;
+export type EditGroupBody = typeof EditGroupBody.Type;
 
-export const EditGroupBody = t.strict(
-  {
-    ...CreateGroupBody.type.props,
-    members: t.array(
-      t.union([
-        UUID,
-        t.strict(
-          {
-            actor: UUID,
-            body: BlockNoteDocument,
-            startDate: DateFromISOString,
-            endDate: optionFromNullable(DateFromISOString),
-          },
-          "CreateGroupMember",
-        ),
-      ]),
-    ),
-  },
-  "EditGroupBody",
-);
+export const Group = Schema.Struct({
+  ...BaseProps.fields,
+  name: Schema.String,
+  username: Schema.Union(Schema.String, Schema.Undefined),
+  kind: GroupKind,
+  color: Color,
+  startDate: Schema.Union(Schema.Date, Schema.Undefined),
+  endDate: Schema.Union(Schema.Date, Schema.Undefined),
+  avatar: Schema.Union(Media, Schema.Undefined),
+  subGroups: Schema.Array(Schema.String),
+  members: Schema.Array(Schema.String),
+  excerpt: Schema.Union(BlockNoteDocument, Schema.Null),
+  body: Schema.Union(BlockNoteDocument, Schema.Null),
+}).annotations({
+  title: "Group",
+});
 
-export type EditGroupBody = t.TypeOf<typeof EditGroupBody>;
+export type Group = typeof Group.Type;
 
-export const Group = t.strict(
-  {
-    ...BaseProps.type.props,
-    name: t.string,
-    username: t.union([t.string, t.undefined]),
-    kind: GroupKind,
-    color: Color,
-    startDate: t.union([DateFromISOString, t.undefined]),
-    endDate: t.union([DateFromISOString, t.undefined]),
-    avatar: t.union([Media, t.undefined]),
-    subGroups: t.array(t.string),
-    members: t.array(t.string),
-    excerpt: t.union([BlockNoteDocument, t.null]),
-    body: t.union([BlockNoteDocument, t.null]),
-  },
-  "Group",
-);
-
-export type Group = t.TypeOf<typeof Group>;
-
-export const GroupOutput = Output(Group, "Group");
+export const GroupOutput = Output(Group).annotations({
+  title: "GroupOutput",
+});
 export type GroupOutput = Output<Group>;
 export const GroupListOutput = ListOutput(Group, "ListGroup");
 export type GroupListOutput = ListOutput<Group>;

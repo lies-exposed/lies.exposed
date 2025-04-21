@@ -16,7 +16,7 @@ import {
 
 interface SuggestedKeywordEntityRelationsBoxProps {
   keywords: ExtractEntitiesWithNLPOutput["entities"]["keywords"];
-  excludeKeywords?: string[];
+  excludeKeywords?: readonly string[];
   onKeywordClick?: (keyword: string) => void;
 }
 
@@ -48,7 +48,7 @@ export const SuggestedKeywordEntityRelationsBox: React.FC<
 
 interface SuggestedGroupEntityRelationsBoxProps {
   groups: ExtractEntitiesWithNLPOutput["entities"]["groups"];
-  excludeGroups?: string[];
+  excludeGroups?: readonly string[];
   onClick?: (group: string) => void;
 }
 export const SuggestedGroupEntityRelationsBox: React.FC<
@@ -79,7 +79,7 @@ export const SuggestedGroupEntityRelationsBox: React.FC<
 
 interface SuggestedActorEntityRelationsBoxProps {
   actors: ExtractEntitiesWithNLPOutput["entities"]["actors"];
-  excludeActors?: string[];
+  excludeActors?: readonly string[];
   onClick?: (actor: string) => void;
 }
 export const SuggestedActorEntityRelationsBox: React.FC<

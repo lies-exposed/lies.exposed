@@ -52,7 +52,7 @@ export const postToSocialPlatforms =
                 ig: result.ig ?? socialPost.result.ig,
                 tg: result.tg ?? socialPost.result.tg,
               },
-              status: PUBLISHED.value,
+              status: PUBLISHED.literals[0],
             },
           ]),
           fp.TE.mapLeft(toWorkerError),

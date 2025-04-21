@@ -3,9 +3,11 @@ import createEmotionServer from "@emotion/server/create-instance";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import * as fp from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { type EndpointsQueryProvider } from "@liexp/shared/lib/providers/EndpointQueriesProvider/index.js";
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
+import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
 import type * as express from "express";
 import type ReactDOMServer from "react-dom/server";
 import { type Configuration } from "../../context/ConfigurationContext.js";
@@ -34,7 +36,7 @@ export type ServerRenderer = (
 ) => ReactDOMServer.PipeableStream;
 
 interface SSRRequestHandlerOpts {
-  Q: EndpointsQueryProvider;
+  Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>;
   apiProvider: APIRESTClient;
   getTemplate: (url: string, originalUrl: string) => Promise<string>;
   transformTemplate: (template: string) => string;
@@ -94,16 +96,21 @@ export const requestHandler =
             return [];
           }),
         ),
-      ).then((queries) => {
-        const routeQueries = queries.flatMap((r) => r);
-        logger.debug.log("Route queries %O", routeQueries);
-        return Promise.all(
-          routeQueries.map((r) => {
-            logger.debug.log("Prefetch query %O", r.queryKey);
-            return queryClient.prefetchQuery(r);
-          }),
-        );
-      });
+      )
+        .then((queries) => {
+          const routeQueries = queries.flatMap((r) => r);
+          logger.debug.log("Route queries %O", routeQueries);
+          return Promise.all(
+            routeQueries.map((r) => {
+              logger.debug.log("Prefetch query %O", r.queryKey);
+              return queryClient.prefetchQuery(r);
+            }),
+          );
+        })
+        .catch((e) => {
+          logger.error.log("Prefetch error %O", e);
+          throw e;
+        });
 
       let didError = false;
       const dehydratedState = dehydrate(queryClient);

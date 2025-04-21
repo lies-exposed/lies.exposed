@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";
@@ -47,13 +48,14 @@ export const parseDocument =
       ctx.tg.getFileStream(messageDocument),
       TE.mapLeft(ServerError.fromUnknown),
       fp.TE.filterOrElse(
-        (m) => PDFType.is(messageDocument.mime_type),
+        (m) => Schema.is(PDFType)(messageDocument.mime_type),
         () => ServerError.fromUnknown(new Error("Invalid file type")),
       ),
       TE.chain((f) => {
         ctx.logger.debug.log("File downloaded %s", messageDocument.file_name);
 
-        const contentType = (messageDocument.mime_type as any) ?? PDFType.value;
+        const contentType =
+          (messageDocument.mime_type as any) ?? PDFType.literals[0];
 
         return createAndUpload(
           {

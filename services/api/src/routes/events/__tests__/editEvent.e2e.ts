@@ -14,7 +14,6 @@ import {
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
@@ -22,6 +21,8 @@ import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
+import { Schema } from "effect";
+import fc from "fast-check";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -85,7 +86,9 @@ describe("Edit Event", () => {
     delete event.payload.location;
     delete event.deletedAt;
 
-    adminUser = await saveUser(appTest.ctx, [http.User.AdminDelete.value]);
+    adminUser = await saveUser(appTest.ctx, [
+      http.User.AdminDelete.literals[0],
+    ]);
 
     supporterUser = await saveUser(appTest.ctx, []);
 
@@ -143,7 +146,9 @@ describe("Edit Event", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag,
+      Schema.decodeUnknownEither(http.Events.Uncategorized.Uncategorized)(
+        response.body.data,
+      )._tag,
     ).toEqual("Right");
 
     expect(body).toMatchObject({
@@ -184,7 +189,9 @@ describe("Edit Event", () => {
     const body = response.body.data;
 
     expect(
-      http.Events.Uncategorized.Uncategorized.decode(response.body.data)._tag,
+      Schema.decodeUnknownEither(http.Events.Uncategorized.Uncategorized)(
+        response.body.data,
+      )._tag,
     ).toEqual("Right");
 
     // expect media with length 2

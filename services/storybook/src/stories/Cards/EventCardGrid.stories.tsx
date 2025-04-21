@@ -32,7 +32,7 @@ const Template: StoryFn<EventCardGridProps<SearchEvent>> = (props) => {
           data: { events },
         },
       }) => {
-        return <EventCardGrid {...props} events={events} />;
+        return <EventCardGrid {...props} events={[...events]} />;
       }}
     />
   );

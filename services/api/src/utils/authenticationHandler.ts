@@ -16,18 +16,14 @@ import {
   type User,
   type UserPermission,
 } from "@liexp/shared/lib/io/http/User.js";
+import { Schema } from "effect";
 import type * as express from "express";
 import { type IO } from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
-import * as t from "io-ts";
-import { PathReporter } from "io-ts/lib/PathReporter.js";
 
-const HeadersWithAuthorization = t.strict(
-  {
-    authorization: t.string,
-  },
-  "HeadersWithAuthorization",
-);
+const HeadersWithAuthorization = Schema.Struct({
+  authorization: Schema.String,
+}).annotations({ title: "HeadersWithAuthorization" });
 
 interface AuthenticationContext {
   logger: logger.Logger;
@@ -39,17 +35,16 @@ const decodeUserFromRequest =
   ({ logger, jwt }: AuthenticationContext): IOE.IOEither<JWTError, User> => {
     // const headerKeys = Object.keys(req.headers);
     // logger.debug.log(`Checking headers %O for authorization`, headerKeys);
-    const decodedHeaders = HeadersWithAuthorization.decode(req.headers);
-
-    logger.debug.log(
-      "Decoded headers errors %O",
-      PathReporter.report(decodedHeaders),
+    const decodedHeaders = Schema.decodeUnknownEither(HeadersWithAuthorization)(
+      req.headers,
     );
+
+    logger.debug.log("Decoded headers errors %O", decodedHeaders);
 
     return pipe(
       decodedHeaders,
       IOE.fromEither,
-      IOE.mapLeft(() => toNotAuthorizedError()),
+      IOE.mapLeft((e) => toNotAuthorizedError()),
       IOE.chain((s) => jwt.verifyUser(s.authorization)),
       IOE.filterOrElse(
         (u) => {
@@ -57,37 +52,37 @@ const decodeUserFromRequest =
             return true;
           }
 
-          const perms: UserPermission[] = [AdminDelete.value];
+          const perms: UserPermission[] = [AdminDelete.literals[0]];
 
-          if (routePerms.includes(AdminDelete.value)) {
+          if (routePerms.includes(AdminDelete.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
-          perms.push(AdminEdit.value);
-          if (routePerms.includes(AdminEdit.value)) {
+          perms.push(AdminEdit.literals[0]);
+          if (routePerms.includes(AdminEdit.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
-          perms.push(AdminCreate.value);
-          if (routePerms.includes(AdminCreate.value)) {
-            return perms.some((p) => u.permissions.includes(p));
-          }
-
-          perms.push(AdminRead.value);
-          if (routePerms.includes(AdminRead.value)) {
+          perms.push(AdminCreate.literals[0]);
+          if (routePerms.includes(AdminCreate.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionEdit.value);
-          if (routePerms.includes(EventSuggestionEdit.value)) {
+          perms.push(AdminRead.literals[0]);
+          if (routePerms.includes(AdminRead.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionCreate.value);
-          if (routePerms.includes(EventSuggestionCreate.value)) {
+          perms.push(EventSuggestionEdit.literals[0]);
+          if (routePerms.includes(EventSuggestionEdit.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 
-          perms.push(EventSuggestionRead.value);
-          if (routePerms.includes(EventSuggestionRead.value)) {
+          perms.push(EventSuggestionCreate.literals[0]);
+          if (routePerms.includes(EventSuggestionCreate.literals[0])) {
+            return perms.some((p) => u.permissions.includes(p));
+          }
+
+          perms.push(EventSuggestionRead.literals[0]);
+          if (routePerms.includes(EventSuggestionRead.literals[0])) {
             return perms.some((p) => u.permissions.includes(p));
           }
 

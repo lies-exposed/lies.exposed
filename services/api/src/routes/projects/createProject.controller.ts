@@ -8,6 +8,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
+import { toProjectIO } from "./project.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
@@ -17,7 +18,9 @@ export const MakeCreateProjectRoute: Route = (r, ctx) => {
     ({ body: { endDate, media, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
       return pipe(
-        ctx.db.save(ProjectEntity, [{ ...body, ...optionalData }]),
+        ctx.db.save(ProjectEntity, [
+          { ...body, ...optionalData, areas: [...body.areas] },
+        ]),
         TE.chain(([project]) =>
           sequenceS(TE.ApplicativeSeq)({
             project: TE.right(project),
@@ -41,17 +44,20 @@ export const MakeCreateProjectRoute: Route = (r, ctx) => {
             loadRelationIds: true,
           }),
         ),
-        TE.map((page) => ({
+        TE.chainEitherK((page) =>
+          toProjectIO({
+            ...page,
+            // type: "GroupEntity" as const,
+            // members: (page.members as any) as string[],
+            // subGroups: (page.subGroups as any) as string[],
+            createdAt: page.createdAt,
+            updatedAt: page.updatedAt,
+            // body,
+          }),
+        ),
+        TE.map((data) => ({
           body: {
-            data: {
-              ...page,
-              type: "GroupEntity" as const,
-              // members: (page.members as any) as string[],
-              // subGroups: (page.subGroups as any) as string[],
-              createdAt: page.createdAt.toISOString(),
-              updatedAt: page.updatedAt.toISOString(),
-              // body,
-            },
+            data,
           },
           statusCode: 200,
         })),

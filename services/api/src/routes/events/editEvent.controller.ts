@@ -12,7 +12,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const EditEventRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([AdminEdit.value])(ctx))(
+  AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Event.Edit,
     ({ params: { id }, body }) => {
       ctx.logger.debug.log("Incoming body %O", body);

@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import { type GetListFnParamsE } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
+import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBox } from "../components/Common/ErrorBox.js";

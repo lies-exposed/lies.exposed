@@ -1,18 +1,15 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
-  EventTypes,
+  EVENT_TYPES,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as A from "fp-ts/lib/Array.js";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 import { Brackets, In, type SelectQueryBuilder } from "typeorm";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -92,8 +89,8 @@ const whereActorInArray =
   (config: EventsConfig) =>
   (
     selectQ: SelectQueryBuilder<EventV2Entity>,
-    actors: string[],
-    eventType: O.Option<EventType[]>,
+    actors: readonly string[],
+    eventType: O.Option<readonly EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
     const outerWhere = getWhere(selectQ, whereT);
@@ -126,8 +123,8 @@ const whereGroupInArray =
   (config: EventsConfig) =>
   (
     q: SelectQueryBuilder<EventV2Entity>,
-    groups: string[],
-    eventType: O.Option<EventType[]>,
+    groups: readonly string[],
+    eventType: O.Option<readonly EventType[]>,
     whereT?: WhereT,
   ): SelectQueryBuilder<EventV2Entity> => {
     const outerWhere = getWhere(q, whereT);
@@ -161,7 +158,7 @@ const whereMediaInArray =
   (config: EventsConfig) =>
   (
     // q: WhereExpressionBuilder,
-    media: string[],
+    media: readonly string[],
     eventType: O.Option<EventType[]>,
   ): Brackets => {
     return new Brackets((subQ) => {
@@ -199,7 +196,7 @@ type SearchEventQuery = Omit<
   | "_sort"
   | "_order"
 > & {
-  type: O.Option<EventType[]>;
+  type: O.Option<readonly EventType[]>;
   withDeleted: boolean;
   withDrafts: boolean;
   skip: number;
@@ -207,40 +204,40 @@ type SearchEventQuery = Omit<
 } & ORMOrder;
 
 const searchQueryDefaults: SearchEventQuery = {
-  ids: O.none,
-  q: O.none,
-  startDate: O.none,
-  endDate: O.none,
-  exclude: O.none,
+  ids: O.none(),
+  q: O.none(),
+  startDate: O.none(),
+  endDate: O.none(),
+  exclude: O.none(),
   withDeleted: false,
   withDrafts: false,
-  spCount: O.none,
-  keywords: O.none,
-  groups: O.none,
-  actors: O.none,
+  spCount: O.none(),
+  keywords: O.none(),
+  groups: O.none(),
+  actors: O.none(),
   skip: 0,
   take: 100,
-  links: O.none,
-  media: O.none,
-  locations: O.none,
-  type: O.none,
-  draft: O.none,
-  groupsMembers: O.none,
-  emptyLinks: O.none,
-  emptyMedia: O.none,
-  emptyKeywords: O.none,
-  emptyActors: O.none,
-  emptyGroups: O.none,
-  onlyUnshared: O.none,
+  links: O.none(),
+  media: O.none(),
+  locations: O.none(),
+  type: O.none(),
+  draft: O.none(),
+  groupsMembers: O.none(),
+  emptyLinks: O.none(),
+  emptyMedia: O.none(),
+  emptyKeywords: O.none(),
+  emptyActors: O.none(),
+  emptyGroups: O.none(),
+  onlyUnshared: O.none(),
   order: {},
-  relations: O.none,
+  relations: O.none(),
 };
 
 const addWhereToQueryBuilder = (
   q: SelectQueryBuilder<EventV2Entity>,
   config: EventsConfig,
   opts: Omit<SearchEventQuery, "startDate" | "endDate">,
-  groupsMembers: string[],
+  groupsMembers: readonly string[],
 ): SelectQueryBuilder<EventV2Entity> => {
   const {
     exclude,
@@ -335,16 +332,16 @@ const addWhereToQueryBuilder = (
     });
   }
 
-  if (O.isSome(emptyMedia) && O.toUndefined(emptyMedia)) {
+  if (O.isSome(emptyMedia) && O.getOrUndefined(emptyMedia)) {
     q.andWhere("media.id IS NULL");
   } else if (O.isSome(media)) {
-    q.andWhere(whereMediaInArray(config)(media.value, O.none)).setParameter(
+    q.andWhere(whereMediaInArray(config)(media.value, O.none())).setParameter(
       "media",
       media.value,
     );
   }
 
-  if (O.isSome(emptyLinks) && O.toUndefined(emptyLinks)) {
+  if (O.isSome(emptyLinks) && O.getOrUndefined(emptyLinks)) {
     q.andWhere("links.id IS NULL");
   } else if (O.isSome(links) && links.value.length > 0) {
     const where = hasWhere ? q.andWhere.bind(q) : q.andWhere.bind(q);
@@ -357,7 +354,7 @@ const addWhereToQueryBuilder = (
     q.andWhere('"socialPosts_spCount" >= :spCount', {
       spCount: spCount.value,
     });
-  } else if (O.isSome(onlyUnshared)) {
+  } else if (fp.O.isSome(onlyUnshared)) {
     q.andWhere('"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL');
   }
 
@@ -399,8 +396,8 @@ export const searchEventV2Query =
     } = opts;
 
     return pipe(
-      TE.Do,
-      TE.bind("groupsMembers", () =>
+      fp.TE.Do,
+      fp.TE.bind("groupsMembers", () =>
         pipe(
           O.isSome(actors)
             ? pipe(
@@ -409,15 +406,15 @@ export const searchEventV2Query =
                     actor: { id: In(actors.value) },
                   },
                 }),
-                TE.map(A.map((gm) => gm.id)),
+                fp.TE.map(fp.A.map((gm) => gm.id)),
               )
-            : TE.right<DBError, string[]>([]),
-          TE.map((gm) =>
+            : fp.TE.right<DBError, string[]>([]),
+          fp.TE.map((gm) =>
             O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
           ),
         ),
       ),
-      TE.bind("firstDate", ({ groupsMembers }) => {
+      fp.TE.bind("firstDate", ({ groupsMembers }) => {
         const dates = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -442,7 +439,7 @@ export const searchEventV2Query =
 
         return db.execQuery(() => dates.getRawOne<{ firstDate: Date }>());
       }),
-      TE.bind("lastDate", ({ groupsMembers }) => {
+      fp.TE.bind("lastDate", ({ groupsMembers }) => {
         const dates = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -466,7 +463,7 @@ export const searchEventV2Query =
 
         return db.execQuery(() => dates.getRawOne<{ lastDate: Date }>());
       }),
-      TE.bind("results", ({ groupsMembers }) => {
+      fp.TE.bind("results", ({ groupsMembers }) => {
         const queryBuilder = pipe(
           db.manager
             .createQueryBuilder(EventV2Entity, "event")
@@ -484,7 +481,7 @@ export const searchEventV2Query =
           (q) => {
             logger.debug.log(
               `Find options for event (type: %s) %O`,
-              O.toUndefined(type),
+              O.getOrUndefined(type),
               opts,
             );
 
@@ -565,11 +562,11 @@ export const searchEventV2Query =
 
             const quotesCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.QUOTE.value}'`);
+              .andWhere(`event.type = '${EVENT_TYPES.QUOTE}'`);
 
             const booksCount = q
               .clone()
-              .andWhere(`event.type = '${EventTypes.BOOK.value}'`);
+              .andWhere(`event.type = '${EVENT_TYPES.BOOK}'`);
 
             if (O.isSome(type)) {
               q.andWhere('"event"."type"::text IN (:...types)', {
@@ -643,8 +640,7 @@ export const searchEventV2Query =
           books: db.execQuery(() => queryBuilder.booksCount.getCount()),
         });
       }),
-
-      TE.map(({ results: { results, ...totals }, firstDate, lastDate }) => ({
+      fp.TE.map(({ results: { results, ...totals }, firstDate, lastDate }) => ({
         results,
         totals,
         firstDate: firstDate?.firstDate,
@@ -665,7 +661,7 @@ export const searchEventV2Query =
 export const infiniteSearchEventQuery =
   <C extends LoggerContext & DatabaseContext & ConfigContext>(
     query: Partial<SearchEventQuery>,
-  ): ReaderTaskEither<C, DBError, EventV2Entity[]> =>
+  ): ReaderTaskEither<C, DBError, readonly EventV2Entity[]> =>
   (ctx) => {
     ctx.logger.debug.log("Infinite search event query %O", query);
 
@@ -673,7 +669,7 @@ export const infiniteSearchEventQuery =
       ({ skip, amount }) =>
         searchEventV2Query({ ...query, skip, take: amount })(ctx),
       (r) => r.total,
-      (r) => TE.right(r.results),
+      (r) => fp.TE.right(r.results),
       0,
       50,
     )(ctx);

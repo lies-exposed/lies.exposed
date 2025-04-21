@@ -1,7 +1,8 @@
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { UUID } from "io-ts-types/lib/UUID.js";
+import { Schema } from "effect";
 import * as React from "react";
 import QueriesRenderer from "../QueriesRenderer.js";
 
@@ -94,7 +95,7 @@ export const EventRelations: React.FC<{
         ),
         areas: Q.Area.list.useQuery(
           {
-            filter: UUID.is((event.payload as any).location)
+            filter: Schema.is(UUID)((event.payload as any).location)
               ? { ids: [(event.payload as any).location] }
               : {},
             pagination: {
@@ -116,14 +117,14 @@ export const EventRelations: React.FC<{
         keywords: { data: keywords },
       }) => {
         return children({
-          actors,
-          media,
+          actors: [...actors],
+          media: [...media],
           event,
-          groups,
-          areas,
-          groupsMembers,
-          links,
-          keywords,
+          groups: [...groups],
+          areas: [...areas],
+          groupsMembers: [...groupsMembers],
+          links: [...links],
+          keywords: [...keywords],
         });
       }}
     />

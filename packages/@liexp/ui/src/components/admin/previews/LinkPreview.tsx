@@ -1,6 +1,7 @@
 import { type Link } from "@liexp/shared/lib/io/http/Link.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
+import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -19,7 +20,7 @@ const LinkPreview: React.FC<{ record?: Link }> = ({ record: _record }) => {
 
   const result = React.useMemo(
     () =>
-      http.Link.Link.decode({
+      Schema.decodeUnknownEither(http.Link.Link)({
         ...(record ?? {}),
       }),
     [record],

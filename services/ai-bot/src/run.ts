@@ -9,14 +9,15 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
+import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import { APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import axios from "axios";
+import { GetResourceClient } from "@ts-endpoint/resource-client";
+import * as axios from "axios";
 import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { parseENV } from "./env.js";
@@ -110,10 +111,7 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
 };
 
 const configFile = path.resolve(process.cwd(), "ai-bot.config.json");
-const configProvider = ConfigProviderReader<AIBotConfig>(
-  configFile,
-  AIBotConfig,
-);
+const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 
 const dryRun = false;
 
@@ -149,13 +147,20 @@ void pipe(
   fp.TE.map(({ env, config, fs, langchain, openAI }) => {
     const logger = GetLogger("ai-bot");
 
-    const restClient = APIRESTClient({
-      getAuth: () => {
-        return token;
-      },
-      url: config.config.api.url,
+    const restClient = axios.default.create({
+      baseURL: config.config.api.url,
     });
-    const apiClient = fromEndpoints(restClient)(Endpoints);
+
+    restClient.interceptors.request.use((req) => {
+      req.headers.set("Authorization", `Bearer ${token}`);
+      return req;
+    });
+
+    const apiClient = GetResourceClient(restClient, Endpoints, {
+      decode: EffectDecoder((e) =>
+        DecodeError.of("Resource client decode error", e),
+      ),
+    });
 
     logger.info.log("API url %s", config.config.api.url);
     logger.info.log("OpenAI url %s", config.config.localAi.url);
@@ -164,7 +169,7 @@ void pipe(
       env,
       fs,
       config,
-      http: HTTPProvider(axios.create({})),
+      http: HTTPProvider(axios.default.create({})),
       pdf: PDFProvider({ client: pdf }),
       logger,
       apiRESTClient: restClient,

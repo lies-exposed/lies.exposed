@@ -1,24 +1,38 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type MinimalEndpointInstance } from "ts-endpoint";
-import { type Endpoints } from "../../endpoints/index.js";
 import {
+  type EndpointOutputType,
+  type EndpointParamsType,
+  type MinimalEndpointInstance,
+} from "@ts-endpoint/core";
+import {
+  type EndpointDataOutputType,
   type GetListFnParamsE,
-  type EndpointOutput,
-  type GetFnParams,
-} from "../EndpointsRESTClient/types.js";
+} from "@ts-endpoint/react-admin";
 import {
-  type QueryProviderOverrides,
   type CustomQueryOverride,
+  type QueryProviderOverrides,
   type ResourceEndpointsQueriesOverride,
-} from "./QueryProviderOverrides.js";
-import { defaultUseQueryListParams } from "./params.js";
+  defaultUseQueryListParams,
+} from "@ts-endpoint/tanstack-query";
+import { type Endpoints } from "../../endpoints/index.js";
+
+type GetHierarchyNetworkParams = EndpointParamsType<
+  typeof Endpoints.Networks.Get
+>;
 
 const GetHierarchyNetwork: CustomQueryOverride<
   Endpoints,
-  GetFnParams<typeof Endpoints.Networks.Get>,
+  GetHierarchyNetworkParams,
   GetListFnParamsE<typeof Endpoints.Networks.Get>,
-  EndpointOutput<typeof Endpoints.Networks.Get>
-> = (Q) => (p) => Q.Networks.get({ ...p, type: "hierarchy" });
+  EndpointDataOutputType<typeof Endpoints.Networks.Get>
+> = (Q) => (p, q) =>
+  pipe(
+    Q.Networks.Get({
+      Params: p,
+      Query: { ...p, ...q },
+    }),
+    fp.TE.map((r) => r.data),
+  );
 
 const NetworksOverride: ResourceEndpointsQueriesOverride<
   Endpoints,
@@ -37,13 +51,16 @@ const GetPageContentByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  EndpointOutput<typeof Endpoints.Page.Get>
+  EndpointDataOutputType<typeof Endpoints.Page.Get>
 > = (Q) => (path) => {
   return pipe(
-    Q.Page.getList({
-      sort: { field: "createdAt", order: "DESC" },
-      filter: { path },
-      pagination: { perPage: 1, page: 1 },
+    Q.Page.List({
+      Query: {
+        _sort: "createdAt",
+        _order: "DESC",
+        ...defaultUseQueryListParams.filter,
+        path,
+      },
     }),
     fp.TE.map((r) => r.data[0]),
   );
@@ -53,12 +70,13 @@ const GetByPath: CustomQueryOverride<
   Endpoints,
   string,
   undefined,
-  EndpointOutput<typeof Endpoints.Story.Get>
-> = (Q) => (p) =>
-  pipe(
-    Q.Story.getList({ ...defaultUseQueryListParams, filter: { path: p } }),
+  EndpointOutputType<typeof Endpoints.Story.Get>["data"]
+> = (Q) => (p) => {
+  return pipe(
+    Q.Story.List({ Query: { ...defaultUseQueryListParams.filter, path: p } }),
     fp.TE.map((r) => r.data[0]),
   );
+};
 
 const PageOverride: ResourceEndpointsQueriesOverride<
   Endpoints,

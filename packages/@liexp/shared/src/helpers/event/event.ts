@@ -1,12 +1,24 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { format, subWeeks } from "date-fns";
+import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
-import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
 import type * as O from "fp-ts/lib/Option.js";
+import {
+  BOOK,
+  DEATH,
+  DOCUMENTARY,
+  EVENT_TYPES,
+  PATENT,
+  QUOTE,
+  SCIENTIFIC_STUDY,
+  TRANSACTION,
+  UNCATEGORIZED,
+} from "../../io/http/Events/EventType.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
-import { Events, type Common, type Network } from "../../io/http/index.js";
+import { type Events, type Common, type Network } from "../../io/http/index.js";
 import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
+import { isNonEmpty } from "../../utils/array.utils.js";
 import { type EventCommonProps } from "./getCommonProps.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
@@ -112,7 +124,7 @@ interface EventsInDateRangeProps {
 
 export const eventsInDateRange =
   (props: EventsInDateRangeProps) =>
-  (events: Events.Event[]): Events.Event[] => {
+  (events: Events.Event[]): readonly Events.Event[] => {
     return pipe(
       events,
       fp.A.sort(fp.Ord.reverse(ordEventDate)),
@@ -152,9 +164,10 @@ export const eventsInDateRange =
     );
   };
 
-const nonEmptyArrayOrNull = <A>(x: A[]): NonEmptyArray<A> | null => {
-  const z = pipe(fp.NEA.fromArray(x ?? []), fp.O.toNullable);
-  return z;
+const nonEmptyArrayOrNull = <A>(
+  x: readonly A[],
+): readonly [A, ...A[]] | null => {
+  return pipe(x ?? [], fp.O.fromPredicate(isNonEmpty), fp.O.toNullable);
 };
 
 // const concatToNEAOrNull = <A>(x: A[], y: A[]): NonEmptyArray<A> | null => {
@@ -212,7 +225,7 @@ export const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
 };
 
 export const takeEventRelations = (
-  ev: Events.Event[],
+  ev: readonly Events.Event[],
 ): Events.EventRelationIds => {
   return pipe(
     ev.reduce(
@@ -230,13 +243,13 @@ export const transform =
     props: EventCommonProps & Events.EventRelationIds,
   ): O.Option<Events.Event> => {
     switch (type) {
-      case Events.EventTypes.DEATH.value: {
+      case EVENT_TYPES.DEATH: {
         return pipe(
           props.actors.at(0),
           fp.O.fromNullable,
           fp.O.map((v) => ({
             ...e,
-            type: Events.EventTypes.DEATH.value,
+            type: EVENT_TYPES.DEATH,
             payload: {
               victim: v,
               location: undefined,
@@ -244,7 +257,7 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.TRANSACTION.value: {
+      case EVENT_TYPES.TRANSACTION: {
         const from = pipe(
           props.actors,
           fp.A.head,
@@ -259,13 +272,13 @@ export const transform =
         );
 
         const to = pipe(
-          props.actors,
+          [...props.actors],
           fp.A.takeLeft(2),
           fp.A.head,
           fp.O.map((id) => makeBySubjectId("Actor", id)),
           fp.O.alt(() =>
             pipe(
-              props.groups,
+              [...props.groups],
               fp.A.takeLeft(2),
               fp.A.head,
               fp.O.map((id) => makeBySubjectId("Group", id)),
@@ -280,7 +293,7 @@ export const transform =
           }),
           fp.O.map(({ to, from }) => ({
             ...e,
-            type: Events.EventTypes.TRANSACTION.value,
+            type: EVENT_TYPES.TRANSACTION,
             payload: {
               currency: "USD",
               total: 0,
@@ -291,13 +304,13 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.PATENT.value: {
+      case EVENT_TYPES.PATENT: {
         return pipe(
           props.links.at(0),
           fp.O.fromNullable,
           fp.O.map((source) => ({
             ...e,
-            type: Events.EventTypes.PATENT.value,
+            type: EVENT_TYPES.PATENT,
             payload: {
               title: props.title,
               source,
@@ -309,15 +322,15 @@ export const transform =
           })),
         );
       }
-      case Events.EventTypes.DOCUMENTARY.value: {
+      case EVENT_TYPES.DOCUMENTARY: {
         return pipe(
           sequenceS(fp.O.Applicative)({
-            media: pipe(props.media, fp.A.head),
-            website: pipe(props.links, fp.A.head),
+            media: pipe([...props.media], fp.A.head),
+            website: pipe([...props.links], fp.A.head),
           }),
           fp.O.map(({ media, website }) => ({
             ...e,
-            type: Events.EventTypes.DOCUMENTARY.value,
+            type: EVENT_TYPES.DOCUMENTARY,
             payload: {
               title: props.title,
               website,
@@ -335,13 +348,13 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+      case EVENT_TYPES.SCIENTIFIC_STUDY: {
         return pipe(
           props.links,
           fp.A.head,
           fp.O.map((url) => ({
             ...e,
-            type: Events.EventTypes.SCIENTIFIC_STUDY.value,
+            type: EVENT_TYPES.SCIENTIFIC_STUDY,
             payload: {
               title: props.title,
               image: props.media.at(0),
@@ -353,7 +366,7 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.QUOTE.value: {
+      case EVENT_TYPES.QUOTE: {
         const subjectOpt = pipe(
           props.actors,
           fp.A.head,
@@ -371,7 +384,7 @@ export const transform =
           subjectOpt,
           fp.O.map((subject) => ({
             ...e,
-            type: Events.EventTypes.QUOTE.value,
+            type: EVENT_TYPES.QUOTE,
             payload: {
               quote: e.excerpt ? getTextContents(e.excerpt) : undefined,
               actor: undefined,
@@ -382,7 +395,7 @@ export const transform =
         );
       }
 
-      case Events.EventTypes.BOOK.value: {
+      case EVENT_TYPES.BOOK: {
         return pipe(
           sequenceS(fp.O.Applicative)({
             actorAuthors: fp.O.some(props.actors),
@@ -390,7 +403,7 @@ export const transform =
           }),
           fp.O.map(({ actorAuthors, media }) => ({
             ...e,
-            type: Events.EventTypes.BOOK.value,
+            type: EVENT_TYPES.BOOK,
             payload: {
               title: props.title,
               media: { pdf: media, audio: undefined },
@@ -404,7 +417,7 @@ export const transform =
       default: {
         return fp.O.some({
           ...e,
-          type: Events.EventTypes.UNCATEGORIZED.value,
+          type: EVENT_TYPES.UNCATEGORIZED,
           payload: {
             title: props.title,
             location: props.location,
@@ -424,17 +437,14 @@ export const getTotals = (
 ): Events.SearchEvent.EventTotals.EventTotals => {
   return {
     uncategorized:
-      acc.uncategorized + (Events.EventTypes.UNCATEGORIZED.is(e.type) ? 1 : 0),
+      acc.uncategorized + (Schema.is(UNCATEGORIZED)(e.type) ? 1 : 0),
     scientificStudies:
-      acc.scientificStudies +
-      (Events.EventTypes.SCIENTIFIC_STUDY.is(e.type) ? 1 : 0),
-    transactions:
-      acc.transactions + (Events.EventTypes.TRANSACTION.is(e.type) ? 1 : 0),
-    patents: acc.patents + (Events.EventTypes.PATENT.is(e.type) ? 1 : 0),
-    deaths: acc.deaths + (Events.EventTypes.DEATH.is(e.type) ? 1 : 0),
-    books: acc.books + (Events.EventTypes.BOOK.is(e.type) ? 1 : 0),
-    documentaries:
-      acc.documentaries + (Events.EventTypes.DOCUMENTARY.is(e.type) ? 1 : 0),
-    quotes: acc.quotes + (Events.EventTypes.QUOTE.is(e.type) ? 1 : 0),
+      acc.scientificStudies + (Schema.is(SCIENTIFIC_STUDY)(e.type) ? 1 : 0),
+    transactions: acc.transactions + (Schema.is(TRANSACTION)(e.type) ? 1 : 0),
+    patents: acc.patents + (Schema.is(PATENT)(e.type) ? 1 : 0),
+    deaths: acc.deaths + (Schema.is(DEATH)(e.type) ? 1 : 0),
+    books: acc.books + (Schema.is(BOOK)(e.type) ? 1 : 0),
+    documentaries: acc.documentaries + (Schema.is(DOCUMENTARY)(e.type) ? 1 : 0),
+    quotes: acc.quotes + (Schema.is(QUOTE)(e.type) ? 1 : 0),
   };
 };

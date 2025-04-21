@@ -3,25 +3,25 @@ import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import * as bodyParser from "body-parser";
+import bodyParser from "body-parser";
+import { Schema } from "effect";
 import * as T from "fp-ts/lib/Task.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import * as t from "io-ts";
 import { type Route } from "#routes/route.types.js";
 // import multer from 'multer';
 // const uploads = multer({ dest: '../../media'})
 
-const UploadFileData = t.strict({ key: t.string, file: t.any });
+const UploadFileData = Schema.Struct({ key: Schema.String, file: Schema.Any });
 
 export const MakeUploadFileRoute: Route = (r, ctx) => {
   r.put(
     "/uploads/:key",
     // uploads.single('media'),
-    bodyParser.default.urlencoded({
+    bodyParser.urlencoded({
       extended: false,
       // 2 GB
       limit: 2048 * 1000 * 1000,
-      type: ["image/jpeg", PngType.value],
+      type: ["image/jpeg", PngType.Type],
     }),
     async (req, res) => {
       ctx.logger.debug.log("Req %O", req);
@@ -32,7 +32,8 @@ export const MakeUploadFileRoute: Route = (r, ctx) => {
       ctx.logger.debug.log("File %O", req.files);
 
       return pipe(
-        UploadFileData.decode({ key, file }),
+        { key, file },
+        Schema.decodeUnknownEither(UploadFileData),
         TE.fromEither,
         TE.mapLeft((e) =>
           DecodeError.of(`Failed to decode upload file data (${key})`, e),

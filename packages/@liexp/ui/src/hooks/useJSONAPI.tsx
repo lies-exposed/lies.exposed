@@ -1,4 +1,4 @@
-import { type APIRESTClient } from "@liexp/shared/lib/providers/api-rest.provider.js";
+import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { useContext } from "react";
 import { JSONAPIProviderContext } from "../context/JSONAPIProviderContext.js";
 

@@ -2,6 +2,7 @@ import {
   type ThumbnailsExtra,
   ThumbnailsExtraError,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+import { Schema } from "effect";
 import * as React from "react";
 import {
   useRecordContext,
@@ -25,7 +26,7 @@ const SelectThumbnailModalContent: React.FC<{
       (Array.isArray(extra.thumbnails) ? extra.thumbnails[0] : undefined),
   );
 
-  if (ThumbnailsExtraError.is(extra.thumbnails)) {
+  if (Schema.is(ThumbnailsExtraError)(extra.thumbnails)) {
     return <Typography color="error">{extra.thumbnails.error}</Typography>;
   }
 

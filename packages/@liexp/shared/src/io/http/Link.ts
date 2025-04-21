@@ -1,8 +1,5 @@
-import * as t from "io-ts";
-import { BooleanFromString } from "io-ts-types/lib/BooleanFromString.js";
-import { DateFromISOString } from "io-ts-types/lib/DateFromISOString.js";
-import { optionFromNullable } from "io-ts-types/lib/optionFromNullable.js";
-import { optionFromUndefined } from "../Common/optionFromUndefined.js";
+import { Schema } from "effect";
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { URL, UUID } from "./Common/index.js";
 import { CreateMedia, MediaType } from "./Media/index.js";
 import {
@@ -12,87 +9,83 @@ import {
   GetListQueryKeywords,
 } from "./Query/index.js";
 
-export const LINKS = t.literal("links");
-export type LINKS = t.TypeOf<typeof LINKS>;
+export const LINKS = Schema.Literal("links");
+export type LINKS = typeof LINKS.Type;
 
-export const GetListLinkQuery = t.type(
-  {
-    ...GetListQuery.props,
-    ...GetListQueryDateRange.props,
-    ...GetListQueryKeywords.props,
-    ...GetListQueryEvents.props,
-    ids: optionFromNullable(t.array(UUID)),
-    provider: optionFromNullable(UUID),
-    creator: optionFromNullable(UUID),
-    url: optionFromNullable(URL),
-    noPublishDate: optionFromUndefined(BooleanFromString),
-    emptyEvents: optionFromNullable(BooleanFromString),
-    onlyDeleted: optionFromNullable(BooleanFromString),
-    onlyUnshared: optionFromNullable(BooleanFromString),
-  },
-  "GetListLinkQuery",
-);
-export type GetListLinkQuery = t.TypeOf<typeof GetListLinkQuery>;
+export const GetListLinkQuery = Schema.Struct({
+  ...GetListQueryDateRange.fields,
+  ...GetListQueryKeywords.fields,
+  ...GetListQueryEvents.fields,
+  ...GetListQuery.fields,
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  provider: OptionFromNullishToNull(UUID),
+  creator: OptionFromNullishToNull(UUID),
+  url: OptionFromNullishToNull(URL),
+  noPublishDate: OptionFromNullishToNull(Schema.BooleanFromString),
+  emptyEvents: OptionFromNullishToNull(Schema.BooleanFromString),
+  onlyDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
+  onlyUnshared: OptionFromNullishToNull(Schema.BooleanFromString),
+}).annotations({
+  title: "GetListLinkQuery",
+});
+export type GetListLinkQuery = typeof GetListLinkQuery.Type;
 
-export const CreateLink = t.strict(
-  {
-    url: URL,
-    publishDate: t.union([DateFromISOString, t.undefined], "PublishDate"),
-    description: t.union([t.string, t.undefined]),
-    events: t.array(UUID),
-  },
-  "CreateLink",
-);
-export type CreateLink = t.TypeOf<typeof CreateLink>;
+export const CreateLink = Schema.Struct({
+  url: URL,
+  publishDate: Schema.Union(Schema.Date, Schema.Undefined).annotations({
+    title: "PublishDate",
+  }),
+  description: Schema.Union(Schema.String, Schema.Undefined),
+  events: Schema.Array(UUID),
+}).annotations({
+  title: "CreateLink",
+});
+export type CreateLink = typeof CreateLink.Type;
 
-export const LinkMedia = t.strict(
-  {
-    id: UUID,
-    ...CreateMedia.type.props,
-    type: MediaType,
-  },
-  "LinkMedia",
-);
-export type LinkMedia = t.TypeOf<typeof LinkMedia>;
+export const LinkMedia = Schema.Struct({
+  id: UUID,
+  ...CreateMedia.fields,
+  type: MediaType,
+}).annotations({
+  title: "LinkMedia",
+});
+export type LinkMedia = typeof LinkMedia.Type;
 
-export const EditLink = t.strict(
-  {
-    ...CreateLink.type.props,
-    title: t.string,
-    description: t.string,
-    keywords: t.array(UUID),
-    provider: t.union([UUID, t.undefined]),
-    events: t.array(UUID),
-    creator: optionFromUndefined(UUID),
-    image: t.union([LinkMedia, UUID, t.undefined], "LinkImage"),
-    overrideThumbnail: optionFromUndefined(t.boolean),
-  },
-  "EditLinkBody",
-);
+export const EditLink = Schema.Struct({
+  ...CreateLink.fields,
+  title: Schema.String,
+  description: Schema.String,
+  keywords: Schema.Array(UUID),
+  provider: Schema.Union(UUID, Schema.Undefined),
+  events: Schema.Array(UUID),
+  creator: OptionFromNullishToNull(UUID),
+  image: Schema.Union(LinkMedia, UUID, Schema.Undefined).annotations({
+    title: "LinkImage",
+  }),
+  overrideThumbnail: OptionFromNullishToNull(Schema.Boolean),
+}).annotations({
+  title: "EditLinkBody",
+});
 
-export type EditLink = t.TypeOf<typeof EditLink>;
+export type EditLink = typeof EditLink.Type;
 
-const { events, overrideThumbnail, image, ...linkBaseProps } =
-  EditLink.type.props;
+const { events, overrideThumbnail, image, ...linkBaseProps } = EditLink.fields;
 
-export const Link = t.strict(
-  {
-    ...linkBaseProps,
-    id: UUID,
-    title: t.union([t.string, t.undefined]),
-    description: t.union([t.string, t.undefined]),
-    publishDate: t.union([DateFromISOString, t.undefined]),
-    image: t.union([LinkMedia, t.undefined]),
-    keywords: t.array(UUID),
-    provider: t.union([UUID, t.undefined]),
-    creator: t.union([UUID, t.undefined]),
-    events: t.array(UUID),
-    socialPosts: t.array(UUID),
-    createdAt: DateFromISOString,
-    updatedAt: DateFromISOString,
-    deletedAt: t.union([DateFromISOString, t.undefined]),
-  },
-  "Link",
-);
+export const Link = Schema.Struct({
+  ...linkBaseProps,
+  id: UUID,
+  title: Schema.Union(Schema.String, Schema.Undefined),
+  description: Schema.Union(Schema.String, Schema.Undefined),
+  publishDate: Schema.Union(Schema.Date, Schema.Undefined),
+  image: Schema.Union(LinkMedia, Schema.Undefined, Schema.Null),
+  keywords: Schema.Array(UUID),
+  provider: Schema.Union(UUID, Schema.Undefined),
+  creator: Schema.Union(UUID, Schema.Undefined),
+  events: Schema.Array(UUID),
+  socialPosts: Schema.Array(UUID),
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
+  deletedAt: Schema.Union(Schema.Date, Schema.Undefined),
+}).annotations({ title: "Link" });
 
-export type Link = t.TypeOf<typeof Link>;
+export type Link = typeof Link.Type;

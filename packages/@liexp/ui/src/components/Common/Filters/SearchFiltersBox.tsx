@@ -5,9 +5,9 @@ import {
   type GetListQueryGroups,
   type GetListQueryKeywords,
 } from "@liexp/shared/lib/io/http/Query/GetListQuery.js";
+import { type serializedType } from "@ts-endpoint/core";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
-import { type serializedType } from "ts-io-error/lib/Codec.js";
 import ActorsBox from "../../../containers/ActorsBox.js";
 import { GroupsBox } from "../../../containers/GroupsBox.js";
 import { styled, useTheme } from "../../../theme/index.js";

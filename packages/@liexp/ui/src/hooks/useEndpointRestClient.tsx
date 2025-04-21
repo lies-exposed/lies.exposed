@@ -1,13 +1,19 @@
+import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { fromEndpoints } from "@liexp/shared/lib/providers/EndpointsRESTClient/EndpointsRESTClient.js";
-import { type EndpointsRESTClient } from "@liexp/shared/lib/providers/EndpointsRESTClient/types.js";
+import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import {
+  type EndpointsRESTClient,
+  RAEndpointsClient,
+} from "@ts-endpoint/react-admin";
 import * as React from "react";
 import { useDataProvider } from "./useDataProvider.js";
 
 const useEndpointsRESTClient = (): EndpointsRESTClient<Endpoints> => {
   const dataProvider = useDataProvider();
   const client = React.useMemo(() => {
-    return fromEndpoints(dataProvider)(Endpoints);
+    return RAEndpointsClient(dataProvider, {
+      decode: EffectDecoder((e) => DecodeError.of("APIError", e)),
+    })(Endpoints);
   }, [dataProvider]);
 
   return client;

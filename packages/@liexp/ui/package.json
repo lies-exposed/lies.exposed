@@ -17,6 +17,7 @@
     "assets"
   ],
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint src",
@@ -49,6 +50,10 @@
     "@mui/x-data-grid": "^7.27.2",
     "@react-spring/web": "^9.7.4",
     "@tanstack/react-query": "^5.69.0",
+    "@ts-endpoint/core": "^0.1.0",
+    "@ts-endpoint/react-admin": "^0.1.0",
+    "@ts-endpoint/resource-client": "^0.1.0",
+    "@ts-endpoint/tanstack-query": "^0.1.0",
     "@visx/axis": "^3.12.0",
     "@visx/curve": "^3.12.0",
     "@visx/event": "^3.12.0",
@@ -69,7 +74,6 @@
     "@visx/wordcloud": "^3.12.0",
     "@visx/zoom": "^3.12.0",
     "@xyflow/react": "^12.4.4",
-    "axios": "^1.8.3",
     "clsx": "^2.1.0",
     "d3": "^7.9.0",
     "d3-hierarchy": "^3.1.2",
@@ -77,9 +81,6 @@
     "d3-scale": "^4.0.2",
     "date-fns": "^4.1.0",
     "entitree-flex": "^0.4.1",
-    "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.22",
-    "io-ts-types": "^0.5.19",
     "lodash": "^4.17.21",
     "ol": "^10.4.0",
     "path-to-regexp": "^8.2.0",
@@ -105,8 +106,6 @@
     "slick-carousel": "^1.8.1",
     "throttle-debounce": "^5.0.0",
     "topojson-client": "^3.1.0",
-    "ts-endpoint": "^2.0.0",
-    "ts-io-error": "^2.0.0",
     "vanilla-jsoneditor": "^3.1.0",
     "waveform-data": "^4.5.1"
   },
@@ -124,12 +123,20 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
+    "axios": "^1.8.0",
+    "effect": "^3.14.8",
     "eslint": "^9.21.0",
+    "fp-ts": "^2.16.9",
     "openai": "^4.87.3",
     "typescript": "^5.8.2",
     "vite": "^6.2.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.9"
   },
-  "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c"
+  "peerDependencies": {
+    "axios": "^1.8.0",
+    "effect": "^3",
+    "fp-ts": "^2"
+  },
+  "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677"
 }

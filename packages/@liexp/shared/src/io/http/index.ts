@@ -20,7 +20,6 @@ import { ResourcesNames } from "./ResourcesNames.js";
 import * as Setting from "./Setting.js";
 import * as Stats from "./Stats.js";
 import * as Story from "./Story.js";
-import * as Topic from "./Topic.js";
 import * as User from "./User.js";
 import * as Video from "./Video.js";
 import * as Graph from "./graphs/Graph.js";
@@ -47,7 +46,6 @@ export {
   ResourcesNames,
   Stats,
   Story,
-  Topic,
   User,
   Video,
   Setting,

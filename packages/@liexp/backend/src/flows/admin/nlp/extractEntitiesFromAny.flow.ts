@@ -8,6 +8,7 @@ import {
 } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
+import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { toRecord } from "fp-ts/lib/ReadonlyRecord.js";
 import { Equal } from "typeorm";
@@ -127,7 +128,7 @@ const extractEntitiesFromAny = <
       body,
     ]),
     fp.RTE.chain((ctx) => {
-      if (ExtractEntitiesWithNLPInput.types[0].is(body)) {
+      if (Schema.is(ExtractEntitiesWithNLPInput.members[0])(body)) {
         return pipe(
           ctx.puppeteer.execute({}, (b, p) =>
             extractRelationsFromURL(p, body.url)(ctx),
@@ -136,7 +137,7 @@ const extractEntitiesFromAny = <
         );
       }
 
-      if (ExtractEntitiesWithNLPInput.types[1].is(body)) {
+      if (Schema.is(ExtractEntitiesWithNLPInput.members[1])(body)) {
         return pipe(
           ctx.puppeteer.execute({}, (b, p) =>
             extractRelationsFromPDFs(body.pdf)(ctx),
@@ -145,23 +146,26 @@ const extractEntitiesFromAny = <
         );
       }
 
-      if (ExtractEntitiesWithNLPInput.types[2].is(body)) {
+      if (Schema.is(ExtractEntitiesWithNLPInput.members[2])(body)) {
         return extractRelationsFromText(body.text);
       }
 
-      if (ExtractEntitiesWithNLPInput.types[3].is(body)) {
+      if (Schema.is(ExtractEntitiesWithNLPInput.members[3])(body)) {
         return pipe(
           findOneResourceAndMapText(body),
           fp.RTE.chain((text) => extractRelationsFromText(text)),
         );
       }
       return fp.RTE.left(
-        pipe(ExtractEntitiesWithNLPInput.decode(body), (either) => {
-          if (fp.E.isLeft(either)) {
-            return DecodeError.of("Failed to decode body", either.left);
-          }
-          return ServerError.of(["Invalid body"]);
-        }),
+        pipe(
+          Schema.decodeUnknownEither(ExtractEntitiesWithNLPInput)(body),
+          (either) => {
+            if (fp.E.isLeft(either)) {
+              return DecodeError.of("Failed to decode body", either.left);
+            }
+            return ServerError.of(["Invalid body"]);
+          },
+        ),
       );
     }),
   );

@@ -11,9 +11,10 @@ export const MakeQueueDeleteRoute: Route = (r, ctx) => {
     ({ params: { id, resource, type } }) => {
       ctx.logger.debug.log("Delete user %s ", id);
       return pipe(
-        ctx.queue.queue(type).deleteJob(resource, id),
-        TE.map(() => ({
-          body: undefined,
+        ctx.queue.queue(type).getJob(resource, id),
+        TE.chainFirst(() => ctx.queue.queue(type).deleteJob(resource, id)),
+        TE.map((data) => ({
+          body: { data },
           statusCode: 200,
         })),
       );

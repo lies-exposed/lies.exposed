@@ -34,25 +34,25 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
-    case Events.EventTypes.BOOK.value: {
+    case Events.EventTypes.BOOK.Type: {
       return <BookListItem item={e} {...props} />;
     }
-    case Events.EventTypes.TRANSACTION.value: {
+    case Events.EventTypes.TRANSACTION.Type: {
       return <TransactionListItem item={e} {...props} />;
     }
-    case Events.EventTypes.DOCUMENTARY.value: {
+    case Events.EventTypes.DOCUMENTARY.Type: {
       return <DocumentaryListItem item={e} {...props} />;
     }
-    case Events.EventTypes.DEATH.value: {
+    case Events.EventTypes.DEATH.Type: {
       return <DeathListItem item={e} {...props} />;
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.value: {
+    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
       return <ScientificStudyListItem item={e} {...props} />;
     }
-    case Events.EventTypes.PATENT.value: {
+    case Events.EventTypes.PATENT.Type: {
       return <PatentListItem item={e} {...props} />;
     }
-    case Events.EventTypes.QUOTE.value: {
+    case Events.EventTypes.QUOTE.Type: {
       return <QuoteListItem {...props} item={e} />;
     }
     default:

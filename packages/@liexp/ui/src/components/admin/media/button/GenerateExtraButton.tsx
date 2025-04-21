@@ -1,5 +1,6 @@
 import { ImageMediaExtra } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import get from "lodash/get";
 import * as React from "react";
 import {
@@ -39,7 +40,7 @@ export const GenerateExtraButton: React.FC<FieldProps<Media.Media>> = ({
   // wrap $extra in react memo
   const extraFields = React.useMemo(() => {
     if (extra) {
-      if (ImageMediaExtra.is(extra)) {
+      if (Schema.is(ImageMediaExtra)(extra)) {
         return (
           <Stack direction="column" spacing={1}>
             <Typography variant="body1">Extra</Typography>

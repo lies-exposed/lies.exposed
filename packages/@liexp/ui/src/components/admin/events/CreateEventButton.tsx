@@ -25,7 +25,7 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
   const apiProvider = useDataProvider();
 
   const [type, setType] = React.useState<io.http.Events.EventType>(
-    io.http.Events.EventType.types[1].value,
+    io.http.Events.EventType.members[1].literals[0],
   );
 
   if (!record) {
@@ -44,9 +44,9 @@ export const CreateEventButton: React.FC<CreateEventButtonProps> = ({
           marginRight: 20,
         }}
       >
-        {io.http.Events.EventType.types.map((t) => (
-          <MenuItem key={t.value} value={t.value}>
-            {t.value}
+        {io.http.Events.EventType.members.map((t) => (
+          <MenuItem key={t.literals[0]} value={t.literals[0]}>
+            {t.literals[0]}
           </MenuItem>
         ))}
       </Select>

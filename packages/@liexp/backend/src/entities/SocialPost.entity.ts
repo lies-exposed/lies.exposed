@@ -34,7 +34,7 @@ export class SocialPostEntity {
 
   @Column({
     type: "simple-enum",
-    enum: SocialPostStatus.types.map((t) => t.value),
+    enum: SocialPostStatus.members.map((t) => t.literals[0]),
   })
   status: SocialPostStatus;
 

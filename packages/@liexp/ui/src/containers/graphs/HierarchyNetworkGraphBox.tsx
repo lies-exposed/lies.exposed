@@ -73,7 +73,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
   selectedActorIds,
   selectedGroupIds,
   selectedKeywordIds,
-  relations: _relations = [KEYWORDS.value],
+  relations: _relations = [KEYWORDS.Type],
   onRelationsChange,
   showRelations = true,
   ...props
@@ -158,10 +158,10 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
           //     queryType,
           //     fp.O.fromNullable,
           //     fp.O.chain((et) =>
-          //       t.string.is(et) ? fp.O.some(et === e.type) : fp.O.none
+          //       Schema.String.is(et) ? fp.O.some(et === e.type) : fp.O.none
           //     ),
           //     fp.O.alt(() =>
-          //       t.array(t.string).is(queryType)
+          //       Schema.Array(Schema.String).is(queryType)
           //         ? fp.O.some(queryType.includes(e.type))
           //         : fp.O.none
           //     ),
@@ -194,9 +194,9 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
           // console.log(relationLinks);
 
           // const relationNodes = actors
-          //   .map((a): any => ({ ...a, type: ACTORS.value }))
-          //   .concat(groups.map((g) => ({ ...g, type: GROUPS.value })))
-          //   .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.value })))
+          //   .map((a): any => ({ ...a, type: ACTORS.Type }))
+          //   .concat(groups.map((g) => ({ ...g, type: GROUPS.Type })))
+          //   .concat(keywords.map((k) => ({ ...k, type: KEYWORDS.Type })))
           //   .filter(
           //     (r) =>
           //       // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
@@ -307,8 +307,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       label={<Typography variant="caption">Actors</Typography>}
                       control={
                         <Checkbox
-                          checked={relations.includes(ACTORS.value)}
-                          onChange={handleRelationChange(ACTORS.value)}
+                          checked={relations.includes(ACTORS.Type)}
+                          onChange={handleRelationChange(ACTORS.Type)}
                         />
                       }
                     />
@@ -316,8 +316,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       label={<Typography variant="caption">Groups</Typography>}
                       control={
                         <Checkbox
-                          checked={relations.includes(GROUPS.value)}
-                          onChange={handleRelationChange(GROUPS.value)}
+                          checked={relations.includes(GROUPS.Type)}
+                          onChange={handleRelationChange(GROUPS.Type)}
                         />
                       }
                     />
@@ -327,8 +327,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       }
                       control={
                         <Checkbox
-                          checked={relations.includes(KEYWORDS.value)}
-                          onChange={handleRelationChange(KEYWORDS.value)}
+                          checked={relations.includes(KEYWORDS.Type)}
+                          onChange={handleRelationChange(KEYWORDS.Type)}
                         />
                       }
                     />
@@ -389,13 +389,13 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
-    type: EventType[] | undefined;
+    type: readonly EventType[] | undefined;
     selectedActorIds: string[];
     selectedGroupIds: string[];
     selectedKeywordIds: string[];
   }>({
     startDate: query.startDate,
-    type: query.eventType ?? EventType.types.map((t) => t.value),
+    type: query.eventType ?? EventType.members.map((t) => t.Type),
     endDate: query.endDate,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],
@@ -462,12 +462,12 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
               onQueryChange={(q) => {
                 setState((s) => ({
                   ...s,
-                  type: q.eventType,
+                  type: q.eventType ?? undefined,
                   startDate: q.startDate ?? state.startDate,
                   endDate: q.endDate ?? state.endDate,
-                  selectedActorIds: q.actors ?? [],
-                  selectedGroupIds: q.groups ?? [],
-                  selectedKeywordIds: q.keywords ?? [],
+                  selectedActorIds: [...(q.actors ?? [])],
+                  selectedGroupIds: [...(q.groups ?? [])],
+                  selectedKeywordIds: [...(q.keywords ?? [])],
                 }));
               }}
               onQueryClear={() => {

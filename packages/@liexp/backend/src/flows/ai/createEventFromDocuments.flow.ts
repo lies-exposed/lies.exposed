@@ -20,7 +20,7 @@ import { runRagChain } from "./runRagChain.js";
 export const createEventFromDocuments = <
   C extends LangchainContext & LoggerContext,
 >(
-  content: Document[],
+  documents: readonly Document[],
   type: EventType,
   prompt: PromptFn<{
     type: EventType;
@@ -43,7 +43,7 @@ export const createEventFromDocuments = <
             chunkSize: 2000,
             chunkOverlap: 1000,
           });
-          const splits = await textSplitter.splitDocuments(content);
+          const splits = await textSplitter.splitDocuments([...documents]);
 
           const vectorStore = await MemoryVectorStore.fromDocuments(
             splits,

@@ -1,11 +1,11 @@
-import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { DeathIO } from "@liexp/backend/lib/io/event/death.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { DEATH } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -41,7 +41,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
         searchEventV2Query({
           ...query,
           draft,
-          type: O.some([DEATH.value]),
+          type: O.some([DEATH.Type]),
           actors: victim,
           keywords,
           links,
@@ -57,7 +57,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ results, totals: { deaths } }) =>
           pipe(
             results,
-            EventV2IO.decodeMany,
+            DeathIO.decodeMany,
             E.map((data) => ({ data, total: deaths })),
           ),
         ),

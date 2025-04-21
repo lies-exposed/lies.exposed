@@ -2,7 +2,7 @@ import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
-import * as t from "io-ts";
+import { Schema } from "effect";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { AxisGraph } from "../Common/Graph/AxisGraph.js";
@@ -14,61 +14,60 @@ import { Checkbox } from "../mui/index.js";
  * EPA - Climate Change Indicators: https://www.epa.gov/climate-indicators/climate-change-indicators-atmospheric-concentrations-greenhouse-gases
  */
 
-// const CO2EarthDataEntry = t.type(
+// const CO2EarthDataEntry = Schema.Struct(
 //   {
-//     datenum: t.number,
-//     year: t.number,
-//     month: t.number,
-//     day: t.number,
-//     datetime: t.string,
-//     data_mean_global: t.number,
-//     data_mean_nh: t.number,
-//     data_mean_sh: t.number,
+//     datenum: Schema.Number,
+//     year: Schema.Number,
+//     month: Schema.Number,
+//     day: Schema.Number,
+//     datetime: Schema.String,
+//     data_mean_global: Schema.Number,
+//     data_mean_nh: Schema.Number,
+//     data_mean_sh: Schema.Number,
 //   },
 //   "CO2EarthDataEntry"
 // )
 
 // type CO2EarthDataEntry = t.TypeOf<typeof CO2EarthDataEntry>
 
-// const EPAIceCoreMeasurement = t.type(
+// const EPAIceCoreMeasurement = Schema.Struct(
 //   {
 //     // Year (negative values = BC),
-//     year: t.number,
+//     year: Schema.Number,
 //     // "EPICA Dome C and  Vostok Station,  Antarctica",
-//     value: t.number,
+//     value: Schema.Number,
 //     // // "Law Dome, Antarctica (75-year smoothed)"
-//     // field3: t.string,
+//     // field3: Schema.String,
 //     // // "Siple Station, Antarctica"
-//     // field4: t.string,
+//     // field4: Schema.String,
 //     // // "Mauna Loa, Hawaii",
-//     // field5: t.string,
+//     // field5: Schema.String,
 //     // // "Barrow, Alaska"
-//     // field6: t.string,
+//     // field6: Schema.String,
 //     // // "Cape Matatula,  American Samoa"
-//     // field7: t.string,
+//     // field7: Schema.String,
 //     // // "South Pole, Antarctica",
-//     // field8: t.string,
+//     // field8: Schema.String,
 //     // // "Cape Grim, Australia",
-//     // field9: t.string,
+//     // field9: Schema.String,
 //     // // "Lampedusa Island, Italy",
-//     // field10: t.string,
+//     // field10: Schema.String,
 //     // // "Shetland Islands, Scotland"
-//     // field11: t.string,
+//     // field11: Schema.String,
 //   },
 //   "EPAIceCoreMeasurement"
 // )
 
 // type EPAIceCoreMeasurement = t.TypeOf<typeof EPAIceCoreMeasurement>
 
-const CO2LevelDatum = t.type(
-  {
-    value: t.number,
-    year: t.number,
-  },
-  "CO2LEvelDatum",
-);
+const CO2LevelDatum = Schema.Struct({
+  value: Schema.Number,
+  year: Schema.Number,
+}).annotations({
+  title: "CO2LEvelDatum",
+});
 
-type CO2LevelDatum = t.TypeOf<typeof CO2LevelDatum>;
+type CO2LevelDatum = typeof CO2LevelDatum.Type;
 
 export interface CO2LevelsGraphProps {
   showPoints: boolean;
@@ -91,7 +90,7 @@ const initialState: State = {
   toggleData: "last-2000-years",
 };
 export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
-  const { Queries } = useEndpointQueries();
+  const Queries = useEndpointQueries();
   const { showPoints, showGrid = true, style } = props;
 
   const [{ toggleData }, setToggleData] = React.useState(initialState);
@@ -103,7 +102,7 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
   return (
     <QueriesRenderer
       queries={{ data: Queries.Graph.get.useQuery({ id: id as UUID }) }}
-      render={({ data }) => (
+      render={({ data: { data } }) => (
         <ParentSize
           style={{ height: 400, width: "100%", ...style }}
           debounceTime={30}
@@ -150,8 +149,8 @@ export const CO2LevelsGraph: React.FC<CO2LevelsGraphProps> = (props) => {
                 minYRange={toggleData === "last-2000-years" ? 240 : 150}
                 getX={(d) => d.year}
                 getY={(d) => d.value}
-                axisLeftLabel={"CO2 cocentration (part per million)"}
-                axisRightLabel={"CO2 cocentration (part per million)"}
+                axisLeftLabel={"CO2 concentration (part per million)"}
+                axisRightLabel={"CO2 concentration (part per million)"}
                 axisBottomLabel={"Date"}
               />
 
