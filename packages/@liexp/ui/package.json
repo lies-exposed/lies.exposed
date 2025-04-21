@@ -129,9 +129,9 @@
     "fp-ts": "^2.16.9",
     "openai": "^4.87.3",
     "typescript": "^5.8.2",
-    "vite": "^6.2.6",
+    "vite": "^6.3.2",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.9"
+    "vitest": "^3.1.2"
   },
   "peerDependencies": {
     "axios": "^1.8.0",
