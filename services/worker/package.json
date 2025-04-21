@@ -46,7 +46,7 @@
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
-    "@ts-endpoint/core": "^0.1.0",
+    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "axios": "^1.8.0",
     "cronstrue": "^2.56.0",
     "debug": "^4.4.0",

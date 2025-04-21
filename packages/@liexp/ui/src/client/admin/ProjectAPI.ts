@@ -72,7 +72,7 @@ export const editProject =
 export const createProject =
   (client: APIRESTClient) =>
   (resource: string, params: CreateParams): Promise<CreateResult<Project>> => {
-    const images = params.data.images ? params.data.images : [];
+    const images = params.data.images ?? [];
     const createParams: CreateParams = {
       ...params,
       data: {

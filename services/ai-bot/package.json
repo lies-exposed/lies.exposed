@@ -30,8 +30,8 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
-    "@ts-endpoint/core": "^0.1.0",
-    "@ts-endpoint/resource-client": "^0.1.0",
+    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
+    "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.8.0",
     "cheerio": "^1.0.0",
     "effect": "^3.14.8",
@@ -45,7 +45,7 @@
     "@types/node": "^22.13.10",
     "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.2",
-    "eslint": "^9.21.0",
+    "eslint": "^9.25.1",
     "typescript": "^5.8.2"
   }
 }
