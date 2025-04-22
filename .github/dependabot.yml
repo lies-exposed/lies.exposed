@@ -37,12 +37,8 @@ updates:
         versions: ["5.x"]
       - dependency-name: "@types/mime"
         versions: ["2.x", "3.x", "4.x"]
-      - dependency-name: "@types/node"
-        versions: ["22.x"]
-      - dependency-name: "@mui/*"
-        versions: ["6.x"]
       - dependency-name: "fast-check"
-        versions: ["3.x"]
+        versions: ["4.x"]
       - dependency-name: "query-string"
         versions: ["8.x", "9.x"]
       - dependency-name: react
@@ -63,7 +59,7 @@ updates:
       langchain:
         patterns:
           - "@langchain/*"
-          - langchain
+          - "langchain"
       vite:
         patterns:
           - "@vitejs/*"
@@ -87,10 +83,11 @@ updates:
       react-router:
         patterns:
           - "react-router*"
+
       storybook:
         patterns:
           - "@storybook/*"
-          - storybook
+          - "storybook"
       visx:
         patterns:
           - "*visx*"
