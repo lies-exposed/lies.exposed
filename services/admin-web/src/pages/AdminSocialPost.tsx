@@ -1,5 +1,9 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
-import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import {
+  PUBLISHED,
+  type SocialPost,
+  TO_PUBLISH,
+} from "@liexp/shared/lib/io/http/SocialPost.js";
 import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput.js";
 import {
@@ -51,14 +55,14 @@ const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
     >
       <TextField source="type" />
       <FunctionField
-        source="content.title"
+        source="title"
         onClick={(e) => {
           e.preventDefault();
         }}
-        render={(r) => (
+        render={(r: SocialPost) => (
           <Box>
-            <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
-            <Typography display={"block"}>{r.content.content}</Typography>
+            <Link to={`/${r.type}/${r.entity}`}>{r.title}</Link>
+            <Typography display={"block"}>{r.content}</Typography>
           </Box>
         )}
       />

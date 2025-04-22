@@ -1,10 +1,11 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   SocialPostPhoto,
   type CreateSocialPost,
-  type SocialPostBodyMultipleMedia,
+  type SocialPostContentMedia,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -40,10 +41,17 @@ export const postToIG =
           body.media,
           text.length,
         );
-        const media: SocialPostBodyMultipleMedia = Schema.is(Schema.String)(
+        const media: SocialPostContentMedia = Schema.is(Schema.String)(
           body.media,
         )
-          ? [{ type: "photo", media: body.media, thumbnail: body.media }]
+          ? [
+              {
+                id: uuid(),
+                type: "photo",
+                media: body.media,
+                thumbnail: body.media,
+              },
+            ]
           : body.media;
         return pipe(
           media,

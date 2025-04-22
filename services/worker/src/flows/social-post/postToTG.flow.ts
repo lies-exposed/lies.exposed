@@ -2,14 +2,14 @@ import { type Stream } from "stream";
 import { type ENVContext } from "@liexp/backend/lib/context/env.context.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import {
   SocialPostDocument,
   SocialPostPhoto,
   SocialPostVideo,
   type CreateSocialPost,
-  type SocialPostBodyMultipleMedia,
+  type SocialPostContentMedia,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { Schema } from "effect";
 import type TelegramBot from "node-telegram-bot-api";
@@ -101,10 +101,17 @@ export const postToTG =
           body.media,
           text.length,
         );
-        const media: SocialPostBodyMultipleMedia = Schema.is(Schema.String)(
+        const media: SocialPostContentMedia = Schema.is(Schema.String)(
           body.media,
         )
-          ? [{ type: "photo", media: body.media, thumbnail: body.media }]
+          ? [
+              {
+                id: uuid(),
+                type: "photo",
+                media: body.media,
+                thumbnail: body.media,
+              },
+            ]
           : body.media;
 
         const { mediaText, messageText, useReply } = getMessageTexts(

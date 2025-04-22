@@ -1,8 +1,13 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/fetchSocialPostRelations.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { takeSocialPostRelations } from "@liexp/shared/lib/helpers/social-post.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
@@ -92,23 +97,55 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
           data: pipe(
             ctx.db.execQuery(() => findSocialPostQuery.getRawAndEntities()),
             TE.map((data) => data.raw),
-            TE.chainEitherK(SocialPostIO.decodeMany),
+            TE.chain((data) =>
+              pipe(
+                data.map((d) => ({
+                  ...d,
+                  media: (Array.isArray(d.content.media)
+                    ? d.content.media
+                    : []
+                  ).filter(Schema.is(UUID)),
+                  actors: (d.content.actors ?? []).filter(Schema.is(UUID)),
+                  groups: (d.content.groups ?? []).filter(Schema.is(UUID)),
+                  keywords: (d.content.keywords ?? []).filter(Schema.is(UUID)),
+                })),
+                TE.right,
+                LoggerService.TE.debug(ctx, "ListSocialPostRoute %O"),
+                TE.map(takeSocialPostRelations),
+                TE.chain((relations) =>
+                  fetchSocialPostRelations(relations)(ctx),
+                ),
+                TE.map((relations) =>
+                  data.map((post) => ({
+                    ...post,
+                    content: {
+                      ...post.content,
+                      media: relations.media.filter((m) =>
+                        post.content.media.includes(m.id),
+                      ),
+                      actors: relations.actors.filter((a) =>
+                        post.content.actors.includes(a.id),
+                      ),
+                      groups: relations.groups.filter((g) =>
+                        post.content.groups.includes(g.id),
+                      ),
+                      keywords: relations.keywords.filter((k) =>
+                        post.content.keywords.includes(k.id),
+                      ),
+                    },
+                  })),
+                ),
+              ),
+            ),
+            TE.chainEitherK((posts) =>
+              SocialPostIO.decodeMany(posts, ctx.env.SPACE_ENDPOINT),
+            ),
           ),
           total: ctx.db.count(SocialPostEntity),
         }),
-        // TE.chain(({ data, total }) =>
-        //   pipe(
-        //     data,
-        //     A.map(toPageIO),
-        //     A.sequence(E.Applicative),
-        //     TE.fromEither,
-        //     TE.map((data) => ({ total, data }))
-        //   )
-        // ),
-
         TE.map(({ data, total }) => ({
           body: {
-            data: data,
+            data,
             total,
           },
           statusCode: 200,

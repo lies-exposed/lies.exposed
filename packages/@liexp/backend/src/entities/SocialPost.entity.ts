@@ -1,5 +1,6 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
+  CreateSocialPost,
   SocialPostStatus,
   type SocialPostPublishResult,
   type SocialPostResourceType,
@@ -30,7 +31,15 @@ export class SocialPostEntity {
   type: SocialPostResourceType;
 
   @Column({ type: "json", nullable: false })
-  content: any;
+  content: Omit<
+    CreateSocialPost,
+    "actors" | "groups" | "keywords" | "media"
+  > & {
+    actors: readonly UUID[];
+    groups: readonly UUID[];
+    keywords: readonly UUID[];
+    media: readonly UUID[];
+  };
 
   @Column({
     type: "simple-enum",
@@ -45,6 +54,8 @@ export class SocialPostEntity {
   scheduledAt: Date;
 
   links?: LinkEntity[];
+
+  publishCount: number;
 
   @CreateDateColumn()
   createdAt: Date;

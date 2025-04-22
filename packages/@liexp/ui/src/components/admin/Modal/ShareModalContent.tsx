@@ -106,6 +106,9 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               <ActorList
                 actors={(payload?.actors ?? []).map((a) => ({
                   ...a,
+                  memberIn: [],
+                  excerpt: null,
+                  body: null,
                   selected: true,
                 }))}
                 onActorClick={() => {}}
@@ -126,6 +129,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
               <KeywordList
                 keywords={(payload.keywords ?? []).map((k) => ({
                   ...k,
+                  socialPosts: [],
                   selected: true,
                 }))}
                 onItemClick={() => {}}
@@ -141,10 +145,10 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                   media={media.map((m) => ({ ...m, selected: true }))}
                   onItemClick={() => {}}
                 />
-              ) : media[0] ? (
+              ) : media?.[0]?.thumbnail ? (
                 <Box style={{ width: "100%", height: 200 }}>
                   <img
-                    src={media[0].thumbnail}
+                    src={media?.[0]?.thumbnail}
                     style={{ width: "auto", margin: "auto", height: "100%" }}
                   />
                 </Box>
@@ -179,7 +183,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
           <TabPanel index={1} value={tab}>
             <Box>
               <BuildImageButton
-                media={media[0].thumbnail ?? conf.platforms.web.defaultImage}
+                media={media?.[0]?.thumbnail ?? conf.platforms.web.defaultImage}
                 text={payload.content ?? payload.title}
                 onBuild={(_, base64Source) => {
                   onChange({
@@ -187,6 +191,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                       ...payload,
                       media: [
                         {
+                          id: uuid(),
                           media: base64Source,
                           thumbnail: base64Source,
                           type: "photo",

@@ -66,6 +66,7 @@ export const ResourceEntityInput: React.FC = () => {
   return (
     <Stack direction={"row"} spacing={2}>
       <SelectInput
+        size="small"
         source="type"
         choices={SocialPostResourceType.members.map((t) => ({
           id: t.literals[0],

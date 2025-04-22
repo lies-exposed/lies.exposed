@@ -1,4 +1,6 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { getSocialPostById } from "@liexp/backend/src/flows/social-post/getSocialPostById.flow.js";
+import { SocialPostIO } from "@liexp/backend/src/io/socialPost.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
@@ -6,7 +8,6 @@ import {
   type CreateSocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
-import { Equal } from "typeorm";
 import { type RTE } from "../../types.js";
 import { postToIG } from "./postToIG.flow.js";
 import { postToTG } from "./postToTG.flow.js";
@@ -17,29 +18,33 @@ export const postToSocialPlatforms =
     platforms: _platforms,
     id,
     ...body
-  }: CreateSocialPost & { id: UUID }): RTE<SocialPostEntity> =>
+  }: {
+    id: UUID;
+    platforms: CreateSocialPost["platforms"];
+  }): RTE<SocialPostEntity> =>
   (ctx) => {
     const platforms = _platforms ?? { IG: false, TG: false };
     return pipe(
       fp.TE.Do,
       fp.TE.bind("socialPost", () => {
-        return ctx.db.findOneOrFail(SocialPostEntity, {
-          where: {
-            id: Equal(id),
-          },
-        });
+        return pipe(
+          getSocialPostById(id)(ctx),
+          fp.TE.chainEitherK((post) =>
+            SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
+          ),
+        );
       }),
-      fp.TE.bind("result", () => {
+      fp.TE.bind("result", ({ socialPost }) => {
         return sequenceS(fp.TE.ApplicativePar)({
           ig: platforms.IG
-            ? postToIG({ ...body, platforms }, (e) =>
+            ? postToIG({ ...socialPost, platforms }, (e) =>
                 Promise.resolve({
                   code: "invalid",
                 }),
               )(ctx)
             : fp.TE.right(undefined),
           tg: platforms.TG
-            ? postToTG({ ...body, platforms, id })(ctx)
+            ? postToTG({ ...socialPost, platforms, id })(ctx)
             : fp.TE.right(undefined),
         });
       }),

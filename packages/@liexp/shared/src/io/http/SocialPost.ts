@@ -39,13 +39,20 @@ export const SocialPostVideo = Schema.Struct({
 });
 export type SocialPostVideo = typeof SocialPostVideo.Type;
 
-export const SocialPostBodyMultipleMedia = Schema.Array(
+export const SocialPostMedia = Schema.extend(
   Schema.Union(SocialPostPhoto, SocialPostVideo, SocialPostDocument),
+  Schema.Struct({ id: UUID }),
 ).annotations({
-  title: "SocialPostBodyMultipleMedia",
+  title: "SocialPostMedia",
 });
-export type SocialPostBodyMultipleMedia =
-  typeof SocialPostBodyMultipleMedia.Type;
+export type SocialPostMedia = typeof SocialPostMedia.Type;
+
+export const SocialPostContentMedia = Schema.Array(SocialPostMedia).annotations(
+  {
+    title: "SocialPostContentMedia",
+  },
+);
+export type SocialPostContentMedia = typeof SocialPostContentMedia.Type;
 export const IGPlatform = Schema.Literal("IG");
 export type IGPlatform = typeof IGPlatform.Type;
 
@@ -101,10 +108,10 @@ export const CreateSocialPost = Schema.Struct({
   date: Schema.String,
   content: Schema.Union(Schema.String, Schema.Undefined),
   useReply: Schema.Boolean,
-  media: SocialPostBodyMultipleMedia,
-  actors: Schema.Array(Actor),
+  media: SocialPostContentMedia,
+  actors: Schema.Array(Actor.omit("excerpt", "body")),
   groups: Schema.Array(Group),
-  keywords: Schema.Array(Keyword),
+  keywords: Schema.Array(Keyword.omit("socialPosts")),
   platforms: Schema.Record({ key: SocialPlatform, value: Schema.Boolean }),
   schedule: Schema.Union(Schema.Number, Schema.Undefined),
 }).annotations({
@@ -122,6 +129,7 @@ export type SocialPostPublishResult = typeof SocialPostPublishResult.Type;
 
 export const SocialPost = Schema.Struct({
   ...CreateSocialPost.fields,
+  id: UUID,
   type: SocialPostResourceType,
   entity: UUID,
   publishCount: Schema.Number,
@@ -129,12 +137,13 @@ export const SocialPost = Schema.Struct({
   result: SocialPostPublishResult,
   scheduledAt: Schema.Date,
 }).annotations({
-  title: "ShareMessageBody",
+  title: "SocialPost",
 });
 export type SocialPost = typeof SocialPost.Type;
 
 export const EditSocialPost = Schema.Struct({
   ...SocialPost.fields,
+  media: Schema.Array(UUID),
   keywords: Schema.Array(UUID),
   groups: Schema.Array(UUID),
   actors: Schema.Array(UUID),
