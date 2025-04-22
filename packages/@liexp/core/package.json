@@ -36,7 +36,7 @@
     "debug": "^4.4.0",
     "effect": "^3.14.8",
     "eslint": "^9.25.1",
-    "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-fp-ts": "^0.4.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.6",
