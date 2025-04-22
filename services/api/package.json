@@ -80,7 +80,7 @@
     "react-dom": "^18.3.1",
     "tsx": "^4.19.3",
     "typeorm": "^0.3.21",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@liexp/test": "workspace:*",
@@ -92,7 +92,7 @@
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^1.4.12",
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.14.1",
     "@types/pg": "^8.11.11",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",

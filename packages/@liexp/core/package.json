@@ -43,7 +43,7 @@
     "eslint-plugin-react": "^7.37.5",
     "fp-ts": "^2.16.9",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "debug": "*",

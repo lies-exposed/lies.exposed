@@ -29,7 +29,7 @@
     "effect": "^3.14.8",
     "eslint": "^9.25.1",
     "fp-ts": "^2.16.9",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "effect": "^3",

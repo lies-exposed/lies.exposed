@@ -42,10 +42,10 @@
   },
   "devDependencies": {
     "@esbuild/aix-ppc64": "^0.25.2",
-    "@types/node": "^22.13.10",
+    "@types/node": "^22.14.1",
     "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.2",
     "eslint": "^9.25.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   }
 }

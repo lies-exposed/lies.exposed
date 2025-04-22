@@ -65,7 +65,7 @@
     "puppeteer-core": "^24.4.0",
     "puppeteer-extra": "^3.3.6",
     "sharp": "^0.33.5",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.1.2",
     "vitest-mock-extended": "^3.1.0"
