@@ -3,7 +3,7 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { DBService } from "@liexp/backend/lib/services/db.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
 import { type ServerContext } from "../../../context/context.type.js";
@@ -49,7 +49,7 @@ export const MakeListBookEventRoute: Route = (r, ctx) => {
             ...query,
             q,
             draft,
-            type: O.some([BOOK.literals[0]]),
+            type: O.some([EVENT_TYPES.BOOK]),
             actors,
             groups,
             keywords,
