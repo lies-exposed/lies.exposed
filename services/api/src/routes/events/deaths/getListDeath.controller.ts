@@ -41,7 +41,7 @@ export const MakeGetListDeathEventRoute: Route = (r, ctx) => {
         searchEventV2Query({
           ...query,
           draft,
-          type: O.some([DEATH.Type]),
+          type: O.some([DEATH.literals[0]]),
           actors: victim,
           keywords,
           links,

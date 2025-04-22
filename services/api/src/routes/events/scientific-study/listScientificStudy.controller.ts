@@ -40,7 +40,7 @@ export const MakeListScientificStudyRoute: Route = (
       return pipe(
         searchEventV2Query<ServerContext>({
           ids,
-          type: O.some([SCIENTIFIC_STUDY.Type]),
+          type: O.some([SCIENTIFIC_STUDY.literals[0]]),
           groups: pipe(
             provider,
             O.map((p) => [p]),

@@ -36,7 +36,7 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
       return pipe(
         searchEventV2Query({
           ...query,
-          type: O.some([TRANSACTION.Type]),
+          type: O.some([TRANSACTION.literals[0]]),
           draft,
           actors: O.none(),
           keywords,
