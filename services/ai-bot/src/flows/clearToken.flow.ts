@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ClientContext } from "../context.js";

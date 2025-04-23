@@ -4,6 +4,7 @@
   "ignoreWorkspaces": ["services/data"],
   "workspaces": {
     ".": {
+      "ignore": ["services/*/build/**", "packages/@liexp/*/lib/**"],
       "ignoreBinaries": ["corepack use pnpm@latest-10"],
       "ignoreDependencies": ["husky", "lint-staged", "corepack"],
       "ignoreUnresolved": ["tslib"]
@@ -11,7 +12,7 @@
     "packages/@liexp/*": {
       "includeEntryExports": false,
       "entry": ["src/**/*.{ts,tsx}"],
-      "project": ["src/**/*.{ts,tsx}", "lib/**/*.js"]
+      "project": ["src/**/*.{ts,tsx}"]
     },
     "services/web": {
       "entry": [
@@ -35,22 +36,28 @@
     },
     "services/ai-bot": {
       "entry": ["src/run.ts"],
-      "project": ["src/**/*.{ts,tsx}"],
-      "ignoreDependencies": ["@aws-sdk/client-sso-oidc", "@aws-sdk/client-sts", "@esbuild/aix-ppc64"]
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": [
+        "@aws-sdk/client-sso-oidc",
+        "@aws-sdk/client-sts",
+        "@esbuild/aix-ppc64"
+      ]
     },
     "services/api": {
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
         "test/AppTest.ts",
-        "ormconfig.js"
+        "test/testSetup.ts",
+        "test/globalSetup.ts"
       ],
       "project": [
-        "**/*.{ts,js}",
+        "src/**/*.{ts,js}",
+        "test/**/*.{ts,js}",
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
       ],
-      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
+      "ignore": ["ormconfig.js", "test/__mocks__/**/*"]
     },
     "services/worker": {
       "entry": ["src/run.ts", "src/bin/cli.ts"],
