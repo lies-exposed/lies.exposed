@@ -172,8 +172,8 @@ importers:
         specifier: ^4
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -260,8 +260,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -357,8 +357,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.4(debug@4.4.0)
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -403,8 +403,8 @@ importers:
         version: 3.23.2
     devDependencies:
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -701,8 +701,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.4(debug@4.4.0)
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@2.4.2)
@@ -749,8 +749,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
@@ -846,8 +846,8 @@ importers:
         specifier: ^1.0.0
         version: 1.0.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       fp-ts:
         specifier: ^2.16.9
         version: 2.16.9
@@ -916,8 +916,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       express:
         specifier: ^4.21.0
         version: 4.21.2
@@ -1109,8 +1109,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       fast-check:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1200,8 +1200,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       express:
         specifier: ^4.21.0
         version: 4.21.2
@@ -1300,8 +1300,8 @@ importers:
         specifier: ^4.4.0
         version: 4.4.0
       effect:
-        specifier: ^3.14.8
-        version: 3.14.11
+        specifier: ^3.14.13
+        version: 3.14.13
       exifreader:
         specifier: ^4.26.2
         version: 4.26.2
@@ -5973,8 +5973,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
-  effect@3.14.11:
-    resolution: {integrity: sha512-PPfiu7QRtmmrgH6VWZp/rY1S8SSLJofx5betRuTPGG868G3f0C7yvPOa6SZPLG5ra2yCd1Vfm7cdeI26ZVGGlA==}
+  effect@3.14.13:
+    resolution: {integrity: sha512-mQgZx8xgzHK86J5O0J5pmMs23U5ylkX/+JkfzTkRjCK0kK4L0PSYTaNAqlJZV6IA5uUIvysK5D+pCqqoXbAQnQ==}
 
   electron-to-chromium@1.5.139:
     resolution: {integrity: sha512-GGnRYOTdN5LYpwbIr0rwP/ZHOQSvAF6TG0LSzp28uCBb9JiXHJGmaaKw29qjNJc5bGnnp6kXJqRnGMQoELwi5w==}
@@ -15765,7 +15765,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  effect@3.14.11:
+  effect@3.14.13:
     dependencies:
       '@standard-schema/spec': 1.0.0
       fast-check: 3.23.2

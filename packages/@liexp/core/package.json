@@ -34,7 +34,7 @@
     "@types/debug": "^4.1.12",
     "@vitejs/plugin-react": "^4.4.1",
     "debug": "^4.4.0",
-    "effect": "^3.14.8",
+    "effect": "^3.14.13",
     "eslint": "^9.25.1",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-fp-ts": "^0.4.0",

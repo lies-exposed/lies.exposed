@@ -34,7 +34,7 @@
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.8.0",
     "cheerio": "^1.0.0",
-    "effect": "^3.14.8",
+    "effect": "^3.14.13",
     "fp-ts": "^2.16.9",
     "langchain": "^0.3.23",
     "pdfjs-dist": "^4.10.38",
