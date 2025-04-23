@@ -24,10 +24,8 @@ export const getTitle = (
     }
     case EVENT_TYPES.DEATH: {
       const victimName =
-        (e.payload?.victim as any)?.fullName ??
         (relations?.actors ?? []).find((a) => a.id === e.payload.victim)
-          ?.fullName ??
-        "unknown";
+          ?.fullName ?? "unknown";
       return `Death of ${victimName}`;
     }
   }
