@@ -41,7 +41,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-react": "^7.37.5",
-    "fp-ts": "^2.16.9",
+    "fp-ts": "^2.16.10",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
   },
