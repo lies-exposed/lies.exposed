@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";

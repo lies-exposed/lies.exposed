@@ -19,9 +19,5 @@ jobs:
         with:
           hash: ${{ github.sha }}
 
-      - name:
-        run: pnpm build
-
       - name: Post the knip results
-        # uses: codex-/knip-reporter@v2
         run: pnpm knip
