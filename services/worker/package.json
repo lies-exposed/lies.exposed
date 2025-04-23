@@ -53,7 +53,7 @@
     "effect": "^3.14.13",
     "exifreader": "^4.26.2",
     "fluent-ffmpeg": "^2.1.2",
-    "fp-ts": "^2.16.9",
+    "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
     "ioredis": "^5.6.0",
     "lodash": "^4.17.21",

@@ -58,7 +58,7 @@
     "exifreader": "^4.26.2",
     "fast-check": "^3",
     "fast-csv": "^5.0.2",
-    "fp-ts": "^2.16.9",
+    "fp-ts": "^2.16.10",
     "ioredis": "^5.6.0",
     "langchain": "^0.3.23",
     "page-metadata-parser": "^1.1.4",
