@@ -4070,7 +4070,7 @@ packages:
       fp-ts: ^2
 
   '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz':
-    resolution: {integrity: sha512-XsFvp4/k0QRyAth+cS/BzUfxgH5D+20CwdUZJCSFtmYxvk/hiK2HdXX/CPcwY0aTmZz1dBxjdHe2Wo+KfwxaTg==, tarball: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz}
+    resolution: {integrity: sha512-0Xo2Orxwu43HV5WHbLEovLVTP+aClraW4UP1iDSG40WscDSsAbgE3NlnYJ37QO9cKOKMPmsXRVxNJ8Dev804gg==, tarball: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       fp-ts: ^2
@@ -7974,7 +7974,6 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
-    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}

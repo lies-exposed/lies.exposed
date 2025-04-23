@@ -1,19 +1,21 @@
 import { Schema } from "effect";
+import { uuid } from "../../io/http/Common/UUID.js";
 import { VideoExtra } from "../../io/http/Media/index.js";
 import {
   type SocialPost,
-  type SocialPostBodyMultipleMedia,
+  type SocialPostContentMedia,
 } from "../../io/http/SocialPost.js";
 import * as http from "../../io/http/index.js";
 
 export const getShareMultipleMedia = (
   media: readonly http.Media.Media[],
   defaultImage: string,
-): SocialPostBodyMultipleMedia => {
-  const cover = media.reduce<SocialPostBodyMultipleMedia>((acc, m) => {
+): SocialPostContentMedia => {
+  const cover = media.reduce<SocialPostContentMedia>((acc, m) => {
     if (Schema.is(http.Media.MP4Type)(m.type)) {
       return acc.concat([
         {
+          id: m.id,
           type: "video",
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
@@ -23,6 +25,7 @@ export const getShareMultipleMedia = (
     } else if (Schema.is(http.Media.PDFType)(m.type)) {
       return acc.concat([
         {
+          id: m.id,
           type: "photo",
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
@@ -43,6 +46,7 @@ export const getShareMultipleMedia = (
     } else {
       return acc.concat([
         {
+          id: m.id,
           type: "photo",
           media: m.thumbnail ?? m.location,
           thumbnail: m.thumbnail ?? defaultImage,
@@ -53,7 +57,14 @@ export const getShareMultipleMedia = (
 
   return cover.length > 0
     ? cover
-    : [{ type: "photo", media: defaultImage, thumbnail: defaultImage }];
+    : [
+        {
+          id: uuid(),
+          type: "photo",
+          media: defaultImage,
+          thumbnail: defaultImage,
+        },
+      ];
 };
 
 export const getShareMedia = (

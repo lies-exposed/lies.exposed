@@ -3,7 +3,7 @@ import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
-import { fetchRelations } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
+import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.js";
 import {

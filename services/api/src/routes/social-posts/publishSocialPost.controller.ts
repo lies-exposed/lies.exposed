@@ -1,7 +1,9 @@
-import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { getSocialPostById } from "@liexp/backend/lib/flows/social-post/getSocialPostById.flow.js";
+import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { PostToSocialPlatformsPubSub } from "@liexp/backend/lib/pubsub/postToSocialPlatforms.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -17,31 +19,30 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
       },
     }) => {
       return pipe(
-        ctx.db.findOneOrFail(SocialPostEntity, {
-          where: {
-            id,
-          },
-        }),
-        TE.chain((p) =>
+        getSocialPostById(id)(ctx),
+        TE.chainEitherK((post) =>
+          SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
+        ),
+        TE.chain((socialPost) =>
           pipe(
             PostToSocialPlatformsPubSub.publish({
-              ...p.content,
+              ...socialPost,
               id,
               platforms: {
-                ig: pipe(
+                IG: pipe(
                   IG,
-                  fp.O.getOrElse(() => false),
+                  O.getOrElse(() => false),
                 ),
-                tg: pipe(
+                TG: pipe(
                   TG,
-                  fp.O.getOrElse(() => false),
+                  O.getOrElse(() => false),
                 ),
               },
             })(ctx),
             fp.TE.mapLeft(toControllerError),
           ),
         ),
-        TE.map((data) => ({
+        fp.TE.map((data) => ({
           body: {
             data: data > 0,
           },

@@ -39,8 +39,6 @@ const decodeUserFromRequest =
       req.headers,
     );
 
-    logger.debug.log("Decoded headers errors %O", decodedHeaders);
-
     return pipe(
       decodedHeaders,
       IOE.fromEither,

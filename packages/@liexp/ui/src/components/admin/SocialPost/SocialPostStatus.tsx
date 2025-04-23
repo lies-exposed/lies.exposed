@@ -8,6 +8,7 @@ export const SocialPostStatus: React.FC = () => {
   return (
     <Box style={{ display: "flex", alignItems: "center" }}>
       <SelectInput
+        size="small"
         source="status"
         choices={SocialPost.SocialPostStatus.members.map((t) => ({
           id: t.literals[0],

@@ -8,7 +8,7 @@
     "#services/*": "./build/services/*"
   },
   "scripts": {
-    "clean": "rm -rf build",
+    "clean": "rm -rf build/.build.* && rm -rf build/*",
     "typecheck": "tsc --noEmit",
     "build:tsc": "tsc -b tsconfig.build.json",
     "build:es": "esbuild --format=cjs --target=node20 --platform=node --bundle --outfile=build/run-esbuild.js build/run.js",

@@ -1,4 +1,4 @@
-FROM node:22-slim AS dev
+FROM node:22 AS dev
 
 WORKDIR /home/node
 

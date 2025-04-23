@@ -33,7 +33,7 @@ export const SocialPostEditTitle: React.FC = () => {
 };
 
 const transformSocialPost = ({
-  content: {
+  _content: {
     platforms,
     media: _media,
     keywords: _keywords,
@@ -75,10 +75,10 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
       tgDate = formatDate(new Date(result!.tg.date * 1000));
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error(e);
+      console.warn(e);
     }
 
-    return { ...result?.tg, date: tgDate };
+    return { ...(result?.tg ?? {}), date: tgDate };
   }, [result?.tg]);
 
   if (!record) {
@@ -117,10 +117,10 @@ const SocialPostEditFormTabInstagram: React.FC = () => {
       igDate = formatDate(new Date(result!.ig.media.taken_at * 1000));
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.error(e);
+      console.warn(e);
     }
 
-    return { ...result?.ig, date: igDate };
+    return { ...(result?.ig ?? {}), date: igDate };
   }, [result?.ig]);
 
   if (!record) {
@@ -179,7 +179,7 @@ export const SocialPostEdit: React.FC = () => {
         <FormTab label="General">
           <SocialPostStatus />
           <ResourceEntityInput />
-          <SocialPostEditContent source="content" />
+          <SocialPostEditContent source="_content" />
         </FormTab>
         <FormTab label={"Posts"}>
           <SocialPostFormTabContent source="entity" target="entity" />

@@ -26,6 +26,7 @@ const toDeathIO = (
       suspects: [],
       createdAt: event.createdAt.toISOString(),
       updatedAt: event.updatedAt.toISOString(),
+      deletedAt: event.deletedAt?.toISOString(),
     },
     Schema.decodeUnknownEither(io.http.Events.Death.Death),
     E.mapLeft((e) =>
