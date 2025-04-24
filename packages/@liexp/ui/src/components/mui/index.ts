@@ -45,7 +45,7 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  Grid2 as Grid,
+  Grid,
   Grow,
   Icon,
   IconButton,
