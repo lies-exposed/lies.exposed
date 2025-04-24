@@ -3,7 +3,9 @@ import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, test } from "vitest";
 import { Tag } from "../Tag.js";
 
-describe.skip("Tag codec", () => {
+describe("Tag codec", () => {
+  const decode = Schema.decodeUnknownEither(Schema.Array(Tag));
+
   test("Should decode given input", () => {
     const tags = ["firstkeyword", "otherkeyword"];
 
@@ -25,6 +27,4 @@ describe.skip("Tag codec", () => {
 
     expect(E.isLeft(decode(tags))).toBe(true);
   });
-
-  const decode = Schema.decodeUnknownEither(Schema.Array(Tag));
 });
