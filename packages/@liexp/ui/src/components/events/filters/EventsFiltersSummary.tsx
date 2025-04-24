@@ -71,8 +71,7 @@ const EventsFilterSummary: React.FC<
       }}
     >
       <Grid
-        item
-        sm={12}
+        size={{ sm: 12 }}
         style={{
           display: "flex",
           flexDirection: "row",
@@ -179,9 +178,7 @@ const EventsFilterSummary: React.FC<
           </Box>
         ) : null}
       </Grid>
-      <Grid item sm={12}>
-        {children}
-      </Grid>
+      <Grid size={{ sm: 12 }}>{children}</Grid>
     </StyledGrid>
   );
 };

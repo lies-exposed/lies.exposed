@@ -509,7 +509,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
       }}
     >
       <Grid container spacing={2}>
-        <Grid item md={10} sm={10}>
+        <Grid size={{ sm: 10, md: 10 }}>
           <Box
             style={{
               width: "100%",
@@ -520,14 +520,12 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             }}
           >
             <Grid container spacing={2}>
-              <Grid item md={layout.searchBox} sm={12} xs={12}>
+              <Grid size={{ xs: 12, sm: 12, md: layout.searchBox }}>
                 {searchBox}
                 {searchTermBox}
               </Grid>
               <Grid
-                item
-                sm={12}
-                md={layout.relations}
+                size={{ md: layout.relations, sm: 12 }}
                 style={{
                   display: "flex",
                   flexWrap: "wrap",
@@ -557,9 +555,10 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               </Grid>
 
               <Grid
-                item
-                sm={12}
-                md={layout.relations}
+                size={{
+                  sm: 12,
+                  md: layout.relations,
+                }}
                 style={{
                   display: "flex",
                   flexWrap: "wrap",
@@ -593,9 +592,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               </Grid>
 
               <Grid
-                item
-                sm={12}
-                md={layout.relations}
+                size={{ sm: 12, md: layout.relations }}
                 style={{
                   display: "flex",
                   flexWrap: "wrap",
@@ -612,10 +609,11 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               </Grid>
               {filterPopover}
               <Grid
-                item
-                sm={8}
-                md={layout.eventTypes}
-                lg={layout.eventTypes}
+                size={{
+                  sm: 8,
+                  md: layout.eventTypes,
+                  lg: layout.eventTypes,
+                }}
                 style={{
                   display: "flex",
                   flexDirection: "row",
@@ -630,11 +628,12 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
                 />
               </Grid>
               <Grid
-                item
-                xs={12}
-                sm={12}
-                md={layout.dateRangeBox?.columns ?? 12}
-                lg={layout.dateRangeBox?.columns ?? 12}
+                size={{
+                  xs: 12,
+                  sm: 12,
+                  md: layout.dateRangeBox?.columns ?? 12,
+                  lg: layout.dateRangeBox?.columns ?? 12,
+                }}
               >
                 {layout.dateRangeBox?.variant === "slider" ? (
                   <DateRangeSlider
@@ -669,7 +668,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             </Grid>
           </Box>
         </Grid>
-        <Grid item md={2} sm={2}>
+        <Grid size={{ md: 2, sm: 2 }}>
           <Box
             style={{
               display: "flex",

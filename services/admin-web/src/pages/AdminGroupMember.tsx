@@ -77,20 +77,20 @@ export const GroupMemberEdit: React.FC = () => {
         <FormTab label="generals">
           <FormControl style={{ width: "100%" }}>
             <Grid container alignItems="center">
-              <Grid item md={4}>
+              <Grid size={{ md: 4 }}>
                 <ReferenceActorInput source="actor.id" />
               </Grid>
-              <Grid item md={4}>
+              <Grid size={{ md: 4 }}>
                 <WebPreviewButton resource="actors" source="actor.id" />
               </Grid>
             </Grid>
           </FormControl>
           <FormControl style={{ width: "100%" }}>
             <Grid container alignItems="center">
-              <Grid item md={4}>
+              <Grid size={{ md: 4 }}>
                 <ReferenceGroupInput source="group.id" />
               </Grid>
-              <Grid item md={4}>
+              <Grid size={{ md: 4 }}>
                 <WebPreviewButton resource="groups" source="group.id" />
               </Grid>
             </Grid>

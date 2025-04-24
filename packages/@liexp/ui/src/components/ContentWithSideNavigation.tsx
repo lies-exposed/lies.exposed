@@ -32,7 +32,7 @@ export const ContentWithSideNavigation: React.FC<
 > = ({ items, children }) => {
   return (
     <StyledGrid container direction="column">
-      <Grid item>
+      <Grid>
         <TreeView
           classes={classes}
           defaultCollapseIcon={<Icons.ExpandMore />}
@@ -47,11 +47,11 @@ export const ContentWithSideNavigation: React.FC<
           })}
         </TreeView>
       </Grid>
-      <Grid item>
+      <Grid>
         <MainContent>{children}</MainContent>
       </Grid>
-      <Grid item />
-      <Grid item />
+      <Grid />
+      <Grid />
     </StyledGrid>
   );
 };

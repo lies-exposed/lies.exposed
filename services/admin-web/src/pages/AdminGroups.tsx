@@ -218,7 +218,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       <TabbedForm>
         <FormTab label="Generals">
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <Box style={{ display: "flex", flexDirection: "column" }}>
                 <TextWithSlugInput source="name" slugSource="username" />
                 <ColorInput source="color" />
@@ -228,7 +228,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <GroupKindInput source="kind" />
               <MediaField
                 source="avatar.thumbnail"

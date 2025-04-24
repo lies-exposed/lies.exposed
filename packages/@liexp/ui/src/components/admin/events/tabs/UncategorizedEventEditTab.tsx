@@ -32,22 +32,22 @@ export const UncategorizedEventEditTab: React.FC<{
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item md={12}>
+        <Grid size={{ md: 12 }}>
           <TextInput size="small" source={source("payload.title")} fullWidth />
         </Grid>
-        <Grid item md={12}>
+        <Grid size={{ md: 12 }}>
           <Grid container>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <Box>
                 <DateInput size="small" source={source("payload.endDate")} />
               </Box>
             </Grid>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <ReferenceAreaInput size="small" source="payload.location" />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item md={4} sm={12}>
+        <Grid size={{ md: 4, sm: 12 }}>
           <ReferenceArrayActorInput source={source("payload.actors")} />
           <ReferenceArrayField
             source={source("payload.actors")}
@@ -64,7 +64,7 @@ export const UncategorizedEventEditTab: React.FC<{
             onClick={handlers?.onActorClick}
           />
         </Grid>
-        <Grid item md={4} sm={12}>
+        <Grid size={{ md: 4, sm: 12 }}>
           <ReferenceArrayGroupMemberInput
             source={source("payload.groupsMembers")}
           />
@@ -78,7 +78,7 @@ export const UncategorizedEventEditTab: React.FC<{
             </Datagrid>
           </ReferenceArrayField>
         </Grid>
-        <Grid item md={4} sm={12}>
+        <Grid size={{ md: 4, sm: 12 }}>
           <ReferenceArrayGroupInput source={source("payload.groups")} />
           <ReferenceArrayField
             reference="groups"

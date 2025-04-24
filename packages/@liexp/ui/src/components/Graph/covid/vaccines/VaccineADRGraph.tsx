@@ -532,7 +532,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
           return (
             <Grid container spacing={3}>
               <Grid container spacing={2}>
-                <Grid item md={2}>
+                <Grid size={{ md: 2 }}>
                   <Typography variant="h5">Filters</Typography>
                   <FormControl className={classes.formControl} fullWidth>
                     <InputLabel id="adr-report-rate-select-label">
@@ -591,9 +591,9 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item md={10}>
+                <Grid size={{ md: 10 }}>
                   <Grid container spacing={2}>
-                    <Grid item md={12}>
+                    <Grid size={{ md: 12 }}>
                       <ParentSize style={{ width: "100%" }}>
                         {({ width }) => {
                           return (
@@ -613,7 +613,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item md={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption={"Total ADRs"}
                     summary={totalADRs.toFixed(0)}
@@ -630,7 +630,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                     Report rate {ADRRatio.toFixed(4)}%
                   </Typography>
                 </Grid>
-                <Grid item md={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption="Total deaths"
                     summary={totalDeaths.toFixed(0)}
@@ -657,13 +657,13 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
                     }
                   />
                 </Grid>
-                <Grid item md={3} direction="column">
+                <Grid size={{ md: 3 }} direction="column">
                   <StatAccordion
                     summary={deathRate.toFixed(6)}
                     caption="Death rate (%)"
                   />
                 </Grid>
-                <Grid item md={3} direction="column">
+                <Grid size={{ md: 3 }} direction="column">
                   <StatAccordion
                     caption="Death projection on world population (million)"
                     summary={toMillion(estimatedDeaths).toFixed(2)}

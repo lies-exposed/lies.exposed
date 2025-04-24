@@ -42,7 +42,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const [[start, end], setDateRange] = React.useState([from, to]);
   return (
     <StyledGrid container spacing={2}>
-      <Grid item md={6} sm={6} xs={6}>
+      <Grid size={{ xs: 6, sm: 6, md: 6 }}>
         <DatePicker
           className={classes.dateInput}
           size="small"
@@ -65,7 +65,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
           {...props}
         />
       </Grid>
-      <Grid item md={6} sm={6} xs={6}>
+      <Grid size={{ xs: 6, sm: 6, md: 6 }}>
         <DatePicker
           className={classes.dateInput}
           size="small"

@@ -2,7 +2,7 @@ import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
 import { BNEditor } from "../../Common/BlockNote/index.js";
-import { Box, Grid2 } from "../../mui/index.js";
+import { Box, Grid } from "../../mui/index.js";
 import { MediaSlider } from "../../sliders/MediaSlider.js";
 
 interface DocumentaryPageContentProps {
@@ -19,8 +19,8 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
   const theme = useTheme();
 
   return (
-    <Grid2 container>
-      <Grid2
+    <Grid container>
+      <Grid
         size={12}
         style={{
           alignContent: "flex-start",
@@ -33,8 +33,8 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
           onClick={onMediaClick}
           enableDescription={event.media.length > 1}
         />
-      </Grid2>
-      <Grid2 size={12}>
+      </Grid>
+      <Grid size={12}>
         <Box style={{ marginBottom: theme.spacing(2) }}>
           <BNEditor content={event.excerpt} readOnly={true} />
         </Box>
@@ -42,7 +42,7 @@ export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
         <Box style={{ marginBottom: theme.spacing(2) }}>
           <BNEditor content={event.body} readOnly={true} />
         </Box>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 };

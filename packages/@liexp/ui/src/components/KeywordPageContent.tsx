@@ -11,11 +11,11 @@ export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
 }) => {
   return (
     <Grid container>
-      <Grid item md={1} sm={1} xs={false} />
-      <Grid item md={6}>
+      <Grid size={{ md: 1, sm: 1, xs: null }} />
+      <Grid size={{ md: 6 }}>
         <Typography
           variant="h4"
-          color={color as any}
+          color={color}
           style={{
             color: `#${color}`,
           }}

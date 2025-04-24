@@ -90,7 +90,10 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
+        <Grid
+          size={{ xs: 12 }}
+          style={{ display: "flex", flexDirection: "row" }}
+        >
           <EventIcon
             className={classes.eventIcon}
             type={TRANSACTION.Type}
@@ -99,10 +102,7 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
           <Typography variant="h6">{item.payload.title}</Typography>
         </Grid>
         <Grid
-          item
-          md={condensed ? 6 : 12}
-          sm={condensed ? 6 : 12}
-          xs={12}
+          size={{ xs: 12, sm: condensed ? 6 : 12, md: condensed ? 6 : 12 }}
           style={{
             display: "flex",
             flexDirection: "row",
@@ -122,7 +122,13 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
         </Grid>
 
         {isValidValue(item.excerpt) ? (
-          <Grid item md={condensed ? 6 : 12} sm={condensed ? 6 : 12} xs={12}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: condensed ? 6 : 12,
+              md: condensed ? 6 : 12,
+            }}
+          >
             <Typography style={{ display: "flex" }} variant="body1">
               {getTextContentsCapped(item.excerpt, 300)}
             </Typography>

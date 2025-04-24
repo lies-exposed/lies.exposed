@@ -144,11 +144,11 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
       <Grid container>
         <Typography variant="h2">Vaccine Effectiveness Indicators</Typography>
         <Grid container spacing={3}>
-          <Grid item md={12}>
+          <Grid size={{ md: 12 }}>
             <Typography variant="h5">Infections</Typography>
           </Grid>
 
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <ParentSize style={{ width: "100%" }}>
               {({ width }) => (
                 <BarStackGraph
@@ -166,7 +166,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
               )}
             </ParentSize>
           </Grid>
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <ParentSize style={{ width: "100%" }}>
               {({ width }) => (
                 <BarStackGraph
@@ -184,7 +184,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
               )}
             </ParentSize>
           </Grid>
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <Typography variant="body1">
               Volunteers: {totalVolunteers}
             </Typography>
@@ -215,10 +215,10 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
         </Grid>
 
         <Grid container spacing={3}>
-          <Grid item md={12}>
+          <Grid size={{ md: 12 }}>
             <Typography variant="h5">Severe Infections</Typography>
           </Grid>
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <ParentSize style={{ width: "100%" }}>
               {({ width }) => (
                 <BarStackGraph
@@ -236,7 +236,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
               )}
             </ParentSize>
           </Grid>
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <ParentSize style={{ width: "100%" }}>
               {({ width }) => (
                 <BarStackGraph
@@ -254,7 +254,7 @@ export class VaccineEffectivenessIndicators extends React.PureComponent {
               )}
             </ParentSize>
           </Grid>
-          <Grid item md={4}>
+          <Grid size={{ md: 4 }}>
             <Typography variant="body1">
               Placebo Risk of Severe Infection (PRSI){" "}
             </Typography>

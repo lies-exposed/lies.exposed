@@ -35,7 +35,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
       transform={transform}
     >
       <Grid container>
-        <Grid item md={12}>
+        <Grid size={{ md: 12 }}>
           <Stack spacing={2} direction={"row"}>
             <Button
               label={`${showPreview ? "Hide" : "Show"} Preview`}
@@ -47,7 +47,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
             <RestoreButton />
           </Stack>
         </Grid>
-        <Grid item md={showPreview ? 6 : 12} lg={showPreview ? 6 : 12}>
+        <Grid size={{ md: showPreview ? 6 : 12, lg: showPreview ? 6 : 12 }}>
           <FunctionField
             render={(r) => {
               if (r?.deletedAt) {
@@ -79,11 +79,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
           {children}
         </Grid>
 
-        {showPreview ? (
-          <Grid item md={6} lg={6}>
-            {preview}
-          </Grid>
-        ) : null}
+        {showPreview ? <Grid size={{ md: 6, lg: 6 }}>{preview}</Grid> : null}
       </Grid>
     </Edit>
   );

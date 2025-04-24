@@ -3,7 +3,7 @@ import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { type ActorItem } from "@liexp/ui/lib/components/lists/ActorList.js";
-import { Box, Grid2, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
 import ActorsBox from "@liexp/ui/lib/containers/ActorsBox.js";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox.js";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox.js";
@@ -17,12 +17,12 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();
 
   return (
-    <Grid2
+    <Grid
       container
       style={{ width: "100%", justifyContent: "center" }}
       spacing={2}
     >
-      <Grid2 size={{ lg: 10, md: 12, xs: 12 }}>
+      <Grid size={{ lg: 10, md: 12, xs: 12 }}>
         <SEO title="lies.exposed" urlPath="/" />
         <PageContentBox path="index" />
         <KeywordsDistributionGraph
@@ -34,8 +34,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
 
         <Box style={{ marginBottom: 50 }} />
 
-        <Grid2 container style={{ marginTop: 38, marginBottom: 38 }}>
-          <Grid2 size={6}>
+        <Grid container style={{ marginTop: 38, marginBottom: 38 }}>
+          <Grid size={6}>
             <ActorsBox
               discrete={false}
               prefix="last-20-updated-actors"
@@ -48,8 +48,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 navigateTo.actors({ id: a.id }, { tab: 0 });
               }}
             />
-          </Grid2>
-          <Grid2 size={6}>
+          </Grid>
+          <Grid size={6}>
             <GroupsBox
               discrete={false}
               prefix="last-20-updated-actors"
@@ -62,11 +62,11 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 navigateTo.groups({ id: g.id }, { tab: 0 });
               }}
             />
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
 
-        <Grid2 container>
-          <Grid2 size={12}>
+        <Grid container>
+          <Grid size={12}>
             <Box style={{ marginBottom: 150 }}>
               <EventsBox
                 title="Last updated events"
@@ -82,8 +82,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 columns={{ md: 4 }}
               />
             </Box>
-          </Grid2>
-          <Grid2 size={12}>
+          </Grid>
+          <Grid size={12}>
             <Box style={{ marginBottom: 150 }}>
               <EventsBox
                 title="Last books"
@@ -101,12 +101,12 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 columns={{ sm: 12, md: 4, lg: 2 }}
               />
             </Box>
-          </Grid2>
-          <Grid2 container style={{ marginBottom: 150, width: "100%" }}>
-            <Grid2 size={12}>
+          </Grid>
+          <Grid container style={{ marginBottom: 150, width: "100%" }}>
+            <Grid size={12}>
               <Typography variant="h5">Last Created Media</Typography>
-            </Grid2>
-            <Grid2 size={12}>
+            </Grid>
+            <Grid size={12}>
               <MediaBox
                 disableZoom
                 filter={{ _sort: "createdAt", _order: "DESC" }}
@@ -116,11 +116,11 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                   navigateTo.media({ id: m.id });
                 }}
               />
-            </Grid2>
-          </Grid2>
-        </Grid2>
-      </Grid2>
-    </Grid2>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

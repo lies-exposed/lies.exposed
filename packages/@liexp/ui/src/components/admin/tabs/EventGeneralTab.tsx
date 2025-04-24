@@ -120,8 +120,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   return (
     <Grid container>
       <Grid
-        item
-        {...{ md: 4, lg: 4 }}
+        size={{ md: 4, lg: 4 }}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -130,10 +129,10 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
         <EventTypeInput source="type" />
         <BooleanInput size="small" source="draft" />
       </Grid>
-      <Grid item {...{ md: 2, lg: 2 }}>
+      <Grid size={{ md: 2, lg: 2 }}>
         <DateInput source="date" />
       </Grid>
-      <Grid item {...{ md: 6, lg: 6 }}>
+      <Grid size={{ md: 6, lg: 6 }}>
         <ReferenceArrayKeywordInput
           source="keywords"
           defaultValue={[]}
@@ -144,14 +143,14 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           onKeywordClick={doAddKeyword}
         />
       </Grid>
-      <Grid item md={12}>
+      <Grid size={{ md: 12 }}>
         {children(suggestions, {
           onKeywordClick: doAddKeyword,
           onActorClick: doAddActors,
           onGroupClick: () => {},
         })}
       </Grid>
-      <Grid item {...{ md: 12 }}>
+      <Grid size={{ md: 12 }}>
         <OpenAIEmbeddingJobButton<Event>
           type={OpenAIEmbeddingQueueType.literals[0]}
           resource="events"

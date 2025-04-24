@@ -4,7 +4,7 @@ import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
 import { BNEditor } from "../../Common/BlockNote/Editor.js";
 import MediaElement from "../../Media/MediaElement.js";
-import { Grid2, Typography } from "../../mui/index.js";
+import { Grid, Typography } from "../../mui/index.js";
 
 interface BookEventPageContentProps {
   event: Events.SearchEvent.SearchBookEvent;
@@ -21,7 +21,7 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
   } = item;
 
   return (
-    <Grid2
+    <Grid
       container
       style={{
         display: "flex",
@@ -29,7 +29,7 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
         alignItems: "center",
       }}
     >
-      <Grid2
+      <Grid
         size={12}
         style={{
           alignContent: "flex-start",
@@ -53,8 +53,8 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
             onClick={onMediaClick}
           />
         ) : null}
-      </Grid2>
-      <Grid2
+      </Grid>
+      <Grid
         size={{ md: 12, sm: 12, xs: 12 }}
         style={{ padding: 10 }}
         width="100%"
@@ -65,7 +65,7 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
         {isValidValue(item.excerpt) ? (
           <BNEditor content={item.excerpt} readOnly />
         ) : null}
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 };

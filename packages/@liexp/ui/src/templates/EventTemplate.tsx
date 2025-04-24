@@ -25,7 +25,6 @@ import GroupList from "../components/lists/GroupList.js";
 import {
   Box,
   Grid,
-  Grid2,
   Stack,
   Typography,
   useMuiMediaQuery,
@@ -147,7 +146,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       paddingRight: 20,
                     }}
                   >
-                    <Grid item lg={12} md={12} sm={2}>
+                    <Grid size={{ lg: 12, md: 12, sm: 2 }}>
                       <Stack
                         direction="row"
                         alignItems="center"
@@ -190,11 +189,12 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       </Stack>
                     </Grid>
                     <Grid
-                      item
-                      xs={12}
-                      sm={10}
-                      md={12}
-                      lg={12}
+                      size={{
+                        xs: 12,
+                        sm: 10,
+                        md: 12,
+                        lg: 12,
+                      }}
                       style={{
                         display: "flex",
                         flexDirection: "column",
@@ -224,7 +224,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       ) : null}
                     </Grid>
                     {groups.length > 0 ? (
-                      <Grid item sm={3} md={12} lg={12}>
+                      <Grid size={{ lg: 12, md: 12, sm: 3 }}>
                         <GroupList
                           groups={groups.map((g) => ({ ...g, selected: true }))}
                           style={{
@@ -236,7 +236,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       </Grid>
                     ) : null}
                     {actors.length > 0 ? (
-                      <Grid item sm={3} md={12} lg={12}>
+                      <Grid size={{ lg: 12, md: 12, sm: 3 }}>
                         <ActorList
                           actors={actors.map((a) => ({ ...a, selected: true }))}
                           style={{
@@ -251,10 +251,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     ) : null}
                     {areas.length > 0 ? (
                       <Grid
-                        item
-                        sm={3}
-                        md={12}
-                        lg={12}
+                        size={{ lg: 12, md: 12, sm: 3 }}
                         style={{ width: "100%" }}
                       >
                         <Box
@@ -269,7 +266,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                       </Grid>
                     ) : null}
                     {groupsMembers.length > 0 ? (
-                      <Grid item sm={3} md={12} lg={12}>
+                      <Grid size={{ lg: 12, md: 12, sm: 3 }}>
                         <GroupMembersList
                           groupsMembers={groupsMembers}
                           style={{
@@ -299,7 +296,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                 ]}
                 resource={{ name: "events", item: event }}
               >
-                <Grid2
+                <Grid
                   size={{ lg: 8, md: 8, sm: 12 }}
                   style={{ height: "100%" }}
                 >
@@ -335,7 +332,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     }}
                     onEventClick={onEventClick}
                   />
-                </Grid2>
+                </Grid>
 
                 <EventsFlowGraphBox
                   type="events"

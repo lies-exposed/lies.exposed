@@ -171,10 +171,6 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
         description="A chronological timeline of events related to crimes and lies."
         urlPath="events"
       />
-      {/* <Grid item lg={12} md={12} sm={12}>
-        <PageContent queries={{ pageContent: { path: "events" } }} />
-      </Grid> */}
-
       <QueriesRenderer
         queries={{
           filterActors: Queries.Actor.list.useQuery(

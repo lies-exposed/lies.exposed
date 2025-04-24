@@ -83,8 +83,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
             >
               <Box style={{ height: "100%" }}>
                 <Grid container style={{ height: "100%" }}>
-                  <Grid item md={8}></Grid>
-                  <Grid item md={4}>
+                  <Grid size={{ md: 4 }} offset={{ md: 8 }}>
                     <StatsPanelBox
                       type="keywords"
                       id={keywordId}

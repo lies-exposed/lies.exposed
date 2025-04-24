@@ -22,7 +22,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
 }) => {
   return (
     <Grid className="actor-page-content" container spacing={2}>
-      <Grid item md={9} sm={8}>
+      <Grid size={{ md: 9, sm: 8 }}>
         {actor.death ? <DeathBox id={actor.death} /> : null}
         {isValidValue(actor.excerpt) ? (
           <BNEditor content={actor.excerpt} readOnly />
@@ -33,9 +33,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       </Grid>
       {groups.length > 0 ? (
         <Grid
-          item
-          md={6}
-          sm={6}
+          size={{ md: 6, sm: 6 }}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -58,7 +56,7 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
       ) : null}
 
       {groups.length > 0 && (
-        <Grid item md={6} sm={6} xs={12}>
+        <Grid size={{ md: 6, sm: 6, xs: 12 }}>
           <ActorsBox
             style={{ display: "flex", flexDirection: "row" }}
             params={{

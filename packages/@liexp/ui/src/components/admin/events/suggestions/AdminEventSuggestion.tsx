@@ -197,18 +197,16 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
           {isAdmin ? (
             <Grid container spacing={2}>
               <Grid
-                item
-                md={6}
-                sm={6}
+                size={{ sm: 6, md: 6 }}
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 <EventSuggestionTypeInput source="payload.type" />
                 <EventSuggestionStatusInput source="status" />
               </Grid>
-              <Grid item md={6} sm={6}>
+              <Grid size={{ sm: 6, md: 6 }}>
                 <ReferenceUserInput source="payload.creator" />
               </Grid>
-              <Grid item md={12}>
+              <Grid size={{ md: 12 }}>
                 <DateField
                   label="updatedAt"
                   source="payload.event.updatedAt"
@@ -323,9 +321,7 @@ export const EventSuggestionCreate: React.FC<
           {isAdmin ? (
             <Grid container spacing={2}>
               <Grid
-                item
-                md={6}
-                sm={6}
+                size={{ sm: 6, md: 6 }}
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 <BooleanInput label="draft" source="payload.event.draft" />
@@ -333,10 +329,10 @@ export const EventSuggestionCreate: React.FC<
                 <EventSuggestionTypeInput source="payload.type" />
                 <EventSuggestionStatusInput source="status" />
               </Grid>
-              <Grid item md={6} sm={6}>
+              <Grid size={{ sm: 6, md: 6 }}>
                 {isAdmin && <ReferenceUserInput source="payload.creator" />}
               </Grid>
-              <Grid item md={12}>
+              <Grid size={{ md: 12 }}>
                 <DateField
                   label="updatedAt"
                   source="payload.event.updatedAt"

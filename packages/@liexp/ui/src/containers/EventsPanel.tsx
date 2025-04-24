@@ -249,20 +249,8 @@ export const EventsPanel: React.FC<EventsPanelProps> = ({
           flexWrap: "nowrap",
         }}
       >
-        {/* <Grid
-          item
-          md={12}
-          justifyContent="center"
-          style={{
-            display: "flex",
-            flexShrink: 0,
-          }}
-        ></Grid> */}
-
         <Grid
-          item
-          lg={12}
-          xs={12}
+          size={{ xs: 12, lg: 12 }}
           style={{ display: "flex", height: "100%", flexGrow: 1 }}
         >
           <EventsTimeline

@@ -76,7 +76,7 @@ const ProjectList: React.FC<ProjectListProps> = ({
         onItemClick={onGroupClick}
         getKey={(g) => g.id}
         ListItem={(p) => (
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <ProjectListItem {...p} />
           </Grid>
         )}

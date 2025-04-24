@@ -11,7 +11,7 @@ export const StoryRelationsBox: React.FC = () => {
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <ReferenceArrayField reference="actors" source="actors">
             <ActorDataGrid />
           </ReferenceArrayField>
@@ -22,7 +22,7 @@ export const StoryRelationsBox: React.FC = () => {
             <LinkDataGrid />
           </ReferenceArrayField>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <ReferenceArrayField reference="media" source="media">
             <MediaDataGrid />
           </ReferenceArrayField>

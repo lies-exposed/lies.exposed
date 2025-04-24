@@ -125,9 +125,7 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
             return (
               <Grid container spacing={2}>
                 <Grid
-                  item
-                  md={6}
-                  sm={12}
+                  size={{ sm: 12, md: 6 }}
                   style={{ display: "flex", flexDirection: "column" }}
                 >
                   <ColorInput
@@ -138,12 +136,12 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
                   <DateInput source="bornOn" />
                   <DateInput source="diedOn" />
                 </Grid>
-                <Grid item md={6} sm={12}>
+                <Grid size={{ sm: 12, md: 6 }}>
                   <ImageInput source="avatar">
                     <ImageField source="thumbnail" />
                   </ImageInput>
                 </Grid>
-                <Grid item md={12}>
+                <Grid size={{ md: 12 }}>
                   <BlockNoteInput source="excerpt" onlyText={true} />
                   <BlockNoteInput source="body" />
                 </Grid>

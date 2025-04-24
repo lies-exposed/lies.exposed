@@ -11,7 +11,7 @@ import { ShareButtons } from "../components/Common/Button/ShareButtons.js";
 import { a11yProps, TabPanel } from "../components/Common/TabPanel.js";
 import {
   Box,
-  Grid2,
+  Grid,
   Stack,
   Tab,
   Tabs,
@@ -33,7 +33,7 @@ const classes = {
   tabPanel: `${PREFIX}-tab-panel`,
 };
 
-const StyledGrid = styled(Grid2)(({ theme }) => ({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   [`&.${classes.root}`]: {
     flexDirection: "row",
     height: "100%",
@@ -214,7 +214,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
   return (
     <StyledGrid className={classes.root} container spacing={2}>
-      <Grid2 size={{ lg: 3, md: 4, sm: 12, xs: 12 }} className={classes.left}>
+      <Grid size={{ lg: 3, md: 4, sm: 12, xs: 12 }} className={classes.left}>
         <Stack
           width={"100%"}
           height={"100%"}
@@ -262,10 +262,10 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
           {asideBottom ?? null}
         </Stack>
-      </Grid2>
-      <Grid2 size={{ lg: 9, md: 9, sm: 12, xs: 12 }} className={classes.main}>
+      </Grid>
+      <Grid size={{ lg: 9, md: 9, sm: 12, xs: 12 }} className={classes.main}>
         {tabsContent}
-      </Grid2>
+      </Grid>
     </StyledGrid>
   );
 };

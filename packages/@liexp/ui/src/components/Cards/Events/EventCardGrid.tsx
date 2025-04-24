@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { styled } from "../../../theme/index.js";
-import { Grid2 } from "../../mui/index.js";
+import { Grid } from "../../mui/index.js";
 import EventCard, { type EventCardProps } from "./EventCard.js";
 
 export interface EventCardGridProps<
@@ -28,7 +28,7 @@ const classes = {
   card: `${PREFIX}-card`,
 };
 
-const StyledGrid = styled(Grid2)(({ theme }) => ({
+const StyledGrid = styled(Grid)(({ theme }) => ({
   [`& .${classes.cardContainer}`]: {
     display: "flex",
     justifyContent: "flex-start",
@@ -65,7 +65,7 @@ export const EventCardGrid = <E extends SearchEvent>({
         events,
         A.map((e) => {
           return (
-            <Grid2 key={e.id} className={classes.cardContainer} size={columns}>
+            <Grid key={e.id} className={classes.cardContainer} size={columns}>
               <Card
                 event={e}
                 showRelations={showItemRelations}
@@ -75,7 +75,7 @@ export const EventCardGrid = <E extends SearchEvent>({
                 style={{ ...itemStyle, width: "100%" }}
                 layout={cardLayout}
               />
-            </Grid2>
+            </Grid>
           );
         }),
       )}

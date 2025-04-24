@@ -56,7 +56,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
               );
             }}
           >
-            <Grid item md={12}>
+            <Grid size={{ md: 12 }}>
               <AreaListItem
                 item={{
                   ...item,
@@ -66,7 +66,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
                 defaultImage={conf.platforms.web.defaultImage}
               />
             </Grid>
-            <Grid item md={9}>
+            <Grid size={{ md: 9 }}>
               <Typography variant="subtitle1">{item.label}</Typography>
             </Grid>
           </Grid>

@@ -108,7 +108,7 @@ export const MediaBlockPluginControl: React.FC<{
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid size={12}>
           <AutocompleteMediaInput
             discrete={false}
             selectedItems={selectedItems}
@@ -118,7 +118,7 @@ export const MediaBlockPluginControl: React.FC<{
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Input
             value={s.height}
             onChange={(e) => {
@@ -126,7 +126,7 @@ export const MediaBlockPluginControl: React.FC<{
             }}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <FormControlLabel
             control={
               <Checkbox
@@ -146,7 +146,7 @@ export const MediaBlockPluginControl: React.FC<{
           />
         </Grid>
 
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid>
           <IconButton
             size="small"
             disabled={s.media.length < 1}

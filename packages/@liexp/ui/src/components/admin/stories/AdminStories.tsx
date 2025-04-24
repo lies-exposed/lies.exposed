@@ -142,13 +142,12 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       <TabbedForm>
         <FormTab label="generals">
           <Grid container>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <TextWithSlugInput source="title" slugSource="path" fullWidth />
               <DateInput source="date" />
             </Grid>
             <Grid
-              item
-              md={6}
+              size={{ md: 6 }}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -164,7 +163,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
             </Grid>
 
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <ReferenceMediaInput
                 source="featuredImage.id"
                 allowedTypes={ImageType.members.map((t) => t.literals[0])}

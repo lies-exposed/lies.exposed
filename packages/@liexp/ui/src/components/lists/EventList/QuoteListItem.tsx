@@ -57,7 +57,10 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
       onClick={() => onClick?.(item)}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} style={{ display: "flex", flexDirection: "row" }}>
+        <Grid
+          size={{ xs: 12 }}
+          style={{ display: "flex", flexDirection: "row" }}
+        >
           <EventIcon
             className={classes.eventIcon}
             type={EventTypes.QUOTE.Type}
@@ -75,10 +78,11 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
           }}
         >
           <Grid
-            item
-            md={!condensed ? 6 : 12}
-            sm={!condensed ? 6 : 12}
-            xs={12}
+            size={{
+              xs: 12,
+              sm: !condensed ? 6 : 12,
+              md: !condensed ? 6 : 12,
+            }}
             style={{ padding: 10 }}
           >
             <Typography style={{ display: "flex" }} variant="subtitle1">
@@ -101,10 +105,11 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
           </Grid>
           {!condensed ? (
             <Grid
-              item
-              md={4}
-              sm={6}
-              xs={12}
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+              }}
               style={{
                 display: "flex",
                 justifyContent: "center",

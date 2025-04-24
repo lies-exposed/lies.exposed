@@ -100,7 +100,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   height: "100%",
                 }}
               >
-                <Grid item md={8}>
+                <Grid size={{ md: 8 }}>
                   <GroupPageContent
                     group={group}
                     groupsMembers={[...groupsMembers.data]}
@@ -112,7 +112,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   />
                 </Grid>
 
-                <Grid item md={4}>
+                <Grid size={{ md: 4 }}>
                   <StatsPanelBox
                     type="groups"
                     id={group.id}

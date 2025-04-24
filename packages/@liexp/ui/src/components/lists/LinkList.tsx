@@ -1,6 +1,6 @@
 import * as React from "react";
 import LinkCard, { type Link } from "../Cards/LinkCard.js";
-import { Grid2 } from "../mui/index.js";
+import { Grid } from "../mui/index.js";
 
 export interface LinksListProps {
   links: Link[];
@@ -19,7 +19,7 @@ export const LinksList: React.FC<LinksListProps> = ({
   const sm = 12 / column;
 
   return (
-    <Grid2
+    <Grid
       container
       spacing={2}
       display={"flex"}
@@ -31,10 +31,10 @@ export const LinksList: React.FC<LinksListProps> = ({
       }}
     >
       {links.map((l, i) => (
-        <Grid2 key={l.id} size={{ md, sm, xs: 6 }}>
+        <Grid key={l.id} size={{ md, sm, xs: 6 }}>
           <LinkCard link={l} onClick={onItemClick} />
-        </Grid2>
+        </Grid>
       ))}
-    </Grid2>
+    </Grid>
   );
 };
