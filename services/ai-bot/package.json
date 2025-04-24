@@ -48,7 +48,7 @@
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@esbuild/aix-ppc64": "^0.25.2",
+    "@esbuild/aix-ppc64": "^0.25.3",
     "@types/node": "^22.14.1",
     "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.2",
