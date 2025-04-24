@@ -21,10 +21,6 @@ describe("Create Keyword", () => {
     authorizationToken = authorization;
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401 when no Authorization header is present", async () => {
     const response = await Test.req.post("/v1/keywords").send({
       tag: "newkeyword",

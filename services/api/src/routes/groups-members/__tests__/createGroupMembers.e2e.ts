@@ -39,10 +39,6 @@ describe("Create Group Member", () => {
     await throwTE(Test.ctx.db.save(GroupEntity, groups));
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401", async () => {
     const response = await Test.req.post("/v1/groups-members").send({
       group: tests.fc.sample(UUIDArb, 1)[0],

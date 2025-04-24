@@ -60,10 +60,6 @@ describe("Edit Actor", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401", async () => {
     const editActor = tests.fc.sample(ActorArb, 1)[0];
 

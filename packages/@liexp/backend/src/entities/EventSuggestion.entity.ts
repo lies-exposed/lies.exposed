@@ -13,7 +13,9 @@ import {
 } from "typeorm";
 import { UserEntity } from "./User.entity.js";
 
-@Entity("event_suggestion")
+export const EVENT_SUGGESTION_ENTITY_NAME = "event_suggestion";
+
+@Entity(EVENT_SUGGESTION_ENTITY_NAME)
 export class EventSuggestionEntity {
   @PrimaryGeneratedColumn("uuid")
   @Index()

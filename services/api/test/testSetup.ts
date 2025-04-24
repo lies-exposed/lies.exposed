@@ -42,6 +42,7 @@ beforeAll(async () => {
 afterAll(async () => {
   if (!process.env.CI) {
     console.log('cooling down database', process.env.DB_DATABASE);
+    await g.appTest?.utils.e2eAfterAll();
     await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
     g.appContext = undefined as any;
     g.appTest = undefined;

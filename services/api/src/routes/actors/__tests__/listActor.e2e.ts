@@ -35,10 +35,6 @@ describe("List Actor", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return actors", async () => {
     const response = await Test.req
       .get("/v1/actors")
@@ -46,6 +42,6 @@ describe("List Actor", () => {
 
     expect(response.status).toEqual(200);
     expect(response.body.data).toHaveLength(20);
-    expect(response.body.total).toBe(100);
+    expect(response.body.total).toBeGreaterThanOrEqual(100);
   });
 });

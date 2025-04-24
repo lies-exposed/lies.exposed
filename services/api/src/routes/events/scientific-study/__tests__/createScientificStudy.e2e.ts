@@ -78,7 +78,6 @@ describe("Create Scientific Study", () => {
         ll.map((l) => l.id),
       ),
     );
-    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create a scientific study from plain object", async () => {

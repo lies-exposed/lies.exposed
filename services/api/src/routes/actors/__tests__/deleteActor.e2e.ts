@@ -56,10 +56,6 @@ describe("Delete Actor", () => {
     Test.ctx.logger.debug.log("Actor %O", actor);
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401", async () => {
     const response = await Test.req
       .delete(`/v1/actors/${actor.id}`)

@@ -130,7 +130,6 @@ describe("List Events", () => {
         groups.map((g) => g.id),
       ),
     );
-    await appTest.utils.e2eAfterAll();
   });
 
   describe("Search by actors", () => {

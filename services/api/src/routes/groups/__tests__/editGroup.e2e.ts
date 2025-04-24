@@ -60,7 +60,6 @@ describe("Edit Group", () => {
     const mediaIds = media.map((m) => m.id);
 
     await throwTE(appTest.ctx.db.delete(MediaEntity, mediaIds));
-    await appTest.utils.e2eAfterAll();
   });
 
   test("Should receive a 401 error", async () => {
