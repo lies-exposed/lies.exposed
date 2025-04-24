@@ -79,7 +79,7 @@
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/lodash": "^4.17.16",
     "@types/node-cron": "^3.0.11",
-    "@types/node-telegram-bot-api": "^0.64.7",
+    "@types/node-telegram-bot-api": "^0.64.8",
     "@types/prompts": "^2.4.9",
     "dotenv": "^16.4.7",
     "tsx": "^4.19.3",
