@@ -95,7 +95,7 @@ export const LinkBlockPluginControl: React.FC<{
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid size={{ xs: 12, sm: 12, md: 12 }}>
           <AutocompleteLinkInput
             discrete={false}
             selectedItems={selectedItems as any[]}
@@ -105,7 +105,7 @@ export const LinkBlockPluginControl: React.FC<{
           />
         </Grid>
 
-        <Grid item xs={6}>
+        <Grid size={{ xs: 6 }}>
           <Input
             value={s.height}
             onChange={(e) => {
@@ -113,7 +113,7 @@ export const LinkBlockPluginControl: React.FC<{
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={12}>
+        <Grid size={{ xs: 6, sm: 12, md: 12 }}>
           <IconButton
             size="small"
             disabled={s.links.length < 1}

@@ -28,10 +28,11 @@ export const DefaultEventPageContent: React.FC<
   const [modal, showModal] = useModal();
 
   const isOnlyOneMedia =
-    (media.length === 1 && Schema.is(IframeVideoType)(media[0].type)) ||
-    Schema.is(MP4Type)(media[0].type) ||
-    Schema.is(MP3Type)(media[0].type) ||
-    Schema.is(OGGType)(media[0].type);
+    media.length === 1 &&
+    (Schema.is(IframeVideoType)(media[0].type) ||
+      Schema.is(MP4Type)(media[0].type) ||
+      Schema.is(MP3Type)(media[0].type) ||
+      Schema.is(OGGType)(media[0].type));
 
   const handleMediaClick = React.useCallback(
     (m: Media.Media) => {
@@ -48,10 +49,7 @@ export const DefaultEventPageContent: React.FC<
   return (
     <Grid container>
       <Grid
-        item
-        lg={12}
-        md={12}
-        xs={12}
+        size={12}
         style={{
           alignContent: "flex-start",
           marginBottom: theme.spacing(5),
@@ -87,7 +85,7 @@ export const DefaultEventPageContent: React.FC<
         ) : null}
         {modal}
       </Grid>
-      <Grid item>
+      <Grid>
         {event.excerpt ? (
           <Box style={{ marginBottom: theme.spacing(2) }}>
             <BNEditor content={event.excerpt} readOnly />

@@ -59,7 +59,7 @@ export const LayerBox: React.FC<{
             alignItems={"center"}
             justifyContent={"flex-start"}
           >
-            <Grid item md={3} sm={6}>
+            <Grid size={{ md: 3, sm: 6 }}>
               <ResettableTextField
                 label="width"
                 value={layer.width ?? 100}
@@ -69,7 +69,7 @@ export const LayerBox: React.FC<{
                 }}
               />
             </Grid>
-            <Grid item md={3} sm={6}>
+            <Grid size={{ md: 3, sm: 6 }}>
               <ResettableTextField
                 label="height"
                 value={layer.height ?? 100}
@@ -79,7 +79,7 @@ export const LayerBox: React.FC<{
                 }}
               />
             </Grid>
-            <Grid item md={3} sm={6}>
+            <Grid size={{ md: 3, sm: 6 }}>
               <SearchableInput
                 label="Gravity"
                 selectedItems={[{ id: layer.gravity, name: layer.gravity }]}
@@ -105,7 +105,7 @@ export const LayerBox: React.FC<{
                 isOptionEqualToValue={(o, v) => o.id === v.id}
               />
             </Grid>
-            <Grid item md={3} sm={6}>
+            <Grid size={{ md: 3, sm: 6 }}>
               <SearchableInput
                 label="Blend"
                 selectedItems={[{ id: layer.blend, name: layer.blend }]}
@@ -129,7 +129,7 @@ export const LayerBox: React.FC<{
                 size="small"
               />
             </Grid>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <ColorInput
                 label="background"
                 source="background"
@@ -143,7 +143,7 @@ export const LayerBox: React.FC<{
               />
             </Grid>
             {layer.type === "text" ? (
-              <Grid item md={6}>
+              <Grid size={{ md: 6 }}>
                 <ColorInput
                   label="textColor"
                   source="color"

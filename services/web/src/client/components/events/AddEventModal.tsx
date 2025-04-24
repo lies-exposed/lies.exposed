@@ -47,7 +47,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
     <Grid container spacing={2}>
       {cachedSuggestions.map((e, i) => {
         return (
-          <Grid key={e.id} item md={4} sm={12}>
+          <Grid key={e.id} size={{ sm: 12, md: 4 }}>
             <CreateEventCard
               event={e.event as any}
               showRelations={false}
@@ -181,7 +181,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
               <Grid container spacing={2}>
                 {url.events.map((e) => {
                   return (
-                    <Grid key={e.id} item md={4}>
+                    <Grid key={e.id} size={{ md: 4 }}>
                       <EventCard
                         event={e}
                         showRelations={false}
@@ -191,7 +191,7 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
                     </Grid>
                   );
                 })}
-                <Grid item md={12}>
+                <Grid size={{ md: 12 }}>
                   <Typography variant="h6">Or suggest new one</Typography>
                 </Grid>
                 <EventSuggestionsList

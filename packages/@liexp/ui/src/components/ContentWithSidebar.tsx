@@ -20,7 +20,12 @@ export const ContentWithSidebar: React.FC<
         flexDirection: "row",
       }}
     >
-      <Grid item lg={showSidebar ? 3 : false} md={showSidebar ? 3 : false}>
+      <Grid
+        size={{
+          lg: showSidebar ? 3 : false,
+          md: showSidebar ? 3 : false,
+        }}
+      >
         {showSidebar ? (
           <Box>
             {sidebar}
@@ -43,9 +48,10 @@ export const ContentWithSidebar: React.FC<
       </Grid>
 
       <Grid
-        item
-        lg={showSidebar ? 9 : 12}
-        md={showSidebar ? 9 : 12}
+        size={{
+          lg: showSidebar ? 9 : 12,
+          md: showSidebar ? 9 : 12,
+        }}
         style={{ flexGrow: 1 }}
         alignItems="flex-start"
       >

@@ -73,19 +73,19 @@ export const QuoteCreate: React.FC<CreateProps> = () => {
     >
       <SimpleForm>
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <BooleanInput source="draft" defaultValue={false} />
             <ReferenceBySubjectInput source="payload.subject" />
             <DateInput source="date" />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <ReferenceArrayKeywordInput
               source="keywords"
               defaultValue={[]}
               showAdd
             />
           </Grid>
-          <Grid item md={12}>
+          <Grid size={{ md: 12 }}>
             <BlockNoteInput source="excerpt" onlyText />
             <TextInput source="payload.details" />
             <ReferenceArrayLinkInput source="links" defaultValue={[]} />

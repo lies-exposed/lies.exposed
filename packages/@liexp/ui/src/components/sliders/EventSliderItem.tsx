@@ -104,15 +104,11 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
 }) => {
   return (
     <StyledGrid
-      item
       className={classes.root}
-      lg={10}
-      md={12}
-      sm={12}
-      xs={12}
+      size={{ xs: 12, sm: 12, md: 12, lg: 10 }}
       style={{ maxWidth: "100%", width: "100%" }}
     >
-      <Grid item>
+      <Grid>
         <Box className={classes.title}>
           <EventIcon className={classes.eventIcon} type={type} size="2x" />
           <Typography variant="h6" gutterBottom={true}>
@@ -153,12 +149,12 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
         ) : null}
       </Grid>
 
-      <Grid item container spacing={2}>
+      <Grid container spacing={2}>
         {pipe(
           media,
           O.fromPredicate((arr) => arr.length > 0),
           O.map((media) => (
-            <Grid item sm={12} md={8} lg={8}>
+            <Grid size={{ sm: 12, md: 8, lg: 8 }}>
               <MediaSlider
                 className={classes.mediaSlider}
                 itemClassName={classes.mediaSliderItem}
@@ -171,7 +167,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
           O.toNullable,
         )}
         {isValidValue(excerpt) ? (
-          <Grid item sm={12} md={4} lg={4}>
+          <Grid size={{ sm: 12, md: 4, lg: 4 }}>
             <Box>
               <Typography
                 style={{ display: "flex", marginBottom: 20, flexGrow: 1 }}
@@ -184,7 +180,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
         ) : null}
       </Grid>
 
-      <Grid item sm={12}>
+      <Grid size={{ sm: 12 }}>
         <Box sx={{ display: "flex" }}>
           <ActorList
             style={{
@@ -213,7 +209,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
         O.fold(
           () => null,
           (ll) => (
-            <Grid item lg={12} md={12} sm={12} xs={12}>
+            <Grid size={12}>
               <LinksBox
                 filter={{ ids: ll.map((l) => l.id) }}
                 column={1}

@@ -209,8 +209,8 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
         return (
           <Grid container style={{ background: "white", padding: 60 }}>
             <Grid container spacing={5} style={{ marginBottom: 40 }}>
-              <Grid container spacing={3} md={12}>
-                <Grid item md={3}>
+              <Grid container spacing={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption="Deaths with Covid in 2020"
                     summary={covid2020TotalDeaths.toFixed(0)}
@@ -226,7 +226,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                     }}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption="Covid Death Rate in 2020 (%)"
                     summary={deathRate2020.toFixed(6)}
@@ -241,7 +241,7 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                     }}
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid size={{ md: 6 }}>
                   <StatAccordion
                     caption="Immunity Rate (%)"
                     summary={immunityRate2020.toFixed(2)}
@@ -253,28 +253,28 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   />
                 </Grid>
               </Grid>
-              <Grid container spacing={3} md={12}>
-                <Grid item md={3}>
+              <Grid container spacing={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption="Total deaths for Covid"
                     summary={covid2021TotalDeaths.toFixed(0)}
                     details={undefined}
                   />
                 </Grid>
-                <Grid item md={3}>
+                <Grid size={{ md: 3 }}>
                   <StatAccordion
                     caption="Death Rate (%)"
                     summary={deathRate2021.toFixed(6)}
                   />
                 </Grid>
-                <Grid item md={6}>
+                <Grid size={{ md: 6 }}>
                   <StatAccordion
                     caption="Immunity Rate (%)"
                     summary={immunityRate2021.toFixed(2)}
                   />
                 </Grid>
               </Grid>
-              <Grid item md={12}>
+              <Grid size={{ md: 12 }}>
                 <Box display="flex">
                   <Typography variant="h2">Vaccine ADR Graph</Typography>
                 </Box>
@@ -313,11 +313,11 @@ const VaccineDashboard: React.FC<VaccineDashboardProps> = ({ adrTab = 0 }) => {
                   />
                 </TabPanel>
               </Grid>
-              {/* <Grid item md={12}>
+              {/* <Grid size={{ md: 12 }}>
                     <VaccineEffectivenessIndicators />
                   </Grid> */}
-              <Grid item md={12}>
-                {/* <Grid item md={8}>
+              <Grid size={{ md: 12 }}>
+                {/* <Grid size={{ sm: 8 }}>
                         <ParentSize style={{ width: "100%" }}>
                           {({ width }) => {
                             return (

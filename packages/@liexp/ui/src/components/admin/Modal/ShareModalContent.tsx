@@ -52,7 +52,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
 
   return (
     <Grid container width="100%" height="100%" spacing={2}>
-      <Grid item lg={6}>
+      <Grid size={{ lg: 6 }}>
         <Box>
           <Box>
             <Input
@@ -334,7 +334,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
         </Box>
       </Grid>
       {/** Preview */}
-      <Grid item lg={6}>
+      <Grid size={{ lg: 6 }}>
         <Box>
           <MediaList
             style={{ width: "100%", maxHeight: 300 }}

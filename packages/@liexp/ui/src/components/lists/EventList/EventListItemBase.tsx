@@ -87,7 +87,7 @@ const EventListItemBase = <E extends any>({
   }, [condensed, media.length, onLoad]);
 
   return (
-    <StyledGrid item lg={12} md={12} sm={12} xs={12} style={{ width: "100%" }}>
+    <StyledGrid size={12} style={{ width: "100%" }}>
       <Box className={classes.title}>
         <EventIcon className={classes.eventIcon} type={type} size="2x" />
         <Typography variant="h6" gutterBottom={true}>

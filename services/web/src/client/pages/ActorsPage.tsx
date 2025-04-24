@@ -52,7 +52,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
               />
             </>
             <Grid container style={{ height: 600 }}>
-              <Grid item md={12} style={{ height: "100%" }}>
+              <Grid size={{ md: 12 }} style={{ height: "100%" }}>
                 <ActorEventNetworkGraphBox
                   params={{
                     filter: {},

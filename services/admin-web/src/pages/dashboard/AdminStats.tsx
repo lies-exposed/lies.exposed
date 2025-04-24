@@ -54,7 +54,7 @@ export const AdminStats: React.FC = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={4} sm={6}>
+      <Grid size={{ md: 4, sm: 6 }}>
         <QueriesRenderer
           queries={(Q) => ({
             media: Q.Admin.Custom.GetMediaStats.useQuery(undefined),

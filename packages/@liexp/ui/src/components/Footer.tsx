@@ -94,7 +94,7 @@ export const Footer: React.FC<{
     >
       <Container>
         <Grid container>
-          <Grid item sm={4} md={4}>
+          <Grid size={{ sm: 4, md: 4 }}>
             <Box
               style={{
                 display: "flex",
@@ -131,8 +131,8 @@ export const Footer: React.FC<{
             </Box>
           </Grid>
 
-          <Grid item md={4} sm={0} />
-          <Grid className={classes.rightColumn} item sm={4} md={2}>
+          <Grid size={{ md: 4, sm: 0 }} />
+          <Grid className={classes.rightColumn} size={{ sm: 4, md: 2 }}>
             <Typography
               variant="h6"
               style={{
@@ -166,7 +166,7 @@ export const Footer: React.FC<{
               </MenuItem>
             </MenuList>
           </Grid>
-          <Grid className={classes.rightColumn} item sm={4} md={2}>
+          <Grid className={classes.rightColumn} size={{ sm: 4, md: 2 }}>
             <Typography
               variant="h6"
               style={{

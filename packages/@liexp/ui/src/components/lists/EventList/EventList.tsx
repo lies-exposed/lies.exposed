@@ -83,14 +83,13 @@ const RenderHeaderRow: React.FC<{
     <div key={dateHeader}>
       <ListSubheader className={classes.listSubheader}>
         <Grid container>
-          <Grid item md={10}>
+          <Grid size={{ md: 10 }}>
             <Typography variant="h5" color="primary">
               {dateHeader}
             </Typography>
           </Grid>
           <Grid
-            item
-            md={2}
+            size={{ md: 2 }}
             style={{
               textAlign: "right",
             }}

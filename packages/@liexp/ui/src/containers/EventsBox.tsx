@@ -5,7 +5,7 @@ import {
   type EventCardGridProps,
 } from "../components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
-import { Grid2, Typography } from "../components/mui/index.js";
+import { Grid, Typography } from "../components/mui/index.js";
 import { type SearchEventQueryInput } from "../state/queries/SearchEventsQuery.js";
 import { useTheme } from "../theme/index.js";
 
@@ -44,7 +44,7 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
         }
 
         return (
-          <Grid2
+          <Grid
             display="flex"
             container
             direction={"column"}
@@ -55,15 +55,15 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
             }}
           >
             {title ? (
-              <Grid2 size={12}>
+              <Grid size={12}>
                 <Typography variant="h5">{title}</Typography>
-              </Grid2>
+              </Grid>
             ) : null}
 
-            <Grid2 size={12}>
+            <Grid size={12}>
               <EventCardGrid events={events as E[]} {...eventCardGridProps} />
-            </Grid2>
-          </Grid2>
+            </Grid>
+          </Grid>
         );
       }}
     />

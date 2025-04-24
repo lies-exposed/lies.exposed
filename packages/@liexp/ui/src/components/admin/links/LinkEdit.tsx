@@ -63,7 +63,7 @@ export const LinkEdit: React.FC = () => {
       <TabbedForm>
         <FormTab label="General">
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <TextInput source="title" fullWidth />
               <URLMetadataInput source="url" type="Link" />
               <DateInput source="publishDate" />
@@ -94,7 +94,7 @@ export const LinkEdit: React.FC = () => {
               <ReferenceGroupInput source="provider" />
               {isAdmin && <DangerZoneField />}
             </Grid>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
               {isAdmin && <ReferenceUserInput source="creator" />}
               <LinkSuggestedEntityRelations />

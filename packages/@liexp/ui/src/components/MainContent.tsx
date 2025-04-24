@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import * as React from "react";
-import { Container, Grid2 } from "./mui/index.js";
+import { Container, Grid } from "./mui/index.js";
 
 interface MainContentProps {
   className?: string;
@@ -16,9 +16,9 @@ export const MainContent: React.FC<
       maxWidth="md"
       style={style}
     >
-      <Grid2 container>
-        <Grid2 size={12}>{children}</Grid2>
-      </Grid2>
+      <Grid container>
+        <Grid size={12}>{children}</Grid>
+      </Grid>
     </Container>
   );
 };

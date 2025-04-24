@@ -77,7 +77,7 @@ export const UserEditForm: React.FC<Omit<TabbedFormProps, "children">> = (
     <TabbedForm {...props}>
       <FormTab label="generals">
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <Stack direction={"column"}>
               <TextInput source="username" />
               <TextInput source="firstName" />
@@ -87,7 +87,7 @@ export const UserEditForm: React.FC<Omit<TabbedFormProps, "children">> = (
               <DateField source="updatedAt" />
             </Stack>
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <Stack direction={"column"}>
               <SelectInput
                 source="status"

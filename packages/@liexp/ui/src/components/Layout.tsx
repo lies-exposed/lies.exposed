@@ -22,7 +22,7 @@ export const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
         display: "flex",
       }}
     >
-      <Grid item direction="column">
+      <Grid direction="column">
         <Header {...header} />
         {children}
       </Grid>

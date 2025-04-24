@@ -45,7 +45,7 @@ export const App: React.FC = () => {
                     style={{ minHeight: "100%", height: "100%", width: "100%" }}
                   >
                     <Grid
-                      item
+                      size={12}
                       style={{
                         width: "100%",
                         // minHeight: `calc(100% - ${
@@ -58,7 +58,7 @@ export const App: React.FC = () => {
                     >
                       <r.route />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={{ xs: 12 }}>
                       <Footer
                         logoSrc={logo192}
                         style={{

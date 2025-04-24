@@ -19,7 +19,7 @@ export const StoryList: React.FC<StoryListProps> = ({
   return (
     <Grid container style={style} spacing={2}>
       {stories.map((a) => (
-        <Grid key={a.id} item md={4} xs={6}>
+        <Grid key={a.id} size={{ xs: 6, md: 4 }}>
           <StoryCard
             key={a.id}
             article={a}

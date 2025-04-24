@@ -210,18 +210,18 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
       >
         <FormTab label="general">
           <Grid container spacing={2}>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               <MediaInput source="location" showInputOnClick />
               <TransferButton {...props} source="location" />
               <GenerateExtraButton source="extra" />
             </Grid>
-            <Grid item md={6}>
+            <Grid size={{ md: 6 }}>
               {isAdmin && <ReferenceUserInput source="creator" />}
               <ReferenceArrayKeywordInput source="keywords" showAdd />
               <ThumbnailEditField source="thumbnail" />
               <MediaSuggestedEntityRelations />
             </Grid>
-            <Grid item md={12}>
+            <Grid size={{ md: 12 }}>
               <TextInput source="label" fullWidth />
               <TextInput source="description" fullWidth multiline />
               <OpenAIEmbeddingJobButton<Media>

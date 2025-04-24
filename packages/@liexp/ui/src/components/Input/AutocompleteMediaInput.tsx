@@ -45,7 +45,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
       )}
       renderOption={(props, item, state) => (
         <Grid container>
-          <Grid item md={3}>
+          <Grid size={{ md: 3 }}>
             <MediaListItemRef
               key={item.id}
               item={{
@@ -60,7 +60,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
               }}
             />
           </Grid>
-          <Grid item md={9}>
+          <Grid size={{ md: 9 }}>
             <Typography>{item.description}</Typography>
           </Grid>
         </Grid>

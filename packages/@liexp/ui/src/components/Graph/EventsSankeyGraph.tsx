@@ -89,10 +89,9 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
 
           return (
             <Grid container spacing={3}>
-              <Grid item md={12}>
+              <Grid size={{ md: 12 }}>
                 <Grid
-                  item
-                  md={12}
+                  size={{ md: 12 }}
                   onClick={() => {
                     const nextGroupBy =
                       groupBy === "actor"
@@ -123,7 +122,7 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
                   />
                 )}
               </Grid> */}
-              <Grid item md={12}>
+              <Grid size={{ md: 12 }}>
                 <div style={{ width: "100%" }}>
                   <SankeyGraph
                     {...networkProps}

@@ -15,7 +15,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
 }) => {
   return (
     <Grid container direction="column">
-      <Grid item md={12}>
+      <Grid size={{ md: 12 }}>
         <Box
           sx={() => ({
             py: 2,

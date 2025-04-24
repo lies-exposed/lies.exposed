@@ -51,7 +51,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
 
   return (
     <Grid container width={"100%"}>
-      <Grid item md={10}>
+      <Grid size={{ md: 10 }}>
         <EventsFlowGraphBox
           type={type}
           id={id}
@@ -59,7 +59,7 @@ export const EventsFlowGraphFormTab: React.FC<{ type: FlowGraphType }> = ({
           onEventClick={() => {}}
         />
       </Grid>
-      <Grid item md={2}>
+      <Grid size={{ md: 2 }}>
         <Button
           variant="contained"
           label="Regenerate"

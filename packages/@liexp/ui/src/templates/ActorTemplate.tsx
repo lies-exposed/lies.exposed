@@ -13,7 +13,7 @@ import { ActorPageContent } from "../components/ActorPageContent.js";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
-import { Box, Grid2 } from "../components/mui/index.js";
+import { Box, Grid } from "../components/mui/index.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { StatsPanelBox } from "../containers/StatsPanelBox.js";
 import { EventsFlowGraphBox } from "../containers/graphs/EventsFlowGraphBox.js";
@@ -124,8 +124,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
               />
 
               <Box style={{ display: "flex" }}>
-                <Grid2 container>
-                  <Grid2 size={6}>
+                <Grid container>
+                  <Grid size={6}>
                     <ActorPageContent
                       actor={actor}
                       groups={groups}
@@ -138,8 +138,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                       onNodeClick={(n) => {}}
                       onLinkClick={(ll) => {}}
                     />
-                  </Grid2>
-                  <Grid2 size={6}>
+                  </Grid>
+                  <Grid size={6}>
                     <StatsPanelBox
                       type="actors"
                       id={actor.id}
@@ -147,8 +147,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                       onGroupClick={onGroupClick}
                       onActorClick={onActorClick}
                     />
-                  </Grid2>
-                </Grid2>
+                  </Grid>
+                </Grid>
               </Box>
 
               <EventNetworkGraphBoxWithFilters

@@ -54,7 +54,7 @@ export const EventsNetworkGraphFormTab: React.FC<{
   return (
     <div style={{ height: 800, width: "100%" }}>
       <Grid container style={{ height: "100%", width: "100%" }}>
-        <Grid item md={10} style={{ maxHeight: "100%" }}>
+        <Grid size={{ md: 10 }} style={{ maxHeight: "100%" }}>
           <EventsNetworkGraphBox
             type={type}
             query={{
@@ -67,7 +67,7 @@ export const EventsNetworkGraphFormTab: React.FC<{
             onEventClick={() => {}}
           />
         </Grid>
-        <Grid item md={2}>
+        <Grid size={{ md: 2 }}>
           <Button
             variant="contained"
             label="Regenerate"

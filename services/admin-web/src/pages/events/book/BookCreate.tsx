@@ -35,19 +35,19 @@ const BookCreate: React.FC<CreateProps> = () => {
       <SimpleForm>
         <BookEditFormTab />
         <Grid container spacing={2}>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <BooleanInput source="draft" defaultValue={false} />
             <BookEditFormTab />
             <DateInput source="date" />
           </Grid>
-          <Grid item md={6}>
+          <Grid size={{ md: 6 }}>
             <ReferenceArrayKeywordInput
               source="keywords"
               defaultValue={[]}
               showAdd
             />
           </Grid>
-          <Grid item md={12}>
+          <Grid size={{ md: 12 }}>
             <BlockNoteInput source="excerpt" onlyText />
             <BlockNoteInput source="body" onlyText />
             <ReferenceArrayLinkInput source="links" defaultValue={[]} />

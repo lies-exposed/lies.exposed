@@ -47,7 +47,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
 
   return (
     <Grid container>
-      <Grid item>
+      <Grid>
         <div>
           <Typography variant="h1" component="h1">
             {props.name}
@@ -64,7 +64,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
       </Grid>
 
       <Grid container direction="column">
-        <Grid item style={{ height: 400 }}>
+        <Grid style={{ height: 400 }}>
           {pipe(
             O.fromNullable(props.media),
             O.map((media) => (

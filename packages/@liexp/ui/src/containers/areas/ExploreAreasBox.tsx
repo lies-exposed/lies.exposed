@@ -32,7 +32,7 @@ export const ExploreAreasBox: React.FC<ExploreAreasBoxProps> = ({
                   spacing={2}
                   style={{ height: innerHeight, width: "100%" }}
                 >
-                  <Grid item md={8}>
+                  <Grid size={{ sm: 8 }}>
                     <Box style={{ width: "100%", maxHeight: "100%" }}>
                       <AreasMap
                         areas={areas}
@@ -47,8 +47,7 @@ export const ExploreAreasBox: React.FC<ExploreAreasBoxProps> = ({
                     </Box>
                   </Grid>
                   <Grid
-                    item
-                    md={4}
+                    size={{ md: 4 }}
                     style={{ height: innerHeight, overflow: "auto" }}
                   >
                     <AreaList

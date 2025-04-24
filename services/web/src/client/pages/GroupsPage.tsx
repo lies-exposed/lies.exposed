@@ -58,7 +58,7 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               }}
             />
             <Grid container style={{ height: 600 }}>
-              <Grid item md={12} style={{ height: "100%" }}>
+              <Grid size={{ md: 12 }} style={{ height: "100%" }}>
                 <GroupEventNetworkGraphBox
                   showRelations={false}
                   params={{

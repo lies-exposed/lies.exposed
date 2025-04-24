@@ -283,15 +283,13 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
       }}
     >
       <Grid container spacing={2} style={{ width: "100%" }}>
-        <Grid item md={11} sm={10}>
-          <Grid item md={layout.searchBox} sm={12} xs={12}>
+        <Grid size={{ sm: 10, md: 11 }}>
+          <Grid size={{ xs: 12, sm: 12, md: layout.searchBox }}>
             {searchBox}
             {searchTermBox}
           </Grid>
           <Grid
-            item
-            sm={12}
-            md={layout.relations}
+            size={{ sm: 12, md: layout.relations }}
             style={{
               display: "flex",
               flexWrap: "wrap",
@@ -376,7 +374,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
             </Stack>
           </Grid>
         </Grid>
-        <Grid item md={1} sm={2}>
+        <Grid size={{ sm: 2, md: 1 }}>
           <Box
             style={{
               display: "flex",

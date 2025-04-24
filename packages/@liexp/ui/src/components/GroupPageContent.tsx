@@ -44,13 +44,13 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           marginBottom: theme.spacing(2),
         }}
       >
-        <Grid item lg={6} md={6} sm={12}>
+        <Grid size={{ sm: 12, md: 6, lg: 6 }}>
           <BNEditor
             content={group.excerpt ? [...group.excerpt] : null}
             readOnly={true}
           />
         </Grid>
-        <Grid item lg={6}>
+        <Grid size={{ lg: 6 }}>
           <Typography variant="h6">Members</Typography>
           <ActorList
             style={{ display: "flex", flexDirection: "row" }}
@@ -63,7 +63,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           />
           <Grid container style={{ marginBottom: 20 }}>
             {ownedGroups.length > 0 ? (
-              <Grid item md={6}>
+              <Grid size={{ md: 6 }}>
                 <Typography variant="h6">Owned groups</Typography>
                 <GroupList
                   style={{ display: "flex", flexDirection: "column" }}
@@ -75,7 +75,7 @@ export const GroupPageContent: React.FC<GroupPageContentProps> = ({
           </Grid>
         </Grid>
 
-        <Grid item sm={12}>
+        <Grid size={{ sm: 12 }}>
           <BNEditor content={group.body} readOnly />
         </Grid>
       </Grid>
