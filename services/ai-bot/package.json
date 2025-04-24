@@ -32,7 +32,7 @@
     "@aws-sdk/client-sso-oidc": "^3.758.0",
     "@aws-sdk/client-sts": "^3.758.0",
     "@langchain/community": "^0.3.35",
-    "@langchain/core": "^0.3.46",
+    "@langchain/core": "^0.3.48",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
@@ -43,7 +43,7 @@
     "cheerio": "^1.0.0",
     "effect": "^3.14.13",
     "fp-ts": "^2.16.10",
-    "langchain": "^0.3.23",
+    "langchain": "^0.3.24",
     "pdfjs-dist": "^4.10.38",
     "prompts": "^2.4.2"
   },
