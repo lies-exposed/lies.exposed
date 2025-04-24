@@ -38,10 +38,6 @@ describe("Create Actor", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401 when Authorization header is not present", async () => {
     const response = await Test.req.post("/v1/actors").send({
       username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],

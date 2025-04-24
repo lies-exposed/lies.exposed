@@ -21,10 +21,6 @@ describe("List Links", () => {
     links = await throwTE(Test.ctx.db.save(LinkEntity, links));
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return links", async () => {
     const response = await Test.req
       .get("/v1/links")

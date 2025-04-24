@@ -101,10 +101,6 @@ describe("Edit Event", () => {
     );
   });
 
-  afterAll(async () => {
-    await appTest.utils.e2eAfterAll();
-  });
-
   test("Should receive an error when supporter tries to edit an event", async () => {
     const eventData = {
       ...event,

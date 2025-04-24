@@ -41,6 +41,8 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { Schema } from "effect";
+import { PAGE_ENTITY_NAME } from "@liexp/backend/lib/entities/Page.entity.js";
+import { EVENT_SUGGESTION_ENTITY_NAME } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
 
 vi.mock("axios", () => ({
   default: {
@@ -63,9 +65,14 @@ export interface AppTest {
   };
 }
 
+let context: ServerContext | undefined = undefined;
 export const loadAppContext = async (
   logger: Logger,
 ): Promise<ServerContext> => {
+  if (context) {
+    return context;
+  }
+
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
@@ -127,6 +134,10 @@ export const loadAppContext = async (
         queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
       };
     }),
+    TE.map((ctx) => {
+      context = ctx;
+      return ctx;
+    }),
     throwTE,
   );
 };
@@ -156,7 +167,12 @@ export const initAppTest = async (
 
           return pipe(
             sequenceT(TE.ApplicativeSeq)(
+              // TODO: to be removed
+              liftTruncate("project_image"),
+              liftTruncate("project"),
+              // ---
               liftTruncate(SOCIAL_POST_ENTITY_NAME),
+              liftTruncate(EVENT_SUGGESTION_ENTITY_NAME),
               liftTruncate(EVENT_ENTITY_NAME),
               liftTruncate(STORY_ENTITY_NAME),
               liftTruncate(ACTOR_ENTITY_NAME),
@@ -166,8 +182,11 @@ export const initAppTest = async (
               liftTruncate(MEDIA_ENTITY_NAME),
               liftTruncate(LINK_ENTITY_NAME),
               liftTruncate(KEYWORD_ENTITY_NAME),
+              liftTruncate(PAGE_ENTITY_NAME),
               liftTruncate(USER_ENTITY_NAME),
             ),
+            // TE.chainFirstW(() => ctx.db.close()),
+            // TE.chainFirstW(() => TE.tryCatch(() => ctx.redis.quit(), toError)),
             TE.map(() => true),
             throwTE,
           ).catch((e) => {

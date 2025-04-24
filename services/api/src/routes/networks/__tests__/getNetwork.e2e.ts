@@ -20,10 +20,6 @@ describe("Get Network", () => {
 
   afterEach(async () => {});
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test.skip("Should return nodes and links for type 'keyword' ", async () => {
     const [keyword] = tests.fc.sample(KeywordArb, 1);
 

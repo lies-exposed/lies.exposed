@@ -74,7 +74,6 @@ describe("Create Event", () => {
         ]),
       );
     }
-    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create an event", async () => {

@@ -43,10 +43,6 @@ describe("List Media", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should list media", async () => {
     const response = await Test.req
       .get("/v1/media")

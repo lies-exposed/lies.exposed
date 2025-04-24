@@ -31,7 +31,6 @@ describe("Get Book List", () => {
         eventsData.map((e) => e.id),
       ),
     );
-    await appTest.utils.e2eAfterAll();
   });
 
   test("Should return the book list", async () => {

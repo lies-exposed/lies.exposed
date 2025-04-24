@@ -34,7 +34,6 @@ describe("Create Death Event", () => {
         users.map((u) => u.id),
       ),
     );
-    await appTest.utils.e2eAfterAll();
   });
 
   test("Should create a death event", async () => {

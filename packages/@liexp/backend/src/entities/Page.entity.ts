@@ -9,7 +9,9 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 
-@Entity("page")
+export const PAGE_ENTITY_NAME = "page";
+
+@Entity(PAGE_ENTITY_NAME)
 @Index(["path"], { unique: true })
 export class PageEntity {
   @PrimaryGeneratedColumn("uuid")

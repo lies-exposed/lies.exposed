@@ -42,10 +42,6 @@ describe("GET User Me", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return 401 when no authorization token is given", async () => {
     await Test.req.get("/v1/users/me").expect(401);
   });

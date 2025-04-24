@@ -42,10 +42,6 @@ describe("User List", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return 200", async () => {
     const response = await Test.req.post("/v1/users/login").send({
       username: adminUsername,

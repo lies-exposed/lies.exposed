@@ -30,10 +30,6 @@ describe("List Keywords", () => {
     );
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should list keywords", async () => {
     const response = await Test.req
       .get("/v1/keywords")

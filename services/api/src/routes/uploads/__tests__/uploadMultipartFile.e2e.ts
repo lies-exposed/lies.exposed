@@ -18,10 +18,6 @@ describe("Upload file", () => {
     Test.mocks.s3.client.send.mockClear();
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
 

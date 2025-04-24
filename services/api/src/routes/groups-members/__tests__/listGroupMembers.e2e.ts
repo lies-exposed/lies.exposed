@@ -41,10 +41,6 @@ describe("List Group Member", () => {
     await throwTE(Test.ctx.db.save(GroupMemberEntity, groupsMembers));
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return group member by given actor", async () => {
     const actor = actors[0].id;
     const response = await Test.req

@@ -30,10 +30,6 @@ describe("Create Media", () => {
     authorizationToken = authorization;
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   beforeEach(() => {
     Test.mocks.axios.get.mockClear();
     Test.mocks.exifR.load.mockClear();

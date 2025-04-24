@@ -24,10 +24,6 @@ describe("Delete Keyword", () => {
     ).body.data;
   });
 
-  afterAll(async () => {
-    await Test.utils.e2eAfterAll();
-  });
-
   test("Should return a 401", async () => {
     user = await saveUser(Test.ctx, ["admin:read"]);
     const { authorization } = await loginUser(Test)(user);
