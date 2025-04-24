@@ -8,7 +8,9 @@ on:
       - master
     paths:
       - ".github/workflows/**"
-      - "packages/**"
+      - "packages/@liexp/core/src/**"
+      - "packages/@liexp/shared/src/**"
+      - "packages/@liexp/ui/src/**"
       - "services/web/**"
 
 env:

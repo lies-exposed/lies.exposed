@@ -8,7 +8,9 @@ on:
       - master
     paths:
       - ".github/workflows/**"
-      - "packages/@liexp/**/src/**"
+      - "packages/@liexp/core/src/**"
+      - "packages/@liexp/shared/src/**"
+      - "packages/@liexp/backend/src/**"
       - "services/ai-bot/**"
 
 jobs:

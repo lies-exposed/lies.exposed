@@ -8,7 +8,9 @@ on:
       - master
     paths:
       - ".github/workflows/**"
-      - "packages/@liexp/**/src/**"
+      - "packages/@liexp/core/src/**"
+      - "packages/@liexp/shared/src/**"
+      - "packages/@liexp/ui/src/**"
       - "services/admin-web/**"
 env:
   ADMIN_WEB_IMAGE_NAME: liexp-admin-web
