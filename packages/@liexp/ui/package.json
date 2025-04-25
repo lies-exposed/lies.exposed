@@ -123,7 +123,7 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
-    "axios": "^1.8.0",
+    "axios": "^1.9.0",
     "effect": "^3.14.13",
     "eslint": "^9.25.1",
     "fp-ts": "^2.16.10",
@@ -134,7 +134,7 @@
     "vitest": "^3.1.2"
   },
   "peerDependencies": {
-    "axios": "^1.8.0",
+    "axios": "^1.9.0",
     "effect": "^3",
     "fp-ts": "^2"
   },
