@@ -81,6 +81,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
             void createEvent({
               payload,
               type,
+              date: record.publishDate,
               url: record.url,
               links: [record.id],
               media: [],

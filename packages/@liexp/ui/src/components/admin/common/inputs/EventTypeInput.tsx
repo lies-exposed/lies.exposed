@@ -3,7 +3,6 @@ import { transform } from "@liexp/shared/lib/helpers/event/event.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
-import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import get from "lodash/get";
@@ -63,7 +62,7 @@ export const EventTypeInput: React.FC<InputProps> = ({
         pipe(
           getEventCommonProps(event, relations),
           (common) =>
-            transform(getTextContents)(event, type, {
+            transform(event, type, {
               ...common,
               ...getRelationIds(event),
             }),

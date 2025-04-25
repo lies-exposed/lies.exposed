@@ -16,17 +16,17 @@ const CREATE_EVENT_PROMPT: PromptFn<{
   jsonSchema: string;
   type: EventType;
 }> = ({ vars }) => `
-You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
-Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in given context.
-Try to match the dates with the given fields, using ISO 8601 format.
-The event type is the following: "${vars.type}".
+You are an expert in extracting structured JSON from text. The info extracted from the texts serves to define an 'event' JSON object.
+The texts provided used as sources can be either excerpt of web pages, articles or scientific papers.
 
-You return the summarized text in the "excerpt" key of the json object, and adapt others information to the following JSON OPENAPI schema:
+Your job is to extract the needed info from text in the shape of an 'event' JSON object like
 
----------------------------------------------------------------
-${vars.jsonSchema}
----------------------------------------------------------------
-
+{{
+  title: "The title of the event",
+  excerpt: "A short description of the event (100 words max)",
+  date: "An array composed of 2 JSON valid date strings. The first element indicates the start, while the second is the end of the event and can be optional.",
+  url: "An optional link to an article or reference of the event",
+}}
 `;
 
 /**
@@ -38,13 +38,13 @@ export const CREATE_EVENT_FROM_URL_PROMPT: PromptFn<{
   context: string;
   type: EventType;
 }> = ({ vars }) => `
-  ${CREATE_EVENT_PROMPT({ vars })}
+${CREATE_EVENT_PROMPT({ vars })}
 
-  The context you need to extract the event from is:
+The context you need to extract the event from is:
 
-  ---------------------------------------------------------------
-  ${vars.context}
-  ---------------------------------------------------------------
+---------------------------------------------------------------
+${vars.context}
+---------------------------------------------------------------
 `;
 
 /**

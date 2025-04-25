@@ -222,8 +222,8 @@ export const getEventGraph = (
         index > 0 && acc.eventNodes[index - 1]
           ? [
               {
-                source: acc.eventNodes[index - 1].id as any,
-                target: e.id as any,
+                source: acc.eventNodes[index - 1].id,
+                target: e.id,
                 sourceType: "events",
                 stroke: getColorByEventType({
                   type: acc.eventNodes[index - 1].type,

@@ -62,6 +62,7 @@ export type EventPayload = typeof EventPayload.Type;
 export const EventFromURLBody = Schema.Struct({
   url: URL,
   type: EventType,
+  date: Schema.Union(Schema.Date, Schema.Undefined),
 }).annotations({
   title: "EventFromURLBody",
 });

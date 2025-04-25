@@ -10,12 +10,13 @@ type JobProcessors = (
   dryRun: boolean,
 ) => ClientContextRTE<Queue.Queue>;
 
-export type JobProcessRTE<Q extends Pick<Queue.Queue, "data" | "type">> = (
-  job: Omit<Queue.Queue, "data" | "type"> & Q,
-) => ClientContextRTE<string>;
+export type JobProcessRTE<
+  Q extends Pick<Queue.Queue, "data" | "type">,
+  R = string,
+> = (job: Omit<Queue.Queue, "data" | "type"> & Q) => ClientContextRTE<R>;
 
 type JobTypesMap = {
-  [K in QueueTypes]: JobProcessRTE<any>;
+  [K in QueueTypes]: JobProcessRTE<any, any>;
 };
 
 const processJob =
@@ -36,7 +37,14 @@ const processJob =
                 resource: job.resource,
               },
               Body: {
-                ...(job as Queue.Queue),
+                ...job,
+                data: {
+                  ...job.data,
+                  date:
+                    "date" in job.data
+                      ? job.data.date?.toISOString()
+                      : undefined,
+                } as any,
                 status: "processing",
               },
             }),
@@ -64,6 +72,7 @@ const processJob =
               (result) =>
                 fp.T.of({
                   ...job,
+                  error: null,
                   result,
                   status: "done",
                 } as Queue.Queue),
@@ -93,7 +102,7 @@ const processJob =
                 resource: job.resource,
               },
               Body: {
-                ...updatedJob,
+                ...(updatedJob as any),
               },
             }),
             fp.TE.map(() => undefined),

@@ -11,6 +11,21 @@ export const toQueueIO = (
   const queue = {
     status: "pending",
     ...unknownQueue,
+    data:
+      "data" in unknownQueue &&
+      !!unknownQueue.data &&
+      typeof unknownQueue.data === "object" &&
+      "date" in unknownQueue.data
+        ? {
+            ...unknownQueue.data,
+            date:
+              typeof unknownQueue.data?.date === "string"
+                ? unknownQueue.data.date
+                : unknownQueue.data?.date instanceof Date
+                  ? unknownQueue.data.date.toISOString()
+                  : null,
+          }
+        : null,
     question: unknownQueue?.question ?? null,
     result: unknownQueue?.result ?? null,
     prompt: unknownQueue?.prompt ?? null,
