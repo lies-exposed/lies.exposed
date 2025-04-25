@@ -3,6 +3,7 @@ import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb, MAX_DATE, MIN_DATE } from "../Date.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
+import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 const createScientificStudyProps =
@@ -22,8 +23,8 @@ export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.
     ...body,
     draft: false,
     date: fc.sample(DateArb, 1)[0],
-    excerpt: {} as any,
-    body: {} as any,
+    excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
+    body: fc.sample(BlockNoteDocumentArb, 1)[0],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
@@ -45,6 +46,7 @@ const scientificStudyProps = http.Events.ScientificStudy.ScientificStudy.omit(
   "media",
   "keywords",
   "links",
+  "socialPosts",
   "createdAt",
   "updatedAt",
   "deletedAt",
@@ -55,8 +57,8 @@ export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.Scient
     ...body,
     id: fc.sample(UUIDArb, 1)[0],
     date: fc.sample(fc.date({ min: MIN_DATE, max: MAX_DATE }))[0],
-    excerpt: {},
-    body: {},
+    excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
+    body: fc.sample(BlockNoteDocumentArb, 1)[0],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
@@ -67,6 +69,7 @@ export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.Scient
     media: [],
     links: [],
     keywords: [],
+    socialPosts: [],
     createdAt: fc.sample(fc.date({ min: MIN_DATE, max: MAX_DATE }), 1)[0],
     updatedAt: fc.sample(fc.date({ min: MIN_DATE, max: MAX_DATE }), 1)[0],
     deletedAt: undefined,

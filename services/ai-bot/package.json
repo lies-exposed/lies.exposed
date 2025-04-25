@@ -23,6 +23,7 @@
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
+    "cli:dev": "node --import tsx/esm src/cli/index.ts",
     "lint": "eslint src",
     "start": "node build/run.js",
     "pkg": "./scripts/pkg.sh",

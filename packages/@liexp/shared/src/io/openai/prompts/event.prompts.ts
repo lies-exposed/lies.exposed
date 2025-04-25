@@ -18,14 +18,11 @@ const CREATE_EVENT_PROMPT: PromptFn<{
 }> = ({ vars }) => `
 You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
 Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in given context.
-Try to match the dates with the given fields, using ISO 8601 format.
 The event type is the following: "${vars.type}".
 
-You return the summarized text in the "excerpt" key of the json object, and adapt others information to the following JSON OPENAPI schema:
+You return the info extracted from the text replicating the JSON schema provided, generating new ids for the content you provide.
+Try to match the dates using ISO 8601 format.
 
----------------------------------------------------------------
-${vars.jsonSchema}
----------------------------------------------------------------
 
 `;
 

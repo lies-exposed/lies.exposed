@@ -26,25 +26,24 @@ export const getCreateEventPromptPartial =
       question: string;
     }>,
     type: EventType,
-    jsonSchema: any,
   ): ReaderTaskEither<C, APIError, PromptTemplate> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
-      const prompt = await PromptTemplate.fromTemplate(
-        promptTemplate({
-          vars: {
-            type,
-            jsonSchema,
-            question: "{question}",
-            context: "{context}",
-          },
-        }),
-      ).partial({
-        evenType: type,
-        jsonSchema: JSON.stringify(jsonSchema),
+      const template = promptTemplate({
+        vars: {
+          type,
+          jsonSchema: "{jsonSchema}",
+          question: "{question}",
+          context: "{context}",
+        },
       });
 
-      const promptValue = await prompt.invoke({});
+      const prompt = PromptTemplate.fromTemplate(template);
+
+      const promptValue = await prompt.format({
+        context: "{context}",
+      });
+
       ctx.logger.info.log(
         "Populating template with even type %s \n %s",
         type,
@@ -68,7 +67,7 @@ export const createEventFromText = <C extends LoggerContext & LangchainContext>(
   question: string,
 ): ReaderTaskEither<C, APIError | DBError, Event> => {
   return pipe(
-    getCreateEventPromptPartial(promptTemplate, type, jsonSchema),
+    getCreateEventPromptPartial(promptTemplate, type),
     fp.RTE.chain((prompt) =>
       runRagChain<C>(
         {

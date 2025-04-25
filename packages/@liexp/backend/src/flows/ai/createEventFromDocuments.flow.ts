@@ -1,5 +1,4 @@
 import { type Document } from "@langchain/core/documents";
-import { RunnablePassthrough } from "@langchain/core/runnables";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   toAPIError,
@@ -8,6 +7,7 @@ import {
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+import { type JSONSchema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { formatDocumentsAsString } from "langchain/util/document";
@@ -20,7 +20,7 @@ import { runRagChain } from "./runRagChain.js";
 export const createEventFromDocuments = <
   C extends LangchainContext & LoggerContext,
 >(
-  documents: readonly Document[],
+  documents: Document[],
   type: EventType,
   prompt: PromptFn<{
     type: EventType;
@@ -28,14 +28,12 @@ export const createEventFromDocuments = <
     question: string;
     context: string;
   }>,
-  jsonSchema: unknown,
+  jsonSchema: JSONSchema.JsonSchema7,
   question: string | null,
 ): ReaderTaskEither<C, APIError, Event> => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("prompt", () =>
-      getCreateEventPromptPartial<C>(prompt, type, jsonSchema),
-    ),
+    fp.RTE.bind("prompt", () => getCreateEventPromptPartial<C>(prompt, type)),
     fp.RTE.bind("retriever", () => (ctx) => {
       return pipe(
         fp.TE.tryCatch(async () => {
@@ -43,14 +41,14 @@ export const createEventFromDocuments = <
             chunkSize: 2000,
             chunkOverlap: 1000,
           });
-          const splits = await textSplitter.splitDocuments([...documents]);
+          const splits = await textSplitter.splitDocuments(documents);
 
           const vectorStore = await MemoryVectorStore.fromDocuments(
             splits,
             ctx.langchain.embeddings,
           );
 
-          ctx.logger.info.log("Vector store generated");
+          ctx.logger.debug.log("Vector store generated");
 
           // Retrieve and generate using the relevant snippets of the blog.
           const retriever = vectorStore.asRetriever({ verbose: true });
@@ -58,13 +56,17 @@ export const createEventFromDocuments = <
         }, toAPIError),
       );
     }),
-    fp.RTE.chain(({ prompt, retriever }) =>
+    fp.RTE.bind(
+      "model",
+      () => (ctx) =>
+        fp.TE.right(ctx.langchain.chat.withStructuredOutput(jsonSchema)),
+    ),
+    fp.RTE.chain(({ prompt, retriever, model }) =>
       runRagChain<C>(
         {
           context: retriever.pipe(formatDocumentsAsString),
-          question: new RunnablePassthrough(),
         },
-        prompt,
+        prompt.pipe(model),
         question,
       ),
     ),

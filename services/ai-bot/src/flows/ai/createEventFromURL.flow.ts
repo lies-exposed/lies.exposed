@@ -1,9 +1,9 @@
 import { createEventFromDocuments } from "@liexp/backend/lib/flows/ai/createEventFromDocuments.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { EventMap } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type CreateEventFromURLTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
-import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
-import { fc } from "@liexp/test/lib/index.js";
+import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../common/error/index.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
 import { getEventFromJsonPrompt } from "./prompts.js";
@@ -15,20 +15,18 @@ const defaultQuestion =
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData
 > = (job) => {
+  const eventSchema = EventMap[job.data.type];
+
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bindW("jsonSchema", () =>
       pipe(
-        fc.sample(getEventArbitrary(job.data.type), 1)[0],
+        JSONSchema.make(eventSchema as Schema.Schema<any, any>),
         fp.RTE.right,
-        fp.RTE.map((event) => ({
-          ...event,
-          type: job.data.type,
-          media: [],
-          keywords: [],
-          links: [],
-        })),
+        LoggerService.RTE.debug((s) => [
+          `Event JSON Schema ${JSON.stringify(s, null, 2)}`,
+        ]),
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
