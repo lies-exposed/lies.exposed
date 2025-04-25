@@ -53,6 +53,17 @@ const config: any = tseslint.config(
           tsx: "never",
         },
       ],
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            "@liexp/core/src/*",
+            "@liexp/shared/src/*",
+            "@liexp/ui/src/*",
+            "@liexp/backend/src/*",
+          ],
+        },
+      ],
       "no-console": "error",
       "@typescript-eslint/restrict-template-expressions": ["off"],
       "@typescript-eslint/no-redeclare": ["off"],
