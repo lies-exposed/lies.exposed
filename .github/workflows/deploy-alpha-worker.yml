@@ -9,7 +9,6 @@ on:
       - "packages/@liexp/core/**"
       - "packages/@liexp/shared/**"
       - "packages/@liexp/backend/**"
-      - "packages/@liexp/ui/**"
       - "services/worker/**"
 
 env:
