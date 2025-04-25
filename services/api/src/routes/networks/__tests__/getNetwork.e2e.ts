@@ -46,7 +46,7 @@ describe("Get Network", () => {
     await throwTE(Test.ctx.db.save(EventV2Entity, events));
 
     const response = await Test.req
-      .get(`/v1/networks/${KEYWORDS.Type}`)
+      .get(`/v1/networks/${KEYWORDS.literals[0]}`)
       .set("Authorization", authorizationToken)
       .query({
         "ids[]": keyword.id,

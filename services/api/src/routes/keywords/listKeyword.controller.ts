@@ -13,7 +13,7 @@ export const MakeListKeywordRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Keyword.List, ({ query }, req) => {
     return pipe(
       fp.RTE.asks((ctx: ServerContext) =>
-        RequestDecoder.decodeNullableUser(req, [AdminRead.Type])(ctx)(),
+        RequestDecoder.decodeNullableUser(req, [AdminRead.literals[0]])(ctx)(),
       ),
       fp.RTE.chain((user) =>
         pipe(

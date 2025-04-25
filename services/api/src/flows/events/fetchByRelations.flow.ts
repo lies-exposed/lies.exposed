@@ -31,9 +31,9 @@ export const fetchEventsByRelation =
       TE.fromOption(() => toControllerError(new Error("ids can't be empty"))),
       TE.chain((ids) =>
         searchEventV2Query({
-          ids: type === EVENTS.Type ? O.some(ids) : O.none(),
+          ids: type === EVENTS.literals[0] ? O.some(ids) : O.none(),
           actors:
-            type === ACTORS.Type
+            type === ACTORS.literals[0]
               ? pipe(
                   ids.concat(
                     pipe(
@@ -46,7 +46,7 @@ export const fetchEventsByRelation =
                 )
               : O.none(),
           groups:
-            type === GROUPS.Type
+            type === GROUPS.literals[0]
               ? pipe(
                   ids.concat(
                     pipe(
@@ -59,7 +59,7 @@ export const fetchEventsByRelation =
                 )
               : O.none(),
           keywords:
-            type === KEYWORDS.Type
+            type === KEYWORDS.literals[0]
               ? pipe(
                   ids.concat(
                     pipe(

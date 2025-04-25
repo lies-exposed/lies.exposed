@@ -56,7 +56,9 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
       const creator = pipe(
         _creator,
         O.orElse(() =>
-          [EventSuggestionRead.Type].some((p) => u.permissions.includes(p))
+          [EventSuggestionRead.literals[0]].some((p) =>
+            u.permissions.includes(p),
+          )
             ? O.some(u.id)
             : O.none(),
         ),

@@ -34,7 +34,7 @@ export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
               socialPosts: [],
               id:
                 suggestion.payload.type ===
-                EventSuggestion.EventSuggestionType.members[1].Type
+                EventSuggestion.EventSuggestionType.members[1].literals[0]
                   ? suggestion.payload.eventId
                   : uuid(),
             })),

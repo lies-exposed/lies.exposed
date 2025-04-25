@@ -501,7 +501,7 @@ export const createEventNetworkGraph =
                   });
                   const update: any = {};
                   ctx.logger.debug.log("Source key %s", k);
-                  if (key === ACTORS.Type) {
+                  if (key === ACTORS.literals[0]) {
                     update.actorLinks = [
                       {
                         source: k,
@@ -526,7 +526,7 @@ export const createEventNetworkGraph =
                     update.actorLinks.push(...tuples[1].actorLinks);
                   }
 
-                  if (key === GROUPS.Type) {
+                  if (key === GROUPS.literals[0]) {
                     update.groupLinks = [
                       {
                         source: k.toString(),
@@ -550,7 +550,7 @@ export const createEventNetworkGraph =
                     update.groupLinks.push(...tuples[1].groupLinks);
                   }
 
-                  if (key === KEYWORDS.Type) {
+                  if (key === KEYWORDS.literals[0]) {
                     update.keywordLinks = [
                       {
                         source: k.toString(),

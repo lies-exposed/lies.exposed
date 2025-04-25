@@ -403,7 +403,7 @@ export const createNetworkGraph =
         {
           ids: O.none(),
           actors:
-            type === ACTORS.Type
+            type === ACTORS.literals[0]
               ? pipe(
                   actors,
                   fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),
@@ -417,7 +417,7 @@ export const createNetworkGraph =
                 )
               : actors,
           groups:
-            type === GROUPS.Type
+            type === GROUPS.literals[0]
               ? pipe(
                   groups,
                   fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),
@@ -431,7 +431,7 @@ export const createNetworkGraph =
                 )
               : groups,
           keywords:
-            type === KEYWORDS.Type
+            type === KEYWORDS.literals[0]
               ? pipe(
                   keywords,
                   fp.O.map((arr) => arr.concat(ids) as [UUID, ...UUID[]]),

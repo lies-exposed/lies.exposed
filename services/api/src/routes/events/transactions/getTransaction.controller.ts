@@ -12,7 +12,7 @@ export const MakeGetTransactionEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.TransactionEvent.Get, ({ params: { id } }) => {
     return pipe(
       ctx.db.findOneOrFail(EventV2Entity, {
-        where: { type: Equal(TRANSACTION.Type), id: Equal(id) },
+        where: { type: Equal(TRANSACTION.literals[0]), id: Equal(id) },
         loadRelationIds: {
           relations: ["media", "keywords", "links"],
         },

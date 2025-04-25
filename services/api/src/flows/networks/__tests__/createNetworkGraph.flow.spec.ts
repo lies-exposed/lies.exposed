@@ -171,7 +171,7 @@ describe.skip("Create Network Graph", () => {
         groups,
         keywords,
         media: [],
-        relations: [KEYWORDS.Type],
+        relations: [KEYWORDS.literals[0]],
         emptyRelations: false,
       });
 

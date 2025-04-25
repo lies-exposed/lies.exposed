@@ -15,7 +15,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 export const MakeCreateLinkRoute: Route = (r, ctx) => {
-  AddEndpoint(r, authenticationHandler([EventSuggestionRead.Type])(ctx))(
+  AddEndpoint(r, authenticationHandler([EventSuggestionRead.literals[0]])(ctx))(
     Endpoints.Link.Create,
     ({ body }, req) => {
       ctx.logger.debug.log("Body %O", body);

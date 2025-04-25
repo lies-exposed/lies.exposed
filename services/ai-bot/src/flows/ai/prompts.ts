@@ -31,19 +31,19 @@ export const getPromptFromResource = (
   type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType,
 ): PromptFn<{ text: string; question: string }> => {
   switch (true) {
-    case resource === ACTORS.Type: {
+    case resource === ACTORS.literals[0]: {
       if (type === QueueTypes.members[0].literals[0]) {
         return ACTOR_GENERAL_INFO_PROMPT;
       }
       return EMBED_ACTOR_PROMPT;
     }
-    case resource === GROUPS.Type:
+    case resource === GROUPS.literals[0]:
       return EMBED_GROUP_SUMMARIZE_PROMPT;
-    case resource === LINKS.Type:
+    case resource === LINKS.literals[0]:
       return EMBED_LINK_PROMPT;
-    case resource === MEDIA.Type:
+    case resource === MEDIA.literals[0]:
       return EMBED_MEDIA_PROMPT;
-    case resource === EVENTS.Type: {
+    case resource === EVENTS.literals[0]: {
       return EMBED_EVENT_PROMPT;
     }
     default:
