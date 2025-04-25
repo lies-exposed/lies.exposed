@@ -1,5 +1,5 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
-import { getSocialPostById } from "@liexp/backend/src/flows/social-post/getSocialPostById.flow.js";
+import { getSocialPostById } from "@liexp/backend/lib/flows/social-post/getSocialPostById.flow.js";
 import { SocialPostIO } from "@liexp/backend/src/io/socialPost.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
