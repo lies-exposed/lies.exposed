@@ -32,7 +32,7 @@
     "@databases/sql": "^3.3.0",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
-    "@napi-rs/canvas": "^0.1.68",
+    "@napi-rs/canvas": "^0.1.69",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "date-fns": "^4.1.0",

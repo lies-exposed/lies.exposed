@@ -84,14 +84,14 @@ importers:
         specifier: workspace:*
         version: link:../shared
       '@napi-rs/canvas':
-        specifier: ^0.1.68
-        version: 0.1.68
+        specifier: ^0.1.69
+        version: 0.1.69
       '@ts-endpoint/core':
         specifier: file:../../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -309,10 +309,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       '@visx/network':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -488,13 +488,13 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -744,7 +744,7 @@ importers:
         version: 5.74.4(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       debug:
         specifier: ^4.4.0
         version: 4.4.0
@@ -838,7 +838,7 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)
       axios:
         specifier: ^1.8.0
         version: 1.8.4(debug@4.4.0)
@@ -899,7 +899,7 @@ importers:
         version: file:patches/ts-endpoint-express-0.1.0.tgz(express@4.21.2)(fp-ts@2.16.10)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)
       axios:
         specifier: ^1.8.0
         version: 1.8.4(debug@4.4.0)
@@ -1095,7 +1095,7 @@ importers:
         version: 5.74.4(react@18.3.1)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1186,10 +1186,10 @@ importers:
         version: 5.74.4(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
       compression:
         specifier: ^1.8.0
         version: 1.8.0
@@ -3064,68 +3064,68 @@ packages:
     peerDependencies:
       react: ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@napi-rs/canvas-android-arm64@0.1.68':
-    resolution: {integrity: sha512-h1KcSR4LKLfRfzeBH65xMxbWOGa1OtMFQbCMVlxPCkN1Zr+2gK+70pXO5ktojIYcUrP6KDcOwoc8clho5ccM/w==}
+  '@napi-rs/canvas-android-arm64@0.1.69':
+    resolution: {integrity: sha512-4icWTByY8zPvM9SelfQKf3I6kwXw0aI5drBOVrwfER5kjwXJd78FPSDSZkxDHjvIo9Q86ljl18Yr963ehA4sHQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
 
-  '@napi-rs/canvas-darwin-arm64@0.1.68':
-    resolution: {integrity: sha512-/VURlrAD4gDoxW1GT/b0nP3fRz/fhxmHI/xznTq2FTwkQLPOlLkDLCvTmQ7v6LtGKdc2Ed6rvYpRan+JXThInQ==}
+  '@napi-rs/canvas-darwin-arm64@0.1.69':
+    resolution: {integrity: sha512-HOanhhYlHdukA+unjelT4Dg3ta7e820x87/AG2dKUMsUzH19jaeZs9bcYjzEy2vYi/dFWKz7cSv2yaIOudB8Yg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  '@napi-rs/canvas-darwin-x64@0.1.68':
-    resolution: {integrity: sha512-tEpvGR6vCLTo1Tx9wmDnoOKROpw57wiCWwCpDOuVlj/7rqEJOUYr9ixW4aRJgmeGBrZHgevI0EURys2ER6whmg==}
+  '@napi-rs/canvas-darwin-x64@0.1.69':
+    resolution: {integrity: sha512-SIp7WfhxAPnSVK9bkFfJp+84rbATCIq9jMUzDwpCLhQ+v+OqtXe4pggX1oeV+62/HK6BT1t18qRmJfyqwJ9f3g==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.68':
-    resolution: {integrity: sha512-U9xbJsumPOiAYeAFZMlHf62b9dGs2HJ6Q5xt7xTB0uEyPeurwhgYBWGgabdsEidyj38YuzI/c3LGBbSQB3vagw==}
+  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.69':
+    resolution: {integrity: sha512-Ls+KujCp6TGpkuMVFvrlx+CxtL+casdkrprFjqIuOAnB30Mct6bCEr+I83Tu29s3nNq4EzIGjdmA3fFAZG/Dtw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
 
-  '@napi-rs/canvas-linux-arm64-gnu@0.1.68':
-    resolution: {integrity: sha512-KFkn8wEm3mPnWD4l8+OUUkxylSJuN5q9PnJRZJgv15RtCA1bgxIwTkBhI/+xuyVMcHqON9sXq7cDkEJtHm35dg==}
+  '@napi-rs/canvas-linux-arm64-gnu@0.1.69':
+    resolution: {integrity: sha512-m8VcGmeSBNRbHZBd1srvdM1aq/ScS2y8KqGqmCCEgJlytYK4jdULzAo2K/BPKE1v3xvn8oUPZDLI/NBJbJkEoA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@napi-rs/canvas-linux-arm64-musl@0.1.68':
-    resolution: {integrity: sha512-IQzts91rCdOALXBWQxLZRCEDrfFTGDtNRJMNu+2SKZ1uT8cmPQkPwVk5rycvFpvgAcmiFiOSCp1aRrlfU8KPpQ==}
+  '@napi-rs/canvas-linux-arm64-musl@0.1.69':
+    resolution: {integrity: sha512-a3xjNRIeK2m2ZORGv2moBvv3vbkaFZG1QKMeiEv/BKij+rkztuEhTJGMar+buICFgS0fLgphXXsKNkUSJb7eRQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  '@napi-rs/canvas-linux-riscv64-gnu@0.1.68':
-    resolution: {integrity: sha512-e9AS5UttoIKqXSmBzKZdd3NErSVyOEYzJfNOCGtafGk1//gibTwQXGlSXmAKuErqMp09pyk9aqQRSYzm1AQfBw==}
+  '@napi-rs/canvas-linux-riscv64-gnu@0.1.69':
+    resolution: {integrity: sha512-pClUoJF5wdC9AvD0mc15G9JffL1Q85nuH1rLSQPRkGmGmQOtRjw5E9xNbanz7oFUiPbjH7xcAXUjVAcf7tdgPQ==}
     engines: {node: '>= 10'}
     cpu: [riscv64]
     os: [linux]
 
-  '@napi-rs/canvas-linux-x64-gnu@0.1.68':
-    resolution: {integrity: sha512-Pa/I36VE3j57I3Obhrr+J48KGFfkZk2cJN/2NmW/vCgmoF7kCP6aTVq5n+cGdGWLd/cN9CJ9JvNwEoMRDghu0g==}
+  '@napi-rs/canvas-linux-x64-gnu@0.1.69':
+    resolution: {integrity: sha512-96X3bFAmzemfw84Ts6Jg/omL86uuynvK06MWGR/mp3JYNumY9RXofA14eF/kJIYelbYFWXcwpbcBR71lJ6G/YQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@napi-rs/canvas-linux-x64-musl@0.1.68':
-    resolution: {integrity: sha512-9c6rkc5195wNxuUHJdf4/mmnq433OQey9TNvQ9LspJazvHbfSkTij8wtKjASVQsJyPDva4fkWOeV/OQ7cLw0GQ==}
+  '@napi-rs/canvas-linux-x64-musl@0.1.69':
+    resolution: {integrity: sha512-2QTsEFO72Kwkj53W9hc5y1FAUvdGx0V+pjJB+9oQF6Ys9+y989GyPIl5wZDzeh8nIJW6koZZ1eFa8pD+pA5BFQ==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  '@napi-rs/canvas-win32-x64-msvc@0.1.68':
-    resolution: {integrity: sha512-Fc5Dez23u0FoSATurT6/w1oMytiRnKWEinHivdMvXpge6nG4YvhrASrtqMk8dGJMVQpHr8QJYF45rOrx2YU2Aw==}
+  '@napi-rs/canvas-win32-x64-msvc@0.1.69':
+    resolution: {integrity: sha512-Q4YA8kVnKarApBVLu7F8icGlIfSll5Glswo5hY6gPS4Is2dCI8+ig9OeDM8RlwYevUIxKq8lZBypN8Q1iLAQ7w==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
-  '@napi-rs/canvas@0.1.68':
-    resolution: {integrity: sha512-LQESrePLEBLvhuFkXx9jjBXRC2ClYsO5mqQ1m/puth5z9SOuM3N/B3vDuqnC3RJFktDktyK9khGvo7dTkqO9uQ==}
+  '@napi-rs/canvas@0.1.69':
+    resolution: {integrity: sha512-ydvNeJMRm+l3T14yCoUKqjYQiEdXDq1isznI93LEBGYssXKfSaLNLHOkeM4z9Fnw9Pkt2EKOCAtW9cS4b00Zcg==}
     engines: {node: '>= 10'}
 
   '@napi-rs/wasm-runtime@0.2.9':
@@ -4307,6 +4307,9 @@ packages:
   '@types/node@18.19.86':
     resolution: {integrity: sha512-fifKayi175wLyKyc5qUfyENhQ1dCNI1UNjp653d8kuYcPQN5JhX3dGuP/XmvPTg/xRBn1VTLpbmi+H/Mr7tLfQ==}
 
+  '@types/node@18.19.87':
+    resolution: {integrity: sha512-OIAAu6ypnVZHmsHCeJ+7CCSub38QNBS9uceMQeg7K5Ur0Jr+wG9wEOEvvMbhp09pxD5czIUy/jND7s7Tb6Nw7A==}
+
   '@types/node@22.14.1':
     resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
 
@@ -4943,6 +4946,9 @@ packages:
 
   axios@1.8.4:
     resolution: {integrity: sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==}
+
+  axios@1.9.0:
+    resolution: {integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -7843,6 +7849,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -10317,7 +10324,7 @@ snapshots:
 
   '@anthropic-ai/sdk@0.27.3':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 18.19.87
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11151,7 +11158,7 @@ snapshots:
 
   '@browserbasehq/sdk@2.5.0':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 18.19.87
       '@types/node-fetch': 2.6.12
       abort-controller: 3.0.0
       agentkeepalive: 4.6.0
@@ -11735,7 +11742,7 @@ snapshots:
 
   '@ibm-cloud/watsonx-ai@1.3.0':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 18.19.87
       extend: 3.0.2
       ibm-cloud-sdk-core: 5.1.0
     transitivePeerDependencies:
@@ -12255,48 +12262,48 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@napi-rs/canvas-android-arm64@0.1.68':
+  '@napi-rs/canvas-android-arm64@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-darwin-arm64@0.1.68':
+  '@napi-rs/canvas-darwin-arm64@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-darwin-x64@0.1.68':
+  '@napi-rs/canvas-darwin-x64@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.68':
+  '@napi-rs/canvas-linux-arm-gnueabihf@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-arm64-gnu@0.1.68':
+  '@napi-rs/canvas-linux-arm64-gnu@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-arm64-musl@0.1.68':
+  '@napi-rs/canvas-linux-arm64-musl@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-riscv64-gnu@0.1.68':
+  '@napi-rs/canvas-linux-riscv64-gnu@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-x64-gnu@0.1.68':
+  '@napi-rs/canvas-linux-x64-gnu@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-linux-x64-musl@0.1.68':
+  '@napi-rs/canvas-linux-x64-musl@0.1.69':
     optional: true
 
-  '@napi-rs/canvas-win32-x64-msvc@0.1.68':
+  '@napi-rs/canvas-win32-x64-msvc@0.1.69':
     optional: true
 
-  '@napi-rs/canvas@0.1.68':
+  '@napi-rs/canvas@0.1.69':
     optionalDependencies:
-      '@napi-rs/canvas-android-arm64': 0.1.68
-      '@napi-rs/canvas-darwin-arm64': 0.1.68
-      '@napi-rs/canvas-darwin-x64': 0.1.68
-      '@napi-rs/canvas-linux-arm-gnueabihf': 0.1.68
-      '@napi-rs/canvas-linux-arm64-gnu': 0.1.68
-      '@napi-rs/canvas-linux-arm64-musl': 0.1.68
-      '@napi-rs/canvas-linux-riscv64-gnu': 0.1.68
-      '@napi-rs/canvas-linux-x64-gnu': 0.1.68
-      '@napi-rs/canvas-linux-x64-musl': 0.1.68
-      '@napi-rs/canvas-win32-x64-msvc': 0.1.68
+      '@napi-rs/canvas-android-arm64': 0.1.69
+      '@napi-rs/canvas-darwin-arm64': 0.1.69
+      '@napi-rs/canvas-darwin-x64': 0.1.69
+      '@napi-rs/canvas-linux-arm-gnueabihf': 0.1.69
+      '@napi-rs/canvas-linux-arm64-gnu': 0.1.69
+      '@napi-rs/canvas-linux-arm64-musl': 0.1.69
+      '@napi-rs/canvas-linux-riscv64-gnu': 0.1.69
+      '@napi-rs/canvas-linux-x64-gnu': 0.1.69
+      '@napi-rs/canvas-linux-x64-musl': 0.1.69
+      '@napi-rs/canvas-win32-x64-msvc': 0.1.69
 
   '@napi-rs/wasm-runtime@0.2.9':
     dependencies:
@@ -13298,25 +13305,49 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       fp-ts: 2.16.10
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       axios: 1.8.4(debug@4.4.0)
       fp-ts: 2.16.10
       react-admin: 5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
 
-  '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
+    dependencies:
+      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
+      axios: 1.9.0(debug@4.4.0)
+      fp-ts: 2.16.10
+      react-admin: 5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
+
+  '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       '@ts-endpoint/http-client': file:patches/ts-endpoint-http-client-0.1.0.tgz(fp-ts@2.16.10)
       axios: 1.8.4(debug@4.4.0)
       fp-ts: 2.16.10
 
-  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
+  '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
-      '@ts-endpoint/react-admin': file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
-      '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4)(fp-ts@2.16.10)
+      '@ts-endpoint/http-client': file:patches/ts-endpoint-http-client-0.1.0.tgz(fp-ts@2.16.10)
+      axios: 1.9.0(debug@4.4.0)
+      fp-ts: 2.16.10
+
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
+    dependencies:
+      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
+      '@ts-endpoint/react-admin': file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+      '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.8.4(debug@4.4.0))(fp-ts@2.16.10)
+      fp-ts: 2.16.10
+    transitivePeerDependencies:
+      - axios
+      - react-admin
+
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))':
+    dependencies:
+      '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
+      '@ts-endpoint/react-admin': file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)(react-admin@5.7.3(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
+      '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.9.0(debug@4.4.0))(fp-ts@2.16.10)
       fp-ts: 2.16.10
     transitivePeerDependencies:
       - axios
@@ -13642,6 +13673,10 @@ snapshots:
   '@types/node@10.14.22': {}
 
   '@types/node@18.19.86':
+    dependencies:
+      undici-types: 5.26.5
+
+  '@types/node@18.19.87':
     dependencies:
       undici-types: 5.26.5
 
@@ -14456,6 +14491,14 @@ snapshots:
   aws4@1.13.2: {}
 
   axios@1.8.4(debug@4.4.0):
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.4.0)
+      form-data: 4.0.2
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.9.0(debug@4.4.0):
     dependencies:
       follow-redirects: 1.15.9(debug@4.4.0)
       form-data: 4.0.2
@@ -16593,7 +16636,7 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/node': 10.14.22
       '@types/tough-cookie': 4.0.5
-      axios: 1.8.4(debug@4.4.0)
+      axios: 1.9.0(debug@4.4.0)
       camelcase: 6.3.0
       debug: 4.4.0
       dotenv: 16.5.0
@@ -16603,7 +16646,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.8.4)
+      retry-axios: 2.6.0(axios@1.9.0(debug@4.4.0))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -18210,7 +18253,7 @@ snapshots:
 
   pdfjs-dist@4.10.38:
     optionalDependencies:
-      '@napi-rs/canvas': 0.1.68
+      '@napi-rs/canvas': 0.1.69
 
   peek-readable@4.1.0: {}
 
@@ -19174,9 +19217,9 @@ snapshots:
       onetime: 7.0.0
       signal-exit: 4.1.0
 
-  retry-axios@2.6.0(axios@1.8.4):
+  retry-axios@2.6.0(axios@1.9.0(debug@4.4.0)):
     dependencies:
-      axios: 1.8.4(debug@4.4.0)
+      axios: 1.9.0(debug@4.4.0)
 
   retry@0.13.1: {}
 
