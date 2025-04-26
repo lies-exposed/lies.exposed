@@ -32,9 +32,7 @@ export interface EventListMap {
   Transaction: Transaction.Transaction[];
 }
 
-export const EventMap: {
-  [key in Event["type"]]: Schema.Any;
-} = {
+export const EventMap = {
   Book: Book.Book,
   Death: Death.Death,
   Patent: Patent.Patent,
@@ -44,6 +42,7 @@ export const EventMap: {
   Transaction: Transaction.Transaction,
   Quote: Quote.Quote,
 };
+export type EventMap = typeof EventMap;
 
 export const EventPayload = Schema.Union(
   Book.BookPayload,
