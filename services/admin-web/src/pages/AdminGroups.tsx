@@ -29,7 +29,6 @@ import {
   DateField,
   DateInput,
   FormDataConsumer,
-  FormTab,
   ImageField,
   ImageInput,
   List,
@@ -49,7 +48,12 @@ import {
   type SelectInputProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
-import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import {
+  Box,
+  Grid,
+  Stack,
+  Typography,
+} from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { Schema } from "effect";
@@ -216,17 +220,15 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       redirect={false}
     >
       <TabbedForm>
-        <FormTab label="Generals">
-          <Grid container spacing={2}>
+        <TabbedForm.Tab label="Generals">
+          <Grid container padding={1} columnSpacing={2}>
             <Grid size={{ md: 6 }}>
-              <Box style={{ display: "flex", flexDirection: "column" }}>
+              <Stack display="flex" direction={"column"}>
                 <TextWithSlugInput source="name" slugSource="username" />
                 <ColorInput source="color" />
-                <Box style={{ display: "flex", flexDirection: "column" }}>
-                  <DateInput source="startDate" />
-                  <DateInput source="endDate" />
-                </Box>
-              </Box>
+                <DateInput source="startDate" />
+                <DateInput source="endDate" />
+              </Stack>
             </Grid>
             <Grid size={{ md: 6 }}>
               <GroupKindInput source="kind" />
@@ -241,6 +243,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               </Box>
             </Grid>
           </Grid>
+
           <OpenAIEmbeddingJobButton<Group>
             resource="groups"
             type={OpenAISummarizeQueueType.Type}
@@ -253,18 +256,18 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
             }
           />
           <BlockNoteInput source="excerpt" />
-        </FormTab>
-        <FormTab label="Avatar">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Avatar">
           <ReferenceMediaInput source="avatar.id" />
 
           <ImageInput source="avatar">
             <ImageField source="thumbnail" />
           </ImageInput>
-        </FormTab>
-        <FormTab label="Body">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Body">
           <BlockNoteInput label="body" source="body" />
-        </FormTab>
-        <FormTab label="Members">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Members">
           <ArrayInput source="newMembers" defaultValue={[]} fullWidth>
             <SimpleFormIterator fullWidth>
               <ReferenceActorInput source="actor" />
@@ -286,20 +289,20 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
               <DateField source="endDate" />
             </Datagrid>
           </ReferenceManyField>
-        </FormTab>
-        <FormTab label="events">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="events">
           <ReferenceManyEventField source="id" target="groups[]" />
-        </FormTab>
-        <FormTab label="Network">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Network">
           <LazyFormTabContent tab={5}>
             <EventsNetworkGraphFormTab type="groups" />
           </LazyFormTabContent>
-        </FormTab>
-        <FormTab label="Flows">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Flows">
           <LazyFormTabContent tab={6}>
             <EventsFlowGraphFormTab type="groups" />
           </LazyFormTabContent>
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>
   );

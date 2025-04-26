@@ -5,6 +5,7 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { Schema } from "effect";
@@ -24,14 +25,17 @@ export const encodeActor = (
     E.Do,
     E.bind(
       "avatar",
-      (): E.Either<
-        _DecodeError,
-        UUID | Schema.Schema.Encoded<typeof io.http.Media.Media> | undefined
-      > =>
+      (): E.Either<_DecodeError, UUID | io.http.Media.Media | undefined> =>
         a.avatar
           ? Schema.is(UUID)(a.avatar)
             ? E.right(a.avatar)
-            : pipe(MediaIO.encodeSingle(a.avatar, spaceEndpoint))
+            : pipe(
+                MediaIO.decodeSingle(a.avatar, spaceEndpoint),
+                // E.map((m) => ({
+                //   ...m,
+                //   createdAt: m.createdAt.toISOString(),
+                // })),
+              )
           : E.right(undefined),
     ),
     E.chain(({ avatar }) => {
@@ -40,8 +44,11 @@ export const encodeActor = (
           ...a,
           color: toColor(a.color),
           avatar,
-          excerpt: toInitialValue(a.excerpt) ?? null,
-          body: toInitialValue(a.body) ?? null,
+          excerpt:
+            a.excerpt && isValidValue(a.excerpt)
+              ? toInitialValue(a.excerpt)
+              : null,
+          body: a.body && isValidValue(a.body) ? toInitialValue(a.body) : null,
           memberIn: a.memberIn ?? [],
           bornOn: a.bornOn ?? undefined,
           diedOn: a.diedOn ?? undefined,

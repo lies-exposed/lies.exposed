@@ -34,6 +34,14 @@ const encodeGroupIO = (
     ),
     E.map(({ avatar }) => ({
       ...group,
+      excerpt:
+        (group.excerpt && isValidValue(group.excerpt)
+          ? toInitialValue(group.excerpt)
+          : null) ?? null,
+      body:
+        (group.body && isValidValue(group.body)
+          ? toInitialValue(group.body)
+          : null) ?? null,
       avatar: avatar,
       subGroups: [],
       username: group.username ?? undefined,

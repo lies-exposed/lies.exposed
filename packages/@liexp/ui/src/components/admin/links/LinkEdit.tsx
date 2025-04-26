@@ -20,7 +20,6 @@ import LinkPreview from "../previews/LinkPreview.js";
 import {
   Datagrid,
   DateInput,
-  FormTab,
   LoadingPage,
   ReferenceManyField,
   TabbedForm,
@@ -61,7 +60,7 @@ export const LinkEdit: React.FC = () => {
       transform={transformLink}
     >
       <TabbedForm>
-        <FormTab label="General">
+        <TabbedForm.Tab label="General">
           <Grid container spacing={2}>
             <Grid size={{ md: 6 }}>
               <TextInput source="title" fullWidth />
@@ -100,8 +99,8 @@ export const LinkEdit: React.FC = () => {
               <LinkSuggestedEntityRelations />
             </Grid>
           </Grid>
-        </FormTab>
-        <FormTab label="Events">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Events">
           <Stack direction={"column"} spacing={2}>
             <ReferenceArrayEventInput source="events" target="ids" />
             <CreateEventFromLinkButton />
@@ -111,8 +110,8 @@ export const LinkEdit: React.FC = () => {
               filter={{ withDrafts: true }}
             />
           </Stack>
-        </FormTab>
-        <FormTab label="Event Suggestions">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Event Suggestions">
           <ReferenceManyField
             reference="events/suggestions"
             filter={{ links: record?.id ? [record.id] : [] }}
@@ -123,10 +122,10 @@ export const LinkEdit: React.FC = () => {
               <TextField source="payload.event.payload.title" />
             </Datagrid>
           </ReferenceManyField>
-        </FormTab>
-        <FormTab label="Social Posts">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Social Posts">
           <SocialPostFormTabContent type="links" source="id" />
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>
   );

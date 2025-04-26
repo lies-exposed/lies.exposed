@@ -4,6 +4,7 @@ import { Queue } from "@liexp/shared/lib/io/http/index.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { SlugInput } from "@liexp/ui/lib/components/admin/common/inputs/SlugInput.js";
 import {
   Button,
@@ -12,7 +13,6 @@ import {
   type CreateProps,
   Datagrid,
   DateField,
-  Edit,
   type EditProps,
   FormDataConsumer,
   FunctionField,
@@ -228,7 +228,7 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
     .filter((v) => v !== "");
 
   return (
-    <Edit
+    <EditForm
       resource={`queues/${type}/${resource}`}
       {...props}
       id={id}
@@ -246,6 +246,7 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
               : data.result,
         };
       }}
+      preview={null}
     >
       <SimpleForm>
         <Stack
@@ -297,7 +298,7 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
         <JSONInput source="error" />
         <ProcessQueueJobButton />
       </SimpleForm>
-    </Edit>
+    </EditForm>
   );
 };
 

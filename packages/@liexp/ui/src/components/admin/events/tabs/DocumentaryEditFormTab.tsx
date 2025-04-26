@@ -4,7 +4,7 @@ import {
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
-import { Box } from "../../../mui/index.js";
+import { Box, Stack } from "../../../mui/index.js";
 import ReferenceArrayActorInput from "../../actors/ReferenceArrayActorInput.js";
 import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput.js";
 import ReferenceArrayGroupInput from "../../groups/ReferenceArrayGroupInput.js";
@@ -21,24 +21,26 @@ export const DocumentaryEditFormTab: React.FC = () => (
       source="payload.media"
     />
 
-    {/** Authors */}
-    <ReferenceArrayActorInput
-      source="payload.authors.actors"
-      defaultValue={[]}
-    />
-    <ReferenceArrayGroupInput
-      source="payload.authors.groups"
-      defaultValue={[]}
-    />
+    <Stack direction={"column"} spacing={2}>
+      {/** Authors */}
+      <ReferenceArrayActorInput
+        source="payload.authors.actors"
+        defaultValue={[]}
+      />
+      <ReferenceArrayGroupInput
+        source="payload.authors.groups"
+        defaultValue={[]}
+      />
 
-    {/** Subjects */}
-    <ReferenceArrayActorInput
-      source="payload.subjects.actors"
-      defaultValue={[]}
-    />
-    <ReferenceArrayGroupInput
-      source="payload.subjects.groups"
-      defaultValue={[]}
-    />
+      {/** Subjects */}
+      <ReferenceArrayActorInput
+        source="payload.subjects.actors"
+        defaultValue={[]}
+      />
+      <ReferenceArrayGroupInput
+        source="payload.subjects.groups"
+        defaultValue={[]}
+      />
+    </Stack>
   </Box>
 );

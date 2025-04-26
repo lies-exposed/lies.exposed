@@ -1,15 +1,7 @@
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import {
-  contentTypeFromFileExt,
-  fileExtFromContentType,
-} from "@liexp/shared/lib/utils/media.utils.js";
-import { Schema } from "effect";
-import kebabCase from "lodash/kebabCase.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { TabPanel, a11yProps } from "../../Common/TabPanel.js";
@@ -22,7 +14,6 @@ import {
   FormControlLabel,
   Grid,
   Input,
-  Link,
   Switch,
   Tab,
   Tabs,
@@ -51,350 +42,285 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
   const conf = useConfiguration();
 
   return (
-    <Grid container width="100%" height="100%" spacing={2}>
-      <Grid size={{ lg: 6 }}>
-        <Box>
-          <Box>
-            <Input
-              fullWidth
-              multiline
-              name="title"
-              value={payload.title ?? ""}
-              onChange={(e) => {
-                onChange({
-                  multipleMedia,
-                  media,
-                  payload: {
-                    ...payload,
-                    title: e.target.value,
-                  },
-                });
-              }}
+    <Grid container width="100%" direction={"column"} spacing={2} size={12}>
+      <Grid size={12}>
+        <Input
+          fullWidth
+          multiline
+          name="title"
+          value={payload.title ?? ""}
+          onChange={(e) => {
+            onChange({
+              multipleMedia,
+              media,
+              payload: {
+                ...payload,
+                title: e.target.value,
+              },
+            });
+          }}
+        />
+
+        <Input
+          fullWidth
+          multiline
+          name="content"
+          value={payload.content ?? ""}
+          onChange={(e) => {
+            onChange({
+              multipleMedia,
+              media,
+              payload: {
+                ...payload,
+                content: e.target.value,
+              },
+            });
+          }}
+        />
+      </Grid>
+      <Grid size={12}>
+        <Tabs
+          value={tab}
+          onChange={(_, tab) => {
+            setTab(tab);
+          }}
+        >
+          <Tab label={"Post"} {...a11yProps(0)} />
+          <Tab label={"Meme"} {...a11yProps(1)} />
+        </Tabs>
+        <TabPanel index={0} value={tab}>
+          <Box style={{ display: "flex", flexWrap: "wrap" }}>
+            <ActorList
+              actors={(payload?.actors ?? []).map((a) => ({
+                ...a,
+                memberIn: [],
+                excerpt: null,
+                body: null,
+                selected: true,
+              }))}
+              onActorClick={() => {}}
+            />
+          </Box>
+
+          <Box style={{ display: "flex", flexWrap: "wrap" }}>
+            <GroupList
+              groups={(payload?.groups ?? []).map((g) => ({
+                ...g,
+                selected: true,
+              }))}
+              onItemClick={() => {}}
+            />
+          </Box>
+
+          <Box style={{ display: "flex", flexWrap: "wrap", padding: 16 }}>
+            <KeywordList
+              keywords={(payload.keywords ?? []).map((k) => ({
+                ...k,
+                socialPosts: [],
+                selected: true,
+              }))}
+              onItemClick={() => {}}
             />
           </Box>
 
           <Box>
-            <Input
-              fullWidth
-              multiline
-              name="content"
-              value={payload.content ?? ""}
-              onChange={(e) => {
-                onChange({
-                  multipleMedia,
-                  media,
-                  payload: {
-                    ...payload,
-                    content: e.target.value,
-                  },
-                });
-              }}
-            />
-          </Box>
-
-          <Tabs
-            value={tab}
-            onChange={(_, tab) => {
-              setTab(tab);
-            }}
-          >
-            <Tab label={"Post"} {...a11yProps(0)} />
-            <Tab label={"Meme"} {...a11yProps(1)} />
-          </Tabs>
-          <TabPanel index={0} value={tab}>
-            <Box style={{ display: "flex", flexWrap: "wrap" }}>
-              <ActorList
-                actors={(payload?.actors ?? []).map((a) => ({
-                  ...a,
-                  memberIn: [],
-                  excerpt: null,
-                  body: null,
-                  selected: true,
-                }))}
-                onActorClick={() => {}}
-              />
-            </Box>
-
-            <Box style={{ display: "flex", flexWrap: "wrap" }}>
-              <GroupList
-                groups={(payload?.groups ?? []).map((g) => ({
-                  ...g,
-                  selected: true,
-                }))}
+            {multipleMedia ? (
+              <MediaList
+                style={{ width: "100%", height: 200 }}
+                itemStyle={{ width: "auto", margin: "auto", height: "100%" }}
+                columns={media.length > 3 ? 3 : media.length}
+                media={media.map((m) => ({ ...m, selected: true }))}
                 onItemClick={() => {}}
               />
-            </Box>
-
-            <Box style={{ display: "flex", flexWrap: "wrap", padding: 16 }}>
-              <KeywordList
-                keywords={(payload.keywords ?? []).map((k) => ({
-                  ...k,
-                  socialPosts: [],
-                  selected: true,
-                }))}
-                onItemClick={() => {}}
-              />
-            </Box>
-
-            <Box>
-              {multipleMedia ? (
-                <MediaList
-                  style={{ width: "100%", height: 200 }}
-                  itemStyle={{ width: "auto", margin: "auto", height: "100%" }}
-                  columns={media.length > 3 ? 3 : media.length}
-                  media={media.map((m) => ({ ...m, selected: true }))}
-                  onItemClick={() => {}}
+            ) : media?.[0]?.thumbnail ? (
+              <Box style={{ width: "100%", height: 200 }}>
+                <img
+                  src={media?.[0]?.thumbnail}
+                  style={{ width: "auto", margin: "auto", height: "100%" }}
                 />
-              ) : media?.[0]?.thumbnail ? (
-                <Box style={{ width: "100%", height: 200 }}>
-                  <img
-                    src={media?.[0]?.thumbnail}
-                    style={{ width: "auto", margin: "auto", height: "100%" }}
-                  />
-                </Box>
-              ) : null}
-              <FormControlLabel
-                control={
-                  <Switch
-                    size="small"
-                    inputProps={{
-                      "aria-label": "Group media",
-                    }}
-                    value={multipleMedia}
-                    onChange={() => {
-                      onChange({
-                        multipleMedia: !multipleMedia,
-                        media,
-                        payload: {
-                          ...payload,
-                          media: getShareMedia(
-                            media,
-                            `${conf.platforms.web.url}/liexp-logo-1200x630.png`,
-                          ),
-                        },
-                      });
-                    }}
-                  />
-                }
-                label={multipleMedia ? "Media group" : "Single media"}
-              />
-            </Box>
-          </TabPanel>
-          <TabPanel index={1} value={tab}>
-            <Box>
-              <BuildImageButton
-                media={media?.[0]?.thumbnail ?? conf.platforms.web.defaultImage}
-                text={payload.content ?? payload.title}
-                onBuild={(_, base64Source) => {
+              </Box>
+            ) : null}
+            <FormControlLabel
+              control={
+                <Switch
+                  size="small"
+                  inputProps={{
+                    "aria-label": "Group media",
+                  }}
+                  value={multipleMedia}
+                  onChange={() => {
+                    onChange({
+                      multipleMedia: !multipleMedia,
+                      media,
+                      payload: {
+                        ...payload,
+                        media: getShareMedia(
+                          media,
+                          `${conf.platforms.web.url}/liexp-logo-1200x630.png`,
+                        ),
+                      },
+                    });
+                  }}
+                />
+              }
+              label={multipleMedia ? "Media group" : "Single media"}
+            />
+          </Box>
+        </TabPanel>
+        <TabPanel index={1} value={tab}>
+          <Box>
+            <BuildImageButton
+              media={media?.[0]?.thumbnail ?? conf.platforms.web.defaultImage}
+              text={payload.content ?? payload.title}
+              onBuild={(_, base64Source) => {
+                onChange({
+                  payload: {
+                    ...payload,
+                    media: [
+                      {
+                        id: uuid(),
+                        media: base64Source,
+                        thumbnail: base64Source,
+                        type: "photo",
+                      },
+                    ],
+                  },
+                  multipleMedia,
+                  media,
+                });
+              }}
+            />
+          </Box>
+        </TabPanel>
+      </Grid>
+
+      <Grid size={12}>
+        <Box>
+          <Typography variant="subtitle2">Post on</Typography>
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                slotProps={{
+                  input: {
+                    "aria-label": "Post on Instagram",
+                  },
+                }}
+                value={payload.platforms.IG}
+                checked={payload.platforms.IG}
+                onChange={() => {
                   onChange({
-                    payload: {
-                      ...payload,
-                      media: [
-                        {
-                          id: uuid(),
-                          media: base64Source,
-                          thumbnail: base64Source,
-                          type: "photo",
-                        },
-                      ],
-                    },
                     multipleMedia,
                     media,
+                    payload: {
+                      ...payload,
+                      platforms: {
+                        ...payload.platforms,
+                        IG: !payload.platforms.IG,
+                      },
+                    },
                   });
                 }}
               />
-            </Box>
-          </TabPanel>
-
-          <Box>
-            <Typography variant="subtitle2">Post on</Typography>
-            <FormControlLabel
-              control={
-                <Switch
-                  size="small"
-                  inputProps={{
-                    "aria-label": "Post on Instagram",
-                  }}
-                  value={payload.platforms.IG}
-                  checked={payload.platforms.IG}
-                  onChange={() => {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        platforms: {
-                          ...payload.platforms,
-                          IG: !payload.platforms.IG,
-                        },
+            }
+            label={"Instagram"}
+          />
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                inputProps={{
+                  "aria-label": "Post on Telegram",
+                }}
+                value={payload.platforms.TG}
+                checked={payload.platforms.TG}
+                onChange={() => {
+                  onChange({
+                    multipleMedia,
+                    media,
+                    payload: {
+                      ...payload,
+                      platforms: {
+                        ...payload.platforms,
+                        TG: !payload.platforms.TG,
                       },
-                    });
-                  }}
-                />
-              }
-              label={"Instagram"}
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  size="small"
-                  inputProps={{
-                    "aria-label": "Post on Telegram",
-                  }}
-                  value={payload.platforms.TG}
-                  checked={payload.platforms.TG}
-                  onChange={() => {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        platforms: {
-                          ...payload.platforms,
-                          TG: !payload.platforms.TG,
-                        },
-                      },
-                    });
-                  }}
-                />
-              }
-              label={"Telegram"}
-            />
-          </Box>
-          <Box>
-            <FormControlLabel
-              control={
-                <Switch
-                  size="small"
-                  inputProps={{
-                    "aria-label": "Post on Telegram",
-                  }}
-                  value={payload.schedule !== undefined}
-                  checked={payload.schedule !== undefined}
-                  onChange={() => {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        schedule: payload.schedule ? undefined : 0,
-                      },
-                    });
-                  }}
-                />
-              }
-              label={"Schedule (+ hours from now)"}
-            />
-            {payload.schedule !== undefined ? (
-              <Input
-                fullWidth
-                multiline
-                name="schedule"
-                value={payload.schedule ?? ""}
-                onChange={(e) => {
-                  if (e.target.value !== "") {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        schedule: parseInt(e.target.value, 10),
-                      },
-                    });
-                  }
+                    },
+                  });
                 }}
               />
-            ) : null}
-          </Box>
-          <Box>
-            <FormControlLabel
-              control={
-                <Switch
-                  size="small"
-                  inputProps={{
-                    "aria-label": "Use Reply",
-                  }}
-                  value={payload.useReply}
-                  checked={payload.useReply}
-                  onChange={() => {
-                    onChange({
-                      multipleMedia,
-                      media,
-                      payload: {
-                        ...payload,
-                        useReply: !payload.useReply,
-                      },
-                    });
-                  }}
-                />
-              }
-              label={"Use Reply?"}
-            />
-          </Box>
-        </Box>
-      </Grid>
-      {/** Preview */}
-      <Grid size={{ lg: 6 }}>
-        <Box>
-          <MediaList
-            style={{ width: "100%", maxHeight: 300 }}
-            itemStyle={{ maxHeight: 300 }}
-            columns={payload.media.length > 3 ? 3 : media.length}
-            media={payload.media.map((m) => ({
-              id: uuid(),
-              creator: undefined,
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              events: [],
-              links: [],
-              keywords: [],
-              areas: [],
-              featuredInStories: [],
-              socialPosts: undefined,
-              deletedAt: undefined,
-              label: m.media,
-              description: m.type,
-              thumbnail: m.thumbnail as URL,
-              location: m.thumbnail as URL,
-              selected: true,
-              type: contentTypeFromFileExt(m.media),
-              extra: undefined,
-            }))}
-            onItemClick={(m) => {
-              if (Schema.is(ImageType)(m.type)) {
-                const downloadLink = document.createElement("a");
-                downloadLink.href = m.location;
-                downloadLink.download = `${kebabCase(
-                  payload.title.substring(0, 150),
-                )}.${fileExtFromContentType(m.type)}`;
-                downloadLink.click();
-                downloadLink.remove();
-              }
-            }}
+            }
+            label={"Telegram"}
           />
-          <Box>
-            <Typography>
-              <Link href={payload.url}>{payload.title}</Link>
-            </Typography>
-          </Box>
-
-          {payload.content ? (
-            <Box>
-              <Typography>{payload.content}</Typography>
-            </Box>
+        </Box>
+        <Box>
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                inputProps={{
+                  "aria-label": "Post on Telegram",
+                }}
+                value={payload.schedule !== undefined}
+                checked={payload.schedule !== undefined}
+                onChange={() => {
+                  onChange({
+                    multipleMedia,
+                    media,
+                    payload: {
+                      ...payload,
+                      schedule: payload.schedule ? undefined : 0,
+                    },
+                  });
+                }}
+              />
+            }
+            label={"Schedule (+ hours from now)"}
+          />
+          {payload.schedule !== undefined ? (
+            <Input
+              fullWidth
+              multiline
+              name="schedule"
+              value={payload.schedule ?? ""}
+              onChange={(e) => {
+                if (e.target.value !== "") {
+                  onChange({
+                    multipleMedia,
+                    media,
+                    payload: {
+                      ...payload,
+                      schedule: parseInt(e.target.value, 10),
+                    },
+                  });
+                }
+              }}
+            />
           ) : null}
-
-          {payload?.date ? (
-            <Box style={{ width: "100%" }}>
-              <Typography>
-                <Link
-                  href={`${conf.platforms.web.url}/events?startDate=${payload.date}`}
-                >
-                  {payload.date}
-                </Link>
-              </Typography>
-            </Box>
-          ) : null}
+        </Box>
+        <Box>
+          <FormControlLabel
+            control={
+              <Switch
+                size="small"
+                inputProps={{
+                  "aria-label": "Use Reply",
+                }}
+                value={payload.useReply}
+                checked={payload.useReply}
+                onChange={() => {
+                  onChange({
+                    multipleMedia,
+                    media,
+                    payload: {
+                      ...payload,
+                      useReply: !payload.useReply,
+                    },
+                  });
+                }}
+              />
+            }
+            label={"Use Reply?"}
+          />
         </Box>
       </Grid>
     </Grid>

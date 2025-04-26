@@ -1,5 +1,6 @@
 import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
+import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { KeywordTGPostButton } from "@liexp/ui/lib/components/admin/keywords/button/KeywordTGPostButton.js";
 import ReferenceManyLinkField from "@liexp/ui/lib/components/admin/links/ReferenceManyLinkField.js";
@@ -8,7 +9,6 @@ import {
   Create,
   Datagrid,
   DateField,
-  Edit,
   FormTab,
   FunctionField,
   List,
@@ -54,7 +54,7 @@ const EditTitle: React.FC = () => {
 
 export const KeywordEdit: React.FC = () => {
   return (
-    <Edit
+    <EditForm
       title={<EditTitle />}
       actions={
         <Stack>
@@ -68,6 +68,7 @@ export const KeywordEdit: React.FC = () => {
           events: (r.events ?? []).concat(newEvents ?? []),
         };
       }}
+      preview={null}
     >
       <TabbedForm>
         <FormTab label="general">
@@ -81,7 +82,7 @@ export const KeywordEdit: React.FC = () => {
           <ReferenceManyLinkField source="id" target="keywords[]" />
         </FormTab>
       </TabbedForm>
-    </Edit>
+    </EditForm>
   );
 };
 

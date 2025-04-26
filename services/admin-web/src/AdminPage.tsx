@@ -35,6 +35,7 @@ import {
 } from "@liexp/ui/lib/components/admin/media/index.js";
 import {
   Admin,
+  CheckForApplicationUpdate,
   CustomRoutes,
   Layout,
   Login,
@@ -140,8 +141,11 @@ const MyMenu: React.FC<MenuProps> = (props) => (
     <Menu.ResourceItems />
   </Menu>
 );
-const MyLayout: React.FC<LayoutProps> = (props) => (
-  <Layout {...props} menu={MyMenu} />
+const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
+  <Layout {...props} menu={MyMenu}>
+    {children}
+    <CheckForApplicationUpdate />
+  </Layout>
 );
 
 const AdminPage: React.FC = () => {

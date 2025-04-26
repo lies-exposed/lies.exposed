@@ -10,7 +10,7 @@ import {
   Button,
   useRedirect,
 } from "react-admin";
-import { Box, Typography } from "../../mui/index.js";
+import { Box, Stack, Typography } from "../../mui/index.js";
 
 export const matchLinkSuggestions = (
   filterValue: string,
@@ -47,9 +47,10 @@ const ReferenceLinkInput: React.FC<
   const value = get(record, props.source);
 
   return (
-    <Box style={{ display: "flex" }}>
+    <Stack direction={"row"} spacing={2} alignItems={"center"}>
       <ReferenceInput {...props} reference="links">
         <AutocompleteInput
+          size="small"
           fullWidth
           source="id"
           optionText={<LinkAutocompleteOptionText />}
@@ -58,14 +59,18 @@ const ReferenceLinkInput: React.FC<
           filterToQuery={(q) => ({ q })}
         />
       </ReferenceInput>
-      <Button
-        label="Open URL"
-        disabled={value?.length < 5}
-        onClick={() => {
-          redirect("edit", "links", value);
-        }}
-      />
-    </Box>
+      <Box>
+        <Button
+          label="Open URL"
+          variant="contained"
+          disabled={value?.length < 5}
+          style={{ minWidth: 100 }}
+          onClick={() => {
+            redirect("edit", "links", value);
+          }}
+        />
+      </Box>
+    </Stack>
   );
 };
 

@@ -1,10 +1,9 @@
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
-import { Box, Grid, Stack, Typography } from "../../mui/index.js";
+import { Grid, Stack } from "../../mui/index.js";
 import {
   Button,
   Edit,
-  FunctionField,
   useDataProvider,
   useRecordContext,
   useRefresh,
@@ -34,55 +33,62 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
       actions={actions}
       transform={transform}
     >
-      <Grid size={12} width={"100%"} spacing={2}>
-        <Stack spacing={2} direction={"row"}>
-          <Button
-            label={`${showPreview ? "Hide" : "Show"} Preview`}
-            onClick={() => {
-              setShowPreview(!showPreview);
-            }}
-          />
-          {resource && <WebPreviewButton resource={resource} source="id" />}
-          <RestoreButton />
-        </Stack>
-      </Grid>
-
-      <Grid
-        size={{ md: showPreview ? 6 : 12, lg: showPreview ? 6 : 12 }}
-        spacing={2}
-      >
-        <FunctionField
-          render={(r) => {
-            if (r?.deletedAt) {
-              return (
-                <Stack
-                  display={"flex"}
-                  spacing={2}
-                  direction={"row"}
-                  style={{
-                    backgroundColor: "red",
-                    color: "white",
+      <Grid container direction="column" width="100%">
+        <Grid size={12}>
+          <Grid container width={"100%"}>
+            <div>
+              <Grid
+                container
+                size={12}
+                direction="row"
+                justifyContent="space-between"
+              >
+                <Grid size={{ md: 6, lg: 6 }}>
+                  <Stack direction={"row"}>
+                    {resource && (
+                      <WebPreviewButton resource={resource} source="id" />
+                    )}
+                    <RestoreButton />
+                  </Stack>
+                </Grid>
+                <Grid size={{ md: 6, lg: 6 }}>
+                  <Stack alignItems={"flex-end"}>
+                    <Button
+                      label={`${showPreview ? "Hide" : "Show"} Preview`}
+                      onClick={() => {
+                        setShowPreview(!showPreview);
+                      }}
+                    />
+                  </Stack>
+                </Grid>
+              </Grid>
+            </div>
+          </Grid>
+        </Grid>
+        <Grid size={12}>
+          <Grid container width={"100%"}>
+            <div style={{ width: "100%" }}>
+              <Grid container width={"100%"} direction={"row"}>
+                <Grid
+                  size={{
+                    md: showPreview ? 6 : 12,
+                    lg: showPreview ? 8 : 12,
+                    xl: showPreview ? 8 : 12,
                   }}
-                  marginTop={2}
-                  marginBottom={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
+                  style={{
+                    width: !showPreview ? "100%" : undefined,
+                  }}
                 >
-                  <Box>
-                    <Typography variant="subtitle1" fontWeight={"bold"}>
-                      Element deleted
-                    </Typography>
-                  </Box>
-                </Stack>
-              );
-            }
-            return null;
-          }}
-        />
-        {children}
+                  {children}
+                </Grid>
+                {showPreview && !!preview ? (
+                  <Grid size={{ md: 6, lg: 4 }}>{preview}</Grid>
+                ) : null}
+              </Grid>
+            </div>
+          </Grid>
+        </Grid>
       </Grid>
-
-      {showPreview ? <Grid size={{ md: 6, lg: 6 }}>{preview}</Grid> : null}
     </Edit>
   );
 };
