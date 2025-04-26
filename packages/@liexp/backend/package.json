@@ -52,7 +52,7 @@
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.8",
     "axios": "^1.9.0",
-    "debug": "^4",
+    "debug": "^4.4.0",
     "effect": "^3.14.13",
     "eslint": "^9.25.1",
     "exifreader": "^4.26.2",
