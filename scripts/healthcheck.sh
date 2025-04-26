@@ -3,7 +3,7 @@
 set -ex
 
 # start api with docker
-docker compose up -d --wait liexp.dev
+docker compose up -d --wait liexp.dev api.liexp.dev
 
 curl -f http://api.liexp.dev/v1/healthcheck
 curl -f http://liexp.dev/healthcheck
