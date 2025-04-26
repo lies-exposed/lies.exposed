@@ -710,8 +710,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.10
       openai:
-        specifier: ^4.87.3
-        version: 4.95.1(ws@8.18.1)(zod@3.24.3)
+        specifier: ^4.96.0
+        version: 4.96.0(ws@8.18.1)(zod@3.24.3)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -755,8 +755,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.10
       openai:
-        specifier: ^4.87.3
-        version: 4.95.1(ws@8.18.1)(zod@3.24.3)
+        specifier: ^4.96.0
+        version: 4.96.0(ws@8.18.1)(zod@3.24.3)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -13413,7 +13413,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
@@ -13586,7 +13586,7 @@ snapshots:
 
   '@types/docker-modem@3.0.6':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       '@types/ssh2': 1.15.4
 
   '@types/dockerode@3.3.35':
@@ -13607,7 +13607,7 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -13677,7 +13677,7 @@ snapshots:
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 18.19.87
       form-data: 4.0.2
 
   '@types/node-telegram-bot-api@0.64.8':
@@ -13770,18 +13770,18 @@ snapshots:
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       '@types/send': 0.17.4
 
   '@types/ssh2@1.15.4':
     dependencies:
-      '@types/node': 18.19.86
+      '@types/node': 18.19.87
 
   '@types/superagent@8.1.9':
     dependencies:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       form-data: 4.0.2
 
   '@types/supertest@6.0.2':
@@ -18577,7 +18577,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       long: 5.2.4
 
   protocol-buffers-schema@3.6.0: {}
