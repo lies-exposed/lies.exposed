@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  axios: ^1.8.0
   dotenv: ^16.4.7
   minimist: ^1.2.8
   react-dnd: ^15
@@ -130,7 +129,7 @@ importers:
         version: 0.2.2
       typeorm:
         specifier: ^0.3.22
-        version: 0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2)
+        version: 0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -166,7 +165,7 @@ importers:
         specifier: ^0.64.8
         version: 0.64.8
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       debug:
         specifier: ^4.4.0
@@ -194,7 +193,7 @@ importers:
         version: 5.6.0
       langchain:
         specifier: ^0.3.24
-        version: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1)
+        version: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -327,7 +326,7 @@ importers:
         version: 4.17.21
       openai:
         specifier: ^4
-        version: 4.95.1(ws@8.18.1)(zod@3.24.3)
+        version: 4.96.0(ws@8.18.1)(zod@3.24.3)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -354,7 +353,7 @@ importers:
         specifier: ^18.3.6
         version: 18.3.6(@types/react@18.3.20)
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       effect:
         specifier: ^3.14.13
@@ -698,7 +697,7 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       effect:
         specifier: ^3.14.13
@@ -817,7 +816,7 @@ importers:
         version: 3.758.0
       '@langchain/community':
         specifier: ^0.3.35
-        version: 0.3.41(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.758.0)(@aws-sdk/credential-provider-node@3.758.0)(@browserbasehq/sdk@2.5.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(zod@3.24.3))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(@smithy/util-utf8@2.3.0)(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.6.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(pdf-parse@1.1.1)(pg@8.15.1)(playwright@1.49.0)(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1)
+        version: 0.3.41(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.758.0)(@aws-sdk/credential-provider-node@3.758.0)(@browserbasehq/sdk@2.5.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(zod@3.24.3))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(@smithy/util-utf8@2.3.0)(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.6.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(pdf-parse@1.1.1)(pg@8.15.6)(playwright@1.49.0)(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)
       '@langchain/core':
         specifier: ^0.3.48
         version: 0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))
@@ -856,7 +855,7 @@ importers:
         version: 2.16.10
       langchain:
         specifier: ^0.3.24
-        version: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1)
+        version: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)
       pdfjs-dist:
         specifier: ^4.10.38
         version: 4.10.38
@@ -907,7 +906,7 @@ importers:
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.9.0)(fp-ts@2.16.10)
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       body-parser:
         specifier: ^1.20.3
@@ -949,8 +948,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       pg:
-        specifier: ^8.15.1
-        version: 8.15.1
+        specifier: ^8.15.6
+        version: 8.15.6
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -962,7 +961,7 @@ importers:
         version: 4.19.3
       typeorm:
         specifier: ^0.3.22
-        version: 0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2)
+        version: 0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -998,8 +997,8 @@ importers:
         specifier: ^22.15.2
         version: 22.15.2
       '@types/pg':
-        specifier: ^8.11.11
-        version: 8.11.11
+        specifier: ^8.11.14
+        version: 8.11.14
       '@types/react':
         specifier: ^18.3.20
         version: 18.3.20
@@ -1106,7 +1105,7 @@ importers:
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       d3:
         specifier: ^7.9.0
@@ -1297,7 +1296,7 @@ importers:
         specifier: file:../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
       axios:
-        specifier: ^1.8.0
+        specifier: ^1.9.0
         version: 1.9.0(debug@4.4.0)
       cronstrue:
         specifier: ^2.56.0
@@ -1345,8 +1344,8 @@ importers:
         specifier: ^4.10.38
         version: 4.10.38
       pg:
-        specifier: ^8.15.1
-        version: 8.15.1
+        specifier: ^8.15.6
+        version: 8.15.6
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -1364,7 +1363,7 @@ importers:
         version: 0.33.5
       typeorm:
         specifier: ^0.3.22
-        version: 0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2)
+        version: 0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -4023,7 +4022,7 @@ packages:
     resolution: {integrity: sha512-JryPLJUuU9rfww/P20IU7fZqNm2kxLWETJozCDJl9j3OQgi8JGdiRamsScLRtRiSnxZawq34UJjaWlMloYSXmQ==, tarball: file:patches/ts-endpoint-react-admin-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
-      axios: ^1.8.0
+      axios: ^1
       fp-ts: ^2
       react-admin: ^5
 
@@ -4031,7 +4030,7 @@ packages:
     resolution: {integrity: sha512-71T3NbkSIfRgPvsT6q+La6WRoKMxy/iLArhe16tPEVGo8r38uaATw2yq0522w2U3NY2Zy++Ahea5AkTnAFdYSA==, tarball: file:patches/ts-endpoint-resource-client-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
-      axios: ^1.8.0
+      axios: ^1
       fp-ts: ^2
 
   '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz':
@@ -4310,14 +4309,8 @@ packages:
   '@types/node@10.14.22':
     resolution: {integrity: sha512-9taxKC944BqoTVjE+UT3pQH0nHZlTvITwfsOZqyc+R3sfJuxaTtxWjfn1K2UlxyPcKHf0rnaXcVFrS9F9vf0bw==}
 
-  '@types/node@18.19.86':
-    resolution: {integrity: sha512-fifKayi175wLyKyc5qUfyENhQ1dCNI1UNjp653d8kuYcPQN5JhX3dGuP/XmvPTg/xRBn1VTLpbmi+H/Mr7tLfQ==}
-
   '@types/node@18.19.87':
     resolution: {integrity: sha512-OIAAu6ypnVZHmsHCeJ+7CCSub38QNBS9uceMQeg7K5Ur0Jr+wG9wEOEvvMbhp09pxD5czIUy/jND7s7Tb6Nw7A==}
-
-  '@types/node@22.14.1':
-    resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
 
   '@types/node@22.15.2':
     resolution: {integrity: sha512-uKXqKN9beGoMdBfcaTY1ecwz6ctxuJAcUlwE55938g0ZJ8lRxwAZqRz2AJ4pzpt5dHdTPMB863UZ0ESiFUcP7A==}
@@ -4325,8 +4318,8 @@ packages:
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
 
-  '@types/pg@8.11.11':
-    resolution: {integrity: sha512-kGT1qKM8wJQ5qlawUrEkXgvMSXoV213KfMGXcwfDwUIfUHXqXYXOfS1nE1LINRJVVVx5wCm70XnFlMHaIcQAfw==}
+  '@types/pg@8.11.14':
+    resolution: {integrity: sha512-qyD11E5R3u0eJmd1lB0WnWKXJGA7s015nyARWljfz5DcX83TKAIlY+QrmvzQTsbIe+hkiFtkyL2gHC6qwF6Fbg==}
 
   '@types/prompts@2.4.9':
     resolution: {integrity: sha512-qTxFi6Buiu8+50/+3DGIWLHM6QuWsEKugJnnP6iv2Mc4ncxE4A/OJkjuVOA+5X0X1S/nq5VJRa8Lu+nwcvbrKA==}
@@ -4952,6 +4945,9 @@ packages:
 
   aws4@1.13.2:
     resolution: {integrity: sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==}
+
+  axios@1.7.4:
+    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
 
   axios@1.9.0:
     resolution: {integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==}
@@ -7260,7 +7256,7 @@ packages:
       '@langchain/mistralai': '*'
       '@langchain/ollama': '*'
       '@langchain/xai': '*'
-      axios: ^1.8.0
+      axios: '*'
       cheerio: '*'
       handlebars: ^4.7.8
       peggy: ^3.0.2
@@ -7855,7 +7851,6 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
-    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -7983,18 +7978,6 @@ packages:
   open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
-
-  openai@4.95.1:
-    resolution: {integrity: sha512-IqJy+ymeW+k/Wq+2YVN3693OQMMcODRtHEYOlz263MdUwnN/Dwdl9c2EXSxLLtGEHkSHAfvzpDMHI5MaWJKXjQ==}
-    hasBin: true
-    peerDependencies:
-      ws: ^8.18.0
-      zod: ^3.23.8
-    peerDependenciesMeta:
-      ws:
-        optional: true
-      zod:
-        optional: true
 
   openai@4.96.0:
     resolution: {integrity: sha512-dKoW56i02Prv2XQolJ9Rl9Svqubqkzg3QpwEOBuSVZLk05Shelu7s+ErRTwFc1Bs3JZ2qBqBfVpXQiJhwOGG8A==}
@@ -8175,11 +8158,11 @@ packages:
   performance-now@2.1.0:
     resolution: {integrity: sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==}
 
-  pg-cloudflare@1.2.0:
-    resolution: {integrity: sha512-dhfTv9ZhBLHHjFjh1qeA/0xbaF9ax9fVp+jFCWEDR3Qtdj6oM+GybEewsvAjDkH1mu6dpiH2MSKSHmVDrZqrGA==}
+  pg-cloudflare@1.2.5:
+    resolution: {integrity: sha512-OOX22Vt0vOSRrdoUPKJ8Wi2OpE/o/h9T8X1s4qSkCedbNah9ei2W2765be8iMVxQUsvgT7zIAT2eIa9fs5+vtg==}
 
-  pg-connection-string@2.8.1:
-    resolution: {integrity: sha512-/K3E7SgRJms0N/GCEI5IsrfY86FzTAfox/5nRfJT0I1NGM0JPutpbKfVOSRnlMkIJYFmlyQ7+5jHEfL9IIPFLQ==}
+  pg-connection-string@2.8.5:
+    resolution: {integrity: sha512-Ni8FuZ8yAF+sWZzojvtLE2b03cqjO5jNULcHFfM9ZZ0/JXrgom5pBREbtnAw7oxsxJqHw9Nz/XWORUEL3/IFow==}
 
   pg-int8@1.0.1:
     resolution: {integrity: sha512-WCtabS6t3c8SkpDBUlb1kjOs7l66xsGdKpIPZsg4wR+B3+u9UAum2odSsF9tnvxg80h4ZxLWMy4pRjOsFIqQpw==}
@@ -8189,13 +8172,13 @@ packages:
     resolution: {integrity: sha512-BM/Thnrw5jm2kKLE5uJkXqqExRUY/toLHda65XgFTBTFYZyopbKjBe29Ii3RbkvlsMoFwD+tHeGaCjjv0gHlyw==}
     engines: {node: '>=4'}
 
-  pg-pool@3.9.1:
-    resolution: {integrity: sha512-gC8F55MsCWsFmiXlNVzoyYU5tvhDrKqnpKG+YJzxjGwbOQxFHy/AS/QxuG8723OrxC6kTHxIrbAeelVAePqJyw==}
+  pg-pool@3.9.6:
+    resolution: {integrity: sha512-rFen0G7adh1YmgvrmE5IPIqbb+IgEzENUm+tzm6MLLDSlPRoZVhzU1WdML9PV2W5GOdRA9qBKURlbt1OsXOsPw==}
     peerDependencies:
       pg: '>=8.0'
 
-  pg-protocol@1.9.0:
-    resolution: {integrity: sha512-6AkqYKbOwHVlDnXrOZlSkpvn9zBA4y87HGlrPhnSPLkcLRnTPcXm2C/CNrOkQB2T7QKYv+IzCcmW0K974n3z9Q==}
+  pg-protocol@1.9.5:
+    resolution: {integrity: sha512-DYTWtWpfd5FOro3UnAfwvhD8jh59r2ig8bPtc9H8Ds7MscE/9NYruUQWFAOuraRl29jwcT2kyMFQ3MxeaVjUhg==}
 
   pg-types@2.2.0:
     resolution: {integrity: sha512-qTAAlrEsl8s4OiEQY69wDvcMIdQN6wdz5ojQiOy6YRMuynxenON0O5oCpJI6lshc6scgAY8qvJ2On/p+CXY0GA==}
@@ -8205,8 +8188,8 @@ packages:
     resolution: {integrity: sha512-cRL3JpS3lKMGsKaWndugWQoLOCoP+Cic8oseVcbr0qhPzYD5DWXK+RZ9LY9wxRf7RQia4SCwQlXk0q6FCPrVng==}
     engines: {node: '>=10'}
 
-  pg@8.15.1:
-    resolution: {integrity: sha512-tC0r/yaCpAcWdYyjxtiNw9PCxlPJg+XJfm+Gzz1wpPTql5LYUHmYqXFEkJwpLEMKqpnevR/fqvXEa1O5O0sWiw==}
+  pg@8.15.6:
+    resolution: {integrity: sha512-yvao7YI3GdmmrslNVsZgx9PfntfWrnXwtR+K/DjI0I/sTKif4Z623um+sjVZ1hk5670B+ODjvHDAckKdjmPTsg==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       pg-native: '>=3.0.1'
@@ -8259,8 +8242,8 @@ packages:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
     engines: {node: '>=4'}
 
-  postgres-array@3.0.2:
-    resolution: {integrity: sha512-6faShkdFugNQCLwucjPcY5ARoW1SlbnrZjmGl0IrrqewpvxvhSLHimCVzqeuULCbG0fQv7Dtk1yDbG3xv7Veog==}
+  postgres-array@3.0.4:
+    resolution: {integrity: sha512-nAUSGfSDGOaOAEGwqsRY27GPOea7CNipJPOA7lPbdEpx5Kg3qzdP0AaWC5MlhTWV9s4hFX39nomVZ+C4tnGOJQ==}
     engines: {node: '>=12'}
 
   postgres-bytea@1.0.0:
@@ -8965,7 +8948,7 @@ packages:
     resolution: {integrity: sha512-pOLi+Gdll3JekwuFjXO3fTq+L9lzMQGcSq7M5gIjExcl3Gu1hd4XXuf5o3+LuSBsaULQH7DiNbsqPd1chVpQGQ==}
     engines: {node: '>=10.7.0'}
     peerDependencies:
-      axios: ^1.8.0
+      axios: '*'
 
   retry@0.13.1:
     resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
@@ -11909,7 +11892,7 @@ snapshots:
       - encoding
     optional: true
 
-  '@langchain/community@0.3.41(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.758.0)(@aws-sdk/credential-provider-node@3.758.0)(@browserbasehq/sdk@2.5.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(zod@3.24.3))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(@smithy/util-utf8@2.3.0)(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.6.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(pdf-parse@1.1.1)(pg@8.15.1)(playwright@1.49.0)(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1)':
+  '@langchain/community@0.3.41(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.758.0)(@aws-sdk/credential-provider-node@3.758.0)(@browserbasehq/sdk@2.5.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(zod@3.24.3))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(@smithy/util-utf8@2.3.0)(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(fast-xml-parser@4.5.3)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.6.0)(jsdom@26.0.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(pdf-parse@1.1.1)(pg@8.15.6)(playwright@1.49.0)(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.5.0)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(zod@3.24.3)
       '@ibm-cloud/watsonx-ai': 1.3.0
@@ -11920,7 +11903,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1)
+      langchain: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)
       langsmith: 0.3.20(openai@4.96.0(ws@8.18.1)(zod@3.24.3))
       openai: 4.96.0(ws@8.18.1)(zod@3.24.3)
       uuid: 10.0.0
@@ -11940,9 +11923,9 @@ snapshots:
       jsonwebtoken: 9.0.2
       lodash: 4.17.21
       pdf-parse: 1.1.1
-      pg: 8.15.1
+      pg: 8.15.6
       playwright: 1.49.0
-      typeorm: 0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2)
+      typeorm: 0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2)
       ws: 8.18.1
     transitivePeerDependencies:
       - '@langchain/anthropic'
@@ -13600,7 +13583,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.27':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@types/geojson@7946.0.14': {}
 
@@ -13612,7 +13595,7 @@ snapshots:
 
   '@types/jsdom@21.1.7':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       '@types/tough-cookie': 4.0.5
       parse5: 7.3.0
 
@@ -13623,7 +13606,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.9':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
 
   '@types/linkify-it@5.0.0': {}
 
@@ -13661,22 +13644,14 @@ snapshots:
 
   '@types/node-telegram-bot-api@0.64.8':
     dependencies:
-      '@types/node': 22.14.1
+      '@types/node': 22.15.2
       '@types/request': 2.48.12
 
   '@types/node@10.14.22': {}
 
-  '@types/node@18.19.86':
-    dependencies:
-      undici-types: 5.26.5
-
   '@types/node@18.19.87':
     dependencies:
       undici-types: 5.26.5
-
-  '@types/node@22.14.1':
-    dependencies:
-      undici-types: 6.21.0
 
   '@types/node@22.15.2':
     dependencies:
@@ -13684,10 +13659,10 @@ snapshots:
 
   '@types/parse-json@4.0.2': {}
 
-  '@types/pg@8.11.11':
+  '@types/pg@8.11.14':
     dependencies:
       '@types/node': 22.15.2
-      pg-protocol: 1.9.0
+      pg-protocol: 1.9.5
       pg-types: 4.0.2
 
   '@types/prompts@2.4.9':
@@ -14487,6 +14462,14 @@ snapshots:
   aws-sign2@0.7.0: {}
 
   aws4@1.13.2: {}
+
+  axios@1.7.4(debug@4.4.0):
+    dependencies:
+      follow-redirects: 1.15.9(debug@4.4.0)
+      form-data: 4.0.2
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
 
   axios@1.9.0(debug@4.4.0):
     dependencies:
@@ -16626,7 +16609,7 @@ snapshots:
       '@types/debug': 4.1.12
       '@types/node': 10.14.22
       '@types/tough-cookie': 4.0.5
-      axios: 1.9.0(debug@4.4.0)
+      axios: 1.7.4(debug@4.4.0)
       camelcase: 6.3.0
       debug: 4.4.0
       dotenv: 16.5.0
@@ -16636,7 +16619,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.2
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.9.0(debug@4.4.0))
+      retry-axios: 2.6.0(axios@1.7.4(debug@4.4.0))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -17208,7 +17191,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2))(ws@8.18.1):
+  langchain@0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.0(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1):
     dependencies:
       '@langchain/core': 0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3))
       '@langchain/openai': 0.5.7(@langchain/core@0.3.48(openai@4.96.0(ws@8.18.1)(zod@3.24.3)))(ws@8.18.1)
@@ -17228,7 +17211,7 @@ snapshots:
       axios: 1.9.0(debug@4.4.0)
       cheerio: 1.0.0
       handlebars: 4.7.8
-      typeorm: 0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2)
+      typeorm: 0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - encoding
       - openai
@@ -18071,21 +18054,6 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@4.95.1(ws@8.18.1)(zod@3.24.3):
-    dependencies:
-      '@types/node': 18.19.86
-      '@types/node-fetch': 2.6.12
-      abort-controller: 3.0.0
-      agentkeepalive: 4.6.0
-      form-data-encoder: 1.7.2
-      formdata-node: 4.4.1
-      node-fetch: 2.7.0
-    optionalDependencies:
-      ws: 8.18.1
-      zod: 3.24.3
-    transitivePeerDependencies:
-      - encoding
-
   openai@4.96.0(ws@8.18.1)(zod@3.24.3):
     dependencies:
       '@types/node': 18.19.87
@@ -18266,20 +18234,20 @@ snapshots:
 
   performance-now@2.1.0: {}
 
-  pg-cloudflare@1.2.0:
+  pg-cloudflare@1.2.5:
     optional: true
 
-  pg-connection-string@2.8.1: {}
+  pg-connection-string@2.8.5: {}
 
   pg-int8@1.0.1: {}
 
   pg-numeric@1.0.2: {}
 
-  pg-pool@3.9.1(pg@8.15.1):
+  pg-pool@3.9.6(pg@8.15.6):
     dependencies:
-      pg: 8.15.1
+      pg: 8.15.6
 
-  pg-protocol@1.9.0: {}
+  pg-protocol@1.9.5: {}
 
   pg-types@2.2.0:
     dependencies:
@@ -18293,21 +18261,21 @@ snapshots:
     dependencies:
       pg-int8: 1.0.1
       pg-numeric: 1.0.2
-      postgres-array: 3.0.2
+      postgres-array: 3.0.4
       postgres-bytea: 3.0.0
       postgres-date: 2.1.0
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
 
-  pg@8.15.1:
+  pg@8.15.6:
     dependencies:
-      pg-connection-string: 2.8.1
-      pg-pool: 3.9.1(pg@8.15.1)
-      pg-protocol: 1.9.0
+      pg-connection-string: 2.8.5
+      pg-pool: 3.9.6(pg@8.15.6)
+      pg-protocol: 1.9.5
       pg-types: 2.2.0
       pgpass: 1.0.5
     optionalDependencies:
-      pg-cloudflare: 1.2.0
+      pg-cloudflare: 1.2.5
 
   pgpass@1.0.5:
     dependencies:
@@ -18343,7 +18311,7 @@ snapshots:
 
   postgres-array@2.0.0: {}
 
-  postgres-array@3.0.2: {}
+  postgres-array@3.0.4: {}
 
   postgres-bytea@1.0.0: {}
 
@@ -19222,9 +19190,9 @@ snapshots:
       onetime: 7.0.0
       signal-exit: 4.1.0
 
-  retry-axios@2.6.0(axios@1.9.0(debug@4.4.0)):
+  retry-axios@2.6.0(axios@1.7.4(debug@4.4.0)):
     dependencies:
-      axios: 1.9.0(debug@4.4.0)
+      axios: 1.7.4(debug@4.4.0)
 
   retry@0.13.1: {}
 
@@ -20086,7 +20054,7 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.1)(reflect-metadata@0.2.2):
+  typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2):
     dependencies:
       '@sqltools/formatter': 1.2.5
       ansis: 3.17.0
@@ -20104,7 +20072,7 @@ snapshots:
       yargs: 17.7.2
     optionalDependencies:
       ioredis: 5.6.0
-      pg: 8.15.1
+      pg: 8.15.6
     transitivePeerDependencies:
       - supports-color
 
