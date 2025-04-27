@@ -85,8 +85,10 @@ const langchainLogger = GetLogger("langchain");
 export const GetLangchainProvider = (
   opts: LangchainProviderOptions,
 ): LangchainProvider => {
+  const chatModel = opts.models?.chat ?? "gpt-4o";
+
   const chat = new ChatOpenAI({
-    model: opts.models?.chat ?? "gpt-4o",
+    model: chatModel,
     temperature: 0,
     apiKey: opts.apiKey,
     timeout: 60 * 30 * 1000, // 30 minutes
@@ -98,14 +100,22 @@ export const GetLangchainProvider = (
     streaming: true,
   });
 
+  const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
+
   const embeddings = new OpenAIEmbeddings({
-    model: opts.models?.embeddings ?? "text-embedding-ada-002",
+    model: embeddingsModel,
     apiKey: opts.apiKey,
     timeout: 60 * 30 * 1000, // 30 minutes
     configuration: {
       baseURL: opts.baseURL,
     },
   });
+
+  langchainLogger.info.log(
+    "LangchainProvider initialized with chat model %s and embedding model %s",
+    chatModel,
+    embeddingsModel,
+  );
 
   return {
     chat,

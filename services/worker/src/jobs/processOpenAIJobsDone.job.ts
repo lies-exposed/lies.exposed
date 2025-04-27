@@ -53,7 +53,8 @@ const processDoneJobBlockNoteResult =
           ),
           fp.RTE.chainEitherK((doc) =>
             pipe(
-              Schema.decodeEither(BlockNoteDocument)(doc),
+              doc,
+              Schema.decodeEither(BlockNoteDocument),
               fp.E.mapLeft((errs) => DecodeError.of("BlockNoteDocument", errs)),
             ),
           ),

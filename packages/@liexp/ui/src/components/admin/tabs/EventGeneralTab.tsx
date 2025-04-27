@@ -118,7 +118,7 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   }
 
   return (
-    <Grid container>
+    <Grid display="flex" container>
       <Grid
         size={{ md: 4, lg: 4 }}
         style={{

@@ -2,6 +2,9 @@ import { type Document } from "@langchain/core/documents";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnablePassthrough } from "@langchain/core/runnables";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type APIError,
   toAPIError,
@@ -26,25 +29,24 @@ export const getCreateEventPromptPartial =
       question: string;
     }>,
     type: EventType,
-    jsonSchema: any,
   ): ReaderTaskEither<C, APIError, PromptTemplate> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
-      const prompt = await PromptTemplate.fromTemplate(
-        promptTemplate({
-          vars: {
-            type,
-            jsonSchema,
-            question: "{question}",
-            context: "{context}",
-          },
-        }),
-      ).partial({
-        evenType: type,
-        jsonSchema: JSON.stringify(jsonSchema),
+      const template = promptTemplate({
+        vars: {
+          type,
+          jsonSchema: "{jsonSchema}",
+          question: "{question}",
+          context: "{context}",
+        },
       });
 
-      const promptValue = await prompt.invoke({});
+      const prompt = PromptTemplate.fromTemplate(template);
+
+      const promptValue = await prompt.format({
+        context: "{context}",
+      });
+
       ctx.logger.info.log(
         "Populating template with even type %s \n %s",
         type,
@@ -68,15 +70,49 @@ export const createEventFromText = <C extends LoggerContext & LangchainContext>(
   question: string,
 ): ReaderTaskEither<C, APIError | DBError, Event> => {
   return pipe(
-    getCreateEventPromptPartial(promptTemplate, type, jsonSchema),
+    getCreateEventPromptPartial(promptTemplate, type),
     fp.RTE.chain((prompt) =>
-      runRagChain<C>(
+      runRagChain<EventCommonProps, C>(
         {
           context: () => text.flatMap((t) => t.pageContent).join("\n"),
           question: new RunnablePassthrough(),
         },
         prompt,
         question,
+      ),
+    ),
+    fp.RTE.chainEitherK((event) =>
+      pipe(
+        buildEvent(type, {
+          ...event,
+          actors: [],
+          groups: [],
+          areas: [],
+          links: [],
+          keywords: [],
+          media: [],
+          groupsMembers: [],
+        }),
+        fp.E.fromOption(() =>
+          toAPIError(new Error("Cant't create event from response ")),
+        ),
+        fp.E.map(
+          (ev) =>
+            ({
+              ...ev,
+              id: uuid(),
+              excerpt: null,
+              body: null,
+              keywords: [],
+              links: [],
+              media: [],
+              socialPosts: [],
+              createdAt: new Date(),
+              updatedAt: new Date(),
+              deletedAt: undefined,
+              draft: true,
+            }) as Event,
+        ),
       ),
     ),
   );

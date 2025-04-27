@@ -43,8 +43,7 @@ export const loadContext = (
           baseURL: config.config.localAi.url,
           apiKey: config.config.localAi.apiKey,
           models: {
-            chat: config.config.localAi.models
-              ?.summarization as AvailableModels,
+            chat: config.config.localAi.models?.chat as AvailableModels,
             embeddings: config.config.localAi.models
               ?.embeddings as AvailableModels,
           },

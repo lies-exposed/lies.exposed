@@ -6,12 +6,17 @@ export const BlockNoteBlock = Schema.Struct({
   props: Schema.Any,
   content: Schema.Any,
   children: Schema.mutable(Schema.Array(Schema.Any)),
-}).annotations({ title: "BlockNoteBlock" });
+}).annotations({ identifier: "BlockNoteBlock" });
 
 export type BlockNoteBlock = typeof BlockNoteBlock.Type;
 
 export const BlockNoteDocument = Schema.mutable(Schema.Array(BlockNoteBlock))
   .pipe(Schema.filter((s) => s.length >= 1 && typeof s[0].type === "string"))
-  .pipe(Schema.brand("BlockNoteDocument"));
+  .pipe(Schema.brand("BlockNoteDocument"))
+  .annotations({
+    title: "BlockNoteDocument",
+    jsonSchema: {},
+    identifier: "BlockNoteDocument",
+  });
 
 export type BlockNoteDocument = typeof BlockNoteDocument.Type;

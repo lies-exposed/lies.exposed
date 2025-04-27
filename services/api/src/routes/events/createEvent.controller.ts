@@ -58,6 +58,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
                         data: {
                           type: body.type,
                           url: body.url,
+                          date: body.date,
                         },
                       }),
                   ),

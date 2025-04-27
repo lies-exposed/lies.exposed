@@ -235,189 +235,203 @@ export const takeEventRelations = (
   );
 };
 
-export const transform =
-  (getTextContents: (v: any) => string) =>
-  (
-    e: Events.Event,
-    type: Events.EventType,
-    props: EventCommonProps & Events.EventRelationIds,
-  ): O.Option<Events.Event> => {
-    switch (type) {
-      case EVENT_TYPES.DEATH: {
-        return pipe(
-          props.actors.at(0),
-          fp.O.fromNullable,
-          fp.O.map((v) => ({
-            ...e,
-            type: EVENT_TYPES.DEATH,
-            payload: {
-              victim: v,
-              location: undefined,
-            },
-          })),
-        );
-      }
-      case EVENT_TYPES.TRANSACTION: {
-        const from = pipe(
-          props.actors,
-          fp.A.head,
-          fp.O.map((id) => makeBySubjectId("Actor", id)),
-          fp.O.alt(() =>
-            pipe(
-              props.groups,
-              fp.A.head,
-              fp.O.map((id) => makeBySubjectId("Group", id)),
-            ),
+export const buildEvent = (
+  type: Events.EventType,
+  props: EventCommonProps & Events.EventRelationIds,
+): O.Option<Pick<Events.Event, "type" | "date" | "payload">> => {
+  switch (type) {
+    case EVENT_TYPES.DEATH: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          actor: fp.O.fromNullable(props.actors.at(0)),
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ actor, date }) => ({
+          type: EVENT_TYPES.DEATH,
+          date,
+          payload: {
+            victim: actor,
+            location: undefined,
+          },
+        })),
+      );
+    }
+    case EVENT_TYPES.TRANSACTION: {
+      const from = pipe(
+        props.actors,
+        fp.A.head,
+        fp.O.map((id) => makeBySubjectId("Actor", id)),
+        fp.O.alt(() =>
+          pipe(
+            props.groups,
+            fp.A.head,
+            fp.O.map((id) => makeBySubjectId("Group", id)),
           ),
-        );
+        ),
+      );
 
-        const to = pipe(
-          [...props.actors],
-          fp.A.takeLeft(2),
-          fp.A.head,
-          fp.O.map((id) => makeBySubjectId("Actor", id)),
-          fp.O.alt(() =>
-            pipe(
-              [...props.groups],
-              fp.A.takeLeft(2),
-              fp.A.head,
-              fp.O.map((id) => makeBySubjectId("Group", id)),
-            ),
+      const to = pipe(
+        [...props.actors],
+        fp.A.takeLeft(2),
+        fp.A.head,
+        fp.O.map((id) => makeBySubjectId("Actor", id)),
+        fp.O.alt(() =>
+          pipe(
+            [...props.groups],
+            fp.A.takeLeft(2),
+            fp.A.head,
+            fp.O.map((id) => makeBySubjectId("Group", id)),
           ),
-        );
+        ),
+      );
 
-        return pipe(
-          sequenceS(fp.O.Applicative)({
-            to,
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          to,
+          from,
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ to, from, date }) => ({
+          type: EVENT_TYPES.TRANSACTION,
+          date,
+          payload: {
+            currency: "USD",
+            total: 0,
+            title: props.title,
             from,
-          }),
-          fp.O.map(({ to, from }) => ({
-            ...e,
-            type: EVENT_TYPES.TRANSACTION,
-            payload: {
-              currency: "USD",
-              total: 0,
-              title: props.title,
-              from,
-              to,
+            to,
+          },
+        })),
+      );
+    }
+    case EVENT_TYPES.PATENT: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          source: fp.O.fromNullable(props.links.at(0)),
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ source, date }) => ({
+          type: EVENT_TYPES.PATENT,
+          date,
+          payload: {
+            title: props.title,
+            source,
+            owners: {
+              groups: props.groups,
+              actors: props.actors,
             },
-          })),
-        );
-      }
-      case EVENT_TYPES.PATENT: {
-        return pipe(
-          props.links.at(0),
-          fp.O.fromNullable,
-          fp.O.map((source) => ({
-            ...e,
-            type: EVENT_TYPES.PATENT,
-            payload: {
-              title: props.title,
-              source,
-              owners: {
-                groups: props.groups,
-                actors: props.actors,
-              },
+          },
+        })),
+      );
+    }
+    case EVENT_TYPES.DOCUMENTARY: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          media: pipe([...props.media], fp.A.head),
+          website: pipe([...props.links], fp.A.head),
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ media, website, date }) => ({
+          type: EVENT_TYPES.DOCUMENTARY,
+          date,
+          payload: {
+            title: props.title,
+            website,
+            media,
+            authors: {
+              actors: props.actors,
+              groups: props.groups,
             },
-          })),
-        );
-      }
-      case EVENT_TYPES.DOCUMENTARY: {
-        return pipe(
-          sequenceS(fp.O.Applicative)({
-            media: pipe([...props.media], fp.A.head),
-            website: pipe([...props.links], fp.A.head),
-          }),
-          fp.O.map(({ media, website }) => ({
-            ...e,
-            type: EVENT_TYPES.DOCUMENTARY,
-            payload: {
-              title: props.title,
-              website,
-              media,
-              authors: {
-                actors: props.actors,
-                groups: props.groups,
-              },
-              subjects: {
-                actors: props.actors,
-                groups: props.groups,
-              },
+            subjects: {
+              actors: props.actors,
+              groups: props.groups,
             },
-          })),
-        );
-      }
+          },
+        })),
+      );
+    }
 
-      case EVENT_TYPES.SCIENTIFIC_STUDY: {
-        return pipe(
-          props.links,
-          fp.A.head,
-          fp.O.map((url) => ({
-            ...e,
-            type: EVENT_TYPES.SCIENTIFIC_STUDY,
-            payload: {
-              title: props.title,
-              image: props.media.at(0),
-              url,
-              authors: props.actors,
-              publisher: props.groups.at(0),
-            },
-          })),
-        );
-      }
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          url: fp.O.fromNullable(props.links.at(0)),
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ url, date }) => ({
+          type: EVENT_TYPES.SCIENTIFIC_STUDY,
+          date,
+          payload: {
+            title: props.title,
+            image: props.media.at(0),
+            url,
+            authors: props.actors,
+            publisher: props.groups.at(0),
+          },
+        })),
+      );
+    }
 
-      case EVENT_TYPES.QUOTE: {
-        const subjectOpt = pipe(
-          props.actors,
-          fp.A.head,
-          fp.O.map((id) => makeBySubjectId("Actor", id)),
-          fp.O.alt(() =>
-            pipe(
-              props.groups,
-              fp.A.head,
-              fp.O.map((id) => makeBySubjectId("Group", id)),
-            ),
+    case EVENT_TYPES.QUOTE: {
+      const subjectOpt = pipe(
+        props.actors,
+        fp.A.head,
+        fp.O.map((id) => makeBySubjectId("Actor", id)),
+        fp.O.alt(() =>
+          pipe(
+            props.groups,
+            fp.A.head,
+            fp.O.map((id) => makeBySubjectId("Group", id)),
           ),
-        );
+        ),
+      );
 
-        return pipe(
-          subjectOpt,
-          fp.O.map((subject) => ({
-            ...e,
-            type: EVENT_TYPES.QUOTE,
-            payload: {
-              quote: e.excerpt ? getTextContents(e.excerpt) : undefined,
-              actor: undefined,
-              subject,
-              details: undefined,
-            },
-          })),
-        );
-      }
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          subject: subjectOpt,
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ subject, date }) => ({
+          type: EVENT_TYPES.QUOTE,
+          date,
+          payload: {
+            quote: props.excerpt ?? undefined,
+            actor: undefined,
+            subject,
+            details: undefined,
+          },
+        })),
+      );
+    }
 
-      case EVENT_TYPES.BOOK: {
-        return pipe(
-          sequenceS(fp.O.Applicative)({
-            actorAuthors: fp.O.some(props.actors),
-            media: pipe(props.media, fp.A.head),
-          }),
-          fp.O.map(({ actorAuthors, media }) => ({
-            ...e,
-            type: EVENT_TYPES.BOOK,
-            payload: {
-              title: props.title,
-              media: { pdf: media, audio: undefined },
-              authors: actorAuthors.map((a) => ({ type: "Actor", id: a })),
-              publisher: undefined,
-            },
-          })),
-        );
-      }
+    case EVENT_TYPES.BOOK: {
+      return pipe(
+        sequenceS(fp.O.Applicative)({
+          actorAuthors: fp.O.some(props.actors),
+          media: pipe(props.media, fp.A.head),
+          date: fp.O.fromNullable(props.date?.at(0)),
+        }),
+        fp.O.map(({ actorAuthors, media, date }) => ({
+          type: EVENT_TYPES.BOOK,
+          date,
+          payload: {
+            title: props.title,
+            media: { pdf: media, audio: undefined },
+            authors: actorAuthors.map((a) => ({
+              type: "Actor" as const,
+              id: a,
+            })),
+            publisher: undefined,
+          },
+        })),
+      );
+    }
 
-      default: {
-        return fp.O.some({
-          ...e,
+    default: {
+      return pipe(
+        fp.O.fromNullable(props.date?.at(0)),
+        fp.O.map((date) => ({
           type: EVENT_TYPES.UNCATEGORIZED,
+          date,
           payload: {
             title: props.title,
             location: props.location,
@@ -426,10 +440,27 @@ export const transform =
             groups: props.groups,
             groupsMembers: props.groupsMembers,
           },
-        });
-      }
+        })),
+      );
     }
-  };
+  }
+};
+
+export const transform = (
+  e: Events.Event,
+  type: Events.EventType,
+  props: EventCommonProps & Events.EventRelationIds,
+): O.Option<Events.Event> => {
+  return pipe(
+    buildEvent(type, props),
+    fp.O.map((event) => {
+      return {
+        ...e,
+        ...event,
+      } as Events.Event;
+    }),
+  );
+};
 
 export const getTotals = (
   acc: Events.SearchEvent.EventTotals.EventTotals,
