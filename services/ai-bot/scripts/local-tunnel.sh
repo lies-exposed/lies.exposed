@@ -2,4 +2,4 @@
 
 set -e -x
 
-ssh -v -N alpha.lies.exposed -R 8008:localai.liexp.dev:8080 -C
+ssh -v -N alpha.lies.exposed -R 8008:127.0.0.1:8080 -C

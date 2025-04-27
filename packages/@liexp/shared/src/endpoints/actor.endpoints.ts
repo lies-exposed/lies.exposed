@@ -8,7 +8,7 @@ import { UUID } from "../io/http/Common/index.js";
 import { Actor } from "../io/http/index.js";
 
 export const SingleActorOutput = Output(Actor.Actor).annotations({
-  title: "SingleActorOutput",
+  identifier: "SingleActorOutput",
 });
 export type SingleActorOutput = typeof SingleActorOutput.Type;
 

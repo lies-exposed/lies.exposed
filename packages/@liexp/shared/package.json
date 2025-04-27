@@ -57,8 +57,8 @@
   },
   "peerDependencies": {
     "@tanstack/react-query": "^5",
-    "@visx/network": "^3.12.0",
-    "axios": "^1.9.0",
+    "@visx/network": "^3",
+    "axios": "^1",
     "debug": "^4",
     "effect": "^3",
     "fp-ts": "^2",

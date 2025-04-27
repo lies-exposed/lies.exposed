@@ -134,7 +134,7 @@
     "vitest": "^3.1.2"
   },
   "peerDependencies": {
-    "axios": "^1.9.0",
+    "axios": "^1",
     "effect": "^3",
     "fp-ts": "^2"
   },
