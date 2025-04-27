@@ -12,7 +12,7 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     "@liexp/ui/lib/vite/plugins/react-virtualized.js"
   );
 
-  const cwd = path.resolve(__dirname, "..");
+  const cwd = path.resolve(import.meta.dirname, "..");
 
   const viteConfigUpdate = defineViteConfig({
     envFileDir: cwd,
