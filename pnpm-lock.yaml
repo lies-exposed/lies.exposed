@@ -247,8 +247,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(rollup@4.40.0)
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.67.2
-        version: 5.67.2(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)
+        specifier: ^5.74.7
+        version: 5.74.7(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -3848,8 +3848,8 @@ packages:
     peerDependencies:
       acorn: ^8.9.0
 
-  '@tanstack/eslint-plugin-query@5.67.2':
-    resolution: {integrity: sha512-bWAA/0lYGBNv7lIV6tID2o5wC6yWUjkh9yx8ow9YMP3brxIhuUPdCAtJBhXL2nVzJTnc6FRrL401KFG5PPEkZg==}
+  '@tanstack/eslint-plugin-query@5.74.7':
+    resolution: {integrity: sha512-EeHuaaYiCOD+XOGyB7LMNEx9OEByAa5lkgP+S3ZggjKJpmIO6iRWeoIYYDKo2F8uc3qXcVhTfC7pn7NddQiNtA==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
 
@@ -7848,6 +7848,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -13123,7 +13124,7 @@ snapshots:
     dependencies:
       acorn: 8.14.1
 
-  '@tanstack/eslint-plugin-query@5.67.2(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)':
+  '@tanstack/eslint-plugin-query@5.74.7(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/utils': 8.31.0(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.25.1(jiti@2.4.2)
