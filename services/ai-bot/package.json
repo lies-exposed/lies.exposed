@@ -30,8 +30,8 @@
     "postinstall": "cp -r ../../node_modules/pdfjs-dist/build/pdf.worker.mjs ./build/pdf.worker.mjs"
   },
   "dependencies": {
-    "@aws-sdk/client-sso-oidc": "^3.758.0",
-    "@aws-sdk/client-sts": "^3.758.0",
+    "@aws-sdk/client-sso-oidc": "^3.797.0",
+    "@aws-sdk/client-sts": "^3.797.0",
     "@langchain/community": "^0.3.35",
     "@langchain/core": "^0.3.49",
     "@liexp/backend": "workspace:*",
