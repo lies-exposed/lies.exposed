@@ -36,7 +36,7 @@
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "date-fns": "^4.1.0",
-    "jsdom": "^26.0.0",
+    "jsdom": "^26.1.0",
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.24.0",
     "reflect-metadata": "^0.2.2",
