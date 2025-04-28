@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@esbuild/aix-ppc64": "^0.25.3",
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.15.3",
     "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.2",
     "eslint": "^9.25.1",
