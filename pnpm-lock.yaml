@@ -651,8 +651,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
       vanilla-jsoneditor:
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^3.3.1
+        version: 3.3.1
       waveform-data:
         specifier: ^4.5.1
         version: 4.5.1
@@ -1727,17 +1727,17 @@ packages:
   '@codemirror/autocomplete@6.18.6':
     resolution: {integrity: sha512-PHHBXFomUs5DF+9tCOM/UoW6XQ4R44lLNNhRaW9PKPTU0D7lIjRg3ElxaJnTwsl/oHiR93WSXDBrekhoUGCPtg==}
 
-  '@codemirror/commands@6.8.0':
-    resolution: {integrity: sha512-q8VPEFaEP4ikSlt6ZxjB3zW72+7osfAYW9i8Zu943uqbKuz6utc1+F170hyLUCUltXORjQXRyYQNfkckzA/bPQ==}
+  '@codemirror/commands@6.8.1':
+    resolution: {integrity: sha512-KlGVYufHMQzxbdQONiLyGQDUW0itrLZwq3CcY7xpv9ZLRHqzkBSoteocBHtMCoY7/Ci4xhzSrToIeLg7FxHuaw==}
 
   '@codemirror/lang-json@6.0.1':
     resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
 
-  '@codemirror/language@6.10.8':
-    resolution: {integrity: sha512-wcP8XPPhDH2vTqf181U8MbZnW+tDyPYy0UzVOa+oHORjyT+mhhom9vBd7dApJwoDz9Nb/a8kHjJIsuA/t8vNFw==}
+  '@codemirror/language@6.11.0':
+    resolution: {integrity: sha512-A7+f++LodNNc1wGgoRDTt78cOwWm9KVezApgjOMp1W4hM0898nsqBXwF+sbePE7ZRcjN7Sa1Z5m2oN27XkmEjQ==}
 
-  '@codemirror/lint@6.8.4':
-    resolution: {integrity: sha512-u4q7PnZlJUojeRe8FJa/njJcMctISGgPQ4PnWsd9268R4ZTtU+tfFYmwkBvgcrK2+QQ8tYFVALVb5fVJykKc5A==}
+  '@codemirror/lint@6.8.5':
+    resolution: {integrity: sha512-s3n3KisH7dx3vsoeGMxsbRAgKe4O1vbrnKBClm99PU0fWxmxsx5rR2PfqQgIt+2MMJBHbiJ5rfIdLYfB9NNvsA==}
 
   '@codemirror/search@6.5.10':
     resolution: {integrity: sha512-RMdPdmsrUf53pb2VwflKGHEe1XVM07hI7vV2ntgw1dmqhimpatSJKva4VA9h4TLUDOD4EIF02201oZurpnEFsg==}
@@ -1745,8 +1745,8 @@ packages:
   '@codemirror/state@6.5.2':
     resolution: {integrity: sha512-FVqsPqtPWKVVL3dPSxy8wEF/ymIEuVzF1PK3VbUgrxXpJUSHQWWZz4JMToquRxnkw+36LTamCZG2iua2Ptq0fA==}
 
-  '@codemirror/view@6.36.4':
-    resolution: {integrity: sha512-ZQ0V5ovw/miKEXTvjgzRyjnrk9TwriUB1k4R5p7uNnHR9Hus+D1SXHGdJshijEzPFjU25xea/7nhIeSqYFKdbA==}
+  '@codemirror/view@6.36.6':
+    resolution: {integrity: sha512-uxugGLet+Nzp0Jcit8Hn3LypM8ioMLKTsdf8FRoT3HWvZtb9GhaWMe0Cc15rz90Ljab4YFJiAulmIVB74OY0IQ==}
 
   '@colors/colors@1.6.0':
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -5271,8 +5271,8 @@ packages:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
     engines: {node: '>=0.10.0'}
 
-  codemirror-wrapped-line-indent@1.0.8:
-    resolution: {integrity: sha512-5UwuHCz4oAZuvot1DbfFxSxJacTESdNGa/KpJD7HfpVpDAJdgB1vV9OG4b4pkJqPWuOfIpFLTQEKS85kTpV+XA==}
+  codemirror-wrapped-line-indent@1.0.9:
+    resolution: {integrity: sha512-oc976hHLt35u6Ojbhub+IWOxEpapZSqYieLEdGhsgFZ4rtYQtdb5KjxzgjCCyVe3t0yk+a6hmaIOEsjU/tZRxQ==}
     peerDependencies:
       '@codemirror/language': ^6.9.0
       '@codemirror/state': ^6.2.1
@@ -6151,8 +6151,8 @@ packages:
     resolution: {integrity: sha512-ca9pw9fomFcKPvFLXhBKUK90ZvGibiGOvRJNbjljY7s7uq/5YO4BOzcYtJqExdx99rF6aAcnRxHmcUHcz6sQsg==}
     engines: {node: '>=0.10'}
 
-  esrap@1.4.5:
-    resolution: {integrity: sha512-CjNMjkBWWZeHn+VX+gS8YvFwJ5+NDhg8aWZBSFJPR8qQduDNjbJodA2WcwCm7uQa5Rjqj+nZvVmceg1RbHFB9g==}
+  esrap@1.4.6:
+    resolution: {integrity: sha512-F/D2mADJ9SHY3IwksD4DAXjTt7qt7GWUf3/8RhCNWmC/67tyb55dpimHmy7EplakFaflV0R/PC+fdSPqrRHAQw==}
 
   esrecurse@4.3.0:
     resolution: {integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==}
@@ -7848,6 +7848,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -9393,8 +9394,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svelte@5.23.0:
-    resolution: {integrity: sha512-v0lL3NuKontiCxholEiAXCB+BYbndlKbwlDMK0DS86WgGELMJSpyqCSbJeMEMBDwOglnS7Ar2Rq0wwa/z2L8Vg==}
+  svelte@5.28.2:
+    resolution: {integrity: sha512-FbWBxgWOpQfhKvoGJv/TFwzqb4EhJbwCD17dB0tEpQiw1XyUEKZJtgm4nA4xq3LLsMo7hu5UY/BOFmroAxKTMg==}
     engines: {node: '>=18'}
 
   symbol-tree@3.2.4:
@@ -9922,8 +9923,8 @@ packages:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
 
-  vanilla-jsoneditor@3.1.0:
-    resolution: {integrity: sha512-4c8rB8JO+Yb1d58UXuNGrzhrPyOg4EDe8/7U4tYZY0mb0xyN5g8KREAvnK0vPhcovDa02l8ud2wrMciFJFNtog==}
+  vanilla-jsoneditor@3.3.1:
+    resolution: {integrity: sha512-dnzKiBv7ux7jYAk+FviTQJuL3myEFtvrqnjJfYYmED2ERnirR+CxLinL7pmAER/4UcTMQimnlksTBubf+8eusw==}
 
   vanilla-picker@2.12.3:
     resolution: {integrity: sha512-qVkT1E7yMbUsB2mmJNFmaXMWE2hF8ffqzMMwe9zdAikd8u2VfnsVY2HQcOUi2F38bgbxzlJBEdS1UUhOXdF9GQ==}
@@ -11185,49 +11186,49 @@ snapshots:
 
   '@codemirror/autocomplete@6.18.6':
     dependencies:
-      '@codemirror/language': 6.10.8
+      '@codemirror/language': 6.11.0
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       '@lezer/common': 1.2.3
 
-  '@codemirror/commands@6.8.0':
+  '@codemirror/commands@6.8.1':
     dependencies:
-      '@codemirror/language': 6.10.8
+      '@codemirror/language': 6.11.0
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       '@lezer/common': 1.2.3
 
   '@codemirror/lang-json@6.0.1':
     dependencies:
-      '@codemirror/language': 6.10.8
+      '@codemirror/language': 6.11.0
       '@lezer/json': 1.0.3
 
-  '@codemirror/language@6.10.8':
+  '@codemirror/language@6.11.0':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       '@lezer/common': 1.2.3
       '@lezer/highlight': 1.2.1
       '@lezer/lr': 1.4.2
       style-mod: 4.1.2
 
-  '@codemirror/lint@6.8.4':
+  '@codemirror/lint@6.8.5':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       crelt: 1.0.6
 
   '@codemirror/search@6.5.10':
     dependencies:
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       crelt: 1.0.6
 
   '@codemirror/state@6.5.2':
     dependencies:
       '@marijn/find-cluster-break': 1.0.2
 
-  '@codemirror/view@6.36.4':
+  '@codemirror/view@6.36.6':
     dependencies:
       '@codemirror/state': 6.5.2
       style-mod: 4.1.2
@@ -12471,11 +12472,11 @@ snapshots:
 
   '@remix-run/router@1.23.0': {}
 
-  '@replit/codemirror-indentation-markers@6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)':
+  '@replit/codemirror-indentation-markers@6.5.3(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)':
     dependencies:
-      '@codemirror/language': 6.10.8
+      '@codemirror/language': 6.11.0
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
 
   '@rollup/plugin-image@3.0.3(rollup@4.40.1)':
     dependencies:
@@ -14831,11 +14832,11 @@ snapshots:
 
   cluster-key-slot@1.1.2: {}
 
-  codemirror-wrapped-line-indent@1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4):
+  codemirror-wrapped-line-indent@1.0.9(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.6):
     dependencies:
-      '@codemirror/language': 6.10.8
+      '@codemirror/language': 6.11.0
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
 
   color-convert@1.9.3:
     dependencies:
@@ -15868,7 +15869,7 @@ snapshots:
     dependencies:
       estraverse: 5.3.0
 
-  esrap@1.4.5:
+  esrap@1.4.6:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
@@ -19764,7 +19765,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte@5.23.0:
+  svelte@5.28.2:
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@jridgewell/sourcemap-codec': 1.5.0
@@ -19775,7 +19776,7 @@ snapshots:
       axobject-query: 4.1.0
       clsx: 2.1.1
       esm-env: 1.2.2
-      esrap: 1.4.5
+      esrap: 1.4.6
       is-reference: 3.0.3
       locate-character: 3.0.0
       magic-string: 0.30.17
@@ -20288,23 +20289,23 @@ snapshots:
 
   uuid@9.0.1: {}
 
-  vanilla-jsoneditor@3.1.0:
+  vanilla-jsoneditor@3.3.1:
     dependencies:
       '@codemirror/autocomplete': 6.18.6
-      '@codemirror/commands': 6.8.0
+      '@codemirror/commands': 6.8.1
       '@codemirror/lang-json': 6.0.1
-      '@codemirror/language': 6.10.8
-      '@codemirror/lint': 6.8.4
+      '@codemirror/language': 6.11.0
+      '@codemirror/lint': 6.8.5
       '@codemirror/search': 6.5.10
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.36.4
+      '@codemirror/view': 6.36.6
       '@fortawesome/free-regular-svg-icons': 6.7.2
       '@fortawesome/free-solid-svg-icons': 6.7.2
       '@jsonquerylang/jsonquery': 4.1.1
       '@lezer/highlight': 1.2.1
-      '@replit/codemirror-indentation-markers': 6.5.3(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)
+      '@replit/codemirror-indentation-markers': 6.5.3(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)
       ajv: 8.17.1
-      codemirror-wrapped-line-indent: 1.0.8(@codemirror/language@6.10.8)(@codemirror/state@6.5.2)(@codemirror/view@6.36.4)
+      codemirror-wrapped-line-indent: 1.0.9(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.6)
       diff-sequences: 29.6.3
       immutable-json-patch: 6.0.1
       jmespath: 0.16.0
@@ -20314,7 +20315,7 @@ snapshots:
       lodash-es: 4.17.21
       memoize-one: 6.0.0
       natural-compare-lite: 1.4.0
-      svelte: 5.23.0
+      svelte: 5.28.2
       vanilla-picker: 2.12.3
 
   vanilla-picker@2.12.3:
