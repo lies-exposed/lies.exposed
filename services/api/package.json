@@ -96,7 +96,7 @@
     "@types/pg": "^8.11.14",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
-    "@types/supertest": "^6.0.2",
+    "@types/supertest": "^6.0.3",
     "dockerode": "^4.0.6",
     "dotenv": "^16.4.7",
     "eslint": "^9.25.1",
