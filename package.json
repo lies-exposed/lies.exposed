@@ -43,7 +43,7 @@
     "corepack": "^0.32.0",
     "eslint": "^9.25.1",
     "husky": "^9.1.7",
-    "knip": "^5.50.5",
+    "knip": "^5.51.1",
     "lint-staged": "^15.5.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0",
