@@ -55,6 +55,7 @@ export const MakeUploadFileRoute: Route = (r, ctx) => {
           (e) => T.of(res.status(500).send(e)),
           ({ body, statusCode }) => T.of(res.status(statusCode).send(body)),
         ),
+        T.map(() => undefined),
       )();
     },
   );
