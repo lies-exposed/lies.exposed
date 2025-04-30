@@ -77,6 +77,7 @@ export const MakeUploadMultipartFileRoute: Route = (r, ctx): void => {
           (e) => T.of(res.status(500).send(e)),
           ({ statusCode, body }) => T.of(res.status(statusCode).send(body)),
         ),
+        T.map(() => undefined),
       )();
     },
   );
