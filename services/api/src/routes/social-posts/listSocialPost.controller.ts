@@ -141,7 +141,7 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
               SocialPostIO.decodeMany(posts, ctx.env.SPACE_ENDPOINT),
             ),
           ),
-          total: ctx.db.count(SocialPostEntity),
+          total: ctx.db.execQuery(() => findSocialPostQuery.getCount()),
         }),
         TE.map(({ data, total }) => ({
           body: {
