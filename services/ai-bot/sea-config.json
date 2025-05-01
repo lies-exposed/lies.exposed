@@ -1,4 +1,6 @@
 {
     "main": "./build/run-esbuild.js",
-    "output": "./build/ai-bot.blob"
+    "output": "./build/ai-bot.blob",
+    "disableExperimentalSEAWarning": true,
+    "useCodeCache": true
   }

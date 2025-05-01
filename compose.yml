@@ -124,9 +124,9 @@ services:
   ai-bot:
     build:
       context: .
-      target: dev
+      target: production
       dockerfile: ai-bot.Dockerfile
-    command: ["node", "build/run-esbuild.js"]
+    command: ["./ai-bot"]
     env_file:
       - ./services/ai-bot/.env.local
       - ./services/ai-bot/.env
