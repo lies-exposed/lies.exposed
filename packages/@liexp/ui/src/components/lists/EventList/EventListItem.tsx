@@ -1,6 +1,7 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
-  Events,
+  type Events,
   type Group,
   type GroupMember,
   type Keyword,
@@ -34,25 +35,25 @@ export const EventListItem: React.FC<EventListItemProps> = ({
   ...props
 }) => {
   switch (e.type) {
-    case Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       return <BookListItem item={e} {...props} />;
     }
-    case Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       return <TransactionListItem item={e} {...props} />;
     }
-    case Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return <DocumentaryListItem item={e} {...props} />;
     }
-    case Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return <DeathListItem item={e} {...props} />;
     }
-    case Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return <ScientificStudyListItem item={e} {...props} />;
     }
-    case Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return <PatentListItem item={e} {...props} />;
     }
-    case Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       return <QuoteListItem {...props} item={e} />;
     }
     default:

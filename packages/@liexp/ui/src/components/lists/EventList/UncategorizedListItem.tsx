@@ -1,9 +1,10 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
-  Events,
+  type Events,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Box, Grid } from "../../mui/index.js";
@@ -47,7 +48,7 @@ export const UncategorizedListItem: React.FC<UncategorizedListItemProps> = ({
       <Grid container spacing={2} style={{ width: "100%", maxWidth: "100%" }}>
         <EventListItemBase
           event={item}
-          type={Events.EventTypes.UNCATEGORIZED.Type}
+          type={EVENT_TYPES.UNCATEGORIZED}
           title={item.payload.title}
           excerpt={item.excerpt}
           keywords={item.keywords}

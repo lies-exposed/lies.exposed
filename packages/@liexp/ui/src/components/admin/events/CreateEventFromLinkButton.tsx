@@ -1,7 +1,7 @@
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventFromURLBody } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/Link.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import type * as io from "@liexp/shared/lib/io/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -32,10 +32,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
   } => {
     const { payload, type } = formGroupState.getValues();
     if (!type) {
-      formGroupState.setValue(
-        "type",
-        io.http.Events.EventTypes.UNCATEGORIZED.literals[0],
-      );
+      formGroupState.setValue("type", EVENT_TYPES.UNCATEGORIZED);
     }
     return { payload, type };
   }, [formGroupState.getValues()]);

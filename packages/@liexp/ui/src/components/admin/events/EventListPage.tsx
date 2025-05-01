@@ -1,8 +1,8 @@
 import {
   DEATH,
+  EVENT_TYPES,
   SCIENTIFIC_STUDY,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { Schema } from "effect";
@@ -86,13 +86,13 @@ export const EventDataGrid: React.FC = () => {
             <Box>
               <EventIcon color="primary" type={r.type} />{" "}
               {[
-                io.http.Events.EventTypes.UNCATEGORIZED,
-                io.http.Events.EventTypes.SCIENTIFIC_STUDY,
-                io.http.Events.EventTypes.BOOK,
+                EVENT_TYPES.UNCATEGORIZED,
+                EVENT_TYPES.SCIENTIFIC_STUDY,
+                EVENT_TYPES.BOOK,
               ].includes(r.type) ? (
                 <Typography>{r.payload.title}</Typography>
               ) : null}
-              {r.type === io.http.Events.EventTypes.DEATH && (
+              {r.type === EVENT_TYPES.DEATH && (
                 <ReferenceField source="payload.victim" reference="actors">
                   <TextField source="username" />
                 </ReferenceField>
@@ -115,11 +115,11 @@ export const EventDataGrid: React.FC = () => {
         label="actors"
         source="payload"
         render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED) {
+          if (r?.type === EVENT_TYPES.UNCATEGORIZED) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY) {
+          if (r?.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
             return r.payload.authors.length;
           }
 

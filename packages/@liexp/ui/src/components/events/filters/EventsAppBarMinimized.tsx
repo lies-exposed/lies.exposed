@@ -1,4 +1,4 @@
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
 import { type EventTypeFiltersProps } from "./EventTypeFilters.js";
 
@@ -6,29 +6,21 @@ export const searchEventQueryToEventTypeFilters = (
   query: SearchEventsQueryInputNoPagination,
 ): Required<EventTypeFiltersProps["filters"]> => {
   return {
-    [EventTypes.BOOK.literals[0]]: !!query.eventType?.includes(
-      EventTypes.BOOK.literals[0],
+    [EVENT_TYPES.BOOK]: !!query.eventType?.includes(EVENT_TYPES.BOOK),
+    [EVENT_TYPES.DEATH]: !!query.eventType?.includes(EVENT_TYPES.DEATH),
+    [EVENT_TYPES.UNCATEGORIZED]: !!query.eventType?.includes(
+      EVENT_TYPES.UNCATEGORIZED,
     ),
-    [EventTypes.DEATH.literals[0]]: !!query.eventType?.includes(
-      EventTypes.DEATH.literals[0],
+    [EVENT_TYPES.SCIENTIFIC_STUDY]: !!query.eventType?.includes(
+      EVENT_TYPES.SCIENTIFIC_STUDY,
     ),
-    [EventTypes.UNCATEGORIZED.literals[0]]: !!query.eventType?.includes(
-      EventTypes.UNCATEGORIZED.literals[0],
+    [EVENT_TYPES.PATENT]: !!query.eventType?.includes(EVENT_TYPES.PATENT),
+    [EVENT_TYPES.DOCUMENTARY]: !!query.eventType?.includes(
+      EVENT_TYPES.DOCUMENTARY,
     ),
-    [EventTypes.SCIENTIFIC_STUDY.literals[0]]: !!query.eventType?.includes(
-      EventTypes.SCIENTIFIC_STUDY.literals[0],
+    [EVENT_TYPES.TRANSACTION]: !!query.eventType?.includes(
+      EVENT_TYPES.TRANSACTION,
     ),
-    [EventTypes.PATENT.literals[0]]: !!query.eventType?.includes(
-      EventTypes.PATENT.literals[0],
-    ),
-    [EventTypes.DOCUMENTARY.literals[0]]: !!query.eventType?.includes(
-      EventTypes.DOCUMENTARY.literals[0],
-    ),
-    [EventTypes.TRANSACTION.literals[0]]: !!query.eventType?.includes(
-      EventTypes.TRANSACTION.literals[0],
-    ),
-    [EventTypes.QUOTE.literals[0]]: !!query.eventType?.includes(
-      EventTypes.QUOTE.literals[0],
-    ),
+    [EVENT_TYPES.QUOTE]: !!query.eventType?.includes(EVENT_TYPES.QUOTE),
   };
 };

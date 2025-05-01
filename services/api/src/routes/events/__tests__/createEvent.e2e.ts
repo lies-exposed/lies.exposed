@@ -6,7 +6,7 @@ import {
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
@@ -140,11 +140,11 @@ describe("Create Event", () => {
   test.todo("Should create an event with groups");
   test.todo("Should create an event with group members");
 
-  test(`Should create a ${EventTypes.QUOTE.literals[0]} event `, async () => {
+  test(`Should create a ${EVENT_TYPES.QUOTE} event `, async () => {
     const eventData = {
       date: new Date().toISOString(),
       draft: false,
-      type: EventTypes.QUOTE.literals[0],
+      type: EVENT_TYPES.QUOTE,
       payload: {
         quote: fc.sample(fc.string(), 1)[0],
         actor: actors[0].id,

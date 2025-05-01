@@ -1,5 +1,6 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
-  Events,
+  type Events,
   type Keyword,
   type Actor,
 } from "@liexp/shared/lib/io/http/index.js";
@@ -35,7 +36,7 @@ export const BookListItem: React.FC<BookListItemProps> = ({
           {...props}
           event={item}
           title={item.payload.title}
-          type={Events.EventTypes.DEATH.literals[0]}
+          type={EVENT_TYPES.DEATH}
           excerpt={item.excerpt}
           keywords={item.keywords}
           links={item.links}

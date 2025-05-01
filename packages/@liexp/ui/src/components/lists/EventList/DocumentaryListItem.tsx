@@ -1,6 +1,7 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
-  Events,
+  type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
@@ -36,7 +37,7 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
       <Grid container spacing={2}>
         <EventListItemBase
           event={item}
-          type={Events.EventTypes.DOCUMENTARY.literals[0]}
+          type={EVENT_TYPES.DOCUMENTARY}
           title={item.payload.title}
           link={item.payload.website}
           excerpt={item.excerpt}

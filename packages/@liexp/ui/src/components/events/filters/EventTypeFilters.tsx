@@ -2,7 +2,6 @@ import { flow, fp } from "@liexp/core/lib/fp/index.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EVENT_TYPES,
-  EventTypes,
   type EventType,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { clsx } from "clsx";
@@ -277,7 +276,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.TRANSACTION.literals[0]);
+              handleFilterChange(EVENT_TYPES.TRANSACTION);
             }}
             size="large"
           >
@@ -295,7 +294,7 @@ export const EventTypeFilters: React.FC<EventTypeFiltersProps> = ({
             })}
             onClick={(e) => {
               e.preventDefault();
-              handleFilterChange(EventTypes.QUOTE.literals[0]);
+              handleFilterChange(EVENT_TYPES.QUOTE);
             }}
             size="large"
           >

@@ -1,5 +1,5 @@
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
@@ -114,6 +114,7 @@ export const transformQuote: TransformEventFn = (data) => {
 };
 
 const transformBook: TransformEventFn = (data) => {
+  console.log("transform book", data.payload.publisher?.type);
   return {
     ...data,
     payload: {
@@ -130,13 +131,13 @@ const transformByType = (
   relations: http.Events.EventRelationIds,
 ): http.Events.CreateEventBody & { id: http.Common.UUID } => {
   switch (data.type) {
-    case EventTypes.DEATH:
+    case EVENT_TYPES.DEATH:
       return transformDeath(data, relations);
-    case EventTypes.SCIENTIFIC_STUDY:
+    case EVENT_TYPES.SCIENTIFIC_STUDY:
       return transformScientificStudy(data, relations);
-    case EventTypes.QUOTE:
+    case EVENT_TYPES.QUOTE:
       return transformQuote(data, relations);
-    case EventTypes.BOOK:
+    case EVENT_TYPES.BOOK:
       return transformBook(data, relations);
     default:
       return transformUncategorized(data, relations);

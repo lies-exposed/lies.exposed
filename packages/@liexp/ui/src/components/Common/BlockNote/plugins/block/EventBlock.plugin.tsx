@@ -1,7 +1,7 @@
 import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import {
@@ -45,42 +45,42 @@ const insertEventBlock =
 
 export const insertBookEventBlock = insertEventBlock({
   title: "Book",
-  type: EventTypes.BOOK.literals[0],
+  type: EVENT_TYPES.BOOK,
 });
 
 export const insertDeathEventBlock = insertEventBlock({
   title: "Death",
-  type: EventTypes.DEATH.literals[0],
+  type: EVENT_TYPES.DEATH,
 });
 
 export const insertDocumentaryEventBlock = insertEventBlock({
   title: "Documentary",
-  type: EventTypes.DOCUMENTARY.literals[0],
+  type: EVENT_TYPES.DOCUMENTARY,
 });
 
 export const insertPatentEventBlock = insertEventBlock({
   title: "Event",
-  type: EventTypes.PATENT.literals[0],
+  type: EVENT_TYPES.PATENT,
 });
 
 export const insertQuoteEventBlock = insertEventBlock({
   title: "Quote",
-  type: EventTypes.QUOTE.literals[0],
+  type: EVENT_TYPES.QUOTE,
 });
 
 export const insertScientificStudyEventBlock = insertEventBlock({
   title: "Scientific",
-  type: EventTypes.SCIENTIFIC_STUDY.literals[0],
+  type: EVENT_TYPES.SCIENTIFIC_STUDY,
 });
 
 export const insertTransactionEventBlock = insertEventBlock({
   title: "Transaction",
-  type: EventTypes.TRANSACTION.literals[0],
+  type: EVENT_TYPES.TRANSACTION,
 });
 
 export const insertUncategorizedEventBlock = insertEventBlock({
   title: "Uncategorized",
-  type: EventTypes.UNCATEGORIZED.literals[0],
+  type: EVENT_TYPES.UNCATEGORIZED,
 });
 
 export const EventBlockPluginControl: React.FC<{

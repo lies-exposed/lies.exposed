@@ -1,6 +1,7 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
@@ -17,18 +18,6 @@ import GroupList from "../lists/GroupList.js";
 import KeywordList from "../lists/KeywordList.js";
 import { Box, Grid, Link, Typography } from "../mui/index.js";
 import { MediaSlider } from "./MediaSlider.js";
-
-// export interface EventListItemProps {
-//   event: Events.SearchEvent.SearchEvent;
-//   style?: React.CSSProperties;
-//   onClick: (e: any) => void;
-//   onActorClick: (a: Actor.Actor) => void;
-//   onGroupClick: (g: Group.Group) => void;
-//   onGroupMemberClick: (gm: GroupMember.GroupMember) => void;
-//   onKeywordClick: (k: Keyword.Keyword) => void;
-//   onRowInvalidate: (e: Events.SearchEvent.SearchEvent) => void;
-//   onLoad?: () => void;
-// }
 
 export interface EventSliderItemBaseProps
   extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
@@ -236,7 +225,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
 }) => {
   const { actors, groups, keywords, links, media } = getSearchEventRelations(e);
   switch (e.type) {
-    case http.Events.EventTypes.BOOK.Type: {
+    case EVENT_TYPES.BOOK: {
       return (
         <EventSliderItemBase
           {...props}
@@ -248,7 +237,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.QUOTE.Type: {
+    case EVENT_TYPES.QUOTE: {
       return (
         <EventSliderItemBase
           {...props}
@@ -259,7 +248,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.TRANSACTION.Type: {
+    case EVENT_TYPES.TRANSACTION: {
       return (
         <EventSliderItemBase
           {...props}
@@ -271,7 +260,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.DOCUMENTARY.Type: {
+    case EVENT_TYPES.DOCUMENTARY: {
       return (
         <EventSliderItemBase
           {...props}
@@ -283,7 +272,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.DEATH.Type: {
+    case EVENT_TYPES.DEATH: {
       return (
         <EventSliderItemBase
           {...props}
@@ -295,7 +284,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.SCIENTIFIC_STUDY.Type: {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
       return (
         <EventSliderItemBase
           {...props}
@@ -307,7 +296,7 @@ const EventSliderItem: React.FC<EventSliderItemProps> = ({
         />
       );
     }
-    case http.Events.EventTypes.PATENT.Type: {
+    case EVENT_TYPES.PATENT: {
       return (
         <EventSliderItemBase
           {...props}

@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -74,10 +74,10 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
     <Create
       title="Create a Scientific Study"
       {...props}
-      transform={(r: any) =>
+      transform={(r) =>
         transformEvent(dataProvider)(uuid(), {
           ...r,
-          type: EventTypes.SCIENTIFIC_STUDY.literals[0],
+          type: EVENT_TYPES.SCIENTIFIC_STUDY,
         })
       }
     >
@@ -115,7 +115,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
             return (
               <URLMetadataInput
                 source="url"
-                type={EventTypes.SCIENTIFIC_STUDY.Type}
+                type={EVENT_TYPES.SCIENTIFIC_STUDY}
               />
             );
           }}

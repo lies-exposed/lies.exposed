@@ -1,6 +1,7 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
-  Events,
+  type Events,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
@@ -36,7 +37,7 @@ const PatentListItem: React.FC<PatentListItemProps> = ({
       <EventListItemBase
         {...props}
         event={item}
-        type={Events.EventTypes.PATENT.Type}
+        type={EVENT_TYPES.PATENT}
         title={item.payload.title}
         link={item.payload.source}
         excerpt={item.excerpt}

@@ -1,5 +1,5 @@
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import type * as http from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
 import { BookEventPageContent } from "./events/page-content/BookEventPageContent.js";
@@ -37,11 +37,11 @@ export const EventPageContent: React.FC<EventPageContentProps> = ({
 
   // const { url } = getEventCommonProps(event, relations);
   const link =
-    event.type === http.Events.EventTypes.DOCUMENTARY.literals[0]
+    event.type === EVENT_TYPES.DOCUMENTARY
       ? event.payload.website
-      : event.type === http.Events.EventTypes.SCIENTIFIC_STUDY.literals[0]
+      : event.type === EVENT_TYPES.SCIENTIFIC_STUDY
         ? event.payload.url
-        : event.type === http.Events.EventTypes.PATENT.literals[0]
+        : event.type === EVENT_TYPES.PATENT
           ? event.payload.source
           : undefined;
 

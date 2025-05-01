@@ -1,10 +1,8 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Event,
   EventType,
-  EventTypes,
 } from "@liexp/shared/lib/io/http/Events/index.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
-import { http } from "@liexp/shared/lib/io/index.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
@@ -105,23 +103,23 @@ export const EventList: React.FC = () => (
         };
       }}
       rowClick={(_props, _id, record) => {
-        if (record.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type) {
+        if (record.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
           return `/scientific-studies/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.DEATH.Type) {
+        if (record.type === EVENT_TYPES.DEATH) {
           return `/deaths/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.PATENT.Type) {
+        if (record.type === EVENT_TYPES.PATENT) {
           return `/patents/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.DOCUMENTARY.Type) {
+        if (record.type === EVENT_TYPES.DOCUMENTARY) {
           return `/documentaries/${record.id}`;
         }
 
-        if (record.type === http.Events.EventTypes.TRANSACTION.Type) {
+        if (record.type === EVENT_TYPES.TRANSACTION) {
           return `/transactions/${record.id}`;
         }
 
@@ -160,11 +158,11 @@ export const EventList: React.FC = () => (
         label="actors"
         source="payload"
         render={(r) => {
-          if (r?.type === Events.EventTypes.UNCATEGORIZED.Type) {
+          if (r?.type === EVENT_TYPES.UNCATEGORIZED) {
             return r.payload.actors.length;
           }
 
-          if (r?.type === Events.EventTypes.SCIENTIFIC_STUDY.Type) {
+          if (r?.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
             return r.payload.authors.length;
           }
 
@@ -195,11 +193,11 @@ export const EventList: React.FC = () => (
         label="groupsMembers"
         source="payload"
         render={(r) => {
-          if (r?.type === http.Events.EventTypes.UNCATEGORIZED.Type) {
+          if (r?.type === EVENT_TYPES.UNCATEGORIZED) {
             return r.payload.groupsMembers.length;
           }
 
-          if (r?.type === http.Events.EventTypes.SCIENTIFIC_STUDY.Type) {
+          if (r?.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
             return 0;
           }
 
@@ -225,23 +223,23 @@ export const EventEdit: React.FC = (props) => {
       {(suggestions, handlers) => (
         <FormDataConsumer<Event>>
           {({ formData, scopedFormData, ...rest }) => {
-            if (formData.type === EventTypes.DOCUMENTARY.Type) {
+            if (formData.type === EVENT_TYPES.DOCUMENTARY) {
               return <DocumentaryEditFormTab />;
             }
-            if (formData.type === EventTypes.DEATH.Type) {
+            if (formData.type === EVENT_TYPES.DEATH) {
               return <DeathEventEditFormTab />;
             }
-            if (formData.type === EventTypes.SCIENTIFIC_STUDY.Type) {
+            if (formData.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
               return <ScientificStudyEventEditTab />;
             }
-            if (formData.type === EventTypes.QUOTE.Type) {
+            if (formData.type === EVENT_TYPES.QUOTE) {
               return <QuoteEditFormTab />;
             }
-            if (formData.type === EventTypes.PATENT.Type) {
+            if (formData.type === EVENT_TYPES.PATENT) {
               return <PatentEventEditFormTab />;
             }
 
-            if (formData.type === EventTypes.BOOK.Type) {
+            if (formData.type === EVENT_TYPES.BOOK) {
               return <BookEditFormTab />;
             }
 

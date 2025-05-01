@@ -1,5 +1,5 @@
 import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import {
   AutoSizer,
@@ -74,19 +74,19 @@ const EventsTimeline: React.FC<EventsTimelineProps> = (props) => {
   const totalEvents = React.useMemo(
     () =>
       [
-        queryParams.eventType?.includes(EventTypes.DEATH.Type)
+        queryParams.eventType?.includes(EVENT_TYPES.DEATH)
           ? (searchEvents?.totals.deaths ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.UNCATEGORIZED.Type)
+        queryParams.eventType?.includes(EVENT_TYPES.UNCATEGORIZED)
           ? (searchEvents?.totals.uncategorized ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.SCIENTIFIC_STUDY.Type)
+        queryParams.eventType?.includes(EVENT_TYPES.SCIENTIFIC_STUDY)
           ? (searchEvents?.totals.scientificStudies ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.PATENT.Type)
+        queryParams.eventType?.includes(EVENT_TYPES.PATENT)
           ? (searchEvents?.totals.patents ?? 0)
           : 0,
-        queryParams.eventType?.includes(EventTypes.DOCUMENTARY.Type)
+        queryParams.eventType?.includes(EVENT_TYPES.DOCUMENTARY)
           ? (searchEvents?.totals.documentaries ?? 0)
           : 0,
       ].reduce((acc, tot) => acc + tot, 0),

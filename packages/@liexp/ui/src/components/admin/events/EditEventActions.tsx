@@ -1,6 +1,6 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import { Box } from "../../mui/index.js";
 import { UpdateMetadataButton } from "../common/UpdateMetadataButton.js";
@@ -20,7 +20,7 @@ export const EventEditActions: React.FC = () => {
     return {
       title: "",
       date: undefined,
-      type: EventTypes.UNCATEGORIZED.literals[0],
+      type: EVENT_TYPES.UNCATEGORIZED,
     };
   }, [record]);
 

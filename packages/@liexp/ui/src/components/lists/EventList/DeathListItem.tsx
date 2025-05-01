@@ -1,7 +1,8 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Keyword,
-  Events,
+  type Events,
 } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Box, Grid } from "../../mui/index.js";
@@ -40,7 +41,7 @@ export const DeathListItem: React.FC<DeathListItemProps> = ({
           title={`Death: ${
             item.payload.victim?.fullName ?? item.payload.victim
           }`}
-          type={Events.EventTypes.DEATH.literals[0]}
+          type={EVENT_TYPES.DEATH}
           excerpt={item.excerpt}
           keywords={item.keywords}
           links={item.links}

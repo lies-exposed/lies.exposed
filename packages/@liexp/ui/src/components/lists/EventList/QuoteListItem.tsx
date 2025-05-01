@@ -1,4 +1,4 @@
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
@@ -63,7 +63,7 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
         >
           <EventIcon
             className={classes.eventIcon}
-            type={EventTypes.QUOTE.Type}
+            type={EVENT_TYPES.QUOTE}
             size="2x"
           />
         </Grid>

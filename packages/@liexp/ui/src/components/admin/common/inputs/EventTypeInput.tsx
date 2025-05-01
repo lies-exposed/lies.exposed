@@ -2,6 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { transform } from "@liexp/shared/lib/helpers/event/event.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -34,9 +35,7 @@ export const EventTypeInput: React.FC<InputProps> = ({
   const api = useAPI();
 
   const value = get(record, source ?? "type") ?? defaultValue;
-  const [type, setType] = React.useState(
-    value ?? Events.EventTypes.UNCATEGORIZED.literals[0],
-  );
+  const [type, setType] = React.useState(value ?? EVENT_TYPES.UNCATEGORIZED);
   const onSelectChange = (e: SelectChangeEvent): void => {
     setType(e.target.value);
     onChange?.(e.target.value);

@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ReferenceAreaInput from "@liexp/ui/lib/components/admin/areas/input/ReferenceAreaInput.js";
@@ -40,7 +40,7 @@ const UncategorizedEventCreate: React.FC = (props) => {
           <UncategorizedEventEditTab />
           <TextInput
             source="type"
-            defaultValue={Events.EventTypes.UNCATEGORIZED.Type}
+            defaultValue={EVENT_TYPES.UNCATEGORIZED}
             hidden={true}
           />
           <TextInput source="payload.title" validate={[required()]} />

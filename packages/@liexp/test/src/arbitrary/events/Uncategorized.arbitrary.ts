@@ -1,3 +1,4 @@
+import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
@@ -90,7 +91,7 @@ export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategori
   Arbitrary.make(uncategorizedProps).map((u) => ({
     ...u,
     id: fc.sample(UUIDArb, 1)[0],
-    type: http.Events.EventTypes.UNCATEGORIZED.literals[0],
+    type: EVENT_TYPES.UNCATEGORIZED,
     date: fc.sample(DateArb, 1)[0],
     createdAt: fc.sample(DateArb, 1)[0],
     updatedAt: fc.sample(DateArb, 1)[0],
