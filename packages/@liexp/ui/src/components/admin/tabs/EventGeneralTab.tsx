@@ -13,7 +13,7 @@ import {
   useUpdate,
 } from "react-admin";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Box, Grid } from "../../mui/index.js";
+import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
@@ -118,53 +118,68 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   }
 
   return (
-    <Grid display="flex" container>
+    <Stack width="100%" spacing={2}>
       <Grid
-        size={{ md: 4, lg: 4 }}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
+        container
+        width="100%"
+        display="flex"
+        direction="column"
+        spacing={2}
       >
-        <EventTypeInput source="type" />
-        <BooleanInput size="small" source="draft" />
-      </Grid>
-      <Grid size={{ md: 2, lg: 2 }}>
-        <DateInput source="date" />
-      </Grid>
-      <Grid size={{ md: 6, lg: 6 }}>
-        <ReferenceArrayKeywordInput
-          source="keywords"
-          defaultValue={[]}
-          showAdd
-        />
-        <SuggestedKeywordEntityRelationsBox
-          keywords={suggestions?.entities.keywords ?? []}
-          onKeywordClick={doAddKeyword}
-        />
-      </Grid>
-      <Grid size={{ md: 12 }}>
-        {children(suggestions, {
-          onKeywordClick: doAddKeyword,
-          onActorClick: doAddActors,
-          onGroupClick: () => {},
-        })}
-      </Grid>
-      <Grid size={{ md: 12 }}>
-        <OpenAIEmbeddingJobButton<Event>
-          type={OpenAIEmbeddingQueueType.literals[0]}
-          resource="events"
-          transformValue={(event) => ({
-            text: getOpenAIPromptText(event),
-            type: event.type,
+        <Grid size={12}>
+          <div>
+            <Grid direction="row" container>
+              <Grid
+                size={{ md: 4, lg: 4 }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <EventTypeInput source="type" />
+                <BooleanInput size="small" source="draft" />
+              </Grid>
+              <Grid size={{ md: 2, lg: 2 }}>
+                <DateInput source="date" />
+              </Grid>
+              <Grid size={{ md: 6, lg: 6 }}>
+                <ReferenceArrayKeywordInput
+                  source="keywords"
+                  defaultValue={[]}
+                  showAdd
+                />
+                <SuggestedKeywordEntityRelationsBox
+                  keywords={suggestions?.entities.keywords ?? []}
+                  onKeywordClick={doAddKeyword}
+                />
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
+
+        <Grid size={{ md: 12, lg: 12 }}>
+          {children(suggestions, {
+            onKeywordClick: doAddKeyword,
+            onActorClick: doAddActors,
+            onGroupClick: () => {},
           })}
-        />
-        <BlockNoteInput label="excerpt" source="excerpt" onlyText />
-        <Box style={{ display: "flex", flexDirection: "column" }}>
-          <DateField label="Updated At" source="updatedAt" showTime={true} />
-          <DateField source="createdAt" showTime={true} />
-        </Box>
+        </Grid>
+        <Grid size={{ md: 12, lg: 12 }}>
+          <OpenAIEmbeddingJobButton<Event>
+            type={OpenAIEmbeddingQueueType.literals[0]}
+            resource="events"
+            transformValue={(event) => ({
+              text: getOpenAIPromptText(event),
+              type: event.type,
+            })}
+          />
+          <BlockNoteInput label="excerpt" source="excerpt" onlyText />
+          <Box style={{ display: "flex", flexDirection: "column" }}>
+            <DateField label="Updated At" source="updatedAt" showTime={true} />
+            <DateField source="createdAt" showTime={true} />
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Stack>
   );
 };

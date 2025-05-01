@@ -282,13 +282,13 @@ const EventListAside: React.FC = () => {
         <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
           {EventType.members.map((t) => (
             <FilterListItem
-              key={t.Type}
+              key={t.literals[0]}
               label={
                 <span>
-                  <EventIcon type={t.Type} /> {t.Type}
+                  <EventIcon type={t.literals[0]} /> {t.literals[0]}
                 </span>
               }
-              value={{ eventType: [t.Type] }}
+              value={{ eventType: [t.literals[0]] }}
             />
           ))}
         </FilterList>

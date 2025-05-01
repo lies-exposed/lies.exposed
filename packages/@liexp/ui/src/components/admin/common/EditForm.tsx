@@ -34,53 +34,55 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
       actions={actions}
       transform={transform}
     >
-      <Grid container>
-        <Grid size={{ md: 12 }}>
-          <Stack spacing={2} direction={"row"}>
-            <Button
-              label={`${showPreview ? "Hide" : "Show"} Preview`}
-              onClick={() => {
-                setShowPreview(!showPreview);
-              }}
-            />
-            {resource && <WebPreviewButton resource={resource} source="id" />}
-            <RestoreButton />
-          </Stack>
-        </Grid>
-        <Grid size={{ md: showPreview ? 6 : 12, lg: showPreview ? 6 : 12 }}>
-          <FunctionField
-            render={(r) => {
-              if (r?.deletedAt) {
-                return (
-                  <Stack
-                    display={"flex"}
-                    spacing={2}
-                    direction={"row"}
-                    style={{
-                      backgroundColor: "red",
-                      color: "white",
-                    }}
-                    marginTop={2}
-                    marginBottom={2}
-                    alignItems={"center"}
-                    justifyContent={"center"}
-                  >
-                    <Box>
-                      <Typography variant="subtitle1" fontWeight={"bold"}>
-                        Element deleted
-                      </Typography>
-                    </Box>
-                  </Stack>
-                );
-              }
-              return null;
+      <Grid size={12} width={"100%"} spacing={2}>
+        <Stack spacing={2} direction={"row"}>
+          <Button
+            label={`${showPreview ? "Hide" : "Show"} Preview`}
+            onClick={() => {
+              setShowPreview(!showPreview);
             }}
           />
-          {children}
-        </Grid>
-
-        {showPreview ? <Grid size={{ md: 6, lg: 6 }}>{preview}</Grid> : null}
+          {resource && <WebPreviewButton resource={resource} source="id" />}
+          <RestoreButton />
+        </Stack>
       </Grid>
+
+      <Grid
+        size={{ md: showPreview ? 6 : 12, lg: showPreview ? 6 : 12 }}
+        spacing={2}
+      >
+        <FunctionField
+          render={(r) => {
+            if (r?.deletedAt) {
+              return (
+                <Stack
+                  display={"flex"}
+                  spacing={2}
+                  direction={"row"}
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                  }}
+                  marginTop={2}
+                  marginBottom={2}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Box>
+                    <Typography variant="subtitle1" fontWeight={"bold"}>
+                      Element deleted
+                    </Typography>
+                  </Box>
+                </Stack>
+              );
+            }
+            return null;
+          }}
+        />
+        {children}
+      </Grid>
+
+      {showPreview ? <Grid size={{ md: 6, lg: 6 }}>{preview}</Grid> : null}
     </Edit>
   );
 };

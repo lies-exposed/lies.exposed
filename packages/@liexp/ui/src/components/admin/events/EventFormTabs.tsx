@@ -2,7 +2,7 @@ import React from "react";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { ImportMediaButton } from "../media/button/ImportMediaButton.js";
-import { FormTab, TabbedForm } from "../react-admin.js";
+import { TabbedForm } from "../react-admin.js";
 import {
   EventGeneralTab,
   type EventGeneralTabProps,
@@ -20,35 +20,35 @@ interface EventFormTabsProps {
 export const EventFormTabs: React.FC<EventFormTabsProps> = ({ children }) => {
   return (
     <TabbedForm>
-      <FormTab label="Generals">
+      <TabbedForm.Tab label="Generals">
         <EventGeneralTab>
           {(props, handlers) => children(props, handlers)}
         </EventGeneralTab>
-      </FormTab>
-      <FormTab label="body">
+      </TabbedForm.Tab>
+      <TabbedForm.Tab label="body">
         <BlockNoteInput label="body" source="body" />
-      </FormTab>
+      </TabbedForm.Tab>
 
-      <FormTab label="Media">
+      <TabbedForm.Tab label="Media">
         <ImportMediaButton />
         <ReferenceMediaTab source="media" />
-      </FormTab>
-      <FormTab label="Links">
+      </TabbedForm.Tab>
+      <TabbedForm.Tab label="Links">
         <ReferenceLinkTab source="links" />
-      </FormTab>
-      <FormTab label="SocialPosts">
+      </TabbedForm.Tab>
+      <TabbedForm.Tab label="SocialPosts">
         <SocialPostFormTabContent type="events" source="id" />
-      </FormTab>
-      <FormTab label="Flow">
+      </TabbedForm.Tab>
+      <TabbedForm.Tab label="Flow">
         <LazyFormTabContent tab={5}>
           <EventsFlowGraphFormTab type="events" />
         </LazyFormTabContent>
-      </FormTab>
-      <FormTab label="Network">
+      </TabbedForm.Tab>
+      <TabbedForm.Tab label="Network">
         <LazyFormTabContent tab={6}>
           <EventsNetworkGraphFormTab type="events" />
         </LazyFormTabContent>
-      </FormTab>
+      </TabbedForm.Tab>
     </TabbedForm>
   );
 };

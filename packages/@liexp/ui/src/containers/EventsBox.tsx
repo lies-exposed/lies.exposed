@@ -1,4 +1,5 @@
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type ResponsiveStyleValue } from "@mui/system";
 import * as React from "react";
 import {
   EventCardGrid,
@@ -17,10 +18,15 @@ export interface EventsBoxProps<
   hideIfEmpty?: boolean;
 }
 
+const defaultColumns: ResponsiveStyleValue<number> = {
+  md: 4,
+};
+
 const EventsBox = <E extends SearchEvent.SearchEvent>({
   query,
   title,
   hideIfEmpty = false,
+  columns = defaultColumns,
   ...eventCardGridProps
 }: EventsBoxProps<E>): React.JSX.Element => {
   const theme = useTheme();
@@ -61,7 +67,10 @@ const EventsBox = <E extends SearchEvent.SearchEvent>({
             ) : null}
 
             <Grid size={12}>
-              <EventCardGrid events={events as E[]} {...eventCardGridProps} />
+              <EventCardGrid
+                events={events as E[]}
+                {...{ ...eventCardGridProps, columns }}
+              />
             </Grid>
           </Grid>
         );

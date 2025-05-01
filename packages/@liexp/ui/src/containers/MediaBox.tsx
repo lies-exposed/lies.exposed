@@ -37,10 +37,8 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
       queries={(Q) => ({
         media: Q.Media.list.useQuery(
           {
-            filter,
-            pagination: {
-              perPage: limit ?? perPage,
-              page: limit ? 1 : page,
+            filter: {
+              _end: limit ? `${limit}` : undefined,
             },
           },
           undefined,

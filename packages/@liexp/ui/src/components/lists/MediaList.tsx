@@ -158,6 +158,8 @@ const listClasses = {
 const StyledMasonry = styled(Masonry)(() => ({
   [`&.${listClasses.root}`]: {
     width: "100%",
+    display: "flex",
+    flexDirection: "column",
     paddingRight: 0,
     paddingLeft: 0,
     margin: 0,
