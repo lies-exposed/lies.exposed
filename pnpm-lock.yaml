@@ -368,8 +368,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.10
       pdfjs-dist:
-        specifier: ^4.10.38
-        version: 4.10.38
+        specifier: ^5.2.133
+        version: 5.2.133
       react-admin:
         specifier: ^5.8.0
         version: 5.8.0(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1)
@@ -854,8 +854,8 @@ importers:
         specifier: ^0.3.24
         version: 0.3.24(@langchain/anthropic@0.3.8(@langchain/core@0.3.50(openai@4.96.2(ws@8.18.1)(zod@3.24.3))))(@langchain/core@0.3.50(openai@4.96.2(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0(debug@4.4.0))(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.96.2(ws@8.18.1)(zod@3.24.3))(typeorm@0.3.22(ioredis@5.6.0)(pg@8.15.6)(reflect-metadata@0.2.2))(ws@8.18.1)
       pdfjs-dist:
-        specifier: ^4.10.38
-        version: 4.10.38
+        specifier: ^5.2.133
+        version: 5.2.133
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -1338,8 +1338,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       pdfjs-dist:
-        specifier: ^4.10.38
-        version: 4.10.38
+        specifier: ^5.2.133
+        version: 5.2.133
       pg:
         specifier: ^8.15.6
         version: 8.15.6
@@ -7768,6 +7768,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -8064,6 +8065,10 @@ packages:
   pdfjs-dist@4.10.38:
     resolution: {integrity: sha512-/Y3fcFrXEAsMjJXeL9J8+ZG9U01LbuWaYypvDW2ycW1jL269L3js3DVBjDJ0Up9Np1uqDXsDrRihHANhZOlwdQ==}
     engines: {node: '>=20'}
+
+  pdfjs-dist@5.2.133:
+    resolution: {integrity: sha512-abE6ZWDxztt+gGFzfm4bX2ggfxUk9wsDEoFzIJm9LozaY3JdXR7jyLK4Bjs+XLXplCduuWS1wGhPC4tgTn/kzg==}
+    engines: {node: '>=20.16.0 || >=22.3.0'}
 
   peek-readable@4.1.0:
     resolution: {integrity: sha512-ZI3LnwUv5nOGbQzD9c2iDG6toheuXSZP5esSHBjopsXH4dg19soufvpUGA3uohi5anFtGb2lhAVdHzH6R/Evvg==}
@@ -18065,6 +18070,10 @@ snapshots:
     optional: true
 
   pdfjs-dist@4.10.38:
+    optionalDependencies:
+      '@napi-rs/canvas': 0.1.69
+
+  pdfjs-dist@5.2.133:
     optionalDependencies:
       '@napi-rs/canvas': 0.1.69
 
