@@ -3919,10 +3919,10 @@ packages:
       fp-ts: ^2
 
   '@ts-endpoint/express@file:patches/ts-endpoint-express-0.1.0.tgz':
-    resolution: {integrity: sha512-tPtkzFPGqSE4NX8Wsw9s5UvPw+22tWv3jb6wcSVAG681cAr2msR1pDC05axAkAOwuXqtZ+AFCD7CGBCUUN9KKQ==, tarball: file:patches/ts-endpoint-express-0.1.0.tgz}
+    resolution: {integrity: sha512-22dJsafCfXRHXMaPr78kNaLHAvqQOWLg0RvEY2moy3ox4vlq3QPMfS7CMJyQFuU/MR8ivIJDUlk1YmSRxRvwgQ==, tarball: file:patches/ts-endpoint-express-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
-      express: ^4.21.2
+      express: ^4 || ^5
       fp-ts: ^2
 
   '@ts-endpoint/http-client@file:patches/ts-endpoint-http-client-0.1.0.tgz':
