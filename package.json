@@ -72,6 +72,11 @@
       "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
       "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
       "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "exifreader",
+      "sharp"
+    ]
   }
 }

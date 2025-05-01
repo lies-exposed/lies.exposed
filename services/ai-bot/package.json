@@ -4,8 +4,8 @@
   "private": true,
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "main": "build/run-esbuild.js",
   "type": "module",
-  "main": "build/run.js",
   "imports": {
     "#common/*": "./build/common/*",
     "#flows/*": "./build/flows/*",
@@ -18,16 +18,15 @@
     "clean": "rm -rf build/.build.* && rm -rf build/*",
     "typecheck": "tsc --noEmit",
     "build:tsc": "tsc -b tsconfig.build.json",
-    "build:es": "esbuild --format=cjs --target=node20 --platform=node --bundle --outfile=build/run-esbuild.js build/run.js",
+    "build:es": "node --import tsx/esm ./esbuild.config.mjs",
     "build": "pnpm build:tsc && pnpm build:es",
-    "dev": "node --watch build/run.js",
+    "dev": "node --watch build/run.js --trace-warnings",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
     "cli:dev": "node --import tsx/esm src/cli/index.ts",
     "lint": "eslint src",
     "start": "node build/run.js",
-    "pkg": "./scripts/pkg.sh",
-    "postinstall": "cp -r ../../node_modules/pdfjs-dist/build/pdf.worker.mjs ./build/pdf.worker.mjs"
+    "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.799.0",
@@ -37,6 +36,7 @@
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "@napi-rs/canvas": "^0.1.69",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.9.0",

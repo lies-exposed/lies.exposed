@@ -4,7 +4,6 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { pipe } from "fp-ts/lib/function.js";
-import prompts from "prompts";
 import { type ClientContext } from "../context.js";
 import { type ClientContextRTE } from "../types.js";
 import { type AIBotError, toAIBotError } from "#common/error/index.js";
@@ -19,8 +18,13 @@ export const userLogin = (): ClientContextRTE<string> => {
     )<string, AIBotError, ClientContext>(
       pipe(
         fp.RTE.Do,
-        fp.RTE.apS(
-          "username",
+        fp.RTE.bind("prompts", () =>
+          pipe(
+            fp.TE.tryCatch(() => import("prompts"), toAPIError),
+            fp.RTE.fromTaskEither,
+          ),
+        ),
+        fp.RTE.bind("username", ({ prompts }) =>
           pipe(
             fp.RTE.ask<ClientContext>(),
             fp.RTE.flatMapOption<ClientContext, string, AIBotError>(
@@ -44,7 +48,7 @@ export const userLogin = (): ClientContextRTE<string> => {
             ),
           ),
         ),
-        fp.RTE.bind("password", ({ username }) =>
+        fp.RTE.bind("password", ({ username, prompts }) =>
           pipe(
             fp.RTE.ask<ClientContext>(),
             fp.RTE.flatMapOption<ClientContext, string, AIBotError>(

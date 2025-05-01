@@ -17,12 +17,11 @@ import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import * as pdf from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
 import { parseENV } from "./env.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
-import { type AIBotError } from "#common/error/index.js";
+import { toAIBotError, type AIBotError } from "#common/error/index.js";
 
 const configFile = path.resolve(process.cwd(), "ai-bot.config.json");
 const configProvider = ConfigProviderReader(configFile, AIBotConfig);
@@ -36,6 +35,15 @@ export const loadContext = (
       pipe(loadAndParseENV(parseENV)(process.cwd()), fp.TE.fromEither),
     ),
     fp.TE.bind("fs", () => fp.TE.right(GetFSClient({ client: fs }))),
+    fp.TE.bind("pdf", () =>
+      pipe(
+        fp.TE.tryCatch(
+          () => import("pdfjs-dist/legacy/build/pdf.mjs"),
+          toAIBotError,
+        ),
+        fp.TE.map((pdf) => PDFProvider({ client: pdf })),
+      ),
+    ),
     fp.TE.bind("config", ({ fs }) => configProvider({ fs })),
     fp.TE.bind("langchain", ({ config }) =>
       fp.TE.right(
@@ -59,7 +67,7 @@ export const loadContext = (
         }),
       ),
     ),
-    fp.TE.map(({ env, config, fs, langchain, openAI }) => {
+    fp.TE.map(({ env, config, fs, pdf, langchain, openAI }) => {
       const logger = GetLogger("ai-bot");
 
       const restClient = axios.default.create({
@@ -88,7 +96,7 @@ export const loadContext = (
         fs,
         config,
         http: HTTPProvider(axios.default.create({})),
-        pdf: PDFProvider({ client: pdf }),
+        pdf,
         logger,
         apiRESTClient: restClient,
         endpointsRESTClient: apiClient,
