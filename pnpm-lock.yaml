@@ -118,9 +118,6 @@ importers:
       nodemw:
         specifier: ^0.24.0
         version: 0.24.0
-      pdfjs-dist:
-        specifier: ^4
-        version: 4.10.38
       query-string:
         specifier: ^9.1.1
         version: 9.1.1
@@ -197,6 +194,9 @@ importers:
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
+      pdfjs-dist:
+        specifier: ^5.2.133
+        version: 5.2.133
       puppeteer-core:
         specifier: ^24.7.2
         version: 24.7.2
@@ -7768,7 +7768,6 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
-    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -8061,10 +8060,6 @@ packages:
   pdf-parse@1.1.1:
     resolution: {integrity: sha512-v6ZJ/efsBpGrGGknjtq9J/oC8tZWq0KWL5vQrk2GlzLEQPUDB1ex+13Rmidl1neNN358Jn9EHZw5y07FFtaC7A==}
     engines: {node: '>=6.8.1'}
-
-  pdfjs-dist@4.10.38:
-    resolution: {integrity: sha512-/Y3fcFrXEAsMjJXeL9J8+ZG9U01LbuWaYypvDW2ycW1jL269L3js3DVBjDJ0Up9Np1uqDXsDrRihHANhZOlwdQ==}
-    engines: {node: '>=20'}
 
   pdfjs-dist@5.2.133:
     resolution: {integrity: sha512-abE6ZWDxztt+gGFzfm4bX2ggfxUk9wsDEoFzIJm9LozaY3JdXR7jyLK4Bjs+XLXplCduuWS1wGhPC4tgTn/kzg==}
@@ -18068,10 +18063,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
     optional: true
-
-  pdfjs-dist@4.10.38:
-    optionalDependencies:
-      '@napi-rs/canvas': 0.1.69
 
   pdfjs-dist@5.2.133:
     optionalDependencies:
