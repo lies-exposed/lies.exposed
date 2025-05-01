@@ -14,18 +14,21 @@ export const toQueueIO = (
     data:
       "data" in unknownQueue &&
       !!unknownQueue.data &&
-      typeof unknownQueue.data === "object" &&
-      "date" in unknownQueue.data
+      typeof unknownQueue.data === "object"
         ? {
             ...unknownQueue.data,
-            date:
-              typeof unknownQueue.data?.date === "string"
-                ? unknownQueue.data.date
-                : unknownQueue.data?.date instanceof Date
-                  ? unknownQueue.data.date.toISOString()
-                  : null,
+            ...("date" in unknownQueue.data
+              ? {
+                  date:
+                    typeof unknownQueue.data?.date === "string"
+                      ? unknownQueue.data.date
+                      : unknownQueue.data?.date instanceof Date
+                        ? unknownQueue.data.date.toISOString()
+                        : undefined,
+                }
+              : {}),
           }
-        : null,
+        : undefined,
     question: unknownQueue?.question ?? null,
     result: unknownQueue?.result ?? null,
     prompt: unknownQueue?.prompt ?? null,
