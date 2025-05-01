@@ -68,7 +68,7 @@
     "puppeteer-core": "^24.7.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "sharp": "^0.33.5",
+    "sharp": "^0.34.1",
     "typeorm": "^0.3.22",
     "wink-eng-lite-web-model": "^1.8.0",
     "wink-nlp": "^2.3.0",
