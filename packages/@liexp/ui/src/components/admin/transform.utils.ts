@@ -114,7 +114,6 @@ export const transformQuote: TransformEventFn = (data) => {
 };
 
 const transformBook: TransformEventFn = (data) => {
-  console.log("transform book", data.payload.publisher?.type);
   return {
     ...data,
     payload: {
