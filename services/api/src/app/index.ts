@@ -10,6 +10,8 @@ import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
 export const makeApp = (ctx: ServerContext): express.Express => {
   const app = express();
 
+  app.set("query parser", "extended");
+
   app.use(cors(ctx.config.cors));
   // uploads
   MakeUploadFileRoute(app, ctx);
