@@ -51,7 +51,7 @@
     "cronstrue": "^2.56.0",
     "debug": "^4.4.0",
     "effect": "^3.14.16",
-    "exifreader": "^4.26.2",
+    "exifreader": "^4.30.0",
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
