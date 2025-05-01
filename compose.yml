@@ -203,36 +203,35 @@ services:
     networks:
       - reverseproxy
 
-  # localai.liexp.dev:
-    # image: localai/localai:latest-aio-cpu
+  localai.liexp.dev:
+    image: localai/localai:latest-aio-cpu
     # For Intel GPUs decomment the following:
     # image: localai/localai:latest-aio-gpu-intel-f32
     # For AMD GPUs decomment the following:
     # image: localai/localai:latest-aio-gpu-hipblas
     # For Phi2 models decomment the following:
     # image: localai/localai:v2.15.0-ffmpeg-core phi-2
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
-    #   interval: 1m
-    #   timeout: 20m
-    #   retries: 5
-    # ports:
-    #   - "8080:8080"
-    # tty: true
-    # environment:
-    #   DEBUG: true
-    #   # REBUILD: true
-    #   VIRTUAL_HOST: localai.liexp.dev,localai.lies.exposed
-    #   # VIRTUAL_PORT: 8080
-    #   OPENAI_API_KEY: no-key-is-a-good-key
-    #   LOCALAI_CORS: 0
-    #   LOCALAI_CORS_ALLOW_ORIGINS: "http://admin.liexp.dev,https://alpha.lies.exposed"
-    # volumes:
-    #   - ./models:/build/models:cached
-    # # devices:
-    # #   - /dev/dri
-    # networks:
-    #   - reverseproxy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
+      interval: 1m
+      timeout: 20m
+      retries: 5
+    ports:
+      - "8080:8080"
+    tty: true
+    environment:
+      DEBUG: true
+      # REBUILD: true
+      VIRTUAL_HOST: localai.liexp.dev,localai.lies.exposed
+      # VIRTUAL_PORT: 8080
+      OPENAI_API_KEY: no-key-is-a-good-key
+      LOCALAI_CORS: 0
+    volumes:
+      - ./models:/build/models:cached
+    # devices:
+    #   - /dev/dri
+    networks:
+      - reverseproxy
 
 volumes:
   db-data: {}

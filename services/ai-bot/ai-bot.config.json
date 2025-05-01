@@ -1,7 +1,7 @@
 {
   "api": { "url": "http://api.liexp.dev/v1" },
   "localAi": {
-    "url": "http://0.0.0.0:8080/",
+    "url": "http://localai.liexp.dev:8080/",
     "apiKey": "no-key-is-a-good-key",
     "models": {
       "summarize": "gpt-4o",
