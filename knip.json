@@ -48,8 +48,7 @@
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
         "test/AppTest.ts",
-        "test/testSetup.ts",
-        "test/globalSetup.ts"
+        "test/testSetup.ts"
       ],
       "project": [
         "src/**/*.{ts,js}",
@@ -57,7 +56,7 @@
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
       ],
-      "ignore": ["ormconfig.js", "test/__mocks__/**/*"]
+      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
     },
     "services/worker": {
       "entry": ["src/run.ts", "src/bin/cli.ts"],

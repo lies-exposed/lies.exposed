@@ -1,9 +1,10 @@
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import { afterAll, beforeAll } from "vitest";
 import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
-import { testDBContainer } from "./GetDockerContainer.js";
 import D from "debug";
-import { ServerContext } from '../src/context/context.type.js'
+import { ServerContext } from "../src/context/context.type.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { testDBManager } from './globalSetup.js';
 
 const logger = GetLogger("testSetup");
 
@@ -13,38 +14,35 @@ beforeAll(async () => {
   D.enable(process.env.DEBUG ?? "-");
 
   if (!process.env.CI) {
-    console.time("waitForDatabase");
+    const testDBContainer = await testDBManager("liexp_test");
+
     const database = await testDBContainer.waitForDatabase();
-    console.timeEnd("waitForDatabase");
-    console.log('database in use', database);
 
     process.env.DB_DATABASE = database;
-
-    logger.info.log("running test with database", process.env.DB_DATABASE);
   }
-
-  logger.debug.log("app context", !!g.appContext);
 
   if (!g.appContext) {
     logger.debug.log("loading app context");
     g.appContext = await loadAppContext(logger);
   }
 
-  logger.debug.log("app context", !!g.appContext);
+  logger.debug.log("app context", !!g.appContext, process.env.DB_DATABASE);
 
-  if (!process.env.CI) {
-    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
-  } else if (!g.appTest) {
-    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
-  }
+  g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
 });
 
 afterAll(async () => {
-  if (!process.env.CI) {
-    console.log('cooling down database', process.env.DB_DATABASE);
-    await g.appTest?.utils.e2eAfterAll();
-    await testDBContainer.markDatabaseAsUsed(process.env.DB_DATABASE!);
-    g.appContext = undefined as any;
-    g.appTest = undefined;
+  const testDBContainer = await testDBManager("liexp_test");
+
+  await testDBContainer.releaseDatabaseAndClose(process.env.DB_DATABASE!);
+
+  if (g.appTest?.ctx.db) {
+    await throwTE(g.appTest.ctx.db.close());
   }
+
+  if (process.env.CI) {
+    g.appContext = undefined as any;
+  }
+
+  g.appTest = undefined;
 });

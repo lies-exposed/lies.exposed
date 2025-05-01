@@ -1,17 +1,54 @@
-import * as path from "path";
+import { ACTOR_ENTITY_NAME } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { AREA_ENTITY_NAME } from "@liexp/backend/lib/entities/Area.entity.js";
+import { EVENT_ENTITY_NAME } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { EVENT_SUGGESTION_ENTITY_NAME } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
+import { GROUP_ENTITY_NAME } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GROUP_MEMBER_ENTITY_NAME } from "@liexp/backend/lib/entities/GroupMember.entity.js";
+import { KEYWORD_ENTITY_NAME } from "@liexp/backend/lib/entities/Keyword.entity.js";
+import { LINK_ENTITY_NAME } from "@liexp/backend/lib/entities/Link.entity.js";
+import { MEDIA_ENTITY_NAME } from "@liexp/backend/lib/entities/Media.entity.js";
+import { PAGE_ENTITY_NAME } from "@liexp/backend/lib/entities/Page.entity.js";
+import { SOCIAL_POST_ENTITY_NAME } from "@liexp/backend/lib/entities/SocialPost.entity.js";
+import { STORY_ENTITY_NAME } from "@liexp/backend/lib/entities/Story.entity.js";
+import { USER_ENTITY_NAME } from "@liexp/backend/lib/entities/User.entity.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import D from "debug";
 import * as dotenv from "dotenv";
-import * as E from "fp-ts/lib/Either.js";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { testDBContainer } from "./GetDockerContainer.js";
-import D from "debug";
-import { Schema } from 'effect';
-import { ENV } from '../src/io/ENV.js';
+import * as path from "path";
+import { ENV } from "../src/io/ENV.js";
+import { GetTestDBManager } from "./utils/TestDBManager.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
+
+export const testDBManager = GetTestDBManager(logger.GetLogger("test-db-manager"), {
+  dbContainerName: "db.liexp.dev",
+  redis: { host: process.env.REDIS_HOST || "127.0.0.1" },
+  truncateTables: [
+    // TODO: to be removed
+    "project_image",
+    "project",
+    // ---
+    SOCIAL_POST_ENTITY_NAME,
+    EVENT_SUGGESTION_ENTITY_NAME,
+    EVENT_ENTITY_NAME,
+    STORY_ENTITY_NAME,
+    ACTOR_ENTITY_NAME,
+    GROUP_ENTITY_NAME,
+    GROUP_MEMBER_ENTITY_NAME,
+    AREA_ENTITY_NAME,
+    MEDIA_ENTITY_NAME,
+    LINK_ENTITY_NAME,
+    KEYWORD_ENTITY_NAME,
+    PAGE_ENTITY_NAME,
+    USER_ENTITY_NAME,
+  ],
+});
+
 
 const DATABASE_TOTAL = 30;
 
@@ -30,33 +67,34 @@ export default async (): Promise<() => void> => {
     loadENV(__dirname, dotenvConfigPath, true);
 
     if (!process.env.CI) {
-      await testDBContainer.assertLocalCacheFolder();
+      const testDBContainer = await testDBManager("liexp_test");
 
       await testDBContainer.lookup();
 
       await testDBContainer.addDatabases(DATABASE_TOTAL);
+      await testDBContainer.startDBTruncator();
     }
 
     await pipe(
-      (process.env),
+      process.env,
       Schema.decodeUnknownEither(ENV),
-      E.mapLeft((errs) => {
-        const err = new Error(errs.message);
-        // (err as any).details = PathReporter.report(E.left(errs));
-        return err as any;
-      }),
       TE.fromEither,
       throwTE,
     );
 
     return async () => {
       if (!process.env.CI) {
+        const testDBContainer = await testDBManager("liexp_test");
         const stats = await testDBContainer.getRunStats();
         // eslint-disable-next-line no-console
         console.log(
           `Test ran on ${stats.used} databases over a total of ${DATABASE_TOTAL}`,
         );
+        console.log(`Run stats:\n${JSON.stringify(stats, null, 2)}`);
+
         await testDBContainer.freeDatabases();
+
+        await testDBContainer.close();
       }
     };
   } catch (e) {

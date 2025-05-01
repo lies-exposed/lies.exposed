@@ -1,6 +1,6 @@
 import { extendBaseConfig } from "@liexp/backend/lib/test/vitest.base-config.js";
 
-const config = extendBaseConfig(import.meta.url, (toAlias) => ({
+export default extendBaseConfig(import.meta.url, (toAlias) => ({
   root: toAlias("./"),
   test: {
     name: "api-e2e",
@@ -13,16 +13,24 @@ const config = extendBaseConfig(import.meta.url, (toAlias) => ({
     pool: "forks",
     bail: 1,
     poolOptions: {
-      forks: {
-        singleFork: process.env.CI === "true" ? true : false,
-        isolate: false,
-      },
+      forks: process.env.CI
+        ? {
+            maxForks: 1,
+            singleFork: true,
+            isolate: true,
+          }
+        : {
+            maxForks: 20,
+            singleFork: false,
+            isolate: true,
+          },
     },
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.e2e.ts", "test"],
-    }
+    },
+    // "reporters": [
+    //   "hanging-process"
+    // ]
   },
 }));
-
-export default config;

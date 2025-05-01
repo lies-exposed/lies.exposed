@@ -1,17 +1,6 @@
 import { Config } from "#app/config.js";
 import { makeApp } from "#app/index.js";
 import { type ServerContext } from "#context/context.type.js";
-import { ACTOR_ENTITY_NAME } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { AREA_ENTITY_NAME } from "@liexp/backend/lib/entities/Area.entity.js";
-import { EVENT_ENTITY_NAME } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { GROUP_ENTITY_NAME } from "@liexp/backend/lib/entities/Group.entity.js";
-import { GROUP_MEMBER_ENTITY_NAME } from "@liexp/backend/lib/entities/GroupMember.entity.js";
-import { KEYWORD_ENTITY_NAME } from "@liexp/backend/lib/entities/Keyword.entity.js";
-import { LINK_ENTITY_NAME } from "@liexp/backend/lib/entities/Link.entity.js";
-import { MEDIA_ENTITY_NAME } from "@liexp/backend/lib/entities/Media.entity.js";
-import { SOCIAL_POST_ENTITY_NAME } from "@liexp/backend/lib/entities/SocialPost.entity.js";
-import { STORY_ENTITY_NAME } from "@liexp/backend/lib/entities/Story.entity.js";
-import { USER_ENTITY_NAME } from "@liexp/backend/lib/entities/User.entity.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { ENV } from "#io/ENV.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
@@ -21,28 +10,25 @@ import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
+import { DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
+import {
+  getDataSource,
+  getORMConfig,
+} from "@liexp/backend/lib/utils/data-source.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { AxiosInstance } from "axios";
-import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
-import { toError } from "fp-ts/lib/Either.js";
+import { Schema } from "effect";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { vi } from "vitest";
-import { DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
-import {
-  getDataSource,
-  getORMConfig,
-} from "@liexp/backend/lib/utils/data-source.js";
-import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
-import { Schema } from "effect";
-import { PAGE_ENTITY_NAME } from "@liexp/backend/lib/entities/Page.entity.js";
-import { EVENT_SUGGESTION_ENTITY_NAME } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
 
 vi.mock("axios", () => ({
   default: {
@@ -60,9 +46,6 @@ export interface AppTest {
   ctx: ServerContext;
   mocks: DepsMocks;
   req: TestAgent<supertest.Test>;
-  utils: {
-    e2eAfterAll: () => Promise<boolean>;
-  };
 }
 
 let context: ServerContext | undefined = undefined;
@@ -153,48 +136,6 @@ export const initAppTest = async (
     TE.map((ctx) => ({
       ctx,
       mocks,
-      utils: {
-        e2eAfterAll: async () => {
-          const liftTruncate = (
-            tableName: string,
-          ): TE.TaskEither<Error, boolean> =>
-            pipe(
-              TE.tryCatch(() => {
-                ctx.logger.debug.log(`Truncating table ${tableName}`);
-                return ctx.db.manager.query(`TRUNCATE "${tableName}" CASCADE;`);
-              }, toError),
-            );
-
-          return pipe(
-            sequenceT(TE.ApplicativeSeq)(
-              // TODO: to be removed
-              liftTruncate("project_image"),
-              liftTruncate("project"),
-              // ---
-              liftTruncate(SOCIAL_POST_ENTITY_NAME),
-              liftTruncate(EVENT_SUGGESTION_ENTITY_NAME),
-              liftTruncate(EVENT_ENTITY_NAME),
-              liftTruncate(STORY_ENTITY_NAME),
-              liftTruncate(ACTOR_ENTITY_NAME),
-              liftTruncate(GROUP_ENTITY_NAME),
-              liftTruncate(GROUP_MEMBER_ENTITY_NAME),
-              liftTruncate(AREA_ENTITY_NAME),
-              liftTruncate(MEDIA_ENTITY_NAME),
-              liftTruncate(LINK_ENTITY_NAME),
-              liftTruncate(KEYWORD_ENTITY_NAME),
-              liftTruncate(PAGE_ENTITY_NAME),
-              liftTruncate(USER_ENTITY_NAME),
-            ),
-            // TE.chainFirstW(() => ctx.db.close()),
-            // TE.chainFirstW(() => TE.tryCatch(() => ctx.redis.quit(), toError)),
-            TE.map(() => true),
-            throwTE,
-          ).catch((e) => {
-            console.error("Error in e2eAfterAll", e);
-            throw e;
-          });
-        },
-      },
       req: supertest(makeApp(ctx)),
     })),
     TE.map((app) => {

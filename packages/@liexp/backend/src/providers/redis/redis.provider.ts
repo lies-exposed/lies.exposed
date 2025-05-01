@@ -11,12 +11,13 @@ interface RedisClientContext {
 
 export const RedisClient = (ctx: RedisClientContext) =>
   fp.TE.tryCatch(async () => {
-    const redis = new Redis(6379, ctx.host, {
+    const redis = new Redis(ctx.port, ctx.host, {
       lazyConnect: ctx.lazyConnect,
     });
 
     if (ctx.lazyConnect) {
       await redis.connect();
     }
+
     return redis;
   }, toRedisError);
