@@ -65,7 +65,7 @@
     "pdfjs-dist": "^5.2.133",
     "pg": "^8.15.6",
     "prompts": "^2.4.2",
-    "puppeteer-core": "^24.7.2",
+    "puppeteer-core": "^24.8.0",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "sharp": "^0.34.1",
