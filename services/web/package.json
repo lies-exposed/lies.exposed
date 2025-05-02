@@ -49,7 +49,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
-    "@tanstack/react-query": "^5.75.0",
+    "@tanstack/react-query": "^5.75.1",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz",
     "compression": "^1.8.0",
