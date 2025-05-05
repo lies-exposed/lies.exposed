@@ -323,7 +323,7 @@ importers:
         version: 4.17.21
       openai:
         specifier: ^4
-        version: 4.96.2(ws@8.18.1)(zod@3.24.3)
+        version: 4.96.2(ws@8.18.1)(zod@3.24.4)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -477,8 +477,8 @@ importers:
         specifier: ^9.7.4
         version: 9.7.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: ^5.75.0
-        version: 5.75.0(react@18.3.1)
+        specifier: ^5.75.2
+        version: 5.75.2(react@18.3.1)
       '@ts-endpoint/core':
         specifier: file:../../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.10)
@@ -707,7 +707,7 @@ importers:
         version: 2.16.10
       openai:
         specifier: ^4.96.2
-        version: 4.96.2(ws@8.18.1)(zod@3.24.3)
+        version: 4.96.2(ws@8.18.1)(zod@3.24.4)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -736,8 +736,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.75.0
-        version: 5.75.0(react@18.3.1)
+        specifier: ^5.75.2
+        version: 5.75.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
         version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0)(fp-ts@2.16.10)(react-admin@5.8.0(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
@@ -752,7 +752,7 @@ importers:
         version: 2.16.10
       openai:
         specifier: ^4.96.2
-        version: 4.96.2(ws@8.18.1)(zod@3.24.3)
+        version: 4.96.2(ws@8.18.1)(zod@3.24.4)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -1093,8 +1093,8 @@ importers:
         specifier: ^8.6.12
         version: 8.6.12(storybook@8.6.12(prettier@3.5.3))
       '@tanstack/react-query':
-        specifier: ^5.75.0
-        version: 5.75.0(react@18.3.1)
+        specifier: ^5.75.2
+        version: 5.75.2(react@18.3.1)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.9.0)(fp-ts@2.16.10)
@@ -1184,8 +1184,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
       '@tanstack/react-query':
-        specifier: ^5.75.0
-        version: 5.75.0(react@18.3.1)
+        specifier: ^5.75.2
+        version: 5.75.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
         version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.9.0)(fp-ts@2.16.10)(react-admin@5.8.0(@mui/system@7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@mui/utils@7.0.2(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.0.0)(react@18.3.1))
@@ -3884,6 +3884,11 @@ packages:
 
   '@tanstack/react-query@5.75.0':
     resolution: {integrity: sha512-H+TNgxmTbzH8qQ5MT5xsZEhQ8BG1tUYduDSfeAOzroVZgd/AEjg1rRYSP/9Tl9/hPobZ7iZzV401n77kStrbKw==}
+    peerDependencies:
+      react: ^18 || ^19
+
+  '@tanstack/react-query@5.75.2':
+    resolution: {integrity: sha512-8F8VOsWUfSkCFoi62O9HSZT9jDgg28Ln8Z2dYKfRo/O2A0sgvr0uxTuNoon3PPXoDuHofv5V3elBI1M2Gh1MPg==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -7914,6 +7919,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -10375,6 +10381,9 @@ packages:
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
   zstddec@0.1.0:
     resolution: {integrity: sha512-w2NTI8+3l3eeltKAdK8QpiLo/flRAr2p8AGeakfMZOXBxOg9HIu4LVDxBi81sYgVhFhdJjv1OrB5ssI8uFPoLg==}
 
@@ -12046,8 +12055,8 @@ snapshots:
       '@anthropic-ai/sdk': 0.27.3
       '@langchain/core': 0.3.50(openai@4.96.2(ws@8.18.1)(zod@3.24.3))
       fast-xml-parser: 4.5.3
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
     transitivePeerDependencies:
       - encoding
     optional: true
@@ -13217,6 +13226,11 @@ snapshots:
   '@tanstack/query-core@5.75.0': {}
 
   '@tanstack/react-query@5.75.0(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.75.0
+      react: 18.3.1
+
+  '@tanstack/react-query@5.75.2(react@18.3.1)':
     dependencies:
       '@tanstack/query-core': 5.75.0
       react: 18.3.1
@@ -18210,6 +18224,21 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  openai@4.96.2(ws@8.18.1)(zod@3.24.4):
+    dependencies:
+      '@types/node': 18.19.87
+      '@types/node-fetch': 2.6.12
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    optionalDependencies:
+      ws: 8.18.1
+      zod: 3.24.4
+    transitivePeerDependencies:
+      - encoding
+
   openapi-types@12.1.3: {}
 
   optionator@0.9.4:
@@ -18795,7 +18824,7 @@ snapshots:
 
   ra-core@5.8.0(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.56.1(react@18.3.1))(react-router-dom@6.30.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.30.0(react@18.3.1))(react@18.3.1):
     dependencies:
-      '@tanstack/react-query': 5.75.0(react@18.3.1)
+      '@tanstack/react-query': 5.75.2(react@18.3.1)
       clsx: 2.1.1
       date-fns: 3.6.0
       eventemitter3: 5.0.1
@@ -18838,7 +18867,7 @@ snapshots:
       '@mui/material': 7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/system': 7.0.2(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@emotion/styled@11.14.0(@emotion/react@11.14.0(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1))(@types/react@18.3.20)(react@18.3.1)
       '@mui/utils': 7.0.2(@types/react@18.3.20)(react@18.3.1)
-      '@tanstack/react-query': 5.75.0(react@18.3.1)
+      '@tanstack/react-query': 5.75.2(react@18.3.1)
       autosuggest-highlight: 3.3.4
       clsx: 2.1.1
       css-mediaquery: 0.1.2
@@ -20943,11 +20972,19 @@ snapshots:
     dependencies:
       zod: 3.24.3
 
+  zod-to-json-schema@3.24.5(zod@3.24.4):
+    dependencies:
+      zod: 3.24.4
+    optional: true
+
   zod-validation-error@3.4.0(zod@3.24.3):
     dependencies:
       zod: 3.24.3
 
   zod@3.24.3: {}
+
+  zod@3.24.4:
+    optional: true
 
   zstddec@0.1.0: {}
 
