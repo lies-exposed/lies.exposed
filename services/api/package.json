@@ -87,7 +87,7 @@
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
-    "@types/dockerode": "^3.3.35",
+    "@types/dockerode": "^3.3.38",
     "@types/express": "^5.0.1",
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/jsonwebtoken": "^9.0.9",

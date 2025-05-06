@@ -976,8 +976,8 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
       '@types/dockerode':
-        specifier: ^3.3.35
-        version: 3.3.35
+        specifier: ^3.3.38
+        version: 3.3.38
       '@types/express':
         specifier: ^5.0.1
         version: 5.0.1
@@ -4304,8 +4304,8 @@ packages:
   '@types/docker-modem@3.0.6':
     resolution: {integrity: sha512-yKpAGEuKRSS8wwx0joknWxsmLha78wNMe9R2S3UNsVOkZded8UqOrV8KoeDXoXsjndxwyF3eIhyClGbO1SEhEg==}
 
-  '@types/dockerode@3.3.35':
-    resolution: {integrity: sha512-P+DCMASlsH+QaKkDpekKrP5pLls767PPs+/LrlVbKnEnY5tMpEUa2C6U4gRsdFZengOqxdCIqy16R22Q3pLB6Q==}
+  '@types/dockerode@3.3.38':
+    resolution: {integrity: sha512-nnrcfUe2iR+RyOuz0B4bZgQwD9djQa9ADEjp7OAgBs10pYT0KSCtplJjcmBDJz0qaReX5T7GbE5i4VplvzUHvA==}
 
   '@types/doctrine@0.0.9':
     resolution: {integrity: sha512-eOIHzCUSH7SMfonMG1LsC2f8vxBFtho6NGBznK41R84YzPuvSBzrhEps33IsQiOW9+VL6NQ9DbjQJznk/S4uRA==}
@@ -4455,8 +4455,8 @@ packages:
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
 
-  '@types/ssh2@1.15.4':
-    resolution: {integrity: sha512-9JTQgVBWSgq6mAen6PVnrAmty1lqgCMvpfN+1Ck5WRUsyMYPa6qd50/vMJ0y1zkGpOEgLzm8m8Dx/Y5vRouLaA==}
+  '@types/ssh2@1.15.5':
+    resolution: {integrity: sha512-N1ASjp/nXH3ovBHddRJpli4ozpk6UdDYIX4RJWFa9L1YKnzdhTlVmiGHm4DZnj/jLbqZpes4aeR30EFGQtvhQQ==}
 
   '@types/superagent@8.1.9':
     resolution: {integrity: sha512-pTVjI73witn+9ILmoJdajHGW2jkSaOzhiFYF1Rd3EQ94kymLqB9PjD9ISg7WaALC7+dCHT0FGe9T2LktLq/3GQ==}
@@ -13744,13 +13744,13 @@ snapshots:
   '@types/docker-modem@3.0.6':
     dependencies:
       '@types/node': 22.15.3
-      '@types/ssh2': 1.15.4
+      '@types/ssh2': 1.15.5
 
-  '@types/dockerode@3.3.35':
+  '@types/dockerode@3.3.38':
     dependencies:
       '@types/docker-modem': 3.0.6
       '@types/node': 22.15.3
-      '@types/ssh2': 1.15.4
+      '@types/ssh2': 1.15.5
 
   '@types/doctrine@0.0.9': {}
 
@@ -13925,7 +13925,7 @@ snapshots:
       '@types/node': 22.15.3
       '@types/send': 0.17.4
 
-  '@types/ssh2@1.15.4':
+  '@types/ssh2@1.15.5':
     dependencies:
       '@types/node': 18.19.87
 
