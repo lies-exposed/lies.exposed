@@ -82,7 +82,7 @@
     "date-fns": "^4.1.0",
     "entitree-flex": "^0.4.1",
     "lodash": "^4.17.21",
-    "ol": "^10.4.0",
+    "ol": "^10.5.0",
     "path-to-regexp": "^8.2.0",
     "query-string": "^9.1.1",
     "ra-core": "^5.8.0",
