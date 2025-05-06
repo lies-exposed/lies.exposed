@@ -8,6 +8,7 @@
     "strict": true,
     "declaration": true,
     "esModuleInterop": true,
+    "declarationMap": true,
     "allowSyntheticDefaultImports": true,
     "noUncheckedSideEffectImports": false,
     "importHelpers": true,

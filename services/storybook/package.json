@@ -57,7 +57,6 @@
     "@types/react-virtualized": "^9.22.2",
     "eslint": "^9.25.1",
     "prettier": "^3.5.3",
-    "serve": "^14.2.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.4",
     "vite-plugin-css-injected-by-js": "^3.5.2",

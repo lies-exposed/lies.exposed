@@ -7,7 +7,7 @@ import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import { CreateQueryProvider } from "@ts-endpoint/tanstack-query";
 import type * as express from "express";
-import { pathToRegexp } from "path-to-regexp";
+import * as pathToRegexp from "path-to-regexp";
 import { type Configuration } from "../context/ConfigurationContext.js";
 import { isAsyncDataRoute, type ServerRoute } from "./types.js";
 import { requestHandler, type ServerRenderer } from "./vite/render.js";
@@ -47,7 +47,6 @@ export const getServer = (
     QueryProviderCustomQueries,
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.get("*", (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
 
@@ -55,7 +54,7 @@ export const getServer = (
       routes.find((r) => {
         ssrLog.debug.log("r.path %s", r.path);
         try {
-          return pathToRegexp(r.path).regexp.test(req.baseUrl);
+          return pathToRegexp.match(r.path)(req.baseUrl);
         } catch (e) {
           ssrLog.debug.log(
             "Failed to transform route path %s to regexp: %O",

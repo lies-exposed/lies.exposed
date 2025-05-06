@@ -76,7 +76,7 @@
     "@napi-rs/canvas": "^0.1.70",
     "debug": "^4.4.0",
     "effect": "^3.14.18",
-    "express": "^4",
+    "express": "^5.1.0",
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
