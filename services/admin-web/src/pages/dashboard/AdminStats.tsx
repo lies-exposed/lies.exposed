@@ -25,7 +25,7 @@ export const AdminStats: React.FC = () => {
 
   const onNoThumbnailsClick = React.useCallback(
     (resource: string) => () => {
-      navigate(
+      void navigate(
         `/${resource}?filter=${JSON.stringify({ emptyThumbnail: true })}`,
       );
     },
@@ -34,7 +34,7 @@ export const AdminStats: React.FC = () => {
 
   const onNeedRegenerateThumbnailClick = React.useCallback(
     (resource: string) => () => {
-      navigate(
+      void navigate(
         `/${resource}?filter=${JSON.stringify({
           needRegenerateThumbnail: true,
         })}`,
@@ -45,7 +45,7 @@ export const AdminStats: React.FC = () => {
 
   const onNoPublishDateClick = React.useCallback(
     (resource: string) => () => {
-      navigate(
+      void navigate(
         `/${resource}?filter=${JSON.stringify({ noPublishDate: true })}`,
       );
     },

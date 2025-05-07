@@ -22,7 +22,7 @@ import {
 } from "@ts-endpoint/tanstack-query";
 import { Schema } from "effect";
 import * as React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { BooksPage } from "./pages/events/BooksPage.js";
 
 // lazy route components
@@ -65,7 +65,7 @@ const RedirectToEventsRoute: React.FC = () => {
 
   React.useEffect(() => {
     if (params.id) {
-      navigate(`/events/${params.id}`);
+      void navigate(`/events/${params.id}`);
     }
   }, [params?.id]);
 

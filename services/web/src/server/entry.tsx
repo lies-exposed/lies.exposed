@@ -10,7 +10,7 @@ import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
 import { HydrationBoundary, QueryClientProvider } from "@tanstack/react-query";
 import * as React from "react";
 import * as ReactDOMServer from "react-dom/server";
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouter } from "react-router";
 import { App } from "../client/App.js";
 import { configuration } from "../client/configuration/index.js";
 // load FA icons
@@ -29,7 +29,7 @@ const render: ServerRenderer = (
   options,
 ) => {
   return ReactDOMServer.renderToPipeableStream(
-    <StaticRouter future={{ v7_startTransition: true }} location={url}>
+    <StaticRouter location={url}>
       <ConfigurationContext.Provider value={configuration}>
         <DataProviderContext.Provider value={apiProvider}>
           <HelmetProvider context={helmetContext}>

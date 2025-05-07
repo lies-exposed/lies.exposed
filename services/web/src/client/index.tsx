@@ -19,7 +19,7 @@ import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import { App } from "./App.js";
 import { configuration } from "./configuration/index.js";
 
@@ -66,7 +66,7 @@ function Main(): React.ReactElement {
   const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 
   return (
-    <BrowserRouter future={{ v7_startTransition: true }}>
+    <BrowserRouter>
       <ConfigurationContext.Provider value={configuration}>
         <DataProviderContext.Provider value={apiProvider}>
           <HelmetProvider>

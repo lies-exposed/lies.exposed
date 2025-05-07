@@ -33,7 +33,7 @@ import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
 import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
-import { Route } from "react-router-dom";
+import { Route } from "react-router";
 import { UserEditMe } from "./UserEditMe.js";
 import { UserListMe } from "./UserListMe.js";
 

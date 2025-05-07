@@ -6,7 +6,7 @@ import { Grid, useMuiMediaQuery } from "@liexp/ui/lib/components/mui/index.js";
 import { useTheme } from "@liexp/ui/lib/theme/index.js";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader.js";
 import NotFoundPage from "./pages/404.js";
 import { routes } from "./routes.js";

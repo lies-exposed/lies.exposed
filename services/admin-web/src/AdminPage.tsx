@@ -58,7 +58,7 @@ import {
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import * as React from "react";
-import { Route } from "react-router-dom";
+import { Route } from "react-router";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
 import { EventEdit, EventList } from "./pages/AdminEvents.js";
 import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph";
