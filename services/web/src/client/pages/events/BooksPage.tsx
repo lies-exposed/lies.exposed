@@ -11,8 +11,9 @@ export const BooksPage: React.FC = () => {
   const navigate = useNavigate();
 
   const onBookClick = (book: SearchBookEvent) => {
-    navigate(`/events/${book.id}`);
+    void navigate(`/events/${book.id}`);
   };
+
   return (
     <InfiniteListBox<"masonry", typeof Endpoints.Event.Custom.SearchEvents>
       useListQuery={(Q) => Q.Event.Custom.SearchEvents as any}

@@ -15,7 +15,7 @@ import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { styled, themeOptions } from "@liexp/ui/lib/theme/index.js";
 import * as React from "react";
 import { type PathRouteProps } from "react-router";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const PREFIX = "create-story-page";
 const classes = {
@@ -43,7 +43,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
       { id, data },
       {
         onSuccess: (d) => {
-          navigate(`/stories/${d.path}`);
+          void navigate(`/stories/${d.path}`);
         },
       },
     );

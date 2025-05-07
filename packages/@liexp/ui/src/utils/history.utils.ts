@@ -6,7 +6,7 @@ import {
   type NavigateFunction,
   useLocation,
   useNavigate,
-} from "react-router-dom";
+} from "react-router";
 
 function base64ToBytes(base64: string): Uint8Array {
   const binString = atob(base64);
@@ -68,7 +68,7 @@ export function useNavigateTo(): HistoryWithNavigateTo {
   return React.useMemo(() => {
     const navigateTo = (view: string, search?: any): void => {
       const query = stringifyQuery(search);
-      h(`${view}?${query}`);
+      void h(`${view}?${query}`);
     };
 
     return {

@@ -35,7 +35,7 @@ import { colors } from "@liexp/ui/lib/theme/index.js";
 import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
 import { Schema } from "effect";
 import * as React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
 const ProcessQueueJobButton: React.FC<ButtonProps> = () => {
   const apiProvider = useDataProvider();
@@ -263,7 +263,7 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
               size="small"
               variant="contained"
               onClick={() => {
-                navigate(`/${resource}/${id}`);
+                void navigate(`/${resource}/${id}`);
               }}
             />
           </Box>

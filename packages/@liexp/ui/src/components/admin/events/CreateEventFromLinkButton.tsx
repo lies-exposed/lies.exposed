@@ -43,7 +43,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
       await pipe(apiProvider.Endpoints.Event.post(event), throwTE)
         .then((event) => {
           if ("id" in event) {
-            navigate(`/events/${event.id}`);
+            return navigate(`/events/${event.id}`);
           }
         })
         .catch((e) => {

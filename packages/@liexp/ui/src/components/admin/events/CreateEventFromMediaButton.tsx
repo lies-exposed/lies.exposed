@@ -37,7 +37,7 @@ export const CreateEventFromMediaButton: React.FC = () => {
       data: event,
     });
 
-    navigate(`/events/${e.id}`);
+    await navigate(`/events/${e.id}`);
   };
 
   if (!record) {

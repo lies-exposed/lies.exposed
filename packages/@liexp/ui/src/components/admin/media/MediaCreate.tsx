@@ -19,7 +19,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => {
   const navigate = useNavigateTo();
 
   const handleNavigateToMediaMultiple = (): void => {
-    navigate.navigate("/media/multiple");
+    void navigate.navigate("/media/multiple");
   };
   return (
     <Create
