@@ -14,8 +14,7 @@
     "build:app": "storybook build -o build",
     "clean": "rm -rf build",
     "dev": "storybook dev --quiet -p 6006",
-    "lint": "eslint src",
-    "serve": "serve -d ./build"
+    "lint": "eslint src"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"

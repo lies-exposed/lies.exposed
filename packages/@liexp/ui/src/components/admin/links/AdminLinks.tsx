@@ -25,9 +25,6 @@ const RESOURCE = "links";
 const linksFilter = [
   <TextInput key="search" label="Search" source="q" alwaysOn />,
   <ReferenceGroupInput key="provider" source="provider" alwaysOn />,
-  // <ReferenceArrayInput key="events" source="events" reference="events" alwaysOn>
-  //   <AutocompleteInput optionText="payload.title" size="small" />
-  // </ReferenceArrayInput>,
   <BooleanInput key="emptyEvents" source="emptyEvents" alwaysOn />,
   <BooleanInput key="onlyDeleted" source="onlyDeleted" alwaysOn />,
   <BooleanInput key="onlyUnshared" source="onlyUnshared" alwaysOn />,

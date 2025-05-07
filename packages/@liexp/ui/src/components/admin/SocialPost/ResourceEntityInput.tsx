@@ -3,8 +3,7 @@ import {
   type SocialPost,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
-import { useNavigateTo } from "../../../utils/history.utils.js";
-import { Stack } from "../../mui/index.js";
+import { Box, Stack } from "../../mui/index.js";
 import ReferenceActorInput from "../actors/ReferenceActorInput.js";
 import ReferenceAreaInput from "../areas/input/ReferenceAreaInput.js";
 import ReferenceEventInput from "../events/ReferenceEventInput.js";
@@ -13,7 +12,6 @@ import ReferenceKeywordInput from "../keywords/ReferenceKeywordInput.js";
 import ReferenceLinkInput from "../links/ReferenceLinkInput.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import {
-  Button,
   LoadingIndicator,
   SelectInput,
   TextInput,
@@ -22,49 +20,49 @@ import {
 
 export const ResourceEntityInput: React.FC = () => {
   const record = useRecordContext<SocialPost>();
-  const navigation = useNavigateTo();
+
   if (!record) {
     return <LoadingIndicator />;
   }
 
   const referenceInput = React.useMemo(() => {
+    const commonProps = {
+      size: "small" as const,
+      source: "entity",
+    };
     if (record.type === SocialPostResourceType.members[0].literals[0]) {
-      return <ReferenceActorInput source="entity" />;
+      return <ReferenceActorInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[1].literals[0]) {
-      return <ReferenceGroupInput source="entity" />;
+      return <ReferenceGroupInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[2].literals[0]) {
-      return <ReferenceKeywordInput source="entity" />;
+      return <ReferenceKeywordInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[3].literals[0]) {
-      return <ReferenceMediaInput source="entity" />;
+      return <ReferenceMediaInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[4].literals[0]) {
-      return <ReferenceEventInput source="entity" />;
+      return <ReferenceEventInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[5].literals[0]) {
-      return <ReferenceLinkInput source="entity" />;
+      return <ReferenceLinkInput {...commonProps} />;
     }
 
     if (record.type === SocialPostResourceType.members[6].literals[0]) {
-      return <ReferenceAreaInput source="entity" />;
+      return <ReferenceAreaInput {...commonProps} />;
     }
 
-    return <TextInput source="entity" />;
-  }, [record.type]);
-
-  const handleResourceOpenClick = React.useCallback(() => {
-    navigation.navigate(`/${record.type}/${record.entity}`);
+    return <TextInput {...commonProps} />;
   }, [record.type]);
 
   return (
-    <Stack direction={"row"} spacing={2}>
+    <Stack direction={"row"} spacing={2} width={"100%"} alignItems={"center"}>
       <SelectInput
         size="small"
         source="type"
@@ -73,13 +71,7 @@ export const ResourceEntityInput: React.FC = () => {
           name: t.literals[0],
         }))}
       />
-      {referenceInput}
-      <Button
-        size="small"
-        variant="contained"
-        label={`Open ${record.type}`}
-        onClick={handleResourceOpenClick}
-      />
+      <Box>{referenceInput}</Box>
     </Stack>
   );
 };

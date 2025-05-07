@@ -12,10 +12,9 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 import { Box, Stack, Typography } from "../../mui/index.js";
+import { EditForm } from "../common/EditForm.js";
 import { SocialPostButton } from "../common/SocialPostButton.js";
 import {
-  Edit,
-  FormTab,
   LoadingIndicator,
   TabbedForm,
   TextInput,
@@ -170,27 +169,28 @@ const FormTabPlatformLabel: React.FC<{ platform: SocialPlatform }> = ({
 
 export const SocialPostEdit: React.FC = () => {
   return (
-    <Edit
+    <EditForm
       redirect="edit"
       title={<SocialPostEditTitle />}
       transform={transformSocialPost}
+      preview={null}
     >
       <TabbedForm>
-        <FormTab label="General">
+        <TabbedForm.Tab label="General">
           <SocialPostStatus />
           <ResourceEntityInput />
           <SocialPostEditContent source="_content" />
-        </FormTab>
-        <FormTab label={"Posts"}>
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label={"Posts"}>
           <SocialPostFormTabContent source="entity" target="entity" />
-        </FormTab>
-        <FormTab label={<FormTabPlatformLabel platform="TG" />}>
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label={<FormTabPlatformLabel platform="TG" />}>
           <SocialPostEditFormTabTelegram />
-        </FormTab>
-        <FormTab label={<FormTabPlatformLabel platform="IG" />}>
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label={<FormTabPlatformLabel platform="IG" />}>
           <SocialPostEditFormTabInstagram />
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
-    </Edit>
+    </EditForm>
   );
 };

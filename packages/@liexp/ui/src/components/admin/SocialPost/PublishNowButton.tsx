@@ -3,15 +3,18 @@ import { Schema } from "effect";
 import * as React from "react";
 import {
   Button,
+  type ButtonProps,
   LoadingIndicator,
   useDataProvider,
   useRecordContext,
   useRefresh,
 } from "../react-admin.js";
 
-export const PublishNowButton: React.FC<{
-  platforms: Partial<{ IG: boolean; TG: boolean }>;
-}> = ({ platforms }) => {
+export const PublishNowButton: React.FC<
+  {
+    platforms: Partial<{ IG: boolean; TG: boolean }>;
+  } & ButtonProps
+> = ({ platforms, ...props }) => {
   const record = useRecordContext();
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
@@ -41,8 +44,9 @@ export const PublishNowButton: React.FC<{
     return (
       <Button
         label="Publish now"
-        onClick={() => handlePublishNow(record)}
         variant="contained"
+        {...props}
+        onClick={() => handlePublishNow(record)}
       />
     );
   }

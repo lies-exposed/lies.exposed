@@ -17,6 +17,8 @@ publicHoistPattern:
   - "*eslint*"
   - "*prettier*"
 
+
+
 nodeLinker: hoisted
 linkWorkspacePackages: deep
 preferWorkspacePackages: true
