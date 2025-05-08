@@ -5,7 +5,7 @@ import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { MediaTemplateUI } from "@liexp/ui/lib/templates/MediaTemplateUI.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const MediaTemplate: React.FC<{ mediaId: UUID }> = ({ mediaId }) => {
   // const params = useParams();

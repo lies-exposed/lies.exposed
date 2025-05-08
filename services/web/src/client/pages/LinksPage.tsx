@@ -1,8 +1,8 @@
-import { type SearchFilters } from "@liexp/ui/lib/components/Common/Filters/SearchFiltersBox";
-import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate";
+import { type SearchFilters } from "@liexp/ui/lib/components/Common/Filters/SearchFiltersBox.js";
+import { LinksPageTemplate } from "@liexp/ui/lib/templates/links/LinksPageTemplate.js";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const LinksPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();

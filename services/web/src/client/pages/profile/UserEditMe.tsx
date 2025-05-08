@@ -1,10 +1,10 @@
-import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox";
-import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader";
+import { ErrorBox } from "@liexp/ui/lib/components/Common/ErrorBox.js";
+import { FullSizeLoader } from "@liexp/ui/lib/components/Common/FullSizeLoader.js";
 import {
   SaveContextProvider,
   useGetOne,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import { UserEditForm } from "@liexp/ui/lib/components/admin/user/UserEdit";
+import { UserEditForm } from "@liexp/ui/lib/components/admin/user/UserEdit.js";
 import { Card, Container } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";

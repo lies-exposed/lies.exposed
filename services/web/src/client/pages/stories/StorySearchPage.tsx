@@ -4,7 +4,7 @@ import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import StoriesBox from "@liexp/ui/lib/containers/StoriesBox.js";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../../utils/location.utils";
+import { useNavigateToResource } from "../../utils/location.utils.js";
 
 const BlogPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();

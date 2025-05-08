@@ -12,7 +12,7 @@ import { GroupEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/Group
 import { subYears } from "date-fns";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const GroupsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();

@@ -5,7 +5,7 @@ import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
-import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext";
+import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import {
   type AsyncDataRouteQuery,
   type ServerRoute,
@@ -28,10 +28,10 @@ import { BooksPage } from "./pages/events/BooksPage.js";
 // lazy route components
 const NotFoundPage = React.lazy(() => import("./pages/404.js"));
 const IndexPage = React.lazy(() => import("./pages/index.js"));
-const ActorsPage = React.lazy(() => import("./pages/ActorsPage"));
-const AreasPage = React.lazy(() => import("./pages/AreasPage"));
+const ActorsPage = React.lazy(() => import("./pages/ActorsPage.js"));
+const AreasPage = React.lazy(() => import("./pages/AreasPage.js"));
 const CreateStoryPage = React.lazy(
-  () => import("./pages/stories/CreateStoryPage"),
+  () => import("./pages/stories/CreateStoryPage.js"),
 );
 const BlogPage = React.lazy(() => import("./pages/stories/StorySearchPage.js"));
 const EventsPage = React.lazy(() => import("./pages/events/EventsPage.js"));
@@ -747,7 +747,7 @@ export const routes: ServerRoute[] = [
   },
   // profile nested routes for react router
   {
-    path: import.meta.env?.SSR ? "/profile{/:profilePath}" : "/profile/*",
+    path: import.meta.env?.SSR ? "/profile{/:profilePath}" : "/profile",
     route: () => <ProfilePage />,
     queries: () => async () => Promise.resolve([]),
   },

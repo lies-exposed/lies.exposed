@@ -11,7 +11,7 @@ import { defaultUseQueryListParams } from "@ts-endpoint/tanstack-query";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   const navigateTo = useNavigateToResource();

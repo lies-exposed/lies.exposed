@@ -1,10 +1,10 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate";
+import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const GroupPage: React.FC<{ groupId: UUID }> = ({ groupId }) => {
   const navigateTo = useNavigateToResource();

@@ -6,7 +6,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box, Container } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
-import NotFoundPage from "../pages/404";
+import NotFoundPage from "../pages/404.js";
 
 const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
   return (
