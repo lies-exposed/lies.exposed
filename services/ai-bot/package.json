@@ -32,7 +32,7 @@
     "@aws-sdk/client-sso-oidc": "^3.799.0",
     "@aws-sdk/client-sts": "^3.799.0",
     "@langchain/community": "^0.3.42",
-    "@langchain/core": "^0.3.53",
+    "@langchain/core": "^0.3.55",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
