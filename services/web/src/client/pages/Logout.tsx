@@ -3,7 +3,7 @@ import { useAuthProvider } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { Container } from "@liexp/ui/lib/components/mui/index.js";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const LogoutPage: React.FC<RouteComponentProps> = () => {
   const navTo = useNavigateToResource();

@@ -1,7 +1,7 @@
-import SearchAreaTemplate from "@liexp/ui/lib/templates/SearchAreaTemplate";
+import SearchAreaTemplate from "@liexp/ui/lib/templates/SearchAreaTemplate.js";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const AreasPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();

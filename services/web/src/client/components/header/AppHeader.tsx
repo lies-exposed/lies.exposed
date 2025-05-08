@@ -3,7 +3,7 @@ import { type HeaderMenuItem } from "@liexp/ui/lib/components/Header/HeaderMenu/
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
 import { useHasAuth } from "../../utils/auth.utils";
-import { useNavigateToResource } from "../../utils/location.utils";
+import { useNavigateToResource } from "../../utils/location.utils.js";
 
 export const logo192 = "/logo192.png";
 

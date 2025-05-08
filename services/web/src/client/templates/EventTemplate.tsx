@@ -1,10 +1,10 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate";
+import { EventTemplateUI } from "@liexp/ui/lib/templates/EventTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const EventTemplate: React.FC<{ eventId: UUID }> = ({ eventId }) => {
   const navigateTo = useNavigateToResource();

@@ -5,8 +5,8 @@ import StoriesBox from "@liexp/ui/lib/containers/StoriesBox.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import NotFoundPage from "../pages/404";
-import { useNavigateToResource } from "../utils/location.utils";
+import NotFoundPage from "../pages/404.js";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const StoryTemplate: React.FC<{ storyPath: string }> = ({ storyPath }) => {
   const navigateTo = useNavigateToResource();

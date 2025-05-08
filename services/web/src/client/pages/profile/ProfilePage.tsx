@@ -1,4 +1,4 @@
-import { GetAuthProvider } from "@liexp/ui/lib/client/api";
+import { GetAuthProvider } from "@liexp/ui/lib/client/api.js";
 import {
   FAIcon,
   UserIcon,
@@ -37,7 +37,7 @@ import { Route } from "react-router";
 import { UserEditMe } from "./UserEditMe.js";
 import { UserListMe } from "./UserListMe.js";
 
-const i18nProvider = polyglotI18nProvider(() => englishMessages, "en");
+const i18nProvider = (polyglotI18nProvider as any)(() => englishMessages, "en");
 
 const ProfilePage: React.FC = () => {
   const apiProvider = useDataProvider();

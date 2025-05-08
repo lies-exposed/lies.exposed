@@ -1,9 +1,9 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate";
+import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";
-import { useNavigateToResource } from "../utils/location.utils";
+import { useNavigateToResource } from "../utils/location.utils.js";
 
 const KeywordPage: React.FC<{ keywordId: UUID }> = ({ keywordId }) => {
   const { tab: _tab = "0", ...query } = useRouteQuery();

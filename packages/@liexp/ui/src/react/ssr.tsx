@@ -47,8 +47,9 @@ export const getServer = (
     QueryProviderCustomQueries,
   );
 
-  app.get("*", (req, res, next) => {
+  app.use("*all", (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
+    ssrLog.debug.log("req.params %O", req.params);
 
     const route =
       routes.find((r) => {

@@ -143,7 +143,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           root: config.cwd,
           projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,
         }),
-        (react as any).default(),
+        react.default(),
         ...(config.plugins ?? []),
       ],
       esbuild: {

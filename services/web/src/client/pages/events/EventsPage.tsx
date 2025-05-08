@@ -6,7 +6,7 @@ import {
   type SearchEventQueryInput,
   type SearchEventsQueryInputNoPagination,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
-import ExploreTemplate from "@liexp/ui/lib/templates/ExploreTemplate";
+import ExploreTemplate from "@liexp/ui/lib/templates/ExploreTemplate.js";
 import {
   queryToHash,
   useQueryFromHash,
@@ -17,7 +17,7 @@ import * as React from "react";
 import {
   useNavigateToResource,
   type EventsView,
-} from "../../utils/location.utils";
+} from "../../utils/location.utils.js";
 
 const useEventsPageQuery = (): GetSearchEventsQueryInput & {
   tab: number;
