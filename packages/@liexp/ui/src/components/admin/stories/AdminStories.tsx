@@ -14,7 +14,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   FunctionField,
   ImageField,
   List,
@@ -140,37 +139,39 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       title={<StoryTitle />}
     >
       <TabbedForm>
-        <FormTab label="generals">
-          <Grid container>
-            <Grid size={{ md: 6 }}>
-              <TextWithSlugInput source="title" slugSource="path" fullWidth />
-              <DateInput source="date" />
-            </Grid>
-            <Grid
-              size={{ md: 6 }}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-              }}
-            >
-              <BooleanInput source="draft" />
-              {isAdmin ? (
-                <ReferenceUserInput source="creator" />
-              ) : (
-                <TextInput source="creator" defaultValue={data?.id} hidden />
-              )}
-              <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
-            </Grid>
+        <TabbedForm.Tab label="generals">
+          <Stack>
+            <Grid container size={12}>
+              <Grid size={{ md: 6 }}>
+                <TextWithSlugInput source="title" slugSource="path" fullWidth />
+                <DateInput source="date" />
+              </Grid>
+              <Grid
+                size={{ md: 6 }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <BooleanInput source="draft" />
+                {isAdmin ? (
+                  <ReferenceUserInput source="creator" />
+                ) : (
+                  <TextInput source="creator" defaultValue={data?.id} hidden />
+                )}
+                <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
+              </Grid>
 
-            <Grid size={{ md: 6 }}>
-              <ReferenceMediaInput
-                source="featuredImage.id"
-                allowedTypes={ImageType.members.map((t) => t.literals[0])}
-                fullWidth
-              />
+              <Grid size={{ md: 6 }}>
+                <ReferenceMediaInput
+                  source="featuredImage.id"
+                  allowedTypes={ImageType.members.map((t) => t.literals[0])}
+                  fullWidth
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </Stack>
 
           <ArrayInput source="links">
             <SimpleFormIterator>
@@ -178,13 +179,13 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
             </SimpleFormIterator>
           </ArrayInput>
           <BlockNoteInput source="body2" onlyText={false} />
-        </FormTab>
-        <FormTab label="Relations">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Relations">
           <StoryRelationsBox />
-        </FormTab>
-        <FormTab label="Social Posts">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Social Posts">
           <SocialPostFormTabContent type="stories" source="id" />
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>
   );
