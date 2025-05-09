@@ -22,12 +22,14 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
   transform,
   actions,
   preview,
+  ...props
 }) => {
   const [showPreview, setShowPreview] = React.useState(false);
   const resource = useResourceContext();
 
   return (
     <Edit
+      {...props}
       title={title}
       redirect={false}
       actions={actions}
