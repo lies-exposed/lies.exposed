@@ -79,7 +79,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
         </MainContent>
       </Grid>
       <Grid container>
-        <Grid size={{ md: 3 }}>
+        <Grid size={{ md: 3, lg: 3, xl: 4 }}>
           <TOCPlugin
             value={body}
             onClick={(k) => {
@@ -90,7 +90,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
             }}
           />
         </Grid>
-        <Grid size={{ md: 6 }}>
+        <Grid size={{ md: 8, lg: 6, xl: 6 }}>
           <MainContent style={{ marginBottom: 40 }}>
             <div style={{ textAlign: "right", padding: 10 }}>
               <EditButton

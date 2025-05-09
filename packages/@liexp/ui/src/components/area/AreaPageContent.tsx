@@ -14,7 +14,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
   onMediaClick,
 }) => {
   return (
-    <Grid container direction="column">
+    <Grid container>
       <Grid size={{ md: 12 }}>
         <Box
           sx={() => ({

@@ -118,53 +118,46 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   }
 
   return (
-    <Stack width="100%" spacing={2}>
-      <Grid
-        container
-        width="100%"
-        display="flex"
-        direction="column"
-        spacing={2}
-      >
-        <Grid size={12}>
-          <div>
-            <Grid direction="row" container>
-              <Grid
-                size={{ md: 4, lg: 4 }}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <EventTypeInput source="type" />
-                <BooleanInput size="small" source="draft" />
-              </Grid>
-              <Grid size={{ md: 2, lg: 2 }}>
-                <DateInput source="date" />
-              </Grid>
-              <Grid size={{ md: 6, lg: 6 }}>
-                <ReferenceArrayKeywordInput
-                  source="keywords"
-                  defaultValue={[]}
-                  showAdd
-                />
-                <SuggestedKeywordEntityRelationsBox
-                  keywords={suggestions?.entities.keywords ?? []}
-                  onKeywordClick={doAddKeyword}
-                />
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
-
-        <Grid size={{ md: 12, lg: 12 }}>
+    <Grid
+      container
+      justifyContent={"space-between"}
+      width="100%"
+      size={12}
+      spacing={2}
+    >
+      <Grid size={{ sm: 6, md: 3, lg: 3, xl: 3 }}>
+        <Stack
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"start"}
+          spacing={2}
+        >
+          <EventTypeInput source="type" />
+          <BooleanInput size="small" source="draft" />
+        </Stack>
+      </Grid>
+      <Grid size={"grow"}>
+        <DateInput source="date" />
+      </Grid>
+      <Grid size={{ md: 6, lg: 6 }}>
+        <ReferenceArrayKeywordInput
+          source="keywords"
+          defaultValue={[]}
+          showAdd
+        />
+        <SuggestedKeywordEntityRelationsBox
+          keywords={suggestions?.entities.keywords ?? []}
+          onKeywordClick={doAddKeyword}
+        />
+      </Grid>
+      <Grid size={12}>
+        <Stack direction="column" width="100%" spacing={2}>
           {children(suggestions, {
             onKeywordClick: doAddKeyword,
             onActorClick: doAddActors,
             onGroupClick: () => {},
           })}
-        </Grid>
-        <Grid size={{ md: 12, lg: 12 }}>
+
           <OpenAIEmbeddingJobButton<Event>
             type={OpenAIEmbeddingQueueType.literals[0]}
             resource="events"
@@ -178,8 +171,9 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
             <DateField label="Updated At" source="updatedAt" showTime={true} />
             <DateField source="createdAt" showTime={true} />
           </Box>
-        </Grid>
+        </Stack>
       </Grid>
-    </Stack>
+      <Grid size={{ md: 12, lg: 12 }}></Grid>
+    </Grid>
   );
 };

@@ -147,6 +147,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
               width="100%"
               alignItems={"center"}
               justifyContent={"space-evenly"}
+              spacing={2}
             >
               <Grid size={6}>
                 <Stack width="100%">
@@ -164,20 +165,22 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
                 </Stack>
               </Grid>
               <Grid size={6}>
-                <Stack direction="column">
+                <Stack direction="column" alignItems={"flex-end"}>
                   <BooleanInput source="draft" />
                   {isAdmin ? (
-                    <ReferenceUserInput source="creator" />
+                    <ReferenceUserInput source="creator" fullWidth />
                   ) : (
                     <TextInput
                       source="creator"
                       defaultValue={data?.id}
                       hidden
+                      fullWidth
                     />
                   )}
                   <ReferenceArrayKeywordInput
                     source="keywords"
                     showAdd={true}
+                    fullWidth
                   />
                 </Stack>
               </Grid>

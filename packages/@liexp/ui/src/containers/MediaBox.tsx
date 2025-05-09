@@ -38,6 +38,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
         media: Q.Media.list.useQuery(
           {
             filter: {
+              ...filter,
               _end: limit ? `${limit}` : undefined,
             },
           },
@@ -63,7 +64,7 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
               />
             </Box>
 
-            {!limit ? (
+            {!limit && total > media.length ? (
               <Box
                 style={{
                   display: "flex",

@@ -42,6 +42,7 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { transformActor } from "./ActorCreate";
+import { Grid, Stack } from "@liexp/ui/lib/components/mui/index.js";
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
@@ -69,35 +70,51 @@ const ActorEdit: React.FC<EditProps> = (props) => {
       transform={(a) => transformActor(dataProvider)(a.id, a)}
     >
       <TabbedForm>
-        <FormTab label="generals">
-          <MediaField
-            source="avatar.thumbnail"
-            type="image/jpeg"
-            controls={false}
-          />
-          <ColorInput source="color" />
-          <TextWithSlugInput source="fullName" slugSource="username" />
-          <DateInput source="bornOn" />
-          <DateInput source="diedOn" />
-          <OpenAIEmbeddingJobButton<Actor>
-            resource="actors"
-            type={OpenAISummarizeQueueType.Type}
-            transformValue={({ excerpt, fullName }) =>
-              pipe(
-                excerpt && isValidValue(excerpt)
-                  ? getTextContents(excerpt)
-                  : "",
-                (text) => (text !== "" ? text : fullName),
-                (text) => ({ text }),
-              )
-            }
-          />
+        <TabbedForm.Tab label="generals">
+          <Grid container size={12}>
+            <Grid size={8}>
+              <TextWithSlugInput source="fullName" slugSource="username" />
+
+              <Grid container>
+                <Grid size={6}>
+                  <DateInput source="bornOn" />
+                </Grid>
+                <Grid size={6} textAlign="end">
+                  <DateInput source="diedOn" />
+                </Grid>
+              </Grid>
+
+              <OpenAIEmbeddingJobButton<Actor>
+                resource="actors"
+                type={OpenAISummarizeQueueType.Type}
+                transformValue={({ excerpt, fullName }) =>
+                  pipe(
+                    excerpt && isValidValue(excerpt)
+                      ? getTextContents(excerpt)
+                      : "",
+                    (text) => (text !== "" ? text : fullName),
+                    (text) => ({ text }),
+                  )
+                }
+              />
+            </Grid>
+            <Grid size={4} textAlign={"end"}>
+              <MediaField
+                source="avatar.thumbnail"
+                type="image/jpeg"
+                controls={false}
+              />
+              <ColorInput source="color" />
+            </Grid>
+          </Grid>
+
           <BlockNoteInput source="excerpt" onlyText={true} />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
-        </FormTab>
-        <FormTab label="Avatar">
-          <ReferenceMediaInput source="avatar.id" />
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Avatar">
+          <ImageField source="avatar.location" />
+          <ReferenceMediaInput source="avatar.id" fullWidth />
           <FunctionField
             render={(r) => {
               if (!r.avatar) {
@@ -110,13 +127,13 @@ const ActorEdit: React.FC<EditProps> = (props) => {
               return null;
             }}
           />
-        </FormTab>
+        </TabbedForm.Tab>
 
-        <FormTab label="Content">
+        <TabbedForm.Tab label="Content">
           <BlockNoteInput source="body" />
-        </FormTab>
+        </TabbedForm.Tab>
 
-        <FormTab label="Groups">
+        <TabbedForm.Tab label="Groups">
           <ArrayInput source="newMemberIn" defaultValue={[]} fullWidth>
             <SimpleFormIterator fullWidth>
               <ReferenceGroupInput source="group" />
@@ -134,8 +151,8 @@ const ActorEdit: React.FC<EditProps> = (props) => {
               <DateField source="endDate" defaultValue={undefined} />
             </Datagrid>
           </ReferenceArrayField>
-        </FormTab>
-        <FormTab label="Events">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Events">
           <ReferenceManyEventField source="id" target="actors[]" />
           <CreateEventButton
             transform={async (t, r) => {
@@ -158,22 +175,22 @@ const ActorEdit: React.FC<EditProps> = (props) => {
               return Promise.reject(new Error(`Can't create event ${t}`));
             }}
           />
-        </FormTab>
-        <FormTab label="networks">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="networks">
           <LazyFormTabContent tab={5}>
             <EventsNetworkGraphFormTab type="actors" />
           </LazyFormTabContent>
-        </FormTab>
-        <FormTab label="flows">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="flows">
           <LazyFormTabContent tab={6}>
             <EventsFlowGraphFormTab type="actors" />
           </LazyFormTabContent>
-        </FormTab>
-        <FormTab label="Entitree">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Entitree">
           <div style={{ height: 600, width: "100%" }}>
             <EntitreeGraph />
           </div>
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>
   );

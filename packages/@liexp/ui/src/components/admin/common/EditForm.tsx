@@ -40,7 +40,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
           container
           width="100%"
           justifyContent="space-between"
-          alignItems="center"
+          alignItems="start"
           size={12}
         >
           <Grid size={6}>
@@ -54,7 +54,9 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
               <Button
                 label={`${showPreview ? "Hide" : "Show"} Preview`}
                 onClick={() => {
-                  setShowPreview(!showPreview);
+                  if (preview) {
+                    setShowPreview(!showPreview);
+                  }
                 }}
               />
             </Stack>
@@ -62,13 +64,31 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
           <Grid
             size={{
               md: showPreview ? 6 : 12,
-              lg: showPreview ? 8 : 12,
-              xl: showPreview ? 8 : 12,
+              lg: showPreview ? 6 : 12,
+              xl: showPreview ? 6 : 12,
             }}
           >
             {children}
           </Grid>
-          <Grid size={{ md: 6, lg: 4, xl: 4 }}>{preview}</Grid>
+          {showPreview ? (
+            <Grid
+              size={{
+                md: 6,
+                lg: 6,
+                xl: 6,
+              }}
+            >
+              <div
+                style={{
+                  overflow: "scroll",
+                  height: "100%",
+                  maxHeight: 800,
+                }}
+              >
+                {preview}
+              </div>
+            </Grid>
+          ) : null}
         </Grid>
       </div>
     </Edit>

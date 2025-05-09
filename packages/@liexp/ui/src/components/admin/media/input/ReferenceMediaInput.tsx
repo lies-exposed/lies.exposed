@@ -46,9 +46,14 @@ const ReferenceMediaInput: React.FC<
     allowedTypes?: MediaType[];
     fullWidth?: boolean;
   }
-> = ({ allowedTypes, ...props }) => {
+> = ({ allowedTypes, fullWidth, ...props }) => {
   return (
-    <Stack spacing={2} direction={"row"} alignItems={"center"}>
+    <Stack
+      spacing={2}
+      direction={"row"}
+      alignItems={"center"}
+      width={fullWidth ? "100%" : undefined}
+    >
       <ReferenceInput
         {...props}
         reference="media"
@@ -57,7 +62,7 @@ const ReferenceMediaInput: React.FC<
         }}
       >
         <AutocompleteInput
-          fullWidth
+          fullWidth={fullWidth}
           source="id"
           optionText={<MediaAutocompleteOptionText />}
           matchSuggestion={matchMediaSuggestions}

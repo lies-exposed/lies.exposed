@@ -10,7 +10,7 @@ import { MediaDataGrid } from "../media/index.js";
 export const StoryRelationsBox: React.FC = () => {
   return (
     <Box>
-      <Grid container spacing={2}>
+      <Grid container>
         <Grid size={{ xs: 12, md: 6 }}>
           <ReferenceArrayField reference="actors" source="actors">
             <ActorDataGrid />
