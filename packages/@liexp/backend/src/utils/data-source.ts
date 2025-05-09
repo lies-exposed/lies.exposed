@@ -89,9 +89,6 @@ export const getDataSource = (
 ): TE.TaskEither<DBError, DataSource> => {
   return TE.tryCatch(async () => {
     const dataSource = new DataSource(config);
-    // if (!dataSource.isInitialized) {
-    //   await dataSource.initialize();
-    // }
     return Promise.resolve(dataSource);
   }, toDBError());
 };

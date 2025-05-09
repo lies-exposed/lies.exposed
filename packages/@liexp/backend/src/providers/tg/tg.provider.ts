@@ -95,6 +95,7 @@ export const TGBotProvider = (
       ),
     )
     .join(":");
+
   logger.debug.log("tg bot provider %O", {
     ...opts,
     token: encryptedToken,

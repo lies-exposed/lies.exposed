@@ -25,30 +25,32 @@ import { GetTestDBManager } from "./utils/TestDBManager.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
 
-export const testDBManager = GetTestDBManager(logger.GetLogger("test-db-manager"), {
-  dbContainerName: "db.liexp.dev",
-  redis: { host: process.env.REDIS_HOST || "127.0.0.1" },
-  truncateTables: [
-    // TODO: to be removed
-    "project_image",
-    "project",
-    // ---
-    SOCIAL_POST_ENTITY_NAME,
-    EVENT_SUGGESTION_ENTITY_NAME,
-    EVENT_ENTITY_NAME,
-    STORY_ENTITY_NAME,
-    ACTOR_ENTITY_NAME,
-    GROUP_ENTITY_NAME,
-    GROUP_MEMBER_ENTITY_NAME,
-    AREA_ENTITY_NAME,
-    MEDIA_ENTITY_NAME,
-    LINK_ENTITY_NAME,
-    KEYWORD_ENTITY_NAME,
-    PAGE_ENTITY_NAME,
-    USER_ENTITY_NAME,
-  ],
-});
-
+export const testDBManager = GetTestDBManager(
+  logger.GetLogger("test-db-manager"),
+  {
+    dbContainerName: "db.liexp.dev",
+    redis: { host: process.env.REDIS_HOST || "127.0.0.1" },
+    truncateTables: [
+      // TODO: to be removed
+      "project_image",
+      "project",
+      // ---
+      SOCIAL_POST_ENTITY_NAME,
+      EVENT_SUGGESTION_ENTITY_NAME,
+      EVENT_ENTITY_NAME,
+      STORY_ENTITY_NAME,
+      ACTOR_ENTITY_NAME,
+      GROUP_ENTITY_NAME,
+      GROUP_MEMBER_ENTITY_NAME,
+      AREA_ENTITY_NAME,
+      MEDIA_ENTITY_NAME,
+      LINK_ENTITY_NAME,
+      KEYWORD_ENTITY_NAME,
+      PAGE_ENTITY_NAME,
+      USER_ENTITY_NAME,
+    ],
+  },
+);
 
 const DATABASE_TOTAL = 30;
 
@@ -66,13 +68,14 @@ export default async (): Promise<() => void> => {
 
     loadENV(__dirname, dotenvConfigPath, true);
 
+    let truncatorTimer: NodeJS.Timeout;
     if (!process.env.CI) {
       const testDBContainer = await testDBManager("liexp_test");
 
       await testDBContainer.lookup();
 
       await testDBContainer.addDatabases(DATABASE_TOTAL);
-      await testDBContainer.startDBTruncator();
+      truncatorTimer = await testDBContainer.startDBTruncator();
     }
 
     await pipe(
@@ -86,6 +89,9 @@ export default async (): Promise<() => void> => {
       if (!process.env.CI) {
         const testDBContainer = await testDBManager("liexp_test");
         const stats = await testDBContainer.getRunStats();
+        if (truncatorTimer) {
+          clearInterval(truncatorTimer);
+        }
         // eslint-disable-next-line no-console
         console.log(
           `Test ran on ${stats.used} databases over a total of ${DATABASE_TOTAL}`,

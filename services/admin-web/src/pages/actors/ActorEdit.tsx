@@ -41,7 +41,7 @@ import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { transformActor } from "./ActorCreate";
+import { transformActor } from "./ActorCreate.js";
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();

@@ -47,6 +47,12 @@ export const getSocialPostById =
         content: {
           ...sp.content,
           ...relations,
+          media: relations.media.map((m) => ({
+            ...m,
+            links: [],
+            areas: [],
+            events: [],
+          })),
         },
         id,
       })),

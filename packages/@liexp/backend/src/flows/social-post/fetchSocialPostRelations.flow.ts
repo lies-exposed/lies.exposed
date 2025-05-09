@@ -41,20 +41,20 @@ export const fetchSocialPostRelations = <
         groups: pipe(
           sp.groups,
           O.fromNullable,
-          O.filter((g) => g.length > 0),
           O.map((a) => (Schema.is(Schema.Array(UUID))(a) ? a : [])),
+          O.filter((g) => g.length > 0),
         ),
         keywords: pipe(
           sp.keywords,
           O.fromNullable,
-          O.filter((k) => k.length > 0),
           O.map((a) => (Schema.is(Schema.Array(UUID))(a) ? a : [])),
+          O.filter((k) => k.length > 0),
         ),
         media: pipe(
           sp.media,
           O.fromNullable,
-          O.filter((m) => m.length > 0),
           O.map((a) => (Schema.is(Schema.Array(UUID))(a) ? a : [])),
+          O.filter((k) => k.length > 0),
         ),
         links: O.none(),
         groupsMembers: O.none(),

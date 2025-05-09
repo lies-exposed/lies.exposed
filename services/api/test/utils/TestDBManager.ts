@@ -140,12 +140,6 @@ const addDatabases =
   (ctx) => {
     return pipe(
       listDatabases(dbNamePattern)(ctx),
-      // fp.TE.chain((databases) =>
-      //   pipe(
-      //     databases,
-      //     fp.A.traverse(fp.TE.ApplicativePar)((db) => dropDatabase(db)(pg)),
-      //   ),
-      // ),
       fp.TE.chain((databases) => {
         const newDatabases = Array.from(
           { length: dbCount },
@@ -188,9 +182,11 @@ const firstDatabaseToTruncate =
     return pipe(
       liftP(async () => {
         for (const db of keys) {
-          const isUsed = await ctx.redis.get(db);
-          ctx.logger.info.log("Found database %s with isUsed %s", db, isUsed);
-          if (isUsed && parseInt(isUsed) === DB_STATE.TO_TRUNCATE) {
+          const dbStatus = await ctx.redis.get(db);
+
+          if (dbStatus && parseInt(dbStatus) === DB_STATE.TO_TRUNCATE) {
+            ctx.logger.info.log("Found database to truncate %s", db);
+
             return db;
           }
         }
@@ -288,15 +284,12 @@ const dbTruncator = (dbName: string, tables: string[]): RTE<NodeJS.Timeout> => {
             fp.TE.chain((databases) => firstDatabaseToTruncate(databases)(ctx)),
           ),
         ),
-        LoggerService.TE.info(ctx, ({ firstDBToTruncate }) => [
-          `Found database to truncate %s`,
-          firstDBToTruncate,
-        ]),
         fp.TE.chain(({ firstDBToTruncate }) => {
           if (!firstDBToTruncate || isTruncating) {
-            ctx.logger.debug.log("No database to truncate");
             return fp.TE.right(undefined);
           }
+
+          ctx.logger.debug.log("Truncating %s", firstDBToTruncate);
 
           isTruncating = true;
 
@@ -305,7 +298,7 @@ const dbTruncator = (dbName: string, tables: string[]): RTE<NodeJS.Timeout> => {
             fp.TE.chain(truncateTables(tables)),
             fp.TE.map(() => {
               isTruncating = false;
-            })
+            }),
           );
         }),
         throwTE,

@@ -1,4 +1,4 @@
-import { pipe, fp, flow } from "@liexp/core/lib/fp/index.js";
+import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type _DecodeError,
   DecodeError,
@@ -88,6 +88,8 @@ const decodeSocialPost = (
         ig: socialPost.result?.ig ?? undefined,
       },
       scheduledAt: socialPost.scheduledAt?.toISOString(),
+      createdAt: socialPost.createdAt.toISOString(),
+      updatedAt: socialPost.updatedAt.toISOString(),
     })),
     E.chain(
       flow(

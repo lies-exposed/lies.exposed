@@ -18,6 +18,7 @@ import * as Query from "./Query/index.js";
 import * as Queue from "./Queue/index.js";
 import { ResourcesNames } from "./ResourcesNames.js";
 import * as Setting from "./Setting.js";
+import * as SocialPost from "./SocialPost.js";
 import * as Stats from "./Stats.js";
 import * as Story from "./Story.js";
 import * as User from "./User.js";
@@ -44,6 +45,7 @@ export {
   Query,
   Queue,
   ResourcesNames,
+  SocialPost,
   Stats,
   Story,
   User,

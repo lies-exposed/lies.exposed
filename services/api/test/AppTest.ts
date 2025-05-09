@@ -51,24 +51,28 @@ export interface AppTest {
 let context: ServerContext | undefined = undefined;
 export const loadAppContext = async (
   logger: Logger,
+  database: string,
 ): Promise<ServerContext> => {
   if (context) {
     return context;
   }
 
   return pipe(
-    sequenceS(TE.ApplicativePar)({
-      db: pipe(
-        getDataSource(getORMConfig(process.env as any, false)),
-        TE.chain((source) => GetTypeORMClient(source)),
-      ),
-      env: pipe(
+    TE.Do,
+    TE.bind("env", () =>
+      pipe(
         process.env,
         Schema.decodeUnknownEither(ENV),
         TE.fromEither,
         TE.mapLeft(toControllerError),
       ),
-    }),
+    ),
+    TE.bind("db", ({ env }) =>
+      pipe(
+        getDataSource(getORMConfig({ ...env, DB_DATABASE: database }, false)),
+        TE.chain((source) => GetTypeORMClient(source)),
+      ),
+    ),
     TE.map(({ db, env }) => {
       const config = Config(env, path.resolve(__dirname, "../temp"));
 
@@ -130,9 +134,23 @@ export const initAppTest = async (
   database: string,
 ): Promise<AppTest> => {
   const appTest = await pipe(
-    getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database }, false)),
-    TE.chain((source) => GetTypeORMClient(source)),
-    TE.map((db) => ({ ...ctx, db })),
+    TE.Do,
+    TE.apS("ctx", TE.right(ctx)),
+    TE.bind("db", ({ ctx }) => {
+      if (database === ctx.db.manager.connection.driver.database) {
+        return TE.right(ctx.db);
+      }
+
+      ctx.logger.debug.log("Connecting to new DB %s", database);
+
+      return pipe(
+        getDataSource(
+          getORMConfig({ ...ctx.env, DB_DATABASE: database }, false),
+        ),
+        TE.chain((source) => GetTypeORMClient(source)),
+      );
+    }),
+    TE.map(({ ctx, db }) => ({ ...ctx, db })),
     TE.map((ctx) => ({
       ctx,
       mocks,
@@ -157,8 +175,13 @@ export const GetAppTest = async (): Promise<AppTest> => {
   appTestLogger.info.log("app context", !!g.appContext);
 
   if (!g.appContext) {
-    g.appContext = await loadAppContext(appTestLogger);
+    g.appContext = await loadAppContext(
+      appTestLogger,
+      process.env.DB_DATABASE!,
+    );
   }
+
+  appTestLogger.info.log("app test", !!g.appTest, process.env.DB_DATABASE);
 
   if (!g.appTest) {
     g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
