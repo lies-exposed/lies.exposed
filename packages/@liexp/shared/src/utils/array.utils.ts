@@ -27,7 +27,7 @@ function nonEmptyArrayOr<A extends readonly [A, ...A[]], B>(
 ): A | B;
 
 function nonEmptyArrayOr<A, B>(arr: A, orElse: B): [A, ...A[]] | B {
-  return arr && isNonEmpty<A>(arr as any) ? (arr as any) : orElse;
+  return arr && isNonEmpty<A>(arr as []) ? (arr as [A, ...A[]]) : orElse;
 }
 
 export { nonEmptyArrayOr };

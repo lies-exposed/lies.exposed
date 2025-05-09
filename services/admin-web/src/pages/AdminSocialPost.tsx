@@ -1,29 +1,15 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
-import {
-  PUBLISHED,
-  type SocialPost,
-  TO_PUBLISH,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
-import { SocialPostPlatformIcon } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js";
+import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { SocialPostDataGrid } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostDatagrid.js";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput.js";
 import {
   BooleanInput,
   Create,
-  Datagrid,
-  DateField,
-  FunctionField,
-  Link,
   List,
-  NumberField,
   SelectInput,
   SimpleForm,
-  TextField,
   TextInput,
-  type DatagridProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import { Box, Stack, Typography } from "@liexp/ui/lib/components/mui/index.js";
-import { getBorderLeftStyle } from "@liexp/ui/lib/utils/style.utils.js";
-import { Schema } from "effect";
 import * as React from "react";
 
 const RESOURCE = "social-posts";
@@ -41,50 +27,6 @@ const socialPostFilters = [
     size="small"
   />,
 ];
-
-const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
-  return (
-    <Datagrid
-      rowClick="edit"
-      rowSx={(record) =>
-        getBorderLeftStyle(
-          Schema.is(TO_PUBLISH)(record.status) ? "orange" : "transparent",
-        )
-      }
-      {...props}
-    >
-      <TextField source="type" />
-      <FunctionField
-        source="title"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-        render={(r: SocialPost) => (
-          <Box>
-            <Link to={`/${r.type}/${r.entity}`}>{r.title}</Link>
-            <Typography display={"block"}>{r.content}</Typography>
-          </Box>
-        )}
-      />
-
-      <FunctionField
-        label="Platforms"
-        render={(r) => {
-          return (
-            <Stack direction="row" spacing={1}>
-              <SocialPostPlatformIcon platform="TG" />
-              <SocialPostPlatformIcon platform="IG" />
-            </Stack>
-          );
-        }}
-      />
-      <TextField source="status" />
-      <NumberField source="publishCount" />
-      <DateField showTime source="scheduledAt" />
-      <DateField source="createdAt" />
-    </Datagrid>
-  );
-};
 
 export const SocialPostList: React.FC = () => (
   <List resource={RESOURCE} perPage={50} filters={socialPostFilters}>
