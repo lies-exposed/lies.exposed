@@ -4,14 +4,14 @@ import {
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
-import { Box, Grid, Stack } from "../../../mui/index.js";
+import { Grid, Stack } from "../../../mui/index.js";
 import ReferenceArrayBySubjectInput from "../../common/inputs/BySubject/ReferenceArrayBySubjectInput.js";
 import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySubjectInput.js";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
 export const BookEditFormTab: React.FC = () => {
   return (
-    <Box>
+    <Stack direction="column" width="100%" spacing={2}>
       <TextInput source="payload.title" fullWidth />
       <ReferenceMediaInput
         source="payload.media.pdf"
@@ -31,6 +31,6 @@ export const BookEditFormTab: React.FC = () => {
           </Grid>
         </Grid>
       </Stack>
-    </Box>
+    </Stack>
   );
 };

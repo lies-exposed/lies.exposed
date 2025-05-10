@@ -106,6 +106,8 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
             <GroupList
               groups={(payload?.groups ?? []).map((g) => ({
                 ...g,
+                body: null,
+                excerpt: null,
                 selected: true,
               }))}
               onItemClick={() => {}}

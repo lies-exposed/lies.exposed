@@ -11,7 +11,7 @@ import {
   type Identifier,
 } from "react-admin";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
-import { Box, Button } from "../../mui/index.js";
+import { Button, Stack } from "../../mui/index.js";
 import { ShareModal, emptySharePayload } from "../Modal/ShareModal.js";
 
 interface OnLoadSharePayloadClickOpts {
@@ -42,7 +42,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
 
   return (
-    <Box style={{ display: "flex", marginRight: 10 }}>
+    <Stack spacing={2}>
       <Button
         color="secondary"
         variant="contained"
@@ -84,6 +84,6 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
           }}
         />
       ) : null}
-    </Box>
+    </Stack>
   );
 };

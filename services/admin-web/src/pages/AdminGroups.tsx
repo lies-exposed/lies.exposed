@@ -221,16 +221,24 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
     >
       <TabbedForm>
         <TabbedForm.Tab label="Generals">
-          <Grid container padding={1} columnSpacing={2}>
-            <Grid size={{ md: 6 }}>
-              <Stack display="flex" direction={"column"}>
+          <Grid container spacing={2} width="100%">
+            <Grid size={{ md: 6, lg: 9 }}>
+              <Stack direction={"column"}>
                 <TextWithSlugInput source="name" slugSource="username" />
-                <ColorInput source="color" />
-                <DateInput source="startDate" />
-                <DateInput source="endDate" />
+
+                <Stack
+                  direction="row"
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  spacing={2}
+                >
+                  <ColorInput source="color" />
+                  <DateInput source="startDate" />
+                  <DateInput source="endDate" />
+                </Stack>
               </Stack>
             </Grid>
-            <Grid size={{ md: 6 }}>
+            <Grid size={"auto"} textAlign={"end"}>
               <GroupKindInput source="kind" />
               <MediaField
                 source="avatar.thumbnail"
@@ -242,20 +250,23 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                 <DateField source="createdAt" showTime={true} />
               </Box>
             </Grid>
+            <Grid size={12}>
+              <Stack>
+                <OpenAIEmbeddingJobButton<Group>
+                  resource="groups"
+                  type={OpenAISummarizeQueueType.Type}
+                  transformValue={({ name, excerpt }) =>
+                    pipe(
+                      excerpt ? getTextContents(excerpt) : "",
+                      (text) => (text !== "" ? text : name),
+                      (text) => ({ text }),
+                    )
+                  }
+                />
+                <BlockNoteInput source="excerpt" />
+              </Stack>
+            </Grid>
           </Grid>
-
-          <OpenAIEmbeddingJobButton<Group>
-            resource="groups"
-            type={OpenAISummarizeQueueType.Type}
-            transformValue={({ name, excerpt }) =>
-              pipe(
-                excerpt ? getTextContents(excerpt) : "",
-                (text) => (text !== "" ? text : name),
-                (text) => ({ text }),
-              )
-            }
-          />
-          <BlockNoteInput source="excerpt" />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Avatar">
           <ReferenceMediaInput source="avatar.id" />

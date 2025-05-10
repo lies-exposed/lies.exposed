@@ -4,6 +4,8 @@
     "outDir": "build",
     "module": "ESNext",
     "target": "es6",
+    "moduleResolution": "Bundler",
+    "moduleDetection": "force",
     "jsx": "react-jsx",
     "noEmit": true,
     "allowJs": true,
@@ -17,13 +19,12 @@
     "skipLibCheck": true,
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
-      "../../packages/@liexp/ui/typings",
+      "../../packages/@liexp/ui/typings"
     ],
     "baseUrl": "./src",
     "rootDir": "./",
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "paths": {
       "@client/*": ["./client/*"]

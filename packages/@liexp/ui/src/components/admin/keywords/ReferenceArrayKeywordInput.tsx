@@ -8,13 +8,17 @@ import {
   type ReferenceInputProps,
 } from "react-admin";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Box, TextField } from "../../mui/index.js";
+import { Box, Stack, TextField } from "../../mui/index.js";
 import { ColorInput } from "../common/inputs/ColorInput.js";
 import { ImportKeywordButton } from "./ImportKeywordButton.js";
 
 const ReferenceArrayKeywordInput: React.FC<
-  Omit<ReferenceInputProps, "children"> & { source: string; showAdd: boolean }
-> = ({ showAdd, ...props }) => {
+  Omit<ReferenceInputProps, "children"> & {
+    source: string;
+    showAdd: boolean;
+    fullWidth?: boolean;
+  }
+> = ({ showAdd, fullWidth, ...props }) => {
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
 
@@ -29,19 +33,25 @@ const ReferenceArrayKeywordInput: React.FC<
     });
   }, [tag, color]);
   return (
-    <Box>
-      <ReferenceArrayInput {...props} reference="keywords">
-        <AutocompleteArrayInput
-          size="small"
-          optionText="tag"
-          filterToQuery={(q) => ({ q })}
-        />
-      </ReferenceArrayInput>
-      {showAdd ? <ImportKeywordButton /> : null}
+    <Stack spacing={2}>
+      <Stack direction="row" spacing={2}>
+        <ReferenceArrayInput {...props} reference="keywords">
+          <AutocompleteArrayInput
+            size="small"
+            optionText="tag"
+            filterToQuery={(q) => ({ q })}
+            fullWidth={fullWidth}
+          />
+        </ReferenceArrayInput>
+        <Box>
+          <ImportKeywordButton />
+        </Box>
+      </Stack>
       {showAdd ? (
-        <Box style={{ display: "flex" }}>
+        <Stack spacing={2} direction="row" width="100%">
           <TextField
             value={tag}
+            placeholder="Insert new keyword"
             onChange={(e) => {
               setKeyword((k) => ({ ...k, tag: e.target.value }));
             }}
@@ -65,9 +75,9 @@ const ReferenceArrayKeywordInput: React.FC<
               doKeywordCreate();
             }}
           />
-        </Box>
+        </Stack>
       ) : null}
-    </Box>
+    </Stack>
   );
 };
 

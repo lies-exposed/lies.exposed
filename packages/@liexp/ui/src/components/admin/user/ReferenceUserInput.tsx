@@ -6,12 +6,16 @@ import {
 } from "react-admin";
 
 const ReferenceUserInput: React.FC<
-  Omit<ReferenceInputProps, "children"> & { source: string }
-> = (props) => {
+  Omit<ReferenceInputProps, "children"> & {
+    source: string;
+    fullWidth?: boolean;
+  }
+> = ({ fullWidth, ...props }) => {
   return (
     <ReferenceInput {...props} reference="users">
       <AutocompleteInput
         size="small"
+        fullWidth={fullWidth}
         optionText={(r) =>
           r ? `${r.firstName} ${r.lastName} (${r.username})` : undefined
         }

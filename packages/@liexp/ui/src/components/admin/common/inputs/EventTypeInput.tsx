@@ -142,6 +142,7 @@ export const EventTypeInput: React.FC<InputProps> = ({
         </Select>
         <Button
           label="Transform"
+          size="small"
           disabled={value === type}
           onClick={() => {
             void doTransform(record);

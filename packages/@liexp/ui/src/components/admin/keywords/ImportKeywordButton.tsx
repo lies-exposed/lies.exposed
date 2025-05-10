@@ -49,6 +49,7 @@ export const ImportKeywordButton: React.FC<{
     record && (
       <Button
         label={`Import from ${source}`}
+        variant="contained"
         onClick={() => {
           handleKeywordImport(record);
         }}

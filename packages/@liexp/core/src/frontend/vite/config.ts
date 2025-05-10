@@ -96,7 +96,13 @@ export const defineViteConfig = <A extends Record<string, any>>(
 
       resolve: {
         // preserveSymlinks: true,
-        dedupe: ["react", "react-dom"],
+        dedupe: [
+          "react",
+          "react-dom",
+          "@mui/material",
+          "@mui/icons-material",
+          "@mui/system",
+        ],
         extensions: [
           ".ts",
           ".cts",

@@ -6,6 +6,16 @@ import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { uploadImages } from "../../../client/admin/MediaAPI.js";
+import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { Box, Grid, Stack } from "../../mui/index.js";
+import BlockNoteInput from "../BlockNoteInput.js";
+import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
+import { EditForm } from "../common/EditForm.js";
+import { TextWithSlugInput } from "../common/inputs/TextWithSlugInput.js";
+import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
+import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
+import StoryPreview from "../previews/StoryPreview.js";
 import {
   ArrayInput,
   BooleanField,
@@ -14,7 +24,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   FunctionField,
   ImageField,
   List,
@@ -32,17 +41,7 @@ import {
   type EditProps,
   type ListProps,
   type RaRecord,
-} from "react-admin";
-import { uploadImages } from "../../../client/admin/MediaAPI.js";
-import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Box, Grid, Stack } from "../../mui/index.js";
-import BlockNoteInput from "../BlockNoteInput.js";
-import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
-import { EditForm } from "../common/EditForm.js";
-import { TextWithSlugInput } from "../common/inputs/TextWithSlugInput.js";
-import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
-import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
-import StoryPreview from "../previews/StoryPreview.js";
+} from "../react-admin.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { StoryRelationsBox } from "./StoryRelations.js";
 
@@ -140,51 +139,66 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       title={<StoryTitle />}
     >
       <TabbedForm>
-        <FormTab label="generals">
-          <Grid container>
-            <Grid size={{ md: 6 }}>
-              <TextWithSlugInput source="title" slugSource="path" fullWidth />
-              <DateInput source="date" />
-            </Grid>
+        <TabbedForm.Tab label="generals">
+          <Stack display="flex" direction="column" width="100%">
             <Grid
-              size={{ md: 6 }}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-              }}
+              size={12}
+              container
+              width="100%"
+              alignItems={"center"}
+              justifyContent={"space-evenly"}
+              spacing={2}
             >
-              <BooleanInput source="draft" />
-              {isAdmin ? (
-                <ReferenceUserInput source="creator" />
-              ) : (
-                <TextInput source="creator" defaultValue={data?.id} hidden />
-              )}
-              <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
+              <Grid size={6}>
+                <Stack width="100%">
+                  <TextWithSlugInput
+                    source="title"
+                    slugSource="path"
+                    fullWidth
+                  />
+                  <DateInput source="date" />
+                  <ReferenceMediaInput
+                    source="featuredImage.id"
+                    allowedTypes={ImageType.members.map((t) => t.literals[0])}
+                    fullWidth
+                  />
+                </Stack>
+              </Grid>
+              <Grid size={6}>
+                <Stack direction="column" alignItems={"flex-end"}>
+                  <BooleanInput source="draft" />
+                  {isAdmin ? (
+                    <ReferenceUserInput source="creator" fullWidth />
+                  ) : (
+                    <TextInput
+                      source="creator"
+                      defaultValue={data?.id}
+                      hidden
+                      fullWidth
+                    />
+                  )}
+                  <ReferenceArrayKeywordInput
+                    source="keywords"
+                    showAdd={true}
+                    fullWidth
+                  />
+                </Stack>
+              </Grid>
             </Grid>
-
-            <Grid size={{ md: 6 }}>
-              <ReferenceMediaInput
-                source="featuredImage.id"
-                allowedTypes={ImageType.members.map((t) => t.literals[0])}
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-
-          <ArrayInput source="links">
-            <SimpleFormIterator>
-              <TextInput source="" />
-            </SimpleFormIterator>
-          </ArrayInput>
-          <BlockNoteInput source="body2" onlyText={false} />
-        </FormTab>
-        <FormTab label="Relations">
+            <ArrayInput source="links">
+              <SimpleFormIterator>
+                <TextInput source="" />
+              </SimpleFormIterator>
+            </ArrayInput>
+            <BlockNoteInput source="body2" onlyText={false} />
+          </Stack>
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Relations">
           <StoryRelationsBox />
-        </FormTab>
-        <FormTab label="Social Posts">
+        </TabbedForm.Tab>
+        <TabbedForm.Tab label="Social Posts">
           <SocialPostFormTabContent type="stories" source="id" />
-        </FormTab>
+        </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>
   );

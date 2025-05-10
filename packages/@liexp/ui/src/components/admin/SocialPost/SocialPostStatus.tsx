@@ -1,10 +1,11 @@
 import * as SocialPost from "@liexp/shared/lib/io/http/SocialPost.js";
 import * as React from "react";
 import { Box, Stack } from "../../mui/index.js";
-import { SelectInput } from "../react-admin.js";
+import { SelectInput, useRecordContext } from "../react-admin.js";
 import { PublishNowButton } from "./PublishNowButton.js";
 
 export const SocialPostStatus: React.FC = () => {
+  const record = useRecordContext();
   return (
     <Stack
       direction="row"
@@ -22,7 +23,9 @@ export const SocialPostStatus: React.FC = () => {
         }))}
       />
       <Box>
-        <PublishNowButton platforms={{ IG: true, TG: true }} />
+        <PublishNowButton
+          platforms={record?.platforms ?? { IG: false, TG: true }}
+        />
       </Box>
     </Stack>
   );

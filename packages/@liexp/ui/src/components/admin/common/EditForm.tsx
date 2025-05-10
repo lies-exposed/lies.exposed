@@ -35,62 +35,62 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
       actions={actions}
       transform={transform}
     >
-      <Grid container direction="column" width="100%">
-        <Grid size={12}>
-          <Grid container width={"100%"}>
-            <div>
-              <Grid
-                container
-                size={12}
-                direction="row"
-                justifyContent="space-between"
+      <div>
+        <Grid
+          container
+          width="100%"
+          justifyContent="space-between"
+          alignItems="start"
+          size={12}
+        >
+          <Grid size={6}>
+            <Stack direction={"row"}>
+              {resource && <WebPreviewButton resource={resource} source="id" />}
+              <RestoreButton />
+            </Stack>
+          </Grid>
+          <Grid size={6}>
+            <Stack alignItems={"flex-end"}>
+              <Button
+                label={`${showPreview ? "Hide" : "Show"} Preview`}
+                onClick={() => {
+                  if (preview) {
+                    setShowPreview(!showPreview);
+                  }
+                }}
+              />
+            </Stack>
+          </Grid>
+          <Grid
+            size={{
+              md: showPreview ? 6 : 12,
+              lg: showPreview ? 6 : 12,
+              xl: showPreview ? 6 : 12,
+            }}
+          >
+            {children}
+          </Grid>
+          {showPreview ? (
+            <Grid
+              size={{
+                md: 6,
+                lg: 6,
+                xl: 6,
+              }}
+            >
+              <div
+                style={{
+                  overflow: "scroll",
+                  height: "100%",
+                  maxHeight: 800,
+                }}
               >
-                <Grid size={{ md: 6, lg: 6 }}>
-                  <Stack direction={"row"}>
-                    {resource && (
-                      <WebPreviewButton resource={resource} source="id" />
-                    )}
-                    <RestoreButton />
-                  </Stack>
-                </Grid>
-                <Grid size={{ md: 6, lg: 6 }}>
-                  <Stack alignItems={"flex-end"}>
-                    <Button
-                      label={`${showPreview ? "Hide" : "Show"} Preview`}
-                      onClick={() => {
-                        setShowPreview(!showPreview);
-                      }}
-                    />
-                  </Stack>
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
+                {preview}
+              </div>
+            </Grid>
+          ) : null}
         </Grid>
-        <Grid size={12}>
-          <Grid container width={"100%"}>
-            <div style={{ width: "100%" }}>
-              <Grid container width={"100%"} direction={"row"}>
-                <Grid
-                  size={{
-                    md: showPreview ? 6 : 12,
-                    lg: showPreview ? 8 : 12,
-                    xl: showPreview ? 8 : 12,
-                  }}
-                  style={{
-                    width: !showPreview ? "100%" : undefined,
-                  }}
-                >
-                  {children}
-                </Grid>
-                {showPreview && !!preview ? (
-                  <Grid size={{ md: 6, lg: 4 }}>{preview}</Grid>
-                ) : null}
-              </Grid>
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
+      </div>
     </Edit>
   );
 };

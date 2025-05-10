@@ -4,13 +4,14 @@ import {
 } from "@liexp/shared/lib/utils/colors.js";
 import get from "lodash/get.js";
 import * as React from "react";
+import { useRecordContext, type TextInputProps, useInput } from "react-admin";
 import {
-  Button,
-  useRecordContext,
-  type TextInputProps,
-  useInput,
-} from "react-admin";
-import { Box, TextField, FormControl } from "../../../mui/index.js";
+  TextField,
+  FormControl,
+  Stack,
+  IconButton,
+  Icons,
+} from "../../../mui/index.js";
 
 export const ColorInput: React.FC<TextInputProps> = ({
   source,
@@ -25,24 +26,25 @@ export const ColorInput: React.FC<TextInputProps> = ({
 
   return (
     <FormControl>
-      <Box
-        display="flex"
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems={"center"}
+        justifyContent="center"
         style={{
-          alignItems: "center",
-          justifyContent: "center",
           border: `2px solid ${toColorHash(field.value)}`,
           padding: "10px 20px",
         }}
       >
-        <Button
+        <IconButton
           size="small"
-          label="random"
-          variant="contained"
           onClick={() => {
             const color = generateRandomColor();
             field.onChange({ target: { value: color } });
           }}
-        />
+        >
+          <Icons.Refresh style={{ stroke: toColorHash(field.value) }} />
+        </IconButton>
         <TextField
           size="small"
           label={props.label ?? "color"}
@@ -52,7 +54,7 @@ export const ColorInput: React.FC<TextInputProps> = ({
             field.onChange({ target: { value: e.target.value } });
           }}
         />
-      </Box>
+      </Stack>
     </FormControl>
   );
 };
