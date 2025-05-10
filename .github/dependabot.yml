@@ -6,7 +6,7 @@ updates:
     directories:
       - "/packages/@liexp/*"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     ignore:
       - dependency-name: "*"
 
@@ -25,7 +25,7 @@ updates:
       - "/services/admin-web"
       - "/services/storybook"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     open-pull-requests-limit: 10
     target-branch: "daily"
     versioning-strategy: increase
