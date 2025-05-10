@@ -52,8 +52,10 @@ export const LinkEdit: React.FC = () => {
       title={<EditTitle />}
       actions={
         <Toolbar>
-          <UpdateMetadataButton />
-          <LinkTGPostButton />
+          <Stack direction="row" spacing={2}>
+            <UpdateMetadataButton />
+            <LinkTGPostButton />
+          </Stack>
         </Toolbar>
       }
       preview={<LinkPreview record={record} />}

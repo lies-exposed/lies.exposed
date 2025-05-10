@@ -24,7 +24,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FormTab,
   FunctionField,
   ImageField,
   ImageInput,
@@ -36,13 +35,13 @@ import {
   type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
+import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { transformActor } from "./ActorCreate";
-import { Grid, Stack } from "@liexp/ui/lib/components/mui/index.js";
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
