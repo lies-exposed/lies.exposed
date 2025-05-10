@@ -855,8 +855,8 @@ importers:
         version: 2.4.2
     devDependencies:
       '@esbuild/aix-ppc64':
-        specifier: ^0.25.3
-        version: 0.25.3
+        specifier: ^0.25.4
+        version: 0.25.4
       '@types/node':
         specifier: ^22.15.17
         version: 22.15.17
@@ -11553,10 +11553,10 @@ snapshots:
 
   '@emotion/weak-memoize@0.4.0': {}
 
-  '@esbuild/aix-ppc64@0.25.3': {}
-
-  '@esbuild/aix-ppc64@0.25.4':
+  '@esbuild/aix-ppc64@0.25.3':
     optional: true
+
+  '@esbuild/aix-ppc64@0.25.4': {}
 
   '@esbuild/android-arm64@0.25.3':
     optional: true
