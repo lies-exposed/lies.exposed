@@ -10,7 +10,6 @@ import {
 } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
-import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
 import { Box, Stack, Typography } from "../../mui/index.js";
 import { EditForm } from "../common/EditForm.js";
 import { SocialPostButton } from "../common/SocialPostButton.js";
@@ -24,6 +23,7 @@ import { PublishNowButton } from "./PublishNowButton.js";
 import { ResourceEntityInput } from "./ResourceEntityInput.js";
 import { SocialPostEditContent } from "./SocialPostEditContent.js";
 import { SocialPostFormTabContent } from "./SocialPostFormTabContent.js";
+import { SocialPostPlatformIcon } from "./SocialPostPlatformIcon.js";
 import { SocialPostStatus } from "./SocialPostStatus.js";
 
 export const SocialPostEditTitle: React.FC = () => {
@@ -137,22 +137,6 @@ const SocialPostEditFormTabInstagram: React.FC = () => {
       <TextInput source="result.tg.caption" multiline fullWidth />
     </Box>
   );
-};
-
-export const SocialPostPlatformIcon: React.FC<{
-  platform: SocialPlatform;
-  record?: any;
-}> = ({ platform, record: _record }) => {
-  const record = _record ?? useRecordContext();
-  if (!record) {
-    return <LoadingIndicator />;
-  }
-
-  if (platform === "IG") {
-    return <InstagramIcon style={{ opacity: record.result?.ig ? 1 : 0.2 }} />;
-  }
-
-  return <TelegramIcon style={{ opacity: record.result?.tg ? 1 : 0.2 }} />;
 };
 
 const FormTabPlatformLabel: React.FC<{ platform: SocialPlatform }> = ({

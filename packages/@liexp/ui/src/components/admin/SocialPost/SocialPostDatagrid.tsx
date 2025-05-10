@@ -3,8 +3,7 @@ import { Schema } from "effect";
 import * as React from "react";
 import { colors } from "../../../theme/index.js";
 import { getBorderLeftStyle } from "../../../utils/style.utils.js";
-import { InstagramIcon, TelegramIcon } from "../../Common/Icons/index.js";
-import { Box } from "../../mui/index.js";
+import { Box, Stack, Typography } from "../../mui/index.js";
 import {
   Datagrid,
   type DatagridProps,
@@ -14,6 +13,7 @@ import {
   NumberField,
   TextField,
 } from "../react-admin.js";
+import { SocialPostPlatformIcon } from "./SocialPostPlatformIcon.js";
 
 export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
   return (
@@ -30,12 +30,15 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
     >
       <TextField source="type" />
       <FunctionField
-        source="content.title"
+        source="title"
         onClick={(e) => {
           e.preventDefault();
         }}
         render={(r) => (
-          <Link to={`/${r.type}/${r.entity}`}>{r.content?.title}</Link>
+          <Box>
+            <Link to={`/${r.type}/${r.entity}`}>{r.content.title}</Link>
+            <Typography display={"block"}>{r.content}</Typography>
+          </Box>
         )}
       />
       <TextField source="status" />
@@ -44,12 +47,10 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
         label="Platforms"
         render={(r) => {
           return (
-            <Box>
-              <TelegramIcon
-                style={{ opacity: r.result?.tg ? 1 : 0.2, marginRight: 10 }}
-              />
-              <InstagramIcon style={{ opacity: r.result?.ig ? 1 : 0.2 }} />
-            </Box>
+            <Stack direction="row" spacing={1}>
+              <SocialPostPlatformIcon platform="TG" />
+              <SocialPostPlatformIcon platform="IG" />
+            </Stack>
           );
         }}
       />

@@ -20,7 +20,7 @@ const writeText =
   (body: CreateSocialPost) =>
   <C extends ENVContext<ENV>>(ctx: C): string => {
     const title = `<a href="${body.url}"><b>${body.title}</b></a>`;
-    const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}">${body.date}</a>`;
+    const date = `<a href="${ctx.env.WEB_URL}/events?startDate=${body.date}&endDate=${body.date}">${body.date}</a>`;
     const keywords =
       body.keywords.length > 0
         ? body.keywords.map((k) => `#${k.tag}`).join(" ")
@@ -89,7 +89,9 @@ const getMessageTexts = (
 };
 
 export const postToTG =
-  (params: CreateSocialPost & { id: UUID }): RTE<TelegramBot.Message[]> =>
+  (
+    params: CreateSocialPost & { id: UUID },
+  ): RTE<readonly TelegramBot.Message[]> =>
   (ctx) => {
     const { id, ...body } = params;
     return pipe(
@@ -129,7 +131,7 @@ export const postToTG =
               if (Schema.is(SocialPostPhoto)(m)) {
                 return pipe(
                   ctx.tg.postPhoto(m.media, mediaText),
-                  fp.TE.map((message) => [message]),
+                  fp.TE.map(fp.A.of),
                 );
               }
 
@@ -141,7 +143,7 @@ export const postToTG =
                     m.media,
                     PDFType.literals[0],
                   ),
-                  fp.TE.map((message) => [message]),
+                  fp.TE.map(fp.A.of),
                 );
               }
 
@@ -155,10 +157,11 @@ export const postToTG =
                       duration: m.duration,
                     }),
                   ),
-                  fp.TE.map((message) => [message]),
+                  fp.TE.map(fp.A.of),
                 );
               }
             }
+
             const allowedMedia = pipe(
               media.map((m) => {
                 if (m.type === "document") {
@@ -168,16 +171,19 @@ export const postToTG =
               }),
               fp.A.separate,
             );
-            return ctx.tg.postMediaGroup(mediaText, allowedMedia.right);
+
+            if (allowedMedia.right.length > 1) {
+              return ctx.tg.postMediaGroup(mediaText, allowedMedia.right);
+            }
+
+            return pipe(ctx.tg.post(messageText), fp.TE.map(fp.A.of));
           }),
-          fp.TE.chain((message) =>
+          fp.TE.chain(([message]) =>
             useReply
-              ? pipe(
-                  ctx.tg.post(messageText, message[0].message_id),
-                  fp.TE.map((reply) => [reply]),
-                )
+              ? ctx.tg.post(messageText, message.message_id)
               : fp.TE.right(message),
           ),
+          fp.TE.map(fp.A.of),
         );
       }),
       fp.TE.mapLeft((e) => ServerError.of([e.message])),
