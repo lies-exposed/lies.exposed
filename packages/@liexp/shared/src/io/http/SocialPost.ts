@@ -110,7 +110,7 @@ export const CreateSocialPost = Schema.Struct({
   useReply: Schema.Boolean,
   media: SocialPostContentMedia,
   actors: Schema.Array(Actor.omit("excerpt", "body")),
-  groups: Schema.Array(Group),
+  groups: Schema.Array(Group.omit("excerpt", "body")),
   keywords: Schema.Array(Keyword.omit("socialPosts")),
   platforms: Schema.Record({ key: SocialPlatform, value: Schema.Boolean }),
   schedule: Schema.Union(Schema.Number, Schema.Undefined),
@@ -136,6 +136,8 @@ export const SocialPost = Schema.Struct({
   status: SocialPostStatus,
   result: SocialPostPublishResult,
   scheduledAt: Schema.Date,
+  createdAt: Schema.Date,
+  updatedAt: Schema.Date,
 }).annotations({
   title: "SocialPost",
 });

@@ -25,7 +25,6 @@ export const makeApp = (ctx: ServerContext): express.Express => {
   );
 
   app.use(
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
       path: [
         { url: "/v1/links/submit", method: "POST" },

@@ -20,9 +20,7 @@ export const postOnSocialJob: CronJobTE = (opts) => (ctx) => {
     }),
     fp.TE.chain((pp) =>
       pipe(
-        pp.map((p) =>
-          pipe(postToSocialPlatforms({ id: p.entity, ...p.content })(ctx)),
-        ),
+        pp.map((p) => pipe(postToSocialPlatforms({ ...p, ...p.content })(ctx))),
         fp.A.sequence(fp.TE.ApplicativePar),
       ),
     ),

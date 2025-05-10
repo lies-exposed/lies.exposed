@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";

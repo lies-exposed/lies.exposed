@@ -1,7 +1,6 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
 import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/fetchSocialPostRelations.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
-import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -110,7 +109,6 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
                   keywords: (d.content.keywords ?? []).filter(Schema.is(UUID)),
                 })),
                 TE.right,
-                LoggerService.TE.debug(ctx, "ListSocialPostRoute %O"),
                 TE.map(takeSocialPostRelations),
                 TE.chain((relations) =>
                   fetchSocialPostRelations(relations)(ctx),
