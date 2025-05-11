@@ -323,7 +323,7 @@ export const buildImageWithSharp =
           te,
           fp.TE.chain((acc) =>
             pipe(
-              addLayer(l, acc[0] as any)(ctx),
+              addLayer(l, acc[0])(ctx),
               fp.TE.map((l) => acc.concat(l)),
             ),
           ),

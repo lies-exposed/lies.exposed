@@ -7,6 +7,10 @@ import {
   CreateEventFromURLQueueData,
   OpenAICreateEventFromURLType,
 } from "./CreateEventFromURLQueue.js";
+import {
+  OpenAIUpdateEventQueueType,
+  UpdateEventQueueData,
+} from "./UpdateEventQueue.js";
 
 export const CreateEventFromURLTypeData = Schema.Struct({
   type: OpenAICreateEventFromURLType,
@@ -23,11 +27,19 @@ export const CreateEventFromTextTypeData = Schema.Struct({
 
 export type CreateEventFromURLTypeData = typeof CreateEventFromURLTypeData.Type;
 
-export const CreateQueueEvent = Schema.Union(
+export const UpdateEventTypeData = Schema.Struct({
+  type: OpenAIUpdateEventQueueType,
+  data: UpdateEventQueueData,
+}).annotations({ identifier: "UpdateEventTypeData" });
+
+export type UpdateEventTypeData = typeof UpdateEventTypeData.Type;
+
+export const EventQueue = Schema.Union(
   CreateEventFromTextTypeData,
   CreateEventFromURLTypeData,
+  UpdateEventTypeData,
 ).annotations({
-  title: "CreateQueueEvent",
+  identifier: "EventQueue",
 });
 
-export type CreateQueueEvent = typeof CreateQueueEvent.Type;
+export type EventQueue = typeof EventQueue.Type;

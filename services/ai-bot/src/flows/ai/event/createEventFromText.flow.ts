@@ -2,10 +2,10 @@ import { createEventFromText } from "@liexp/backend/lib/flows/ai/createEventFrom
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateEventFromTextTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
-import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContext } from "../../context.js";
-import { loadDocs } from "./common/loadDocs.flow.js";
-import { getEventFromJsonPrompt } from "./prompts.js";
+import { toAIBotError } from "../../../common/error/index.js";
+import { type ClientContext } from "../../../context.js";
+import { loadDocs } from "../common/loadDocs.flow.js";
+import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 export const createEventFromTextFlow: JobProcessRTE<

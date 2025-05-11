@@ -20,7 +20,7 @@ import { takeURLScreenshot } from "../url/takeURLScreenshot.flow.js";
 const uploadScreenshot = <C extends SpaceContext & ENVContext>(
   link: LinkEntity & { image: MediaEntity | null },
   buffer: Buffer,
-): ReaderTaskEither<C, SpaceError, Partial<MediaEntity>> => {
+): ReaderTaskEither<C, SpaceError, MediaEntity> => {
   const id = link.image?.id ?? link.id;
   const mediaKey = getMediaThumbKey(id, PngType.literals[0]);
   return pipe(
@@ -47,6 +47,9 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
       type: PngType.literals[0],
       location: upload.Location as URL,
       thumbnail: upload.Location as URL,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
     })),
   );
 };
@@ -57,7 +60,7 @@ export const takeLinkScreenshot = <
     SpaceContext &
     ENVContext,
 >(
-  link: LinkEntity & { image: MediaEntity | null },
+  link: Omit<LinkEntity, "image"> & { image: MediaEntity | null },
 ): ReaderTaskEither<C, DBError, LinkEntity> =>
   pipe(
     takeURLScreenshot(link.url)<C>,
@@ -65,13 +68,16 @@ export const takeLinkScreenshot = <
     fp.RTE.map((screenshot) => ({
       ...link,
       image: screenshot.location
-        ? ({
-            ...(link.image ?? {}),
+        ? {
+            ...link.image,
             ...screenshot,
             id: screenshot.id,
             location: screenshot.location,
-            thumbnail: screenshot.thumbnail ?? (link.image?.thumbnail as any),
-            extra: screenshot.extra ?? link.image?.extra,
+            thumbnail:
+              screenshot.thumbnail ??
+              link.image?.thumbnail ??
+              screenshot.location,
+            extra: screenshot.extra ?? link.image?.extra ?? null,
             type:
               screenshot.type ??
               (link.image?.location
@@ -79,7 +85,7 @@ export const takeLinkScreenshot = <
                 : PngType.literals[0]),
             label: link.title,
             description: link.description,
-          } as any)
+          }
         : link.image,
     })),
   );

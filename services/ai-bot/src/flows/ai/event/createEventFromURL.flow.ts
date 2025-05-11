@@ -9,9 +9,9 @@ import {
 import { type CreateEventFromURLTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
-import { toAIBotError } from "../../common/error/index.js";
-import { loadDocs } from "./common/loadDocs.flow.js";
-import { getEventFromJsonPrompt } from "./prompts.js";
+import { toAIBotError } from "../../../common/error/index.js";
+import { loadDocs } from "../common/loadDocs.flow.js";
+import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion =
@@ -28,7 +28,7 @@ export const createEventFromURLFlow: JobProcessRTE<
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bindW("jsonSchema", () =>
       pipe(
-        JSONSchema.make(eventSchema as Schema.Schema<any, any>),
+        JSONSchema.make(eventSchema as Schema.Schema<unknown>),
         fp.RTE.right,
         LoggerService.RTE.debug((s) => [
           `Event JSON Schema ${JSON.stringify(s, null, 2)}`,

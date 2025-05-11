@@ -13,10 +13,13 @@ import {
 } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
+import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { Equal, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
@@ -43,22 +46,7 @@ const processDoneJobBlockNoteResult =
           return fp.RTE.of(entity.excerpt);
         }
 
-        return pipe(
-          fp.RTE.asks((ctx: WorkerContext) => ctx.blocknote),
-          fp.RTE.chainTaskEitherK((blocknote) =>
-            fp.TE.tryCatch(
-              () => blocknote.tryParseHTMLToBlocks(result),
-              toWorkerError,
-            ),
-          ),
-          fp.RTE.chainEitherK((doc) =>
-            pipe(
-              doc,
-              Schema.decodeEither(BlockNoteDocument),
-              fp.E.mapLeft((errs) => DecodeError.of("BlockNoteDocument", errs)),
-            ),
-          ),
-        );
+        return pipe(fp.RTE.right(toInitialValue(job.result.excerpt)));
       }),
       fp.RTE.chain(({ entity, excerpt }) =>
         dbService.save([
@@ -92,10 +80,10 @@ const processDoneJobEventResult =
         dbService.save([
           {
             ...event,
-            links: event.links.map((l) => ({ id: l })),
-            media: event.media.map((m) => ({ id: m })),
-            keywords: event.keywords.map((k) => ({ id: k })),
-            socialPosts: event.socialPosts?.map((s) => ({ id: s })),
+            links: event.links.map((id) => ({ id })),
+            media: event.media.map((id) => ({ id })),
+            keywords: event.keywords.map((id) => ({ id })),
+            socialPosts: event.socialPosts?.map((id) => ({ id })),
           },
         ]),
       ),
@@ -107,26 +95,24 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
   return pipe(
     fp.RTE.right(job),
     fp.RTE.chain((job) => {
-      if (job.resource === "media") {
+      if (Schema.is(MEDIA)(job.resource)) {
         return pipe(
           MediaRepository.save([{ id: job.id, description: job.result }]),
           fp.RTE.map(() => job),
         );
       }
 
-      if (job.resource === "links") {
+      if (Schema.is(LINKS)(job.resource)) {
         return pipe(
           LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
           fp.RTE.chain((link) =>
-            LinkRepository.save([
-              { ...link, description: job.result ?? link.description },
-            ]),
+            LinkRepository.save([{ ...link, ...job.result }]),
           ),
           fp.RTE.map(() => job),
         );
       }
 
-      if (job.resource === "actors") {
+      if (job.resource === ACTORS.literals[0]) {
         return pipe(
           processDoneJobBlockNoteResult(ActorRepository)(job),
           fp.RTE.map(() => job),

@@ -1,7 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
+import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { CreateEventFromTextQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
 import { CreateEventFromURLQueueData } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
+import { UpdateEventQueueData } from "@liexp/shared/lib/io/http/Queue/event/UpdateEventQueue.js";
 import {
   CreateQueueTextData,
   CreateQueueURLData,
@@ -45,7 +47,7 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
     }
     case Schema.is(CreateEventFromURLQueueData)(job.data):
     case Schema.is(CreateQueueURLData)(job.data): {
-      if (job.resource === "media") {
+      if (job.resource === MEDIA.literals[0]) {
         return loadPDF(job.data.url);
       }
 
@@ -53,6 +55,15 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
     }
     case Schema.is(EVENTS)(job.resource): {
       return loadEventDocs(job);
+    }
+
+    case Schema.is(UpdateEventQueueData)(job.data): {
+      return pipe(
+        job.data.urls,
+        fp.A.traverse(fp.RTE.ApplicativePar)((url) => loadLink(url)),
+        fp.RTE.map(fp.A.flatten),
+        fp.RTE.map((arr) => [...arr]),
+      );
     }
 
     default: {
