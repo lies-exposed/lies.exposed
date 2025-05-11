@@ -760,8 +760,8 @@ importers:
         specifier: ^7.6.0
         version: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       web-vitals:
-        specifier: ^4.2.4
-        version: 4.2.4
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@types/debug':
         specifier: ^4.1.12
@@ -9947,8 +9947,8 @@ packages:
     resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
     engines: {node: '>= 14'}
 
-  web-vitals@4.2.4:
-    resolution: {integrity: sha512-r4DIlprAGwJ7YM11VZp4R884m0Vmgr6EAKe3P+kO0PPj3Unqyvv59rczf6UiGcb9Z8QxZVcqKNwv/g0WNdWwsw==}
+  web-vitals@5.0.0:
+    resolution: {integrity: sha512-yuayYLYyO4QdqB7YriMtUZxCIsUbcpZLnoPCJXocLvTRcAh/Jz2rgqsHrh9Oz/NHApB/Somd05NMsuhJV3YcLQ==}
 
   web-worker@1.5.0:
     resolution: {integrity: sha512-RiMReJrTAiA+mBjGONMnjVDP2u3p9R1vkcGz6gDIrOMT3oGuYwX2WRMYI9ipkphSuE5XKEhydbhNEJh4NY9mlw==}
@@ -20271,7 +20271,7 @@ snapshots:
 
   web-streams-polyfill@4.0.0-beta.3: {}
 
-  web-vitals@4.2.4: {}
+  web-vitals@5.0.0: {}
 
   web-worker@1.5.0: {}
 
