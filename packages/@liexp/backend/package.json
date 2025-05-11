@@ -54,7 +54,7 @@
     "axios": "^1.9.0",
     "debug": "^4.4.0",
     "effect": "^3.14.18",
-    "eslint": "^9.25.1",
+    "eslint": "^9.26.0",
     "exifreader": "^4.30.0",
     "fast-check": "^3",
     "fast-csv": "^5.0.2",
