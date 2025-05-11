@@ -612,8 +612,8 @@ importers:
         specifier: ^1.1.11
         version: 1.1.11(react@18.3.1)
       react-error-boundary:
-        specifier: ^5.0.0
-        version: 5.0.0(react@18.3.1)
+        specifier: ^6.0.0
+        version: 6.0.0(react@18.3.1)
       react-helmet-async:
         specifier: ^2.0.5
         version: 2.0.5(react@18.3.1)
@@ -1214,8 +1214,8 @@ importers:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
-        specifier: ^5.0.0
-        version: 5.0.0(react@18.3.1)
+        specifier: ^6.0.0
+        version: 6.0.0(react@18.3.1)
       react-router:
         specifier: ^7.6.0
         version: 7.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -8529,8 +8529,8 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
-  react-error-boundary@5.0.0:
-    resolution: {integrity: sha512-tnjAxG+IkpLephNcePNA7v6F/QpWLH8He65+DmedchDwg162JZqx4NmbXj0mlAYVVEd81OW7aFhmbsScYfiAFQ==}
+  react-error-boundary@6.0.0:
+    resolution: {integrity: sha512-gdlJjD7NWr0IfkPlaREN2d9uUZUlksrfOx7SX62VRerwXbMY6ftGCIZua1VG1aXFNOimhISsTq+Owp725b9SiA==}
     peerDependencies:
       react: '>=16.13.1'
 
@@ -18574,7 +18574,7 @@ snapshots:
       '@babel/runtime': 7.27.1
       react: 18.3.1
 
-  react-error-boundary@5.0.0(react@18.3.1):
+  react-error-boundary@6.0.0(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.27.1
       react: 18.3.1
