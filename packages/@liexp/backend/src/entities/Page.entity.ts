@@ -1,4 +1,4 @@
-import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument";
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
