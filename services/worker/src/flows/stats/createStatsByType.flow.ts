@@ -254,7 +254,7 @@ export const createStatsByType =
                           startDate: g.startDate ?? undefined,
                           endDate: g.endDate ?? undefined,
                           avatar: pipe(
-                            fp.O.fromNullable(g.avatar as MediaEntity),
+                            fp.O.fromNullable(g.avatar!),
                             fp.O.map((avatar) =>
                               MediaIO.decodeSingle(
                                 avatar,
