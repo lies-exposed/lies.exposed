@@ -18,6 +18,7 @@ export const loadLink = (url: URL): ClientContextRTE<Document[]> => {
       fp.TE.tryCatch(async () => {
         const loader = new CheerioWebBaseLoader(url, {
           selector: "h1,h2,h3,h4,h5,h6,p,article",
+          timeout: 30 * 1000,
         });
         return loader.load();
       }, toAIBotError),

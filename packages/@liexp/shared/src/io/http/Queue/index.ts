@@ -13,7 +13,8 @@ import {
   CreateEventFromURLQueueData,
   OpenAICreateEventFromURLType,
 } from "./event/CreateEventFromURLQueue.js";
-import { CreateQueueEvent } from "./event/index.js";
+import { OpenAIUpdateEventQueueType } from "./event/UpdateEventQueue.js";
+import { EventQueue } from "./event/index.js";
 
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = typeof QueueResourceNames.Type;
@@ -29,6 +30,7 @@ export const QueueTypes = Schema.Union(
   OpenAISummarizeQueueType,
   OpenAICreateEventFromURLType,
   OpenAICreateEventFromTextType,
+  OpenAIUpdateEventQueueType,
 ).annotations({
   title: "QueueTypes",
 });
@@ -98,15 +100,15 @@ export const CreateQueueTextData = Schema.Struct({
 });
 export type CreateQueueTextData = typeof CreateQueueTextData.Type;
 
-export type CreateQueueEmbeddingTypeData =
-  typeof CreateQueueEmbeddingTypeData.Type;
-
 export const CreateQueueEmbeddingTypeData = Schema.Struct({
   type: OpenAIEmbeddingQueueType,
   data: Schema.Union(CreateQueueURLData, CreateQueueTextData),
 }).annotations({
   title: "CreateQueueURLTypeData",
 });
+
+export type CreateQueueEmbeddingTypeData =
+  typeof CreateQueueEmbeddingTypeData.Type;
 
 export const CreateQueueTextTypeData = Schema.Struct({
   type: OpenAISummarizeQueueType,
@@ -138,7 +140,7 @@ export const CreateQueue = Schema.Struct({
 export type CreateQueue = typeof CreateQueue.Type;
 
 const CreateQueueTypeData = Schema.Union(
-  ...CreateQueueEvent.members,
+  ...EventQueue.members,
   CreateQueueEmbeddingTypeData,
   CreateQueueTextTypeData,
 );

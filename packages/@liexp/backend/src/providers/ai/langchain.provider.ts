@@ -97,7 +97,6 @@ export const GetLangchainProvider = (
     configuration: {
       baseURL: opts.baseURL,
     },
-    streaming: true,
   });
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";

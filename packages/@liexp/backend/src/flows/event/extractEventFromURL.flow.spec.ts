@@ -7,7 +7,8 @@ import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
 import fc from "fast-check";
 import { describe, expect, it, vi } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
+import { mock, mockDeep } from "vitest-mock-extended";
+import { type Sentences } from "wink-nlp";
 import { LinkEntity } from "../../entities/Link.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
 import { mockedContext } from "../../test/context.js";
@@ -86,13 +87,13 @@ describe.skip(extractEventFromURL.name, () => {
 
     mocks.puppeteer.page.$eval.mockResolvedValueOnce("page content");
 
-    mocks.ner.winkMethods.learnCustomEntities.mockResolvedValueOnce({} as any);
+    mocks.ner.winkMethods.learnCustomEntities.mockResolvedValueOnce(0);
     mocks.ner.doc.out.mockReturnValue([]);
-    mocks.ner.doc.sentences.mockReturnValue({ each: vi.fn() } as any);
+    mocks.ner.doc.sentences.mockReturnValue(mock<Sentences>({ each: vi.fn() }));
     mocks.ner.doc.customEntities.mockReturnValue({
       out: vi.fn().mockReturnValue([]),
     } as any);
-    mocks.ner.doc.tokens.mockReturnValue({ each: vi.fn() } as any);
+    mocks.ner.doc.tokens.mockReturnValue(mock());
 
     mocks.fs.existsSync.mockReturnValue(false);
     mocks.fs.readFileSync.mockReturnValue("[]");

@@ -5,16 +5,14 @@ import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
+import { OpenAIUpdateEventQueueType } from "@liexp/shared/lib/io/http/Queue/event/UpdateEventQueue.js";
 import {
   type OpenAIEmbeddingQueueType,
   type OpenAISummarizeQueueType,
-  QueueTypes,
   type QueueResourceNames,
+  type Queue,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
-import {
-  ACTOR_GENERAL_INFO_PROMPT,
-  EMBED_ACTOR_PROMPT,
-} from "@liexp/shared/lib/io/openai/prompts/actor.prompts.js";
+import { EMBED_ACTOR_PROMPT } from "@liexp/shared/lib/io/openai/prompts/actor.prompts.js";
 import {
   CREATE_EVENT_FROM_URL_PROMPT,
   CREATE_EVENT_FROM_TEXT_PROMPT,
@@ -32,9 +30,6 @@ export const getPromptFromResource = (
 ): PromptFn<{ text: string; question: string }> => {
   switch (true) {
     case resource === ACTORS.literals[0]: {
-      if (type === QueueTypes.members[0].literals[0]) {
-        return ACTOR_GENERAL_INFO_PROMPT;
-      }
       return EMBED_ACTOR_PROMPT;
     }
     case resource === GROUPS.literals[0]:
@@ -51,16 +46,34 @@ export const getPromptFromResource = (
   }
 };
 
-export const getEventFromJsonPrompt = (
-  type: OpenAICreateEventFromTextType | OpenAICreateEventFromURLType,
+export const getPromptForJob = (
+  job: Omit<Queue, "data" | "type"> & {
+    type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType;
+  },
 ) => {
-  if (Schema.is(OpenAICreateEventFromTextType)(type)) {
-    return CREATE_EVENT_FROM_TEXT_PROMPT;
+  if (job.prompt) {
+    return () => job.prompt!;
   }
+  return getPromptFromResource(job.resource, job.type);
+};
 
-  if (Schema.is(OpenAICreateEventFromURLType)(type)) {
-    return CREATE_EVENT_FROM_URL_PROMPT;
+export const getEventFromJsonPrompt = (
+  type:
+    | OpenAICreateEventFromTextType
+    | OpenAICreateEventFromURLType
+    | OpenAIUpdateEventQueueType,
+) => {
+  switch (true) {
+    case Schema.is(OpenAICreateEventFromTextType)(type): {
+      return CREATE_EVENT_FROM_TEXT_PROMPT;
+    }
+
+    case Schema.is(OpenAICreateEventFromURLType)(type):
+    case Schema.is(OpenAIUpdateEventQueueType)(type): {
+      return CREATE_EVENT_FROM_URL_PROMPT;
+    }
+
+    default:
+      return () => "Reply with fail";
   }
-
-  return () => "Reply with fail";
 };

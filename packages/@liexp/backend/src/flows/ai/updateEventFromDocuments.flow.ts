@@ -14,7 +14,7 @@ import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
 import { runRagChain } from "./runRagChain.js";
 import { getStoreRetriever } from "./storeRetriever.flow.js";
 
-export const createEventFromDocuments = <
+export const updateEventFromDocuments = <
   C extends LangchainContext & LoggerContext,
 >(
   documents: Document[],

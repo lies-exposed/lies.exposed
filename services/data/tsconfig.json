@@ -9,7 +9,6 @@
     "typeRoots": [
       "./src/typings",
     ],
-    "declaration": false,
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
