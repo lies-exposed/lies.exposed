@@ -46,7 +46,7 @@ export const ChipCount: React.FC<ChipCountProps> = ({
   return (
     <StyledChip
       {...props}
-      {...({ _color: color } as any)}
+      {...{ _color: color }}
       className={clsx({ selected })}
     >
       <Box className="avatar">{avatar}</Box>

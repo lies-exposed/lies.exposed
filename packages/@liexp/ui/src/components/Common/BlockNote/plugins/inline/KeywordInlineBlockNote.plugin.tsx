@@ -22,9 +22,7 @@ export const keywordItem = (editor: BNESchemaEditor) => ({
     editor.insertInlineContent([
       {
         type: "keyword",
-        props: {
-          id: undefined as any,
-        },
+        props: undefined,
       },
     ]);
   },
@@ -38,10 +36,7 @@ export const keywordInlineContentSpec = createReactInlineContentSpec(
   keywordInlineSpec,
   {
     render: ({
-      inlineContent: {
-        type,
-        props: { id },
-      },
+      inlineContent: { type, props: { id } = { id: undefined } },
     }): React.ReactNode => {
       return (
         <BlockNoteEditorContext.Consumer>

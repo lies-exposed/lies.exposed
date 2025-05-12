@@ -105,7 +105,7 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
     }
   };
 
-  const handleClose = (event: React.MouseEvent | React.TouchEvent): void => {
+  const handleClose = (event: MouseEvent | TouchEvent): void => {
     if (anchorEl?.contains(event.target as HTMLElement)) {
       return;
     }

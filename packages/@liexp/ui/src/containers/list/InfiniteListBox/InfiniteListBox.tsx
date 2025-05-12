@@ -72,8 +72,8 @@ export const InfiniteListBox = <
   useListQuery,
   filter,
   listProps,
-  toItems = (r: any) => r.data,
-  getTotal = (r: any) => r.total,
+  toItems = (r: EndpointDataOutputType<E>) => r.data,
+  getTotal = (r: EndpointDataOutputType<E>) => r.total,
   ...rest
 }: InfiniteListBoxProps<T, E>): React.ReactElement => {
   const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
@@ -155,19 +155,16 @@ export const InfiniteListBox = <
     return { items, total };
   }, [data, filter]);
 
-  const handleLoadMoreRows = React.useCallback(
-    async (props: any) => {
-      if (hasNextPage && !(isFetchingNextPage || isRefetching)) {
-        // const pageParams = {
-        //   _start: props.startIndex,
-        //   _end: props.stopIndex + 1 - props.startIndex,
-        // } as any;
-        // console.log("handleLoadMoreRows", pageParams);
-        await fetchNextPage({ cancelRefetch: true });
-      }
-    },
-    [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching],
-  );
+  const handleLoadMoreRows = React.useCallback(async () => {
+    if (hasNextPage && !(isFetchingNextPage || isRefetching)) {
+      // const pageParams = {
+      //   _start: props.startIndex,
+      //   _end: props.stopIndex + 1 - props.startIndex,
+      // } as any;
+      // console.log("handleLoadMoreRows", pageParams);
+      await fetchNextPage({ cancelRefetch: true });
+    }
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching]);
 
   React.useEffect(() => {
     if (masonryRef && cellCache && !(isFetching || isRefetching)) {

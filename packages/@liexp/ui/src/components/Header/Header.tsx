@@ -6,7 +6,10 @@ import { TelegramIcon } from "../Common/Icons/index.js";
 import GithubButton from "../GithubButton.js";
 import { AppBar, Box, Link, Toolbar, Typography } from "../mui/index.js";
 import { HeaderMenu } from "./HeaderMenu/HeaderMenu.js";
-import { type HeaderMenuItem } from "./HeaderMenu/types.js";
+import {
+  type HeaderMenuSubItem,
+  type HeaderMenuItem,
+} from "./HeaderMenu/types.js";
 
 const PREFIX = "Header";
 
@@ -87,7 +90,6 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   [`& .${classes.menuItemLink}`]: {
     color: theme.palette.text.primary,
     ...theme.typography.subtitle1,
-    // fontWeight: theme.typography.fontWeightBold as any,
     fontSize: 14,
     margin: 0,
   },
@@ -99,7 +101,7 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 export interface HeaderProps {
   logoSrc?: string;
   onTitleClick: () => void;
-  onMenuItemClick: (m: HeaderMenuItem) => void;
+  onMenuItemClick: (m: HeaderMenuSubItem) => void;
   menu: HeaderMenuItem[];
   pathname: string;
 }

@@ -39,8 +39,7 @@ const HeaderMenuItemBox = styled(Box)(({ theme }) => ({
   },
   [`& .${menuItemClasses.menuItemLink}`]: {
     color: theme.palette.text.primary,
-    ...(theme.typography.subtitle1 as any),
-    // fontWeight: theme.typography.fontWeightBold as any,
+    ...theme.typography.subtitle1,
     fontSize: 14,
     margin: 0,
   },
@@ -108,7 +107,7 @@ const HeaderMenuItemFC: React.FC<HeaderMenuItemProps> = ({
 export interface HeaderMenuProps {
   currentPath: string;
   menu: HeaderMenuItem[];
-  onMenuItemClick: (m: HeaderMenuItem) => void;
+  onMenuItemClick: (m: HeaderMenuSubItem) => void;
 }
 
 const MENU_CLASS_PREFIX = "HeaderMenu";
@@ -164,9 +163,9 @@ export const HeaderMenuMobile: React.FC<HeaderMenuProps> = ({
     ref: React.RefObject<HTMLButtonElement | null> | null,
     m: HeaderMenuItem | HeaderMenuSubItem,
   ): void => {
-    const item: any = m;
+    const item = m;
 
-    if (item.subItems && item.subItems.length > 0) {
+    if ("subItems" in item) {
       if (ref) {
         setAnchorRef(ref);
       }

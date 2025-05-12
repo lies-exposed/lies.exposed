@@ -79,7 +79,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   // const [open, setOpen] = React.useState(_open ?? false);
 
   const hash = "slider";
-  const _start = parseInt((query as any)._start ?? "0", 10);
+  const _start = 0;
 
   const [{ start, current, eventType }, setBounds] = React.useState({
     current: _start,

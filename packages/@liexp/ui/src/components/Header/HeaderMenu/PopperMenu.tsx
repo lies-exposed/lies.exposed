@@ -14,7 +14,7 @@ interface PopperMenuProps {
   menuItem: HeaderMenuItem;
   open: boolean;
   anchorEl: HTMLElement | null;
-  onClose: (e: React.MouseEvent | React.TouchEvent) => void;
+  onClose: (e: MouseEvent | TouchEvent) => void;
   onKeyDown: React.KeyboardEventHandler<HTMLUListElement>;
   onMenuItemClick: (m: HeaderMenuItem) => void;
   classes: {
@@ -50,7 +50,7 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
         >
           <Paper>
             <ClickAwayListener
-              onClickAway={(e: any) => {
+              onClickAway={(e) => {
                 onClose(e);
               }}
             >
@@ -64,7 +64,7 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
                     key={item.view}
                     className={classes.menuItem}
                     onClick={(e) => {
-                      onClose(e as any);
+                      onClose(e.nativeEvent);
                       onMenuItemClick({ subItems: [], ...item });
                     }}
                   >
