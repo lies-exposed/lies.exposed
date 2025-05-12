@@ -99,7 +99,7 @@ const whereActorInArray =
         Object.entries(config)
           .filter(
             ([key]) =>
-              O.isNone(eventType) || eventType.value.includes(key as any),
+              O.isNone(eventType) || eventType.value.includes(key as EventType),
           )
           .forEach(([eventType, queryConfig], i) => {
             const where = i === 0 ? q.where.bind(q) : q.orWhere.bind(q);
@@ -133,7 +133,7 @@ const whereGroupInArray =
         Object.entries(config)
           .filter(
             ([key]) =>
-              O.isNone(eventType) || eventType.value.includes(key as any),
+              O.isNone(eventType) || eventType.value.includes(key as EventType),
           )
           .forEach(([eventType, fn], i) => {
             const where =
@@ -165,7 +165,7 @@ const whereMediaInArray =
       Object.entries(config)
         .filter(
           ([key]) =>
-            O.isNone(eventType) || eventType.value.includes(key as any),
+            O.isNone(eventType) || eventType.value.includes(key as EventType),
         )
         .forEach(([eventType, fn], i) => {
           const where =
@@ -619,7 +619,7 @@ export const searchEventV2Query =
                 "event_id",
                 results.raw,
                 e,
-              ) as any[],
+              ),
             }));
           }),
           uncategorized: db.execQuery(() =>

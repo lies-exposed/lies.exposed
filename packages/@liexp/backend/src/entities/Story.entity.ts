@@ -1,3 +1,4 @@
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   Column,
@@ -43,7 +44,7 @@ export class StoryEntity {
     nullable: true,
     onDelete: "NO ACTION",
   })
-  featuredImage: Relation<MediaEntity | null>;
+  featuredImage: Relation<MediaEntity | UUID | null>;
 
   @Column({ type: "varchar", nullable: true })
   excerpt: string | null;
@@ -52,13 +53,13 @@ export class StoryEntity {
   body: string;
 
   @Column({ type: "json", nullable: true })
-  body2: any[] | null;
+  body2: BlockNoteDocument | null;
 
   @ManyToOne(() => UserEntity, (u) => u.stories, {
     cascade: false,
     nullable: true,
   })
-  creator: Relation<UserEntity | null>;
+  creator: Relation<UserEntity | UUID | null>;
 
   @ManyToMany(() => KeywordEntity, (k) => k.stories, {
     cascade: false,

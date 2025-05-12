@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type _DecodeError,
   DecodeError,
@@ -27,23 +28,25 @@ const toStoryIO = ({
       actors: story.actors ?? [],
       groups: story.groups ?? [],
       events: story.events ?? [],
-      featuredImage: story.featuredImage
-        ? {
-            ...story.featuredImage,
-            label: story.featuredImage.label ?? undefined,
-            description: story.featuredImage.description ?? undefined,
-            thumbnail: story.featuredImage.thumbnail ?? undefined,
-            createdAt: story.featuredImage.createdAt?.toISOString(),
-            updatedAt: story.featuredImage.updatedAt?.toISOString(),
-            deletedAt: story.featuredImage.deletedAt?.toISOString(),
-            extra: story.featuredImage.extra ?? undefined,
-            keywords: [],
-            events: [],
-            links: [],
-            areas: [],
-            featuredInStories: [],
-          }
-        : undefined,
+      featuredImage: Schema.is(UUID)(story.featuredImage)
+        ? story.featuredImage
+        : story.featuredImage
+          ? {
+              ...story.featuredImage,
+              label: story.featuredImage.label ?? undefined,
+              description: story.featuredImage.description ?? undefined,
+              thumbnail: story.featuredImage.thumbnail ?? undefined,
+              createdAt: story.featuredImage.createdAt?.toISOString(),
+              updatedAt: story.featuredImage.updatedAt?.toISOString(),
+              deletedAt: story.featuredImage.deletedAt?.toISOString(),
+              extra: story.featuredImage.extra ?? undefined,
+              keywords: [],
+              events: [],
+              links: [],
+              areas: [],
+              featuredInStories: [],
+            }
+          : undefined,
       date: story.date?.toISOString() ?? new Date().toISOString(),
       createdAt: story.createdAt.toISOString(),
       updatedAt: story.updatedAt.toISOString(),

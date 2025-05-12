@@ -65,23 +65,6 @@ export const WikipediaProvider = ({
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 
-  // const apiCallTask = (params: any) =>
-  //   TE.tryCatch(
-  //     () =>
-  //       new Promise((resolve, reject) => {
-  //         (client as any).api.call(
-  //           params,
-  //           (err: Error, info: any, next: any, data: any) => {
-  //             if (err) {
-  //               return reject(err);
-  //             }
-  //             return resolve(info);
-  //           },
-  //         );
-  //       }),
-  //     toMWError,
-  //   );
-
   /**
    * REST API client
    * https://github.com/dopecodez/Wikipedia/blob/50074c8279d109be13142145c3df2116c90116da/source/request.ts

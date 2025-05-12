@@ -4,6 +4,7 @@ import {
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -19,7 +20,7 @@ const decodeEvent = (
 ): E.Either<_DecodeError, io.http.Events.Event> => {
   return pipe(
     E.Do,
-    E.bind("eventSpecs", () => {
+    E.bind("eventSpecs", (): E.Either<_DecodeError, Event | EventV2Entity> => {
       if (event.type === EVENT_TYPES.QUOTE) {
         return QuoteIO.decodeSingle(event);
       }
@@ -29,7 +30,7 @@ const decodeEvent = (
       if (event.type === EVENT_TYPES.BOOK) {
         return BookIO.decodeSingle(event);
       }
-      return E.right(event as any);
+      return E.right(event);
     }),
     E.chain(({ eventSpecs }) =>
       pipe(

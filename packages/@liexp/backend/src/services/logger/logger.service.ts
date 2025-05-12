@@ -33,10 +33,10 @@ const teLogger =
   <E>(t: TaskEither<E, A>) =>
     pipe(
       t,
-      fp.TE.mapLeft((e) => {
-        logA(f, e as any)(fn(ctx.logger));
-        return e;
-      }),
+      // fp.TE.mapLeft((e) => {
+      //   logA(f, e)(fn(ctx.logger));
+      //   return e;
+      // }),
       fp.TE.map((result) => {
         logA(f, result)(fn(ctx.logger));
         return result;
@@ -49,15 +49,15 @@ const rteLogger =
   (rte: ReaderTaskEither<R, E, A>): ReaderTaskEither<R, E, A> => {
     return pipe(
       rte,
-      fp.RTE.orElse((e) => {
-        return pipe(
-          fp.RTE.ask<R>(),
-          fp.RTE.chainIOEitherK((ctx) => {
-            logA(f, e as any)(fn(ctx.logger));
-            return fp.IOE.left<E, A>(e);
-          }),
-        );
-      }),
+      // fp.RTE.orElse((e) => {
+      //   return pipe(
+      //     fp.RTE.ask<R>(),
+      //     fp.RTE.chainIOEitherK((ctx) => {
+      //       logA(f, e)(fn(ctx.logger));
+      //       return fp.IOE.left<E, A>(e);
+      //     }),
+      //   );
+      // }),
       fp.RTE.chain((result) => {
         return pipe(
           fp.RTE.asks<R, A, E>((ctx) => {

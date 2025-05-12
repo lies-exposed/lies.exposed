@@ -1,6 +1,11 @@
-import { type AxiosInstance } from "axios";
+import {
+  type Axios,
+  type AxiosInterceptorManager,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from "axios";
 import { type Mock, vi } from "vitest";
-import { mock, type MockProxy } from "vitest-mock-extended";
+import { mock } from "vitest-mock-extended";
 import { dbMock } from "./mocks/db.mock.js";
 import { exifRMock } from "./mocks/exifreader.mock.js";
 import ffmpegMock from "./mocks/ffmpeg.mock.js";
@@ -41,27 +46,13 @@ export interface DepsMocks {
 const fetchHTML = vi.fn();
 const fetchMetadata = vi.fn();
 
-export const axiosMock: MockProxy<AxiosInstance> = mock<AxiosInstance>(
-  {
-    get: vi.fn(),
-    interceptors: mock(
-      {
-        request: {
-          use: vi.fn(),
-          eject: vi.fn(),
-          clear: vi.fn(),
-        },
-        response: {
-          use: vi.fn(),
-          eject: vi.fn(),
-          clear: vi.fn(),
-        },
-      },
-      { deep: true },
-    ),
-  } as any,
-  { deep: true },
-);
+export const axiosMock = mock<Axios>({
+  get: vi.fn(),
+  interceptors: mock({
+    request: mock<AxiosInterceptorManager<InternalAxiosRequestConfig>>(),
+    response: mock<AxiosInterceptorManager<AxiosResponse>>(),
+  }),
+});
 
 export const mocks: DepsMocks = {
   fs: fsMock,
@@ -73,8 +64,8 @@ export const mocks: DepsMocks = {
   ig: igProviderMock,
   s3: s3Mock,
   urlMetadata: {
-    fetchHTML: fetchHTML as any,
-    fetchMetadata: fetchMetadata as any,
+    fetchHTML: fetchHTML,
+    fetchMetadata: fetchMetadata,
   },
   redis: redisMock,
   puppeteer: puppeteerMock,

@@ -107,7 +107,7 @@ export const fetchAreas =
                 "area_id",
                 results.raw,
                 e,
-              ) as any[],
+              ),
             }));
             return [entities, count];
           }

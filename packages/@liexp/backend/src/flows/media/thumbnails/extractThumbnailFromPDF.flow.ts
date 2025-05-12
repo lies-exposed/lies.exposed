@@ -39,7 +39,7 @@ export const extractThumbnailFromPDFPage = (
             : undefined;
 
         const renderContext: RenderParameters = {
-          canvasContext: context as any,
+          canvasContext: context as unknown as CanvasRenderingContext2D,
           transform,
           viewport,
         };

@@ -24,11 +24,11 @@ const toError = (e: unknown): Error => {
 export type GetFFMPEGProvider = (ff: typeof ffmpeg) => FFMPEGProvider;
 
 export const GetFFMPEGProvider: GetFFMPEGProvider = (ffmpeg) => {
+  const ffprobeTE = TE.taskify<string, Error, ffmpeg.FfprobeData>(
+    ffmpeg.ffprobe.bind(ffmpeg.ffprobe),
+  );
   return {
-    ffprobe: (file) =>
-      TE.taskify<string, Error, ffmpeg.FfprobeData>(
-        ffmpeg.ffprobe.bind(ffmpeg.ffprobe),
-      )(file as any),
+    ffprobe: (file) => ffprobeTE(file as string),
     runCommand: (f) => {
       return TE.tryCatch(() => {
         return new Promise((resolve, reject) => {

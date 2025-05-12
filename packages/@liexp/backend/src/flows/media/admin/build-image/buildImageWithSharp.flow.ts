@@ -9,10 +9,10 @@ import {
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import {
-  type OverlayOptions,
-  type GravityEnum,
   type Blend,
   type Gravity,
+  type GravityEnum,
+  type OverlayOptions,
 } from "sharp";
 import { type ConfigContext } from "../../../../context/config.context.js";
 import {
@@ -113,9 +113,9 @@ const addMediaImageLayer =
             ? fp.TE.right<ImgProcError, ExifReader.Tags>({
                 "Image Width": { value: parent.width },
                 "Image Height": { value: parent.width },
-              } as any)
+              } as ExifReader.Tags)
             : pipe(
-                ctx.imgProc.readExif(buf as any, {}),
+                ctx.imgProc.readExif(buf as unknown as File, {}),
                 fp.TE.mapLeft(toImgProcError),
               ),
           fp.TE.map((exif) => ({ exif, buf })),

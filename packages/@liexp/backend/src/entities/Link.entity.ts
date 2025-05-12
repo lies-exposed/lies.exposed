@@ -64,7 +64,7 @@ export class LinkEntity {
   })
   keywords: Relation<KeywordEntity[]>;
 
-  socialPosts?: SocialPostEntity[];
+  socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
 
   @CreateDateColumn()
   createdAt: Date;

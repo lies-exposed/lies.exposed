@@ -1,15 +1,16 @@
-import { type SelectQueryBuilder } from "typeorm";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type ObjectLiteral, type SelectQueryBuilder } from "typeorm";
 import { SocialPostEntity } from "../../entities/SocialPost.entity.js";
 
 export const aggregateSocialPostsPerEntry = (
   key: string,
-  list: { socialPosts_ids: string[]; [index: string]: any }[],
+  list: { socialPosts_ids: UUID[]; [index: string]: any }[],
   e: { id: string },
-): string[] => {
+): UUID[] => {
   return list
     .filter((r) => r[key] === e.id && !!r.socialPosts_ids)
-    .reduce<string[]>((acc, r) => {
-      r.socialPosts_ids.forEach((id: string) => {
+    .reduce<UUID[]>((acc, r) => {
+      r.socialPosts_ids.forEach((id: UUID) => {
         if (!acc.includes(id)) {
           acc.push(id);
         }
@@ -20,7 +21,9 @@ export const aggregateSocialPostsPerEntry = (
 
 export const leftJoinSocialPosts =
   (type: string) =>
-  (subQ: SelectQueryBuilder<any>): SelectQueryBuilder<any> => {
+  <T extends ObjectLiteral>(
+    subQ: SelectQueryBuilder<T>,
+  ): SelectQueryBuilder<T> => {
     return subQ.select("sp.*").from((qb) => {
       return qb
         .select([

@@ -65,21 +65,21 @@ export class EventV2Entity {
     nullable: true,
   })
   @JoinTable()
-  links: Relation<LinkEntity[]>;
+  links: Relation<LinkEntity[] | UUID[]>;
 
   @ManyToMany(() => MediaEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  media: Relation<MediaEntity[]>;
+  media: Relation<MediaEntity[] | UUID[]>;
 
   @ManyToMany(() => KeywordEntity, (a) => a.events, {
     cascade: ["insert"],
     nullable: true,
   })
   @JoinTable()
-  keywords: Relation<KeywordEntity[]>;
+  keywords: Relation<KeywordEntity[] | UUID[]>;
 
   @ManyToOne(() => AreaEntity, (a) => a.events, {
     cascade: ["insert"],
@@ -96,7 +96,7 @@ export class EventV2Entity {
 
   actors: ActorEntity[];
   groups: GroupEntity[];
-  socialPosts?: SocialPostEntity[];
+  socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
 
   @CreateDateColumn()
   createdAt: Date;

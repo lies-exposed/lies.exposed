@@ -55,8 +55,8 @@ export const searchWithGoogle =
             await page.waitForSelector('div[aria-modal="true"] button');
             // refuse cookie
             await page.$$eval('div[aria-modal="true"] button', (els) => {
-              const closeButton = els[2] as any;
-              closeButton.click();
+              const closeButton = els[2];
+              closeButton?.click();
             });
           } catch (e) {
             ctx.logger.debug.log("No modal found, go on...");
@@ -73,7 +73,7 @@ export const searchWithGoogle =
           await page.waitForSelector(`a[href^="https://${site}"]`);
           const pageLinks = await page.$$eval(
             `a[href^="https://${site}"]`,
-            (el) => el.map((l) => l.getAttribute("href") as any as string),
+            (el) => el.map((l) => l.getAttribute("href")!),
           );
 
           const ll = pipe(links.concat(pageLinks), A.uniq(S.Eq));

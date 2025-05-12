@@ -1,3 +1,4 @@
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
@@ -24,13 +25,13 @@ export class PageEntity {
   path: string;
 
   @Column({ type: "json", nullable: true })
-  excerpt: Record<string, unknown> | null;
+  excerpt: BlockNoteDocument;
 
   @Column({ type: "varchar", nullable: true })
   body: string | null;
 
   @Column({ type: "json", nullable: true })
-  body2: Record<string, unknown> | null;
+  body2: BlockNoteDocument | null;
 
   @CreateDateColumn()
   createdAt: Date;
