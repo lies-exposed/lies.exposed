@@ -35,8 +35,10 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
           logger.debug.log(`Getting file path %s`, params.Key);
           return client.get<unknown, AxiosResponse<Body>>(params.Key ?? "");
         }, toError),
-        TE.chain((content) => TE.tryCatch(() => content.data.text(), toError)),
-        TE.map((content) => ({ Body: content as any, $metadata: {} })),
+        TE.chain((content) =>
+          TE.tryCatch(() => content.data.blob() as Promise<any>, toError),
+        ),
+        TE.map((content) => ({ Body: content, $metadata: {} })),
       );
     },
     deleteObject: (params) => {

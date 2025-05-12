@@ -8,7 +8,7 @@ import { testDBManager } from "./globalSetup.js";
 
 const logger = GetLogger("testSetup");
 
-const g = global as any as { appContext: ServerContext; appTest?: AppTest };
+const g = global as unknown as { appContext: ServerContext; appTest?: AppTest };
 let database;
 
 beforeAll(async () => {

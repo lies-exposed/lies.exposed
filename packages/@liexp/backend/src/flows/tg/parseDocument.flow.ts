@@ -52,10 +52,17 @@ export const parseDocument =
         () => ServerError.fromUnknown(new Error("Invalid file type")),
       ),
       TE.chain((f) => {
-        ctx.logger.debug.log("File downloaded %s", messageDocument.file_name);
+        ctx.logger.debug.log(
+          "File downloaded %s (%s)",
+          messageDocument.file_name,
+          messageDocument.mime_type ?? "unknown",
+        );
 
-        const contentType =
-          (messageDocument.mime_type as any) ?? PDFType.literals[0];
+        const contentType = pipe(
+          messageDocument.mime_type,
+          Schema.decodeUnknownOption(PDFType),
+          fp.O.getOrElse(() => PDFType.literals[0]),
+        );
 
         return createAndUpload(
           {

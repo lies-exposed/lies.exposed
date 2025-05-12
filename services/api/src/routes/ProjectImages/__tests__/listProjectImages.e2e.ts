@@ -1,6 +1,7 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
 import { ProjectImageEntity } from "@liexp/backend/lib/entities/ProjectImage.entity.js";
+import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
@@ -12,7 +13,7 @@ import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("List Project Images", () => {
   let appTest: AppTest;
-  const media = fc.sample(MediaArb, 5);
+  const media = fc.sample(MediaArb, 5).map(toMediaEntity);
   const [projectData] = fc.sample(ProjectArb, 1);
   let projects: ProjectEntity[];
   let projectImages: ProjectImageEntity[];
@@ -21,7 +22,7 @@ describe("List Project Images", () => {
   beforeAll(async () => {
     appTest = await GetAppTest();
 
-    await throwTE(appTest.ctx.db.save(MediaEntity, media as any[]));
+    await throwTE(appTest.ctx.db.save(MediaEntity, media));
     projects = await throwTE(
       appTest.ctx.db.save(ProjectEntity, [
         {

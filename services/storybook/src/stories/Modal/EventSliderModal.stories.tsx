@@ -40,7 +40,7 @@ const Template: StoryFn<EventSliderModalProps> = ({
     ..._query,
   });
 
-  const onQueryChange = (q: any): void => {
+  const onQueryChange = (q: Partial<typeof query>): void => {
     setQuery({ ...query, ...q });
   };
 

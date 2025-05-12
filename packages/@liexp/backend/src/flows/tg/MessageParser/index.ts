@@ -5,7 +5,7 @@ import {
   getPlatform,
 } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -190,8 +190,9 @@ export const MessageParser = <
           (v) =>
             parseVideo(
               message.caption ??
-                (message.video as any)?.file_name ??
-                message.video?.file_id,
+                message.video?.file_unique_id ??
+                message.video?.file_id ??
+                uuid(),
               v,
             )(ctx),
         ),

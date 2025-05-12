@@ -47,12 +47,8 @@ export const MakeCreateProjectRoute: Route = (r, ctx) => {
         TE.chainEitherK((page) =>
           toProjectIO({
             ...page,
-            // type: "GroupEntity" as const,
-            // members: (page.members as any) as string[],
-            // subGroups: (page.subGroups as any) as string[],
             createdAt: page.createdAt,
             updatedAt: page.updatedAt,
-            // body,
           }),
         ),
         TE.map((data) => ({

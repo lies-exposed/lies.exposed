@@ -36,7 +36,12 @@ const Template: StoryFn<SocialPostButtonProps> = (props) => {
           return (
             <AdminContext
               dataProvider={apiProvider}
-              authProvider={{ logout: () => Promise.resolve() } as any}
+              authProvider={{
+                logout: () => Promise.resolve(),
+                login: () => Promise.resolve(),
+                checkAuth: () => Promise.resolve(),
+                checkError: () => Promise.resolve(),
+              }}
             >
               <RecordContextProvider value={events[0]}>
                 <EventSocialPostButton {...props} id={events[0].id} />

@@ -17,21 +17,38 @@ export const EditEventSuggestionRoute: Route = (r, ctx) => {
         ctx.db.findOneOrFail(EventSuggestionEntity, { where: { id } }),
         TE.chain((suggestion) =>
           pipe(
-            editEventQuery(suggestion.payload.event as any, {
-              ...body.event,
-              draft: O.fromNullable(body.event.draft),
-              date: O.fromNullable(body.event.date),
-              excerpt: O.fromNullable(body.event.excerpt),
-              body: O.fromNullable(body.event.body),
-              payload: {
-                ...(body.event.payload as any),
-                // location: O.fromNullable((body.event.payload as any).location),
-                // endDate: O.fromNullable((body.event.payload as any).endDate),
+            editEventQuery(
+              {
+                stories: [],
+                actors: [],
+                groups: [],
+                location: null,
+                ...suggestion.payload.event,
+                links: [...suggestion.payload.event.links],
+                media: [...suggestion.payload.event.media],
+                keywords: [...suggestion.payload.event.keywords],
+                socialPosts: [],
+                createdAt: suggestion.createdAt,
+                updatedAt: suggestion.updatedAt,
+                id: suggestion.id,
+                deletedAt: null,
               },
-              media: O.fromNullable(body.event.media),
-              links: O.fromNullable(body.event.links),
-              keywords: O.fromNullable(body.event.keywords),
-            })(ctx),
+              {
+                ...body.event,
+                draft: O.fromNullable(body.event.draft),
+                date: O.fromNullable(body.event.date),
+                excerpt: O.fromNullable(body.event.excerpt),
+                body: O.fromNullable(body.event.body),
+                payload: {
+                  ...body.event.payload,
+                  // location: O.fromNullable((body.event.payload as any).location),
+                  // endDate: O.fromNullable((body.event.payload as any).endDate),
+                } as any,
+                media: O.fromNullable(body.event.media),
+                links: O.fromNullable(body.event.links),
+                keywords: O.fromNullable(body.event.keywords),
+              },
+            )(ctx),
             TE.chain((event) =>
               ctx.db.save(EventSuggestionEntity, [
                 {

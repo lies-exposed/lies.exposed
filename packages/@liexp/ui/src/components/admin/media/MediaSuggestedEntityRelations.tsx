@@ -1,5 +1,6 @@
 import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { SuggestedEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
@@ -22,8 +23,7 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
 
   const canSuggestEntities =
     record?.type &&
-    (record.type === PDFType.literals[0] ||
-      ImageType.members.includes(record.type as any));
+    (record.type === PDFType.literals[0] || Schema.is(ImageType)(record.type));
 
   const doExtractNLPEntities = React.useCallback((): void => {
     const body =
@@ -31,7 +31,7 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
         ? {
             pdf: record.location,
           }
-        : record?.type && ImageType.members.includes(record.type as any)
+        : record?.type && Schema.is(ImageType)(record.type)
           ? {
               url: record.description,
             }

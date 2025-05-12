@@ -109,7 +109,7 @@ export interface PuppeteerProvider {
   ) => (
     page: puppeteer.Page,
   ) => TE.TaskEither<PuppeteerError, puppeteer.HTTPResponse>;
-  download: (url: string) => TE.TaskEither<PuppeteerError, any>;
+  download: (url: string) => TE.TaskEither<PuppeteerError, void>;
   getBrowserFirstPage: (
     url: string,
     opts: BrowserLaunchOpts,
@@ -300,12 +300,12 @@ export const $safeEvalOrUndefined =
     // > = puppeteer.EvaluateFuncWith<puppeteer.NodeFor<Selector>, Params>,
   >(
     sel: Selector,
-    onEval: (el: puppeteer.NodeFor<Selector>, ...args: Params) => Promise<any>,
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<string>,
   ): Promise<string | undefined> => {
-    let ret: any;
+    let ret: string | undefined;
     const el = await p.$(sel);
     if (el) {
-      ret = await p.$eval(sel, onEval as any);
+      ret = await p.$eval(sel, onEval);
     }
     return ret;
   };
@@ -321,7 +321,7 @@ export const $evalManyOrUndefined =
   (p: puppeteer.Page) =>
   async <Selector extends string, Params extends unknown[]>(
     sel: Selector[],
-    onEval: (el: puppeteer.NodeFor<Selector>, ...args: Params) => Promise<any>,
+    onEval: (el: puppeteer.NodeFor<Selector>) => Promise<any>,
   ): Promise<string | undefined> => {
     let ret: string | undefined;
     const evall = $safeEvalOrUndefined(p);
@@ -329,7 +329,7 @@ export const $evalManyOrUndefined =
       if (ret) {
         break;
       }
-      ret = await evall(s, onEval as any);
+      ret = await evall(s, onEval);
     }
 
     return ret;

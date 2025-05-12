@@ -47,7 +47,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
 }) => {
   const theme = useTheme();
 
-  const body = story.body2 as any;
+  const body = story.body2;
 
   return (
     <Grid container style={{ marginBottom: 100 }}>
@@ -80,15 +80,17 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
       </Grid>
       <Grid container>
         <Grid size={{ md: 3, lg: 3, xl: 4 }}>
-          <TOCPlugin
-            value={body}
-            onClick={(k) => {
-              const header = document.getElementById(k);
-              if (header) {
-                header.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-          />
+          {body ? (
+            <TOCPlugin
+              value={body}
+              onClick={(k) => {
+                const header = document.getElementById(k);
+                if (header) {
+                  header.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            />
+          ) : null}
         </Grid>
         <Grid size={{ md: 8, lg: 6, xl: 6 }}>
           <MainContent style={{ marginBottom: 40 }}>

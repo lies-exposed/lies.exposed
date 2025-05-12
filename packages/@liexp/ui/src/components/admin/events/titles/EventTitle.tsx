@@ -1,7 +1,11 @@
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import * as React from "react";
-import { type FieldProps, useRecordContext } from "../../react-admin.js";
+import {
+  type ExtractRecordPaths,
+  type FieldProps,
+  useRecordContext,
+} from "../../react-admin.js";
 import { BookTitle } from "./BookTitle.js";
 import { DeathEventTitle } from "./DeathEventTitle.js";
 import { DocumentaryReleaseTitle } from "./DocumentaryReleaseTitle.js";
@@ -30,24 +34,57 @@ export const EventTitle: React.FC<EventTitleProps> = ({
         return <ScientificStudyEventTitle {...{ ...props, source, record }} />;
       case EVENT_TYPES.DEATH:
         return (
-          <DeathEventTitle {...{ ...props, source: source as any, record }} />
+          <DeathEventTitle
+            {...{
+              ...props,
+              source: source as ExtractRecordPaths<http.Events.Death.Death>,
+              record,
+            }}
+          />
         );
       case EVENT_TYPES.PATENT:
         return (
-          <PatentEventTitle {...{ ...props, source: source as any, record }} />
+          <PatentEventTitle
+            {...{
+              ...props,
+              source: source as ExtractRecordPaths<http.Events.Patent.Patent>,
+              record,
+            }}
+          />
         );
       case EVENT_TYPES.DOCUMENTARY:
         return (
           <DocumentaryReleaseTitle
-            {...{ ...props, source: source as any, record }}
+            {...{
+              ...props,
+              source:
+                source as ExtractRecordPaths<http.Events.Documentary.Documentary>,
+              record,
+            }}
           />
         );
       case EVENT_TYPES.TRANSACTION:
         return <TransactionTitle {...props} record={record} />;
       case EVENT_TYPES.QUOTE:
-        return <QuoteTitle {...{ ...props, source: source as any, record }} />;
+        return (
+          <QuoteTitle
+            {...{
+              ...props,
+              source: source as ExtractRecordPaths<http.Events.Quote.Quote>,
+              record,
+            }}
+          />
+        );
       case EVENT_TYPES.BOOK:
-        return <BookTitle {...{ ...props, source: source as any, record }} />;
+        return (
+          <BookTitle
+            {...{
+              ...props,
+              source: source as ExtractRecordPaths<http.Events.Book.Book>,
+              record,
+            }}
+          />
+        );
     }
   }
   return <span>No record</span>;

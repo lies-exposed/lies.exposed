@@ -52,7 +52,7 @@ export class KeywordEntity {
   media: Relation<MediaEntity[]>;
 
   // admin props
-  socialPosts?: SocialPostEntity[];
+  socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
 
   @CreateDateColumn()
   createdAt: Date;

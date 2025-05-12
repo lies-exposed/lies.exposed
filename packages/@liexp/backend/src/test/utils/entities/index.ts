@@ -25,13 +25,7 @@ export const toActorEntity = (actor: Actor): ActorEntity => {
   };
 };
 
-export const toMediaEntity = (
-  image: LinkMedia | Media | UUID,
-): MediaEntity | UUID => {
-  if (Schema.is(UUID)(image)) {
-    return image;
-  }
-
+export const toMediaEntity = (image: LinkMedia | Media): MediaEntity => {
   if (Schema.is(Media)(image)) {
     return {
       ...image,

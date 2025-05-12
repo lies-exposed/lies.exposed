@@ -22,7 +22,6 @@ import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js"
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { AxiosInstance } from "axios";
 import { Schema } from "effect";
-import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as path from "path";
@@ -110,7 +109,7 @@ export const loadAppContext = async (
         ner: GetNERProvider({
           logger,
           entitiesFile: path.resolve(config.dirs.config.nlp, "entities.json"),
-          nlp: mocks.ner as any,
+          nlp: mocks.ner,
         }),
         blocknote: {} as any,
         redis: mocks.redis,
@@ -165,7 +164,7 @@ export const initAppTest = async (
   return appTest;
 };
 
-const g = global as any as {
+const g = global as unknown as {
   appTest: AppTest;
   appContext: ServerContext;
 };

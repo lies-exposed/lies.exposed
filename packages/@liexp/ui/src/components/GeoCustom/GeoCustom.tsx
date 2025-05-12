@@ -8,7 +8,6 @@ import { scaleQuantize } from "@visx/scale";
 import { Zoom } from "@visx/zoom";
 import * as React from "react";
 import * as topojson from "topojson-client";
-
 import type { GeometryCollection, Topology } from "topojson-specification";
 import worldTopology from "./world-topo.json";
 
@@ -18,9 +17,9 @@ interface WorldFeatureShapeProps {
   name: string;
 }
 
-const worldTopologyTyped: Topology<{
+const worldTopologyTyped = worldTopology as Topology<{
   units: GeometryCollection<WorldFeatureShapeProps>;
-}> = worldTopology as any;
+}>;
 
 export interface GeoCustomProps<P extends GeoJSON.GeoJsonProperties> {
   width: number;
@@ -49,7 +48,7 @@ const color = scaleQuantize({
   ],
 });
 
-const GeoCustom: any = <P extends GeoPermissibleObjects>({
+const GeoCustom = <P extends GeoPermissibleObjects>({
   width,
   height,
   projection,

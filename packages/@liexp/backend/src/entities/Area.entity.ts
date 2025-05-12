@@ -1,3 +1,4 @@
+import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import {
   type Geometry,
   type UUID,
@@ -46,7 +47,7 @@ export class AreaEntity {
   geometry: Geometry.Geometry;
 
   @Column({ type: "json", nullable: true })
-  body: Record<string, any> | null;
+  body: BlockNoteDocument | null;
 
   @ManyToOne(() => MediaEntity, (v) => v.featuredInAreas, {
     eager: true,
@@ -63,7 +64,7 @@ export class AreaEntity {
   events: EventV2Entity[];
 
   // admin props
-  socialPosts?: SocialPostEntity[];
+  socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
 
   @CreateDateColumn()
   createdAt: Date;

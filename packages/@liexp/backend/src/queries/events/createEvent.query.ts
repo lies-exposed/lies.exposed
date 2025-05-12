@@ -4,7 +4,6 @@ import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -24,24 +23,28 @@ export const createEventQuery = <
       media: pipe(input.media, O.fromNullable, O.filter(isNonEmpty)),
       keywords: pipe(input.keywords, O.fromNullable, O.filter(isNonEmpty)),
     }),
-    fp.RTE.chainTaskEitherK(({ keywords, links, media }) => {
+    fp.RTE.map(({ keywords, links, media }): DeepPartial<EventV2Entity> => {
+      const commonProps = {
+        links: [...links],
+        media: [...media],
+        keywords: [...keywords],
+      };
       switch (input.type) {
         case EVENT_TYPES.PATENT: {
           const { type, date, draft, excerpt, payload } = input;
-          return TE.right({
+          return {
+            ...commonProps,
             type,
             draft,
             payload,
             date,
             excerpt,
-            keywords,
-            links,
-            media,
-          } as any);
+          };
         }
         case EVENT_TYPES.DEATH: {
           const { type, date, draft, excerpt, payload } = input;
-          return TE.right({
+          return {
+            ...commonProps,
             type,
             draft,
             payload: {
@@ -50,10 +53,7 @@ export const createEventQuery = <
             },
             date,
             excerpt,
-            keywords,
-            links,
-            media,
-          });
+          };
         }
         case EVENT_TYPES.QUOTE:
         case EVENT_TYPES.SCIENTIFIC_STUDY:
@@ -61,21 +61,20 @@ export const createEventQuery = <
         case EVENT_TYPES.DOCUMENTARY:
         case EVENT_TYPES.TRANSACTION: {
           const { type, draft, excerpt, date, payload } = input;
-          return TE.right({
+          return {
+            ...commonProps,
             type,
             draft,
             excerpt,
             date,
             payload,
-            keywords,
-            links,
-            media,
-          });
+          };
         }
         case EVENT_TYPES.UNCATEGORIZED:
         default: {
           const { excerpt, type, draft, date, payload } = input;
-          const uncategorizedEvent: DeepPartial<EventV2Entity> = {
+          return {
+            ...commonProps,
             type,
             date,
             draft,
@@ -85,11 +84,7 @@ export const createEventQuery = <
               location: O.getOrUndefined(payload.location),
               endDate: O.getOrUndefined(payload.endDate),
             },
-            keywords: [...keywords],
-            links: [...links],
-            media: [...media],
           };
-          return TE.right(uncategorizedEvent);
         }
       }
     }),

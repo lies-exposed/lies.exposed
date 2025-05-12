@@ -28,7 +28,7 @@ export const MakeListProjectRoute: Route = (r, ctx) => {
         body: {
           data,
           total: count,
-        } as any,
+        },
         statusCode: 200,
       })),
     );

@@ -12,10 +12,7 @@ export interface ConfigProvider<C extends Record<string, unknown>> {
 }
 
 export const ConfigProviderReader =
-  <
-    C extends Schema.Schema<any, any, never>,
-    R extends FSClientContext = FSClientContext,
-  >(
+  <C extends Schema.Schema<any>, R extends FSClientContext = FSClientContext>(
     path: string,
     decoder: C,
   ): ReaderTaskEither<

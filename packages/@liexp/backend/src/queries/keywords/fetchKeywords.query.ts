@@ -85,7 +85,7 @@ export const fetchKeywords =
                 "keyword_id",
                 results.raw,
                 e,
-              ) as any[],
+              ),
             }));
             return [entities, count];
           }

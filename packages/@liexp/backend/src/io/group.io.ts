@@ -27,9 +27,7 @@ const encodeGroupIO = (
       "avatar",
       (): E.Either<_DecodeError, io.http.Media.Media | undefined> =>
         avatar
-          ? Schema.is(UUID)(avatar)
-            ? E.right({ id: avatar } as any)
-            : pipe(MediaIO.decodeSingle(avatar, spaceEndpoint))
+          ? pipe(MediaIO.decodeSingle(avatar, spaceEndpoint))
           : E.right(undefined),
     ),
     E.map(({ avatar }) => ({
@@ -42,7 +40,7 @@ const encodeGroupIO = (
         (group.body && isValidValue(group.body)
           ? toInitialValue(group.body)
           : null) ?? null,
-      avatar: avatar,
+      avatar,
       subGroups: [],
       username: group.username ?? undefined,
       startDate: group.startDate ?? undefined,

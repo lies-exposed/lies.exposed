@@ -28,7 +28,7 @@ export const createMediaFlow =
             location,
             label: body.label ?? null,
             description: body.description ?? body.label ?? null,
-            creator: user.id as any,
+            creator: user.id,
             extra: body.extra ?? null,
             areas: body.areas.map((id) => ({ id })),
             keywords: body.keywords.map((id) => ({ id })),

@@ -3,12 +3,12 @@ import { styled, useTheme } from "../../../theme/index.js";
 import { useMuiMediaQuery } from "../../mui/index.js";
 import { HeaderMenuDesktop } from "./HeaderMenuDesktop.js";
 import { HeaderMenuMobile } from "./HeaderMenuMobile.js";
-import { type HeaderMenuItem } from "./types.js";
+import { type HeaderMenuSubItem, type HeaderMenuItem } from "./types.js";
 
 export interface HeaderMenuProps {
   currentPath: string;
   menu: HeaderMenuItem[];
-  onMenuItemClick: (m: HeaderMenuItem) => void;
+  onMenuItemClick: (m: HeaderMenuSubItem) => void;
 }
 
 const CLASS_PREFIX = "HeaderMenu";

@@ -33,7 +33,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
       },
       { user },
     ) => {
-      const u: User = user as any;
+      const u = user as User;
       const ordering = foldOptionals({
         _sort,
         _order,
@@ -81,9 +81,7 @@ export const GetEventSuggestionListRoute: Route = (r, ctx) => {
         TE.chainEitherK(({ data, total }) =>
           pipe(
             data,
-            A.map((d) =>
-              toEventSuggestion({ ...d, creator: d.creator?.id as any }),
-            ),
+            A.map(toEventSuggestion),
             A.sequence(E.Applicative),
             E.map((data) => ({ data, total })),
           ),

@@ -64,7 +64,7 @@ const Root = styled("div")(({ theme }) => ({
 
   [`& .${classes.graphAccordionHeading}`]: {
     fontSize: theme.typography.pxToRem(16),
-    fontWeight: theme.typography.fontWeightRegular as any,
+    fontWeight: theme.typography.fontWeightRegular,
   },
 }));
 
@@ -410,7 +410,7 @@ const VaccineADRGraphComponent = withTooltip<
               label="Date"
               tickFormat={(d) => {
                 if (isDate(d)) {
-                  return formatDate(d as any);
+                  return formatDate(d);
                 }
                 return d.valueOf().toString();
               }}
@@ -474,7 +474,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
 }) => {
   const [adrReportRate, setADRReportRate] = React.useState(adrReportRate100);
   const [manufacturer, setManufacturer] = React.useState("All");
-  const [ageGroup, setAgeGroup] = React.useState("All" as any);
+  const [ageGroup, setAgeGroup] = React.useState("All" as AgeGroup);
   const jsonClient = useJSONClient();
 
   const handleADRReportRateChange = React.useCallback(
@@ -497,7 +497,7 @@ export const VaccineADRGraph: React.FC<VaccineADRGraphProps> = ({
 
   const handlePatientAgeGroupChange = React.useCallback(
     (e: SelectChangeEvent<string>): void => {
-      setAgeGroup(e.target.value);
+      setAgeGroup(e.target.value as AgeGroup);
     },
     [],
   );

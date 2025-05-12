@@ -30,7 +30,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
       },
       r,
     ) => {
-      const relations = relationsTransformer(body2 as any);
+      const relations = relationsTransformer(body2);
       return pipe(
         ctx.db.findOneOrFail(StoryEntity, {
           where: { id: Equal(id), creator: Equal(creator) },
@@ -39,7 +39,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           const featuredImageId = pipe(
             featuredImage,
             O.map((f) => f.id),
-            O.getOrElse(() => e.featuredImage as any),
+            O.getOrElse(() => e.featuredImage),
           );
 
           ctx.logger.debug.log("Featured image %O", featuredImageId);
@@ -53,8 +53,8 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
               groups: relations.groups.map((k) => ({ id: k })),
               media: relations.media.map((m) => ({ id: m })),
               events: relations.events.map((e) => ({ id: e })),
-              body2: body2 as any,
-              creator: creator as any,
+              body2,
+              creator,
               featuredImage: featuredImageId,
             },
           ]);

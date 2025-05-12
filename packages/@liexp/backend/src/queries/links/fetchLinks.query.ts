@@ -187,7 +187,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
                   "link_id",
                   results.raw,
                   e,
-                ) as any[],
+                ),
               }));
               return [entities, count];
             });
