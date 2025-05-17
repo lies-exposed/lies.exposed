@@ -8,6 +8,7 @@ import { type AIBotError } from "#common/error/index.js";
 const ENV = Schema.Struct({
   LIEXP_USERNAME: OptionFromNullishToNull(Schema.String),
   LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
+  LOCAL_AI_URL: OptionFromNullishToNull(Schema.String),
   DEBUG: OptionFromNullishToNull(Schema.String),
 }).annotations({
   title: "ENV",

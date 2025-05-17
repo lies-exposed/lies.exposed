@@ -30,7 +30,7 @@ const processJob =
         pipe(
           fp.TE.right(job),
           fp.TE.chainFirst(() =>
-            ctx.endpointsRESTClient.Queues.Edit({
+            ctx.api.Queues.Edit({
               Params: {
                 id: job.id,
                 type: job.type,
@@ -95,7 +95,7 @@ const processJob =
           );
 
           return pipe(
-            ctx.endpointsRESTClient.Queues.Edit({
+            ctx.api.Queues.Edit({
               Params: {
                 id: job.id,
                 type: job.type,

@@ -1,10 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
+import { loadPuppeteer } from "@liexp/backend/lib/context/load/puppeteer.load.js";
 import {
   type AvailableModels,
   GetLangchainProvider,
 } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
+import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
@@ -45,10 +47,17 @@ export const loadContext = (
       ),
     ),
     fp.TE.bind("config", ({ fs }) => configProvider({ fs })),
-    fp.TE.bind("langchain", ({ config }) =>
+    fp.TE.bind("localAIURL", ({ env, config }) => {
+      return pipe(
+        env.LOCAL_AI_URL,
+        fp.O.getOrElse(() => config.config.localAi.url),
+        fp.TE.right<AIBotError, string>,
+      );
+    }),
+    fp.TE.bind("langchain", ({ config, localAIURL }) =>
       fp.TE.right(
         GetLangchainProvider({
-          baseURL: config.config.localAi.url,
+          baseURL: localAIURL,
           apiKey: config.config.localAi.apiKey,
           models: {
             chat: config.config.localAi.models?.chat as AvailableModels,
@@ -58,50 +67,75 @@ export const loadContext = (
         }),
       ),
     ),
-    fp.TE.bind("openAI", ({ config }) =>
+    fp.TE.bind("openAI", ({ config, localAIURL }) =>
       fp.TE.right(
         GetOpenAIProvider({
-          baseURL: config.config.localAi.url,
+          baseURL: localAIURL,
           apiKey: config.config.localAi.apiKey,
           timeout: 20 * 60_000, // 20 minutes
         }),
       ),
     ),
-    fp.TE.map(({ env, config, fs, pdf, langchain, openAI }) => {
-      const logger = GetLogger("ai-bot");
-
-      const restClient = axios.default.create({
-        baseURL: config.config.api.url,
-      });
-
-      restClient.interceptors.request.use((req) => {
-        const token = getToken();
-        if (token) {
-          req.headers.set("Authorization", `Bearer ${getToken()}`);
-        }
-        return req;
-      });
-
-      const apiClient = GetResourceClient(restClient, Endpoints, {
-        decode: EffectDecoder((e) =>
-          DecodeError.of("Resource client decode error", e),
+    fp.TE.bind("puppeteer", () =>
+      pipe(
+        fp.TE.tryCatch(() => loadPuppeteer(), toAIBotError),
+        fp.TE.map(({ client, KnownDevices }) =>
+          GetPuppeteerProvider(
+            client,
+            {
+              headless: true,
+            },
+            KnownDevices,
+          ),
         ),
-      });
+      ),
+    ),
+    fp.TE.map(
+      ({ env, config, localAIURL, fs, pdf, langchain, puppeteer, openAI }) => {
+        const logger = GetLogger("ai-bot");
 
-      logger.info.log("API url %s", config.config.api.url);
-      logger.info.log("OpenAI url %s", config.config.localAi.url);
+        const restClient = axios.default.create({
+          baseURL: config.config.api.url,
+        });
 
-      return {
-        env,
-        fs,
-        config,
-        http: HTTPProvider(axios.default.create({})),
-        pdf,
-        logger,
-        apiRESTClient: restClient,
-        endpointsRESTClient: apiClient,
-        langchain,
-        openAI,
-      };
-    }),
+        restClient.interceptors.request.use((req) => {
+          const token = getToken();
+          if (token) {
+            req.headers.set("Authorization", `Bearer ${getToken()}`);
+          }
+          return req;
+        });
+
+        const apiClient = GetResourceClient(restClient, Endpoints, {
+          decode: EffectDecoder((e) =>
+            DecodeError.of("Resource client decode error", e),
+          ),
+        });
+
+        logger.info.log("API url %s", config.config.api.url);
+        logger.info.log("OpenAI url %s", localAIURL);
+
+        return {
+          env,
+          fs,
+          config: {
+            ...config,
+            config: {
+              ...config.config,
+              localAi: {
+                ...config.config.localAi,
+                url: localAIURL,
+              },
+            },
+          },
+          http: HTTPProvider(axios.default.create({})),
+          pdf,
+          logger,
+          api: apiClient,
+          langchain,
+          puppeteer,
+          openAI,
+        };
+      },
+    ),
   );

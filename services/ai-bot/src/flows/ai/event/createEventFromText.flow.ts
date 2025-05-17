@@ -18,7 +18,7 @@ export const createEventFromTextFlow: JobProcessRTE<
       "jsonSchema",
       () => (ctx) =>
         pipe(
-          ctx.endpointsRESTClient.Event.List({
+          ctx.api.Event.List({
             Query: {
               eventType: [job.data.type],
               _order: "DESC",

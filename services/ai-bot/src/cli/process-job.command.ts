@@ -11,7 +11,7 @@ import { type CommandFlow } from "./CommandFlow.js";
 
 export const processJobCommand: CommandFlow = async (ctx, args) => {
   return pipe(
-    ctx.endpointsRESTClient.Queues.Get({
+    ctx.api.Queues.Get({
       Params: {
         type: args[0] as QueueTypes,
         resource: args[1] as QueueResourceNames,

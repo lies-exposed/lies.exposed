@@ -68,7 +68,7 @@ export const createEventFromURLFlow: JobProcessRTE<
       "links",
       () => (ctx) =>
         pipe(
-          ctx.endpointsRESTClient.Link.List({
+          ctx.api.Link.List({
             Query: {
               url: job.data.url,
               _end: "1",

@@ -1,10 +1,4 @@
-FROM node:23 AS base
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN npm i -g corepack@latest && corepack use pnpm@latest-10
-
-FROM base AS dev
+FROM ghcr.io/lies-exposed/liexp-base:23-latest AS dev
 
 WORKDIR /home/node
 
@@ -12,7 +6,12 @@ RUN mkdir build scripts
 
 COPY services/ai-bot/build/run-esbuild.js build/run-esbuild.js
 
-RUN pnpm add pdfjs-dist@^5 @napi-rs/canvas
+RUN pnpm add pdfjs-dist@^5 \
+    @napi-rs/canvas \
+    puppeteer-core@^24 \
+    puppeteer-extra@^3 \
+    puppeteer-extra-plugin-stealth@^2
+
 
 COPY services/ai-bot/sea-config.json sea-config.json
 
@@ -25,11 +24,15 @@ RUN strip ./ai-bot
 RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
     --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 
-FROM base AS production
+FROM ghcr.io/lies-exposed/liexp-base:23-latest AS production
 
 WORKDIR /home/node
 
-RUN pnpm add pdfjs-dist@^5 @napi-rs/canvas
+RUN pnpm add pdfjs-dist@^5 \
+    @napi-rs/canvas \
+    puppeteer-core@^24 \
+    puppeteer-extra@^3 \
+    puppeteer-extra-plugin-stealth@^2
 
 COPY --from=dev /home/node/ai-bot ai-bot
 
