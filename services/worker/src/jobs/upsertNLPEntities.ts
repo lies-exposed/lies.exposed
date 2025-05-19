@@ -2,7 +2,7 @@ import { upsertNLPEntities as upsertNLPEntitiesFlow } from "@liexp/backend/lib/f
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CronJobTE } from "./cron-task.type.js";
 
-export const upsertNLPEntitiesJobCron: CronJobTE = (opts) => {
+export const upsertNLPEntitiesJobCron: CronJobTE = () => {
   return pipe(
     upsertNLPEntitiesFlow,
     fp.RTE.fold(

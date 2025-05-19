@@ -8,13 +8,13 @@ import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
-import Cron from "node-cron";
+import Cron, { type ScheduledTask } from "node-cron";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
 export const generateMissingThumbnailsCron = (
   ctx: WorkerContext,
-): Cron.ScheduledTask =>
+): ScheduledTask =>
   Cron.schedule(
     ctx.env.GENERATE_MISSING_THUMBNAILS_CRON,
     (opts) => {

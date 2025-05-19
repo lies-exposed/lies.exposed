@@ -6,10 +6,10 @@ import { LessThanOrEqual } from "typeorm";
 import { type CronJobTE } from "./cron-task.type.js";
 import { postToSocialPlatforms } from "#flows/social-post/postToPlatforms.flow.js";
 
-export const postOnSocialJob: CronJobTE = (opts) => (ctx) => {
+export const postOnSocialJob: CronJobTE = () => (ctx) => {
   ctx.logger.info.log("Start posting on social task...");
 
-  const date = opts === "manual" || opts === "init" ? new Date() : opts;
+  const date = new Date();
   return pipe(
     ctx.db.find(SocialPostEntity, {
       where: {

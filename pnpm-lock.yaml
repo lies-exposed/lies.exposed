@@ -1377,9 +1377,6 @@ importers:
       '@types/lodash':
         specifier: ^4.17.16
         version: 4.17.16
-      '@types/node-cron':
-        specifier: ^3.0.11
-        version: 3.0.11
       '@types/node-telegram-bot-api':
         specifier: ^0.64.8
         version: 0.64.8
@@ -4368,9 +4365,6 @@ packages:
 
   '@types/multer@1.4.12':
     resolution: {integrity: sha512-pQ2hoqvXiJt2FP9WQVLPRO+AmiIm/ZYkavPlIQnx282u4ZrVdztx0pkh3jjpQt0Kz+YI0YhSG264y08UJKoUQg==}
-
-  '@types/node-cron@3.0.11':
-    resolution: {integrity: sha512-0ikrnug3/IyneSHqCBeslAhlK2aBfYek1fGo4bP4QnZPmiqSGRK+Oy7ZMisLWkesffJvQ1cqAcBnJC+8+nxIAg==}
 
   '@types/node-fetch@2.6.12':
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
@@ -13575,8 +13569,6 @@ snapshots:
   '@types/multer@1.4.12':
     dependencies:
       '@types/express': 5.0.1
-
-  '@types/node-cron@3.0.11': {}
 
   '@types/node-fetch@2.6.12':
     dependencies:

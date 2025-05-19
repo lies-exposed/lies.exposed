@@ -1,4 +1,5 @@
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Redis } from "ioredis";
@@ -27,11 +28,15 @@ const run = (): Promise<void> => {
     TE.bind("subscribers", ({ ctx, redis }) =>
       WorkerSubscribers({ ...ctx, redis, logger: ctx.logger.extend("sub") }),
     ),
-    TE.chain(({ ctx, redis }) => {
+    TE.bind("cronJobs", ({ ctx, redis }) => {
+      return pipe(
+        CronJobs(ctx),
+        TE.right,
+        TE.chainFirst((cronJobs) => cronJobs.onBootstrap()),
+      );
+    }),
+    TE.chain(({ ctx, redis, cronJobs }) => {
       // cron jobs
-      const cronJobs = CronJobs(ctx);
-
-      cronJobs.onBootstrap();
 
       ctx.tg.api.on("polling_error", (e) => {
         ctx.logger.error.log(`TG Bot error during polling %O`, e);
@@ -48,17 +53,13 @@ const run = (): Promise<void> => {
 
         redis.disconnect();
 
-        void ctx.tg
-          .stopPolling({})()
-
-          .then(
-            (b) => {
-              ctx.logger.debug.log(`TG bot polling stop`);
-            },
-            (e) => {
-              ctx.logger.error.log(`TG Bot error during polling stop %O`, e);
-            },
-          );
+        void pipe(
+          sequenceS(TE.ApplicativePar)({
+            tg: ctx.tg.stopPolling({}),
+            cronJobs: cronJobs.onShutdown(),
+          }),
+          throwTE,
+        );
       });
 
       return TE.right(undefined);

@@ -89,7 +89,7 @@ const convertManyMediaTask =
  * @param args - command arguments
  * @returns void
  */
-export const regenerateMediaThumbnailJob: CronJobTE = (opts) => {
+export const regenerateMediaThumbnailJob: CronJobTE = () => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("media", () =>
