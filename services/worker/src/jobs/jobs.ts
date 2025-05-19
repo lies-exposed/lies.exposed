@@ -1,96 +1,130 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as cronstrue from "cronstrue";
 import { type Task } from "fp-ts/lib/Task.js";
-import Cron from "node-cron";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import Cron, { type ScheduledTask, type TaskContext } from "node-cron";
 import { cleanTempFolder } from "./cleanTempFolder.job.js";
-import { type CronFnOpts } from "./cron-task.type.js";
+import { type CronJobTE } from "./cron-task.type.js";
 import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
 import { processOpenAIJobsDone } from "./processOpenAIJobsDone.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
 import { upsertNLPEntitiesJobCron } from "./upsertNLPEntities.js";
 import { type WorkerContext } from "#context/context.js";
+import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
 interface CronJobsHooks {
-  onBootstrap: () => void;
-  onShutdown: () => void;
+  onBootstrap: () => TaskEither<WorkerError, void>;
+  onShutdown: () => TaskEither<WorkerError, void>;
 }
 
 const liftTask =
   (ctx: WorkerContext) =>
-  <T>(
-    te: (opts: CronFnOpts) => (ctx: WorkerContext) => Task<T>,
-  ): ((opts: CronFnOpts) => void) => {
-    return (opts) => {
-      void pipe(te(opts)(ctx))();
+  (te: () => (ctx: WorkerContext) => Task<void>): (() => Promise<void>) => {
+    return () => {
+      return pipe(
+        te()(ctx),
+        fp.T.map(() => undefined),
+      )();
     };
   };
+
+const onTaskStarted =
+  (logger: WorkerContext["logger"], schedule: string) =>
+  (task: TaskContext) => {
+    logger.debug.log("Task %s started", task.task?.name);
+  };
+
+const taskCreator = (ctx: WorkerContext) => {
+  const liftT = liftTask(ctx);
+
+  return (schedule: string, taskTE: CronJobTE, taskName: string) => {
+    const task = Cron.schedule(schedule, liftT(taskTE), {
+      name: taskName,
+    });
+
+    task.on("task:started", onTaskStarted(ctx.logger, schedule));
+
+    return task;
+  };
+};
 
 export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
   const cronLogger = ctx.logger.extend("cron");
 
-  Cron.getTasks().forEach((task) => {
-    cronLogger.debug.log("Removing existing task: %O", task);
-    task.stop();
-  });
-
-  const liftT = liftTask({ ...ctx, logger: cronLogger });
   cronLogger.info.log("Setting up cron jobs...");
 
-  const postOnSocialTask = Cron.schedule(
+  const scheduleTask = taskCreator({ ...ctx, logger: cronLogger });
+
+  const postOnSocialTask = scheduleTask(
     ctx.env.SOCIAL_POSTING_CRON,
-    liftT(postOnSocialJob),
-    { runOnInit: false, scheduled: false, name: "SOCIAL_POSTING" },
+    postOnSocialJob,
+    "SOCIAL_POSTING",
   );
 
   const cleanTempFolderTask = cleanTempFolder(ctx);
   const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
 
-  const processOpenAIJobsDoneTask = Cron.schedule(
+  const processOpenAIJobsDoneTask = scheduleTask(
     ctx.env.PROCESS_DONE_JOB_CRON,
-    liftT(processOpenAIJobsDone),
-    { name: "PROCESS_DONE_JOB", scheduled: false, runOnInit: false },
+    processOpenAIJobsDone,
+    "PROCESS_DONE_JOB",
   );
 
-  const regenerateMediaThumbnailTask = Cron.schedule(
+  const regenerateMediaThumbnailTask = scheduleTask(
     ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON,
-    liftT(regenerateMediaThumbnailJob),
-    { name: "REGENERATE_MEDIA_THUMBNAILS", scheduled: true, runOnInit: false },
+    regenerateMediaThumbnailJob,
+    "REGENERATE_MEDIA_THUMBNAILS",
   );
 
-  const upsertNLPEntitiesTask = Cron.schedule(
+  const upsertNLPEntitiesTask = scheduleTask(
     ctx.env.UPSERT_NLP_ENTITIES_CRON,
-    liftT(upsertNLPEntitiesJobCron),
-    { name: "UPSERT_NLP_ENTITIES", scheduled: true, runOnInit: true },
+    upsertNLPEntitiesJobCron,
+    "UPSERT_NLP_ENTITIES",
   );
+
+  const tasksWithSchedules: [ScheduledTask, string][] = [
+    [postOnSocialTask, ctx.env.SOCIAL_POSTING_CRON],
+    [cleanTempFolderTask, ctx.env.TEMP_FOLDER_CLEAN_UP_CRON],
+    [generateMissingThumbnailsTask, ctx.env.GENERATE_MISSING_THUMBNAILS_CRON],
+    [processOpenAIJobsDoneTask, ctx.env.PROCESS_DONE_JOB_CRON],
+    [regenerateMediaThumbnailTask, ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON],
+    [upsertNLPEntitiesTask, ctx.env.UPSERT_NLP_ENTITIES_CRON],
+  ];
 
   return {
     onBootstrap() {
-      Cron.getTasks().forEach((task) => {
-        const taskName = (task as any).options.name;
-        const envCron = (ctx.env as any)[`${taskName}_CRON`];
-        cronLogger.info.log(
-          "New task %s scheduled at %s (%s)",
-          taskName,
-          envCron,
-          cronstrue.toString(envCron),
-        );
-      });
-
-      postOnSocialTask.start();
-      cleanTempFolderTask.start();
-      generateMissingThumbnailsTask.start();
-      regenerateMediaThumbnailTask.start();
-      processOpenAIJobsDoneTask.start();
-      upsertNLPEntitiesTask.start();
+      cronLogger.info.log("Bootstrapping cron jobs...");
+      return pipe(
+        tasksWithSchedules,
+        fp.A.traverse(fp.TE.ApplicativeSeq)(([task, schedule]) =>
+          fp.TE.tryCatch(async () => {
+            cronLogger.debug.log(
+              "Task %s started with schedule %s",
+              task.name,
+              cronstrue.toString(schedule),
+            );
+            await task.start();
+          }, toWorkerError),
+        ),
+        fp.TE.map(() => {
+          cronLogger.info.log("Cron jobs started");
+        }),
+      );
     },
     onShutdown() {
       // stop all tasks
-      Cron.getTasks().forEach((task) => {
-        const taskName = (task as any).options.name;
-        cronLogger.info.log(`Removing "${taskName}" cron task...`);
-        task.stop();
-      });
+      return pipe(
+        tasksWithSchedules,
+        fp.A.traverse(fp.TE.ApplicativePar)(([task]) =>
+          fp.TE.tryCatch(async () => {
+            await task.stop();
+          }, toWorkerError),
+        ),
+        fp.TE.map(() => {
+          cronLogger.info.log("Cron jobs stopped");
+        }),
+      );
     },
   };
 };

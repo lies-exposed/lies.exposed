@@ -152,7 +152,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
   );
 };
 
-export const processOpenAIJobsDone: CronJobTE = (opts) => {
+export const processOpenAIJobsDone: CronJobTE = () => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.apS(
