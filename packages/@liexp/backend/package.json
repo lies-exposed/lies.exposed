@@ -39,7 +39,7 @@
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.24.0",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.22"
+    "typeorm": "^0.3.24"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.804.0",

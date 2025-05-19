@@ -75,11 +75,11 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.2",
     "page-metadata-parser": "^1.1.4",
-    "pg": "^8.15.6",
+    "pg": "^8.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tsx": "^4.19.4",
-    "typeorm": "^0.3.22",
+    "typeorm": "^0.3.24",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
