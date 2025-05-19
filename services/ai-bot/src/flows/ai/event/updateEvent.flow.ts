@@ -10,7 +10,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadLink } from "../common/loadLink.flow.js";
+import { loadLinkWithPuppeteer } from "../common/loadLinkWithPuppeteer.flow.js";
 import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -27,7 +27,7 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       "event",
       () => (ctx: ClientContext) =>
         pipe(
-          ctx.endpointsRESTClient.Event.Get({
+          ctx.api.Event.Get({
             Params: { id: job.id },
           }),
           fp.TE.map((r) => r.data),
@@ -39,7 +39,7 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       ({ event }) =>
         (ctx) =>
           pipe(
-            ctx.endpointsRESTClient.Link.List({
+            ctx.api.Link.List({
               Query: { ids: event.links },
             }),
             fp.TE.chain((links) =>
@@ -50,7 +50,7 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
                   if (description) {
                     return loadText(description)(ctx);
                   }
-                  return loadLink(l.url)(ctx);
+                  return loadLinkWithPuppeteer(l.url)(ctx);
                 }),
                 fp.TE.map(fp.A.flatten),
                 fp.TE.map((docs) => [...docs]),

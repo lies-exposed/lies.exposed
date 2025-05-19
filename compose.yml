@@ -124,9 +124,9 @@ services:
   ai-bot:
     build:
       context: .
-      target: production
+      target: dev
       dockerfile: ai-bot.Dockerfile
-    command: ["./ai-bot"]
+    command: "node --watch build/run-esbuild.js"
     env_file:
       - ./services/ai-bot/.env.local
       - ./services/ai-bot/.env
@@ -209,8 +209,6 @@ services:
     # image: localai/localai:latest-aio-gpu-intel-f32
     # For AMD GPUs decomment the following:
     # image: localai/localai:latest-aio-gpu-hipblas
-    # For Phi2 models decomment the following:
-    # image: localai/localai:v2.15.0-ffmpeg-core phi-2
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
       interval: 1m

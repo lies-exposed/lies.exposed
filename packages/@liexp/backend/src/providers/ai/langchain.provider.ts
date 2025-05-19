@@ -69,7 +69,8 @@ export type AvailableModels =
   | "gpt-4o"
   | "gpt-3.5-turbo"
   | "text-embedding-ada-002"
-  | "salamandra-7b-instruct";
+  | "salamandra-7b-instruct"
+  | "qwen3-32b";
 
 export interface LangchainProviderOptions {
   baseURL: string;

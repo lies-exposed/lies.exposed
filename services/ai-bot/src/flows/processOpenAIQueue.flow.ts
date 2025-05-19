@@ -12,7 +12,7 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
       pipe(
         fp.RTE.ask<ClientContext>(),
         fp.RTE.chainTaskEitherK((ctx) =>
-          ctx.endpointsRESTClient.Queues.List({
+          ctx.api.Queues.List({
             Query: {
               resource: undefined,
               type: undefined,

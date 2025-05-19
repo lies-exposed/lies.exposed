@@ -7,7 +7,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { formatDocumentsAsString } from "langchain/util/document";
 import { type ClientContext } from "../../../context.js";
-import { loadLink } from "../common/loadLink.flow.js";
+import { loadLinkWithPuppeteer } from "../common/loadLinkWithPuppeteer.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -25,9 +25,9 @@ export const updateActorFlow: JobProcessRTE<
         fp.RTE.asks((ctx: ClientContext) => ctx),
         fp.RTE.chainTaskEitherK((ctx) =>
           pipe(
-            ctx.endpointsRESTClient.Event.List({ Query: { actors: [job.id] } }),
+            ctx.api.Event.List({ Query: { actors: [job.id] } }),
             fp.TE.chain((events) =>
-              ctx.endpointsRESTClient.Link.List({
+              ctx.api.Link.List({
                 Query: { ids: events.data.flatMap((e) => e.links) },
               }),
             ),
@@ -39,7 +39,9 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.bind("docs", ({ links }) =>
       pipe(
         links,
-        fp.A.traverse(fp.RTE.ApplicativePar)((l) => loadLink(l.url)),
+        fp.A.traverse(fp.RTE.ApplicativePar)((l) =>
+          loadLinkWithPuppeteer(l.url),
+        ),
         fp.RTE.map(fp.A.flatten),
         fp.RTE.map((docs) => [...docs]),
       ),

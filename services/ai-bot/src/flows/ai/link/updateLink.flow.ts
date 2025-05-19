@@ -9,8 +9,10 @@ import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion =
-  "Can you extract the title and the description of the link?";
+const defaultQuestion = `
+I would like to have a JSON object with 'title', 'description', 'publishDate' and main 'keywords' (as an array of strings) from the given text.
+Can you do that for me?
+`;
 
 export const updateLinkFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
@@ -41,7 +43,12 @@ export const updateLinkFlow: JobProcessRTE<
           )
             .pipe(model)
             .pipe(
-              new JsonOutputParser<{ title: string; description: string }>(),
+              new JsonOutputParser<{
+                title: string;
+                description: string;
+                publishDate: string;
+                keywords: string[];
+              }>(),
             ),
           job.question ?? defaultQuestion,
         ),

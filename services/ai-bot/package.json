@@ -40,13 +40,15 @@
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.9.0",
-    "cheerio": "^1.0.0",
     "debug": "^4.4.0",
     "effect": "^3.14.18",
     "fp-ts": "^2.16.10",
     "langchain": "^0.3.24",
     "pdfjs-dist": "^5.2.133",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "puppeteer-core": "^24.8.1",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
     "@esbuild/aix-ppc64": "^0.25.4",

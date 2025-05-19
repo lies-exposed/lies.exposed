@@ -26,7 +26,12 @@ export const startContext = async (env?: any): Promise<WorkerContext> => {
       ...env,
     }),
     fp.TE.fromEither,
-    fp.TE.chain((env) => makeContext(env, loadImplementation(env))),
+    fp.TE.chain((env) =>
+      pipe(
+        loadImplementation(env),
+        fp.TE.chain((implementation) => makeContext(env, implementation)),
+      ),
+    ),
     throwTE,
   );
 };
