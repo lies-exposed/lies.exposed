@@ -16,7 +16,7 @@ export const ExploreAreasBox: React.FC<ExploreAreasBoxProps> = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        areas: Q.Area.list.useQuery({}, undefined, false),
+        areas: Q.Area.list.useQuery(undefined, {}, false),
       })}
       render={({ areas: { data: areas } }) => {
         return (

@@ -1,10 +1,16 @@
 import { type UseQueryResult } from "@tanstack/react-query";
 import { type IOError } from "@ts-endpoint/core";
-import { type GetListParams } from "react-admin";
 
-export type UseListQueryFn<T> = (
-  params: Partial<GetListParams>,
-  q: any,
+export type UseGetQueryFn<P, Q, T> = (
+  params: P,
+  q: Partial<Q> | undefined,
+  discrete: boolean,
+  suffix?: string,
+) => UseQueryResult<{ data: T }, IOError>;
+
+export type UseListQueryFn<P, Q, T> = (
+  params: P,
+  q: Partial<Q> | undefined,
   discrete: boolean,
   suffix?: string,
 ) => UseQueryResult<{ data: readonly T[]; total: number }, IOError>;

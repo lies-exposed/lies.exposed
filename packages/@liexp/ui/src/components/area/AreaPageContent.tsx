@@ -1,6 +1,7 @@
 import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import MediaSliderBox from "../../containers/MediaSliderBox.js";
+import { paginationToParams } from "../../utils/params.utils.js";
 import { BNEditor } from "../Common/BlockNote/index.js";
 import { Box, Grid } from "../mui/index.js";
 
@@ -34,15 +35,10 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
             width: "100%",
           })}
           query={{
-            filter: { ids: area.media },
-            pagination: {
-              perPage: 10,
-              page: 1,
-            },
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
+            ids: area.media,
+            ...paginationToParams({ page: 1, perPage: 10 }),
+            _sort: "createdAt",
+            _order: "DESC",
           }}
           onClick={onMediaClick}
         />

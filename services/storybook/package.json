@@ -10,6 +10,7 @@
     "build"
   ],
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "build": "tsc -b tsconfig.build.json",
     "build:app": "storybook build -o build",
     "clean": "rm -rf build",

@@ -41,8 +41,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               prefix="last-20-updated-actors"
               style={{ width: "100%", display: "flex" }}
               params={{
-                filter: undefined,
-                sort: { field: "updatedAt", order: "DESC" },
+                _sort: "updatedAt",
+                _order: "DESC",
               }}
               onActorClick={(a: ActorItem) => {
                 navigateTo.actors({ id: a.id }, { tab: 0 });
@@ -55,8 +55,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               prefix="last-20-updated-actors"
               style={{ width: "100%", display: "flex" }}
               params={{
-                filter: {},
-                sort: { field: "updatedAt", order: "DESC" },
+                _sort: "updatedAt",
+                _order: "DESC",
               }}
               onItemClick={(g) => {
                 navigateTo.groups({ id: g.id }, { tab: 0 });

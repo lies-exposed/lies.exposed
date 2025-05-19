@@ -23,13 +23,10 @@ const Template: StoryFn<LinkTemplateUIProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         links: Q.Link.list.useQuery(
-          {
-            pagination: {
-              page: 1,
-              perPage: 3,
-            },
-          },
           undefined,
+          {
+            _end: "3",
+          },
           false,
         ),
       })}

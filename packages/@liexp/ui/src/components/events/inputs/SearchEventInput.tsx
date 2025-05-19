@@ -97,13 +97,10 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       if (q.startsWith("#")) {
         // fetch keywords
         void Queries.Keyword.list
-          .fetch({
-            filter: { q: q.replace("#", "") },
-            sort: { field: "createdAt", order: "DESC" },
-            pagination: {
-              perPage: 20,
-              page: 1,
-            },
+          .fetch(undefined, {
+            q: q.replace("#", ""),
+            _sort: "createdAt",
+            _order: "DESC",
           })
           .then((res) => {
             setSearchOptions(
@@ -113,13 +110,10 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       } else if (q.startsWith("a@")) {
         // fetch actors
         void Queries.Actor.list
-          .fetch({
-            filter: { q: q.replace("a@", "") },
-            sort: { field: "createdAt", order: "DESC" },
-            pagination: {
-              perPage: 20,
-              page: 1,
-            },
+          .fetch(undefined, {
+            q: q.replace("a@", ""),
+            _sort: "createdAt",
+            _order: "DESC",
           })
           .then((res) => {
             setSearchOptions(res.data.map((g) => ({ type: "Actor", item: g })));
@@ -127,13 +121,10 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
       } else if (q.startsWith("g@")) {
         // fetch groups
         void Queries.Group.list
-          .fetch({
-            filter: { q: q.replace("g@", "") },
-            sort: { field: "createdAt", order: "DESC" },
-            pagination: {
-              perPage: 20,
-              page: 1,
-            },
+          .fetch(undefined, {
+            q: q.replace("g@", ""),
+            _sort: "createdAt",
+            _order: "DESC",
           })
           .then((groups) => {
             setSearchOptions(

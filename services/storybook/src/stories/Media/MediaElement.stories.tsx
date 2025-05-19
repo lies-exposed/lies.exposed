@@ -21,11 +21,7 @@ const Template: StoryFn<MediaElementProps & { type: MediaType }> = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        media: Q.Media.list.useQuery(
-          { filter: { type }, pagination: { perPage: 1, page: 1 } },
-          undefined,
-          false,
-        ),
+        media: Q.Media.list.useQuery(undefined, { type, _end: "1" }, false),
       })}
       render={({ media }) => {
         return (

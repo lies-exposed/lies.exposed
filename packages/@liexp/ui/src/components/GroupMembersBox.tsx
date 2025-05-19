@@ -40,14 +40,13 @@ export const GroupMembersBox: React.FC<GroupMembersBoxProps> = ({
         loader="default"
         queries={(Q) => ({
           groupsMembers: Q.GroupMember.list.useQuery(
-            {
-              pagination: { page: 1, perPage: 10 },
-              sort: { field: "createdAt", order: "DESC" },
-              filter: {
-                ids,
-              },
-            },
             undefined,
+            {
+              ids,
+              _sort: "createdAt",
+              _order: "DESC",
+              _end: "10",
+            },
             false,
           ),
         })}

@@ -18,14 +18,12 @@ const MediaPage: React.FC<RouteComponentProps> = (props) => {
   });
 
   const queryParams = {
-    filter: {
-      q: searchFilters.q === "" ? undefined : searchFilters.q,
-      keywords: searchFilters.keywords ?? [],
-      _sort: "createdAt",
-      _order: "DESC" as const,
-      groups: [],
-      actors: [],
-    },
+    q: searchFilters.q === "" ? undefined : searchFilters.q,
+    keywords: searchFilters.keywords ?? [],
+    _sort: "createdAt",
+    _order: "DESC" as const,
+    groups: [],
+    actors: [],
   };
 
   const handleQueryChange = (q: SearchFilters): void => {

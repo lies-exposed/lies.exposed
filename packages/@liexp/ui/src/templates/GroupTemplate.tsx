@@ -42,12 +42,10 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
     <QueriesRenderer
       queries={(Q) => ({
         groupsMembers: Q.GroupMember.list.useQuery(
-          {
-            filter: {
-              group: group.id,
-            },
-          },
           undefined,
+          {
+            group: group.id,
+          },
           false,
         ),
       })}

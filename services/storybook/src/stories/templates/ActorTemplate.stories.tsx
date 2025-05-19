@@ -25,11 +25,11 @@ const Template: StoryFn<ActorTemplateProps> = (props) => {
       <QueriesRenderer
         queries={(Q) => ({
           actor: Q.Actor.list.useQuery(
-            {
-              pagination: { perPage: 10, page: 1 },
-              filter: { ids: ["1bde0d49-03a1-411d-9f18-2e70a722532b"] },
-            },
             undefined,
+            {
+              ids: ["1bde0d49-03a1-411d-9f18-2e70a722532b"],
+              _end: "10",
+            },
             false,
           ),
         })}

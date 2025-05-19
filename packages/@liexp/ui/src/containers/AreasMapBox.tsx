@@ -6,17 +6,7 @@ const AreasMapBox: React.FC<AreasMapProps> = (props) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        areas: Q.Area.list.useQuery(
-          {
-            pagination: { perPage: 20, page: 1 },
-            sort: {
-              field: "id",
-              order: "DESC",
-            },
-          },
-          undefined,
-          false,
-        ),
+        areas: Q.Area.list.useQuery(undefined, undefined, false),
       })}
       render={({ areas }) => {
         return <AreasMap {...props} areas={areas.data} />;

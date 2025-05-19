@@ -1,14 +1,15 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
-import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import GroupList from "../components/lists/GroupList.js";
 import { Box } from "../components/mui/index.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
+import { paginationToParams } from "../utils/params.utils.js";
 
 interface GroupsBoxWrapperProps {
-  params: GetListFnParamsE<typeof Endpoints.Group.List>;
+  params: Partial<EndpointQueryType<typeof Endpoints.Group.List>>;
   discrete?: boolean;
   prefix?: string;
   children: (data: Group.GroupListOutput) => React.ReactElement;
@@ -25,8 +26,8 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
     <QueriesRenderer
       queries={{
         groups: Queries.Group.list.useQuery(
-          params ?? null,
           undefined,
+          params,
           discrete,
           prefix,
         ),
@@ -55,8 +56,12 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
     <Box>
       <GroupsBoxWrapper
         params={{
-          pagination: { page: 1, perPage: params?.filter?.ids?.length ?? 20 },
-          sort: { field: "createdAt", order: "DESC" },
+          ...paginationToParams({
+            page: 1,
+            perPage: params?.ids?.length ?? 20,
+          }),
+          _sort: "createdAt",
+          _order: "DESC",
           ...params,
         }}
         discrete={discrete}

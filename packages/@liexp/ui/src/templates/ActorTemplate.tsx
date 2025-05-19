@@ -50,12 +50,13 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
     <QueriesRenderer
       queries={(Queries) => ({
         groups: Queries.Group.list.useQuery(
-          {
-            pagination: { perPage: 20, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { members: [actor.id] },
-          },
           undefined,
+          {
+            members: [actor.id],
+            _sort: "createdAt",
+            _order: "DESC",
+            _end: "20",
+          },
           false,
           `actor-${actor.id}`,
         ),

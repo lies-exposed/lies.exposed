@@ -23,12 +23,12 @@ const Template: StoryFn<
       queries={(Q) => ({
         actor: Q.Actor.get.useQuery({ id }),
         groups: Q.Group.list.useQuery(
-          {
-            pagination: { perPage: 20, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { members: [id] },
-          },
           undefined,
+          {
+            members: [id],
+            _sort: "createdAt",
+            _order: "DESC",
+          },
           false,
         ),
       })}

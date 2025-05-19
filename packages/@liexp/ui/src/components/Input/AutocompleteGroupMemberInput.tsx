@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type GroupMember } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
@@ -18,14 +19,17 @@ export const AutocompleteGroupMemberInput: React.FC<
 > = ({ selectedItems, onItemClick, ...props }) => {
   const Queries = useEndpointQueries();
   return (
-    <AutocompleteInput<GroupMember.GroupMember>
+    <AutocompleteInput<
+      typeof Endpoints.GroupMember.List,
+      GroupMember.GroupMember
+    >
       placeholder="Group Member..."
       searchToFilter={(tag) => ({ tag })}
       selectedItems={selectedItems}
       getOptionLabel={(k) =>
         typeof k === "string" ? k : `${k.group.name} - ${k.actor.fullName}`
       }
-      query={(p) => Queries.GroupMember.list.useQuery(p, undefined, true)}
+      query={(p) => Queries.GroupMember.list.useQuery(undefined, p, true)}
       renderTags={(items) => (
         <GroupsMembersList
           groupsMembers={items.map((i) => ({

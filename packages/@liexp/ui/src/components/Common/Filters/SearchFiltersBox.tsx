@@ -252,7 +252,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
         display: "flex",
         flexDirection: "row",
       }}
-      params={{ filter: { ids: query.actors } }}
+      params={{ ids: query.actors }}
       onActorClick={(a, e) => {
         e.stopPropagation();
         handleQueryChange({
@@ -329,7 +329,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
                     display: "flex",
                     flexDirection: "row",
                   }}
-                  params={{ filter: { ids: query.groups } }}
+                  params={{ ids: query.groups }}
                   onItemClick={(k, e) => {
                     e.stopPropagation();
                     const groups = (query.groups ?? []).filter(

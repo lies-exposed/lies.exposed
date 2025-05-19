@@ -20,10 +20,10 @@ const Template: StoryFn<MediaTemplateUIProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         media: Q.Media.list.useQuery(
-          {
-            pagination: { perPage: 1, page: 1 },
-          },
           undefined,
+          {
+            _end: "1",
+          },
           false,
         ),
       })}

@@ -16,22 +16,16 @@ import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
 import "@liexp/ui/assets/blocknote.css";
 
-export const App: React.FC = () => {
-  const location = React.useMemo(() => {
-    if (typeof window === "object") {
-      return window.location;
-    }
-    return { pathname: "/" };
-  }, [typeof window]);
+export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
   const theme = useTheme();
   const isDownSM = useMuiMediaQuery("min-width: 899px");
 
-  webLogger.debug.log(`App rendered ${location.pathname}`);
+  webLogger.debug.log(`App rendered ${pathname}`);
 
   return (
     <div style={{ height: "100%", display: "flex" }}>
       <ErrorBoundary FallbackComponent={ErrorBox}>
-        <SEO title="lies exposed" urlPath={location.pathname} />
+        <SEO title="lies exposed" urlPath={pathname} />
         <AppHeader />
         <Routes>
           {routes.map((r) => (
@@ -48,11 +42,7 @@ export const App: React.FC = () => {
                       size={12}
                       style={{
                         width: "100%",
-                        // minHeight: `calc(100% - ${
-                        //   theme.mixins.toolbar.height ?? 64
-                        // }px - 100px)`,
                         minHeight: "100%",
-                        // height: "100%",
                         marginTop: theme.mixins.toolbar.height ?? 64 + 16,
                       }}
                     >
@@ -63,9 +53,7 @@ export const App: React.FC = () => {
                         logoSrc={logo192}
                         style={{
                           paddingLeft:
-                            location.pathname === "/events" && !isDownSM
-                              ? 240
-                              : 0,
+                            pathname === "/events" && !isDownSM ? 240 : 0,
                         }}
                       />
                     </Grid>

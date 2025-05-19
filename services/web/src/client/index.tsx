@@ -41,6 +41,13 @@ function Main(): React.ReactElement {
     }
   }, []);
 
+  const location = React.useMemo(() => {
+    if (typeof window === "object") {
+      return window.location;
+    }
+    return { pathname: "/" };
+  }, [typeof window]);
+
   const [conf] = React.useState(configuration);
 
   const [queryClient] = React.useState(
@@ -75,7 +82,7 @@ function Main(): React.ReactElement {
                 <QueryClientProvider client={queryClient}>
                   <HydrationBoundary state={dehydratedState}>
                     <CssBaseline enableColorScheme />
-                    <App />
+                    <App pathname={location.pathname} />
                   </HydrationBoundary>
                 </QueryClientProvider>
               </ThemeProvider>

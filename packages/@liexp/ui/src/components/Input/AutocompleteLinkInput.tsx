@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import LinkCard from "../../components/Cards/LinkCard.js";
@@ -20,7 +21,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
 }) => {
   const Queries = useEndpointQueries();
   return (
-    <AutocompleteInput<Link.Link>
+    <AutocompleteInput<typeof Endpoints.Link.List>
       placeholder="Search in links..."
       getOptionLabel={(a) =>
         typeof a === "string"
@@ -29,7 +30,7 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
       }
       searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
-      query={(p) => Queries.Link.list.useQuery(p, undefined, discrete)}
+      query={(p) => Queries.Link.list.useQuery(undefined, p, discrete)}
       renderTags={(items) => (
         <LinksList
           links={items.map((i) => ({

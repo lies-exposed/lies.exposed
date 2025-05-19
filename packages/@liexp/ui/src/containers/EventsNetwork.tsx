@@ -97,17 +97,18 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
             <QueriesRenderer
               queries={{
                 actors: Queries.Actor.list.useQuery(
-                  {
-                    filter: { ids: relationIds.actors },
-                  },
                   undefined,
+                  {
+                    ids: relationIds.actors,
+                  },
+
                   true,
                 ),
                 groups: Queries.Group.list.useQuery(
-                  {
-                    filter: { ids: relationIds.groups },
-                  },
                   undefined,
+                  {
+                    ids: relationIds.groups,
+                  },
                   true,
                 ),
               }}

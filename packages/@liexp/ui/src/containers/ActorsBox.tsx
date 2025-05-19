@@ -1,6 +1,7 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
-import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import {
   ActorList,
@@ -9,7 +10,7 @@ import {
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 interface ActorsBoxWrapperProps {
-  params: Partial<GetListParams>;
+  params: Partial<EndpointQueryType<typeof Endpoints.Actor.List>>;
   discrete?: boolean;
   prefix?: string;
   children: (r: { data: Actor[]; total: number }) => React.ReactElement;
@@ -26,8 +27,12 @@ export const ActorsBoxWrapper: React.FC<ActorsBoxWrapperProps> = ({
     <QueriesRenderer
       queries={{
         actors: Queries.Actor.list.useQuery(
-          { ...params, filter: params.filter ?? null },
           undefined,
+          {
+            _end: "20",
+            _start: "0",
+            ...params,
+          },
           discrete,
           prefix,
         ),

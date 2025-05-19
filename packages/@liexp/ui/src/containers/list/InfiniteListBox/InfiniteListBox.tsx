@@ -3,15 +3,12 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import {
+  type EndpointParamsType,
   type EndpointOutputType,
   type EndpointQueryType,
   type MinimalEndpointInstance,
 } from "@ts-endpoint/core";
-import {
-  type EndpointDataOutputType,
-  type GetListFnParamsE,
-  paramsToPagination,
-} from "@ts-endpoint/react-admin";
+import { type EndpointDataOutputType } from "@ts-endpoint/react-admin";
 import {
   type EndpointsQueryProvider,
   type ResourceQuery,
@@ -56,11 +53,12 @@ export interface InfiniteListBoxProps<
       QueryProviderCustomQueries
     >,
   ) => ResourceQuery<
-    GetListFnParamsE<E>,
+    EndpointParamsType<E>,
     Partial<EndpointQueryType<E>>,
     EndpointOutputType<E>
   >;
-  filter: GetListFnParamsE<E>;
+  params: EndpointParamsType<E>;
+  filter: Partial<EndpointQueryType<E>>;
   toItems?: (data: EndpointDataOutputType<E>) => any[];
   getTotal?: (data: EndpointDataOutputType<E>) => number;
 }
@@ -70,6 +68,7 @@ export const InfiniteListBox = <
   E extends MinimalEndpointInstance,
 >({
   useListQuery,
+  params,
   filter,
   listProps,
   toItems = (r: EndpointDataOutputType<E>) => r.data,
@@ -90,7 +89,7 @@ export const InfiniteListBox = <
     return useListQuery(Q);
   }, [useListQuery]);
 
-  const queryKey = query.getKey(filter, undefined, false, "infinite-list");
+  const queryKey = query.getKey(params, filter, false, "infinite-list");
 
   const {
     data,
@@ -112,24 +111,16 @@ export const InfiniteListBox = <
     { _start: number; _end: number }
   >({
     initialPageParam: { _start: 0, _end: 20 },
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps
-    queryKey,
-    queryFn: (opts) => {
-      const pageParam = paramsToPagination(
-        opts.pageParam._start,
-        opts.pageParam._end,
-      );
 
+    queryKey,
+    queryFn: ({ queryKey, pageParam }) => {
       return query.fetch(
+        queryKey[0],
         {
-          ...filter,
-          filter: filter.filter,
-          pagination: pageParam,
+          ...queryKey[1],
+          _start: pageParam._start,
+          _end: pageParam._end,
         },
-        {
-          ...filter.filter,
-          ...opts.pageParam,
-        } as any,
         false,
       );
     },

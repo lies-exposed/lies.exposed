@@ -24,11 +24,11 @@ const Template: StoryFn<GroupTemplateProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         groups: Q.Group.list.useQuery(
-          {
-            pagination: { perPage: 10, page: 1 },
-            filter: { name: "food" },
-          },
           undefined,
+          {
+            name: "food",
+            _end: "10",
+          },
           false,
         ),
       })}

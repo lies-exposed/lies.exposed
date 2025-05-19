@@ -13,6 +13,7 @@ import { DBService } from "../../services/db.service.js";
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none(),
   q: O.none(),
+  memberIn: O.none(),
   withDeleted: O.none(),
   _end: O.some(20),
   _start: O.some(0),
@@ -24,7 +25,7 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
 ): ReaderTaskEither<C, DBError, { total: number; results: ActorEntity[] }> => {
   const finalQuery = { ...defaultQuery, ...query };
 
-  const { ids, q: search, withDeleted, ...otherQuery } = finalQuery;
+  const { ids, q: search, withDeleted, memberIn, ...otherQuery } = finalQuery;
 
   return pipe(
     DBService.getORMOptions<C, typeof otherQuery>({ ...otherQuery }),
@@ -40,6 +41,12 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
             if (O.isSome(ids)) {
               return q.andWhere("actors.id IN (:...ids)", {
                 ids: ids.value,
+              });
+            }
+
+            if (O.isSome(memberIn)) {
+              return q.andWhere("actors.memberIn IN (:...memberIn)", {
+                memberIn: memberIn.value,
               });
             }
 

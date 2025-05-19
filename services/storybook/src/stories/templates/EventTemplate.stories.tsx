@@ -23,11 +23,10 @@ const Template: StoryFn<EventTemplateProps & { defaultTab: number }> = ({
     <QueriesRenderer
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
-          {
-            pagination: { perPage: 10, page: 1 },
-            filter: {},
-          },
           undefined,
+          {
+            _end: "10",
+          },
           false,
         ),
       })}

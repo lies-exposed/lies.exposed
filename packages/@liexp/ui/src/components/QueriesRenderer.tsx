@@ -60,9 +60,12 @@ const QueriesRenderer = <Q extends QueriesProp>({
   const queriesObject =
     typeof queries === "function" ? queries(endpointsQueryProvider) : queries;
 
-  const { isLoading, isError, data, errors } = Object.entries(
-    queriesObject,
-  ).reduce(
+  const {
+    isLoading,
+    isError,
+    data,
+    errors: errorsMap,
+  } = Object.entries(queriesObject).reduce(
     (acc, [key, value]: [string, UseQueryResult<any, IOError>]) => {
       // if (!value.isSuccess) {
       //   // eslint-disable-next-line no-console
@@ -103,18 +106,28 @@ const QueriesRenderer = <Q extends QueriesProp>({
     return <FullSizeLoader key="full-size-loader" />;
   }
 
+  if (props.debug) {
+    // eslint-disable-next-line no-console
+    console.log("data", data);
+    if (errorsMap && Object.keys(errorsMap).length > 0) {
+      const errors = Object.values(errorsMap);
+      // eslint-disable-next-line no-console
+      errors.forEach((error) => console.error(error));
+    }
+    return <div />;
+  }
+
   if (isError) {
+    const errors = Object.values(errorsMap);
+    // eslint-disable-next-line no-console
+    errors.forEach((error) => console.error(error));
     return (
       <div>
-        {Object.values(errors).map((err, i) => (
+        {errors.map((err, i) => (
           <ErrorBox error={err} key={i} resetErrorBoundary={() => undefined} />
         ))}
       </div>
     );
-  }
-
-  if (props.debug) {
-    return <div />;
   }
 
   return props.render(data);

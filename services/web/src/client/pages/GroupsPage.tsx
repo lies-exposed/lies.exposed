@@ -30,11 +30,12 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
       <QueriesRenderer
         queries={(Q) => ({
           groups: Q.Group.list.useQuery(
-            {
-              pagination: { page: 1, perPage: 40 },
-              sort: { field: "id", order: "ASC" },
-            },
             undefined,
+            {
+              _sort: "id",
+              _order: "ASC",
+              _end: "40",
+            },
             false,
           ),
         })}
@@ -61,14 +62,13 @@ const GroupsPage: React.FC<RouteComponentProps> = (props) => {
               <Grid size={{ md: 12 }} style={{ height: "100%" }}>
                 <GroupEventNetworkGraphBox
                   showRelations={false}
-                  params={{
-                    sort: { field: "updatedAt", order: "DESC" },
-                    pagination: {
-                      perPage: 1,
-                      page: 1,
-                    },
-                  }}
-                  type={GROUPS.literals[0]}
+                  params={
+                    {
+                      // _sort: "updatedAt",
+                      // _order: "DESC",
+                      // _end: "1",
+                    }
+                  }
                   count={100}
                   relations={[GROUPS.literals[0]]}
                   selectedGroupIds={groups.map((g) => g.id)}

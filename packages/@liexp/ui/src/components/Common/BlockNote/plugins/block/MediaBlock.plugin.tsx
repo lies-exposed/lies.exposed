@@ -63,12 +63,10 @@ export const MediaBlockPluginRenderer: React.FC<{
           enableDescription={enableDescription}
           disableZoom={false}
           query={{
-            filter: { ids: ids },
-            pagination: { page: 1, perPage: ids.length },
-            sort: {
-              field: "id",
-              order: "ASC",
-            },
+            ids: ids,
+            _end: ids.length.toString(),
+            _sort: "id",
+            _order: "ASC",
           }}
           itemStyle={() => ({ height })}
         />

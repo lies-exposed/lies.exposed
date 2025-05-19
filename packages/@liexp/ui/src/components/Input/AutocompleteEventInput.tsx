@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -29,7 +30,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
   const Queries = useEndpointQueries();
   const conf = useConfiguration();
   return (
-    <AutocompleteInput<Events.Event>
+    <AutocompleteInput<typeof Endpoints.Event.List, Events.Event>
       placeholder="Event description..."
       getOptionLabel={(a) =>
         typeof a === "string"
@@ -48,16 +49,13 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       selectedItems={selectedItems}
       query={(p) =>
         Queries.Event.list.useQuery(
+          undefined,
           {
             ...p,
-            filter: {
-              ...filter,
-              ...p.filter,
-              // TODO: implement this on backend
-              relations: [MEDIA.Type],
-            },
+            ...filter,
+            // TODO: implement this on backend
+            relations: [MEDIA.Type],
           },
-          undefined,
           discrete,
         )
       }

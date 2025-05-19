@@ -3,6 +3,7 @@ import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { StoryList } from "../components/stories/StoryList.js";
+import { paginationToParams } from "../utils/params.utils.js";
 
 interface ActorsBoxProps {
   params: GetListParams;
@@ -21,7 +22,14 @@ const StoriesBox = ({
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        stories: Q.Story.list.useQuery(params, undefined, false),
+        stories: Q.Story.list.useQuery(
+          undefined,
+          {
+            ...params.filter,
+            ...paginationToParams(params.pagination),
+          },
+          false,
+        ),
       })}
       render={({ stories: { data: stories } }) => {
         return (

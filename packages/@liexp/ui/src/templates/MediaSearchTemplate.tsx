@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorBox } from "../components/Common/ErrorBox.js";
@@ -13,7 +13,7 @@ import { InfiniteMediaListBox } from "../containers/list/InfiniteMediaListBox.js
 import { SplitPageTemplate } from "./SplitPageTemplate.js";
 
 export interface MediaSearchTemplateProps {
-  filter: GetListFnParamsE<typeof Endpoints.Link.List>;
+  filter: Partial<EndpointQueryType<typeof Endpoints.Link.List>>;
   onFilterChange: (f: SearchFilters) => void;
   onMediaClick: (m: Media.Media) => void;
   perPage?: number;
@@ -37,9 +37,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
           >
             <PageContentBox path="media" />
             <SearchFiltersBar
-              query={{
-                ...filter.filter,
-              }}
+              query={filter}
               layout={{ dateRangeBox: { variant: "picker", columns: 12 } }}
               onQueryChange={onFilterChange}
               onQueryClear={() => {}}
@@ -73,6 +71,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
         <Container style={{ display: "flex" }}>
           <ErrorBoundary FallbackComponent={ErrorBox}>
             <InfiniteMediaListBox
+              params={undefined}
               filter={filter}
               listProps={{ type: "masonry" }}
               onMediaClick={onMediaClick}

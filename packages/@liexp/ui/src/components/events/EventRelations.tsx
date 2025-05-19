@@ -20,90 +20,66 @@ export const EventRelations: React.FC<{
     <QueriesRenderer
       queries={(Q) => ({
         actors: Q.Actor.list.useQuery(
-          {
-            filter: { ids: actors },
-            pagination: {
-              perPage: actors.length,
-              page: 1,
-            },
-          },
           undefined,
+          {
+            ids: actors,
+            _end: actors.length.toString(),
+          },
           true,
         ),
         groups: Q.Group.list.useQuery(
-          {
-            filter: { ids: groups },
-            pagination: {
-              perPage: groups.length,
-              page: 1,
-            },
-          },
           undefined,
+          {
+            ids: groups,
+            _end: groups.length.toString(),
+          },
           true,
         ),
         groupsMembers: Q.GroupMember.list.useQuery(
-          {
-            filter: { ids: groupsMembers },
-            pagination: {
-              perPage: groupsMembers.length,
-              page: 1,
-            },
-          },
           undefined,
+          {
+            ids: groupsMembers,
+            _end: groupsMembers.length.toString(),
+          },
           true,
         ),
         media: Q.Media.list.useQuery(
-          {
-            filter: { ids: media },
-            pagination: {
-              perPage: media.length,
-              page: 1,
-            },
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-          },
           undefined,
+          {
+            ids: media,
+            _end: media.length.toString(),
+            _sort: "createdAt",
+            _order: "DESC",
+          },
+
           true,
         ),
         links: Q.Link.list.useQuery(
-          {
-            filter: { ids: links },
-            pagination: {
-              perPage: links.length,
-              page: 1,
-            },
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-          },
           undefined,
+          {
+            ids: links,
+            _end: links.length.toString(),
+            _sort: "createdAt",
+            _order: "DESC",
+          },
           true,
         ),
         keywords: Q.Keyword.list.useQuery(
-          {
-            filter: { ids: event.keywords },
-            pagination: {
-              perPage: event.keywords.length,
-              page: 1,
-            },
-          },
           undefined,
+          {
+            ids: event.keywords,
+            _end: event.keywords.length.toString(),
+          },
           true,
         ),
         areas: Q.Area.list.useQuery(
-          {
-            filter: Schema.is(UUID)((event.payload as any).location)
-              ? { ids: [(event.payload as any).location] }
-              : {},
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-          },
           undefined,
+          {
+            ids: Schema.is(UUID)((event.payload as any).location)
+              ? [(event.payload as any).location]
+              : [],
+            _end: "10",
+          },
           true,
         ),
       })}

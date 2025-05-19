@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Group } from "@liexp/shared/lib/io/http/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
@@ -25,7 +26,7 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
 }) => {
   const Queries = useEndpointQueries();
   return (
-    <AutocompleteInput<Group.Group>
+    <AutocompleteInput<typeof Endpoints.Group.List>
       placeholder="Groups..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.name)}
       searchToFilter={(q) => ({ q })}
@@ -39,10 +40,11 @@ export const AutocompleteGroupInput: React.FC<AutocompleteGroupInputProps> = ({
                 Promise.resolve({ data: options, total: options.length }),
             })
           : Queries.Group.list.useQuery(
-              {
-                filter: { ...p.filter, excludeIds },
-              },
               undefined,
+              {
+                ...p,
+                excludeIds,
+              },
               discrete,
             )
       }

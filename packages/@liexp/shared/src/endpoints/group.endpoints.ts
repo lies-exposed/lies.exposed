@@ -23,6 +23,7 @@ export const List = Endpoint({
       username: OptionFromNullishToNull(Schema.String),
       ids: OptionFromNullishToNull(Schema.Array(UUID)),
       members: OptionFromNullishToNull(Schema.Array(Schema.String)),
+      excludeIds: OptionFromNullishToNull(Schema.Array(UUID)),
     }),
   },
   Output: Group.GroupListOutput,

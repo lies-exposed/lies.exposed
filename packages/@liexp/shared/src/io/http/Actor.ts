@@ -11,7 +11,8 @@ export const ACTORS = Schema.Literal("actors");
 export type ACTORS = typeof ACTORS.Type;
 
 const GetListActorQueryStruct = Schema.Struct({
-  ids: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  memberIn: OptionFromNullishToNull(Schema.Array(UUID)),
   withDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
 });
 

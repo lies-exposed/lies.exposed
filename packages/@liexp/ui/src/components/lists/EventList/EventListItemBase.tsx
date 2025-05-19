@@ -130,6 +130,7 @@ const EventListItemBase = <E extends any>({
           <Box
             style={{
               width: "100%",
+              height: "auto",
               maxHeight: 400,
               marginBottom: 30,
             }}

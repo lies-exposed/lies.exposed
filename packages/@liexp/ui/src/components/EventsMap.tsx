@@ -102,23 +102,23 @@ const EventsMap: React.FC<EventsMapProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
-          {
-            pagination: { page: 1, perPage: 100 },
-            sort: { field: "startDate", order: "DESC" },
-            filter: {
-              title: pipe(title ?? fp.O.none, fp.O.toUndefined),
-              startDate:
-                startDate?._tag === "Some"
-                  ? startDate.value.toISOString()
-                  : undefined,
-              endDate:
-                endDate?._tag === "Some"
-                  ? endDate.value.toISOString()
-                  : undefined,
-              ...filters,
-            },
-          },
           undefined,
+          {
+            _end: 100,
+            _field: "startDate",
+            _order: "DESC",
+            title: pipe(title ?? fp.O.none, fp.O.toUndefined),
+            startDate:
+              startDate?._tag === "Some"
+                ? startDate.value.toISOString()
+                : undefined,
+            endDate:
+              endDate?._tag === "Some"
+                ? endDate.value.toISOString()
+                : undefined,
+            ...filters,
+          },
+
           false,
         ),
       })}
