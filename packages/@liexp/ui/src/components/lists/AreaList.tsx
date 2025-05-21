@@ -43,15 +43,13 @@ export const AreaListItem: React.FC<
 > = ({ item, onClick, defaultImage, style }) => {
   const Queries = useEndpointQueries();
   const media = Queries.Media.list.useQuery(
-    {
-      filter: { ids: item.media },
-      pagination: { perPage: 1, page: 1 },
-      sort: {
-        field: "createdAt",
-        order: "DESC",
-      },
-    },
     undefined,
+    {
+      ids: item.media,
+      _sort: "createdAt",
+      _order: "DESC",
+      _end: item.media.length.toString(),
+    },
     true,
   );
 

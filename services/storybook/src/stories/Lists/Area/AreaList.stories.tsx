@@ -18,17 +18,7 @@ const Template: StoryFn<AreaListProps> = (props) => {
     <div style={{ height: "100%" }}>
       <QueriesRenderer
         queries={(Q) => ({
-          areas: Q.Area.list.useQuery(
-            {
-              filter: undefined,
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
-            },
-            undefined,
-            false,
-          ),
+          areas: Q.Area.list.useQuery(undefined, { _end: "20" }, false),
         })}
         render={({ areas: { data } }) => {
           return (

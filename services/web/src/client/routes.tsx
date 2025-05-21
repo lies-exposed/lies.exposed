@@ -16,10 +16,7 @@ import {
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github.js";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
-import {
-  defaultUseQueryListParams,
-  type EndpointsQueryProvider,
-} from "@ts-endpoint/tanstack-query";
+import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
 import { Schema } from "effect";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router";
@@ -115,7 +112,7 @@ const linksRoute: ServerRoute = {
     Promise.resolve([
       ...commonQueries.flatMap((c) => c(Q, conf)),
       {
-        queryKey: Q.Link.list.getKey(defaultUseQueryListParams),
+        queryKey: Q.Link.list.getKey(undefined),
         queryFn: Q.Link.list.fetch,
       } as AsyncDataRouteQuery<any, any, any>,
     ]),
@@ -143,21 +140,18 @@ export const routes: ServerRoute[] = [
           },
           {
             queryKey: Q.GroupMember.list.getKey(
+              undefined,
               {
-                filter: {
-                  group: groupId,
-                },
+                group: groupId,
               },
               // false,
             ),
             queryFn: Q.GroupMember.list.fetch,
           },
           {
-            queryKey: Q.Stats.list.getKey({
-              filter: {
-                id: groupId,
-                type: StatsType.members[2].literals[0],
-              },
+            queryKey: Q.Stats.list.getKey(undefined, {
+              id: groupId,
+              type: StatsType.members[2].literals[0],
             }),
             queryFn: Q.Stats.list.fetch,
           },
@@ -176,10 +170,10 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Group.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: 20 },
-              sort: { field: "id", order: "ASC" },
-              filter: {},
+              _sort: "id",
+              _order: "ASC",
             },
             // false,
           ),
@@ -208,21 +202,21 @@ export const routes: ServerRoute[] = [
           } as AsyncDataRouteQuery<any, any, any>,
           {
             queryKey: Q.Group.list.getKey(
+              undefined,
               {
-                pagination: { perPage: 20, page: 1 },
-                sort: { field: "createdAt", order: "DESC" },
-                filter: { members: [actorId] },
+                members: [actorId],
+                _sort: "createdAt",
+                _order: "DESC",
+                _end: "20",
               },
               // false,
             ),
             queryFn: Q.Group.list.fetch,
           } as AsyncDataRouteQuery<any, any, any>,
           {
-            queryKey: Q.Stats.list.getKey({
-              filter: {
-                id: actorId,
-                type: StatsType.members[1].literals[0],
-              },
+            queryKey: Q.Stats.list.getKey(undefined, {
+              id: actorId,
+              type: StatsType.members[1].literals[0],
             }),
             queryFn: Q.Stats.list.fetch,
           } as AsyncDataRouteQuery<any, any, any>,
@@ -240,10 +234,7 @@ export const routes: ServerRoute[] = [
           queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
         },
         {
-          queryKey: Q.Actor.list.getKey(
-            defaultUseQueryListParams,
-            // false,
-          ),
+          queryKey: Q.Actor.list.getKey(undefined),
           queryFn: Q.Actor.list.fetch,
         },
       ] as AsyncDataRouteQuery<any, any, any>[]),
@@ -274,68 +265,56 @@ export const routes: ServerRoute[] = [
           },
           {
             queryKey: Q.Actor.list.getKey(
+              undefined,
               {
-                filter: {
-                  ids: actors,
-                },
-                pagination: {
-                  perPage: actors.length,
-                  page: 1,
-                },
+                ids: actors,
+                _end: actors.length.toString(),
               },
-              // true,
+              true,
             ),
             queryFn: Q.Actor.list.fetch,
           },
           {
             queryKey: Q.Media.list.getKey(
+              undefined,
               {
-                pagination: {
-                  perPage: media.length,
-                  page: 1,
-                },
-                filter: { ids: media },
+                ids: media,
+                _end: media.length.toString(),
               },
-              // true,
+              true,
             ),
             queryFn: Q.Media.list.fetch,
           },
           {
             queryKey: Q.Link.list.getKey(
+              undefined,
               {
-                pagination: {
-                  perPage: event.links.length,
-                  page: 1,
-                },
-                filter: event.links.length > 0 ? { ids: event.links } : {},
+                ids: event.links,
+                _end: event.links.length.toString(),
               },
-              // true,
+              true,
             ),
             queryFn: Q.Link.list.fetch,
           },
           {
             queryKey: Q.Area.list.getKey(
+              undefined,
               {
-                filter: Schema.is(UUID)((event.payload as any).location)
-                  ? { ids: [(event.payload as any).location] }
-                  : {},
-                pagination: {
-                  perPage: 1,
-                  page: 1,
-                },
+                ids: Schema.is(UUID)((event.payload as any).location)
+                  ? [(event.payload as any).location]
+                  : [],
+                _end: "1",
               },
-              // true,
+              true,
             ),
             queryFn: Q.Area.list.fetch,
           },
           {
             queryKey: Q.Keyword.list.getKey(
-              // `event-keywords`,
+              undefined,
               {
-                pagination: { page: 1, perPage: keywords.length },
-                filter: {
-                  ids: keywords,
-                },
+                ids: keywords,
+                _end: keywords.length.toString(),
               },
               // true,
             ),
@@ -407,9 +386,10 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Actor.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: q.actors.length },
-              filter: { ids: q.actors },
+              ids: q.actors,
+              _end: q.actors.length.toString(),
             },
             // true,
           ),
@@ -417,9 +397,10 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Group.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: q.groups.length },
-              filter: { ids: q.groups },
+              ids: q.groups,
+              _end: q.groups.length.toString(),
             },
             // true,
           ),
@@ -427,9 +408,10 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.GroupMember.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: q.groupsMembers.length },
-              filter: { ids: q.groupsMembers },
+              ids: q.groupsMembers,
+              _end: q.groupsMembers.length.toString(),
             },
             // true,
           ),
@@ -437,10 +419,12 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Keyword.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: q.keywords.length },
-              sort: { field: "updatedAt", order: "DESC" },
-              filter: { ids: q.keywords },
+              ids: q.keywords,
+              _sort: "updatedAt",
+              _order: "DESC",
+              _end: q.keywords.length.toString(),
             },
             // true,
           ),
@@ -524,11 +508,10 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Stats.list.getKey(
+            undefined,
             {
-              filter: {
-                id: params.keywordId,
-                type: StatsType.members[0].literals[0],
-              },
+              id: params.keywordId,
+              type: StatsType.members[0].literals[0],
             },
             // true,
           ),
@@ -575,12 +558,7 @@ export const routes: ServerRoute[] = [
           queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
         },
         {
-          queryKey: Q.Area.list.getKey(
-            {
-              filter: undefined,
-            },
-            // true,
-          ),
+          queryKey: Q.Area.list.getKey(undefined, undefined),
           queryFn: Q.Area.list.fetch,
         },
       ]),
@@ -617,12 +595,7 @@ export const routes: ServerRoute[] = [
           queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
         },
         {
-          queryKey: Q.Media.list.getKey(
-            {
-              filter: undefined,
-            },
-            // false,
-          ),
+          queryKey: Q.Media.list.getKey(undefined, undefined),
           queryFn: Q.Media.list.fetch,
         },
       ]),
@@ -664,37 +637,31 @@ export const routes: ServerRoute[] = [
     queries:
       (Q, conf) =>
       async ({ storyPath }: any) => {
-        const storyParams = { filter: { path: storyPath } };
-        const storyKey = Q.Story.list.getKey(storyParams);
+        const storyParams = { path: storyPath };
+        const storyKey = Q.Story.list.getKey(undefined, storyParams);
         const story = await Q.Story.list
-          .fetch(storyParams)
+          .fetch(undefined, storyParams)
           .then((r) => r.data[0]);
 
         const mostRecentStoriesParams = {
-          filter: {
-            exclude: [story.id],
-          },
-          pagination: {
-            perPage: 3,
-            page: 1,
-          },
-          sort: { field: "updatedAt", order: "DESC" as const },
+          exclude: [story.id],
+          _end: "3",
+          _sort: "updatedAt",
+          _order: "DESC" as const,
         };
         const mostRecentStoriesKey = Q.Story.list.getKey(
+          undefined,
           mostRecentStoriesParams,
         );
 
         const storyRelatedKeywordsParams = {
-          filter: {
-            ids: story.keywords,
-          },
-          pagination: {
-            perPage: story.keywords.length,
-            page: 1,
-          },
-          sort: { field: "updatedAt", order: "DESC" as const },
+          ids: story.keywords,
+          _end: story.keywords.length.toString(),
+          _sort: "updatedAt",
+          _order: "DESC" as const,
         };
         const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
+          undefined,
           storyRelatedKeywordsParams,
         );
 
@@ -727,10 +694,13 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Story.list.getKey(
+            undefined,
             {
-              pagination: { page: 1, perPage: 20 },
-              sort: { field: "id", order: "DESC" as const },
-              filter: { draft: "false", exclude: [] },
+              draft: "false",
+              exclude: [],
+              _sort: "id",
+              _order: "DESC",
+              _end: "20",
             },
             // false,
           ),
@@ -803,16 +773,11 @@ export const routes: ServerRoute[] = [
         },
         {
           queryKey: Q.Media.list.getKey(
+            undefined,
             {
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
-              sort: {
-                field: "createdAt",
-                order: "DESC",
-              },
-              filter: {},
+              _end: "20",
+              _sort: "createdAt",
+              _order: "DESC",
             },
             // false,
           ),

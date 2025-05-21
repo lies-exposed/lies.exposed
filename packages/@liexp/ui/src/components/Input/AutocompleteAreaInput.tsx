@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Area } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
@@ -23,14 +24,14 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
   const Queries = useEndpointQueries();
   const conf = useConfiguration();
   return (
-    <AutocompleteInput<Area.Area>
+    <AutocompleteInput<typeof Endpoints.Area.List>
       className={className}
       placeholder="Search area..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.label)}
       searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
       query={(p) =>
-        Queries.Area.list.useQuery(p, undefined, discrete, "search")
+        Queries.Area.list.useQuery(undefined, p, discrete, "search")
       }
       renderTags={(items) => (
         <AreaList

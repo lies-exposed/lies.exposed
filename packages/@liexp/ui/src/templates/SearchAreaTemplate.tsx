@@ -31,13 +31,7 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
       />
       <QueriesRenderer
         queries={(Q) => ({
-          areas: Q.Area.list.useQuery(
-            {
-              filter: undefined,
-            },
-            undefined,
-            false,
-          ),
+          areas: Q.Area.list.useQuery(undefined, undefined, false),
         })}
         render={({ areas: { data: areas } }) => {
           return (

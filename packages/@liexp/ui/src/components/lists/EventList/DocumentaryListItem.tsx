@@ -34,7 +34,7 @@ export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
       }}
       onClick={() => onClick?.(item)}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={2} width="100%">
         <EventListItemBase
           event={item}
           type={EVENT_TYPES.DOCUMENTARY}

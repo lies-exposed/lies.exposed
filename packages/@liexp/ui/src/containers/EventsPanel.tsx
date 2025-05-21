@@ -306,32 +306,38 @@ export const EventsPanelBox: React.FC<EventsPanelBoxProps> = ({
     <QueriesRenderer
       queries={{
         groups: Queries.Group.list.useQuery(
-          {
-            pagination: { perPage: query.groups?.length ?? 0, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { ids: query.groups },
-          },
           undefined,
+          {
+            ids: query.groups,
+            _start: "0",
+            _end: query.groups?.length.toString(),
+            _sort: "createdAt",
+            _order: "DESC",
+          },
           true,
           `events-groups-${query.hash}`,
         ),
         actors: Queries.Actor.list.useQuery(
-          {
-            pagination: { perPage: query.actors?.length ?? 0, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { ids: query.actors },
-          },
           undefined,
+          {
+            ids: query.actors,
+            _start: "0",
+            _end: query.actors?.length.toString(),
+            _sort: "createdAt",
+            _order: "DESC",
+          },
           true,
           `events-actors-${query.hash}`,
         ),
         keywords: Queries.Keyword.list.useQuery(
-          {
-            pagination: { perPage: query.keywords?.length ?? 0, page: 1 },
-            sort: { field: "createdAt", order: "DESC" },
-            filter: { ids: query.keywords },
-          },
           undefined,
+          {
+            ids: query.keywords,
+            _sort: "createdAt",
+            _order: "DESC",
+            _end: query.keywords?.length.toString(),
+            _start: "0",
+          },
           true,
           `events-keywords-${query.hash}`,
         ),

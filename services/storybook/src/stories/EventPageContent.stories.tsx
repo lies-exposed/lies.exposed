@@ -28,18 +28,14 @@ const Template: StoryFn<{ type: EventType } & EventPageContentProps> = ({
       loader="fullsize"
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
-          {
-            filter: { eventType: [type] },
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-            sort: {
-              field: "updatedAt",
-              order: "DESC",
-            },
-          },
           undefined,
+          {
+            eventType: [type],
+            _end: "1",
+            _sort: "updatedAt",
+            _order: "DESC",
+          },
+
           false,
         ),
       })}

@@ -7,7 +7,6 @@ import { ActorList } from "@liexp/ui/lib/components/lists/ActorList.js";
 import { Grid } from "@liexp/ui/lib/components/mui/index.js";
 import { PageContentBox } from "@liexp/ui/lib/containers/PageContentBox.js";
 import { ActorEventNetworkGraphBox } from "@liexp/ui/lib/containers/graphs/ActorEventNetworkGraphBox.js";
-import { defaultUseQueryListParams } from "@ts-endpoint/tanstack-query";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
@@ -19,7 +18,7 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        actors: Q.Actor.list.useQuery(defaultUseQueryListParams),
+        actors: Q.Actor.list.useQuery(undefined, { _end: "100" }),
       })}
       render={({ actors: { data: actors } }) => {
         return (
@@ -54,17 +53,15 @@ const ActorsPage: React.FC<RouteComponentProps> = (props) => {
             <Grid container style={{ height: 600 }}>
               <Grid size={{ md: 12 }} style={{ height: "100%" }}>
                 <ActorEventNetworkGraphBox
-                  params={{
-                    filter: {},
-                    sort: { field: "updatedAt", order: "DESC" },
-                    pagination: {
-                      perPage: 1,
-                      page: 1,
-                    },
-                  }}
+                  params={
+                    {
+                      // _sort: "updatedAt",
+                      // _order: "DESC",
+                      // _end: "1",
+                    }
+                  }
                   showRelations={false}
                   count={100}
-                  type={ACTORS.literals[0]}
                   relations={[ACTORS.literals[0]]}
                   selectedActorIds={actors.map((a) => a.id)}
                   query={{

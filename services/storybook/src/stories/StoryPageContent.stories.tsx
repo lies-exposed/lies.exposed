@@ -19,15 +19,12 @@ const Template: StoryFn<StoryPageContentProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         article: Q.Story.list.useQuery(
-          {
-            pagination: {
-              perPage: 10,
-              page: 1,
-            },
-            sort: { field: "date", order: "DESC" },
-            filter: { draft: "true" },
-          },
           undefined,
+          {
+            draft: "true",
+            _sort: "date",
+            _order: "DESC",
+          },
           false,
         ),
       })}

@@ -18,12 +18,6 @@ const LinksPage: React.FC<RouteComponentProps> = (props) => {
     _sort: "createdAt",
   });
 
-  const filter = {
-    filter: {
-      ...searchFilters,
-    },
-  };
-
   const handleQueryChange = (q: SearchFilters): void => {
     setQ({
       ...q,
@@ -33,7 +27,7 @@ const LinksPage: React.FC<RouteComponentProps> = (props) => {
 
   return (
     <LinksPageTemplate
-      filter={filter}
+      filter={searchFilters}
       onFilterChange={handleQueryChange}
       onItemClick={(a) => {
         navigateTo.links({ id: a.id });

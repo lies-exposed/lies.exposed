@@ -39,7 +39,7 @@ const render: ServerRenderer = (
                   <ThemeProvider theme={theme}>
                     <CssBaseline enableColorScheme />
                     <React.Suspense>
-                      <App />
+                      <App pathname={url} />
                     </React.Suspense>
                   </ThemeProvider>
                 </CacheProvider>

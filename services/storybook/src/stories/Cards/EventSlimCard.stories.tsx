@@ -17,14 +17,12 @@ const Template: StoryFn<EventSlimCardProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         events: Q.Event.list.useQuery(
-          {
-            filter: {
-              _order: "DESC",
-              _sort: "updatedAt",
-              _end: "1",
-            },
-          },
           undefined,
+          {
+            _order: "DESC",
+            _sort: "updatedAt",
+            _end: "1",
+          },
           false,
         ),
       })}

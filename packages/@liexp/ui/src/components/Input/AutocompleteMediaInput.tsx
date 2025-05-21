@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
@@ -20,7 +21,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
 }) => {
   const Queries = useEndpointQueries();
   return (
-    <AutocompleteInput<Media.Media>
+    <AutocompleteInput<typeof Endpoints.Media.List>
       placeholder="Media description..."
       getOptionLabel={(a) =>
         typeof a === "string"
@@ -29,7 +30,7 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
       }
       searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
-      query={(p) => Queries.Media.list.useQuery(p, undefined, discrete)}
+      query={(p) => Queries.Media.list.useQuery(undefined, p, discrete)}
       renderTags={(items) => (
         <MediaList
           media={items.map((i) => ({

@@ -174,39 +174,39 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
       <QueriesRenderer
         queries={{
           filterActors: Queries.Actor.list.useQuery(
-            {
-              pagination: { page: 1, perPage: params.actors?.length ?? 0 },
-              filter: { ids: params.actors ?? [] },
-            },
             undefined,
+            {
+              ids: params.actors ?? [],
+              _end: params.actors?.length.toString(),
+            },
             true,
           ),
           filterGroups: Queries.Group.list.useQuery(
-            {
-              pagination: { page: 1, perPage: params.groups?.length ?? 0 },
-              filter: { ids: params.groups ?? [] },
-            },
             undefined,
+            {
+              ids: params.groups ?? [],
+              _end: params.groups?.length.toString(),
+            },
+
             true,
           ),
           filterGroupsMembers: Queries.GroupMember.list.useQuery(
-            {
-              pagination: {
-                page: 1,
-                perPage: params.groupsMembers?.length ?? 0,
-              },
-              filter: { ids: params.groupsMembers ?? [] },
-            },
             undefined,
+            {
+              ids: params.groupsMembers ?? [],
+              _end: params.groupsMembers?.length.toString(),
+            },
+
             true,
           ),
           filterKeywords: Queries.Keyword.list.useQuery(
-            {
-              pagination: { page: 1, perPage: params.keywords?.length ?? 0 },
-              sort: { field: "updatedAt", order: "DESC" },
-              filter: { ids: params.keywords ?? [] },
-            },
             undefined,
+            {
+              ids: params.keywords ?? [],
+              _sort: "updatedAt",
+              _order: "DESC",
+              _end: params.keywords?.length.toString(),
+            },
             true,
           ),
         }}

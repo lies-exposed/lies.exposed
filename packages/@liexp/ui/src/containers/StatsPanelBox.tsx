@@ -101,7 +101,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
       <Typography variant="h5">Interactions</Typography>
       <QueriesRenderer
         queries={{
-          stats: Queries.Stats.list.useQuery({ filter: { id, type } }),
+          stats: Queries.Stats.list.useQuery(undefined, { id, type }),
         }}
         render={({
           stats: {
@@ -124,7 +124,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
             <Box className={classes.content}>
               <ActorsBoxWrapper
                 params={{
-                  filter: { ids: actors.map(([id]) => id) },
+                  ids: actors.map(([id]) => id),
                 }}
               >
                 {({ data }) => {
@@ -150,9 +150,7 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
 
               <GroupsBoxWrapper
                 params={{
-                  filter: {
-                    ids: groups.map(([id]) => id),
-                  },
+                  ids: groups.map(([id]) => id),
                 }}
               >
                 {({ data }) => {

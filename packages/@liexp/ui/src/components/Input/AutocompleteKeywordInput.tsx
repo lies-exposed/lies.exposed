@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
@@ -20,7 +21,7 @@ export const AutocompleteKeywordInput: React.FC<
   const Queries = useEndpointQueries();
 
   return (
-    <AutocompleteInput<Keyword.Keyword>
+    <AutocompleteInput<typeof Endpoints.Keyword.List>
       placeholder="Keyword..."
       searchToFilter={(q) => ({ q })}
       selectedItems={selectedItems}
@@ -33,7 +34,7 @@ export const AutocompleteKeywordInput: React.FC<
               queryFn: () =>
                 Promise.resolve({ data: options, total: options.length }),
             })
-          : Queries.Keyword.list.useQuery(p, undefined, discrete)
+          : Queries.Keyword.list.useQuery(undefined, p, discrete)
       }
       renderTags={(items) => (
         <KeywordList

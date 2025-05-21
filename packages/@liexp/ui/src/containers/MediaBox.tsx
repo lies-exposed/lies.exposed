@@ -1,13 +1,13 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import { type serializedType } from "@ts-endpoint/core";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { MediaList } from "../components/lists/MediaList.js";
 import { Box, Pagination, Stack } from "../components/mui/index.js";
 
 export interface MediaBoxProps {
-  filter: Partial<serializedType<typeof Endpoints.Media.List.Input.Query>>;
+  filter: Partial<EndpointQueryType<typeof Endpoints.Media.List>>;
   onClick: (e: Media.Media) => void;
   style?: React.CSSProperties;
   limit?: number;
@@ -36,13 +36,11 @@ export const MediaBox: React.FC<MediaBoxProps> = ({
     <QueriesRenderer
       queries={(Q) => ({
         media: Q.Media.list.useQuery(
-          {
-            filter: {
-              ...filter,
-              _end: limit ? `${limit}` : undefined,
-            },
-          },
           undefined,
+          {
+            ...filter,
+            _end: limit ? `${limit}` : undefined,
+          },
           discrete,
         ),
       })}

@@ -60,14 +60,10 @@ export const ActorPageContent: React.FC<ActorPageContentProps> = ({
           <ActorsBox
             style={{ display: "flex", flexDirection: "row" }}
             params={{
-              sort: { field: "updatedAt", order: "DESC" },
-              pagination: {
-                page: 1,
-                perPage: 3,
-              },
-              filter: {
-                group: groups.map((g) => g.id),
-              },
+              memberIn: groups.map((g) => g.id),
+              _sort: "updatedAt",
+              _order: "DESC",
+              _end: "3",
             }}
             onActorClick={onActorClick}
           />

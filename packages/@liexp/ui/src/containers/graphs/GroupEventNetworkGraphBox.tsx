@@ -1,6 +1,7 @@
-import { type NetworkType } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
-import { type GetListParams } from "react-admin";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import {
   EventsNetworkGraphBoxWithQuery,
@@ -8,24 +9,21 @@ import {
 } from "./EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 
 export interface GroupEventNetworkGraphBoxProps
-  extends Omit<EventNetworkGraphBoxProps, "id"> {
-  type: NetworkType;
-  params: Partial<GetListParams>;
+  extends Omit<EventNetworkGraphBoxProps, "id" | "type"> {
+  params: Partial<EndpointQueryType<typeof Endpoints.Networks.Get>>;
 }
 
 export const GroupEventNetworkGraphBox: React.FC<
   GroupEventNetworkGraphBoxProps
-> = ({ query, ...props }) => {
+> = ({ query, params, ...props }) => {
   const Queries = useEndpointQueries();
   return (
-    <EventsNetworkGraphBoxWithQuery
+    <EventsNetworkGraphBoxWithQuery<typeof params>
       {...props}
-      useQuery={(p) =>
-        Queries.Networks.list.useQuery(
-          { ...p, filter: p.filter ?? null },
-          undefined,
-          true,
-        )
+      type={GROUPS.literals[0]}
+      params={params}
+      useQuery={(p, q) =>
+        Queries.Networks.get.useQuery({ type: "groups" }, q, true)
       }
       eventsBoxQuery={query}
     />

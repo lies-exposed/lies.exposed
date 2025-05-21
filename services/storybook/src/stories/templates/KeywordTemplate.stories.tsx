@@ -37,11 +37,11 @@ const Template: StoryFn<KeywordTemplateProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         keyword: Q.Keyword.list.useQuery(
-          {
-            pagination: { perPage: 10, page: 1 },
-            filter: { q: "graphene" },
-          },
           undefined,
+          {
+            q: "graphene",
+            _end: "10",
+          },
           false,
         ),
       })}

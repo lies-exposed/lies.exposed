@@ -21,7 +21,7 @@ export default meta;
 const Template: StoryFn<InfiniteListBoxProps<ListType, any>> = (props) => {
   return (
     <div style={{ height: 600, position: "relative" }}>
-      <InfiniteListBox {...props} />
+      <InfiniteListBox {...(props as any)} />
     </div>
   );
 };
@@ -29,7 +29,8 @@ const Template: StoryFn<InfiniteListBoxProps<ListType, any>> = (props) => {
 const InfiniteMediaListBoxExample = Template.bind({});
 
 const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
-  filter: { filter: {} },
+  params: undefined,
+  filter: {},
   useListQuery: (Q) => Q.Media.list,
   listProps: {
     type: "masonry",
@@ -64,9 +65,8 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
   "masonry",
   typeof Endpoints.Area.List
 > = {
-  filter: {
-    filter: {},
-  },
+  params: undefined,
+  filter: {},
   useListQuery: (Q) => Q.Area.list,
   listProps: {
     type: "masonry",
@@ -101,11 +101,12 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<
   "masonry",
   typeof Endpoints.Actor.List
 > = {
-  filter: { filter: {} },
+  params: undefined,
+  filter: {},
   useListQuery: (Q) => Q.Actor.list,
   listProps: {
     type: "masonry",
-    getItem: (data: any, index: any) => {
+    getItem: (data: any[], index: any) => {
       return data[index];
     },
 

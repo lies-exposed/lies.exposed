@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type Actor } from "@liexp/shared/lib/io/http/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
@@ -23,7 +24,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
 }) => {
   const Queries = useEndpointQueries();
   return (
-    <AutocompleteInput<Actor.Actor>
+    <AutocompleteInput<typeof Endpoints.Actor.List>
       disablePortal={true}
       placeholder="Actors..."
       getOptionLabel={(a) => (typeof a === "string" ? a : a.fullName)}
@@ -37,7 +38,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
               queryFn: () =>
                 Promise.resolve({ data: options, total: options.length }),
             })
-          : Queries.Actor.list.useQuery(p, undefined, discrete)
+          : Queries.Actor.list.useQuery(undefined, p, discrete)
       }
       renderTags={(items) => (
         <ActorList

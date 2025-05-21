@@ -16,13 +16,12 @@ export const BooksPage: React.FC = () => {
 
   return (
     <InfiniteListBox<"masonry", typeof Endpoints.Event.Custom.SearchEvents>
-      useListQuery={(Q) => Q.Event.Custom.SearchEvents as any}
+      params={undefined}
+      useListQuery={(Q) => Q.Event.Custom.SearchEvents}
       filter={{
-        filter: {
-          eventType: [BOOK.literals[0]],
-          _start: "0",
-          _end: "50",
-        },
+        eventType: [BOOK.literals[0]],
+        _start: "0",
+        _end: "50",
       }}
       toItems={(r) => [...r.events]}
       getTotal={(r) => r.total}

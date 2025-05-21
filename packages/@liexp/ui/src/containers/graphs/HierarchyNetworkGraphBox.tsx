@@ -11,7 +11,6 @@ import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";
-import { type GetListParams } from "react-admin";
 import {
   HierarchyNetworkGraph,
   type HierarchyNetworkGraphProps,
@@ -518,16 +517,21 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface HierarchyNetworkGraphBoxWithQueryProps
+interface HierarchyNetworkGraphBoxWithQueryProps<P>
   extends Omit<HierarchyNetworkGraphBoxProps, "id" | "query"> {
-  useQuery: UseListQueryFn<any>;
-  params: Partial<GetListParams>;
+  useQuery: UseListQueryFn<any, P, any>;
+  params: Partial<P>;
   eventsBoxQuery: any;
 }
 
-export const HierarchyNetworkGraphBoxWithQuery: React.FC<
-  HierarchyNetworkGraphBoxWithQueryProps
-> = ({ useQuery, params, eventsBoxQuery: query, ...props }) => {
+export const HierarchyNetworkGraphBoxWithQuery = <
+  P extends Record<string, any>,
+>({
+  useQuery,
+  params,
+  eventsBoxQuery: query,
+  ...props
+}: HierarchyNetworkGraphBoxWithQueryProps<P>): React.ReactNode => {
   return (
     <QueriesRenderer
       queries={{

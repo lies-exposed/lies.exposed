@@ -19,18 +19,12 @@ const Template: StoryFn<GroupPageContentProps> = (props) => {
     <QueriesRenderer
       queries={(Q) => ({
         groups: Q.Group.list.useQuery(
-          {
-            filter: {},
-            pagination: {
-              perPage: 1,
-              page: 1,
-            },
-            sort: {
-              field: "createdAt",
-              order: "DESC",
-            },
-          },
           undefined,
+          {
+            _sort: "createdAt",
+            _order: "DESC",
+            _end: "1",
+          },
           false,
         ),
       })}
@@ -40,12 +34,10 @@ const Template: StoryFn<GroupPageContentProps> = (props) => {
           <QueriesRenderer
             queries={(Q) => ({
               groupsMembers: Q.GroupMember.list.useQuery(
-                {
-                  filter: {
-                    group: group.id,
-                  },
-                },
                 undefined,
+                {
+                  group: group.id,
+                },
                 false,
               ),
             })}

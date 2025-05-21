@@ -34,16 +34,16 @@ export const LinksBox: React.FC<LinksBoxProps> = ({
 }) => {
   const [expanded, setExpanded] = React.useState(defaultExpanded);
   const perPage = filter?.ids?.length ?? 20;
-
+  const query = expanded ? filter : {};
   return (
     <QueriesRenderer
       queries={(Q) => ({
         links: Q.Link.list.useQuery(
-          {
-            pagination: { page: 1, perPage },
-            filter: expanded ? filter : {},
-          },
           undefined,
+          {
+            ...query,
+            _end: perPage.toString(),
+          },
           true,
         ),
       })}

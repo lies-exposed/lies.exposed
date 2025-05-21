@@ -18,7 +18,7 @@ const Template: StoryFn<AvatarProps> = (props) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        actors: Q.Actor.list.useQuery({ filter: undefined }, undefined, false),
+        actors: Q.Actor.list.useQuery(undefined, undefined, false),
       })}
       render={({ actors }) => {
         const actor = actors.data[0];

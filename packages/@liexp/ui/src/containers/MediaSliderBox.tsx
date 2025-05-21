@@ -1,5 +1,6 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
-import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import { Box } from "../components/mui/index.js";
 import {
@@ -9,7 +10,7 @@ import {
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 
 export interface MediaSliderBoxProps extends Omit<MediaSliderProps, "data"> {
-  query: GetListParams;
+  query: Partial<EndpointQueryType<typeof Endpoints.Media.List>>;
 }
 
 const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
@@ -23,7 +24,7 @@ const MediaSliderBox: React.FC<MediaSliderBoxProps> = ({
   const Queries = useEndpointQueries();
   return (
     <QueriesRenderer
-      queries={{ media: Queries.Media.list.useQuery(query, undefined, false) }}
+      queries={{ media: Queries.Media.list.useQuery(undefined, query, false) }}
       render={({ media: { data: media } }) => {
         return (
           <Box {...props}>

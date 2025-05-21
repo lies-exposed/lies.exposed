@@ -19,7 +19,6 @@ import { parseISO } from "date-fns";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { type GetListParams } from "react-admin";
 import {
   EventsNetworkGraph,
   type EventsNetworkGraphProps,
@@ -33,10 +32,10 @@ import {
   Typography,
 } from "../../../components/mui/index.js";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";
-import { type UseListQueryFn } from "../../../state/queries/type.js";
+import { type UseGetQueryFn } from "../../../state/queries/type.js";
 import {
-  type TransformNetworkOutputProps,
   transformNetworkOutput,
+  type TransformNetworkOutputProps,
 } from "./transformNetworkOutput.js";
 
 export interface EventNetworkGraphBoxProps
@@ -408,25 +407,31 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps
+interface EventsNetworkGraphBoxWithQueryProps<P>
   extends Omit<EventNetworkGraphBoxProps, "id" | "query"> {
-  useQuery: UseListQueryFn<any>;
-  params: Partial<GetListParams>;
+  useQuery: UseGetQueryFn<any, P, any>;
+  params: Partial<P>;
   eventsBoxQuery: any;
 }
 
-export const EventsNetworkGraphBoxWithQuery: React.FC<
-  EventsNetworkGraphBoxWithQueryProps
-> = ({ useQuery, params, eventsBoxQuery: query, ...props }) => {
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
+export const EventsNetworkGraphBoxWithQuery = <P extends any>({
+  useQuery,
+  params,
+  eventsBoxQuery: query,
+  type,
+  ...props
+}: EventsNetworkGraphBoxWithQueryProps<P>): React.ReactNode => {
   return (
     <QueriesRenderer
       queries={{
-        items: useQuery(params, {}, false),
+        items: useQuery({ type }, params, false),
       }}
       render={({ items: { data } }) => {
         return (
           <EventsNetworkGraphBox
             {...props}
+            type={type}
             query={{
               ...query,
               ids: data[0] ? [data[0].id] : [],

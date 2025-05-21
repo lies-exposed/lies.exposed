@@ -20,17 +20,7 @@ const Template: StoryFn<MediaListProps> = (props) => {
     <div style={{ height: "100%" }}>
       <QueriesRenderer
         queries={(Q) => ({
-          media: Q.Media.list.useQuery(
-            {
-              filter: {},
-              pagination: {
-                perPage: 20,
-                page: 1,
-              },
-            },
-            undefined,
-            false,
-          ),
+          media: Q.Media.list.useQuery(undefined, { _end: "20" }, false),
         })}
         render={({ media }) => {
           return (
