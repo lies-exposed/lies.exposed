@@ -3,9 +3,10 @@ import { toAIBotError } from "../common/error/index.js";
 import type { ClientContextRTE } from "../types.js";
 
 export const exponentialWait =
+  (maxDelay: number = Infinity) =>
   (delay: number, retries: number, action: string): ClientContextRTE<void> =>
   (ctx) => {
-    const newDelay = delay * Math.pow(2, retries);
+    const newDelay = Math.min(maxDelay, delay * Math.pow(2, retries));
 
     return fp.TE.tryCatch(() => {
       ctx.logger.debug.log(

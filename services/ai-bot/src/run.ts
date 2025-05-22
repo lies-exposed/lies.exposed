@@ -11,13 +11,15 @@ import { userLogin } from "#flows/userLogin.flow.js";
 
 let token: string | null = null;
 
+const exponentialWaitOneMinute = exponentialWait(60000);
+
 let waitForLoginRetry = 0;
 const waitForLogin = (): ClientContextRTE<string> => {
   return pipe(
     userLogin(),
     fp.RTE.orElse(() =>
       pipe(
-        exponentialWait(10000, waitForLoginRetry++, "login"),
+        exponentialWaitOneMinute(10000, waitForLoginRetry++, "login"),
         fp.RTE.chain(waitForLogin),
       ),
     ),
@@ -45,7 +47,11 @@ const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
     fp.TE.chain((models) => {
       if (models.length === 0) {
         return pipe(
-          exponentialWait(10000, waitForLocalAIRetry++, "waitForLocalAI"),
+          exponentialWaitOneMinute(
+            10000,
+            waitForLocalAIRetry++,
+            "waitForLocalAI",
+          ),
           fp.RTE.chain(waitForLocalAI),
         )(ctx);
       }
@@ -67,13 +73,13 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
             );
           }
           return pipe(
-            exponentialWait(10000, retry, "run:failed"),
+            exponentialWaitOneMinute(10000, retry, "run:failed"),
             fp.RTE.chain(() => go(retry + 1)),
           );
         },
         () =>
           pipe(
-            exponentialWait(10000, 0, "run:finish"),
+            exponentialWaitOneMinute(10000, 0, "run:finish"),
             fp.RTE.chain(() => go(0)),
           ),
       ),
