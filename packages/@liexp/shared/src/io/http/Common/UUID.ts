@@ -1,12 +1,12 @@
 import { Schema } from "effect";
 
-import { v6, type Version6Options, validate } from "uuid";
+import { type Version4Options, validate, v4 } from "uuid";
 
 const UUID = Schema.UUID.pipe(Schema.brand("UUID"));
 type UUID = typeof UUID.Type;
 
-function uuid(opts?: Version6Options): UUID {
-  return v6(opts) as unknown as UUID;
+function uuid(opts?: Version4Options): UUID {
+  return v4(opts) as unknown as UUID;
 }
 
 export { UUID, uuid, validate };
