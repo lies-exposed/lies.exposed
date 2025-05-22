@@ -96,6 +96,8 @@ if [ "$worker" = true ]; then
 fi
 
 if [ "$web" = true ]; then
+  mv ./services/web/.env ./services/web/.env.temp
+  cp ./services/web/.env.alpha ./services/web/.env
   docker build . \
     --force-rm \
     --no-cache \
@@ -104,4 +106,6 @@ if [ "$web" = true ]; then
     --build-arg DOTENV_CONFIG_PATH=.env.alpha \
     --tag $WEB_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$WEB_IMAGE:alpha-latest
+  rm ./services/web/.env
+  mv ./services/web/.env.temp ./services/web/.env
 fi
