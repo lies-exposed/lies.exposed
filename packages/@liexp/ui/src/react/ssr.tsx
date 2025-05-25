@@ -47,6 +47,10 @@ export const getServer = (
     QueryProviderCustomQueries,
   );
 
+  app.get("/healthcheck", (req, res) => {
+    res.status(200).send({ data: { status: "OK" } });
+  });
+
   app.use("*all", (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
     ssrLog.debug.log("req.params %O", req.params);
