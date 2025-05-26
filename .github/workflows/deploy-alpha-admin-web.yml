@@ -1,0 +1,45 @@
+name: Deploy Admin Web
+
+on:
+  push:
+    branches:
+      - release/alpha
+    paths:
+      - ".github/workflows/**"
+      - "packages/@liexp/core/**"
+      - "packages/@liexp/shared/**"
+      - "packages/@liexp/ui/**"
+      - "services/admin-web/**"
+
+jobs:
+  deploy-admin-web:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [23.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Update .env file for Admin Web
+        run: cp ./services/admin-web/.env.alpha ./services/admin-web/.env
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Build
+        run: pnpm admin-web build:app
+
+      - name: Deploy on Server
+        uses: burnett01/rsync-deployments@7.0.2
+        with:
+          switches: -arP
+          path: services/admin-web/build/
+          remote_path: ${{ secrets.ADMIN_WEB_DEPLOY_PATH }}
+          remote_host: ${{ secrets.ADMIN_WEB_DEPLOY_HOST }}
+          remote_user: ${{ secrets.ADMIN_WEB_DEPLOY_USER }}
+          remote_key: ${{ secrets.ADMIN_WEB_DEPLOY_KEY }}

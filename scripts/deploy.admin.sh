@@ -15,6 +15,6 @@ pnpm admin-web build:app
 
 ssh "$HOST" "rm -rf /var/www/html/${HOST}/admin-web"
 
-rsync -aP ./services/admin-web/build/ "$HOST":/var/www/html/"${HOST}"/admin
+rsync -arP ./services/admin-web/build/ "$HOST":/var/www/html/"${HOST}"/admin
 
 pnpm admin-web clean
