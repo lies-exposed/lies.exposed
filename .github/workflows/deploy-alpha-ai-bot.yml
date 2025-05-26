@@ -1,4 +1,4 @@
-name: Deploy Admin Web
+name: Deploy AI Bot
 
 on:
   push:
@@ -8,11 +8,11 @@ on:
       - ".github/workflows/**"
       - "packages/@liexp/core/**"
       - "packages/@liexp/shared/**"
-      - "packages/@liexp/ui/**"
-      - "services/admin-web/**"
+      - "packages/@liexp/backend/**"
+      - "services/ai-bot/**"
 
 jobs:
-  deploy-admin-web:
+  deploy-ai-bot:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -24,22 +24,21 @@ jobs:
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: Update .env file for Admin Web
-        run: cp ./services/admin-web/.env.alpha ./services/admin-web/.env
-
       - uses: ./.github/actions/build-packages
         with:
           hash: ${{ github.sha }}
 
       - name: Build
-        run: pnpm admin-web build:app
+        run: |
+          pnpm ai-bot build
+          pnpm ai-bot pkg
 
       - name: Deploy on Server
         uses: burnett01/rsync-deployments@7.0.2
         with:
           switches: -arP
-          path: services/admin-web/build/
-          remote_path: ${{ secrets.ADMIN_WEB_DEPLOY_PATH }}
+          path: services/ai-bot/build/ai-bot
+          remote_path: ${{ secrets.AI_BOT_DEPLOY_PATH }}
           remote_host: ${{ secrets.SSH_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_KEY }}
