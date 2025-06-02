@@ -123,8 +123,8 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
           marginBottom: isLast ? 100 : style?.marginBottom,
         }}
       >
-        <TimelineItem className={classes.timelineItem}>
-          <TimelineOppositeContent className={classes.oppositeContent}>
+        <TimelineItem classes={{ root: classes.timelineItem }}>
+          <TimelineOppositeContent classes={{ root: classes.oppositeContent }}>
             <Typography variant="subtitle1" color="primary">
               {formatDate(e.date)}
             </Typography>
@@ -139,9 +139,9 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
               <EditEventButton id={e.id} />
             </Box>
           </TimelineOppositeContent>
-          <TimelineSeparator className={classes.separator}>
+          <TimelineSeparator classes={{ root: classes.separator }}>
             <TimelineDot
-              className={classes.dot}
+              classes={{ root: classes.dot }}
               variant="outlined"
               color="inherit"
             >
@@ -149,7 +149,7 @@ const EventTimelineItem = React.forwardRef<any, EventTimelineItemProps>(
             </TimelineDot>
             {!isLast ? <TimelineConnector /> : null}
           </TimelineSeparator>
-          <TimelineContent className={classes.content}>
+          <TimelineContent classes={{ root: classes.content }}>
             <EventListItem event={e} {...props} />
           </TimelineContent>
         </TimelineItem>
