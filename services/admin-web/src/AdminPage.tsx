@@ -94,7 +94,6 @@ import {
   QuoteList,
 } from "./pages/events/quote/AdminQuoteEvent.js";
 import {
-  ScientificStudiesList,
   ScientificStudyCreate,
   ScientificStudyEdit,
 } from "./pages/events/scientificStudy/AdminScientificStudyEvent.js";
@@ -129,6 +128,12 @@ const PatentCreate = React.lazy(
 );
 const PatentEdit = React.lazy(
   () => import("./pages/events/patent/PatentEdit.js"),
+);
+
+const ScientificStudiesList = React.lazy(() =>
+  import("./pages/events/scientificStudy/AdminScientificStudyEvent.js").then(
+    ({ ScientificStudiesList }) => ({ default: ScientificStudiesList }),
+  ),
 );
 
 const UncategorizedEventCreate = React.lazy(

@@ -94,7 +94,6 @@
     "easynpm.packageManager": "pnpm",
     "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",
     "pnpm-vscode-helper.extraWorkspaceScripts": [],
-    "vitest.workspaceConfig": "./vitest.workspace.js",
     "totalTypeScript.hideBasicTips": true,
     "cSpell.userWords": ["liexp", "typeorm"],
     "editor.codeActionsOnSave": {

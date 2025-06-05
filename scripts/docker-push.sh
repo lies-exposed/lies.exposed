@@ -7,6 +7,7 @@ BASE_IMAGE=ghcr.io/lies-exposed/liexp-base
 API_IMAGE=ghcr.io/lies-exposed/liexp-api
 BE_WORKER_IMAGE=ghcr.io/lies-exposed/liexp-worker
 WEB_IMAGE=ghcr.io/lies-exposed/liexp-web
+ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin-web
 
 (exec ./scripts/docker-login.sh "$1")
 
@@ -14,6 +15,7 @@ base=false
 api=false
 be_worker=false
 web=false
+admin=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
@@ -28,6 +30,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --web)
             web=true
+            shift
+            ;;
+        --admin)
+            admin=true
             shift
             ;;
         --base)
@@ -60,4 +66,9 @@ fi
 if [ "$web" = true ]; then
     echo "Pushing image $WEB_IMAGE"
     docker image push $WEB_IMAGE:$IMAGE_TAG
+fi
+
+if [ "$admin" = true ]; then
+    echo "Pushgin image $ADMIN_WEB_IMAGE"
+    docker image push $ADMIN_WEB_IMAGE:$IMAGE_TAG
 fi

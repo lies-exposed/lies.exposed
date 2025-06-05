@@ -3,6 +3,7 @@
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
 BE_WORKER_IMAGE=liexp-worker
+ADMIN_WEB_IMAGE=liexp-admin-web
 WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
 
@@ -16,6 +17,7 @@ api=false
 worker=false
 web=false
 ai_bot=false
+admin=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
@@ -30,6 +32,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --web)
             web=true
+            shift
+            ;;
+        --admin)
+            admin=true
             shift
             ;;
         --ai-bot)
@@ -63,6 +69,14 @@ if [ "$base" = true ]; then
     --tag $BASE_IMAGE:alpha-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:23-latest \
     --target=api-base
+fi
+
+if [ "$admin" = true ]; then
+  docker build . \
+    --file adminWeb.Dockerfile \
+    --target production \
+    --tag $WEB_IMAGE:alpha-admin-latest \
+    --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:alpha-latest
 fi
 
 if [ "$ai_bot" = true ]; then
