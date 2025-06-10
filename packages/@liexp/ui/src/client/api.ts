@@ -1,8 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { toAPIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import {
+  APIError,
+  toAPIError,
+} from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { type AxiosError } from "axios";
+import { Schema } from "effect";
 import {
   type AuthProvider,
   type UserIdentity,
@@ -24,15 +28,23 @@ export const GetAuthProvider = (
     localStorage.removeItem("user");
   };
 
-  const checkError = (e: AxiosError): Promise<void> => {
+  const checkError = async (e: AxiosError | APIError): Promise<void> => {
     // eslint-disable-next-line no-console
-    console.error("check error", e.code, e.response?.status, e.message);
+    console.log("Checking error", e);
+    const isAPIError = Schema.is(APIError)(e);
+    const errorData = isAPIError ? e : e.response?.data;
+    const error = new Error(e.name);
+    error.cause = JSON.stringify(errorData);
 
-    const errorData = new Error(JSON.stringify(e?.response?.data));
-    if (e?.response?.status === 401) {
+    const is401 = isAPIError ? e.status === 401 : e.response?.status === 401;
+    if (is401) {
+      // If the error is an APIError, we can handle it accordingly
+
       clearLocalStorage();
-      return Promise.reject(errorData);
+
+      throw error;
     }
+
     return Promise.resolve();
   };
 
@@ -71,12 +83,13 @@ export const GetAuthProvider = (
         fp.O.fromNullable,
         fp.O.chainNullableK((u) => JSON.parse(u)?.permissions),
         fp.E.fromOption(() => toAPIError("User is missing in local storage")),
+        fp.E.mapLeft((e) => ({ ...e, status: 401 })),
         fp.TE.fromEither,
         throwTE,
       );
     },
     getIdentity: async () => {
-      const getUserIdentity = publicDataProvider
+      return publicDataProvider
         .getOne("users", {
           id: "me",
         })
@@ -86,18 +99,7 @@ export const GetAuthProvider = (
             localStorage.setItem("user", JSON.stringify(user));
           }
           return user;
-        })
-        .catch((e) => {
-          // eslint-disable-next-line no-console
-          console.log("error fetching identity", e);
-          return checkError(e).catch((err) => {
-            // eslint-disable-next-line no-console
-            console.log("error checkError, ", err);
-            throw err;
-          });
         }) as Promise<UserIdentity>;
-
-      return getUserIdentity;
     },
   };
 };

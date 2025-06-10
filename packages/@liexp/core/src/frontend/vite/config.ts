@@ -99,6 +99,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
         dedupe: [
           "react",
           "react-dom",
+          "react-router",
           "@mui/material",
           "@mui/icons-material",
           "@mui/system",
