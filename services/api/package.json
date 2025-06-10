@@ -42,7 +42,7 @@
     "schema:log": "pnpm typeorm schema:log -d ./ormconfig.js",
     "start": "node build/run.js",
     "start:worker": "node build/worker/index.js",
-    "test": "vitest -r ./ --workspace ./vitest.workspace.js",
+    "test": "vitest",
     "test:all": "pnpm test:spec && pnpm test:e2e",
     "test:e2e": "pnpm test --project api-e2e",
     "test:spec": "pnpm test --project api-spec",
@@ -106,7 +106,7 @@
     "puppeteer-extra": "^3.3.6",
     "supertest": "^7.1.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.3",
+    "vitest": "^3.2.3",
     "vitest-mock-extended": "^3.1.0",
     "wink-nlp": "^2.3.0"
   },

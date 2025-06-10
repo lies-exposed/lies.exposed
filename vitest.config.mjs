@@ -3,6 +3,11 @@ import { coverageConfigDefaults, defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     globals: true,
+    projects: [
+      "./packages/@liexp/*",
+      "./services/api/vitest.config.e2e.ts",
+      "./services/api/vitest.config.spec.ts",
+    ],
     coverage: {
       exclude: [
         ...coverageConfigDefaults.exclude,
