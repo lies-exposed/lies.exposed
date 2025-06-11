@@ -52,10 +52,7 @@ services:
     network_mode: "host"
 
   ai-bot:
-    build:
-      context: .
-      dockerfile: ai-bot.Dockerfile
-      target: production
+    image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
     container_name: liexp-ai-bot
     restart: always
     env_file:
@@ -79,6 +76,21 @@ services:
       - api
     restart: always
     mem_limit: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 5
+        max-size: 10m
+  admin-web:
+    image: ghcr.io/lies-exposed/liexp-admin-web:alpha-latest
+    container_name: liexp-admin-web
+    env_file:
+      - .env.admin-web
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:4030:80"
     logging:
       driver: "json-file"
       options:

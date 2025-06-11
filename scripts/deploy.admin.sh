@@ -13,7 +13,9 @@ export DOTENV_CONFIG_PATH=".env.alpha"
 
 pnpm admin-web build:app
 
-ssh "$HOST" "rm -rf /var/www/html/${HOST}/admin-web"
+ssh "$HOST" "rm -rf /var/www/html/${HOST}"
+
+scp ./resources/nginx/alpha.admin.lies.exposed.conf "$HOST":/etc/nginx/sites-available/alpha.admin.lies.exposed
 
 rsync -arP ./services/admin-web/build/ "$HOST":/var/www/html/"${HOST}"/admin
 

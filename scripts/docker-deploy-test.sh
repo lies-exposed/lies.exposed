@@ -30,6 +30,7 @@ docker compose --env-file .env.api up --force-recreate -d --no-deps api
 docker compose --env-file .env.web up --force-recreate -d --no-deps web
 docker compose --env-file .env.ai-bot up --force-recreate -d --no-deps ai-bot
 docker compose --env-file .env.be-worker up --force-recreate -d --no-deps --build be-worker
+docker compose up --force-recreate -d --no-deps admin-web
 sleep 5
 
 docker compose logs -f

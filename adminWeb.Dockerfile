@@ -6,9 +6,15 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
-FROM base AS dev
+COPY ./package.json /usr/src/app/package.json
+COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml
+COPY ./pnpm-workspace.yaml /usr/src/app/pnpm-workspace.yaml
+COPY ./patches /usr/src/app/patches
+COPY ./tsconfig.json /usr/src/app/tsconfig.json
+COPY ./packages /usr/src/app/packages
+COPY ./services/admin-web /usr/src/app/services/admin-web
 
-COPY . /usr/src/app
+FROM base AS dev
 
 WORKDIR /usr/src/app
 
@@ -22,34 +28,27 @@ COPY --from=dev /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app
 
-ENV VITE_NODE_ENV=production
-
 RUN pnpm admin-web build
 RUN pnpm admin-web build:app
 
-FROM base AS production
+FROM build AS pruned
 
-COPY --from=dev /usr/src/app/pnpm-workspace.yaml /prod/pnpm-workspace.yaml
-COPY --from=dev /usr/src/app/package.json /prod/package.json
-COPY --from=dev /usr/src/app/pnpm-lock.yaml /prod/pnpm-lock.yaml
-COPY --from=dev /usr/src/app/.npmrc /prod/.npmrc
+COPY --from=base /usr/src/app ./
 
-COPY --from=build /usr/src/app/packages/@liexp/core/lib /prod/packages/@liexp/core/lib
-COPY --from=build /usr/src/app/packages/@liexp/core/package.json /prod/packages/@liexp/core/package.json
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
 
-COPY --from=build /usr/src/app/packages/@liexp/shared/lib /prod/packages/@liexp/shared/lib
-COPY --from=build /usr/src/app/packages/@liexp/shared/package.json /prod/packages/@liexp/shared/package.json
+RUN pnpm admin-web --prod deploy --legacy /prod/admin-web
 
-COPY --from=build /usr/src/app/packages/@liexp/ui/lib /prod/packages/@liexp/ui/lib
-COPY --from=build /usr/src/app/packages/@liexp/ui/package.json /prod/packages/@liexp/ui/package.json
+WORKDIR /prod/admin-web
 
-COPY --from=build /usr/src/app/services/admin-web/build /prod/services/admin-web/build
-COPY --from=build /usr/src/app/services/admin-web/package.json /prod/services/admin-web/package.json
+FROM nginx:1.25.4-alpine AS production
 
-WORKDIR /prod
+COPY ./resources/nginx/snippets/ /etc/nginx/snippets/
+RUN mkdir -p /etc/nginx/conf.d/
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --prod
+# create directory for logs
+RUN mkdir -p /var/log/nginx/
 
-WORKDIR /prod/services/admin-web
+COPY --from=build /usr/src/app/services/admin-web/build /usr/share/nginx/html/admin
 
-CMD ["pnpm", "serve"]
+CMD ["nginx", "-g", "daemon off;"]
