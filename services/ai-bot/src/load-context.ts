@@ -25,7 +25,7 @@ import { parseENV } from "./env.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
 import { toAIBotError, type AIBotError } from "#common/error/index.js";
 
-const configFile = path.resolve(process.cwd(), "ai-bot.config.json");
+const configFile = path.resolve(process.cwd(), "config/ai-bot.config.json");
 const configProvider = ConfigProviderReader(configFile, AIBotConfig);
 
 export const loadContext = (
