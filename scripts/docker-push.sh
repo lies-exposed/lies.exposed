@@ -8,6 +8,7 @@ API_IMAGE=ghcr.io/lies-exposed/liexp-api
 BE_WORKER_IMAGE=ghcr.io/lies-exposed/liexp-worker
 WEB_IMAGE=ghcr.io/lies-exposed/liexp-web
 ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin-web
+AI_BOT_IMAGE=ghcr.io/lies-exposed/liexp-ai-bot
 
 (exec ./scripts/docker-login.sh "$1")
 
@@ -16,6 +17,7 @@ api=false
 be_worker=false
 web=false
 admin=false
+ai_bot=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
@@ -34,6 +36,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --admin)
             admin=true
+            shift
+            ;;
+        --ai-bot)
+            ai_bot=true
             shift
             ;;
         --base)
@@ -56,6 +62,11 @@ fi
 if [ "$api" = true ]; then
     echo "Pushing image $API_IMAGE"
     docker image push $API_IMAGE:$IMAGE_TAG
+fi
+
+if [ "$ai_bot" = true ]; then
+    echo "Pushing image $AI_BOT_IMAGE"
+    docker image push $AI_BOT_IMAGE:$IMAGE_TAG
 fi
 
 if [ "$be_worker" = true ]; then
