@@ -28,7 +28,6 @@ RUN pnpm add pdfjs-dist@^5 \
     puppeteer-extra-plugin-stealth@^2
 
 
-
 FROM ghcr.io/lies-exposed/liexp-base:23-latest AS build
 
 WORKDIR /home/node
@@ -58,6 +57,6 @@ WORKDIR /home/node
 
 COPY --from=deps /home/node/node_modules ./node_modules
 
-COPY --from=dev /home/node/ai-bot ai-bot
+COPY --from=build /home/node/ai-bot ai-bot
 
 CMD ["./ai-bot"]
