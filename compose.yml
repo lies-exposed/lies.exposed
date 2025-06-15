@@ -167,7 +167,7 @@ services:
       - api.liexp.dev
       - fra1.space.liexp.dev
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://liexp.dev/healthcheck"]
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck"]
       interval: 10s
       timeout: 20s
       retries: 10

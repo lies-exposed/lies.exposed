@@ -79,12 +79,15 @@ export const run = async (base: string): Promise<void> => {
 
     const vite = await createViteServer({
       server: { middlewareMode: true },
+      configFile: path.resolve(process.cwd(), "vite.config.ts"),
       appType: "custom",
       base,
     });
 
     serverEntry = () =>
-      vite.ssrLoadModule("/src/server/entry.tsx") as Promise<{
+      vite.ssrLoadModule("/src/server/entry.tsx", {
+        fixStacktrace: true,
+      }) as Promise<{
         render: ServerRenderer;
         configuration: any;
       }>;
@@ -121,7 +124,11 @@ export const run = async (base: string): Promise<void> => {
     ? parseInt(process.env.VIRTUAL_PORT)
     : 3000;
 
-  server.listen(port, process.env.VIRTUAL_HOST, () => {
+  server.listen(port, process.env.VIRTUAL_HOST, (error) => {
+    if (error) {
+      throw error;
+    }
+
     webSrvLog.info.log(
       "Server listening on %s:%s",
       process.env.VIRTUAL_HOST,
@@ -130,4 +137,15 @@ export const run = async (base: string): Promise<void> => {
   });
 };
 
-void run("/");
+run("/").catch((e) => {
+  // eslint-disable-next-line no-console
+  console.error(e);
+  process.exit(1);
+});
+
+process.on("uncaughtException", (e) => {
+  // eslint-disable-next-line no-console
+  console.error("Process uncaught exception", e);
+
+  process.exit(1);
+});
