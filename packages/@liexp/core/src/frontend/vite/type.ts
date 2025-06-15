@@ -1,15 +1,13 @@
 import { type Schema } from "effect";
-import { type AppType } from "vite";
+import { type AppType, type ServerOptions } from "vite";
 
 export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
   cwd: string;
   base: string;
   env: Schema.Schema<A>;
   envFileDir: string;
-  port: number;
-  host: string;
   entry?: string;
-  devServer?: boolean;
+  server?: Pick<ServerOptions, "port" | "host" | "hmr" | "allowedHosts">;
   target: AppType;
   output?: string;
   assetDir?: string;
@@ -17,6 +15,5 @@ export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
   html?: {
     templatePath: string;
   };
-  hot: boolean;
   plugins: any[];
 }

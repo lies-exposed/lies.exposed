@@ -1,7 +1,7 @@
 import { type StorybookConfig } from "@storybook/react-vite";
 import type { ViteFinal } from "@storybook/builder-vite";
 import path from "path";
-import {Schema} from 'effect'
+import { Schema } from "effect";
 
 const viteFinal: ViteFinal = async (config, { configType }) => {
   const { mergeConfig } = await import("vite");
@@ -20,12 +20,20 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     output: path.resolve(cwd, "build"),
     assetDir: "assets",
     base: "/",
-    host: "localhost",
-    port: config.server?.port ?? 6006,
-    env: Schema.Struct({ VITE_API_URL: Schema.String, VITE_PUBLIC_URL: Schema.String }),
+    env: Schema.Struct({
+      VITE_API_URL: Schema.String,
+      VITE_PUBLIC_URL: Schema.String,
+    }),
     target: "spa",
-    devServer: configType === "DEVELOPMENT" ? true : false,
-    hot: true,
+    server:
+      configType === "DEVELOPMENT"
+        ? {
+            host: "localhost",
+            port: config.server?.port ?? 6006,
+            hmr: true,
+          }
+        : undefined,
+
     plugins: [reactVirtualized()],
   });
 
@@ -66,10 +74,12 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     preserveSymlinks: true,
   };
 
-  updatedConfig.optimizeDeps!.entries = (config.optimizeDeps?.entries ?? []).concat(
+  updatedConfig.optimizeDeps!.entries = (
+    config.optimizeDeps?.entries ?? []
+  ).concat(
     ...["@liexp/core", "@liexp/shared", "@liexp/ui"].map((p) => `${p}/lib/**`),
   );
-  delete config.optimizeDeps?.entries
+  delete config.optimizeDeps?.entries;
 
   console.log("config", config);
   console.log("updatedConfig", updatedConfig);

@@ -131,14 +131,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           },
         ],
       },
-      server: config.devServer
-        ? {
-            port: config.port,
-            host: config.host,
-            hmr: config.hot,
-            allowedHosts: ["*.liexp.dev", "liexp.dev"],
-          }
-        : undefined,
+      server: config.server,
       ssr: {
         external: ["react", "react-dom"],
       },

@@ -24,10 +24,15 @@ export default defineViteConfig({
   envFileDir: "./",
   output: "build",
   base: "/",
-  port,
-  host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
-  devServer: process.env.VITE_NODE_ENV !== "production",
-  hot: true,
+  server: {
+    port,
+    host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
+    allowedHosts:
+      process.env.VITE_NODE_ENV === "development"
+        ? ["liexp.dev"]
+        : ["alpha.lies.exposed"],
+    hmr: true,
+  },
   target: "custom",
   entry: "src/client/index.tsx",
   html: {
