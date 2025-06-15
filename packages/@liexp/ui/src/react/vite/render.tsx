@@ -10,6 +10,7 @@ import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
 import type * as express from "express";
 import type ReactDOMServer from "react-dom/server";
+import { type HelmetServerState } from "react-helmet-async";
 import { type Configuration } from "../../context/ConfigurationContext.js";
 import { ECOTheme } from "../../theme/index.js";
 import createEmotionCache from "../createEmotionCache.js";
@@ -25,7 +26,7 @@ interface ServerRendererProps {
   logger: any;
   dehydratedState: any;
   cache: any;
-  helmetContext: any;
+  helmetContext: { helmet: HelmetServerState };
   queryClient: any;
   theme: any;
 }
@@ -73,12 +74,6 @@ export const requestHandler =
     logger.info.log("reading template from url %s", url);
     const template = await getTemplate(url, req.originalUrl);
 
-    const { render, configuration } = await serverEntry();
-
-    const helmetContext = {
-      helmet: undefined,
-    };
-
     const queryClient = new QueryClient({
       defaultOptions: {
         queries: {
@@ -88,7 +83,13 @@ export const requestHandler =
       },
     });
 
+    const helmetContext = {
+      helmet: undefined,
+    } as unknown as ServerRendererProps["helmetContext"];
+
     try {
+      const { render, configuration } = await serverEntry();
+
       await Promise.all(
         queries.map((qFn) =>
           qFn(Q, configuration)(req.params, req.query).catch((e) => {
@@ -137,7 +138,7 @@ export const requestHandler =
         final() {
           try {
             logger.debug.log("Sending data to client %O", helmetContext);
-            const h = (helmetContext.helmet as any) ?? {
+            const h = helmetContext.helmet ?? {
               htmlAttributes: "",
               title: "<title>Lies Exposed</title>",
               meta: "",
@@ -148,7 +149,7 @@ export const requestHandler =
             const head = `
                       ${h.title.toString()}
                       ${h.meta.toString().replace("/>", "/>\n")}
-                      ${h.script.toString()}
+                      ${h.script?.toString()}
                     `;
 
             // const emotionCss = extractCritical(body);
