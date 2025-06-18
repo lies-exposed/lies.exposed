@@ -91,7 +91,8 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
       optimizeDeps: {
         entries: [path.join(config.cwd, "src/**")],
-        include: mode === "production" ? undefined : ["@liexp/**"],
+        // https://github.com/staylor/react-helmet-async/issues/208#issuecomment-2948288817
+        include: ["react-helmet-async"],
       },
 
       resolve: {
@@ -134,6 +135,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       server: config.server,
       ssr: {
         external: ["react", "react-dom"],
+        noExternal: ["react-helmet-async"],
       },
       plugins: [
         image(),
