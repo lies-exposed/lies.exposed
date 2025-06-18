@@ -82,7 +82,6 @@ fi
 if [ "$ai_bot" = true ]; then
   docker build . \
     --force-rm \
-    --no-cache \
     --file ai-bot.Dockerfile \
     --target production \
     --tag $AI_BOT_IMAGE:alpha-latest \
@@ -92,7 +91,6 @@ fi
 if [ "$api" = true ]; then
   docker build . \
     --force-rm \
-    --no-cache \
     --file api.Dockerfile \
     --target production \
     --tag $API_IMAGE:alpha-latest \
@@ -102,7 +100,6 @@ fi
 if [ "$worker" = true ]; then
   docker build . \
     --force-rm \
-    --no-cache \
     --file worker.Dockerfile \
     --target production \
     --tag $API_IMAGE:alpha-latest \
@@ -114,7 +111,6 @@ if [ "$web" = true ]; then
   cp ./services/web/.env.alpha ./services/web/.env
   docker build . \
     --force-rm \
-    --no-cache \
     --file web.Dockerfile \
     --target production \
     --build-arg DOTENV_CONFIG_PATH=.env.alpha \

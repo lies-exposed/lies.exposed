@@ -83,3 +83,8 @@ if [ "$admin" = true ]; then
     echo "Pushgin image $ADMIN_WEB_IMAGE"
     docker image push $ADMIN_WEB_IMAGE:$IMAGE_TAG
 fi
+
+if [ "$ai_bot" = true ]; then
+    echo "Pushing image $AI_BOT_IMAGE"
+    docker image push $AI_BOT_IMAGE:$IMAGE_TAG
+fi
