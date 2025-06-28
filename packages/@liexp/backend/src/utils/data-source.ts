@@ -15,6 +15,7 @@ import { GroupMemberEntity } from "../entities/GroupMember.entity.js";
 import { KeywordEntity } from "../entities/Keyword.entity.js";
 import { LinkEntity } from "../entities/Link.entity.js";
 import { MediaEntity } from "../entities/Media.entity.js";
+import { NationEntity } from "../entities/Nation.entity.js";
 import { PageEntity } from "../entities/Page.entity.js";
 import { ProjectEntity } from "../entities/Project.entity.js";
 import { ProjectImageEntity } from "../entities/ProjectImage.entity.js";
@@ -57,6 +58,7 @@ export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
       KeywordEntity,
       UserEntity,
       EventSuggestionEntity,
+      NationEntity,
       SocialPostEntity,
       GraphEntity,
       SettingEntity,

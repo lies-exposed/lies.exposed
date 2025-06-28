@@ -42,6 +42,7 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { transformActor } from "./ActorCreate.js";
+import { ReferenceArrayNationInput } from "./ReferenceArrayNationInput.js";
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
@@ -73,7 +74,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <Grid container size={12}>
             <Grid size={8}>
               <TextWithSlugInput source="fullName" slugSource="username" />
-
+              <ReferenceArrayNationInput source="nationalities" />
               <Grid container>
                 <Grid size={6}>
                   <DateInput source="bornOn" />

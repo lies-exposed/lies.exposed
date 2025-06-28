@@ -1,6 +1,3 @@
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EventV21639419928672 implements MigrationInterface {
@@ -61,102 +58,6 @@ export class EventV21639419928672 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "event_v2_keywords_keyword" ADD CONSTRAINT "FK_1512e830ee8f62ee6db969dc40b" FOREIGN KEY ("keywordId") REFERENCES "keyword"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
-    const uncategorizedEvents = await queryRunner.manager
-      .find("event", {
-        loadRelationIds: {
-          relations: [
-            "actors",
-            "groups",
-            "groupsMembers",
-            "media",
-            "links",
-            "keywords",
-          ],
-        },
-      })
-      .then((ee) =>
-        ee.map(
-          (e): Partial<EventV2Entity> => ({
-            ...e,
-            excerpt: toInitialValue(e.excerpt) ?? null,
-            body: toInitialValue(e.body2) ?? null,
-            draft: false,
-            type: "Uncategorized",
-            payload: {
-              title: e.title,
-              location: undefined,
-              endDate: e.endDate ?? undefined,
-              actors: e.actors,
-              groups: e.groups,
-              groupsMembers: e.groupsMembers,
-            },
-            media: e.media,
-            keywords: e.keywords,
-            date: e.startDate,
-            links: e.links,
-          }),
-        ),
-      );
-    const deathEvents = await queryRunner.manager
-      .find("death_event", {
-        loadRelationIds: {
-          relations: ["victim"],
-        },
-      })
-      .then((ss) =>
-        ss.map(
-          (s): EventV2Entity => ({
-            ...(s as any),
-            draft: false,
-            excerpt: {},
-            type: EVENT_TYPES.DEATH,
-            payload: {
-              location: (s as any).location ?? undefined,
-              victim: s.victim,
-            },
-            body: {},
-            media: [],
-            keywords: [],
-            links: [],
-          }),
-        ),
-      );
-
-    const scientificStudies = await queryRunner.manager
-      .find("scientific_study", {
-        loadRelationIds: {
-          relations: ["authors", "publisher"],
-        },
-      })
-      .then((ss) =>
-        ss.map(
-          (s): EventV2Entity => ({
-            ...(s as any),
-            draft: false,
-            type: EVENT_TYPES.SCIENTIFIC_STUDY,
-            payload: {
-              title: s.title,
-              url: s.url,
-              publisher: (s as any).publisher.id,
-              image: undefined,
-              authors: (s as any).authors as any[],
-            },
-            body: s.body2,
-            keywords: [],
-            media: [],
-            excerpt: {},
-            date: s.publishDate,
-            links: [],
-          }),
-        ),
-      );
-    const eventsV2 = [
-      ...uncategorizedEvents,
-      ...deathEvents,
-      ...scientificStudies,
-    ];
-
-    await queryRunner.manager.save(EventV2Entity, eventsV2);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

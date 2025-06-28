@@ -291,6 +291,7 @@ export const createStatsByType =
                             ),
                           ),
                           memberIn: [],
+                          nationalities: [],
                         })),
                       });
 

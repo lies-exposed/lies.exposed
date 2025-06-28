@@ -40,6 +40,7 @@ import {
   faUserGroup,
   faUsersBetweenLines,
   faChartLine,
+  faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,6 +53,7 @@ library.add(
   // solid
   faCalendar,
   faFlask,
+  faFlag,
   faQuoteLeft,
   faCircleDollarToSlot,
   faSkullCrossbones,

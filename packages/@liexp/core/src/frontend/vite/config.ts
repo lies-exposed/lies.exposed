@@ -5,6 +5,7 @@ import { Schema } from "effect";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import optimizer from "vite-plugin-optimizer";
+import svgr from "vite-plugin-svgr";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
@@ -139,6 +140,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
       plugins: [
         image(),
+        svgr(),
         cssInjectedByJsPlugin(),
         optimizer({}),
         tsConfigPaths({

@@ -1,8 +1,10 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type Media,
   type ResourcesNames,
 } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect/index";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { Avatar } from "../components/Common/Avatar.js";
@@ -18,6 +20,7 @@ import {
   Typography,
   useMuiMediaQuery,
 } from "../components/mui/index.js";
+import NationalitiesBox from "../containers/NationalitiesBox.js";
 import { styled, useTheme } from "../theme/index.js";
 
 const PREFIX = `split-page-template`;
@@ -111,6 +114,7 @@ interface AsideSubject {
   id: string;
   name: string;
   avatar?: Media.Media;
+  nationalities: readonly UUID[];
 }
 
 const isAsideSubject = (a: unknown): a is AsideSubject => {
@@ -120,7 +124,9 @@ const isAsideSubject = (a: unknown): a is AsideSubject => {
     "id" in a &&
     a.id !== undefined &&
     "name" in a &&
-    a.name !== undefined
+    a.name !== undefined &&
+    "nationalities" in a &&
+    Array.isArray(a.nationalities)
   );
 };
 
@@ -205,6 +211,16 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
               {aside.name}
             </Typography>
           </Box>
+          {pipe(
+            aside.nationalities,
+            Schema.decodeUnknownEither(Schema.NonEmptyArray(UUID)),
+            fp.E.map((ids) => (
+              <Box>
+                <NationalitiesBox params={{ ids }} onItemClick={() => {}} />
+              </Box>
+            )),
+            fp.E.getOrElse((): React.ReactNode | null => null),
+          )}
         </Stack>
       );
     }
