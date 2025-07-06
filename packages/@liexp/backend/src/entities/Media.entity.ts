@@ -1,19 +1,15 @@
-import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   MediaType,
   type MediaExtra,
 } from "@liexp/shared/lib/io/http/Media/index.js";
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
   type Relation,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity.js";
@@ -23,14 +19,12 @@ import { LinkEntity } from "./Link.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 import { UserEntity } from "./User.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const MEDIA_ENTITY_NAME = "image";
 
 @Entity(MEDIA_ENTITY_NAME)
-export class MediaEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class MediaEntity extends DeletableEntity {
   @Column({ type: "varchar", nullable: true })
   label: string | null;
 
@@ -99,13 +93,4 @@ export class MediaEntity {
   keywords: Relation<KeywordEntity[]>;
 
   socialPosts?: SocialPostEntity[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

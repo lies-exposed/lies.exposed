@@ -1,23 +1,11 @@
 import { http } from "@liexp/shared/lib/io/index.js";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  type Relation,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, type Relation } from "typeorm";
 import { MediaEntity } from "./Media.entity.js";
 import { ProjectEntity } from "./Project.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 @Entity("project_image")
-export class ProjectImageEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
-
+export class ProjectImageEntity extends DeletableEntity {
   @Column({
     type: "enum",
     enum: http.ProjectImage.Kind.members.map((t) => t.literals[0]),
@@ -34,13 +22,4 @@ export class ProjectImageEntity {
   @ManyToOne(() => ProjectEntity, (a) => a.id, { nullable: false })
   @JoinColumn()
   project: Relation<ProjectEntity>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

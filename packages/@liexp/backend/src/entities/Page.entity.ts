@@ -1,23 +1,12 @@
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, Index } from "typeorm";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const PAGE_ENTITY_NAME = "page";
 
 @Entity(PAGE_ENTITY_NAME)
 @Index(["path"], { unique: true })
-export class PageEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class PageEntity extends DeletableEntity {
   @Column({ type: "varchar" })
   title: string;
 
@@ -32,13 +21,4 @@ export class PageEntity {
 
   @Column({ type: "json", nullable: true })
   body2: BlockNoteDocument | null;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

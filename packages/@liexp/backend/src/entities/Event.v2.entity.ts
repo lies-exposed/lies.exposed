@@ -8,16 +8,11 @@ import { ScientificStudyPayload } from "@liexp/shared/lib/io/http/Events/Scienti
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
   type Relation,
-  UpdateDateColumn,
 } from "typeorm";
 import { type ActorEntity } from "./Actor.entity.js";
 import { AreaEntity } from "./Area.entity.js";
@@ -27,15 +22,12 @@ import { LinkEntity } from "./Link.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const EVENT_ENTITY_NAME = "event_v2";
 
 @Entity(EVENT_ENTITY_NAME)
-export class EventV2Entity {
-  @PrimaryGeneratedColumn("uuid")
-  @Index()
-  id: UUID;
-
+export class EventV2Entity extends DeletableEntity {
   @Column({ type: "bool", default: true })
   draft: boolean;
 
@@ -96,16 +88,7 @@ export class EventV2Entity {
 
   actors: ActorEntity[];
   groups: GroupEntity[];
-  socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
+  socialPosts?: Relation<SocialPostEntity[]> | UUID[];
 }
 
 export class ScientificStudyEntity extends EventV2Entity {

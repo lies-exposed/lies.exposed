@@ -2,15 +2,11 @@ import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDoc
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
   type Relation,
-  UpdateDateColumn,
 } from "typeorm";
 import { ActorEntity } from "./Actor.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";
@@ -18,14 +14,12 @@ import { GroupEntity } from "./Group.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { UserEntity } from "./User.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const STORY_ENTITY_NAME = "story";
 
 @Entity(STORY_ENTITY_NAME)
-export class StoryEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class StoryEntity extends DeletableEntity {
   @Column({ type: "varchar" })
   title: string;
 
@@ -87,13 +81,4 @@ export class StoryEntity {
   })
   @JoinTable()
   events: Relation<EventV2Entity[]>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

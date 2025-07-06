@@ -1,23 +1,17 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   OneToMany,
-  PrimaryGeneratedColumn,
   type Relation,
-  UpdateDateColumn,
 } from "typeorm";
 import { AreaEntity } from "./Area.entity.js";
 import { ProjectImageEntity } from "./ProjectImage.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 @Entity("project")
-export class ProjectEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
-
+export class ProjectEntity extends DeletableEntity {
   @Column({ type: "varchar" })
   name: string;
 
@@ -41,13 +35,4 @@ export class ProjectEntity {
   @ManyToMany(() => AreaEntity, { cascade: ["insert"] })
   @JoinTable()
   areas: Relation<AreaEntity[]>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

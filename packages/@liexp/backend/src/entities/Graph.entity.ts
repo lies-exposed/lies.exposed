@@ -1,24 +1,11 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type GraphType } from "@liexp/shared/lib/io/http/graphs/Graph.js";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  type Relation,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, Index, ManyToOne, type Relation } from "typeorm";
 import { UserEntity } from "./User.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 @Entity("graph")
 @Index(["slug"])
-export class GraphEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class GraphEntity extends DeletableEntity {
   @Column({ type: "varchar", nullable: false })
   label: string;
 
@@ -53,13 +40,4 @@ export class GraphEntity {
     cascade: false,
   })
   creator: Relation<UserEntity | null>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

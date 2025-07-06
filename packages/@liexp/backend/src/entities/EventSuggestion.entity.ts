@@ -12,11 +12,12 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { UserEntity } from "./User.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const EVENT_SUGGESTION_ENTITY_NAME = "event_suggestion";
 
 @Entity(EVENT_SUGGESTION_ENTITY_NAME)
-export class EventSuggestionEntity {
+export class EventSuggestionEntity extends DeletableEntity {
   @PrimaryGeneratedColumn("uuid")
   @Index()
   id: UUID;

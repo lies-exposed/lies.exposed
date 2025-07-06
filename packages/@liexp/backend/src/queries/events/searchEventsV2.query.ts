@@ -1,6 +1,7 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {
   EVENT_TYPES,
@@ -408,7 +409,7 @@ export const searchEventV2Query =
                 }),
                 fp.TE.map(fp.A.map((gm) => gm.id)),
               )
-            : fp.TE.right<DBError, string[]>([]),
+            : fp.TE.right<DBError, readonly UUID[]>([]),
           fp.TE.map((gm) =>
             O.isSome(_groupsMembers) ? gm.concat(..._groupsMembers.value) : gm,
           ),

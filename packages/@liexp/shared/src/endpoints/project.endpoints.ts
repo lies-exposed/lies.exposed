@@ -4,6 +4,7 @@ import { nonEmptyRecordFromType } from "../io/Common/NonEmptyRecord.js";
 import { CreateAreaBody } from "../io/http/Area.js";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "../io/http/Common/Output.js";
+import { UUID } from "../io/http/Common/UUID.js";
 import * as Project from "../io/http/Project.js";
 import * as ProjectImage from "../io/http/ProjectImage.js";
 import { GetListQuery } from "../io/http/Query/index.js";
@@ -56,7 +57,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: Schema.Struct({ id: Schema.String }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleGroupOutput,
 });
@@ -83,7 +84,7 @@ export const Edit = Endpoint({
   Method: "PUT",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: Schema.Struct({ id: Schema.String }),
+    Params: Schema.Struct({ id: UUID }),
     Body: EditBody,
   },
   Output: SingleGroupOutput,
@@ -93,7 +94,7 @@ export const Delete = Endpoint({
   Method: "DELETE",
   getPath: ({ id }) => `/projects/${id}`,
   Input: {
-    Params: Schema.Struct({ id: Schema.String }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleGroupOutput,
 });
