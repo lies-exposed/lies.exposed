@@ -1,13 +1,13 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { type User } from "@liexp/shared/lib/io/http/index.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 export const createMediaFlow =
-  (body: CreateMedia, user: User.User): TEReader<MediaEntity[]> =>
+  (body: CreateMedia, user: UserEntity): TEReader<MediaEntity[]> =>
   (ctx) => {
     return pipe(
       fp.TE.Do,
@@ -28,7 +28,7 @@ export const createMediaFlow =
             location,
             label: body.label ?? null,
             description: body.description ?? body.label ?? null,
-            creator: user.id,
+            creator: user,
             extra: body.extra ?? null,
             areas: body.areas.map((id) => ({ id })),
             keywords: body.keywords.map((id) => ({ id })),
