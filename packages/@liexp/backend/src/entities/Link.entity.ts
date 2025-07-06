@@ -1,31 +1,25 @@
 import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
   type Relation,
-  UpdateDateColumn,
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { UserEntity } from "./User.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const LINK_ENTITY_NAME = "link";
 
 @Entity(LINK_ENTITY_NAME)
 @Index(["url"], { unique: true })
-export class LinkEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class LinkEntity extends DeletableEntity {
   @Column({ type: "varchar", nullable: false, unique: true })
   url: URL;
 
@@ -65,13 +59,4 @@ export class LinkEntity {
   keywords: Relation<KeywordEntity[]>;
 
   socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }

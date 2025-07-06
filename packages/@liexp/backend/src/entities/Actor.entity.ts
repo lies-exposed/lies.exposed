@@ -5,8 +5,6 @@ import {
 } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -14,23 +12,18 @@ import {
   ManyToMany,
   OneToMany,
   OneToOne,
-  PrimaryGeneratedColumn,
   type Relation,
-  UpdateDateColumn,
 } from "typeorm";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { GroupMemberEntity } from "./GroupMember.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { StoryEntity } from "./Story.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const ACTOR_ENTITY_NAME = "actor";
 
 @Entity(ACTOR_ENTITY_NAME)
-export class ActorEntity {
-  @PrimaryGeneratedColumn("uuid")
-  @Index()
-  id: UUID;
-
+export class ActorEntity extends DeletableEntity {
   @Column({ type: "varchar" })
   fullName: string;
 
@@ -84,15 +77,6 @@ export class ActorEntity {
 
   // TODO: add relation to death event
   death: UUID | null;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 
   eventCount: number;
 }

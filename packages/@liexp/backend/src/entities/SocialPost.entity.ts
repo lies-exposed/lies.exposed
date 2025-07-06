@@ -5,25 +5,15 @@ import {
   type SocialPostPublishResult,
   type SocialPostResourceType,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { type LinkEntity } from "./Link.entity.js";
+import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 export const SOCIAL_POST_ENTITY_NAME = "social_post";
 
 @Entity(SOCIAL_POST_ENTITY_NAME)
 @Index(["type", "entity"])
-export class SocialPostEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: UUID;
-
+export class SocialPostEntity extends DeletableEntity {
   @Column({ type: "uuid" })
   entity: UUID;
 
@@ -56,13 +46,4 @@ export class SocialPostEntity {
   links?: LinkEntity[];
 
   publishCount: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @DeleteDateColumn()
-  deletedAt: Date | null;
 }
