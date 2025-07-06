@@ -55,13 +55,13 @@ export class MediaEntity {
     nullable: true,
   })
   @JoinTable()
-  creator: Relation<UserEntity> | UUID | null;
+  creator: Relation<UserEntity> | null;
 
   @Column({
     type: "json",
     nullable: true,
   })
-  extra: Relation<MediaExtra | null>;
+  extra: Relation<MediaExtra> | null;
 
   @ManyToMany(() => EventV2Entity, (e) => e.media, {
     cascade: false,
