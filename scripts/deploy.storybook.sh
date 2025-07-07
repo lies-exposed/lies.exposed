@@ -6,6 +6,8 @@ HOST=${1:-"alpha.lies.exposed"}
 
 export VITE_NODE_ENV=production
 
+pnpm packages:build
+
 pnpm storybook clean
 
 pnpm storybook build:app

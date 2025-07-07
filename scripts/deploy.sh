@@ -52,11 +52,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# build packages if we are deploying admin or storybook
-if [ "$admin" = true ] || [ "$storybook" = true ]; then
-    pnpm packages:build
-fi
-
 if [ "$admin" = true ]; then
     # deploy admin-web
     ./scripts/deploy.admin.sh "$HOST"
