@@ -72,11 +72,13 @@ if [ "$base" = true ]; then
 fi
 
 if [ "$admin" = true ]; then
+  cp ./services/admin-web/.env.alpha ./services/admin-web/.env
   docker build . \
     --file adminWeb.Dockerfile \
     --target production \
     --tag $WEB_IMAGE:alpha-admin-latest \
     --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:alpha-latest
+  git checkout -- ./services/admin-web/.env
 fi
 
 if [ "$ai_bot" = true ]; then

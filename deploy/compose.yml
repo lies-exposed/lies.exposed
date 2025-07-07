@@ -91,6 +91,10 @@ services:
       - api
     ports:
       - "127.0.0.1:4030:80"
+    volumes:
+      - ./alpha.admin.lies.exposed.conf:/etc/nginx/conf.d/default.conf:ro
+      - /var/log/nginx/alpha.lies.exposed:/var/log/nginx/alpha.lies.exposed:rw
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     logging:
       driver: "json-file"
       options:

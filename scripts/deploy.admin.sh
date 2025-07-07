@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
-
 set -e -x
 
-HOST=${1:-"alpha.lies.exposed"}
+username=$1
+export SSH_DOMAIN=${1:-"alpha.lies.exposed"}
 
-pnpm admin-web clean
+scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
+scp ./services/admin-web/.env.alpha $SSH_DOMAIN:docker-app/.env.admin-web
+scp ./resources/nginx/alpha.admin.lies.exposed.conf $SSH_DOMAIN:docker-app/alpha.admin.lies.exposed.conf
 
-pnpm packages:build
+ssh $SSH_DOMAIN "bash -s $username" << "EOF"
+    set -e
+    u=$1
 
-export VITE_NODE_ENV=production
-export DOTENV_CONFIG_PATH=".env.alpha"
+    cd ~/docker-app/
 
-pnpm admin-web build:app
+    docker compose --env-file .env.admin-web pull admin-web
+    docker compose --env-file .env.admin-web up -d admin-web --force-recreate -V
 
-ssh "$HOST" "rm -rf /var/www/html/${HOST}"
+EOF
 
-scp ./resources/nginx/alpha.admin.lies.exposed.conf "$HOST":/etc/nginx/sites-available/alpha.admin.lies.exposed
-
-rsync -arP ./services/admin-web/build/ "$HOST":/var/www/html/"${HOST}"/admin
-
-pnpm admin-web clean

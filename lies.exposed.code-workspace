@@ -98,7 +98,7 @@
     "cSpell.userWords": ["liexp", "typeorm"],
     "editor.codeActionsOnSave": {
       "source.organizeImports": "never",
-      "source.fixAll.eslint": "explicit"
+      "source.fixAll.eslint": "explicit",
     },
     "explorer.autoRevealExclude": {
       "**/node_modules": true,
