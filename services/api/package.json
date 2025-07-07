@@ -92,7 +92,7 @@
     "@types/fluent-ffmpeg": "^2.1.26",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^2.0.0",
-    "@types/node": "^22.16.0",
+    "@types/node": "^24.0.10",
     "@types/pg": "^8.15.1",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
