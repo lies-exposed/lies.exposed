@@ -1,4 +1,3 @@
-
 import baseConfig from '@liexp/core/lib/eslint/base.config.js'
 import tseslint from 'typescript-eslint'
 

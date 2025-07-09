@@ -15,14 +15,14 @@ import {
   type OverlayOptions,
 } from "sharp";
 import { type ConfigContext } from "../../../../context/config.context.js";
+import { type HTTPProviderContext } from "../../../../context/http.context.js";
+import { type ImgProcClientContext } from "../../../../context/index.js";
+import { type LoggerContext } from "../../../../context/logger.context.js";
 import {
   decodeExifTag,
   toImgProcError,
   type ImgProcError,
 } from "../../../../providers/imgproc/imgproc.provider.js";
-import { type HTTPProviderContext } from "context/http.context.js";
-import { type ImgProcClientContext } from "context/index.js";
-import { type LoggerContext } from "context/logger.context.js";
 
 const DEFAULT_TEXT_WIDTH = 100;
 const DEFAULT_TEXT_HEIGHT = 20;

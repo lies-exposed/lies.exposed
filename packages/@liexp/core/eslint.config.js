@@ -13,7 +13,7 @@ export default tseslint.config(
       },
     },
     rules: {
-      "import/named": ["off"],
+      "import-x/named": ["off"],
     },
   },
 );
