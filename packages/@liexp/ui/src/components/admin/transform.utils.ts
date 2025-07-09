@@ -12,7 +12,11 @@ import * as A from "fp-ts/lib/Array.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type RaRecord } from "react-admin";
-import { uploadFile, type RawMedia } from "../../client/admin/MediaAPI.js";
+import {
+  type OnUploadProgressFn,
+  uploadFile,
+  type RawMedia,
+} from "../../client/admin/MediaAPI.js";
 
 export const transformLinks = (links: any[]): any[] => {
   return links.reduce<(string | { url: string; publishDate: Date })[]>(
@@ -145,7 +149,11 @@ const transformByType = (
 
 export const transformEvent =
   (dataProvider: APIRESTClient) =>
-  async (id: string, data: RaRecord): Promise<RaRecord> => {
+  async (
+    id: string,
+    data: RaRecord,
+    options?: { onUploadProgress: OnUploadProgressFn },
+  ): Promise<RaRecord> => {
     // console.log("transform event", { ...data, id });
     const newLinks = transformLinks(data.newLinks ?? []);
     const links = (data.links ?? []).concat(newLinks);
@@ -182,6 +190,7 @@ export const transformEvent =
           id,
           r.location.rawFile,
           r.location.rawFile.type as MediaType,
+          options,
         ),
       ),
       A.sequence(TE.ApplicativePar),

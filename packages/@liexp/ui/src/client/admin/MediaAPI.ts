@@ -6,7 +6,7 @@ import {
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
-import axios from "axios";
+import axios, { type AxiosProgressEvent } from "axios";
 import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -61,6 +61,11 @@ const getSignedUrl =
     );
   };
 
+export type OnUploadProgressFn = (progress: AxiosProgressEvent) => void;
+export type UploadFileOptions = {
+  onUploadProgress: OnUploadProgressFn;
+};
+
 export const uploadFile =
   (client: APIRESTClient) =>
   (
@@ -68,6 +73,7 @@ export const uploadFile =
     resourceId: string,
     f: File,
     type: MediaType,
+    options?: UploadFileOptions,
   ): TE.TaskEither<Error, { type: MediaType; location: URL }> => {
     const videoTask = pipe(
       TE.tryCatch(async () => {
@@ -83,14 +89,7 @@ export const uploadFile =
             headers: {
               "Content-Type": "multipart/form-data",
             },
-            onUploadProgress: (progressEvent) => {
-              // eslint-disable-next-line no-console
-              console.log(
-                `Progress: ${progressEvent.progress ?? 0}, ETA: ${
-                  progressEvent.estimated ?? "Infinite"
-                }`,
-              );
-            },
+            onUploadProgress: options?.onUploadProgress,
           })
           .then((response) => {
             return {
@@ -138,10 +137,11 @@ export const uploadImages =
     resource: string,
     resourceId: string,
     media: { type: MediaType; file: File }[],
+    options?: UploadFileOptions,
   ): TE.TaskEither<Error, { type: MediaType; location: URL }[]> => {
     return pipe(
       media.map((file) =>
-        uploadFile(client)(resource, resourceId, file.file, file.type),
+        uploadFile(client)(resource, resourceId, file.file, file.type, options),
       ),
       A.sequence(TE.ApplicativeSeq),
     );
@@ -149,7 +149,7 @@ export const uploadImages =
 
 export const transformMedia =
   (apiProvider: APIRESTClient) =>
-  async (data: RaRecord): Promise<RaRecord> => {
+  async (data: RaRecord, options?: UploadFileOptions): Promise<RaRecord> => {
     const uploadFileTask =
       data._type === "fromFile" && data.location.rawFile
         ? uploadFile(apiProvider)(
@@ -157,6 +157,7 @@ export const transformMedia =
             data.id.toString(),
             data.location.rawFile,
             data.location.rawFile.type,
+            options,
           )
         : data._type === "fromURL" && data.url
           ? TE.fromEither(parseURL(data.url))

@@ -3,12 +3,12 @@ import get from "lodash/get";
 import * as React from "react";
 import { Box, Stack } from "../../../mui/index.js";
 import {
+  Button,
   FileInput,
   FormDataConsumer,
   SelectInput,
   TextInput,
   type InputProps,
-  Button,
 } from "../../react-admin.js";
 import { MediaField } from "../MediaField.js";
 
@@ -20,6 +20,8 @@ interface MediaInputProps extends Omit<InputProps, "source"> {
   sourceType?: string;
   sourceLocation?: string;
   showInputOnClick?: boolean;
+  from?: "fromURL" | "fromFile";
+  bar?: React.ReactNode;
 }
 
 export const MediaInput: React.FC<MediaInputProps> = ({
@@ -30,6 +32,8 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   source,
   style,
   showInputOnClick = false,
+  from = "fromURL",
+  bar,
   ...props
 }) => {
   const types = supportedTypes ?? MediaType.members.map((a) => a.literals[0]);
@@ -46,7 +50,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
     <Stack spacing={2} marginBottom={2} style={style}>
       <SelectInput
         source={_type}
-        defaultValue={"fromURL"}
+        defaultValue={from}
         choices={[
           { name: "fromURL", id: "fromURL" },
           {
@@ -87,6 +91,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                     }}
                   />
                 </FileInput>
+                {bar}
               </Box>
             );
           }

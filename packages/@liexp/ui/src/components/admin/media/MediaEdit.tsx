@@ -18,14 +18,14 @@ import {
   SaveButton,
   TabbedForm,
   TextInput,
+  Toolbar,
+  ToolbarClasses,
   useEditController,
   usePermissions,
   useRecordContext,
   useRefresh,
   type EditProps,
   type FieldProps,
-  ToolbarClasses,
-  Toolbar,
 } from "react-admin";
 import { transformMedia } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
@@ -33,6 +33,7 @@ import { Box, Button, Grid, Stack, alpha } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import ReferenceAreaTab from "../areas/ReferenceAreaTab.js";
 import { EditForm } from "../common/EditForm.js";
+import { useProgressBar } from "../common/ProgressBar.js";
 import { CreateEventFromMediaButton } from "../events/CreateEventFromMediaButton.js";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
 import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
@@ -182,6 +183,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
   const { record } = useEditController(props);
+  const { bar, onUploadProgress } = useProgressBar();
 
   if (isLoadingPermissions || !record) {
     return <LoadingPage />;
@@ -193,7 +195,9 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
     <EditForm
       title={<EditTitle {...props} />}
       {...props}
-      transform={transformMedia(apiProvider)}
+      transform={(data) =>
+        transformMedia(apiProvider)(data, { onUploadProgress })
+      }
       redirect={false}
       preview={<MediaPreview />}
       actions={
@@ -211,7 +215,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         <FormTab label="general">
           <Grid container spacing={2}>
             <Grid size={{ md: 6 }}>
-              <MediaInput source="location" showInputOnClick />
+              <MediaInput source="location" showInputOnClick bar={bar} />
               <TransferButton {...props} source="location" />
               <GenerateExtraButton source="extra" />
             </Grid>

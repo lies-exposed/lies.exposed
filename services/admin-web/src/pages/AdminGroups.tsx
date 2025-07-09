@@ -270,7 +270,6 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Avatar">
           <ReferenceMediaInput source="avatar.id" />
-
           <ImageInput source="avatar">
             <ImageField source="thumbnail" />
           </ImageInput>
