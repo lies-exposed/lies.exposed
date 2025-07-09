@@ -134,7 +134,7 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
   return (
     <EditForm
       {...props}
-      transform={transformStory(dataProvider)}
+      transform={(data) => transformStory(dataProvider)(data)}
       preview={<StoryPreview />}
       title={<StoryTitle />}
     >

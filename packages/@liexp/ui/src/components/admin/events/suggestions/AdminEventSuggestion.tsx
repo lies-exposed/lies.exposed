@@ -63,7 +63,6 @@ const eventSuggestionListFilter = [
 export const EventSuggestionList: React.FC<ListProps> = (props) => {
   const { identity, isLoading } = useGetIdentity();
   const { permissions, isLoading: isPermsLoading } = usePermissions();
-
   if (isLoading || isPermsLoading) {
     return <LoadingPage />;
   }

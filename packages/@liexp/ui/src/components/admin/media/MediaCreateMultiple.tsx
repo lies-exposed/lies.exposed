@@ -26,7 +26,10 @@ import {
 } from "react-admin";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
-import { uploadFile } from "../../../client/admin/MediaAPI.js";
+import {
+  uploadFile,
+  type UploadFileOptions,
+} from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { styled } from "../../../theme/index.js";
 import {
@@ -38,10 +41,11 @@ import {
   Icons,
   alpha,
 } from "../../mui/index.js";
+import { useProgressBar } from "../common/ProgressBar.js";
 
 const transformMedia =
   (apiProvider: APIRESTClient) =>
-  async (data: RaRecord): Promise<RaRecord> => {
+  async (data: RaRecord, options: UploadFileOptions): Promise<RaRecord> => {
     const mediaTask =
       data._type === "fromFile" && data.location.rawFile
         ? uploadFile(apiProvider)(
@@ -49,6 +53,7 @@ const transformMedia =
             data.id.toString(),
             data.location.rawFile,
             data.location.rawFile.type,
+            options,
           )
         : data._type === "fromURL" && data.url
           ? TE.fromEither(parseURL(data.url))
@@ -106,6 +111,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
   const apiProvider = useDataProvider();
   const redirect = useRedirect();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const { bar, onUploadProgress } = useProgressBar();
 
   const { reset, getValues } = useForm({
     defaultValues: defaultMultipleMediaFormValues,
@@ -142,7 +148,9 @@ export const MediaCreateMany: React.FC<any> = (props) => {
   const uploadMedia = async (files: any[], uploaded: any[]): Promise<any[]> => {
     const [first, ...rest] = files;
     if (first) {
-      const media = await transformMedia(apiProvider)(first).then((m) =>
+      const media = await transformMedia(apiProvider)(first, {
+        onUploadProgress,
+      }).then((m) =>
         apiProvider.create("media", { data: m }).then((r) => r.data),
       );
 
@@ -195,6 +203,7 @@ export const MediaCreateMany: React.FC<any> = (props) => {
                 />
               </SimpleFormIterator>
             </ArrayInput>
+            {bar}
           </CardContent>
           <CardActionArea>
             <CardActions>

@@ -4,6 +4,7 @@ import { transformMedia } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { useNavigateTo } from "../../../utils/history.utils.js";
 import { Stack } from "../../mui/index.js";
+import { useProgressBar } from "../common/ProgressBar.js";
 import {
   Button,
   Create,
@@ -17,15 +18,19 @@ import { MediaInput } from "./input/MediaInput.js";
 export const MediaCreate: React.FC<CreateProps> = (props) => {
   const apiProvider = useDataProvider();
   const navigate = useNavigateTo();
+  const { bar, onUploadProgress } = useProgressBar();
 
   const handleNavigateToMediaMultiple = (): void => {
     void navigate.navigate("/media/multiple");
   };
+
   return (
     <Create
       title="Create a Media"
       {...props}
-      transform={(r: any) => transformMedia(apiProvider)({ ...r, id: uuid() })}
+      transform={(r: any) =>
+        transformMedia(apiProvider)({ ...r, id: uuid() }, { onUploadProgress })
+      }
       actions={
         <Stack direction={"row"} spacing={2} padding={2}>
           <Button
@@ -39,7 +44,7 @@ export const MediaCreate: React.FC<CreateProps> = (props) => {
       }
     >
       <SimpleForm>
-        <MediaInput />
+        <MediaInput bar={bar} />
         <TextInput source="label" fullWidth validate={[required()]} />
         <TextInput source="description" multiline fullWidth />
       </SimpleForm>
