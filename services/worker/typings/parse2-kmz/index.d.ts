@@ -1,5 +1,5 @@
 declare module "parse2-kmz" {
-  var parse2KMZ: {
+  let parse2KMZ: {
     parse2KMZ: (data: ArrayBuffer) => Promise<any>;
     toJson: (filePath: string) => Promise<any>;
   }

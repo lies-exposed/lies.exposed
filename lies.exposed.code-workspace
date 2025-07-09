@@ -67,7 +67,7 @@
       "lib/**": true,
     },
     "typescript.format.enable": true,
-    "eslint.codeActionsOnSave.mode": "problems",
+    "eslint.codeActionsOnSave.mode": "all",
     "eslint.workingDirectories": [
       "./",
     ],
@@ -88,8 +88,7 @@
     "totalTypeScript.hideBasicTips": true,
     "cSpell.userWords": ["liexp", "typeorm"],
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "never",
-      "source.fixAll.eslint": "explicit",
+      "source.fixAll.eslint": "always",
     },
     "explorer.autoRevealExclude": {
       "**/node_modules": true,

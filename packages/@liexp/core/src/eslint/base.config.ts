@@ -23,16 +23,16 @@ const config: any = tseslint.config(
       //   tsconfigRootDir: import.meta.dirname,
       // },
     },
-    // settings: {
-    //   "import-x/resolver": {
-    //     typescript: {
-    //       project: "./tsconfig.json",
-    //     },
-    //     node: {
-    //       extensions: [".js", ".jsx", ".ts", ".tsx"],
-    //     },
-    //   },
-    // },
+    settings: {
+      "import-x/resolver": {
+        // typescript: {
+        //   project: "./tsconfig.json",
+        // },
+        node: {
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
+        },
+      },
+    },
     rules: {
       "fp-ts/no-lib-imports": "off",
       // "fp-ts/no-module-imports": "error",

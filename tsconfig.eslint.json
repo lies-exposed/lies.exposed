@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true
+  },
+  "include": [
+    "./packages/@liexp/core/src",
+    "./packages/@liexp/shared/src",
+    "./packages/@liexp/shared/typings",
+    "./packages/@liexp/backend/src",
+    "./packages/@liexp/backend/typings",
+    "./packages/@liexp/ui/src",
+    "./services/admin-web/src",
+    "./services/ai-bot/src",
+    "./services/api/src",
+    "./services/web/src",
+    "./services/worker/src",
+    "./services/worker/typings",
+    "eslint.config.js"
+  ],
+  "exclude": [
+    "**/lib",
+    "**/build",
+    "node_modules"
+  ]
+}
