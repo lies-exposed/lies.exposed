@@ -23,16 +23,16 @@ import { pipe } from "fp-ts/lib/function.js";
 import {
   type ActorNetworkNodeProps,
   toActorNodes,
-} from "../../../components/Common/Graph/Network/nodes/ActorNode";
-import { type EventNetworkNodeProps } from "../../../components/Common/Graph/Network/nodes/EventNode";
+} from "../../../components/Common/Graph/Network/nodes/ActorNode.js";
+import { type EventNetworkNodeProps } from "../../../components/Common/Graph/Network/nodes/EventNode.js";
 import {
   type GroupNetworkNodeProps,
   toGroupNodes,
-} from "../../../components/Common/Graph/Network/nodes/GroupNode";
+} from "../../../components/Common/Graph/Network/nodes/GroupNode.js";
 import {
   type KeywordNetworkNodeProps,
   toKeywordNodes,
-} from "../../../components/Common/Graph/Network/nodes/KeywordNode";
+} from "../../../components/Common/Graph/Network/nodes/KeywordNode.js";
 
 type Validator = (
   selectedKeywordIds: readonly string[] | undefined,

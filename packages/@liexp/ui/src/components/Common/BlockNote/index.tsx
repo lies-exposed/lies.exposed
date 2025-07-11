@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { BNEditorProps } from "./Editor";
+import type { BNEditorProps } from "./Editor.js";
 
 let BNEditor:
   | React.FC<BNEditorProps>
@@ -9,7 +9,7 @@ if (typeof window === "undefined") {
   BNEditor = (): React.ReactElement => <div />;
 } else {
   BNEditor = React.lazy(() =>
-    import("./Editor").then((module) => ({ default: module.BNEditor })),
+    import("./Editor.js").then((module) => ({ default: module.BNEditor })),
   );
 }
 

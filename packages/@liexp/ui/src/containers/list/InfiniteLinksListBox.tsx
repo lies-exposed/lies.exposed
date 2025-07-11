@@ -1,14 +1,13 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints";
 import { type Link } from "@liexp/shared/lib/io/http";
 import * as React from "react";
-
-import LinkCard from "../../components/Cards/LinkCard";
+import LinkCard from "../../components/Cards/LinkCard.js";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
   type ListType,
-} from "./InfiniteListBox/InfiniteListBox";
-import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry";
+} from "./InfiniteListBox/InfiniteListBox.js";
+import { type CellRendererProps } from "./InfiniteListBox/InfiniteMasonry.js";
 
 type InfiniteLinksListBoxProps = Omit<
   InfiniteListBoxProps<ListType, typeof Endpoints.Link.List>,

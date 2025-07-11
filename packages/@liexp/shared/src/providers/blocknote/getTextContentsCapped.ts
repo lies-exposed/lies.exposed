@@ -1,6 +1,6 @@
-import { getTextContents } from "./getTextContents";
-import { isValidValue } from "./isValidValue";
-import type { BNEditorDocument } from "./type";
+import { getTextContents } from "./getTextContents.js";
+import { isValidValue } from "./isValidValue.js";
+import type { BNEditorDocument } from "./type.js";
 
 export const getTextContentsCapped = (
   blocks: BNEditorDocument,

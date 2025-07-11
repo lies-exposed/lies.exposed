@@ -7,8 +7,8 @@ import {
   useEdgesState,
 } from "@xyflow/react";
 import * as React from "react";
-import { CustomNode } from "./CustomNode";
-import { layoutElements } from "./layout-elements";
+import { CustomNode } from "./CustomNode.js";
+import { layoutElements } from "./layout-elements.js";
 
 import "@xyflow/react/dist/style.css";
 

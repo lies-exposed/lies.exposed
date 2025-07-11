@@ -1,5 +1,5 @@
 import type * as d3 from "d3";
-import { EventTypeColor, EventTypeIconClass } from "../../../Icons";
+import { EventTypeColor, EventTypeIconClass } from "../../../Icons/index.js";
 
 interface SvgDefs {
   onTransform: (parent: any) => void;

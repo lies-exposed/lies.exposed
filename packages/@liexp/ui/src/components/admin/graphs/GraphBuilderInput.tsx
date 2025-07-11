@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FlowGraphBuilder } from "../../Common/Graph/Flow/FlowGraphBuilder";
-import { type TextInputProps, useInput } from "../react-admin";
+import { FlowGraphBuilder } from "../../Common/Graph/Flow/FlowGraphBuilder.js";
+import { type TextInputProps, useInput } from "../react-admin.js";
 
 interface GraphBuilderInputProps extends TextInputProps {
   optionsSource?: string;

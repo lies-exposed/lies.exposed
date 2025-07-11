@@ -12,7 +12,7 @@ import {
   Labeled,
   type TextInputProps,
   useInput,
-} from "../../admin/react-admin";
+} from "../../admin/react-admin.js";
 
 const JsonEditorReact: React.FC<JSONEditorPropsOptional> = (props) => {
   const refContainer = React.useRef<HTMLDivElement | null>(null);

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { TextInput, type TextInputProps } from "react-admin";
-import { Stack } from "../../../mui/index";
-import { SlugInput } from "./SlugInput";
+import { Stack } from "../../../mui/index.js";
+import { TextInput, type TextInputProps } from "../../react-admin.js";
+import { SlugInput } from "./SlugInput.js";
 
 export interface JSONInputProps extends TextInputProps {
   label?: string;

@@ -61,7 +61,7 @@ import * as React from "react";
 import { Route } from "react-router";
 import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
 import { EventEdit, EventList } from "./pages/AdminEvents.js";
-import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph";
+import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph.js";
 import {
   GroupMemberCreate,
   GroupMemberEdit,
