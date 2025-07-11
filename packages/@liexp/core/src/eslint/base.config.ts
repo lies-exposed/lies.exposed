@@ -1,9 +1,10 @@
 import "eslint-import-resolver-typescript";
 import eslint from "@eslint/js";
 import fpTS from "eslint-plugin-fp-ts";
-import importPlugin from "eslint-plugin-import";
+import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
+// import tsParser from "@typescript-eslint/parser";
 
 const config: any = tseslint.config(
   eslint.configs.recommended,
@@ -12,29 +13,32 @@ const config: any = tseslint.config(
   ...tseslint.configs.stylisticTypeCheckedOnly,
   eslintPluginPrettierRecommended,
   {
-    plugins: { "fp-ts": fpTS, import: importPlugin },
+    plugins: { "fp-ts": fpTS, "import-x": importX },
     languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
+      ecmaVersion: "latest",
+      sourceType: "module",
+      // parser: tsParser,
+      // parserOptions: {
+      //   project: ["./tsconfig.json"],
+      //   tsconfigRootDir: import.meta.dirname,
+      // },
     },
-    settings: {
-      "import/resolver": {
-        typescript: {
-          project: "./tsconfig.json",
-        },
-        node: {
-          extensions: [".js", ".jsx", ".ts", ".tsx"],
-        },
-      },
-    },
+    // settings: {
+    //   "import-x/resolver": {
+    //     typescript: {
+    //       project: "./tsconfig.json",
+    //     },
+    //     node: {
+    //       extensions: [".js", ".jsx", ".ts", ".tsx"],
+    //     },
+    //   },
+    // },
     rules: {
       "fp-ts/no-lib-imports": "off",
       // "fp-ts/no-module-imports": "error",
-      "import/default": "off",
-      "import/no-named-as-default-member": "off",
-      "import/order": [
+      "import-x/default": "off",
+      "import-x/no-named-as-default-member": "off",
+      "import-x/order": [
         "error",
         {
           alphabetize: {
@@ -42,8 +46,8 @@ const config: any = tseslint.config(
           },
         },
       ],
-      "import/namespace": "off",
-      "import/extensions": [
+      "import-x/namespace": "off",
+      "import-x/extensions": [
         "error",
         "ignorePackages",
         {

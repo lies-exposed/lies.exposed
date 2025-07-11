@@ -13,7 +13,7 @@ export default tseslint.config(...reactEslintConfig, {
   },
   rules: {
     "react/prop-types": ["off"],
-    "import/named": ["off"],
+    "import-x/named": ["off"],
     "no-restricted-imports": [
       "error",
       {
