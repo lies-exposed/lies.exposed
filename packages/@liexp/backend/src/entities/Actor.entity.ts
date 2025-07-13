@@ -17,6 +17,7 @@ import {
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { GroupMemberEntity } from "./GroupMember.entity.js";
 import { MediaEntity } from "./Media.entity.js";
+import { NationEntity } from "./Nation.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 
@@ -74,6 +75,10 @@ export class ActorEntity extends DeletableEntity {
   })
   @JoinTable()
   stories: Relation<StoryEntity[]>;
+
+  @ManyToMany(() => NationEntity, (n) => n.actors)
+  @JoinTable()
+  nationalities: Relation<NationEntity[]>;
 
   // TODO: add relation to death event
   death: UUID | null;

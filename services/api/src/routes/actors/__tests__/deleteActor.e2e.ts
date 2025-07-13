@@ -33,6 +33,7 @@ describe("Delete Actor", () => {
           stories: [],
           featuredInAreas: [],
           featuredInStories: [],
+          nationalities: [],
           creator: null,
           extra: null,
         },
@@ -51,6 +52,7 @@ describe("Delete Actor", () => {
           fullName: tests.fc.sample(tests.fc.string())[0],
           excerpt,
           body,
+          nationalities: [],
         })
     ).body.data;
     Test.ctx.logger.debug.log("Actor %O", actor);

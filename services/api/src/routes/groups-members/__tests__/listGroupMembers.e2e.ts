@@ -70,6 +70,7 @@ describe("List Group Member", () => {
           eventCount,
           events: actorEvents,
           stories: actorStories,
+          nationalities,
           ...expectedActor
         },
         group: {

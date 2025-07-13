@@ -69,6 +69,13 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 id: group.id,
                 name: group.name,
                 avatar: group.avatar,
+                nationalities: [],
+                // nationalities: group.nationalities.flatMap(n=> {
+                //   if (Schema.is(UUID)(n)) {
+                //     return [n]
+                //   }
+                //   return [n.id]
+                // })
               }}
               tabs={[
                 {

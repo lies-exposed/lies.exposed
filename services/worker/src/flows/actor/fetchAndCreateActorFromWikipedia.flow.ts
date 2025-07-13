@@ -52,6 +52,7 @@ export const fetchActorFromWikipedia =
               : undefined,
             excerpt: excerpt,
             color: generateRandomColor(),
+            nationalities: [],
             body: undefined,
             bornOn: undefined,
             diedOn: undefined,
@@ -81,6 +82,7 @@ export const fetchAndCreateActorFromWikipedia =
             return ctx.db.save(ActorEntity, [
               {
                 ...actor,
+                nationalities: [],
                 avatar: Schema.is(UUID)(actor.avatar)
                   ? { id: actor.avatar }
                   : {

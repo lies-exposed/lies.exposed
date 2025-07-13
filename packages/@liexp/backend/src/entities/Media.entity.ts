@@ -92,5 +92,5 @@ export class MediaEntity extends DeletableEntity {
   })
   keywords: Relation<KeywordEntity[]>;
 
-  socialPosts?: SocialPostEntity[];
+  socialPosts?: Relation<SocialPostEntity>[];
 }

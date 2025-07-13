@@ -5,6 +5,7 @@ import { Color } from "./Common/Color.js";
 import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
 import { CreateMedia, Media } from "./Media/Media.js";
+import { Nation } from "./Nation.js";
 import { GetListQuery } from "./Query/index.js";
 
 export const ACTORS = Schema.Literal("actors");
@@ -33,6 +34,7 @@ export const AddActorBody = Schema.Struct({
   fullName: Schema.String,
   color: Schema.String,
   excerpt: BlockNoteDocument,
+  nationalities: Schema.Array(UUID),
   body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Undefined),
   avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined),
   bornOn: Schema.Union(Schema.Date, Schema.Undefined),
@@ -60,6 +62,7 @@ export const Actor = Schema.Struct({
   username: Schema.String,
   avatar: Schema.Union(Media, Schema.Undefined),
   color: Color,
+  nationalities: Schema.Array(Schema.Union(Nation, UUID)),
   memberIn: Schema.Array(Schema.Union(UUID, Schema.Any)),
   excerpt: Schema.Union(BlockNoteDocument, Schema.Null),
   body: Schema.Union(BlockNoteDocument, Schema.Null),

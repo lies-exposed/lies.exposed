@@ -33,7 +33,8 @@ export interface FAIconProps extends FontAwesomeIconProps {
     | "users-between-lines"
     | "share-nodes"
     | "map-location"
-    | "chart-line";
+    | "chart-line"
+    | "flag";
 }
 
 export const FAIcon: React.FC<FAIconProps> = ({
@@ -95,4 +96,8 @@ export const GraphIcon: FAIconFC = (props) => (
     {...props}
     icon={"chart-line"}
   />
+);
+
+export const NationIcon: FAIconFC = (props) => (
+  <FAIcon color={toColorHash(generateRandomColor())} {...props} icon="flag" />
 );

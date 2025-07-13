@@ -30,6 +30,7 @@ describe("Create Event", () => {
   const actors = fc.sample(ActorArb, 3).map((a) => ({
     ...a,
     memberIn: [],
+    nationalities: [],
     death: undefined,
   }));
   const eventIds: string[] = [];

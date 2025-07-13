@@ -3,6 +3,7 @@ import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
+import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
@@ -91,10 +92,14 @@ describe("Create Actor", () => {
       .post("/v1/actors")
       .set("Authorization", authorizationToken)
       .send({
-        username: tests.fc.sample(tests.fc.string({ minLength: 6 }), 1)[0],
+        username: tests.fc
+          .sample(HumanReadableStringArb(), 1)
+          .flatMap((username) => username.split(" "))
+          .join("-"),
         avatar: avatar.id,
         color: "ffffff",
         fullName: tests.fc.sample(tests.fc.string())[0],
+        nationalities: [],
         body: body,
         excerpt: excerpt,
       });

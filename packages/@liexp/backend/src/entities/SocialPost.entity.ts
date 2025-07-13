@@ -5,7 +5,7 @@ import {
   type SocialPostPublishResult,
   type SocialPostResourceType,
 } from "@liexp/shared/lib/io/http/SocialPost.js";
-import { Column, Entity, Index } from "typeorm";
+import { Column, Entity, Index, Relation } from "typeorm";
 import { type LinkEntity } from "./Link.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 
@@ -43,7 +43,7 @@ export class SocialPostEntity extends DeletableEntity {
   @Column({ type: "timestamptz" })
   scheduledAt: Date;
 
-  links?: LinkEntity[];
+  links?: Relation<LinkEntity[]>;
 
   publishCount: number;
 }

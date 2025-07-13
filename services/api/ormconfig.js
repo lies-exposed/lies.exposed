@@ -24,10 +24,7 @@ const env = decodedEnv.right;
 
 const config = {
   ...getORMConfig(env),
-  migrations:
-    env.NODE_ENV === "test"
-      ? undefined
-      : [`${process.cwd()}/build/migrations/*.js`],
+  migrations: [`${process.cwd()}/build/migrations/*.js`],
 };
 
 export default new DataSource(config);

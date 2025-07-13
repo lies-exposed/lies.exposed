@@ -9,6 +9,7 @@ import {
   GroupIcon,
   HashtagIcon,
   LinkIcon,
+  NationIcon,
   PatentEventIcon,
   QuoteEventIcon,
   ScientificStudyEventIcon,
@@ -128,6 +129,24 @@ const PatentCreate = React.lazy(
 );
 const PatentEdit = React.lazy(
   () => import("./pages/events/patent/PatentEdit.js"),
+);
+
+const NationList = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
+    ({ NationList }) => ({ default: NationList }),
+  ),
+);
+
+const NationEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
+    ({ NationEdit }) => ({ default: NationEdit }),
+  ),
+);
+
+const NationCreate = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
+    ({ NationCreate }) => ({ default: NationCreate }),
+  ),
 );
 
 const ScientificStudiesList = React.lazy(() =>
@@ -333,6 +352,14 @@ const AdminPage: React.FC = () => {
         list={SettingList}
         edit={SettingEdit}
         create={SettingCreate}
+      />
+
+      <Resource
+        name="nations"
+        list={NationList}
+        edit={NationEdit}
+        create={NationCreate}
+        icon={NationIcon}
       />
 
       <Resource name="queues" list={QueueList} create={QueueCreate} />

@@ -64,6 +64,7 @@ export const Edit = Endpoint({
       avatar: OptionFromNullishToNull(Schema.String),
       bornOn: OptionFromNullishToNull(Schema.Date),
       diedOn: OptionFromNullishToNull(Schema.Date),
+      nationalities: OptionFromNullishToNull(Schema.Array(UUID)),
       memberIn: OptionFromNullishToNull(
         Schema.Array(
           Schema.Union(

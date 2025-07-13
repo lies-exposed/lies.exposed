@@ -22,6 +22,7 @@ import * as Healthcheck from "./healthcheck.endpoints.js";
 import * as Keyword from "./keyword.endpoints.js";
 import * as Link from "./link.endpoints.js";
 import * as Media from "./media.endpoints.js";
+import * as Nations from "./nation.endpoints.js";
 import * as Page from "./page.endpoints.js";
 import * as Project from "./project.endpoints.js";
 import * as Queues from "./queue.endpoints.js";
@@ -48,6 +49,7 @@ interface Endpoints extends EndpointsMapType {
   PatentEvent: typeof PatentEvent.patents;
   ScientificStudy: typeof ScientificStudy.scientificStudies;
   DocumentaryEvent: typeof DocumentaryEvent.documentaries;
+  Nation: typeof Nations.nations;
   QuoteEvent: typeof QuoteEvent.quotes;
   TransactionEvent: typeof TransactionEvent.transactions;
   OpenGraph: typeof OpenGraph.openGraphs;
@@ -92,6 +94,7 @@ const Endpoints: Endpoints = {
   QuoteEvent: QuoteEvent.quotes,
   TransactionEvent: TransactionEvent.transactions,
   // other
+  Nation: Nations.nations,
   OpenGraph: OpenGraph.openGraphs,
   Page: Page.pages,
   Project: Project.projects,

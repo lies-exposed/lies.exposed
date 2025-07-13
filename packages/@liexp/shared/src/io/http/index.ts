@@ -10,6 +10,7 @@ import * as GroupMember from "./GroupMember.js";
 import * as Keyword from "./Keyword.js";
 import * as Link from "./Link.js";
 import * as Media from "./Media/index.js";
+import * as Nation from "./Nation.js";
 import * as Network from "./Network/Network.js";
 import * as Page from "./Page.js";
 import * as Project from "./Project.js";
@@ -38,6 +39,7 @@ export {
   Keyword,
   Link,
   Media,
+  Nation,
   Network,
   Page,
   Project,

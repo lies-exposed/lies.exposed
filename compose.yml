@@ -120,6 +120,11 @@ services:
     restart: always
     networks:
       - reverseproxy
+    logging:
+      driver: "json-file"
+      options:
+        max-file: 1
+        max-size: 1m
 
   ai-bot:
     build:

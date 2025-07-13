@@ -11,7 +11,6 @@ import {
 } from "@liexp/shared/lib/io/http/Actor.js";
 import { ACTOR } from "@liexp/shared/lib/io/http/Common/BySubject.js";
 import { Schema } from "effect";
-import * as O from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 
@@ -20,11 +19,14 @@ const createActorFromBody = (body: AddActorBody): TEReader<ActorEntity> => {
     ActorRepository.findOne({
       where: { username: body.username },
     }),
-    fp.RTE.filterOrElse(O.isNone, () => ServerError.of()),
+    fp.RTE.filterOrElse(fp.O.isNone, () =>
+      ServerError.of(["Actor already exists"]),
+    ),
     fp.RTE.chain(() =>
       ActorRepository.save([
         {
           ...body,
+          nationalities: body.nationalities.map((n) => ({ id: n })),
           avatar: body.avatar ? { id: body.avatar } : null,
           bornOn: body.bornOn?.toISOString(),
           diedOn: body.diedOn?.toISOString(),
