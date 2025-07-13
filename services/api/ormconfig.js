@@ -23,7 +23,7 @@ if (decodedEnv._tag === "Left") {
 const env = decodedEnv.right;
 
 const config = {
-  ...getORMConfig(env, true),
+  ...getORMConfig(env),
   migrations:
     env.NODE_ENV === "test"
       ? undefined

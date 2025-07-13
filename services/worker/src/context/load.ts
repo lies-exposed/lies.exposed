@@ -87,7 +87,7 @@ export const loadImplementation = (
         client: axios.create({ baseURL: env.GEO_CODE_BASE_URL }),
       },
       space: createS3ProviderConfig(env),
-      db: { client: getDataSource(getORMConfig(env, false)) },
+      db: { client: getDataSource(getORMConfig(env)) },
       fs: { client: fs },
     })),
   );
