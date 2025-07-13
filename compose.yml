@@ -70,7 +70,6 @@ services:
       - api-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
-      - ./services/worker/config:/usr/src/app/services/api/config:ro
     working_dir: /usr/src/app/services/api
 
   api.liexp.dev:
@@ -86,6 +85,8 @@ services:
       start_period: 15s
     command: pnpm docker:dev
     restart: always
+    volumes:
+      - ./services/api/config:/usr/src/app/services/api/config:ro
     mem_limit: 1G
     networks:
       - reverseproxy
