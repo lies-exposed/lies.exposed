@@ -1,8 +1,6 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { DeathEventEntity } from "@liexp/backend/lib/entities/archive/DeathEvent.entity.js";
-import { EventEntity } from "@liexp/backend/lib/entities/archive/Event.entity.js";
-import { ScientificStudyEntity } from "@liexp/backend/lib/entities/archive/ScientificStudy.entity.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
 export class EventV21639419928672 implements MigrationInterface {
@@ -64,7 +62,7 @@ export class EventV21639419928672 implements MigrationInterface {
       `ALTER TABLE "event_v2_keywords_keyword" ADD CONSTRAINT "FK_1512e830ee8f62ee6db969dc40b" FOREIGN KEY ("keywordId") REFERENCES "keyword"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     const uncategorizedEvents = await queryRunner.manager
-      .find(EventEntity, {
+      .find("event", {
         loadRelationIds: {
           relations: [
             "actors",
@@ -78,21 +76,21 @@ export class EventV21639419928672 implements MigrationInterface {
       })
       .then((ee) =>
         ee.map(
-          (e): EventV2Entity => ({
-            ...(e as any),
-            excerpt: {},
-            body: (e.body2 as any) ?? {},
+          (e): Partial<EventV2Entity> => ({
+            ...e,
+            excerpt: toInitialValue(e.excerpt) ?? null,
+            body: toInitialValue(e.body2) ?? null,
             draft: false,
             type: "Uncategorized",
             payload: {
               title: e.title,
               location: undefined,
               endDate: e.endDate ?? undefined,
-              actors: e.actors as any,
-              groups: e.groups as any,
-              groupsMembers: e.groupsMembers as any,
+              actors: e.actors,
+              groups: e.groups,
+              groupsMembers: e.groupsMembers,
             },
-            media: e.media as any[],
+            media: e.media,
             keywords: e.keywords,
             date: e.startDate,
             links: e.links,
@@ -100,7 +98,7 @@ export class EventV21639419928672 implements MigrationInterface {
         ),
       );
     const deathEvents = await queryRunner.manager
-      .find(DeathEventEntity, {
+      .find("death_event", {
         loadRelationIds: {
           relations: ["victim"],
         },
@@ -114,7 +112,7 @@ export class EventV21639419928672 implements MigrationInterface {
             type: EVENT_TYPES.DEATH,
             payload: {
               location: (s as any).location ?? undefined,
-              victim: s.victim as any,
+              victim: s.victim,
             },
             body: {},
             media: [],
@@ -125,7 +123,7 @@ export class EventV21639419928672 implements MigrationInterface {
       );
 
     const scientificStudies = await queryRunner.manager
-      .find(ScientificStudyEntity, {
+      .find("scientific_study", {
         loadRelationIds: {
           relations: ["authors", "publisher"],
         },
@@ -138,7 +136,7 @@ export class EventV21639419928672 implements MigrationInterface {
             type: EVENT_TYPES.SCIENTIFIC_STUDY,
             payload: {
               title: s.title,
-              url: s.url as any,
+              url: s.url,
               publisher: (s as any).publisher.id,
               image: undefined,
               authors: (s as any).authors as any[],

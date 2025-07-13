@@ -68,7 +68,7 @@ export const loadAppContext = async (
     ),
     TE.bind("db", ({ env }) =>
       pipe(
-        getDataSource(getORMConfig({ ...env, DB_DATABASE: database }, false)),
+        getDataSource(getORMConfig({ ...env, DB_DATABASE: database })),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
     ),
@@ -144,7 +144,7 @@ export const initAppTest = async (
 
       return pipe(
         getDataSource(
-          getORMConfig({ ...ctx.env, DB_DATABASE: database }, false),
+          getORMConfig({ ...ctx.env, DB_DATABASE: database }),
         ),
         TE.chain((source) => GetTypeORMClient(source)),
       );

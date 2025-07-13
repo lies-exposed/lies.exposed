@@ -45,7 +45,7 @@ export const makeContext =
     const serverLogger = logger.GetLogger(namespace);
 
     const db = pipe(
-      getORMConfig(env, false),
+      getORMConfig(env),
       (opts) =>
         getDataSource({
           ...opts,

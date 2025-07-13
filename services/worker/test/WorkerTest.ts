@@ -66,7 +66,7 @@ export const loadAppContext = async (
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
-        getDataSource(getORMConfig(process.env as any, false)),
+        getDataSource(getORMConfig(process.env as any)),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
@@ -136,7 +136,7 @@ export const initAppTest = async (
   database: string,
 ): Promise<WorkerTest> => {
   const appTest = await pipe(
-    getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database }, false)),
+    getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database })),
     TE.chain((source) => GetTypeORMClient(source)),
     TE.map((db) => ({ ...ctx, db })),
     TE.map((ctx) => ({

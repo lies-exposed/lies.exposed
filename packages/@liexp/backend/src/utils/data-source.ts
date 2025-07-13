@@ -22,17 +22,10 @@ import { SettingEntity } from "../entities/Setting.entity.js";
 import { SocialPostEntity } from "../entities/SocialPost.entity.js";
 import { StoryEntity } from "../entities/Story.entity.js";
 import { UserEntity } from "../entities/User.entity.js";
-import { DeathEventEntity } from "../entities/archive/DeathEvent.entity.js";
-import { EventEntity } from "../entities/archive/Event.entity.js";
-import { MediaV1Entity } from "../entities/archive/Media.v1.entity.js";
-import { ScientificStudyEntity } from "../entities/archive/ScientificStudy.entity.js";
 import { type BACKEND_ENV } from "../io/ENV.js";
 import { toDBError, type DBError } from "../providers/orm/database.provider.js";
 
-export const getORMConfig = (
-  env: BACKEND_ENV,
-  includeOldEntities: boolean,
-): DataSourceOptions => {
+export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
   const ssl =
     env.DB_SSL_MODE === "require"
       ? {
@@ -50,17 +43,6 @@ export const getORMConfig = (
     database: env.DB_DATABASE,
     port: env.DB_PORT,
     entities: [
-      ...(includeOldEntities
-        ? [
-            // old
-            EventEntity,
-            DeathEventEntity,
-            ScientificStudyEntity,
-            MediaV1Entity,
-          ]
-        : []),
-
-      // current
       PageEntity,
       ActorEntity,
       GroupEntity,
