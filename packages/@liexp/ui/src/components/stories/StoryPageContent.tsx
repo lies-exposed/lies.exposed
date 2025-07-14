@@ -80,7 +80,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
       </Grid>
       <Grid container>
         <Grid size={{ md: 3, lg: 3, xl: 4 }}>
-          {body ? (
+          {isValidValue(body) ? (
             <TOCPlugin
               value={body}
               onClick={(k) => {

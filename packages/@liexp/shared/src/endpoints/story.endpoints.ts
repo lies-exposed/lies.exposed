@@ -8,19 +8,20 @@ import { GetListQuery } from "../io/http/Query/index.js";
 import { Story } from "../io/http/index.js";
 
 const StoryOutput = Output(Story.Story).annotations({ title: "StoryOutput" });
-const ListStoryQuery = Schema.Struct({
+const GetListStoryQuery = Schema.Struct({
   ...GetListQuery.fields,
   draft: OptionFromNullishToNull(Schema.BooleanFromString),
   exclude: OptionFromNullishToNull(Schema.Array(UUID)),
   path: OptionFromNullishToNull(Schema.String),
   creator: OptionFromNullishToNull(UUID),
-}).annotations({ title: "ListStoryQuery" });
+  withDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
+}).annotations({ title: "GetListStoryQuery" });
 
 export const ListStory = Endpoint({
   Method: "GET",
   getPath: () => "/stories",
   Input: {
-    Query: ListStoryQuery,
+    Query: GetListStoryQuery,
   },
   Output: ListOutput(Story.Story, "Story"),
 });

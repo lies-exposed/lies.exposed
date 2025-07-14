@@ -1,14 +1,15 @@
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { Grid, Stack } from "../../mui/index.js";
 import {
   Button,
   Edit,
+  type EditProps,
+  type RaRecord,
   useDataProvider,
   useRecordContext,
   useRefresh,
   useResourceContext,
-  type EditProps,
+  useResourceDefinition,
 } from "../react-admin.js";
 import { WebPreviewButton } from "./WebPreviewButton.js";
 
@@ -26,6 +27,7 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
 }) => {
   const [showPreview, setShowPreview] = React.useState(false);
   const resource = useResourceContext();
+  const resourceInfo = useResourceDefinition();
 
   return (
     <Edit
@@ -44,13 +46,13 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
           size={12}
         >
           <Grid size={6}>
-            <Stack direction={"row"}>
+            <Stack direction={"row"} padding={2}>
               {resource && <WebPreviewButton resource={resource} source="id" />}
-              <RestoreButton />
+              <RestoreButton resource={resourceInfo.name} />
             </Stack>
           </Grid>
           <Grid size={6}>
-            <Stack alignItems={"flex-end"}>
+            <Stack alignItems={"flex-end"} padding={2}>
               <Button
                 label={`${showPreview ? "Hide" : "Show"} Preview`}
                 onClick={() => {
@@ -95,14 +97,14 @@ export const EditForm: React.FC<React.PropsWithChildren<EditFormProps>> = ({
   );
 };
 
-const RestoreButton: React.FC = () => {
+const RestoreButton: React.FC<{ resource: string }> = ({ resource }) => {
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
-  const record = useRecordContext<Media.Media>();
+  const record = useRecordContext();
 
-  const handleOnClick = (record: Media.Media): void => {
+  const handleOnClick = (record: RaRecord): void => {
     void dataProvider
-      .update("media", {
+      .update(resource, {
         id: record.id,
         data: {
           ...record,

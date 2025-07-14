@@ -18,6 +18,7 @@ export const EditStoryBody = Schema.Struct({
   actors: Schema.Array(UUID),
   events: Schema.Array(UUID),
   media: Schema.Array(UUID),
+  restore: OptionFromNullishToNull(Schema.Boolean),
 }).annotations({
   identifier: "EditStoryBody",
 });
@@ -32,7 +33,7 @@ export const Story = Schema.Struct({
   date: Schema.Date,
   featuredImage: Schema.Union(Media, Schema.Undefined),
   body: Schema.String,
-  body2: Schema.Union(BlockNoteDocument, Schema.Null),
+  body2: Schema.Union(BlockNoteDocument, Schema.Null, Schema.Unknown),
   keywords: Schema.Array(UUID),
   links: Schema.Array(UUID),
   media: Schema.Array(UUID),
