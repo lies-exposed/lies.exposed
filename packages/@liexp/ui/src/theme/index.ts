@@ -7,7 +7,7 @@ import {
   type ThemeOptions,
   useTheme,
 } from "@mui/material/styles";
-import { darken, lighten } from "@mui/system";
+import { darken, lighten, alpha } from "@mui/system";
 
 const {
   yellow,
@@ -32,6 +32,8 @@ const lightRed = red[200];
 const lightYellow = yellow[200];
 const lightBlue = _lightBlue.A100;
 
+const deletedBackgroundColor = alpha("#FF0000", 0.3);
+
 const colors = {
   primary,
   primaryLight,
@@ -43,6 +45,8 @@ const colors = {
   lightRed,
   lightYellow,
   lightBlue,
+  // custom colors
+  deletedBackgroundColor,
 };
 
 const themeOptions: ThemeOptions = {

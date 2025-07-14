@@ -8,6 +8,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { uploadImages } from "../../../client/admin/MediaAPI.js";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { colors } from "../../../theme/index.js";
 import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
@@ -34,6 +35,7 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useEditController,
   useGetIdentity,
   usePermissions,
   useRecordContext,
@@ -42,8 +44,11 @@ import {
   type ListProps,
   type RaRecord,
 } from "../react-admin.js";
+import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { StoryRelationsBox } from "./StoryRelations.js";
+
+const storiesFilters = [<BooleanInput source="withDeleted" alwaysOn />];
 
 export const StoryList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
@@ -60,6 +65,7 @@ export const StoryList: React.FC<ListProps> = (props) => {
       {...props}
       filterDefaultValues={{ draft: undefined }}
       filter={{ ...filter }}
+      filters={storiesFilters}
     >
       <Datagrid rowClick="edit">
         <Stack direction="row">
@@ -125,7 +131,9 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
   const dataProvider = useDataProvider();
   const { data, isLoading } = useGetIdentity();
   const { permissions, isLoading: isPermsLoading } = usePermissions();
-  if (isLoading || isPermsLoading) {
+  const { record } = useEditController(props);
+
+  if (isLoading || isPermsLoading || !record) {
     return <LoadingPage />;
   }
 
@@ -138,7 +146,14 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
       preview={<StoryPreview />}
       title={<StoryTitle />}
     >
-      <TabbedForm>
+      <TabbedForm
+        toolbar={<EditToolbar />}
+        style={{
+          background: record?.deletedAt
+            ? colors.deletedBackgroundColor
+            : undefined,
+        }}
+      >
         <TabbedForm.Tab label="generals">
           <Stack display="flex" direction="column" width="100%">
             <Grid

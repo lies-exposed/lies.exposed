@@ -28,6 +28,7 @@ const toStoryIO = ({
       actors: story.actors ?? [],
       groups: story.groups ?? [],
       events: story.events ?? [],
+      keywords: story.keywords ?? [],
       featuredImage: Schema.is(UUID)(story.featuredImage)
         ? story.featuredImage
         : story.featuredImage
@@ -50,6 +51,7 @@ const toStoryIO = ({
       date: story.date?.toISOString() ?? new Date().toISOString(),
       createdAt: story.createdAt.toISOString(),
       updatedAt: story.updatedAt.toISOString(),
+      deletedAt: story.deletedAt?.toISOString() ?? null,
     },
     Schema.decodeUnknownEither(io.http.Story.Story),
     E.mapLeft((e) =>

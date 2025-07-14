@@ -52,11 +52,13 @@ export class StoryEntity extends DeletableEntity {
   @ManyToOne(() => UserEntity, (u) => u.stories, {
     cascade: false,
     nullable: true,
+    onDelete: "SET NULL",
   })
   creator: Relation<UserEntity | UUID | null>;
 
   @ManyToMany(() => KeywordEntity, (k) => k.stories, {
     cascade: false,
+    onDelete: "SET NULL",
   })
   keywords: Relation<KeywordEntity[]>;
 

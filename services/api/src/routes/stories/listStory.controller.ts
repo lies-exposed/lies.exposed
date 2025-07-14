@@ -13,7 +13,14 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
   AddEndpoint(r)(
     Endpoints.Story.List,
-    ({ query: { draft: _draft, exclude: _exclude, ...query } }) => {
+    ({
+      query: {
+        draft: _draft,
+        exclude: _exclude,
+        withDeleted: _withDeleted,
+        ...query
+      },
+    }) => {
       const findOptions = getORMOptions({ ...query }, env.DEFAULT_PAGE_SIZE);
       const draft = pipe(
         _draft,
@@ -28,8 +35,13 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
         })),
         O.getOrElse(() => ({})),
       );
+      const withDeleted = pipe(
+        _withDeleted,
+        O.filter((deleted) => !!deleted),
+        O.getOrElse(() => false),
+      );
       return pipe(
-        sequenceS(TE.ApplicativeSeq)({
+        sequenceS(TE.ApplicativePar)({
           data: pipe(
             db.find(StoryEntity, {
               ...findOptions,
@@ -38,6 +50,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
                 ...draft,
                 ...exclude,
               },
+              withDeleted,
               relations: ["featuredImage"],
               loadRelationIds: {
                 relations: [
@@ -53,7 +66,7 @@ export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
             }),
             TE.chainEitherK(StoryIO.decodeMany),
           ),
-          total: db.count(StoryEntity),
+          total: db.count(StoryEntity, { withDeleted }),
         }),
         TE.map(({ data, total }) => ({
           body: {

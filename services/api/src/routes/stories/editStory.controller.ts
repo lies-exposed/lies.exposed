@@ -25,15 +25,18 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           actors,
           groups,
           events,
+          restore,
           ...body
         },
       },
       r,
     ) => {
       const relations = relationsTransformer(body2);
+
       return pipe(
         ctx.db.findOneOrFail(StoryEntity, {
           where: { id: Equal(id), creator: Equal(creator) },
+          withDeleted: true,
         }),
         TE.chain((e) => {
           const featuredImageId = pipe(
@@ -43,6 +46,13 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           );
 
           ctx.logger.debug.log("Featured image %O", featuredImageId);
+
+          const deletedAt = pipe(
+            restore,
+            O.filter((r) => !!r),
+            O.map((r) => null),
+            O.getOrElse(() => e.deletedAt),
+          );
 
           return ctx.db.save(StoryEntity, [
             {
@@ -56,6 +66,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
               body2,
               creator,
               featuredImage: featuredImageId,
+              deletedAt,
             },
           ]);
         }),
@@ -66,6 +77,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
             loadRelationIds: {
               relations: ["creator", "actors", "groups", "keywords"],
             },
+            withDeleted: true,
           }),
         ),
         TE.chainEitherK(StoryIO.decodeSingle),
