@@ -24,11 +24,11 @@ export const useJSONDataQuery =
     decode: (u: unknown) => Either<ParseError, { readonly data: A }>,
     id: string,
   ): UseQueryResult<{ data: A }, IOError | ParseError> => {
+    const getJSON = jsonData(jsonClient)(decode);
     return useQuery({
-      // eslint-disable-next-line @tanstack/query/exhaustive-deps
       queryKey: ["json", id],
       queryFn: async () => {
-        return jsonData(jsonClient)(decode)({ id });
+        return getJSON({ id });
       },
     });
   };

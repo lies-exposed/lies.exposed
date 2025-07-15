@@ -88,9 +88,7 @@ const SocialPostEditFormTabTelegram: React.FC = () => {
     return (
       <SocialPostButton
         type={record.type}
-        onLoadSharePayloadClick={async () =>
-          Promise.resolve(record.result.tg as any)
-        }
+        onLoadSharePayloadClick={async () => Promise.resolve(record.result.tg)}
       />
     );
   }

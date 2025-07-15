@@ -1,4 +1,4 @@
-import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { Column, Entity, Index } from "typeorm";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 

@@ -99,7 +99,7 @@ export const GetAuthProvider = (
             localStorage.setItem("user", JSON.stringify(user));
           }
           return user;
-        }) as Promise<UserIdentity>;
+        });
     },
   };
 };

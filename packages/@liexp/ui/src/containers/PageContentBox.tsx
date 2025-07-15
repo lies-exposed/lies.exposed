@@ -38,8 +38,8 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 {title}
               </Typography>
             ) : null}
-            {body2 ? <BNEditor content={body2 as any} readOnly /> : null}
-            {body2 ? <TOCPlugin value={body2 as any} /> : null}
+            {body2 ? <BNEditor content={body2} readOnly /> : null}
+            {body2 ? <TOCPlugin value={body2} /> : null}
           </div>
         );
       }}
