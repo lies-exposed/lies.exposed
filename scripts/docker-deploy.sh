@@ -68,7 +68,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     docker system prune -f
     docker builder prune -f --all
 
-    docker compose --env-file .env.api run -d --name api-migration api pnpm migration:run
+    docker compose --env-file .env.api run -d --name api-migration api npx typeorm migration:run -d ./ormconfig.js
 
 
     cd ~/

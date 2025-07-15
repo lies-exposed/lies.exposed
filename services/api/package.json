@@ -22,7 +22,8 @@
     "assets",
     "build",
     "bin",
-    "config"
+    "config",
+    "ormconfig.js"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -35,11 +36,11 @@
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
-    "migration:gen": "pnpm typeorm migration:generate -d ./ormconfig.js",
-    "migration:revert": "pnpm typeorm migration:revert -d ./ormconfig.js",
-    "migration:run": "pnpm typeorm migration:run -d ./ormconfig.js",
-    "migration:show": "pnpm typeorm migration:show -d ./ormconfig.js",
-    "schema:log": "pnpm typeorm schema:log -d ./ormconfig.js",
+    "migration:gen": "pnpm typeorm-ts migration:generate -d ./ormconfig.js",
+    "migration:revert": "pnpm typeorm-ts migration:revert -d ./ormconfig.js",
+    "migration:run": "pnpm typeorm-ts migration:run -d ./ormconfig.js",
+    "migration:show": "pnpm typeorm-ts migration:show -d ./ormconfig.js",
+    "schema:log": "pnpm typeorm-ts schema:log -d ./ormconfig.js",
     "start": "node build/run.js",
     "start:worker": "node build/worker/index.js",
     "test": "vitest",
@@ -47,7 +48,7 @@
     "test:e2e": "pnpm test --project api-e2e",
     "test:spec": "pnpm test --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
-    "typeorm": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
+    "typeorm-ts": "TSX_TSCONFIG_PATH=tsconfig.build.json node --require tsx/cjs --require dotenv/config ../../node_modules/typeorm/cli.js",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
