@@ -7,7 +7,6 @@ import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetwor
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import {
@@ -392,7 +391,7 @@ const getLinks =
               const links: readonly NetworkLink[] = [
                 {
                   source: relation.id,
-                  target: p.id as UUID,
+                  target: p.id,
                   value: (1 / relations.length) * 100,
                   stroke: `#${relation.color}`,
                   fill: `#${relation.color}`,
@@ -408,7 +407,7 @@ const getLinks =
               ...lastLinks,
               {
                 source: lastLink.target,
-                target: p.id as UUID,
+                target: p.id,
                 value: (1 / relations.length) * 100,
                 stroke: `#${relation.color}`,
                 fill: `#${relation.color}`,

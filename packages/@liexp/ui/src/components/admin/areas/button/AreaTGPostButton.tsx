@@ -37,9 +37,7 @@ export const AreaTGPostButton: React.FC = () => {
 
         return {
           title: record.label,
-          content: record.body
-            ? getTextContentsCapped(record.body as any, 300)
-            : "",
+          content: record.body ? getTextContentsCapped(record.body, 300) : "",
           media,
           date,
           keywords: [],

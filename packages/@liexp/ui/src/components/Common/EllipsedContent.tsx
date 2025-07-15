@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-restricted-imports
-import { Typography, type TypographyOwnProps } from "@mui/material";
 import * as React from "react";
 import EllipsisComponent from "react-ellipsis-component";
 import { type EllipsisProps } from "react-ellipsis-component/dist/type";
+import { Typography, type TypographyOwnProps } from "../mui/index.js";
 
 interface EllipsesContentProps extends Omit<EllipsisProps, "ellipsis"> {
   height?: number;

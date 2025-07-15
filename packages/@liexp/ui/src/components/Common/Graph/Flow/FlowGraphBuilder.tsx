@@ -228,8 +228,8 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
     if (!pane) {
       return;
     }
-    const nodeWidth = node.width!;
-    const nodeHeight = node.height!;
+    const nodeWidth = node.width;
+    const nodeHeight = node.height;
     // calculate the center point of the node from position and dimensions
     const centerX = pane.left + node.position.x + nodeWidth / 2;
     const centerY = pane.top + node.position.y + nodeHeight / 2;

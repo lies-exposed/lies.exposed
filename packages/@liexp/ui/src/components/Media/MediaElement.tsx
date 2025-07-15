@@ -116,7 +116,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: media.type as Media.AudioType }}
+            media={{ ...media, type: media.type }}
           />
         );
       }
@@ -127,7 +127,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             {...props}
             style={itemStyle}
             className={clsx(classes.item, itemClassName)}
-            media={{ ...media, type: media.type as Media.ImageType }}
+            media={{ ...media, type: media.type }}
             disableZoom={disableZoom}
           />
         );

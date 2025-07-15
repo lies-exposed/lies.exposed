@@ -15,9 +15,13 @@ export const MakeEditGroupMemberRoute: Route = (r, ctx): void => {
     ({ params: { id }, body }) => {
       ctx.logger.debug.log("Edit group member %s with %O", id, body);
 
-      const updateData = foldOptionals(body as any);
+      const updateData = foldOptionals(body);
       return pipe(
-        ctx.db.update(GroupMemberEntity, id, updateData),
+        ctx.db.update(GroupMemberEntity, id, {
+          ...updateData,
+          group: { id: updateData.group },
+          actor: { id: updateData.actor },
+        }),
         TE.chain(() =>
           ctx.db.findOneOrFail(GroupMemberEntity, {
             where: { id: Equal(id) },

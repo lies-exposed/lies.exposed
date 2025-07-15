@@ -1,5 +1,4 @@
 /* eslint-disable no-restricted-imports */
-
 import { TreeView, TreeItem } from "@mui/lab";
 import {
   Accordion,
@@ -75,6 +74,7 @@ import {
   Toolbar,
   Typography,
   type TypographyProps,
+  type TypographyOwnProps,
   Avatar,
   type AvatarProps,
   Popover,
@@ -158,6 +158,7 @@ export {
   TreeItem,
   TreeView,
   Typography,
+  type TypographyOwnProps,
   alpha,
   // colors
   useMuiMediaQuery,

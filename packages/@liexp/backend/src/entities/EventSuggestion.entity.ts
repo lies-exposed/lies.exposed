@@ -1,4 +1,4 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import {
   Column,

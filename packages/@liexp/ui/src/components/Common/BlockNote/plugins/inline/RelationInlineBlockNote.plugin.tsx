@@ -142,7 +142,7 @@ export const RelationInlineContentComponent: React.FC<{
           onChange={(e) => {
             setRelationProps({
               id: undefined,
-              relation: e.target.value as string,
+              relation: e.target.value,
             });
           }}
           size="small"

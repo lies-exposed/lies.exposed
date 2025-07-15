@@ -1,4 +1,4 @@
-import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { Column, Entity, ManyToMany, ManyToOne, type Relation } from "typeorm";
 import { ActorEntity } from "./Actor.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";

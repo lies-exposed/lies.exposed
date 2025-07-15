@@ -11,7 +11,7 @@ import { type Route } from "#routes/route.types.js";
 export const MakeListGraphsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Graph.List, ({ query: { q } }) => {
     const query = foldOptionals({ q });
-    const where = query.q ? { label: Like(`%${query.q}%`) } : {};
+    const where = query.q ? { label: Like(`%${query.q.toString()}%`) } : {};
     return pipe(
       ctx.db.findAndCount(GraphEntity, { where }),
       TE.chainEitherK(([data, total]) =>

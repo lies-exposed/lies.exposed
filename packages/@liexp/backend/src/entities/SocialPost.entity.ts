@@ -1,6 +1,6 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
-  CreateSocialPost,
+  type CreateSocialPost,
   SocialPostStatus,
   type SocialPostPublishResult,
   type SocialPostResourceType,
