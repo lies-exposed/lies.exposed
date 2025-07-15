@@ -6,6 +6,7 @@
   "repository": "git@github.com:lies.exposed/lies-exposed.git",
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "type": "module",
   "scripts": {
     "admin-web": "pnpm --filter 'admin-web'",
     "ai-bot": "pnpm --filter 'ai-bot'",
@@ -20,6 +21,7 @@
     "deploy:setup": "./deploy/setup.sh",
     "format": "pnpm -r run format",
     "lint": "pnpm -r run lint",
+    "lint:all": "eslint -c eslint.config.js",
     "corepack": "corepack",
     "corepack:up": "pnpm -r -c exec 'corepack use pnpm@latest-10'",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
