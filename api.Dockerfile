@@ -26,7 +26,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM node:23-alpine AS production
+FROM ghcr.io/lies-exposed/liexp-base:23-pnpm-latest AS production
 
 WORKDIR /prod/api
 

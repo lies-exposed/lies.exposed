@@ -1,5 +1,5 @@
 services:
-  api-base:
+  api:
     image: ghcr.io/lies-exposed/liexp-api:alpha-latest
     user: $API_UID:$API_GID
     env_file:
@@ -10,28 +10,24 @@ services:
       - ./temp/db/:/prod/api/db/:rw
       - ./config/:/prod/api/config/:rw
     working_dir: /prod/api
+    container_name: liexp-api
+    ports:
+      - "127.0.0.1:4010:4010"
     restart: always
     logging:
       driver: "json-file"
       options:
         max-file: 5
         max-size: 10m
-
-  api:
-    extends: api-base
-    container_name: liexp-api
-    ports:
-      - "127.0.0.1:4010:4010"
+    mem_limit: 1G
+    depends_on:
+      - redis
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://localhost:4010/v1/healthcheck"]
     #   interval: 10s
     #   timeout: 10s
     #   retries: 10
     #   start_period: 30s
-    restart: always
-    mem_limit: 1G
-    depends_on:
-      - redis
 
   be-worker:
     image: ghcr.io/lies-exposed/liexp-worker:alpha-latest

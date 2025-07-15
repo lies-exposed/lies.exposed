@@ -11,7 +11,7 @@ scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
 
 scp -r ./deploy/certs/ $SSH_DOMAIN:docker-app/certs/
 mkdir -p ./services/api/config/
-scp -r ./services/api/config/ $SSH_DOMAIN:docker-app/config/
+scp -r ./services/api/config $SSH_DOMAIN:docker-app/
 
 scp -r ./resources/nginx/snippets/ssl-params.conf $SSH_DOMAIN:/etc/nginx/snippets/ssl-params.conf
 scp -r ./resources/nginx/alpha.lies.exposed.conf $SSH_DOMAIN:/etc/nginx/sites-enabled/alpha.lies.exposed.conf
