@@ -48,7 +48,9 @@ services:
     networks:
       - reverseproxy
 
-  api-base:
+  api.liexp.dev:
+    command: pnpm docker:dev
+    restart: always
     build:
       context: .
       target: dev
@@ -62,6 +64,12 @@ services:
       DB_HOST: db.liexp.dev
       DB_PORT: 5432
       SERVER_PORT: 80
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
+      interval: 10s
+      timeout: 20s
+      retries: 10
+      start_period: 15s
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev
@@ -71,22 +79,6 @@ services:
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
     working_dir: /usr/src/app/services/api
-
-  api.liexp.dev:
-    extends: api-base
-    depends_on:
-      - db.liexp.dev
-      - fra1.space.liexp.dev
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://api.liexp.dev/v1/healthcheck"]
-      interval: 10s
-      timeout: 20s
-      retries: 10
-      start_period: 15s
-    command: pnpm docker:dev
-    restart: always
-    volumes:
-      - ./services/api/config:/usr/src/app/services/api/config:ro
     mem_limit: 1G
     networks:
       - reverseproxy
