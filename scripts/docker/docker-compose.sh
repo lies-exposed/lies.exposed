@@ -6,6 +6,8 @@ set -x
 
 args=$@
 
+mc admin user add local space-access-key-id space-access-key-secret-id
+mc admin policy attach local readwrite --user=space-access-key-id
 
 # create docker network if not exists
 docker network inspect reverseproxy > /dev/null 2>&1

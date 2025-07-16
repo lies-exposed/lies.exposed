@@ -5,7 +5,10 @@ import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type EditMediaBody } from "@liexp/shared/lib/io/http/Media/index.js";
+import {
+  ImageMediaExtra,
+  type EditMediaBody,
+} from "@liexp/shared/lib/io/http/Media/index.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
@@ -93,7 +96,14 @@ export const editMedia = (
               }),
               fp.RTE.map(() => m.thumbnail),
             )
-          : fp.RTE.right(fp.O.getOrElse(() => m.thumbnail)(thumbnail)),
+          : Schema.is(ImageMediaExtra)(extra) && extra.needRegenerateThumbnail
+            ? pipe(
+                MediaPubSub.GenerateThumbnailPubSub.publish({
+                  id: m.id,
+                }),
+                fp.RTE.map(() => m.thumbnail),
+              )
+            : fp.RTE.right(fp.O.getOrElse(() => m.thumbnail)(thumbnail)),
     ),
     fp.RTE.bind("location", ({ media }) => {
       if (O.isSome(transfer)) {
