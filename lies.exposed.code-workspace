@@ -83,7 +83,7 @@
     },
     "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
     "easynpm.packageManager": "pnpm",
-    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed/services/api",
+    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed",
     "pnpm-vscode-helper.extraWorkspaceScripts": [],
     "totalTypeScript.hideBasicTips": true,
     "cSpell.userWords": ["liexp", "typeorm"],

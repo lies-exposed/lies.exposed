@@ -227,15 +227,16 @@ services:
       DEBUG: true
       # REBUILD: true
       VIRTUAL_HOST: localai.liexp.dev,localai.lies.exposed
-      # VIRTUAL_PORT: 8080
+      VIRTUAL_PORT: 8080
       OPENAI_API_KEY: no-key-is-a-good-key
       LOCALAI_CORS: 0
     volumes:
-      - ./models:/build/models:cached
+      - ./models:/models:cached
     # devices:
     #   - /dev/dri
     networks:
       - reverseproxy
+    cpu_count: 2
 
 volumes:
   db-data: {}
