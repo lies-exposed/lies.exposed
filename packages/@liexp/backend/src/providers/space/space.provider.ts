@@ -1,9 +1,13 @@
 import {
   CreateBucketCommand,
   DeleteObjectCommand,
+  GetBucketPolicyCommand,
   GetObjectCommand,
+  ListBucketsCommand,
   ListObjectsCommand,
+  PutBucketPolicyCommand,
   PutObjectCommand,
+  type Bucket,
   type CompleteMultipartUploadCommandOutput,
   type CreateBucketCommandInput,
   type CreateBucketCommandOutput,
@@ -13,6 +17,8 @@ import {
   type GetObjectCommandOutput,
   type ListObjectsCommandInput,
   type ListObjectsCommandOutput,
+  type PutBucketPolicyCommandInput,
+  type PutBucketPolicyCommandOutput,
   type PutObjectCommandInput,
   type S3Client,
 } from "@aws-sdk/client-s3";
@@ -21,9 +27,11 @@ import { type getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { type Endpoint } from "@aws-sdk/types";
 import * as logger from "@liexp/core/lib/logger/index.js";
 import { IOError } from "@ts-endpoint/core";
+import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import qs from "query-string";
+import { LoggerService } from "../../services/logger/logger.service.js";
 
 const s3Logger = logger.GetLogger("space");
 
@@ -57,9 +65,13 @@ export interface SpaceProvider {
     bucket: string,
     s?: string,
   ) => TE.TaskEither<SpaceError, string>;
+  getBucket: (bucket: string) => TE.TaskEither<SpaceError, O.Option<Bucket>>;
   createBucket: (
     params: CreateBucketCommandInput,
   ) => TE.TaskEither<SpaceError, CreateBucketCommandOutput>;
+  putBucketPolicy: (
+    params: PutBucketPolicyCommandInput,
+  ) => TE.TaskEither<SpaceError, PutBucketPolicyCommandOutput>;
   getObject: (
     params: GetObjectCommandInput,
   ) => TE.TaskEither<SpaceError, GetObjectCommandOutput>;
@@ -129,10 +141,40 @@ export const MakeSpaceProvider = ({
         }),
       );
     },
+    getBucket: (bucket: string) => {
+      const params = new ListBucketsCommand();
+      return pipe(
+        TE.tryCatch(() => client.send(params), toError),
+        TE.map((buckets) => buckets.Buckets?.find((f) => f.Name === bucket)),
+        TE.chainFirst(() => {
+          return pipe(
+            TE.tryCatch(
+              () =>
+                client.send(
+                  new GetBucketPolicyCommand({
+                    Bucket: bucket,
+                  }),
+                ),
+              toError,
+            ),
+            LoggerService.TE.debug({ logger: s3Logger }, (policy) => [
+              `Bucket policies %O`,
+              policy,
+            ]),
+          );
+        }),
+        TE.map(O.fromNullable),
+      );
+    },
     createBucket: (input: CreateBucketCommandInput) => {
       const params = new CreateBucketCommand(input);
       return TE.tryCatch(() => client.send(params), toError);
     },
+    putBucketPolicy: (input: PutBucketPolicyCommandInput) => {
+      const params = new PutBucketPolicyCommand(input);
+      return TE.tryCatch(() => client.send(params), toError);
+    },
+
     getSignedUrl: (input) => {
       s3Logger.debug.log(
         "GetSignedUrl object from bucket %s with params %O",
