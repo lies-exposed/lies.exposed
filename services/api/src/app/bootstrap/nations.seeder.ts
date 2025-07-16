@@ -9,7 +9,7 @@ import { Schema } from "effect";
 import { parseJson } from "effect/Schema";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type ControllerError } from "../io/ControllerError.js";
+import { type ControllerError } from "../../io/ControllerError.js";
 
 const CountryJSON = Schema.Struct({
   name: Schema.String,

@@ -54,8 +54,14 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
         }?Content-Type=multipart/form-data;boundary=---test-boundary`,
       );
     },
+    getBucket: (bucket) => {
+      return TE.right(fp.O.some({ BucketArn: bucket, Location: bucket }));
+    },
     createBucket: (params) => {
       return TE.right({ Location: params.Bucket, $metadata: {} });
+    },
+    putBucketPolicy: (params) => {
+      return TE.right({ $metadata: {} });
     },
   };
 };

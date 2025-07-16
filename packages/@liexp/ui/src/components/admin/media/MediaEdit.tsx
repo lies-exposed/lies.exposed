@@ -226,44 +226,46 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
               <MediaSuggestedEntityRelations />
             </Grid>
             <Grid size={{ md: 12 }}>
-              <TextInput source="label" fullWidth />
-              <TextInput source="description" fullWidth multiline />
-              <OpenAIEmbeddingJobButton<Media>
-                resource={"media"}
-                question={EMBED_MEDIA_PROMPT()}
-                transformValue={({ type, location, label, description }) => {
-                  if (Schema.is(PDFType)(type)) {
+              <Stack direction="column">
+                <TextInput source="label" fullWidth />
+                <TextInput source="description" fullWidth multiline />
+                <OpenAIEmbeddingJobButton<Media>
+                  resource={"media"}
+                  question={EMBED_MEDIA_PROMPT()}
+                  transformValue={({ type, location, label, description }) => {
+                    if (Schema.is(PDFType)(type)) {
+                      return {
+                        url: location,
+                        type: "pdf",
+                      };
+                    }
                     return {
-                      url: location,
-                      type: "pdf",
+                      text: description ?? label,
                     };
-                  }
-                  return {
-                    text: description ?? label,
-                  };
-                }}
-              />
-              <Box>
-                <Box>
-                  <DateField
-                    label="Updated At"
-                    source="updatedAt"
-                    showTime={true}
-                  />
-                </Box>
-                <Box>
-                  <DateField
-                    label="Created At"
-                    source="createdAt"
-                    showTime={true}
-                  />
-                </Box>
-                <DateField
-                  label="Deleted At"
-                  source="deletedAt"
-                  showTime={true}
+                  }}
                 />
-              </Box>
+                <Box>
+                  <Box>
+                    <DateField
+                      label="Updated At"
+                      source="updatedAt"
+                      showTime={true}
+                    />
+                  </Box>
+                  <Box>
+                    <DateField
+                      label="Created At"
+                      source="createdAt"
+                      showTime={true}
+                    />
+                  </Box>
+                  <DateField
+                    label="Deleted At"
+                    source="deletedAt"
+                    showTime={true}
+                  />
+                </Box>
+              </Stack>
             </Grid>
           </Grid>
         </FormTab>
