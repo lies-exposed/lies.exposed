@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.12",
-    "@types/node": "^22.16.0",
+    "@types/node": "^24.1.0",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "dotenv": "^16.4.7",
