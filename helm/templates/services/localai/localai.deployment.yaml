@@ -3,12 +3,7 @@ kind: Deployment
 metadata:
   name: localai
   namespace: {{ .Release.Namespace }}
-  labels:
-    lies.exposed/name: localai
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
-    app.kubernetes.io/component: ai
-    app.kubernetes.io/managed-by: Helm
+{{ tuple . "localai" | include "localai.labels" | indent 2 }}
 
 spec:
   replicas: 1
@@ -17,11 +12,7 @@ spec:
       lies.exposed/name: localai
   template:
     metadata:
-      labels:
-        lies.exposed/name: localai
-        app.kubernetes.io/instance: {{ .Release.Name | quote }}
-        app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
-        app.kubernetes.io/component: ai
+{{ tuple . "localai" | include "localai.labels" | indent 6 }}
     spec:
       containers:
         - name: localai
@@ -30,15 +21,16 @@ spec:
               name: localai-env
           # image: localai/localai:latest-aio-gpu-intel
           image: localai/localai:latest-aio-cpu
-          livenessProbe:
-            exec:
-              command:
-                - curl
-                - -f
-                - http://localhost:8080/readyz
-            failureThreshold: 5
-            periodSeconds: 60
-            timeoutSeconds: 1200
+          imagePullPolicy: Always
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - curl
+          #       - -f
+          #       - http://localhost:8080/readyz
+          #   failureThreshold: 5
+          #   periodSeconds: 60
+          #   timeoutSeconds: 1200
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -49,10 +41,10 @@ spec:
           resources:
             limits:
               memory: 6Gi
-              cpu: "3"
+              cpu: "4"
             requests:
               memory: 4Gi
-              cpu: "1"
+              cpu: 1000m
       restartPolicy: Always
       volumes:
         - name: localai-models-pv

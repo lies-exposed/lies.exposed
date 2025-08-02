@@ -2,13 +2,11 @@ services:
   db.liexp.dev:
     image: postgres:17
     ports:
-      - "127.0.0.1:8432:5432"
+      - "8432:5432"
     environment:
       POSTGRES_USER: liexp
       POSTGRES_PASSWORD: liexp-password
       POSTGRES_DB: liexp
-      VIRTUAL_HOST: db.liexp.dev
-      VIRTUAL_PORT: 5432
     restart: unless-stopped
     volumes:
       - ./services/api/db/dump:/docker-entrypoint-initdb.d
@@ -20,7 +18,7 @@ services:
     image: minio/minio:RELEASE.2024-08-03T04-33-23Z
     command: server --console-address ":9001" /data
     ports:
-      - "127.0.0.1:9000:9000"
+      - "9000:9000"
       - "127.0.0.1:9001:9001"
     environment:
       MINIO_ROOT_USER: space-access-key-id
@@ -122,16 +120,17 @@ services:
   ai-bot:
     build:
       context: .
-      target: dev
+      target: production
       dockerfile: ai-bot.Dockerfile
-    command: "node --watch build/run-esbuild.js"
     env_file:
       - ./services/ai-bot/.env.local
       - ./services/ai-bot/.env
     volumes:
-      - ./services/ai-bot/temp:/home/node/temp:rw
-      - ./services/ai-bot/build:/home/node/build:cached
-      - ./services/ai-bot/config/ai-bot.config.json:/home/node/config/ai-bot.config.json:rw
+      - ./packages/@liexp:/home/node/packages/@liexp:ro
+      - ./services/ai-bot/package.json:/home/node/services/ai-bot/package.json:cached
+      - ./services/ai-bot/temp:/home/node/services/ai-bot/temp:rw
+      - ./services/ai-bot/build:/home/node/services/ai-bot/build:cached
+      - ./services/ai-bot/config/ai-bot.config.json:/home/node/services/ai-bot/config/ai-bot.config.json:rw
     restart: always
     mem_limit: 512M
     depends_on:
@@ -157,7 +156,6 @@ services:
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/web:/usr/src/app/services/web:cached
     working_dir: /usr/src/app/services/web
-    command: pnpm docker:dev
     mem_limit: 2G
     tty: true
     stdin_open: true
@@ -218,7 +216,7 @@ services:
     environment:
       DEBUG: true
       # REBUILD: true
-      VIRTUAL_HOST: localai.liexp.dev,localai.lies.exposed
+      VIRTUAL_HOST: localai.liexp.dev,ai.lies.exposed
       VIRTUAL_PORT: 8080
       OPENAI_API_KEY: no-key-is-a-good-key
       LOCALAI_CORS: 0

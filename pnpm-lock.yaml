@@ -135,7 +135,7 @@ importers:
         specifier: ^3.804.0
         version: 3.862.0
       '@langchain/core':
-        specifier: ^0.3.72
+        specifier: ^0.3.56
         version: 0.3.72(openai@5.16.0(ws@8.18.3)(zod@3.25.76))
       '@langchain/openai':
         specifier: ^0.6.9
@@ -812,10 +812,10 @@ importers:
         specifier: ^3.812.0
         version: 3.876.0
       '@langchain/community':
-        specifier: ^0.3.53
+        specifier: ^0.3.43
         version: 0.3.53(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.876.0)(@aws-sdk/credential-provider-node@3.876.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@16.6.1)(openai@5.16.0(ws@8.18.3)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.72(openai@5.16.0(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.72(openai@5.16.0(ws@8.18.3)(zod@3.25.76)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.1))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.16.0(ws@8.18.3)(zod@3.25.76))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.5.5)(ws@8.18.3)
       '@langchain/core':
-        specifier: ^0.3.72
+        specifier: ^0.3.56
         version: 0.3.72(openai@5.16.0(ws@8.18.3)(zod@3.25.76))
       '@liexp/backend':
         specifier: workspace:*
@@ -876,7 +876,7 @@ importers:
         specifier: ^2.4.9
         version: 2.4.9
       esbuild:
-        specifier: ^0.25.2
+        specifier: ^0.25.9
         version: 0.25.9
       eslint:
         specifier: ^9.28.0

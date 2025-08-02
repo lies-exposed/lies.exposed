@@ -8,7 +8,7 @@ data:
       },
       "localAi": {
         "url": "http://localai.prod.svc.cluster.local/",
-        "apiKey": "no-key-is-a-good-key",
+        "apiKey": "{{ .Values.localai.openAIApiKey }}",
         "models": {
           "summarize": "gpt-4o",
           "chat": "qwen3-8b",

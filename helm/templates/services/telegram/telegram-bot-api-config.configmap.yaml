@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: telegram-bot-api-nginx-conf
+  name: telegram-nginx-conf
   namespace: {{ .Release.Namespace }}
-{{ tuple . "telegram-bot-api-nginx-conf" | include "tg.labels" | indent 2 }}
+{{ tuple . "telegram-nginx-conf" | include "tg.labels" | indent 2 }}
 data:
-{{ if .Files.Get "config/nginx/telegram-bot-api.conf" }}
-  telegram-bot-api.conf: |
-{{ .Files.Get "config/nginx/telegram-bot-api.conf" | toString | indent 4 }}
+{{ if .Files.Get "config/nginx/telegram.conf" }}
+  telegram.conf: |
+{{ .Files.Get "config/nginx/telegram.conf" | toString | indent 4 }}
 {{ else }}
-{{ fail "you need to supply your license file! add 'nginx/telegram-bot-api.conf' to your chart 'config' directory." }}
+{{ fail "you need to supply your license file! add 'nginx/telegram.conf' to your chart 'config' directory." }}
 {{ end }}

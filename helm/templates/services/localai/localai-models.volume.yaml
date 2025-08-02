@@ -3,13 +3,9 @@ kind: PersistentVolume
 metadata:
   name: localai-models-volume
   namespace: {{ .Release.Namespace }}
-  labels:
-    lies.exposed/name: localai-models-volume
-    app.kubernetes.io/instance: {{ .Release.Name | quote }}
-    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
-    app.kubernetes.io/managed-by: Helm
+{{ tuple . "localai-models-volume" | include "localai.labels" | indent 2 }}
 spec:
-  storageClassName: manual
+  storageClassName: microk8s-hostpath
   capacity:
     storage: 40Gi
   accessModes:
