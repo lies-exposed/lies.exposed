@@ -83,12 +83,14 @@ export const makeContext = (
     logger: GetLogger("wp"),
     client: impl.wp.wiki,
     restClient: impl.wp.http,
+    spaceEndpoint: env.SPACE_ENDPOINT,
   });
 
   const rationalWikiProvider = WikipediaProvider({
     logger: GetLogger("rw"),
     client: impl.rw.wiki,
     restClient: impl.rw.http,
+    spaceEndpoint: env.SPACE_ENDPOINT,
   });
 
   const urlMetadataClient = MakeURLMetadata(impl.urlMetadata);

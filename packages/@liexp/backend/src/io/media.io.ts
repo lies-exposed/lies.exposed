@@ -30,9 +30,12 @@ const encodeMedia = (
   return pipe(
     Schema.encodeEither(io.http.Media.AdminMedia)({
       ...media,
+      location: ensureHTTPS(spaceEndpoint, media.location),
       label: media.label ?? media.location,
       description: media.description ?? undefined,
-      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
+      thumbnail: media.thumbnail
+        ? ensureHTTPS(spaceEndpoint, media.thumbnail)
+        : undefined,
       transferable: !media.location.includes(spaceEndpoint),
       creator: Schema.is(UUID)(media.creator)
         ? media.creator
@@ -65,7 +68,7 @@ const decodeMedia = (
       ...media,
       label: media.label ?? media.location,
       description: media.description ?? undefined,
-      location: ensureHTTPS(media.location),
+      location: ensureHTTPS(spaceEndpoint, media.location),
       creator: Schema.is(UUID)(media.creator)
         ? media.creator
         : media.creator?.id,
@@ -76,8 +79,10 @@ const decodeMedia = (
       areas: (media.areas ?? []).map((a) => (Schema.is(UUID)(a) ? a : a.id)),
       featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
-      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
-      transferable: !media.location.includes(spaceEndpoint),
+      thumbnail: media.thumbnail
+        ? ensureHTTPS(spaceEndpoint, media.thumbnail)
+        : undefined,
+      transferable: !media.location.startsWith("/"),
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,

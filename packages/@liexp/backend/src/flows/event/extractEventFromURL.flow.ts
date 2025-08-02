@@ -17,6 +17,7 @@ import { type Metadata } from "page-metadata-parser";
 import type * as puppeteer from "puppeteer-core";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type NERProviderContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -166,7 +167,8 @@ const extractByProvider =
       ConfigContext &
       FSClientContext &
       NERProviderContext &
-      DatabaseContext,
+      DatabaseContext &
+      ENVContext,
   >(
     p: puppeteer.Page,
     host: string,
@@ -201,7 +203,7 @@ const extractByProvider =
           TE.Do,
           TE.bind("link", () => {
             return pipe(
-              LinkIO.decodeSingle(l),
+              LinkIO.decodeSingle(l, ctx.env.SPACE_ENDPOINT),
               fp.E.fold(() => fp.O.none, fp.O.some),
               fp.TE.right,
             );
@@ -276,7 +278,8 @@ export const extractEventFromURL =
       FSClientContext &
       NERProviderContext &
       DatabaseContext &
-      URLMetadataContext,
+      URLMetadataContext &
+      ENVContext,
   >(
     p: puppeteer.Page,
     user: UserEntity,

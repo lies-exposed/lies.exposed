@@ -4,8 +4,7 @@ import { loadENV } from "@liexp/core/lib/env/utils.js";
 import D from "debug";
 import { DataSource } from "typeorm";
 import { Schema } from "effect";
-import {GetLogger} from '@liexp/core/lib/logger/Logger.js'
-
+import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 
 
 if (process.env.DOTENV_CONFIG_PATH) {

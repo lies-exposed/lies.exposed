@@ -7,6 +7,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
+import { type ENVContext } from "../../context/env.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type NERProviderContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -24,7 +25,8 @@ export type CreateEventFromURLContext = LoggerContext &
   NERProviderContext &
   DatabaseContext &
   URLMetadataContext &
-  PuppeteerProviderContext;
+  PuppeteerProviderContext &
+  ENVContext;
 
 export const createEventFromURL = <C extends CreateEventFromURLContext>(
   user: UserEntity,

@@ -76,7 +76,9 @@ export const MakeTakeLinkScreenshotRoute = (
           ),
         ),
         TE.map(({ media, link }) => ({ link: { ...link, media } })),
-        TE.chainEitherK(({ link }) => LinkIO.decodeSingle(link)),
+        TE.chainEitherK(({ link }) =>
+          LinkIO.decodeSingle(link, ctx.env.SPACE_ENDPOINT),
+        ),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

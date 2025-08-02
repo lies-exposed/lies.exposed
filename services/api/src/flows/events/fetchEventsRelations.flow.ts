@@ -88,7 +88,10 @@ export const fetchEventsRelations =
                 (mm) => MediaIO.decodeMany(mm, ctx.env.SPACE_ENDPOINT),
                 fp.TE.fromEither,
               ),
-              links: pipe(relations.links, LinkIO.decodeMany, TE.fromEither),
+              links: pipe(
+                LinkIO.decodeMany(relations.links, ctx.env.SPACE_ENDPOINT),
+                TE.fromEither,
+              ),
               groupsMembers: TE.right([]),
             }),
           ),

@@ -3,7 +3,7 @@
 set -ex
 
 # Load environment variables
-source .env.alpha
+source .env.prod
 
 user=$DB_USERNAME
 password=$DB_PASSWORD

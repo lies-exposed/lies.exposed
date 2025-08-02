@@ -64,6 +64,7 @@ interface ExpandableImageElementProps {
   onLoad?: (rect: DOMRect) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   disableZoom?: boolean;
+  fallbackImage?: string;
 }
 
 const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
@@ -73,6 +74,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   onLoad,
   onClick,
   disableZoom = false,
+  fallbackImage,
 }) => {
   const [modal, showModal] = useModal({ disablePortal: false });
 
@@ -134,6 +136,11 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         onLoad={(e) => {
           const rect = e.currentTarget.getBoundingClientRect();
           onLoad?.(rect);
+        }}
+        onError={(e) => {
+          if (fallbackImage) {
+            e.currentTarget.src = fallbackImage;
+          }
         }}
         loading="lazy"
       />

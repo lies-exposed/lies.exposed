@@ -28,7 +28,7 @@ export const generateMissingThumbnailsCron = (
                 pipe(
                   createThumbnail({
                     id: m.id,
-                    location: ensureHTTPS(m.location),
+                    location: ensureHTTPS(ctx.env.SPACE_ENDPOINT, m.location),
                     type: m.type,
                     thumbnail: null,
                   })(ctx),

@@ -172,10 +172,11 @@ export const GetPuppeteerProvider = (
         });
         b.on("disconnected", (e) => {
           puppeteerLogger.debug.log(
-            "browser disconnected %ds",
+            "browser disconnected %ds: %O",
             differenceInSeconds(new Date(), connectedAt, {
               roundingMethod: "ceil",
             }),
+            e,
           );
         });
         return b;

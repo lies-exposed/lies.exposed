@@ -22,7 +22,7 @@ export const MakeGetLinksRoute: Route = (r, ctx) => {
         loadRelationIds: { relations: ["events", "keywords", "creator"] },
         withDeleted: isAdmin,
       }),
-      TE.chainEitherK(LinkIO.decodeSingle),
+      TE.chainEitherK((l) => LinkIO.decodeSingle(l, ctx.env.SPACE_ENDPOINT)),
       TE.map((data) => ({
         body: { data },
         statusCode: 200,

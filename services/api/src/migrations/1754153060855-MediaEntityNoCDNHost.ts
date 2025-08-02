@@ -1,0 +1,36 @@
+import { type MigrationInterface, type QueryRunner } from "typeorm";
+
+export class MediaEntityNoCDNHost1754153060855 implements MigrationInterface {
+  name = "MediaEntityNoCDNHost1754153060855";
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      "update image i set \"location\" = replace(\"location\", 'https://econnessione-alpha.fra1.digitaloceanspaces.com', '') where i.\"location\" like 'https://econnessione-alpha.fra1.digitaloceanspaces.com%'",
+    );
+    await queryRunner.query(
+      "update image i set \"location\" = replace(\"location\", 'https://fra1.digitaloceanspaces.com/econnessione-alpha', '') where i.\"location\" like 'https://fra1.digitaloceanspaces.com/econnessione-alpha/%'",
+    );
+    await queryRunner.query(
+      "update image i set \"location\" = replace(\"location\", 'fra1.digitaloceanspaces.com/econnessione-alpha', '') where i.\"location\" like 'fra1.digitaloceanspaces.com/econnessione-alpha/%'",
+    );
+
+    await queryRunner.query(
+      "update image i set \"thumbnail\" = replace(\"thumbnail\", 'https://econnessione-alpha.fra1.digitaloceanspaces.com', '') where i.\"thumbnail\" like 'https://econnessione-alpha.fra1.digitaloceanspaces.com%'",
+    );
+    await queryRunner.query(
+      "update image i set \"thumbnail\" = replace(\"thumbnail\", 'https://fra1.digitaloceanspaces.com/econnessione-alpha', '') where i.\"thumbnail\" like 'https://fra1.digitaloceanspaces.com/econnessione-alpha/%'",
+    );
+    await queryRunner.query(
+      "update image i set \"thumbnail\" = replace(\"thumbnail\", 'fra1.digitaloceanspaces.com/econnessione-alpha', '') where i.\"thumbnail\" like 'fra1.digitaloceanspaces.com/econnessione-alpha/%'",
+    );
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      "update image i set \"location\" = replace(\"location\", '/public', 'https://econnessione-alpha.fra1.digitaloceanspaces.com/public') where i.\"location\" like '/%'",
+    );
+    await queryRunner.query(
+      "update image i set \"thumbnail\" = replace(\"thumbnail\", '/public', 'https://econnessione-alpha.fra1.digitaloceanspaces.com/public') where i.\"thumbnail\" like '/%'",
+    );
+  }
+}

@@ -77,7 +77,7 @@ export const SearchEventsFromProviderRoute = (
           return pipe(
             fp.A.flatten(links),
             fp.A.uniq(Ord.contramap((p: LinkEntity) => p.url)(S.Ord)),
-            LinkIO.decodeMany,
+            (links) => LinkIO.decodeMany(links, ctx.env.SPACE_ENDPOINT),
             fp.E.map((data) => ({
               data,
               total: data.length,

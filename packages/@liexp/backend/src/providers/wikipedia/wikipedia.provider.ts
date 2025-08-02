@@ -52,6 +52,7 @@ interface WikipediaProviderOpts {
   logger: Logger;
   client: Bot;
   restClient: AxiosInstance;
+  spaceEndpoint: string;
 }
 
 const toMWError = (e: unknown): Error => {
@@ -62,6 +63,7 @@ export const WikipediaProvider = ({
   logger,
   client,
   restClient,
+  spaceEndpoint,
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 
@@ -127,7 +129,7 @@ export const WikipediaProvider = ({
             items.filter((i) => i.type === "image"),
             fp.A.head,
             fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
-            fp.O.map((url) => ensureHTTPS(url)),
+            fp.O.map((url) => ensureHTTPS(spaceEndpoint, url)),
             fp.O.toUndefined,
           );
         }),

@@ -73,7 +73,7 @@ export const parseVideo =
                 TE.mapLeft(ServerError.fromUnknown),
               );
             }),
-            TE.map((r) => ensureHTTPS(r.Location)),
+            TE.map((r) => ensureHTTPS(ctx.env.SPACE_ENDPOINT, r.Location)),
           ),
       ),
     );

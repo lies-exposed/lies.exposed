@@ -1,5 +1,4 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import {
@@ -89,6 +88,7 @@ describe("Create Social Post", () => {
       areas: [],
       featuredInStories: [],
       socialPosts: [],
+      creator: undefined,
     }));
 
     await throwTE(Test.ctx.db.save(MediaEntity, [media]));

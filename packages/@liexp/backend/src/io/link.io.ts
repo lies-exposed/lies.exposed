@@ -9,6 +9,7 @@ import {
   MediaExtraMonoid,
 } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import * as io from "@liexp/shared/lib/io/index.js";
+import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
@@ -17,6 +18,7 @@ import { IOCodec } from "./DomainCodec.js";
 
 const toLinkIO = (
   link: LinkEntity,
+  spaceEndpoint: string,
 ): E.Either<_DecodeError, io.http.Link.Link> => {
   return pipe(
     {
@@ -36,7 +38,12 @@ const toLinkIO = (
                     link.image.extra,
                   )
                 : undefined,
-              thumbnail: link.image.thumbnail ?? undefined,
+              location: link.image.location
+                ? ensureHTTPS(spaceEndpoint, link.image.location)
+                : undefined,
+              thumbnail: link.image.thumbnail
+                ? ensureHTTPS(spaceEndpoint, link.image.thumbnail)
+                : undefined,
               links: link.image.links ?? [],
               events: (link.image.events ?? []).map((e) =>
                 Schema.is(UUID)(e) ? e : e.id,
