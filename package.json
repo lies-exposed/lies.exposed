@@ -79,6 +79,13 @@
       "esbuild",
       "exifreader",
       "sharp"
+    ],
+    "ignoredBuiltDependencies": [
+      "@parcel/watcher",
+      "cpu-features",
+      "protobufjs",
+      "ssh2",
+      "unrs-resolver"
     ]
   }
 }
