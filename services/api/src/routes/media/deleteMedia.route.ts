@@ -42,7 +42,7 @@ export const MakeDeleteMediaRoute: Route = (r, ctx) => {
                 )
               : TE.right(undefined),
           space: m.deletedAt ? deleteFromSpace(m)(ctx) : TE.right(undefined),
-          media: TE.fromEither(MediaIO.decodeSingle(m, ctx.env.SPACE_ENDPOINT)),
+          media: TE.fromEither(MediaIO.decodeSingle(m)),
           result: m.deletedAt
             ? ctx.db.delete(MediaEntity, id)
             : ctx.db.softDelete(MediaEntity, id),

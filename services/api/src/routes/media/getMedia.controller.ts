@@ -19,7 +19,7 @@ export const MakeGetMediaRoute: Route = (r, ctx) => {
         },
         withDeleted: true,
       }),
-      TE.chainEitherK((m) => MediaIO.decodeSingle(m, ctx.env.SPACE_ENDPOINT)),
+      TE.chainEitherK((m) => MediaIO.decodeSingle(m)),
       TE.map((data) => ({
         body: {
           data,

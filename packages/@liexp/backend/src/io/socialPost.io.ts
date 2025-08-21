@@ -51,16 +51,16 @@ export type SocialPostEntityWithContent = Omit<SocialPostEntity, "content"> & {
   };
 };
 
-const decodeSocialPost = (
-  { content, ...socialPost }: SocialPostEntityWithContent,
-  spaceEndpoint: string,
-): E.Either<_DecodeError, SocialPost> => {
+const decodeSocialPost = ({
+  content,
+  ...socialPost
+}: SocialPostEntityWithContent): E.Either<_DecodeError, SocialPost> => {
   return pipe(
     sequenceS(fp.E.Applicative)({
-      media: MediaIO.decodeMany(content.media, spaceEndpoint),
+      media: MediaIO.decodeMany(content.media),
       keywords: KeywordIO.decodeMany(content.keywords),
-      actors: ActorIO.decodeMany(content.actors, spaceEndpoint),
-      groups: GroupIO.decodeMany(content.groups, spaceEndpoint),
+      actors: ActorIO.decodeMany(content.actors),
+      groups: GroupIO.decodeMany(content.groups),
     }),
     fp.E.map((relations) => ({
       ...socialPost,

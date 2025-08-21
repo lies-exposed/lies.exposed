@@ -43,8 +43,8 @@ export const CreateLink = Schema.Struct({
 export type CreateLink = typeof CreateLink.Type;
 
 export const LinkMedia = Schema.Struct({
-  id: UUID,
   ...CreateMedia.fields,
+  id: UUID,
   type: MediaType,
 }).annotations({
   title: "LinkMedia",

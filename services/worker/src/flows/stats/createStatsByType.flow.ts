@@ -255,12 +255,7 @@ export const createStatsByType =
                           endDate: g.endDate ?? undefined,
                           avatar: pipe(
                             fp.O.fromNullable(g.avatar!),
-                            fp.O.map((avatar) =>
-                              MediaIO.decodeSingle(
-                                avatar,
-                                ctx.env.SPACE_ENDPOINT,
-                              ),
-                            ),
+                            fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
                             fp.O.fold(
                               () => undefined,
                               fp.E.getOrElse(
@@ -277,12 +272,7 @@ export const createStatsByType =
                           diedOn: a.diedOn ?? undefined,
                           avatar: pipe(
                             fp.O.fromNullable(a.avatar as MediaEntity),
-                            fp.O.map((avatar) =>
-                              MediaIO.decodeSingle(
-                                avatar,
-                                ctx.env.SPACE_ENDPOINT,
-                              ),
-                            ),
+                            fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
                             fp.O.fold(
                               () => undefined,
                               fp.E.getOrElse(

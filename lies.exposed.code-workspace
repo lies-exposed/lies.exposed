@@ -69,7 +69,7 @@
     "typescript.format.enable": true,
     "eslint.codeActionsOnSave.mode": "problems",
     "eslint.workingDirectories": [
-      "./",
+      "./"
     ],
     "eslint.useFlatConfig": true,
     "explorer.fileNesting.enabled": true,

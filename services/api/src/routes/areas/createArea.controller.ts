@@ -8,7 +8,7 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
+export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, s3 }) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Area.Create,
     ({ body, headers }) => {
@@ -26,7 +26,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, env }) => {
           return db.save(AreaEntity, [body]);
         }),
         fp.TE.map(([a]) => a),
-        TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
         TE.map((page) => ({
           body: {
             data: page,

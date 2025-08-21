@@ -44,7 +44,7 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
     deleteObject: (params) => {
       return TE.right({ DeleteMarker: true, $metadata: {} });
     },
-    upload: () => TE.right({ Location: "", $metadata: {} }),
+    upload: () => TE.right({ Location: "", Key: "", $metadata: {} }),
     listObjects: () => TE.right({ Contents: [], $metadata: {} }),
     getSignedUrl: (params) => {
       logger.debug.log("getSignedURL with operation %s", params);

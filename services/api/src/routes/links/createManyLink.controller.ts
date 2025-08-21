@@ -47,7 +47,7 @@ export const MakeCreateManyLinkRoute: Route = (r, ctx) => {
             fp.A.sequence(fp.TE.ApplicativeSeq),
           );
         }),
-        fp.TE.chainEitherK(LinkIO.decodeMany),
+        fp.TE.chainEitherK((links) => LinkIO.decodeMany(links)),
         fp.TE.map((data) => ({
           body: { data, total: data.length },
           statusCode: 200,

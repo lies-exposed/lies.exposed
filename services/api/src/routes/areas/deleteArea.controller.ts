@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeDeleteAreaRoute: Route = (r, { db, env }) => {
+export const MakeDeleteAreaRoute: Route = (r, { db, s3 }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {
@@ -19,7 +19,7 @@ export const MakeDeleteAreaRoute: Route = (r, { db, env }) => {
           ? db.delete(AreaEntity, id)
           : db.softDelete(AreaEntity, id),
       ),
-      TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+      TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
       TE.map((page) => ({
         body: {
           data: page,

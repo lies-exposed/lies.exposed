@@ -14,7 +14,7 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
+export const MakeEditActorRoute: Route = (r, { db, logger, jwt, s3 }) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Actor.Edit,
     ({
@@ -88,7 +88,7 @@ export const MakeEditActorRoute: Route = (r, { db, logger, jwt, env }) => {
             },
           }),
         ),
-        TE.chainEitherK((a) => ActorIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => ActorIO.decodeSingle(a)),
         TE.map((actor) => ({
           body: {
             data: actor,

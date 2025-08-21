@@ -66,6 +66,7 @@ export const parseDocument =
 
         return createAndUpload(
           {
+            id: mediaId,
             type: contentType,
             location: messageDocument.file_id as URL,
             label: messageDocument.file_name,

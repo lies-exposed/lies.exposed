@@ -1,6 +1,7 @@
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
+import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { styled } from "../../theme/index.js";
 import { Video } from "../Video/Video.js";
 import { Box, Typography } from "../mui/index.js";
@@ -44,6 +45,7 @@ export interface MediaElementProps {
   onLoad?: (rect: DOMRect) => void;
   enableDescription?: boolean;
   disableZoom?: boolean;
+  fallbackImage?: string;
   onClick?: (e: any) => void;
   options?: {
     iframe: {
@@ -64,8 +66,12 @@ const MediaElement: React.FC<MediaElementProps> = ({
   enableDescription = false,
   options,
   disableZoom = false,
+  fallbackImage: _fallbackImage,
   ...props
 }) => {
+  const { platforms } = useConfiguration();
+  const fallbackImage = _fallbackImage ?? platforms.web.defaultImage;
+
   const mediaElement = React.useMemo(() => {
     switch (media.type) {
       case Media.IframeVideoType.literals[0]:
@@ -129,6 +135,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: media.type }}
             disableZoom={disableZoom}
+            fallbackImage={fallbackImage}
           />
         );
     }

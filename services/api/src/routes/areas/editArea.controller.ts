@@ -13,7 +13,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {
+export const MakeEditAreaRoute: Route = (r, { db, geo, s3, logger }) => {
   AddEndpoint(r)(
     Endpoints.Area.Edit,
     ({ params: { id }, body: { media, events, updateGeometry, ...body } }) => {
@@ -69,7 +69,7 @@ export const MakeEditAreaRoute: Route = (r, { db, geo, env, logger }) => {
             },
           }),
         ),
-        TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+        TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
         TE.map((page) => ({
           body: {
             data: page,

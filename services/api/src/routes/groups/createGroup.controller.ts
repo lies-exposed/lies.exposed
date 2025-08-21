@@ -49,7 +49,7 @@ export const MakeCreateGroupRoute: Route = (r, ctx) => {
               })(ctx),
               TE.map(() => new GroupEntity()),
             ),
-        TE.chainEitherK((g) => GroupIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT)),
+        TE.chainEitherK((g) => GroupIO.decodeSingle(g)),
         TE.map((data) => ({
           body: {
             data,

@@ -12,13 +12,13 @@ import { type AreaEntity } from "../entities/Area.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
 
-const toAreaIO = (
-  { featuredImage, ...area }: AreaEntity,
-  spaceEndpoint: string,
-): E.Either<_DecodeError, io.http.Area.Area> => {
+const toAreaIO = ({
+  featuredImage,
+  ...area
+}: AreaEntity): E.Either<_DecodeError, io.http.Area.Area> => {
   return pipe(
     featuredImage
-      ? MediaIO.decodeSingle(featuredImage, spaceEndpoint)
+      ? MediaIO.decodeSingle(featuredImage)
       : E.right<_DecodeError, io.http.Media.Media | null>(null),
     fp.E.chain((media) =>
       pipe(

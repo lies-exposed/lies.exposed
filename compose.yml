@@ -17,7 +17,7 @@ services:
       - reverseproxy
 
   fra1.space.liexp.dev:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2024-08-03T04-33-23Z
     command: server --console-address ":9001" /data
     ports:
       - "127.0.0.1:9000:9000"

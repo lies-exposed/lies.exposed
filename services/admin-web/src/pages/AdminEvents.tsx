@@ -77,7 +77,7 @@ const eventsFilter = [
     source="spCount"
     size="small"
   />,
-  <ReferenceArrayGroupInput key="groups" source="groups" size="small" />,
+  <ReferenceArrayGroupInput key="groups" source="groups" />,
   <ReferenceArrayActorInput key="actors" source="actors" />,
   <ReferenceArrayGroupMemberInput key="groupsMembers" source="groupsMembers" />,
   <DateInput key="startDate" source="startDate" />,

@@ -70,12 +70,12 @@ export const fetchEventsRelations =
             sequenceS(TE.ApplicativePar)({
               events: fp.TE.right(events),
               actors: pipe(
-                ActorIO.decodeMany(relations.actors, ctx.env.SPACE_ENDPOINT),
+                ActorIO.decodeMany(relations.actors),
                 fp.TE.fromEither,
               ),
               groups: pipe(
                 relations.groups.map((g) => ({ ...g, members: [] })),
-                (gg) => GroupIO.decodeMany(gg, ctx.env.SPACE_ENDPOINT),
+                (gg) => GroupIO.decodeMany(gg),
                 fp.TE.fromEither,
               ),
               keywords: pipe(
@@ -85,10 +85,10 @@ export const fetchEventsRelations =
               ),
               media: pipe(
                 relations.media.map((m) => ({ ...m, links: [], keywords: [] })),
-                (mm) => MediaIO.decodeMany(mm, ctx.env.SPACE_ENDPOINT),
+                (mm) => MediaIO.decodeMany(mm),
                 fp.TE.fromEither,
               ),
-              links: pipe(relations.links, LinkIO.decodeMany, TE.fromEither),
+              links: pipe(LinkIO.decodeMany(relations.links), TE.fromEither),
               groupsMembers: TE.right([]),
             }),
           ),

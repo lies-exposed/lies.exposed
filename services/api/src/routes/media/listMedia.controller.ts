@@ -27,7 +27,7 @@ export const MakeListMediaRoute: Route = (r, ctx) => {
             keywords: d.keywords.map((e) => e.id) as any[],
             areas: d.areas.map((e) => e.id) as any[],
           })),
-          (mm) => MediaIO.decodeMany(mm, ctx.env.SPACE_ENDPOINT),
+          (mm) => MediaIO.decodeMany(mm),
           E.map((results) => ({
             total,
             data: results,

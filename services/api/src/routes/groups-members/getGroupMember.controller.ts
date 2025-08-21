@@ -17,9 +17,7 @@ export const MakeGetGroupMemberRoute: Route = (r, ctx) => {
           relations: [],
         },
       }),
-      TE.chainEitherK((g) =>
-        GroupMemberIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT),
-      ),
+      TE.chainEitherK((g) => GroupMemberIO.decodeSingle(g)),
       TE.map((data) => ({
         body: {
           data,

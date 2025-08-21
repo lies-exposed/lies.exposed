@@ -19,7 +19,7 @@ export const MakeListAreaRoute: Route = (r, ctx) => {
       TE.chain(([areas, total]) => {
         return pipe(
           areas,
-          (aa) => AreaIO.decodeMany(aa, ctx.env.SPACE_ENDPOINT),
+          (aa) => AreaIO.decodeMany(aa),
           TE.fromEither,
           TE.map((data) => ({ total, data })),
         );

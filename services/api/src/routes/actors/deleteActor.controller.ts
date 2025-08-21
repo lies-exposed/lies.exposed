@@ -10,7 +10,7 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeleteActorRoute: Route = (r, { db, env, logger, jwt }) => {
+export const MakeDeleteActorRoute: Route = (r, { db, s3, logger, jwt }) => {
   AddEndpoint(
     r,
     authenticationHandler([AdminDelete.literals[0]])({ logger, jwt }),
@@ -21,17 +21,10 @@ export const MakeDeleteActorRoute: Route = (r, { db, env, logger, jwt }) => {
       }),
       TE.chainFirst(() =>
         sequenceS(TE.ApplicativeSeq)({
-          // avatar: pipe(
-          //   s3.deleteObject({
-          //     Bucket: env.SPACE_BUCKET,
-          //     Key: `public/actors/${id}/${id}.jpg`,
-          //   }),
-          //   TE.mapLeft((e) => ServerError())
-          // ),
           actor: db.softDelete(ActorEntity, id),
         }),
       ),
-      TE.chainEitherK((a) => ActorIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+      TE.chainEitherK((a) => ActorIO.decodeSingle(a)),
       TE.map((page) => ({
         body: {
           data: page,

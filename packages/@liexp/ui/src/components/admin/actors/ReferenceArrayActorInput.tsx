@@ -7,7 +7,7 @@ import {
 import { ActorChip } from "../../actors/ActorChip.js";
 
 const ReferenceArrayActorInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & { source: string }
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }
 > = (props) => {
   return (
     <ReferenceArrayInput {...props} reference="actors">

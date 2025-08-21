@@ -15,7 +15,7 @@ export const MakeSubmitLinkRoute: Route = (r, ctx) => {
       fp.RTE.ask<ServerContext>(),
       fp.RTE.chainTaskEitherK(getOneAdminOrFail),
       fp.RTE.chain((admin) => fetchAndSave(admin, body.url)),
-      fp.RTE.chainEitherK(LinkIO.decodeSingle),
+      fp.RTE.chainEitherK((l) => LinkIO.decodeSingle(l)),
       fp.RTE.map((data) => ({
         body: { data },
         statusCode: 200,

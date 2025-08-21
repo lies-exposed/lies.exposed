@@ -14,10 +14,10 @@ import { type ActorEntity } from "../entities/Actor.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
 
-export const encodeActor = (
-  { old_avatar, ...a }: ActorEntity,
-  spaceEndpoint: string,
-): E.Either<
+export const encodeActor = ({
+  old_avatar,
+  ...a
+}: ActorEntity): E.Either<
   _DecodeError,
   Schema.Schema.Encoded<typeof io.http.Actor.Actor>
 > => {
@@ -30,7 +30,7 @@ export const encodeActor = (
           ? Schema.is(UUID)(a.avatar)
             ? E.right(a.avatar)
             : pipe(
-                MediaIO.decodeSingle(a.avatar, spaceEndpoint),
+                MediaIO.decodeSingle(a.avatar),
                 // E.map((m) => ({
                 //   ...m,
                 //   createdAt: m.createdAt.toISOString(),
@@ -61,10 +61,10 @@ export const encodeActor = (
   );
 };
 
-const decodeActor = (
-  { old_avatar, ...a }: ActorEntity,
-  spaceEndpoint: string,
-): E.Either<_DecodeError, io.http.Actor.Actor> => {
+const decodeActor = ({
+  old_avatar,
+  ...a
+}: ActorEntity): E.Either<_DecodeError, io.http.Actor.Actor> => {
   return pipe(
     E.Do,
     E.bind(
@@ -76,7 +76,7 @@ const decodeActor = (
         a.avatar
           ? Schema.is(UUID)(a.avatar)
             ? E.right(a.avatar)
-            : pipe(MediaIO.encodeSingle(a.avatar, spaceEndpoint))
+            : pipe(MediaIO.encodeSingle(a.avatar))
           : E.right(undefined),
     ),
     E.chain(({ avatar }) => {

@@ -22,9 +22,7 @@ export const MakeCreateMediaRoute: Route = (r, ctx) => {
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
         ),
         TE.chain((u) => createMediaFlow(body, u)(ctx)),
-        TE.chainEitherK((media) =>
-          MediaIO.decodeSingle(media[0], ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((media) => MediaIO.decodeSingle(media[0])),
         TE.map((data) => ({
           body: {
             data,

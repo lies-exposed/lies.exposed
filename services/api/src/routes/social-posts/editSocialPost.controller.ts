@@ -74,9 +74,7 @@ export const MakeEditSocialPostRoute: Route = (r, ctx) => {
             ),
           ),
         ),
-        TE.chainEitherK((post) =>
-          SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((post) => SocialPostIO.decodeSingle(post)),
         TE.map((sp) => ({
           body: {
             data: sp,

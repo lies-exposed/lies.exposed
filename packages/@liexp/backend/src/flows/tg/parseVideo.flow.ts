@@ -2,7 +2,8 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
+import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -67,13 +68,13 @@ export const parseVideo =
             TE.chain((f) => {
               return pipe(
                 upload({
-                  Key: `public/media/${mediaId}/${mediaId}.jpg`,
+                  Key: getMediaKey("media", mediaId, mediaId, "image/jpeg"),
                   Body: f,
                 })(ctx),
                 TE.mapLeft(ServerError.fromUnknown),
               );
             }),
-            TE.map((r) => ensureHTTPS(r.Location)),
+            TE.map((r) => ensureHTTPProtocol(r.Location)),
           ),
       ),
     );
@@ -89,6 +90,7 @@ export const parseVideo =
       TE.chain(({ video, thumb }) => {
         return createAndUpload(
           {
+            id: mediaId,
             type: MP4Type.literals[0],
             location: "" as URL,
             label: description,

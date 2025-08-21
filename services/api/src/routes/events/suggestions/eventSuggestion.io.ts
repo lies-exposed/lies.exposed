@@ -43,7 +43,7 @@ export const toEventSuggestion = (
     id: event.id,
     createdAt: event.createdAt,
     updatedAt: event.updatedAt,
-    creator: event.creator.id,
+    creator: event.creator?.id,
     event: {
       ...event.payload.event,
       draft: event.payload.event.draft ?? true,
@@ -58,7 +58,14 @@ export const toEventSuggestion = (
   };
 
   return pipe(
-    { ...event, payload: eventEncoded },
+    {
+      ...event,
+      creator: event.creator?.id,
+      createdAt: event.createdAt.toISOString(),
+      updatedAt: event.updatedAt.toISOString(),
+      deletedAt: event.deletedAt?.toISOString(),
+      payload: eventEncoded,
+    },
     Schema.decodeUnknownEither(io.http.EventSuggestion.EventSuggestion),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode Event Suggestion (${event.id})`, e),

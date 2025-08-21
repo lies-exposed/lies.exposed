@@ -28,9 +28,7 @@ export const MakeEditGroupMemberRoute: Route = (r, ctx): void => {
             relations: ["actor", "group"],
           }),
         ),
-        TE.chainEitherK((gm) =>
-          GroupMemberIO.decodeSingle(gm, ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((gm) => GroupMemberIO.decodeSingle(gm)),
         TE.map((data) => ({
           body: {
             data,

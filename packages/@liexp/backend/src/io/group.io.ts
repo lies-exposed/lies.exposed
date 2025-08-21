@@ -14,10 +14,11 @@ import { type GroupEntity } from "../entities/Group.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
 
-const encodeGroupIO = (
-  { avatar, old_avatar, ...group }: GroupEntity,
-  spaceEndpoint: string,
-): E.Either<
+const encodeGroupIO = ({
+  avatar,
+  old_avatar,
+  ...group
+}: GroupEntity): E.Either<
   _DecodeError,
   Schema.Schema.Encoded<typeof io.http.Group.Group>
 > => {
@@ -26,9 +27,7 @@ const encodeGroupIO = (
     E.bind(
       "avatar",
       (): E.Either<_DecodeError, io.http.Media.Media | undefined> =>
-        avatar
-          ? pipe(MediaIO.decodeSingle(avatar, spaceEndpoint))
-          : E.right(undefined),
+        avatar ? pipe(MediaIO.decodeSingle(avatar)) : E.right(undefined),
     ),
     E.map(({ avatar }) => ({
       ...group,
@@ -57,10 +56,11 @@ const encodeGroupIO = (
     ),
   );
 };
-const decodeGroupIO = (
-  { avatar, old_avatar, ...group }: GroupEntity,
-  spaceEndpoint: string,
-): E.Either<_DecodeError, io.http.Group.Group> => {
+const decodeGroupIO = ({
+  avatar,
+  old_avatar,
+  ...group
+}: GroupEntity): E.Either<_DecodeError, io.http.Group.Group> => {
   return pipe(
     E.Do,
     E.bind(
@@ -72,7 +72,7 @@ const decodeGroupIO = (
         avatar
           ? Schema.is(UUID)(avatar)
             ? E.right(avatar)
-            : pipe(MediaIO.encodeSingle(avatar, spaceEndpoint))
+            : pipe(MediaIO.encodeSingle(avatar))
           : E.right(undefined),
     ),
     E.chain(({ avatar }) =>

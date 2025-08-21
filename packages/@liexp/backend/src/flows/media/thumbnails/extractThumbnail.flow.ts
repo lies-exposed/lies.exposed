@@ -3,6 +3,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
+import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
@@ -16,7 +17,6 @@ import { type PDFProviderContext } from "../../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { type ServerError } from "../../../errors/ServerError.js";
 import { type SimpleMedia } from "../../../io/media.io.js";
-import { LoggerService } from "../../../services/logger/logger.service.js";
 import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
 import { extractThumbnailFromImage } from "./extractThumbnailFromImage.flow.js";
 import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
@@ -37,17 +37,17 @@ export const extractThumbnail = <
   media: SimpleMedia,
 ): ReaderTaskEither<C, ServerError, PutObjectCommandInput[]> => {
   return pipe(
-    fp.RTE.right<C, ServerError, SimpleMedia>(media),
-    LoggerService.RTE.debug((m) => [
-      "Extracting thumbnail from url %s with type %s",
-      m.location,
-      m.type,
-    ]),
+    fp.RTE.Do,
+    fp.RTE.apS("media", fp.RTE.right(media)),
     fp.RTE.bind("bucket", () => fp.RTE.asks((ctx: C) => ctx.env.SPACE_BUCKET)),
+    fp.RTE.apS("location", fp.RTE.right(ensureHTTPProtocol(media.location))),
     fp.RTE.bind(
       "thumbnails",
-      (): ReaderTaskEither<C, ServerError, readonly ArrayBuffer[]> => {
-        const { type, ...m } = media;
+      ({
+        location,
+        media,
+      }): ReaderTaskEither<C, ServerError, readonly ArrayBuffer[]> => {
+        const { type, ...m } = { ...media, location };
 
         if (Schema.is(Media.PDFType)(type)) {
           return extractThumbnailFromPDF({
@@ -86,7 +86,7 @@ export const extractThumbnail = <
         fp.A.traverse(fp.RTE.ApplicativePar)(resizeThumbnailFlow<C>),
       );
     }),
-    fp.RTE.map(({ resizedThumbnail, bucket }) => {
+    fp.RTE.map(({ resizedThumbnail, bucket, media }) => {
       return resizedThumbnail.map((Body, index) => ({
         Key: getMediaThumbKey(
           media.id,

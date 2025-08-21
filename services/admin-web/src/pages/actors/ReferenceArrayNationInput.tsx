@@ -7,7 +7,7 @@ import {
 import * as React from "react";
 
 export const ReferenceArrayNationInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & { source: string }
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }
 > = (props) => {
   return (
     <ReferenceArrayInput {...props} label="Nations" reference="nations">

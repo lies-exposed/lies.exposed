@@ -13,7 +13,7 @@ import {
 import { Box } from "../../mui/index.js";
 
 const ReferenceArrayAreaInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & { source: string }
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }
 > = (props) => {
   return (
     <ReferenceArrayInput {...props} label="Areas" reference="areas">
@@ -47,7 +47,7 @@ const ReferenceAreaTab: React.FC<
 > = ({ source }) => {
   return (
     <Box style={{ width: "100%" }}>
-      <ReferenceArrayAreaInput source={source} fullWidth />
+      <ReferenceArrayAreaInput source={source} />
       <ReferenceArrayAreaField source={source} />
     </Box>
   );

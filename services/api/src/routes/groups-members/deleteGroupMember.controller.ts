@@ -20,9 +20,7 @@ export const MakeDeleteGroupMemberRoute: Route = (r, ctx): void => {
           relations: ["actor", "group"],
         }),
         TE.chainFirst(() => ctx.db.softDelete(GroupMemberEntity, id)),
-        TE.chainEitherK((g) =>
-          GroupMemberIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((g) => GroupMemberIO.decodeSingle(g)),
         TE.map((data) => ({
           body: {
             data,

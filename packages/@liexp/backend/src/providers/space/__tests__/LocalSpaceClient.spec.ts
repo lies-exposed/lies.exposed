@@ -30,6 +30,7 @@ describe("LocalSpaceClient", () => {
       data: {
         data: {
           Location,
+          Key,
         },
       },
     });
@@ -63,6 +64,7 @@ describe("LocalSpaceClient", () => {
     expect(result).toEqual(
       E.right({
         Location: "",
+        Key: "",
         $metadata: {},
       }),
     );

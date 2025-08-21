@@ -6,7 +6,7 @@ import {
 } from "react-admin";
 
 const ReferenceArrayGroupMemberInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & { source: string }
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }
 > = (props) => {
   return (
     <ReferenceArrayInput {...props} reference="groups-members">

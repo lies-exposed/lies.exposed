@@ -52,9 +52,7 @@ export const MakeCreateSocialPostRoute: Route = (r, ctx) => {
             })),
           ),
         ),
-        TE.chainEitherK((post) =>
-          SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((post) => SocialPostIO.decodeSingle(post)),
         TE.map((data) => ({
           body: {
             data: data,

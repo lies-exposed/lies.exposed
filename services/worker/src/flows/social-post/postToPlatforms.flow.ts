@@ -29,9 +29,7 @@ export const postToSocialPlatforms =
       fp.TE.bind("socialPost", () => {
         return pipe(
           getSocialPostById(id)(ctx),
-          fp.TE.chainEitherK((post) =>
-            SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
-          ),
+          fp.TE.chainEitherK((post) => SocialPostIO.decodeSingle(post)),
         );
       }),
       fp.TE.bind("result", ({ socialPost }) => {

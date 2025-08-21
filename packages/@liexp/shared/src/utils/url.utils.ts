@@ -1,7 +1,8 @@
+import { Schema } from "effect/index";
 import * as R from "fp-ts/lib/Record.js";
 import { pipe } from "fp-ts/lib/function.js";
 import qs from "query-string";
-import { type URL } from "../io/http/Common/URL.js";
+import { URL } from "../io/http/Common/URL.js";
 
 export const sanitizeURL = (url: URL): URL => {
   const [cleanURL, query] = url.split("?");
@@ -14,20 +15,24 @@ export const sanitizeURL = (url: URL): URL => {
   );
 
   if (!R.isEmpty(cleanQuery)) {
-    return `${cleanURL}?${qs.stringify(cleanQuery)}` as URL;
+    return Schema.decodeSync(URL)(`${cleanURL}?${qs.stringify(cleanQuery)}`);
   }
 
-  return cleanURL as URL;
+  return Schema.decodeSync(URL)(cleanURL);
 };
 
-export const ensureHTTPS = (url: string): URL => {
+const encodeWithSpaceEndpoint = (url: string): string => {
   if (url.startsWith("https://") || url.startsWith("http://")) {
-    return url as URL;
+    return url;
   }
 
   if (url.startsWith("//")) {
-    return `https:${url}` as URL;
+    return `https:${url}`;
   }
 
-  return `https://${url}` as URL;
+  return url;
+};
+
+export const ensureHTTPProtocol = (url: string): URL => {
+  return pipe(encodeWithSpaceEndpoint(url), Schema.decodeSync(URL));
 };

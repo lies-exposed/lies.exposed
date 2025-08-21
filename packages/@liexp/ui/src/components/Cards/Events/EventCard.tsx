@@ -87,6 +87,11 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
                   height: props.style?.maxHeight ?? 150,
                   width: isVertical ? "100%" : 150,
                 }}
+                onError={(e) => {
+                  if (defaultImage && e.currentTarget.src !== defaultImage) {
+                    e.currentTarget.src = defaultImage;
+                  }
+                }}
               />
             </Stack>
           ) : null}

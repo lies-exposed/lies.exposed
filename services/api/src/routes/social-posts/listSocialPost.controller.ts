@@ -135,9 +135,7 @@ export const MakeListSocialPostRoute: Route = (r, ctx) => {
                 ),
               ),
             ),
-            TE.chainEitherK((posts) =>
-              SocialPostIO.decodeMany(posts, ctx.env.SPACE_ENDPOINT),
-            ),
+            TE.chainEitherK((posts) => SocialPostIO.decodeMany(posts)),
           ),
           total: ctx.db.execQuery(() => findSocialPostQuery.getCount()),
         }),

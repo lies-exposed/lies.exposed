@@ -2,13 +2,15 @@ FROM ghcr.io/lies-exposed/liexp-base:23-latest AS dev
 
 WORKDIR /usr/src/app
 
-COPY . ./
-# COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
 
-# COPY packages/@liexp/core packages/@liexp/core
-# COPY packages/@liexp/test packages/@liexp/test
-# COPY packages/@liexp/shared packages/@liexp/shared
-# COPY packages/@liexp/backend packages/@liexp/backend
+COPY patches patches
+COPY packages/@liexp/core packages/@liexp/core
+COPY packages/@liexp/test packages/@liexp/test
+COPY packages/@liexp/shared packages/@liexp/shared
+COPY packages/@liexp/backend packages/@liexp/backend
+
+COPY services/worker services/worker
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 

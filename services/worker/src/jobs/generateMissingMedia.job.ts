@@ -7,7 +7,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
+import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import Cron, { type ScheduledTask } from "node-cron";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
@@ -28,7 +28,7 @@ export const generateMissingThumbnailsCron = (
                 pipe(
                   createThumbnail({
                     id: m.id,
-                    location: ensureHTTPS(m.location),
+                    location: ensureHTTPProtocol(m.location),
                     type: m.type,
                     thumbnail: null,
                   })(ctx),

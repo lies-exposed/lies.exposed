@@ -77,11 +77,7 @@ export const LinkCreate: React.FC = () => {
         <URLMetadataInput source="url" type={"Link"} />
         <DateInput source="publishDate" />
         <TextInput source="description" />
-        <ReferenceArrayEventInput
-          source="events"
-          reference="events"
-          defaultValue={[]}
-        />
+        <ReferenceArrayEventInput source="events" defaultValue={[]} />
       </SimpleForm>
     </Create>
   );

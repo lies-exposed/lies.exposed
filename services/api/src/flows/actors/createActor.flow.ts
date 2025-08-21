@@ -48,13 +48,7 @@ export const createActor = (
           where: { id: Equal(actor.id) },
         }),
       ),
-      fp.RTE.chain(
-        (a) => (ctx) =>
-          pipe(
-            ActorIO.decodeSingle(a, ctx.env.SPACE_ENDPOINT),
-            fp.TE.fromEither,
-          ),
-      ),
+      fp.RTE.chainEitherK((a) => ActorIO.decodeSingle(a)),
     );
   }
 

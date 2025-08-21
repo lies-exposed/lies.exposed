@@ -201,9 +201,7 @@ describe("Create Media", () => {
         extra: undefined,
       }));
 
-    await pipe(Test.ctx.db.save(MediaEntity, media), throwTE).then((m) =>
-      m.map((m) => m.id),
-    );
+    await pipe(Test.ctx.db.save(MediaEntity, media), throwTE);
 
     Test.mocks.axios.get.mockImplementation(() => {
       return Promise.resolve({ data: Buffer.from([]) });
@@ -211,10 +209,12 @@ describe("Create Media", () => {
 
     Test.mocks.redis.publish.mockResolvedValueOnce(1);
 
+    const { id, ...mediaData } = media[0];
+
     const response = await Test.req
       .post("/v1/media")
       .set("Authorization", authorizationToken)
-      .send({ ...media[0], extra: undefined });
+      .send({ ...mediaData, extra: undefined });
 
     expect(response.status).toBe(500);
 

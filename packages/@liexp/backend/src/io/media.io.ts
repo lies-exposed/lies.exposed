@@ -7,7 +7,7 @@ import {
 import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as io from "@liexp/shared/lib/io/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
+import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type MediaEntity } from "../entities/Media.entity.js";
@@ -22,24 +22,28 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
 
 const encodeMedia = (
   media: MediaEntity,
-  spaceEndpoint: string,
 ): E.Either<
   _DecodeError,
   Schema.Schema.Encoded<typeof io.http.Media.AdminMedia>
 > => {
+  const extra = media.extra
+    ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
+    : undefined;
+
   return pipe(
     Schema.encodeEither(io.http.Media.AdminMedia)({
       ...media,
+      location: ensureHTTPProtocol(media.location),
       label: media.label ?? media.location,
       description: media.description ?? undefined,
-      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
-      transferable: !media.location.includes(spaceEndpoint),
+      thumbnail: media.thumbnail
+        ? ensureHTTPProtocol(media.thumbnail)
+        : undefined,
+      transferable: !media.location.startsWith("/"),
       creator: Schema.is(UUID)(media.creator)
         ? media.creator
         : media.creator?.id,
-      extra: media.extra
-        ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
-        : undefined,
+      extra,
       featuredInStories: media.featuredInStories?.map((s) => s.id) ?? [],
       socialPosts: media.socialPosts?.map((s) => s.id) ?? [],
       events: media.events?.map((e) => (Schema.is(UUID)(e) ? e : e.id)) ?? [],
@@ -54,7 +58,6 @@ const encodeMedia = (
 };
 const decodeMedia = (
   media: MediaEntity,
-  spaceEndpoint: string,
 ): E.Either<_DecodeError, io.http.Media.AdminMedia> => {
   const extra = media.extra
     ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
@@ -65,19 +68,21 @@ const decodeMedia = (
       ...media,
       label: media.label ?? media.location,
       description: media.description ?? undefined,
-      location: ensureHTTPS(media.location),
+      location: ensureHTTPProtocol(media.location),
       creator: Schema.is(UUID)(media.creator)
         ? media.creator
         : media.creator?.id,
       extra,
-      links: media.links ?? [],
+      links: (media.links ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
       events: (media.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
       keywords: media.keywords ?? [],
       areas: (media.areas ?? []).map((a) => (Schema.is(UUID)(a) ? a : a.id)),
       featuredInStories: media.featuredInStories ?? [],
       socialPosts: media.socialPosts ?? [],
-      thumbnail: media.thumbnail ? ensureHTTPS(media.thumbnail) : undefined,
-      transferable: !media.location.includes(spaceEndpoint),
+      thumbnail: media.thumbnail
+        ? ensureHTTPProtocol(media.thumbnail)
+        : undefined,
+      transferable: !media.location.startsWith("/"),
       createdAt: media.createdAt.toISOString(),
       updatedAt: media.updatedAt.toISOString(),
       deletedAt: media.deletedAt?.toISOString() ?? undefined,

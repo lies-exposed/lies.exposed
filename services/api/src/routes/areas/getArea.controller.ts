@@ -9,7 +9,7 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
-export const MakeGetAreaRoute: Route = (r, { db, env, ...ctx }) => {
+export const MakeGetAreaRoute: Route = (r, { db, env, s3, ...ctx }) => {
   AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }, req) => {
     return pipe(
       RequestDecoder.decodeNullableUser(req, [])(ctx),
@@ -26,7 +26,7 @@ export const MakeGetAreaRoute: Route = (r, { db, env, ...ctx }) => {
           withDeleted: user ? checkIsAdmin(user.permissions) : false,
         }),
       ),
-      TE.chainEitherK((a) => AreaIO.decodeSingle(a, env.SPACE_ENDPOINT)),
+      TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
       TE.map((area) => ({
         body: {
           data: area,

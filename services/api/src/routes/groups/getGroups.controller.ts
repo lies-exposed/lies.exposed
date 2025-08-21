@@ -19,7 +19,6 @@ export const MakeListGroupRoute: Route = (r, ctx) => {
                 ...g,
                 members: g.members.map((d) => d.id) as any,
               })),
-              ctx.env.SPACE_ENDPOINT,
             ),
             E.map((data) => ({ total, data })),
           ),

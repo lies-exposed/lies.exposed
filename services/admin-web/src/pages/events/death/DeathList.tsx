@@ -18,7 +18,6 @@ const deathEventsFilter = [
     key="victim"
     label="Victim"
     source="victim"
-    size="small"
     alwaysOn
   />,
   <BooleanInput

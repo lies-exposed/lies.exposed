@@ -78,6 +78,7 @@ export const GetListMediaQueryMonoid: Monoid<GetListMediaQuery> = {
 } as Monoid<GetListMediaQuery>;
 
 export const CreateMedia = Schema.Struct({
+  id: Schema.Union(UUID, Schema.Undefined),
   location: URL,
   label: Schema.Union(Schema.String, Schema.Undefined),
   description: Schema.Union(Schema.String, Schema.Undefined),

@@ -13,7 +13,7 @@ import ReferenceArrayLinkInput from "../links/ReferenceArrayLinkInput.js";
 import { MediaField } from "../media/MediaField.js";
 
 export const ReferenceLinkTab: React.FC<
-  Omit<ReferenceFieldProps<RaRecord<string>>, "reference">
+  Omit<ReferenceFieldProps<RaRecord<string>>, "reference" | "render">
 > = ({ queryOptions, ...props }) => {
   const source = props.source ?? "links";
   const newLinksSource =
@@ -22,7 +22,7 @@ export const ReferenceLinkTab: React.FC<
 
   return (
     <Box width={"100%"}>
-      <ReferenceArrayLinkInput label="links" source={source} fullWidth={true} />
+      <ReferenceArrayLinkInput label="links" source={source} />
 
       <LinkArrayInput
         label="new links"

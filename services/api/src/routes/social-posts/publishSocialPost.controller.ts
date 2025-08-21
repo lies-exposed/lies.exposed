@@ -20,9 +20,7 @@ export const MakePublishSocialPostRoute: Route = (r, ctx) => {
     }) => {
       return pipe(
         getSocialPostById(id)(ctx),
-        TE.chainEitherK((post) =>
-          SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
-        ),
+        TE.chainEitherK((post) => SocialPostIO.decodeSingle(post)),
         TE.chain((socialPost) =>
           pipe(
             PostToSocialPlatformsPubSub.publish({

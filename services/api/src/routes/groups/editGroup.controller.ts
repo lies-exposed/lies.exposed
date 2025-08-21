@@ -59,7 +59,7 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
           }),
         ),
         // ctx.logger.debug.logInTaskEither("Updated group %O"),
-        TE.chainEitherK((g) => GroupIO.decodeSingle(g, ctx.env.SPACE_ENDPOINT)),
+        TE.chainEitherK((g) => GroupIO.decodeSingle(g)),
         TE.map((data) => ({
           body: {
             data,

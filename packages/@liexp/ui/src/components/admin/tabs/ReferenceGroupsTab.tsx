@@ -12,7 +12,7 @@ import { Box } from "../../mui/index.js";
 import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
 
 export const ReferenceGroupsTab: React.FC<
-  ReferenceFieldProps<RaRecord<string>>
+  Omit<ReferenceFieldProps<RaRecord<string>>, "label" | "render">
 > = ({ queryOptions, ...props }) => {
   const record = useRecordContext();
   const newSource =

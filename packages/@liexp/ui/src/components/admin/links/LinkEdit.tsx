@@ -104,7 +104,7 @@ export const LinkEdit: React.FC = () => {
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Events">
           <Stack direction={"column"} spacing={2}>
-            <ReferenceArrayEventInput source="events" target="ids" />
+            <ReferenceArrayEventInput source="events" />
             <CreateEventFromLinkButton />
             <ReferenceArrayEventInput source="newEvents" defaultValue={[]} />
             <ReferenceManyEventField

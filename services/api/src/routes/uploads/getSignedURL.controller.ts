@@ -13,7 +13,7 @@ export const MakeSignedUrlRoute: Route = (r, ctx) => {
       return pipe(
         ctx.s3.getSignedUrl({
           Bucket: ctx.env.SPACE_BUCKET,
-          Key: `public/${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
+          Key: `${resource}/${resourceId}/${uuid()}.${fileExtFromContentType(
             ContentType,
           )}`,
           ACL: "public-read",

@@ -97,7 +97,7 @@ export const ScientificStudyCreate: React.FC<CreateProps> = (props) => {
                   <BlockNoteInput source="body" />
                   <ReferenceArrayActorInput
                     source="payload.authors"
-                    initialValue={[]}
+                    defaultValue={[]}
                   />
 
                   <ReferenceGroupInput source="payload.publisher" alwaysOn />

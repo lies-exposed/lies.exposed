@@ -33,13 +33,10 @@ export const MakeGetActorRoute: Route = (r, ctx) => {
         ctx.logger.debug.log("Actor %O", actor);
         ctx.logger.debug.log("Actor events %O", events);
         return pipe(
-          ActorIO.decodeSingle(
-            {
-              ...actor,
-              events: events.map((e) => e.id) as any,
-            },
-            ctx.env.SPACE_ENDPOINT,
-          ),
+          ActorIO.decodeSingle({
+            ...actor,
+            events: events.map((e) => e.id) as any,
+          }),
           TE.fromEither,
         );
       }),

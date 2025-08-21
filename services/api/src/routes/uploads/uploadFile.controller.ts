@@ -40,7 +40,7 @@ export const MakeUploadFileRoute: Route = (r, ctx) => {
         TE.chain(({ key, file }) =>
           upload({
             Bucket: ctx.env.SPACE_BUCKET,
-            Key: `public/${key}`,
+            Key: key,
             Body: file,
           })(ctx),
         ),

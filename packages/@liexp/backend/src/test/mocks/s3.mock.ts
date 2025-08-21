@@ -7,7 +7,7 @@ const s3Mock = {
       endpoint: () =>
         Promise.resolve({
           protocol: "https:",
-          hostname: process.env.SPACE_ENDPOINT,
+          hostname: `${process.env.SPACE_ENDPOINT}/${process.env.SPACE_BUCKET}`,
           path: "/",
           query: undefined,
         }),

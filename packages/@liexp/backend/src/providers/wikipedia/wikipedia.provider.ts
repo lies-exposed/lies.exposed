@@ -1,6 +1,6 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { ensureHTTPS } from "@liexp/shared/lib/utils/url.utils.js";
+import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import {
   type AxiosRequestConfig,
   type AxiosInstance,
@@ -52,6 +52,7 @@ interface WikipediaProviderOpts {
   logger: Logger;
   client: Bot;
   restClient: AxiosInstance;
+  spaceEndpoint: string;
 }
 
 const toMWError = (e: unknown): Error => {
@@ -62,6 +63,7 @@ export const WikipediaProvider = ({
   logger,
   client,
   restClient,
+  spaceEndpoint,
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 
@@ -127,7 +129,7 @@ export const WikipediaProvider = ({
             items.filter((i) => i.type === "image"),
             fp.A.head,
             fp.O.chainNullableK((r) => r.srcset?.[0]?.src),
-            fp.O.map((url) => ensureHTTPS(url)),
+            fp.O.map((url) => ensureHTTPProtocol(url)),
             fp.O.toUndefined,
           );
         }),

@@ -38,11 +38,11 @@ export const extractThumbnailFromPDFPage = (
             ? [outputScale, 0, 0, outputScale, 0, 0]
             : undefined;
 
-        const renderContext: RenderParameters = {
+        const renderContext = {
           canvasContext: context as unknown as CanvasRenderingContext2D,
           transform,
           viewport,
-        };
+        } as RenderParameters;
 
         await page.render(renderContext).promise;
 

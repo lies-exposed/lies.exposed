@@ -1,5 +1,6 @@
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   MP4Type,
   type MediaType,
@@ -44,11 +45,11 @@ const getSignedUrl =
     resourceId: string,
     ContentType: MediaType,
     ContentLength: number,
-  ): TE.TaskEither<Error, { data: { url: URL } }> => {
+  ): TE.TaskEither<Error, { data: { id: UUID; url: URL } }> => {
     return pipe(
       TE.tryCatch(
         () =>
-          client.create<{ id: string; url: URL }>("/uploads/getSignedURL", {
+          client.create<{ id: UUID; url: URL }>("/uploads/getSignedURL", {
             data: {
               resource,
               resourceId,
@@ -94,7 +95,7 @@ export const uploadFile =
           .then((response) => {
             return {
               type,
-              location: response.data.Location,
+              location: response.data.Key,
             };
           });
       }, E.toError),
@@ -181,11 +182,11 @@ export const transformMedia =
             : undefined,
         }
       : undefined;
+
     return pipe(
       uploadFileTask,
       TE.map((media) => ({
         ...data,
-        id: data.id.toString(),
         ...media,
         label: data.label && data.label !== "" ? data.label : data.description,
         extra,

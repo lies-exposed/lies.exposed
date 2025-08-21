@@ -11,7 +11,7 @@ import { MediaArrayInput } from "../media/input/MediaArrayInput.js";
 import ReferenceArrayMediaInput from "../media/input/ReferenceArrayMediaInput.js";
 
 export const ReferenceMediaTab: React.FC<
-  Omit<ReferenceFieldProps<RaRecord<string>>, "reference"> & {
+  Omit<ReferenceFieldProps<RaRecord<string>>, "reference" | "render"> & {
     exclude?: string[];
   }
 > = ({ source, exclude, queryOptions, ...props }) => {

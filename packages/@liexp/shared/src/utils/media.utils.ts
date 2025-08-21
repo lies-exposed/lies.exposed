@@ -84,9 +84,7 @@ export const getMediaKey = (
   fileName: string,
   contentType: Media.ValidContentType,
 ): string => {
-  return `public/${resource}/${id}/${fileName}.${fileExtFromContentType(
-    contentType,
-  )}`;
+  return `${resource}/${id}/${fileName}.${fileExtFromContentType(contentType)}`;
 };
 
 export const getMediaThumbKey = (

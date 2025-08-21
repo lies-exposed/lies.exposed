@@ -30,6 +30,7 @@ describe("List Actor", () => {
           diedOn: undefined,
           death: undefined,
           avatar: a.avatar,
+          nationalities: [],
         })),
       ),
     );

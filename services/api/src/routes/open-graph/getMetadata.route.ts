@@ -45,7 +45,7 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
               : ctx.urlMetadata.fetchMetadata(url, {}, toControllerError),
             link: pipe(
               link,
-              O.map(LinkIO.decodeSingle),
+              O.map((l) => LinkIO.decodeSingle(l)),
               O.map(TE.fromEither),
               O.getOrElse(() =>
                 TE.right<ControllerError, Link.Link | undefined>(undefined),

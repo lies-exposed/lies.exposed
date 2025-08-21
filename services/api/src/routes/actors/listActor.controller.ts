@@ -12,7 +12,7 @@ export const MakeListPageRoute: Route = (r, ctx) => {
       fetchActors(query)(ctx),
       TE.chain(({ results, total }) =>
         pipe(
-          ActorIO.decodeMany(results, ctx.env.SPACE_ENDPOINT),
+          ActorIO.decodeMany(results),
           TE.fromEither,
           TE.map((results) => ({
             total,

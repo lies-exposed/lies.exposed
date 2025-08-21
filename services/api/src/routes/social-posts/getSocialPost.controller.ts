@@ -11,9 +11,7 @@ export const MakeGetSocialPostRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.SocialPosts.Get, ({ params: { id } }) => {
     return pipe(
       getSocialPostById(id)(ctx),
-      TE.chainEitherK((post) =>
-        SocialPostIO.decodeSingle(post, ctx.env.SPACE_ENDPOINT),
-      ),
+      TE.chainEitherK(SocialPostIO.decodeSingle),
       LoggerService.TE.debug(ctx, "GetSocialPostRoute %O"),
       TE.map((data) => ({
         body: {

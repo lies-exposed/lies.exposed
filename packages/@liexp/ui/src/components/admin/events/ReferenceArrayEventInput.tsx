@@ -9,7 +9,7 @@ import { Box } from "../../mui/index.js";
 import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceArrayEventInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & { source: string }
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }
 > = (props) => {
   return (
     <ReferenceArrayInput

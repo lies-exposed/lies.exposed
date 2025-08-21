@@ -172,7 +172,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
             ),
           ),
         ),
-        TE.chainEitherK(LinkIO.decodeSingle),
+        TE.chainEitherK((l) => LinkIO.decodeSingle(l)),
         TE.map((data) => ({
           body: { data },
           statusCode: 200,

@@ -32,7 +32,6 @@ import {
   ImageField,
   ImageInput,
   List,
-  ReferenceArrayInput,
   ReferenceManyField,
   SelectInput,
   SimpleForm,
@@ -93,14 +92,11 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
 
 const groupFilters = [
   <TextInput key="search" label="name" source="q" alwaysOn size="small" />,
-  <ReferenceArrayInput
+  <ReferenceManyField
     key="members"
     source="members"
     reference="actors"
-    alwaysOn
-    filterToQuery={(ids: string[]) => ({
-      members: ids,
-    })}
+    target="members"
   >
     <AutocompleteArrayInput
       source="id"
@@ -109,7 +105,7 @@ const groupFilters = [
       }}
       size="small"
     />
-  </ReferenceArrayInput>,
+  </ReferenceManyField>,
 ];
 
 export const GroupList: React.FC = () => (

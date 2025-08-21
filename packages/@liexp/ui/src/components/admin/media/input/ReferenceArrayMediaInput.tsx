@@ -11,10 +11,11 @@ import {
 } from "./ReferenceMediaInput.js";
 
 const ReferenceArrayMediaInput: React.FC<
-  Omit<ReferenceArrayInputProps, "children"> & {
+  Omit<ReferenceArrayInputProps, "children" | "reference"> & {
     source: string;
     allowedTypes?: MediaType[];
     exclude?: string[];
+    style?: React.CSSProperties;
   }
 > = ({ allowedTypes, exclude = [], ...props }) => {
   return (
@@ -24,10 +25,6 @@ const ReferenceArrayMediaInput: React.FC<
       filter={{
         type: allowedTypes,
         exclude,
-      }}
-      style={{
-        ...props.style,
-        width: "100%",
       }}
     >
       <AutocompleteArrayInput

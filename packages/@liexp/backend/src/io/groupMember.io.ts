@@ -17,12 +17,11 @@ import { GroupIO } from "./group.io.js";
 
 const toGroupMemberIO = (
   groupMember: GroupMemberEntity,
-  spaceEndpoint: string,
 ): E.Either<_DecodeError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
-      group: GroupIO.encodeSingle(groupMember.group, spaceEndpoint),
-      actor: ActorIO.encodeSingle(groupMember.actor, spaceEndpoint),
+      group: GroupIO.encodeSingle(groupMember.group),
+      actor: ActorIO.encodeSingle(groupMember.actor),
     }),
     E.chain(({ group, actor }) =>
       pipe(

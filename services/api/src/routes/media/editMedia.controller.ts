@@ -12,13 +12,10 @@ export const MakeEditMediaRoute: Route = (r, ctx) => {
       editMedia(id, body)(ctx),
       TE.chain((media) =>
         TE.fromEither(
-          MediaIO.decodeSingle(
-            {
-              ...media,
-              creator: media.creator,
-            },
-            ctx.env.SPACE_ENDPOINT,
-          ),
+          MediaIO.decodeSingle({
+            ...media,
+            creator: media.creator,
+          }),
         ),
       ),
       TE.map((data) => ({
