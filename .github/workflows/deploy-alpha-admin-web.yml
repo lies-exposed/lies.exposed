@@ -35,7 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Update .env file for Admin WEB
-        run: cp ./services/admin-web/.env.alpha ./services/admin-web/.env
+        run: cp ./services/admin-web/.env.prod ./services/admin-web/.env
 
       - name: Build Admin WEB image
         uses: docker/build-push-action@v6

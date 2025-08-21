@@ -21,7 +21,6 @@
     "build:es": "node --import tsx/esm ./esbuild.config.mjs",
     "build": "pnpm build:tsc && pnpm build:es",
     "dev": "node --watch build/run.js --trace-warnings",
-    "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "pnpm dev",
     "cli:dev": "node --import tsx/esm src/cli/index.ts",
     "lint": "eslint src",

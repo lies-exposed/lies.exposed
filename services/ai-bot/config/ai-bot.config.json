@@ -5,8 +5,8 @@
     "apiKey": "no-key-is-a-good-key",
     "models": {
       "summarize": "gpt-4o",
-      "chat": "salamandra-7b-instruct",
-      "embeddings": "salamandra-7b-instruct"
+      "chat": "gpt-4o",
+      "embeddings": "gpt-4o"
     }
   }
 }

@@ -16,6 +16,6 @@
 .env.development.local
 .env.test.local
 .env.production.local
-!.env.alpha
+!.env.prod
 
 npm-debug.log*

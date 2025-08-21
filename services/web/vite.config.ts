@@ -30,7 +30,7 @@ export default defineViteConfig({
     allowedHosts:
       process.env.VITE_NODE_ENV === "development"
         ? ["liexp.dev"]
-        : ["alpha.lies.exposed"],
+        : ["www.lies.exposed", "lies.exposed"],
     hmr: true,
   },
   target: "custom",

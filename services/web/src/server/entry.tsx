@@ -13,6 +13,7 @@ import * as ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router";
 import { App } from "../client/App.js";
 import { configuration } from "../client/configuration/index.js";
+
 // load FA icons
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 

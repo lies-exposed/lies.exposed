@@ -25,7 +25,6 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
     "dev": "node --watch build/run.js",
-    "dev:alpha": "DOTENV_CONFIG_PATH=.env.alpha pnpm dev",
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
     "bin:run": "node ./build/bin/cli.js",
