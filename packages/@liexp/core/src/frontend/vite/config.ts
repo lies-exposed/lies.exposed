@@ -1,6 +1,6 @@
 import * as path from "path";
 import image from "@rollup/plugin-image";
-import * as react from "@vitejs/plugin-react/dist/index.js";
+import * as react from "@vitejs/plugin-react";
 import { Schema } from "effect";
 import { type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
