@@ -60,7 +60,7 @@ jobs:
           key: storybook-build
 
       - name: Type Check Storybook
-        run: pnpm storybook build
+        run: pnpm storybook typecheck
 
       - name: Build Storybook
         run: pnpm storybook build:app

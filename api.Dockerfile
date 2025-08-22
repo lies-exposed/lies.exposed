@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:23-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
 
 WORKDIR /usr/src/app
 
@@ -26,7 +26,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM ghcr.io/lies-exposed/liexp-base:23-pnpm-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS production
 
 WORKDIR /prod/api
 

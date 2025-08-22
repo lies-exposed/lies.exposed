@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:23-pnpm-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
 
@@ -30,7 +30,7 @@ RUN pnpm web --prod deploy --legacy /prod/web
 
 WORKDIR /prod/web
 
-FROM node:23-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /prod/web
 
