@@ -59,6 +59,8 @@ temp
 # Imported csv
 services/data/public/**/import
 
+# Space Backup
+backup
 # LocalAI models
 models
 
