@@ -30,8 +30,7 @@ ssh $SSH_DOMAIN "bash -s $username" << "EOF"
 
     chown -R pptruser:pptruser ./ai-bot-temp
 
-    docker compose build ai-bot --no-cache
-    docker compose up -d ai-bot --force-recreate -V
+    docker compose --env-file .env.ai-bot up --force-recreate -d --wait ai-bot -V
 
 EOF
 

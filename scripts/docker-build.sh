@@ -14,7 +14,7 @@ AI_BOT_IMAGE=liexp-ai-bot
 base=false
 pnpm=false
 api=false
-worker=false
+be_worker=false
 web=false
 ai_bot=false
 admin=false
@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --be-worker)
-            worker=true
+            be_worker=true
             shift
             ;;
         --web)
@@ -61,14 +61,16 @@ if [ "$pnpm" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
     --tag $BASE_IMAGE:pnpm-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-pnpm-latest \
-    --target=pnpm
+    --target=pnpm \
+    "${other_args[@]}"
 fi
 
 if [ "$base" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile --no-cache \
     --tag $BASE_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-latest \
-    --target=api-base
+    --target=api-base \
+    "${other_args[@]}"
 fi
 
 if [ "$admin" = true ]; then
@@ -77,7 +79,8 @@ if [ "$admin" = true ]; then
     --file adminWeb.Dockerfile \
     --target production \
     --tag $ADMIN_WEB_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:latest
+    --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:latest \
+    "${other_args[@]}"
   git checkout -- ./services/admin-web/.env
 fi
 
@@ -87,7 +90,8 @@ if [ "$ai_bot" = true ]; then
     --file ai-bot.Dockerfile \
     --target production \
     --tag $AI_BOT_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$AI_BOT_IMAGE:latest
+    --tag ghcr.io/lies-exposed/$AI_BOT_IMAGE:latest \
+    "${other_args[@]}"
 fi
 
 if [ "$api" = true ]; then
@@ -96,16 +100,18 @@ if [ "$api" = true ]; then
     --file api.Dockerfile \
     --target production \
     --tag $API_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$API_IMAGE:latest
+    --tag ghcr.io/lies-exposed/$API_IMAGE:latest \
+    "${other_args[@]}"
 fi
 
-if [ "$worker" = true ]; then
+if [ "$be_worker" = true ]; then
   docker build . \
     --force-rm \
     --file worker.Dockerfile \
     --target production \
     --tag $API_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:latest
+    --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:latest \
+    "${other_args[@]}"
 fi
 
 if [ "$web" = true ]; then
@@ -117,7 +123,8 @@ if [ "$web" = true ]; then
     --target production \
     --build-arg DOTENV_CONFIG_PATH=.env.prod \
     --tag $WEB_IMAGE:latest \
-    --tag ghcr.io/lies-exposed/$WEB_IMAGE:latest
+    --tag ghcr.io/lies-exposed/$WEB_IMAGE:latest \
+    "${other_args[@]}"
   rm ./services/web/.env
   mv ./services/web/.env.temp ./services/web/.env
 fi
