@@ -109,7 +109,7 @@ export const makeContext =
     client.interceptors.request.use((req) => {
       req.headers.set(
         "Authorization",
-        `Bearer ${jwtClient.signUser({} as any)}`,
+        `Bearer ${jwtClient.signUser({} as any)()}`,
       );
 
       return req;
