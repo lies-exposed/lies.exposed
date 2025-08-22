@@ -93,8 +93,6 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
 const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-links"),
-    getAbsolutePath("@storybook/addon-essentials"),
-    getAbsolutePath("@storybook/addon-interactions"),
   ],
 
   features: {
@@ -114,7 +112,7 @@ const config: StorybookConfig = {
     },
   },
   docs: {
-    autodocs: true,
+    docsMode: true,
   },
 
   typescript: {
