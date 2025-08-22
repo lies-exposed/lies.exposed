@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:23-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
 
 WORKDIR /home/node
 
@@ -16,7 +16,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
-FROM ghcr.io/lies-exposed/liexp-base:23-latest AS deps
+FROM ghcr.io/lies-exposed/liexp-base:24-latest AS deps
 
 WORKDIR /home/node
 
@@ -28,7 +28,7 @@ RUN pnpm add pdfjs-dist@^5 \
     puppeteer-extra-plugin-stealth@^2
 
 
-FROM ghcr.io/lies-exposed/liexp-base:23-latest AS build
+FROM ghcr.io/lies-exposed/liexp-base:24-latest AS build
 
 WORKDIR /home/node
 
@@ -51,7 +51,7 @@ RUN npx postject ai-bot NODE_SEA_BLOB ./build/ai-bot.blob \
 
 
 
-FROM ghcr.io/lies-exposed/liexp-base:23-latest AS production
+FROM ghcr.io/lies-exposed/liexp-base:24-latest AS production
 
 WORKDIR /home/node
 
