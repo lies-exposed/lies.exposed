@@ -43,12 +43,12 @@ WORKDIR /prod/admin-web
 
 FROM nginx:1.25.4-alpine AS production
 
-COPY ./resources/nginx/snippets/ /etc/nginx/snippets/
-RUN mkdir -p /etc/nginx/conf.d/
+# COPY ./resources/nginx/snippets/ /etc/nginx/snippets/
+# RUN mkdir -p /etc/nginx/conf.d/
 
 # create directory for logs
 RUN mkdir -p /var/log/nginx/
 
-COPY --from=build /usr/src/app/services/admin-web/build /usr/share/nginx/html/admin
+COPY --from=build /usr/src/app/services/admin-web/build /usr/share/nginx/html
 
 CMD ["nginx", "-g", "daemon off;"]
