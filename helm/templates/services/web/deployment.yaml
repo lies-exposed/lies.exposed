@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "web" | include "web.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: web
+  template:
+    metadata:
+      labels:
+        lies.exposed/name: web
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      containers:
+        - name: liexp-dev
+          envFrom:
+            - configMapRef:
+                name: web-env
+          image: ghcr.io/lies-exposed/liexp-web:alpha-latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 4020
+            failureThreshold: 10
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 20
+          resources:
+            limits:
+              memory: "1500Mi"
+              cpu: "500m"
+            requests:
+              memory: "1Gi"
+              cpu: "200m"
+          tty: true
+      restartPolicy: Always

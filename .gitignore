@@ -65,3 +65,8 @@ models
 # Docker deployment
 deploy/ai-bot-temp
 deploy/ai-bot.config.json
+
+# Helm environment values
+helm/values.*.yaml
+helm/config/cloudflare
+helm/config/env

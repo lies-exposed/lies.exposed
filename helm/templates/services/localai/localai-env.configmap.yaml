@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  LOCALAI_LOG_LEVEL: debug
+  # LOCALAI_F16: "true"
+  LOCALAI_API_KEY: {{ .Values.localai.openAIApiKey }}
+kind: ConfigMap
+metadata:
+  name: localai-env
+  labels:
+    lies.exposed/name: localai-env
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+    app.kubernetes.io/component: ai
+    app.kubernetes.io/managed-by: Helm

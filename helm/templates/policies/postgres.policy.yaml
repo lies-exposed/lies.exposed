@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+    app.kubernetes.io/part-of: lies-exposed
+spec:
+  podSelector:
+    matchLabels:
+      lies.exposed/name: db
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: api
+
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: api-migrations
+
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: worker
+  egress:
+    - to:
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: api
+
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: api-migrations
+
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: worker

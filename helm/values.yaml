@@ -1,0 +1,49 @@
+# digital ocean
+do:
+  token: my-do-token
+
+domain: liexp.dev
+
+adminWeb:
+  dev: false
+  nginxConfPath: "/home/node/resources/nginx/admin.liex.dev"
+
+api:
+  dbHost: db.liexp.dev
+  dbPort: 8432
+
+worker:
+  dbHost: db.liexp.dev
+  dbPort: 8432
+
+aiBot:
+  configPath: "/home/node/services/ai-bot/config"
+
+db:
+  host: db.liexp.dev
+  port: 8432
+
+redis:
+  host: redis.liexp-dev.svc.cluster.local
+
+space:
+  host: space.liexp-dev.svc.cluster.local
+  accessKeyId: "space-access-key-id"
+  accessKeySecret: "space-access-key-secret-id"
+
+telegram:
+  nginxConfPath: /home/node/resources/nginx/
+  nginxConfFile: telegram-bot-api.conf
+  api:
+    hash: "not-real-hash"
+    id: "not-real-id"
+  bot:
+    token: "not-real-token"
+    chat: "not-a-real-chat"
+    username: "not-real-username"
+
+imageCredentials:
+  registry: ghcr.io
+  username: your-username
+  password: your-password
+  email: your-email@example.com

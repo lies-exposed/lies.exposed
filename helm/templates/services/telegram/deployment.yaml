@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegram
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram" | include "tg.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: telegram
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        lies.exposed/name: telegram
+    spec:
+      containers:
+        - image: nginx:1.25.4-alpine
+          name: telegram-liexp-dev
+          ports:
+            - containerPort: 9008
+              protocol: TCP
+          volumeMounts:
+            - name: telegram-bot-api-nginx-conf-storage
+              mountPath: /etc/nginx/conf.d/default.conf
+              readOnly: true
+              subPath: telegram-bot-api.conf
+      restartPolicy: Always
+      volumes:
+        - name: telegram-bot-api-nginx-conf-storage
+          configMap:
+            name: telegram-bot-api-nginx-conf
+            items:
+              - key: telegram-bot-api.conf
+                path: telegram-bot-api.conf

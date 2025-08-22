@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: space-volume
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    hostPathProvisionerIdentity: aski-home
+    pv.kubernetes.io/provisioned-by: microk8s.io/hostpath
+spec:
+  capacity:
+    storage: 50Gi
+  volumeMode: Filesystem
+  hostPath:
+    path: {{ .Values.space.hostPath }}
+    type: DirectoryOrCreate
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: minio-operator
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: microk8s-hostpath
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - aski-home

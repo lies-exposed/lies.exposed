@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: {{ .Release.Namespace }}
+  labels:
+{{ tuple . "web" | include "web.labels" | indent 2 }}
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4020
+  selector:
+    lies.exposed/name: web

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-bot
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "ai-bot" | include "aiBot.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: ai-bot
+  template:
+    metadata:
+{{ tuple . "ai-bot" | include "aiBot.labels" | indent 6 }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      volumes:
+        - name: ai-bot-config-storage
+          configMap:
+            name: ai-bot-config-map
+            items:
+              - key: ai-bot.config.json
+                path: ai-bot.config.json
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: ai-bot-env
+          image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+          imagePullPolicy: Always
+          name: ai-bot
+          resources:
+            limits:
+              memory: 2Gi
+              cpu: "500m"
+            requests:
+              memory: 512Mi
+              cpu: "200m"
+          volumeMounts:
+            - name: ai-bot-config-storage
+              mountPath: /home/node/config/
+
+      restartPolicy: Always

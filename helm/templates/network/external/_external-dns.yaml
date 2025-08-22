@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-dns
+  labels:
+    lies.exposed/name: external-dns
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: external-dns
+  template:
+    metadata:
+      labels:
+        app: external-dns
+    spec:
+      containers:
+        - name: external-dns
+          image: registry.k8s.io/external-dns/external-dns:v0.18.0
+          args:
+            - --source=ingress # ingress is also possible
+            - "--domain-filter={{ .Values.domain }}" # (optional) limit to only example.com domains; change to match the zone created above.
+            - --provider=cloudflare
+            - --cloudflare-proxied # (optional) enable the proxy feature of Cloudflare (DDOS protection, CDN...)
+            - --cloudflare-dns-records-per-page=5000 # (optional) configure how many DNS records to fetch per request
+            # - --cloudflare-regional-services # (optional) enable the regional hostname feature that configure which region can decrypt HTTPS requests
+            # - --cloudflare-region-key="eu" # (optional) configure which region can decrypt HTTPS requests
+            # - --cloudflare-record-comment="provisioned by external-dns" # (optional) configure comments for provisioned records; <=100 chars for free zones; <=500 chars for paid zones
+            # - "--godaddy-api-key={{ .Values.externalDNS.apiKey }}"
+            # - "--godaddy-api-secret={{ .Values.externalDNS.secretKey }}"
+            - --policy=sync
+            - --registry=txt
+            - --log-level=debug
+            - --txt-owner-id='default'
+            # - --dry-run
+          env:
+            - name: CF_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-api-token
+                  key: apiToken

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-web
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "admin-web" | include "adminWeb.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: admin-web
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+      # app.kubernetes.io/component: admin-frontend
+  template:
+    metadata:
+{{ tuple . "admin-web" | include "adminWeb.labels" | indent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      containers:
+        - image: ghcr.io/lies-exposed/liexp-admin-web:alpha-latest
+          imagePullPolicy: Always
+          name: admin-web
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          # tty: true
+          {{- if .Values.adminWeb.dev -}}
+          volumeMounts:
+            - mountPath: "/usr/share/nginx/html"
+              name: admin-web-build
+          {{- end -}}
+      restartPolicy: Always
+      # {{- if .Values.adminWeb.dev -}}
+      # volumes:
+      #   - name: admin-web-build
+      #     persistentVolumeClaim:
+      #       claimName: admin-web-build-pv-claim
+      # {{- end -}}

@@ -1,0 +1,112 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudflared-tunnel
+  namespace: {{ .Release.Namespace }}
+  labels:
+    name: cloudflared-tunnel
+    namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      name: cloudflared-tunnel
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: cloudflared-tunnel
+        namespace: {{ .Release.Namespace }}
+    spec:
+      securityContext:
+        runAsGroup: 65532
+        runAsUser: 65532
+        runAsNonRoot: true
+        sysctls:
+        - name: net.ipv4.ping_group_range
+          value: "65532           65532"
+      containers:
+        - name: cloudflared
+          image: cloudflare/cloudflared:latest
+          args:
+            - tunnel
+            - --config
+            - /etc/cloudflared/config/config.yaml
+            - run
+          volumeMounts:
+            - name: config
+              mountPath: /etc/cloudflared/config
+              readOnly: true
+            - name: creds
+              mountPath: /etc/cloudflared/creds
+              readOnly: true
+          resources:
+            limits:
+              cpu: 200m
+              memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 512Mi
+      volumes:
+        - name: creds
+          secret:
+            secretName: cloudflared-tunnel-credentials
+        - name: config
+          configMap:
+            name: cloudflared-config
+            items:
+              - key: config.yaml
+                path: config.yaml
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflared-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    lies.exposed/name: cloudflared-config
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+    app.kubernetes.io/managed-by: Helm
+data:
+  config.yaml: |
+    tunnel: home-server-cluster
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    # metrics: 0.0.0.0:2000
+    no-autoupdate: true
+    ingress:
+      - hostname: "api.lies.exposed"
+        service: "http://api.prod.svc.cluster.local"
+      - hostname: "admin.lies.exposed"
+        service: "http://admin-web.prod.svc.cluster.local"
+      - hostname: "space.lies.exposed"
+        service: "http://minio.minio-operator.svc.cluster.local"
+      - hostname: "space-console.lies.exposed"
+        service: "http://microk8s-console.minio-operator.svc.cluster.local:9090"
+      - hostname: "www.lies.exposed"
+        service: "http://web.prod.svc.cluster.local"
+      - hostname: "ai.lies.exposed"
+        service: "http://localai.prod.svc.cluster.local"
+      - hostname: "lies.exposed"
+        service: "http://web.prod.svc.cluster.local"
+      - service: http_status:404
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflared-tunnel-credentials
+  namespace: {{ .Release.Namespace }}
+  labels:
+    lies.exposed/name: cloudflared-tunnel-credentials
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+    app.kubernetes.io/managed-by: Helm
+type: Opaque
+data:
+{{ if .Files.Get "config/cloudflare/tunnel.json" }}
+  credentials.json: {{ .Files.Get "config/cloudflare/tunnel.json" | b64enc }}
+{{ else }}
+{{ fail "you need to supply your license file! add 'config/cloudflare/tunnel.json' to your chart 'config' directory." }}
+{{ end }}

@@ -1,0 +1,9 @@
+apiVersion: v2
+name: lies-exposed
+description: Development environment for Lies Exposed
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://lies.exposed/
+maintainers:
+  - name: Andrea Ascari
+    email: dev.ascariandrea@gmail.com

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: telegram-bot-api-data
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram-bot-api-data" | include "tg.labels" | indent 2 }}
+spec:
+  storageClassName: microk8s-hostpath
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.telegram.dataVolumeHostPath | quote }}
+  claimRef:
+    name: telegram-bot-api-data-pv-claim
+    namespace: {{ .Release.Namespace }}

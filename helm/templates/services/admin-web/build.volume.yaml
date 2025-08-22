@@ -1,0 +1,19 @@
+{{- if .Values.adminWeb.dev -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: admin-web-build-volume
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "admin-web-build-volume" | include "adminWeb.labels" | indent 2 }}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.adminWeb.nginxConfPath }}
+  claimRef:
+    name: admin-web-build-pv-claim
+    namespace: {{ .Release.Namespace }}
+{{- end -}}

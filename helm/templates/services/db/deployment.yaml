@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "db" | include "db.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+{{ tuple . "db" | include "db.labels" | indent 6 }}
+    spec:
+      containers:
+        - image: postgres:17
+          name: db
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: db-env
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: db-initial-data
+          resources:
+            limits:
+              cpu: 400m
+              memory: 2Gi
+            requests:
+              cpu: 200m
+              memory: 1Gi
+      restartPolicy: Always
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: db-data-pv-claim
+        - name: db-initial-data
+          persistentVolumeClaim:
+            claimName: db-initial-data-pv-claim

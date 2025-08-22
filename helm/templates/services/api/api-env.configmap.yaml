@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-env
+{{ tuple . "api-env" | include "api.labels" | indent 2 }}
+data:
+{{ tuple . "config/env/api.env" | include "env.parseFile" | indent 2 }}

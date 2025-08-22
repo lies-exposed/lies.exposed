@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: telegram-bot-api
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram-bot-api" | include "tg.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: telegram-bot-api
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+{{ tuple . "telegram-bot-api" | include "tg.labels" | indent 6 }}
+    spec:
+      containers:
+        - name: telegram-bot-api
+          env:
+            - name: TELEGRAM_HTTP_IP_ADDRESS
+              value: "[::]"
+            - name: TELEGRAM_LOCAL
+              value: "1"
+            - name: TELEGRAM_VERBOSITY
+              value: "2"
+          envFrom:
+            - configMapRef:
+                name: worker-env
+          image: aiogram/telegram-bot-api:latest
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          stdin: true
+          volumeMounts:
+            - mountPath: /var/lib/telegram-bot-api
+              name: telegram-bot-api-data
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 300m
+            requests:
+              memory: 256Mi
+              cpu: 100m
+      restartPolicy: Always
+      volumes:
+        - name: telegram-bot-api-data
+          persistentVolumeClaim:
+            claimName: telegram-bot-api-data-pv-claim

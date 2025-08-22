@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "api" | include "api.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: api
+  template:
+    metadata:
+{{ tuple . "api" | include "api.labels" | indent 6 }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      # volumes:
+      #   - name: db-ca-certificate-crt
+      #     secret:
+      #       secretName: db-ca-certificate
+      #       items:
+      #         - key: db-ca-certificate.crt
+      #           path: db-ca-certificate.crt
+      containers:
+        - name: api
+          envFrom:
+            - configMapRef:
+                name: api-env
+          image: ghcr.io/lies-exposed/liexp-api:alpha-latest
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /v1/healthcheck
+              port: 4010
+            failureThreshold: 10
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 20
+          ports:
+            - containerPort: 4010
+              protocol: TCP
+          resources:
+            limits:
+              memory: "512Mi"
+          # volumeMounts:
+          #   - name: db-ca-certificate-crt
+          #     mountPath: /prod/api/certs/db-ca-certificate.crt
+          #     subPath: db-ca-certificate.crt
+      restartPolicy: Always

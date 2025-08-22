@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-data-volume
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "redis-data-volume" | include "redis.labels" | indent 2 }}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 512Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.redis.dataHostPath }}
+  claimRef:
+    name: redis-data-pv-claim
+    namespace: {{ .Release.Namespace }}

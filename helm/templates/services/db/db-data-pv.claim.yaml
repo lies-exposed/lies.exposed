@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-data-pv-claim
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "db-data-pv-claim" | include "db.labels" | indent 2 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  selector:
+    matchLabels:
+      lies.exposed/name: db-data-volume
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+      app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}

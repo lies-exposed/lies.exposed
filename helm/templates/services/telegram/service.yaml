@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: telegram
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram" | include "tg.labels" | indent 2 }}
+spec:
+  ports:
+    - name: "9008"
+      port: 9008
+      targetPort: 9008
+  selector:
+    lies.exposed/name: telegram

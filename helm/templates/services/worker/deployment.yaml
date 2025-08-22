@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "worker" | include "worker.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: worker
+  template:
+    metadata:
+{{ tuple . "worker" | include "worker.labels" | indent 6 }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      volumes:
+        - name: db-ca-certificate-crt
+          secret:
+            secretName: db-ca-certificate
+            items:
+              - key: db-ca-certificate.crt
+                path: db-ca-certificate.crt
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: worker-env
+          image: ghcr.io/lies-exposed/liexp-worker:alpha-latest
+          imagePullPolicy: Always
+          name: worker
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "200m"
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: db-ca-certificate-crt
+              mountPath: /prod/worker/certs/db-ca-certificate.crt
+              subPath: db-ca-certificate.crt
+      restartPolicy: Always

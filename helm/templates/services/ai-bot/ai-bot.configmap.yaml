@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+data:
+  ai-bot.config.json: |
+    {
+      "api": {
+        "url": "http://api.prod.svc.cluster.local/v1"
+      },
+      "localAi": {
+        "url": "http://localai.prod.svc.cluster.local/",
+        "apiKey": "no-key-is-a-good-key",
+        "models": {
+          "summarize": "gpt-4o",
+          "chat": "qwen3-8b",
+          "embeddings": "qwen3-8b"
+        }
+      }
+    }
+
+metadata:
+  name: ai-bot-config-map
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "ai-bot-config-map" | include "aiBot.labels" | indent 2 }}

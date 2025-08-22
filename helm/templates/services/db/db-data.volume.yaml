@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-data-volume
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "db-data-volume" | include "db.labels" | indent 2 }}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.db.dataHostPath }}
+  claimRef:
+    name: db-data-pv-claim
+    namespace: {{ .Release.Namespace }}

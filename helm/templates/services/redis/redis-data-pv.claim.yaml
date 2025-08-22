@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-pv-claim
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "redis-data-pv-claim" | include "redis.labels" | indent 2 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 512Mi
+  selector:
+    matchLabels:
+      lies.exposed/name: redis-data-volume
+      app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}

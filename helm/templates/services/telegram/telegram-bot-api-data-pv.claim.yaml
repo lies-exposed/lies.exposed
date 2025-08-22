@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: telegram-bot-api-data-pv-claim
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram-bot-api-data-pv-claim" | include "tg.labels" | indent 2 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: localai-models-volume
+  namespace: {{ .Release.Namespace }}
+  labels:
+    lies.exposed/name: localai-models-volume
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
+    app.kubernetes.io/managed-by: Helm
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.localai.modelsHostPath | quote }}
+  claimRef:
+    name: localai-models-pv-claim
+    namespace: {{ .Release.Namespace }}
