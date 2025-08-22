@@ -12,7 +12,7 @@ on:
       - "services/admin-web/**"
 
 env:
-  ADMIN_WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-admin-web:alpha-latest
+  ADMIN_WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-admin-web:latest
 
 jobs:
   deploy-admin-web:

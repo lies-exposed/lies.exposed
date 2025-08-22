@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: ghcr-io-registry-auth
       containers:
-        - image: ghcr.io/lies-exposed/liexp-admin-web:alpha-latest
+        - image: ghcr.io/lies-exposed/liexp-admin-web:latest
           imagePullPolicy: Always
           name: admin-web
           ports:

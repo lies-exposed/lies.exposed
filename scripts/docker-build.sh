@@ -59,25 +59,25 @@ done
 
 if [ "$pnpm" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile \
-    --tag $BASE_IMAGE:alpha-pnpm-latest \
+    --tag $BASE_IMAGE:pnpm-latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-pnpm-latest \
     --target=pnpm
 fi
 
 if [ "$base" = true ]; then
   docker build . --force-rm --pull --file base.Dockerfile --no-cache \
-    --tag $BASE_IMAGE:alpha-latest \
+    --tag $BASE_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$BASE_IMAGE:24-latest \
     --target=api-base
 fi
 
 if [ "$admin" = true ]; then
-  cp ./services/admin-web/.env.alpha ./services/admin-web/.env
+  cp ./services/admin-web/.env.prod ./services/admin-web/.env
   docker build . \
     --file adminWeb.Dockerfile \
     --target production \
-    --tag $WEB_IMAGE:alpha-admin-latest \
-    --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:alpha-latest
+    --tag $ADMIN_WEB_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:latest
   git checkout -- ./services/admin-web/.env
 fi
 
@@ -86,8 +86,8 @@ if [ "$ai_bot" = true ]; then
     --force-rm \
     --file ai-bot.Dockerfile \
     --target production \
-    --tag $AI_BOT_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$AI_BOT_IMAGE:alpha-latest
+    --tag $AI_BOT_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$AI_BOT_IMAGE:latest
 fi
 
 if [ "$api" = true ]; then
@@ -95,8 +95,8 @@ if [ "$api" = true ]; then
     --force-rm \
     --file api.Dockerfile \
     --target production \
-    --tag $API_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$API_IMAGE:alpha-latest
+    --tag $API_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$API_IMAGE:latest
 fi
 
 if [ "$worker" = true ]; then
@@ -104,20 +104,20 @@ if [ "$worker" = true ]; then
     --force-rm \
     --file worker.Dockerfile \
     --target production \
-    --tag $API_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:alpha-latest
+    --tag $API_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:latest
 fi
 
 if [ "$web" = true ]; then
   mv ./services/web/.env ./services/web/.env.temp
-  cp ./services/web/.env.alpha ./services/web/.env
+  cp ./services/web/.env.prod ./services/web/.env
   docker build . \
     --force-rm \
     --file web.Dockerfile \
     --target production \
-    --build-arg DOTENV_CONFIG_PATH=.env.alpha \
-    --tag $WEB_IMAGE:alpha-latest \
-    --tag ghcr.io/lies-exposed/$WEB_IMAGE:alpha-latest
+    --build-arg DOTENV_CONFIG_PATH=.env.prod \
+    --tag $WEB_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$WEB_IMAGE:latest
   rm ./services/web/.env
   mv ./services/web/.env.temp ./services/web/.env
 fi

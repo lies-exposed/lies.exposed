@@ -12,7 +12,7 @@ on:
       - "services/api/**"
 
 env:
-  API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-api:alpha-latest
+  API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-api:latest
 
 jobs:
   deploy-api:

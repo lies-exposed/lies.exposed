@@ -19,7 +19,7 @@ spec:
         - name: ghcr-io-registry-auth
       containers:
         - name: api-migrations
-          image: ghcr.io/lies-exposed/liexp-api:alpha-latest
+          image: ghcr.io/lies-exposed/liexp-api:latest
           envFrom:
             - configMapRef:
                 name: api-env

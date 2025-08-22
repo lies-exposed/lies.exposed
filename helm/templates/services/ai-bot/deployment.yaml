@@ -26,7 +26,7 @@ spec:
         - envFrom:
             - configMapRef:
                 name: ai-bot-env
-          image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+          image: ghcr.io/lies-exposed/liexp-ai-bot:latest
           imagePullPolicy: Always
           name: ai-bot
           resources:

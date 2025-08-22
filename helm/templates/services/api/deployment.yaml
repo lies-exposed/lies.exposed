@@ -27,7 +27,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: api-env
-          image: ghcr.io/lies-exposed/liexp-api:alpha-latest
+          image: ghcr.io/lies-exposed/liexp-api:latest
           imagePullPolicy: Always
           livenessProbe:
             httpGet:

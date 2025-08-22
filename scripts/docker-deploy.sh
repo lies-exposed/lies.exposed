@@ -18,11 +18,11 @@ scp -r ./resources/nginx/alpha.lies.exposed.conf $SSH_DOMAIN:/etc/nginx/sites-en
 scp -r ./resources/nginx/alpha.api.lies.exposed.conf $SSH_DOMAIN:/etc/nginx/sites-enabled/alpha.api.lies.exposed.conf
 scp -r ./resources/nginx/telegram-bot-api.conf $SSH_DOMAIN:/etc/nginx/sites-enabled/telegram-bot-api.conf
 
-scp ./services/api/.env.alpha $SSH_DOMAIN:docker-app/.env.api
-scp ./services/web/.env.alpha $SSH_DOMAIN:docker-app/.env.web
-scp ./services/admin-web/.env.alpha $SSH_DOMAIN:docker-app/.env.admin-web
-scp ./services/ai-bot/.env.alpha $SSH_DOMAIN:docker-app/.env.ai-bot
-scp ./services/worker/.env.alpha $SSH_DOMAIN:docker-app/.env.be-worker
+scp ./services/api/.env.prod $SSH_DOMAIN:docker-app/.env.api
+scp ./services/web/.env.prod $SSH_DOMAIN:docker-app/.env.web
+scp ./services/admin-web/.env.prod $SSH_DOMAIN:docker-app/.env.admin-web
+scp ./services/ai-bot/.env.prod $SSH_DOMAIN:docker-app/.env.ai-bot
+scp ./services/worker/.env.prod $SSH_DOMAIN:docker-app/.env.be-worker
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"
     set -e

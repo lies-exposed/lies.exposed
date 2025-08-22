@@ -12,7 +12,7 @@ on:
       - "services/web/**"
 
 env:
-  WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-web:alpha-latest
+  WEB_IMAGE_TAG: ghcr.io/lies-exposed/liexp-web:latest
 
 jobs:
   deploy-web:

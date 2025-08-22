@@ -2,7 +2,7 @@
 
 set -x -e
 
-IMAGE_TAG=alpha-latest
+IMAGE_TAG=latest
 BASE_IMAGE=ghcr.io/lies-exposed/liexp-base
 API_IMAGE=ghcr.io/lies-exposed/liexp-api
 BE_WORKER_IMAGE=ghcr.io/lies-exposed/liexp-worker

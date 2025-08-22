@@ -9,7 +9,7 @@ ssh $SSH_DOMAIN "mkdir -p ~/docker-app/be-worker-temp"
 ssh $SSH_DOMAIN "chown -R pptruser:pptruser ~/docker-app/be-worker-temp"
 
 scp ./deploy/compose.yml $SSH_DOMAIN:docker-app/compose.yml
-scp ./services/worker/.env.alpha $SSH_DOMAIN:docker-app/.env.be-worker
+scp ./services/worker/.env.prod $SSH_DOMAIN:docker-app/.env.be-worker
 
 
 ssh $SSH_DOMAIN "bash -s $username" << "EOF"

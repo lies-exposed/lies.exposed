@@ -12,7 +12,7 @@ on:
       - "services/worker/**"
 
 env:
-  API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-worker:alpha-latest
+  API_IMAGE_TAG: ghcr.io/lies-exposed/liexp-worker:latest
 
 jobs:
   deploy-api:

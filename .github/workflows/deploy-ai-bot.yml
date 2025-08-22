@@ -12,7 +12,7 @@ on:
       - "services/ai-bot/**"
 
 env:
-  AI_BOT_IMAGE_TAG: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+  AI_BOT_IMAGE_TAG: ghcr.io/lies-exposed/liexp-ai-bot:latest
 jobs:
   deploy-ai-bot:
     runs-on: ubuntu-latest

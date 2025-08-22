@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/lies-exposed/liexp-api:alpha-latest
+    image: ghcr.io/lies-exposed/liexp-api:latest
     user: $API_UID:$API_GID
     env_file:
       - .env.api
@@ -30,7 +30,7 @@ services:
     #   start_period: 30s
 
   be-worker:
-    image: ghcr.io/lies-exposed/liexp-worker:alpha-latest
+    image: ghcr.io/lies-exposed/liexp-worker:latest
     container_name: liexp-be-worker
     restart: always
     environment:
@@ -48,7 +48,7 @@ services:
     network_mode: "host"
 
   ai-bot:
-    image: ghcr.io/lies-exposed/liexp-ai-bot:alpha-latest
+    image: ghcr.io/lies-exposed/liexp-ai-bot:latest
     container_name: liexp-ai-bot
     restart: always
     env_file:
@@ -62,7 +62,7 @@ services:
     network_mode: "host"
 
   web:
-    image: ghcr.io/lies-exposed/liexp-web:alpha-latest
+    image: ghcr.io/lies-exposed/liexp-web:latest
     container_name: liexp-web
     env_file:
       - .env.web
@@ -78,7 +78,7 @@ services:
         max-file: 5
         max-size: 10m
   admin-web:
-    image: ghcr.io/lies-exposed/liexp-admin-web:alpha-latest
+    image: ghcr.io/lies-exposed/liexp-admin-web:latest
     container_name: liexp-admin-web
     env_file:
       - .env.admin-web

@@ -21,7 +21,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: web-env
-          image: ghcr.io/lies-exposed/liexp-web:alpha-latest
+          image: ghcr.io/lies-exposed/liexp-web:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
