@@ -22,6 +22,10 @@ spec:
             items:
               - key: db-ca-certificate.crt
                 path: db-ca-certificate.crt
+        - name: worker-temp-volume
+          persistentVolumeClaim:
+            claimName: temp-pv-claim
+
       containers:
         - envFrom:
             - configMapRef:
@@ -40,4 +44,6 @@ spec:
             - name: db-ca-certificate-crt
               mountPath: /prod/worker/certs/db-ca-certificate.crt
               subPath: db-ca-certificate.crt
+            - name: worker-temp-volume
+              mountPath: /prod/worker/temp
       restartPolicy: Always

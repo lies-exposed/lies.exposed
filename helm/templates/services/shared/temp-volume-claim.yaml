@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: temp-pv-claim
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "temp-pv-claim" | include "tg.labels" | indent 2 }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi

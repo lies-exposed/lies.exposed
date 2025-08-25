@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: temp-pv
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "temp-pv" | include "worker.labels" | indent 2 }}
+spec:
+  storageClassName: microk8s-hostpath
+  capacity:
+    storage: 200Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.shared.tempVolumeHostPath | quote }}
+  claimRef:
+    name: temp-pv-claim
+    namespace: {{ .Release.Namespace }}

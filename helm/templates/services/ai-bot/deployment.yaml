@@ -22,6 +22,9 @@ spec:
             items:
               - key: ai-bot.config.json
                 path: ai-bot.config.json
+        - name: ai-bot-temp-volume
+          persistentVolumeClaim:
+            claimName: temp-pv-claim
       containers:
         - envFrom:
             - configMapRef:
@@ -39,5 +42,6 @@ spec:
           volumeMounts:
             - name: ai-bot-config-storage
               mountPath: /home/node/config/
-
+            - name: ai-bot-temp-volume
+              mountPath: /prod/ai-bot/temp
       restartPolicy: Always

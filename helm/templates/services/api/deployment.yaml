@@ -15,7 +15,10 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr-io-registry-auth
-      # volumes:
+      volumes:
+        - name: api-temp-volume
+          persistentVolumeClaim:
+            claimName: temp-pv-claim
       #   - name: db-ca-certificate-crt
       #     secret:
       #       secretName: db-ca-certificate
@@ -43,6 +46,9 @@ spec:
           resources:
             limits:
               memory: "512Mi"
+          volumeMounts:
+          - name: api-temp-volume
+            mountPath: /prod/api/temp
           # volumeMounts:
           #   - name: db-ca-certificate-crt
           #     mountPath: /prod/api/certs/db-ca-certificate.crt
