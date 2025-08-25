@@ -18,20 +18,30 @@ spec:
     spec:
       containers:
         - image: nginx:1.25.4-alpine
-          name: telegram-liexp-dev
+          name: telegram-nginx
           ports:
             - containerPort: 9008
               protocol: TCP
           volumeMounts:
+            - name: telegram-bot-api-data
+              mountPath: /var/lib/telegram-bot-api
             - name: telegram-bot-api-nginx-conf-storage
               mountPath: /etc/nginx/conf.d/default.conf
               readOnly: true
               subPath: telegram-bot-api.conf
+            - name: telegram-nginx-log
+              mountPath: /var/log/nginx
       restartPolicy: Always
       volumes:
+        - name: telegram-bot-api-data
+          persistentVolumeClaim:
+            claimName: telegram-bot-api-data-pv-claim
         - name: telegram-bot-api-nginx-conf-storage
           configMap:
             name: telegram-bot-api-nginx-conf
             items:
               - key: telegram-bot-api.conf
                 path: telegram-bot-api.conf
+        - name: telegram-nginx-log
+          persistentVolumeClaim:
+            claimName: telegram-nginx-log-pv-claim

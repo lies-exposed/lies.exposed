@@ -18,24 +18,17 @@ spec:
     spec:
       containers:
         - name: telegram-bot-api
-          env:
-            - name: TELEGRAM_HTTP_IP_ADDRESS
-              value: "[::]"
-            - name: TELEGRAM_LOCAL
-              value: "1"
-            - name: TELEGRAM_VERBOSITY
-              value: "2"
           envFrom:
             - configMapRef:
-                name: worker-env
+                name: telegram-bot-api-env
           image: aiogram/telegram-bot-api:latest
           ports:
             - containerPort: 8081
               protocol: TCP
           stdin: true
           volumeMounts:
-            - mountPath: /var/lib/telegram-bot-api
-              name: telegram-bot-api-data
+            - name: telegram-bot-api-data
+              mountPath: /var/lib/telegram-bot-api
           resources:
             limits:
               memory: 512Mi

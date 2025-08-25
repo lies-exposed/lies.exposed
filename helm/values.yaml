@@ -37,10 +37,6 @@ telegram:
   api:
     hash: "not-real-hash"
     id: "not-real-id"
-  bot:
-    token: "not-real-token"
-    chat: "not-a-real-chat"
-    username: "not-real-username"
 
 imageCredentials:
   registry: ghcr.io

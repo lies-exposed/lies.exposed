@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: telegram-nginx-log
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "telegram-nginx-log" | include "tg.labels" | indent 2 }}
+spec:
+  storageClassName: microk8s-hostpath
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.telegram.nginxLogVolumePath | quote }}
+  claimRef:
+    name: telegram-nginx-log-pv-claim
+    namespace: {{ .Release.Namespace }}
