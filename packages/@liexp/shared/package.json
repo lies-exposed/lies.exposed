@@ -62,7 +62,7 @@
     "debug": "^4",
     "effect": "^3",
     "fp-ts": "^2",
-    "openai": "^4",
+    "openai": "^5",
     "pdfjs-dist": "^5",
     "react": "^18",
     "react-admin": "^5",
