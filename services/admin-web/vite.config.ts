@@ -1,7 +1,6 @@
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
-import { defineConfig } from "vite";
 
 export const AppEnv = defineEnv((Schema) => ({
   VITE_NODE_ENV: Schema.String,
@@ -41,4 +40,4 @@ const config = defineViteConfig({
   plugins: [reactVirtualized()],
 });
 
-export default defineConfig(config);
+export default config;
