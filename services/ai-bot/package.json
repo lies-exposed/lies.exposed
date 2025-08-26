@@ -30,8 +30,8 @@
   "dependencies": {
     "@aws-sdk/client-sso-oidc": "^3.812.0",
     "@aws-sdk/client-sts": "^3.812.0",
-    "@langchain/community": "^0.3.43",
-    "@langchain/core": "^0.3.56",
+    "@langchain/community": "^0.3.53",
+    "@langchain/core": "^0.3.72",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",

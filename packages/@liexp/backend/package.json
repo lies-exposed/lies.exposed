@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.804.0",
-    "@langchain/core": "^0.3.56",
+    "@langchain/core": "^0.3.72",
     "@langchain/openai": "^0.6.9",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.73",
@@ -73,7 +73,7 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "peerDependencies": {
-    "@langchain/core": "^0.3.19",
+    "@langchain/core": "^0.3.72",
     "@napi-rs/canvas": "^0.1.73",
     "debug": "^4.4.0",
     "effect": "^3.14.18",
