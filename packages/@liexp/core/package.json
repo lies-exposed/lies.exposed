@@ -44,7 +44,7 @@
     "fp-ts": "^2.16.10",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.5.0"
   },
   "peerDependencies": {
     "debug": "*",
