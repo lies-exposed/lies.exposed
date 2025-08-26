@@ -12,14 +12,23 @@ export const loadLinkWithPuppeteer = (
 ): ClientContextRTE<Document[]> => {
   return pipe(
     fp.RTE.ask<ClientContext>(),
-    LoggerService.RTE.debug(["Loading link from URL %s", url]),
+
     fp.RTE.chainTaskEitherK((ctx) =>
       fp.TE.bracket(
         ctx.puppeteer.getBrowser({}),
         (browser) =>
-          fp.TE.tryCatch(
-            () => new VanillaPuppeteerLoader(url, browser).load(),
-            toAIBotError,
+          pipe(
+            fp.TE.right(url),
+            LoggerService.TE.debug(ctx, (url) => [
+              "Loading link from URL %s",
+              url,
+            ]),
+            fp.TE.chain((url) =>
+              fp.TE.tryCatch(
+                () => new VanillaPuppeteerLoader(url, browser).load(),
+                toAIBotError,
+              ),
+            ),
           ),
         (browser) => fp.TE.tryCatch(() => browser.close(), toAIBotError),
       ),

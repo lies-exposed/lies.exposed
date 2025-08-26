@@ -1,5 +1,5 @@
 {
-    "main": "./build/run-esbuild.js",
+    "main": "./build/run.js",
     "output": "./build/ai-bot.blob",
     "disableExperimentalSEAWarning": true,
     "useCodeCache": true

@@ -26,13 +26,8 @@ type PuppeteerWebBaseLoaderOptions = {
  * web pages using Puppeteer.
  * @example
  * ```typescript
- * const loader = new VanillaPuppeteerLoader("https:exampleurl.com", {
- *   launchOptions: {
- *     headless: true,
- *   },
- *   gotoOptions: {
- *     waitUntil: "domcontentloaded",
- *   },
+ * const browser = puppeeter.launch({ headless: true });
+ * const loader = new VanillaPuppeteerLoader("https:exampleurl.com", browser,
  * });
  * const screenshot = await loader.screenshot();
  * ```

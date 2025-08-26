@@ -5,7 +5,11 @@ import {
   RunnablePassthrough,
   RunnableSequence,
 } from "@langchain/core/runnables";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
+import {
+  ChatOpenAI,
+  type ChatOpenAIFields,
+  OpenAIEmbeddings,
+} from "@langchain/openai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
@@ -79,6 +83,10 @@ export interface LangchainProviderOptions {
     chat?: AvailableModels;
     embeddings?: AvailableModels;
   };
+  options?: {
+    chat: ChatOpenAIFields;
+    embeddings: ConstructorParameters<typeof OpenAIEmbeddings>[0];
+  };
 }
 
 const langchainLogger = GetLogger("langchain");
@@ -95,8 +103,10 @@ export const GetLangchainProvider = (
     timeout: 60 * 30 * 1000, // 30 minutes
     maxConcurrency: 1,
     maxRetries: 1,
+    ...opts.options?.chat,
     configuration: {
       baseURL: opts.baseURL,
+      ...opts.options?.chat?.configuration,
     },
   });
 
@@ -105,9 +115,11 @@ export const GetLangchainProvider = (
   const embeddings = new OpenAIEmbeddings({
     model: embeddingsModel,
     apiKey: opts.apiKey,
-    timeout: 60 * 30 * 1000, // 30 minutes
+    timeout: 60 * 30 * 1000, // 30 minutes,
+    ...opts.options?.embeddings,
     configuration: {
       baseURL: opts.baseURL,
+      ...opts.options?.embeddings?.configuration,
     },
   });
 

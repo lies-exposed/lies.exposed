@@ -54,7 +54,14 @@ export const loadContext = (
         fp.TE.right<AIBotError, string>,
       );
     }),
-    fp.TE.bind("langchain", ({ config, localAIURL }) =>
+    fp.TE.bind("localaiHeaders", ({ env }) =>
+      fp.TE.right({
+        "CF-Access-Client-Id": env.CF_ACCESS_CLIENT_ID,
+        "CF-Access-Client-Secret": env.CF_ACCESS_CLIENT_SECRET,
+        Cookie: `token=${env.LOCALAI_API_KEY}`,
+      }),
+    ),
+    fp.TE.bind("langchain", ({ config, localAIURL, localaiHeaders, env }) =>
       fp.TE.right(
         GetLangchainProvider({
           baseURL: localAIURL,
@@ -64,15 +71,30 @@ export const loadContext = (
             embeddings: config.config.localAi.models
               ?.embeddings as AvailableModels,
           },
+          options: {
+            chat: {
+              configuration: {
+                defaultHeaders: localaiHeaders,
+              },
+            },
+            embeddings: {
+              configuration: {
+                defaultHeaders: localaiHeaders,
+              },
+            },
+          },
         }),
       ),
     ),
-    fp.TE.bind("openAI", ({ config, localAIURL }) =>
+    fp.TE.bind("openAI", ({ config, localAIURL, localaiHeaders }) =>
       fp.TE.right(
         GetOpenAIProvider({
           baseURL: localAIURL,
           apiKey: config.config.localAi.apiKey,
           timeout: 20 * 60_000, // 20 minutes
+          fetchOptions: {
+            headers: localaiHeaders as any,
+          },
         }),
       ),
     ),
@@ -125,6 +147,7 @@ export const loadContext = (
               localAi: {
                 ...config.config.localAi,
                 url: localAIURL,
+                apiKey: env.LOCALAI_API_KEY,
               },
             },
           },

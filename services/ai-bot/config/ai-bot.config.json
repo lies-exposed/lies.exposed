@@ -1,12 +1,12 @@
 {
   "api": { "url": "http://api.liexp.dev/v1" },
   "localAi": {
-    "url": "http://localai.liexp.dev:8080/",
+    "url": "https://ai.lies.exposed/",
     "apiKey": "no-key-is-a-good-key",
     "models": {
       "summarize": "gpt-4o",
       "chat": "gpt-4o",
-      "embeddings": "gpt-4o"
+      "embeddings": "qwen3-8b"
     }
   }
 }

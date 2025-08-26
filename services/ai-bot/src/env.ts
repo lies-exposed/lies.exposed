@@ -6,10 +6,13 @@ import { type Either } from "fp-ts/lib/Either.js";
 import { type AIBotError } from "#common/error/index.js";
 
 const ENV = Schema.Struct({
+  DEBUG: OptionFromNullishToNull(Schema.String),
   LIEXP_USERNAME: OptionFromNullishToNull(Schema.String),
   LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
   LOCAL_AI_URL: OptionFromNullishToNull(Schema.String),
-  DEBUG: OptionFromNullishToNull(Schema.String),
+  LOCALAI_API_KEY: Schema.String,
+  CF_ACCESS_CLIENT_ID: Schema.String,
+  CF_ACCESS_CLIENT_SECRET: Schema.String,
 }).annotations({
   title: "ENV",
 });
