@@ -1,3 +1,4 @@
+import { type Document } from "@langchain/core/documents";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
@@ -10,10 +11,8 @@ import {
   type Queue,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { Schema } from "effect";
-import * as A from "fp-ts/lib/Array.js";
-import { type Document } from "langchain/document";
 import { type ClientContextRTE } from "../../../types.js";
-import { loadLinkWithPuppeteer } from "./loadLinkWithPuppeteer.flow.js";
+import { loadLinksWithPuppeteer } from "./loadLinksWithPuppeteer.flow.js";
 import { loadPDF } from "./loadPDF.flow.js";
 import { loadText } from "./loadText.flow.js";
 import { toAIBotError } from "#common/error/index.js";
@@ -31,13 +30,12 @@ const loadEventDocs =
       ),
       fp.RTE.chain((links) =>
         pipe(
-          [...links.data],
-          A.traverse(fp.RTE.ApplicativePar)((l) =>
-            loadLinkWithPuppeteer(l.url),
-          ),
+          links.data.map((l) => l.url),
+          loadLinksWithPuppeteer,
         ),
       ),
-      fp.RTE.map(A.flatten),
+      fp.RTE.map(fp.A.flatten),
+      fp.RTE.map((arr) => [...arr]),
     )(ctx);
   };
 
@@ -53,7 +51,11 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
         return loadPDF(job.data.url);
       }
 
-      return loadLinkWithPuppeteer(job.data.url);
+      return pipe(
+        loadLinksWithPuppeteer([job.data.url]),
+        fp.RTE.map(fp.A.flatten),
+        fp.RTE.map((arr) => [...arr]),
+      );
     }
     case Schema.is(EVENTS)(job.resource): {
       return loadEventDocs(job);
@@ -61,10 +63,8 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
 
     case Schema.is(UpdateEventQueueData)(job.data): {
       return pipe(
-        job.data.urls,
-        fp.A.traverse(fp.RTE.ApplicativePar)((url) =>
-          loadLinkWithPuppeteer(url),
-        ),
+        [...job.data.urls],
+        loadLinksWithPuppeteer,
         fp.RTE.map(fp.A.flatten),
         fp.RTE.map((arr) => [...arr]),
       );

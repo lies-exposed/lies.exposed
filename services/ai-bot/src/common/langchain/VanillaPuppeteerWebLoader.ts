@@ -55,7 +55,7 @@ export class VanillaPuppeteerLoader
     const page = await browser.newPage();
 
     await page.goto(url, {
-      timeout: 180000,
+      timeout: 180_000,
       waitUntil: "domcontentloaded",
       ...options?.gotoOptions,
     });
@@ -83,6 +83,8 @@ export class VanillaPuppeteerLoader
     const bodyText = options?.evaluate
       ? await options?.evaluate(page, browser)
       : await page.evaluate(() => document.body.innerText);
+
+    await page.close();
 
     return { body: bodyText, title, meta };
   }

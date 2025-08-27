@@ -85,7 +85,7 @@ export interface LangchainProviderOptions {
   };
   options?: {
     chat: ChatOpenAIFields;
-    embeddings: ConstructorParameters<typeof OpenAIEmbeddings>[0];
+    embeddings: NonNullable<ConstructorParameters<typeof OpenAIEmbeddings>[0]>;
   };
 }
 
@@ -151,6 +151,7 @@ export const GetLangchainProvider = (
         apiKey: opts.apiKey,
         configuration: {
           baseURL: opts.baseURL,
+          ...opts.options?.chat.configuration,
         },
         streaming: true,
       });
@@ -161,6 +162,7 @@ export const GetLangchainProvider = (
         timeout: 60 * 30 * 1000, // 30 minutes
         configuration: {
           baseURL: opts.baseURL,
+          ...opts.options?.embeddings.configuration,
         },
       });
 

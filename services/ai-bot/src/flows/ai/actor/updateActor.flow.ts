@@ -7,7 +7,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { formatDocumentsAsString } from "langchain/util/document";
 import { type ClientContext } from "../../../context.js";
-import { loadLinkWithPuppeteer } from "../common/loadLinkWithPuppeteer.flow.js";
+import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -38,12 +38,11 @@ export const updateActorFlow: JobProcessRTE<
     ),
     fp.RTE.bind("docs", ({ links }) =>
       pipe(
-        links,
-        fp.A.traverse(fp.RTE.ApplicativePar)((l) =>
-          loadLinkWithPuppeteer(l.url),
-        ),
+        links.map((l) => l.url),
+        loadLinksWithPuppeteer,
         fp.RTE.map(fp.A.flatten),
         fp.RTE.map((docs) => [...docs]),
+        LoggerService.RTE.debug((docs) => [`Documents %O`, docs]),
       ),
     ),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),

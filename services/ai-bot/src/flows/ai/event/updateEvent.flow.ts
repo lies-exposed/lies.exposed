@@ -10,7 +10,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadLinkWithPuppeteer } from "../common/loadLinkWithPuppeteer.flow.js";
+import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js";
 import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -50,7 +50,10 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
                   if (description) {
                     return loadText(description)(ctx);
                   }
-                  return loadLinkWithPuppeteer(l.url)(ctx);
+                  return pipe(
+                    loadLinksWithPuppeteer([l.url])(ctx),
+                    fp.TE.map(fp.A.flatten),
+                  );
                 }),
                 fp.TE.map(fp.A.flatten),
                 fp.TE.map((docs) => [...docs]),

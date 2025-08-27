@@ -32,8 +32,14 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
               LoggerService.RTE.info("There are jobs already processing"),
             );
           }
+
+          const pendingJobs = pipe(
+            queue.data.filter((d) => d.status === "pending"),
+            fp.A.takeLeft(1),
+          );
+
           return pipe(
-            queue.data,
+            pendingJobs,
             fp.A.traverse(fp.RTE.ApplicativeSeq)((job) =>
               JobProcessor(job, dryRun),
             ),

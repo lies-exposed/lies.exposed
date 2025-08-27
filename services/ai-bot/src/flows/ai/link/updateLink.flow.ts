@@ -2,6 +2,7 @@ import { JsonOutputParser } from "@langchain/core/output_parsers";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { runRagChain } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { getStoreRetriever } from "@liexp/backend/lib/flows/ai/storeRetriever.flow.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { formatDocumentsAsString } from "langchain/util/document";
@@ -21,19 +22,18 @@ export const updateLinkFlow: JobProcessRTE<
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("docs", () => loadDocs(job)),
+    LoggerService.RTE.debug(({ docs }) => [`Documents %O`, docs]),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bindW("retriever", ({ docs }) => getStoreRetriever(docs)),
-    fp.RTE.bind(
-      "model",
-      () => (ctx) =>
-        fp.TE.right(
-          ctx.langchain.chat.bind({
-            response_format: {
-              type: "json_object",
-            },
-          }),
-        ),
-    ),
+    fp.RTE.bind("model", () => (ctx) => {
+      return fp.TE.right(
+        ctx.langchain.chat.withConfig({
+          response_format: {
+            type: "json_object",
+          },
+        }),
+      );
+    }),
     fp.RTE.chainW(({ prompt, retriever, model }) =>
       pipe(
         runRagChain<{ title: string; description: string }>(

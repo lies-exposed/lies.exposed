@@ -46,7 +46,28 @@ export const loadContext = (
         fp.TE.map((pdf) => PDFProvider({ client: pdf })),
       ),
     ),
-    fp.TE.bind("config", ({ fs }) => configProvider({ fs })),
+    fp.TE.bind("config", ({ fs, env }) =>
+      pipe(
+        configProvider({ fs }),
+        fp.TE.bind("localAIURL", (config) => {
+          return pipe(
+            env.LOCAL_AI_URL,
+            fp.O.getOrElse(() => config.config.localAi.url),
+            fp.TE.right<AIBotError, string>,
+          );
+        }),
+        fp.TE.map(({ localAIURL, ...config }) => ({
+          ...config,
+          config: {
+            ...config.config,
+            localAi: {
+              ...config.config.localAi,
+              apiKey: env.LOCALAI_API_KEY,
+            },
+          },
+        })),
+      ),
+    ),
     fp.TE.bind("localAIURL", ({ env, config }) => {
       return pipe(
         env.LOCAL_AI_URL,
@@ -74,12 +95,16 @@ export const loadContext = (
           options: {
             chat: {
               configuration: {
-                defaultHeaders: localaiHeaders,
+                fetchOptions: {
+                  headers: localaiHeaders as any,
+                },
               },
             },
             embeddings: {
               configuration: {
-                defaultHeaders: localaiHeaders,
+                fetchOptions: {
+                  headers: localaiHeaders as any,
+                },
               },
             },
           },
@@ -92,6 +117,7 @@ export const loadContext = (
           baseURL: localAIURL,
           apiKey: config.config.localAi.apiKey,
           timeout: 20 * 60_000, // 20 minutes
+          defaultHeaders: localaiHeaders,
           fetchOptions: {
             headers: localaiHeaders as any,
           },
@@ -134,23 +160,13 @@ export const loadContext = (
           ),
         });
 
-        logger.info.log("API url %s", config.config.api.url);
+        logger.info.log("AI BOT config %O", config.config);
         logger.info.log("OpenAI url %s", localAIURL);
 
         return {
           env,
           fs,
-          config: {
-            ...config,
-            config: {
-              ...config.config,
-              localAi: {
-                ...config.config.localAi,
-                url: localAIURL,
-                apiKey: env.LOCALAI_API_KEY,
-              },
-            },
-          },
+          config,
           http: HTTPProvider(axios.default.create({})),
           pdf,
           logger,

@@ -140,8 +140,6 @@ export const GetPuppeteerProvider = (
 ): PuppeteerProvider => {
   puppeteerLogger.debug.log(`PuppeteerClient with options %O`, defaultOpts);
 
-  // let _pup: puppeteer.Browser;
-
   const launch = (
     opts: BrowserLaunchOpts,
   ): TE.TaskEither<PuppeteerError, puppeteer.Browser> => {
@@ -170,15 +168,17 @@ export const GetPuppeteerProvider = (
         b.on("error", (e) => {
           puppeteerLogger.error.log("browser error", e);
         });
+
         b.on("disconnected", (e) => {
           puppeteerLogger.debug.log(
             "browser disconnected %ds: %O",
             differenceInSeconds(new Date(), connectedAt, {
               roundingMethod: "ceil",
             }),
-            e,
+            e ?? "No error",
           );
         });
+
         return b;
       }),
     );
