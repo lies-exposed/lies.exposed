@@ -82,7 +82,7 @@ export const loadContext = (
         Cookie: `token=${env.LOCALAI_API_KEY}`,
       }),
     ),
-    fp.TE.bind("langchain", ({ config, localAIURL, localaiHeaders, env }) =>
+    fp.TE.bind("langchain", ({ config, localAIURL, localaiHeaders }) =>
       fp.TE.right(
         GetLangchainProvider({
           baseURL: localAIURL,

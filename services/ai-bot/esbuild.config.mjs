@@ -2,7 +2,7 @@ import { build } from "esbuild";
 
 await build({
   format: "cjs",
-  target: "node20",
+  target: "node24",
   platform: "node",
   bundle: true,
   external: [
@@ -11,7 +11,7 @@ await build({
     "puppeteer-extra-plugin-stealth",
   ],
   entryPoints: ["build/run.js"],
-  outfile: "./build/run-esbuild.js",
+  outfile: "./build/run-esbuild.cjs",
   inject: ["./import-meta-url.js"],
   define: {
     "import.meta.url": "import_meta_url",

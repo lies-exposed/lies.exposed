@@ -8,7 +8,7 @@ import { type ClientContextRTE } from "../../../types.js";
 
 export const loadLinksWithPuppeteer = (
   urls: URL[],
-): ClientContextRTE<readonly Document[][]> => {
+): ClientContextRTE<Document[][]> => {
   return pipe(
     fp.RTE.ask<ClientContext>(),
     fp.RTE.chainTaskEitherK((ctx) =>
@@ -45,5 +45,6 @@ export const loadLinksWithPuppeteer = (
           ),
       ),
     ),
+    fp.RTE.map((arr) => [...arr]),
   );
 };

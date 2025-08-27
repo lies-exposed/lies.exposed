@@ -1,5 +1,7 @@
-import type { DocumentLoader } from "@langchain/core/document_loaders/base";
-import { BaseDocumentLoader } from "@langchain/core/document_loaders/base";
+import {
+  type DocumentLoader,
+  BaseDocumentLoader,
+} from "@langchain/core/document_loaders/base";
 import { Document } from "@langchain/core/documents";
 import type { Browser, Page, WaitForOptions } from "puppeteer-core";
 
