@@ -31,11 +31,11 @@ spec:
               name: db-initial-data
           resources:
             limits:
-              cpu: 400m
-              memory: 2Gi
-            requests:
               cpu: 200m
               memory: 1Gi
+            requests:
+              cpu: 100m
+              memory: 500Mi
       restartPolicy: Always
       volumes:
         - name: db-data

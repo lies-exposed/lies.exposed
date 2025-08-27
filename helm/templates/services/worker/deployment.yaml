@@ -35,11 +35,11 @@ spec:
           name: worker
           resources:
             limits:
-              memory: "512Mi"
-              cpu: "200m"
+              memory: 512Mi
+              cpu: 200m
             requests:
-              memory: "256Mi"
-              cpu: "100m"
+              memory: 256Mi
+              cpu: 100m
           volumeMounts:
             - name: db-ca-certificate-crt
               mountPath: /prod/worker/certs/db-ca-certificate.crt

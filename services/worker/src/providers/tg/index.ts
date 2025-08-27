@@ -14,8 +14,6 @@ import { type WorkerContext } from "#context/context.js";
 import { getThanksMessage } from "#utils/tg.utils.js";
 
 export const TGMessageCommands = (ctx: WorkerContext) => {
-  // const mediaPath = path.resolve(__dirname, "../data");
-  // app.use(express.static(mediaPath));
   const tgLogger = ctx.logger.extend("tg-bot"); // bind /start command to tg bot
 
   // bind /login $email $token command to tg bot

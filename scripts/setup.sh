@@ -2,38 +2,35 @@
 
 set -e -x
 
-export SSH_DOMAIN=alpha.api.lies.exposed
-scp ./services/api/.env.prod $SSH_DOMAIN:.env
-scp -r ./resources/nginx $SSH_DOMAIN:/root/
+## INSTALL DOCKER
+# sudo apt-get update
+# sudo apt-get install ca-certificates curl
+# sudo install -m 0755 -d /etc/apt/keyrings
+# sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+# sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources:
+# echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# sudo apt-get update
+# sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-ssh $SSH_DOMAIN << "EOF"
-    set -x -e
-    API_DOMAIN=alpha.api.lies.exposed
-    WEB_DOMAIN=alpha.lies.exposed
-    ADMIN_DOMAIN=alpha.admin.lies.exposed
-    # curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
-    # sudo apt update
+## INSTALL HELM
+curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
 
-    cp -f ~/nginx/alpha.lies.exposed.conf /etc/nginx/sites-available/$WEB_DOMAIN
-    cp -f ~/nginx/alpha.admin.lies.exposed.conf /etc/nginx/sites-available/$ADMIN_DOMAIN
-    cp -f ~/nginx/alpha.api.lies.exposed.conf /etc/nginx/sites-available/$API_DOMAIN
+rm -rf ./lies-exposed
 
-    ln -s /etc/nginx/sites-available/$API_DOMAIN /etc/nginx/sites-enabled/$API_DOMAIN
-    ln -s /etc/nginx/sites-available/$WEB_DOMAIN /etc/nginx/sites-enabled/$WEB_DOMAIN
-    ln -s /etc/nginx/sites-available/$ADMIN_DOMAIN /etc/nginx/sites-enabled/$ADMIN_DOMAIN
+# ensure SSH key is properly configured in GH
+# https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
 
-    mkdir /var/log/nginx/$API_DOMAIN/
-    mkdir /var/log/nginx/$ADMIN_DOMAIN/
-    mkdir /var/log/nginx/$WEB_DOMAIN/
+mkdir ./lies-exposed
 
+cd ./lies-exposed
 
-    mkdir -p /var/www/letsencrypt
-    sudo nginx -t
-    sudo systemctl reload nginx
-    # node -v
-    # cd ~/node/app/current
-    # sudo certbot --nginx -d $API_DOMAIN
-    # sudo certbot --nginx -d $WEB_DOMAIN
+git clone -b release/alpha --depth 1 git@github.com:lies-exposed/lies.exposed.git ./
 
-EOF
+sudo nginx -s reload
+
 

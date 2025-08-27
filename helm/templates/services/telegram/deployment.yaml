@@ -25,10 +25,10 @@ spec:
           volumeMounts:
             - name: telegram-bot-api-data
               mountPath: /var/lib/telegram-bot-api
-            - name: telegram-bot-api-nginx-conf-storage
+            - name: telegram-nginx-conf-storage
               mountPath: /etc/nginx/conf.d/default.conf
               readOnly: true
-              subPath: telegram-bot-api.conf
+              subPath: telegram.conf
             - name: telegram-nginx-log
               mountPath: /var/log/nginx
       restartPolicy: Always
@@ -36,12 +36,12 @@ spec:
         - name: telegram-bot-api-data
           persistentVolumeClaim:
             claimName: telegram-bot-api-data-pv-claim
-        - name: telegram-bot-api-nginx-conf-storage
+        - name: telegram-nginx-conf-storage
           configMap:
-            name: telegram-bot-api-nginx-conf
+            name: telegram-nginx-conf
             items:
-              - key: telegram-bot-api.conf
-                path: telegram-bot-api.conf
+              - key: telegram.conf
+                path: telegram.conf
         - name: telegram-nginx-log
           persistentVolumeClaim:
             claimName: telegram-nginx-log-pv-claim

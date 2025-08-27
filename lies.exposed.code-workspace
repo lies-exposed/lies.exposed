@@ -99,5 +99,9 @@
     },
     "typescript.preferences.importModuleSpecifier": "project-relative",
     "yaml.maxItemsComputed": 500,
+    "helm-intellisense.customValueFileNames": [
+      "helm/values.yaml",
+      "helm/values.dev.yaml"
+    ]
   },
 }

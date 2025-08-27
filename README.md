@@ -76,3 +76,5 @@ Build the images first with
 # start docker compose for `deploy/compose.yml`
 ./scripts/docker-deploy-test.sh
 ```
+
+https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/local-management/create-local-tunnel/

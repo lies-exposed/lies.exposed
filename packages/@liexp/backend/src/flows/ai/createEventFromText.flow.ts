@@ -58,7 +58,7 @@ export const getCreateEventPromptPartial =
   };
 
 export const createEventFromText = <C extends LoggerContext & LangchainContext>(
-  text: readonly Document[],
+  text: Document[],
   type: EventType,
   promptTemplate: PromptFn<{
     jsonSchema: string;

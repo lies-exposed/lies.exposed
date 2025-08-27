@@ -33,10 +33,14 @@ space:
 
 telegram:
   nginxConfPath: /home/node/resources/nginx/
-  nginxConfFile: telegram-bot-api.conf
+  nginxConfFile: telegram.conf
   api:
     hash: "not-real-hash"
     id: "not-real-id"
+
+localai:
+  modelsHostPath: /home/node/localai-models
+  openAIApiKey: no-key-is-a-good-key
 
 imageCredentials:
   registry: ghcr.io

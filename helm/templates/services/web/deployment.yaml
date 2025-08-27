@@ -36,10 +36,10 @@ spec:
             timeoutSeconds: 20
           resources:
             limits:
-              memory: "1500Mi"
-              cpu: "500m"
+              memory: 1.5Gi
+              cpu: 400m
             requests:
-              memory: "1Gi"
-              cpu: "200m"
+              memory: 1Gi
+              cpu: 200m
           tty: true
       restartPolicy: Always
