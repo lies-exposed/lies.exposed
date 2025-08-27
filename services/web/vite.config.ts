@@ -18,7 +18,7 @@ export const port =
 
 // https://vitejs.dev/config/
 
-export default defineViteConfig({
+const config = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
   envFileDir: "./",
@@ -45,3 +45,5 @@ export default defineViteConfig({
 
   plugins: [reactVirtualized()],
 });
+
+export default config;
