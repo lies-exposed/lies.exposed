@@ -49,7 +49,14 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.bindW("retriever", ({ docs }) => getStoreRetriever(docs)),
     fp.RTE.bind(
       "model",
-      () => (ctx) => fp.TE.right(ctx.langchain.chat.bind({})),
+      () => (ctx) =>
+        fp.TE.right(
+          ctx.langchain.chat.withConfig({
+            reasoning: {
+              effort: "low",
+            },
+          }),
+        ),
     ),
     fp.RTE.chainW(({ prompt, retriever, model }) =>
       pipe(

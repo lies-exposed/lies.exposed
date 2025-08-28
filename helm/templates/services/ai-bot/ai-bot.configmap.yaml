@@ -7,7 +7,7 @@ data:
         "url": "http://api.prod.svc.cluster.local/v1"
       },
       "localAi": {
-        "url": "http://localai.prod.svc.cluster.local/",
+        "url": "http://localai.prod.svc.cluster.local/v1",
         "apiKey": "{{ .Values.localai.openAIApiKey }}",
         "models": {
           "summarize": "gpt-4o",

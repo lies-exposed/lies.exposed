@@ -61,8 +61,6 @@ services/data/public/**/import
 
 # Space Backup
 backup
-# LocalAI models
-models
 
 # Docker deployment
 deploy/ai-bot-temp
@@ -72,3 +70,7 @@ deploy/ai-bot.config.json
 helm/values.*.yaml
 helm/config/cloudflare
 helm/config/env
+
+# LocalAI
+localai/models
+localai/backends

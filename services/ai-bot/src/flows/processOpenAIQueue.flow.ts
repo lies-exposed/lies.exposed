@@ -51,8 +51,8 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
       ctx.logger.error.log("Error processing embeddings queue task %O", e);
       return fp.T.of(e);
     }),
-    fp.RTE.chain(() => (ctx) => {
-      ctx.logger.debug.log("End processing embeddings queue task...");
+    fp.RTE.chain((result) => (ctx) => {
+      ctx.logger.debug.log("End processing embeddings queue task: %O", result);
       return fp.TE.right(undefined);
     }),
   );

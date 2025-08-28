@@ -47,12 +47,13 @@ services:
       - reverseproxy
 
   api.liexp.dev:
-    command: pnpm docker:dev
     restart: always
     build:
       context: .
       target: dev
       dockerfile: api.Dockerfile
+    command: pnpm docker:dev
+    working_dir: /usr/src/app/services/api
     env_file:
       - ./services/api/.env
       - ./services/api/.env.local
@@ -76,7 +77,6 @@ services:
       - api-node-modules:/usr/src/app/node_modules
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/api:/usr/src/app/services/api:cached
-    working_dir: /usr/src/app/services/api
     mem_limit: 1G
     networks:
       - reverseproxy
@@ -123,14 +123,15 @@ services:
       target: production
       dockerfile: ai-bot.Dockerfile
     env_file:
-      - ./services/ai-bot/.env.local
       - ./services/ai-bot/.env
+      - ./services/ai-bot/.env.local
+    command: pnpm docker:dev
+    working_dir: /home/node/services/ai-bot
     volumes:
-      - ./packages/@liexp:/home/node/packages/@liexp:ro
-      - ./services/ai-bot/package.json:/home/node/services/ai-bot/package.json:cached
-      - ./services/ai-bot/temp:/home/node/services/ai-bot/temp:rw
-      - ./services/ai-bot/build:/home/node/services/ai-bot/build:cached
-      - ./services/ai-bot/config/ai-bot.config.json:/home/node/services/ai-bot/config/ai-bot.config.json:rw
+      - ./services/ai-bot/package.json:/home/node/package.json:cached
+      - ./services/ai-bot/temp:/home/node/temp:rw
+      - ./services/ai-bot/build:/home/node/build:cached
+      - ./services/ai-bot/config/ai-bot.config.json:/home/node/config/ai-bot.config.json:rw
     restart: always
     mem_limit: 512M
     depends_on:
@@ -200,11 +201,9 @@ services:
       - reverseproxy
 
   localai.liexp.dev:
-    image: localai/localai:latest-aio-cpu
+    image: localai/localai:master-aio-cpu
     # For Intel GPUs decomment the following:
-    # image: localai/localai:latest-aio-gpu-intel-f32
-    # For AMD GPUs decomment the following:
-    # image: localai/localai:latest-aio-gpu-hipblas
+    # image: localai/localai:latest-aio-gpu-intel
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
       interval: 1m
@@ -216,12 +215,14 @@ services:
     environment:
       DEBUG: true
       # REBUILD: true
-      VIRTUAL_HOST: localai.liexp.dev,ai.lies.exposed
+      VIRTUAL_HOST: localai.liexp.dev
       VIRTUAL_PORT: 8080
-      OPENAI_API_KEY: no-key-is-a-good-key
       LOCALAI_CORS: 0
+    env_file:
+      - ./services/ai-bot/.env.local
     volumes:
-      - ./models:/models:cached
+      - ./localai/models:/models:cached
+      - ./localai/backends:/backends:cached
     # devices:
     #   - /dev/dri
     networks:

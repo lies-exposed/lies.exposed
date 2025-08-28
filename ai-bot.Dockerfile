@@ -58,7 +58,6 @@ FROM ghcr.io/lies-exposed/liexp-base:24-latest AS production
 WORKDIR /home/node
 
 COPY --from=deps /home/node/node_modules ./node_modules
-
 COPY --from=build /home/node/ai-bot ai-bot
 
 CMD ["./ai-bot"]

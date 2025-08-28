@@ -11,8 +11,12 @@ export const loadLinksWithPuppeteer = (
 ): ClientContextRTE<Document[][]> => {
   return pipe(
     fp.RTE.ask<ClientContext>(),
-    fp.RTE.chainTaskEitherK((ctx) =>
-      fp.TE.bracket(
+    fp.RTE.chainTaskEitherK((ctx) => {
+      if (!urls.length) {
+        return fp.TE.right([]);
+      }
+
+      return fp.TE.bracket(
         pipe(ctx.puppeteer.getBrowser({}), fp.TE.mapLeft(toAIBotError)),
         (browser) =>
           pipe(
@@ -43,8 +47,8 @@ export const loadLinksWithPuppeteer = (
               return fp.E.right(undefined);
             }),
           ),
-      ),
-    ),
+      );
+    }),
     fp.RTE.map((arr) => [...arr]),
   );
 };

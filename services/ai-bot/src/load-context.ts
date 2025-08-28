@@ -18,6 +18,7 @@ import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.pro
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
@@ -62,30 +63,31 @@ export const loadContext = (
             ...config.config,
             localAi: {
               ...config.config.localAi,
+              url: localAIURL,
               apiKey: env.LOCALAI_API_KEY,
             },
           },
         })),
       ),
     ),
-    fp.TE.bind("localAIURL", ({ env, config }) => {
+    fp.TE.bind("localaiHeaders", ({ env }) => {
       return pipe(
-        env.LOCAL_AI_URL,
-        fp.O.getOrElse(() => config.config.localAi.url),
-        fp.TE.right<AIBotError, string>,
+        sequenceS(fp.O.Applicative)({
+          "CF-Access-Client-Id": env.CF_ACCESS_CLIENT_ID,
+          "CF-Access-Client-Secret": env.CF_ACCESS_CLIENT_SECRET,
+        }),
+        fp.O.map((headers) => ({
+          ...headers,
+          Cookie: `token=${env.LOCALAI_API_KEY}`,
+        })),
+        fp.O.toUndefined,
+        fp.TE.right<AIBotError, Record<string, string> | undefined>,
       );
     }),
-    fp.TE.bind("localaiHeaders", ({ env }) =>
-      fp.TE.right({
-        "CF-Access-Client-Id": env.CF_ACCESS_CLIENT_ID,
-        "CF-Access-Client-Secret": env.CF_ACCESS_CLIENT_SECRET,
-        Cookie: `token=${env.LOCALAI_API_KEY}`,
-      }),
-    ),
-    fp.TE.bind("langchain", ({ config, localAIURL, localaiHeaders }) =>
+    fp.TE.bind("langchain", ({ config, localaiHeaders }) =>
       fp.TE.right(
         GetLangchainProvider({
-          baseURL: localAIURL,
+          baseURL: config.config.localAi.url,
           apiKey: config.config.localAi.apiKey,
           models: {
             chat: config.config.localAi.models?.chat as AvailableModels,
@@ -95,6 +97,7 @@ export const loadContext = (
           options: {
             chat: {
               configuration: {
+                defaultHeaders: localaiHeaders,
                 fetchOptions: {
                   headers: localaiHeaders as any,
                 },
@@ -102,19 +105,17 @@ export const loadContext = (
             },
             embeddings: {
               configuration: {
-                fetchOptions: {
-                  headers: localaiHeaders as any,
-                },
+                defaultHeaders: localaiHeaders,
               },
             },
           },
         }),
       ),
     ),
-    fp.TE.bind("openAI", ({ config, localAIURL, localaiHeaders }) =>
+    fp.TE.bind("openAI", ({ config, localaiHeaders }) =>
       fp.TE.right(
         GetOpenAIProvider({
-          baseURL: localAIURL,
+          baseURL: config.config.localAi.url,
           apiKey: config.config.localAi.apiKey,
           timeout: 20 * 60_000, // 20 minutes
           defaultHeaders: localaiHeaders,
@@ -138,43 +139,40 @@ export const loadContext = (
         ),
       ),
     ),
-    fp.TE.map(
-      ({ env, config, localAIURL, fs, pdf, langchain, puppeteer, openAI }) => {
-        const logger = GetLogger("ai-bot");
+    fp.TE.map(({ env, config, fs, pdf, langchain, puppeteer, openAI }) => {
+      const logger = GetLogger("ai-bot");
 
-        const restClient = axios.default.create({
-          baseURL: config.config.api.url,
-        });
+      const restClient = axios.default.create({
+        baseURL: config.config.api.url,
+      });
 
-        restClient.interceptors.request.use((req) => {
-          const token = getToken();
-          if (token) {
-            req.headers.set("Authorization", `Bearer ${getToken()}`);
-          }
-          return req;
-        });
+      restClient.interceptors.request.use((req) => {
+        const token = getToken();
+        if (token) {
+          req.headers.set("Authorization", `Bearer ${getToken()}`);
+        }
+        return req;
+      });
 
-        const apiClient = GetResourceClient(restClient, Endpoints, {
-          decode: EffectDecoder((e) =>
-            DecodeError.of("Resource client decode error", e),
-          ),
-        });
+      const apiClient = GetResourceClient(restClient, Endpoints, {
+        decode: EffectDecoder((e) =>
+          DecodeError.of("Resource client decode error", e),
+        ),
+      });
 
-        logger.info.log("AI BOT config %O", config.config);
-        logger.info.log("OpenAI url %s", localAIURL);
+      logger.info.log("AI BOT config %O", config.config);
 
-        return {
-          env,
-          fs,
-          config,
-          http: HTTPProvider(axios.default.create({})),
-          pdf,
-          logger,
-          api: apiClient,
-          langchain,
-          puppeteer,
-          openAI,
-        };
-      },
-    ),
+      return {
+        env,
+        fs,
+        config,
+        http: HTTPProvider(axios.default.create({})),
+        pdf,
+        logger,
+        api: apiClient,
+        langchain,
+        puppeteer,
+        openAI,
+      };
+    }),
   );

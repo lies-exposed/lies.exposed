@@ -37,6 +37,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./api.Dockerfile
+          file: ./ai-bot.Dockerfile
           push: true
           tags: ${{ env.AI_BOT_IMAGE_TAG }}

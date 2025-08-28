@@ -50,7 +50,7 @@ export const runRagChainStream =
   ): ReaderTaskEither<C, APIError, string> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
-      const ragChain = RunnableSequence.from<any>([
+      const ragChain = RunnableSequence.from([
         { ...inputs, question: new RunnablePassthrough() },
         chain,
       ]);

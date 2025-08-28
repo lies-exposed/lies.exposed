@@ -103,6 +103,7 @@ export const GetLangchainProvider = (
     timeout: 60 * 30 * 1000, // 30 minutes
     maxConcurrency: 1,
     maxRetries: 1,
+    streamUsage: false,
     ...opts.options?.chat,
     configuration: {
       baseURL: opts.baseURL,
