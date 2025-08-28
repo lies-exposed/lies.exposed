@@ -295,11 +295,11 @@ importers:
   packages/@liexp/shared:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.33.0
-        version: 0.33.0(@types/hast@3.0.4)
+        specifier: ^0.36.1
+        version: 0.36.1(@types/hast@3.0.4)
       '@blocknote/server-util':
-        specifier: ^0.33.0
-        version: 0.33.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-view@1.40.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.36.1
+        version: 0.36.1(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-view@1.40.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -420,14 +420,14 @@ importers:
   packages/@liexp/ui:
     dependencies:
       '@blocknote/core':
-        specifier: ^0.33.0
-        version: 0.33.0(@types/hast@3.0.4)
+        specifier: ^0.36.1
+        version: 0.36.1(@types/hast@3.0.4)
       '@blocknote/mantine':
-        specifier: ^0.33.0
-        version: 0.33.0(@types/hast@3.0.4)(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.36.1
+        version: 0.36.1(@types/hast@3.0.4)(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@blocknote/react':
-        specifier: ^0.33.0
-        version: 0.33.0(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.36.1
+        version: 0.36.1(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@emotion/cache':
         specifier: ^11.14.0
         version: 11.14.0
@@ -1672,28 +1672,28 @@ packages:
     resolution: {integrity: sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA==}
     engines: {node: '>=18'}
 
-  '@blocknote/core@0.33.0':
-    resolution: {integrity: sha512-BngrC1zx6aQjjOtRII2XpgtWwDfAP9D/dsKEsWGzCYXcfbE3smssy8MzkQQqFBHf4klTxOgOYZosmb0GW10SZg==}
+  '@blocknote/core@0.36.1':
+    resolution: {integrity: sha512-g8y6x4XUqZq1Io5EfXqv8DVLyHU4obI/8XopsTMw5kvkRw9ot9FNB3tE+Ip375LkVZqosfDtYmOPnP3RljaJNQ==}
     peerDependencies:
       '@hocuspocus/provider': ^2.15.2
     peerDependenciesMeta:
       '@hocuspocus/provider':
         optional: true
 
-  '@blocknote/mantine@0.33.0':
-    resolution: {integrity: sha512-RN3B6kfG//53OIaOVT7DGgM1BduX3oU3co1qKgmIPy7NI8HoTMszHq73qRFwK/UqubLMnktCXxQaeeeZb12cxg==}
+  '@blocknote/mantine@0.36.1':
+    resolution: {integrity: sha512-1abG9E7faXiPUIyXf0L85hwKZAOzxjkf2uDRHPW+yGiKhGFouU4ykY1MiDTcav8h8dV/pPsTnjflsTAHHzmKUQ==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/react@0.33.0':
-    resolution: {integrity: sha512-1MHtJ1D0Rorrb25anWYReraSqTZ1ZVc9jK4xlR1G5A0AimR+P9lCSw1tH9TncrNfsihOQAy4/nY4QWRn6tHzRg==}
+  '@blocknote/react@0.36.1':
+    resolution: {integrity: sha512-9M8jUej9rtEPS/SsCbfogfYyvpAlIKv/bShWnJVbvN8eBmOStNnByvdtp9rLd1cUaE6L+ptpeeHnYf1FOc5iAQ==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
 
-  '@blocknote/server-util@0.33.0':
-    resolution: {integrity: sha512-u4lBf9v+KqaIj2UbcdNl8Bq7Nh/JBq5YZnOCULUTe35hphX3nZAK7Vg/caTma5jpaNrQVPbCcYt8pQfBbtqP/g==}
+  '@blocknote/server-util@0.36.1':
+    resolution: {integrity: sha512-dFfHMJL7SO7yQGfW+GgAf+Yxtivfmg0wurApVS/cm9O1Sy4ygD3TBHrcq2JarBQwgYxP7jIeZ8tNreJro8YpFg==}
     peerDependencies:
       react: ^18.0 || ^19.0 || >= 19.0.0-rc
       react-dom: ^18.0 || ^19.0 || >= 19.0.0-rc
@@ -7880,6 +7880,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -8370,8 +8371,8 @@ packages:
   prosemirror-state@1.4.3:
     resolution: {integrity: sha512-goFKORVbvPuAQaXhpbemJFRKJ2aixr+AZMGiquiqKxaucC6hlpHNZHWgz5R7dS4roHiwq9vDctE//CZ++o0W1Q==}
 
-  prosemirror-tables@1.7.1:
-    resolution: {integrity: sha512-eRQ97Bf+i9Eby99QbyAiyov43iOKgWa7QCGly+lrDt7efZ1v8NWolhXiB43hSDGIXT1UXgbs4KJN3a06FGpr1Q==}
+  prosemirror-tables@1.8.1:
+    resolution: {integrity: sha512-DAgDoUYHCcc6tOGpLVPSU1k84kCUWTWnfWX3UDy2Delv4ryH0KqTD6RBI6k4yi9j9I8gl3j8MkPpRD/vWPZbug==}
 
   prosemirror-trailing-node@3.0.0:
     resolution: {integrity: sha512-xiun5/3q0w5eRnGYfNlW1uU9W6x5MoFKWwq/0TIRgt09lv7Hcser2QYV8t4muXbEr+Fwo0geYn79Xs4GKywrRQ==}
@@ -11064,7 +11065,7 @@ snapshots:
 
   '@bcoe/v8-coverage@1.0.2': {}
 
-  '@blocknote/core@0.33.0(@types/hast@3.0.4)':
+  '@blocknote/core@0.36.1(@types/hast@3.0.4)':
     dependencies:
       '@emoji-mart/data': 1.2.1
       '@shikijs/types': 3.2.1
@@ -11084,12 +11085,13 @@ snapshots:
       '@tiptap/extension-underline': 2.26.1(@tiptap/core@2.26.1(@tiptap/pm@2.26.1))
       '@tiptap/pm': 2.26.1
       emoji-mart: 5.6.0
+      fast-deep-equal: 3.1.3
       hast-util-from-dom: 5.0.1
       prosemirror-dropcursor: 1.8.2
       prosemirror-highlight: 0.13.0(@shikijs/types@3.2.1)(@types/hast@3.0.4)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-transform@1.10.4)(prosemirror-view@1.40.1)
       prosemirror-model: 1.25.3
       prosemirror-state: 1.4.3
-      prosemirror-tables: 1.7.1
+      prosemirror-tables: 1.8.1
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.40.1
       rehype-format: 5.0.1
@@ -11113,10 +11115,10 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/mantine@0.33.0(@types/hast@3.0.4)(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/mantine@0.36.1(@types/hast@3.0.4)(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.33.0(@types/hast@3.0.4)
-      '@blocknote/react': 0.33.0(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@blocknote/core': 0.36.1(@types/hast@3.0.4)
+      '@blocknote/react': 0.36.1(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/core': 7.17.8(@mantine/hooks@7.17.8(react@18.3.1))(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mantine/hooks': 7.17.8(react@18.3.1)
       '@mantine/utils': 6.0.22(react@18.3.1)
@@ -11133,9 +11135,9 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/react@0.33.0(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/react@0.36.1(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.33.0(@types/hast@3.0.4)
+      '@blocknote/core': 0.36.1(@types/hast@3.0.4)
       '@emoji-mart/data': 1.2.1
       '@floating-ui/react': 0.26.28(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
@@ -11155,10 +11157,10 @@ snapshots:
       - sugar-high
       - supports-color
 
-  '@blocknote/server-util@0.33.0(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-view@1.40.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@blocknote/server-util@0.36.1(@types/hast@3.0.4)(canvas@2.11.2)(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-view@1.40.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@blocknote/core': 0.33.0(@types/hast@3.0.4)
-      '@blocknote/react': 0.33.0(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@blocknote/core': 0.36.1(@types/hast@3.0.4)
+      '@blocknote/react': 0.36.1(@types/hast@3.0.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tiptap/core': 2.26.1(@tiptap/pm@2.26.1)
       '@tiptap/pm': 2.26.1
       jsdom: 25.0.1(canvas@2.11.2)
@@ -13285,7 +13287,7 @@ snapshots:
       prosemirror-schema-basic: 1.2.4
       prosemirror-schema-list: 1.5.1
       prosemirror-state: 1.4.3
-      prosemirror-tables: 1.7.1
+      prosemirror-tables: 1.8.1
       prosemirror-trailing-node: 3.0.0(prosemirror-model@1.25.3)(prosemirror-state@1.4.3)(prosemirror-view@1.40.1)
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.40.1
@@ -18400,7 +18402,7 @@ snapshots:
       prosemirror-transform: 1.10.4
       prosemirror-view: 1.40.1
 
-  prosemirror-tables@1.7.1:
+  prosemirror-tables@1.8.1:
     dependencies:
       prosemirror-keymap: 1.2.3
       prosemirror-model: 1.25.3
