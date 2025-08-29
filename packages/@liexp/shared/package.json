@@ -27,8 +27,8 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@blocknote/core": "^0.33.0",
-    "@blocknote/server-util": "^0.33.0",
+    "@blocknote/core": "^0.36.1",
+    "@blocknote/server-util": "^0.36.1",
     "@liexp/core": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
@@ -46,7 +46,7 @@
     "axios": "^1.9.0",
     "effect": "^3.14.18",
     "eslint": "^9.28.0",
-    "fast-check": "^3.23.1",
+    "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.2.133",
     "react-admin": "^5.9.0",
