@@ -20,8 +20,8 @@ spec:
           - configMapRef:
               name: localai-env
           # image: localai/localai:latest-aio-gpu-intel
-          # image: localai/localai:latest-aio-cpu
-          image: localai/localai:master-aio-cpu
+          image: localai/localai:latest-aio-cpu
+          # image: localai/localai:master-aio-cpu
           # image: localai/localai:v3.3.2-aio-cpu
           imagePullPolicy: Always
           # livenessProbe:
