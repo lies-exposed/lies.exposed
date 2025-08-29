@@ -46,7 +46,7 @@
     "axios": "^1.9.0",
     "effect": "^3.14.18",
     "eslint": "^9.28.0",
-    "fast-check": "^3.23.1",
+    "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.2.133",
     "react-admin": "^5.9.0",

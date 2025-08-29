@@ -101,7 +101,7 @@
     "dockerode": "^4.0.6",
     "dotenv": "^16.4.7",
     "eslint": "^9.28.0",
-    "fast-check": "^4.1.1",
+    "fast-check": "^3.23.2",
     "nodemw": "^0.24.0",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",

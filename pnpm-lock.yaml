@@ -174,7 +174,7 @@ importers:
         specifier: ^4.30.0
         version: 4.31.1
       fast-check:
-        specifier: ^3
+        specifier: ^3.23.2
         version: 3.23.2
       fast-csv:
         specifier: ^5.0.2
@@ -365,7 +365,7 @@ importers:
         specifier: ^9.28.0
         version: 9.34.0(jiti@2.5.1)
       fast-check:
-        specifier: ^3.23.1
+        specifier: ^3.23.2
         version: 3.23.2
       fp-ts:
         specifier: ^2.16.10
@@ -1021,8 +1021,8 @@ importers:
         specifier: ^9.28.0
         version: 9.34.0(jiti@2.5.1)
       fast-check:
-        specifier: ^4.1.1
-        version: 4.2.0
+        specifier: ^3.23.2
+        version: 3.23.2
       nodemw:
         specifier: ^0.24.0
         version: 0.24.1
@@ -1108,8 +1108,8 @@ importers:
         specifier: ^3.14.18
         version: 3.17.9
       fast-check:
-        specifier: ^4.1.1
-        version: 4.2.0
+        specifier: ^3.23.2
+        version: 3.23.2
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
@@ -6282,10 +6282,6 @@ packages:
     resolution: {integrity: sha512-h5+1OzzfCC3Ef7VbtKdcv7zsstUQwUDlYpUTvjeUsJAssPgLn7QzbboPtL5ro04Mq0rPOsMzl7q5hIbRs2wD1A==}
     engines: {node: '>=8.0.0'}
 
-  fast-check@4.2.0:
-    resolution: {integrity: sha512-buxrKEaSseOwFjt6K1REcGMeFOrb0wk3cXifeMAG8yahcE9kV20PjQn1OdzPGL6OBFTbYXfjleNBARf/aCfV1A==}
-    engines: {node: '>=12.17.0'}
-
   fast-csv@5.0.5:
     resolution: {integrity: sha512-9//QpogDIPln5Dc8e3Q3vbSSLXlTeU7z1JqsUOXZYOln8EIn/OOO8+NS2c3ukR6oYngDd3+P1HXSkby3kNV9KA==}
     engines: {node: '>=10.0.0'}
@@ -7880,7 +7876,6 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
-    deprecated: Use your platform's native DOMException instead
 
   node-ensure@0.0.0:
     resolution: {integrity: sha512-DRI60hzo2oKN1ma0ckc6nQWlHU69RH6xN0sjQTjMpChPfTYvKZdcQFfdYK2RWbJcKyUizSIy/l8OTGxMAM1QDw==}
@@ -8491,9 +8486,6 @@ packages:
 
   pure-rand@6.1.0:
     resolution: {integrity: sha512-bVWawvoZoBYpp6yIoQtQXHZjmz35RSVHnUOTefl8Vcjr8snTPY1wnpSPMWekcFwbxI6gtmT7rSYPFvz71ldiOA==}
-
-  pure-rand@7.0.1:
-    resolution: {integrity: sha512-oTUZM/NAZS8p7ANR3SHh30kXB+zK2r2BPcEn/awJIbOvq82WoMN4p62AWWp3Hhw50G0xMsw1mhIBLqHw64EcNQ==}
 
   qs@6.14.0:
     resolution: {integrity: sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==}
@@ -15955,10 +15947,6 @@ snapshots:
     dependencies:
       pure-rand: 6.1.0
 
-  fast-check@4.2.0:
-    dependencies:
-      pure-rand: 7.0.1
-
   fast-csv@5.0.5:
     dependencies:
       '@fast-csv/format': 5.0.5
@@ -18550,8 +18538,6 @@ snapshots:
       - supports-color
 
   pure-rand@6.1.0: {}
-
-  pure-rand@7.0.1: {}
 
   qs@6.14.0:
     dependencies:
