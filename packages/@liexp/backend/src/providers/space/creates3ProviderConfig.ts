@@ -12,27 +12,16 @@ interface ENV extends SPACE_ENV {
 export const createS3ProviderConfig = <E extends ENV>(
   env: E,
 ): MakeSpaceProviderConfig => {
-  const config: S3ClientConfig =
-    env.NODE_ENV === "development" || env.NODE_ENV === "test"
-      ? {
-          endpoint: `http://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,
-          region: env.SPACE_REGION,
-          credentials: {
-            accessKeyId: env.SPACE_ACCESS_KEY_ID,
-            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-          },
-          tls: false,
-          forcePathStyle: true,
-        }
-      : {
-          endpoint: `https://${env.SPACE_REGION}.${env.SPACE_ENDPOINT}`,
-          region: env.SPACE_REGION,
-          credentials: {
-            accessKeyId: env.SPACE_ACCESS_KEY_ID,
-            secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
-          },
-          tls: true,
-        };
+  const config: S3ClientConfig = {
+    endpoint: `${env.NODE_ENV === "production" ? "https" : "http"}://${env.SPACE_ENDPOINT}`,
+    region: env.SPACE_REGION,
+    credentials: {
+      accessKeyId: env.SPACE_ACCESS_KEY_ID,
+      secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
+    },
+    tls: env.NODE_ENV === "production",
+    forcePathStyle: true,
+  };
 
   return {
     client: new S3Client(config),
