@@ -159,8 +159,8 @@ export const SearchEventsFromProvider = Endpoint({
   getPath: () => `/events/suggestions-by-provider`,
   Input: {
     Body: Schema.Struct({
-      q: Schema.String,
-      p: Schema.Number,
+      query: Schema.String,
+      page: Schema.Number,
       providers: Schema.Array(Schema.String),
       keywords: Schema.Array(Schema.String),
       date: OptionFromNullishToNull(Schema.String),

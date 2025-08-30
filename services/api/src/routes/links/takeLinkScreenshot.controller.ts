@@ -1,17 +1,13 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { takeLinkScreenshot } from "@liexp/backend/lib/flows/links/takeLinkScreenshot.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
+import { LinkPubSub } from "@liexp/backend/lib/pubsub/links/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
 import { type Router } from "express";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
-import { type TEControllerError } from "../../types/TEControllerError.js";
 import { type ServerContext } from "#context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import {
@@ -28,37 +24,20 @@ export const MakeTakeLinkScreenshotRoute = (
     ({ params: { id }, body }, req) => {
       ctx.logger.debug.log("Body %O", body);
 
-      const getMediaOrMakeFromLinkTask = (
-        link: LinkEntity & { image: MediaEntity | null },
-      ): TEControllerError<readonly Partial<MediaEntity>[]> =>
-        pipe(
-          fp.O.fromNullable<Partial<MediaEntity> | null>(link.image),
-          fp.O.map(fp.A.of),
-          fp.O.getOrElse((): readonly Partial<MediaEntity>[] => [
-            {
-              id: uuid(),
-              label: link.title,
-              description: link.description ?? link.title,
-              type: PngType.literals[0],
-            },
-          ]),
-          TE.right,
-        );
-
       return pipe(
-        TE.Do,
-        TE.bind("user", () =>
+        fp.TE.Do,
+        fp.TE.chainFirst(() =>
           pipe(
             RequestDecoder.decodeUserFromRequest(req, [])(ctx),
-            TE.fromIOEither,
-            TE.chain((user) =>
+            fp.TE.fromIOEither,
+            fp.TE.chain((user) =>
               ctx.db.findOneOrFail(UserEntity, {
                 where: { id: Equal(user.id) },
               }),
             ),
           ),
         ),
-        TE.bind("link", () =>
+        fp.TE.chain((link) =>
           ctx.db.findOneOrFail<LinkEntity & { image?: MediaEntity }>(
             LinkEntity,
             {
@@ -67,17 +46,11 @@ export const MakeTakeLinkScreenshotRoute = (
             },
           ),
         ),
-        TE.bind("media", ({ user, link }) =>
-          pipe(
-            getMediaOrMakeFromLinkTask(link),
-            TE.map(([media]) => ({ ...link, image: media as any })),
-            // TODO: use pub sub
-            TE.chain((linkWithMedia) => takeLinkScreenshot(linkWithMedia)(ctx)),
-          ),
+        fp.TE.chainFirst((link) =>
+          LinkPubSub.TakeLinkScreenshot.publish({ id: link.id })(ctx),
         ),
-        TE.map(({ media, link }) => ({ link: { ...link, media } })),
-        TE.chainEitherK(({ link }) => LinkIO.decodeSingle(link)),
-        TE.map((data) => ({
+        fp.TE.chainEitherK(LinkIO.decodeSingle),
+        fp.TE.map((data) => ({
           body: { data },
           statusCode: 200,
         })),

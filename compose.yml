@@ -128,6 +128,7 @@ services:
     command: pnpm docker:dev
     working_dir: /home/node/services/ai-bot
     volumes:
+      - ./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs:/home/node/build/pdf.worker.mjs:readonly
       - ./services/ai-bot/package.json:/home/node/package.json:cached
       - ./services/ai-bot/temp:/home/node/temp:rw
       - ./services/ai-bot/build:/home/node/build:cached

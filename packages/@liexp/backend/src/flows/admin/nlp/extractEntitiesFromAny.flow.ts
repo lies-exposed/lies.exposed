@@ -171,6 +171,10 @@ const extractEntitiesFromAny = <
   );
 };
 
+const entitiesHashEncoder = GetEncodeUtils<any>((r) =>
+  toRecord<string, string>(r),
+);
+
 export const extractEntitiesFromAnyCached = <
   C extends ConfigContext &
     FSClientContext &
@@ -183,9 +187,7 @@ export const extractEntitiesFromAnyCached = <
 >(
   body: ExtractEntitiesWithNLPInput,
 ): ReaderTaskEither<C, ServerError, ExtractEntitiesWithNLPOutput> => {
-  const bodyHash = GetEncodeUtils<any>((r) => toRecord<string, string>(r)).hash(
-    body,
-  );
+  const bodyHash = entitiesHashEncoder.hash(body);
 
   return pipe(
     fp.RTE.ask<C>(),
@@ -200,3 +202,19 @@ export const extractEntitiesFromAnyCached = <
     ),
   );
 };
+
+export const readExtractedEntities =
+  <C extends FSClientContext & ConfigContext>(
+    body: ExtractEntitiesWithNLPInput,
+  ): ReaderTaskEither<C, ServerError, ExtractEntitiesWithNLPOutput> =>
+  (ctx) => {
+    const bodyHash = entitiesHashEncoder.hash(body);
+    return pipe(
+      ctx.fs.resolve(
+        path.resolve(ctx.config.dirs.temp.nlp, `${bodyHash}.json`),
+      ),
+      fp.TE.right,
+      fp.TE.chain((path) => ctx.fs.getObject(path)),
+      fp.TE.map(JSON.parse),
+    );
+  };

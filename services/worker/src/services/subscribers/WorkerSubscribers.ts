@@ -2,6 +2,8 @@ import { type Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.j
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type RTE } from "../../types.js";
 import { CreateEventFromURLSubscriber } from "./event/createEventFromURL.subscriber.js";
+import { SearchLinksSubscriber } from "./link/searchLinks.subscriber.js";
+import { TakeLinkScreenshotSubscriber } from "./link/takeLinkScreeenshot.subscriber.js";
 import { CreateMediaThumbnailSubscriber } from "./media/createThumbnail.subscriber.js";
 import { ExtractMediaExtraSubscriber } from "./media/extractMediaExtra.subscriber.js";
 import { GenerateThumbnailSubscriber } from "./media/generateThumbnail.subscriber.js";
@@ -16,6 +18,9 @@ import { type WorkerError } from "#io/worker.error.js";
 
 export const WorkerSubscribers: RTE<void> = (ctx) => {
   const subscribers: Subscriber<WorkerContext, any, string, WorkerError>[] = [
+    // links
+    SearchLinksSubscriber,
+    TakeLinkScreenshotSubscriber,
     // media
     GenerateThumbnailSubscriber,
     CreateMediaThumbnailSubscriber,

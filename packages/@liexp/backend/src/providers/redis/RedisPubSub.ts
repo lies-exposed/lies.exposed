@@ -28,7 +28,10 @@ export const RedisPubSub = <T, K extends string = string>(
       ({ redis, logger }) => {
         return pipe(
           TE.tryCatch(async () => {
-            const count = await redis.publish(channel, JSON.stringify(message));
+            const count = await redis.client.publish(
+              channel,
+              JSON.stringify(message),
+            );
             logger.debug.log(`Published message to channel ${channel}`);
             return count;
           }, toRedisError),

@@ -1,6 +1,6 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { extractRelationsFromURL } from "@liexp/backend/lib/flows/admin/nlp/extractRelationsFromURL.flow.js";
+import { readExtractedEntities } from "@liexp/backend/lib/flows/admin/nlp/extractEntitiesFromAny.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
@@ -22,27 +22,41 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
     Endpoints.OpenGraph.Custom.GetMetadata,
     ({ query: { url } }) => {
       return pipe(
-        ctx.db.findOne<LinkEntity & { image: MediaEntity }>(LinkEntity, {
-          where: {
-            url: Equal(url),
-          },
-          relations: ["image"],
+        TE.Do,
+        TE.apS(
+          "link",
+          ctx.db.findOne<LinkEntity & { image: MediaEntity }>(LinkEntity, {
+            where: {
+              url: Equal(url),
+            },
+            relations: ["image"],
+          }),
+        ),
+        TE.bind("metadata", ({ link }) => {
+          if (O.isSome(link)) {
+            return TE.right<ControllerError, Metadata>({
+              date: link.value.publishDate?.toISOString() ?? undefined,
+              title: link.value.title,
+              description: link.value.description ?? link.value.title,
+              keywords: link.value.keywords?.map((id) => id.id) ?? [],
+              icon: "",
+              image: link.value.image?.location ?? null,
+              provider: link.value.provider ?? "",
+              type: "article",
+              url: link.value.url,
+            });
+          }
+          return ctx.urlMetadata.fetchMetadata(url, {}, toControllerError);
         }),
-        TE.chain((link) => {
-          const linkAndMetadata = sequenceS(TE.ApplicativePar)({
-            metadata: O.isSome(link)
-              ? TE.right<ControllerError, Metadata>({
-                  date: link.value.publishDate?.toISOString() ?? undefined,
-                  title: link.value.title,
-                  description: link.value.description ?? link.value.title,
-                  keywords: link.value.keywords?.map((id) => id.id) ?? [],
-                  icon: "",
-                  image: link.value.image?.location ?? null,
-                  provider: link.value.provider ?? "",
-                  type: "article",
-                  url: link.value.url,
-                })
-              : ctx.urlMetadata.fetchMetadata(url, {}, toControllerError),
+        TE.bind("relations", ({ link }) => {
+          if (O.isNone(link)) {
+            return TE.right(null);
+          }
+
+          return pipe(readExtractedEntities({ url: link.value.url })(ctx));
+        }),
+        TE.chain(({ link, metadata, relations }) => {
+          return sequenceS(TE.ApplicativePar)({
             link: pipe(
               link,
               O.map((l) => LinkIO.decodeSingle(l)),
@@ -51,18 +65,9 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
                 TE.right<ControllerError, Link.Link | undefined>(undefined),
               ),
             ),
-            relations: pipe(
-              link,
-              O.map((l) => l.url),
-              O.getOrElse(() => url),
-              (url) =>
-                ctx.puppeteer.execute({}, (_, p) =>
-                  extractRelationsFromURL(p, url)(ctx),
-                ),
-            ),
+            metadata: TE.right(metadata),
+            relations: TE.right(relations),
           });
-
-          return linkAndMetadata;
         }),
         TE.map((data) => ({
           body: {

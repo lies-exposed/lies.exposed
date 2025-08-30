@@ -7,7 +7,6 @@ import {
 } from "@liexp/backend/lib/context/index.js";
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
-import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
 import { type QueuesProviderContext } from "@liexp/backend/lib/context/queue.context.js";
 import { type RedisContext } from "@liexp/backend/lib/context/redis.context.js";
 import { type SpaceContext } from "@liexp/backend/lib/context/space.context.js";
@@ -44,7 +43,6 @@ export type ServerContext = ENVContext &
   WikipediaProviderContext &
   NERProviderContext &
   URLMetadataContext &
-  PuppeteerProviderContext &
   ConfigContext &
   QueuesProviderContext &
   BlockNoteContext &

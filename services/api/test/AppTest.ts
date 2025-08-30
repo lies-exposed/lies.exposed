@@ -11,6 +11,7 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import {
@@ -72,7 +73,13 @@ export const loadAppContext = async (
         TE.chain((source) => GetTypeORMClient(source)),
       ),
     ),
-    TE.map(({ db, env }) => {
+    TE.bind("redis", ({ env }) =>
+      GetRedisClient({
+        client: () => mocks.redis,
+        connect: env.REDIS_CONNECT,
+      }),
+    ),
+    TE.map(({ db, env, redis }) => {
       const config = Config(env, path.resolve(__dirname, "../temp"));
 
       return {
@@ -112,7 +119,7 @@ export const loadAppContext = async (
           nlp: mocks.ner,
         }),
         blocknote: {} as any,
-        redis: mocks.redis,
+        redis,
         geo: GeocodeProvider({
           http: HTTPProvider(mocks.axios as any),
           apiKey: "fake-geo-api-key",
@@ -143,9 +150,7 @@ export const initAppTest = async (
       ctx.logger.debug.log("Connecting to new DB %s", database);
 
       return pipe(
-        getDataSource(
-          getORMConfig({ ...ctx.env, DB_DATABASE: database }),
-        ),
+        getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database })),
         TE.chain((source) => GetTypeORMClient(source)),
       );
     }),

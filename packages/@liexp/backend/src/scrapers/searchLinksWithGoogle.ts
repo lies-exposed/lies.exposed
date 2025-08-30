@@ -35,7 +35,7 @@ export const searchWithGoogle =
   (
     site: string,
     pageTotal: number,
-    q: string,
+    query: string,
     date: string | undefined,
     keywords: readonly string[],
   ): TE.TaskEither<PuppeteerError, string[]> => {

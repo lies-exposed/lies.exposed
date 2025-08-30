@@ -15,7 +15,7 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
-import { RedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import {
   MakeSpaceProvider,
   type MakeSpaceProviderConfig,
@@ -32,7 +32,7 @@ import ExifReader from "exifreader";
 import type ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import type { Redis } from "ioredis";
+import type Redis from "ioredis";
 import TelegramBot from "node-telegram-bot-api";
 import type MW from "nodemw";
 import type * as pdfJS from "pdfjs-dist/legacy/build/pdf.mjs";
@@ -47,7 +47,7 @@ import { type ENV } from "#io/env.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
 export interface ContextImplementation {
-  redis: { client: Redis };
+  redis: { client: typeof Redis };
   wp: { wiki: MW; http: axios.AxiosInstance };
   rw: { wiki: MW; http: axios.AxiosInstance };
   urlMetadata: MakeURLMetadataContext;
@@ -95,10 +95,13 @@ export const makeContext = (
 
   const urlMetadataClient = MakeURLMetadata(impl.urlMetadata);
 
-  const redisClient = RedisClient({
-    port: 6379,
-    host: env.REDIS_HOST,
-    client: impl.redis.client,
+  const redisClient = GetRedisClient({
+    client: () =>
+      new impl.redis.client({
+        host: env.REDIS_HOST,
+        port: 6379,
+      }),
+    connect: env.REDIS_CONNECT,
   });
 
   return pipe(

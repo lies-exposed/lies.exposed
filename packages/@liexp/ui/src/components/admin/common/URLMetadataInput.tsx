@@ -1,3 +1,4 @@
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import { TextInput, type TextInputProps, useInput } from "react-admin";
@@ -22,15 +23,22 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
   } = useInput(props);
   const dataProvider = useDataProvider();
 
-  const [metadata, setMetadata] = React.useState<any>(undefined);
+  const [metadata, setMetadata] = React.useState<
+    | (typeof Endpoints.OpenGraph.Custom.GetMetadata.Output.Type)["data"]
+    | undefined
+  >(undefined);
 
   const handleSubmit = React.useCallback(
     (url: string) => {
       void dataProvider
         .get("open-graph/metadata", { url, type })
-        .then((result: any) => {
-          setMetadata(result.data);
-        });
+        .then(
+          (
+            result: typeof Endpoints.OpenGraph.Custom.GetMetadata.Output.Type,
+          ) => {
+            setMetadata(result.data);
+          },
+        );
     },
     [value],
   );
