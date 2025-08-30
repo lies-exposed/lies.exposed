@@ -30,7 +30,7 @@ export const toPinnedMessage = ({
 }: // actors,
 // actorLimit,
 ToPinnedMessageOptions): string => `
-Hello folks, this is the official channel of alpha.lies.exposed!\n\n
+Hello folks, this is the official channel of lies.exposed!\n\n
 Lies Exposed is a collaborative project that collects and expose the lies perpetrated against humanity.\n\n
 To contribute you can send a link to ${bot} or join the discussion chat.\n
 
@@ -67,25 +67,6 @@ export const upsertPinnedMessage =
             .limit(limit)
             .getMany(),
         ),
-        // actors: ctx.db.execQuery(() =>
-        //   ctx.db.manager
-        //     .createQueryBuilder(ActorEntity, "a")
-        //     .select()
-        //     .leftJoinAndMapOne("a.eventCount", EventV2Entity, "event", where)
-        //     .addSelect((qb) => {
-        //       // can't be mapped, but can be sorted. ( getMany )
-        //       return whereActorInArray(
-        //         qb
-        //           .select("COUNT(event.id)", "eventCount")
-        //           .from(EventV2Entity, "event"),
-        //         ['"a"."id"']
-        //       );
-        //     }, "eventCount")
-        //     .orderBy('"eventCount"', "DESC")
-        //     .limit(limit)
-        //     .printSql()
-        //     .getMany()
-        // ),
       }),
 
       TE.map(({ keywords }) =>
@@ -93,12 +74,10 @@ export const upsertPinnedMessage =
           bot: ctx.env.TG_BOT_USERNAME,
           keywords: keywords.filter((k) => k.eventCount >= 5),
           keywordLimit: limit,
-          // actors: actors.filter((k) => k.eventCount > 5),
-          // actorLimit: limit,
         }),
       ),
       LoggerService.TE.info(ctx, "Updated Pinned message"),
-      TE.chain((message) => ctx.tg.upsertPinnedMessage(message)),
+      TE.chain(ctx.tg.upsertPinnedMessage),
       TE.mapLeft(toTGError),
     );
   };

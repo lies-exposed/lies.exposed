@@ -25,12 +25,12 @@ export const Subscriber = <
   subscribe: () => (ctx) => {
     return pipe(
       TE.tryCatch(async () => {
-        await ctx.redis.subscribe(pubSub.channel);
+        await ctx.redis.client.subscribe(pubSub.channel);
         ctx.logger.debug.log(`Subscribed to channel ${pubSub.channel}`);
       }, toRedisError),
       fp.RTE.fromTaskEither,
       fp.RTE.map(() => {
-        ctx.redis.on("message", (boundChannel, message) => {
+        ctx.redis.client.on("message", (boundChannel, message) => {
           if (boundChannel !== pubSub.channel) {
             return;
           }

@@ -6,7 +6,6 @@ import {
   getMediaThumbKey,
 } from "@liexp/shared/lib/utils/media.utils.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
@@ -55,10 +54,7 @@ const uploadScreenshot = <C extends SpaceContext & ENVContext>(
 };
 
 export const takeLinkScreenshot = <
-  C extends DatabaseContext &
-    PuppeteerProviderContext &
-    SpaceContext &
-    ENVContext,
+  C extends PuppeteerProviderContext & SpaceContext & ENVContext,
 >(
   link: Omit<LinkEntity, "image"> & { image: MediaEntity | null },
 ): ReaderTaskEither<C, DBError, LinkEntity> =>

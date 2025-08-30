@@ -1,4 +1,4 @@
-import { RedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
+import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Logger } from "@liexp/core/lib/logger/Logger.js";
@@ -468,12 +468,12 @@ export const GetTestDBManager = (
   return async (dbNamePattern: string): Promise<TestDBManager> => {
     const docker = new Docker();
 
-    const redisClient = await pipe(
-      RedisClient({
-        client: new Redis.Redis(),
+    const { client: redisClient } = await pipe(
+      GetRedisClient({
+        client: Redis.Redis,
         host: opts.redis.host,
         port: 6379,
-        lazyConnect: true,
+        connect: true,
       }),
       throwTE,
     );

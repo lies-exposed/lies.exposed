@@ -20,6 +20,7 @@ import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
 import { parseENV } from "./env.js";
@@ -38,15 +39,7 @@ export const loadContext = (
       pipe(loadAndParseENV(parseENV)(process.cwd()), fp.TE.fromEither),
     ),
     fp.TE.bind("fs", () => fp.TE.right(GetFSClient({ client: fs }))),
-    fp.TE.bind("pdf", () =>
-      pipe(
-        fp.TE.tryCatch(
-          () => import("pdfjs-dist/legacy/build/pdf.mjs"),
-          toAIBotError,
-        ),
-        fp.TE.map((pdf) => PDFProvider({ client: pdf })),
-      ),
-    ),
+    fp.TE.bind("pdf", () => fp.TE.right(PDFProvider({ client: pdfjs }))),
     fp.TE.bind("config", ({ fs, env }) =>
       pipe(
         configProvider({ fs }),

@@ -20,17 +20,17 @@ export interface Configuration {
 }
 
 export const defaultConfiguration: Configuration = {
-  publicUrl: "https://alpha.lies.exposed",
+  publicUrl: "https://lies.exposed",
   mode: "production",
   isDev: true,
   isProd: false,
   platforms: {
     web: {
-      url: "https://alpha.lies.exposed",
-      defaultImage: `https://alpha.lies.exposed/liexp-logo-1200x630.png`,
+      url: "https://lies.exposed",
+      defaultImage: `https://lies.exposed/liexp-logo-1200x630.png`,
     },
-    admin: { url: "https://alpha.lies.exposed/admin/" },
-    api: { url: "https://alpha.api.lies.exposed/v1" },
+    admin: { url: "https://lies.exposed/admin/" },
+    api: { url: "https://api.lies.exposed/v1" },
   },
   site: {
     siteMetadata: {

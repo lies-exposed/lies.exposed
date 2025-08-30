@@ -54,7 +54,7 @@ const writeText =
     // const submitLink = `Submit a link to ${ctx.env.TG_BOT_USERNAME}`;
     const publicChannels = [
       `${ctx.env.TG_BOT_CHAT}`,
-      `<a href="${ctx.env.WEB_URL}">alpha.lies.exposed</a>`,
+      `<a href="${ctx.env.WEB_URL}">lies.exposed</a>`,
       `<a href="https://github.com/lies-exposed/lies.exposed">GitHub</a>`,
     ];
     const footer = [publicChannels.join(" | ")];

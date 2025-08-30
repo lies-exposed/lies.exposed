@@ -9,6 +9,7 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { createS3ProviderConfig } from "@liexp/backend/lib/providers/space/creates3ProviderConfig.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { WikipediaProvider } from "@liexp/backend/lib/providers/wikipedia/wikipedia.provider.js";
@@ -165,18 +166,15 @@ export const makeContext =
         ),
         config: fp.TE.right(config),
         api: fp.TE.right(apiClient),
-        redis: pipe(
-          fp.TE.tryCatch(async () => {
-            const redis = new Redis(6379, env.REDIS_HOST, {
+        redis: GetRedisClient({
+          client: () =>
+            new Redis({
+              host: env.REDIS_HOST,
+              port: 6379,
               lazyConnect: true,
-            });
-
-            if (env.REDIS_CONNECT) {
-              await redis.connect();
-            }
-            return redis;
-          }, toControllerError),
-        ),
+            }),
+          connect: env.REDIS_CONNECT,
+        }),
       }),
       fp.TE.mapLeft((e) => ({
         ...e,

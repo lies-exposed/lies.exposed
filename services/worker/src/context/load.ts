@@ -31,9 +31,7 @@ export const loadImplementation = (
     fp.TE.tryCatch(() => loadPuppeteer(), toWorkerError),
     fp.TE.map((puppeteer) => ({
       redis: {
-        client: new Redis({
-          lazyConnect: true,
-        }),
+        client: Redis,
       },
       pdf: {
         client: pdfJs,

@@ -39,6 +39,7 @@ import path from "path";
 import { vi } from "vitest";
 import { Config } from "../src/config.js";
 import { Schema } from "effect";
+import { GetRedisClient } from '@liexp/backend/lib/providers/redis/redis.provider.js';
 
 vi.mock("axios", () => ({
   default: {
@@ -74,11 +75,13 @@ export const loadAppContext = async (
         TE.fromEither,
         TE.mapLeft(toWorkerError),
       ),
+      redis: GetRedisClient({ client: () => mocks.redis, connect: false }),
     }),
-    TE.map(({ db, env }) => ({
+    TE.map(({ db, env, redis }) => ({
       env,
       db,
       logger,
+      redis,
       ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
       puppeteer: GetPuppeteerProvider(
         mocks.puppeteer,
@@ -91,7 +94,6 @@ export const loadAppContext = async (
       fs: GetFSClient({ client: mocks.fs }),
       wp: mocks.wiki,
       rw: mocks.wiki,
-      redis: mocks.redis,
       urlMetadata: {
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
