@@ -132,40 +132,51 @@ export const loadContext = (
         ),
       ),
     ),
-    fp.TE.map(({ env, config, fs, pdf, langchain, puppeteer, openAI }) => {
-      const logger = GetLogger("ai-bot");
-
-      const restClient = axios.default.create({
-        baseURL: config.config.api.url,
-      });
-
-      restClient.interceptors.request.use((req) => {
-        const token = getToken();
-        if (token) {
-          req.headers.set("Authorization", `Bearer ${getToken()}`);
-        }
-        return req;
-      });
-
-      const apiClient = GetResourceClient(restClient, Endpoints, {
-        decode: EffectDecoder((e) =>
-          DecodeError.of("Resource client decode error", e),
-        ),
-      });
-
-      logger.info.log("AI BOT config %O", config.config);
-
-      return {
+    fp.TE.map(
+      ({
         env,
-        fs,
         config,
-        http: HTTPProvider(axios.default.create({})),
+        fs,
         pdf,
-        logger,
-        api: apiClient,
         langchain,
         puppeteer,
         openAI,
-      };
-    }),
+        localaiHeaders,
+      }) => {
+        const logger = GetLogger("ai-bot");
+
+        const restClient = axios.default.create({
+          baseURL: config.config.api.url,
+        });
+
+        restClient.interceptors.request.use((req) => {
+          const token = getToken();
+          if (token) {
+            req.headers.set("Authorization", `Bearer ${getToken()}`);
+          }
+          return req;
+        });
+
+        const apiClient = GetResourceClient(restClient, Endpoints, {
+          decode: EffectDecoder((e) =>
+            DecodeError.of("Resource client decode error", e),
+          ),
+        });
+
+        logger.info.log("AI BOT config %O", config.config);
+
+        return {
+          env,
+          fs,
+          config,
+          http: HTTPProvider(axios.default.create({})),
+          pdf,
+          logger,
+          api: apiClient,
+          langchain,
+          puppeteer,
+          openAI,
+        };
+      },
+    ),
   );

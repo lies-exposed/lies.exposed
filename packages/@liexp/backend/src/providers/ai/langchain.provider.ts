@@ -51,24 +51,6 @@ ${text}
 --------
 `;
 
-export interface LangchainProvider {
-  chat: ChatOpenAI;
-  embeddings: OpenAIEmbeddings;
-  queryDocument: <Args extends { text: string; question?: string }>(
-    url: LangchainDocument[],
-    question: string,
-    options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
-  ) => Promise<string>;
-  summarizeText: <Args extends { text: string }>(
-    text: LangchainDocument[],
-    options?: {
-      model?: AvailableModels;
-      prompt?: PromptFn<Args>;
-      question?: string;
-    },
-  ) => Promise<string>;
-}
-
 export type AvailableModels =
   | "gpt-4o"
   | "gpt-3.5-turbo"
@@ -89,6 +71,25 @@ export interface LangchainProviderOptions {
   };
 }
 
+export interface LangchainProvider {
+  readonly options: LangchainProviderOptions;
+  chat: ChatOpenAI;
+  embeddings: OpenAIEmbeddings;
+  queryDocument: <Args extends { text: string; question?: string }>(
+    url: LangchainDocument[],
+    question: string,
+    options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
+  ) => Promise<string>;
+  summarizeText: <Args extends { text: string }>(
+    text: LangchainDocument[],
+    options?: {
+      model?: AvailableModels;
+      prompt?: PromptFn<Args>;
+      question?: string;
+    },
+  ) => Promise<string>;
+}
+
 const langchainLogger = GetLogger("langchain");
 
 export const GetLangchainProvider = (
@@ -96,13 +97,16 @@ export const GetLangchainProvider = (
 ): LangchainProvider => {
   const chatModel = opts.models?.chat ?? "gpt-4o";
 
+  const options = {
+    ...opts,
+  };
   const chat = new ChatOpenAI({
     model: chatModel,
     temperature: 0,
     apiKey: opts.apiKey,
     timeout: 60 * 30 * 1000, // 30 minutes
     maxConcurrency: 1,
-    maxRetries: 1,
+    maxRetries: 2,
     streamUsage: false,
     ...opts.options?.chat,
     configuration: {
@@ -131,6 +135,7 @@ export const GetLangchainProvider = (
   );
 
   return {
+    options,
     chat,
     embeddings,
     queryDocument: async (content, question, options) => {
