@@ -13,7 +13,7 @@ import { Schema } from "effect";
 import Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import Redis from "ioredis";
+import { Redis } from "ioredis";
 import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
 import * as pdfJs from "pdfjs-dist/legacy/build/pdf.mjs";

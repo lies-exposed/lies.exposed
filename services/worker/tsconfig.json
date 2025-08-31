@@ -7,6 +7,8 @@
     "rootDir": "./",
     "lib": ["DOM", "ESNext"],
     "tsBuildInfoFile": "build/.tsbuildinfo",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "declaration": true,
     "skipLibCheck": true,

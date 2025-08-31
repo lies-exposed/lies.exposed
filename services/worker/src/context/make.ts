@@ -32,7 +32,7 @@ import ExifReader from "exifreader";
 import type ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import type Redis from "ioredis";
+import { type Redis } from "ioredis";
 import TelegramBot from "node-telegram-bot-api";
 import type MW from "nodemw";
 import type * as pdfJS from "pdfjs-dist/legacy/build/pdf.mjs";
@@ -100,6 +100,7 @@ export const makeContext = (
       new impl.redis.client({
         host: env.REDIS_HOST,
         port: 6379,
+        lazyConnect: true,
       }),
     connect: env.REDIS_CONNECT,
   });
