@@ -14,6 +14,10 @@ COPY ./tsconfig.json /usr/src/app/tsconfig.json
 COPY ./packages /usr/src/app/packages
 COPY ./services/admin-web /usr/src/app/services/admin-web
 
+WORKDIR /usr/src/app/services/admin-web
+
+CMD ["pnpm", "dev"]
+
 FROM base AS dev
 
 WORKDIR /usr/src/app

@@ -16,6 +16,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
+CMD ["pnpm", "api", "dev"]
+
 FROM dev AS build
 
 RUN pnpm api build

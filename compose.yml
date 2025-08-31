@@ -52,8 +52,6 @@ services:
       context: .
       target: dev
       dockerfile: api.Dockerfile
-    command: pnpm docker:dev
-    working_dir: /usr/src/app/services/api
     env_file:
       - ./services/api/.env
       - ./services/api/.env.local
@@ -95,8 +93,6 @@ services:
       DEBUG: "@liexp*"
       DB_HOST: db.liexp.dev
       DB_PORT: 5432
-    command: pnpm docker:dev
-    working_dir: /usr/src/app/services/worker
     depends_on:
       - db.liexp.dev
       - fra1.space.liexp.dev
@@ -126,7 +122,6 @@ services:
       - ./services/ai-bot/.env
       - ./services/ai-bot/.env.local
     command: pnpm docker:dev
-    working_dir: /home/node/services/ai-bot
     volumes:
       - ./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs:/home/node/build/pdf.worker.mjs:readonly
       - ./services/ai-bot/package.json:/home/node/package.json:cached
@@ -185,8 +180,6 @@ services:
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/admin-web:/usr/src/app/services/admin-web:cached
-    working_dir: /usr/src/app/services/admin-web
-    command: pnpm docker:dev
     tty: true
     depends_on:
       - liexp.dev
