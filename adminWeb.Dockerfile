@@ -14,9 +14,9 @@ COPY ./tsconfig.json /usr/src/app/tsconfig.json
 COPY ./packages /usr/src/app/packages
 COPY ./services/admin-web /usr/src/app/services/admin-web
 
-WORKDIR /usr/src/app/services/admin-web
+WORKDIR /usr/src/app
 
-CMD ["pnpm", "dev"]
+CMD ["pnpm", "admin-web", "dev"]
 
 FROM base AS dev
 
@@ -39,7 +39,7 @@ FROM build AS pruned
 
 COPY --from=base /usr/src/app ./
 
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm web fetch --prod
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm admin-web fetch --prod
 
 RUN pnpm admin-web --prod deploy --legacy /prod/admin-web
 

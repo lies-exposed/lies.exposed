@@ -1,10 +1,10 @@
-import { FlagIcon } from "@liexp/ui/lib/components/Common/Icons/FlagIcon.js";
+import * as React from "react";
+import { FlagIcon } from "../../Common/Icons/FlagIcon.js";
 import {
   type ReferenceArrayInputProps,
   ReferenceArrayInput,
   AutocompleteArrayInput,
-} from "@liexp/ui/lib/components/admin/react-admin.js";
-import * as React from "react";
+} from "../react-admin.js";
 
 export const ReferenceArrayNationInput: React.FC<
   Omit<ReferenceArrayInputProps, "children" | "reference"> & { source: string }

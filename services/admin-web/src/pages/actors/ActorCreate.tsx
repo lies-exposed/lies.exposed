@@ -9,6 +9,7 @@ import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
+import { ReferenceArrayNationInput } from "@liexp/ui/lib/components/admin/nations/ReferenceArrayNationInput.js";
 import {
   Create,
   DateInput,
@@ -135,6 +136,10 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
                   <TextWithSlugInput source="fullName" slugSource="username" />
                   <DateInput source="bornOn" />
                   <DateInput source="diedOn" />
+                  <ReferenceArrayNationInput
+                    source="nationalities"
+                    defaultValue={[]}
+                  />
                 </Grid>
                 <Grid size={{ sm: 12, md: 6 }}>
                   <ImageInput source="avatar">

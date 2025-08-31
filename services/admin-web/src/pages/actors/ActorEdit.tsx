@@ -18,6 +18,7 @@ import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLi
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import { OpenAIEmbeddingJobButton } from "@liexp/ui/lib/components/admin/media/OpenAIJobButton.js";
 import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
+import { ReferenceArrayNationInput } from "@liexp/ui/lib/components/admin/nations/ReferenceArrayNationInput.js";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview.js";
 import {
   ArrayInput,
@@ -42,7 +43,6 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { transformActor } from "./ActorCreate.js";
-import { ReferenceArrayNationInput } from "./ReferenceArrayNationInput.js";
 
 const EditTitle: React.FC = () => {
   const record = useRecordContext();
@@ -74,7 +74,6 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <Grid container size={12}>
             <Grid size={8}>
               <TextWithSlugInput source="fullName" slugSource="username" />
-              <ReferenceArrayNationInput source="nationalities" />
               <Grid container>
                 <Grid size={6}>
                   <DateInput source="bornOn" />
@@ -83,7 +82,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                   <DateInput source="diedOn" />
                 </Grid>
               </Grid>
-
+              <ReferenceArrayNationInput source="nationalities" />
               <OpenAIEmbeddingJobButton<Actor>
                 resource="actors"
                 type={OpenAISummarizeQueueType.Type}
