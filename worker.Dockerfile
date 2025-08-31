@@ -16,9 +16,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
-WORKDIR /usr/src/app/services/worker
-
-CMD ["pnpm", "dev"]
+CMD ["pnpm", "worker", "dev"]
 
 FROM dev AS build
 
