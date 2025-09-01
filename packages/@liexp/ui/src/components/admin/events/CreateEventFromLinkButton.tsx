@@ -59,7 +59,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
 
   return (
     <Stack spacing={2}>
-      <Stack direction="row">
+      <Stack spacing={2}>
         <EventTypeInput
           source="type"
           defaultValue={EVENT_TYPES.UNCATEGORIZED}
@@ -68,38 +68,40 @@ export const CreateEventFromLinkButton: React.FC = () => {
             void formGroupState.trigger();
           }}
         />
-        <EventFieldsFromType eventType={type} />
-
-        <Button
-          label="Create Event"
-          variant="contained"
-          disabled={!payload}
-          onClick={() => {
-            void createEvent({
-              payload,
-              type,
-              date: record.publishDate,
-              url: record.url,
-              links: [record.id],
-              media: [],
-              keywords: [],
-            } as EventFromURLBody);
-          }}
-        />
-      </Stack>
-      {error ? (
         <Stack>
-          <ErrorBox
-            error={error}
-            resetErrorBoundary={() => {
-              formGroupState.resetField("payload");
-              setState({
-                error: undefined,
-              });
+          <EventFieldsFromType eventType={type} />
+
+          <Button
+            label="Create Event"
+            variant="contained"
+            disabled={!payload}
+            onClick={() => {
+              void createEvent({
+                payload,
+                type,
+                date: record.publishDate,
+                url: record.url,
+                links: [record.id],
+                media: [],
+                keywords: [],
+              } as EventFromURLBody);
             }}
           />
         </Stack>
-      ) : null}
+        {error ? (
+          <Stack>
+            <ErrorBox
+              error={error}
+              resetErrorBoundary={() => {
+                formGroupState.resetField("payload");
+                setState({
+                  error: undefined,
+                });
+              }}
+            />
+          </Stack>
+        ) : null}
+      </Stack>
     </Stack>
   );
 };

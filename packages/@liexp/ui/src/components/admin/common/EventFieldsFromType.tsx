@@ -18,7 +18,7 @@ export const EventFieldsFromType: React.FC<EventFieldsFromTypeProps> = ({
     switch (eventType) {
       case EVENT_TYPES.DEATH: {
         return (
-          <Stack spacing={1}>
+          <Stack spacing={1} direction={"row"}>
             <ReferenceActorInput source={`payload.victim`} />
           </Stack>
         );
@@ -26,11 +26,15 @@ export const EventFieldsFromType: React.FC<EventFieldsFromTypeProps> = ({
       case EVENT_TYPES.UNCATEGORIZED:
       default: {
         return (
-          <Stack spacing={1}>
+          <Stack>
             <TextInput source={`payload.title`} />
-            <ReferenceArrayGroupInput source={`payload.groups`} />
-            <ReferenceArrayActorInput source={`payload.actors`} />
-            <ReferenceArrayGroupMemberInput source={`payload.groupsMembers`} />
+            <Stack direction="row" spacing={1}>
+              <ReferenceArrayGroupInput source={`payload.groups`} />
+              <ReferenceArrayActorInput source={`payload.actors`} />
+              <ReferenceArrayGroupMemberInput
+                source={`payload.groupsMembers`}
+              />
+            </Stack>
           </Stack>
         );
       }
