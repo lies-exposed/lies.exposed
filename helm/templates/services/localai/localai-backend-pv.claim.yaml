@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: localai-models-pv-claim
+  name: localai-backends-pv-claim
   namespace: {{ .Release.Namespace }}
-{{ tuple . "locai-models-pv-claim" | include "localai.labels" | indent 2 }}
+{{ tuple . "locai-backends-pv-claim" | include "localai.labels" | indent 2 }}
 spec:
   accessModes:
     - ReadWriteMany
@@ -12,5 +12,5 @@ spec:
       storage: 40Gi
   selector:
     matchLabels:
-      lies.exposed/name: localai-models-volume
+      lies.exposed/name: localai-backends-volume
       app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}

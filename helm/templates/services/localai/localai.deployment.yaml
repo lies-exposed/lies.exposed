@@ -40,6 +40,8 @@ spec:
           volumeMounts:
             - name: localai-models-pv
               mountPath: /models
+            - name: localai-backends-pv
+              mountPath: /usr/share/localai/backends
           resources:
             limits:
               memory: 6Gi
@@ -52,3 +54,6 @@ spec:
         - name: localai-models-pv
           persistentVolumeClaim:
             claimName: localai-models-pv-claim
+        - name: localai-backends-pv
+          persistentVolumeClaim:
+            claimName: localai-backends-pv-claim

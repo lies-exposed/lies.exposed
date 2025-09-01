@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: localai-backends-volume
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "localai-backends-volume" | include "localai.labels" | indent 2 }}
+spec:
+  storageClassName: microk8s-hostpath
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.localai.backendsHostPath | quote }}
+  claimRef:
+    name: localai-backends-pv-claim
+    namespace: {{ .Release.Namespace }}
