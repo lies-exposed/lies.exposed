@@ -19,8 +19,8 @@ spec:
           envFrom:
           - configMapRef:
               name: localai-env
-          # image: localai/localai:latest-aio-gpu-intel
-          image: localai/localai:latest-aio-cpu
+          image: localai/localai:master-aio-gpu-intel
+          # image: localai/localai:latest-aio-cpu
           # image: localai/localai:master-aio-cpu
           # image: localai/localai:v3.3.2-aio-cpu
           imagePullPolicy: Always
@@ -41,7 +41,7 @@ spec:
             - name: localai-models-pv
               mountPath: /models
             - name: localai-backends-pv
-              mountPath: /usr/share/localai/backends
+              mountPath: /backends
           resources:
             limits:
               memory: 6Gi

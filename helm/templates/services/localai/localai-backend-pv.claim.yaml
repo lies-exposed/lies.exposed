@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: localai-backends-pv-claim
   namespace: {{ .Release.Namespace }}
-{{ tuple . "locai-backends-pv-claim" | include "localai.labels" | indent 2 }}
+{{ tuple . "localai-backends-pv-claim" | include "localai.labels" | indent 2 }}
 spec:
   accessModes:
     - ReadWriteMany

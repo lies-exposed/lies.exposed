@@ -5,7 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
 {{ tuple . "localai-backends-volume" | include "localai.labels" | indent 2 }}
 spec:
-  storageClassName: microk8s-hostpath
+  # storageClassName: microk8s-hostpath
+  storageClassName: manual
   capacity:
     storage: 40Gi
   accessModes:
