@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",

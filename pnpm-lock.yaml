@@ -726,9 +726,6 @@ importers:
 
   services/admin-web:
     dependencies:
-      '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.7.2
-        version: 6.7.2
       '@liexp/core':
         specifier: workspace:*
         version: link:../../packages/@liexp/core
@@ -1056,9 +1053,6 @@ importers:
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@18.3.24)(react@18.3.1)
-      '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.7.2
-        version: 6.7.2
       '@liexp/core':
         specifier: workspace:*
         version: link:../../packages/@liexp/core
@@ -1162,9 +1156,6 @@ importers:
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@18.3.24)(react@18.3.1)
-      '@fortawesome/fontawesome-svg-core':
-        specifier: ^6.7.2
-        version: 6.7.2
       '@liexp/core':
         specifier: workspace:*
         version: link:../../packages/@liexp/core

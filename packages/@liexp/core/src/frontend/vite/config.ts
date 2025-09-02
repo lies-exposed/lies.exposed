@@ -105,6 +105,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           "@mui/material",
           "@mui/icons-material",
           "@mui/system",
+          "@fortawesome/fontawesome-svg-core",
         ],
         extensions: [
           ".ts",
