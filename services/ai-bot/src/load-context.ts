@@ -89,6 +89,7 @@ export const loadContext = (
           },
           options: {
             chat: {
+              timeout: 20 * 60_000, // 20 minutes
               configuration: {
                 defaultHeaders: localaiHeaders,
                 fetchOptions: {
@@ -97,6 +98,7 @@ export const loadContext = (
               },
             },
             embeddings: {
+              timeout: 20 * 60_000, // 20 minutes
               configuration: {
                 defaultHeaders: localaiHeaders,
               },

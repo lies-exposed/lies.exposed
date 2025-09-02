@@ -56,7 +56,9 @@ export type AvailableModels =
   | "gpt-3.5-turbo"
   | "text-embedding-ada-002"
   | "salamandra-7b-instruct"
-  | "qwen3-32b";
+  | "qwen3-8b"
+  | "qwen3-embedding-8b"
+  | "gemma-2-9b-it-abliterated";
 
 export interface LangchainProviderOptions {
   baseURL: string;
