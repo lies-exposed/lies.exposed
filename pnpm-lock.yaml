@@ -633,8 +633,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react@18.3.1)
       react-slick:
-        specifier: ^0.30.3
-        version: 0.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.31.0
+        version: 0.31.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-toc:
         specifier: ^3.1.0
         version: 3.1.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6075,9 +6075,6 @@ packages:
   end-of-stream@1.4.5:
     resolution: {integrity: sha512-ooEGc6HP26xXq/N+GCGOT0JKCLDGrq2bQUZrQ7gyrJiZANJ/8YDTxTpQBXGMn+WbIQXNVpyWymm7KYVICQnyOg==}
 
-  enquire.js@2.1.6:
-    resolution: {integrity: sha512-/KujNpO+PT63F7Hlpu4h3pE3TokKRHN26JYmQpPyjkRD/N57R7bPDNojMXdi7uveAKjYB7yQnartCxZnFWr0Xw==}
-
   entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
@@ -8812,8 +8809,8 @@ packages:
     peerDependencies:
       react: ^17 || ^18 || ^19
 
-  react-slick@0.30.3:
-    resolution: {integrity: sha512-B4x0L9GhkEWUMApeHxr/Ezp2NncpGc+5174R02j+zFiWuYboaq98vmxwlpafZfMjZic1bjdIqqmwLDcQY0QaFA==}
+  react-slick@0.31.0:
+    resolution: {integrity: sha512-zo6VLT8wuSBJffg/TFPbzrw2dEnfZ/cUKmYsKByh3AgatRv29m2LoFbq5vRMa3R3A4wp4d8gwbJKO2fWZFaI3g==}
     peerDependencies:
       react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
@@ -15654,8 +15651,6 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  enquire.js@2.1.6: {}
-
   entities@4.5.0: {}
 
   entities@6.0.0: {}
@@ -18998,10 +18993,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  react-slick@0.30.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-slick@0.31.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       classnames: 2.5.1
-      enquire.js: 2.1.6
       json2mq: 0.2.0
       lodash.debounce: 4.0.8
       react: 18.3.1
