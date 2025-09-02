@@ -35,8 +35,8 @@ importers:
         specifier: ^3.2.3
         version: 3.2.4(vitest@3.2.4(@types/debug@4.1.12)(@types/node@24.3.0)(jiti@2.5.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.5)(yaml@2.8.1))
       corepack:
-        specifier: ^0.33.0
-        version: 0.33.0
+        specifier: ^0.34.0
+        version: 0.34.0
       eslint:
         specifier: ^9.28.0
         version: 9.34.0(jiti@2.5.1)
@@ -5552,9 +5552,9 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  corepack@0.33.0:
-    resolution: {integrity: sha512-XSX4BNjdwPXjUEk7/2r0vFhs1irwVncJRMyjzDel3PVKWnHQXehciX0WkvDrd1ujLLFJRe8FeZb9ASCqBtF/OA==}
-    engines: {node: ^18.17.1 || ^20.10.0 || >=22.11.0}
+  corepack@0.34.0:
+    resolution: {integrity: sha512-8D9N/k9hDjoISCDGUzH2wBF0fJD49p3G7ifoEZcc0vhB7Py6r+Mc1SpJ8dvnWY/HMP95K60WkQbN7vgbUgXgpA==}
+    engines: {node: ^20.10.0 || ^22.11.0 || >=24.0.0}
     hasBin: true
 
   cors@2.8.5:
@@ -15107,7 +15107,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  corepack@0.33.0: {}
+  corepack@0.34.0: {}
 
   cors@2.8.5:
     dependencies:
