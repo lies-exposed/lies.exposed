@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: storybook-build
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "storybook-build" | include "storybook.labels" | indent 2 }}
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: {{ .Values.storybook.buildVolumeHostPath | quote }}
+  claimRef:
+    name: storybook-build-pv-claim
+    namespace: {{ .Release.Namespace }}

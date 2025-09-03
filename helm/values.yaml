@@ -38,6 +38,10 @@ telegram:
     hash: "not-real-hash"
     id: "not-real-id"
 
+storybook:
+  buildVolumeHostPath: /home/node/storybook/build
+  nginxLogVolumePath: /home/node/storybook/logs
+
 localai:
   modelsHostPath: /home/node/localai-models
   openAIApiKey: no-key-is-a-good-key

@@ -7,6 +7,8 @@ metadata:
   labels:
     name: cloudflared-tunnel
     namespace: {{ .Release.Namespace }}
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   selector:
     matchLabels:
@@ -25,6 +27,7 @@ spec:
         sysctls:
         - name: net.ipv4.ping_group_range
           value: "65532           65532"
+      
       containers:
         - name: cloudflared
           image: cloudflare/cloudflared:latest
@@ -47,6 +50,8 @@ spec:
             requests:
               cpu: 100m
               memory: 512Mi
+          imagePullPolicy: Always
+      restartPolicy: Always
       volumes:
         - name: creds
           secret:
@@ -74,7 +79,7 @@ data:
     tunnel: home-server-cluster
     credentials-file: /etc/cloudflared/creds/credentials.json
     # metrics: 0.0.0.0:2000
-    no-autoupdate: true
+    # no-autoupdate: true
     ingress:
       - hostname: "api.lies.exposed"
         service: "http://api.prod.svc.cluster.local"
@@ -86,6 +91,8 @@ data:
         service: "http://microk8s-console.minio-operator.svc.cluster.local:9090"
       - hostname: "www.lies.exposed"
         service: "http://web.prod.svc.cluster.local"
+      - hostname: "storybook.lies.exposed"
+        service: "http://storybook.prod.svc.cluster.local"
       - hostname: "ai.lies.exposed"
         service: "http://localai.prod.svc.cluster.local"
       - hostname: "lies.exposed"

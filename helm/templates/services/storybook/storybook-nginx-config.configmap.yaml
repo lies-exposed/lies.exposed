@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: storybook-nginx-conf
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "storybook-nginx-conf" | include "storybook.labels" | indent 2 }}
+data:
+{{ if .Files.Get "config/nginx/storybook.conf" }}
+  storybook.conf: |
+{{ .Files.Get "config/nginx/storybook.conf" | toString | indent 4 }}
+{{ else }}
+{{ fail "you need to supply your license file! add 'nginx/storybook.conf' to your chart 'config' directory." }}
+{{ end }}
