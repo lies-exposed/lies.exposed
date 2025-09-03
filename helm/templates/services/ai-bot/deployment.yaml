@@ -12,6 +12,8 @@ spec:
   template:
     metadata:
 {{ tuple . "ai-bot" | include "aiBot.labels" | indent 6 }}
+      annotations:
+        reloader.stakater.com/auto: "true"
     spec:
       imagePullSecrets:
         - name: ghcr-io-registry-auth

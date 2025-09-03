@@ -28,6 +28,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+helm repo add stakater https://stakater.github.io/stakater-charts
+helm repo update
+helm install reloader stakater/reloader \
+    --create-namespace --namespace $namespace \
+     --kubeconfig ~/.kube/$kubeconfig
+
 helm install $name ./helm \
     --create-namespace --namespace $namespace \
     --kubeconfig ~/.kube/$kubeconfig \
