@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import { loadPuppeteer } from "@liexp/backend/lib/context/load/puppeteer.load.js";
 import {
-  type AvailableModels,
   GetLangchainProvider,
+  type AvailableModels,
 } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
@@ -50,17 +50,33 @@ export const loadContext = (
             fp.TE.right<AIBotError, string>,
           );
         }),
-        fp.TE.map(({ localAIURL, ...config }) => ({
-          ...config,
-          config: {
-            ...config.config,
-            localAi: {
-              ...config.config.localAi,
-              url: localAIURL,
-              apiKey: env.LOCALAI_API_KEY,
+        fp.TE.map(({ localAIURL, ...config }) => {
+          const {
+            config: {
+              localAi: { timeout: _timeout, ...localAi },
+              ...rest
             },
-          },
-        })),
+          } = config;
+
+          const timeout = pipe(
+            fp.O.fromNullable(_timeout),
+            fp.O.alt(() => env.LOCALAI_TIMEOUT),
+            fp.O.getOrElse(() => 60 * 3_600),
+          );
+
+          return {
+            ...config,
+            config: {
+              ...rest,
+              localAi: {
+                ...localAi,
+                timeout,
+                url: localAIURL,
+                apiKey: env.LOCALAI_API_KEY,
+              },
+            },
+          };
+        }),
       ),
     ),
     fp.TE.bind("localaiHeaders", ({ env }) => {
@@ -89,7 +105,7 @@ export const loadContext = (
           },
           options: {
             chat: {
-              timeout: 20 * 60_000, // 20 minutes
+              timeout: config.config.localAi.timeout,
               configuration: {
                 defaultHeaders: localaiHeaders,
                 fetchOptions: {
@@ -98,7 +114,7 @@ export const loadContext = (
               },
             },
             embeddings: {
-              timeout: 20 * 60_000, // 20 minutes
+              timeout: config.config.localAi.timeout,
               configuration: {
                 defaultHeaders: localaiHeaders,
               },
@@ -112,7 +128,7 @@ export const loadContext = (
         GetOpenAIProvider({
           baseURL: config.config.localAi.url,
           apiKey: config.config.localAi.apiKey,
-          timeout: 20 * 60_000, // 20 minutes
+          timeout: config.config.localAi.timeout,
           defaultHeaders: localaiHeaders,
           fetchOptions: {
             headers: localaiHeaders as any,
@@ -134,51 +150,40 @@ export const loadContext = (
         ),
       ),
     ),
-    fp.TE.map(
-      ({
+    fp.TE.map(({ env, config, fs, pdf, langchain, puppeteer, openAI }) => {
+      const logger = GetLogger("ai-bot");
+
+      const restClient = axios.default.create({
+        baseURL: config.config.api.url,
+      });
+
+      restClient.interceptors.request.use((req) => {
+        const token = getToken();
+        if (token) {
+          req.headers.set("Authorization", `Bearer ${getToken()}`);
+        }
+        return req;
+      });
+
+      const apiClient = GetResourceClient(restClient, Endpoints, {
+        decode: EffectDecoder((e) =>
+          DecodeError.of("Resource client decode error", e),
+        ),
+      });
+
+      logger.info.log("AI BOT config %O", config.config);
+
+      return {
         env,
-        config,
         fs,
+        config,
+        http: HTTPProvider(axios.default.create({})),
         pdf,
+        logger,
+        api: apiClient,
         langchain,
         puppeteer,
         openAI,
-        localaiHeaders,
-      }) => {
-        const logger = GetLogger("ai-bot");
-
-        const restClient = axios.default.create({
-          baseURL: config.config.api.url,
-        });
-
-        restClient.interceptors.request.use((req) => {
-          const token = getToken();
-          if (token) {
-            req.headers.set("Authorization", `Bearer ${getToken()}`);
-          }
-          return req;
-        });
-
-        const apiClient = GetResourceClient(restClient, Endpoints, {
-          decode: EffectDecoder((e) =>
-            DecodeError.of("Resource client decode error", e),
-          ),
-        });
-
-        logger.info.log("AI BOT config %O", config.config);
-
-        return {
-          env,
-          fs,
-          config,
-          http: HTTPProvider(axios.default.create({})),
-          pdf,
-          logger,
-          api: apiClient,
-          langchain,
-          puppeteer,
-          openAI,
-        };
-      },
-    ),
+      };
+    }),
   );

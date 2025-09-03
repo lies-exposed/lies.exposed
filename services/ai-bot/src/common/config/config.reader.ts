@@ -15,11 +15,7 @@ export const ConfigProviderReader =
   <C extends Schema.Schema<any>, R extends FSClientContext = FSClientContext>(
     path: string,
     decoder: C,
-  ): ReaderTaskEither<
-    R,
-    AIBotError,
-    ConfigProvider<Schema.Schema.Encoded<C>>
-  > =>
+  ): ReaderTaskEither<R, AIBotError, ConfigProvider<Schema.Schema.Type<C>>> =>
   (ctx) => {
     return pipe(
       ctx.fs.getObject(path),
@@ -28,7 +24,7 @@ export const ConfigProviderReader =
       }),
       fp.TE.chainEitherK((e) =>
         pipe(
-          Schema.encodeUnknownEither(decoder)(e),
+          Schema.decodeUnknownEither(decoder)(e),
           fp.E.mapLeft(
             (errors): AIBotError =>
               DecodeError.of("Can't parse configuration", errors),
@@ -36,7 +32,7 @@ export const ConfigProviderReader =
         ),
       ),
       fp.TE.map(
-        (config): ConfigProvider<Schema.Schema.Encoded<C>> => ({
+        (config): ConfigProvider<Schema.Schema.Type<C>> => ({
           config: config,
           save: (config) => ctx.fs.writeObject(path, JSON.stringify(config)),
         }),

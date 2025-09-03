@@ -4,6 +4,7 @@ export const AIBotConfig = Schema.Struct({
   localAi: Schema.Struct({
     url: Schema.String,
     apiKey: Schema.String,
+    timeout: Schema.UndefinedOr(Schema.Number),
     models: Schema.Union(
       Schema.partial(
         Schema.Struct({
@@ -22,4 +23,4 @@ export const AIBotConfig = Schema.Struct({
   title: "AIBotConfig",
 });
 
-export type AIBotConfig = typeof AIBotConfig.Type;
+export type AIBotConfig = typeof AIBotConfig.Encoded;

@@ -13,6 +13,7 @@ const ENV = Schema.Struct({
   LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
   LOCAL_AI_URL: OptionFromNullishToNull(Schema.String),
   LOCALAI_API_KEY: Schema.String,
+  LOCALAI_TIMEOUT: OptionFromNullishToNull(Schema.NumberFromString),
   CF_ACCESS_CLIENT_ID: OptionFromNullishToNull(Schema.String),
   CF_ACCESS_CLIENT_SECRET: OptionFromNullishToNull(Schema.String),
 }).annotations({
