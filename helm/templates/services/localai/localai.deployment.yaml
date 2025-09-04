@@ -19,9 +19,9 @@ spec:
           envFrom:
           - configMapRef:
               name: localai-env
-          # image: localai/localai:master-aio-gpu-intel
+          image: localai/localai:master-aio-gpu-intel
           # image: localai/localai:latest-aio-cpu
-          image: localai/localai:master-aio-cpu
+          # image: localai/localai:master-aio-cpu
           # image: localai/localai:v3.3.2-aio-cpu
           imagePullPolicy: Always
           # livenessProbe:
@@ -44,8 +44,8 @@ spec:
               mountPath: /backends
           resources:
             limits:
-              memory: 6Gi
-              cpu: 3000m
+              memory: 8Gi
+              cpu: 4000m
             requests:
               memory: 4Gi
               cpu: 1000m

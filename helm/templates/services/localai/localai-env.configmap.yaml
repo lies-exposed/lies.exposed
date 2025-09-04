@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   LOCALAI_LOG_LEVEL: debug
-  LOCALAI_THREADS: "6"
+  LOCALAI_THREADS: "4"
   LOCALAI_API_KEY: {{ .Values.localai.openAIApiKey | quote }}
 kind: ConfigMap
 metadata:
