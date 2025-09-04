@@ -1,5 +1,6 @@
 import { type Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type RTE } from "../../types.js";
 import { CreateEventFromURLSubscriber } from "./event/createEventFromURL.subscriber.js";
 import { SearchLinksSubscriber } from "./link/searchLinks.subscriber.js";
@@ -42,8 +43,17 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
   ];
 
   return pipe(
-    subscribers,
-    fp.A.traverse(fp.TE.ApplicativePar)((sub) => sub.subscribe()(ctx)),
-    fp.TE.map(() => undefined),
+    fp.TE.fromIO(() => {
+      ctx.redis.client.on("message", (channel, message) => {
+        void pipe(
+          subscribers.filter((s) => s.channel === channel),
+          fp.A.traverse(fp.TE.ApplicativePar)((sub) =>
+            sub.subscribe(message)(ctx),
+          ),
+          fp.TE.map(() => undefined),
+          throwTE,
+        );
+      });
+    }),
   );
 };
