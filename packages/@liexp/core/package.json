@@ -28,14 +28,14 @@
     "globals": "^16.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^9.35.0",
     "@rollup/plugin-image": "^3.0.3",
     "@tanstack/eslint-plugin-query": "^5.74.7",
     "@types/debug": "^4.1.12",
     "@vitejs/plugin-react": "^5.0.2",
     "debug": "^4.4.0",
     "effect": "^3.14.18",
-    "eslint": "^9.28.0",
+    "eslint": "^9.35.0",
     "eslint-import-resolver-typescript": "^4.4.2",
     "eslint-plugin-fp-ts": "^0.4.0",
     "eslint-plugin-import-x": "^4.16.1",
