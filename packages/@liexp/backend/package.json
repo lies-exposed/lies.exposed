@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.804.0",
-    "@langchain/core": "^0.3.73",
+    "@langchain/core": "^0.3.75",
     "@langchain/openai": "^0.6.11",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.73",
@@ -60,7 +60,7 @@
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
     "ioredis": "^5.6.1",
-    "langchain": "^0.3.32",
+    "langchain": "^0.3.33",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^5.2.133",
     "puppeteer-core": "^24.8.1",
