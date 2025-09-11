@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storybook-nginx-log-pv-claim
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "storybook-nginx-log-pv-claim" | include "storybook.labels" | indent 2 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
