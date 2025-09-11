@@ -3,7 +3,7 @@ import {
   MediaList,
   type MediaListProps,
 } from "@liexp/ui/lib/components/lists/MediaList.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<MediaListProps> = (props) => {
-  const ref = React.createRef();
+  // const ref = React.createRef();
 
   return (
     <div style={{ height: "100%" }}>

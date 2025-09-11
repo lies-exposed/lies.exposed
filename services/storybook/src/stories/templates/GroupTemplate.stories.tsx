@@ -4,7 +4,7 @@ import {
   GroupTemplate,
   type GroupTemplateProps,
 } from "@liexp/ui/lib/templates/GroupTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -17,7 +17,7 @@ export default meta;
 const Template: StoryFn<GroupTemplateProps> = (props) => {
   const [tab, setTab] = React.useState(0);
   const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
-    hash: `query-${Math.random() * 100}`,
+    hash: `query-${(Math.random() * 100).toString()}`,
   });
 
   return (

@@ -9,7 +9,7 @@ import {
   RecordContextProvider,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
-import { type StoryFn, type Meta } from "@storybook/react";
+import { type StoryFn, type Meta } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -50,5 +50,7 @@ const Template: StoryFn<SocialPostButtonProps> = (props) => {
   );
 };
 
-export const EventSocialPostButtonExample = Template.bind({});
-EventSocialPostButtonExample.args = {};
+export const EventSocialPostButtonExample = {
+  render: Template,
+  args: {},
+};

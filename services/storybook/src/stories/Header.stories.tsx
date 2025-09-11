@@ -1,7 +1,7 @@
 import Header, {
   type HeaderProps,
 } from "@liexp/ui/lib/components/Header/Header.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -30,45 +30,48 @@ const Template: StoryFn<HeaderProps> = (args) => {
   );
 };
 
-export const HeaderExample = Template.bind({});
-HeaderExample.args = {
-  menu: [
-    {
-      label: "Docs",
-      view: "#docs",
-      subItems: [],
-    },
-    {
-      label: "Explore",
-      view: "#explore",
-      subItems: [
-        {
-          label: "Events",
-          view: "#events",
-        },
-        {
-          label: "Actors",
-          view: "#actors",
-        },
-        {
-          label: "Groups",
-          view: "#groups",
-        },
-      ],
-    },
-    {
-      label: "Profile",
-      view: "/profile",
-      subItems: [
-        {
-          label: "Links",
-          view: "#links",
-        },
-        {
-          label: "Media",
-          view: "#media",
-        },
-      ],
-    },
-  ],
+export const HeaderExample = {
+  render: Template,
+
+  args: {
+    menu: [
+      {
+        label: "Docs",
+        view: "#docs",
+        subItems: [],
+      },
+      {
+        label: "Explore",
+        view: "#explore",
+        subItems: [
+          {
+            label: "Events",
+            view: "#events",
+          },
+          {
+            label: "Actors",
+            view: "#actors",
+          },
+          {
+            label: "Groups",
+            view: "#groups",
+          },
+        ],
+      },
+      {
+        label: "Profile",
+        view: "/profile",
+        subItems: [
+          {
+            label: "Links",
+            view: "#links",
+          },
+          {
+            label: "Media",
+            view: "#media",
+          },
+        ],
+      },
+    ],
+  },
 };

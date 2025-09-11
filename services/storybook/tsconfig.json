@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ESNext",
+    "target": "es2023",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
     "jsx": "react",
     "noEmit": true,
     "allowJs": true,
@@ -10,18 +12,17 @@
     "noUnusedLocals": false,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true,
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "ES2023", "DOM.Iterable"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "typeRoots": ["../../node_modules/@types", "./typings"],
-    "baseUrl": "./src",
-    "rootDir": "./",
+    "typeRoots": ["../../node_modules/@types", "./node_modules/@types", "./typings"],
+    "baseUrl": "./",
+    "rootDir": "./src",
     "isolatedModules": true
   },
-  "include": [".storybook", "src", "typings"],
-  "exclude": ["node_modules", "build", "public"],
+  "include": [".storybook/*", "src", "typings"],
+  "exclude": ["./node_modules", "build", "public", "eslint.config.js"],
   "references": [
     {
       "path": "../../packages/@liexp/core"
@@ -30,10 +31,10 @@
       "path": "../../packages/@liexp/shared"
     },
     {
-      "path": "../../packages/@liexp/test"
+      "path": "../../packages/@liexp/ui"
     },
     {
-      "path": "../../packages/@liexp/ui"
-    }
+      "path": "../../packages/@liexp/test"
+    },
   ]
 }

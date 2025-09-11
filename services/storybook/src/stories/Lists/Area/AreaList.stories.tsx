@@ -3,7 +3,7 @@ import {
   AreaList,
   type AreaListProps,
 } from "@liexp/ui/lib/components/lists/AreaList.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

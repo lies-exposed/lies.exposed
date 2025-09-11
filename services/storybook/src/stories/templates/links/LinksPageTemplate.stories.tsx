@@ -1,41 +1,37 @@
-import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import {
   LinksPageTemplate,
   type LinksPageTemplateProps,
 } from "@liexp/ui/lib/templates/links/LinksPageTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta } from "@storybook/react-vite";
 import * as React from "react";
 
-const meta: Meta = {
+const meta = {
   title: "Templates/Links/Pages",
   component: LinksPageTemplate,
-};
+  render: () => {
+    // const [tab, setTab] = React.useState(0);
+    // const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
+    //   hash: `query-${Math.random() * 100}`,
+    // });
+
+    return (
+      <LinksPageTemplate
+        filter={{
+          q: "food",
+        }}
+        onItemClick={() => {}}
+        onFilterChange={() => {}}
+        // onQueryChange={(q) => {
+        //   setQ(q);
+        // }}
+        // onTabChange={setTab}
+      />
+    );
+  },
+} satisfies Meta<LinksPageTemplateProps>;
 
 export default meta;
 
-const Template: StoryFn<LinksPageTemplateProps> = (props) => {
-  // const [tab, setTab] = React.useState(0);
-  // const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
-  //   hash: `query-${Math.random() * 100}`,
-  // });
-
-  return (
-    <LinksPageTemplate
-      filter={{
-        q: "food",
-      }}
-      onItemClick={() => {}}
-      onFilterChange={() => {}}
-      // onQueryChange={(q) => {
-      //   setQ(q);
-      // }}
-      // onTabChange={setTab}
-    />
-  );
-};
-
-const DefaultTemplate = Template.bind({});
-
-DefaultTemplate.args = {};
+const DefaultTemplate = { args: {} };
 
 export { DefaultTemplate };

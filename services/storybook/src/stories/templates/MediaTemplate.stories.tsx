@@ -3,7 +3,7 @@ import {
   MediaTemplateUI,
   type MediaTemplateUIProps,
 } from "@liexp/ui/lib/templates/MediaTemplateUI.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

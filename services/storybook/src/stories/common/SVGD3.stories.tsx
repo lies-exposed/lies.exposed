@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { eventIconsSvgDefs } from "@liexp/ui/lib/components/Common/Graph/Network/svg/event-icons.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as d3 from "d3";
 import * as React from "react";
 
@@ -33,13 +34,6 @@ const SVGD3Template: StoryFn<{
       .attr("height", height)
       .attr("viewBox", [-width / 2, -height / 2, width, height]);
 
-    let transform: any;
-    const zoom = d3.zoom().on("zoom", (e) => {
-      g.attr("transform", (transform = e.transform));
-
-      eventIconDefs.onTransform(g);
-    });
-
     const nodes: SimulationNode[] = [
       { index: 1, id: 1 },
       { index: 2, id: 2 },
@@ -62,7 +56,7 @@ const SVGD3Template: StoryFn<{
       });
 
     // event icons svg
-    const eventIconDefs = eventIconsSvgDefs(g, 20);
+    eventIconsSvgDefs(g, 20);
 
     const simulation = d3
       .forceSimulation(nodes)
@@ -74,6 +68,7 @@ const SVGD3Template: StoryFn<{
       .attr("r", 20)
       .attr("fill", "red")
       .attr("fill", "url(#event-quote)")
+
       .call(drag(simulation));
 
     // svg
@@ -110,9 +105,11 @@ const SVGD3Template: StoryFn<{
   return <svg id={"event-icons"} ref={svgRef} width={width} height={height} />;
 };
 
-export const SVGD3 = SVGD3Template.bind({});
+export const SVGD3 = {
+  render: SVGD3Template,
 
-SVGD3.args = {
-  width: 600,
-  height: 600,
+  args: {
+    width: 600,
+    height: 600,
+  },
 };

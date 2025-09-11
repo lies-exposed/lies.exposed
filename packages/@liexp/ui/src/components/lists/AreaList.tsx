@@ -39,8 +39,9 @@ export const AreaListItem: React.FC<
   ListItemProps<Area> & {
     defaultImage: string;
     style?: React.CSSProperties;
+    onLoad?: VoidFunction;
   }
-> = ({ item, onClick, defaultImage, style }) => {
+> = ({ item, onClick, defaultImage, style, onLoad }) => {
   const Queries = useEndpointQueries();
   const media = Queries.Media.list.useQuery(
     undefined,
@@ -79,6 +80,8 @@ export const AreaListItem: React.FC<
             className={classes.media}
             image={mediaSrc}
             title={item.label}
+            component="img"
+            onLoad={onLoad}
           />
           <CardContent>
             <Typography gutterBottom variant="h6" component="h3">
@@ -96,17 +99,19 @@ export const AreaListItem: React.FC<
   );
 };
 
-export interface AreaListProps extends ListProps {
+export interface AreaListProps extends Omit<ListProps, "onLoad"> {
   className?: string;
   areas: Area[];
   onAreaClick: (actor: Area) => void;
   style?: React.CSSProperties;
+  onLoad?: VoidFunction;
 }
 
 export const AreaList: React.FC<AreaListProps> = ({
   className,
   areas,
   onAreaClick,
+  onLoad,
   ...props
 }) => {
   const conf = useConfiguration();
@@ -121,6 +126,7 @@ export const AreaList: React.FC<AreaListProps> = ({
       ListItem={(area) => (
         <AreaListItem
           {...area}
+          onLoad={onLoad}
           defaultImage={conf.platforms.web.defaultImage}
         />
       )}

@@ -2,7 +2,7 @@ import {
   HumanPopulationGrowthGraph,
   type HumanPopulationGrowthGraphProps,
 } from "@liexp/ui/lib/components/Graph/HumanPopulationGrowthGraph.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

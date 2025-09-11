@@ -4,7 +4,7 @@ import { getAuthFromLocalStorage } from "../client/api.js";
 
 export const DataProviderContext = React.createContext<APIRESTClient>(
   APIRESTClient({
-    url: "https://alpha.api.lies.exposed/v1",
+    url: "https://api.lies.exposed/v1",
     getAuth: getAuthFromLocalStorage,
   }),
 );

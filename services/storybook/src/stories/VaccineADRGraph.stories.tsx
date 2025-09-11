@@ -1,5 +1,5 @@
 import { VaccineADRGraph } from "@liexp/ui/lib/components/Graph/covid/vaccines/VaccineADRGraph.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -9,7 +9,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn = (props) => {
+const Template: StoryFn = () => {
   return (
     <div style={{ width: "100%" }}>
       <VaccineADRGraph id="" distribution={[]} />

@@ -12,9 +12,10 @@ import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { useDataProvider, useRecordContext } from "react-admin";
+import { useRecordContext } from "react-admin";
 import { useConfiguration } from "../../../../context/ConfigurationContext.js";
 import { useAPI } from "../../../../hooks/useAPI.js";
+import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
 import { SocialPostButton } from "../../common/SocialPostButton.js";
 

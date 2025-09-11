@@ -43,6 +43,7 @@ interface IframeMediaElementProps {
   onLoad?: (rect: DOMRect) => void;
   onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   showPlay?: boolean;
+  fallbackImage: string;
 }
 
 const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
@@ -53,6 +54,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
   className,
   onClick,
   showPlay = true,
+  fallbackImage,
   ...props
 }) => {
   const ref = React.useRef<HTMLIFrameElement | null>(null);
@@ -80,7 +82,7 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
       ) : (
         <VideoCover
           className={classes.cover}
-          thumbnail={media.thumbnail}
+          thumbnail={media.thumbnail ?? fallbackImage}
           style={itemStyle}
           showPlay={showPlay}
           onClick={(e) => {

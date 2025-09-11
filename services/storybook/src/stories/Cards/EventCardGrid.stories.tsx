@@ -1,11 +1,9 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent";
 import {
   EventCardGrid,
   type EventCardGridProps,
 } from "@liexp/ui/lib/components/Cards/Events/EventCardGrid.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { useAPI } from "@liexp/ui/lib/hooks/useAPI";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -15,8 +13,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: StoryFn<EventCardGridProps<SearchEvent>> = (props) => {
-  const api = useAPI();
+const Template: StoryFn<EventCardGridProps> = (props) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({
@@ -38,7 +35,7 @@ const Template: StoryFn<EventCardGridProps<SearchEvent>> = (props) => {
   );
 };
 
-const EventCardGridExample = Template.bind<any>({});
+const EventCardGridExample = Template.bind({});
 
 EventCardGridExample.args = {};
 

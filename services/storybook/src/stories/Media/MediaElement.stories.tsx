@@ -4,7 +4,7 @@ import MediaElement, {
   type MediaElementProps,
 } from "@liexp/ui/lib/components/Media/MediaElement.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

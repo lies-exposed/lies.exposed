@@ -10,7 +10,7 @@ import {
   HierarchyNetworkGraphBox,
   type HierarchyNetworkGraphBoxProps,
 } from "@liexp/ui/lib/containers/graphs/HierarchyNetworkGraphBox.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import { subWeeks } from "date-fns";
 import * as React from "react";
 
@@ -34,11 +34,13 @@ const Template: StoryFn<HierarchyNetworkGraphBoxProps> = ({
   query,
   ...props
 }) => {
-  const [items, setItem] = React.useState<any>([id]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [items, setItem] = React.useState<any[]>([id]);
 
   const inputProps = {
     style: { width: "100%" },
     selectedItems: items,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChange: (items: any[]) => {
       setItem(items);
     },
@@ -48,10 +50,8 @@ const Template: StoryFn<HierarchyNetworkGraphBoxProps> = ({
       <AutocompleteKeywordInput {...inputProps} />
     ) : props.type === ACTORS.literals[0] ? (
       <AutocompleteActorInput {...inputProps} />
-    ) : props.type === GROUPS.literals[0] ? (
-      <AutocompleteGroupInput {...inputProps} />
     ) : (
-      <div />
+      <AutocompleteGroupInput {...inputProps} />
     );
 
   return (

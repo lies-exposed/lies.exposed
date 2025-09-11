@@ -1,5 +1,5 @@
 import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { subYears } from "@liexp/shared/lib/utils/date.utils";
+import { subYears } from "@liexp/shared/lib/utils/date.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
@@ -9,7 +9,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventsTimelineList, {
   type EventsTimelineListProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventsTimelineList.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import fc from "fast-check";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
@@ -87,12 +87,12 @@ EventsTimelineListExample.args = {
     total: 10,
   },
   total: 10,
-  onActorClick: () => {},
-  onGroupClick(g) {},
-  onKeywordClick(k) {},
+  onActorClick() {},
+  onGroupClick() {},
+  onKeywordClick() {},
   onGroupMemberClick() {},
-  onClick(e) {},
-  onRowsRendered(info) {},
+  onClick() {},
+  onRowsRendered() {},
 };
 
 export { EventsTimelineListExample as EventsTimelineList };

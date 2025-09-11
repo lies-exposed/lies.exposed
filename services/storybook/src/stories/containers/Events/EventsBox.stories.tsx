@@ -1,28 +1,23 @@
 import EventsBox, {
   type EventsBoxProps,
 } from "@liexp/ui/lib/containers/EventsBox.js";
-import { type Meta, type StoryFn } from "@storybook/react";
-import * as React from "react";
+import { type StoryObj, type Meta } from "@storybook/react-vite";
 
-const meta: Meta = {
+const meta = {
   title: "Containers/Events/EventsBox",
   component: EventsBox,
-};
+} satisfies Meta<EventsBoxProps>;
 
 export default meta;
 
-const Template: StoryFn<EventsBoxProps> = (props) => {
-  return <EventsBox {...props} />;
+type Story = StoryObj<typeof meta>;
+
+const EventsBoxExample: Story = {
+  args: {
+    title: "Last updated events",
+    query: { _order: "DESC", _sort: "updatedAt" },
+    onEventClick() {},
+  },
 };
-
-const EventsBoxExample = Template.bind<any>({});
-
-const args: EventsBoxProps = {
-  title: "Last updated events",
-  query: { _order: "DESC", _sort: "updatedAt" },
-  onEventClick(e) {},
-};
-
-EventsBoxExample.args = args;
 
 export { EventsBoxExample as EventsBox };

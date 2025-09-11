@@ -4,7 +4,7 @@ import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/que
 import ExploreTemplate, {
   type ExploreTemplateProps,
 } from "@liexp/ui/lib/templates/ExploreTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -17,7 +17,7 @@ export default meta;
 const Template: StoryFn<ExploreTemplateProps> = (props) => {
   const [q, setQueryChange] =
     React.useState<SearchEventsQueryInputNoPagination>({
-      hash: `query-${Math.random() * 100}`,
+      hash: `query-${(Math.random() * 100).toString()}`,
       startDate: undefined,
       endDate: formatDate(new Date()),
       actors: [],

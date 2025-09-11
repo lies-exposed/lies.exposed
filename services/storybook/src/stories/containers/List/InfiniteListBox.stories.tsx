@@ -1,14 +1,15 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
-import MediaElement from "@liexp/ui/lib/components/Media/MediaElement";
-import { ActorListItem } from "@liexp/ui/lib/components/lists/ActorList";
-import { AreaListItem } from "@liexp/ui/lib/components/lists/AreaList";
+/* eslint-disable */
+import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import MediaElement from "@liexp/ui/lib/components/Media/MediaElement.js";
+import { ActorListItem } from "@liexp/ui/lib/components/lists/ActorList.js";
+import { AreaListItem } from "@liexp/ui/lib/components/lists/AreaList.js";
 import {
   InfiniteListBox,
   type InfiniteListBoxProps,
   type ListType,
-} from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteListBox";
-import { type CellRendererProps } from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteMasonry";
-import { type Meta, type StoryFn } from "@storybook/react";
+} from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteListBox.js";
+import { type CellRendererProps } from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteMasonry.js";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -39,14 +40,14 @@ const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
     },
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
-      ({ item, measure, index, style, ...others }, ref) => {
+      ({ item, measure, index, style, columnWidth, ...others }, ref) => {
         // console.log("row render", style);
 
         return (
-          <div ref={ref} style={style}>
+          <div ref={ref} style={{ ...style, width: columnWidth }}>
             <MediaElement
               media={item}
-              style={{ maxWidth: 200, maxHeight: 300 }}
+              style={{ maxWidth: columnWidth, maxHeight: style?.height ?? 300 }}
               itemStyle={{ maxWidth: "100%", maxHeight: "100%" }}
               onLoad={measure}
               disableZoom
@@ -75,18 +76,16 @@ const infiniteAreaListBoxExampleArgs: InfiniteListBoxProps<
     },
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
-      ({ item, measure, index, style, ...others }, ref) => {
+      ({ item, measure, index, style, columnWidth, ...others }, ref) => {
         // console.log("row render", others);
 
-        React.useEffect(() => {
-          measure();
-        }, []);
         return (
-          <div ref={ref} style={style}>
+          <div ref={ref} style={{ ...style, width: columnWidth }}>
             <AreaListItem
               item={item}
               style={{ height: 300 }}
               defaultImage="https://placekitten.com/600/500"
+              onLoad={measure}
             />
           </div>
         );
@@ -111,11 +110,11 @@ const infiniteActorListBoxArgs: InfiniteListBoxProps<
     },
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
-      ({ item, measure, index, style, ...others }, ref) => {
+      ({ item, measure, index, style, columnWidth, ...others }, ref) => {
         // console.log("row render", others);
 
         return (
-          <div ref={ref} style={style}>
+          <div ref={ref} style={{ ...style, width: columnWidth }}>
             <ActorListItem
               item={{ ...item, selected: true }}
               displayFullName

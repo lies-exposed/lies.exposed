@@ -2,7 +2,7 @@ import EventSlimCard, {
   type EventSlimCardProps,
 } from "@liexp/ui/lib/components/Cards/Events/EventSlimCard.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

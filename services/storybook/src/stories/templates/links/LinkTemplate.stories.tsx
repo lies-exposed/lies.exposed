@@ -3,17 +3,17 @@ import {
   LinkTemplateUI,
   type LinkTemplateUIProps,
 } from "@liexp/ui/lib/templates/links/LinkTemplateUI.js";
-import { type StoryFn, type Meta } from "@storybook/react";
+import { type StoryFn, type Meta } from "@storybook/react-vite";
 import * as React from "react";
 
-const meta: Meta<LinkTemplateUIProps> = {
+const meta = {
   title: "Templates/Links/Page",
   component: LinkTemplateUI,
-};
+} satisfies Meta<LinkTemplateUIProps>;
 
 export default meta;
 
-const Template: StoryFn<LinkTemplateUIProps> = (props) => {
+const Template: StoryFn<LinkTemplateUIProps> = () => {
   const [tab, setTab] = React.useState(0);
   // const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
   //   hash: `query-${Math.random() * 100}`,

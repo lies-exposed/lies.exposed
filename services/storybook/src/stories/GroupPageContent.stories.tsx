@@ -4,7 +4,7 @@ import {
 } from "@liexp/ui/lib/components/GroupPageContent.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

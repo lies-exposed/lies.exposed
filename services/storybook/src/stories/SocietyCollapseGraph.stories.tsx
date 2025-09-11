@@ -1,9 +1,5 @@
-import {
-  SocietyCollapseForecastGraphContainer as SocietyCollapseForecastGraph,
-  type SocietyCollapseForecastGraphProps,
-} from "@liexp/ui/lib/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph.js";
-import { type Meta, type StoryFn } from "@storybook/react";
-import * as React from "react";
+import { SocietyCollapseForecastGraphContainer as SocietyCollapseForecastGraph } from "@liexp/ui/lib/components/Graph/SocietyCollapseForecastGraph/SocietyCollapseForecastGraph.js";
+import { type Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
   title: "Components/Graph/SocietyCollapseForecastGraph",
@@ -15,13 +11,10 @@ const meta: Meta = {
       },
     },
   },
-};
+} satisfies Meta;
+
 export default meta;
 
-const Template: StoryFn<SocietyCollapseForecastGraphProps> = (args) => (
-  <SocietyCollapseForecastGraph {...args} />
-);
-
-export const SocietyCollapseForecastGraphExample = Template.bind({});
-
-SocietyCollapseForecastGraphExample.args = {};
+export const SocietyCollapseForecastGraphExample = {
+  args: {},
+};

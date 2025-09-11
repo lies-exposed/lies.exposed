@@ -2,7 +2,7 @@ import {
   BNEditor,
   type BNEditorProps,
 } from "@liexp/ui/lib/components/Common/BlockNote/index.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<BNEditorProps> = ({ readOnly, content }) => {
-  const [blocks, setBlocks] = React.useState<any[]>(content ?? []);
+  const [blocks, setBlocks] = React.useState(content ?? []);
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <BNEditor readOnly={readOnly} content={blocks} onChange={setBlocks} />
@@ -22,8 +22,11 @@ const Template: StoryFn<BNEditorProps> = ({ readOnly, content }) => {
   );
 };
 
-export const BlockNoteEditorExample = Template.bind({});
-BlockNoteEditorExample.args = {
-  readOnly: false,
-  content: [],
+export const BlockNoteEditorExample = {
+  render: Template,
+
+  args: {
+    readOnly: false,
+    content: [],
+  },
 };

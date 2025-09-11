@@ -4,6 +4,6 @@ import * as React from "react";
 export const JSONAPIProviderContext = React.createContext(
   APIRESTClient({
     // todo: should be the endpoint of space storage
-    url: "https://alpha.api.lies.exposed/v1",
+    url: "https://api.lies.exposed/v1",
   }),
 );

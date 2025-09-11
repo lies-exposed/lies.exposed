@@ -8,7 +8,7 @@ import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventTimelineItem, {
   type EventTimelineItemProps,
 } from "@liexp/ui/lib/components/lists/EventList/EventTimelineItem.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

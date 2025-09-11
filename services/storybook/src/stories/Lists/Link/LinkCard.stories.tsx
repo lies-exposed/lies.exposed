@@ -2,7 +2,7 @@ import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import LinkCard, {
   type LinkCardProps,
 } from "@liexp/ui/lib/components/Cards/LinkCard.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import fc from "fast-check";
 import * as React from "react";
 

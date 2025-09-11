@@ -2,9 +2,7 @@ import tseslint from "typescript-eslint";
 import reactEslintConfig from "@liexp/core/lib/eslint/react.config.js";
 
 export default tseslint.config(...reactEslintConfig, {
-  files: [
-    "src/**/*.ts",
-    "src/**/*.tsx"],
+  files: ["src/**/*.ts", "src/**/*.tsx"],
   languageOptions: {
     parserOptions: {
       project: ["./tsconfig.json"],

@@ -83,6 +83,7 @@ const MediaElement: React.FC<MediaElementProps> = ({
             itemStyle={itemStyle}
             className={clsx(classes.item, itemClassName)}
             media={{ ...media, type: Media.IframeVideoType.literals[0] }}
+            fallbackImage={fallbackImage}
           />
         );
       case Media.PDFType.Type: {

@@ -4,7 +4,7 @@ import {
   AreaPageContent,
   type AreaPageContentProps,
 } from "@liexp/ui/lib/components/area/AreaPageContent.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {

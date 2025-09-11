@@ -1,7 +1,7 @@
 import MediaSearchPageUI, {
   type MediaSearchTemplateProps,
 } from "@liexp/ui/lib/templates/MediaSearchTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<MediaSearchTemplateProps> = (props) => {
-  const [f, setFilter] = React.useState(props.filter as any);
+  const [f, setFilter] = React.useState(props.filter);
 
   return <MediaSearchPageUI {...props} filter={f} onFilterChange={setFilter} />;
 };

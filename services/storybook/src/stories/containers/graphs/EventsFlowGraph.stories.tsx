@@ -1,3 +1,4 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
 import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
@@ -6,7 +7,7 @@ import {
   EventsFlowGraphBox,
   type EventsFlowGraphBoxProps,
 } from "@liexp/ui/lib/containers/graphs/EventsFlowGraphBox.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import { subYears } from "date-fns";
 import * as React from "react";
 
@@ -18,6 +19,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [item, setActor] = React.useState<any>(id ? { id } : undefined);
 
   const AutocompleteItemInput = React.useMemo(() => {
@@ -37,13 +39,13 @@ const Template: StoryFn<EventsFlowGraphBoxProps> = ({ type, id }) => {
         selectedItems={item ? [item] : []}
         discrete={false}
         onChange={(actors) => {
-          setActor(actors?.[0]);
+          setActor(actors[0]);
         }}
       />
-      {item ? (
+      {item?.id ? (
         <EventsFlowGraphBox
           type={type}
-          id={item.id}
+          id={item.id as UUID}
           query={{
             [type]: [item.id],
             startDate: subYears(new Date(), 5).toISOString(),
@@ -74,7 +76,7 @@ GroupEventsFlowGraphExample.args = {
 const KeywordEventsFlowGraphExample = Template.bind({});
 KeywordEventsFlowGraphExample.args = {
   type: "keywords",
-  id: "eb5333a7-87c6-47d0-b259-fc8e95da2c97" as any,
+  id: "eb5333a7-87c6-47d0-b259-fc8e95da2c97" as UUID,
 };
 
 export {

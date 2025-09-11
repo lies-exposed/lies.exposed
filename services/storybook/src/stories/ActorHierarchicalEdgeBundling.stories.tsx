@@ -1,9 +1,5 @@
-import {
-  ActorHierarchyEdgeBundlingGraph,
-  type ActorHierarchyEdgeBundlingGraphProps,
-} from "@liexp/ui/lib/components/Graph/ActorHierarchyEdgeBundlingGraph.js";
-import { type Meta, type StoryFn } from "@storybook/react";
-import * as React from "react";
+import { ActorHierarchyEdgeBundlingGraph } from "@liexp/ui/lib/components/Graph/ActorHierarchyEdgeBundlingGraph.js";
+import { type Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
   title: "Components/Graph/HierarchicalEdgeBundling",
@@ -19,12 +15,9 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template: StoryFn<ActorHierarchyEdgeBundlingGraphProps> = (args) => (
-  <ActorHierarchyEdgeBundlingGraph {...args} />
-);
-
-export const ActorHierarchyEdgeBundlingExample = Template.bind({});
-ActorHierarchyEdgeBundlingExample.args = {
-  actor: "1bde0d49-03a1-411d-9f18-2e70a722532b",
-  width: 600,
+export const ActorHierarchyEdgeBundlingExample = {
+  args: {
+    actor: "1bde0d49-03a1-411d-9f18-2e70a722532b",
+    width: 600,
+  },
 };

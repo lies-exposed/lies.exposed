@@ -2,7 +2,7 @@ import { MainContent } from "@liexp/ui/lib/components/MainContent.js";
 import EventSliderModal, {
   type EventSliderModalProps,
 } from "@liexp/ui/lib/components/Modal/EventSliderModal.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta<EventSliderModalProps> = {

@@ -1,7 +1,7 @@
 import SuggestLinkButton, {
   type SuggestLinkButtonProps,
 } from "@liexp/ui/lib/components/Common/Button/SuggestLinkButton.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta<SuggestLinkButtonProps> = {
@@ -12,7 +12,7 @@ const meta: Meta<SuggestLinkButtonProps> = {
 
 export default meta;
 
-const Template: StoryFn<SuggestLinkButtonProps> = ({ ...props }) => {
+const Template: StoryFn<SuggestLinkButtonProps> = () => {
   return <SuggestLinkButton />;
 };
 

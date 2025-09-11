@@ -5,7 +5,7 @@ import {
   KeywordTemplate,
   type KeywordTemplateProps,
 } from "@liexp/ui/lib/templates/KeywordTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta<KeywordTemplateProps> = {
@@ -19,7 +19,7 @@ export default meta;
 const Template: StoryFn<KeywordTemplateProps> = (props) => {
   const [q, setQueryChange] =
     React.useState<SearchEventsQueryInputNoPagination>({
-      hash: `query-${Math.random() * 100}`,
+      hash: `query-${(Math.random() * 100).toString()}`,
       startDate: undefined,
       endDate: new Date().toDateString(),
       actors: [],

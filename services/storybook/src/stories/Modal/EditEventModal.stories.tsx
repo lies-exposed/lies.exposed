@@ -1,5 +1,5 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
-import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event";
+import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
@@ -11,7 +11,7 @@ import {
 } from "@liexp/ui/lib/components/Modal/EditEventModal.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { Button, Box } from "@liexp/ui/lib/components/mui/index.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta<EditEventModalProps> = {
@@ -22,7 +22,7 @@ const meta: Meta<EditEventModalProps> = {
 
 export default meta;
 
-const Template: StoryFn<EditEventModalProps> = ({ ...props }) => {
+const Template: StoryFn<EditEventModalProps> = () => {
   const [{ start, end }, setStartEnd] = React.useState({
     start: 0,
     end: 1,

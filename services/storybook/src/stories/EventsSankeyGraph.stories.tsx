@@ -3,7 +3,7 @@ import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,
 } from "@liexp/ui/lib/components/Graph/EventsSankeyGraph.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";

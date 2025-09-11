@@ -4,7 +4,7 @@ import {
   MediaSlider,
   type MediaSliderProps,
 } from "@liexp/ui/lib/components/sliders/MediaSlider.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -20,7 +20,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<Omit<MediaSliderProps, "media"> & { id: string }> = ({
-  id,
+  id: _id,
   ...props
 }) => {
   return (

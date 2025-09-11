@@ -3,7 +3,7 @@ import {
   LinksList,
   type LinksListProps,
 } from "@liexp/ui/lib/components/lists/LinkList.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import fc from "fast-check";
 import * as React from "react";
 
@@ -21,7 +21,7 @@ const Template: StoryFn<LinksListProps> = (props) => {
 const LinkCardExample = Template.bind({});
 
 const args: LinksListProps = {
-  links: fc.sample(LinkArb, 10).map((l: any) => ({ ...l, selected: false })),
+  links: fc.sample(LinkArb, 10).map((l) => ({ ...l, selected: false })),
   column: 2,
   onItemClick: () => undefined,
 };

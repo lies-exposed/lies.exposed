@@ -4,7 +4,7 @@ import {
   ActorTemplate,
   type ActorTemplateProps,
 } from "@liexp/ui/lib/templates/ActorTemplate.js";
-import { type Meta, type StoryFn } from "@storybook/react";
+import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
@@ -16,9 +16,9 @@ const meta: Meta = {
 export default meta;
 
 const Template: StoryFn<ActorTemplateProps> = (props) => {
-  const [tab, setTab] = React.useState(props.tab ?? 0);
+  const [tab, setTab] = React.useState(props.tab);
   const [q, setQ] = React.useState<SearchEventsQueryInputNoPagination>({
-    hash: `query-${Math.random() * 100}`,
+    hash: `query-${(Math.random() * 100).toString()}`,
   });
   return (
     <>
