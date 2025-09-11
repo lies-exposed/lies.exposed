@@ -29,7 +29,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
-    "@mui/material": "^7.1.1",
+    "@mui/material": "^7.3.2",
     "@storybook/addon-docs": "^9.1.5",
     "@storybook/addon-links": "^9.1.5",
     "@storybook/builder-vite": "^9.1.5",
