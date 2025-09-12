@@ -62,29 +62,12 @@
     "minimist": "^1.2.8",
     "react-dnd": "^15",
     "react-dnd-html5-backend": "^15",
-    "react-is": "^18",
-    "wink-nlp": "^2.3.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
-      "@ts-endpoint/http-client": "file:patches/ts-endpoint-http-client-0.1.0.tgz",
-      "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
-      "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
-      "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
-      "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "exifreader",
-      "sharp"
-    ],
-    "ignoredBuiltDependencies": [
-      "@parcel/watcher",
-      "cpu-features",
-      "protobufjs",
-      "ssh2",
-      "unrs-resolver"
-    ]
+    "wink-nlp": "^2.3.0",
+    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
+    "@ts-endpoint/http-client": "file:patches/ts-endpoint-http-client-0.1.0.tgz",
+    "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
+    "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
+    "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
+    "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz"
   }
 }
