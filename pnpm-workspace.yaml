@@ -10,12 +10,23 @@ packages:
 onlyBuiltDependencies:
   - exifreader
   - esbuild
+  - sharp
+
+ignoredBuiltDependencies:
+  - "@parcel/watcher"
+  - cpu-features
+  - protobufjs
+  - ssh2
+  - unrs-resolver
 
 publicHoistPattern:
   - "*vite*"
   - "*rollup*"
   - "*eslint*"
   - "*prettier*"
+
+overrides:
+  "react-is": "^18"
 
 nodeLinker: hoisted
 linkWorkspacePackages: deep
