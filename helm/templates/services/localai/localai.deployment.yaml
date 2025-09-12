@@ -4,7 +4,7 @@ metadata:
   name: localai
   namespace: {{ .Release.Namespace }}
 {{ tuple . "localai" | include "localai.labels" | indent 2 }}
-
+    intel.feature.node.kubernetes.io/gpu: "true"
 spec:
   replicas: 1
   selector:
@@ -13,15 +13,17 @@ spec:
   template:
     metadata:
 {{ tuple . "localai" | include "localai.labels" | indent 6 }}
+        intel.feature.node.kubernetes.io/gpu: "true"
+
     spec:
       containers:
         - name: localai
           envFrom:
           - configMapRef:
               name: localai-env
-          # image: localai/localai:master-aio-gpu-intel
+          image: localai/localai:master-aio-gpu-intel
           # image: localai/localai:latest-aio-cpu
-          image: localai/localai:master-aio-cpu
+          # image: localai/localai:master-aio-cpu
           # image: localai/localai:v3.3.2-aio-cpu
           imagePullPolicy: Always
           # livenessProbe:
@@ -46,9 +48,11 @@ spec:
             limits:
               memory: 8Gi
               cpu: 4000m
+              gpu.intel.com/i915: 1
             requests:
               memory: 4Gi
               cpu: 1000m
+              gpu.intel.com/i915: 1
       restartPolicy: Always
       volumes:
         - name: localai-models-pv
