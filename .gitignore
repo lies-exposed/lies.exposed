@@ -74,3 +74,7 @@ helm/config/env
 # LocalAI
 localai/models
 localai/backends
+
+# Aider configuration
+.aider.*
+.aider*
