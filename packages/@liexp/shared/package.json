@@ -48,7 +48,7 @@
     "eslint": "^9.35.0",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
-    "pdfjs-dist": "^5.2.133",
+    "pdfjs-dist": "^5.4.149",
     "react-admin": "^5.11.2",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",

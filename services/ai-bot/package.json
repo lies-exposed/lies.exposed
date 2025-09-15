@@ -43,7 +43,7 @@
     "effect": "^3.14.18",
     "fp-ts": "^2.16.10",
     "langchain": "^0.3.33",
-    "pdfjs-dist": "^5.2.133",
+    "pdfjs-dist": "^5.4.149",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
