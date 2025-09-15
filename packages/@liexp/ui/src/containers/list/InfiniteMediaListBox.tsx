@@ -48,28 +48,18 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
             ) => {
               // console.log("row render", columnWidth, index, style);
 
-              React.useEffect(() => {
-                measure();
-                return () => {
-                  // console.log("should call on row invalidate");
-                  // onRowInvalidate?.();
-                };
-              }, [style?.width, style?.height]);
-
               return (
-                <div ref={ref} style={style}>
+                <div ref={ref} style={{ ...style, width: columnWidth }}>
                   <MediaElement
                     media={item}
                     style={{
-                      width: columnWidth,
-                      height: "100%",
+                      maxWidth: columnWidth,
+                      maxHeight: style?.height ?? 300,
                     }}
-                    itemStyle={{ maxWidth: columnWidth, maxHeight: "100%" }}
+                    itemStyle={{ maxWidth: "100%", maxHeight: "100%" }}
                     disableZoom
                     onClick={() => onMediaClick?.(item)}
-                    onLoad={() => {
-                      measure();
-                    }}
+                    onLoad={measure}
                   />
                 </div>
               );

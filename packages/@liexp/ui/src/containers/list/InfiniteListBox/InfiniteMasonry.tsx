@@ -164,7 +164,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     <StyledMasonry
       ref={(r) => {
         masonryRef = r;
-        r = ref as any;
+        // r = ref as any;
       }}
       {...props}
       width={width}
@@ -177,18 +177,22 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       onCellsRendered={({ startIndex, stopIndex }) => {
         props.onCellsRendered?.({ startIndex, stopIndex });
       }}
-      cellRenderer={({ key, ...rest }) => {
-        const item = getItem(items, rest.index);
-        const isLast = items.length === rest.index + 1;
+      cellRenderer={({ key, index, ...rest }) => {
+        const item = getItem(items, index);
+        const isLast = items.length === index + 1;
         return (
           <Cell
             {...rest}
-            key={key}
+            index={index}
+            key={item.id}
             k={item.id}
             item={item}
             isLast={isLast}
             CellRenderer={CellRenderer}
             columnWidth={columnWidth}
+            onRowInvalidate={() => {
+              cellCache.clear(index, 0);
+            }}
           />
         );
       }}
