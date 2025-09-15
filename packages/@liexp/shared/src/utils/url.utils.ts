@@ -30,7 +30,7 @@ const encodeWithSpaceEndpoint = (url: string): string => {
     return `https:${url}`;
   }
 
-  return url;
+  return `https://${url}`;
 };
 
 export const ensureHTTPProtocol = (url: string): URL => {
