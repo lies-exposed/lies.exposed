@@ -57,7 +57,7 @@
     "eslint": "^9.35.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "eslint-plugin-storybook": "9.1.5"
+    "eslint-plugin-storybook": "9.1.6"
   },
   "peerDependencies": {
     "storybook": "^9.1.5"
