@@ -123,7 +123,7 @@
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "axios": "^1.9.0",
-    "effect": "^3.14.18",
+    "effect": "^3.17.13",
     "eslint": "^9.35.0",
     "fp-ts": "^2.16.10",
     "openai": "^5.20.2",
