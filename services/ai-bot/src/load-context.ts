@@ -45,7 +45,7 @@ export const loadContext = (
         configProvider({ fs }),
         fp.TE.bind("localAIURL", (config) => {
           return pipe(
-            env.LOCAL_AI_URL,
+            env.LOCALAI_URL,
             fp.O.getOrElse(() => config.config.localAi.url),
             fp.TE.right<AIBotError, string>,
           );
@@ -61,7 +61,7 @@ export const loadContext = (
           const timeout = pipe(
             fp.O.fromNullable(_timeout),
             fp.O.alt(() => env.LOCALAI_TIMEOUT),
-            fp.O.getOrElse(() => 60 * 3_600),
+            fp.O.getOrElse(() => 3_600), // 1 hour
           );
 
           return {
@@ -85,15 +85,19 @@ export const loadContext = (
           "CF-Access-Client-Id": env.CF_ACCESS_CLIENT_ID,
           "CF-Access-Client-Secret": env.CF_ACCESS_CLIENT_SECRET,
         }),
-        fp.O.map((headers) => ({
-          ...headers,
-          Cookie: `token=${env.LOCALAI_API_KEY}`,
-        })),
-        fp.O.toUndefined,
-        fp.TE.right<AIBotError, Record<string, string> | undefined>,
+        fp.O.getOrElse(() => ({})),
+        fp.TE.right<AIBotError, HeadersInit>,
       );
     }),
-    fp.TE.bind("langchain", ({ config, localaiHeaders }) =>
+    fp.TE.bind("headers", ({ localaiHeaders, env }) =>
+      fp.TE.right({
+        ...localaiHeaders,
+        Accept: "application/json",
+        "content-type": "application/json",
+        Cookie: `token=${env.LOCALAI_API_KEY}`,
+      }),
+    ),
+    fp.TE.bind("langchain", ({ config, headers }) =>
       fp.TE.right(
         GetLangchainProvider({
           baseURL: config.config.localAi.url,
@@ -106,32 +110,36 @@ export const loadContext = (
           options: {
             chat: {
               timeout: config.config.localAi.timeout,
+              // useResponsesApi: true,
               configuration: {
-                defaultHeaders: localaiHeaders,
+                defaultHeaders: headers,
                 fetchOptions: {
-                  headers: localaiHeaders as any,
+                  headers: headers as any,
                 },
               },
             },
             embeddings: {
               timeout: config.config.localAi.timeout,
               configuration: {
-                defaultHeaders: localaiHeaders,
+                defaultHeaders: headers,
+                fetchOptions: {
+                  headers: headers as any,
+                },
               },
             },
           },
         }),
       ),
     ),
-    fp.TE.bind("openAI", ({ config, localaiHeaders }) =>
+    fp.TE.bind("openAI", ({ config, headers }) =>
       fp.TE.right(
         GetOpenAIProvider({
           baseURL: config.config.localAi.url,
           apiKey: config.config.localAi.apiKey,
           timeout: config.config.localAi.timeout,
-          defaultHeaders: localaiHeaders,
+          defaultHeaders: headers,
           fetchOptions: {
-            headers: localaiHeaders as any,
+            headers: headers as any,
           },
         }),
       ),
