@@ -20,6 +20,7 @@ export default {
         "worker",
         "ai-bot",
         "storybook",
+        "localai"
       ],
     ],
     "type-enum": [
