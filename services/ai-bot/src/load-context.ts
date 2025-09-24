@@ -61,7 +61,7 @@ export const loadContext = (
           const timeout = pipe(
             fp.O.fromNullable(_timeout),
             fp.O.alt(() => env.LOCALAI_TIMEOUT),
-            fp.O.getOrElse(() => 3_600), // 1 hour
+            fp.O.getOrElse(() => 3_600 * 1000), // 1 hour
           );
 
           return {
