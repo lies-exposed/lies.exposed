@@ -848,6 +848,9 @@ importers:
       langchain:
         specifier: ^0.3.34
         version: 0.3.34(@langchain/anthropic@0.3.8(@langchain/core@0.3.77(openai@5.23.0(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.77(openai@5.23.0(ws@8.18.3)(zod@3.25.76)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.0(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+      openai:
+        specifier: ^5.20.2
+        version: 5.23.0(ws@8.18.3)(zod@3.25.76)
       pdfjs-dist:
         specifier: ^5.4.149
         version: 5.4.149

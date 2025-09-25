@@ -97,43 +97,62 @@ const langchainLogger = GetLogger("langchain");
 export const GetLangchainProvider = (
   opts: LangchainProviderOptions,
 ): LangchainProvider => {
-  const chatModel = opts.models?.chat ?? "gpt-4o";
+  const defaultChatModel = opts.models?.chat ?? "gpt-4o";
 
   const options = {
     ...opts,
   };
 
-  const chat = new ChatOpenAI({
-    model: chatModel,
-    temperature: 0,
-    apiKey: opts.apiKey,
-    timeout: 60 * 30 * 1000, // 30 minutes
-    maxConcurrency: 1,
-    maxRetries: 2,
-    streamUsage: false,
-    ...opts.options?.chat,
-    configuration: {
-      baseURL: opts.baseURL,
-      ...opts.options?.chat?.configuration,
-    },
-  });
+  const makeChat = (
+    model: string,
+    chatOptions: ChatOpenAIFields = {},
+  ): ChatOpenAI => {
+    return new ChatOpenAI({
+      model,
+      temperature: 0,
+      apiKey: opts.apiKey,
+      timeout: 60 * 30 * 1000, // 30 minutes
+      maxConcurrency: 1,
+      maxRetries: 2,
+      streaming: false,
+      ...opts.options?.chat,
+      ...chatOptions,
+      configuration: {
+        baseURL: opts.baseURL,
+        ...opts.options?.chat.configuration,
+        ...chatOptions.configuration,
+      },
+    });
+  };
+
+  const makeEmbedding = (
+    model: string,
+    embeddingOpts: ConstructorParameters<typeof OpenAIEmbeddings>[0] = {},
+  ): OpenAIEmbeddings => {
+    return new OpenAIEmbeddings({
+      model,
+      modelName: model,
+      apiKey: opts.apiKey,
+      timeout: 60 * 60 * 1000, // 1h,
+      ...opts.options?.embeddings,
+      ...embeddingOpts,
+      configuration: {
+        baseURL: opts.baseURL,
+        ...opts.options?.embeddings.configuration,
+        ...embeddingOpts?.configuration,
+      },
+    });
+  };
+
+  const chat = makeChat(defaultChatModel);
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
 
-  const embeddings = new OpenAIEmbeddings({
-    model: embeddingsModel,
-    apiKey: opts.apiKey,
-    timeout: 60 * 30 * 1000, // 30 minutes,
-    ...opts.options?.embeddings,
-    configuration: {
-      baseURL: opts.baseURL,
-      ...opts.options?.embeddings?.configuration,
-    },
-  });
+  const embeddings = makeEmbedding(embeddingsModel);
 
   langchainLogger.info.log(
     "LangchainProvider initialized with chat model %s and embedding model %s",
-    chatModel,
+    defaultChatModel,
     embeddingsModel,
   );
 
@@ -142,10 +161,9 @@ export const GetLangchainProvider = (
     chat,
     embeddings,
     queryDocument: async (content, question, options) => {
-      const model =
-        options?.model ?? opts.models?.embeddings ?? "text-embedding-ada-002";
+      const model = options?.model ?? embeddingsModel;
 
-      const chatModel = options?.model ?? opts.models?.chat ?? "gpt-4o";
+      const chatModel = options?.model ?? defaultChatModel;
 
       langchainLogger.info.log(
         "queryDocument use embedding model %s to query document with size %d using chat model %s",
@@ -154,26 +172,9 @@ export const GetLangchainProvider = (
         chatModel,
       );
 
-      const chat = new ChatOpenAI({
-        model: chatModel,
-        temperature: 0,
-        apiKey: opts.apiKey,
-        configuration: {
-          baseURL: opts.baseURL,
-          ...opts.options?.chat.configuration,
-        },
-        streaming: true,
-      });
+      const chat = makeChat(chatModel);
 
-      const embeddings = new OpenAIEmbeddings({
-        model,
-        apiKey: opts.apiKey,
-        timeout: 60 * 30 * 1000, // 30 minutes
-        configuration: {
-          baseURL: opts.baseURL,
-          ...opts.options?.embeddings.configuration,
-        },
-      });
+      const embeddings = makeEmbedding(model, { model: options?.model });
 
       const textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
@@ -223,15 +224,7 @@ export const GetLangchainProvider = (
       const model = options?.model ?? opts.models?.chat ?? "gpt-4o";
       const prompt = options?.prompt ?? DEFAULT_SUMMARIZE_PROMPT;
 
-      const chat = new ChatOpenAI({
-        model,
-        apiKey: opts.apiKey,
-        temperature: 0,
-        configuration: {
-          baseURL: opts.baseURL,
-        },
-        streaming: true,
-      });
+      const chat = makeChat(model);
 
       const textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,

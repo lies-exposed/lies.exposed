@@ -7,13 +7,13 @@ import { type CommandFlow } from "./CommandFlow.js";
 export const chatCommand: CommandFlow = async (ctx, args) => {
   return pipe(
     fp.TE.tryCatch(async () => {
-      const result = await ctx.langchain.chat
+      const stream = await ctx.langchain.chat
         .withConfig({
           reasoning: {
             effort: "minimal",
           },
         })
-        .invoke([
+        .stream([
           {
             role: "system",
             content:
@@ -25,7 +25,12 @@ export const chatCommand: CommandFlow = async (ctx, args) => {
           },
         ]);
 
-      ctx.logger.info.log(`Message: %O`, result.toJSON());
+      let result = "";
+      for await (const chunk of stream) {
+        result += chunk.content as string;
+      }
+
+      ctx.logger.info.log(`Message: %O`, result);
     }, toAIBotError),
     throwTE,
   );
