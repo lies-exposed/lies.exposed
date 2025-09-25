@@ -78,7 +78,7 @@ export interface LangchainProvider {
   chat: ChatOpenAI;
   embeddings: OpenAIEmbeddings;
   queryDocument: <Args extends { text: string; question?: string }>(
-    url: LangchainDocument[],
+    docs: LangchainDocument[],
     question: string,
     options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
   ) => Promise<string>;
@@ -102,6 +102,7 @@ export const GetLangchainProvider = (
   const options = {
     ...opts,
   };
+
   const chat = new ChatOpenAI({
     model: chatModel,
     temperature: 0,

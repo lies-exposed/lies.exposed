@@ -36,7 +36,7 @@ export const updateEventFromDocuments = <
       "model",
       () => (ctx) =>
         fp.TE.right(
-          ctx.langchain.chat.bind({
+          ctx.langchain.chat.withConfig({
             response_format: {
               type: "json_object",
             },

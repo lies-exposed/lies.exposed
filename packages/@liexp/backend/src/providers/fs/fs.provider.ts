@@ -71,7 +71,7 @@ export const GetFSClient = (ctx: GetFSClientContext): FSClient => {
   };
 
   const getObject: FSClient["getObject"] = (filePath) => {
-    fsLogger.debug.log("Getting object from path %s", filePath);
+    // fsLogger.debug.log("Getting object from path %s", filePath);
     return pipe(
       fp.IOE.tryCatch(
         () => ctx.client.readFileSync(filePath, "utf-8"),

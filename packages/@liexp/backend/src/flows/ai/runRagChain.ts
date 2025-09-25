@@ -39,30 +39,49 @@ export const runRagChain =
     }, toAPIError);
   };
 
-export const runRagChainStream =
+export const runRagChainStream = <
+  C extends LangchainContext & LoggerContext = LangchainContext & LoggerContext,
+>(
+  inputs: RunnableLike,
+  chain: RunnableLike,
+  question: string,
+  mode: "stream" | "invoke" = "stream",
+): ReaderTaskEither<C, APIError, string> => {
+  return runRunnableSequence(
+    RunnableSequence.from([
+      { ...inputs, question: new RunnablePassthrough() },
+      chain,
+    ]),
+    question,
+    mode,
+  );
+};
+
+export const runRunnableSequence =
   <
     C extends LangchainContext & LoggerContext = LangchainContext &
       LoggerContext,
   >(
-    inputs: RunnableLike,
-    chain: RunnableLike,
+    inputs: RunnableSequence,
     question: string,
+    mode: "stream" | "invoke" = "stream",
   ): ReaderTaskEither<C, APIError, string> =>
   (ctx) => {
     return fp.TE.tryCatch(async () => {
-      const ragChain = RunnableSequence.from([
-        { ...inputs, question: new RunnablePassthrough() },
-        chain,
-      ]);
-
-      const stream = await ragChain.stream(question);
+      ctx.logger.debug.log("Running sequence in mode %s", mode);
 
       let output = "";
-      for await (const chunk of stream) {
-        output += chunk;
+      if (mode === "stream") {
+        const stream = await inputs.stream(question);
+
+        for await (const chunk of stream) {
+          output += chunk;
+        }
+      } else {
+        output = await inputs.invoke(question);
       }
 
-      ctx.logger.debug.log("RAG chain stream output %O", output);
+      ctx.logger.debug.log("Output %s", output);
 
       return output;
     }, toAPIError);

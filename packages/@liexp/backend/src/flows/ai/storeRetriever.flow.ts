@@ -24,6 +24,11 @@ export const getStoreRetriever =
         });
         const splits = await textSplitter.splitDocuments(documents);
 
+        ctx.logger.debug.log(
+          `Split documents into %d sub-documents.`,
+          splits.length,
+        );
+
         const vectorStore = await MemoryVectorStore.fromDocuments(
           splits,
           ctx.langchain.embeddings,
