@@ -17,7 +17,7 @@ export const chatCommand: CommandFlow = async (ctx, args) => {
           {
             role: "system",
             content:
-              "You are a helpful assistant that translates answer to the given message.",
+              "You are a helpful assistant that answers the given question.",
           },
           {
             role: "user",

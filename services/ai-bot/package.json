@@ -32,6 +32,7 @@
     "@aws-sdk/client-sts": "^3.895.0",
     "@langchain/community": "^0.3.56",
     "@langchain/core": "^0.3.77",
+    "@langchain/langgraph": "^0.4.9",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
