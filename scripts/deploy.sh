@@ -73,7 +73,7 @@ fi
 
 if [ "$api" = true ] || [ "$web" = true ] || [ "$tg_bot" = true ]; then
     # deploy docker
-    ./scripts/docker-deploy.sh "$HOST" "$username"
+    ./scripts/docker/test-deploy.sh "$HOST" "$username"
 fi
 
 if [ "$be_worker" = true ]; then
