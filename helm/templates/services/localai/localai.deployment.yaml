@@ -40,8 +40,8 @@ spec:
           volumeMounts:
             - name: localai-models-pv
               mountPath: /models
-            - name: localai-backends-pv
-              mountPath: /backends
+            # - name: localai-backends-pv
+            #   mountPath: /backends
           resources:
             limits:
               memory: 8Gi
@@ -54,6 +54,6 @@ spec:
         - name: localai-models-pv
           persistentVolumeClaim:
             claimName: localai-models-pv-claim
-        - name: localai-backends-pv
-          persistentVolumeClaim:
-            claimName: localai-backends-pv-claim
+        # - name: localai-backends-pv
+        #   persistentVolumeClaim:
+        #     claimName: localai-backends-pv-claim
