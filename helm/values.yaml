@@ -22,6 +22,7 @@ aiBot:
 db:
   host: db.liexp.dev
   port: 8432
+  dumpHostPath: /home/node/db/dump
 
 redis:
   host: redis.liexp-dev.svc.cluster.local

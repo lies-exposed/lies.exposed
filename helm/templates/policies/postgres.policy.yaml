@@ -27,6 +27,10 @@ spec:
       - podSelector:
           matchLabels:
             lies.exposed/name: worker
+      
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: db-dump
   egress:
     - to:
       - podSelector:
@@ -40,3 +44,7 @@ spec:
       - podSelector:
           matchLabels:
             lies.exposed/name: worker
+      
+      - podSelector:
+          matchLabels:
+            lies.exposed/name: db-dump

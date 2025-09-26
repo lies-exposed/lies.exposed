@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-dump-prune
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "db-dump-prune" | include "db.labels" | indent 2 }}
+spec:
+  schedule: {{ .Values.db.pruneSchedule | default "0 1 * * 1" | quote }} # Monday 01:00 UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 900
+      template:
+        metadata:
+{{ tuple . "db-dump-prune" | include "db.labels" | indent 10 }}
+        spec:
+          imagePullSecrets:
+            - name: ghcr-io-registry-auth
+          containers:
+            - name: db-dump-prune
+              image: alpine:3.18
+              command:
+                - sh
+                - -c
+                - |
+                  set -e -x
+                  cd /dump || { echo "Dump dir not present"; exit 0; }
+                  pattern="lies-exposed-db-*.sql"
+                  # list files most-recent-first, keep first 10, remove the rest
+                  files=$(ls -1t $pattern 2>/dev/null || true)
+                  if [ -z "$files" ]; then
+                    echo "No dump files found"
+                    exit 0
+                  fi
+                  to_delete=$(echo "$files" | tail -n +11 || true)
+                  if [ -z "$to_delete" ]; then
+                    echo "Nothing to prune; <=10 dumps present"
+                    exit 0
+                  fi
+                  echo "Pruning the following files:"
+                  echo "$to_delete"
+                  echo "$to_delete" | while read -r f; do rm -f -- "$f"; done
+                  echo "Prune completed"
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  memory: "128Mi"
+              volumeMounts:
+                - name: dump-host
+                  mountPath: /dump
+          restartPolicy: Never
+          volumes:
+            - name: dump-host
+              hostPath:
+                path: {{ .Values.db.dumpHostPath | quote }}
+                type: DirectoryOrCreate

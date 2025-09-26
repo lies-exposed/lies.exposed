@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-dump
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "db-dump" | include "db.labels" | indent 2 }}
+spec:
+  schedule: {{ .Values.db.dumpSchedule | default "0 23 * * 0" | quote }} # Every Sunday, 11pm UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 1800
+      template:
+        metadata:
+{{ tuple . "db-dump" | include "db.labels" | indent 10 }}
+        spec:
+          imagePullSecrets:
+            - name: ghcr-io-registry-auth
+          containers:
+            - name: db-dump
+              image: postgres:17
+              envFrom:
+                - configMapRef:
+                    name: db-env
+              command:
+                - sh
+                - -c
+                - |
+                  set -e -x
+                  TIMESTAMP="$(date +%Y%m%d%H%M%S)"
+                  FILE="/dump/lies-exposed-db-${TIMESTAMP}.sql"
+                  echo "Starting pg_dump -> ${FILE}"
+                  host={{ .Values.db.host }}
+                  pg_dump "user=$POSTGRES_USER password=$POSTGRES_PASSWORD port=5432 host=$host dbname=$POSTGRES_DB connect_timeout=30" -v -O -f "${FILE}"
+                  echo "Dump written to ${FILE}"
+              imagePullPolicy: IfNotPresent
+              resources:
+                limits:
+                  memory: "256Mi"
+              volumeMounts:
+                - name: dump-host
+                  mountPath: /dump
+          restartPolicy: Never
+          volumes:
+            - name: dump-host
+              hostPath:
+                path: {{ .Values.db.dumpHostPath | quote }}
+                type: DirectoryOrCreate
