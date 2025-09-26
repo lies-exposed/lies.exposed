@@ -7,6 +7,11 @@ const viteFinal: ViteFinal = async (config, { configType }) => {
     "@liexp/ui/lib/vite/plugins/react-virtualized.js"
   );
 
+  if (configType === "DEVELOPMENT") {
+    config.server!.allowedHosts = config.server?.allowedHosts ?? [];
+    (config.server!.allowedHosts as string[]).push("storybook.liexp.dev");
+  }
+
   const finalConfig = mergeConfig(config, {
     optimizeDeps: {
       entries: ["@liexp/core", "@liexp/shared", "@liexp/ui"],

@@ -21,7 +21,7 @@ export default meta;
 
 const Template: StoryFn<InfiniteListBoxProps<ListType, any>> = (props) => {
   return (
-    <div style={{ height: 600, position: "relative" }}>
+    <div style={{ height: 800, position: "relative" }}>
       <InfiniteListBox {...(props as any)} />
     </div>
   );
@@ -40,17 +40,17 @@ const args: InfiniteListBoxProps<"masonry", typeof Endpoints.Media.List> = {
     },
 
     CellRenderer: React.forwardRef<any, CellRendererProps>(
-      ({ item, measure, index, style, columnWidth, ...others }, ref) => {
-        // console.log("row render", style);
+      ({ item, measure, index, style, columnWidth, isLast, isScrolling, onRowInvalidate, ...others }, ref) => {
 
         return (
-          <div ref={ref} style={{ ...style, width: columnWidth }}>
+          <div ref={ref} style={{ ...style, width: columnWidth, height: '100%' }}>
             <MediaElement
               media={item}
-              style={{ maxWidth: columnWidth, maxHeight: style?.height ?? 300 }}
+              style={{ maxWidth: columnWidth, maxHeight: style?.height ?? 300, height: '100%' }}
               itemStyle={{ maxWidth: "100%", maxHeight: "100%" }}
               onLoad={measure}
               disableZoom
+              {...others}
             />
           </div>
         );
