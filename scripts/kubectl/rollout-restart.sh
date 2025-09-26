@@ -15,4 +15,4 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-kubectl --kubeconfig ~/.kube/$kubeconfig rollout restart deployments api ai-bot web admin worker storybook  --namespace $namespace
+kubectl --kubeconfig ~/.kube/$kubeconfig rollout restart deployments api ai-bot web admin-web worker storybook  --namespace $namespace
