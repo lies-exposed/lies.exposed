@@ -7,12 +7,14 @@ import { type ClientContext } from "../context.js";
 import { userLogin } from "../flows/userLogin.flow.js";
 import { loadContext } from "../load-context.js";
 import { type CommandFlow } from "./CommandFlow.js";
+import { agentCommand } from "./agent.command.js";
 import { chatCommand } from "./chat.command.js";
 import { processJobCommand } from "./process-job.command.js";
 
 const commands: Record<string, CommandFlow> = {
   "process-job": processJobCommand,
   chat: chatCommand,
+  agent: agentCommand,
 };
 
 const run = async ([command, ...args]: string[]): Promise<void> => {
