@@ -9,4 +9,4 @@ cd "$DIR" || exit
 sh ./scripts/helm/upgrade.sh
 
 # Restart deployments with kubectl
-sh ./scripts/kubectl/rollout-restart.sh
+sh ./scripts/kubectl/rollout-restart.sh "${@}"
