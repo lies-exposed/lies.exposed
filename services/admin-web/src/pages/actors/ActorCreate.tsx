@@ -9,13 +9,12 @@ import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
+import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
 import { ReferenceArrayNationInput } from "@liexp/ui/lib/components/admin/nations/ReferenceArrayNationInput.js";
 import {
   Create,
   DateInput,
   FormDataConsumer,
-  ImageField,
-  ImageInput,
   SelectInput,
   SimpleForm,
   TextInput,
@@ -43,36 +42,40 @@ export const transformActor =
 
     return pipe(
       fp.TE.Do,
-      fp.TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media>[]> => {
-        if (data.avatar?.rawFile) {
+      fp.TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media>> => {
+        if (data?.avatar?.rawFile) {
           return pipe(
             uploadImages(dataProvider)("actors", id, [
               { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
             ]),
+            fp.TE.map((avatar) => avatar[0]),
           );
         }
 
         if (Schema.is(Schema.String)(data.avatar)) {
-          return fp.TE.right([
-            {
-              location: data.avatar as URL,
-              type: contentTypeFromFileExt(data.avatar),
-            },
-          ]);
+          return fp.TE.right({
+            location: data.avatar as URL,
+            type: contentTypeFromFileExt(data.avatar),
+          });
         }
 
-        return fp.TE.right([data.avatar]);
+        return fp.TE.right(data.avatar);
       }),
       fp.TE.bind("avatarMedia", ({ avatar }) => {
-        if (Schema.is(UUID)(avatar[0].id)) {
-          return fp.TE.right({ id: avatar[0].id });
+        if (!avatar) {
+          return fp.TE.right(null);
         }
+
+        if (Schema.is(UUID)(avatar.id)) {
+          return fp.TE.right({ id: avatar.id });
+        }
+
         return pipe(
           fp.TE.tryCatch(
             () =>
               dataProvider.create("media", {
                 data: {
-                  ...avatar[0],
+                  ...avatar,
                   events: [],
                   links: [],
                   keywords: [],
@@ -91,7 +94,7 @@ export const transformActor =
         body: data.body,
         excerpt: data.excerpt,
         id,
-        avatar: avatarMedia.id,
+        avatar: avatarMedia?.id,
         memberIn: (data.memberIn ?? []).concat(
           newMemberIn.map((m: any) => ({
             ...m,
@@ -142,9 +145,7 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
                   />
                 </Grid>
                 <Grid size={{ sm: 12, md: 6 }}>
-                  <ImageInput source="avatar">
-                    <ImageField source="thumbnail" />
-                  </ImageInput>
+                  <ReferenceMediaInput source="avatar" fullWidth />
                 </Grid>
                 <Grid size={{ md: 12 }}>
                   <BlockNoteInput source="excerpt" onlyText={true} />
