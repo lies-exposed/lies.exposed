@@ -60,9 +60,10 @@ export const agentCommand: CommandFlow = async (ctx, args) => {
 
     const messages = [];
     for await (const chunk of agentFinalState) {
-      ctx.logger.debug.log(`Chunk %O`, chunk);
+      ctx.logger.debug.log(`Chunk %O`, chunk.agent.messages);
       messages.push(chunk);
     }
+    return messages;
   };
 
   const chat = async (ag: typeof agent) => {
