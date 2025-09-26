@@ -111,7 +111,6 @@ export const InfiniteListBox = <
     { _start: number; _end: number }
   >({
     initialPageParam: { _start: 0, _end: 20 },
-
     queryKey,
     queryFn: ({ queryKey, pageParam }) => {
       return query.fetch(
@@ -147,13 +146,10 @@ export const InfiniteListBox = <
   }, [data, filter]);
 
   const handleLoadMoreRows = React.useCallback(async () => {
-    if (hasNextPage && !(isFetchingNextPage || isRefetching)) {
-      // const pageParams = {
-      //   _start: props.startIndex,
-      //   _end: props.stopIndex + 1 - props.startIndex,
-      // } as any;
-      // console.log("handleLoadMoreRows", pageParams);
-      await fetchNextPage({ cancelRefetch: true });
+    if (hasNextPage && !isFetchingNextPage) {
+      if (!isRefetching) {
+        await fetchNextPage({ cancelRefetch: true });
+      }
     }
   }, [fetchNextPage, hasNextPage, isFetchingNextPage, isRefetching]);
 

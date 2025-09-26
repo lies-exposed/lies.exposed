@@ -115,7 +115,7 @@ export const MediaListItemCell: React.FC<MediaListItemProps> = ({
 
   const handleLoad = React.useCallback(
     (rect: DOMRect) => {
-      if (rect.height !== h) {
+      if (rect.height !== h && rect.height > 0 && rect.width > 0) {
         const newHeight = (rect.height * rect.width) / rect.width;
         setHeight(newHeight);
       }
