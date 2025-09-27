@@ -31,8 +31,8 @@ export const schema = BlockNoteSchema.create({
   },
   blockSpecs: {
     ...otherBlockSpecs,
-    media: mediaBlock,
-    event: eventBlock,
-    [LINK_BLOCK_PLUGIN_TYPE]: linkBlock,
+    media: mediaBlock(),
+    event: eventBlock(),
+    [LINK_BLOCK_PLUGIN_TYPE]: linkBlock(),
   },
 });

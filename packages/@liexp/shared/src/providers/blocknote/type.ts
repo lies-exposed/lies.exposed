@@ -1,16 +1,13 @@
 import {
-  type defaultStyleSpecs,
   type BlockNoteSchema,
-  type BlockSchema,
   type BlockSchemaFromSpecs,
   type BlockSpec,
-  type InlineContentSchema,
-  type InlineContentSchemaFromSpecs,
-  type InlineContentSpec,
-  type StyleSchema,
-  type StyleSchemaFromSpecs,
   type defaultBlockSpecs,
   type defaultInlineContentSpecs,
+  type defaultStyleSpecs,
+  type InlineContentSchemaFromSpecs,
+  type InlineContentSpec,
+  type StyleSchemaFromSpecs,
 } from "@blocknote/core";
 import { type EventBlockSpecs } from "./EventBlock.specs";
 import { type MediaBlockSpecs } from "./MediaBlock.specs";
@@ -23,18 +20,8 @@ import { type RelationInlineSpec } from "./relationInline.specs";
 export type RealBlockNoteSchema = BlockNoteSchema<
   BlockSchemaFromSpecs<
     Omit<typeof defaultBlockSpecs, "image"> & {
-      media: BlockSpec<
-        MediaBlockSpecs,
-        BlockSchema,
-        InlineContentSchema,
-        StyleSchema
-      >;
-      event: BlockSpec<
-        EventBlockSpecs,
-        BlockSchema,
-        InlineContentSchema,
-        StyleSchema
-      >;
+      media: BlockSpec<string, MediaBlockSpecs["propSchema"], "inline">;
+      event: BlockSpec<string, EventBlockSpecs["propSchema"], "inline">;
     }
   >,
   InlineContentSchemaFromSpecs<
