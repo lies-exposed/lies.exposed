@@ -26,7 +26,7 @@ export const toBNDocument = async (
   const editor = BlockNoteEditor.create({ schema });
 
   if (typeof v === "string") {
-    const result = await editor.tryParseHTMLToBlocks(v);
+    const result = editor.tryParseHTMLToBlocks(v);
     return result as unknown as BlockNoteDocument;
   } else {
     const initialValue = toInitialValue(v);
