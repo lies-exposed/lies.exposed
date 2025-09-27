@@ -212,6 +212,7 @@ services:
       VIRTUAL_HOST: localai.liexp.dev
       VIRTUAL_PORT: 8080
       LOCALAI_CORS: 0
+      LOCALAI_SINGLE_ACTIVE_BACKEND: "true"
     env_file:
       - ./services/ai-bot/.env.local
     volumes:
