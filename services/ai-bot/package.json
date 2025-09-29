@@ -28,8 +28,8 @@
     "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
-    "@aws-sdk/client-sso-oidc": "^3.895.0",
-    "@aws-sdk/client-sts": "^3.895.0",
+    "@aws-sdk/client-sso-oidc": "^3.896.0",
+    "@aws-sdk/client-sts": "^3.896.0",
     "@langchain/community": "^0.3.56",
     "@langchain/core": "^0.3.77",
     "@langchain/langgraph": "^0.4.9",
