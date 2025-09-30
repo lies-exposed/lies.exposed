@@ -1,0 +1,13 @@
+{
+  "servers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "github": {
+      "capabilities": [
+        "issue-management",
+        "pull-request-management"
+      ]
+    }
+  }
+}

@@ -81,12 +81,6 @@
       "tsconfig.json": "tsconfig.*.json",
       "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
     },
-    "cSpell.words": ["healthcheck", "liexp", "Uncategorized", "xlarge"],
-    "easynpm.packageManager": "pnpm",
-    "easynpm.defaultProjectRoot": "/home/ascariandrea/Workspace/lies-exposed",
-    "pnpm-vscode-helper.extraWorkspaceScripts": [],
-    "totalTypeScript.hideBasicTips": true,
-    "cSpell.userWords": ["liexp", "typeorm"],
     "editor.codeActionsOnSave": {
       "source.organizeImports": "never",
       "source.fixAll.eslint": "explicit",
@@ -103,5 +97,5 @@
       "helm/values.yaml",
       "helm/values.dev.yaml"
     ]
-  },
+  }
 }

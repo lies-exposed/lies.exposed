@@ -52,6 +52,7 @@ services/*/deploy
 
 temp
 # dotenv environment variables file
+.env
 .env.*
 !.env.test
 *.tsbuildinfo
