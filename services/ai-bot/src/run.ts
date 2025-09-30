@@ -4,27 +4,14 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { loadContext } from "./load-context.js";
 import { type ClientContextRTE } from "./types.js";
 import { exponentialWait } from "./utils/exponentialWait.js";
+import { waitForToken } from "./waitForLogin.js";
 import { report, toAIBotError } from "#common/error/index.js";
 import { clearToken } from "#flows/clearToken.flow.js";
 import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
-import { userLogin } from "#flows/userLogin.flow.js";
 
 let token: string | null = null;
 
-const exponentialWaitOneMinute = exponentialWait(60000);
-
-let waitForLoginRetry = 0;
-const waitForLogin = (): ClientContextRTE<string> => {
-  return pipe(
-    userLogin(),
-    fp.RTE.orElse(() =>
-      pipe(
-        exponentialWaitOneMinute(10000, waitForLoginRetry++, "login"),
-        fp.RTE.chain(waitForLogin),
-      ),
-    ),
-  );
-};
+export const exponentialWaitOneMinute = exponentialWait(60000);
 
 let waitForLocalAIRetry = 0;
 const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
@@ -86,7 +73,7 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
     );
 
   return pipe(
-    waitForLogin(),
+    waitForToken(),
     fp.RTE.map((t) => {
       token = t;
       return token;

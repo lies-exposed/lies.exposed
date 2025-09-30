@@ -56,9 +56,9 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
 
             if (O.isSome(search)) {
               return q.andWhere(
-                "lower(unaccent(actors.fullName)) LIKE :fullName",
+                "lower(unaccent(actors.fullName)) ILIKE :search OR lower(unaccent(actors.username)) ILIKE :search",
                 {
-                  fullName: `%${search.value}%`,
+                  search: `%${search.value}%`,
                 },
               );
             }

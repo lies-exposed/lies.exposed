@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { loadPuppeteer } from "@liexp/backend/lib/context/load/puppeteer.load.js";
+import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import {
   GetLangchainProvider,
   type AvailableModels,
@@ -24,6 +25,7 @@ import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
 import { parseENV } from "./env.js";
+import { userLogin } from "./flows/userLogin.flow.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
 import { toAIBotError, type AIBotError } from "#common/error/index.js";
 
@@ -40,6 +42,7 @@ export const loadContext = (
     ),
     fp.TE.bind("fs", () => fp.TE.right(GetFSClient({ client: fs }))),
     fp.TE.bind("pdf", () => fp.TE.right(PDFProvider({ client: pdfjs }))),
+    fp.TE.bind("logger", () => fp.TE.right(GetLogger("ai-bot"))),
     fp.TE.bind("config", ({ fs, env }) =>
       pipe(
         configProvider({ fs }),
@@ -94,6 +97,7 @@ export const loadContext = (
         ...localaiHeaders,
         Accept: "application/json",
         "content-type": "application/json",
+        Authorization: `Bearer ${env.LOCALAI_API_KEY}`,
         Cookie: `token=${env.LOCALAI_API_KEY}`,
       }),
     ),
@@ -110,7 +114,6 @@ export const loadContext = (
           options: {
             chat: {
               timeout: config.config.localAi.timeout,
-              // useResponsesApi: true,
               configuration: {
                 defaultHeaders: headers,
                 fetchOptions: {
@@ -158,40 +161,69 @@ export const loadContext = (
         ),
       ),
     ),
-    fp.TE.map(({ env, config, fs, pdf, langchain, puppeteer, openAI }) => {
-      const logger = GetLogger("ai-bot");
 
-      const restClient = axios.default.create({
-        baseURL: config.config.api.url,
-      });
-
-      restClient.interceptors.request.use((req) => {
-        const token = getToken();
-        if (token) {
-          req.headers.set("Authorization", `Bearer ${getToken()}`);
-        }
-        return req;
-      });
-
-      const apiClient = GetResourceClient(restClient, Endpoints, {
-        decode: EffectDecoder((e) =>
-          DecodeError.of("Resource client decode error", e),
-        ),
-      });
-
-      logger.info.log("AI BOT config %O", config.config);
-
-      return {
+    fp.TE.bind("apiRestClient", ({ config }) =>
+      fp.TE.right(
+        axios.default.create({
+          baseURL: config.config.api.url,
+        }),
+      ),
+    ),
+    fp.TE.bind("api", ({ apiRestClient }) =>
+      fp.TE.right(
+        GetResourceClient(apiRestClient, Endpoints, {
+          decode: EffectDecoder((e) =>
+            DecodeError.of("Resource client decode error", e),
+          ),
+        }),
+      ),
+    ),
+    fp.TE.bind("token", ({ fs, api, logger, config, env }) =>
+      userLogin()({ api, fs, logger, config, env }),
+    ),
+    fp.TE.bind("agent", ({ langchain, logger, config }) =>
+      pipe(
+        GetAgentProvider()({ langchain, logger, config }),
+        fp.TE.mapLeft(toAIBotError),
+      ),
+    ),
+    fp.TE.map(
+      ({
         env,
-        fs,
         config,
-        http: HTTPProvider(axios.default.create({})),
+        fs,
         pdf,
-        logger,
-        api: apiClient,
         langchain,
         puppeteer,
         openAI,
-      };
-    }),
+        agent,
+        logger,
+        apiRestClient,
+        api,
+      }) => {
+        apiRestClient.interceptors.request.use((req) => {
+          const token = getToken();
+          if (token) {
+            req.headers.set("Authorization", `Bearer ${getToken()}`);
+          }
+          return req;
+        });
+
+        logger.info.log("AI BOT config %O", config.config);
+
+        return {
+          env,
+          fs,
+          config,
+          http: HTTPProvider(axios.default.create({})),
+          pdf,
+          logger,
+          api,
+          langchain,
+          puppeteer,
+          openAI,
+          agent,
+        };
+      },
+    ),
   );

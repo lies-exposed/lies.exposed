@@ -14,7 +14,7 @@ import {
 import { DBService } from "../../services/db.service.js";
 import { addOrder } from "../../utils/orm.utils.js";
 
-const getListQueryEmpty: GetListLinkQuery = {
+export const getListQueryEmpty: GetListLinkQuery = {
   q: O.none(),
   ids: O.none(),
   _sort: O.none(),
