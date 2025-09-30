@@ -100,7 +100,7 @@
     "@types/supertest": "^6.0.3",
     "dockerode": "^4.0.6",
     "dotenv": "^17.2.1",
-    "eslint": "^9.35.0",
+    "eslint": "^9.36.0",
     "fast-check": "^3.23.2",
     "nodemw": "^0.24.0",
     "puppeteer-core": "^24.8.1",
