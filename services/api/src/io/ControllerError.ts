@@ -131,7 +131,7 @@ export const toAPIError = (err: ControllerError): APIError => {
 
     if (err.name === DBError.name) {
       return {
-        status: 500,
+        status: err.status as APIError["status"],
         name: "APIError",
         message: err.message,
         details: [...err.details.kind],

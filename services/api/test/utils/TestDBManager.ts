@@ -470,9 +470,7 @@ export const GetTestDBManager = (
 
     const { client: redisClient } = await pipe(
       GetRedisClient({
-        client: Redis.Redis,
-        host: opts.redis.host,
-        port: 6379,
+        client: () => new Redis.Redis({ host: opts.redis.host, port: 6379, lazyConnect: true, }),
         connect: true,
       }),
       throwTE,
