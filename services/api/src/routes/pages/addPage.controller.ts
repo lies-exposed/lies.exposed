@@ -20,7 +20,7 @@ export const MakeAddPageRoute: Route = (r, ctx) => {
           body: {
             data,
           },
-          statusCode: 200,
+          statusCode: 201,
         })),
       );
     },

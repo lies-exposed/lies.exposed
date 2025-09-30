@@ -35,6 +35,7 @@
     "vitest": "vitest",
     "vitest:expected-cov": "vitest run --coverage.enabled --coverage.thresholds.lines=90 --coverage.thresholds.functions=90 --coverage.thresholds.statements=90",
     "vitest:cov": "vitest run --coverage.enabled",
+    "vitest:changed": "vitest --changed=HEAD^1",
     "knip": "VITE_VALIDATE_ENV=false knip"
   },
   "devDependencies": {
