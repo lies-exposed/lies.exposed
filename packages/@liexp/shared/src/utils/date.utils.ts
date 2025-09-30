@@ -19,6 +19,7 @@ export const formatDate = (date: Date | string): string => {
   }
   return format(date, "yyyy-MM-dd");
 };
+
 export const parseDate = (d: string): Date =>
   parse(d, "yyyy-MM-dd", new Date());
 
@@ -40,13 +41,12 @@ export const formatAnyDateToShort = (date: string | Date): string => {
   return formatDateToShort(new Date(date));
 };
 
-export const distanceFromNow = formatDistanceToNow;
-
 export {
   parseISO,
   parse,
   differenceInHours,
   differenceInDays,
   formatDistanceToNow,
+  formatDistanceToNow as distanceFromNow,
   subYears,
 };

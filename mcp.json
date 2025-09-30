@@ -3,11 +3,13 @@
     "context7": {
       "url": "https://mcp.context7.com/mcp"
     },
-    "github": {
-      "capabilities": [
-        "issue-management",
-        "pull-request-management"
-      ]
+    "github-mcp": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "type": "http"
+    },
+    "api-liexp-dev": {
+      "url": "http://api.liexp.dev/mcp",
+      "type": "http"
     }
   }
 }

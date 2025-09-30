@@ -1,0 +1,86 @@
+import {
+  fetchLinks,
+  getListQueryEmpty,
+} from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { Link } from "@liexp/shared/lib/io/http/Link.js";
+import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { Schema } from "effect";
+import * as O from "effect/Option";
+import { pipe } from "fp-ts/lib/function.js";
+import { type ServerContext } from "../../../context/context.type.js";
+import { formatLinkToMarkdown } from "./formatters/linkToMarkdown.formatter.js";
+
+export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
+  server.registerTool(
+    "findLinks",
+    {
+      title: "Find link",
+      description:
+        "Search for links using various criteria like title or keywords. Returns the link item in JSON format",
+      annotations: { tool: true },
+      inputSchema: effectToZodStruct(
+        Schema.Struct({
+          query: Schema.UndefinedOr(Schema.String),
+          ids: Schema.UndefinedOr(Schema.Array(Schema.UUID)),
+          sort: Schema.Union(
+            Schema.Literal("createdAt"),
+            Schema.Literal("title"),
+            Schema.Literal("url"),
+            Schema.Undefined,
+          ),
+          order: Schema.Union(
+            Schema.Literal("ASC"),
+            Schema.Literal("DESC"),
+            Schema.Undefined,
+          ),
+        }),
+      ),
+    },
+    async ({ query, sort, order, ids }) => {
+      return pipe(
+        fetchLinks(
+          {
+            ...getListQueryEmpty,
+            q: O.fromNullable(query),
+            ids: pipe(
+              ids as UUID[] | undefined,
+              O.fromNullable,
+              O.filter((a) => a.length > 0),
+            ),
+            _sort: O.fromNullable(sort),
+            _order: O.fromNullable(order),
+          },
+          false,
+        )(ctx),
+        LoggerService.TE.debug(ctx, `Results %O`),
+        fp.TE.map(([links]) => {
+          if (links.length > 0) {
+            const link = Schema.decodeUnknownSync(Link)(links[0]);
+            return {
+              content: [
+                {
+                  text: formatLinkToMarkdown(link),
+                  type: "text" as const,
+                },
+              ],
+            };
+          }
+          return {
+            content: [
+              {
+                text: "No links found matching the search criteria.",
+                type: "text" as const,
+              },
+            ],
+          };
+        }),
+        throwTE,
+      );
+    },
+  );
+};

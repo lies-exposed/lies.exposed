@@ -37,7 +37,8 @@
     "lodash": "^4.17.21",
     "page-metadata-parser": "^1.1.4",
     "query-string": "^9.1.1",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.20",

@@ -27,6 +27,8 @@ export const agentCommand: CommandFlow = async (ctx, args) => {
     const aiMessageLogger = AIMessageLogger(ctx.logger);
 
     for await (const chunk of agentFinalState) {
+      // eslint-disable-next-line no-console
+      console.log(chunk);
       const messages = (chunk.agent?.messages ??
         chunk.tools?.messages ??
         []) as (ToolMessage | AIMessage)[];

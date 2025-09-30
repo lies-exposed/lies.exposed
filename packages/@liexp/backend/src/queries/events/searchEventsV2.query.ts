@@ -217,7 +217,7 @@ const searchQueryDefaults: SearchEventQuery = {
   groups: O.none(),
   actors: O.none(),
   skip: 0,
-  take: 100,
+  take: 20,
   links: O.none(),
   media: O.none(),
   locations: O.none(),

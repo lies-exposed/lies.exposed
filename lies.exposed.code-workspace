@@ -96,6 +96,7 @@
     "helm-intellisense.customValueFileNames": [
       "helm/values.yaml",
       "helm/values.dev.yaml"
-    ]
+    ],
+    "typescript.experimental.useTsgo": false
   }
 }

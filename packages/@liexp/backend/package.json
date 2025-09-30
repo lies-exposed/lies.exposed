@@ -45,6 +45,7 @@
     "@aws-sdk/types": "^3.893.0",
     "@langchain/core": "^0.3.78",
     "@langchain/openai": "^0.6.14",
+    "@langchain/mcp-adapters": "^0.6.0",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.73",
     "@types/fluent-ffmpeg": "^2.1.27",
@@ -75,6 +76,7 @@
   "peerDependencies": {
     "@langchain/core": "^0.3.78",
     "@langchain/langgraph": "^0.4.9",
+    "@langchain/mcp-adapters": "^0.6.0",
     "@napi-rs/canvas": "^0.1.73",
     "debug": "^4.4.0",
     "effect": "^3.17.13",

@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { loadPuppeteer } from "@liexp/backend/lib/context/load/puppeteer.load.js";
 import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import {
@@ -181,11 +182,23 @@ export const loadContext = (
     fp.TE.bind("token", ({ fs, api, logger, config, env }) =>
       userLogin()({ api, fs, logger, config, env }),
     ),
-    fp.TE.bind("agent", ({ langchain, logger, config }) =>
-      pipe(
-        GetAgentProvider()({ langchain, logger, config }),
-        fp.TE.mapLeft(toAIBotError),
-      ),
+    fp.TE.bind(
+      "agent",
+      ({ langchain, logger, token, api, config, puppeteer }) =>
+        pipe(
+          GetAgentProvider({
+            mcpClient: new MultiServerMCPClient({
+              api: {
+                transport: "http",
+                url: config.config.api.mcp,
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              },
+            }),
+          })({ langchain, logger, puppeteer }),
+          fp.TE.mapLeft(toAIBotError),
+        ),
     ),
     fp.TE.map(
       ({

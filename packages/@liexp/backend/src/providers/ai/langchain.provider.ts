@@ -115,6 +115,7 @@ export const GetLangchainProvider = (
       maxConcurrency: 1,
       maxRetries: 2,
       streaming: true,
+      streamUsage: true,
       ...opts.options?.chat,
       ...chatOptions,
       configuration: {

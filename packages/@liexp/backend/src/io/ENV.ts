@@ -5,6 +5,7 @@ export const JWT_ENV = Schema.Struct({
   JWT_SECRET: Schema.String,
 }).annotations({
   title: "JWT_ENV",
+  description: "Environment variables for JWT authentication",
 });
 
 export type JWT_ENV = typeof JWT_ENV.Type;

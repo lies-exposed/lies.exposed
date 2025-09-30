@@ -12,6 +12,7 @@ export const chatCommand: CommandFlow = async (ctx, args) => {
           reasoning: {
             effort: "minimal",
           },
+          tools: ctx.agent.tools,
         })
         .stream([
           {
