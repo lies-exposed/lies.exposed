@@ -73,7 +73,8 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "peerDependencies": {
-    "@langchain/core": "^0.3.19",
+    "@langchain/core": "^0.3.78",
+    "@langchain/langgraph": "^0.4.9",
     "@napi-rs/canvas": "^0.1.73",
     "debug": "^4.4.0",
     "effect": "^3.17.13",

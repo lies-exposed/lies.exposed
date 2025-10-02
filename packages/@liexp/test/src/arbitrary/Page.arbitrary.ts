@@ -8,6 +8,9 @@ export const PageArb: fc.Arbitrary<http.Page.Page> = Arbitrary.make(
   http.Page.Page,
 ).map((p) => ({
   ...p,
+  path: fc
+    .sample(HumanReadableStringArb({ count: 5 }), 1)
+    .reduce((acc, s) => acc.concat(s), ""),
   title: fc
     .sample(HumanReadableStringArb({ count: 10 }), 1)
     .reduce((acc, s) => acc.concat(s), ""),

@@ -6,7 +6,6 @@ import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNu
 import { ListOutput, Output } from "../io/http/Common/Output.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import * as Project from "../io/http/Project.js";
-import * as ProjectImage from "../io/http/ProjectImage.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 
 const SingleGroupOutput = Output(Project.Project).annotations({
@@ -32,7 +31,6 @@ const CreateBody = Schema.Struct({
   color: Schema.String,
   media: Schema.Array(
     Schema.Struct({
-      kind: ProjectImage.Kind,
       description: Schema.String,
       location: Schema.String,
     }),
@@ -69,7 +67,6 @@ const EditBody = nonEmptyRecordFromType({
   media: OptionFromNullishToNull(
     Schema.Array(
       Schema.Struct({
-        kind: ProjectImage.Kind,
         description: Schema.String,
         location: Schema.String,
       }),

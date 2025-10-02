@@ -14,7 +14,6 @@ import * as Nation from "./Nation.js";
 import * as Network from "./Network/Network.js";
 import * as Page from "./Page.js";
 import * as Project from "./Project.js";
-import * as ProjectImage from "./ProjectImage.js";
 import * as Query from "./Query/index.js";
 import * as Queue from "./Queue/index.js";
 import { ResourcesNames } from "./ResourcesNames.js";
@@ -43,7 +42,6 @@ export {
   Network,
   Page,
   Project,
-  ProjectImage,
   Query,
   Queue,
   ResourcesNames,

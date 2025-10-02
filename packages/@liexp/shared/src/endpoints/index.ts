@@ -2,7 +2,6 @@ import { type EndpointsMapType } from "@ts-endpoint/core";
 import * as GroupMember from "./GroupMember.endpoints.js";
 import * as Networks from "./Network.endpoints.js";
 import * as OpenGraph from "./OpenGraph.endpoints.js";
-import * as ProjectImage from "./ProjectImage.endpoints.js";
 import * as Stats from "./Stats.endpoints.js";
 import * as User from "./User.endpoints.js";
 import * as Actor from "./actor.endpoints.js";
@@ -55,7 +54,6 @@ interface Endpoints extends EndpointsMapType {
   OpenGraph: typeof OpenGraph.openGraphs;
   Page: typeof Page.pages;
   Project: typeof Project.projects;
-  ProjectImage: typeof ProjectImage.projectImages;
   Queues: typeof Queues.queues;
   Stats: typeof Stats.stats;
   Networks: typeof Networks.networks;
@@ -98,7 +96,7 @@ const Endpoints: Endpoints = {
   OpenGraph: OpenGraph.openGraphs,
   Page: Page.pages,
   Project: Project.projects,
-  ProjectImage: ProjectImage.projectImages,
+  // ProjectImage endpoints removed
   Stats: Stats.stats,
   Networks: Networks.networks,
   Healthcheck: Healthcheck.healthcheck,

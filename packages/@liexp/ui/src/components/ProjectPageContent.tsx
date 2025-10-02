@@ -3,6 +3,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+
 import { MarkdownRenderer } from "./Common/MarkdownRenderer.js";
 import { ProjectAreasMap } from "./Graph/ProjectAreasMap.js";
 import { Grid, Typography } from "./mui/index.js";
@@ -18,32 +19,6 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   ...props
 }) => {
   const totalFunded = 0;
-  // const investors: Common.ByGroupOrActor[] = [];
-  // const totalFunded = pipe(
-  //   metadata.ProjectTransaction,
-  //   A.reduce(0, (acc, f) => f.transaction.amount + acc)
-  // );
-
-  // const investors = pipe(
-  //   metadata.ProjectTransaction,
-  //   A.map((f) => f.transaction.by),
-  //   A.uniq(
-  //     Eq.eq.contramap(Eq.eqString, (e: Common.ByGroupOrActor) =>
-  //       e.type === "Group" ? e.group.id : e.actor.id
-  //     )
-  //   )
-  // );
-
-  // const arrested = pipe(
-  //   metadata.Arrest,
-  //   A.map((a) => a.who)
-  // );
-
-  // const protesters = pipe(
-  //   metadata.Protest,
-  //   A.map((p) => p.organizers),
-  //   A.flatten
-  // );
 
   return (
     <Grid container>
@@ -81,13 +56,7 @@ export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
         <Grid>
           <ProjectAreasMap project={{ ...props, body }} />
           <div>
-            <Typography variant="h4">Fondi: {totalFunded}</Typography>
-            {/* <GroupOrActorList
-              by={investors}
-              onByClick={() => {}}
-              avatarScale="scale1000"
-            /> */}
-            {/* <ProjectFundsPieGraph funds={metadata.ProjectTransaction} /> */}
+            <Typography variant="h4">Funds: {totalFunded}</Typography>
           </div>
         </Grid>
       </Grid>

@@ -85,7 +85,6 @@
   },
   "devDependencies": {
     "@liexp/test": "workspace:*",
-    "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/dockerode": "^3.3.42",
