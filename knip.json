@@ -4,7 +4,7 @@
   "ignoreWorkspaces": ["services/data"],
   "workspaces": {
     ".": {
-      "ignore": ["services/*/build/**", "packages/@liexp/*/lib/**"],
+      "ignore": ["services/*/build/**", "packages/@liexp/*/lib/**", "**/temp/**"],
       "ignoreBinaries": ["corepack use pnpm@latest-10"],
       "ignoreDependencies": ["husky", "lint-staged", "corepack"],
       "ignoreUnresolved": ["tslib"]
