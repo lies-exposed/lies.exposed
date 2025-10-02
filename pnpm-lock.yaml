@@ -74,6 +74,9 @@ importers:
       '@databases/sql':
         specifier: ^3.3.0
         version: 3.3.0
+      '@langchain/langgraph':
+        specifier: ^0.4.9
+        version: 0.4.9(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -976,9 +979,6 @@ importers:
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
       '@types/cors':
         specifier: ^2.8.18
         version: 2.8.19
