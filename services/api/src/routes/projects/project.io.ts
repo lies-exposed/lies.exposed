@@ -22,14 +22,25 @@ export const toProjectIO = (
         updatedAt: a.updatedAt.toISOString(),
         creator: null,
       })),
-      media: project.media.map(({ image, ...i }) => ({
-        ...i,
-        description: image.description,
-        location: image.location,
-        projectId: project.id,
-        createdAt: i.createdAt.toISOString(),
-        updatedAt: i.updatedAt.toISOString(),
-      })),
+      media: project.media.map((m) =>
+        typeof m === "string"
+          ? {
+              id: m,
+              description: null,
+              location: "",
+              projectId: project.id,
+              createdAt: project.createdAt.toISOString(),
+              updatedAt: project.updatedAt.toISOString(),
+            }
+          : {
+              id: m.id,
+              description: m.description ?? null,
+              location: m.location,
+              projectId: project.id,
+              createdAt: m.createdAt.toISOString(),
+              updatedAt: m.updatedAt.toISOString(),
+            },
+      ),
       startDate: project.startDate.toISOString(),
       endDate: project.endDate ? project.endDate.toISOString() : undefined,
       createdAt: project.createdAt.toISOString(),

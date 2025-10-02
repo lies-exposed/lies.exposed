@@ -31,15 +31,10 @@ export const MakeEditProjectRoute: Route = (r, ctx) => {
         media: pipe(
           body.media,
           O.map((media) =>
-            media.map(({ kind, ...image }) => {
+            media.map((image) => {
               return {
                 id: uuid(),
-                kind,
-                image: {
-                  id: uuid(),
-                  ...image,
-                },
-                project: { id },
+                ...image,
               };
             }),
           ),

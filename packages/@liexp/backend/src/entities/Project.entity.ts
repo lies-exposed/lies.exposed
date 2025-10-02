@@ -1,13 +1,6 @@
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  OneToMany,
-  type Relation,
-} from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, type Relation } from "typeorm";
 import { AreaEntity } from "./Area.entity.js";
-import { ProjectImageEntity } from "./ProjectImage.entity.js";
+import { MediaEntity } from "./Media.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 
 @Entity("project")
@@ -27,10 +20,12 @@ export class ProjectEntity extends DeletableEntity {
   @Column({ type: "varchar", nullable: false })
   body: string;
 
-  @OneToMany(() => ProjectImageEntity, (a) => a.project, {
+  @ManyToMany(() => MediaEntity, (a) => a.projects, {
     cascade: ["insert"],
+    nullable: true,
   })
-  media: Relation<ProjectImageEntity[]>;
+  @JoinTable()
+  media: Relation<MediaEntity[] | string[]>;
 
   @ManyToMany(() => AreaEntity, { cascade: ["insert"] })
   @JoinTable()

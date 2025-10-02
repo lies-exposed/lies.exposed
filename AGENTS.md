@@ -291,6 +291,22 @@ The AI services are containerized and deployed using:
 - **Data Retention**: Configurable retention policies for processed content
 - **Access Control**: Role-based access to AI capabilities
 
+## Monorepo & pnpm notes
+
+- This repository is a pnpm workspace (monorepo). You can run package scripts from the repository root using the package filter syntax. For example, to run the `lint` script in the `api` service from the project root run:
+
+  `pnpm --filter api run lint`  (or the shorthand `pnpm api lint` when using pnpm's workspace command aliases)
+
+- Always check your current working directory before running pnpm commands. If you're inside a package folder (for example, `services/api`), you can run scripts without the workspace filter, e.g.:
+
+  `pnpm run lint` (when your shell cwd is `/path/to/lies.exposed/services/api`)
+
+- If you need to change directory from scripts or automation, prefer using absolute paths to avoid ambiguity. Example in a shell script:
+
+  `cd /home/andreaascari/Workspace/lies-exposed/services/api && pnpm run migration:run`
+
+  This ensures scripts behave the same regardless of the caller's current directory.
+
 ---
 
 *This documentation is maintained alongside the codebase. For technical implementation details, refer to the source code in `services/ai-bot/` and `services/worker/`.*

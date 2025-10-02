@@ -2,7 +2,6 @@ import { type Router } from "express";
 import { MakeNationRoutes } from "./nations/nations.routes.js";
 import { MakeSettingRoutes } from "./settings/settings.routes.js";
 import { type ServerContext } from "#context/context.type.js";
-import { MakeProjectImageRoutes } from "#routes/ProjectImages/ProjectImage.routes.js";
 import { MakeActorRoutes } from "#routes/actors/actors.routes.js";
 import { MakeAdminRoutes } from "#routes/admin/admin.routes.js";
 import { MakeAreasRoutes } from "#routes/areas/Areas.routes.js";
@@ -54,8 +53,7 @@ export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
   // projects
   MakeProjectRoutes(router, ctx);
 
-  // project images
-  MakeProjectImageRoutes(router, ctx);
+  // project images (deprecated) - removed
 
   // stories
   MakeStoriesRoutes(router, ctx);
