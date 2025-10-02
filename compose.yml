@@ -195,9 +195,9 @@ services:
       - reverseproxy
 
   localai.liexp.dev:
-    image: localai/localai:master-aio-cpu
+    # image: localai/localai:master-aio-cpu
     # For Intel GPUs decomment the following:
-    # image: localai/localai:latest-aio-gpu-intel
+    image: localai/localai:latest-aio-gpu-intel
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
       interval: 1m
@@ -213,16 +213,24 @@ services:
       VIRTUAL_PORT: 8080
       LOCALAI_CORS: 0
       LOCALAI_SINGLE_ACTIVE_BACKEND: "true"
+      # Intel GPU optimization settings
+      SYCL_DEVICE_FILTER: level_zero
+      NEOReadDebugKeys: 1
+      ClDeviceGlobalMemCacheType: 1
     env_file:
       - ./services/ai-bot/.env.local
     volumes:
       - ./localai/models:/models:cached
       - ./localai/backends:/backends:cached
-    # devices:
-    #   - /dev/dri
+    devices:
+      # Intel GPU device access - required for hardware acceleration
+      - /dev/dri/card1:/dev/dri/card1
+      - /dev/dri/renderD128:/dev/dri/renderD128
     networks:
       - reverseproxy
-    cpu_count: 2
+    cpu_count: 4
+    # Increase memory limit for GPU workloads
+    mem_limit: 16G
 
 volumes:
   db-data: {}
