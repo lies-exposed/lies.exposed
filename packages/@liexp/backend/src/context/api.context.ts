@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { type EndpointsRESTClient } from "@ts-endpoint/react-admin";
+import { type API } from "@ts-endpoint/resource-client";
 
 export interface APIContext {
-  api: EndpointsRESTClient<Endpoints>;
+  api: API<Endpoints>;
 }
