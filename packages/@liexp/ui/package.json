@@ -128,7 +128,7 @@
     "fp-ts": "^2.16.10",
     "openai": "^5.23.2",
     "typescript": "^5.8.3",
-    "vite": "^7.1.7",
+    "vite": "^7.1.9",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.3"
   },
