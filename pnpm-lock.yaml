@@ -813,8 +813,8 @@ importers:
         specifier: ^3.895.0
         version: 3.895.0
       '@langchain/community':
-        specifier: ^0.3.56
-        version: 0.3.56(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.8.1)(ws@8.18.3)
+        specifier: ^0.3.57
+        version: 0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)
       '@langchain/core':
         specifier: ^0.3.78
         version: 0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
@@ -2528,8 +2528,8 @@ packages:
     peerDependencies:
       '@langchain/core': '>=0.2.21 <0.4.0'
 
-  '@langchain/community@0.3.56':
-    resolution: {integrity: sha512-lDjUnRfHAX7aMXyEB2EWbe5qOmdQdz8n+0CNQ4ExpLy3NOFQhEVkWclhsucaX04zh0r/VH5Pkk9djpnhPBDH7g==}
+  '@langchain/community@0.3.57':
+    resolution: {integrity: sha512-xUe5UIlh1yZjt/cMtdSVlCoC5xm/RMN/rp+KZGLbquvjQeONmQ2rvpCqWjAOgQ6SPLqKiXvoXaKSm20r+LHISw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@arcjet/redact': ^v1.0.0-alpha.23
@@ -7424,6 +7424,23 @@ packages:
       openai:
         optional: true
 
+  langsmith@0.3.72:
+    resolution: {integrity: sha512-XjTonMq2fIebzV0BRlPx8mi+Ih/NsQT6W484hrW/pJYuq0aT5kpLtzQthVVmsXH8ZYYkgkbQ5Gh5Mz1qoCrAwg==}
+    peerDependencies:
+      '@opentelemetry/api': '*'
+      '@opentelemetry/exporter-trace-otlp-proto': '*'
+      '@opentelemetry/sdk-trace-base': '*'
+      openai: '*'
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+      '@opentelemetry/exporter-trace-otlp-proto':
+        optional: true
+      '@opentelemetry/sdk-trace-base':
+        optional: true
+      openai:
+        optional: true
+
   lazy-cache@0.2.7:
     resolution: {integrity: sha512-gkX52wvU/R8DVMMt78ATVPFMJqfW8FPz1GZ1sVHBVQHmu/WvhIWE4cE1GBzhJNFicDeYhnwp6Rl35BcAIM3YOQ==}
     engines: {node: '>=0.10.0'}
@@ -7939,14 +7956,14 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
-  nice-grpc-client-middleware-retry@3.1.11:
-    resolution: {integrity: sha512-xW/imz/kNG2g0DwTfH2eYEGrg1chSLrXtvGp9fg2qkhTgGFfAS/Pq3+t+9G8KThcC4hK/xlEyKvZWKk++33S6A==}
+  nice-grpc-client-middleware-retry@3.1.12:
+    resolution: {integrity: sha512-CHKIeHznAePOsT2dLeGwoOFaybQz6LvkIsFfN8SLcyGyTR7AB6vZMaECJjx+QPL8O2qVgaVE167PdeOmQrPuag==}
 
   nice-grpc-common@2.0.2:
     resolution: {integrity: sha512-7RNWbls5kAL1QVUOXvBsv1uO0wPQK3lHv+cY1gwkTzirnG1Nop4cBJZubpgziNbaVc/bl9QJcyvsf/NQxa3rjQ==}
 
-  nice-grpc@2.1.12:
-    resolution: {integrity: sha512-J1n4Wg+D3IhRhGQb+iqh2OpiM0GzTve/kf2lnlW4S+xczmIEd0aHUDV1OsJ5a3q8GSTqJf+s4Rgg1M8uJltarw==}
+  nice-grpc@2.1.13:
+    resolution: {integrity: sha512-IkXNok2NFyYh0WKp1aJFwFV3Ue2frBkJ16ojrmgX3Tc9n0g7r0VU+ur3H/leDHPPGsEeVozdMynGxYT30k3D/Q==}
 
   no-case@3.0.4:
     resolution: {integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==}
@@ -10111,8 +10128,8 @@ packages:
   waveform-data@4.5.2:
     resolution: {integrity: sha512-1wDQ2LmaCM76xXXkOamWui1dp7uS2UHVeNccuHDS/qnoOrczrXR6g7Q9m/UjlibHfukxBrceoRIVTKKY1tDLdA==}
 
-  weaviate-client@3.8.1:
-    resolution: {integrity: sha512-/bH5SO31gGGiI5RhvOEwQBs2DtORsssVjenWxdOQzGToAdmqRC4Oo9HZLIITX5BdFD0IqKDnY81nOZlJlHzn+g==}
+  weaviate-client@3.9.0:
+    resolution: {integrity: sha512-7qwg7YONAaT4zWnohLrFdzky+rZegVe76J+Tky/+7tuyvjFpdKgSrdqI/wPDh8aji0ZGZrL4DdGwGfFnZ+uV4w==}
     engines: {node: '>=18.0.0'}
 
   web-namespaces@2.0.1:
@@ -12072,7 +12089,7 @@ snapshots:
       - encoding
     optional: true
 
-  '@langchain/community@0.3.56(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.8.1)(ws@8.18.3)':
+  '@langchain/community@0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(zod@3.25.76))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(zod@3.25.76)
       '@ibm-cloud/watsonx-ai': 1.3.0
@@ -12085,7 +12102,7 @@ snapshots:
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
       langchain: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
-      langsmith: 0.3.69(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
+      langsmith: 0.3.72(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
       uuid: 10.0.0
       zod: 3.25.76
@@ -12106,7 +12123,7 @@ snapshots:
       pg: 8.16.3
       playwright: 1.49.0
       typeorm: 0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2)
-      weaviate-client: 3.8.1
+      weaviate-client: 3.9.0
       ws: 8.18.3
     transitivePeerDependencies:
       - '@langchain/anthropic'
@@ -12196,7 +12213,7 @@ snapshots:
     dependencies:
       '@langchain/core': 0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
-      weaviate-client: 3.8.1
+      weaviate-client: 3.9.0
     transitivePeerDependencies:
       - encoding
 
@@ -17331,6 +17348,18 @@ snapshots:
     optionalDependencies:
       openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
 
+  langsmith@0.3.72(openai@5.23.2(ws@8.18.3)(zod@3.25.76)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      chalk: 4.1.2
+      console-table-printer: 2.14.6
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      semver: 7.7.2
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
+
   lazy-cache@0.2.7: {}
 
   lazy-cache@1.0.4: {}
@@ -17971,7 +18000,7 @@ snapshots:
 
   netmask@2.0.2: {}
 
-  nice-grpc-client-middleware-retry@3.1.11:
+  nice-grpc-client-middleware-retry@3.1.12:
     dependencies:
       abort-controller-x: 0.4.3
       nice-grpc-common: 2.0.2
@@ -17980,7 +18009,7 @@ snapshots:
     dependencies:
       ts-error: 1.0.6
 
-  nice-grpc@2.1.12:
+  nice-grpc@2.1.13:
     dependencies:
       '@grpc/grpc-js': 1.14.0
       abort-controller-x: 0.4.3
@@ -20611,14 +20640,14 @@ snapshots:
 
   waveform-data@4.5.2: {}
 
-  weaviate-client@3.8.1:
+  weaviate-client@3.9.0:
     dependencies:
       abort-controller-x: 0.4.3
       graphql: 16.11.0
       graphql-request: 6.1.0(graphql@16.11.0)
       long: 5.3.2
-      nice-grpc: 2.1.12
-      nice-grpc-client-middleware-retry: 3.1.11
+      nice-grpc: 2.1.13
+      nice-grpc-client-middleware-retry: 3.1.12
       nice-grpc-common: 2.0.2
       uuid: 9.0.1
     transitivePeerDependencies:
