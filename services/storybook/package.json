@@ -47,7 +47,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-virtualized": "^9.22.6",
-    "storybook": "^9.1.8",
+    "storybook": "^9.1.10",
     "vite": "^7.1.7"
   },
   "devDependencies": {
@@ -57,10 +57,7 @@
     "eslint": "^9.35.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "eslint-plugin-storybook": "^9.1.8"
-  },
-  "peerDependencies": {
-    "storybook": "^9.1.8"
+    "eslint-plugin-storybook": "^9.1.10"
   },
   "packageManager": "pnpm@10.17.1+sha512.17c560fca4867ae9473a3899ad84a88334914f379be46d455cbf92e5cf4b39d34985d452d2583baf19967fa76cb5c17bc9e245529d0b98745721aa7200ecaf7a"
 }
