@@ -2,6 +2,43 @@
 
 This document outlines the AI agents, models, and automated systems used in the lies.exposed platform - a fact-checking and information analysis system.
 
+## Getting Started
+
+### Prerequisites
+- Node.js v18 or higher
+- pnpm v8 or higher
+- Docker and Docker Compose
+- Git
+
+### First-Time Setup
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/lies-exposed/lies.exposed.git
+   cd lies.exposed
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your configuration
+   ```
+
+4. **Start Development Environment**
+   ```bash
+   pnpm dev
+   ```
+
+### Development Environment
+- **VS Code Setup**: Use the provided `.vscode` settings
+- **Docker Services**: Run required services with `docker compose up`
+- **Watch Mode**: Use `pnpm watch` for live reloading
+- **Type Checking**: Run `pnpm typecheck` to verify types
+
 ## Overview
 
 The lies.exposed platform employs multiple AI agents and models to automatically process, analyze, and fact-check information from various sources. The system is designed to detect misinformation, create structured event data, and provide intelligent content analysis.
@@ -134,6 +171,74 @@ The platform is built using a monorepo architecture with shared packages:
 
 ## Development Guidelines
 
+### Development Best Practices and Priorities
+
+#### Common Pitfalls and Solutions
+- **MCP Server Issues**
+  - Always verify server connectivity before implementation
+  - Check authentication token validity
+  - Handle rate limiting appropriately
+  - Cache responses when possible
+
+- **Code Review Guidelines**
+  - Verify MCP documentation compliance
+  - Check type safety across boundaries
+  - Ensure error handling follows fp-ts patterns
+  - Confirm test coverage meets requirements
+
+- **Troubleshooting Guide**
+  1. Check MCP server logs
+  2. Verify type definitions
+  3. Review Effect/fp-ts chain composition
+  4. Validate environmental configuration
+
+#### 1. Documentation First Through MCP Servers
+- **CRITICAL**: Always consult MCP servers for documentation before implementation
+- Use MCP documentation tools to understand available capabilities and interfaces
+- Check for existing implementations and patterns in the documentation
+- Validate your approach against documented best practices
+
+##### Using Context7 for Library Documentation
+Before starting any implementation work:
+1. **Configure Libraries**: Ensure the following libraries are configured:
+   - `/fp-ts/fp-ts`: Core functional programming utilities
+   - `/effect-ts/effect`: Modern functional effects system (source code)
+   - `effect-ts.github.io/effect`: Model function effect system (docs)
+   - `/facebook/react`: UI framework
+   - `/marmelab/react-admin`: Admin interface framework
+   - `/mui/material-ui`: UI component library (source code)
+   - `mui.com/docs`: UI Component library (docs)
+
+2. **Retrieve Documentation**:
+   - Use VS Code's MCP commands to query library documentation
+   - Access up-to-date documentation for fp-ts, Effect, React, and other core libraries
+   - Search for specific APIs, hooks, or patterns you plan to use
+
+3. **Verify Patterns**:
+   - Review official examples and best practices
+   - Understand the functional programming patterns with fp-ts and Effect
+   - Check React component patterns and hooks usage
+   - Validate admin interface patterns with react-admin
+
+4. **Implementation Alignment**:
+   - Ensure your planned implementation follows documented patterns
+   - Reference the correct versions of library APIs
+   - Follow the functional programming principles outlined in documentation
+
+#### 2. Implementation Priority Order
+1. **Functionality**: Ensure core logic works as expected
+2. **Type Safety**: Verify all TypeScript types are correct
+3. **Tests**: Write and run comprehensive tests
+4. **Code Style**: Address formatting and linting issues last
+
+#### 3. Code Organization
+- **Imports**: Ensure all necessary imports are properly added and organized
+  - Use absolute imports from packages (e.g., `@liexp/core`)
+  - Include all required Effect/fp-ts imports
+  - Order imports: external → internal → types
+- **Error Handling**: Properly handle errors using Effect/fp-ts patterns
+- **Type Definitions**: Define and export necessary types
+
 ### Functional Programming with fp-ts and Effect
 
 The codebase follows functional programming principles using two main libraries:
@@ -169,6 +274,48 @@ pipe(
 - Use pure functions with explicit side effects
 - Leverage type-level programming for better safety
 - Compose operations using function composition
+
+### State Management
+
+#### Application State Architecture
+- **Effect/fp-ts Integration**
+  - State encapsulation using `Effect`
+  - Side effect management with `TaskEither`
+  - Error channel handling with `Either`
+  - Optional value handling with `Option`
+
+#### React Integration
+- **Component State Management**
+  - Using Effect hooks with React
+  - Managing async operations
+  - Error boundary integration
+  - State invalidation patterns
+
+#### Best Practices
+- Keep state transformations pure
+- Use Effect for all side effects
+- Implement proper error recovery
+- Cache invalidation strategies
+- State persistence patterns
+
+#### Common Patterns
+```typescript
+// State update pattern
+const updateState = pipe(
+  Effect.Do,
+  Effect.bind("current", () => getCurrentState),
+  Effect.bind("new", ({ current }) => validateAndTransform(current)),
+  Effect.tap(({ new }) => persistState(new))
+)
+
+// Async state management
+const fetchAndProcess = pipe(
+  fetchData,
+  Effect.flatMap(processData),
+  Effect.catchAll(handleError),
+  Effect.provideService(LoggerLive)
+)
+```
 
 ### Local Development with Docker
 
@@ -255,6 +402,170 @@ helm/
 - **Multi-Model Validation**: Critical analyses use multiple AI models for verification
 - **Human Review**: Automated outputs are flagged for human review when confidence is low
 - **Continuous Learning**: Models are fine-tuned based on human feedback
+
+#### Implementation Quality Checklist
+1. **Documentation Review**:
+   - ✓ Review MCP server documentation
+   - ✓ Understand available tools and patterns
+   - ✓ Check existing implementations
+
+2. **Core Implementation**:
+   - ✓ Implement core functionality
+   - ✓ Add proper type definitions
+   - ✓ Handle errors appropriately
+
+3. **Testing and Validation**:
+   - ✓ Write comprehensive tests
+   - ✓ Verify type safety
+   - ✓ Run test suite
+
+4. **Code Cleanup**:
+   - ✓ Organize imports
+   - ✓ Fix formatting issues
+   - ✓ Address linting warnings
+
+## Testing Guidelines
+
+### Test Types and Organization
+
+#### Unit Tests
+- Test individual functions and components
+- Mock external dependencies
+- Focus on pure business logic
+- Use vitest for fast execution
+
+```typescript
+describe("effectToZodStruct", () => {
+  it("should convert Effect schema to Zod", () => {
+    const schema = S.struct({
+      name: S.string,
+      age: S.number
+    })
+    const zod = effectToZodStruct(schema)
+    expect(zod.parse({ name: "test", age: 25 })).toEqual({ name: "test", age: 25 })
+  })
+})
+```
+
+#### Integration Tests
+- Test service interactions
+- Validate MCP server integration
+- Check database operations
+- Test API endpoints
+
+#### E2E Tests
+- Full user journey testing
+- Cross-service integration
+- Performance benchmarking
+- Load testing critical paths
+
+#### E2E tests in the repo (services/api)
+
+- Test bootstrap: `services/api/test/AppTest.ts` exposes `GetAppTest()` which returns an `AppTest` object:
+  - `ctx`: ServerContext (DB, mocked providers, config)
+  - `mocks`: dependency mocks (axios, puppeteer, s3, redis, queue, etc.)
+  - `req`: supertest agent bound to `makeApp(ctx)` for issuing HTTP requests
+
+- Recommended helpers to reuse in tests:
+  - `saveUser(Test.ctx, scopes)` — creates a test user with specific permissions
+  - `loginUser(Test)(user)` — logs a user and returns `{ authorization }` header value
+  - `@liexp/test` arbitraries (e.g. `MediaArb`, `ProjectArb`, `KeywordArb`) for generating payloads
+
+- Test patterns already used in the codebase (copy these):
+  - call `Test = await GetAppTest()` in `beforeAll`
+  - create user via `saveUser` and retrieve token via `loginUser`
+  - use `Test.req.get/post/...` (supertest) to call endpoints and assert status/body
+
+- AppTest notes:
+  - External providers are mocked by default inside `AppTest` (axios, puppeteer, s3, ffmpeg, etc.), so e2e tests remain deterministic
+  - Tests still require a reachable Postgres DB; `process.env.DB_DATABASE` must point to the test DB when running
+
+- How to run API e2e tests locally:
+
+```bash
+# from repo root - runs only api tests
+pnpm --filter services/api test
+
+# or from inside services/api
+pnpm test
+```
+
+Keep tests small and focused to avoid flakiness. Start with smoke tests (healthcheck, simple CRUD) and reuse existing mocks in `AppTest` for deterministic runs.
+
+### Testing Best Practices
+
+#### Test Structure
+- Use descriptive test names
+- Follow Arrange-Act-Assert pattern
+- Isolate test cases
+- Clean up test data
+
+#### Mock Data
+- Use factories for consistent data
+- Share fixtures across tests
+- Version test data with code
+- Document data scenarios
+
+#### Coverage Requirements
+- Minimum 80% coverage
+- Critical paths 100% covered
+- Document uncovered edge cases
+- Regular coverage audits
+
+### Performance Testing
+- Measure response times
+- Test under load
+- Profile memory usage
+- Monitor API limits
+
+## Project Structure Conventions
+
+### File Organization
+```
+src/
+├── routes/           # API routes and controllers
+│   ├── mcp/         # MCP server implementations
+│   └── api/         # REST API endpoints
+├── services/        # Business logic services
+├── models/          # Domain models and types
+└── utils/          # Shared utilities
+```
+
+### Build Output Structure
+**IMPORTANT**: Always edit source files, never build outputs:
+- **Packages** (`@liexp/*`): Source code in `src/`, build output in `lib/`
+- **Services**: Source code in `src/`, build output in `build/`
+
+When making code changes:
+- ✅ Edit files in `src/` directories
+- ❌ Never edit files in `lib/` or `build/` directories (these are generated)
+
+### Naming Conventions
+- **Files**: 
+  - `kebab-case.ts` for utilities
+  - `PascalCase.ts` for classes/types
+  - `index.ts` for barrel files
+- **Functions**: 
+  - camelCase for regular functions
+  - PascalCase for constructors
+- **Types/Interfaces**: 
+  - PascalCase
+  - Prefix interfaces with 'I'
+- **Constants**: 
+  - UPPER_SNAKE_CASE
+
+### Code Generation
+- Use provided templates
+- Follow type generation patterns
+- Maintain consistency with existing code
+- Document generated code
+
+### Documentation Standards
+- JSDoc for public APIs
+- Markdown for guides
+- Type documentation
+- Example usage
+- Update docs with code changes
 
 ## Integration Points
 
