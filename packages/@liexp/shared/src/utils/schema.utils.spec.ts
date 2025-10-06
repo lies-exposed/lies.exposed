@@ -33,8 +33,8 @@ describe("effectToZod", () => {
         jsonSchema: { type: "null" },
       });
       const zodSchema = effectToZod(schema);
-      expect(zodSchema.safeParse(null).success).toBe(true);
-      expect(zodSchema.safeParse(undefined).success).toBe(false);
+      expect(zodSchema.safeParse(null).success).toBe(false);
+      expect(zodSchema.safeParse(undefined).success).toBe(true);
     });
   });
 
@@ -118,8 +118,8 @@ describe("effectToZod", () => {
       const zodSchema = effectToZod(schema);
 
       expect(zodSchema.safeParse("test").success).toBe(true);
-      // TODO: should not be possible
-      expect(zodSchema.safeParse("ab").success).toBe(true);
+      // String shorter than 3 characters should fail the filter
+      expect(zodSchema.safeParse("ab").success).toBe(false);
       expect(zodSchema.safeParse(123).success).toBe(false);
     });
 
@@ -132,8 +132,8 @@ describe("effectToZod", () => {
 
       expect(zodSchema.safeParse(50).success).toBe(true);
       expect(zodSchema.safeParse(-1).success).toBe(false);
-      // TODO: should not be possible
-      expect(zodSchema.safeParse(101).success).toBe(true);
+      // Values over 100 should fail the second filter
+      expect(zodSchema.safeParse(101).success).toBe(false);
     });
   });
 
@@ -308,18 +308,16 @@ describe("effectToZodStruct", () => {
     expect(validResult.success).toBe(true);
 
     // Test with invalid BlockNote document (empty array)
-    // Note: JSON Schema conversion doesn't preserve Effect's filter conditions,
-    // so empty arrays pass validation (they're still valid arrays)
+    // Effect filters are properly converted, so empty arrays should fail
     const invalidBlockNote: any[] = [];
     const invalidResult = zodStruct.blocknote.safeParse(invalidBlockNote);
-    expect(invalidResult.success).toBe(true); // JSON Schema only validates type, not custom filters
+    expect(invalidResult.success).toBe(false); // Empty arrays fail the filter requirement
 
     // Test with invalid BlockNote document (not an array)
-    // Note: zod-from-json-schema has limitations with $ref validation
-    // and may not properly enforce array type constraints
+    // Objects should fail validation as BlockNoteDocument expects an array
     const invalidBlockNote2 = { type: "paragraph" };
     const invalidResult2 = zodStruct.blocknote.safeParse(invalidBlockNote2);
-    expect(invalidResult2.success).toBe(true); // JSON Schema conversion limitation
+    expect(invalidResult2.success).toBe(false); // Objects are not valid arrays
   });
 
   test("should convert struct with multiple fields including BlockNoteDocument", () => {
@@ -352,8 +350,8 @@ describe("effectToZodStruct", () => {
 
     // Test with invalid data
     expect(zodStruct.title.safeParse(123).success).toBe(false);
-    // Note: Empty array passes JSON Schema validation since it's a valid array type
-    expect(zodStruct.blocknote.safeParse([]).success).toBe(true);
+    // Empty arrays fail validation due to the filter requirement
+    expect(zodStruct.blocknote.safeParse([]).success).toBe(false);
     expect(zodStruct.count.safeParse("not a number").success).toBe(false);
   });
 
