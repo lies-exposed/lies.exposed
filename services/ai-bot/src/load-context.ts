@@ -182,23 +182,21 @@ export const loadContext = (
     fp.TE.bind("token", ({ fs, api, logger, config, env }) =>
       userLogin()({ api, fs, logger, config, env }),
     ),
-    fp.TE.bind(
-      "agent",
-      ({ langchain, logger, token, api, config, puppeteer }) =>
-        pipe(
-          GetAgentProvider({
-            mcpClient: new MultiServerMCPClient({
-              api: {
-                transport: "http",
-                url: config.config.api.mcp,
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
+    fp.TE.bind("agent", ({ langchain, logger, token, config, puppeteer }) =>
+      pipe(
+        GetAgentProvider({
+          mcpClient: new MultiServerMCPClient({
+            api: {
+              transport: "http",
+              url: config.config.api.mcp,
+              headers: {
+                Authorization: `Bearer ${token}`,
               },
-            }),
-          })({ langchain, logger, puppeteer }),
-          fp.TE.mapLeft(toAIBotError),
-        ),
+            },
+          }),
+        })({ langchain, logger, puppeteer }),
+        fp.TE.mapLeft(toAIBotError),
+      ),
     ),
     fp.TE.map(
       ({

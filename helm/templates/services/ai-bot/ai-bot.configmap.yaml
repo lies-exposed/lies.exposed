@@ -4,7 +4,8 @@ data:
   ai-bot.config.json: |
     {
       "api": {
-        "url": "http://api.prod.svc.cluster.local/v1"
+        "url": "http://api.prod.svc.cluster.local/v1",
+        "mcp": "http://api.prod.svc.cluster.local/mcp"
       },
       "localAi": {
         "url": "http://localai.prod.svc.cluster.local/v1",
