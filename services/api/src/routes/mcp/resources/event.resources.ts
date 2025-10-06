@@ -22,7 +22,7 @@ export const registerEventResources = (
   server.registerResource(
     "event",
     new ResourceTemplate("event://{id}", {
-      list: (extra) => {
+      list: (_extra) => {
         return pipe(
           searchEventV2Query({ take: 50 })(ctx),
           fp.TE.chainEitherK((e) => EventV2IO.decodeMany(e.results)),

@@ -15,7 +15,7 @@ import { groupInlineContentSpec } from "./plugins/inline/GroupInlineBlockNote.pl
 import { keywordInlineContentSpec } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { relationInlineContentSpec } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
 
-const { image, ...otherBlockSpecs } = defaultBlockSpecs;
+const { image: _image, ...otherBlockSpecs } = defaultBlockSpecs;
 // Our schema with inline content specs, which contain the configs and
 // implementations for inline content  that we want our editor to use.
 

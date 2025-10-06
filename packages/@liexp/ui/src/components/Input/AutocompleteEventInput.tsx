@@ -67,7 +67,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, item, state) => {
+      renderOption={(props, item, _state) => {
         return (
           <EventSlimCard
             key={item.id}

@@ -37,7 +37,7 @@ export const searchWithGoogle =
     pageTotal: number,
     query: string,
     date: string | undefined,
-    keywords: readonly string[],
+    _keywords: readonly string[],
   ): TE.TaskEither<PuppeteerError, string[]> => {
     return pipe(
       TE.tryCatch(async () => {
@@ -58,7 +58,7 @@ export const searchWithGoogle =
               const closeButton = els[2];
               closeButton?.click();
             });
-          } catch (e) {
+          } catch (_e) {
             ctx.logger.debug.log("No modal found, go on...");
           }
         };

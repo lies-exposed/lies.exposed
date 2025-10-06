@@ -37,7 +37,7 @@ export const MakeTakeLinkScreenshotRoute = (
             ),
           ),
         ),
-        fp.TE.chain((link) =>
+        fp.TE.chain((_link) =>
           ctx.db.findOneOrFail<LinkEntity & { image?: MediaEntity }>(
             LinkEntity,
             {

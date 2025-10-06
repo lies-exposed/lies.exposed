@@ -249,7 +249,7 @@ describe("Create From TG Message", () => {
             },
           ];
         },
-        videos(m) {
+        videos() {
           return [];
         },
       },
@@ -264,7 +264,7 @@ describe("Create From TG Message", () => {
       },
       {
         n: 97,
-        urls(m) {
+        urls() {
           return [];
         },
         platformVideos: (m) => {
@@ -290,7 +290,7 @@ describe("Create From TG Message", () => {
             },
           ];
         },
-        videos(m) {
+        videos() {
           return [];
         },
       },
@@ -316,7 +316,7 @@ describe("Create From TG Message", () => {
       },
       {
         n: 99,
-        urls: (m) => {
+        urls: () => {
           return [];
         },
         platformVideos: (m) => {
@@ -342,7 +342,7 @@ describe("Create From TG Message", () => {
             },
           ];
         },
-        videos: (m) => {
+        videos: () => {
           return [];
         },
       },
@@ -431,7 +431,7 @@ describe("Create From TG Message", () => {
             },
           ];
         },
-        platformVideos: (m) => {
+        platformVideos: () => {
           const rumbleState = {
             description: "rumble description",
             embedUrl: "url to embed",
@@ -511,7 +511,7 @@ describe("Create From TG Message", () => {
 
         // // create the media
 
-        photos.forEach((p) => {
+        photos.forEach(() => {
           const tempFileLocation = path.resolve(
             tempDir,
             `${message.message_id}.png`,
@@ -531,7 +531,7 @@ describe("Create From TG Message", () => {
           );
         });
 
-        videos.forEach((p) => {
+        videos.forEach(() => {
           const tempFileLocation = path.resolve(
             tempDir,
             `${message.message_id}.png`,
@@ -548,7 +548,7 @@ describe("Create From TG Message", () => {
 
           // mock s3 upload
           mocks.s3.client.send
-            .mockImplementationOnce((args: any) => {
+            .mockImplementationOnce(() => {
               return Promise.resolve({
                 Key: fc.sample(fc.string(), 1)[0],
                 Location: fc.sample(

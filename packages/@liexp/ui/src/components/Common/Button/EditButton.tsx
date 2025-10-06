@@ -31,7 +31,7 @@ const EditButton: React.FC<EditButtonProps> = ({
           const permissions = await authProvider.getPermissions?.({});
           setIsAdmin(checkIsAdmin(permissions));
         },
-        (e) => {
+        () => {
           setIsAdmin(null);
         },
       );

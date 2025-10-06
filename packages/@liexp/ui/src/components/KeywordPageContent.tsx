@@ -7,7 +7,7 @@ export interface KeywordPageContentProps {
 }
 
 export const KeywordPageContent: React.FC<KeywordPageContentProps> = ({
-  keyword: { id, tag, color },
+  keyword: { id: _id, tag, color },
 }) => {
   return (
     <Grid container>

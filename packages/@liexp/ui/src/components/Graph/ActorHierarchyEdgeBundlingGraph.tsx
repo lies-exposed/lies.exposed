@@ -23,7 +23,7 @@ export const ActorHierarchyEdgeBundlingGraph: React.FC<
           type: StatsType.members[1].literals[0],
         }),
       })}
-      render={({ graph }) => {
+      render={({ graph: _graph }) => {
         return (
           <HierarchicalEdgeBundling
             {...props}

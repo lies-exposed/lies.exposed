@@ -27,7 +27,7 @@ import { transformEvent } from "@liexp/ui/lib/components/admin/transform.utils.j
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
-const UncategorizedEventCreate: React.FC = (props) => {
+const UncategorizedEventCreate: React.FC = () => {
   const dataProvider = useDataProvider();
   return (
     <Create

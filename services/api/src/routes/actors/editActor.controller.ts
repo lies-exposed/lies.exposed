@@ -14,7 +14,10 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeEditActorRoute: Route = (r, { db, logger, jwt, s3 }) => {
+export const MakeEditActorRoute: Route = (
+  r,
+  { db, logger, queue: _queue, s3: _s3, jwt },
+) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Actor.Edit,
     ({

@@ -55,7 +55,7 @@ type TransformEventFn<D = any> = (
   relations: http.Events.EventRelationIds,
 ) => http.Events.CreateEventBody & { id: http.Common.UUID };
 
-export const transformDeath: TransformEventFn = (data, relations) => {
+export const transformDeath: TransformEventFn = (data, _relations) => {
   return {
     ...data,
     payload: {

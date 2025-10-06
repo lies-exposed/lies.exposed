@@ -61,9 +61,9 @@ const getWealthPercentage = (share: number): number =>
 const getPeoplePercentage = (share: number): number =>
   (share * 100) / totalPeople;
 
-export const WealthDistributionGraph: React.FC<WealthDistributionGraphProps> = (
-  props,
-) => {
+export const WealthDistributionGraph: React.FC<
+  WealthDistributionGraphProps
+> = () => {
   const [toggle, setToggle] = React.useState(false);
   return (
     <>

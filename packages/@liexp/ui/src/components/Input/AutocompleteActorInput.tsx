@@ -50,7 +50,7 @@ export const AutocompleteActorInput: React.FC<AutocompleteActorInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, item, state) => (
+      renderOption={(props, item, _state) => (
         <ActorListItem
           key={item.id}
           displayFullName={true}

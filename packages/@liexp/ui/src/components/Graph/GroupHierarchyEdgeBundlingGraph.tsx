@@ -29,7 +29,7 @@ export const GroupHierarchyEdgeBundlingGraph: React.FC<
           },
         ),
       })}
-      render={({ graph }) => {
+      render={({ graph: _graph }) => {
         return (
           <HierarchicalEdgeBundling
             {...props}

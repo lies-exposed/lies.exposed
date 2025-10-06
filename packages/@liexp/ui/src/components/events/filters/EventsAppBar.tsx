@@ -178,10 +178,10 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   groupsMembers,
   keywords,
   onQueryChange,
-  defaultExpanded = false,
+  defaultExpanded: _defaultExpanded = false,
   onQueryClear,
   totals,
-  events,
+  events: _events,
   ...props
 }) => {
   const theme = useTheme();
@@ -201,7 +201,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
   });
 
   const handleFilterChange = React.useCallback(
-    (ff: EventTypeMap, filterK: EventType) => {
+    (ff: EventTypeMap, _filterK: EventType) => {
       const type = [
         [ff.Uncategorized, EVENT_TYPES.UNCATEGORIZED],
         [ff.Death, EVENT_TYPES.DEATH],

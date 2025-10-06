@@ -12,7 +12,7 @@ export const MakeAdminExtractEntitiesWithNLPRoute: Route = (r, ctx) => {
     ({ body }) => {
       return pipe(
         ExtractEntitiesWithNLP.publish(body)(ctx),
-        TE.map((data) => ({
+        TE.map((_data) => ({
           body: {
             data: {
               entities: {

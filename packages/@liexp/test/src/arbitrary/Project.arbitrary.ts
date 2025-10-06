@@ -9,12 +9,12 @@ const {
   createdAt: _createdAt,
   updatedAt: _updatedAt,
   deletedAt: _deletedAt,
-  areas,
-  media,
+  areas: _areas,
+  media: _media,
   startDate: _startDate,
   endDate: _endDate,
-  id,
-  color,
+  id: _id,
+  color: _color,
   ...projectProps
 } = http.Project.Project.fields;
 

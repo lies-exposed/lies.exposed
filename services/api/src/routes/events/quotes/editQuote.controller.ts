@@ -10,7 +10,7 @@ import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const MakeEditQuoteRoute: Route = (r, { db, logger }) => {
+export const MakeEditQuoteRoute: Route = (r, { db, logger: _logger }) => {
   AddEndpoint(r)(
     Endpoints.QuoteEvent.Edit,
     ({ params: { id }, body: { payload, ...body } }) => {

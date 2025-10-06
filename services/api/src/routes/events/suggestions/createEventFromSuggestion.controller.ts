@@ -14,7 +14,7 @@ import { type Route } from "#routes/route.types.js";
 export const CreateEventFromSuggestionRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Event.Custom.CreateFromSuggestion,
-    ({ params: { id }, body }) => {
+    ({ params: { id }, body: _body }) => {
       return pipe(
         ctx.db.findOneOrFail(EventSuggestionEntity, {
           where: { id: Equal(id) },

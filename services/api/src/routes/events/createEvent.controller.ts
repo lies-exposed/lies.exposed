@@ -38,7 +38,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
           UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
         ),
         TE.chain(
-          (user): TE.TaskEither<ControllerError, { success: true } | Event> =>
+          (_user): TE.TaskEither<ControllerError, { success: true } | Event> =>
             Schema.is(EventFromURLBody)(body)
               ? pipe(
                   uuid(),
@@ -62,7 +62,7 @@ export const CreateEventRoute: Route = (r, ctx) => {
                         },
                       }),
                   ),
-                  TE.map((id) => ({ success: true })),
+                  TE.map((_id) => ({ success: true })),
                 )
               : pipe(
                   createEventQuery(body)(ctx),

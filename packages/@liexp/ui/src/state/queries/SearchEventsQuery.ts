@@ -216,7 +216,7 @@ export const getEventsFromLinkQuery =
               _end: "20",
             },
           }),
-          TE.chain(({ data, suggestions, total, totals }) => {
+          TE.chain(({ data, suggestions: _suggestions, total, totals }) => {
             return pipe(
               getNewRelationIds(data, searchEventsQueryCache),
               TE.right,

@@ -177,7 +177,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   const onGroupsChange = React.useCallback(
     (gg: Group.Group[]) => {
       if (gg[0]) {
-        const { body, excerpt, ...group } = gg[0];
+        const { body: _body, excerpt: _excerpt, ...group } = gg[0];
         setNodes((nodes) =>
           nodes.concat([
             {
@@ -196,7 +196,7 @@ export const FlowGraphBuilder: React.FC<FlowGraphBuilderProps> = ({
   const onActorsChange = React.useCallback(
     (gg: http.Actor.Actor[]) => {
       if (gg[0]) {
-        const { body, excerpt, ...group } = gg[0];
+        const { body: _body, excerpt: _excerpt, ...group } = gg[0];
         setNodes((nodes) =>
           nonEmptyArray.concat<NodeType>([
             {

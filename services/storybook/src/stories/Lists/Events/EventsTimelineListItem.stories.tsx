@@ -1,6 +1,5 @@
 import {
   EventType,
-  EventTypes,
   EVENT_TYPES,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";

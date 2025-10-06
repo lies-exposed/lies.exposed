@@ -14,7 +14,7 @@ const calculatePopulation = (): number => {
   return parseInt(actualPop.toString(), 10);
 };
 
-export const WorldPopulationCounter: React.FC = (props) => {
+export const WorldPopulationCounter: React.FC = (_props) => {
   return (
     <Counter
       message="World population"

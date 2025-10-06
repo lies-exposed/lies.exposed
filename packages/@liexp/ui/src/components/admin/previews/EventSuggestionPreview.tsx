@@ -16,7 +16,7 @@ export const EventSuggestionPreview: React.FC = () => {
   const qc = useQueryClient();
 
   const result = React.useMemo(() => {
-    const { payload, ...r } = record;
+    const { payload: _payload, ...r } = record;
     return Schema.decodeUnknownEither(
       http.EventSuggestion.EventSuggestion.fields.payload,
     )({

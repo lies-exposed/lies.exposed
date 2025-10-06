@@ -41,7 +41,10 @@ const SearchAreaTemplate: React.FC<SearchAreaTemplateProps> = ({
             >
               {({ width, height }) => {
                 return (
-                  <Grid container style={{ height, width: "100%" }}>
+                  <Grid
+                    container
+                    style={{ height, maxWidth: width, width: "100%" }}
+                  >
                     <Grid size={{ md: 12 }}>
                       <PageContentBox path="areas" />
                     </Grid>

@@ -20,7 +20,7 @@ interface DeathListItemProps {
 export const DeathListItem: React.FC<DeathListItemProps> = ({
   item,
   onClick,
-  onActorClick,
+  onActorClick: _onActorClick,
   ...props
 }) => {
   // const victim = actors.find((a) => a.id === item.payload.victim);

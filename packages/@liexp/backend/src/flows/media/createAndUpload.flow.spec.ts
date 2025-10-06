@@ -49,14 +49,25 @@ describe(createAndUpload.name, () => {
   test("Should create a media from image location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, id, thumbnail, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://example.com/${id}.jpg` as URL,
-        type: ImageType.members[0].literals[0],
-        creator: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            id,
+            thumbnail: _thumbnail,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://example.com/${id}.jpg` as URL,
+          type: ImageType.members[0].literals[0],
+          creator: undefined,
+        }),
+      );
 
     const mediaUploadLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     mockTERightOnce(Test.ctx.s3.upload, () => ({
@@ -85,15 +96,27 @@ describe(createAndUpload.name, () => {
   test("Should create a media from MP4 file location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, id, thumbnail, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://example.com/${id}.mp4` as URL,
-        type: MP4Type.literals[0],
-        creator: undefined,
-        extra: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            deletedAt: _deletedAt,
+            id,
+            thumbnail: _thumbnail,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://example.com/${id}.mp4` as URL,
+          type: MP4Type.literals[0],
+          creator: undefined,
+          extra: undefined,
+        }),
+      );
 
     const mediaUploadLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     mockTERightOnce(Test.ctx.s3.upload, () => ({
@@ -141,14 +164,26 @@ describe(createAndUpload.name, () => {
   test("Should create a media from iframe/video location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, thumbnail, id, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://www.youtube.com/watch?v=${id}` as URL,
-        type: IframeVideoType.literals[0],
-        creator: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            deletedAt: _deletedAt,
+            thumbnail: _thumbnail,
+            id,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://www.youtube.com/watch?v=${id}` as URL,
+          type: IframeVideoType.literals[0],
+          creator: undefined,
+        }),
+      );
 
     const response = await pipe(
       createAndUpload(
@@ -192,7 +227,7 @@ describe(createAndUpload.name, () => {
   test("Should get an error when 'location' in media is duplicated", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ id, createdAt, updatedAt, ...m }) => ({
+      .map(({ id, createdAt: _createdAt, updatedAt: _updatedAt, ...m }) => ({
         ...m,
         id,
         label: `label-${id}`,

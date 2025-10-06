@@ -103,7 +103,7 @@ export const extractThumbnailFromVideoPlatform =
             }
             try {
               await page.waitForSelector(selector, { timeout: 10_000 });
-            } catch (e) {
+            } catch (_e) {
               selector = "video[poster]";
               await page.waitForSelector(selector, { timeout: 10_000 });
             }

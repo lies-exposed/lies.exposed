@@ -87,7 +87,7 @@ export const LinkTemplateUI: React.FC<LinkTemplateUIProps> = ({
           _order: "DESC",
         }}
         tab={0}
-        onQueryChange={(q, tab) => {}}
+        onQueryChange={() => {}}
         onEventClick={onEventClick}
       />
     </SplitPageTemplate>

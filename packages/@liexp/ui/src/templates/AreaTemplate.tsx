@@ -120,7 +120,7 @@ export const AreaTemplateUI: React.FC<AreaTemplateProps> = ({
           _order: "DESC",
         }}
         tab={0}
-        onQueryChange={(q, tab) => {
+        onQueryChange={() => {
           // navigateToResource.area({ id: actor.id }, { tab });
         }}
         onEventClick={onEventClick}

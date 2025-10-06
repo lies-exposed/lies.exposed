@@ -19,7 +19,7 @@ const classes = {
   typeTotal: `${PREFIX}-type-total`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {
     display: "flex",
     width: "100%",

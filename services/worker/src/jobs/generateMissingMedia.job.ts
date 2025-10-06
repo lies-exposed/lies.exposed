@@ -17,7 +17,7 @@ export const generateMissingThumbnailsCron = (
 ): ScheduledTask =>
   Cron.schedule(
     ctx.env.GENERATE_MISSING_THUMBNAILS_CRON,
-    (opts) => {
+    (_opts) => {
       void pipe(
         fp.TE.Do,
         fp.TE.bind("media", () => getMediaWithoutThumbnailsFlow()(ctx)),

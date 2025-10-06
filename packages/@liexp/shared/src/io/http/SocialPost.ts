@@ -104,7 +104,7 @@ export const GetListSocialPostQuery = Schema.Struct({
 
 export const CreateSocialPost = Schema.Struct({
   title: Schema.String,
-  url: Schema.String,
+  url: Schema.UndefinedOr(Schema.String),
   date: Schema.String,
   content: Schema.Union(Schema.String, Schema.Undefined),
   useReply: Schema.Boolean,

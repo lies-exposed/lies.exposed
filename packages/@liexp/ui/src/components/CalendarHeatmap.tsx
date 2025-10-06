@@ -90,7 +90,7 @@ const CalendarHeatmapComponent: React.FC<
     }),
     O.fold(
       () => null,
-      ({ events, firstEvent, lastEvent }) => {
+      ({ events, firstEvent }) => {
         const bucketSizeMax = 52; // week in year
         const firstEventDate = firstEvent.date;
         const eventsWithDiff = events.map((e) => ({
@@ -190,7 +190,7 @@ const CalendarHeatmapComponent: React.FC<
                             fillOpacity={bin.opacity}
                             stroke={O.toUndefined(bin.bin.stroke)}
                             strokeWidth="2"
-                            onClick={(event) => {
+                            onClick={() => {
                               if (O.isSome(bin.bin.event)) {
                                 onCircleClick(bin.bin.event.value);
                               }

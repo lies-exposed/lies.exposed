@@ -14,7 +14,7 @@ export const URL = Schema.String.pipe(
   Schema.filter((url) =>
     pipe(
       IOE.tryCatch(() => urlPattern.test(url), E.toError),
-      IOE.mapLeft((e) => false),
+      IOE.mapLeft(() => false),
       IOE.fold(
         (e) => () => e,
         (r) => () => r,

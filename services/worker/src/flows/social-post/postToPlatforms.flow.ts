@@ -17,7 +17,7 @@ export const postToSocialPlatforms =
   ({
     platforms: _platforms,
     id,
-    ...body
+    ..._body
   }: {
     id: UUID;
     platforms: CreateSocialPost["platforms"];
@@ -35,7 +35,7 @@ export const postToSocialPlatforms =
       fp.TE.bind("result", ({ socialPost }) => {
         return sequenceS(fp.TE.ApplicativePar)({
           ig: platforms.IG
-            ? postToIG({ ...socialPost, platforms }, (e) =>
+            ? postToIG({ ...socialPost, platforms }, (_e) =>
                 Promise.resolve({
                   code: "invalid",
                 }),

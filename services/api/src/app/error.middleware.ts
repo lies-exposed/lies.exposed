@@ -14,7 +14,7 @@ export const errorHandler =
     err: ControllerError,
     req: Request,
     res: Response,
-    next: NextFunction,
+    _next: NextFunction,
   ): void => {
     return pipe(
       fp.IOE.tryCatch(() => {

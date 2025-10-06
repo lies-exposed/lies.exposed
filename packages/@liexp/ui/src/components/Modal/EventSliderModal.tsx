@@ -73,7 +73,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   open,
   query,
   onQueryChange,
-  onQueryClear,
+  onQueryClear: _onQueryClear,
   ...props
 }) => {
   // const [open, setOpen] = React.useState(_open ?? false);
@@ -91,7 +91,7 @@ const EventSliderModal: React.FC<EventSliderModalProps> = ({
   // console.log({ url, selectedSuggestion, createDisabled });
 
   const handleBeforeSlide = React.useCallback(
-    (nextSlide: number, totals: EventTotals) => {
+    (nextSlide: number, _totals: EventTotals) => {
       // const total = getTotal(totals, {
       //   uncategorized: true,
       //   documentaries: true,

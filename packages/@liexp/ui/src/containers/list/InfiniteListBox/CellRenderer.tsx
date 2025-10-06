@@ -6,7 +6,15 @@ export const CellRenderer = (
 ) =>
   React.forwardRef<any, CellRendererProps>(
     (
-      { item, measure, index, style, columnWidth, onRowInvalidate, ...others },
+      {
+        item,
+        measure,
+        index,
+        style,
+        columnWidth,
+        onRowInvalidate: _onRowInvalidate,
+        ...others
+      },
       ref,
     ) => {
       // console.log("cell renderer", index, item, columnWidth, style);

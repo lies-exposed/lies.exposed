@@ -88,7 +88,7 @@ export const EventBlockPluginControl: React.FC<{
   type?: EventType;
   onChange: (id: string) => void;
   onRemove: () => void;
-}> = ({ data, onChange, onRemove: remove, type, ...props }) => {
+}> = ({ data, onChange, onRemove: remove, type, ..._props }) => {
   return (
     <Stack
       style={{ height: 200 }}

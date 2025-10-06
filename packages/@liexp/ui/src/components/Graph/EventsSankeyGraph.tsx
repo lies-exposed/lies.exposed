@@ -82,12 +82,16 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
             ...props,
             groupBy,
             width,
-            height: 800,
+            height: height > 800 ? 800 : height,
             margin: { vertical: 40, horizontal: 40 },
           });
 
           return (
-            <Grid container spacing={3}>
+            <Grid
+              container
+              spacing={3}
+              style={{ maxHeight: height, height: "100%" }}
+            >
               <Grid size={{ md: 12 }}>
                 <Grid
                   size={{ md: 12 }}
@@ -476,17 +480,17 @@ export function createEventNetworkGraphProps({
   events,
   actors: allActors,
   groups: allGroups,
-  keywords: allKeywords,
+  keywords: _allKeywords,
   groupBy,
   scale,
   includeEmptyRelations,
-  scalePoint,
-  selectedActorIds,
-  selectedGroupIds,
-  selectedKeywordIds,
-  height,
+  // scalePoint,
+  // selectedActorIds,
+  // selectedGroupIds,
+  // selectedKeywordIds,
+  // height,
   width,
-  margin,
+  // margin,
 }: EventsSankeyGraphProps & {
   width: number;
   height: number;

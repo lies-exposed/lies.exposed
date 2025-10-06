@@ -13,7 +13,7 @@ export const Tag = Schema.String.pipe(
   Schema.filter((s) =>
     pipe(
       IOE.tryCatch(() => tagPattern.test(s), E.toError),
-      IOE.mapLeft((e) => false),
+      IOE.mapLeft(() => false),
       IOE.fold(
         (e) => () => e,
         (r) => () => r,

@@ -198,7 +198,7 @@ const extractComprehensiveMetadata = (
     try {
       const jsonData = JSON.parse(jsonLdMatch[1]);
       jsonLd.push(jsonData);
-    } catch (e) {
+    } catch (_e) {
       // Skip invalid JSON-LD
     }
   }
@@ -289,7 +289,7 @@ const formatForLLM = (
     // JSON-LD structured data for semantic context
     if (metadata.jsonLd.length > 0) {
       sections.push("**Structured Data:**");
-      metadata.jsonLd.forEach((data, index) => {
+      metadata.jsonLd.forEach((data) => {
         if (data["@type"]) {
           sections.push(`  - Type: ${data["@type"]}`);
           if (data.name) sections.push(`    Name: ${data.name}`);

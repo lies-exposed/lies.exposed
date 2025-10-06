@@ -40,8 +40,8 @@ export const QuoteListItem: React.FC<QuoteListItemProps> = ({
   item,
   onClick,
   condensed,
-  onActorClick,
-  onKeywordClick,
+  onActorClick: _onActorClick,
+  onKeywordClick: _onKeywordClick,
   onLoad,
 }) => {
   React.useEffect(() => {

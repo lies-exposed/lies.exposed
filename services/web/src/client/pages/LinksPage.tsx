@@ -4,7 +4,7 @@ import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
-const LinksPage: React.FC<RouteComponentProps> = (props) => {
+const LinksPage: React.FC<RouteComponentProps> = (_props) => {
   const navigateTo = useNavigateToResource();
 
   const [searchFilters, setQ] = React.useState<SearchFilters>({

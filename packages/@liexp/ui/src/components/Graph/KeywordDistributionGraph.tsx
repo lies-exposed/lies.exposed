@@ -64,7 +64,7 @@ const KeywordsDistributionGraphComponent: React.FC<
           random={() => 0.5}
         >
           {(cloudWords) =>
-            cloudWords.map((w: any, i) => {
+            cloudWords.map((w: any, _i) => {
               return (
                 <Text
                   key={w.text}

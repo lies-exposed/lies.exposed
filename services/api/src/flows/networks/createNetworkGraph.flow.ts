@@ -130,7 +130,7 @@ export const getEventGraph = (
     actors: allActors,
     groups: allGroups,
     keywords: allKeywords,
-    media: allMedia,
+    media: _allMedia,
     relations,
   }: GetEventGraphOpts,
 ): NetworkGraphOutput => {
@@ -174,7 +174,7 @@ export const getEventGraph = (
         fp.O.toUndefined,
       );
 
-      const { body, excerpt, ...cleanEvent } = e;
+      const { body: _body, excerpt: _excerpt, ...cleanEvent } = e;
       const eventDatum: EventNetworkDatum = {
         ...cleanEvent,
         image: featuredImage,

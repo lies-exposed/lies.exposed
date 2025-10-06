@@ -106,7 +106,7 @@ export const MediaListItemCell: React.FC<MediaListItemProps> = ({
   item,
   onClick,
   style,
-  index,
+  index: _index,
   ...props
 }) => {
   const [h, setHeight] = React.useState(
@@ -174,7 +174,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       style,
       onItemClick,
       itemStyle,
-      gutterSize = 20,
+      gutterSize: _gutterSize = 20,
       columns = 4,
       enableDescription,
       disableZoom = true,
@@ -224,7 +224,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
                   <MediaListItemCell
                     key={m.id}
                     item={m}
-                    onClick={onItemClick}
+                    onClick={() => onItemClick?.(m)}
                     enableDescription={enableDescription}
                     disableZoom={disableZoom}
                     style={{ ...itemStyle, width: columnWidth }}

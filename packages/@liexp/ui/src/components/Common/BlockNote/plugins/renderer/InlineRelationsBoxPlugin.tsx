@@ -21,7 +21,7 @@ const classes = {
   root: `${PREFIX}-root`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {
     // position: 'sticky',
     padding: 20,

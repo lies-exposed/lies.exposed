@@ -38,12 +38,12 @@ export const AutocompleteLinkInput: React.FC<AutocompleteLinkInputProps> = ({
             selected: true,
           }))}
           style={{ flexWrap: "wrap", flexDirection: "row" }}
-          onItemClick={(a: any) => {
+          onItemClick={(a) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}
         />
       )}
-      renderOption={(props, item, state) => (
+      renderOption={(props, item, _state) => (
         <LinkCard
           key={item.id}
           link={{

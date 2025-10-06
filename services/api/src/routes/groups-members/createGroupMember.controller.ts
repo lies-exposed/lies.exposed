@@ -11,7 +11,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateGroupMemberRoute: Route = (
   r,
-  { db, logger, jwt, s3 },
+  { db, logger, jwt, s3: _s3 },
 ) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.GroupMember.Create,

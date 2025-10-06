@@ -3,7 +3,7 @@ import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/Book
 import * as React from "react";
 
 const BookEdit: React.FC = () => {
-  return <EditEventForm>{(props) => <BookEditFormTab />}</EditEventForm>;
+  return <EditEventForm>{() => <BookEditFormTab />}</EditEventForm>;
 };
 
 export default BookEdit;

@@ -9,7 +9,7 @@ import { cleanUpTempMediaFolder } from "#flows/fs/cleanUpTempMediaFolder.flow.js
 export const cleanTempFolder = (ctx: WorkerContext): ScheduledTask =>
   Cron.schedule(
     ctx.env.TEMP_FOLDER_CLEAN_UP_CRON,
-    (opts) => {
+    (_opts) => {
       const olderThan = 30 * 24;
       void pipe(
         sequenceT(fp.RTE.ApplicativePar)(

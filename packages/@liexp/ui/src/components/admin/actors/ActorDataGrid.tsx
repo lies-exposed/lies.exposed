@@ -18,7 +18,7 @@ export const ActorDataGrid: React.FC = () => {
     >
       <FunctionField
         source="username"
-        render={(r) => {
+        render={() => {
           return (
             <Box style={{ display: "flex" }}>
               <AvatarField source="avatar.thumbnail" />

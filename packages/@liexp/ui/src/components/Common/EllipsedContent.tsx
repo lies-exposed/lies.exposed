@@ -10,7 +10,7 @@ interface EllipsesContentProps extends Omit<EllipsisProps, "ellipsis"> {
 }
 
 const EllipsesContent: React.FC<EllipsesContentProps> = ({
-  height,
+  height: _height,
   text,
   ellipsis = true,
   variant = "body1",
@@ -18,7 +18,7 @@ const EllipsesContent: React.FC<EllipsesContentProps> = ({
 }) => {
   return (
     <Typography variant={variant}>
-      <EllipsisComponent ellipsis text={text} {...props} />
+      <EllipsisComponent ellipsis={ellipsis} text={text} {...props} />
     </Typography>
   );
 };

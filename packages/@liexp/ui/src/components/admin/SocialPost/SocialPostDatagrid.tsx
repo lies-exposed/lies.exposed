@@ -45,7 +45,7 @@ export const SocialPostDataGrid: React.FC<DatagridProps> = (props) => {
       <NumberField source="publishCount" />
       <FunctionField
         label="Platforms"
-        render={(r) => {
+        render={() => {
           return (
             <Stack direction="row" spacing={1}>
               <SocialPostPlatformIcon platform="TG" />

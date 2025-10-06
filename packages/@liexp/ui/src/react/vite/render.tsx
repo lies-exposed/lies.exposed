@@ -233,7 +233,7 @@ export const requestHandler =
                 .setHeader("Content-Type", "text/html; charset=utf-8");
 
               pipe(renderStylesToNodeStream().pipe(resStream));
-            } catch (e) {
+            } catch (_e) {
               didError = true;
             }
           },

@@ -90,7 +90,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
     (
       e: React.ChangeEvent<any>,
       value: string,
-      reason: AutocompleteInputChangeReason,
+      _reason: AutocompleteInputChangeReason,
     ): void => {
       const q = value;
 
@@ -171,7 +171,7 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, option, state, ownerState) => {
+      renderOption={(props, option, _state, _ownerState) => {
         if (option.type === "Search") {
           return (
             <Typography key={option.item} variant="subtitle1">
@@ -219,8 +219,8 @@ const SearchEventInput: React.FC<SearchInputProps> = ({
           </Box>
         );
       }}
-      renderTags={(value) => undefined}
-      onChange={(e, v, reason, details) => {
+      renderTags={(_value) => undefined}
+      onChange={(e, v, _reason, _details) => {
         if (Array.isArray(v)) {
           const values: SearchOption[] = v.map((vv) => {
             if (typeof vv === "string") {

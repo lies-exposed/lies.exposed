@@ -15,11 +15,24 @@ describe("Get event from link", () => {
   const [firstActor, secondActor] = fc.sample(ActorArb, 2).map((a) => ({
     ...a,
     memberIn: [],
+    nationalities: [],
   }));
   const groups = fc.sample(GroupArb, 2).map((g) => ({
     ...g,
     subGroups: [],
     members: [],
+    avatar: g.avatar
+      ? {
+          ...g.avatar,
+          events: [],
+          links: [],
+          areas: [],
+          keywords: [],
+          socialPosts: [],
+          featuredInStories: [],
+          creator: undefined,
+        }
+      : undefined,
   }));
   const groupsMembers = fc.sample(GroupMemberArb, 2).map((gm, i) => ({
     ...gm,
@@ -92,8 +105,8 @@ describe("Get event from link", () => {
       .query({ url: "http://lies.exposed" });
 
     const {
-      deletedAt,
-      payload: { location, endDate, ...expectedPayload },
+      deletedAt: _deletedAt,
+      payload: { location: _location, endDate: _endDate, ...expectedPayload },
       ...expectedEvent
     } = eventsData[0];
 

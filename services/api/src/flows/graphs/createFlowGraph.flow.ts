@@ -162,7 +162,7 @@ const getFlowGraph =
 
     const actorLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.actorLinks),
-      fp.A.map(([k, links]) => links),
+      fp.A.map(([_k, links]) => links),
       fp.A.flatten,
     );
 
@@ -170,13 +170,13 @@ const getFlowGraph =
 
     const groupLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.groupLinks),
-      fp.A.map(([k, links]) => links),
+      fp.A.map(([_k, links]) => links),
       fp.A.flatten,
     );
 
     const keywordLinks = pipe(
       fp.Map.toArray(fp.S.Ord)(graph.keywordLinks),
-      fp.A.map(([k, links]) => links),
+      fp.A.map(([_k, links]) => links),
       fp.A.flatten,
     );
 

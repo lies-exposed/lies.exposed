@@ -25,7 +25,7 @@ export const UncategorizedEventEditTab: React.FC<{
   sourcePrefix?: string;
   suggestions?: ExtractEntitiesWithNLPOutput | null;
   handlers?: EventGeneralTabChildrenHandlers;
-}> = ({ sourcePrefix, suggestions, record, handlers, ...props }) => {
+}> = ({ sourcePrefix, suggestions, record, handlers, ..._props }) => {
   const source = (s: string): string =>
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 

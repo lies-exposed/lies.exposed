@@ -315,9 +315,9 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                     onGroupClick={onGroupClick}
                     onKeywordClick={onKeywordClick}
                     onActorClick={onActorClick}
-                    onGroupMemberClick={(g) => {}}
-                    onLinkClick={(l) => {}}
-                    onAreaClick={(a) => {}}
+                    onGroupMemberClick={() => {}}
+                    onLinkClick={() => {}}
+                    onAreaClick={() => {}}
                   />
                   <EventRelatedEvents
                     event={searchEvent}

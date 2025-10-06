@@ -14,7 +14,7 @@ import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
-const GroupsPage: React.FC<RouteComponentProps> = (props) => {
+const GroupsPage: React.FC<RouteComponentProps> = (_props) => {
   const navigateTo = useNavigateToResource();
   return (
     <MainContent>

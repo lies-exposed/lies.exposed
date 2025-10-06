@@ -63,7 +63,7 @@ export interface JSONInputProps extends TextInputProps {
 const JSONInput: React.FC<JSONInputProps> = ({
   source,
   label = source,
-  style,
+  style: _style,
   onClear,
   parseJSON,
   ...props
@@ -85,7 +85,7 @@ const JSONInput: React.FC<JSONInputProps> = ({
             value ? (parseJSON ? { text: value } : { json: value }) : undefined
           }
           mode={Mode.text}
-          onChange={(content, prevContent, status) => {
+          onChange={(content, _prevContent, _status) => {
             if (isJSONContent(content)) {
               onChange(content.json);
             } else if (isTextContent(content)) {

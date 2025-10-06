@@ -222,7 +222,7 @@ export const EventEdit: React.FC = (props) => {
     <EditEventForm {...props} title={<EventTitle />} redirect={false}>
       {(suggestions, handlers) => (
         <FormDataConsumer<Event>>
-          {({ formData, scopedFormData, ...rest }) => {
+          {({ formData, scopedFormData: _scopedFormData, ..._rest }) => {
             if (formData.type === EVENT_TYPES.DOCUMENTARY) {
               return <DocumentaryEditFormTab />;
             }

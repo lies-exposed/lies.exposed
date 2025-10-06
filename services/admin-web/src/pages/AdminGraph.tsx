@@ -51,7 +51,7 @@ export const GraphList: React.FC = () => (
 );
 
 const transformGraph =
-  (dataProvider: APIRESTClient) =>
+  (_dataProvider: APIRESTClient) =>
   async (id: string, data: RaRecord): Promise<RaRecord> => {
     return Promise.resolve({ ...data, id });
   };

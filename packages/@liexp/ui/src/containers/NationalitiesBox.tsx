@@ -10,7 +10,7 @@ const NationalitiesBox: React.FC<{
   params: Partial<EndpointQueryType<typeof Endpoints.Nation.List>>;
   style?: React.CSSProperties;
   onItemClick: (item: Nation) => void;
-}> = ({ params, onItemClick, style }) => {
+}> = ({ params, onItemClick: _onItemClick, style }) => {
   return (
     <QueriesRenderer
       queries={(Q) => ({

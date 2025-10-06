@@ -41,7 +41,7 @@ const boxClasses = {
   root: `${PREFIX}-root`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(() => ({
   [`&.${boxClasses.root}`]: {
     display: "flex !important",
     height: "100%",
@@ -61,11 +61,10 @@ interface PDFMediaElementProps {
 const PDFMediaElement: React.FC<PDFMediaElementProps> = ({
   media,
   className,
-  onLoad,
   style,
   onClick,
+  onLoad,
   disableOpen = true,
-  ...props
 }) => {
   const [open, setOpen] = React.useState(false);
 

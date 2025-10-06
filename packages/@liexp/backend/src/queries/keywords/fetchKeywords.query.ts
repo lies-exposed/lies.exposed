@@ -32,7 +32,7 @@ export const fetchKeywords =
   ({ db, env, logger }) => {
     const q = { ...defaultQuery, ...query };
 
-    const { ids, q: search, events, ...otherQuery } = q;
+    const { ids, q: search, events: _events, ...otherQuery } = q;
 
     const findOptions = getORMOptions(otherQuery, env.DEFAULT_PAGE_SIZE);
 

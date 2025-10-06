@@ -139,7 +139,7 @@ const Network = <L extends NetworkLinkProps<N>, N extends NetworkNodeDatum>(
             }}
             stroke="#ff0"
             tickStroke="#ff0"
-            tickLabelProps={(value, index) => ({
+            tickLabelProps={(_value, _index) => ({
               fill: "#fff",
               textAnchor: "end",
               fontSize: 10,

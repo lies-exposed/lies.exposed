@@ -17,12 +17,12 @@ export interface AreaChipProps {
 
 export const AreaChip: React.FC<AreaChipProps> = ({
   area,
-  avatarSize,
+  avatarSize: _avatarSize,
   displayLabel: displayFullName = false,
-  displayFeaturedMedia: displayAvatar = true,
+  displayFeaturedMedia: _displayAvatar = true,
   onClick,
   style,
-  avatarStyle,
+  avatarStyle: _avatarStyle,
   displayNameStyle,
   ...props
 }) => {

@@ -13,7 +13,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeCreateProjectRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Project.Create,
-    ({ body: { endDate, media, ...body } }) => {
+    ({ body: { endDate, media: _media, ...body } }) => {
       const optionalData = foldOptionals({ endDate });
       return pipe(
         ctx.db.save(ProjectEntity, [

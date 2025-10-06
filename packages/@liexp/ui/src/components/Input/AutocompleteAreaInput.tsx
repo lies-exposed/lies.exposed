@@ -45,7 +45,7 @@ export const AutocompleteAreaInput: React.FC<AutocompleteAreaInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, item, state) => {
+      renderOption={(props, item, _state) => {
         return (
           <Grid
             container

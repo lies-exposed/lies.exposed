@@ -65,13 +65,13 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
     ) => React.ReactNode;
   }
 > = ({
-  count,
+  count: _count,
   id,
-  query: { ids, eventType: queryType, ...query },
+  query: { ids: _ids, eventType: _queryType, ...query },
   type,
-  selectedActorIds,
-  selectedGroupIds,
-  selectedKeywordIds,
+  selectedActorIds: _selectedActorIds,
+  selectedGroupIds: _selectedGroupIds,
+  selectedKeywordIds: _selectedKeywordIds,
   relations: _relations = [KEYWORDS.Type],
   onRelationsChange,
   showRelations = true,
@@ -93,7 +93,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
         queries={(Q) => ({
           stats: Q.Stats.get.useQuery({ type, id }),
         })}
-        render={({ stats }) => {
+        render={({ stats: _stats }) => {
           // console.log(stats);
 
           // const minDate = events.at(events.length - 1).date;
@@ -384,7 +384,14 @@ interface HierarchyNetworkGraphBoxWithFiltersProps
 
 export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   HierarchyNetworkGraphBoxWithFiltersProps
-> = ({ count, query, type, showFilter = true, onQueryChange, ...props }) => {
+> = ({
+  count: _count,
+  query,
+  type,
+  showFilter: _showFilter = true,
+  onQueryChange: _onQueryChange,
+  ...props
+}) => {
   const [state, setState] = React.useState<{
     startDate: string;
     endDate: string;
@@ -487,10 +494,10 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
           actors,
           groups,
           keywords,
-          totals,
+          totals: _totals,
           events,
-          minDate,
-          maxDate,
+          minDate: _minDate,
+          maxDate: _maxDate,
           width,
           height,
           ...otherProps

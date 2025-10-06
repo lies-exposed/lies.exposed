@@ -39,12 +39,12 @@ export const AutocompleteMediaInput: React.FC<AutocompleteMediaInputProps> = ({
           }))}
           style={{ flexWrap: "wrap", flexDirection: "column" }}
           itemStyle={{ height: 50, maxWidth: 80 }}
-          onItemClick={(a: any) => {
+          onItemClick={(a) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}
         />
       )}
-      renderOption={(props, item, state) => (
+      renderOption={(props, item, _state) => (
         <Grid container>
           <Grid size={{ md: 3 }}>
             <MediaListItemRef

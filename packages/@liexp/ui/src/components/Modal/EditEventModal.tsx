@@ -52,7 +52,7 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
   open,
   id,
   onClose,
-  ...props
+  ..._props
 }) => {
   const apiProvider = useDataProvider();
   const authProvider = useAuthProvider();

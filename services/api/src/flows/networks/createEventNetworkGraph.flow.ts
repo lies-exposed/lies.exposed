@@ -67,11 +67,11 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
     actors: allActors,
     groups: allGroups,
     keywords: allKeywords,
-    media: allMedia,
-    relation,
+    media: _allMedia,
+    relation: _relation,
     emptyRelations,
   }) =>
-  (ctx) => {
+  (_ctx) => {
     return pipe(
       events,
       fp.A.reduceWithIndex(initialResult, (index, acc, e) => {
@@ -97,7 +97,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           O.map((aa) =>
             pipe(
               aa,
-              fp.A.map((a): NetworkLink[] => [
+              fp.A.map((_a): NetworkLink[] => [
                 // {
                 //   source: a.id,
                 //   target: e.id,
@@ -124,7 +124,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           O.map((aa) =>
             pipe(
               aa,
-              fp.A.map((a): NetworkLink[] => [
+              fp.A.map((_a): NetworkLink[] => [
                 // {
                 //   source: a.id,
                 //   target: e.id,
@@ -151,7 +151,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           O.map((aa) =>
             pipe(
               aa,
-              fp.A.map((a): NetworkLink[] => [
+              fp.A.map((_a): NetworkLink[] => [
                 // {
                 //   source: a.id,
                 //   target: e.id,
@@ -309,7 +309,7 @@ const monoidOutput: Monoid<NetworkGraphOutput> = {
 const reduceResultToOutput: Flow<
   [readonly NetworkGraphOutput[]],
   NetworkGraphOutput
-> = (results) => (ctx) => {
+> = (results) => (_ctx) => {
   return pipe(results, fp.A.reduce(initialOutput, monoidOutput.concat));
 };
 

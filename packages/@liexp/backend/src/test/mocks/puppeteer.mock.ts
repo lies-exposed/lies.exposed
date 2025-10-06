@@ -41,7 +41,7 @@ const browserMock = {
   close: vi.fn().mockResolvedValue(undefined),
 };
 
-puppeteerMock.use.mockImplementation((fn) => puppeteerMock);
+puppeteerMock.use.mockImplementation(() => puppeteerMock);
 puppeteerMock.launch.mockImplementation(() => {
   return Promise.resolve(browserMock) as any;
 });

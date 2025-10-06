@@ -174,7 +174,7 @@ export const transformNetworkOutput = (
     selectedActorIds,
     selectedGroupIds,
     selectedKeywordIds,
-    type,
+    type: _type,
     ids,
     eventType,
     startDate,

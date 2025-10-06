@@ -20,16 +20,16 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           featuredImage,
           body2,
           creator,
-          keywords,
-          media,
-          actors,
-          groups,
-          events,
+          keywords: _keywords,
+          media: _media,
+          actors: _actors,
+          groups: _groups,
+          events: _events,
           restore,
           ...body
         },
       },
-      r,
+      _r,
     ) => {
       const relations = relationsTransformer(body2);
 
@@ -49,8 +49,8 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
 
           const deletedAt = pipe(
             restore,
-            O.filter((r) => !!r),
-            O.map((r) => null),
+            O.filter((_r) => !!_r),
+            O.map((_r) => null),
             O.getOrElse(() => e.deletedAt),
           );
 

@@ -29,7 +29,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
   sourceLocation = "location",
   type: _type = "_type",
   supportedTypes,
-  source,
+  source: _source,
   style,
   showInputOnClick = false,
   from = "fromURL",
@@ -60,7 +60,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
         ]}
       />
       <FormDataConsumer>
-        {({ formData, scopedFormData, ...rest }) => {
+        {({ formData, scopedFormData: _scopedFormData, ...rest }) => {
           const mediaType = formData[sourceLocation]?.rawFile?.type;
           const typeSource = get(formData, _type);
           const showInput = showInputOnClick ? editMode : false;

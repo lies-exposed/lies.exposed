@@ -21,9 +21,9 @@ type BookCardProps = EventCardProps<SearchBookEvent>;
 export const BookCard: React.FC<BookCardProps> = ({
   event,
   onEventClick,
-  defaultImage,
-  showRelations,
-  showMedia,
+  defaultImage: _defaultImage,
+  showRelations: _showRelations,
+  showMedia: _showMedia,
   ...rest
 }) => {
   const media = event.media?.[0]?.thumbnail;

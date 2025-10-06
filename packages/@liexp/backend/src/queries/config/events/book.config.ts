@@ -2,7 +2,7 @@ import { Brackets } from "typeorm";
 import { type EventQueryConfig } from "../EventQueryConfig.js";
 
 export const Book: EventQueryConfig = {
-  whereActorsIn: (qb, actorIds) => {
+  whereActorsIn: (qb, _actorIds) => {
     // .where(
     //   ` "event"."payload"::jsonb @@ '$.authors[*] ? (@.type == "Actor").id @> any (array[]::jsonb[])' `,
     // )
@@ -35,7 +35,7 @@ export const Book: EventQueryConfig = {
 
     return qb;
   },
-  whereGroupsIn: (qb, groupIds) => {
+  whereGroupsIn: (qb, _groupIds) => {
     qb.andWhere(
       new Brackets((qqb) => {
         return qqb

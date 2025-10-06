@@ -93,7 +93,7 @@ export const GroupsMembersList: React.FC<GroupMemberListProps> = ({
       style={style}
       data={groupsMembers}
       getKey={(a) => a.id}
-      filter={(a) => true}
+      filter={(_a) => true}
       onItemClick={onItemClick}
       ListItem={(p) => (
         <GroupMemberListItem

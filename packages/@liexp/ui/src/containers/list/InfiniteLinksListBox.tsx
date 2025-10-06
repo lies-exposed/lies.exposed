@@ -17,7 +17,7 @@ type InfiniteLinksListBoxProps = Omit<
 };
 
 export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
-  listProps: { getItem, type, ...listProps },
+  listProps: { getItem, type: _type, ...listProps },
   onLinkClick,
   filter,
   ...props
@@ -38,11 +38,11 @@ export const InfiniteLinksListBox: React.FC<InfiniteLinksListBoxProps> = ({
               {
                 item,
                 measure,
-                index,
+                index: _index,
                 style,
                 columnWidth,
-                onRowInvalidate,
-                ...others
+                onRowInvalidate: _onRowInvalidate,
+                ..._others
               },
               ref,
             ) => {

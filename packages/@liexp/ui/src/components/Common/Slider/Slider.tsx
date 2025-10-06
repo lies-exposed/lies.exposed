@@ -43,7 +43,7 @@ export interface SliderProps extends Settings {
 }
 
 export const Slider: React.FC<SliderProps> = ({
-  maxHeight = 400,
+  maxHeight: _maxHeight = 400,
   className,
   children,
   ...props

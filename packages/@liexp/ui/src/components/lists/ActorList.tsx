@@ -97,7 +97,7 @@ export const ActorList: React.FC<ActorListProps> = ({
       }}
       data={actors}
       getKey={(a) => a.id}
-      filter={(a) => true}
+      filter={(_a) => true}
       onItemClick={onActorClick}
       ListItem={(p) => (
         <ActorListItem

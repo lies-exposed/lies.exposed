@@ -24,7 +24,7 @@ interface EventCardProps extends Omit<CardProps, "onClick"> {
 
 const CreateEventCard: React.FC<EventCardProps> = ({
   event,
-  showRelations,
+  showRelations: _showRelations,
   onClick,
   ...props
 }) => {

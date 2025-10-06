@@ -12,7 +12,7 @@ const classes = {
   paper: `${PREFIX}-paper`,
 };
 
-const StyledPopover = styled(MUIPopover)(({ theme }) => ({
+const StyledPopover = styled(MUIPopover)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {
     position: "fixed",
     zIndex: 9999,

@@ -71,12 +71,12 @@ const IframeMediaElement: React.FC<IframeMediaElementProps> = ({
           ref={ref}
           loading="lazy"
           allowFullScreen={true}
-          onError={(e) => {
-            // console.log('on error', e)
+          onError={(_e) => {
+            // console.log('on error', _e)
           }}
-          onErrorCapture={(e) => {
-            // console.log("on error capture", e);
-            // e.preventDefault();
+          onErrorCapture={(_e) => {
+            // console.log("on error capture", _e);
+            // _e.preventDefault();
           }}
         />
       ) : (

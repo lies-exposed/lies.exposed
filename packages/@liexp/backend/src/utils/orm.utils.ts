@@ -122,7 +122,9 @@ const getOrder = (
     fp.A.sort(
       pipe(
         fp.N.Ord,
-        contramap(([k, e]: [string, { value: any; index: number }]) => e.index),
+        contramap(
+          ([_k, e]: [string, { value: any; index: number }]) => e.index,
+        ),
         fp.Ord.reverse,
       ),
     ),

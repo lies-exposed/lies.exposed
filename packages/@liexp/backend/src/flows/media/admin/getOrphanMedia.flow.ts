@@ -53,7 +53,7 @@ export const getOrphanMediaFlow = <
           fp.RTE.ask<C>(),
           fp.RTE.chainTaskEitherK((ctx) =>
             walkPaginatedRequest<ListObjectsOutput, SpaceError, _Object>(
-              ({ skip, amount, results }) =>
+              ({ skip: _skip, amount, results }) =>
                 ctx.s3.listObjects({
                   Bucket: ctx.env.SPACE_BUCKET,
                   MaxKeys: amount,

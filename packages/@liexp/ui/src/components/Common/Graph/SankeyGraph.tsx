@@ -14,16 +14,16 @@ export const nodeWidth = 45;
 export const nodePadding = 10;
 
 const SankeyNode: React.FC<any> = ({
-  color,
-  x,
-  y,
+  _color,
+  _x,
+  _y,
   x0,
   x1,
   y0,
   y1,
-  height,
-  outerColor,
-  innerColor,
+  _height,
+  _outerColor,
+  _innerColor,
   payload,
   id,
   type,
@@ -200,10 +200,10 @@ const SankeyGraph: React.FC<SankeyGraphProps> = ({
   return (
     <svg width={width} height={height}>
       <g style={{ mixBlendMode: "multiply" }} width={width} height={height}>
-        {graph.links.map((link, i) => (
+        {graph.links.map((link, _i) => (
           <SankeyLink key={`${link.source.id}-${link.target.id}`} link={link} />
         ))}
-        {graph.nodes.map((node, i) => (
+        {graph.nodes.map((node, _i) => (
           <SankeyNode key={node.id} {...node} onClick={onEventClick} />
         ))}
       </g>

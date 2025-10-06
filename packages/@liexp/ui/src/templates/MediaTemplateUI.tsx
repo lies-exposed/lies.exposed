@@ -107,7 +107,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           _order: "DESC",
         }}
         tab={0}
-        onQueryChange={(q, tab) => {}}
+        onQueryChange={(_q, _tab) => {}}
         onEventClick={onEventClick}
       />
       <LinksBox filter={{ ids: m.links }} onItemClick={() => {}} />

@@ -9,7 +9,7 @@ import { authenticationHandler } from "#utils/authenticationHandler.js";
 export const MakeAdminSearchAreaCoordinatesRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Admin.Custom.SearchAreaCoordinates,
-    ({ body: { label } }) => {
+    ({ body: { label: _label } }) => {
       return pipe(
         // TODO: use pub sub
         // fetchCoordinates(label)(ctx),

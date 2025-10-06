@@ -43,7 +43,11 @@ describe("Create Social Post", () => {
 
     expect(response.status).toEqual(201);
 
-    const { schedule, content, ...expectedSocialPostData } = socialPostData;
+    const {
+      schedule: _schedule,
+      content: _content,
+      ...expectedSocialPostData
+    } = socialPostData;
     expect(response.body.data).toMatchObject({
       ...expectedSocialPostData,
       status: TO_PUBLISH.literals[0],

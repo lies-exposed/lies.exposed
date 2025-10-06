@@ -183,7 +183,6 @@ const nonEmptyArrayOrNull = <A>(
 
 export const toGetNetworkQuery = ({
   keywords,
-  links,
   actors,
   groups,
 }: Events.EventRelationIds): Network.GetNetworkQuerySerialized => {

@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { type CommandFlow } from "./command.type.js";
 
-export const cleanTGMessages: CommandFlow = (ctx, _args) => {
+export const cleanTGMessages: CommandFlow = (_ctx, _args) => {
   const messagesDir = path.resolve(__dirname, `../temp/tg/messages`);
 
   const messageFiles = fs.readdirSync(messagesDir, { encoding: "utf-8" });

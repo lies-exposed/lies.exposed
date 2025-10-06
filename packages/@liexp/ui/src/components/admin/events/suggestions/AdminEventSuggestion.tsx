@@ -220,7 +220,7 @@ export const EventSuggestionEdit: React.FC<EditProps> = () => {
             </Grid>
           ) : null}
           <FormDataConsumer>
-            {({ formData, scopedFormData, ...rest }) => {
+            {({ formData, scopedFormData: _scopedFormData1, ...rest }) => {
               // console.log({ formData, scopedFormData, rest });
 
               if (formData.payload.event.type === EVENT_TYPES.DOCUMENTARY) {
@@ -346,7 +346,7 @@ export const EventSuggestionCreate: React.FC<
             </Grid>
           ) : null}
           <FormDataConsumer>
-            {({ formData, scopedFormData, ...rest }) => {
+            {({ formData, scopedFormData: _scopedFormData2, ...rest }) => {
               // console.log({ formData, scopedFormData, rest });
 
               if (formData.payload.event.type === EVENT_TYPES.DOCUMENTARY) {

@@ -66,7 +66,7 @@ interface EventListItemBaseProps<E> {
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
 const EventListItemBase = <E extends any>({
-  event,
+  event: _event,
   title,
   link,
   type,
@@ -76,9 +76,9 @@ const EventListItemBase = <E extends any>({
   condensed = false,
   mediaDescription = true,
   disableMediaAction = true,
-  links,
+  links: _links,
   onKeywordClick,
-  onRowInvalidate,
+  onRowInvalidate: _onRowInvalidate,
   onLoad,
   mediaLayout = "slider",
 }: EventListItemBaseProps<E>): React.ReactElement => {

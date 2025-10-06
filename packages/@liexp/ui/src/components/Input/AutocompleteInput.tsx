@@ -102,7 +102,7 @@ export const AutocompleteInput = <
         }
       }}
       value={value}
-      onChange={(e, v, r, d) => {
+      onChange={(e, v, _r, _d) => {
         if (Array.isArray(v)) {
           onItemsChange(v as T[]);
           setInputValue("");

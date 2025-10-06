@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeDeleteAreaRoute: Route = (r, { db, s3 }) => {
+export const MakeDeleteAreaRoute: Route = (r, { db, s3: _s3 }) => {
   AddEndpoint(r)(Endpoints.Area.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(AreaEntity, {

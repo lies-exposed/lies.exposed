@@ -15,7 +15,7 @@ export interface ProjectPageContentProps extends Project.Project {
 
 export const ProjectPageContent: React.FC<ProjectPageContentProps> = ({
   body,
-  metadata,
+  metadata: _metadata,
   ...props
 }) => {
   const totalFunded = 0;

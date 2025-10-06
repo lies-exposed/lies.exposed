@@ -30,7 +30,7 @@ export const LinksList: React.FC<LinksListProps> = ({
         ...style,
       }}
     >
-      {links.map((l, i) => (
+      {links.map((l, _i) => (
         <Grid key={l.id} size={{ md, sm, xs: 6 }}>
           <LinkCard link={l} onClick={onItemClick} />
         </Grid>

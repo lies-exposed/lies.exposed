@@ -19,7 +19,7 @@ export const LinkArrayInput: React.FC<
       <SimpleFormIterator fullWidth>
         <BooleanInput source="fromURL" />
         <FormDataConsumer>
-          {({ formData, scopedFormData, ...rest }) => {
+          {({ formData: _formData, scopedFormData, ..._rest }) => {
             if (scopedFormData?.fromURL) {
               return (
                 <Box style={{ width: "100%" }}>

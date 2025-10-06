@@ -21,7 +21,7 @@ interface DocumentaryListItemProps {
 export const DocumentaryListItem: React.FC<DocumentaryListItemProps> = ({
   item,
   onClick,
-  onActorClick,
+  onActorClick: _onActorClick,
   ...props
 }) => {
   return (

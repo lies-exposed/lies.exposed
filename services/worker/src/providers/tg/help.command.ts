@@ -2,13 +2,13 @@ import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.
 import { type WorkerContext } from "#context/context.js";
 
 export const helpCommand = ({
-  logger,
-  wp,
+  logger: _logger,
+  wp: _wp,
   tg,
-  db,
-  ...rest
+  db: _db,
+  ..._rest
 }: WorkerContext): TGBotProvider => {
-  tg.api.onText(/\/help/, (msg, match) => {
+  tg.api.onText(/\/help/, (msg, _match) => {
     void tg.api.sendMessage(
       msg.chat.id,
       `

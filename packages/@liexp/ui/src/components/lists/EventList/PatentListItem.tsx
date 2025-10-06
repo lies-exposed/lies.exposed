@@ -20,7 +20,7 @@ interface PatentListItemProps {
 const PatentListItem: React.FC<PatentListItemProps> = ({
   item,
   onClick,
-  onActorClick,
+  onActorClick: _onActorClick,
   ...props
 }) => {
   // const victim = actors.find((a) => a.id === item.payload.victim);

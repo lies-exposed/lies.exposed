@@ -73,8 +73,8 @@ export const TransactionListItem: React.FC<TransactionListItemProps> = ({
   item,
   condensed = false,
   onClick,
-  onActorClick,
-  onKeywordClick,
+  onActorClick: _onActorClick,
+  onKeywordClick: _onKeywordClick,
   onLoad,
 }) => {
   React.useEffect(() => {

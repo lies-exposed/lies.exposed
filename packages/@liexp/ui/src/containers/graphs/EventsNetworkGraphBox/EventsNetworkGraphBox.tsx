@@ -276,7 +276,14 @@ interface EventNetworkGraphBoxWithFiltersProps
 
 export const EventNetworkGraphBoxWithFilters: React.FC<
   EventNetworkGraphBoxWithFiltersProps
-> = ({ count, query, type, showFilter = true, onQueryChange, ...props }) => {
+> = ({
+  count: _count,
+  query,
+  type,
+  showFilter: _showFilter = true,
+  onQueryChange,
+  ...props
+}) => {
   const state = React.useMemo(
     () => ({
       startDate: query.startDate,
@@ -381,10 +388,10 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
           actors,
           groups,
           keywords,
-          totals,
+          totals: _totals,
           events,
-          minDate,
-          maxDate,
+          minDate: _minDate,
+          maxDate: _maxDate,
           width,
           height,
           ...otherProps

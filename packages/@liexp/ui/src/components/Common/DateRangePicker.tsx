@@ -14,7 +14,7 @@ const classes = {
   root: `${PREFIX}-root`,
   dateInput: `${PREFIX}-dateInput`,
 };
-const StyledGrid = styled(Grid)(({ theme }) => ({
+const StyledGrid = styled(Grid)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {
     marginTop: 0,
   },
@@ -35,8 +35,8 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
   from,
   to,
   onDateRangeChange,
-  minDate,
-  maxDate,
+  minDate: _minDate,
+  maxDate: _maxDate,
   ...props
 }) => {
   const [[start, end], setDateRange] = React.useState([from, to]);
@@ -58,7 +58,7 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
               end,
             ]);
           }}
-          onBlur={(e) => {
+          onBlur={() => {
             onDateRangeChange([start, end]);
           }}
           style={{ width: "100%" }}

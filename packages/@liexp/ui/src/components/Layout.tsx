@@ -20,6 +20,7 @@ export const Layout: React.FC<React.PropsWithChildren<LayoutProps>> = ({
       alignContent="center"
       style={{
         display: "flex",
+        ...style,
       }}
     >
       <Grid direction="column">

@@ -30,7 +30,7 @@ const liftTask =
   };
 
 const onTaskStarted =
-  (logger: WorkerContext["logger"], schedule: string) =>
+  (logger: WorkerContext["logger"], _schedule: string) =>
   (task: TaskContext) => {
     logger.debug.log("Task %s started", task.task?.name);
   };

@@ -143,7 +143,13 @@ describe("Search Events", () => {
       // events include also events where actor is a group member
       expect(totals.uncategorized).toBeGreaterThanOrEqual(10);
 
-      const { avatar, death, diedOn, bornOn, ...expectedActor } = firstActor;
+      const {
+        avatar: _avatar,
+        death: _death,
+        diedOn: _diedOn,
+        bornOn: _bornOn,
+        ...expectedActor
+      } = firstActor;
       expect(response.body.data.events[0]).toMatchObject({
         payload: {
           actors: [
@@ -185,14 +191,14 @@ describe("Search Events", () => {
 
       expect(response.status).toEqual(200);
 
-      const { deletedAt, ...expectedGroup } = firstGroup;
+      const { deletedAt: _deletedAt, ...expectedGroup } = firstGroup;
       const {
-        createdAt,
-        updatedAt,
-        creator,
-        extra,
+        createdAt: _createdAt,
+        updatedAt: _updatedAt,
+        creator: _creator,
+        extra: _extra,
         description,
-        deletedAt: groupAvatarDeletedAt,
+        deletedAt: _groupAvatarDeletedAt,
         ...expectedGroupAvatar
       } = expectedGroup.avatar ?? {};
 
