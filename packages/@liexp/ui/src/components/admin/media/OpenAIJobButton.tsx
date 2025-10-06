@@ -18,6 +18,7 @@ interface OpenAIPromptButtonProps<A extends RaRecord> {
   prompt?: string;
   question?: string;
   model?: string;
+  label?: string;
   transformValue: (
     value: A,
   ) => Omit<Queue.CreateQueue["data"], "question" | "prompt" | "result">;
@@ -30,6 +31,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   resource,
   type = "openai-embedding",
   idSource = "id",
+  label = "Embed with AI",
   transformValue,
 }: OpenAIPromptButtonProps<A>): React.ReactNode => {
   const [isLoading, setLoading] = React.useState(false);
@@ -85,7 +87,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
         question={question}
         onClick={ingestFile}
         isLoading={isLoading}
-        label="Embed this file"
+        label={label}
       />
       {queue ? (
         <Typography>

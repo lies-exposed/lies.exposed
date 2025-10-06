@@ -1,3 +1,4 @@
+import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { Schema } from "effect";
 
 export const AIBotConfig = Schema.Struct({
@@ -9,6 +10,7 @@ export const AIBotConfig = Schema.Struct({
       Schema.partial(
         Schema.Struct({
           chat: Schema.String,
+          agent: Schema.String,
           summarization: Schema.String,
           embeddings: Schema.String,
         }),
@@ -17,7 +19,8 @@ export const AIBotConfig = Schema.Struct({
     ),
   }),
   api: Schema.Struct({
-    url: Schema.String,
+    url: URL,
+    mcp: URL,
   }),
 }).annotations({
   title: "AIBotConfig",

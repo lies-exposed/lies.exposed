@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
+import { MakeMCPRoutes } from "../routes/mcp/index.js";
 import { errorHandler } from "./error.middleware.js";
 import { type ServerContext } from "#context/context.type.js";
 import { AddRoutes } from "#routes/index.js";
@@ -35,12 +36,14 @@ export const makeApp = (ctx: ServerContext): express.Express => {
         { url: "/v1/events/suggestions", method: "POST" },
         { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
-        { url: /openai\/*/ },
+        ...(ctx.env.NODE_ENV === "development" ? [{ url: /\/mcp\/*/ }] : []),
       ],
     }),
   );
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
+
+  MakeMCPRoutes(app, ctx);
 
   app.use(errorHandler(ctx));
 

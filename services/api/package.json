@@ -59,6 +59,7 @@
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.18.2",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",

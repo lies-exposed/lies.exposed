@@ -15,7 +15,6 @@ export const BlockNoteDocument = Schema.mutable(Schema.Array(BlockNoteBlock))
   .pipe(Schema.brand("BlockNoteDocument"))
   .annotations({
     title: "BlockNoteDocument",
-    jsonSchema: {},
     identifier: "BlockNoteDocument",
   });
 

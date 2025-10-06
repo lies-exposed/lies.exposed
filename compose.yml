@@ -7,6 +7,8 @@ services:
       POSTGRES_USER: liexp
       POSTGRES_PASSWORD: liexp-password
       POSTGRES_DB: liexp
+      VIRTUAL_HOST: db.liexp.dev
+      VIRTUAL_PORT: 8432
     restart: unless-stopped
     volumes:
       - ./services/api/db/dump:/docker-entrypoint-initdb.d
@@ -124,6 +126,7 @@ services:
     command: pnpm docker:dev
     volumes:
       - ./node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs:/home/node/build/pdf.worker.mjs:readonly
+      - ./services/ai-bot/AGENT.md:/home/node/AGENT.md:cached
       - ./services/ai-bot/package.json:/home/node/package.json:cached
       - ./services/ai-bot/temp:/home/node/temp:rw
       - ./services/ai-bot/build:/home/node/build:cached
@@ -218,6 +221,7 @@ services:
       NEOReadDebugKeys: 1
       ClDeviceGlobalMemCacheType: 1
     env_file:
+      - ./services/ai-bot/.env
       - ./services/ai-bot/.env.local
     volumes:
       - ./localai/models:/models:cached

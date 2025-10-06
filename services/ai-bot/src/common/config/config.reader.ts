@@ -15,7 +15,11 @@ export const ConfigProviderReader =
   <C extends Schema.Schema<any>, R extends FSClientContext = FSClientContext>(
     path: string,
     decoder: C,
-  ): ReaderTaskEither<R, AIBotError, ConfigProvider<Schema.Schema.Type<C>>> =>
+  ): ReaderTaskEither<
+    R,
+    AIBotError,
+    ConfigProvider<Schema.Schema.Encoded<C>>
+  > =>
   (ctx) => {
     return pipe(
       ctx.fs.getObject(path),
@@ -32,7 +36,7 @@ export const ConfigProviderReader =
         ),
       ),
       fp.TE.map(
-        (config): ConfigProvider<Schema.Schema.Type<C>> => ({
+        (config): ConfigProvider<Schema.Schema.Encoded<C>> => ({
           config: config,
           save: (config) => ctx.fs.writeObject(path, JSON.stringify(config)),
         }),

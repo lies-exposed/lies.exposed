@@ -1,15 +1,19 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { type AIMessage, type ToolMessage } from "@langchain/core/messages.js";
-import { type DynamicStructuredTool } from "@langchain/core/tools.js";
+import { type ToolInputSchemaBase } from "@langchain/core/dist/tools/types.js";
+import { type AIMessage, type ToolMessage } from "@langchain/core/messages";
+import { type DynamicStructuredTool } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
+import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
+import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
+import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 type Agent = ReturnType<typeof createReactAgent>;
 
@@ -32,25 +36,52 @@ const toAgentError = (e: unknown) => {
   return ServerError.fromUnknown(e);
 };
 
+interface GetAgentProviderOptions {
+  mcpClient: MultiServerMCPClient;
+}
+
 export const GetAgentProvider =
-  () =>
-  <C extends LangchainContext & LoggerContext>(
+  (opts: GetAgentProviderOptions) =>
+  <C extends LangchainContext & LoggerContext & PuppeteerProviderContext>(
     ctx: C,
   ): TaskEither<ServerError, AgentProvider> => {
     const aiMessageLogger = AIMessageLogger(ctx.logger);
 
     return fp.TE.tryCatch(async () => {
+      // Get tools from MCP servers
+      const mcpTools = await opts.mcpClient.getTools();
+
+      // Combine MCP tools with custom tools
+      const allTools: DynamicStructuredTool<
+        ToolInputSchemaBase,
+        any,
+        any,
+        any
+      >[] = [...mcpTools, createWebScrapingTool(ctx)] as any[];
+
       // Initialize memory to persist state between graph runs
+
       const agentCheckpointer = new MemorySaver();
 
       const agent = createReactAgent({
-        llm: ctx.langchain.chat.withConfig({ tool_choice: "required" }),
-        tools: [],
+        llm: ctx.langchain.chat.withConfig({
+          tool_choice: "auto",
+          // Disable parallel tool calls for LocalAI compatibility
+          configurable: {
+            parallel_tool_calls: false,
+          },
+          verbosity: "high",
+        }),
+        tools: allTools,
         checkpointSaver: agentCheckpointer,
         prompt: readFileSync(path.resolve(process.cwd(), "AGENT.md"), "utf-8"),
       });
 
       ctx.logger.info.log(`Agent created: %s`, agent.getName());
+      ctx.logger.debug.log(
+        `Agent tools: %O`,
+        allTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
+      );
 
       const invoke = (
         input: Parameters<typeof agent.invoke>[0],
@@ -71,8 +102,11 @@ export const GetAgentProvider =
 
           const result: (ToolMessage | AIMessage)[] = [];
           for await (const chunk of stream) {
+            ctx.logger.debug.log(`Stream chunk: %O`, chunk);
             if (Array.isArray(chunk.agent?.messages)) {
-              result.push(...(chunk.agent.messages as any[]));
+              result.push(
+                ...(chunk.agent.messages as (ToolMessage | AIMessage)[]),
+              );
             }
 
             const messages = (chunk.agent?.messages ??
@@ -81,9 +115,10 @@ export const GetAgentProvider =
 
             messages.forEach(aiMessageLogger);
           }
+
           return result;
         }, toAgentError);
 
-      return Promise.resolve({ agent, tools: [], invoke, stream });
+      return { agent, tools: allTools, invoke, stream };
     }, ServerError.fromUnknown);
   };

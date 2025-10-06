@@ -30,8 +30,8 @@ export const getListQueryEmpty: GetListLinkQuery = {
   keywords: O.none(),
   startDate: O.none(),
   endDate: O.none(),
-  _start: O.some(20 as typeof Schema.Int.Type),
-  _end: O.some(0 as typeof Schema.Int.Type),
+  _start: O.some(0 as typeof Schema.Int.Type),
+  _end: O.some(20 as typeof Schema.Int.Type),
 };
 
 export const fetchLinks = <C extends DatabaseContext & ENVContext>(
@@ -55,11 +55,11 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
   // const findOptions = getORMOptions({ ...others }, ctx.env.DEFAULT_PAGE_SIZE);
   const onlyUnshared = pipe(
     _onlyUnshared,
-    fp.O.filter((o) => !!o),
+    O.filter((o) => !!o),
   );
   const noPublishDate = pipe(
     _noPublishDate,
-    fp.O.filter((o) => !!o),
+    O.filter((o) => !!o),
   );
 
   return pipe(
@@ -100,7 +100,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             return q;
           },
           (q) => {
-            if (fp.O.isSome(search)) {
+            if (O.isSome(search)) {
               return q.where(
                 "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
                 {
@@ -109,53 +109,53 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
               );
             }
 
-            if (fp.O.isSome(creator)) {
+            if (O.isSome(creator)) {
               return q.where("creator.id = :creator", {
                 creator: creator.value,
               });
             }
 
-            if (fp.O.isSome(provider)) {
+            if (O.isSome(provider)) {
               return q.where("link.provider = :provider", {
                 provider: provider.value,
               });
             }
 
-            if (fp.O.isSome(ids) && ids.value.length > 0) {
+            if (O.isSome(ids) && ids.value.length > 0) {
               return q.where("link.id IN (:...ids)", {
                 ids: ids.value,
               });
             }
 
-            if (fp.O.isSome(emptyEvents)) {
+            if (O.isSome(emptyEvents)) {
               if (emptyEvents.value) {
                 return q.where("events.id IS NULL");
               }
             }
 
-            if (fp.O.isSome(events)) {
+            if (O.isSome(events)) {
               return q.where("events.id IN (:...eventIds)", {
                 eventIds: events.value,
               });
             }
 
-            if (fp.O.isSome(keywords)) {
+            if (O.isSome(keywords)) {
               return q.where("keywords.id IN (:...keywordIds)", {
                 keywordIds: keywords.value,
               });
             }
 
-            if (fp.O.isSome(noPublishDate)) {
+            if (O.isSome(noPublishDate)) {
               q.andWhere("link.publishDate IS NULL");
             }
 
-            if (fp.O.isSome(onlyDeleted)) {
+            if (O.isSome(onlyDeleted)) {
               if (onlyDeleted.value) {
                 q.withDeleted().where("link.deletedAt IS NOT NULL");
               }
             }
 
-            if (fp.O.isSome(onlyUnshared)) {
+            if (O.isSome(onlyUnshared)) {
               q.andWhere(
                 '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
               );
