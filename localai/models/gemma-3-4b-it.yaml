@@ -1,0 +1,184 @@
+parameters:
+    model: gemma-3-4b-it-Q4_K_M.gguf
+    language: ""
+    translate: false
+    "n": 0
+    top_p: 0.95
+    top_k: 40
+    temperature: 0.9
+    max_tokens: 0
+    echo: false
+    batch: 0
+    ignore_eos: false
+    repeat_penalty: 0
+    repeat_last_n: 0
+    n_keep: 0
+    frequency_penalty: 0
+    presence_penalty: 0
+    tfz: 1
+    typical_p: 1
+    seed: -1
+    negative_prompt: ""
+    rope_freq_base: 0
+    rope_freq_scale: 0
+    negative_prompt_scale: 0
+    clip_skip: 0
+    tokenizer: ""
+name: gemma-3-4b-it
+f16: false
+threads: 4
+debug: false
+roles: {}
+embeddings: false
+backend: llama-cpp
+template:
+    chat: |
+        {{.Input }}
+        <start_of_turn>model
+    chat_message: |-
+        <start_of_turn>{{if eq .RoleName "assistant" }}model{{else}}{{ .RoleName }}{{end}}
+        {{ if .FunctionCall -}}
+        {{ else if eq .RoleName "tool" -}}
+        {{ end -}}
+        {{ if .Content -}}
+        {{.Content -}}
+        {{ end -}}
+        {{ if .FunctionCall -}}
+        {{toJson .FunctionCall}}
+        {{ end -}}<end_of_turn>
+    completion: |
+        {{.Input}}
+    edit: ""
+    function: |
+        <start_of_turn>system
+        You are a function calling AI model. You are provided with functions to execute. You may call one or more functions to assist with the user query. Don't make assumptions about what values to plug into functions. Here are the available tools:
+        {{range .Functions}}
+        {'type': 'function', 'function': {'name': '{{.Name}}', 'description': '{{.Description}}', 'parameters': {{toJson .Parameters}} }}
+        {{end}}
+        <end_of_turn>
+        {{.Input -}}
+        <start_of_turn>model
+    use_tokenizer_template: false
+    join_chat_messages_by_character: null
+    multimodal: ""
+    jinja_template: false
+    reply_prefix: ""
+known_usecases:
+    - FLAG_CHAT
+    - FLAG_COMPLETION
+    - FLAG_ANY
+pipeline:
+    tts: ""
+    llm: ""
+    transcription: ""
+    vad: ""
+function:
+    disable_no_action: false
+    grammar:
+        parallel_calls: false
+        disable_parallel_new_lines: false
+        mixed_mode: false
+        no_mixed_free_string: false
+        disable: false
+        prefix: ""
+        expect_strings_after_json: false
+        properties_order: ""
+        schema_type: ""
+        triggers: []
+    no_action_function_name: ""
+    no_action_description_name: ""
+    response_regex: []
+    json_regex_match: []
+    argument_regex: []
+    argument_regex_key_name: ""
+    argument_regex_value_name: ""
+    replace_function_results: []
+    replace_llm_results: []
+    capture_llm_results: []
+    function_name_key: ""
+    function_arguments_key: ""
+feature_flags: {}
+system_prompt: ""
+tensor_split: ""
+main_gpu: ""
+rms_norm_eps: 0
+ngqa: 0
+prompt_cache_path: ""
+prompt_cache_all: false
+prompt_cache_ro: false
+mirostat_eta: 0.1
+mirostat_tau: 5
+mirostat: 0
+gpu_layers: 22
+mmap: false
+mmlock: false
+low_vram: false
+reranking: false
+grammar: ""
+stopwords:
+    - <|im_end|>
+    - <end_of_turn>
+    - <start_of_turn>
+cutstrings: []
+extract_regex: []
+trimspace: []
+trimsuffix: []
+context_size: 8192
+numa: false
+lora_adapter: ""
+lora_base: ""
+lora_adapters: []
+lora_scales: []
+lora_scale: 0
+no_mulmatq: false
+draft_model: ""
+n_draft: 0
+quantization: ""
+load_format: ""
+gpu_memory_utilization: 0
+trust_remote_code: false
+enforce_eager: false
+swap_space: 0
+max_model_len: 0
+tensor_parallel_size: 0
+disable_log_stats: false
+dtype: ""
+limit_mm_per_prompt:
+    image: 0
+    video: 0
+    audio: 0
+mmproj: ""
+flash_attention: null
+no_kv_offloading: false
+cache_type_k: ""
+cache_type_v: ""
+rope_scaling: ""
+type: ""
+yarn_ext_factor: 0
+yarn_attn_factor: 0
+yarn_beta_fast: 0
+yarn_beta_slow: 0
+cfg_scale: 0
+diffusers:
+    cuda: false
+    pipeline_type: ""
+    scheduler_type: ""
+    enable_parameters: ""
+    img2img: false
+    clip_skip: 0
+    clip_model: ""
+    clip_subfolder: ""
+    control_net: ""
+step: 0
+grpc:
+    attempts: 0
+    attempts_sleep_time: 0
+tts:
+    voice: ""
+    audio_path: ""
+cuda: false
+download_files: []
+description: ""
+usage: ""
+options: []
+overrides: []

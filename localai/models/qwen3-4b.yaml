@@ -1,0 +1,202 @@
+parameters:
+    model: Qwen3-4B.Q4_K_M.gguf
+    language: ""
+    translate: false
+    "n": 0
+    top_p: 0
+    top_k: 10
+    temperature: 0.1
+    max_tokens: 0
+    echo: false
+    batch: 0
+    ignore_eos: false
+    repeat_penalty: 0
+    repeat_last_n: 0
+    n_keep: 0
+    frequency_penalty: 0
+    presence_penalty: 0
+    tfz: 1
+    typical_p: 1
+    seed: -1
+    negative_prompt: ""
+    rope_freq_base: 0
+    rope_freq_scale: 0
+    negative_prompt_scale: 0
+    clip_skip: 0
+    tokenizer: ""
+name: qwen3-4b
+f16: true
+threads: 4
+debug: true
+roles: {}
+embeddings: false
+backend: llama-cpp
+known_usecases:
+    - FLAG_ANY
+    - FLAG_COMPLETION
+    - FLAG_CHAT
+pipeline:
+    tts: ""
+    llm: ""
+    transcription: ""
+    vad: ""
+
+function:
+  disable_no_action: true
+
+  grammar:
+    disable: true
+    #prefix: '<tool_call>\n'
+    # parallel_calls: true
+
+  return_name_in_function_response: true
+  json_regex_match: 
+   - "(?s)<tool_call>\\s*\\[?\\s*(\\{.*?\\})\\s*\\]?\\s*</tool_call>"
+   - "(?s)<tool_call>\\s*\\[?\\s*(\\{.*?)\\s*\\]?\\s*$"
+  replace_llm_results:
+  - key: "(?s)<think>.*?</think>"
+    value: ""
+  - key: "(?s)<scratchpad>.*?</scratchpad>"
+    value: ""
+  replace_function_results: 
+  - key: '(?s)^[^{\[]*'
+    value: ""
+  - key: '(?s)[^}\]]*$'
+    value: ""
+  - key: '\\\\"'
+    value: '"'
+  - key: "\\\\n"
+    value: ""
+  - key: "\\s+"
+    value: " "
+
+template:
+  chat: |
+    {{.Input -}}
+    <|im_start|>assistant
+  chat_message: |
+    <|im_start|>{{if eq .RoleName "assistant"}}assistant{{else if eq .RoleName "system"}}system{{else if eq .RoleName "tool"}}tool{{else if eq .RoleName "user"}}user{{end}}
+    {{- if .FunctionCall }}
+    <tool_call>
+    {{- else if eq .RoleName "tool" }}
+    <tool_response>
+    {{- end }}
+    {{- if .Content}}
+    {{.Content }}
+    {{- end }}
+    {{- if .FunctionCall}}
+    {{toJson .FunctionCall}}
+    {{- end }}
+    {{- if .FunctionCall }}
+    </tool_call>
+    {{- else if eq .RoleName "tool" }}
+    </tool_response>
+    {{- end }}<|im_end|>
+  completion: |
+    {{.Input}}
+  function: |-
+    <|im_start|>system
+    You are a function calling AI model.
+    Here are the available tools:
+    <tools>
+    {{range .Functions}}
+    {'type': 'function', 'function': {'name': '{{.Name}}', 'description': '{{.Description}}', 'parameters': {{toJson .Parameters}} }}
+    {{end}}
+    </tools>
+    You should call the tools provided to you sequentially
+    Please use <scratchpad> XML tags to record your reasoning and planning before you call the functions as follows:
+    <scratchpad>
+    {step-by-step reasoning and plan in bullet points}
+    </scratchpad>
+    For each function call return a json object with function name and arguments within <tool_call> XML tags as follows:
+    <tool_call>
+    {"arguments": <args-dict>, "name": <function-name>}
+    </tool_call><|im_end|>
+    {{.Input -}}
+    <|im_start|>assistant
+feature_flags: {}
+system_prompt: ""
+tensor_split: ""
+main_gpu: ""
+rms_norm_eps: 0
+ngqa: 0
+prompt_cache_path: ""
+prompt_cache_all: false
+prompt_cache_ro: false
+mirostat_eta: 0.1
+mirostat_tau: 5
+mirostat: 0
+gpu_layers: 99999999
+mmap: false
+mmlock: false
+low_vram: false
+reranking: false
+grammar: ""
+stopwords:
+    - <|im_end|>
+    - <dummy32000>
+    - </s>
+    - <|endoftext|>
+cutstrings: []
+extract_regex: []
+trimspace: []
+trimsuffix: []
+context_size: 8192
+numa: false
+lora_adapter: ""
+lora_base: ""
+lora_adapters: []
+lora_scales: []
+lora_scale: 0
+no_mulmatq: false
+draft_model: ""
+n_draft: 0
+quantization: ""
+load_format: ""
+gpu_memory_utilization: 0
+trust_remote_code: false
+enforce_eager: false
+swap_space: 0
+max_model_len: 0
+tensor_parallel_size: 0
+disable_log_stats: false
+dtype: ""
+limit_mm_per_prompt:
+    image: 0
+    video: 0
+    audio: 0
+mmproj: ""
+flash_attention: null
+no_kv_offloading: false
+cache_type_k: ""
+cache_type_v: ""
+rope_scaling: ""
+type: ""
+yarn_ext_factor: 0
+yarn_attn_factor: 0
+yarn_beta_fast: 0
+yarn_beta_slow: 0
+cfg_scale: 0
+diffusers:
+    cuda: false
+    pipeline_type: ""
+    scheduler_type: ""
+    enable_parameters: ""
+    img2img: false
+    clip_skip: 0
+    clip_model: ""
+    clip_subfolder: ""
+    control_net: ""
+step: 0
+grpc:
+    attempts: 0
+    attempts_sleep_time: 0
+tts:
+    voice: ""
+    audio_path: ""
+cuda: false
+download_files: []
+description: ""
+usage: ""
+options: []
+overrides: []
