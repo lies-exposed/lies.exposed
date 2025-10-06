@@ -54,10 +54,10 @@
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.20",
     "@types/react-virtualized": "^9.22.2",
-    "eslint": "^9.35.0",
+    "eslint": "^9.37.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
-    "eslint-plugin-storybook": "^9.1.8"
+    "eslint-plugin-storybook": "^9.1.10"
   },
   "peerDependencies": {
     "storybook": "^9.1.8"
