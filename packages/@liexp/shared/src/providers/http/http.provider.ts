@@ -20,7 +20,7 @@ export const toHTTPError = (e: unknown): HTTPError => {
     return new HTTPError(e.message, {
       kind: "ClientError",
       status: `${e.response?.status ?? 500}`,
-      meta: [e.stack, e.cause?.message],
+      meta: [e.stack, JSON.stringify(e.cause)],
     });
   }
 
