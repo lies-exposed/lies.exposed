@@ -315,10 +315,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
       '@visx/network':
         specifier: ^3
         version: 3.12.0(react@18.3.1)
@@ -497,13 +497,13 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -750,7 +750,7 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -1107,7 +1107,7 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1192,10 +1192,10 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
       compression:
         specifier: ^1.8.0
         version: 1.8.1
@@ -13940,7 +13940,7 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios: 1.12.2(debug@4.4.3)
@@ -13954,7 +13954,7 @@ snapshots:
       axios: 1.12.2(debug@4.4.3)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)':
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
@@ -15119,7 +15119,7 @@ snapshots:
   axios@1.7.4(debug@4.4.3):
     dependencies:
       follow-redirects: 1.15.11(debug@4.4.3)
-      form-data: 4.0.4
+      form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
