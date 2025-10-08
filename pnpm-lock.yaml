@@ -88,7 +88,7 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -163,8 +163,8 @@ importers:
         specifier: ^0.64.8
         version: 0.64.10
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -191,7 +191,7 @@ importers:
         version: 5.7.0
       langchain:
         specifier: ^0.3.35
-        version: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+        version: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -315,10 +315,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@visx/network':
         specifier: ^3
         version: 3.12.0(react@18.3.1)
@@ -363,8 +363,8 @@ importers:
         specifier: ^18.3.6
         version: 18.3.7(@types/react@18.3.24)
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       effect:
         specifier: ^3.17.13
         version: 3.17.13
@@ -497,13 +497,13 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -704,8 +704,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       effect:
         specifier: ^3.17.13
         version: 3.17.13
@@ -750,7 +750,7 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -820,7 +820,7 @@ importers:
         version: 3.895.0
       '@langchain/community':
         specifier: ^0.3.57
-        version: 0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(zod@4.1.11))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)
+        version: 0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(zod@4.1.11))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(@smithy/util-utf8@2.3.0)(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)
       '@langchain/core':
         specifier: ^0.3.78
         version: 0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))
@@ -847,10 +847,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -862,7 +862,7 @@ importers:
         version: 2.16.11
       langchain:
         specifier: ^0.3.35
-        version: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+        version: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
       openai:
         specifier: ^5.23.2
         version: 5.23.2(ws@8.18.3)(zod@4.1.11)
@@ -926,10 +926,10 @@ importers:
         version: file:patches/ts-endpoint-express-0.1.0.tgz(express@5.1.0)(fp-ts@2.16.11)
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
-        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       body-parser:
         specifier: ^2.2.0
         version: 2.2.0
@@ -1107,7 +1107,7 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1115,8 +1115,8 @@ importers:
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       d3:
         specifier: ^7.9.0
         version: 7.9.0
@@ -1192,10 +1192,10 @@ importers:
         version: 5.90.2(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       compression:
         specifier: ^1.8.0
         version: 1.8.1
@@ -1294,8 +1294,8 @@ importers:
         specifier: file:../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios:
-        specifier: ^1.9.0
-        version: 1.11.0(debug@4.4.3)
+        specifier: ^1.12.2
+        version: 1.12.2(debug@4.4.3)
       cronstrue:
         specifier: ^3.2.0
         version: 3.2.0
@@ -5277,8 +5277,8 @@ packages:
   aws4@1.13.2:
     resolution: {integrity: sha512-lHe62zvbTB5eEABUVi/AwVh0ZKY9rMMDhmm+eeyuuUQbQ3+J+fONVQOZyj+DdrvD4BY33uYniyRJ4UJIaSKAfw==}
 
-  axios@1.11.0:
-    resolution: {integrity: sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==}
+  axios@1.12.2:
+    resolution: {integrity: sha512-vMJzPewAlRyOgxV2dU0Cuz2O8zzzx9VYtbJOaBgXFeLc4IV/Eg50n4LowmehOOR61S8ZMpc2K5Sa7g6A4jfkUw==}
 
   axios@1.7.4:
     resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
@@ -6731,8 +6731,8 @@ packages:
     resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
     engines: {node: '>= 0.12'}
 
-  form-data@2.5.3:
-    resolution: {integrity: sha512-XHIrMD0NpDrNM/Ckf7XJiBbLl57KEhT3+i3yY+eWm+cqYZJQTZrKo8Y8AWKnuV5GT4scfuUGt9LzNoIx3dU1nQ==}
+  form-data@2.5.5:
+    resolution: {integrity: sha512-jqdObeR2rxZZbPSGL+3VckHMYtu+f9//KXBsVny6JSX/pa38Fy+bGjuG8eW/H6USNQWhLi8Num++cU2yOCNz4A==}
     engines: {node: '>= 0.12'}
 
   form-data@4.0.0:
@@ -9313,6 +9313,11 @@ packages:
 
   semver@7.7.2:
     resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -12339,7 +12344,7 @@ snapshots:
       - encoding
     optional: true
 
-  '@langchain/community@0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(zod@4.1.11))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(@smithy/util-utf8@2.3.0)(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)':
+  '@langchain/community@0.3.57(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.895.0)(@aws-sdk/credential-provider-node@3.895.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(zod@4.1.11))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(@smithy/util-utf8@2.3.0)(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(fast-xml-parser@5.2.5)(handlebars@4.7.8)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.7.0)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.2)(lodash@4.17.21)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(weaviate-client@3.9.0)(ws@8.18.3)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(zod@4.1.11)
       '@ibm-cloud/watsonx-ai': 1.3.0
@@ -12351,7 +12356,7 @@ snapshots:
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
       js-yaml: 4.1.0
-      langchain: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+      langchain: 0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
       langsmith: 0.3.72(openai@5.23.2(ws@8.18.3)(zod@4.1.11))
       openai: 5.23.2(ws@8.18.3)(zod@4.1.11)
       uuid: 10.0.0
@@ -12601,7 +12606,7 @@ snapshots:
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
-      semver: 7.7.2
+      semver: 7.7.3
       tar: 6.2.1
     transitivePeerDependencies:
       - encoding
@@ -13935,24 +13940,24 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
-      axios: 1.11.0(debug@4.4.3)
+      axios: 1.12.2(debug@4.4.3)
       fp-ts: 2.16.11
       react-admin: 5.11.4(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1)
 
-  '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)':
+  '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/http-client': file:patches/ts-endpoint-http-client-0.1.0.tgz(fp-ts@2.16.11)
-      axios: 1.11.0(debug@4.4.3)
+      axios: 1.12.2(debug@4.4.3)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)':
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
-      '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.11.0)(fp-ts@2.16.11)
+      '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       fp-ts: 2.16.11
     transitivePeerDependencies:
       - axios
@@ -14347,7 +14352,7 @@ snapshots:
       '@types/caseless': 0.12.5
       '@types/node': 24.7.0
       '@types/tough-cookie': 4.0.5
-      form-data: 2.5.3
+      form-data: 2.5.5
 
   '@types/resolve@1.20.6': {}
 
@@ -15103,7 +15108,7 @@ snapshots:
 
   aws4@1.13.2: {}
 
-  axios@1.11.0(debug@4.4.3):
+  axios@1.12.2(debug@4.4.3):
     dependencies:
       follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
@@ -16750,11 +16755,12 @@ snapshots:
       combined-stream: 1.0.8
       mime-types: 2.1.35
 
-  form-data@2.5.3:
+  form-data@2.5.5:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
+      hasown: 2.0.2
       mime-types: 2.1.35
       safe-buffer: 5.2.1
 
@@ -17797,7 +17803,7 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3):
+  langchain@0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3):
     dependencies:
       '@langchain/core': 0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       '@langchain/openai': 0.6.14(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
@@ -17813,7 +17819,7 @@ snapshots:
       zod: 3.25.76
     optionalDependencies:
       '@langchain/anthropic': 0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))
-      axios: 1.11.0(debug@4.4.3)
+      axios: 1.12.2(debug@4.4.3)
       cheerio: 1.0.0
       handlebars: 4.7.8
       typeorm: 0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2)
@@ -17824,7 +17830,7 @@ snapshots:
       - openai
       - ws
 
-  langchain@0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.11.0(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3):
+  langchain@0.3.35(@langchain/anthropic@0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))))(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(axios@1.12.2(debug@4.4.3))(cheerio@1.0.0)(handlebars@4.7.8)(openai@5.23.2(ws@8.18.3)(zod@4.1.11))(typeorm@0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3):
     dependencies:
       '@langchain/core': 0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11))
       '@langchain/openai': 0.6.14(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))(ws@8.18.3)
@@ -17840,7 +17846,7 @@ snapshots:
       zod: 3.25.76
     optionalDependencies:
       '@langchain/anthropic': 0.3.8(@langchain/core@0.3.78(openai@5.23.2(ws@8.18.3)(zod@4.1.11)))
-      axios: 1.11.0(debug@4.4.3)
+      axios: 1.12.2(debug@4.4.3)
       cheerio: 1.0.0
       handlebars: 4.7.8
       typeorm: 0.3.26(babel-plugin-macros@3.1.0)(ioredis@5.7.0)(pg@8.16.3)(reflect-metadata@0.2.2)
@@ -18537,7 +18543,7 @@ snapshots:
 
   node-abi@3.78.0:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
     optional: true
 
   node-addon-api@7.1.1:
@@ -19958,6 +19964,8 @@ snapshots:
 
   semver@7.7.2: {}
 
+  semver@7.7.3: {}
+
   send@1.2.0:
     dependencies:
       debug: 4.4.3
@@ -20032,7 +20040,7 @@ snapshots:
     dependencies:
       color: 4.2.3
       detect-libc: 2.1.2
-      semver: 7.7.2
+      semver: 7.7.3
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5
