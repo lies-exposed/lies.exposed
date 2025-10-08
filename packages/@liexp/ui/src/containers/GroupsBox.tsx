@@ -50,7 +50,7 @@ export const GroupsBox: React.FC<GroupsBoxProps> = ({
   onItemClick,
   discrete,
   prefix,
-  ...props
+  ..._props
 }) => {
   return (
     <Box>

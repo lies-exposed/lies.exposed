@@ -4,7 +4,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const MakeGetHealthcheckRoute: Route = (r, ctx) => {
+export const MakeGetHealthcheckRoute: Route = (r, _ctx) => {
   AddEndpoint(r)(Endpoints.Healthcheck.List, () => {
     return pipe(
       TE.right({ status: "OK" }),

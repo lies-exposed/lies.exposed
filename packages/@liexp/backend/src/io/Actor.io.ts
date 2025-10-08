@@ -15,7 +15,7 @@ import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
 
 export const encodeActor = ({
-  old_avatar,
+  old_avatar: _old_avatar,
   ...a
 }: ActorEntity): E.Either<
   _DecodeError,
@@ -62,7 +62,7 @@ export const encodeActor = ({
 };
 
 const decodeActor = ({
-  old_avatar,
+  old_avatar: _old_avatar,
   ...a
 }: ActorEntity): E.Either<_DecodeError, io.http.Actor.Actor> => {
   return pipe(

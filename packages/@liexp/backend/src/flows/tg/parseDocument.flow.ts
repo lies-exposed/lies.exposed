@@ -48,7 +48,7 @@ export const parseDocument =
       ctx.tg.getFileStream(messageDocument),
       TE.mapLeft(ServerError.fromUnknown),
       fp.TE.filterOrElse(
-        (m) => Schema.is(PDFType)(messageDocument.mime_type),
+        () => Schema.is(PDFType)(messageDocument.mime_type),
         () => ServerError.fromUnknown(new Error("Invalid file type")),
       ),
       TE.chain((f) => {

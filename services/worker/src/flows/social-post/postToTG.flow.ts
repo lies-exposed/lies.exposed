@@ -93,7 +93,7 @@ export const postToTG =
     params: CreateSocialPost & { id: UUID },
   ): RTE<readonly TelegramBot.Message[]> =>
   (ctx) => {
-    const { id, ...body } = params;
+    const { id: _id, ...body } = params;
     return pipe(
       writeText(body)(ctx),
       fp.TE.right,

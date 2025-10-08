@@ -12,7 +12,7 @@ const modalClasses = {
   expandedDescription: `${MODAL_PREFIX}-expanded-description`,
 };
 
-const StyledModalContent = styled(Box)(({ theme }) => ({
+const StyledModalContent = styled(Box)(() => ({
   [`&.${modalClasses.root}`]: {
     height: "100%",
   },
@@ -38,7 +38,7 @@ const boxClasses = {
   image: `${PREFIX}-image`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme: _theme }) => ({
   [`&.${boxClasses.root}`]: {
     overflow: "hidden",
   },
@@ -79,7 +79,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
   const [modal, showModal] = useModal({ disablePortal: false });
 
   const handleZoomClick = React.useCallback(() => {
-    showModal(media.label ?? media.description ?? "No label", (onClose) => (
+    showModal(media.label ?? media.description ?? "No label", (_onClose) => (
       <StyledModalContent className={modalClasses.root}>
         <Box
           display={"flex"}
@@ -148,7 +148,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
         <IconButton
           className={boxClasses.expandIcon}
           aria-label="expand"
-          onClick={(e) => {
+          onClick={(_e) => {
             handleZoomClick();
           }}
           size="large"

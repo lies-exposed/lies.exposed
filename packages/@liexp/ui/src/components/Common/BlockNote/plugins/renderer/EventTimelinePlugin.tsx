@@ -25,7 +25,7 @@ const classes = {
   listItem: `${PREFIX}-list-item`,
 };
 
-const StyledBox = styled(Box)(({ theme }) => ({
+const StyledBox = styled(Box)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {},
   [`& .${classes.list}`]: {
     display: "flex",

@@ -43,7 +43,7 @@ export const LinksPageTemplate: React.FC<LinksPageTemplateProps> = ({
           label: "Search",
         },
       ]}
-      onTabChange={(t) => {}}
+      onTabChange={() => {}}
       resource={{ name: "links", item: {} }}
     >
       <Box

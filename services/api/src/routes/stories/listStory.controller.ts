@@ -10,7 +10,7 @@ import { In, Not } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeListStoryRoute: Route = (r, { env, db, logger }) => {
+export const MakeListStoryRoute: Route = (r, { env, db, logger: _logger }) => {
   AddEndpoint(r)(
     Endpoints.Story.List,
     ({

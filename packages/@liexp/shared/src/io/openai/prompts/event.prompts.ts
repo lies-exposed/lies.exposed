@@ -15,7 +15,7 @@ ${vars.text}
 const CREATE_EVENT_PROMPT: PromptFn<{
   jsonSchema: string;
   type: EventType;
-}> = ({ vars }) => `
+}> = () => `
 You are an expert in extracting structured JSON from text. The info extracted from the texts serves to define an 'event' JSON object.
 The texts provided used as sources can be either excerpt of web pages, articles or scientific papers.
 

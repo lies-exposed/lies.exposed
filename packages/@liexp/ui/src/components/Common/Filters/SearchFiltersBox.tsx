@@ -143,7 +143,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
   query,
   dateRange: _dateRange,
   onQueryChange,
-  defaultExpanded = false,
+  defaultExpanded: _defaultExpanded = false,
   onQueryClear,
   ...props
 }) => {

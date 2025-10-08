@@ -69,7 +69,7 @@ export interface EventSliderProps
 export const EventSlider: React.FC<EventSliderProps> = ({
   onClick,
   events,
-  totals,
+  totals: _totals,
   slider,
   className,
   ...props
@@ -86,7 +86,7 @@ export const EventSlider: React.FC<EventSliderProps> = ({
           {...slider}
           className={clsx(classes.slider, slider?.className)}
         >
-          {events.map((e, index) => {
+          {events.map((e, _index) => {
             return (
               <EventSliderItem
                 key={e.id}

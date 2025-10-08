@@ -21,7 +21,7 @@ export const UpdateAreaGeometryByLabelButton: React.FC = () => {
         .create(`/admins/areas/${area.id}/search-coordinates`, {
           data: { label: query },
         })
-        .then(({ data: { id, ...geom } }) => {
+        .then(({ data: { id: _id, ...geom } }) => {
           return apiProvider.update("areas", {
             id: area.id,
             data: { ...area, geometry: geom },

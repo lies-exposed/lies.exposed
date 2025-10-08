@@ -140,7 +140,7 @@ const getEntityName = (entity: EntityTarget<any>): string => {
       .replace(" {", "")
       .replace("\n", "")
       .replace("}", "");
-  } catch (e) {
+  } catch (_e) {
     return "UnknownEntity";
   }
 };

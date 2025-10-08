@@ -1,8 +1,10 @@
 import { type FeatureLike } from "ol/Feature.js";
 import type Feature from "ol/Feature.js";
 import OlMap from "ol/Map.js";
+import { type DefaultsOptions as OlControlDefaultOptions } from "ol/control/defaults.js";
 import * as OlControl from "ol/control.js";
 import type Geometry from "ol/geom/Geometry.js";
+import { type DefaultsOptions as OlInteractionDefaultOptions } from "ol/interaction/defaults.js";
 import * as OlInteraction from "ol/interaction.js";
 import TileLayer from "ol/layer/Tile.js";
 import VectorLayer from "ol/layer/Vector.js";
@@ -20,8 +22,8 @@ export interface MapProps<G extends Geometry> {
   features: Feature<G>[];
   center?: [number, number];
   zoom?: number;
-  interactions?: any;
-  controls?: any;
+  interactions?: OlInteractionDefaultOptions;
+  controls?: OlControlDefaultOptions;
   onMapClick: (geoms: FeatureLike[]) => void;
 }
 

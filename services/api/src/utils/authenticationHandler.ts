@@ -32,7 +32,10 @@ interface AuthenticationContext {
 
 const decodeUserFromRequest =
   (req: Express.Request, routePerms: UserPermission[]) =>
-  ({ logger, jwt }: AuthenticationContext): IOE.IOEither<JWTError, User> => {
+  ({
+    logger: _logger,
+    jwt,
+  }: AuthenticationContext): IOE.IOEither<JWTError, User> => {
     // const headerKeys = Object.keys(req.headers);
     // logger.debug.log(`Checking headers %O for authorization`, headerKeys);
     const decodedHeaders = Schema.decodeUnknownEither(HeadersWithAuthorization)(
@@ -42,7 +45,7 @@ const decodeUserFromRequest =
     return pipe(
       decodedHeaders,
       IOE.fromEither,
-      IOE.mapLeft((e) => toNotAuthorizedError()),
+      IOE.mapLeft((_e) => toNotAuthorizedError()),
       IOE.chain((s) => jwt.verifyUser(s.authorization)),
       IOE.filterOrElse(
         (u) => {

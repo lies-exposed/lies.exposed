@@ -64,9 +64,9 @@ export const SocietyCollapseForecastGraph = withTooltip<
     events,
     showTooltip,
     hideTooltip,
-    tooltipOpen,
+    tooltipOpen: _tooltipOpen,
     tooltipData,
-    tooltipTop = 0,
+    tooltipTop: _tooltipTop = 0,
     tooltipLeft = 0,
   }) => {
     const margin = { left: 0, right: 0, bottom: 30, top: 30 };

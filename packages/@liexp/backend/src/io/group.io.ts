@@ -16,7 +16,7 @@ import { MediaIO } from "./media.io.js";
 
 const encodeGroupIO = ({
   avatar,
-  old_avatar,
+  old_avatar: _old_avatar,
   ...group
 }: GroupEntity): E.Either<
   _DecodeError,
@@ -58,7 +58,7 @@ const encodeGroupIO = ({
 };
 const decodeGroupIO = ({
   avatar,
-  old_avatar,
+  old_avatar: _old_avatar,
   ...group
 }: GroupEntity): E.Either<_DecodeError, io.http.Group.Group> => {
   return pipe(

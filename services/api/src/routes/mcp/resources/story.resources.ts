@@ -16,7 +16,7 @@ export const registerStoryResources = (
   server.registerResource(
     "story",
     new ResourceTemplate("story://{id}", {
-      list: (extra) => {
+      list: (_extra) => {
         return pipe(
           ctx.db.find(StoryEntity, {
             take: 20,

@@ -27,7 +27,7 @@ const RaBlockNoteInput: React.FC<RaBlockNoteInputProps> = ({
   style,
   onChange: _onChange,
   className,
-  variant,
+  variant: _variant,
   readOnly,
 }) => {
   const record = useRecordContext();

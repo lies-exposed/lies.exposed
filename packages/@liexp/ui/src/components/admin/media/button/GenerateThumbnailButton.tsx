@@ -83,7 +83,7 @@ export const GenerateThumbnailButton: React.FC<FieldProps> = (props) => {
   const handleThumbnailUpdate = React.useCallback(
     (thumbnail: string) => {
       if (record?.id) {
-        const { thumbnails, ...extra } = record?.extra ?? {};
+        const { thumbnails: _thumbnails, ...extra } = record?.extra ?? {};
         const data = {
           ...record,
           thumbnail,

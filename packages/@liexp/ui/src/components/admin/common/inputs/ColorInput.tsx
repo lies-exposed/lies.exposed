@@ -50,7 +50,7 @@ export const ColorInput: React.FC<TextInputProps> = ({
           label={props.label ?? "color"}
           value={field.value}
           style={{ width: 80 }}
-          onChange={(e: any) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             field.onChange({ target: { value: e.target.value } });
           }}
         />

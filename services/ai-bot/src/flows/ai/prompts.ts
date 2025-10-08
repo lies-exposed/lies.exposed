@@ -26,7 +26,7 @@ import { Schema } from "effect";
 
 export const getPromptFromResource = (
   resource: QueueResourceNames,
-  type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType,
+  _type: OpenAIEmbeddingQueueType | OpenAISummarizeQueueType,
 ): PromptFn<{ text: string; question: string }> => {
   switch (true) {
     case resource === ACTORS.literals[0]: {

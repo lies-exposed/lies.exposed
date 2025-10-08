@@ -12,7 +12,15 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 export const MakeCreateDeathEventRoute: Route = (r, { db }) => {
   AddEndpoint(r)(
     Endpoints.DeathEvent.Create,
-    ({ body: { links, keywords, media, payload, ...body } }) => {
+    ({
+      body: {
+        links: _links,
+        keywords: _keywords,
+        media: _media,
+        payload,
+        ...body
+      },
+    }) => {
       const data = foldOptionals({
         location: payload.location,
       });

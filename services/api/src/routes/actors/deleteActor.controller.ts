@@ -10,7 +10,10 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeDeleteActorRoute: Route = (r, { db, s3, logger, jwt }) => {
+export const MakeDeleteActorRoute: Route = (
+  r,
+  { db, s3: _s3, logger, jwt },
+) => {
   AddEndpoint(
     r,
     authenticationHandler([AdminDelete.literals[0]])({ logger, jwt }),

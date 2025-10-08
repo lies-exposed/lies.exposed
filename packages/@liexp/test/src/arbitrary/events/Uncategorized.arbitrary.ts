@@ -26,7 +26,7 @@ const createEventProps = http.Events.CreateEventPlainBody.members[4].omit(
 
 export const CreateEventBodyArb = ({
   linksIds = false,
-  mediaIds = false,
+  mediaIds: _mediaIds = false,
   keywordIds = false,
 }: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventPlainBody> =>
   Arbitrary.make(createEventProps).map((b) => ({

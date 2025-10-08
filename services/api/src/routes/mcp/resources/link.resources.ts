@@ -16,7 +16,7 @@ export const registerLinkResources = (
   server.registerResource(
     "link",
     new ResourceTemplate("link://{id}", {
-      list: (extra) => {
+      list: (_extra) => {
         return pipe(
           fetchLinks({}, true)(ctx),
           fp.TE.map(([links]) => ({

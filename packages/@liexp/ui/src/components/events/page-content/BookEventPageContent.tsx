@@ -39,7 +39,7 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
         <MediaElement
           media={media.pdf}
           disableZoom={false}
-          onClick={onMediaClick}
+          onClick={() => onMediaClick?.(media.pdf)}
           itemStyle={{
             width: "100%",
             height: 500,
@@ -50,7 +50,11 @@ export const BookEventPageContent: React.FC<BookEventPageContentProps> = ({
           <MediaElement
             media={media.audio}
             disableZoom={true}
-            onClick={onMediaClick}
+            onClick={() => {
+              if (media.audio) {
+                onMediaClick?.(media.audio);
+              }
+            }}
           />
         ) : null}
       </Grid>

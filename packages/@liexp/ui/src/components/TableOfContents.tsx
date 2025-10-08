@@ -41,7 +41,7 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
   return pipe(
     O.fromNullable(items),
     O.map((items) => traverseItem(items, 1)),
-    O.map((data) => (
+    O.map((_data) => (
       <div>
         <Typography variant="h3">Tabella dei contenuti</Typography>
         {/* <StatefulTreeView
@@ -58,7 +58,16 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
   );
 };
 
-const traverseItem = (items: Item[], depth: number): any[] => {
+const traverseItem = (
+  items: Item[],
+  depth: number,
+): Array<{
+  id: string;
+  info: { depth: number };
+  label: string;
+  isExpanded: boolean;
+  children: unknown[];
+}> => {
   return items.map((i) => ({
     id: i.url ?? uuid(),
     info: { depth },

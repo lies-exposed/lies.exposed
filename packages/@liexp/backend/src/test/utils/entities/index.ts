@@ -90,7 +90,10 @@ export const toLinkEntity = (a: Link): LinkEntity => ({
   deletedAt: null,
 });
 
-export const toGroupEntity = ({ subGroups, ...g }: Group): GroupEntity => ({
+export const toGroupEntity = ({
+  subGroups: _subGroups,
+  ...g
+}: Group): GroupEntity => ({
   old_avatar: null,
   stories: [],
   ...g,

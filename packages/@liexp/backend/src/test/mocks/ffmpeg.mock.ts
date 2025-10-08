@@ -8,7 +8,7 @@ export const ffmpegCommandMock = {
     filename: "",
     count: 0,
   },
-  on: vi.fn((event: string): void => {
+  on: vi.fn((): void => {
     throw new Error("on not implemented");
   }),
   inputFormat: vi.fn().mockReturnThis(),

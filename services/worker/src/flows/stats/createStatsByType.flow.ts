@@ -224,7 +224,13 @@ export const createStatsByType =
               LoggerService.TE.debug(ctx, `new relation ids %O`),
               fp.TE.chain(fetchRelations),
               fp.TE.map(
-                ({ actors, groups, groupsMembers, media, keywords }) => {
+                ({
+                  actors,
+                  groups,
+                  groupsMembers: _groupsMembers,
+                  media: _media,
+                  keywords,
+                }) => {
                   const init: StatsCache = {
                     events: [],
                     media: new Map(),

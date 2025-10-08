@@ -15,7 +15,7 @@ interface EditEventFormProps extends Omit<EditProps, "children"> {
 
 export const EditEventForm: React.FC<EditEventFormProps> = ({
   children,
-  title,
+  title: _title,
   ...props
 }) => {
   const dataProvider = useDataProvider();

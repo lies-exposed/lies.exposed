@@ -28,15 +28,18 @@ interface ShareModalProps {
 }
 
 export const emptySharePayload: CreateSocialPost = {
-  title: undefined,
-  date: undefined,
+  title: `Default title`,
+  date: new Date().toISOString(),
   media: [],
   content: undefined,
   url: undefined,
   keywords: [],
   platforms: { IG: true, TG: true },
   schedule: undefined,
-} as any;
+  useReply: false,
+  actors: [],
+  groups: [],
+};
 
 const classes = {
   paper: `share-modal-paper`,
@@ -81,7 +84,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       .create(`/social-posts/${type}/${id}`, {
         data: payload,
       })
-      .then((result) => {
+      .then(() => {
         setState({
           multipleMedia: false,
           payload: emptySharePayload,

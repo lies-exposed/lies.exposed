@@ -14,7 +14,7 @@ export const ReferenceMediaTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "reference" | "render"> & {
     exclude?: string[];
   }
-> = ({ source, exclude, queryOptions, ...props }) => {
+> = ({ source, exclude: _exclude, queryOptions: _queryOptions, ...props }) => {
   const record = useRecordContext();
   const mediaSource = source ?? "media";
   const currentMedia = get(record, mediaSource);

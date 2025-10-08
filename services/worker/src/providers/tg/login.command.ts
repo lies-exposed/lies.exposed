@@ -7,11 +7,11 @@ import { toWorkerError } from "#io/worker.error.js";
 
 export const loginCommand = ({
   logger,
-  wp,
+  wp: _wp,
   tg,
   db,
-  env,
-  ...restCtx
+  env: _env,
+  ..._restCtx
 }: WorkerContext): TGBotProvider => {
   tg.api.onText(/\/login\s(.*)/, (msg, match) => {
     logger.debug.log(`Login with %O`, match);

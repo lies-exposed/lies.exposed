@@ -2,14 +2,11 @@ import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.
 import { type WorkerContext } from "#context/context.js";
 
 export const startCommand = ({
-  logger,
-  wp,
   tg,
-  db,
   env,
-  ...rest
+  ..._rest
 }: WorkerContext): TGBotProvider => {
-  tg.api.onText(/\/start/, (msg, match) => {
+  tg.api.onText(/\/start/, (msg, _match) => {
     void tg.api.sendMessage(
       msg.chat.id,
       `Hello, I'm the bot for ${env.TG_BOT_CHAT}.\n\nI can create links, actors, groups and other thing for you.\n\nDiscover what I can do with the /help command`,

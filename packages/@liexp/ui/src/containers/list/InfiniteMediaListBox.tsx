@@ -38,11 +38,11 @@ export const InfiniteMediaListBox: React.FC<InfiniteMediaListBoxProps> = ({
               {
                 item,
                 measure,
-                index,
+                index: _index,
                 style,
                 columnWidth,
-                onRowInvalidate,
-                ...others
+                onRowInvalidate: _onRowInvalidate,
+                ..._others
               },
               ref,
             ) => {

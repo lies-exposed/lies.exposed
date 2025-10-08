@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Button,
+  type Identifier,
   useRecordContext,
   useRedirect,
   useResourceContext,
@@ -17,10 +18,10 @@ export const DangerZoneField: React.FC = () => {
   const apiProvider = useDataProvider();
 
   const doDeletePerm = React.useCallback(
-    (resource: string, record: any) => {
+    (resource: string, record: { id: Identifier }) => {
       void apiProvider
         .delete(resource, { id: record.id, meta: { permanent: true } })
-        .then((r) => {
+        .then((_r) => {
           redirect(`/links`);
         });
     },

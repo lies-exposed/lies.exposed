@@ -46,7 +46,7 @@ export const seedNations = <
         fp.TE.right,
       ),
     ),
-    fp.TE.chain(({ nations, newCountries }) =>
+    fp.TE.chain(({ nations: _nations, newCountries }) =>
       ctx.db.save(
         NationEntity,
         newCountries.map(({ iso, ...c }) => ({ ...c, isoCode: iso })),

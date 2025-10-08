@@ -17,7 +17,7 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
   slugSource = "slug",
   label = source,
   style,
-  onClear,
+  onClear: _onClear,
   defaultValue = "",
   ...props
 }) => {
@@ -31,7 +31,8 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
 
     const currentSlug = getValues(slugSource) ?? "";
     const isSlugDirty = !!(
-      formState?.dirtyFields && (formState.dirtyFields as any)[slugSource]
+      formState?.dirtyFields &&
+      (formState.dirtyFields as Record<string, boolean>)[slugSource]
     );
 
     // only auto-update slug when the slug field hasn't been manually edited
@@ -46,7 +47,12 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
 
   return (
     <Stack style={style}>
-      <TextInput {...props} source={source} defaultValue={defaultValue} />
+      <TextInput
+        {...props}
+        label={label}
+        source={source}
+        defaultValue={defaultValue}
+      />
       <TextInput {...props} source={slugSource} />
     </Stack>
   );

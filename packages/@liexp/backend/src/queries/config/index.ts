@@ -21,7 +21,7 @@ export const EventsConfig: EventsConfig = {
         ` (event.type = 'ScientificStudy' AND "event"."payload"::jsonb -> 'publisher' ?| ARRAY[:...groups])`,
       ),
     whereMediaIn: (qb) => qb.andWhere("media.id IN (:...media)"),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
+    whereTitleIn: () => `"event"."payload"::jsonb ->> 'title'`,
   },
   Documentary: {
     whereActorsIn: (qb) =>
@@ -34,7 +34,7 @@ export const EventsConfig: EventsConfig = {
       ),
     whereMediaIn: (qb) =>
       qb.andWhere(`"event"."payload"::jsonb -> 'media' ?| ARRAY[:...media]`),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
+    whereTitleIn: () => `"event"."payload"::jsonb ->> 'title'`,
   },
   Patent,
   Transaction: {
@@ -51,7 +51,7 @@ export const EventsConfig: EventsConfig = {
             ` ("event"."payload"::jsonb -> 'to' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'to' -> 'id' ?| ARRAY[:...groups]) )`,
         ),
     whereMediaIn: (qb) => qb.andWhere("media.id IN (:...media)"),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'description'`,
+    whereTitleIn: () => `"event"."payload"::jsonb ->> 'description'`,
   },
   Quote: {
     whereActorsIn: (qb) =>
@@ -63,7 +63,7 @@ export const EventsConfig: EventsConfig = {
         ` (event.type = 'Quote' AND "event"."payload"::jsonb -> 'subject' ->> 'type' = 'Group' AND "event"."payload"::jsonb -> 'subject' -> 'id' ?| ARRAY[:...groups])`,
       ),
     whereMediaIn: (qb) => qb.andWhere("media.id IN (:...media)"),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'quote'::text`,
+    whereTitleIn: () => `"event"."payload"::jsonb ->> 'quote'::text`,
   },
   Uncategorized: {
     whereActorsIn: (qb) =>
@@ -73,6 +73,6 @@ export const EventsConfig: EventsConfig = {
         ` (event.type = 'Uncategorized' AND "event"."payload"::jsonb -> 'groups' ?| ARRAY[:...groups] ) `,
       ),
     whereMediaIn: (qb) => qb.andWhere("media.id IN (:...media)"),
-    whereTitleIn: (qb) => `"event"."payload"::jsonb ->> 'title'`,
+    whereTitleIn: () => `"event"."payload"::jsonb ->> 'title'`,
   },
 };

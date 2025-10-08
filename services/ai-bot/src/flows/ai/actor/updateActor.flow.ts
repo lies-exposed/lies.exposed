@@ -50,7 +50,7 @@ export const updateActorFlow: JobProcessRTE<
           ),
     ),
     LoggerService.RTE.debug("updateActorFlow output %O"),
-    fp.RTE.map((excerpt) => ({
+    fp.RTE.map((_excerpt) => ({
       excerpt: "",
     })),
   );

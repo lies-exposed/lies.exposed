@@ -69,7 +69,12 @@ export const EditLink = Schema.Struct({
 
 export type EditLink = typeof EditLink.Type;
 
-const { events, overrideThumbnail, image, ...linkBaseProps } = EditLink.fields;
+const {
+  events: _events,
+  overrideThumbnail: _overrideThumbnail,
+  image: _image,
+  ...linkBaseProps
+} = EditLink.fields;
 
 export const Link = Schema.Struct({
   ...linkBaseProps,

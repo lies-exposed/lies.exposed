@@ -74,12 +74,16 @@ describe.skip("Edit Project ", () => {
       Schema.decodeUnknownEither(http.Project.Project)(response.body.data)._tag,
     ).toEqual("Right");
 
-    const { updatedAt, ...receivedBody } = response.body.data;
-    const { updatedAt: _, deletedAt: _deletedAt, ...expectedBody } = project;
+    const { updatedAt: _updatedAt, ...receivedBody } = response.body.data;
+    const {
+      updatedAt: _updatedAt2,
+      deletedAt: _deletedAt,
+      ...expectedBody
+    } = project;
     expect(receivedBody).toMatchObject({
       ...expectedBody,
       ...updateData,
-      areas: expectedBody.areas.map(({ deletedAt, ...a }) => ({
+      areas: expectedBody.areas.map(({ deletedAt: _deletedAt4, ...a }) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),
@@ -95,7 +99,7 @@ describe.skip("Edit Project ", () => {
 
   test.skip("Should update media and return 200", async () => {
     const updateData = {
-      media: fc.sample(MediaArb, 5).map(({ id, ...i }) => ({
+      media: fc.sample(MediaArb, 5).map(({ id: _id, ...i }) => ({
         ...i,
         kind: "THEORY",
       })),
@@ -110,11 +114,15 @@ describe.skip("Edit Project ", () => {
     const decodedBody = Schema.decodeUnknownEither(http.Project.Project)(body);
     expect(decodedBody._tag).toEqual("Right");
 
-    const { updatedAt, ...receivedBody } = response.body.data;
-    const { updatedAt: _, deletedAt: _deletedAt, ...expectedBody } = project;
+    const { updatedAt: _updatedAt3, ...receivedBody } = response.body.data;
+    const {
+      updatedAt: _updatedAt4,
+      deletedAt: _deletedAt2,
+      ...expectedBody
+    } = project;
     expect(receivedBody).toMatchObject({
       ...expectedBody,
-      areas: expectedBody.areas.map(({ deletedAt, ...a }) => ({
+      areas: expectedBody.areas.map(({ deletedAt: _deletedAt3, ...a }) => ({
         ...a,
         createdAt: a.createdAt.toISOString(),
         updatedAt: a.updatedAt.toISOString(),

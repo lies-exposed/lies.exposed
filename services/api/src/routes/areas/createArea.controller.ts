@@ -8,7 +8,7 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { authenticationHandler } from "#utils/authenticationHandler.js";
 
-export const MakeCreateAreaRoute: Route = (r, { db, logger, jwt, s3 }) => {
+export const MakeCreateAreaRoute: Route = (r, { db, logger, s3: _s3, jwt }) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
     Endpoints.Area.Create,
     ({ body, headers }) => {

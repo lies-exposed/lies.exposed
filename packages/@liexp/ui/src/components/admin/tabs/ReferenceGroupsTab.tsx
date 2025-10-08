@@ -13,7 +13,7 @@ import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
 
 export const ReferenceGroupsTab: React.FC<
   Omit<ReferenceFieldProps<RaRecord<string>>, "label" | "render">
-> = ({ queryOptions, ...props }) => {
+> = ({ queryOptions: _queryOptions, ...props }) => {
   const record = useRecordContext();
   const newSource =
     props.source?.split(".").slice(0, -1).concat("newGroups").join(".") ??

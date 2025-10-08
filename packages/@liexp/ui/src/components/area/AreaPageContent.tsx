@@ -29,7 +29,7 @@ export const AreaPageContent: React.FC<AreaPageContentProps> = ({
           )}
         </Box>
         <MediaSliderBox
-          itemStyle={(i) => ({
+          itemStyle={(_i) => ({
             display: "block",
             height: "100%",
             width: "100%",

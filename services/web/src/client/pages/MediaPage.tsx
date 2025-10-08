@@ -4,7 +4,7 @@ import * as React from "react";
 import { type RouteProps as RouteComponentProps } from "react-router";
 import { useNavigateToResource } from "../utils/location.utils.js";
 
-const MediaPage: React.FC<RouteComponentProps> = (props) => {
+const MediaPage: React.FC<RouteComponentProps> = (_props) => {
   const navigateTo = useNavigateToResource();
   const [searchFilters, setQ] = React.useState<SearchFilters>({
     keywords: [],

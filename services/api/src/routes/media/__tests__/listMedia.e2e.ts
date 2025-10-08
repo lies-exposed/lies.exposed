@@ -60,13 +60,13 @@ describe("List Media", () => {
       .set("Authorization", authorizationToken);
 
     const {
-      updatedAt,
-      createdAt,
-      deletedAt,
-      extra,
-      description,
-      label,
-      socialPosts,
+      updatedAt: _updatedAt,
+      createdAt: _createdAt,
+      deletedAt: _deletedAt,
+      extra: _extra,
+      description: _description,
+      label: _label,
+      socialPosts: _socialPosts,
       ...expectedMedia
     } = media[0];
 

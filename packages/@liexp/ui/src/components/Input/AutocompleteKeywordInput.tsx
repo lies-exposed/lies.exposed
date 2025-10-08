@@ -49,7 +49,7 @@ export const AutocompleteKeywordInput: React.FC<
           }}
         />
       )}
-      renderOption={(props, item, state) => {
+      renderOption={(props, item, _state) => {
         return (
           <KeywordListItem
             key={item.id}

@@ -41,7 +41,7 @@ export const AutocompleteGroupMemberInput: React.FC<
           }}
         />
       )}
-      renderOption={(props, item, state) => (
+      renderOption={(props, item, _state) => (
         <GroupMemberListItem
           key={item.id}
           item={{

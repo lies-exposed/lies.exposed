@@ -59,7 +59,7 @@ export const run = async (base: string): Promise<void> => {
     serverEntry = () => import(path.resolve(outputDir, "server/entry.js"));
     const templateFile = fs.readFileSync(indexFile, "utf8");
 
-    getTemplate = (url: string, originalUrl: string) =>
+    getTemplate = (_url: string, _originalUrl: string) =>
       Promise.resolve(
         templateFile.replace(
           "<!--web-analytics-->",

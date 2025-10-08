@@ -13,7 +13,7 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeEditAreaRoute: Route = (r, { db, geo, s3, logger }) => {
+export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
   AddEndpoint(r)(
     Endpoints.Area.Edit,
     ({ params: { id }, body: { media, events, updateGeometry, ...body } }) => {

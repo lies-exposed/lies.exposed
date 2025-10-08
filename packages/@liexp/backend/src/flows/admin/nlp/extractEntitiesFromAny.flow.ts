@@ -139,7 +139,7 @@ const extractEntitiesFromAny = <
 
       if (Schema.is(ExtractEntitiesWithNLPInput.members[1])(body)) {
         return pipe(
-          ctx.puppeteer.execute({}, (b, p) =>
+          ctx.puppeteer.execute({}, () =>
             extractRelationsFromPDFs(body.pdf)(ctx),
           ),
           fp.RTE.fromTaskEither,

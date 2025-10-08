@@ -19,7 +19,7 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
   width,
   onClick,
   style,
-  onLoad,
+  onLoad: _onLoad,
 }) => {
   const SVG_ID = `waveform-${id}`;
   const theme = useTheme();
@@ -88,7 +88,7 @@ export const WaveformThumbnail: React.FC<WaveformThumbnailProps> = ({
       .area()
       .x((d, i) => x(i))
       .y0((d, i) => y(min[i]))
-      .y1((d, i) => y(d as any));
+      .y1((d) => y(d as any));
 
     svg
       .append("path")

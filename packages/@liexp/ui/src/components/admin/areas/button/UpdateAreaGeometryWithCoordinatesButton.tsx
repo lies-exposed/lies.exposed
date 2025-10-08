@@ -1,4 +1,7 @@
+import { Position } from "@liexp/shared/lib/io/http/Common/Geometry/Position.js";
 import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { Schema } from "effect/index";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";
 import { CircularProgress, Stack, TextField } from "../../../mui/index.js";
@@ -7,12 +10,14 @@ import { Button, useRecordContext, useRefresh } from "../../react-admin.js";
 export const UpdateAreaGeometryWithCoordinatesButton: React.FC = () => {
   const refresh = useRefresh();
   const record = useRecordContext<Area.Area>();
-  const [coords, setQuery] = React.useState(record?.geometry.coordinates);
+  const [coords, setQuery] = React.useState<Position | undefined>(
+    record?.geometry.coordinates as Position | undefined,
+  );
 
   const apiProvider = useDataProvider();
 
   const searchForCoordinates = React.useCallback(
-    (area: Area.Area, coords: any) => {
+    (area: Area.Area, coords: Position | undefined) => {
       void apiProvider
         .update<Area.Area>("areas", {
           id: area.id,
@@ -44,8 +49,10 @@ export const UpdateAreaGeometryWithCoordinatesButton: React.FC = () => {
       <TextField
         value={coords}
         onChange={(e) => {
-          setQuery(
-            e.target.value.split(",").map((n) => parseFloat(n)) as any[],
+          pipe(
+            e.target.value.split(",").map((n) => parseFloat(n)),
+            Schema.encodeUnknownSync(Position),
+            setQuery,
           );
         }}
         size="small"

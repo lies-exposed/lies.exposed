@@ -45,7 +45,7 @@ export const parseURLs =
   >(
     urls: O.Option<URL[]>,
     user: UserEntity,
-    page: puppeteer.Page,
+    _page: puppeteer.Page,
   ): ReaderTaskEither<C, DBError | ServerError, UUID[]> =>
   (ctx) =>
     pipe(

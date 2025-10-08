@@ -63,7 +63,7 @@ export interface EventListItemProps extends BoxProps {
 export const TimelineEventSubjects: React.FC<EventListItemProps> = ({
   event: e,
   style,
-  onClick,
+  onClick: _onClick,
   onActorClick,
   onGroupClick,
   onGroupMemberClick,

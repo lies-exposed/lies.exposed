@@ -166,7 +166,7 @@ export const EventDataGrid: React.FC = () => {
       <DateField source="date" />
       <FunctionField<RaRecord<string>>
         label="Dates"
-        render={(r) => {
+        render={() => {
           return (
             <Box>
               <DateField source="updatedAt" />

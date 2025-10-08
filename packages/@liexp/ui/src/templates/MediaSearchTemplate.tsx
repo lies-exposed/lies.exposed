@@ -23,7 +23,7 @@ const MediaSearchTemplate: React.FC<MediaSearchTemplateProps> = ({
   filter,
   onFilterChange,
   onMediaClick,
-  perPage = 50,
+  perPage: _perPage = 50,
 }) => {
   return (
     <SplitPageTemplate

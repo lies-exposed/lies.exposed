@@ -1,12 +1,12 @@
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
-import type * as E from "fp-ts/lib/Either.js";
+import type * as _E from "fp-ts/lib/Either.js";
 import { describe, expect, test } from "vitest";
 import { BlockNoteDocument } from "../BlockNoteDocument.js";
 import { uuid } from "../UUID.js";
 
 const expectDecodeResult = <E extends ParseError>(
-  result: E.Either<E, any>,
+  result: _E.Either<E, any>,
   r: "Right" | "Left" = "Right",
 ): void => {
   const isExpected = result._tag === r;

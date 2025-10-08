@@ -381,7 +381,7 @@ export const ForcedNetworkGraph: React.FC<ForcedNetworkGraphProps> = ({
       .on(
         "mouseout",
         debounce(
-          function (this: any, _, d) {
+          function (this: any, _, _d) {
             const n = d3.select(this);
             n.raise();
             return n.text(`#`);

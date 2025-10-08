@@ -45,7 +45,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
 
   return (
     <Grid container spacing={2}>
-      {cachedSuggestions.map((e, i) => {
+      {cachedSuggestions.map((e) => {
         return (
           <Grid key={e.id} size={{ sm: 12, md: 4 }}>
             <CreateEventCard

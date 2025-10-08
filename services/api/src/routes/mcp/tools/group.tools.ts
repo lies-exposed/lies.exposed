@@ -34,7 +34,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
         }),
       ),
     },
-    async ({ query, withDeleted, sort, order }) => {
+    async ({ query, withDeleted: _withDeleted, sort, order }) => {
       return pipe(
         fetchGroups({
           q: O.fromNullable(query),

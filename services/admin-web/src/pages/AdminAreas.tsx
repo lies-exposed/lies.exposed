@@ -111,7 +111,7 @@ const EditTitle: React.FC = () => {
 
 const transformArea = ({
   newMediaRef = [],
-  newEvents,
+  newEvents: _newEvents,
   ...area
 }: any): http.Area.Area => {
   const media = transformMedia(newMediaRef);

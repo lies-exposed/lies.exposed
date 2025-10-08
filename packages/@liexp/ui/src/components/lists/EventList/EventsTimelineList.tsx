@@ -137,7 +137,7 @@ const EventsTimelineList: React.ForwardRefRenderFunction<
     height,
     width,
     events,
-    total,
+    total: _total,
     onRowsRendered,
     onClick,
     onActorClick,

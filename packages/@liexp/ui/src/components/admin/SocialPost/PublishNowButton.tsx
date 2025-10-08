@@ -4,6 +4,7 @@ import * as React from "react";
 import {
   Button,
   type ButtonProps,
+  type Identifier,
   LoadingIndicator,
   useDataProvider,
   useRecordContext,
@@ -19,7 +20,7 @@ export const PublishNowButton: React.FC<
   const refresh = useRefresh();
   const dataProvider = useDataProvider();
 
-  const handlePublishNow = (post: any): void => {
+  const handlePublishNow = (post: { id: Identifier }): void => {
     void dataProvider
       .put(`/social-posts/${post.id}/publish`, { platforms })
       .then(() => {
@@ -27,7 +28,7 @@ export const PublishNowButton: React.FC<
       })
       .catch((e: any) => {
         // eslint-disable-next-line no-console
-        console.error(e.response.status, e.response.data);
+        console.error(e);
         // return Promise.reject(new HttpError(e.message, e.status, e.response.data));
         // setSubmissionErrors(e);
       });

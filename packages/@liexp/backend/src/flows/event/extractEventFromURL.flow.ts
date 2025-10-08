@@ -45,7 +45,7 @@ const extractPageMetadataFromProviderLink =
 
           const date = await p
             .waitForSelector(".AuthorGroups")
-            .then(async (d) => {
+            .then(async (_d) => {
               const datesLabel = await p.$eval(".AuthorGroups", (el) =>
                 el.nextElementSibling?.textContent?.split(", "),
               );

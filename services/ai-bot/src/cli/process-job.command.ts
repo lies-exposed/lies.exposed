@@ -20,7 +20,7 @@ export const processJobCommand: CommandFlow = async (ctx, args) => {
     }),
     fp.TE.chain((job) => JobProcessor(job.data, false)(ctx)),
     LoggerService.TE.debug(ctx, "Job processed %O"),
-    fp.TE.map((job) => undefined),
+    fp.TE.map((_job) => undefined),
     throwTE,
   );
 };

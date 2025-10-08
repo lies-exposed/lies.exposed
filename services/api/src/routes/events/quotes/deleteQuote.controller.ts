@@ -7,7 +7,7 @@ import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const MakeDeleteQuoteRoute: Route = (r, { db, logger }) => {
+export const MakeDeleteQuoteRoute: Route = (r, { db, logger: _logger }) => {
   AddEndpoint(r)(Endpoints.QuoteEvent.Delete, ({ params: { id } }) => {
     return pipe(
       db.findOneOrFail(EventV2Entity, {

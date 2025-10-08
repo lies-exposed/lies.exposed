@@ -24,7 +24,7 @@ const classes = {
   input: `${PREFIX}-input`,
 };
 
-const StyledContainer = styled(Container)(({ theme }) => ({
+const StyledContainer = styled(Container)(({ theme: _theme }) => ({
   [`.${classes.root}`]: {},
   [`& .${classes.form}`]: {},
   [`& .${classes.input}`]: {

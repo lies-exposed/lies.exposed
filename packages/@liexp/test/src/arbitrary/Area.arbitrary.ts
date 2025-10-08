@@ -6,17 +6,17 @@ import fc from "fast-check";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const {
-  createdAt,
-  updatedAt,
-  deletedAt,
-  id,
-  media,
-  events,
-  geometry,
-  body,
-  slug,
-  socialPosts,
-  featuredImage,
+  createdAt: _createdAt,
+  updatedAt: _updatedAt,
+  deletedAt: _deletedAt,
+  id: _id,
+  media: _media,
+  events: _events,
+  geometry: _geometry,
+  body: _body,
+  slug: _slug,
+  socialPosts: _socialPosts,
+  featuredImage: _featuredImage,
   ...areaProps
 } = http.Area.Area.fields;
 

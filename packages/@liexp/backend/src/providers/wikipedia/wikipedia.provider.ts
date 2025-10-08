@@ -63,7 +63,7 @@ export const WikipediaProvider = ({
   logger,
   client,
   restClient,
-  spaceEndpoint,
+  spaceEndpoint: _spaceEndpoint,
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 

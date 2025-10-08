@@ -36,10 +36,10 @@ export const fromURL =
   > => {
     const urll = sanitizeURL(url);
     return pipe(
-      ctx.urlMetadata.fetchMetadata(urll, {}, (e) =>
+      ctx.urlMetadata.fetchMetadata(urll, {}, (_e) =>
         ServerError.of([`Error fetching metadata from url ${urll}`]),
       ),
-      TE.orElse((e) =>
+      TE.orElse((_e) =>
         TE.right<ServerError, Partial<Metadata>>({
           keywords: [],
           url: url as string,

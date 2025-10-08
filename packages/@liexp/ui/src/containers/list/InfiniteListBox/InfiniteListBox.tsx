@@ -73,7 +73,7 @@ export const InfiniteListBox = <
   listProps,
   toItems = (r: EndpointDataOutputType<E>) => r.data,
   getTotal = (r: EndpointDataOutputType<E>) => r.total,
-  ...rest
+  ..._rest
 }: InfiniteListBoxProps<T, E>): React.ReactElement => {
   const [{ masonryRef, cellCache }, setMasonryRef] = React.useState<{
     masonryRef: Masonry | null;
@@ -123,7 +123,7 @@ export const InfiniteListBox = <
         false,
       );
     },
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+    getNextPageParam: (lastPage, allPages, lastPageParam, _allPageParams) => {
       // console.log("get next params", {
       //   lastPage,
       //   allPages,

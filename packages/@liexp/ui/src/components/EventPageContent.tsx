@@ -24,12 +24,12 @@ export interface EventPageContentProps {
 export const EventPageContent: React.FC<EventPageContentProps> = ({
   event,
   relations,
-  onDateClick,
-  onActorClick,
-  onGroupClick,
-  onGroupMemberClick,
-  onKeywordClick,
-  onLinkClick,
+  onDateClick: _onDateClick,
+  onActorClick: _onActorClick,
+  onGroupClick: _onGroupClick,
+  onGroupMemberClick: _onGroupMemberClick,
+  onKeywordClick: _onKeywordClick,
+  onLinkClick: _onLinkClick,
   onAreaClick,
   onMediaClick,
 }) => {

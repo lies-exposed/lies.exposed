@@ -13,7 +13,7 @@ interface DocumentaryPageContentProps {
 }
 export const DocumentaryPageContent: React.FC<DocumentaryPageContentProps> = ({
   event,
-  media,
+  media: _media,
   onMediaClick,
 }) => {
   const theme = useTheme();

@@ -9,7 +9,7 @@ import * as E from "fp-ts/lib/Either.js";
 import { type ControllerError } from "#io/ControllerError.js";
 
 const toUserIO = ({
-  passwordHash,
+  passwordHash: _passwordHash,
   ...user
 }: UserEntity): E.Either<ControllerError, io.http.User.User> => {
   return pipe(

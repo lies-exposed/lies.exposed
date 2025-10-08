@@ -54,6 +54,7 @@ describe("Edit Actor", () => {
       Test.ctx.db.save(ActorEntity, [
         {
           ...actor,
+          nationalities: [],
           avatar: actor.avatar?.id,
         },
       ]),
@@ -80,11 +81,13 @@ describe("Edit Actor", () => {
   test("Should edit the actor", async () => {
     const editActor = tests.fc
       .sample(ActorArb, 1)
-      .map(({ createdAt, updatedAt, avatar, ...a }) => ({
-        ...a,
-        body: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
-        avatar: avatar ? avatar.id : undefined,
-      }))[0];
+      .map(
+        ({ createdAt: _createdAt, updatedAt: _updatedAt, avatar, ...a }) => ({
+          ...a,
+          body: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
+          avatar: avatar ? avatar.id : undefined,
+        }),
+      )[0];
 
     const response = await Test.req
       .put(`/v1/actors/${actor.id}`)

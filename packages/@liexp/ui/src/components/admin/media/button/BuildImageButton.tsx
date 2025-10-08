@@ -94,7 +94,7 @@ export const LayerBox: React.FC<{
                   id: c,
                   name: c,
                 }))}
-                onSelectItem={(e, items) => {
+                onSelectItem={(e, _items) => {
                   if (e) {
                     handleSetLayer({
                       gravity: e.name,
@@ -170,7 +170,7 @@ export const BuildImageButton: React.FC<
     media: string;
     onBuild: (base64: string, base64Source: string) => void;
   }
-> = ({ text: postText, media, onBuild, ...props }) => {
+> = ({ text: postText, media, onBuild, ..._props }) => {
   const apiProvider = useDataProvider();
   const [mediaLayer, setMediaLayer] = useLayer({ type: "media", url: media });
   const [text, setText] = useLayer({

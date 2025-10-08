@@ -10,7 +10,10 @@ import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
-export const MakeCreateDocumentaryReleaseRoute: Route = (r, { db, logger }) => {
+export const MakeCreateDocumentaryReleaseRoute: Route = (
+  r,
+  { db, logger: _logger },
+) => {
   AddEndpoint(r)(
     Endpoints.DocumentaryEvent.Create,
     ({ body: { payload, ...body } }) => {

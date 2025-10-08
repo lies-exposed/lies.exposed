@@ -40,7 +40,7 @@ export interface SuggestLinkModalProps {
 export const SuggestLinkModal: React.FC<SuggestLinkModalProps> = ({
   open,
   onClose,
-  ...props
+  ..._props
 }) => {
   const [url, setUrl] = React.useState("");
   const [link, setLink] = React.useState<any>(undefined);

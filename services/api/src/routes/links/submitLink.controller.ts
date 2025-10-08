@@ -8,7 +8,7 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeSubmitLinkRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Link.Custom.Submit, ({ body }, req) => {
+  AddEndpoint(r)(Endpoints.Link.Custom.Submit, ({ body }, _req) => {
     ctx.logger.debug.log("Body %O", body);
 
     return pipe(

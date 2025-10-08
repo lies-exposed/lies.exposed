@@ -121,7 +121,7 @@ export const AreaList: React.FC<AreaListProps> = ({
       className={className}
       data={areas}
       getKey={(a) => a.id}
-      filter={(a) => true}
+      filter={(_a) => true}
       onItemClick={onAreaClick}
       ListItem={(area) => (
         <AreaListItem

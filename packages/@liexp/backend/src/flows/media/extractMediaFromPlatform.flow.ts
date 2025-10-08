@@ -56,7 +56,7 @@ const extractDescriptionFromPlatform = (
         }
       }
     }, ServerError.fromUnknown),
-    TE.orElseW((e) => TE.right("")),
+    TE.orElseW((_e) => TE.right("")),
   );
 };
 

@@ -9,7 +9,12 @@ export type EventNodeType = Node<any, "EventV2"> & {
 };
 
 export const EventNode = React.memo<NodeProps<EventNodeType>>(
-  ({ data, targetPosition, sourcePosition, selected: _selected }) => {
+  ({
+    data,
+    targetPosition: _targetPosition,
+    sourcePosition: _sourcePosition,
+    selected: _selected,
+  }) => {
     // const conf = useConfiguration();
     const selected = !!_selected;
 

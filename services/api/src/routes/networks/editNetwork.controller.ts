@@ -19,7 +19,7 @@ import { RequestDecoder } from "#utils/authenticationHandler.js";
 export const MakeEditNetworkRoute: Route = (r, ctx) => {
   AddEndpoint(r)(
     Endpoints.Networks.Edit,
-    ({ params: { type, id }, query }, req) => {
+    ({ params: { type, id }, query: _query }, req) => {
       const getCreateNetworkT = (
         type: NetworkType,
         isAdmin: boolean,

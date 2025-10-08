@@ -14,7 +14,7 @@ import { EventTitle } from "./titles/EventTitle.js";
 
 const ReferenceManyEventField: React.FC<
   Omit<ReferenceManyFieldProps<RaRecord<string>>, "reference" | "children">
-> = ({ queryOptions, ...props }) => {
+> = ({ queryOptions: _queryOptions, ...props }) => {
   return (
     <ReferenceManyField
       {...props}

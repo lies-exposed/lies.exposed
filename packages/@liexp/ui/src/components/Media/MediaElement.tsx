@@ -46,7 +46,7 @@ export interface MediaElementProps {
   enableDescription?: boolean;
   disableZoom?: boolean;
   fallbackImage?: string;
-  onClick?: (e: any) => void;
+  onClick?: (e: React.MouseEvent) => void;
   options?: {
     iframe: {
       showPlay: boolean;

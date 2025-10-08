@@ -79,7 +79,7 @@ const classes = {
   listItemUList: `${PREFIX}-listItemUList`,
 };
 
-const StyledMasonry = styled(Masonry)(({ theme }) => ({
+const StyledMasonry = styled(Masonry)(({ theme: _theme }) => ({
   [`&.${classes.root}`]: {
     // padding: 0,
     // paddingTop: 20,
@@ -112,7 +112,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     columnCount: defaultColumnCount,
     items,
     getItem,
-    cellRenderer,
+    cellRenderer: _cellRenderer,
     width,
     CellRenderer,
     onMasonryRef,
@@ -120,7 +120,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
     height,
     ...props
   },
-  ref,
+  _ref,
 ) => {
   const theme = useTheme();
   const isDownMD = useMuiMediaQuery(theme.breakpoints.down("md"));
@@ -177,7 +177,7 @@ const InfiniteMasonryForwardRef: React.ForwardRefRenderFunction<
       onCellsRendered={({ startIndex, stopIndex }) => {
         props.onCellsRendered?.({ startIndex, stopIndex });
       }}
-      cellRenderer={({ key, index, ...rest }) => {
+      cellRenderer={({ key: _key, index, ...rest }) => {
         const item = getItem(items, index);
         const isLast = items.length === index + 1;
         return (

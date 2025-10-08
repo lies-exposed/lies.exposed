@@ -32,7 +32,7 @@ export const List = <A extends any, D extends React.ElementType<any> = "ul">({
   style = {},
   getKey,
   onItemClick,
-  filter,
+  filter: _filter,
   ...props
 }: ListProps<A, D>): React.ReactElement => {
   return (

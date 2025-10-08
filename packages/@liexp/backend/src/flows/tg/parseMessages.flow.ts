@@ -64,7 +64,7 @@ export const parseTGMessageFlow = <
         return pipe(
           fp.RTE.ask<C>(),
           LoggerService.RTE.debug(["Deleting file %s", filePath]),
-          fp.RTE.chainIOEitherK((r) =>
+          fp.RTE.chainIOEitherK((_r) =>
             fp.IOE.tryCatch(() => {
               fs.rmSync(filePath);
             }, toTGError),

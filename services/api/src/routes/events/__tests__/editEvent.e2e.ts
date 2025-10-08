@@ -164,7 +164,10 @@ describe("Edit Event", () => {
   test("Should add media to the event", async () => {
     const mediaData = fc
       .sample(MediaArb, 2)
-      .map(({ id, createdAt, updatedAt, ...image }) => image);
+      .map(
+        ({ id: _id, createdAt: _createdAt, updatedAt: _updatedAt, ...image }) =>
+          image,
+      );
 
     const eventData = {
       ...event,
@@ -212,7 +215,7 @@ describe("Edit Event", () => {
 
     const linksData = fc
       .sample(LinkArb, 5)
-      .map(({ provider, keywords, ...linkProps }) => ({
+      .map(({ provider: _provider, keywords: _keywords, ...linkProps }) => ({
         ...linkProps,
         provider: undefined,
       }));

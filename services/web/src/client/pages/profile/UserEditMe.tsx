@@ -9,7 +9,7 @@ import { Card, Container } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import * as React from "react";
 
-export const UserEditMe: React.FC = (props) => {
+export const UserEditMe: React.FC = () => {
   const { isLoading, data, isError, error } = useGetOne("users", { id: "me" });
   const dataProvider = useDataProvider();
   const [saving, setSaving] = React.useState(false);

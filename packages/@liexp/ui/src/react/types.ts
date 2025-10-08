@@ -23,7 +23,7 @@ export type AsyncDataRoute = BaseRoute & {
   queries: (
     Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
     conf: Configuration,
-  ) => <P, Q, A>(
+  ) => <P, Q, _A>(
     params: P,
     query: Q | undefined,
   ) => Promise<AsyncDataRouteQuery<any, any, any>[]>;

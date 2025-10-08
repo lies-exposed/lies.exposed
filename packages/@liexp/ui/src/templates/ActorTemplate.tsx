@@ -141,8 +141,8 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                     <ActorHierarchyEdgeBundlingGraph
                       actor={actor.id}
                       width={500}
-                      onNodeClick={(n) => {}}
-                      onLinkClick={(ll) => {}}
+                      onNodeClick={(_n) => {}}
+                      onLinkClick={(_ll) => {}}
                     />
                   </Grid>
                   <Grid size={6}>

@@ -41,7 +41,7 @@ const GetLocalSpaceProvider: Reader<LocalSpaceProviderCtx, SpaceProvider> = ({
         TE.map((content) => ({ Body: content, $metadata: {} })),
       );
     },
-    deleteObject: (params) => {
+    deleteObject: (_params) => {
       return TE.right({ DeleteMarker: true, $metadata: {} });
     },
     upload: () => TE.right({ Location: "", Key: "", $metadata: {} }),

@@ -58,7 +58,7 @@ export const MakeUserLoginRoute: Route = (r, ctx) => {
 
           return TE.right(user.telegramToken === rest.token);
         }),
-        TE.chain(({ passwordHash, ...user }) =>
+        TE.chain(({ passwordHash: _passwordHash, ...user }) =>
           pipe(
             TE.fromIO<string, ControllerError>(
               ctx.jwt.signUser({

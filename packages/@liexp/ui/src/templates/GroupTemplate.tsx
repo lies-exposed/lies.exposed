@@ -169,7 +169,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                 onNodeClick={(n) => {
                   onEventClick(n.data);
                 }}
-                onLinkClick={(ll) => {
+                onLinkClick={() => {
                   // navigateTo.events(
                   //   {},
                   //   {

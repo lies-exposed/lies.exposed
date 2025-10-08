@@ -16,9 +16,9 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
   const {
     field: { onChange, value, ...inputRest },
 
-    formState,
+    formState: _formState,
 
-    fieldState,
+    fieldState: _fieldState,
     ...rest
   } = useInput(props);
   const dataProvider = useDataProvider();

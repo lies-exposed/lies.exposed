@@ -45,14 +45,25 @@ describe("Create Media", () => {
   test("Should create a media from image location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, id, thumbnail, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://example.com/${id}.jpg`,
-        type: ImageType.members[0].literals[0],
-        creator: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            id,
+            thumbnail: _thumbnail,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://example.com/${id}.jpg`,
+          type: ImageType.members[0].literals[0],
+          creator: undefined,
+        }),
+      );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
@@ -84,15 +95,27 @@ describe("Create Media", () => {
   test("Should create a media from MP4 file location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, id, thumbnail, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://example.com/${id}.mp4`,
-        type: MP4Type.literals[0],
-        creator: undefined,
-        extra: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            deletedAt: _deletedAt,
+            id,
+            thumbnail: _thumbnail,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://example.com/${id}.mp4`,
+          type: MP4Type.literals[0],
+          creator: undefined,
+          extra: undefined,
+        }),
+      );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
     Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
@@ -135,14 +158,26 @@ describe("Create Media", () => {
   test("Should create a media from iframe/video location", async () => {
     const [media] = tests.fc
       .sample(MediaArb, 1)
-      .map(({ createdAt, updatedAt, deletedAt, thumbnail, id, ...m }, i) => ({
-        ...m,
-        id,
-        label: `label-${id}`,
-        location: `https://www.youtube.com/watch?v=${id}`,
-        type: IframeVideoType.literals[0],
-        creator: undefined,
-      }));
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            deletedAt: _deletedAt,
+            thumbnail: _thumbnail,
+            id,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://www.youtube.com/watch?v=${id}`,
+          type: IframeVideoType.literals[0],
+          creator: undefined,
+        }),
+      );
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
@@ -184,7 +219,7 @@ describe("Create Media", () => {
   test("Should get an error when 'location' in media is duplicated", async () => {
     const media = tests.fc
       .sample(MediaArb, 1)
-      .map(({ id, createdAt, updatedAt, ...m }) => ({
+      .map(({ id, createdAt: _createdAt, updatedAt: _updatedAt, ...m }) => ({
         ...m,
         id,
         label: `label-${id}`,
@@ -209,7 +244,7 @@ describe("Create Media", () => {
 
     Test.mocks.redis.publish.mockResolvedValueOnce(1);
 
-    const { id, ...mediaData } = media[0];
+    const { id: _id, ...mediaData } = media[0];
 
     const response = await Test.req
       .post("/v1/media")

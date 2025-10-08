@@ -46,7 +46,7 @@ export const SubjectList: React.FC<SubjectListProps> = ({
       }}
       data={subjects}
       getKey={(a) => a.id.id}
-      filter={(a) => true}
+      filter={(_a) => true}
       onItemClick={onSubjectClick}
       ListItem={(p) =>
         Schema.is(ByActor)(p.item) ? (

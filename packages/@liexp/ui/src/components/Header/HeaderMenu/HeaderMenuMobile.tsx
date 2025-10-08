@@ -118,7 +118,7 @@ const menuClasses = {
   menuItemLink: `${MENU_CLASS_PREFIX}-menuItemLink`,
 };
 
-const HeaderMenuMobileDiv = styled("div")(({ theme }) => ({
+const HeaderMenuMobileDiv = styled("div")(() => ({
   [`&.${menuClasses.root}`]: {
     display: "flex",
     flexGrow: 1,

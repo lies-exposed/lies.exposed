@@ -12,7 +12,10 @@ const ReferenceArrayGroupMemberInput: React.FC<
     <ReferenceArrayInput {...props} reference="groups-members">
       <AutocompleteArrayInput
         source="id"
-        optionText={(r: any) => {
+        optionText={(r: {
+          actor?: { fullName: string };
+          group?: { name: string };
+        }) => {
           return r?.actor && r?.group
             ? `${r.actor.fullName} ${r.group.name}`
             : "No group members";

@@ -69,6 +69,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       slotProps={{
         img: {
           decoding: "async",
+          style: { objectFit: fit },
         },
       }}
     />

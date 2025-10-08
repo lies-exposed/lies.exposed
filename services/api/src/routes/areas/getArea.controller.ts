@@ -9,7 +9,10 @@ import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { RequestDecoder } from "#utils/authenticationHandler.js";
 
-export const MakeGetAreaRoute: Route = (r, { db, env, s3, ...ctx }) => {
+export const MakeGetAreaRoute: Route = (
+  r,
+  { db, env: _env, s3: _s3, ...ctx },
+) => {
   AddEndpoint(r)(Endpoints.Area.Get, ({ params: { id } }, req) => {
     return pipe(
       RequestDecoder.decodeNullableUser(req, [])(ctx),

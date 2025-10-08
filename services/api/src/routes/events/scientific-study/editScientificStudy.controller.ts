@@ -12,7 +12,7 @@ import { type Route } from "#routes/route.types.js";
 
 export const MakeEditScientificStudyRoute: Route = (
   r,
-  { db, logger, urlMetadata },
+  { db, logger: _logger, urlMetadata: _urlMetadata },
 ) => {
   AddEndpoint(r)(Endpoints.ScientificStudy.Edit, ({ params: { id }, body }) => {
     const scientificStudyData = {

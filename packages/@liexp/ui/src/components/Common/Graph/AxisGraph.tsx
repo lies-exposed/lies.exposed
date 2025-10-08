@@ -46,12 +46,12 @@ export const AxisGraph = <D extends any>({
   margin,
   background,
   linePathElement,
-  minXRange = 0,
-  minYRange = 0,
+  minXRange: _minXRange = 0,
+  minYRange: _minYRange = 0,
   getX,
   getY,
   showGrid,
-  showPoints,
+  showPoints: _showPoints,
   axisLeftLabel,
   axisRightLabel,
   axisBottomLabel,
@@ -174,7 +174,7 @@ export const AxisGraph = <D extends any>({
           }}
           stroke="#1b1a1e"
           tickStroke="#8e205f"
-          tickLabelProps={(value, index) => ({
+          tickLabelProps={(_value, _index) => ({
             fill: labelColor,
             textAnchor: "start",
             fontSize: 10,

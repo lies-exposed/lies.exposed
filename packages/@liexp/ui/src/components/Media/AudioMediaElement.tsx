@@ -39,7 +39,7 @@ interface AudioMediaElementProps {
 const AudioMediaElement: React.FC<AudioMediaElementProps> = ({
   media,
   onLoad,
-  style,
+  style: _style,
   ...props
 }) => {
   const ref = React.createRef<_ReactAudioPlayer>();

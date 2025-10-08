@@ -103,7 +103,7 @@ export const HierarchyNetworkGraph: React.FC<HierarchyNetworkGraphProps> = ({
 
         return n.data.title;
       }}
-      nodeRadius={(n) => 14}
+      nodeRadius={(_n) => 14}
       // nodeStrength={(n) => {
       //   if (n.type === KEYWORDS.value) {
       //     return 1;

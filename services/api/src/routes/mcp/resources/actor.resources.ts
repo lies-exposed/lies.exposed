@@ -19,7 +19,7 @@ export const registerActorkResources = (
   server.registerResource(
     "actor",
     new ResourceTemplate("actor://{id}", {
-      list: (extra) => {
+      list: (_extra) => {
         return pipe(
           fetchActors({})(ctx),
           fp.TE.map((a) => ({
@@ -40,7 +40,7 @@ export const registerActorkResources = (
       title: "Get actor by its ID",
       description: "Retrieve an actor from DB by its UUID",
     },
-    async (uri, { id, ...rest }) => {
+    async (uri, { id, ..._rest }) => {
       return pipe(
         fetchActors({
           ids: O.some([id as UUID]),

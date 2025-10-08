@@ -107,7 +107,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const defaultMultipleMediaFormValues: { files: any[] } = {
   files: [],
 };
-export const MediaCreateMany: React.FC<any> = (props) => {
+export const MediaCreateMany: React.FC<any> = (_props) => {
   const apiProvider = useDataProvider();
   const redirect = useRedirect();
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -117,7 +117,11 @@ export const MediaCreateMany: React.FC<any> = (props) => {
     defaultValues: defaultMultipleMediaFormValues,
   });
 
-  const onDrop = (newFiles: File[], rejectedFiles: any[], event: any): void => {
+  const onDrop = (
+    newFiles: File[],
+    _rejectedFiles: any[],
+    _event: any,
+  ): void => {
     const record = getValues();
     const updatedFiles = [
       ...record.files,

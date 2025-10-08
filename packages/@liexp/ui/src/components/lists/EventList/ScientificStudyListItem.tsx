@@ -16,7 +16,7 @@ interface ScientificStudyListItemProps {
 
 export const ScientificStudyListItem: React.FC<
   ScientificStudyListItemProps
-> = ({ item, onClick, onActorClick, ...props }) => {
+> = ({ item, onClick, onActorClick: _onActorClick, ...props }) => {
   return (
     <Box
       key={item.id}

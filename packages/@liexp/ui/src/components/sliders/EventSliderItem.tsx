@@ -89,7 +89,7 @@ export const EventSliderItemBase: React.FC<EventSliderItemBaseProps> = ({
   groups,
   onGroupClick,
   onLoad,
-  ...props
+  ..._props
 }) => {
   return (
     <StyledGrid

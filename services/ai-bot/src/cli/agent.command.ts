@@ -8,7 +8,7 @@ import prompts from "prompts";
 import { toAIBotError } from "../common/error/index.js";
 import { type CommandFlow } from "./CommandFlow.js";
 
-export const agentCommand: CommandFlow = async (ctx, args) => {
+export const agentCommand: CommandFlow = async (ctx, _args) => {
   const threadId = uuid();
   const agent = ctx.agent.agent.withConfig({
     configurable: {

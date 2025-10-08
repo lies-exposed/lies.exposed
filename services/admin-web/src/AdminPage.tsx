@@ -159,7 +159,7 @@ const UncategorizedEventCreate = React.lazy(
   () => import("./pages/events/AdminUncategorizedEvent.js"),
 );
 
-const MyMenu: React.FC<MenuProps> = (props) => (
+const MyMenu: React.FC<MenuProps> = () => (
   <Menu>
     <Menu.DashboardItem />
     <Menu.ResourceItems />
