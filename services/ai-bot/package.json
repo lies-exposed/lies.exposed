@@ -44,7 +44,7 @@
     "debug": "^4.4.0",
     "effect": "^3.17.13",
     "fp-ts": "^2.16.10",
-    "langchain": "^0.3.35",
+    "langchain": "^0.3.36",
     "openai": "^5.23.2",
     "pdfjs-dist": "^5.4.149",
     "prompts": "^2.4.2",
