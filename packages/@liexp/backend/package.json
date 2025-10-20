@@ -60,7 +60,7 @@
     "fast-check": "^3.23.2",
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
-    "ioredis": "^5.6.1",
+    "ioredis": "^5.8.1",
     "langchain": "^0.3.35",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^5.4.149",
