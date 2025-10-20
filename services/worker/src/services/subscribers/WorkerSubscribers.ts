@@ -43,14 +43,24 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
   ];
 
   return pipe(
-    fp.TE.fromIO(() => {
+    subscribers,
+    fp.A.traverse(fp.TE.ApplicativePar)((sub) =>
+      pipe(
+        sub.subscribe(ctx),
+        fp.TE.map((handler) => ({
+          handler,
+          channel: sub.channel,
+        })),
+      ),
+    ),
+    fp.TE.chainIOK((handlers) => () => {
       ctx.redis.client.on("message", (channel, message) => {
         void pipe(
-          subscribers.filter((s) => s.channel === channel),
-          fp.A.traverse(fp.TE.ApplicativePar)((sub) =>
-            sub.subscribe(message)(ctx),
+          handlers.filter((h) => h.channel === channel),
+          fp.A.traverse(fp.T.ApplicativePar)(
+            (sub) => () => sub.handler(message),
           ),
-          fp.TE.map(() => undefined),
+          fp.TE.fromTask,
           throwTE,
         );
       });

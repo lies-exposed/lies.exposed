@@ -26,7 +26,11 @@ export const fetchActorFromWikipedia =
       fetchFromWikipedia(title)(getWikiProvider(wp)(ctx)),
       TE.mapLeft(toWorkerError),
       TE.chain(({ featuredMedia: avatar, intro, slug }) => {
-        ctx.logger.debug.log("Actor fetched from wikipedia %s", title);
+        ctx.logger.debug.log(
+          "Actor fetched from wikipedia %s (%s)",
+          title,
+          slug,
+        );
 
         return pipe(
           toInitialValue(intro),
