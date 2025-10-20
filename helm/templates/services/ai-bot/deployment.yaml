@@ -45,5 +45,5 @@ spec:
             - name: ai-bot-config-storage
               mountPath: /home/node/config/
             - name: ai-bot-temp-volume
-              mountPath: /prod/ai-bot/temp
+              mountPath: /home/node/temp
       restartPolicy: Always
