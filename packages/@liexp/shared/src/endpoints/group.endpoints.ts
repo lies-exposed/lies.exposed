@@ -1,7 +1,7 @@
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { OptionFromNullishToNull } from "../io/http/Common/OptionFromNullishToNull.js";
-import { UUID } from "../io/http/Common/index.js";
+import { Output, UUID } from "../io/http/Common/index.js";
 import * as Group from "../io/http/Group.js";
 import { GetListQuery } from "../io/http/Query/index.js";
 
@@ -34,12 +34,16 @@ export const Create = Endpoint({
   getPath: () => "/groups",
   Input: {
     Query: undefined,
-    Body: Schema.Union(
-      Schema.Struct({ search: Schema.String }),
-      Group.CreateGroupBody,
-    ),
+    Body: Group.CreateGroupBody,
   },
-  Output: Group.GroupOutput,
+  Output: Output(
+    Schema.Union(
+      Group.Group,
+      Schema.Struct({
+        success: Schema.Boolean,
+      }),
+    ),
+  ),
 });
 
 export const Get = Endpoint({

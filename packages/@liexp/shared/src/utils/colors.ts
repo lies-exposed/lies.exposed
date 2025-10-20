@@ -9,7 +9,7 @@ export const generateRandomColor = (): Color => {
 };
 
 export const toColor = (s: string): Color =>
-  (s.startsWith("#") ? s.replace("#", "") : s) as Color;
+  (s?.startsWith("#") ? s.replace("#", "") : s) as Color;
 
 export const toColorHash = (s: string): string =>
   s.startsWith("#") ? s : "#".concat(s);

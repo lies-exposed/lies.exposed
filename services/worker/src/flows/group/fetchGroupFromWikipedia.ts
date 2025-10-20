@@ -1,18 +1,22 @@
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { fetchFromWikipedia } from "@liexp/backend/lib/flows/wikipedia/fetchFromWikipedia.js";
 import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateGroupBody } from "@liexp/shared/lib/io/http/Group.js";
+import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type AddGroupBody } from "@liexp/shared/lib/io/http/Group.js";
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
+import { Schema } from "effect";
+import { Equal } from "typeorm";
 import { type RTE } from "../../types.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
 export const fetchGroupFromWikipedia =
-  (title: string, wp: WikiProviders): RTE<CreateGroupBody> =>
+  (title: string, wp: WikiProviders): RTE<AddGroupBody> =>
   (ctx) => {
     return pipe(
       fp.TE.Do,
@@ -56,10 +60,51 @@ export const fetchGroupFromWikipedia =
     );
   };
 
+export const fetchAndCreateGroupFromWikipedia =
+  (title: string, wp: WikiProviders): RTE<GroupEntity> =>
+  (ctx) =>
+    pipe(
+      fetchGroupFromWikipedia(title, wp)(ctx),
+      fp.TE.chain((group) =>
+        pipe(
+          ctx.db.findOne(GroupEntity, {
+            where: {
+              username: Equal(group.username),
+            },
+          }),
+          LoggerService.TE.debug(ctx, [`Group %O`]),
+          fp.TE.chain((a) => {
+            if (fp.O.isSome(a)) {
+              return fp.TE.right([a.value]);
+            }
+            return ctx.db.save(GroupEntity, [
+              {
+                id: uuid(),
+                ...group,
+                members: [],
+                avatar: Schema.is(UUID)(group.avatar)
+                  ? { id: group.avatar }
+                  : group.avatar !== null
+                    ? {
+                        ...group.avatar,
+                        events: [],
+                        links: [],
+                        areas: [],
+                        keywords: [],
+                      }
+                    : null,
+              },
+            ]);
+          }),
+          fp.TE.map((r) => r[0]),
+        ),
+      ),
+    );
+
 export const searchGroupAndCreateFromWikipedia = (
   search: string,
   wp: WikiProviders,
-): RTE<CreateGroupBody> => {
+): RTE<GroupEntity> => {
   return pipe(
     fp.RTE.ask<WorkerContext>(),
     fp.RTE.chainTaskEitherK((ctx) => ctx.wp.search(search)),
@@ -68,6 +113,6 @@ export const searchGroupAndCreateFromWikipedia = (
       (r) => !!r[0],
       () => toWorkerError(`Group ${search} on wikipedia`),
     ),
-    fp.RTE.chain((p) => fetchGroupFromWikipedia(p[0].title, wp)),
+    fp.RTE.chain((p) => fetchAndCreateGroupFromWikipedia(p[0].title, wp)),
   );
 };
