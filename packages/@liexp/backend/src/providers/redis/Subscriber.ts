@@ -9,7 +9,7 @@ import { RedisError, toRedisError } from "./redis.error.js";
 
 export interface Subscriber<C, T, K extends string, E>
   extends RedisPubSub<T, K> {
-  subscribe: (message: any) => ReaderTaskEither<C, E, void>;
+  subscribe: (ctx: C) => TE.TaskEither<E, (message: string) => Promise<void>>;
 }
 
 export const Subscriber = <
@@ -22,47 +22,49 @@ export const Subscriber = <
   subscribe: (payload: T) => ReaderTaskEither<C, E, void>,
 ): Subscriber<C, T, K, E | RedisError> => ({
   ...pubSub,
-  subscribe: (message) => (ctx) => {
+  subscribe: (ctx) => {
     return pipe(
       TE.tryCatch(async () => {
         await ctx.redis.client.subscribe(pubSub.channel);
         ctx.logger.debug.log(`Subscribed to channel ${pubSub.channel}`);
       }, toRedisError),
-      fp.RTE.fromTaskEither,
-      fp.RTE.chainTaskK(() => {
+      fp.TE.chainTaskK(() => {
         ctx.logger.debug.log(`Received message on channel ${pubSub.channel}`);
-        return pipe(
-          pubSub.decoder(JSON.parse(message)),
-          fp.E.mapLeft(
-            (err) =>
-              new RedisError("Failed to decode message", {
-                kind: "DecodingError",
-                errors: [err],
-              }) as E,
-          ),
-          fp.RTE.fromEither,
-          fp.RTE.chainTaskEitherK((message) => subscribe(message)(ctx)),
-          fp.RTE.fold(
-            (e) => {
-              ctx.logger.error.log(
-                `Handling message for channel %s failed: %O`,
-                pubSub.channel,
-                e,
-              );
+        const hanlder = (message: string) =>
+          pipe(
+            pubSub.decoder(JSON.parse(message)),
+            fp.E.mapLeft(
+              (err) =>
+                new RedisError("Failed to decode message", {
+                  kind: "DecodingError",
+                  errors: [err],
+                }) as E,
+            ),
+            fp.RTE.fromEither,
+            fp.RTE.chainTaskEitherK((message) => subscribe(message)(ctx)),
+            fp.RTE.fold(
+              (e) => {
+                ctx.logger.error.log(
+                  `Handling message for channel %s failed: %O`,
+                  pubSub.channel,
+                  e,
+                );
 
-              return () => fp.T.of(undefined);
-            },
-            () => {
-              ctx.logger.debug.log(
-                `Message handled successfully for channel %s`,
-                pubSub.channel,
-              );
-              return () => fp.T.of(undefined);
-            },
-          ),
-        )(ctx);
+                return () => fp.T.of(undefined);
+              },
+              (r) => {
+                ctx.logger.debug.log(
+                  `Message handled successfully for channel %s: %O`,
+                  pubSub.channel,
+                  r,
+                );
+                return () => fp.T.of(undefined);
+              },
+            ),
+          )(ctx);
+
+        return fp.T.of((message: string) => hanlder(message)());
       }),
-    )(ctx);
+    );
   },
-  // task,
 });
