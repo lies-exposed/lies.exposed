@@ -60,6 +60,7 @@ WORKDIR /home/node
 COPY --from=deps /home/node/node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs /home/node/build/
 COPY --from=deps /home/node/node_modules ./node_modules
 COPY --from=build /home/node/ai-bot ai-bot
+COPY ./services/ai-bot/AGENT.md /home/node/AGENT.md
 
 
 CMD ["./ai-bot"]
