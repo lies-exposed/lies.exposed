@@ -29,7 +29,6 @@ export const Subscriber = <
         ctx.logger.debug.log(`Subscribed to channel ${pubSub.channel}`);
       }, toRedisError),
       fp.TE.chainTaskK(() => {
-        ctx.logger.debug.log(`Received message on channel ${pubSub.channel}`);
         const hanlder = (message: string) =>
           pipe(
             pubSub.decoder(JSON.parse(message)),

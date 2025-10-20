@@ -54,7 +54,7 @@ export const GetGroupListQuery = Schema.Struct({
 });
 export type GetGroupListQuery = typeof GetGroupListQuery.Type;
 
-export const CreateGroupBody = Schema.Struct({
+export const AddGroupBody = Schema.Struct({
   name: Schema.String,
   username: Schema.String,
   color: Schema.String,
@@ -75,13 +75,19 @@ export const CreateGroupBody = Schema.Struct({
     }),
   ),
 }).annotations({
-  title: "CreateGroupBody",
+  title: "AddGroupBody",
 });
 
+export type AddGroupBody = typeof AddGroupBody.Type;
+
+export const CreateGroupBody = Schema.Union(
+  Schema.Struct({ search: Schema.String }),
+  AddGroupBody,
+);
 export type CreateGroupBody = typeof CreateGroupBody.Type;
 
 export const EditGroupBody = Schema.Struct({
-  ...CreateGroupBody.fields,
+  ...AddGroupBody.fields,
   members: Schema.Array(
     Schema.Union(
       UUID,

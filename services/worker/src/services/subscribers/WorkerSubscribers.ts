@@ -55,6 +55,7 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     ),
     fp.TE.chainIOK((handlers) => () => {
       ctx.redis.client.on("message", (channel, message) => {
+        ctx.logger.debug.log(`Received message on channel ${channel}`);
         void pipe(
           handlers.filter((h) => h.channel === channel),
           fp.A.traverse(fp.T.ApplicativePar)(
