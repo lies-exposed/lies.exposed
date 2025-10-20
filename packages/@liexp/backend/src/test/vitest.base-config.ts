@@ -67,7 +67,5 @@ export const extendBaseConfig = (
     config,
   );
 
-  // console.log(JSON.stringify(finalConfig, null, 2));
-
   return finalConfig;
 };
