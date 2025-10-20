@@ -39,13 +39,13 @@
     "jsonwebtoken": "^9.0.2",
     "nodemw": "^0.24.0",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.24"
+    "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.893.0",
     "@langchain/core": "^0.3.78",
-    "@langchain/openai": "^0.6.14",
     "@langchain/mcp-adapters": "^0.6.0",
+    "@langchain/openai": "^0.6.14",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.73",
     "@types/fluent-ffmpeg": "^2.1.27",
