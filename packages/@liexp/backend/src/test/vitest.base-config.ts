@@ -62,7 +62,8 @@ export const extendBaseConfig = (
         viteTsconfigPaths({
           root: toAlias("./"),
         }),
-      ].concat((config.plugins ?? []) as any[]),
+        ...((config.plugins ?? []) as any[]),
+      ],
     }),
     config,
   );
