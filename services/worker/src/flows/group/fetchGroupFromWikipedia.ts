@@ -15,7 +15,7 @@ import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
-export const fetchGroupFromWikipedia =
+const fetchGroupFromWikipedia =
   (title: string, wp: WikiProviders): RTE<AddGroupBody> =>
   (ctx) => {
     return pipe(
