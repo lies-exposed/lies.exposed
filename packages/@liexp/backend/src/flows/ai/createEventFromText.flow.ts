@@ -1,6 +1,4 @@
-import { type Document } from "@langchain/core/documents";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { RunnablePassthrough } from "@langchain/core/runnables";
+import { type Document } from "@langchain/core/dist/documents/document.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
@@ -15,10 +13,11 @@ import {
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { HumanMessage, SystemMessage } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type DBError } from "../../providers/orm/database.provider.js";
-import { runRagChain } from "./runRagChain.js";
+import { runAgent } from "./runRagChain.js";
 
 export const getCreateEventPromptPartial =
   <C extends LoggerContext>(
@@ -29,9 +28,9 @@ export const getCreateEventPromptPartial =
       question: string;
     }>,
     type: EventType,
-  ): ReaderTaskEither<C, APIError, PromptTemplate> =>
+  ): ReaderTaskEither<C, APIError, HumanMessage> =>
   (ctx) => {
-    return fp.TE.tryCatch(async () => {
+    return fp.TE.fromIO(() => {
       const template = promptTemplate({
         vars: {
           type,
@@ -41,20 +40,14 @@ export const getCreateEventPromptPartial =
         },
       });
 
-      const prompt = PromptTemplate.fromTemplate(template);
-
-      const promptValue = await prompt.format({
-        context: "{context}",
-      });
-
       ctx.logger.info.log(
         "Populating template with even type %s \n %s",
         type,
-        promptValue,
+        template,
       );
 
-      return prompt;
-    }, toAPIError);
+      return new HumanMessage(template);
+    });
   };
 
 export const createEventFromText = <C extends LoggerContext & LangchainContext>(
@@ -72,13 +65,9 @@ export const createEventFromText = <C extends LoggerContext & LangchainContext>(
   return pipe(
     getCreateEventPromptPartial(promptTemplate, type),
     fp.RTE.chain((prompt) =>
-      runRagChain<EventCommonProps, C>(
-        {
-          context: () => text.flatMap((t) => t.pageContent).join("\n"),
-          question: new RunnablePassthrough(),
-        },
+      runAgent<EventCommonProps, C>(
+        [new SystemMessage(prompt), new HumanMessage(question)],
         prompt,
-        question,
       ),
     ),
     fp.RTE.chainEitherK((event) =>

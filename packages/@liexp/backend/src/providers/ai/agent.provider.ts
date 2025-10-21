@@ -1,13 +1,12 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { type ToolInputSchemaBase } from "@langchain/core/dist/tools/types.js";
-import { type AIMessage, type ToolMessage } from "@langchain/core/messages";
-import { type DynamicStructuredTool } from "@langchain/core/tools";
+import { type Tools } from "@langchain/core/dist/messages/content/tools.js";
 import { MemorySaver } from "@langchain/langgraph";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type AIMessage } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
@@ -19,7 +18,7 @@ type Agent = ReturnType<typeof createReactAgent>;
 
 export type AgentProvider = {
   agent: Agent;
-  tools: DynamicStructuredTool[];
+  tools: Tools.Standard[];
   invoke: (
     input: Parameters<Agent["invoke"]>[0],
     options: Parameters<Agent["invoke"]>[1],
@@ -27,7 +26,7 @@ export type AgentProvider = {
   stream: (
     input: Parameters<Agent["stream"]>[0],
     options: Parameters<Agent["stream"]>[1],
-  ) => TaskEither<ServerError, (ToolMessage | AIMessage)[]>;
+  ) => TaskEither<ServerError, AIMessage[]>;
 };
 
 const toAgentError = (e: unknown) => {
@@ -52,12 +51,7 @@ export const GetAgentProvider =
       const mcpTools = await opts.mcpClient.getTools();
 
       // Combine MCP tools with custom tools
-      const allTools: DynamicStructuredTool<
-        ToolInputSchemaBase,
-        any,
-        any,
-        any
-      >[] = [...mcpTools, createWebScrapingTool(ctx)] as any[];
+      const allTools = [...mcpTools, createWebScrapingTool(ctx)];
 
       // Initialize memory to persist state between graph runs
 
@@ -66,18 +60,15 @@ export const GetAgentProvider =
       const agent = createReactAgent({
         llm: ctx.langchain.chat.withConfig({
           tool_choice: "auto",
-          // Disable parallel tool calls for LocalAI compatibility
-          configurable: {
-            parallel_tool_calls: false,
-          },
           verbosity: "high",
         }),
         tools: allTools,
         checkpointSaver: agentCheckpointer,
         prompt: readFileSync(path.resolve(process.cwd(), "AGENT.md"), "utf-8"),
+        description: "A React agent for handling user queries",
       });
 
-      ctx.logger.info.log(`Agent created: %s`, agent.getName());
+      ctx.logger.info.log(`Agent created: %s`, agent.description);
       ctx.logger.debug.log(
         `Agent tools: %O`,
         allTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
@@ -100,18 +91,16 @@ export const GetAgentProvider =
           ctx.logger.info.log(`Invoke agent with %O (%O)`, input, options);
           const stream = await agent.stream(input, options);
 
-          const result: (ToolMessage | AIMessage)[] = [];
+          const result: AIMessage[] = [];
           for await (const chunk of stream) {
             ctx.logger.debug.log(`Stream chunk: %O`, chunk);
             if (Array.isArray(chunk.agent?.messages)) {
-              result.push(
-                ...(chunk.agent.messages as (ToolMessage | AIMessage)[]),
-              );
+              result.push(...(chunk.agent.messages as AIMessage[]));
             }
 
             const messages = (chunk.agent?.messages ??
               chunk.tools?.messages ??
-              []) as (ToolMessage | AIMessage)[];
+              []) as AIMessage[];
 
             messages.forEach(aiMessageLogger);
           }
