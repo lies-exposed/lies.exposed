@@ -3,21 +3,21 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
+import { Schema } from "effect";
 import { HumanMessage, SystemMessage } from "langchain";
-import { z } from "zod";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = "Can you give me an excerpt of the given documents?";
 
-const GroupStructuredResponse = z.object({
-  name: z.string(),
-  description: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+const GroupStructuredResponse = Schema.Struct({
+  name: Schema.String,
+  description: Schema.String,
 });
-type GroupStructuredResponse = z.infer<typeof GroupStructuredResponse>;
+
+type GroupStructuredResponse = typeof GroupStructuredResponse.Type;
 
 export const updateGroupFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
@@ -31,7 +31,9 @@ export const updateGroupFlow: JobProcessRTE<
       "model",
       () => (ctx) =>
         fp.TE.right(
-          ctx.agent.createAgent({ responseFormat: GroupStructuredResponse }),
+          ctx.agent.createAgent({
+            responseFormat: effectToZodObject(GroupStructuredResponse.fields),
+          }),
         ),
     ),
     fp.RTE.chainW(({ prompt, docs, model }) =>

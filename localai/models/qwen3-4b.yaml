@@ -2,13 +2,13 @@ parameters:
     model: Qwen3-4B.Q4_K_M.gguf
     language: ""
     translate: false
-    "n": 0
-    top_p: 0
-    top_k: 10
-    temperature: 0.1
-    max_tokens: 0
+    "n": 1
+    top_p: 0.9
+    top_k: 40
+    temperature: 0.7
+    max_tokens: 2048
     echo: false
-    batch: 0
+    batch: 1
     ignore_eos: false
     repeat_penalty: 0
     repeat_last_n: 0
@@ -42,12 +42,10 @@ pipeline:
     vad: ""
 
 function:
-  disable_no_action: true
+  disable_no_action: false
 
   grammar:
     disable: true
-    #prefix: '<tool_call>\n'
-    # parallel_calls: true
 
   return_name_in_function_response: true
   json_regex_match: 
@@ -58,16 +56,11 @@ function:
     value: ""
   - key: "(?s)<scratchpad>.*?</scratchpad>"
     value: ""
-  replace_function_results: 
-  - key: '(?s)^[^{\[]*'
+  - key: "^\\n+"
     value: ""
-  - key: '(?s)[^}\]]*$'
+  - key: "(?m)^\\s*\\(\\)\\s*$"
     value: ""
-  - key: '\\\\"'
-    value: '"'
-  - key: "\\\\n"
-    value: ""
-  - key: "\\s+"
+  - key: "\\s*\\(\\)\\s*"
     value: " "
 
 template:
@@ -96,22 +89,23 @@ template:
     {{.Input}}
   function: |-
     <|im_start|>system
-    You are a function calling AI model.
-    Here are the available tools:
+    You are a helpful assistant with access to tools. You can call tools and then provide a final response based on the results.
+
+    Available tools:
     <tools>
     {{range .Functions}}
     {'type': 'function', 'function': {'name': '{{.Name}}', 'description': '{{.Description}}', 'parameters': {{toJson .Parameters}} }}
     {{end}}
     </tools>
-    You should call the tools provided to you sequentially
-    Please use <scratchpad> XML tags to record your reasoning and planning before you call the functions as follows:
-    <scratchpad>
-    {step-by-step reasoning and plan in bullet points}
-    </scratchpad>
-    For each function call return a json object with function name and arguments within <tool_call> XML tags as follows:
-    <tool_call>
-    {"arguments": <args-dict>, "name": <function-name>}
-    </tool_call><|im_end|>
+
+    Instructions:
+    1. If you need information from tools, call them first using this format:
+       <tool_call>
+       {"arguments": <args-dict>, "name": <function-name>}
+       </tool_call>
+    2. After receiving tool results, provide a helpful response based on the information.
+    3. If no tools are needed, respond directly.
+    4. Always end with a complete response to help the user.<|im_end|>
     {{.Input -}}
     <|im_start|>assistant
 feature_flags: {}
@@ -126,7 +120,7 @@ prompt_cache_ro: false
 mirostat_eta: 0.1
 mirostat_tau: 5
 mirostat: 0
-gpu_layers: 99999999
+gpu_layers: 256
 mmap: false
 mmlock: false
 low_vram: false
@@ -143,6 +137,8 @@ trimspace: []
 trimsuffix: []
 context_size: 8192
 numa: false
+request_timeout: 300
+response_timeout: 300
 lora_adapter: ""
 lora_base: ""
 lora_adapters: []

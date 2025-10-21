@@ -131,9 +131,6 @@ importers:
       wink-nlp-utils:
         specifier: ^2.1.0
         version: 2.1.0
-      zod:
-        specifier: ^3.25.76
-        version: 3.25.76
     devDependencies:
       '@aws-sdk/types':
         specifier: ^3.910.0
@@ -884,9 +881,6 @@ importers:
       puppeteer-extra-plugin-stealth:
         specifier: ^2.11.2
         version: 2.11.2(puppeteer-extra@3.3.6(puppeteer-core@24.17.0))
-      zod:
-        specifier: ^3.25.76
-        version: 3.25.76
     devDependencies:
       '@esbuild/aix-ppc64':
         specifier: ^0.25.4
