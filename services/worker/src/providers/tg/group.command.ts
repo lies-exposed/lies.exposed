@@ -1,16 +1,12 @@
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
-import { GroupRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { Schema } from "effect";
 import type TelegramBot from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
-import { fetchGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
-import { toWorkerError } from "#io/worker.error.js";
+import { fetchAndCreateGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";
 import { EntityFromWikipediaService } from "#services/entityFromWikipedia.service.js";
 
 const getSuccessMessage = (g: GroupEntity, baseUrl: string): string =>
@@ -37,33 +33,7 @@ export const groupCommand = (ctx: WorkerContext): TGBotProvider => {
         findOne: (search) =>
           ctx.db.findOne(GroupEntity, { where: { username: search } }),
         fetchAndSave: (title, wp) =>
-          pipe(
-            fetchGroupFromWikipedia(title, wp)(ctx),
-            fp.TE.chain((g) =>
-              pipe(
-                GroupRepository.save([
-                  {
-                    ...g,
-                    avatar: Schema.is(UUID)(g.avatar)
-                      ? {
-                          id: g.avatar,
-                        }
-                      : {
-                          ...g.avatar,
-                          events: [],
-                          links: [],
-                          keywords: [],
-                          areas: [],
-                        },
-                    members: [],
-                  },
-                ])(ctx),
-                fp.TE.mapLeft(toWorkerError),
-              ),
-            ),
-
-            fp.TE.map((g) => g[0]),
-          ),
+          fetchAndCreateGroupFromWikipedia(title, wp)(ctx),
         getSuccessMessage: getSuccessMessage,
       })(ctx),
       throwTE,
