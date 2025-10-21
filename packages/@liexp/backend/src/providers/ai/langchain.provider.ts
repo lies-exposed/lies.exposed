@@ -1,10 +1,3 @@
-import { type Document as LangchainDocument } from "@langchain/core/documents";
-import { StringOutputParser } from "@langchain/core/output_parsers";
-import { PromptTemplate } from "@langchain/core/prompts";
-import {
-  RunnablePassthrough,
-  RunnableSequence,
-} from "@langchain/core/runnables";
 import {
   ChatOpenAI,
   type ChatOpenAIFields,
@@ -13,10 +6,12 @@ import {
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
-import { loadSummarizationChain } from "langchain/chains";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { formatDocumentsAsString } from "langchain/util/document";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import {
+  createAgent,
+  type Document as LangchainDocument,
+  type ReactAgent,
+  summarizationMiddleware,
+} from "langchain";
 
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
@@ -76,6 +71,7 @@ export interface LangchainProviderOptions {
 export interface LangchainProvider {
   readonly options: LangchainProviderOptions;
   chat: ChatOpenAI;
+  agent: ReactAgent;
   embeddings: OpenAIEmbeddings;
   queryDocument: <Args extends { text: string; question?: string }>(
     docs: LangchainDocument[],
@@ -107,13 +103,11 @@ export const GetLangchainProvider = (
     model: string,
     chatOptions: ChatOpenAIFields = {},
   ): ChatOpenAI => {
-    return new ChatOpenAI({
+    const chat = new ChatOpenAI({
       model,
       temperature: 0,
       apiKey: opts.apiKey,
       timeout: 60 * 30 * 1000, // 30 minutes
-      maxConcurrency: 1,
-      maxRetries: 2,
       streaming: true,
       streamUsage: true,
       ...opts.options?.chat,
@@ -123,6 +117,17 @@ export const GetLangchainProvider = (
         ...opts.options?.chat.configuration,
         ...chatOptions.configuration,
       },
+    });
+
+    return chat;
+  };
+
+  const makeAgent = (chat: ChatOpenAI): ReactAgent => {
+    return createAgent({
+      model: chat,
+      middleware: [
+        summarizationMiddleware({ model: chat, maxTokensBeforeSummary: 50 }),
+      ],
     });
   };
 
@@ -146,6 +151,7 @@ export const GetLangchainProvider = (
   };
 
   const chat = makeChat(defaultChatModel);
+  const agent = makeAgent(chat);
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
 
@@ -160,6 +166,7 @@ export const GetLangchainProvider = (
   return {
     options,
     chat,
+    agent,
     embeddings,
     queryDocument: async (content, question, options) => {
       const model = options?.model ?? embeddingsModel;
@@ -175,37 +182,7 @@ export const GetLangchainProvider = (
 
       const chat = makeChat(chatModel);
 
-      const embeddings = makeEmbedding(model, { model: options?.model });
-
-      const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-        chunkOverlap: 200,
-      });
-      const splits = await textSplitter.splitDocuments(content);
-
-      const vectorStore = await MemoryVectorStore.fromDocuments(
-        splits,
-        embeddings,
-      );
-
-      // Retrieve and generate using the relevant snippets of the blog.
-      const retriever = vectorStore.asRetriever();
-
-      const prompt = PromptTemplate.fromTemplate(
-        EMBEDDINGS_PROMPT({ vars: { question: "{question}", text: "{text}" } }),
-      );
-
-      const ragChain = RunnableSequence.from([
-        {
-          text: retriever.pipe(formatDocumentsAsString),
-          question: new RunnablePassthrough(),
-        },
-        prompt,
-        chat,
-        new StringOutputParser(),
-      ]);
-
-      const stream = await ragChain.stream(question);
+      const stream = await chat.stream(question);
 
       let output = "";
       for await (const chunk of stream) {
@@ -214,48 +191,35 @@ export const GetLangchainProvider = (
 
       return output;
     },
-    summarizeText: async <Args extends { text: string }>(
-      text: LangchainDocument[],
-      options?: {
-        model?: AvailableModels;
-        prompt?: PromptFn<Args>;
-        question?: string;
-      },
-    ) => {
-      const model = options?.model ?? opts.models?.chat ?? "gpt-4o";
-      const prompt = options?.prompt ?? DEFAULT_SUMMARIZE_PROMPT;
+    summarizeText: async (content, options) => {
+      const model = options?.model ?? embeddingsModel;
 
-      const chat = makeChat(model);
+      const chatModel = options?.model ?? defaultChatModel;
 
-      const textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 1000,
-        chunkOverlap: 200,
-      });
-      const docsSummary = await textSplitter.splitDocuments(text);
-
-      const SUMMARY_PROMPT = PromptTemplate.fromTemplate(
-        prompt({
-          vars: {
-            text: docsSummary.flatMap((doc) => doc.pageContent).join("\n"),
-          } as Args,
-        }),
+      langchainLogger.info.log(
+        "summarizeText use embedding model %s to summarize text with size %d using chat model %s",
+        model,
+        content.length,
+        chatModel,
       );
 
-      const summarizeChain = loadSummarizationChain(chat, {
-        type: "stuff",
-        verbose: true,
-        prompt: SUMMARY_PROMPT,
+      const stream = await agent.stream({
+        messages: [
+          {
+            role: "human",
+            content: "Give me the summary of the following text",
+          },
+          {
+            role: "human",
+            content: content,
+          },
+        ],
       });
 
-      const stream = await summarizeChain.stream({
-        input_documents: docsSummary,
-      });
       let output = "";
       for await (const chunk of stream) {
-        // console.log('streaming', chunk.text);
-        output += chunk.text;
+        output += chunk;
       }
-      // console.log('output', output);
 
       return output;
     },

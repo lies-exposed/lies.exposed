@@ -2,9 +2,9 @@ import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import prompts from "prompts";
-import { fetchActorFromWikipedia } from "../flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
+import { fetchAndCreateActorFromWikipedia } from "../flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
 import { fetchAndCreateAreaFromWikipedia } from "../flows/area/fetchAndCreateAreaFromWikipedia.js";
-import { fetchGroupFromWikipedia } from "../flows/group/fetchGroupFromWikipedia.js";
+import { fetchAndCreateGroupFromWikipedia } from "../flows/group/fetchGroupFromWikipedia.js";
 import { type CommandFlow } from "./command.type.js";
 
 /**
@@ -57,12 +57,12 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
     );
   } else if (type === "actor") {
     result = await pipe(
-      fetchActorFromWikipedia(pageTitle, provider)(ctx),
+      fetchAndCreateActorFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
   } else if (type === "group") {
     result = await pipe(
-      fetchGroupFromWikipedia(pageTitle, provider)(ctx),
+      fetchAndCreateGroupFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
   }

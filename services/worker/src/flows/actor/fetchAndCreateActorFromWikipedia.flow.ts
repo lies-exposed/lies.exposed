@@ -19,7 +19,7 @@ import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 import { getWikiProvider } from "#services/entityFromWikipedia.service.js";
 
-export const fetchActorFromWikipedia =
+const fetchActorFromWikipedia =
   (title: string, wp: WikiProviders): RTE<AddActorBody> =>
   (ctx) => {
     return pipe(

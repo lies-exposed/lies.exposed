@@ -77,13 +77,11 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       }
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
-    fp.RTE.bindW("aiEvent", ({ docs, prompt, jsonSchema }) =>
+    fp.RTE.bindW("aiEvent", ({ prompt }) =>
       pipe(
         updateEventFromDocuments(
-          docs,
           job.data.type,
           prompt,
-          jsonSchema,
           job.question ?? defaultQuestion,
         ),
       ),

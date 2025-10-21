@@ -1,4 +1,4 @@
-import { type AIMessage, type ToolMessage } from "@langchain/core/messages";
+import { type AIMessage } from "@langchain/core/messages";
 import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helper.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -31,7 +31,7 @@ export const agentCommand: CommandFlow = async (ctx, _args) => {
       console.log(chunk);
       const messages = (chunk.agent?.messages ??
         chunk.tools?.messages ??
-        []) as (ToolMessage | AIMessage)[];
+        []) as AIMessage[];
 
       messages.forEach(aiMessageLogger);
     }

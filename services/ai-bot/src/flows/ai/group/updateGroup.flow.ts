@@ -1,10 +1,7 @@
-import { StringOutputParser } from "@langchain/core/output_parsers";
-import { PromptTemplate } from "@langchain/core/prompts";
-import { runRagChainStream } from "@liexp/backend/lib/flows/ai/runRagChain.js";
-import { getStoreRetriever } from "@liexp/backend/lib/flows/ai/storeRetriever.flow.js";
+import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { formatDocumentsAsString } from "langchain/util/document";
+import { HumanMessage, SystemMessage } from "langchain";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -19,26 +16,22 @@ export const updateGroupFlow: JobProcessRTE<
     fp.RTE.Do,
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bindW("retriever", ({ docs }) => getStoreRetriever(docs)),
-    fp.RTE.bind(
-      "model",
-      () => (ctx) => fp.TE.right(ctx.langchain.chat.bind({})),
-    ),
-    fp.RTE.chainW(({ prompt, retriever, model }) =>
+    fp.RTE.bind("model", () => (ctx) => fp.TE.right(ctx.langchain.agent)),
+    fp.RTE.chainW(({ prompt, docs, model }) =>
       pipe(
-        runRagChainStream(
-          {
-            context: retriever.pipe(formatDocumentsAsString),
-          },
-          new PromptTemplate({
-            template: prompt({
-              vars: { text: "{context}", question: "{question}" },
-            }),
-            inputVariables: ["context", "question"],
-          })
-            .pipe(model)
-            .pipe(new StringOutputParser()),
-          job.question ?? defaultQuestion,
+        runAgent(
+          [
+            new SystemMessage(
+              prompt({
+                vars: {
+                  text: docs.map((d) => d.pageContent).join("\n"),
+                  question: "{question}",
+                },
+              }),
+            ),
+            new HumanMessage(job.question ?? defaultQuestion),
+          ],
+          model,
         ),
       ),
     ),

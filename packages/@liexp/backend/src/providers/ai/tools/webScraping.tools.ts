@@ -1,7 +1,7 @@
-import { tool } from "@langchain/core/tools";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect/index";
+import { tool } from "langchain";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { toPuppeteerError } from "../../puppeteer.provider.js";
 
