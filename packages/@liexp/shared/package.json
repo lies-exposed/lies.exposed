@@ -27,8 +27,8 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@blocknote/core": "^0.40.0",
-    "@blocknote/server-util": "^0.40.0",
+    "@blocknote/core": "^0.41.1",
+    "@blocknote/server-util": "^0.41.1",
     "@liexp/core": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
