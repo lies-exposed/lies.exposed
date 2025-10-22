@@ -59,7 +59,6 @@ describe("List Group Member", () => {
         endDate: _endDate,
         deletedAt: _gmDeletedAt,
         actor: {
-          old_avatar: _oldActorAvatar,
           avatar: _actorAvatar,
           createdAt: _actorCreatedAt,
           updatedAt: _actorUAT,
@@ -74,7 +73,6 @@ describe("List Group Member", () => {
           ...expectedActor
         },
         group: {
-          old_avatar: _oldGroupAvatar,
           avatar: _groupAvatar,
           createdAt: _groupCreatedAt,
           updatedAt: _groupUpdatedAt,

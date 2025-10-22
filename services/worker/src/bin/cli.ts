@@ -6,7 +6,6 @@ import { cleanTGMessages } from "./clean-tg-messages.js";
 import { type CommandFlow } from "./command.type.js";
 import { createFromWikipedia } from "./create-from-wikipedia.js";
 import { createStats } from "./create-stats.js";
-import { extractActorAndGroupAvatar } from "./extract-actor-and-group-avatar.js";
 import { extractEntitiesFromURL } from "./extract-entities-from-url.js";
 import { extractEvents } from "./extract-events.js";
 import { importFromKMZ } from "./import-from-kmz.js";
@@ -25,7 +24,6 @@ const commands: Record<string, CommandFlow> = {
   "create-from-wikipedia": createFromWikipedia,
   "create-stats": createStats,
   "extract-entities-from-url": extractEntitiesFromURL,
-  "extract-actor-and-group-avatar": extractActorAndGroupAvatar,
   "extract-events": extractEvents,
   "import-from-kmz": importFromKMZ,
   "parse-tg-message": parseTGMessage,

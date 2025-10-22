@@ -29,9 +29,6 @@ export class GroupEntity extends DeletableEntity {
   @Column({ type: "varchar", length: 6 })
   color: Color;
 
-  @Column({ type: "varchar", nullable: true })
-  old_avatar: string | null;
-
   @OneToOne(() => MediaEntity, {
     eager: true,
     cascade: true,

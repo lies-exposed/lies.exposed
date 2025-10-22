@@ -12,7 +12,6 @@ import { type MediaEntity } from "../../../entities/Media.entity.js";
 export const toActorEntity = (actor: Actor): ActorEntity => {
   return {
     ...actor,
-    old_avatar: null,
     avatar: null,
     death: null,
     diedOn: null,
@@ -94,7 +93,6 @@ export const toGroupEntity = ({
   subGroups: _subGroups,
   ...g
 }: Group): GroupEntity => ({
-  old_avatar: null,
   stories: [],
   ...g,
   username: g.username ?? null,
