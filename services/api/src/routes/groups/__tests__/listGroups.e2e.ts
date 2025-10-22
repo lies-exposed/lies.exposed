@@ -29,11 +29,11 @@ describe("List Groups", () => {
     groups: [],
     stories: [],
     events: [],
+    nationalities: [],
     eventCount: 0,
     bornOn: a.bornOn ?? null,
     diedOn: a.diedOn ?? null,
     death: null,
-    old_avatar: null,
     deletedAt: null,
   }));
   const groups = FastCheck.sample(GroupArb, 100).map((g) => ({
@@ -50,7 +50,6 @@ describe("List Groups", () => {
     endDate: g.endDate ?? null,
     members: [],
     stories: [],
-    old_avatar: null,
     deletedAt: null,
   }));
   let groupMembers: Partial<GroupMemberEntity>[];

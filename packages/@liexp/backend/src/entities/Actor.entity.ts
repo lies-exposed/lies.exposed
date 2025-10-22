@@ -32,9 +32,6 @@ export class ActorEntity extends DeletableEntity {
   @Index()
   username: string;
 
-  @Column({ type: "varchar", nullable: true })
-  old_avatar: string | null;
-
   @OneToOne(() => MediaEntity, {
     eager: true,
     cascade: true,

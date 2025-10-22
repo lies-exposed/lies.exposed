@@ -14,10 +14,9 @@ import { type ActorEntity } from "../entities/Actor.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 import { MediaIO } from "./media.io.js";
 
-export const encodeActor = ({
-  old_avatar: _old_avatar,
-  ...a
-}: ActorEntity): E.Either<
+export const encodeActor = (
+  a: ActorEntity,
+): E.Either<
   _DecodeError,
   Schema.Schema.Encoded<typeof io.http.Actor.Actor>
 > => {
@@ -62,7 +61,6 @@ export const encodeActor = ({
 };
 
 const decodeActor = ({
-  old_avatar: _old_avatar,
   ...a
 }: ActorEntity): E.Either<_DecodeError, io.http.Actor.Actor> => {
   return pipe(
