@@ -1,8 +1,10 @@
+import { type ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { type GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -37,12 +39,19 @@ export const MakeEditGroupRoute: Route = (r, ctx) => {
             };
           }
           return {
+            id: uuid(),
             ...m,
+            body: O.toNullable(m.body),
             startDate: m.startDate,
+            events: [],
+            deletedAt: null,
+            updatedAt: new Date(),
+            createdAt: new Date(),
+            excerpt: O.toNullable(m.body),
             endDate: O.toNullable(m.endDate),
-            actor: { id: m.actor },
-            group: { id },
-          };
+            actor: { id: m.actor } as ActorEntity,
+            group: { id } as GroupEntity,
+          } as GroupMemberEntity;
         }),
       };
       return pipe(

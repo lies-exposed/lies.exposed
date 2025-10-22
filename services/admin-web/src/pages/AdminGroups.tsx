@@ -123,7 +123,7 @@ const transformGroup =
 
     const newMembers = (data.newMembers ?? []).map((m: any) => ({
       ...m,
-      body: {},
+      body: m.excerpt ?? null,
     }));
     const members = (data.members ?? []).concat(newMembers);
 
@@ -277,6 +277,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           <ArrayInput source="newMembers" defaultValue={[]} fullWidth>
             <SimpleFormIterator fullWidth>
               <ReferenceActorInput source="actor" />
+              <BlockNoteInput source="excerpt" />
               <DateInput source="startDate" />
               <DateInput source="endDate" />
             </SimpleFormIterator>

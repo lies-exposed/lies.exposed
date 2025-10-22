@@ -93,7 +93,7 @@ export const EditGroupBody = Schema.Struct({
       UUID,
       Schema.Struct({
         actor: UUID,
-        body: BlockNoteDocument,
+        body: OptionFromNullishToNull(BlockNoteDocument),
         startDate: Schema.Date,
         endDate: OptionFromNullishToNull(Schema.Date),
       }).annotations({
