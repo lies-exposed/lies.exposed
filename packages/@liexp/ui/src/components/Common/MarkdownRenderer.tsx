@@ -10,9 +10,8 @@ export const MarkdownRenderer: React.FC<{ children: string }> = ({
   const editor = useBlockNoteEditor();
 
   React.useEffect(() => {
-    void editor.tryParseMarkdownToBlocks(children).then((blocks) => {
-      setBlocks(blocks as BNESchemaEditor["document"]);
-    });
+    const blocks = editor.tryParseMarkdownToBlocks(children);
+    setBlocks(blocks as BNESchemaEditor["document"]);
   }, [children]);
 
   return <BNEditor content={blocks} readOnly />;
