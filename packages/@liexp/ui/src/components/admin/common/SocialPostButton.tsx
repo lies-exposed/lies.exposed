@@ -35,11 +35,17 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
   const record = useRecordContext();
   const conf = useConfiguration();
 
-  const [{ payload, media, multipleMedia }, setState] = React.useState<{
+  const [{ payload, media, multipleMedia, loaded }, setState] = React.useState<{
     payload: CreateSocialPost | undefined;
     multipleMedia: boolean;
     media: readonly Media.Media[];
-  }>({ payload: emptySharePayload, multipleMedia: false, media: [] });
+    loaded: boolean;
+  }>({
+    payload: emptySharePayload,
+    multipleMedia: false,
+    media: [],
+    loaded: false,
+  });
 
   return (
     <Stack spacing={2}>
@@ -61,13 +67,14 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
                 ...result,
                 media: shareMedia,
               },
+              loaded: true,
             }));
           });
         }}
       >
         Post on Social
       </Button>
-      {payload?.title && record?.id ? (
+      {loaded && payload?.title && record?.id ? (
         <ShareModal
           id={record.id}
           open={!!payload.title}
@@ -80,6 +87,7 @@ export const SocialPostButton: React.FC<SocialPostButtonProps> = ({
               media: [],
               multipleMedia: false,
               payload: undefined,
+              loaded: false,
             });
           }}
         />

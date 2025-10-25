@@ -28,7 +28,7 @@ interface ShareModalProps {
 }
 
 export const emptySharePayload: CreateSocialPost = {
-  title: `Default title`,
+  title: "",
   date: new Date().toISOString(),
   media: [],
   content: undefined,
