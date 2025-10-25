@@ -135,6 +135,7 @@ services:
     mem_limit: 512M
     depends_on:
       - api.liexp.dev
+      - localai.liexp.dev
     networks:
       - reverseproxy
 
@@ -200,21 +201,20 @@ services:
   localai.liexp.dev:
     # image: localai/localai:master-aio-cpu
     # For Intel GPUs decomment the following:
-    image: localai/localai:latest-aio-gpu-intel
+    image: localai/localai:master-aio-gpu-intel
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/readyz"]
+      test: ["CMD", "curl", "-f", "http://localhost:80/readyz"]
       interval: 1m
       timeout: 20m
       retries: 5
-    ports:
-      - "8080:8080"
     tty: true
     environment:
       DEBUG: true
       # REBUILD: true
       VIRTUAL_HOST: localai.liexp.dev
-      VIRTUAL_PORT: 8080
-      LOCALAI_CORS: 0
+      VIRTUAL_PORT: 80
+      LOCALAI_ADDRESS: ":80"
+      # LOCALAI_CORS: 0
       LOCALAI_SINGLE_ACTIVE_BACKEND: "true"
       # Intel GPU optimization settings
       SYCL_DEVICE_FILTER: level_zero
@@ -233,6 +233,7 @@ services:
     networks:
       - reverseproxy
     cpu_count: 4
+    # gpus: all
     # Increase memory limit for GPU workloads
     mem_limit: 16G
 

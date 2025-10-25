@@ -2,8 +2,9 @@ import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
+import { Schema } from "effect";
 import { HumanMessage, SystemMessage } from "langchain";
-import { z } from "zod";
 import { type ClientContext } from "../../../context.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -24,11 +25,11 @@ export const updateLinkFlow: JobProcessRTE<
       () => (ctx: ClientContext) =>
         fp.TE.right(
           ctx.agent.createAgent({
-            responseFormat: z.object({
-              title: z.string(),
-              description: z.string(),
-              publishDate: z.string(),
-              keywords: z.array(z.string()),
+            responseFormat: effectToZodObject({
+              title: Schema.String,
+              description: Schema.String,
+              publishDate: Schema.String,
+              keywords: Schema.Array(Schema.String),
             }),
           }),
         ),
