@@ -1,0 +1,23 @@
+{{- if .Values.worker.upsertNLPEntities.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: worker-upsert-nlp-entities
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "worker-upsert-nlp-entities" | include "worker.labels" | indent 2 }}
+spec:
+  schedule: {{ .Values.worker.upsertNLPEntities.schedule | default "0 1 * * *" | quote }} # Daily at 1 AM UTC
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+{{ include "worker.job.spec" (dict "timeout" 1800 "backoffLimit" 2) | indent 6 }}
+      template:
+        metadata:
+{{ tuple . "worker-upsert-nlp-entities" | include "worker.labels" | indent 10 }}
+        spec:
+{{ include "worker.job.podSpec" . | indent 10 }}
+          containers:
+            - {{ include "worker.job.container" (dict "name" "worker-upsert-nlp-entities" "command" (list "node" "./build/bin/cli.js" "upsert-nlp-entities") "jobConfig" .Values.worker.upsertNLPEntities) | nindent 14 }}
+{{- end }}

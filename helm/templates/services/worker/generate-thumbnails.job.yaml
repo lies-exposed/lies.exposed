@@ -1,0 +1,17 @@
+{{- if .Values.worker.generateThumbnails.manualJob.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: worker-generate-thumbnails-manual-{{ now | date "20060102-150405" }}
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "worker-generate-thumbnails-manual" | include "worker.labels" | indent 2 }}
+spec:
+{{ include "worker.job.spec" (dict "timeout" 3600 "backoffLimit" 2) | indent 2 }}
+  template:
+    metadata:
+{{ tuple . "worker-generate-thumbnails-manual" | include "worker.labels" | indent 6 }}
+    spec:
+{{ include "worker.job.podSpec" . | indent 6 }}
+      containers:
+        - {{ include "worker.job.container" (dict "name" "worker-generate-thumbnails-manual" "command" (list "node" "./build/bin/cli.js" "generate-missing-thumbnails") "jobConfig" .Values.worker.generateThumbnails.manualJob) | nindent 10 }}
+{{- end }}

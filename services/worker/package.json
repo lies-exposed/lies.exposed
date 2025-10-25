@@ -28,6 +28,8 @@
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
     "bin:run": "node ./build/bin/cli.js",
+    "bin:generate-thumbnails": "node ./build/bin/cli.js generate-missing-thumbnails",
+    "bin:upsert-nlp-entities": "node ./build/bin/cli.js upsert-nlp-entities",
     "start": "node build/run.js",
     "test": "vitest",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",

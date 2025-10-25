@@ -8,6 +8,7 @@ import { createFromWikipedia } from "./create-from-wikipedia.js";
 import { createStats } from "./create-stats.js";
 import { extractEntitiesFromURL } from "./extract-entities-from-url.js";
 import { extractEvents } from "./extract-events.js";
+import { generateMissingThumbnails } from "./generate-missing-thumbnails.js";
 import { importFromKMZ } from "./import-from-kmz.js";
 import { parseTGMessage } from "./parse-tg-message.js";
 import { setDefaultGroupUsernames } from "./set-default-group-usernames.js";
@@ -25,6 +26,7 @@ const commands: Record<string, CommandFlow> = {
   "create-stats": createStats,
   "extract-entities-from-url": extractEntitiesFromURL,
   "extract-events": extractEvents,
+  "generate-missing-thumbnails": generateMissingThumbnails,
   "import-from-kmz": importFromKMZ,
   "parse-tg-message": parseTGMessage,
   "set-default-group-usernames": setDefaultGroupUsernames,

@@ -15,9 +15,38 @@ api:
 worker:
   dbHost: db.liexp.dev
   dbPort: 8432
+  generateThumbnails:
+    enabled: true
+    schedule: "0 2 * * *"  # Daily at 2 AM UTC
+    limit: null  # Process all media without thumbnails (can be set to a number to limit)
+    resources:
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+      requests:
+        memory: "512Mi"
+        cpu: "200m"
+    manualJob:
+      enabled: false  # Set to true to create a one-time Job for manual execution
+      limit: null  # Optional limit for manual runs
+      resources:
+        limits:
+          memory: "1Gi"
+          cpu: "500m"
+        requests:
+          memory: "512Mi"
+          cpu: "200m"
+  upsertNLPEntities:
+    enabled: true
+    schedule: "0 1 * * *"  # Daily at 1 AM UTC
+    manualJob:
+      enabled: false  # Set to true to create a one-time Job for manual execution
 
 aiBot:
   configPath: "/home/node/services/ai-bot/config"
+
+shared:
+  tempVolumeHostPath: /home/node/lies-exposed-temp/
 
 db:
   host: db.liexp.dev

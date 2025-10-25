@@ -5,11 +5,9 @@ import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import Cron, { type ScheduledTask, type TaskContext } from "node-cron";
 import { cleanTempFolder } from "./cleanTempFolder.job.js";
 import { type CronJobTE } from "./cron-task.type.js";
-import { generateMissingThumbnailsCron } from "./generateMissingMedia.job.js";
 import { processOpenAIJobsDone } from "./processOpenAIJobsDone.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
-import { upsertNLPEntitiesJobCron } from "./upsertNLPEntities.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
@@ -63,7 +61,6 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
   );
 
   const cleanTempFolderTask = cleanTempFolder(ctx);
-  const generateMissingThumbnailsTask = generateMissingThumbnailsCron(ctx);
 
   const processOpenAIJobsDoneTask = scheduleTask(
     ctx.env.PROCESS_DONE_JOB_CRON,
@@ -77,19 +74,11 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
     "REGENERATE_MEDIA_THUMBNAILS",
   );
 
-  const upsertNLPEntitiesTask = scheduleTask(
-    ctx.env.UPSERT_NLP_ENTITIES_CRON,
-    upsertNLPEntitiesJobCron,
-    "UPSERT_NLP_ENTITIES",
-  );
-
   const tasksWithSchedules: [ScheduledTask, string][] = [
     [postOnSocialTask, ctx.env.SOCIAL_POSTING_CRON],
     [cleanTempFolderTask, ctx.env.TEMP_FOLDER_CLEAN_UP_CRON],
-    [generateMissingThumbnailsTask, ctx.env.GENERATE_MISSING_THUMBNAILS_CRON],
     [processOpenAIJobsDoneTask, ctx.env.PROCESS_DONE_JOB_CRON],
     [regenerateMediaThumbnailTask, ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON],
-    [upsertNLPEntitiesTask, ctx.env.UPSERT_NLP_ENTITIES_CRON],
   ];
 
   return {

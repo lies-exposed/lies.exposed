@@ -2,12 +2,10 @@ import { BACKEND_ENV, SPACE_ENV } from "@liexp/backend/lib/io/ENV.js";
 import { Schema } from "effect";
 
 const CRON_ENVS = Schema.Struct({
-  GENERATE_MISSING_THUMBNAILS_CRON: Schema.String,
   TEMP_FOLDER_CLEAN_UP_CRON: Schema.String,
   SOCIAL_POSTING_CRON: Schema.String,
   PROCESS_DONE_JOB_CRON: Schema.String,
   REGENERATE_MEDIA_THUMBNAILS_CRON: Schema.String,
-  UPSERT_NLP_ENTITIES_CRON: Schema.String,
 }).annotations({ title: "CRON_ENVS" });
 
 const REDIS_ENVS = Schema.Struct({
