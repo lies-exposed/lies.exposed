@@ -46,6 +46,7 @@ describe("Get Book List", () => {
     const actor = fc.sample(ActorArb, 1).map((actor) => ({
       ...actor,
       memberIn: [],
+      nationalities: [],
     }))[0];
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
@@ -75,6 +76,7 @@ describe("Get Book List", () => {
   test("Should return books by group", async () => {
     const [group] = fc.sample(GroupArb, 1).map((g) => ({
       ...g,
+      avatar: null,
       members: [],
     }));
 
@@ -106,10 +108,12 @@ describe("Get Book List", () => {
     const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
       ...actor,
       memberIn: [],
+      nationalities: [],
     }));
     const [group] = fc.sample(GroupArb, 1).map((g) => ({
       ...g,
       members: [],
+      avatar: null,
     }));
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));

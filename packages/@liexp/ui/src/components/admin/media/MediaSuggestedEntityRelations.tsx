@@ -1,8 +1,9 @@
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
 import * as React from "react";
-import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { useNLPExtraction } from "../../../hooks/useNLPExtraction.js";
 import { SuggestedEntityRelationsBox } from "../links/SuggestedEntityRelationsBox.js";
 import {
   Button,
@@ -13,39 +14,32 @@ import {
 
 export const MediaSuggestedEntityRelations: React.FC = () => {
   const record = useRecordContext<Media.Media>();
-  const dataProvider = useDataProvider();
-
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<any>(null);
   const [update, { isPending: isLoading }] = useUpdate();
-
-  const finalLoading = loading || isLoading;
 
   const canSuggestEntities =
     record?.type &&
     (record.type === PDFType.literals[0] || Schema.is(ImageType)(record.type));
 
-  const doExtractNLPEntities = React.useCallback((): void => {
-    const body =
-      record?.type === PDFType.literals[0]
-        ? {
-            pdf: record.location,
-          }
-        : record?.type && Schema.is(ImageType)(record.type)
-          ? {
-              url: record.description,
-            }
-          : null;
+  const nlpInput = React.useMemo(() => {
+    if (!canSuggestEntities || !record) return null;
 
-    if (body) {
-      void dataProvider
-        .post("/admins/nlp/extract-entities", body)
-        .then((res) => {
-          setLoading(false);
-          setData(res.data);
-        });
+    if (record.type === PDFType.literals[0]) {
+      return { pdf: record.location };
     }
-  }, [record?.location]);
+
+    if (Schema.is(ImageType)(record.type) && record.description) {
+      return { url: record.description as URL };
+    }
+
+    return null;
+  }, [canSuggestEntities, record]);
+
+  const { data, loading, triggerExtraction } = useNLPExtraction({
+    input: nlpInput,
+    autoFetch: true,
+  });
+
+  const finalLoading = loading || isLoading;
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
@@ -80,18 +74,11 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
     [update, record],
   );
 
-  React.useEffect(() => {
-    if (canSuggestEntities && !data && !finalLoading) {
-      setLoading(true);
-      doExtractNLPEntities();
-    }
-  }, [canSuggestEntities, data, finalLoading]);
-
   return (
     <div>
       {finalLoading ? <Loading /> : null}
       {!data ? (
-        <Button onClick={doExtractNLPEntities} label="Suggest entities" />
+        <Button onClick={triggerExtraction} label="Suggest entities" />
       ) : null}
       {data ? (
         <SuggestedEntityRelationsBox

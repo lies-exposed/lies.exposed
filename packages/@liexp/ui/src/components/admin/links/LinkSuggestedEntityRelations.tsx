@@ -1,8 +1,8 @@
 import * as React from "react";
+import { useNLPExtraction } from "../../../hooks/useNLPExtraction.js";
 import {
   Button,
   Loading,
-  useDataProvider,
   useRecordContext,
   useUpdate,
 } from "../react-admin.js";
@@ -10,21 +10,19 @@ import { SuggestedEntityRelationsBox } from "./SuggestedEntityRelationsBox.js";
 
 export const LinkSuggestedEntityRelations: React.FC = () => {
   const record = useRecordContext();
-  const dataProvider: any = useDataProvider();
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<any>(null);
   const [update, { isPending: isLoading }] = useUpdate();
 
-  const finalLoading = loading || isLoading;
+  const nlpInput = React.useMemo(
+    () => (record?.url ? { url: record.url } : null),
+    [record?.url],
+  );
 
-  const doExtractNLPEntities = React.useCallback((): void => {
-    void dataProvider
-      .post("/admins/nlp/extract-entities", { url: record?.url })
-      .then((res: any) => {
-        setLoading(false);
-        setData(res.data);
-      });
-  }, [record?.url]);
+  const { data, loading, triggerExtraction } = useNLPExtraction({
+    input: nlpInput,
+    autoFetch: true,
+  });
+
+  const finalLoading = loading || isLoading;
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
@@ -36,7 +34,7 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
         },
       });
     },
-    [update, record, data],
+    [update, record],
   );
 
   const doAppendSentenceToDescription = React.useCallback(
@@ -54,18 +52,11 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
     [update, record],
   );
 
-  React.useEffect(() => {
-    if (!data && !finalLoading) {
-      setLoading(true);
-      doExtractNLPEntities();
-    }
-  }, [data, finalLoading]);
-
   return (
     <div>
       {finalLoading ? <Loading /> : null}
       {!data ? (
-        <Button onClick={doExtractNLPEntities} label="Suggest entities" />
+        <Button onClick={triggerExtraction} label="Suggest entities" />
       ) : null}
       {data && record ? (
         <SuggestedEntityRelationsBox

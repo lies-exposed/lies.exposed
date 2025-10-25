@@ -126,14 +126,25 @@ export const GetLinkStats = Endpoint({
   }),
 });
 
-const ExtractEntitiesWithNLP = Endpoint({
+const TriggerExtractEntitiesWithNLP = Endpoint({
   Method: "POST",
-  getPath: () => `/admins/nlp/extract-entities`,
+  getPath: () => `/admins/nlp/extract-entities/trigger`,
+  Input: {
+    Body: ExtractEntitiesWithNLPInput,
+  },
+  Output: Output(Schema.Struct({ success: Schema.Boolean })).annotations({
+    title: "TriggerExtractEntitiesWithNLPOutput",
+  }),
+});
+
+const GetExtractEntitiesWithNLP = Endpoint({
+  Method: "POST",
+  getPath: () => `/admins/nlp/extract-entities/get`,
   Input: {
     Body: ExtractEntitiesWithNLPInput,
   },
   Output: Output(ExtractEntitiesWithNLPOutput).annotations({
-    title: "ExtractEntitiesWithNLPOutput",
+    title: "GetExtractEntitiesWithNLPOutput",
   }),
 });
 
@@ -148,7 +159,8 @@ const admin = ResourceEndpoints({
     SearchAreaCoordinates,
     GetLinkStats,
     GetMediaStats,
-    ExtractEntitiesWithNLP,
+    TriggerExtractEntitiesWithNLP,
+    GetExtractEntitiesWithNLP,
   },
 });
 

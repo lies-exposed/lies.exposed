@@ -1,4 +1,5 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
@@ -6,13 +7,14 @@ import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextCo
 import * as React from "react";
 import {
   BooleanInput,
+  Button,
   DateField,
   DateInput,
   Loading,
   useRecordContext,
   useUpdate,
 } from "react-admin";
-import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { useNLPExtraction } from "../../../hooks/useNLPExtraction.js";
 import { Box, Grid, Stack } from "../../mui/index.js";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { EventTypeInput } from "../common/inputs/EventTypeInput.js";
@@ -51,34 +53,24 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
   children,
 }) => {
   const record = useRecordContext();
-  const dataProvider = useDataProvider();
-  const [{ isLoading, suggestions }, setSuggestions] = React.useState<{
-    isLoading: boolean;
-    suggestions: ExtractEntitiesWithNLPOutput | null;
-  }>({
-    isLoading: true,
-    suggestions: null,
-  });
   const [update, { isPending: isUpdateLoading }] = useUpdate();
 
-  React.useEffect(() => {
-    if (record?.id && suggestions === null) {
-      setSuggestions({ isLoading: true, suggestions: null });
-      void dataProvider
-        .post("/admins/nlp/extract-entities", {
-          resource: "events",
-          uuid: record.id,
-        })
-        .then((res) => {
-          setSuggestions({ isLoading: false, suggestions: res.data });
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log(err);
-          setSuggestions({ isLoading: false, suggestions: null });
-        });
-    }
-  }, [record?.id]);
+  const nlpInput = React.useMemo(
+    () =>
+      record?.id
+        ? { resource: "events" as const, uuid: record.id as UUID }
+        : null,
+    [record?.id],
+  );
+
+  const {
+    data: suggestions,
+    loading: isLoading,
+    triggerExtraction,
+  } = useNLPExtraction({
+    input: nlpInput,
+    autoFetch: true,
+  });
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
@@ -149,6 +141,14 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           keywords={suggestions?.entities.keywords ?? []}
           onKeywordClick={doAddKeyword}
         />
+        {!suggestions && !isLoading && (
+          <Button
+            onClick={triggerExtraction}
+            label="Extract entities with NLP"
+            variant="outlined"
+            size="small"
+          />
+        )}
       </Grid>
       <Grid size={12}>
         <Stack direction="column" width="100%" spacing={2}>
