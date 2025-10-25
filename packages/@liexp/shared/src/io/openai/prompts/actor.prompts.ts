@@ -8,8 +8,9 @@ The text should be minimum 100 words long, but not exceeding 300 words long.
 
 The requested fields are:
   - the name of the person
-  - the birth date of the person (in the format "YYYY-MM-DD")
-  - if has passed away, the death date of the person (in the format "YYYY-MM-DD")
+  - the birth date of the person (in the full ISO format)
+  - if has passed away, the death date of the person (in the full ISO format)
+  - a description of the person, max 150 words
 
 If the user poses a specific question, try to include the answer in your description.
 `;

@@ -1,15 +1,15 @@
 import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
+import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { createAgent, HumanMessage, SystemMessage } from "langchain";
+import { HumanMessage, SystemMessage } from "langchain";
 import { z } from "zod";
 import { type ClientContext } from "../../../context.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = `
-I would like to have a JSON object with 'title', 'description', 'publishDate' and main 'keywords' (as an array of strings) from the given text.
-Can you do that for me?
+I would like to have a JSON object with 'title', 'description', 'publishDate' and main 'keywords' (as an array of strings) from the given url.
 `;
 
 export const updateLinkFlow: JobProcessRTE<
@@ -19,26 +19,11 @@ export const updateLinkFlow: JobProcessRTE<
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind("model", () => (ctx: ClientContext) => {
-      return fp.TE.right(
-        ctx.langchain.chat.withConfig({
-          response_format: {
-            type: "json_object",
-          },
-        }),
-      );
-    }),
-    fp.RTE.chainW(({ prompt, model }) =>
-      pipe(
-        runAgent<{ title: string; description: string }>(
-          [
-            new SystemMessage(
-              prompt({ vars: { text: "{context}", question: "{question}" } }),
-            ),
-            new HumanMessage(job.question ?? defaultQuestion),
-          ],
-          createAgent({
-            model,
+    fp.RTE.bind(
+      "agent",
+      () => (ctx: ClientContext) =>
+        fp.TE.right(
+          ctx.agent.createAgent({
             responseFormat: z.object({
               title: z.string(),
               description: z.string(),
@@ -47,7 +32,22 @@ export const updateLinkFlow: JobProcessRTE<
             }),
           }),
         ),
+    ),
+    fp.RTE.chainW(({ prompt, agent }) =>
+      runAgent<{ title: string; description: string }>(
+        [
+          new SystemMessage(
+            prompt({
+              vars: {
+                text: (job.data as any).url,
+              },
+            }),
+          ),
+          new HumanMessage(job.question ?? defaultQuestion),
+        ],
+        agent,
       ),
     ),
+    LoggerService.RTE.debug("Messages %O"),
   );
 };

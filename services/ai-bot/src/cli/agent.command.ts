@@ -16,24 +16,38 @@ export const agentCommand: CommandFlow = async (ctx, _args) => {
     },
   });
 
+  const aiMessageLogger = AIMessageLogger(ctx.logger);
+
   const ask = async (ag: typeof agent, message: string) => {
     const agentFinalState = await ag.stream(
       {
         messages: [message],
       },
-      {},
+      { streamMode: ["debug", "messages", "updates", "tasks", "values"] },
     );
 
-    const aiMessageLogger = AIMessageLogger(ctx.logger);
+    try {
+      let answer = "";
+      for await (const [streamMode, chunk] of agentFinalState) {
+        // eslint-disable-next-line no-console
+        console.log(streamMode, chunk);
+        const messages = (
+          "agent" in chunk ? chunk.agent.messages : []
+        ) as AIMessage[];
+        const toolMessages = (
+          "tools" in chunk ? chunk.tools.messages : []
+        ) as AIMessage[];
 
-    for await (const chunk of agentFinalState) {
-      // eslint-disable-next-line no-console
-      console.log(chunk);
-      const messages = (chunk.agent?.messages ??
-        chunk.tools?.messages ??
-        []) as AIMessage[];
+        [...messages, ...toolMessages].forEach(aiMessageLogger);
 
-      messages.forEach(aiMessageLogger);
+        if ("agent" in chunk) {
+          answer += chunk.agent.messages.map((m: any) => m.content).join("\n");
+        }
+      }
+      return answer;
+    } catch (error) {
+      ctx.logger.error.log("Error processing agent stream:", error);
+      throw error;
     }
   };
 

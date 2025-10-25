@@ -6,11 +6,11 @@ export const AIMessageLogger = (logger: Logger) => (message: AIMessage) => {
 
   const tool_calls = "tool_calls" in message ? (message.tool_calls ?? []) : [];
 
-  if (content !== "") {
-    logger.info.log(`Content: %O`, content);
-  }
-
   tool_calls.forEach((t) => {
     logger.info.log(`Run tool: %s: %O`, t.name, t.args);
   });
+
+  if (content !== "") {
+    logger.info.log(`Content: %O`, content);
+  }
 };

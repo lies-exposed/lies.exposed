@@ -1,4 +1,4 @@
-import { type Schema, SchemaAST } from "effect";
+import { Schema, SchemaAST } from "effect";
 import { isSome } from "effect/Option";
 import { z } from "zod";
 
@@ -134,7 +134,7 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
               const zodSchema = convert(p);
               return {
                 ...acc,
-                [p.name]: p.isOptional ? zodSchema.optional() : zodSchema,
+                [p.name]: p.isOptional ? zodSchema.nullable() : zodSchema,
               };
             }, {});
             return z.object(props);
@@ -186,6 +186,25 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
               },
             );
           }
+          case "Transformation": {
+            return convert(ast.from).transform((v) =>
+              convert(ast.to).transform(v),
+            );
+          }
+          case "Declaration": {
+            // Declaration schemas represent custom/recursive schemas with typeParameters
+            // For most cases, we convert the first type parameter if available
+            if (ast.typeParameters.length > 0) {
+              return convert(ast.typeParameters[0]);
+            }
+            // Fallback to unknown if no type parameters
+            return z.unknown();
+          }
+          case "Suspend": {
+            // Suspend schemas are for lazy/recursive schemas
+            // Use z.lazy to handle the recursion properly
+            return z.lazy(() => convert(ast.f()));
+          }
           //   case "IntersectionType":
           //     if (ast.types.length < 2) {
           //       throw new Error("Intersection type must have at least 2 types")
@@ -200,10 +219,11 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
           //         ])
           //       )
           //     )
-          default:
+          default: {
             throw new Error(
               `Unsupported schema type: ${(ast as { _tag: string })._tag}`,
             );
+          }
         }
       })();
 
@@ -213,7 +233,7 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
       // handle optional type
       if ("isOptional" in ast) {
         if (ast.isOptional) {
-          return convert(ast.type).optional();
+          return convert(ast.type).nullable();
         }
         return convert(ast.type);
       } else if (Array.isArray(ast)) {
@@ -229,4 +249,10 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
   };
 
   return convert(ast);
+};
+
+export const effectToZodObject = <T extends Schema.Struct.Fields>(
+  schema: T,
+) => {
+  return z.object(effectToZodStruct(Schema.Struct(schema)));
 };

@@ -269,7 +269,12 @@ export const QueueEdit: React.FC<Omit<EditProps, "children">> = (props) => {
           </Box>
         </Stack>
 
-        <Stack spacing={1} direction="row" alignItems={"center"}>
+        <Stack
+          spacing={1}
+          direction="row"
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
           <SelectQueueStatusInput size="small" />
           <SelectQueueTypeInput size="small" />
           <RetryQueueJobButton resource={resource} type={type} id={id} />

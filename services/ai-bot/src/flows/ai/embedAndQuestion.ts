@@ -1,6 +1,7 @@
 import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
@@ -47,7 +48,7 @@ export const embedAndQuestionFlow: JobProcessRTE<
   | string
   | { title: string; description: string }
   | {
-      excerpt: string;
+      excerpt: BlockNoteDocument;
     }
 > = (job) => {
   if (Schema.is(LINKS)(job.resource)) {

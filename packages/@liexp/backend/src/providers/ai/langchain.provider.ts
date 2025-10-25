@@ -6,12 +6,7 @@ import {
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
-import {
-  createAgent,
-  type Document as LangchainDocument,
-  type ReactAgent,
-  summarizationMiddleware,
-} from "langchain";
+import { type Document as LangchainDocument } from "langchain";
 
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
@@ -30,20 +25,6 @@ ${text}
 Question: ${question}
 
 Answer:
-`;
-
-// const DEFAULT_SUMMARIZATION_QUESTION = "Can you summarize this article for me?";
-
-export const DEFAULT_SUMMARIZE_PROMPT: PromptFn<{ text: string }> = ({
-  vars: { text },
-}) => `
-You are an expert in summarizing texts. These texts can be either excerpt of web pages or articles.
-Your goal is to create a summary of the given text, focusing on the actions made by the characters mentioned in the text.
-Below you find the text you need to summarize.
-
---------
-${text}
---------
 `;
 
 export type AvailableModels =
@@ -71,20 +52,11 @@ export interface LangchainProviderOptions {
 export interface LangchainProvider {
   readonly options: LangchainProviderOptions;
   chat: ChatOpenAI;
-  agent: ReactAgent;
   embeddings: OpenAIEmbeddings;
   queryDocument: <Args extends { text: string; question?: string }>(
     docs: LangchainDocument[],
     question: string,
     options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
-  ) => Promise<string>;
-  summarizeText: <Args extends { text: string }>(
-    text: LangchainDocument[],
-    options?: {
-      model?: AvailableModels;
-      prompt?: PromptFn<Args>;
-      question?: string;
-    },
   ) => Promise<string>;
 }
 
@@ -122,15 +94,6 @@ export const GetLangchainProvider = (
     return chat;
   };
 
-  const makeAgent = (chat: ChatOpenAI): ReactAgent => {
-    return createAgent({
-      model: chat,
-      middleware: [
-        summarizationMiddleware({ model: chat, maxTokensBeforeSummary: 50 }),
-      ],
-    });
-  };
-
   const makeEmbedding = (
     model: string,
     embeddingOpts: ConstructorParameters<typeof OpenAIEmbeddings>[0] = {},
@@ -151,7 +114,6 @@ export const GetLangchainProvider = (
   };
 
   const chat = makeChat(defaultChatModel);
-  const agent = makeAgent(chat);
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
 
@@ -166,7 +128,7 @@ export const GetLangchainProvider = (
   return {
     options,
     chat,
-    agent,
+    // agent,
     embeddings,
     queryDocument: async (content, question, options) => {
       const model = options?.model ?? embeddingsModel;
@@ -183,38 +145,6 @@ export const GetLangchainProvider = (
       const chat = makeChat(chatModel);
 
       const stream = await chat.stream(question);
-
-      let output = "";
-      for await (const chunk of stream) {
-        output += chunk;
-      }
-
-      return output;
-    },
-    summarizeText: async (content, options) => {
-      const model = options?.model ?? embeddingsModel;
-
-      const chatModel = options?.model ?? defaultChatModel;
-
-      langchainLogger.info.log(
-        "summarizeText use embedding model %s to summarize text with size %d using chat model %s",
-        model,
-        content.length,
-        chatModel,
-      );
-
-      const stream = await agent.stream({
-        messages: [
-          {
-            role: "human",
-            content: "Give me the summary of the following text",
-          },
-          {
-            role: "human",
-            content: content,
-          },
-        ],
-      });
 
       let output = "";
       for await (const chunk of stream) {

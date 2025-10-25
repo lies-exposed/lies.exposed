@@ -207,7 +207,7 @@ describe("effectToZod", () => {
     test("should handle object literals with optional properties", () => {
       const schema = Schema.Struct({
         required: Schema.String,
-        optional: Schema.optional(Schema.Number),
+        optional: Schema.UndefinedOr(Schema.Number),
       });
       const zodSchema = effectToZod(schema);
 
@@ -534,6 +534,52 @@ describe("effectToZodStruct", () => {
       expect(objectSchema.shape.settings.shape.theme.description).toBe(
         "UI theme preference",
       );
+    });
+  });
+
+  describe("Recursive/Declaration Types", () => {
+    test("should handle recursive schemas with Declaration AST", () => {
+      // Create a recursive schema using Schema.suspend (creates Declaration AST)
+      const baseSchema = Schema.Struct({
+        name: Schema.String,
+      });
+
+      type RecursiveType = Schema.Schema.Type<typeof baseSchema> & {
+        readonly children?: ReadonlyArray<RecursiveType>;
+      };
+
+      const recursiveSchema: Schema.Schema<RecursiveType> = Schema.Struct({
+        ...baseSchema.fields,
+        children: Schema.optional(
+          Schema.suspend(() => Schema.Array(recursiveSchema)),
+        ),
+      });
+
+      const zodSchema = effectToZod(recursiveSchema);
+
+      // Test valid recursive data
+      const validData = {
+        name: "root",
+        children: [
+          {
+            name: "child1",
+            children: [{ name: "grandchild1" }],
+          },
+          {
+            name: "child2",
+          },
+        ],
+      };
+
+      expect(zodSchema.safeParse(validData).success).toBe(true);
+
+      // Test data without children (should also work)
+      const simpleData = { name: "simple" };
+      expect(zodSchema.safeParse(simpleData).success).toBe(true);
+
+      // Test invalid data (missing required name)
+      const invalidData = { children: [{ name: "test" }] };
+      expect(zodSchema.safeParse(invalidData).success).toBe(false);
     });
   });
 });

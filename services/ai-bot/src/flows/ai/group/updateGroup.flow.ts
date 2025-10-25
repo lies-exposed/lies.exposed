@@ -1,31 +1,47 @@
 import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { HumanMessage, SystemMessage } from "langchain";
+import { z } from "zod";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = "Can you give me an excerpt of the given documents?";
 
+const GroupStructuredResponse = z.object({
+  name: z.string(),
+  description: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+type GroupStructuredResponse = z.infer<typeof GroupStructuredResponse>;
+
 export const updateGroupFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
-  { excerpt: string }
+  { excerpt: BlockNoteDocument }
 > = (job) => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind("model", () => (ctx) => fp.TE.right(ctx.langchain.agent)),
+    fp.RTE.bind(
+      "model",
+      () => (ctx) =>
+        fp.TE.right(
+          ctx.agent.createAgent({ responseFormat: GroupStructuredResponse }),
+        ),
+    ),
     fp.RTE.chainW(({ prompt, docs, model }) =>
       pipe(
-        runAgent(
+        runAgent<GroupStructuredResponse>(
           [
             new SystemMessage(
               prompt({
                 vars: {
                   text: docs.map((d) => d.pageContent).join("\n"),
-                  question: "{question}",
                 },
               }),
             ),
@@ -35,8 +51,9 @@ export const updateGroupFlow: JobProcessRTE<
         ),
       ),
     ),
-    fp.RTE.map((excerpt) => ({
-      excerpt: excerpt,
+    fp.RTE.map(({ description, ...group }) => ({
+      ...group,
+      excerpt: toInitialValue(description),
     })),
   );
 };

@@ -19,6 +19,7 @@ type Agent = ReturnType<typeof createReactAgent>;
 export type AgentProvider = {
   agent: Agent;
   tools: Tools.Standard[];
+  createAgent: (opts: Partial<Parameters<typeof createReactAgent>[0]>) => Agent;
   invoke: (
     input: Parameters<Agent["invoke"]>[0],
     options: Parameters<Agent["invoke"]>[1],
@@ -108,6 +109,25 @@ export const GetAgentProvider =
           return result;
         }, toAgentError);
 
-      return { agent, tools: allTools, invoke, stream };
+      const createAgent = (
+        opts: Partial<Parameters<typeof createReactAgent>[0]>,
+      ) => {
+        return createReactAgent({
+          llm: ctx.langchain.chat.withConfig({
+            tool_choice: "auto",
+            verbosity: "high",
+          }),
+          tools: allTools,
+          checkpointSaver: agentCheckpointer,
+          prompt: readFileSync(
+            path.resolve(process.cwd(), "AGENT.md"),
+            "utf-8",
+          ),
+          description: "A React agent for handling user queries",
+          ...opts,
+        });
+      };
+
+      return { agent, tools: allTools, invoke, stream, createAgent };
     }, ServerError.fromUnknown);
   };

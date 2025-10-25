@@ -4,15 +4,14 @@ import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { createAgent, HumanMessage, SystemMessage } from "langchain";
-import { z } from "zod";
-import { type LangchainContext } from "../../context/langchain.context.js";
+import { HumanMessage, SystemMessage } from "langchain";
+import { type AgentContext } from "../../context/agent.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
 import { runAgent } from "./runRagChain.js";
 
 export const updateEventFromDocuments = <
-  C extends LangchainContext & LoggerContext,
+  C extends AgentContext & LoggerContext,
 >(
   type: EventType,
   prompt: PromptFn<{
@@ -26,21 +25,11 @@ export const updateEventFromDocuments = <
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => getCreateEventPromptPartial<C>(prompt, type)),
-    fp.RTE.bind(
-      "model",
-      () => (ctx) =>
-        fp.TE.right(
-          ctx.langchain.chat.withConfig({
-            response_format: {
-              type: "json_object",
-            },
-          }),
-        ),
-    ),
+    fp.RTE.bind("model", () => (ctx) => fp.TE.right(ctx.agent.agent)),
     fp.RTE.chain(({ prompt, model }) => {
       return runAgent<EventCommonProps, C>(
         [new SystemMessage(prompt), new HumanMessage(question)],
-        createAgent({ model, responseFormat: z.object({}) }),
+        model,
       );
     }),
   );

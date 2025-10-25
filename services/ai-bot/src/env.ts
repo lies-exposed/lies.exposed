@@ -12,6 +12,7 @@ const ENV = Schema.Struct({
   LIEXP_USERNAME: OptionFromNullishToNull(Schema.String),
   LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
   LOCALAI_URL: OptionFromNullishToNull(Schema.String),
+  LOCALAI_MODEL_CHAT: OptionFromNullishToNull(Schema.String),
   LOCALAI_API_KEY: Schema.String,
   LOCALAI_TIMEOUT: OptionFromNullishToNull(Schema.NumberFromString),
   CF_ACCESS_CLIENT_ID: OptionFromNullishToNull(Schema.String),

@@ -1,9 +1,9 @@
+import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -47,12 +47,11 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
           type: O.fromNullable(type ? [type] : undefined),
         })(ctx),
         LoggerService.TE.debug(ctx, `Results %O`),
+        fp.TE.chainEitherK((result) => EventV2IO.decodeMany(result.results)),
         fp.TE.map((result) => ({
-          content: result.results.map((eventResult) => {
-            // Decode the event data to ensure type safety
-            const event = Schema.decodeUnknownSync(Event)(eventResult);
+          content: result.map((eventResult) => {
             return {
-              text: formatEventToMarkdown(event),
+              text: formatEventToMarkdown(eventResult),
               uri: `event://${eventResult.id}`,
               type: "text" as const,
             };

@@ -90,7 +90,9 @@ const decodeGroupIO = ({
               ? toInitialValue(group.body)
               : null,
           avatar,
-          members: group.members ? group.members : [],
+          members: group.members
+            ? group.members.map((m) => (Schema.is(UUID)(m) ? m : m.id))
+            : [],
           subGroups: [],
           createdAt: group.createdAt?.toISOString(),
           updatedAt: group.updatedAt?.toISOString(),

@@ -54,7 +54,14 @@ export const loadContext = (
             fp.TE.right<AIBotError, string>,
           );
         }),
-        fp.TE.map(({ localAIURL, ...config }) => {
+        fp.TE.bind("localAIModelChat", (config) => {
+          return pipe(
+            env.LOCALAI_MODEL_CHAT,
+            fp.O.getOrElse(() => config.config.localAi.models?.chat ?? "gpt-4"),
+            fp.TE.right<AIBotError, string>,
+          );
+        }),
+        fp.TE.map(({ localAIURL, localAIModelChat, ...config }) => {
           const {
             config: {
               localAi: { timeout: _timeout, ...localAi },
@@ -65,7 +72,7 @@ export const loadContext = (
           const timeout = pipe(
             fp.O.fromNullable(_timeout),
             fp.O.alt(() => env.LOCALAI_TIMEOUT),
-            fp.O.getOrElse(() => 3_600 * 1000), // 1 hour
+            fp.O.getOrElse(() => 3_600 * 2 * 1000), // 2 hours
           );
 
           return {
@@ -77,6 +84,10 @@ export const loadContext = (
                 timeout,
                 url: localAIURL,
                 apiKey: env.LOCALAI_API_KEY,
+                models: {
+                  ...localAi.models,
+                  chat: localAIModelChat,
+                },
               },
             },
           };
