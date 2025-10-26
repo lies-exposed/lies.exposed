@@ -12,15 +12,15 @@ import { type AIBotConfig } from "./config.js";
 import { type ENV } from "./env.js";
 import { type ConfigProvider } from "#common/config/config.reader.js";
 
-export interface APIClientContext {
+interface APIClientContext {
   api: API<Endpoints>;
 }
 
-export interface ENVContext {
+interface ENVContext {
   env: ENV;
 }
 
-export interface AIBotConfigContext {
+interface AIBotConfigContext {
   config: ConfigProvider<AIBotConfig>;
 }
 
