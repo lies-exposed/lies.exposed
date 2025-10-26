@@ -32,7 +32,7 @@ export const updateLinkFlow: JobProcessRTE<
               }),
               keywords: Schema.Array(Schema.String).annotations({
                 description:
-                  "An array of keywords related to the content (e.g. machine-learning, vaccine-damage",
+                  "An array of keywords related to the content (e.g. machine-learning, vaccine-damage)",
               }),
             }),
           }),
