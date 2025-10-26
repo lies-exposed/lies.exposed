@@ -6,6 +6,7 @@ BE_WORKER_IMAGE=liexp-worker
 ADMIN_WEB_IMAGE=liexp-admin-web
 WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
+AGENT_IMAGE=liexp-agent
 
 (exec ./scripts/docker-login.sh "$1")
 
@@ -18,6 +19,7 @@ be_worker=false
 web=false
 ai_bot=false
 admin=false
+agent=false
 
 # Loop through script arguments
 while [[ $# -gt 0 ]]; do
@@ -40,6 +42,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --ai-bot)
             ai_bot=true
+            shift
+            ;;
+        --agent)
+            agent=true
             shift
             ;;
         --base)
@@ -111,6 +117,16 @@ if [ "$be_worker" = true ]; then
     --target production \
     --tag $API_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$BE_WORKER_IMAGE:latest \
+    "${other_args[@]}"
+fi
+
+if [ "$agent" = true ]; then
+  docker build . \
+    --force-rm \
+    --file agent.Dockerfile \
+    --target production \
+    --tag $AGENT_IMAGE:latest \
+    --tag ghcr.io/lies-exposed/$AGENT_IMAGE:latest \
     "${other_args[@]}"
 fi
 

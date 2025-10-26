@@ -62,6 +62,10 @@
       "entry": ["src/run.ts", "src/bin/cli.ts"],
       "project": ["src/**/*.ts"]
     },
+    "services/agent": {
+      "entry": ["src/run.ts", "src/cli.ts"],
+      "project": ["src/**/*.ts"]
+    },
     "services/storybook": {
       "entry": [".storybook/*.{ts,tsx}", "src/stories/**/*.tsx"],
       "includeEntryExports": false,

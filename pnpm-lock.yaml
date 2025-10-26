@@ -818,9 +818,6 @@ importers:
 
   services/agent:
     dependencies:
-      '@ai-sdk/react':
-        specifier: ^2.0.80
-        version: 2.0.80(react@18.3.1)(zod@3.25.76)
       '@langchain/core':
         specifier: ^1.0.1
         version: 1.0.1(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
@@ -842,18 +839,12 @@ importers:
       '@liexp/shared':
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.18.2
-        version: 1.20.1
       '@ts-endpoint/core':
         specifier: file:../../patches/ts-endpoint-core-0.1.0.tgz
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/express':
         specifier: file:../../patches/ts-endpoint-express-0.1.0.tgz
         version: file:patches/ts-endpoint-express-0.1.0.tgz(express@5.1.0)(fp-ts@2.16.11)
-      ai:
-        specifier: ^5.0.80
-        version: 5.0.80(zod@3.25.76)
       axios:
         specifier: ^1.12.2
         version: 1.12.2(debug@4.4.3)
