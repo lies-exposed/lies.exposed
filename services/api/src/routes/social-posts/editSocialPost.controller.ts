@@ -8,7 +8,7 @@ import {
   SocialPostIO,
 } from "@liexp/backend/lib/io/socialPost.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, In } from "typeorm";
 import { toControllerError } from "../../io/ControllerError.js";

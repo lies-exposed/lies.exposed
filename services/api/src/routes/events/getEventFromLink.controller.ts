@@ -5,7 +5,7 @@ import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";

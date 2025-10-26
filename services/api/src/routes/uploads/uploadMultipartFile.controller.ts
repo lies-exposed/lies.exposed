@@ -1,7 +1,7 @@
 import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UploadResource } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
+import { UploadResource } from "@liexp/shared/lib/endpoints/api/upload.endpoints.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";

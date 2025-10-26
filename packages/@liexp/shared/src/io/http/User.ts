@@ -1,26 +1,9 @@
 import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
-
-export const EventSuggestionCreate = Schema.Literal("event-suggestion:create");
-export const EventSuggestionRead = Schema.Literal("event-suggestion:read");
-export const EventSuggestionEdit = Schema.Literal("event-suggestion:create");
-export const AdminRead = Schema.Literal("admin:read");
-export const AdminCreate = Schema.Literal("admin:create");
-export const AdminEdit = Schema.Literal("admin:edit");
-export const AdminDelete = Schema.Literal("admin:delete");
-
-export const UserPermission = Schema.Union(
-  EventSuggestionCreate,
-  EventSuggestionRead,
-  EventSuggestionEdit,
-  AdminRead,
-  AdminCreate,
-  AdminEdit,
-  AdminDelete,
-).annotations({
-  title: "UserPermission",
-});
-export type UserPermission = typeof UserPermission.Type;
+import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
+import { UUID } from "./Common/UUID.js";
+import { GetListQuery } from "./Query/GetListQuery.js";
+import { AuthPermission } from "./auth/permissions/index.js";
 
 export const UserStatusPending = Schema.Literal("Pending");
 export const UserStatusApproved = Schema.Literal("Approved");
@@ -34,12 +17,20 @@ export const UserStatus = Schema.Union(
 });
 export type UserStatus = typeof UserStatus.Type;
 
+export const ListUserQuery = Schema.Struct({
+  ...GetListQuery.fields,
+  ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  telegramId: OptionFromNullishToNull(Schema.String),
+  permissions: OptionFromNullishToNull(Schema.Array(AuthPermission)),
+});
+
 export const SignUpUserBody = Schema.Struct({
   username: Schema.String,
   firstName: Schema.String,
   lastName: Schema.String,
   email: Schema.String,
   password: Schema.String,
+  permissions: Schema.Array(AuthPermission),
 }).annotations({
   title: "SignUpUserBody",
 });
@@ -61,7 +52,7 @@ export const User = Schema.Struct({
   username: Schema.String,
   email: Schema.String,
   status: UserStatus,
-  permissions: Schema.Array(UserPermission),
+  permissions: Schema.Array(AuthPermission),
   telegramId: Schema.Union(Schema.String, Schema.Null),
   telegramToken: Schema.Union(Schema.String, Schema.Null),
   createdAt: Schema.Date,

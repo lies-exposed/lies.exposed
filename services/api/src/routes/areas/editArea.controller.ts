@@ -4,7 +4,7 @@ import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Option } from "fp-ts/lib/Option.js";

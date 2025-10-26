@@ -8,7 +8,7 @@ import {
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -40,6 +40,7 @@ describe("Create Scientific Study", () => {
           diedOn: undefined,
           bornOn: undefined,
           memberIn: [],
+          nationalities: [],
         },
       ]),
     );

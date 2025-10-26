@@ -3,10 +3,11 @@ import { type KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.j
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
@@ -18,7 +19,6 @@ import { type TEControllerError } from "../../types/TEControllerError.js";
 import { type Route } from "../route.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 import { ensureUserExists } from "#utils/user.utils.js";
 
 const updateLinkMedia = (

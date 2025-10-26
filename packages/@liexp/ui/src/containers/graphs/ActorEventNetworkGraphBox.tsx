@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";

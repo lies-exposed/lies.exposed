@@ -1,11 +1,11 @@
+import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { createFlowGraph } from "#flows/graphs/createFlowGraph.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import { RequestDecoder } from "#utils/authenticationHandler.js";
 
 export const MakeGetFlowGraphRoute: Route = (r, ctx) => {
   AddEndpoint(r)(

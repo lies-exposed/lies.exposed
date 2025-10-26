@@ -1,24 +1,24 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UpdateMetadata } from "@liexp/shared/lib/endpoints/link.endpoints.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
+import { AdminEdit } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type Router } from "express";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeEditLinkMetadataRoute = (
   r: Router,
   ctx: ServerContext,
 ): void => {
   AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
-    UpdateMetadata,
+    Endpoints.Link.Custom.UpdateMetadata,
     ({ params: { id } }) => {
       return pipe(
         ctx.db.findOneOrFail(LinkEntity, { where: { id: Equal(id) } }),

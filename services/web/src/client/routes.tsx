@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";

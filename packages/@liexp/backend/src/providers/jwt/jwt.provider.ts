@@ -1,5 +1,7 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { User, type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
+import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
+import { AuthUser } from "@liexp/shared/lib/io/http/auth/AuthUser.js";
+import { ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -36,7 +38,11 @@ export const toError =
 
 export interface JWTProvider {
   signUser: (user: UserEncoded) => IO.IO<string>;
-  verifyUser: (string: string) => IOE.IOEither<JWTError, User>;
+  signClient: (client: typeof ServiceClient.Type) => IO.IO<string>;
+  verifyUser: (string: string) => IOE.IOEither<JWTError, AuthUser>;
+  verifyClient: (
+    string: string,
+  ) => IOE.IOEither<JWTError, typeof ServiceClient.Type>;
 }
 
 export interface JWTClientContext {
@@ -54,19 +60,46 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
         }),
       );
     },
+    signClient: (client: typeof ServiceClient.Type) => {
+      // ctx.logger.debug.log("Signing service client payload %O", client);
+      return IO.of(
+        jwt.sign(client, ctx.secret, {
+          expiresIn: 365 * 24 * 60 * 60, // Service clients get longer expiry (1 year)
+        }),
+      );
+    },
     verifyUser: (token: string) => {
       const tk = token.replace("Bearer ", "");
       // ctx.logger.debug.log("Verifying token %s", tk);
       return pipe(
         IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
-        IOE.chain((result) =>
-          pipe(
+        IOE.chain((result) => {
+          return pipe(
             IOE.fromEither(
-              fromValidationErrors(Schema.decodeUnknownEither(User)(result)),
+              fromValidationErrors(
+                Schema.decodeUnknownEither(AuthUser)(result),
+              ),
             ),
             IOE.mapLeft(toError(ctx.logger)({})),
-          ),
-        ),
+          );
+        }),
+      );
+    },
+    verifyClient: (token: string) => {
+      const tk = token.replace("Bearer ", "");
+      // ctx.logger.debug.log("Verifying token %s", tk);
+      return pipe(
+        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
+        IOE.chain((result) => {
+          return pipe(
+            IOE.fromEither(
+              fromValidationErrors(
+                Schema.decodeUnknownEither(ServiceClient)(result),
+              ),
+            ),
+            IOE.mapLeft(toError(ctx.logger)({})),
+          );
+        }),
       );
     },
   };

@@ -1,6 +1,6 @@
 import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toEventSuggestion } from "./eventSuggestion.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

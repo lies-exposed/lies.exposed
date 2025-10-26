@@ -36,7 +36,7 @@ export const makeApp = (ctx: ServerContext): express.Express => {
         { url: "/v1/events/suggestions", method: "POST" },
         { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
         { url: /\/media\/*/ },
-        ...(ctx.env.NODE_ENV === "development" ? [{ url: /\/mcp\/*/ }] : []),
+        { url: /\/mcp\/*/ }, // MCP routes use service client authentication
       ],
     }),
   );

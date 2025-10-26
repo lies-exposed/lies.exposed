@@ -12,8 +12,8 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { GetOpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
@@ -26,7 +26,6 @@ import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 import { AIBotConfig } from "./config.js";
 import { type ClientContext } from "./context.js";
 import { parseENV } from "./env.js";
-import { userLogin } from "./flows/userLogin.flow.js";
 import { ConfigProviderReader } from "#common/config/config.reader.js";
 import { toAIBotError, type AIBotError } from "#common/error/index.js";
 
@@ -190,8 +189,22 @@ export const loadContext = (
         }),
       ),
     ),
-    fp.TE.bind("token", ({ fs, api, logger, config, env }) =>
-      userLogin()({ api, fs, logger, config, env }),
+    fp.TE.bind("token", ({ env, logger }) =>
+      pipe(
+        env.API_TOKEN,
+        fp.O.fold(
+          () =>
+            fp.TE.left(
+              toAIBotError(
+                "API_TOKEN environment variable is required but not set",
+              ),
+            ),
+          (token) => {
+            logger.debug.log("Using API_TOKEN from environment");
+            return fp.TE.right(token);
+          },
+        ),
+      ),
     ),
     fp.TE.bind("agent", ({ langchain, logger, token, config, puppeteer }) =>
       pipe(

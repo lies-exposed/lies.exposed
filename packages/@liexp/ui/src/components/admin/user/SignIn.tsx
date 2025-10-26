@@ -130,7 +130,14 @@ export const SignIn: React.FC<SignInProps> = ({ redirectTo = "" }) => {
         variant="contained"
         onClick={() => {
           if (type === "signup") {
-            doSignUp({ username, email, password, firstName, lastName });
+            doSignUp({
+              username,
+              email,
+              password,
+              firstName,
+              lastName,
+              permissions: [],
+            });
           } else {
             doLogin(username, password);
           }

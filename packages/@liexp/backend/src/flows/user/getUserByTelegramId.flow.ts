@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   AdminCreate,
   EventSuggestionEdit,
-} from "@liexp/shared/lib/io/http/User.js";
+} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { Equal, Raw } from "typeorm";

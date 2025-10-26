@@ -19,6 +19,7 @@ describe("Edit Group", () => {
   const actors = fc.sample(ActorArb, 10).map((a) => ({
     ...a,
     memberIn: [],
+    nationalities: [],
   }));
   const [group] = fc.sample(GroupArb, 1).map((g) => ({
     ...g,

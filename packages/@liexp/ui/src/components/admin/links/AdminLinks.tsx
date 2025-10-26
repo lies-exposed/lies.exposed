@@ -1,4 +1,4 @@
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import {
   BooleanInput,

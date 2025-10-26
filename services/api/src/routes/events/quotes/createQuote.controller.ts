@@ -1,7 +1,7 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { QuoteIO } from "@liexp/backend/lib/io/event/quote.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Schema } from "effect";

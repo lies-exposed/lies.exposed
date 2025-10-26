@@ -1,8 +1,8 @@
 import {
-  type UserPermission,
   UserStatus,
   UserStatusPending,
 } from "@liexp/shared/lib/io/http/User.js";
+import { AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Column, Entity, Index, OneToMany, type Relation } from "typeorm";
 import { EventSuggestionEntity } from "./EventSuggestion.entity.js";
 import { GraphEntity } from "./Graph.entity.js";
@@ -39,7 +39,7 @@ export class UserEntity extends DeletableEntity {
   status: UserStatus;
 
   @Column({ type: "json", default: [] })
-  permissions: UserPermission[];
+  permissions: AuthPermission[];
 
   // telegram auth
   @Column({ type: "varchar", unique: true, nullable: true })

@@ -2,7 +2,7 @@ import { BookIO } from "@liexp/backend/lib/io/event/book.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { DBService } from "@liexp/backend/lib/services/db.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";

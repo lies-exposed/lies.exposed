@@ -1,6 +1,6 @@
 import { PageEntity } from "@liexp/backend/lib/entities/Page.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { AdminDelete } from "@liexp/shared/lib/io/http/User.js";
+import { AdminDelete } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { PageArb } from "@liexp/test/lib/arbitrary/Page.arbitrary.js";
 import fc from "fast-check";

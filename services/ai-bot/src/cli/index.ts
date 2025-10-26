@@ -4,7 +4,8 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ClientContext } from "../context.js";
-import { currentToken, userLogin } from "../flows/userLogin.flow.js";
+import { getApiToken } from "../flows/getApiToken.flow.js";
+import { currentToken } from "../flows/userLogin.flow.js";
 import { loadContext } from "../load-context.js";
 import { type CommandFlow } from "./CommandFlow.js";
 import { agentCommand } from "./agent.command.js";
@@ -40,7 +41,7 @@ const run = async ([command, ...args]: string[]): Promise<void> => {
       throwTE,
     );
 
-    token = await pipe(userLogin()(ctx), throwTE);
+    token = await pipe(getApiToken()(ctx), throwTE);
 
     D.enable(fp.O.getOrElse(() => "-")(ctx.env.DEBUG));
 

@@ -10,7 +10,7 @@ import { TaskEither } from "fp-ts/lib/TaskEither.js";
 import * as Redis from "ioredis";
 import * as pg from "pg";
 
-interface TestDBManager {
+export interface TestDBManager {
   lookup: () => Promise<Docker.Container | undefined>;
   listDatabases: () => Promise<readonly string[]>;
   startDBTruncator: () => Promise<NodeJS.Timeout>;

@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";

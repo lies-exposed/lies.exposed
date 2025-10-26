@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type Link } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import LinkCard from "../../components/Cards/LinkCard.js";

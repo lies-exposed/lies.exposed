@@ -3,7 +3,7 @@ import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
-} from "@liexp/shared/lib/io/http/User.js";
+} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import EditEventButton from "@liexp/ui/lib/components/Common/Button/EditEventButton.js";
 import {
   EditEventModal,

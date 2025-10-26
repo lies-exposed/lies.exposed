@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { GetSignedURL } from "@liexp/shared/lib/endpoints/upload.endpoints.js";
+import { GetSignedURL } from "@liexp/shared/lib/endpoints/api/upload.endpoints.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { fileExtFromContentType } from "@liexp/shared/lib/utils/media.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

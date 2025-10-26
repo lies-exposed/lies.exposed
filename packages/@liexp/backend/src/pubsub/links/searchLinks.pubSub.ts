@@ -1,4 +1,4 @@
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect/index";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { Schema } from "effect";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type UploadResource } from "../endpoints/upload.endpoints.js";
+import { type UploadResource } from "../endpoints/api/upload.endpoints.js";
 import { UUID } from "../io/http/Common/UUID.js";
 import * as Media from "../io/http/Media/index.js";
 import { ResourcesNames } from "../io/http/ResourcesNames.js";

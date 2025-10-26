@@ -1,7 +1,7 @@
 import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import {
   BooleanInput,

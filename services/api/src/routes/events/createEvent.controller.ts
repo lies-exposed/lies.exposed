@@ -1,10 +1,12 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   type Event,
@@ -13,17 +15,13 @@ import {
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
 import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type ControllerError } from "../../io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import {
-  authenticationHandler,
-  RequestDecoder,
-} from "#utils/authenticationHandler.js";
 
 export const CreateEventRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(

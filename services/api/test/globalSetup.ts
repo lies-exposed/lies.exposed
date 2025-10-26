@@ -21,11 +21,11 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as path from "path";
 import { ENV } from "../src/io/ENV.js";
-import { GetTestDBManager } from "./utils/TestDBManager.js";
+import { GetTestDBManager, TestDBManager } from "./utils/TestDBManager.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
 
-export const testDBManager = GetTestDBManager(
+export const testDBManager: (dbNamePattern: string) => Promise<TestDBManager> = GetTestDBManager(
   logger.GetLogger("test-db-manager"),
   {
     dbContainerName: "db.liexp.dev",

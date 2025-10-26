@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import MediaElement from "@liexp/ui/lib/components/Media/MediaElement.js";
 import { ActorListItem } from "@liexp/ui/lib/components/lists/ActorList.js";
 import { AreaListItem } from "@liexp/ui/lib/components/lists/AreaList.js";

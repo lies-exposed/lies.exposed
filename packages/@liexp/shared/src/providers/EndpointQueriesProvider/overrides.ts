@@ -14,7 +14,7 @@ import {
   type ResourceEndpointsQueriesOverride,
   defaultUseQueryListParams,
 } from "@ts-endpoint/tanstack-query";
-import { type Endpoints } from "../../endpoints/index.js";
+import { type Endpoints } from "../../endpoints/api/index.js";
 
 type GetHierarchyNetworkParams = EndpointParamsType<
   typeof Endpoints.Networks.Get

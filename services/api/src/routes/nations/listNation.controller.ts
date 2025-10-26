@@ -2,7 +2,7 @@ import { NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
 import { NationIO } from "@liexp/backend/lib/io/Nation.io.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type Nation } from "@liexp/shared/lib/io/http/Nation.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type FindOptionsWhere, ILike, In } from "typeorm";

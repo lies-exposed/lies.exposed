@@ -1,17 +1,16 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { getApiToken } from "./flows/getApiToken.flow.js";
 import { loadContext } from "./load-context.js";
 import { type ClientContextRTE } from "./types.js";
 import { exponentialWait } from "./utils/exponentialWait.js";
-import { waitForToken } from "./waitForLogin.js";
 import { report, toAIBotError } from "#common/error/index.js";
-import { clearToken } from "#flows/clearToken.flow.js";
 import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
 
 let token: string | null = null;
 
-export const exponentialWaitOneMinute = exponentialWait(60000);
+const exponentialWaitOneMinute = exponentialWait(60000);
 
 let waitForLocalAIRetry = 0;
 const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
@@ -54,9 +53,11 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
       fp.RTE.fold(
         (e) => {
           if (e.status === 401) {
+            // With API token auth, a 401 means the token is invalid/expired
+            // Log error and retry with exponential backoff
             return pipe(
-              clearToken,
-              fp.RTE.chain(() => run(dryRun)),
+              exponentialWaitOneMinute(10000, retry, "auth:401"),
+              fp.RTE.chain(() => go(retry + 1)),
             );
           }
           return pipe(
@@ -73,7 +74,7 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
     );
 
   return pipe(
-    waitForToken(),
+    getApiToken(),
     fp.RTE.map((t) => {
       token = t;
       return token;

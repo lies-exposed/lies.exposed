@@ -1,12 +1,12 @@
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateStoryRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["event-suggestion:create"])(ctx))(

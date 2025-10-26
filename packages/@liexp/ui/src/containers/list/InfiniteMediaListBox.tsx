@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type Media } from "@liexp/shared/lib/io/http";
 import * as React from "react";
 import MediaElement from "../../components/Media/MediaElement.js";

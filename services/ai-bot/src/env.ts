@@ -9,8 +9,7 @@ import { type AIBotError } from "#common/error/index.js";
 const ENV = Schema.Struct({
   NODE_ENV,
   DEBUG: OptionFromNullishToNull(Schema.String),
-  LIEXP_USERNAME: OptionFromNullishToNull(Schema.String),
-  LIEXP_PASSWORD: OptionFromNullishToNull(Schema.String),
+  API_TOKEN: OptionFromNullishToNull(Schema.String),
   LOCALAI_URL: OptionFromNullishToNull(Schema.String),
   LOCALAI_MODEL_CHAT: OptionFromNullishToNull(Schema.String),
   LOCALAI_API_KEY: Schema.String,
