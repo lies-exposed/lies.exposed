@@ -53,9 +53,13 @@
       "path": "services/web",
     },
     {
-      "name": "worker ",
+      "name": "worker",
       "path": "services/worker",
     },
+    {
+      "name": "agent",
+      "path": "services/agent",
+    }
   ],
   "settings": {
     "search.exclude": {

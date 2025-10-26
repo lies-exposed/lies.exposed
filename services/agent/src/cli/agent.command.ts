@@ -1,14 +1,26 @@
 import { type AIMessage } from "@langchain/core/messages";
 import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helper.js";
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
-import { toAIBotError } from "../common/error/index.js";
-import { type CommandFlow } from "./CommandFlow.js";
+import { type AgentContext } from "#context/context.type.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 
-export const agentCommand: CommandFlow = async (ctx, _args) => {
+export class AgentCommandError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "AgentCommandError";
+  }
+}
+
+const toAgentCommandError = (e: unknown): AgentCommandError => {
+  return new AgentCommandError(
+    e instanceof Error ? e.message : "Unknown agent command error"
+  );
+};
+
+export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const threadId = uuid();
   const agent = ctx.agent.agent.withConfig({
     configurable: {
@@ -29,8 +41,7 @@ export const agentCommand: CommandFlow = async (ctx, _args) => {
     try {
       let answer = "";
       for await (const [streamMode, chunk] of agentFinalState) {
-        // eslint-disable-next-line no-console
-        console.log(streamMode, chunk);
+        ctx.logger.debug.log("Agent stream:", streamMode, chunk);
         const messages = (
           "agent" in chunk ? chunk.agent.messages : []
         ) as AIMessage[];
@@ -71,10 +82,10 @@ export const agentCommand: CommandFlow = async (ctx, _args) => {
   };
 
   return pipe(
-    fp.TE.tryCatch(async () => {
+    TE.tryCatch(async () => {
       // Init the chat loop!
       await chat(agent);
-    }, toAIBotError),
+    }, toAgentCommandError),
     throwTE,
   );
 };

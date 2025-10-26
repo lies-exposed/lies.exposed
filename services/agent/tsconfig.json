@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "target": "ES2022",
+    "skipLibCheck": true,
+    "paths": {
+      "#context/*": ["./context/*"],
+      "#flows/*": ["./flows/*"],
+      "#io/*": ["./io/*"],
+      "#routes/*": ["./routes/*"],
+      "#cli/*": ["./cli/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "**/*.test.ts", "**/*.spec.ts"],
+  "references": [
+    { "path": "../../packages/@liexp/core" },
+    { "path": "../../packages/@liexp/shared" }
+  ]
+}

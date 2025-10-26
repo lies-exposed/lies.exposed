@@ -38,7 +38,7 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import * as React from "react";
 import { Route } from "react-router";
-
+import { AdminChat } from "./components/chat/AdminChat.js";
 import { adminThemeOptions } from "./theme.js";
 
 // Lazy loading helper removed - components now use direct React.lazy or individual files
@@ -380,6 +380,7 @@ const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
   <Layout {...props} menu={MyMenu}>
     {children}
     <CheckForApplicationUpdate />
+    <AdminChat />
   </Layout>
 );
 

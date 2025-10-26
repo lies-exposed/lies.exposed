@@ -3,7 +3,6 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-// ProjectImage endpoints removed - related imports deleted
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";

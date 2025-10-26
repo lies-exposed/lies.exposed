@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "admin-web": "pnpm --filter 'admin-web'",
+    "agent": "pnpm --filter 'agent'",
     "ai-bot": "pnpm --filter 'ai-bot'",
     "api": "pnpm --filter 'api'",
     "backend": "pnpm --filter '@liexp/backend'",
@@ -25,7 +26,7 @@
     "corepack": "corepack",
     "corepack:up": "pnpm -r -c exec 'corepack use pnpm@latest-10'",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
-    "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin-web run clean",
+    "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin-web --filter agent run clean",
     "post-deploy": "./deploy/post-deploy.sh",
     "shared": "pnpm --filter '@liexp/shared'",
     "storybook": "pnpm --filter 'storybook'",

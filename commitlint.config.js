@@ -19,8 +19,9 @@ export default {
         "api",
         "worker",
         "ai-bot",
+        "agent",
         "storybook",
-        "localai"
+        "localai",
       ],
     ],
     "type-enum": [

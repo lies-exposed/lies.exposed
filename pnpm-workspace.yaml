@@ -6,6 +6,7 @@ packages:
   - services/web
   - services/admin-web
   - services/storybook
+  - services/agent
 
 onlyBuiltDependencies:
   - exifreader
