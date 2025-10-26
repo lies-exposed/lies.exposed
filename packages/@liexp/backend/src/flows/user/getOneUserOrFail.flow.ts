@@ -2,7 +2,7 @@ import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/lib/io/http/User.js";
+} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { UserEntity } from "../../entities/User.entity.js";

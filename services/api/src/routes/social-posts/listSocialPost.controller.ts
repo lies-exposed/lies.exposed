@@ -3,7 +3,7 @@ import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/f
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { takeSocialPostRelations } from "@liexp/shared/lib/helpers/social-post.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { Schema } from "effect";

@@ -1,7 +1,7 @@
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";

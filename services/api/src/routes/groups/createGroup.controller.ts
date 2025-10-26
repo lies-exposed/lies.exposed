@@ -1,10 +1,10 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { createGroup } from "../../flows/groups/createGroup.flow.js";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeCreateGroupRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(

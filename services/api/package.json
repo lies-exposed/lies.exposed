@@ -32,6 +32,7 @@
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "db:dump": "tsx ./src/scripts/database.dump.ts",
     "db:dump:alpha": "DOTENV_CONFIG_PATH=.env.prod pnpm db:dump -p alpha",
+    "generate-service-token": "tsx ./src/bin/generate-service-token.ts",
     "dev": "node --experimental-require-module --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.prod pnpm dev",
     "docker:dev": "pnpm dev",

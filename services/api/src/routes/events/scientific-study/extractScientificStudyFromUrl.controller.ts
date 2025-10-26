@@ -1,23 +1,21 @@
 import { ScientificStudyEntity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
+import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/lib/io/http/User.js";
+} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import {
-  authenticationHandler,
-  RequestDecoder,
-} from "#utils/authenticationHandler.js";
 
 export const MakeExtractScientificStudyFromURLRoute: Route = (r, ctx) => {
   AddEndpoint(

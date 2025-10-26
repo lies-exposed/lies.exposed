@@ -2,7 +2,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
 import { fetchRelationIds } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventSuggestion } from "@liexp/shared/lib/io/http/index.js";
 import * as O from "effect/Option";

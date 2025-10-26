@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import * as A from "fp-ts/lib/Array.js";

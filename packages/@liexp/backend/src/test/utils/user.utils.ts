@@ -1,8 +1,6 @@
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import {
-  UserStatusApproved,
-  type UserPermission,
-} from "@liexp/shared/lib/io/http/User.js";
+import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
+import { type AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import fc from "fast-check";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -17,7 +15,7 @@ export interface UserTest {
 
 export const saveUser = async (
   ctx: DatabaseContext,
-  permissions: UserPermission[],
+  permissions: AuthPermission[],
 ): Promise<UserTest> => {
   const id = uuid();
   const username = `${id}@lies.exp`;

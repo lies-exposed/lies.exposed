@@ -1,6 +1,6 @@
 import { GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { GraphIO } from "./graph.io.js";

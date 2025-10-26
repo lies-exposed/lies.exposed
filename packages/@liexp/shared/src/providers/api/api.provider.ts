@@ -13,7 +13,7 @@ import * as A from "fp-ts/lib/Array.js";
 import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { Endpoints } from "../../endpoints/index.js";
+import { Endpoints } from "../../endpoints/api/index.js";
 import { toAPIError, type APIError } from "../../io/http/Error/APIError.js";
 import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
 

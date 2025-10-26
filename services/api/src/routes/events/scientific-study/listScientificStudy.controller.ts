@@ -2,7 +2,7 @@ import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";

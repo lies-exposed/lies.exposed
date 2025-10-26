@@ -1,7 +1,7 @@
 import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";

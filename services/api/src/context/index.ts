@@ -19,8 +19,8 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";

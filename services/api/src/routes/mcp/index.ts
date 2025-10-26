@@ -1,4 +1,9 @@
 import { randomUUID } from "node:crypto";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
+import {
+  AdminRead,
+  MCPToolsAccess,
+} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
@@ -10,6 +15,14 @@ import { registerTools } from "./tools/index.js";
 export const MakeMCPRoutes: Route = (router, ctx) => {
   // Map to store transports by session ID
   const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
+
+  // Add service client authentication middleware for all environments
+  router.use(
+    "/mcp",
+    authenticationHandler([AdminRead.literals[0], MCPToolsAccess.literals[0]])(
+      ctx,
+    ),
+  );
 
   // Handle POST requests for client-to-server communication
   router.post("/mcp", async (req, res) => {

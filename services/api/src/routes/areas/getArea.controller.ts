@@ -1,13 +1,13 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { RequestDecoder } from "#utils/authenticationHandler.js";
 
 export const MakeGetAreaRoute: Route = (
   r,

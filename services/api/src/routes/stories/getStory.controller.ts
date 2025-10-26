@@ -1,10 +1,10 @@
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
+import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/User.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { RequestDecoder } from "../../utils/authenticationHandler.js";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 

@@ -3,7 +3,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import * as fp from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";

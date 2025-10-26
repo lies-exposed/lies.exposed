@@ -19,6 +19,7 @@ import { MakeGroupMemberRoutes } from "#routes/groups-members/GroupMember.route.
 import { MakeHealthcheckRoutes } from "#routes/healthcheck/healthcheck.routes.js";
 import { MakeKeywordRoutes } from "#routes/keywords/keywords.routes.js";
 import { MakeLinkRoutes } from "#routes/links/LinkRoute.route.js";
+import { MakeMCPRoutes } from "#routes/mcp/index.js";
 import { MakeMediaRoutes } from "#routes/media/media.routes.js";
 import { MakeNetworksRoutes } from "#routes/networks/networks.routes.js";
 import { MakeOpenGraphRoutes } from "#routes/open-graph/openGraph.routes.js";
@@ -75,6 +76,9 @@ export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
   MakeLinkRoutes(router, ctx);
   MakeKeywordRoutes(router, ctx);
 
+  // mcp
+  MakeMCPRoutes(router, ctx);
+
   // graphs data
   MakeGraphsRoutes(router, ctx);
 
@@ -92,6 +96,7 @@ export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
 
   // admin
   MakeAdminRoutes(router, ctx);
+
   // social posts
   MakeSocialPostRoutes(router, ctx);
 

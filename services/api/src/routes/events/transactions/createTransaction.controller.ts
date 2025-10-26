@@ -4,7 +4,7 @@ import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { TransactionIO } from "@liexp/backend/lib/io/event/transaction.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

@@ -1,10 +1,10 @@
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { getMediaAdminStatsFlow } from "@liexp/backend/lib/flows/media/admin/getMediaAdminStats.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type ServerContext } from "#context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const MakeAdminGetMediaStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:read"])(ctx))(

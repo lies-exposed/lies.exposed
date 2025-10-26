@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import {
   type QueryObserverSuccessResult,

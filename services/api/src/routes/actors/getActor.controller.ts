@@ -2,7 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal, Raw } from "typeorm";

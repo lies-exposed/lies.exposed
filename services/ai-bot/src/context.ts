@@ -5,7 +5,7 @@ import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js
 import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.js";
 import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
 import { type AgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type OpenAIProvider } from "@liexp/shared/lib/providers/openai/openai.provider.js";
 import { type API } from "@ts-endpoint/resource-client";
 import { type AIBotConfig } from "./config.js";

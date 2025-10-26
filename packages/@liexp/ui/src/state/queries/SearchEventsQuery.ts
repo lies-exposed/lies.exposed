@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import {
   getNewRelationIds,
   updateCache,

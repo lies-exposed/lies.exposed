@@ -1,5 +1,5 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { getAdminLink } from "../../../utils/links.utils.js";

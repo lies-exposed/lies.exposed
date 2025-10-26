@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { useInfiniteQuery } from "@tanstack/react-query";

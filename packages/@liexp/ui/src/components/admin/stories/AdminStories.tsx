@@ -1,7 +1,7 @@
 import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
+import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { checkIsAdmin } from "@liexp/shared/lib/utils/user.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";

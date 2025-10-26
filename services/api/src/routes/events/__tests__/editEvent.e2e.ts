@@ -87,7 +87,7 @@ describe("Edit Event", () => {
     delete event.deletedAt;
 
     adminUser = await saveUser(appTest.ctx, [
-      http.User.AdminDelete.literals[0],
+      http.Auth.Permissions.AdminDelete.literals[0],
     ]);
 
     supporterUser = await saveUser(appTest.ctx, []);

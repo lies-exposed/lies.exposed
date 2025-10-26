@@ -23,11 +23,13 @@ import * as Stats from "./Stats.js";
 import * as Story from "./Story.js";
 import * as User from "./User.js";
 import * as Video from "./Video.js";
+import * as Auth from "./auth/index.js";
 import * as Graph from "./graphs/Graph.js";
 
 export {
   Actor,
   Area,
+  Auth,
   Common,
   Error,
   EventSuggestion,

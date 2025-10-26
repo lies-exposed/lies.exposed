@@ -1,15 +1,15 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { editEventQuery } from "@liexp/backend/lib/queries/events/editEvent.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
-import { AdminEdit } from "@liexp/shared/lib/io/http/User.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { AdminEdit } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { authenticationHandler } from "#utils/authenticationHandler.js";
 
 export const EditEventRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(

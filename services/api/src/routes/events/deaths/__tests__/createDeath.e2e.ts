@@ -16,6 +16,7 @@ describe("Create Death Event", () => {
   const [actor] = fc.sample(ActorArb, 1).map((actor) => ({
     ...actor,
     memberIn: [],
+    nationalities: [],
   }));
 
   let deathEvent: EventV2Entity;

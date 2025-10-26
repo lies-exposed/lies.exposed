@@ -1,7 +1,7 @@
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import * as passwordUtils from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { UserStatusPending } from "@liexp/shared/lib/io/http/User.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
@@ -23,8 +23,8 @@ export const MakeSignUpUserRoute: Route = (r, ctx) => {
               id: uuid(),
               ...userData,
               permissions: [
-                http.User.EventSuggestionCreate.literals[0],
-                http.User.EventSuggestionEdit.literals[0],
+                http.Auth.Permissions.EventSuggestionCreate.literals[0],
+                http.Auth.Permissions.EventSuggestionEdit.literals[0],
               ],
               status: UserStatusPending.literals[0],
               passwordHash: pw,

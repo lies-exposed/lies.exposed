@@ -5,7 +5,7 @@ import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { PatentIO } from "@liexp/backend/lib/io/event/patent.io.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
