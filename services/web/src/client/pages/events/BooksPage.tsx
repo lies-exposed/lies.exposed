@@ -1,4 +1,4 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent.js";
 import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
