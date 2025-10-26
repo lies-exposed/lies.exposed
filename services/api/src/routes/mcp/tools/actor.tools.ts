@@ -2,7 +2,9 @@ import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
+import type { AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -10,6 +12,7 @@ import { Schema } from "effect";
 import * as O from "effect/Option";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../context/context.type.js";
+import { createActor } from "../../../flows/actors/createActor.flow.js";
 import { formatActorToMarkdown } from "./formatters/actorToMarkdown.formatter.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
@@ -67,6 +70,100 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             href: `actor://${actor.id}`,
           })),
         })),
+        throwTE,
+      );
+    },
+  );
+
+  const createInputSchema = effectToZodStruct(
+    Schema.Struct({
+      username: Schema.String.annotations({
+        description: "Unique username for the actor",
+      }),
+      fullName: Schema.String.annotations({
+        description: "Full name of the actor",
+      }),
+      color: Schema.String.annotations({
+        description: "Color associated with the actor (hex format, without #)",
+      }),
+      excerpt: Schema.NullOr(Schema.String).annotations({
+        description: "Short description of the actor as plain text or null",
+      }),
+      nationalities: Schema.Array(UUID).annotations({
+        description: "Array of nationality UUIDs",
+      }),
+      body: Schema.NullOr(Schema.String).annotations({
+        description: "Full body content as plain text or null",
+      }),
+      avatar: Schema.NullOr(UUID).annotations({
+        description: "Avatar media UUID or null",
+      }),
+      bornOn: Schema.NullOr(Schema.String).annotations({
+        description: "Birth date in ISO format (YYYY-MM-DD) or null",
+      }),
+      diedOn: Schema.NullOr(Schema.String).annotations({
+        description: "Death date in ISO format (YYYY-MM-DD) or null",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    "createActor",
+    {
+      title: "Create actor",
+      description:
+        "Create a new actor (person) in the database with the provided information. Returns the created actor details in structured markdown format.",
+      annotations: { title: "Create actor", tool: true },
+      inputSchema: createInputSchema,
+    },
+    async ({
+      username,
+      fullName,
+      color,
+      excerpt,
+      nationalities,
+      body,
+      avatar,
+      bornOn,
+      diedOn,
+    }) => {
+      const actorBody: AddActorBody = {
+        username,
+        fullName,
+        color,
+        excerpt: excerpt ? toInitialValue(excerpt) : toInitialValue(""),
+        nationalities: nationalities ?? [],
+        body: body ? toInitialValue(body) : undefined,
+        avatar: avatar ?? undefined,
+        bornOn: bornOn ? new Date(bornOn) : undefined,
+        diedOn: diedOn ? new Date(diedOn) : undefined,
+      };
+
+      return pipe(
+        createActor(actorBody)(ctx),
+        LoggerService.TE.debug(ctx, "Created actor %O"),
+        fp.TE.map((actor) => {
+          if ("success" in actor) {
+            return {
+              content: [
+                {
+                  text: "Actor creation process initiated successfully.",
+                  type: "text" as const,
+                },
+              ],
+            };
+          }
+
+          return {
+            content: [
+              {
+                text: formatActorToMarkdown(actor),
+                type: "text" as const,
+                href: `actor://${actor.id}`,
+              },
+            ],
+          };
+        }),
         throwTE,
       );
     },

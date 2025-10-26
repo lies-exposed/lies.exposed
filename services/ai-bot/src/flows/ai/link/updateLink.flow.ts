@@ -9,9 +9,7 @@ import { type ClientContext } from "../../../context.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = `
-I would like to have a JSON object with 'title', 'description', 'publishDate' and main 'keywords' (as an array of strings) from the given url.
-`;
+const defaultQuestion = `Return the requested information in the requested format.`;
 
 export const updateLinkFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
@@ -28,8 +26,14 @@ export const updateLinkFlow: JobProcessRTE<
             responseFormat: effectToZodObject({
               title: Schema.String,
               description: Schema.String,
-              publishDate: Schema.String,
-              keywords: Schema.Array(Schema.String),
+              publishDate: Schema.String.annotations({
+                description:
+                  "The date the content was published in ISO 8601 format",
+              }),
+              keywords: Schema.Array(Schema.String).annotations({
+                description:
+                  "An array of keywords related to the content (e.g. machine-learning, vaccine-damage)",
+              }),
             }),
           }),
         ),
