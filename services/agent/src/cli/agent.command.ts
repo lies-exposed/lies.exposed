@@ -3,9 +3,9 @@ import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helpe
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import prompts from "prompts";
-import { type AgentContext } from "#context/context.type.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import prompts from "prompts";
+import { type AgentContext } from "../context/context.type.js";
 
 export class AgentCommandError extends Error {
   constructor(message: string) {
@@ -16,7 +16,7 @@ export class AgentCommandError extends Error {
 
 const toAgentCommandError = (e: unknown): AgentCommandError => {
   return new AgentCommandError(
-    e instanceof Error ? e.message : "Unknown agent command error"
+    e instanceof Error ? e.message : "Unknown agent command error",
   );
 };
 

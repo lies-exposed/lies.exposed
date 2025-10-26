@@ -47,7 +47,6 @@
     "langchain": "^1.0.1",
     "openai": "^5.23.2",
     "pdfjs-dist": "^5.4.149",
-    "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2"
@@ -55,7 +54,6 @@
   "devDependencies": {
     "@esbuild/aix-ppc64": "^0.25.4",
     "@types/node": "^24.3.0",
-    "@types/prompts": "^2.4.9",
     "esbuild": "^0.25.9",
     "eslint": "^9.35.0",
     "tsx": "^4.19.4",

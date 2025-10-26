@@ -4,7 +4,7 @@ import {
   type ChatMessage,
 } from "@liexp/shared/lib/io/http/Chat.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type AgentContext } from "#context/context.type.js";
+import { type AgentContext } from "../../context/context.type.js";
 
 export class ControllerError extends Error {
   constructor(
