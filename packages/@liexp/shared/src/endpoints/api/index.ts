@@ -67,7 +67,7 @@ const Endpoints: Endpoints = {
   Admin: Admins.admin,
   // user
   User: User.users,
-// data resources
+  // data resources
   Actor: Actor.actors,
   Area: Area.areas,
   Group: Group.groups,
