@@ -18,22 +18,6 @@ import {
   UncategorizedEventIcon,
   UserIcon,
 } from "@liexp/ui/lib/components/Common/Icons/index.js";
-import { SocialPostEdit } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js";
-import {
-  EventSuggestionEdit,
-  EventSuggestionList,
-} from "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js";
-import {
-  LinkCreate,
-  LinkList,
-} from "@liexp/ui/lib/components/admin/links/AdminLinks.js";
-import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit.js";
-import {
-  MediaCreate,
-  MediaCreateMany,
-  MediaEdit,
-  MediaList,
-} from "@liexp/ui/lib/components/admin/media/index.js";
 import {
   Admin,
   CheckForApplicationUpdate,
@@ -46,12 +30,6 @@ import {
   type MenuProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
-  StoryCreate,
-  StoryEdit,
-  StoryList,
-} from "@liexp/ui/lib/components/admin/stories/AdminStories.js";
-import { UserEdit } from "@liexp/ui/lib/components/admin/user/UserEdit.js";
-import {
   Assignment as AssignmentIcon,
   PermMedia as PermMediaIcon,
   PostAdd as PostAddIcon,
@@ -60,51 +38,284 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import * as React from "react";
 import { Route } from "react-router";
-import { AreaCreate, AreaEdit, AreaList } from "./pages/AdminAreas.js";
-import { EventEdit, EventList } from "./pages/AdminEvents.js";
-import { GraphCreate, GraphEdit, GraphList } from "./pages/AdminGraph.js";
-import {
-  GroupMemberCreate,
-  GroupMemberEdit,
-  GroupMemberList,
-} from "./pages/AdminGroupMember.js";
-import { GroupCreate, GroupEdit, GroupList } from "./pages/AdminGroups.js";
-import {
-  KeywordCreate,
-  KeywordEdit,
-  KeywordList,
-} from "./pages/AdminKeyword.js";
-import { QueueCreate, QueueEdit, QueueList } from "./pages/AdminQueue.js";
-import {
-  SettingCreate,
-  SettingEdit,
-  SettingList,
-} from "./pages/AdminSetting.js";
-import { SocialPostCreate, SocialPostList } from "./pages/AdminSocialPost.js";
-import { UserCreate, UserList } from "./pages/AdminUsers.js";
-import { PageCreate, PageEdit, PageList } from "./pages/Pages.js";
-import { AdminStats } from "./pages/dashboard/AdminStats.js";
-import {
-  DocumentaryCreate,
-  DocumentaryEdit,
-  DocumentaryList,
-} from "./pages/events/documentary/AdminDocumentaryEvent.js";
-import {
-  QuoteCreate,
-  QuoteEdit,
-  QuoteList,
-} from "./pages/events/quote/AdminQuoteEvent.js";
-import {
-  ScientificStudyCreate,
-  ScientificStudyEdit,
-} from "./pages/events/scientificStudy/AdminScientificStudyEvent.js";
-import {
-  TransactionCreate,
-  TransactionEdit,
-  TransactionList,
-} from "./pages/events/transaction/AdminTransactionEvent.js";
+
 import { adminThemeOptions } from "./theme.js";
 
+// Lazy loading helper removed - components now use direct React.lazy or individual files
+
+// Lazy loaded UI components
+const SocialPostEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/SocialPost/SocialPostEdit.js").then(
+    (m) => ({ default: m.SocialPostEdit }),
+  ),
+);
+
+const EventSuggestionEdit = React.lazy(() =>
+  import(
+    "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js"
+  ).then((m) => ({ default: m.EventSuggestionEdit })),
+);
+
+const EventSuggestionList = React.lazy(() =>
+  import(
+    "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js"
+  ).then((m) => ({ default: m.EventSuggestionList })),
+);
+
+const LinkCreate = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/links/AdminLinks.js").then((m) => ({
+    default: m.LinkCreate,
+  })),
+);
+
+const LinkList = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/links/AdminLinks.js").then((m) => ({
+    default: m.LinkList,
+  })),
+);
+
+const LinkEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/links/LinkEdit.js").then((m) => ({
+    default: m.LinkEdit,
+  })),
+);
+
+const MediaCreate = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/media/index.js").then((m) => ({
+    default: m.MediaCreate,
+  })),
+);
+
+const MediaCreateMany = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/media/index.js").then((m) => ({
+    default: m.MediaCreateMany,
+  })),
+);
+
+const MediaEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/media/index.js").then((m) => ({
+    default: m.MediaEdit,
+  })),
+);
+
+const MediaList = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/media/index.js").then((m) => ({
+    default: m.MediaList,
+  })),
+);
+
+const StoryCreate = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/stories/AdminStories.js").then(
+    (m) => ({ default: m.StoryCreate }),
+  ),
+);
+
+const StoryEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/stories/AdminStories.js").then(
+    (m) => ({ default: m.StoryEdit }),
+  ),
+);
+
+const StoryList = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/stories/AdminStories.js").then(
+    (m) => ({ default: m.StoryList }),
+  ),
+);
+
+const UserEdit = React.lazy(() =>
+  import("@liexp/ui/lib/components/admin/user/UserEdit.js").then((m) => ({
+    default: m.UserEdit,
+  })),
+);
+
+const AreaCreate = React.lazy(() => import("./pages/areas/AreaCreate.js"));
+
+const AreaEdit = React.lazy(() => import("./pages/areas/AreaEdit.js"));
+
+const AreaList = React.lazy(() => import("./pages/areas/AreaList.js"));
+
+const EventEdit = React.lazy(() => import("./pages/events/EventEdit.js"));
+
+const EventList = React.lazy(() => import("./pages/events/EventList.js"));
+
+const GraphCreate = React.lazy(() => import("./pages/graphs/GraphCreate.js"));
+
+const GraphEdit = React.lazy(() => import("./pages/graphs/GraphEdit.js"));
+
+const GraphList = React.lazy(() => import("./pages/graphs/GraphList.js"));
+
+const GroupMemberCreate = React.lazy(() =>
+  import("./pages/AdminGroupMember.js").then((m) => ({
+    default: m.GroupMemberCreate,
+  })),
+);
+
+const GroupMemberEdit = React.lazy(() =>
+  import("./pages/AdminGroupMember.js").then((m) => ({
+    default: m.GroupMemberEdit,
+  })),
+);
+
+const GroupMemberList = React.lazy(() =>
+  import("./pages/AdminGroupMember.js").then((m) => ({
+    default: m.GroupMemberList,
+  })),
+);
+
+const GroupCreate = React.lazy(() =>
+  import("./pages/AdminGroups.js").then((m) => ({ default: m.GroupCreate })),
+);
+
+const GroupEdit = React.lazy(() =>
+  import("./pages/AdminGroups.js").then((m) => ({ default: m.GroupEdit })),
+);
+
+const GroupList = React.lazy(() =>
+  import("./pages/AdminGroups.js").then((m) => ({ default: m.GroupList })),
+);
+
+const KeywordCreate = React.lazy(() =>
+  import("./pages/AdminKeyword.js").then((m) => ({
+    default: m.KeywordCreate,
+  })),
+);
+
+const KeywordEdit = React.lazy(() =>
+  import("./pages/AdminKeyword.js").then((m) => ({ default: m.KeywordEdit })),
+);
+
+const KeywordList = React.lazy(() =>
+  import("./pages/AdminKeyword.js").then((m) => ({ default: m.KeywordList })),
+);
+
+const QueueCreate = React.lazy(() =>
+  import("./pages/AdminQueue.js").then((m) => ({ default: m.QueueCreate })),
+);
+
+const QueueEdit = React.lazy(() =>
+  import("./pages/AdminQueue.js").then((m) => ({ default: m.QueueEdit })),
+);
+
+const QueueList = React.lazy(() =>
+  import("./pages/AdminQueue.js").then((m) => ({ default: m.QueueList })),
+);
+
+const SettingCreate = React.lazy(() =>
+  import("./pages/AdminSetting.js").then((m) => ({
+    default: m.SettingCreate,
+  })),
+);
+
+const SettingEdit = React.lazy(() =>
+  import("./pages/AdminSetting.js").then((m) => ({ default: m.SettingEdit })),
+);
+
+const SettingList = React.lazy(() =>
+  import("./pages/AdminSetting.js").then((m) => ({ default: m.SettingList })),
+);
+
+const SocialPostCreate = React.lazy(() =>
+  import("./pages/AdminSocialPost.js").then((m) => ({
+    default: m.SocialPostCreate,
+  })),
+);
+
+const SocialPostList = React.lazy(() =>
+  import("./pages/AdminSocialPost.js").then((m) => ({
+    default: m.SocialPostList,
+  })),
+);
+
+const UserCreate = React.lazy(() =>
+  import("./pages/AdminUsers.js").then((m) => ({ default: m.UserCreate })),
+);
+
+const UserList = React.lazy(() =>
+  import("./pages/AdminUsers.js").then((m) => ({ default: m.UserList })),
+);
+
+const PageCreate = React.lazy(() =>
+  import("./pages/Pages.js").then((m) => ({ default: m.PageCreate })),
+);
+
+const PageEdit = React.lazy(() =>
+  import("./pages/Pages.js").then((m) => ({ default: m.PageEdit })),
+);
+
+const PageList = React.lazy(() =>
+  import("./pages/Pages.js").then((m) => ({ default: m.PageList })),
+);
+
+const AdminStats = React.lazy(() =>
+  import("./pages/dashboard/AdminStats.js").then((m) => ({
+    default: m.AdminStats,
+  })),
+);
+const DocumentaryCreate = React.lazy(() =>
+  import("./pages/events/documentary/AdminDocumentaryEvent.js").then((m) => ({
+    default: m.DocumentaryCreate,
+  })),
+);
+
+const DocumentaryEdit = React.lazy(() =>
+  import("./pages/events/documentary/AdminDocumentaryEvent.js").then((m) => ({
+    default: m.DocumentaryEdit,
+  })),
+);
+
+const DocumentaryList = React.lazy(() =>
+  import("./pages/events/documentary/AdminDocumentaryEvent.js").then((m) => ({
+    default: m.DocumentaryList,
+  })),
+);
+
+const QuoteCreate = React.lazy(() =>
+  import("./pages/events/quote/AdminQuoteEvent.js").then((m) => ({
+    default: m.QuoteCreate,
+  })),
+);
+
+const QuoteEdit = React.lazy(() =>
+  import("./pages/events/quote/AdminQuoteEvent.js").then((m) => ({
+    default: m.QuoteEdit,
+  })),
+);
+
+const QuoteList = React.lazy(() =>
+  import("./pages/events/quote/AdminQuoteEvent.js").then((m) => ({
+    default: m.QuoteList,
+  })),
+);
+
+const ScientificStudyCreate = React.lazy(() =>
+  import("./pages/events/scientificStudy/AdminScientificStudyEvent.js").then(
+    (m) => ({ default: m.ScientificStudyCreate }),
+  ),
+);
+
+const ScientificStudyEdit = React.lazy(() =>
+  import("./pages/events/scientificStudy/AdminScientificStudyEvent.js").then(
+    (m) => ({ default: m.ScientificStudyEdit }),
+  ),
+);
+
+const TransactionCreate = React.lazy(() =>
+  import("./pages/events/transaction/AdminTransactionEvent.js").then((m) => ({
+    default: m.TransactionCreate,
+  })),
+);
+
+const TransactionEdit = React.lazy(() =>
+  import("./pages/events/transaction/AdminTransactionEvent.js").then((m) => ({
+    default: m.TransactionEdit,
+  })),
+);
+
+const TransactionList = React.lazy(() =>
+  import("./pages/events/transaction/AdminTransactionEvent.js").then((m) => ({
+    default: m.TransactionList,
+  })),
+);
 const ActorList = React.lazy(() => import("./pages/actors/ActorList.js"));
 const ActorCreate = React.lazy(() => import("./pages/actors/ActorCreate.js"));
 const ActorEdit = React.lazy(() => import("./pages/actors/ActorEdit.js"));
@@ -133,25 +344,25 @@ const PatentEdit = React.lazy(
 
 const NationList = React.lazy(() =>
   import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
-    ({ NationList }) => ({ default: NationList }),
+    (m) => ({ default: m.NationList }),
   ),
 );
 
 const NationEdit = React.lazy(() =>
   import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
-    ({ NationEdit }) => ({ default: NationEdit }),
+    (m) => ({ default: m.NationEdit }),
   ),
 );
 
 const NationCreate = React.lazy(() =>
   import("@liexp/ui/lib/components/admin/nations/AdminNations.js").then(
-    ({ NationCreate }) => ({ default: NationCreate }),
+    (m) => ({ default: m.NationCreate }),
   ),
 );
 
 const ScientificStudiesList = React.lazy(() =>
   import("./pages/events/scientificStudy/AdminScientificStudyEvent.js").then(
-    ({ ScientificStudiesList }) => ({ default: ScientificStudiesList }),
+    (m) => ({ default: m.ScientificStudiesList }),
   ),
 );
 
