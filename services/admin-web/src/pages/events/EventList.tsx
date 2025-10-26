@@ -1,22 +1,10 @@
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import {
-  type Event,
-  EventType,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput.js";
-import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
-import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab.js";
-import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab.js";
-import { DocumentaryEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DocumentaryEditFormTab.js";
-import { PatentEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/PatentEventEditTab.js";
-import { QuoteEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/QuoteEditFormTab.js";
-import { ScientificStudyEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/ScientificStudyEventEditTab.js";
-import { UncategorizedEventEditTab } from "@liexp/ui/lib/components/admin/events/tabs/UncategorizedEventEditTab.js";
-import { EventTitle } from "@liexp/ui/lib/components/admin/events/titles/EventTitle.js";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
 import {
@@ -28,7 +16,6 @@ import {
   FilterList,
   FilterListItem,
   FilterLiveSearch,
-  FormDataConsumer,
   FunctionField,
   List,
   NumberInput,
@@ -84,7 +71,46 @@ const eventsFilter = [
   <DateInput key="endDate" source="endDate" />,
 ];
 
-export const EventList: React.FC = () => (
+const EventListAside: React.FC = () => {
+  return (
+    <Card
+      sx={{
+        order: -1,
+        mr: 2,
+        mt: 0,
+        width: 300,
+        display: "flex",
+        flex: "1 0 auto",
+      }}
+    >
+      <CardContent>
+        <SavedQueriesList />
+        <FilterLiveSearch label="Search" source="q" />
+        <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
+          <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
+        </FilterList>
+        <FilterList label="Links" icon={<LinkIcon />}>
+          <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
+        </FilterList>
+        <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
+          {EventType.members.map((t) => (
+            <FilterListItem
+              key={t.literals[0]}
+              label={
+                <span>
+                  <EventIcon type={t.literals[0]} /> {t.literals[0]}
+                </span>
+              }
+              value={{ eventType: [t.literals[0]] }}
+            />
+          ))}
+        </FilterList>
+      </CardContent>
+    </Card>
+  );
+};
+
+const EventList: React.FC = () => (
   <List
     resource={RESOURCE}
     filterDefaultValues={{
@@ -217,80 +243,4 @@ export const EventList: React.FC = () => (
   </List>
 );
 
-export const EventEdit: React.FC = (props) => {
-  return (
-    <EditEventForm {...props} title={<EventTitle />} redirect={false}>
-      {(suggestions, handlers) => (
-        <FormDataConsumer<Event>>
-          {({ formData, scopedFormData: _scopedFormData, ..._rest }) => {
-            if (formData.type === EVENT_TYPES.DOCUMENTARY) {
-              return <DocumentaryEditFormTab />;
-            }
-            if (formData.type === EVENT_TYPES.DEATH) {
-              return <DeathEventEditFormTab />;
-            }
-            if (formData.type === EVENT_TYPES.SCIENTIFIC_STUDY) {
-              return <ScientificStudyEventEditTab />;
-            }
-            if (formData.type === EVENT_TYPES.QUOTE) {
-              return <QuoteEditFormTab />;
-            }
-            if (formData.type === EVENT_TYPES.PATENT) {
-              return <PatentEventEditFormTab />;
-            }
-
-            if (formData.type === EVENT_TYPES.BOOK) {
-              return <BookEditFormTab />;
-            }
-
-            return (
-              <UncategorizedEventEditTab
-                suggestions={suggestions}
-                handlers={handlers}
-                record={formData}
-              />
-            );
-          }}
-        </FormDataConsumer>
-      )}
-    </EditEventForm>
-  );
-};
-const EventListAside: React.FC = () => {
-  return (
-    <Card
-      sx={{
-        order: -1,
-        mr: 2,
-        mt: 0,
-        width: 300,
-        display: "flex",
-        flex: "1 0 auto",
-      }}
-    >
-      <CardContent>
-        <SavedQueriesList />
-        <FilterLiveSearch label="Search" source="q" />
-        <FilterList label="Media" icon={<Icons.PlayCircleOutline />}>
-          <FilterListItem label="Empty Media" value={{ emptyMedia: true }} />
-        </FilterList>
-        <FilterList label="Links" icon={<LinkIcon />}>
-          <FilterListItem label="Empty Links" value={{ emptyLinks: true }} />
-        </FilterList>
-        <FilterList label="Type" icon={<EventIcon type="Uncategorized" />}>
-          {EventType.members.map((t) => (
-            <FilterListItem
-              key={t.literals[0]}
-              label={
-                <span>
-                  <EventIcon type={t.literals[0]} /> {t.literals[0]}
-                </span>
-              }
-              value={{ eventType: [t.literals[0]] }}
-            />
-          ))}
-        </FilterList>
-      </CardContent>
-    </Card>
-  );
-};
+export default EventList;
