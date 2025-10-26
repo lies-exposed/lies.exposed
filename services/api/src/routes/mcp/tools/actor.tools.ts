@@ -143,7 +143,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
         createActor(actorBody)(ctx),
         LoggerService.TE.debug(ctx, "Created actor %O"),
         fp.TE.map((actor) => {
-          if ("success" in (actor as any)) {
+          if ("success" in actor) {
             return {
               content: [
                 {
@@ -153,13 +153,13 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
               ],
             };
           }
-          const typedActor = actor as any;
+
           return {
             content: [
               {
-                text: formatActorToMarkdown(typedActor),
+                text: formatActorToMarkdown(actor),
                 type: "text" as const,
-                href: `actor://${typedActor.id}`,
+                href: `actor://${actor.id}`,
               },
             ],
           };

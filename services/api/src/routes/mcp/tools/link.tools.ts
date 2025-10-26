@@ -140,7 +140,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
         fp.TE.map((link) => ({
           content: [
             {
-              text: formatLinkToMarkdown(link as any),
+              text: formatLinkToMarkdown(link),
               type: "text" as const,
             },
           ],

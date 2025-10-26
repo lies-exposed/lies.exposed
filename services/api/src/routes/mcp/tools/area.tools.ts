@@ -143,7 +143,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         fp.TE.map((area) => ({
           content: [
             {
-              text: formatAreaToMarkdown(area as any),
+              text: formatAreaToMarkdown(area),
               type: "text" as const,
             },
           ],

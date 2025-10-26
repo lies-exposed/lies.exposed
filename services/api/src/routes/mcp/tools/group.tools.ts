@@ -155,7 +155,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
         createGroup(groupBody)(ctx),
         LoggerService.TE.debug(ctx, "Created group %O"),
         fp.TE.map((group) => {
-          if ("success" in (group as Record<string, unknown>)) {
+          if ("success" in group) {
             return {
               content: [
                 {
@@ -165,13 +165,13 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
               ],
             };
           }
-          const typedGroup = group as Record<string, unknown>;
+
           return {
             content: [
               {
-                text: formatGroupToMarkdown(typedGroup),
+                text: formatGroupToMarkdown(group),
                 type: "text" as const,
-                href: `group://${typedGroup.id}`,
+                href: `group://${group.id}`,
               },
             ],
           };
