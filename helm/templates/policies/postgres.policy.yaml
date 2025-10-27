@@ -18,33 +18,25 @@ spec:
     - from:
       - podSelector:
           matchLabels:
-            lies.exposed/name: api
+            app.kubernetes.io/component: backend
 
       - podSelector:
           matchLabels:
-            lies.exposed/name: api-migrations
-
-      - podSelector:
-          matchLabels:
-            lies.exposed/name: worker
+            app.kubernetes.io/component: worker
       
       - podSelector:
           matchLabels:
-            lies.exposed/name: db-dump
+            app.kubernetes.io/component: db-dump
   egress:
     - to:
       - podSelector:
           matchLabels:
-            lies.exposed/name: api
+            app.kubernetes.io/component: backend
 
       - podSelector:
           matchLabels:
-            lies.exposed/name: api-migrations
-
-      - podSelector:
-          matchLabels:
-            lies.exposed/name: worker
+            app.kubernetes.io/component: worker
       
       - podSelector:
           matchLabels:
-            lies.exposed/name: db-dump
+            app.kubernetes.io/component: db-dump

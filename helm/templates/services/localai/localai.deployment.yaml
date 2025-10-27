@@ -6,6 +6,8 @@ metadata:
 {{ tuple . "localai" | include "localai.labels" | indent 2 }}
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       lies.exposed/name: localai
