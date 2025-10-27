@@ -63,7 +63,7 @@
       "project": ["src/**/*.ts"]
     },
     "services/agent": {
-      "entry": ["src/run.ts", "src/cli.ts"],
+      "entry": ["src/run.ts", "src/cli/cli.ts"],
       "project": ["src/**/*.ts"]
     },
     "services/storybook": {
