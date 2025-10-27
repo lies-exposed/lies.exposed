@@ -108,7 +108,7 @@
     "puppeteer-extra": "^3.3.6",
     "supertest": "^7.1.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.3",
+    "vitest": "^4.0.4",
     "vitest-mock-extended": "^3.1.0",
     "wink-nlp": "^2.3.0"
   },

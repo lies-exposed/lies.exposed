@@ -1,17 +1,21 @@
+import { type MockUpload } from "@liexp/backend/lib/test/mocks/s3.mock.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { type MockInstance } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Upload file", () => {
   let Test: AppTest, authorizationToken: string;
 
+  let uploadSpy: MockInstance<new () => MockUpload>;
   beforeAll(async () => {
     Test = await GetAppTest();
     authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
       id: "1",
     } as any)()}`;
+    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload");
   });
 
   afterEach(() => {
@@ -21,9 +25,9 @@ describe("Upload file", () => {
   test("Should receive an error when upload unaccepted media", async () => {
     const error = new Error("can't upload");
 
-    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-      done: vi.fn().mockRejectedValueOnce(error),
-    }));
+    uploadSpy.mockImplementation(function () {
+      this.done = vi.fn().mockRejectedValueOnce(error);
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)
@@ -56,9 +60,9 @@ describe("Upload file", () => {
       Location: `https://media.localhost:9000/media/${mediaKey}`,
     };
 
-    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-      done: vi.fn().mockResolvedValueOnce(uploadedObject),
-    }));
+    uploadSpy.mockImplementation(function () {
+      this.done = vi.fn().mockResolvedValueOnce(uploadedObject);
+    });
 
     const response = await Test.req
       .put(`/v1/uploads-multipart/file-key`)

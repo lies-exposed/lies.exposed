@@ -1,6 +1,7 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/createThumbnail.pubSub.js";
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
+import { type MockUpload } from "@liexp/backend/lib/test/mocks/s3.mock.js";
 import { sharpMock } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
 import {
   saveUser,
@@ -15,6 +16,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { type MockInstance } from "vitest";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
@@ -22,19 +24,21 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
   const users: UserTest[] = [];
+  let uploadSpy: MockInstance<new () => MockUpload>;
+
   beforeAll(async () => {
     Test = await GetAppTest();
     const user = await saveUser(Test.ctx, ["admin:create"]);
     users.push(user);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
+    uploadSpy = vi.spyOn(Test.mocks.s3.classes, "Upload");
   });
 
   beforeEach(() => {
     Test.mocks.axios.get.mockClear();
     Test.mocks.exifR.load.mockClear();
     Test.mocks.s3.client.send.mockClear();
-    Test.mocks.s3.classes.Upload.mockClear();
     Test.mocks.puppeteer.page.goto.mockClear();
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
@@ -66,11 +70,11 @@ describe("Create Media", () => {
       );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
-    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-      done: vi.fn().mockResolvedValueOnce({
+    uploadSpy.mockImplementation(function () {
+      this.done = vi.fn().mockResolvedValueOnce({
         Location: uploadThumbLocation,
-      }),
-    }));
+      });
+    });
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
@@ -118,11 +122,11 @@ describe("Create Media", () => {
       );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
-    Test.mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
-      done: vi.fn().mockResolvedValueOnce({
+    uploadSpy.mockImplementation(function () {
+      this.done = vi.fn().mockResolvedValueOnce({
         Location: uploadThumbLocation,
-      }),
-    }));
+      });
+    });
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
