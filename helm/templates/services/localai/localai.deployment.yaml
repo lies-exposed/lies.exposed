@@ -4,7 +4,6 @@ metadata:
   name: localai
   namespace: {{ .Release.Namespace }}
 {{ tuple . "localai" | include "localai.labels" | indent 2 }}
-    intel.feature.node.kubernetes.io/gpu: "true"
 spec:
   replicas: 1
   selector:
@@ -13,9 +12,9 @@ spec:
   template:
     metadata:
 {{ tuple . "localai" | include "localai.labels" | indent 6 }}
-        intel.feature.node.kubernetes.io/gpu: "true"
-
     spec:
+      nodeSelector:
+        intel.feature.node.kubernetes.io/gpu: "true"
       containers:
         - name: localai
           envFrom:
