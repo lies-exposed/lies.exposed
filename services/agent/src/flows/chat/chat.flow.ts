@@ -1,3 +1,4 @@
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type ChatResponse,
@@ -6,28 +7,12 @@ import {
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AgentContext } from "../../context/context.type.js";
 
-export class ControllerError extends Error {
-  constructor(
-    message: string,
-    public status: number = 500,
-  ) {
-    super(message);
-    this.name = "ControllerError";
-  }
-}
-
-export const toControllerError = (error: unknown): ControllerError =>
-  new ControllerError(
-    error instanceof Error ? error.message : "Unknown error",
-    500,
-  );
-
 // In-memory storage for conversations (in production, use a database)
 const conversations: Map<string, ChatMessage[]> = new Map();
 
 export const sendChatMessage =
   (payload: { message: string }) =>
-  (ctx: AgentContext): TE.TaskEither<ControllerError, ChatResponse> => {
+  (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
     return pipe(
       ctx.agent.invoke(
         {
@@ -35,7 +20,7 @@ export const sendChatMessage =
         },
         { configurable: { thread_id: "default" } },
       ),
-      TE.mapLeft((error) => toControllerError(error)),
+      TE.mapLeft((error) => ServerError.fromUnknown(error)),
       TE.map((result) => {
         // Extract the message content from the agent result
         const lastMessage = result.messages[result.messages.length - 1];

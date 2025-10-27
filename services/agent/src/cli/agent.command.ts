@@ -1,4 +1,5 @@
 import { type AIMessage } from "@langchain/core/messages";
+import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helper.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -6,19 +7,6 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import prompts from "prompts";
 import { type AgentContext } from "../context/context.type.js";
-
-export class AgentCommandError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "AgentCommandError";
-  }
-}
-
-const toAgentCommandError = (e: unknown): AgentCommandError => {
-  return new AgentCommandError(
-    e instanceof Error ? e.message : "Unknown agent command error",
-  );
-};
 
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const threadId = uuid();
@@ -85,7 +73,7 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
     TE.tryCatch(async () => {
       // Init the chat loop!
       await chat(agent);
-    }, toAgentCommandError),
+    }, ServerError.fromUnknown),
     throwTE,
   );
 };
