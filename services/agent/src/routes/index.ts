@@ -1,11 +1,11 @@
 import express from "express";
-import { type AgentContext } from "#context/context.type.js";
 import {
   MakeSendChatMessageRoute,
   MakeListChatConversationsRoute,
   MakeGetChatConversationRoute,
   MakeDeleteChatConversationRoute,
 } from "./chat/chat.controller.js";
+import { type AgentContext } from "#context/context.type.js";
 
 export const createRoutes = (ctx: AgentContext) => {
   const router = express.Router();

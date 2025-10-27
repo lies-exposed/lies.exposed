@@ -2,18 +2,17 @@
 
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { makeAgentContext } from "#context/load.js";
 import { agentCommand } from "#cli/agent.command.js";
+import { makeAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");
 
 const main = async () => {
   try {
     const ctx = await throwTE(makeAgentContext("agent-cli"));
-    
+
     // Run the agent command
     await agentCommand(ctx, process.argv.slice(2));
-    
   } catch (error) {
     cliLogger.error.log("Agent CLI error:", error);
     process.exit(1);
