@@ -5,7 +5,8 @@ import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Que
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { HumanMessage, SystemMessage } from "langchain";
+import { HumanMessage, providerStrategy, SystemMessage } from "langchain";
+import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -29,10 +30,12 @@ export const updateGroupFlow: JobProcessRTE<
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind(
       "model",
-      () => (ctx) =>
+      () => (ctx: ClientContext) =>
         fp.TE.right(
           ctx.agent.createAgent({
-            responseFormat: effectToZodObject(GroupStructuredResponse.fields),
+            responseFormat: providerStrategy(
+              effectToZodObject(GroupStructuredResponse.fields),
+            ),
           }),
         ),
     ),
