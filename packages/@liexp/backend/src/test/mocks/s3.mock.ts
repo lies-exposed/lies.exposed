@@ -1,5 +1,11 @@
 import { vi } from "vitest";
 
+class MockUpload {
+  async done() {
+    return Promise.reject(new Error("Not implemented"));
+  }
+}
+
 const s3Mock = {
   client: {
     config: {
@@ -18,9 +24,9 @@ const s3Mock = {
       .mockImplementation(() => Promise.reject(new Error("Not implemented"))),
   },
   classes: {
-    Upload: vi.fn().mockRejectedValue(new Error("Upload not implemented")),
+    Upload: MockUpload,
   },
   getSignedUrl: vi.fn(),
 };
 
-export { s3Mock };
+export { s3Mock, MockUpload };
