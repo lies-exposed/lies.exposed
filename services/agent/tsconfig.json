@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "rootDir": "./",
+    "rootDir": "./src",
     "baseUrl": "./src",
     "moduleResolution": "bundler",
     "module": "ESNext",

@@ -15,8 +15,7 @@
   },
   "files": [
     "build",
-    "bin",
-    "config"
+    "AGENT.md"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -36,6 +35,7 @@
   },
   "dependencies": {
     "@langchain/mcp-adapters": "^1.0.0",
+    "@langchain/openai": "^1.0.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",

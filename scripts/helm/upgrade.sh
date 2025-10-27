@@ -11,6 +11,7 @@ cp -f ./services/api/.env.prod ./helm/config/env/api.env
 cp -f ./services/web/.env.prod ./helm/config/env/web.env
 cp -f ./services/admin-web/.env.prod ./helm/config/env/admin-web.env
 cp -f ./services/ai-bot/.env.prod ./helm/config/env/ai-bot.env
+cp -f ./services/agent/.env.prod ./helm/config/env/agent.env
 cp -f ./services/worker/.env.prod ./helm/config/env/worker.env
 
 

@@ -2,10 +2,6 @@ import {
   type BaseMessage,
   type BaseMessageLike,
 } from "@langchain/core/dist/messages/base.js";
-import {
-  type CompiledStateGraph,
-  type StateDefinition,
-} from "@langchain/langgraph";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
@@ -13,20 +9,13 @@ import {
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { type ReactAgent } from "langchain";
 import type { LoggerContext } from "../../context/logger.context.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
     inputs: Array<BaseMessage | BaseMessageLike>,
-    chain: CompiledStateGraph<
-      any,
-      any,
-      any,
-      any,
-      any,
-      StateDefinition,
-      unknown
-    >,
+    chain: ReactAgent,
     mode: "stream" | "invoke" = "stream",
   ): ReaderTaskEither<C, APIError, any> =>
   (ctx) => {
@@ -68,7 +57,7 @@ const runRunnableSequence =
 
 export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
   inputs: Array<BaseMessage | BaseMessageLike>,
-  chain: CompiledStateGraph<any, any, any, any, any, StateDefinition, unknown>,
+  chain: ReactAgent,
   mode: "stream" | "invoke" = "stream",
 ): ReaderTaskEither<C, APIError, R> => {
   return runRunnableSequence(inputs, chain, mode);

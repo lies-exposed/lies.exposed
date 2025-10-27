@@ -10,11 +10,7 @@ import { type AgentContext } from "../context/context.type.js";
 
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const threadId = uuid();
-  const agent = ctx.agent.agent.withConfig({
-    configurable: {
-      thread_id: threadId,
-    },
-  });
+  const agent = ctx.agent.agent;
 
   const aiMessageLogger = AIMessageLogger(ctx.logger);
 
@@ -23,7 +19,12 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
       {
         messages: [message],
       },
-      { streamMode: ["debug", "messages", "updates", "tasks", "values"] },
+      {
+        streamMode: ["debug", "messages", "updates", "tasks", "values"],
+        configurable: {
+          thread_id: threadId,
+        },
+      },
     );
 
     try {

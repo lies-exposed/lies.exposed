@@ -4,6 +4,7 @@ import {
   type ChatResponse,
   type ChatMessage,
 } from "@liexp/shared/lib/io/http/Chat.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AgentContext } from "../../context/context.type.js";
 
@@ -30,7 +31,12 @@ export const sendChatMessage =
             : JSON.stringify(lastMessage?.content ?? "No response");
 
         return {
-          message: content,
+          message: {
+            id: lastMessage.id ?? uuid(),
+            content,
+            role: "assistant",
+            timestamp: new Date().toISOString(),
+          },
           conversationId: "default",
         };
       }),
