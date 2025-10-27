@@ -1,6 +1,6 @@
 import { Schema, SchemaAST } from "effect";
 import { isSome } from "effect/Option";
-import { z } from "zod";
+import * as z from "zod";
 
 type AnySchema =
   | SchemaAST.AST
