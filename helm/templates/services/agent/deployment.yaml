@@ -1,0 +1,55 @@
+{{- if .Values.agent.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "agent" | include "agent.labels" | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      lies.exposed/name: agent
+  template:
+    metadata:
+{{ tuple . "agent" | include "agent.labels" | indent 6 }}
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      containers:
+        - envFrom:
+            - configMapRef:
+                name: agent-env
+          image: ghcr.io/lies-exposed/liexp-agent:latest
+          imagePullPolicy: Always
+          name: agent
+          ports:
+            - containerPort: 3003
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /v1/healthcheck
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /v1/healthcheck
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 2
+          resources:
+            limits:
+              memory: 1Gi
+              cpu: 500m
+            requests:
+              memory: 512Mi
+              cpu: 200m
+      restartPolicy: Always
+{{- end }}

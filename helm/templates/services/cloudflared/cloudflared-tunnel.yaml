@@ -95,6 +95,8 @@ data:
         service: "http://storybook.prod.svc.cluster.local"
       - hostname: "ai.lies.exposed"
         service: "http://localai.prod.svc.cluster.local"
+      - hostname: "agent.lies.exposed"
+        service: "http://agent.prod.svc.cluster.local"
       - hostname: "lies.exposed"
         service: "http://web.prod.svc.cluster.local"
       - service: http_status:404

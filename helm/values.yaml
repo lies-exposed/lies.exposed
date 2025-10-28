@@ -11,6 +11,7 @@ adminWeb:
 api:
   dbHost: db.liexp.dev
   dbPort: 8432
+  mcpToken: "api-mcp-token-placeholder"
 
 worker:
   dbHost: db.liexp.dev
@@ -44,6 +45,9 @@ worker:
 
 aiBot:
   configPath: "/home/node/services/ai-bot/config"
+
+agent:
+  enabled: true
 
 shared:
   tempVolumeHostPath: /home/node/lies-exposed-temp/

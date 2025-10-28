@@ -54,12 +54,27 @@ spec:
                 name: telegram
                 port:
                   number: 9008
+{{- if .Values.agent.enabled }}
+    - host: "agent.{{ .Values.domain }}"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: agent
+                port:
+                  number: 3003
+{{- end }}
   ingressClassName: nginx
   tls:
     - hosts:
         - {{ .Values.domain }}
         - "api.{{ .Values.domain }}"
         - "admin.{{ .Values.domain }}"
+{{- if .Values.agent.enabled }}
+        - "agent.{{ .Values.domain }}"
+{{- end }}
       # # cert-manager will create this secret
       # secretName: example-tls
 

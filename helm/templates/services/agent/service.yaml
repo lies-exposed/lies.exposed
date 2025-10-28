@@ -1,0 +1,17 @@
+{{- if .Values.agent.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "agent" | include "agent.labels" | indent 2 }}
+spec:
+  ports:
+    - name: http
+      port: 3003
+      protocol: TCP
+      targetPort: http
+  selector:
+    lies.exposed/name: agent
+  type: ClusterIP
+{{- end }}

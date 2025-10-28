@@ -6,7 +6,7 @@ namespace=prod
 kubeconfig=microk8s-local
 
 # default deployments
-default_deployments=(api ai-bot web admin-web worker storybook)
+default_deployments=(api ai-bot agent web admin-web worker storybook)
 
 # collect deployments from script arguments (allow overriding namespace and kubeconfig if needed)
 deployments=()

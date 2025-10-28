@@ -2,11 +2,10 @@ import { readFileSync } from "fs";
 import path from "path";
 import { type Tools } from "@langchain/core/dist/messages/content/tools.js";
 import { MemorySaver } from "@langchain/langgraph";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type AIMessage } from "langchain";
+import { type AIMessage, createAgent as createReactAgent } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
@@ -59,17 +58,20 @@ export const GetAgentProvider =
       const agentCheckpointer = new MemorySaver();
 
       const agent = createReactAgent({
-        llm: ctx.langchain.chat.withConfig({
+        model: ctx.langchain.chat.withConfig({
           tool_choice: "auto",
           verbosity: "high",
         }),
         tools: allTools,
-        checkpointSaver: agentCheckpointer,
-        prompt: readFileSync(path.resolve(process.cwd(), "AGENT.md"), "utf-8"),
+        checkpointer: agentCheckpointer,
+        systemPrompt: readFileSync(
+          path.resolve(process.cwd(), "AGENT.md"),
+          "utf-8",
+        ),
         description: "A React agent for handling user queries",
       });
 
-      ctx.logger.info.log(`Agent created: %s`, agent.description);
+      ctx.logger.info.log(`Agent created: %s`, agent.options.description);
       ctx.logger.debug.log(
         `Agent tools: %O`,
         allTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
@@ -113,13 +115,13 @@ export const GetAgentProvider =
         opts: Partial<Parameters<typeof createReactAgent>[0]>,
       ) => {
         return createReactAgent({
-          llm: ctx.langchain.chat.withConfig({
+          model: ctx.langchain.chat.withConfig({
             tool_choice: "auto",
             verbosity: "high",
           }),
           tools: allTools,
-          checkpointSaver: agentCheckpointer,
-          prompt: readFileSync(
+          checkpointer: agentCheckpointer,
+          systemPrompt: readFileSync(
             path.resolve(process.cwd(), "AGENT.md"),
             "utf-8",
           ),
