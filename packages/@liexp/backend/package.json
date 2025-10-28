@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.910.0",
-    "@langchain/core": "^1.0.1",
+    "@langchain/core": "^1.0.2",
     "@langchain/mcp-adapters": "^1.0.0",
     "@langchain/openai": "^1.0.0",
     "@liexp/test": "workspace:*",
@@ -61,7 +61,7 @@
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
     "ioredis": "^5.8.1",
-    "langchain": "^1.0.1",
+    "langchain": "^1.0.2",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^5.4.149",
     "puppeteer-core": "^24.8.1",
@@ -75,9 +75,9 @@
   },
   "peerDependencies": {
     "@langchain/core": "^1.0.1",
-    "@langchain/openai": "^1.0.0",
     "@langchain/langgraph": "^1.0.1",
     "@langchain/mcp-adapters": "^1.0.0",
+    "@langchain/openai": "^1.0.0",
     "@napi-rs/canvas": "^0.1.80",
     "debug": "^4.4.0",
     "effect": "^3.17.13",
