@@ -10,12 +10,16 @@ import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
 
 export const createServiceClientToken =
-  <C extends JWTProviderContext>(permissions: AuthPermission[]) =>
+  <C extends JWTProviderContext>(
+    serviceName: string,
+    permissions: AuthPermission[],
+  ) =>
   (ctx: C): IO.IO<{ serviceClient: ServiceClient; token: string }> => {
     return pipe(
       IO.of({
         id: uuid(),
         userId: uuid(),
+        email: `${serviceName}@lies.exposed`,
         permissions,
       } as ServiceClient),
       IO.chain((serviceClient) =>
@@ -29,6 +33,7 @@ export const createServiceClientToken =
 
 // Utility function to create a service client for agent service
 export const createAgentServiceClient = (ctx: JWTProviderContext) =>
-  createServiceClientToken([AdminRead.literals[0], MCPToolsAccess.literals[0]])(
-    ctx,
-  );
+  createServiceClientToken("agent", [
+    AdminRead.literals[0],
+    MCPToolsAccess.literals[0],
+  ])(ctx);

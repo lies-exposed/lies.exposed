@@ -44,10 +44,13 @@ show_help() {
 }
 
 generate_token() {
+    local service_name="$1"
+    shift
     local permissions=("$@")
-    echo -e "${BLUE}Generating token with permissions:${NC} ${permissions[*]}"
+    echo -e "${BLUE}Generating token for service:${NC} ${service_name}"
+    echo -e "${BLUE}Permissions:${NC} ${permissions[*]}"
     
-    local cmd="pnpm tsx src/bin/generate-service-token.ts"
+    local cmd="pnpm tsx src/bin/generate-service-token.ts --service-name $service_name"
     for perm in "${permissions[@]}"; do
         cmd="$cmd --permission $perm"
     done
@@ -64,26 +67,36 @@ fi
 case "$1" in
     "agent")
         echo -e "${GREEN}Generating Agent Service Token${NC}"
-        generate_token "mcp:tools" "admin:read"
+        generate_token "agent" "mcp:tools" "admin:read"
         ;;
     
     "ai-bot")
         echo -e "${GREEN}Generating AI-Bot Service Token${NC}"
-        generate_token "mcp:tools" "admin:read" "admin:create" "admin:edit"
+        generate_token "ai-bot" "mcp:tools" "admin:read" "admin:create" "admin:edit"
         ;;
     
     "admin")
         echo -e "${GREEN}Generating Admin Token (Full Permissions)${NC}"
-        generate_token "mcp:tools" "admin:read" "admin:create" "admin:edit" "admin:delete"
+        generate_token "admin" "mcp:tools" "admin:read" "admin:create" "admin:edit" "admin:delete"
         ;;
     
     "readonly")
         echo -e "${GREEN}Generating Read-Only Token${NC}"
-        generate_token "admin:read" "event-suggestion:read"
+        generate_token "readonly" "admin:read" "event-suggestion:read"
         ;;
     
     "custom")
         echo -e "${GREEN}Custom Token Generation${NC}"
+        echo ""
+        echo "Enter service name (e.g., agent, ai-bot, worker):"
+        read -r service_name
+        
+        if [ -z "$service_name" ]; then
+            echo -e "${RED}Service name is required${NC}"
+            exit 1
+        fi
+        
+        echo ""
         echo "Available permissions:"
         echo "  1) mcp:tools"
         echo "  2) admin:read"
@@ -117,7 +130,7 @@ case "$1" in
             exit 1
         fi
         
-        generate_token "${permissions[@]}"
+        generate_token "$service_name" "${permissions[@]}"
         ;;
     
     "help"|"--help"|"-h")

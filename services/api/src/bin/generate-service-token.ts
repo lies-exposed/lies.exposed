@@ -139,7 +139,7 @@ const generateServiceToken = () => {
 
   logger.info.log("JWT provider initialized successfully");
 
-  const result = createServiceClientToken(permissions)(ctx)();
+  const result = createServiceClientToken("api", permissions)(ctx)();
 
   logger.info.log("Generated service client:");
   logger.info.log("ID:", result.serviceClient.id);
