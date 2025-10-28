@@ -23,8 +23,7 @@ const UpdateLinkStructuredResponse = Schema.Struct({
       "The date the content was published in ISO 8601 format (empty string if not published)",
   }),
 });
-export type UpdateLinkStructuredResponse =
-  typeof UpdateLinkStructuredResponse.Type;
+type UpdateLinkStructuredResponse = typeof UpdateLinkStructuredResponse.Type;
 
 const UpdateLinkStructuredResponseSchema = effectToZodObject(
   UpdateLinkStructuredResponse.fields,
