@@ -34,11 +34,14 @@ const runRunnableSequence =
 
       let output;
       if (mode === "stream") {
-        const stream = await chain.stream({ messages: inputs }, {
-          configurable: {
-            thread_id: uuid(),
+        const stream = await chain.stream(
+          { messages: inputs },
+          {
+            configurable: {
+              thread_id: uuid(),
+            },
           },
-        } as any);
+        );
 
         for await (const chunk of stream) {
           ctx.logger.debug.log("Received chunk %O", chunk);
