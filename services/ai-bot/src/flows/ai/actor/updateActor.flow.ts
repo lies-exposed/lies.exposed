@@ -6,7 +6,7 @@ import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Que
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { providerStrategy } from "langchain";
+import { toolStrategy } from "langchain";
 import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
@@ -49,9 +49,9 @@ export const updateActorFlow: JobProcessRTE<
       () => (ctx: ClientContext) =>
         fp.TE.right(
           ctx.agent.createAgent({
-            responseFormat: providerStrategy(
+            responseFormat: toolStrategy(
               effectToZodObject(ActorStructuredResponse.fields),
-            ),
+            ) as any,
           }),
         ),
     ),
