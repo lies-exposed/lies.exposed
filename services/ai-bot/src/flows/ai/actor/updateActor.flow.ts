@@ -1,9 +1,13 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
+import {
+  CreateQueueTextData,
+  type CreateQueueEmbeddingTypeData,
+} from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
+import { toAIBotError } from "../../../common/error/index.js";
 import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
@@ -39,6 +43,15 @@ export const updateActorFlow: JobProcessRTE<
 > = (job) => {
   return pipe(
     fp.RTE.Do,
+    fp.RTE.bind("actor", () =>
+      pipe(
+        fp.RTE.fromEither(
+          Schema.decodeUnknownEither(CreateQueueTextData)(job.data),
+        ),
+        fp.RTE.mapLeft(toAIBotError),
+        fp.RTE.map((actor) => actor.text),
+      ),
+    ),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("context", () => loadDocs(job)),
     fp.RTE.bind("result", ({ prompt, context }) =>
