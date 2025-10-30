@@ -212,7 +212,7 @@ jobs:
         if: ${{ matrix.has_app_build }}
         run: ${{ matrix.app_command }}
 
-  # Test API (requires services)
+  # Test API (requires postgres and redis)
   test-api:
     needs: detect-changes
     if: |
@@ -250,23 +250,33 @@ jobs:
         with:
           hash: ${{ github.sha }}
 
-      - name: Run migrations
+      - name: Run tests
         env:
           DOTENV_CONFIG_PATH: .env.test
-        run: pnpm api migration:run
+        run: pnpm api test
 
-      - name: Run tests
-        run: |
-          pnpm api test:spec
-          pnpm api test:e2e
-
-  # Test packages (no services needed)
-  test-packages:
+  # Test other services and packages (no external services needed)
+  test:
     needs: detect-changes
-    if: |
-      always() &&
-      needs.detect-changes.outputs.packages == 'true'
+    if: always()
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            test_command: pnpm worker test
+          - service: packages
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            test_command: |
+              pnpm shared test
+              pnpm backend test
+            env_debug: "-@liexp*"
+        exclude:
+          - enabled: false
+
+    name: Test ${{ matrix.service }}
     
     steps:
       - uses: actions/checkout@v4
@@ -278,10 +288,8 @@ jobs:
 
       - name: Run tests
         env:
-          DEBUG: "-@liexp*"
-        run: |
-          pnpm shared test
-          pnpm backend test
+          DEBUG: ${{ matrix.env_debug || '' }}
+        run: ${{ matrix.test_command }}
 
   # Knip report (only for root changes)
   knip-report:
@@ -301,10 +309,10 @@ jobs:
       - name: Post the knip results
         run: pnpm knip
 
-  # Docker build job (conditional on release/alpha)
+  # Docker build job (only for PRs targeting release/alpha)
   docker-build:
     if: |
-      github.head_ref == 'release/alpha' &&
+      github.base_ref == 'release/alpha' &&
       (needs.detect-changes.outputs.admin-web == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.web == 'true')
