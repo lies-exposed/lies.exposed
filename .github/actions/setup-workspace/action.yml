@@ -5,6 +5,9 @@ inputs:
   hash:
     required: true
     description: "The hash obtained from hashFiles('**/pnpm-lock.yaml')"
+  build_hash:
+    required: true
+    description: "The hash for build packages cache (usually github.sha)"
 
 runs:
   using: "composite"
@@ -17,5 +20,5 @@ runs:
 
     - uses: ./.github/actions/build-packages
       with:
-        hash: ${{ github.sha }}
+        hash: ${{ inputs.build_hash }}
 

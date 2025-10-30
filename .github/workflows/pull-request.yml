@@ -179,6 +179,7 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+          build_hash: ${{ github.sha }}
 
       - name: Lint ${{ matrix.service }}
         run: ${{ matrix.command }}
@@ -241,6 +242,7 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+          build_hash: ${{ github.sha }}
 
       - name: Setup cache for ${{ matrix.service }}
         if: ${{ matrix.cache_key }}
@@ -288,6 +290,7 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+          build_hash: ${{ github.sha }}
 
       - uses: ./.github/actions/build-api
         with:
@@ -316,6 +319,7 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+          build_hash: ${{ github.sha }}
 
       - name: Run tests
         env:
@@ -336,6 +340,7 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+          build_hash: ${{ github.sha }}
 
       - name: Post the knip results
         run: pnpm knip
