@@ -1,0 +1,73 @@
+name: Detect changes
+description: |-
+  Detect whether the last commit touched any of the repository paths we care about.
+  Emits `changes=1` if any matching files were changed, otherwise `changes=0`.
+
+inputs:
+  patterns:
+    description: |-
+      Newline-separated list of glob patterns to check in the last commit. Example:
+      .github/workflows/*
+      packages/@liexp/core/src/*
+      services/web/*
+    required: false
+    default: |-
+      .github/workflows/*
+      packages/@liexp/core/src/*
+      packages/@liexp/shared/src/*
+      packages/@liexp/ui/src/*
+      services/web/*
+
+outputs:
+  changes:
+    description: '1 if changes detected, 0 otherwise'
+    value: ${{ steps.detect.outputs.changes }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - id: detect
+      name: Detect last-commit path changes
+      shell: bash
+      run: |
+        set -euo pipefail
+        echo "Checking last commit for relevant path changes..."
+        git fetch --no-tags --prune --depth=2 || true
+        commit_sha=$(git rev-parse HEAD)
+        echo "commit_sha=$commit_sha"
+        # Get list of changed files in the last commit
+        changed_files=$(git diff-tree --no-commit-id --name-only -r "$commit_sha" || true)
+        echo "Changed files:" >&2
+        echo "$changed_files" >&2
+
+        matches=0
+        # Read patterns from input (newline-separated). If inputs.patterns is empty, fall back to defaults.
+        patterns_str='${{ inputs.patterns }}'
+        # Normalize CRLF to LF
+        patterns_str="${patterns_str//$'\r'/}"
+
+        patterns=()
+        while IFS= read -r p; do
+          [[ -z "$p" ]] && continue
+          patterns+=("$p")
+        done <<< "$patterns_str"
+
+        # iterate changed files (one per line)
+        while IFS= read -r f; do
+          # skip empty lines
+          [[ -z "$f" ]] && continue
+          for p in "${patterns[@]}"; do
+            if [[ "$f" == $p ]]; then
+              matches=1
+              break 2
+            fi
+          done
+        done <<< "$changed_files"
+
+        echo "matches=$matches"
+        echo "changes=$matches" >> "$GITHUB_OUTPUT"
