@@ -81,61 +81,11 @@ jobs:
               - "package.json"
               - "pnpm-lock.yaml"
 
-  # Install dependencies (common to all jobs)
-  install:
-    needs: detect-changes
-    if: |
-      always() &&
-      (needs.detect-changes.outputs.admin-web == 'true' ||
-       needs.detect-changes.outputs.agent == 'true' ||
-       needs.detect-changes.outputs.ai-bot == 'true' ||
-       needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.packages == 'true' ||
-       needs.detect-changes.outputs.storybook == 'true' ||
-       needs.detect-changes.outputs.web == 'true' ||
-       needs.detect-changes.outputs.worker == 'true' ||
-       needs.detect-changes.outputs.root == 'true')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/install-deps
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-
-  # Build packages (required by most services)
-  build-packages:
-    needs: [detect-changes, install]
-    if: |
-      always() &&
-      needs.install.result == 'success' &&
-      (needs.detect-changes.outputs.admin-web == 'true' ||
-       needs.detect-changes.outputs.agent == 'true' ||
-       needs.detect-changes.outputs.ai-bot == 'true' ||
-       needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.packages == 'true' ||
-       needs.detect-changes.outputs.storybook == 'true' ||
-       needs.detect-changes.outputs.web == 'true' ||
-       needs.detect-changes.outputs.worker == 'true' ||
-       needs.detect-changes.outputs.root == 'true')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/install-deps
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - uses: ./.github/actions/build-packages
-        with:
-          hash: ${{ github.sha }}
-
   # Lint job for all services
   lint:
-    needs: [detect-changes, install, build-packages]
+    needs: detect-changes
     if: |
-      always() &&
-      needs.build-packages.result == 'success'
+      always()
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -176,6 +126,8 @@ jobs:
     name: Lint ${{ matrix.service }}
     
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -186,10 +138,9 @@ jobs:
 
   # Build job for all services
   build:
-    needs: [detect-changes, install, build-packages]
+    needs: detect-changes
     if: |
-      always() &&
-      needs.build-packages.result == 'success'
+      always()
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -239,6 +190,8 @@ jobs:
     name: Build ${{ matrix.service }}
     
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -261,10 +214,9 @@ jobs:
 
   # Test API (requires services)
   test-api:
-    needs: [detect-changes, install, build-packages]
+    needs: detect-changes
     if: |
       always() &&
-      needs.build-packages.result == 'success' &&
       needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     services:
@@ -287,6 +239,8 @@ jobs:
           - 8432:5432
     
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -308,14 +262,15 @@ jobs:
 
   # Test packages (no services needed)
   test-packages:
-    needs: [detect-changes, install, build-packages]
+    needs: detect-changes
     if: |
       always() &&
-      needs.build-packages.result == 'success' &&
       needs.detect-changes.outputs.packages == 'true'
     runs-on: ubuntu-latest
     
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -330,13 +285,14 @@ jobs:
 
   # Knip report (only for root changes)
   knip-report:
-    needs: [detect-changes, install, build-packages]
+    needs: detect-changes
     if: |
       always() &&
-      needs.build-packages.result == 'success' &&
       needs.detect-changes.outputs.root == 'true'
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -352,7 +308,7 @@ jobs:
       (needs.detect-changes.outputs.admin-web == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.web == 'true')
-    needs: [detect-changes, install, build-packages, lint, build]
+    needs: [detect-changes, lint, build]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
