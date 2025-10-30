@@ -25,6 +25,7 @@ jobs:
       web: ${{ steps.filter.outputs.web }}
       worker: ${{ steps.filter.outputs.worker }}
       root: ${{ steps.filter.outputs.root }}
+      needs-install: ${{ steps.filter.outputs.needs-install }}
     steps:
       - uses: actions/checkout@v4
       
@@ -32,6 +33,10 @@ jobs:
         id: filter
         with:
           filters: |
+            needs-install:
+              - "**/package.json"
+              - "pnpm-lock.yaml"
+              - "pnpm-workspace.yaml"
             admin-web:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -81,11 +86,29 @@ jobs:
               - "package.json"
               - "pnpm-lock.yaml"
 
+  # Install dependencies once (populates cache for all other jobs)
+  # Only runs if dependencies changed, otherwise jobs rely on existing cache
+  install:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.needs-install == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
   # Lint job for all services
   lint:
-    needs: detect-changes
+    needs: [detect-changes, install]
     if: |
-      always()
+      always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -138,9 +161,10 @@ jobs:
 
   # Build job for all services
   build:
-    needs: detect-changes
+    needs: [detect-changes, install]
     if: |
-      always()
+      always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -214,9 +238,10 @@ jobs:
 
   # Test API (requires postgres and redis)
   test-api:
-    needs: detect-changes
+    needs: [detect-changes, install]
     if: |
       always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
       needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
     services:
@@ -257,8 +282,10 @@ jobs:
 
   # Test other services and packages (no external services needed)
   test:
-    needs: detect-changes
-    if: always()
+    needs: [detect-changes, install]
+    if: |
+      always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -293,9 +320,10 @@ jobs:
 
   # Knip report (only for root changes)
   knip-report:
-    needs: detect-changes
+    needs: [detect-changes, install]
     if: |
       always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
       needs.detect-changes.outputs.root == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -316,7 +344,7 @@ jobs:
       (needs.detect-changes.outputs.admin-web == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.web == 'true')
-    needs: [detect-changes, lint, build]
+    needs: [detect-changes, install, lint, build]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
