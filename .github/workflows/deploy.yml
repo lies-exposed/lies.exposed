@@ -11,6 +11,7 @@ on:
       - "packages/@liexp/ui/**"
       - "packages/@liexp/backend/**"
       - "services/admin-web/**"
+      - "services/agent/**"
       - "services/ai-bot/**"
       - "services/api/**"
       - "services/web/**"
@@ -22,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       admin-web: ${{ steps.filter.outputs.admin-web }}
+      agent: ${{ steps.filter.outputs.agent }}
       ai-bot: ${{ steps.filter.outputs.ai-bot }}
       api: ${{ steps.filter.outputs.api }}
       web: ${{ steps.filter.outputs.web }}
@@ -39,6 +41,12 @@ jobs:
               - "packages/@liexp/shared/**"
               - "packages/@liexp/ui/**"
               - "services/admin-web/**"
+            agent:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/backend/**"
+              - "services/agent/**"
             ai-bot:
               - ".github/workflows/**"
               - "packages/@liexp/core/**"
@@ -98,6 +106,7 @@ jobs:
     if: |
       always() &&
       (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
        needs.detect-changes.outputs.ai-bot == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.web == 'true' ||
@@ -110,6 +119,10 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
             dockerfile: adminWeb.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-admin-web:latest
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            dockerfile: agent.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-agent:latest
           - service: ai-bot
             enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
             dockerfile: ai-bot.Dockerfile
