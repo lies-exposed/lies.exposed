@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       admin-web: ${{ steps.filter.outputs.admin-web }}
+      agent: ${{ steps.filter.outputs.agent }}
       ai-bot: ${{ steps.filter.outputs.ai-bot }}
       api: ${{ steps.filter.outputs.api }}
       packages: ${{ steps.filter.outputs.packages }}
@@ -37,6 +38,12 @@ jobs:
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
               - "services/admin-web/**"
+            agent:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/src/**"
+              - "packages/@liexp/shared/src/**"
+              - "packages/@liexp/backend/src/**"
+              - "services/agent/**"
             ai-bot:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -80,6 +87,7 @@ jobs:
     if: |
       always() &&
       (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
        needs.detect-changes.outputs.ai-bot == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.packages == 'true' ||
@@ -102,6 +110,7 @@ jobs:
       always() &&
       needs.install.result == 'success' &&
       (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
        needs.detect-changes.outputs.ai-bot == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
        needs.detect-changes.outputs.packages == 'true' ||
@@ -135,6 +144,9 @@ jobs:
           - service: admin-web
             enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
             command: pnpm admin-web lint
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            command: pnpm agent lint
           - service: ai-bot
             enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
             command: pnpm ai-bot lint
@@ -188,6 +200,11 @@ jobs:
             app_command: pnpm admin-web build:app
             cache_key: admin-web-build
             has_app_build: true
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            build_command: pnpm agent build
+            cache_key: agent-build
+            has_app_build: false
           - service: ai-bot
             enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
             build_command: pnpm ai-bot build
