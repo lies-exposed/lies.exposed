@@ -1,4 +1,3 @@
-import { type AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
@@ -8,6 +7,7 @@ import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Que
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../common/error/index.js";
+import { type ClientContext } from "../../context.js";
 import { type ClientContextRTE } from "../../types.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
@@ -25,20 +25,23 @@ const embedAndQuestionCommonFlow = (
     fp.RTE.Do,
     fp.RTE.apS("docs", loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.chain(
+    fp.RTE.chainW(
       ({ docs, prompt }) =>
-        (ctx) =>
-          fp.TE.tryCatch(() => {
-            return ctx.langchain.queryDocument(
-              docs,
-              job.question ?? defaultQuestion,
-              {
-                model: ctx.config.config.localAi.models
-                  ?.embeddings as AvailableModels,
-                prompt,
+        (ctx: ClientContext) =>
+          pipe(
+            ctx.agent.Chat.Create({
+              Body: {
+                message: `${prompt({
+                  vars: {
+                    text: docs.map((d) => d.pageContent).join("\n"),
+                  },
+                })}\n\n${job.question ?? defaultQuestion}`,
+                conversation_id: null,
               },
-            );
-          }, toAIBotError),
+            }),
+            fp.TE.map((response) => response.data.message.content),
+            fp.TE.mapLeft(toAIBotError),
+          ),
     ),
   );
 };

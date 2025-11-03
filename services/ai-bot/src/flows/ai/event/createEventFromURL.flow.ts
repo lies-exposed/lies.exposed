@@ -1,7 +1,7 @@
-import { createEventFromDocuments } from "@liexp/backend/lib/flows/ai/createEventFromDocuments.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
 import {
   type Event,
   EventMap,
@@ -10,12 +10,13 @@ import { type CreateEventFromURLTypeData } from "@liexp/shared/lib/io/http/Queue
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
+import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion =
-  "Can you extract an event JSON object from the given text?";
+  "Can you extract an event JSON object from the given text? Return the response in JSON format.";
 
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData,
@@ -42,26 +43,49 @@ export const createEventFromURLFlow: JobProcessRTE<
       }
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
-    fp.RTE.bindW("event", ({ docs, prompt, jsonSchema }) =>
+    fp.RTE.bindW("event", ({ docs, prompt, jsonSchema }) => (ctx: ClientContext) =>
       pipe(
-        createEventFromDocuments(
-          docs,
-          job.data.type,
-          prompt,
-          jsonSchema,
-          job.question ?? defaultQuestion,
-        ),
-        fp.RTE.map((event) => ({
-          ...event,
-          date: job.data.date ? [job.data.date] : event.date,
-          actors: [],
-          groups: [],
-          areas: [],
-          links: [],
-          keywords: [],
-          media: [],
-          groupsMembers: [],
-        })),
+        ctx.agent.Chat.Create({
+          Body: {
+            message: `${prompt({
+              vars: {
+                type: job.data.type,
+                jsonSchema: JSON.stringify(jsonSchema),
+                context: docs.map((d) => d.pageContent).join("\n"),
+                question: job.question ?? defaultQuestion,
+              },
+            })}\n\n${job.question ?? defaultQuestion}`,
+            conversation_id: null,
+          },
+        }),
+        fp.TE.chainEitherK((response) => {
+          const content = response.data.message.content;
+          ctx.logger.debug.log("createEventFromURLFlow raw output: %s", content);
+
+          // Extract JSON from markdown code blocks if present
+          const jsonMatch = content.match(/```json\s*([\s\S]*?)\s*```/) || 
+                           content.match(/```\s*([\s\S]*?)\s*```/);
+          const jsonStr = jsonMatch ? jsonMatch[1] : content;
+
+          try {
+            const parsed = JSON.parse(jsonStr) as EventCommonProps;
+            ctx.logger.debug.log("createEventFromURLFlow parsed output %O", parsed);
+            return fp.E.right({
+              ...parsed,
+              date: job.data.date ? [job.data.date] : parsed.date,
+              actors: [],
+              groups: [],
+              areas: [],
+              links: [],
+              keywords: [],
+              media: [],
+              groupsMembers: [],
+            });
+          } catch (e) {
+            return fp.E.left(new Error(`Failed to parse JSON response: ${e}`));
+          }
+        }),
+        fp.TE.mapLeft(toAIBotError),
       ),
     ),
     fp.RTE.bind(

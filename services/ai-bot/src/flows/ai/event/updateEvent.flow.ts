@@ -1,6 +1,6 @@
-import { updateEventFromDocuments } from "@liexp/backend/lib/flows/ai/updateEventFromDocuments.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
 import {
   type Event,
   EventMap,
@@ -15,7 +15,8 @@ import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = "Can you give me an excerpt of the given documents?";
+const defaultQuestion 
+ = "Can you give me an excerpt of the given documents? Return the response in JSON format following the provided schema.";
 
 export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
   job,
@@ -78,13 +79,37 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       }
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
-    fp.RTE.bindW("aiEvent", ({ prompt }) =>
+    fp.RTE.bindW
+      "aiEvent",
+      ({ prompt, docs, jsonSchema }) =>
+       > (ctx: ClientContext) =>    
       pipe(
-        updateEventFromDocuments(
-          job.data.type,
-          prompt,
-          job.question ?? defaultQuestion,
-        ),
+            ctx.agent.Chat.Create({    
+          Body: {
+                message: `${prompt({
+                  vars: {                     type: job.data.type,    
+                jsonSchema: JSON.stringify(jsonSchema),                     context: docs.map((d) => d.pageContent).join("\n"),
+                    question: job.question ?? defaultQuestion,                   },    
+            })}\n\n${job.question ?? defaultQuestion}`,                 conversation_id: null,
+              },             }),    
+        fp.TE.chainEitherK((response) => {               const content = response.data.message.content;    
+          ctx.logger.debug.log("updateEventFlow raw output: %s", content);
+               // Extract JSON from markdown code blocks if present
+             const jsonMatch =
+                content.match(/```json\s*([\s\S]*?)\s*```/) ||                 (/```\s*([\s\S]*?)\s*```/.exec(content)));    
+          const jsonStr = jsonMatch ? jsonMatch[1] : content;
+               try {    
+            const parsed = JSON.parse(jsonStr) as EventCommonProps;
+               ctx.logger.debug.log(
+                  "updateEventFlow parsed output %O",
+                  parsed,
+                d);
+                return fp.E.right(parsed);
+              } catch (e) {                return fp.E.left(
+                  new Error(`Failed to parse JSON response: ${e}`),
+                ));
+              }             }),    
+        fp.TE.mapLeft(toAIBotError),    
       ),
     ),
     fp.RTE.map(({ event, aiEvent }) =>

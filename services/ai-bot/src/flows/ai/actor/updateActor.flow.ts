@@ -1,19 +1,17 @@
-import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { providerStrategy } from "langchain";
+import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = (actorName: string) =>
-  `Give me the requested info for actor ${actorName}`;
+  `Give me the requested info for actor ${actorName}. Return the response in JSON format with fields: firstName (string), lastName (string), username (string in lowercase format firstName-lastName), description (string), bornOn (string in ISO format YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ), diedOn (string in ISO format or empty string if still alive), keywords (array of strings).`;
 
 const ActorStructuredResponse = Schema.Struct({
   firstName: Schema.String,
@@ -44,39 +42,55 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("context", () => loadDocs(job)),
-    fp.RTE.bind(
-      "agent",
-      () => (ctx: ClientContext) =>
-        fp.TE.right(
-          ctx.agent.createAgent({
-            responseFormat: providerStrategy(
-              effectToZodObject(ActorStructuredResponse.fields),
-            ),
-          }),
-        ),
-    ),
-    fp.RTE.chainW(({ prompt, context, agent }) =>
-      runAgent<ActorStructuredResponse>(
-        [
-          {
-            role: "system",
-            content: prompt({
-              vars: {
-                text: context.map((doc) => doc.pageContent).join("\n"),
+    fp.RTE.chainW(
+      ({ prompt, context }) =>
+        (ctx: ClientContext) =>
+          pipe(
+            ctx.agent.Chat.Create({
+              Body: {
+                message: `${prompt({
+                  vars: {
+                    text: context.map((doc) => doc.pageContent).join("\n"),
+                  },
+                })}\n\n${
+                  job.question ??
+                  ("text" in job.data
+                    ? defaultQuestion(job.data.text)
+                    : "Extract the information from the text. Return in JSON format.")
+                }`,
+                conversation_id: null,
               },
             }),
-          },
-          {
-            role: "user",
-            content:
-              job.question ??
-              ("text" in job.data
-                ? defaultQuestion(job.data.text)
-                : "Extract the information from the text."),
-          },
-        ],
-        agent,
-      ),
+            fp.TE.chainEitherK((response) => {
+              const message = response.data.message;
+              ctx.logger.debug.log("updateActorFlow message: %O", {
+                role: message.role,
+                hasStructuredOutput: !!message.structured_output,
+                content: message.content.substring(0, 100),
+              });
+
+              // Use structured_output from agent response
+              if (message.structured_output) {
+                return fp.E.right(
+                  message.structured_output as ActorStructuredResponse,
+                );
+              }
+
+              // Fallback: parse content as JSON
+              try {
+                const parsed = JSON.parse(message.content);
+                ctx.logger.debug.log("updateActorFlow parsed from content");
+                return fp.E.right(parsed as ActorStructuredResponse);
+              } catch (e) {
+                return fp.E.left(
+                  new Error(
+                    `Agent response missing structured_output and content is not valid JSON: ${e}`,
+                  ),
+                );
+              }
+            }),
+            fp.TE.mapLeft(toAIBotError),
+          ),
     ),
     LoggerService.RTE.debug("updateActorFlow output %O"),
     fp.RTE.map(

@@ -22,6 +22,9 @@ export const AIBotConfig = Schema.Struct({
     url: URL,
     mcp: URL,
   }),
+  agent: Schema.Struct({
+    url: URL,
+  }),
 }).annotations({
   title: "AIBotConfig",
 });

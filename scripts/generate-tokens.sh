@@ -50,7 +50,7 @@ generate_token() {
     echo -e "${BLUE}Generating token for service:${NC} ${service_name}"
     echo -e "${BLUE}Permissions:${NC} ${permissions[*]}"
     
-    local cmd="pnpm tsx src/bin/generate-service-token.ts --service-name $service_name"
+    local cmd="pnpm tsx src/bin/generate-service-token.ts"
     for perm in "${permissions[@]}"; do
         cmd="$cmd --permission $perm"
     done

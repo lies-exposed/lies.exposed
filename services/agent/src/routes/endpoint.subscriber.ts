@@ -5,6 +5,7 @@ import { GetEndpointSubscriber } from "@ts-endpoint/express";
 
 export const AddEndpoint = GetEndpointSubscriber({
   buildDecodeError: (e): ServerError => {
+    console.error("build decode error", e);
     return e as ServerError;
   },
   decode: EffectDecoder((e) => DecodeError.of("Endpoint validation failed", e)),

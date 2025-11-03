@@ -1,15 +1,13 @@
-import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { HumanMessage, SystemMessage, toolStrategy } from "langchain";
+import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = `Return the requested information in the requested format.`;
+const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in ISO 8601 format or empty string if not published).`;
 
 const UpdateLinkStructuredResponse = Schema.Struct({
   title: Schema.String.annotations({
@@ -25,10 +23,6 @@ const UpdateLinkStructuredResponse = Schema.Struct({
 });
 type UpdateLinkStructuredResponse = typeof UpdateLinkStructuredResponse.Type;
 
-const UpdateLinkStructuredResponseSchema = effectToZodObject(
-  UpdateLinkStructuredResponse.fields,
-);
-
 export const updateLinkFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
   { title: string; description: string }
@@ -36,31 +30,50 @@ export const updateLinkFlow: JobProcessRTE<
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind(
-      "agent",
-      () => (ctx: ClientContext) =>
-        fp.TE.right(
-          ctx.agent.createAgent({
-            responseFormat: toolStrategy(
-              UpdateLinkStructuredResponseSchema,
-            ) as any,
-          }),
-        ),
-    ),
-    fp.RTE.chainW(({ prompt, agent }) =>
-      runAgent<UpdateLinkStructuredResponse>(
-        [
-          new SystemMessage(
-            prompt({
-              vars: {
-                text: (job.data as any).url,
+    fp.RTE.chainW(
+      ({ prompt }) =>
+        (ctx: ClientContext) =>
+          pipe(
+            ctx.agent.Chat.Create({
+              Body: {
+                message: `${prompt({
+                  vars: {
+                    text: (job.data as any).url,
+                  },
+                })}\n\n${job.question ?? defaultQuestion}`,
+                conversation_id: null,
               },
             }),
+            fp.TE.chainEitherK((response) => {
+              const message = response.data.message;
+              ctx.logger.debug.log("updateLinkFlow message: %O", {
+                role: message.role,
+                hasStructuredOutput: !!message.structured_output,
+                content: message.content.substring(0, 100),
+              });
+
+              // Use structured_output from agent response
+              if (message.structured_output) {
+                return fp.E.right(
+                  message.structured_output as UpdateLinkStructuredResponse,
+                );
+              }
+
+              // Fallback: parse content as JSON
+              try {
+                const parsed = JSON.parse(message.content);
+                ctx.logger.debug.log("updateLinkFlow parsed from content");
+                return fp.E.right(parsed as UpdateLinkStructuredResponse);
+              } catch (e) {
+                return fp.E.left(
+                  new Error(
+                    `Agent response missing structured_output and content is not valid JSON: ${e}`,
+                  ),
+                );
+              }
+            }),
+            fp.TE.mapLeft(toAIBotError),
           ),
-          new HumanMessage(job.question ?? defaultQuestion),
-        ],
-        agent,
-      ),
     ),
     LoggerService.RTE.debug("Messages %O"),
   );

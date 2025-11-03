@@ -1,4 +1,3 @@
-import { createEventFromText } from "@liexp/backend/lib/flows/ai/createEventFromText.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateEventFromTextTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
@@ -16,7 +15,7 @@ export const createEventFromTextFlow: JobProcessRTE<
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind(
       "jsonSchema",
-      () => (ctx) =>
+      () => (ctx: ClientContext) =>
         pipe(
           ctx.api.Event.List({
             Query: {
@@ -35,16 +34,41 @@ export const createEventFromTextFlow: JobProcessRTE<
       }
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
-    fp.RTE.chain(({ docs, jsonSchema, prompt }) =>
-      createEventFromText<ClientContext>(
-        docs,
-        job.data.type,
-        prompt,
-        JSON.stringify(jsonSchema),
-        job.data.text,
+    fp.RTE.chainW(({ docs, jsonSchema, prompt }) => (ctx: ClientContext) =>
+      pipe(
+        ctx.agent.Chat.Create({
+          Body: {
+            message: `${prompt({
+              vars: {
+                type: job.data.type,
+                jsonSchema: JSON.stringify(jsonSchema),
+                context: docs.map((d) => d.pageContent).join("\n"),
+                question: job.data.text,
+              },
+            })}\n\nExtract event information from the text and return it as a JSON object following the provided schema.`,
+            conversation_id: null,
+          },
+        }),
+        fp.TE.chainEitherK((response) => {
+          const content = response.data.message.content;
+          ctx.logger.debug.log("createEventFromTextFlow raw output: %s", content);
+
+          // Extract JSON from markdown code blocks if present
+          const jsonMatch = content.match(/```json\s*([\s\S]*?)\s*```/) || 
+                           content.match(/```\s*([\s\S]*?)\s*```/);
+          const jsonStr = jsonMatch ? jsonMatch[1] : content;
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            ctx.logger.debug.log("createEventFromTextFlow parsed output %O", parsed);
+            return fp.E.right(JSON.stringify(parsed));
+          } catch (e) {
+            return fp.E.left(new Error(`Failed to parse JSON response: ${e}`));
+          }
+        }),
+        fp.TE.mapLeft(toAIBotError),
       ),
     ),
-    fp.RTE.map((event) => JSON.stringify(event)),
     LoggerService.RTE.debug("`createEventFromTextFlow` result: %O"),
   );
 };
