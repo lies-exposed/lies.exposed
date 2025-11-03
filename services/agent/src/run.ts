@@ -5,8 +5,6 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import cors from "cors";
 import D from "debug";
 import express from "express";
-import { expressjwt as jwt } from "express-jwt";
-import { unless } from "express-unless";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { makeAgentContext } from "#context/load.js";
 import { createRoutes } from "#routes/index.js";
@@ -34,18 +32,8 @@ const run = (): Promise<void> => {
       app.use(express.json());
       app.use(express.urlencoded({ extended: true }));
 
-      // JWT authentication middleware
-      // Exclude healthcheck endpoint from authentication
-      const jwtMiddleware = jwt({
-        secret: ctx.env.JWT_SECRET,
-        algorithms: ["HS256"],
-      });
-      jwtMiddleware.unless = unless;
-      app.use(
-        jwtMiddleware.unless({
-          path: [{ url: "/v1/healthcheck", method: "GET" }],
-        }),
-      );
+      // Authentication is handled per-route using authenticationHandler middleware
+      // This allows for fine-grained permission control and supports both User and ServiceClient tokens
 
       // Routes
       app.use("/v1", createRoutes(ctx));

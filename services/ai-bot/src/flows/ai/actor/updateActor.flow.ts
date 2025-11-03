@@ -4,8 +4,7 @@ import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNo
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
-import { toAIBotError } from "../../../common/error/index.js";
-import { type ClientContext } from "../../../context.js";
+import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -42,75 +41,29 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("context", () => loadDocs(job)),
-    fp.RTE.chainW(
-      ({ prompt, context }) =>
-        (ctx: ClientContext) =>
-          pipe(
-            ctx.agent.Chat.Create({
-              Body: {
-                message: `${prompt({
-                  vars: {
-                    text: context.map((doc) => doc.pageContent).join("\n"),
-                  },
-                })}\n\n${
-                  job.question ??
-                  ("text" in job.data
-                    ? defaultQuestion(job.data.text)
-                    : "Extract the information from the text. Return in JSON format.")
-                }`,
-                conversation_id: null,
-              },
-            }),
-            fp.TE.chainEitherK((response) => {
-              const message = response.data.message;
-              ctx.logger.debug.log("updateActorFlow message: %O", {
-                role: message.role,
-                hasStructuredOutput: !!message.structured_output,
-                content: message.content.substring(0, 100),
-              });
-
-              // Use structured_output from agent response
-              if (message.structured_output) {
-                return fp.E.right(
-                  message.structured_output as ActorStructuredResponse,
-                );
-              }
-
-              // Fallback: parse content as JSON
-              try {
-                const parsed = JSON.parse(message.content);
-                ctx.logger.debug.log("updateActorFlow parsed from content");
-                return fp.E.right(parsed as ActorStructuredResponse);
-              } catch (e) {
-                return fp.E.left(
-                  new Error(
-                    `Agent response missing structured_output and content is not valid JSON: ${e}`,
-                  ),
-                );
-              }
-            }),
-            fp.TE.mapLeft(toAIBotError),
-          ),
-    ),
-    LoggerService.RTE.debug("updateActorFlow output %O"),
-    fp.RTE.map(
-      ({
-        description,
-        firstName,
-        lastName,
-        username,
-        bornOn,
-        diedOn,
-        keywords,
-      }) => ({
-        excerpt: toInitialValue(description),
-        firstName,
-        lastName,
-        username,
-        bornOn,
-        diedOn,
-        keywords,
+    fp.RTE.bind("result", ({ prompt, context }) =>
+      AgentChatService.getStructuredOutput<ActorStructuredResponse>({
+        message: `${prompt({
+          vars: {
+            text: context.map((doc) => doc.pageContent).join("\n"),
+          },
+        })}\n\n${
+          job.question ??
+          ("text" in job.data
+            ? defaultQuestion(job.data.text)
+            : "Extract the information from the text. Return in JSON format.")
+        }`,
       }),
     ),
+    LoggerService.RTE.debug("updateActorFlow output %O"),
+    fp.RTE.map(({ result }) => ({
+      excerpt: toInitialValue(result.description),
+      firstName: result.firstName,
+      lastName: result.lastName,
+      username: result.username,
+      bornOn: result.bornOn,
+      diedOn: result.diedOn,
+      keywords: result.keywords,
+    })),
   );
 };

@@ -2,8 +2,7 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { Schema } from "effect";
-import { toAIBotError } from "../../../common/error/index.js";
-import { type ClientContext } from "../../../context.js";
+import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -30,51 +29,19 @@ export const updateLinkFlow: JobProcessRTE<
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.chainW(
-      ({ prompt }) =>
-        (ctx: ClientContext) =>
-          pipe(
-            ctx.agent.Chat.Create({
-              Body: {
-                message: `${prompt({
-                  vars: {
-                    text: (job.data as any).url,
-                  },
-                })}\n\n${job.question ?? defaultQuestion}`,
-                conversation_id: null,
-              },
-            }),
-            fp.TE.chainEitherK((response) => {
-              const message = response.data.message;
-              ctx.logger.debug.log("updateLinkFlow message: %O", {
-                role: message.role,
-                hasStructuredOutput: !!message.structured_output,
-                content: message.content.substring(0, 100),
-              });
-
-              // Use structured_output from agent response
-              if (message.structured_output) {
-                return fp.E.right(
-                  message.structured_output as UpdateLinkStructuredResponse,
-                );
-              }
-
-              // Fallback: parse content as JSON
-              try {
-                const parsed = JSON.parse(message.content);
-                ctx.logger.debug.log("updateLinkFlow parsed from content");
-                return fp.E.right(parsed as UpdateLinkStructuredResponse);
-              } catch (e) {
-                return fp.E.left(
-                  new Error(
-                    `Agent response missing structured_output and content is not valid JSON: ${e}`,
-                  ),
-                );
-              }
-            }),
-            fp.TE.mapLeft(toAIBotError),
-          ),
+    fp.RTE.bind("result", ({ prompt }) =>
+      AgentChatService.getStructuredOutput<UpdateLinkStructuredResponse>({
+        message: `${prompt({
+          vars: {
+            text: (job.data as any).url,
+          },
+        })}\n\n${job.question ?? defaultQuestion}`,
+      }),
     ),
     LoggerService.RTE.debug("Messages %O"),
+    fp.RTE.map(({ result }) => ({
+      title: result.title,
+      description: result.description,
+    })),
   );
 };
