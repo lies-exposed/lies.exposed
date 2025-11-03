@@ -45,7 +45,7 @@
     "start": "node build/run.js",
     "start:worker": "node build/worker/index.js",
     "test": "pnpm migration:run && pnpm test:spec && pnpm test:e2e",
-    "test:all": "pnpm test:spec && pnpm test:e2e",
+    "test:all": "pnpm test:spec --run && pnpm test:e2e --run",
     "test:e2e": "vitest --project api-e2e",
     "test:spec": "vitest --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",

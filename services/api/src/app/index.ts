@@ -1,6 +1,5 @@
 import cors from "cors";
 import express from "express";
-import { expressjwt as jwt } from "express-jwt";
 import { unless } from "express-unless";
 import { MakeMCPRoutes } from "../routes/mcp/index.js";
 import { errorHandler } from "./error.middleware.js";
@@ -25,21 +24,8 @@ export const makeApp = (ctx: ServerContext): express.Express => {
     }),
   );
 
-  app.use(
-    jwt({ secret: ctx.env.JWT_SECRET, algorithms: ["HS256"] }).unless({
-      path: [
-        { url: "/v1/links/submit", method: "POST" },
-        { url: "/v1/users/login", method: "POST" },
-        { url: "/v1/users/signup", method: "POST" },
-        { url: /\/v1\/*/, method: "GET" },
-        { url: /\/v1\/uploads*\//, method: "PUT" },
-        { url: "/v1/events/suggestions", method: "POST" },
-        { url: /\/v1\/events\/suggestions*\//, method: "PUT" },
-        { url: /\/media\/*/ },
-        { url: /\/mcp\/*/ }, // MCP routes use service client authentication
-      ],
-    }),
-  );
+  // Authentication is handled per-route using authenticationHandler middleware
+  // This allows for fine-grained permission control and supports both User and ServiceClient tokens
 
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
