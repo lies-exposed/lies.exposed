@@ -1,0 +1,177 @@
+name: Deploy Services
+
+on:
+  push:
+    branches:
+      - release/alpha
+    paths:
+      - ".github/workflows/**"
+      - "packages/@liexp/core/**"
+      - "packages/@liexp/shared/**"
+      - "packages/@liexp/ui/**"
+      - "packages/@liexp/backend/**"
+      - "services/admin-web/**"
+      - "services/agent/**"
+      - "services/ai-bot/**"
+      - "services/api/**"
+      - "services/web/**"
+      - "services/worker/**"
+
+jobs:
+  # First, determine which services need to be deployed based on changed files
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      admin-web: ${{ steps.filter.outputs.admin-web }}
+      agent: ${{ steps.filter.outputs.agent }}
+      ai-bot: ${{ steps.filter.outputs.ai-bot }}
+      api: ${{ steps.filter.outputs.api }}
+      web: ${{ steps.filter.outputs.web }}
+      worker: ${{ steps.filter.outputs.worker }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            admin-web:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/ui/**"
+              - "services/admin-web/**"
+            agent:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/backend/**"
+              - "services/agent/**"
+            ai-bot:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/backend/**"
+              - "services/ai-bot/**"
+            api:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/backend/**"
+              - "services/api/**"
+            web:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/ui/**"
+              - "services/web/**"
+            worker:
+              - ".github/workflows/**"
+              - "packages/@liexp/core/**"
+              - "packages/@liexp/shared/**"
+              - "packages/@liexp/backend/**"
+              - "services/worker/**"
+
+  # Setup: Install deps and build (only needed for ai-bot)
+  setup:
+    needs: detect-changes
+    # Only run if ai-bot needs deployment (it's the only service that needs pre-built artifacts)
+    if: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Build ai-bot
+        run: pnpm ai-bot build
+
+      - name: Upload ai-bot build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-bot-build
+          path: services/ai-bot/build/
+          retention-days: 1
+
+  # Build and push Docker images in parallel
+  deploy:
+    needs: [detect-changes, setup]
+    # Allow this job to run even if setup is skipped
+    if: |
+      always() &&
+      (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
+       needs.detect-changes.outputs.ai-bot == 'true' ||
+       needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.web == 'true' ||
+       needs.detect-changes.outputs.worker == 'true')
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - service: admin-web
+            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
+            dockerfile: adminWeb.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-admin-web:latest
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            dockerfile: agent.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-agent:latest
+          - service: ai-bot
+            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            dockerfile: ai-bot.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-ai-bot:latest
+            needs_artifacts: true
+          - service: api
+            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            dockerfile: api.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-api:latest
+          - service: web
+            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            dockerfile: web.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-web:latest
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            dockerfile: worker.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-worker:latest
+        exclude:
+          - enabled: false
+
+    name: Deploy ${{ matrix.service }}
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      # Download ai-bot build artifacts if needed
+      - name: Download ai-bot build artifacts
+        if: ${{ matrix.needs_artifacts }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ai-bot-build
+          path: services/ai-bot/build/
+
+      # Docker build and push
+      - name: Log in to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_IO_USERNAME }}
+          password: ${{ secrets.GHCR_IO_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push ${{ matrix.service }} image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./${{ matrix.dockerfile }}
+          push: true
+          tags: ${{ matrix.image_tag }}
+
