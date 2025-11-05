@@ -9637,6 +9637,11 @@ packages:
   typelevel-ts@0.4.0:
     resolution: {integrity: sha512-Qn4EgOuc7lrzjgJYc7arwteuZutO18zFyhVj4/6+BEhPr07BMsqaM02LuuRCVFP1ud5tbDYGn/Vr/BAYnGOSqw==}
 
+  typeorm-pglite@0.3.2:
+    resolution: {integrity: sha512-/URkIx3MXaRqLKXjGfFY1uq8Fp6qSYTP09NjK6MAbsZhNwe7qAqnaWdTGtJ4aMr2e2TDPXT1rCt+w7xszMUzOg==}
+    peerDependencies:
+      '@electric-sql/pglite': '>= 0.2.12'
+
   typeorm@0.3.28:
     resolution: {integrity: sha512-6GH7wXhtfq2D33ZuRXYwIsl/qM5685WZcODZb7noOOcRMteM9KF2x2ap3H0EBjnSV0VO4gNAfJT5Ukp0PkOlvg==}
     engines: {node: '>=16.13.0'}
