@@ -1061,6 +1061,9 @@ importers:
         specifier: ^5.8.3
         version: 5.9.2
     devDependencies:
+      '@electric-sql/pglite':
+        specifier: ^0.3.13
+        version: 0.3.13
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
@@ -1118,6 +1121,9 @@ importers:
       supertest:
         specifier: ^7.1.0
         version: 7.1.4
+      typeorm-pglite:
+        specifier: ^0.3.2
+        version: 0.3.2(@electric-sql/pglite@0.3.13)
       vite-tsconfig-paths:
         specifier: ^5.1.4
         version: 5.1.4(typescript@5.9.2)(vite@7.1.12(@types/node@24.9.1)(jiti@2.5.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
@@ -1955,6 +1961,9 @@ packages:
 
   '@databases/validate-unicode@1.0.0':
     resolution: {integrity: sha512-dLKqxGcymeVwEb/6c44KjOnzaAafFf0Wxa8xcfEjx/qOl3rdijsKYBAtIGhtVtOlpPf/PFKfgTuFurSPn/3B/g==}
+
+  '@electric-sql/pglite@0.3.13':
+    resolution: {integrity: sha512-w1oy/qyUs/fUTSE93dNvOcUThsGY2BL5N9Q1WujYr9onHYJYqxwJy+hd62p9UNql41XRqbz2yDBzYAUN5IiDww==}
 
   '@emnapi/core@1.4.5':
     resolution: {integrity: sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q==}
@@ -9736,6 +9745,11 @@ packages:
   typelevel-ts@0.4.0:
     resolution: {integrity: sha512-Qn4EgOuc7lrzjgJYc7arwteuZutO18zFyhVj4/6+BEhPr07BMsqaM02LuuRCVFP1ud5tbDYGn/Vr/BAYnGOSqw==}
 
+  typeorm-pglite@0.3.2:
+    resolution: {integrity: sha512-/URkIx3MXaRqLKXjGfFY1uq8Fp6qSYTP09NjK6MAbsZhNwe7qAqnaWdTGtJ4aMr2e2TDPXT1rCt+w7xszMUzOg==}
+    peerDependencies:
+      '@electric-sql/pglite': '>= 0.2.12'
+
   typeorm@0.3.27:
     resolution: {integrity: sha512-pNV1bn+1n8qEe8tUNsNdD8ejuPcMAg47u2lUGnbsajiNUr3p2Js1XLKQjBMH0yMRMDfdX8T+fIRejFmIwy9x4A==}
     engines: {node: '>=16.13.0'}
@@ -11501,6 +11515,8 @@ snapshots:
   '@databases/sql@3.3.0': {}
 
   '@databases/validate-unicode@1.0.0': {}
+
+  '@electric-sql/pglite@0.3.13': {}
 
   '@emnapi/core@1.4.5':
     dependencies:
@@ -20294,6 +20310,10 @@ snapshots:
   typedarray@0.0.6: {}
 
   typelevel-ts@0.4.0: {}
+
+  typeorm-pglite@0.3.2(@electric-sql/pglite@0.3.13):
+    dependencies:
+      '@electric-sql/pglite': 0.3.13
 
   typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2):
     dependencies:

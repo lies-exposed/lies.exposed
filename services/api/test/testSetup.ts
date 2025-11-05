@@ -1,13 +1,13 @@
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
-import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
+import { cleanupTestContext, GetAppTest } from "./AppTest.js";
+import { 
+  startTransaction, 
+  rollbackTransaction, 
+  getInitializedPGliteDataSource 
+} from "./utils/pglite-datasource.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
-import { ServerContext } from "../src/context/context.type.js";
-import {
-  startTransaction,
-  rollbackTransaction,
-  cleanupTransactionalState,
-} from "./utils/transactional-db.js";
 
 // Mock external dependencies at the module level
 // These mocks apply to all tests
@@ -25,55 +25,44 @@ vi.mock("node-telegram-bot-api");
 
 const logger = GetLogger("testSetup");
 
-const g = global as unknown as { appContext: ServerContext; appTest?: AppTest };
-
 beforeAll(async () => {
   D.enable(process.env.DEBUG ?? "-");
 
-  const database = process.env.DB_DATABASE!;
-
-  if (!g.appContext) {
-    logger.debug.log("loading app context for database: %s", database);
-    g.appContext = await loadAppContext(logger, database);
-  }
-
-  logger.debug.log("app context initialized", !!g.appContext, database);
-
-  g.appTest = await initAppTest(g.appContext, database);
+  // Initialize the PGlite DataSource for this worker
+  const testFileId = process.env.VITEST_POOL_ID || "default";
+  await throwTE(getInitializedPGliteDataSource(`test_${testFileId}`));
+  
+  logger.debug.log("DataSource initialized for pool ID: %s", process.env.VITEST_POOL_ID);
 });
 
 beforeEach(async () => {
-  // Start transaction for this test
-  // This patches DataSource.manager with QueryRunner.manager getter
-  // All operations will use the transactional manager
+  // Start transaction (patches DataSource.manager with QueryRunner.manager getter)
+  // Combined with the getter in database.provider.ts, this ensures ALL operations use the transaction
+  // This works even when Test is cached in beforeAll
   await startTransaction();
-
-  logger.debug.log(
-    "Transaction started for test in pool ID: %s",
-    process.env.VITEST_POOL_ID,
-  );
+  
+  logger.debug.log("Transaction started for test in pool ID: %s", process.env.VITEST_POOL_ID);
 });
 
 afterEach(async () => {
   // Rollback the transaction AFTER EACH TEST
-  // This is much faster than truncating tables (~1-5ms vs ~500ms)
+  // This is much faster than truncating tables or restoring from snapshot (~1-5ms)
   await rollbackTransaction();
-
-  logger.debug.log(
-    "Transaction rolled back for test in pool ID: %s",
-    process.env.VITEST_POOL_ID,
-  );
+  
+  logger.debug.log("Transaction rolled back for test in pool ID: %s", process.env.VITEST_POOL_ID);
 });
 
 afterAll(async () => {
-  // Clean up transactional state
-  await cleanupTransactionalState();
+  const testFileId = process.env.VITEST_POOL_ID || "default";
 
-  // NOTE: We do NOT close the DB connection here!
-  // Multiple test files share the same global context (isolate: false in vitest config)
-  // Closing the connection would break subsequent test files
-  // The connection will be closed when the worker process exits
+  logger.debug.log("Cleaning up test context for pool ID: %s", testFileId);
 
-  // For now, just clear the app test reference
-  g.appTest = undefined;
+  // Clean up the test context (no-op, kept for compatibility)
+  await cleanupTestContext();
+  
+  // NOTE: We do NOT close the datasource here!
+  // The datasource is cached per-worker and reused across test files
+  // Vitest will cleanup when the worker exits
+
+  logger.debug.log("Test cleanup completed for pool ID: %s", testFileId);
 });

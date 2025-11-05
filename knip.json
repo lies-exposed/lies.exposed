@@ -47,6 +47,7 @@
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
+        "test/**/*.{spec,e2e}.ts",
         "test/AppTest.ts",
         "test/testSetup.ts"
       ],

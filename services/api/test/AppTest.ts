@@ -8,16 +8,12 @@ import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
-import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
+import { DatabaseClient, GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
-import {
-  getDataSource,
-  getORMConfig,
-} from "@liexp/backend/lib/utils/data-source.js";
 import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -35,15 +31,11 @@ export interface AppTest {
   req: TestAgent<supertest.Test>;
 }
 
-let context: ServerContext | undefined = undefined;
-export const loadAppContext = async (
+const loadAppContext = async (
   logger: Logger,
   database: string,
+  dbOverride?: DatabaseClient,
 ): Promise<ServerContext> => {
-  if (context) {
-    return context;
-  }
-
   return pipe(
     TE.Do,
     TE.bind("env", () =>
@@ -54,11 +46,20 @@ export const loadAppContext = async (
         TE.mapLeft(toControllerError),
       ),
     ),
-    TE.bind("db", ({ env }) =>
-      pipe(
-        getDataSource(getORMConfig({ ...env, DB_DATABASE: database })),
-        TE.chain((source) => GetTypeORMClient(source)),
-      ),
+    TE.bind("db", () =>
+      // Use provided DatabaseClient or create a new one
+      dbOverride
+        ? TE.right(dbOverride)
+        : pipe(
+            getInitializedPGliteDataSource(database),
+            TE.tap((source) => {
+              // Mark the datasource that will be used by ctx.db
+              (source as any).__usedByCtxDb = true;
+              console.log(`🔍 [APPTEST] DataSource created for ctx.db, marked as __usedByCtxDb`);
+              return TE.right(undefined);
+            }),
+            TE.chain((source) => GetTypeORMClient(source)),
+          )
     ),
     TE.bind("redis", ({ env }) =>
       GetRedisClient({
@@ -116,69 +117,97 @@ export const loadAppContext = async (
         queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
       };
     }),
-    TE.map((ctx) => {
-      context = ctx;
-      return ctx;
-    }),
     throwTE,
   );
 };
 
-export const initAppTest = async (
+const initAppTest = async (
   ctx: ServerContext,
-  database: string,
 ): Promise<AppTest> => {
   const appTest = await pipe(
     TE.Do,
     TE.apS("ctx", TE.right(ctx)),
-    TE.bind("db", ({ ctx }) => {
-      if (database === ctx.db.manager.connection.driver.database) {
-        return TE.right(ctx.db);
-      }
-
-      ctx.logger.debug.log("Connecting to new DB %s", database);
-
-      return pipe(
-        getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database })),
-        TE.chain((source) => GetTypeORMClient(source)),
-      );
-    }),
-    TE.map(({ ctx, db }) => ({ ...ctx, db })),
-    TE.map((ctx) => ({
+    TE.map(({ ctx }) => ({
       ctx,
       mocks,
       req: supertest(makeApp(ctx)),
     })),
-    TE.map((app) => {
-      return app;
-    }),
     throwTE,
   );
 
   return appTest;
 };
 
-const g = global as unknown as {
-  appTest: AppTest;
-  appContext: ServerContext;
-};
+// Store per-file test context using the test file path as key
+// Export these so testSetup.ts can clear them
+const testContexts = new Map<string, ServerContext>();
+const testInstances = new Map<string, AppTest>();
 
 const appTestLogger = GetLogger("app-test");
-export const GetAppTest = async (): Promise<AppTest> => {
-  appTestLogger.info.log("app context", !!g.appContext);
 
-  if (!g.appContext) {
-    g.appContext = await loadAppContext(
-      appTestLogger,
-      process.env.DB_DATABASE!,
-    );
+/**
+ * Get or create AppTest for the current test file
+ * Reuses datasource within worker with transaction-based isolation
+ */
+export const GetAppTest = async (
+  dbOverride?: DatabaseClient,
+): Promise<AppTest> => {
+  // Use worker ID for instance isolation
+  const testFileId = process.env.VITEST_POOL_ID || "default";
+  const dbName = `test_${testFileId}`;
+
+  appTestLogger.info.log("Getting app test for worker ID: %s (dbOverride: %s)", testFileId, !!dbOverride);
+
+  // If a dbOverride is provided, we always create a fresh context
+  // This ensures the API is initialized with the transactional DB
+  if (dbOverride) {
+    appTestLogger.debug.log("Creating context with transactional DB for worker: %s", testFileId);
+    const context = await loadAppContext(appTestLogger, dbName, dbOverride);
+    const appTest = await initAppTest(context);
+    
+    // Update caches
+    testContexts.set(testFileId, context);
+    testInstances.set(testFileId, appTest);
+    
+    return appTest;
   }
 
-  appTestLogger.info.log("app test", !!g.appTest, process.env.DB_DATABASE);
-
-  if (!g.appTest) {
-    g.appTest = await initAppTest(g.appContext, process.env.DB_DATABASE!);
+  // Check if we already have a context for this worker
+  let context = testContexts.get(testFileId);
+  if (!context) {
+    appTestLogger.debug.log("Creating new context for worker: %s", testFileId);
+    context = await loadAppContext(appTestLogger, dbName);
+    testContexts.set(testFileId, context);
   }
 
-  return g.appTest;
+  // Check if we already have an app test for this worker
+  let appTest = testInstances.get(testFileId);
+  if (!appTest) {
+    appTestLogger.debug.log("Creating new app test for worker: %s", testFileId);
+    appTest = await initAppTest(context);
+    testInstances.set(testFileId, appTest);
+  }
+
+  return appTest;
+};
+
+/**
+ * Clear cached context to force recreation with patched DataSource
+ * Used in beforeEach to ensure ctx.db uses the transactional manager
+ */
+const clearContextCache = (): void => {
+  const testFileId = process.env.VITEST_POOL_ID || "default";
+  testContexts.delete(testFileId);
+  testInstances.delete(testFileId);
+  appTestLogger.debug.log("Context cache cleared for worker: %s", testFileId);
+};
+
+/**
+ * Clean up test context for a specific test file
+ * Should be called in afterAll hook
+ * Note: We don't close the DB here as it's reused across test files in the worker
+ */
+export const cleanupTestContext = async (): Promise<void> => {
+  // Cleanup is handled by transaction rollback in testSetup.ts
+  // The datasource remains open for the next test file
 };
