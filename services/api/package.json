@@ -44,7 +44,7 @@
     "schema:log": "pnpm typeorm-ts schema:log -d ./ormconfig.js",
     "start": "node build/run.js",
     "start:worker": "node build/worker/index.js",
-    "test": "pnpm migration:run && pnpm vitest",
+    "test": "pnpm vitest",
     "test:all": "pnpm test:spec --run && pnpm test:e2e --run",
     "test:e2e": "vitest --project api-e2e",
     "test:spec": "vitest --project api-spec",
