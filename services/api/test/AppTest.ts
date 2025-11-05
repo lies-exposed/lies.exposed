@@ -152,7 +152,7 @@ export const GetAppTest = async (
   dbOverride?: DatabaseClient,
 ): Promise<AppTest> => {
   // Use worker ID for instance isolation
-  const testFileId = process.env.VITEST_POOL_ID || "default";
+  const testFileId = process.env.VITEST_POOL_ID ?? "default";
   const dbName = `test_${testFileId}`;
 
   appTestLogger.info.log(
