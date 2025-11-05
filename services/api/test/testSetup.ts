@@ -3,9 +3,9 @@ import D from "debug";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
 import { cleanupTestContext } from "./AppTest.js";
 import {
-  getInitializedPGliteDataSource,
-  rollbackTransaction,
   startTransaction,
+  rollbackTransaction,
+  getInitializedPGliteDataSource,
 } from "./utils/pglite-datasource.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 
