@@ -31,7 +31,7 @@ describe("Transaction Isolation Verification", () => {
     
     // Verify we can query it back
     const foundUser = await throwTE(
-      Test.ctx.db.findOneBy(UserEntity, { id: testUserId })
+      Test.ctx.db.findOneOrFail(UserEntity, { where: {id: testUserId}  })
     );
     
     expect(foundUser).toBeDefined();
@@ -80,7 +80,7 @@ describe("Transaction Isolation Verification", () => {
     
     // Verify we can query it back
     const foundKeyword = await throwTE(
-      Test.ctx.db.findOneBy(KeywordEntity, { id: testKeywordId })
+      Test.ctx.db.findOneOrFail(KeywordEntity, { where: {id: testKeywordId}  })
     );
     
     expect(foundKeyword).toBeDefined();
@@ -156,7 +156,7 @@ describe("Transaction Isolation Verification", () => {
       Test.ctx.db.count(KeywordEntity)
     );
     
-    console.log(`✅ Test 6 (Final): Clean state verified. Users: ${userCount}, Keywords: ${keywordCount}`);
+    Test.ctx.logger.debug.log(`✅ Test 6 (Final): Clean state verified. Users: ${userCount}, Keywords: ${keywordCount}`);
     
     expect(userCount).toBe(0);
     expect(keywordCount).toBe(0);

@@ -4,9 +4,9 @@ import D from "debug";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
 import { cleanupTestContext } from "./AppTest.js";
 import {
-  getInitializedPGliteDataSource,
-  rollbackTransaction,
   startTransaction,
+  rollbackTransaction,
+  getInitializedPGliteDataSource,
 } from "./utils/pglite-datasource.js";
 
 vi.mock("page-metadata-parser");
