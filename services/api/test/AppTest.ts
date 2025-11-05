@@ -192,17 +192,6 @@ export const GetAppTest = async (
 };
 
 /**
- * Clear cached context to force recreation with patched DataSource
- * Used in beforeEach to ensure ctx.db uses the transactional manager
- */
-const clearContextCache = (): void => {
-  const testFileId = process.env.VITEST_POOL_ID || "default";
-  testContexts.delete(testFileId);
-  testInstances.delete(testFileId);
-  appTestLogger.debug.log("Context cache cleared for worker: %s", testFileId);
-};
-
-/**
  * Clean up test context for a specific test file
  * Should be called in afterAll hook
  * Note: We don't close the DB here as it's reused across test files in the worker

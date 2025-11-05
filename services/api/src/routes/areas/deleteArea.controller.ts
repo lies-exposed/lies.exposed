@@ -8,7 +8,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-
 export const MakeDeleteAreaRoute: Route = (r, { db, logger, jwt }) => {
   AddEndpoint(
     r,

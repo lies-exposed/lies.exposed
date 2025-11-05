@@ -1,6 +1,6 @@
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
-import { cleanupTestContext, GetAppTest } from "./AppTest.js";
+import { cleanupTestContext } from "./AppTest.js";
 import { 
   startTransaction, 
   rollbackTransaction, 
