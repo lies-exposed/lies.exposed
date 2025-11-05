@@ -112,7 +112,7 @@ export const GetMediaStats = Endpoint({
 
 export const GetLinkStats = Endpoint({
   Method: "GET",
-  getPath: () => `/admins/link/stats`,
+  getPath: () => `/admins/links/stats`,
   Output: Schema.Struct({
     data: Schema.Struct({
       // noPublishDate: Schema.Number,

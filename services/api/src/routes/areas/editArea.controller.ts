@@ -1,4 +1,5 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fetchCoordinates } from "@liexp/backend/lib/flows/geo/fetchCoordinates.flow.js";
 import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
@@ -13,8 +14,8 @@ import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeEditAreaRoute: Route = (r, { db, geo, logger }) => {
-  AddEndpoint(r)(
+export const MakeEditAreaRoute: Route = (r, { db, geo, logger, jwt }) => {
+  AddEndpoint(r, authenticationHandler(["admin:edit"])({ logger, jwt }))(
     Endpoints.Area.Edit,
     ({ params: { id }, body: { media, events, updateGeometry, ...body } }) => {
       logger.debug.log("Area update data %O", { ...body, media });
