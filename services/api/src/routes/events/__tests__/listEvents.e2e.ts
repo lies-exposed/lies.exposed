@@ -41,7 +41,7 @@ describe("List Events", () => {
 
   let events: any[];
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     appTest = await GetAppTest();
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [firstActor, secondActor]));
