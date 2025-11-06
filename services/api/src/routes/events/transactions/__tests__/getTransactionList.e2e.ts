@@ -15,9 +15,12 @@ describe("Get Transaction List", () => {
     socialPosts: [],
   }));
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     appTest = await GetAppTest();
+  });
 
+  beforeEach(async () => {
+    // Create events inside the transaction so they're part of the test's transactional context
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
