@@ -4,9 +4,8 @@ import fpTS from "eslint-plugin-fp-ts";
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
-// import tsParser from "@typescript-eslint/parser";
 
-const config: any = tseslint.config(
+const config = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeCheckedOnly,
