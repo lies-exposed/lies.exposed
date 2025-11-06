@@ -15,7 +15,7 @@ describe("Get Transaction List", () => {
     socialPosts: [],
   }));
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     appTest = await GetAppTest();
 
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
