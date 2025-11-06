@@ -103,12 +103,40 @@ jobs:
         with:
           hash: ${{ github.sha }}
 
+  # Debug job to show what changes were detected
+  debug-changes:
+    needs: detect-changes
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug outputs
+        run: |
+          echo "Change detection outputs:"
+          echo "needs-install: ${{ needs.detect-changes.outputs.needs-install }}"
+          echo "admin-web: ${{ needs.detect-changes.outputs.admin-web }}"
+          echo "agent: ${{ needs.detect-changes.outputs.agent }}"
+          echo "ai-bot: ${{ needs.detect-changes.outputs.ai-bot }}"
+          echo "api: ${{ needs.detect-changes.outputs.api }}"
+          echo "packages: ${{ needs.detect-changes.outputs.packages }}"
+          echo "storybook: ${{ needs.detect-changes.outputs.storybook }}"
+          echo "web: ${{ needs.detect-changes.outputs.web }}"
+          echo "worker: ${{ needs.detect-changes.outputs.worker }}"
+          echo "root: ${{ needs.detect-changes.outputs.root }}"
+
   # Lint job for all services
   lint:
     needs: [detect-changes, install]
     if: |
       always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped')
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
+       needs.detect-changes.outputs.ai-bot == 'true' ||
+       needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.packages == 'true' ||
+       needs.detect-changes.outputs.storybook == 'true' ||
+       needs.detect-changes.outputs.web == 'true' ||
+       needs.detect-changes.outputs.worker == 'true')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -144,12 +172,18 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
             command: pnpm worker lint
         exclude:
-          - enabled: false
+          - enabled: 'false'
 
     name: Lint ${{ matrix.service }}
     
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug matrix variables
+        run: |
+          echo "Service: ${{ matrix.service }}"
+          echo "Enabled: ${{ matrix.enabled }}"
+          echo "Command: ${{ matrix.command }}"
 
       - uses: ./.github/actions/setup-workspace
         with:
@@ -164,7 +198,15 @@ jobs:
     needs: [detect-changes, install]
     if: |
       always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped')
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      (needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
+       needs.detect-changes.outputs.ai-bot == 'true' ||
+       needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.packages == 'true' ||
+       needs.detect-changes.outputs.storybook == 'true' ||
+       needs.detect-changes.outputs.web == 'true' ||
+       needs.detect-changes.outputs.worker == 'true')
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -209,12 +251,20 @@ jobs:
             cache_key: worker-build
             has_app_build: false
         exclude:
-          - enabled: false
+          - enabled: 'false'
 
     name: Build ${{ matrix.service }}
     
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug matrix variables
+        run: |
+          echo "Service: ${{ matrix.service }}"
+          echo "Enabled: ${{ matrix.enabled }}"
+          echo "Build command: ${{ matrix.build_command }}"
+          echo "App command: ${{ matrix.app_command }}"
+          echo "Has app build: ${{ matrix.has_app_build }}"
 
       - uses: ./.github/actions/setup-workspace
         with:
@@ -255,11 +305,14 @@ jobs:
           POSTGRES_USER: liexp
           POSTGRES_PASSWORD: liexp-password
           POSTGRES_DB: liexp_test
+          # Increase connection limits for tests
+          POSTGRES_MAX_CONNECTIONS: 200
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          --shm-size=1g
         ports:
           - 8432:5432
     
@@ -278,6 +331,8 @@ jobs:
       - name: Run tests
         env:
           DOTENV_CONFIG_PATH: .env.test
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        timeout-minutes: 10
         run: pnpm api test
 
   # Test other services and packages (no external services needed)
