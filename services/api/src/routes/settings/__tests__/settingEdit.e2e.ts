@@ -31,4 +31,3 @@ describe("Edit Setting", () => {
     expect(response.status).toEqual(401);
   });
 });
-

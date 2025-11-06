@@ -1,5 +1,4 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import {
   saveUser,
@@ -15,8 +14,6 @@ import { CreateEventBodyArb } from "@liexp/test/lib/arbitrary/events/Uncategoriz
 import { Schema } from "effect";
 import fc from "fast-check";
 import * as A from "fp-ts/lib/Array.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -44,37 +41,6 @@ describe("Create Event", () => {
     authorizationToken = authorization;
     await throwTE(appTest.ctx.db.save(ActorEntity, actors));
     await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
-  });
-
-  afterAll(async () => {
-    const evKeywords = await pipe(
-      appTest.ctx.db.find(EventV2Entity, {
-        loadRelationIds: {
-          relations: ["keywords"],
-        },
-        where: {
-          id: In(eventIds),
-        },
-      }),
-      TE.map((events) =>
-        events.reduce<string[]>(
-          (acc, e) => acc.concat(e.keywords as any[] as string[]),
-          [],
-        ),
-      ),
-      throwTE,
-    );
-
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
-    if (evKeywords.length) {
-      await throwTE(
-        appTest.ctx.db.delete(KeywordEntity, [
-          ...evKeywords,
-          ...keywords.map((k) => k.id),
-        ]),
-      );
-    }
   });
 
   test("Should create an event", async () => {

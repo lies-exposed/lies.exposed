@@ -26,4 +26,3 @@ describe("Get Event Suggestion List", () => {
     expect(response.status).toEqual(401);
   });
 });
-

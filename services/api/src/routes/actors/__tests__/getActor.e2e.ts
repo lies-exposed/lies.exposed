@@ -16,4 +16,3 @@ describe("Get Actor", () => {
     expect(response.status).not.toEqual(401);
   });
 });
-

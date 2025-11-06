@@ -12,17 +12,11 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     exclude: ["**/build", "src/migrations", "src/scripts"],
     pool: "forks",
     bail: 1,
+    isolate: false,
     poolOptions: {
-      forks: process.env.CI
-        ? {
-            maxForks: 1,
+      forks: {
             singleFork: true,
-            isolate: true,
-          }
-        : {
-            maxForks: 20,
-            singleFork: false,
-            isolate: true,
+            isolate: false,
           },
     },
     coverage: {

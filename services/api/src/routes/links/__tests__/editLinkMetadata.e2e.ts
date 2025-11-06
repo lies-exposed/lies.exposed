@@ -31,4 +31,3 @@ describe("Edit Link Metadata", () => {
     expect(response.status).toEqual(401);
   });
 });
-

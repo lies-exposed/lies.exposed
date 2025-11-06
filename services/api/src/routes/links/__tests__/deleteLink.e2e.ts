@@ -26,4 +26,3 @@ describe("Delete Link", () => {
     expect(response.status).toEqual(401);
   });
 });
-

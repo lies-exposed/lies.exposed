@@ -31,4 +31,3 @@ describe("Edit User", () => {
     expect(response.status).toEqual(401);
   });
 });
-

@@ -31,4 +31,3 @@ describe("Create Many Links", () => {
     expect(response.status).toEqual(401);
   });
 });
-

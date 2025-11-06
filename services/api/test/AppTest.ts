@@ -28,19 +28,6 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import { vi } from "vitest";
-
-vi.mock("axios", () => ({
-  default: {
-    create: vi.fn(() => mocks.axios),
-  },
-}));
-vi.mock("page-metadata-parser");
-vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
-vi.mock("@aws-sdk/client-s3");
-vi.mock("@aws-sdk/s3-request-presigner");
-vi.mock("@aws-sdk/lib-storage");
-vi.mock("node-telegram-bot-api");
 
 export interface AppTest {
   ctx: ServerContext;

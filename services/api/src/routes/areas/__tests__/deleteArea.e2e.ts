@@ -1,18 +1,21 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { AdminDelete } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
+import { loginUser } from "../../../../test/utils/user.utils.js";
 
 describe("Delete Area", () => {
   let Test: AppTest, areas: Area[], authorizationToken: string;
   beforeAll(async () => {
     Test = await GetAppTest();
 
-    authorizationToken = `Bearer ${Test.ctx.jwt.signUser({
-      id: "1",
-    } as any)()}`;
+    const user = await saveUser(Test.ctx, [AdminDelete.literals[0]]);
+    const { authorization } = await loginUser(Test)(user);
+    authorizationToken = authorization;
 
     areas = tests.fc.sample(AreaArb, 1);
     await throwTE(

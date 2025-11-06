@@ -34,4 +34,3 @@ describe("Create Setting", () => {
     expect(response.status).toEqual(401);
   });
 });
-

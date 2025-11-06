@@ -26,4 +26,3 @@ describe("Take Link Screenshot", () => {
     expect(response.status).toEqual(401);
   });
 });
-

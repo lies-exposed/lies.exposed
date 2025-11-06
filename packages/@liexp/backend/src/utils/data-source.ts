@@ -4,7 +4,7 @@ import "reflect-metadata";
 import * as fs from "fs";
 import * as path from "path";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { DataSource, type DataSourceOptions } from "typeorm";
+import { DataSource, type DataSourceOptions, type EntityTarget } from "typeorm";
 import { ActorEntity } from "../entities/Actor.entity.js";
 import { AreaEntity } from "../entities/Area.entity.js";
 import { EventV2Entity } from "../entities/Event.v2.entity.js";
@@ -25,6 +25,47 @@ import { UserEntity } from "../entities/User.entity.js";
 import { type BACKEND_ENV } from "../io/ENV.js";
 import { toDBError, type DBError } from "../providers/orm/database.provider.js";
 
+/**
+ * All TypeORM entities used in the application
+ * Exported for reuse in test configurations
+ */
+export const ALL_ENTITIES: EntityTarget<unknown>[] = [
+  PageEntity,
+  ActorEntity,
+  GroupEntity,
+  GroupMemberEntity,
+  StoryEntity,
+  ProjectEntity,
+  AreaEntity,
+  EventV2Entity,
+  MediaEntity,
+  LinkEntity,
+  KeywordEntity,
+  UserEntity,
+  EventSuggestionEntity,
+  NationEntity,
+  SocialPostEntity,
+  GraphEntity,
+  SettingEntity,
+];
+
+/**
+ * Create ORM configuration with custom options
+ * @param baseConfig - Base configuration options
+ * @param overrides - Optional overrides for specific properties
+ */
+export const createORMConfig = (
+  baseConfig: Partial<DataSourceOptions>,
+  overrides?: Partial<DataSourceOptions>,
+): DataSourceOptions => {
+  return {
+    entities: ALL_ENTITIES,
+    synchronize: false,
+    ...baseConfig,
+    ...overrides,
+  } as DataSourceOptions;
+};
+
 export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
   const ssl =
     env.DB_SSL_MODE === "require"
@@ -35,35 +76,16 @@ export const getORMConfig = (env: BACKEND_ENV): DataSourceOptions => {
         }
       : false;
 
-  return {
+  return createORMConfig({
     type: "postgres",
     host: env.DB_HOST,
     username: env.DB_USERNAME,
     password: env.DB_PASSWORD,
     database: env.DB_DATABASE,
     port: env.DB_PORT,
-    entities: [
-      PageEntity,
-      ActorEntity,
-      GroupEntity,
-      GroupMemberEntity,
-      StoryEntity,
-      ProjectEntity,
-      AreaEntity,
-      EventV2Entity,
-      MediaEntity,
-      LinkEntity,
-      KeywordEntity,
-      UserEntity,
-      EventSuggestionEntity,
-      NationEntity,
-      SocialPostEntity,
-      GraphEntity,
-      SettingEntity,
-    ],
     synchronize: env.NODE_ENV === "test",
     ssl,
-  };
+  });
 };
 
 export const getDataSource = (

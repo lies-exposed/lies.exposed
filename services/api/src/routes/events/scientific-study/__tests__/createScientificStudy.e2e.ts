@@ -1,10 +1,9 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import {
-  type UserTest,
   saveUser,
+  type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -17,7 +16,6 @@ import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import fc from "fast-check";
-import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
@@ -54,30 +52,6 @@ describe("Create Scientific Study", () => {
 
     authorizationToken = await loginUser(appTest)(admin).then(
       ({ authorization }) => authorization,
-    );
-  });
-
-  afterAll(async () => {
-    const ev: any[] = await throwTE(
-      appTest.ctx.db.find(EventV2Entity, {
-        where: { id: In(scientificStudyIds) },
-      }),
-    );
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, scientificStudyIds));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
-    await throwTE(appTest.ctx.db.delete(GroupEntity, [group.id]));
-    const ll = await throwTE(
-      appTest.ctx.db.find(LinkEntity, {
-        where: {
-          id: In(ev.map((e) => e.payload.url)),
-        },
-      }),
-    );
-    await throwTE(
-      appTest.ctx.db.delete(
-        LinkEntity,
-        ll.map((l) => l.id),
-      ),
     );
   });
 
