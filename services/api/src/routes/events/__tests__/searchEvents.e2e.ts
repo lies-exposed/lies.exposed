@@ -45,7 +45,7 @@ describe("Search Events", () => {
 
   let events: any[];
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     appTest = await GetAppTest();
 
     await throwTE(

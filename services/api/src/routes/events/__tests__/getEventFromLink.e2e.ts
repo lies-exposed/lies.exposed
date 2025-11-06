@@ -69,28 +69,6 @@ describe("Get event from link", () => {
     await throwTE(appTest.ctx.db.save(EventV2Entity, events));
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        eventsData.map((e) => e.id),
-      ),
-    );
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupMemberEntity,
-        groupsMembers.map((d) => d.id),
-      ),
-    );
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [firstActor.id]));
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupEntity,
-        groups.map((g) => g.id),
-      ),
-    );
-  });
-
   test.skip("Return events sorted by score", async () => {
     appTest.mocks.urlMetadata.fetchMetadata.mockResolvedValue({
       title:

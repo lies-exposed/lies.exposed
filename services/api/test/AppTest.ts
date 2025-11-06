@@ -94,7 +94,9 @@ export const loadAppContext = async (
           },
           fetchMetadata: (url: string, opts: any) => {
             return TE.tryCatch(
-              () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
+              () => {
+                return mocks.urlMetadata.fetchMetadata(url, opts);
+              },
               (e) => e as any,
             );
           },

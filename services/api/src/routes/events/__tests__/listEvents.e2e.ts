@@ -113,25 +113,6 @@ describe("List Events", () => {
     )}`;
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        events.map((e) => e.id),
-      ),
-    );
-    await throwTE(appTest.ctx.db.delete(GroupMemberEntity, [groupMember.id]));
-    await throwTE(
-      appTest.ctx.db.delete(ActorEntity, [firstActor.id, secondActor.id]),
-    );
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupEntity,
-        groups.map((g) => g.id),
-      ),
-    );
-  });
-
   describe("Search by actors", () => {
     test("Get events for given actor", async () => {
       const response = await appTest.req

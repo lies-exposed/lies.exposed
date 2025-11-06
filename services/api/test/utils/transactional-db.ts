@@ -149,59 +149,6 @@ export const rollbackTransaction = async (): Promise<void> => {
 };
 
 /**
- * Commit the transaction and restore the original managers
- * Used for tests that need to verify data persistence across tests
- */
-export const commitTransaction = async (): Promise<void> => {
-  const workerId = getWorkerId();
-  const queryRunner = workerQueryRunners.get(workerId);
-  const { dataSource, db } = getContext();
-  const originalManager = workerOriginalManagers.get(workerId);
-  const isActive = workerTransactionActive.get(workerId);
-
-  // If no query runner or DataSource, nothing to commit
-  if (!queryRunner || !dataSource || !dataSource.isInitialized) {
-    return;
-  }
-
-  // Commit transaction if active
-  if (isActive) {
-    await queryRunner.commitTransaction();
-    workerTransactionActive.set(workerId, false);
-  }
-
-  // Restore original managers
-  if (originalManager) {
-    // Restore DataSource.manager
-    Object.defineProperty(dataSource, "manager", {
-      value: originalManager,
-      writable: true,
-      configurable: true,
-    });
-    
-    // Also restore ctx.db.manager if it exists
-    if (db) {
-      Object.defineProperty(db, "manager", {
-        value: originalManager,
-        writable: true,
-        configurable: true,
-      });
-    }
-  }
-
-  const logger = GetLogger("transactional-db");
-  logger.info.log(
-    "✅ Transaction committed, managers restored for worker: %s",
-    workerId,
-  );
-
-  // Release the query runner to clean up event listeners
-  await queryRunner.release();
-  workerQueryRunners.delete(workerId);
-  workerOriginalManagers.delete(workerId);
-};
-
-/**
  * Clean up all transactional state for the current worker
  * Should be called in global teardown or afterAll
  */
