@@ -21,7 +21,7 @@ export const port =
 const config = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
-  envFileDir: "./",
+  envFileDir: __dirname,
   output: "build",
   base: "/",
   server: {
