@@ -57,7 +57,7 @@ export const upsertNLPEntities = <
     ConfigContext,
 >(
   ctx: C,
-): TE.TaskEither<ServerError, Array<{ name: string; patterns: string[] }>> => {
+): TE.TaskEither<ServerError, { name: string; patterns: string[] }[]> => {
   return pipe(
     sequenceS(TE.ApplicativePar)({
       actors: walkPaginatedRequest<

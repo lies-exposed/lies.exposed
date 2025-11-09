@@ -1,7 +1,6 @@
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { Schema } from "effect";
-import { Arbitrary } from "effect";
+import { Schema, Arbitrary } from "effect";
 import fc from "fast-check";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 

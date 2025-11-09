@@ -24,8 +24,8 @@ import {
   type NetworkGroupBy,
   type NetworkLink,
   type NetworkType,
+  type EventNetworkDatum,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type EventNetworkDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
 import {
   type Actor,
   type Group,

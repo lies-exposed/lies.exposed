@@ -4,9 +4,7 @@ import { Book } from "./events/book.config.js";
 import { Death } from "./events/death.config.js";
 import { Patent } from "./events/patent.config.js";
 
-export type EventsConfig = {
-  [K in EventType]: EventQueryConfig;
-};
+export type EventsConfig = Record<EventType, EventQueryConfig>;
 
 export const EventsConfig: EventsConfig = {
   Book,

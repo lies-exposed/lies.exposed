@@ -10,16 +10,13 @@ import {
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type ReactAgent } from "langchain";
-import {
-  type AgentMiddleware,
-  type AnyAnnotationRoot,
-} from "langchain/dist/agents/middleware/types.js";
+import { type ReactAgent, type AgentMiddleware } from "langchain";
+import { type AnyAnnotationRoot } from "langchain/dist/agents/middleware/types.js";
 import type { LoggerContext } from "../../context/logger.context.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
-    inputs: Array<BaseMessage | BaseMessageLike>,
+    inputs: (BaseMessage | BaseMessageLike)[],
     chain: ReactAgent<
       Record<string, any>,
       AnyAnnotationRoot | InteropZodObject | undefined,
@@ -69,7 +66,7 @@ const runRunnableSequence =
   };
 
 export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
-  inputs: Array<BaseMessage | BaseMessageLike>,
+  inputs: (BaseMessage | BaseMessageLike)[],
   chain: ReactAgent<
     Record<string, any>,
     AnyAnnotationRoot | InteropZodObject | undefined,

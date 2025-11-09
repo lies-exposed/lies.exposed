@@ -8,7 +8,8 @@ export default tseslint.config(
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json"],
+        // Use projectService for automatic TypeScript project detection
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },

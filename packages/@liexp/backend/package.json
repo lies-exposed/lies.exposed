@@ -85,6 +85,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
+    "langchain": "^1.0.2",
     "node-telegram-bot-api": "^0.66.0",
     "pdfjs-dist": "^5.4.149",
     "puppeteer-core": "^24.8.1",

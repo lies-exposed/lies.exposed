@@ -14,7 +14,7 @@ import { registerTools } from "./tools/index.js";
 
 export const MakeMCPRoutes: Route = (router, ctx) => {
   // Map to store transports by session ID
-  const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};
+  const transports: Record<string, StreamableHTTPServerTransport> = {};
 
   // Add service client authentication middleware for all environments
   router.use(

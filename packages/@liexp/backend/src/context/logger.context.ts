@@ -1,5 +1,5 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 
-export type LoggerContext = {
+export interface LoggerContext {
   logger: logger.Logger;
-};
+}

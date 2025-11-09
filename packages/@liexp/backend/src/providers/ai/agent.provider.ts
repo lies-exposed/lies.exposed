@@ -19,7 +19,7 @@ import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 type Agent = ReactAgent;
 
-export type AgentProvider = {
+export interface AgentProvider {
   agent: Agent;
   tools: Tools.Standard[];
   createAgent: (opts: Partial<Parameters<typeof createReactAgent>[0]>) => Agent;
@@ -31,7 +31,7 @@ export type AgentProvider = {
     input: Parameters<Agent["stream"]>[0],
     options: Parameters<Agent["stream"]>[1],
   ) => TaskEither<ServerError, AIMessage[]>;
-};
+}
 
 const toAgentError = (e: unknown) => {
   // eslint-disable-next-line no-console
