@@ -219,7 +219,6 @@ jobs:
             docker_image: liexp-worker
 
     name: CI ${{ matrix.service }}
-    if: ${{ matrix.enabled == 'true' }}
     
     steps:
       - uses: actions/checkout@v4
