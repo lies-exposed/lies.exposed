@@ -62,7 +62,26 @@ export const Edit = Endpoint({
   Input: {
     Query: undefined,
     Params: Schema.Struct({ id: UUID }),
-    Body: Group.EditGroupBody,
+    Body: Schema.Struct({
+      ...Group.EditGroupBody.fields,
+      startDate: OptionFromNullishToNull(Schema.Date),
+      endDate: OptionFromNullishToNull(Schema.Date),
+      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      members: OptionFromNullishToNull(
+        Schema.Array(
+          Schema.Union(
+            UUID,
+            Schema.Struct({
+              actor: UUID,
+              body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+              startDate: Schema.Date,
+              endDate: OptionFromNullishToNull(Schema.Date),
+            }),
+          ),
+        ),
+      ),
+    }),
   },
   Output: Group.GroupOutput,
 });

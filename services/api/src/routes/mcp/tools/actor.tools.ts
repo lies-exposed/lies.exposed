@@ -13,6 +13,7 @@ import * as O from "effect/Option";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { createActor } from "../../../flows/actors/createActor.flow.js";
+import { editActor } from "../../../flows/actors/editActor.flow.js";
 import { formatActorToMarkdown } from "./formatters/actorToMarkdown.formatter.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
@@ -164,6 +165,136 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             ],
           };
         }),
+        throwTE,
+      );
+    },
+  );
+
+  const editInputSchema = effectToZodStruct(
+    Schema.Struct({
+      id: UUID.annotations({
+        description: "UUID of the actor to edit",
+      }),
+      username: Schema.NullOr(Schema.String).annotations({
+        description: "Unique username for the actor or null to keep current",
+      }),
+      fullName: Schema.NullOr(Schema.String).annotations({
+        description: "Full name of the actor or null to keep current",
+      }),
+      color: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Color associated with the actor (hex format, without #) or null to keep current",
+      }),
+      excerpt: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Short description of the actor as plain text or null to keep current",
+      }),
+      nationalities: Schema.NullOr(Schema.Array(UUID)).annotations({
+        description: "Array of nationality UUIDs or null to keep current",
+      }),
+      body: Schema.NullOr(Schema.String).annotations({
+        description: "Full body content as plain text or null to keep current",
+      }),
+      avatar: Schema.NullOr(UUID).annotations({
+        description: "Avatar media UUID or null to keep current",
+      }),
+      bornOn: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Birth date in ISO format (YYYY-MM-DD) or null to keep current",
+      }),
+      diedOn: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Death date in ISO format (YYYY-MM-DD) or null to keep current",
+      }),
+      memberIn: Schema.NullOr(
+        Schema.Array(
+          Schema.Union(
+            UUID,
+            Schema.Struct({
+              group: UUID,
+              body: Schema.String,
+              startDate: Schema.String,
+              endDate: Schema.NullOr(Schema.String),
+            }),
+          ),
+        ),
+      ).annotations({
+        description:
+          "Array of group memberships (as UUIDs or detailed objects) or null to keep current",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    "editActor",
+    {
+      title: "Edit actor",
+      description:
+        "Edit an existing actor (person) in the database with the provided information. Only provided fields will be updated. Returns the updated actor details in structured markdown format.",
+      annotations: { title: "Edit actor", tool: true },
+      inputSchema: editInputSchema,
+    },
+    async ({
+      id,
+      username,
+      fullName,
+      color,
+      excerpt,
+      nationalities,
+      body,
+      avatar,
+      bornOn,
+      diedOn,
+      memberIn,
+    }) => {
+      return pipe(
+        editActor({
+          id,
+          username: O.fromNullable(username),
+          fullName: O.fromNullable(fullName),
+          color: O.fromNullable(color),
+          excerpt: pipe(
+            O.fromNullable(excerpt),
+            O.map((e) => toInitialValue(e)),
+          ),
+          nationalities: pipe(
+            O.fromNullable(nationalities),
+            O.map((n) => [...n]),
+          ),
+          body: pipe(
+            O.fromNullable(body),
+            O.map((b) => toInitialValue(b)),
+          ),
+          avatar: O.fromNullable(avatar),
+          bornOn: O.fromNullable(bornOn),
+          diedOn: O.fromNullable(diedOn),
+          memberIn: pipe(
+            O.fromNullable(memberIn),
+            O.map((members) =>
+              members.map((m) => {
+                if (typeof m === "string") {
+                  return m;
+                }
+                return {
+                  group: m.group,
+                  body: toInitialValue(m.body),
+                  startDate: new Date(m.startDate),
+                  endDate: m.endDate ? O.some(new Date(m.endDate)) : O.none(),
+                };
+              }),
+            ),
+          ),
+        })(ctx),
+        LoggerService.TE.debug(ctx, "Updated actor %O"),
+        fp.TE.map((actor) => ({
+          content: [
+            {
+              text: formatActorToMarkdown(actor),
+              type: "text" as const,
+              href: `actor://${actor.id}`,
+            },
+          ],
+        })),
         throwTE,
       );
     },

@@ -1,9 +1,9 @@
-import { type Actor } from "@liexp/shared/lib/io/http/index.js";
+import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
 import { ActorListItem } from "../../../../lists/ActorList.js";
 
-export type ActorNodeType = Node<Actor.Actor, typeof Actor.Actor.name>;
+export type ActorNodeType = Node<typeof Actor.Type, typeof Actor.name>;
 
 export const ActorNode = React.memo<NodeProps<ActorNodeType>>(
   ({ data, selected }) => {

@@ -1,6 +1,5 @@
-import { type Actor } from "@liexp/shared/lib/io/http/index.js";
-import { toColorHash } from "@liexp/shared/lib/utils/colors";
-// import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
+import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import {
   BaseEdge,
   type Edge,
@@ -11,7 +10,7 @@ import {
 } from "@xyflow/react";
 import * as React from "react";
 
-export type ActorLinkType = Edge<Actor.Actor, typeof Actor.Actor.name>;
+export type ActorLinkType = Edge<typeof Actor.Type, typeof Actor.name>;
 
 export const ActorLink: React.FC<EdgeProps<ActorLinkType>> = (props) => {
   const {

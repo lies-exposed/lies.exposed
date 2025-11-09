@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { Actor } from "../Actor.js";
+import { Actor, type ActorEncoded } from "../Actor.js";
 import { Group } from "../Group.js";
 import { UUID } from "./UUID.js";
 
@@ -32,7 +32,7 @@ export type BySubjectId = typeof BySubjectId.Type;
 
 export const ByActor = Schema.Struct({
   type: ACTOR,
-  id: Actor,
+  id: Schema.suspend((): Schema.Schema<Actor, ActorEncoded> => Actor),
 }).annotations({
   title: "ByActor",
 });
