@@ -229,22 +229,22 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-        if: ${{ matrix.enabled == 'true' }}
+        if: ${{ matrix.enabled }}
 
       - uses: ./.github/actions/setup-workspace
-        if: ${{ matrix.enabled == 'true' }}
+        if: ${{ matrix.enabled }}
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
           build_hash: ${{ github.sha }}
 
       # Lint step
       - name: Lint ${{ matrix.service }}
-        if: ${{ matrix.enabled == 'true' && matrix.lint_command }}
+        if: ${{ matrix.enabled && matrix.lint_command }}
         run: ${{ matrix.lint_command }}
 
       # Build cache setup
       - name: Setup build cache for ${{ matrix.service }}
-        if: ${{ matrix.enabled == 'true' && matrix.build_cache_key }}
+        if: ${{ matrix.enabled && matrix.build_cache_key }}
         uses: actions/cache@v4
         with:
           path: services/**/build
@@ -252,26 +252,26 @@ jobs:
 
       # Build step (for API, use build-api action for consistency)
       - name: Build API (with action)
-        if: ${{ matrix.enabled == 'true' && matrix.service == 'api' }}
+        if: ${{ matrix.enabled && matrix.service == 'api' }}
         uses: ./.github/actions/build-api
         with:
           hash: ${{ github.sha }}
 
       - name: Build ${{ matrix.service }}
-        if: ${{ matrix.enabled == 'true' && matrix.build_command && matrix.service != 'api' }}
+        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'api' }}
         env:
           DOTENV_CONFIG_PATH: ${{ matrix.build_env_dotenv || '' }}
         run: ${{ matrix.build_command }}
 
       - name: Build ${{ matrix.service }} app
-        if: ${{ matrix.enabled == 'true' && matrix.has_app_build }}
+        if: ${{ matrix.enabled && matrix.has_app_build }}
         env:
           DOTENV_CONFIG_PATH: ${{ matrix.build_env_dotenv || '' }}
         run: ${{ matrix.app_command }}
 
       # Test step
       - name: Run tests for ${{ matrix.service }}
-        if: ${{ matrix.enabled == 'true' && matrix.test_command }}
+        if: ${{ matrix.enabled && matrix.test_command }}
         env:
           DOTENV_CONFIG_PATH: ${{ matrix.test_env_dotenv || '' }}
           DEBUG: ${{ matrix.test_env_debug || '' }}
@@ -279,7 +279,7 @@ jobs:
 
       # Docker build step (only for PRs targeting release/alpha)
       - name: Docker build ${{ matrix.service }}
-        if: ${{ matrix.enabled == 'true' && matrix.docker_enabled == 'true' && matrix.dockerfile }}
+        if: ${{ matrix.enabled && matrix.docker_enabled && matrix.dockerfile }}
         uses: ./.github/actions/docker-build-push
         with:
           dockerfile: ${{ matrix.dockerfile }}
