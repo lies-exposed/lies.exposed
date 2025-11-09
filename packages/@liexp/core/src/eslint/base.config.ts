@@ -13,8 +13,8 @@ const config = defineConfig(
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
 
-  importX.flatConfigs.recommended as any as Config,
-  importX.flatConfigs.typescript as any as Config,
+  importX.flatConfigs.recommended as Config,
+  importX.flatConfigs.typescript as Config,
 
   // Prettier integration (should be last to override conflicting rules)
   eslintPluginPrettierRecommended,

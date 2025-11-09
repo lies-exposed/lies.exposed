@@ -148,7 +148,7 @@ export const GetLangchainProvider = (
 
       let output = "";
       for await (const chunk of stream) {
-        output += chunk;
+        output += (chunk.content as string) ?? "";
       }
 
       return output;
