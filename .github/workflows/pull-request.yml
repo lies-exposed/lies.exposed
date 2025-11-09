@@ -138,6 +138,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
             lint_command: pnpm admin-web lint
             build_command: pnpm admin-web build
+            build_env_dotenv: services/admin-web/.env
             app_command: pnpm admin-web build:app
             has_app_build: true
             build_cache_key: admin-web-build
@@ -149,6 +150,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
             lint_command: pnpm agent lint
             build_command: pnpm agent build
+            build_env_dotenv: services/agent/.env
             build_cache_key: agent-build
             test_command: pnpm agent test
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
@@ -158,6 +160,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
             lint_command: pnpm ai-bot lint
             build_command: pnpm ai-bot build
+            build_env_dotenv: services/ai-bot/.env
             build_cache_key: ai-bot-build
             test_command: pnpm ai-bot test
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
@@ -167,9 +170,10 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
             lint_command: pnpm api lint
             build_command: pnpm api build
+            build_env_dotenv: services/api/.env
             build_cache_key: api-build
             test_command: pnpm api test
-            test_env_dotenv: .env.test
+            test_env_dotenv: services/api/.env.test
             needs_db_services: true
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
             dockerfile: api.Dockerfile
@@ -193,6 +197,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
             lint_command: pnpm storybook lint
             build_command: pnpm storybook typecheck
+            build_env_dotenv: services/storybook/.env
             app_command: pnpm storybook build:app
             has_app_build: true
             build_cache_key: storybook-build
@@ -201,6 +206,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
             lint_command: pnpm web lint
             build_command: pnpm web build
+            build_env_dotenv: services/web/.env
             app_command: pnpm web build:app-server
             has_app_build: true
             build_cache_key: web-build
@@ -212,6 +218,7 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
             lint_command: pnpm worker lint
             build_command: pnpm worker build
+            build_env_dotenv: services/worker/.env
             build_cache_key: worker-build
             test_command: pnpm worker test
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
@@ -222,20 +229,22 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+        if: ${{ matrix.enabled == 'true' }}
 
       - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.enabled == 'true' }}
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
           build_hash: ${{ github.sha }}
 
       # Lint step
       - name: Lint ${{ matrix.service }}
-        if: ${{ matrix.lint_command }}
+        if: ${{ matrix.enabled == 'true' && matrix.lint_command }}
         run: ${{ matrix.lint_command }}
 
       # Build cache setup
       - name: Setup build cache for ${{ matrix.service }}
-        if: ${{ matrix.build_cache_key }}
+        if: ${{ matrix.enabled == 'true' && matrix.build_cache_key }}
         uses: actions/cache@v4
         with:
           path: services/**/build
@@ -243,22 +252,26 @@ jobs:
 
       # Build step (for API, use build-api action for consistency)
       - name: Build API (with action)
-        if: ${{ matrix.service == 'api' }}
+        if: ${{ matrix.enabled == 'true' && matrix.service == 'api' }}
         uses: ./.github/actions/build-api
         with:
           hash: ${{ github.sha }}
 
       - name: Build ${{ matrix.service }}
-        if: ${{ matrix.build_command && matrix.service != 'api' }}
+        if: ${{ matrix.enabled == 'true' && matrix.build_command && matrix.service != 'api' }}
+        env:
+          DOTENV_CONFIG_PATH: ${{ matrix.build_env_dotenv || '' }}
         run: ${{ matrix.build_command }}
 
       - name: Build ${{ matrix.service }} app
-        if: ${{ matrix.has_app_build }}
+        if: ${{ matrix.enabled == 'true' && matrix.has_app_build }}
+        env:
+          DOTENV_CONFIG_PATH: ${{ matrix.build_env_dotenv || '' }}
         run: ${{ matrix.app_command }}
 
       # Test step
       - name: Run tests for ${{ matrix.service }}
-        if: ${{ matrix.test_command }}
+        if: ${{ matrix.enabled == 'true' && matrix.test_command }}
         env:
           DOTENV_CONFIG_PATH: ${{ matrix.test_env_dotenv || '' }}
           DEBUG: ${{ matrix.test_env_debug || '' }}
@@ -266,7 +279,7 @@ jobs:
 
       # Docker build step (only for PRs targeting release/alpha)
       - name: Docker build ${{ matrix.service }}
-        if: ${{ matrix.docker_enabled == 'true' && matrix.dockerfile }}
+        if: ${{ matrix.enabled == 'true' && matrix.docker_enabled == 'true' && matrix.dockerfile }}
         uses: ./.github/actions/docker-build-push
         with:
           dockerfile: ${{ matrix.dockerfile }}
