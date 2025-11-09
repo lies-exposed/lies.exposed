@@ -256,6 +256,8 @@ jobs:
 
       - name: Build ${{ matrix.service }} app
         if: ${{ matrix.enabled && matrix.has_app_build }}
+        env:
+          DOTENV_CONFIG_PATH: ".env"
         run: ${{ matrix.app_command }}
 
       # Test step
