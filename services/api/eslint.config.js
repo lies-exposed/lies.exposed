@@ -3,7 +3,7 @@ import tseslint from "typescript-eslint";
 
 const eslintConfig = tseslint.config(...baseEslintConfig, {
   files: ["bin/**/*.ts", "src/**/*.ts"],
-  ignores: ["**/*.d.ts", "src/migrations/*.ts"],
+  ignores: ["**/*.d.ts"],
   languageOptions: {
     parserOptions: {
       project: ["./tsconfig.json"],
