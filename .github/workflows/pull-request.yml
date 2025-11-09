@@ -264,8 +264,8 @@ jobs:
       - name: Run tests for ${{ matrix.service }}
         if: ${{ matrix.enabled && matrix.test_command }}
         env:
-          DOTENV_CONFIG_PATH: ${{ matrix.test_env_dotenv || '' }}
-          DEBUG: ${{ matrix.test_env_debug || '' }}
+          DOTENV_CONFIG_PATH: ${{ matrix.test_env_dotenv || '.env' }}
+          DEBUG: ${{ matrix.test_env_debug || '-@liexp*' }}
         run: ${{ matrix.test_command }}
 
       # Docker build step (only for PRs targeting release/alpha)
