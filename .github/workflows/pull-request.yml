@@ -236,7 +236,7 @@ jobs:
         if: ${{ matrix.has_app_build }}
         run: ${{ matrix.app_command }}
 
-  # Test API (uses PGlite for in-process PostgreSQL)
+  # Test API (requires postgres and redis)
   test-api:
     needs: [detect-changes, install]
     if: |
@@ -244,8 +244,24 @@ jobs:
       (needs.install.result == 'success' || needs.install.result == 'skipped') &&
       needs.detect-changes.outputs.api == 'true'
     runs-on: ubuntu-latest
-    # NOTE: PGlite runs in-process, no external services needed!
-    # Redis is mocked in tests via vi.mock() in testSetup.ts
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+      pg-db-test:
+        image: postgres:17
+        env:
+          POSTGRES_USER: liexp
+          POSTGRES_PASSWORD: liexp-password
+          POSTGRES_DB: liexp_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 8432:5432
     
     steps:
       - uses: actions/checkout@v4
