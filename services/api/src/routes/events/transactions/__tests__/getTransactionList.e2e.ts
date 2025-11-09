@@ -20,8 +20,7 @@ describe("Get Transaction List", () => {
   });
 
   beforeEach(async () => {
-    // Create events inside the transaction so they're automatically rolled back
-    // This happens AFTER testSetup.ts starts the transaction
+    // Create events inside the transaction so they're part of the test's transactional context
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
