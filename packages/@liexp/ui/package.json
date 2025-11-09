@@ -21,7 +21,7 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint src",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
