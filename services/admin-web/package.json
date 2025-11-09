@@ -16,7 +16,7 @@
     "docker:dev": "vite dev",
     "lint": "eslint src",
     "start": "vite start",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "watch": "tsc -b --watch"
   },
   "lint-staged": {

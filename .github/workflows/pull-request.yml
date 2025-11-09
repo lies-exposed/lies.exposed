@@ -103,147 +103,14 @@ jobs:
         with:
           hash: ${{ github.sha }}
 
-  # Lint job for all services
-  lint:
+  # Combined CI job for lint, build, test, and docker
+  ci:
     needs: [detect-changes, install]
     if: |
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - service: admin-web
-            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
-            command: pnpm admin-web lint
-          - service: agent
-            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
-            command: pnpm agent lint
-          - service: ai-bot
-            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
-            command: pnpm ai-bot lint
-          - service: api
-            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
-            command: pnpm api lint
-          - service: packages
-            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
-            command: |
-              pnpm core lint
-              pnpm shared lint
-              pnpm test lint
-              pnpm backend lint
-              pnpm ui lint
-          - service: storybook
-            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
-            command: pnpm storybook lint
-          - service: web
-            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
-            command: pnpm web lint
-          - service: worker
-            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
-            command: pnpm worker lint
-        exclude:
-          - enabled: false
-
-    name: Lint ${{ matrix.service }}
-    
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-          build_hash: ${{ github.sha }}
-
-      - name: Lint ${{ matrix.service }}
-        run: ${{ matrix.command }}
-
-  # Build job for all services
-  build:
-    needs: [detect-changes, install]
-    if: |
-      always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped')
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - service: admin-web
-            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
-            build_command: pnpm admin-web build
-            app_command: pnpm admin-web build:app
-            cache_key: admin-web-build
-            has_app_build: true
-          - service: agent
-            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
-            build_command: pnpm agent build
-            cache_key: agent-build
-            has_app_build: false
-          - service: ai-bot
-            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
-            build_command: pnpm ai-bot build
-            cache_key: ai-bot-build
-            has_app_build: false
-          - service: api
-            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
-            build_command: pnpm api build
-            cache_key: api-build
-            has_app_build: false
-          - service: storybook
-            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
-            build_command: pnpm storybook typecheck
-            app_command: pnpm storybook build:app
-            cache_key: storybook-build
-            has_app_build: true
-          - service: web
-            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
-            build_command: pnpm web build
-            app_command: pnpm web build:app-server
-            cache_key: web-build
-            has_app_build: true
-          - service: worker
-            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
-            build_command: pnpm worker build
-            cache_key: worker-build
-            has_app_build: false
-        exclude:
-          - enabled: false
-
-    name: Build ${{ matrix.service }}
-    
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-          build_hash: ${{ github.sha }}
-
-      - name: Setup cache for ${{ matrix.service }}
-        if: ${{ matrix.cache_key }}
-        uses: actions/cache@v4
-        with:
-          path: services/**/build
-          key: ${{ matrix.cache_key }}
-
-      - name: Build ${{ matrix.service }}
-        if: ${{ matrix.build_command }}
-        run: ${{ matrix.build_command }}
-
-      - name: Build ${{ matrix.service }} app
-        if: ${{ matrix.has_app_build }}
-        run: ${{ matrix.app_command }}
-
-  # Test API (requires postgres and redis)
-  test-api:
-    needs: [detect-changes, install]
-    if: |
-      always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
-      needs.detect-changes.outputs.api == 'true'
-    runs-on: ubuntu-latest
+    # Postgres and Redis services (only used by API tests)
     services:
       redis:
         image: redis:7
@@ -263,60 +130,154 @@ jobs:
         ports:
           - 8432:5432
     
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-          build_hash: ${{ github.sha }}
-
-      - uses: ./.github/actions/build-api
-        with:
-          hash: ${{ github.sha }}
-
-      - name: Run tests
-        env:
-          DOTENV_CONFIG_PATH: .env.test
-        run: pnpm api test
-
-  # Test other services and packages (no external services needed)
-  test:
-    needs: [detect-changes, install]
-    if: |
-      always() &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped')
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - service: worker
-            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
-            test_command: pnpm worker test
+          - service: admin-web
+            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
+            lint_command: pnpm admin-web lint
+            build_command: pnpm admin-web build
+            app_command: pnpm admin-web build:app
+            has_app_build: true
+            build_cache_key: admin-web-build
+            test_command: pnpm admin-web test
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: adminWeb.Dockerfile
+            docker_image: liexp-admin-web
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            lint_command: pnpm agent lint
+            build_command: pnpm agent build
+            build_cache_key: agent-build
+            test_command: pnpm agent test
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: agent.Dockerfile
+            docker_image: liexp-agent
+          - service: ai-bot
+            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            lint_command: pnpm ai-bot lint
+            build_command: pnpm ai-bot build
+            build_cache_key: ai-bot-build
+            test_command: pnpm ai-bot test
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: ai-bot.Dockerfile
+            docker_image: liexp-ai-bot
+          - service: api
+            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            lint_command: pnpm api lint
+            build_command: pnpm api build
+            build_cache_key: api-build
+            test_command: pnpm api test
+            test_env_dotenv: "./.env.test"
+            needs_db_services: true
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: api.Dockerfile
+            docker_image: liexp-api
           - service: packages
             enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            lint_command: |
+              pnpm core lint
+              pnpm shared lint
+              pnpm test lint
+              pnpm backend lint
+              pnpm ui lint
             test_command: |
+              pnpm core test
               pnpm shared test
+              pnpm test test
               pnpm backend test
-            env_debug: "-@liexp*"
-        exclude:
-          - enabled: false
+              pnpm ui test
+            test_env_debug: "-@liexp*"
+          - service: storybook
+            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
+            lint_command: pnpm storybook lint
+            build_command: pnpm storybook typecheck
+            app_command: pnpm storybook build:app
+            has_app_build: true
+            build_cache_key: storybook-build
+            test_command: pnpm storybook test
+          - service: web
+            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            lint_command: pnpm web lint
+            build_command: pnpm web build
+            app_command: pnpm web build:app-server
+            has_app_build: true
+            build_cache_key: web-build
+            test_command: pnpm web test
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: web.Dockerfile
+            docker_image: liexp-web
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            lint_command: pnpm worker lint
+            build_command: pnpm worker build
+            build_cache_key: worker-build
+            test_command: pnpm worker test
+            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            dockerfile: worker.Dockerfile
+            docker_image: liexp-worker
 
-    name: Test ${{ matrix.service }}
+    name: CI ${{ matrix.service }}
     
     steps:
       - uses: actions/checkout@v4
+        if: ${{ matrix.enabled }}
 
       - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.enabled }}
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
           build_hash: ${{ github.sha }}
 
-      - name: Run tests
+      # Lint step
+      - name: Lint ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.lint_command }}
+        run: ${{ matrix.lint_command }}
+
+      # Build cache setup
+      - name: Setup build cache for ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.build_cache_key }}
+        uses: actions/cache@v4
+        with:
+          path: services/**/build
+          key: ${{ matrix.build_cache_key }}
+
+      # Build step (for API, use build-api action for consistency)
+      - name: Build API (with action)
+        if: ${{ matrix.enabled && matrix.service == 'api' }}
+        uses: ./.github/actions/build-api
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Build ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'api' }}
+        run: ${{ matrix.build_command }}
+
+      - name: Build ${{ matrix.service }} app
+        if: ${{ matrix.enabled && matrix.has_app_build }}
         env:
-          DEBUG: ${{ matrix.env_debug || '' }}
+          DOTENV_CONFIG_PATH: "./.env"
+        run: ${{ matrix.app_command }}
+
+      # Test step
+      - name: Run tests for ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.test_command }}
+        env:
+          DOTENV_CONFIG_PATH: ${{ matrix.test_env_dotenv || '.env' }}
+          DEBUG: ${{ matrix.test_env_debug || '-@liexp*' }}
         run: ${{ matrix.test_command }}
+
+      # Docker build step (only for PRs targeting release/alpha)
+      - name: Docker build ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.docker_enabled && matrix.dockerfile }}
+        uses: ./.github/actions/docker-build-push
+        with:
+          dockerfile: ${{ matrix.dockerfile }}
+          image_name: ${{ matrix.docker_image }}
+          push: false
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
   # Knip report (only for root changes)
   knip-report:
@@ -336,45 +297,3 @@ jobs:
 
       - name: Post the knip results
         run: pnpm knip
-
-  # Docker build job (only for PRs targeting release/alpha)
-  docker-build:
-    if: |
-      github.base_ref == 'release/alpha' &&
-      (needs.detect-changes.outputs.admin-web == 'true' ||
-       needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.web == 'true')
-    needs: [detect-changes, install, lint, build]
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - service: admin-web
-            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
-            dockerfile: adminWeb.Dockerfile
-            image_name: liexp-admin-web
-          - service: api
-            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
-            dockerfile: api.Dockerfile
-            image_name: liexp-api
-          - service: web
-            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
-            dockerfile: web.Dockerfile
-            image_name: liexp-web
-        exclude:
-          - enabled: false
-
-    name: Docker build ${{ matrix.service }}
-    
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: ./.github/actions/docker-build-push
-        with:
-          dockerfile: ${{ matrix.dockerfile }}
-          image_name: ${{ matrix.image_name }}
-          push: false
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-

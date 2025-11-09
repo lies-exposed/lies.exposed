@@ -24,7 +24,7 @@
     "lint": "eslint src",
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
-    "test": "vitest",
+    "test": "vitest --passWithNoTests",
     "watch": "tsc -b --watch",
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
   },
