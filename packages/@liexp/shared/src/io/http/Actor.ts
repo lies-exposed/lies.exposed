@@ -4,11 +4,7 @@ import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { Color } from "./Common/Color.js";
 import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
-import {
-  GroupMember,
-  type GroupMemberEncoded,
-  type GroupMemberType,
-} from "./GroupMember.js";
+import { GroupMember, type GroupMemberEncoded } from "./GroupMember.js";
 import { CreateMedia, Media } from "./Media/Media.js";
 import { Nation } from "./Nation.js";
 import { GetListQuery } from "./Query/index.js";
@@ -191,7 +187,7 @@ const actorFields = {
 // Type interface for Actor (decoded/application type)
 export interface Actor extends Schema.Struct.Type<typeof actorFields> {
   readonly memberIn: ReadonlyArray<
-    Schema.Schema.Type<typeof UUID> | GroupMemberType
+    Schema.Schema.Type<typeof UUID> | GroupMember
   >;
   readonly excerpt: Schema.Schema.Type<typeof BlockNoteDocument> | null;
   readonly body: Schema.Schema.Type<typeof BlockNoteDocument> | null;
@@ -219,7 +215,7 @@ export const Actor = Schema.Struct({
     Schema.Union(
       UUID,
       Schema.suspend(
-        (): Schema.Schema<GroupMemberType, GroupMemberEncoded> => GroupMember,
+        (): Schema.Schema<GroupMember, GroupMemberEncoded> => GroupMember,
       ).annotations({
         description:
           "Array of group memberships (UUIDs or full membership objects)",

@@ -1,10 +1,10 @@
 import { Schema } from "effect";
-import { type Actor as ActorType, type ActorEncoded, Actor } from "./Actor.js";
+import { type ActorEncoded, Actor } from "./Actor.js";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
 import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "./Common/Output.js";
 import { UUID } from "./Common/UUID.js";
-import { ListOutput, Output } from "./Common/index.js";
 import { Group } from "./Group.js";
 
 export const CreateGroupMember = Schema.Struct({
@@ -46,10 +46,10 @@ const groupMemberFields = {
 };
 
 // Type interface for GroupMember (decoded/application type)
-export interface GroupMemberType
+export interface GroupMember
   extends Schema.Struct.Type<typeof groupMemberFields> {
   readonly group: Schema.Schema.Type<typeof Group>;
-  readonly actor: ActorType;
+  readonly actor: Actor;
 }
 
 // Encoded interface for GroupMember (wire format)
@@ -65,7 +65,7 @@ export const GroupMember = Schema.Struct({
     description: "Group entity this membership belongs to",
   }),
   actor: Schema.suspend(
-    (): Schema.Schema<ActorType, ActorEncoded> => Actor,
+    (): Schema.Schema<Actor, ActorEncoded> => Actor,
   ).annotations({
     description:
       "Actor entity for the member (lazy loaded to avoid circular dependency)",
@@ -74,20 +74,12 @@ export const GroupMember = Schema.Struct({
   title: "GroupMember",
   description: "Complete group membership entity with all properties",
 });
-export type GroupMember = typeof GroupMember.Type;
-
-export const SuspendedGroupMember = () =>
-  Schema.suspend((): Schema.Schema<GroupMemberType, GroupMemberEncoded> => {
-    return GroupMember;
-  }).annotations({
-    description: "Suspended group membership entity with all properties",
-  });
 
 export const SingleGroupMemberOutput = Output(GroupMember).annotations({
   title: "SingleGroupMember",
   description: "API response wrapper for a single group membership",
 });
-export type SingleGroupMemberOutput = Output<GroupMemberType>;
+export type SingleGroupMemberOutput = Output<GroupMember>;
 export const ListGroupMemberOutput = ListOutput(
   GroupMember,
   "ListGroupMember",
@@ -95,4 +87,4 @@ export const ListGroupMemberOutput = ListOutput(
   description:
     "API response wrapper for a list of group memberships with pagination",
 });
-export type ListGroupMemberOutput = ListOutput<GroupMemberType>;
+export type ListGroupMemberOutput = ListOutput<GroupMember>;
