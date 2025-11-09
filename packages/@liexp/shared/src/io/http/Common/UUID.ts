@@ -2,7 +2,9 @@ import { Schema } from "effect";
 
 import { type Version4Options, validate, v4 } from "uuid";
 
-const UUID = Schema.UUID.pipe(Schema.brand("UUID"));
+const UUID = Schema.UUID.pipe(Schema.brand("UUID")).annotations({
+  description: "UUID",
+});
 type UUID = typeof UUID.Type;
 
 function uuid(opts?: Version4Options): UUID {

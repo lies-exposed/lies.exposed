@@ -32,7 +32,7 @@ export type BySubjectId = typeof BySubjectId.Type;
 
 export const ByActor = Schema.Struct({
   type: ACTOR,
-  id: Actor,
+  id: Schema.suspend(() => Actor),
 }).annotations({
   title: "ByActor",
 });

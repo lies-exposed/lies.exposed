@@ -13,6 +13,7 @@ import * as O from "effect/Option";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { createGroup } from "../../../flows/groups/createGroup.flow.js";
+import { editGroup } from "../../../flows/groups/editGroup.flow.js";
 import { formatGroupToMarkdown } from "./formatters/groupToMarkdown.formatter.js";
 
 export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
@@ -176,6 +177,144 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
             ],
           };
         }),
+        throwTE,
+      );
+    },
+  );
+
+  const editInputSchema = effectToZodStruct(
+    Schema.Struct({
+      id: UUID.annotations({
+        description: "UUID of the group to edit",
+      }),
+      name: Schema.NullOr(Schema.String).annotations({
+        description: "Name of the group or null to keep current",
+      }),
+      username: Schema.NullOr(Schema.String).annotations({
+        description: "Unique username for the group or null to keep current",
+      }),
+      color: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Color associated with the group (hex format, without #) or null to keep current",
+      }),
+      kind: Schema.NullOr(
+        Schema.Union(Schema.Literal("Public"), Schema.Literal("Private")),
+      ).annotations({
+        description:
+          "Whether the group is Public or Private or null to keep current",
+      }),
+      excerpt: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Short description of the group as plain text or null to keep current",
+      }),
+      body: Schema.NullOr(Schema.String).annotations({
+        description: "Full body content as plain text or null to keep current",
+      }),
+      avatar: Schema.NullOr(UUID).annotations({
+        description: "Avatar media UUID or null to keep current",
+      }),
+      startDate: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Group start date in ISO format (YYYY-MM-DD) or null to keep current",
+      }),
+      endDate: Schema.NullOr(Schema.String).annotations({
+        description:
+          "Group end date in ISO format (YYYY-MM-DD) or null to keep current",
+      }),
+      members: Schema.NullOr(
+        Schema.Array(
+          Schema.Union(
+            UUID,
+            Schema.Struct({
+              actor: UUID.annotations({ description: "Actor UUID" }),
+              body: Schema.String.annotations({
+                description: "Member description",
+              }),
+              startDate: Schema.String.annotations({
+                description: "Member start date in ISO format (YYYY-MM-DD)",
+              }),
+              endDate: Schema.NullOr(Schema.String).annotations({
+                description:
+                  "Member end date in ISO format (YYYY-MM-DD) or null",
+              }),
+            }),
+          ),
+        ),
+      ).annotations({
+        description: "Array of group members or null to keep current",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    "editGroup",
+    {
+      title: "Edit group",
+      description:
+        "Edit an existing group (organization) in the database with the provided information. Only provided fields will be updated. Returns the updated group details in structured markdown format.",
+      annotations: { title: "Edit group", tool: true },
+      inputSchema: editInputSchema,
+    },
+    async ({
+      id,
+      name,
+      username,
+      color,
+      kind,
+      excerpt,
+      body,
+      avatar,
+      startDate,
+      endDate,
+      members,
+    }) => {
+      return pipe(
+        editGroup({
+          id,
+          name: O.fromNullable(name),
+          username: O.fromNullable(username),
+          color: O.fromNullable(color),
+          kind: O.fromNullable(kind),
+          excerpt: pipe(
+            O.fromNullable(excerpt),
+            O.map((e) => toInitialValue(e)),
+          ),
+          body: pipe(
+            O.fromNullable(body),
+            O.map((b) => toInitialValue(b)),
+          ),
+          avatar: O.fromNullable(avatar),
+          startDate: O.fromNullable(startDate),
+          endDate: O.fromNullable(endDate),
+          members: pipe(
+            O.fromNullable(members),
+            O.map((m) =>
+              m.map((member) => {
+                if (typeof member === "string") {
+                  return member;
+                }
+                return {
+                  actor: member.actor,
+                  body: O.fromNullable(toInitialValue(member.body)),
+                  startDate: new Date(member.startDate),
+                  endDate: member.endDate
+                    ? O.some(new Date(member.endDate))
+                    : O.none(),
+                };
+              }),
+            ),
+          ),
+        })(ctx),
+        LoggerService.TE.debug(ctx, "Updated group %O"),
+        fp.TE.map((group) => ({
+          content: [
+            {
+              text: formatGroupToMarkdown(group),
+              type: "text" as const,
+              href: `group://${group.id}`,
+            },
+          ],
+        })),
         throwTE,
       );
     },

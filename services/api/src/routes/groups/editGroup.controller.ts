@@ -1,74 +1,50 @@
-import { type ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
-import { type GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
-import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { Schema } from "effect";
-import * as O from "fp-ts/lib/Option.js";
+import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { Equal } from "typeorm";
+import { editGroup } from "#flows/groups/editGroup.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeEditGroupRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Group.Edit,
-    ({ params: { id }, body: { members, avatar, ...body } }) => {
-      ctx.logger.debug.log("Updating group with %O", body);
+    ({
+      params: { id },
+      body: { members, avatar, startDate, endDate, excerpt, body, ...rest },
+    }) => {
+      ctx.logger.debug.log("Updating group with id %s", id);
 
-      const groupUpdate = {
-        ...body,
-        avatar: Schema.is(UUID)(avatar)
-          ? { id: avatar }
-          : {
-              ...avatar,
-              events: [],
-              links: [],
-              keywords: [],
-              areas: [],
-              stories: [],
-            },
-        members: members.map((m) => {
-          if (Schema.is(UUID)(m)) {
-            return {
-              id: m,
-              group: { id },
-            };
-          }
-          return {
-            id: uuid(),
-            ...m,
-            body: O.toNullable(m.body),
-            startDate: m.startDate,
-            events: [],
-            deletedAt: null,
-            updatedAt: new Date(),
-            createdAt: new Date(),
-            excerpt: O.toNullable(m.body),
-            endDate: O.toNullable(m.endDate),
-            actor: { id: m.actor } as ActorEntity,
-            group: { id } as GroupEntity,
-          } as GroupMemberEntity;
-        }),
-      };
       return pipe(
-        ctx.db.findOneOrFail(GroupEntity, { where: { id: Equal(id) } }),
-        TE.chain((group) =>
-          ctx.db.save(GroupEntity, [{ ...group, ...groupUpdate, id }]),
-        ),
-        TE.chain(() =>
-          ctx.db.findOneOrFail(GroupEntity, {
-            where: { id: Equal(id) },
-            loadRelationIds: {
-              relations: ["members"],
-            },
-          }),
-        ),
-        // ctx.logger.debug.logInTaskEither("Updated group %O"),
-        TE.chainEitherK((g) => GroupIO.decodeSingle(g)),
+        editGroup({
+          id,
+          name: rest.name,
+          username: rest.username,
+          color: rest.color,
+          kind: rest.kind,
+          excerpt: pipe(
+            excerpt,
+            O.map((e) => e as any),
+          ),
+          body: pipe(
+            body,
+            O.map((b) => b as any),
+          ),
+          avatar,
+          startDate: pipe(
+            startDate,
+            O.map((d) => d.toISOString()),
+          ),
+          endDate: pipe(
+            endDate,
+            O.map((d) => d.toISOString()),
+          ),
+          members: pipe(
+            members,
+            O.map((m) => m as any),
+          ),
+        })(ctx),
         TE.map((data) => ({
           body: {
             data,

@@ -1,97 +1,50 @@
-import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { type NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
-import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
-import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { Schema } from "effect";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type DeepPartial, Equal } from "typeorm";
 import { type Route } from "../route.types.js";
+import { editActor } from "#flows/actors/editActor.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeEditActorRoute: Route = (
-  r,
-  { db, logger, queue: _queue, s3: _s3, jwt },
-) => {
-  AddEndpoint(r, authenticationHandler(["admin:create"])({ logger, jwt }))(
+export const MakeEditActorRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Actor.Edit,
     ({
       params: { id },
       body: { memberIn, bornOn, diedOn, avatar, nationalities, ...body },
     }) => {
-      const updateData = {
-        ...foldOptionals({ ...body }),
-        bornOn: O.getOrUndefined(bornOn),
-        diedOn: O.getOrUndefined(diedOn),
-        avatar: pipe(
-          avatar,
-          O.map((a) => ({ id: a })),
-          O.getOrUndefined,
-        ),
-        nationalities: pipe(
-          nationalities,
-          O.map(
-            (nations): DeepPartial<NationEntity[]> =>
-              nations.map((n) => ({ id: n })),
-          ),
-          O.getOrElse((): DeepPartial<NationEntity[]> => []),
-        ),
-        memberIn: pipe(
-          memberIn,
-          O.map(
-            fp.A.map((m) => {
-              if (Schema.is(UUID)(m)) {
-                return {
-                  id: m,
-                  actor: { id },
-                };
-              }
+      ctx.logger.info.log("Actor update for id %s", id);
 
-              return {
-                ...m,
-                startDate: m.startDate,
-                endDate: O.getOrNull(m.endDate),
-                actor: { id },
-                group: { id: m.group },
-              };
-            }),
-          ),
-          O.getOrElse(() => []),
-        ),
-      };
-
-      logger.info.log("Actor update data %O", updateData);
       return pipe(
-        db.findOneOrFail(ActorEntity, { where: { id: Equal(id) } }),
-        TE.chain((actor) =>
-          db.save(ActorEntity, [
-            {
-              ...actor,
-              id,
-              ...updateData,
-              nationalities: updateData.nationalities ?? actor.nationalities,
-              memberIn: [...updateData.memberIn],
-              excerpt: [...updateData.excerpt],
-              body: updateData.body
-                ? (updateData.body as BlockNoteDocument)
-                : actor.body,
-            },
-          ]),
-        ),
-        TE.chain(() =>
-          db.findOneOrFail(ActorEntity, {
-            where: { id: Equal(id) },
-            loadRelationIds: {
-              relations: ["memberIn"],
-            },
-          }),
-        ),
-        TE.chainEitherK((a) => ActorIO.decodeSingle(a)),
+        editActor({
+          id,
+          username: body.username,
+          fullName: body.fullName,
+          color: body.color,
+          excerpt: pipe(
+            body.excerpt,
+            O.map((e) => e as any),
+          ),
+          body: pipe(
+            body.body,
+            O.map((b) => b as any),
+          ),
+          bornOn: pipe(
+            bornOn,
+            O.map((d) => d.toISOString()),
+          ),
+          diedOn: pipe(
+            diedOn,
+            O.map((d) => d.toISOString()),
+          ),
+          avatar,
+          nationalities,
+          memberIn: pipe(
+            memberIn,
+            O.map((members) => members as any),
+          ),
+        })(ctx),
         TE.map((actor) => ({
           body: {
             data: actor,

@@ -56,15 +56,13 @@ export const Edit = Endpoint({
   Input: {
     Params: Schema.Struct({ id: UUID }),
     Body: nonEmptyRecordFromType({
-      username: OptionFromNullishToNull(Schema.String),
-      fullName: OptionFromNullishToNull(Schema.String),
-      color: OptionFromNullishToNull(Schema.String),
-      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
-      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
-      avatar: OptionFromNullishToNull(Schema.String),
+      ...Actor.EditActorBody.fields,
+      // Override for HTTP endpoint - dates come as Date objects from HTTP
       bornOn: OptionFromNullishToNull(Schema.Date),
       diedOn: OptionFromNullishToNull(Schema.Date),
-      nationalities: OptionFromNullishToNull(Schema.Array(UUID)),
+      // Override for HTTP endpoint - BlockNote comes as arrays
+      excerpt: OptionFromNullishToNull(Schema.Array(Schema.Any)),
+      body: OptionFromNullishToNull(Schema.Array(Schema.Any)),
       memberIn: OptionFromNullishToNull(
         Schema.Array(
           Schema.Union(
@@ -73,16 +71,10 @@ export const Edit = Endpoint({
               group: UUID,
               body: Schema.Union(BlockNoteDocument, Schema.Null),
               startDate: Schema.Date,
-              endDate: OptionFromNullishToNull(Schema.Date).annotations({
-                title: "End Date",
-              }),
-            }).annotations({
-              title: "PartialGroupMember",
+              endDate: OptionFromNullishToNull(Schema.Date),
             }),
           ),
-        ).annotations({
-          title: "MemberIn",
-        }),
+        ),
       ),
     }).annotations({
       title: "EditActorBody",
