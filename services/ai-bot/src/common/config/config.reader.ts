@@ -6,6 +6,7 @@ import { parse } from "fp-ts/lib/Json.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type AIBotError } from "../error/index.js";
 import { toAIBotError } from "#common/error/index.js";
+
 export interface ConfigProvider<C extends Record<string, unknown>> {
   config: C;
   save: (config: C) => void;

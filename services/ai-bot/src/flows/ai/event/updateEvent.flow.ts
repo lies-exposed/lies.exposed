@@ -14,6 +14,7 @@ import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js
 import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
+
 const defaultQuestion = "Can you give me an excerpt of the given documents?";
 
 export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (

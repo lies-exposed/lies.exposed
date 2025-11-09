@@ -3,6 +3,7 @@ import * as E from "fp-ts/lib/Either.js";
 import { describe, test, expect, vi } from "vitest";
 
 import { GetLocalSpaceProvider } from "../local-space.provider.js";
+
 vi.mock("axios");
 
 const baseURL = "http://localhost:4010";

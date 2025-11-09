@@ -10,6 +10,7 @@ import {
 } from "react-admin";
 import { useNavigate } from "react-router";
 import { Box, MenuItem, Select } from "../../mui/index.js";
+
 interface CreateEventButtonProps {
   transform: (
     t: io.http.Events.EventType,
