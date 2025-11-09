@@ -1,7 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueTextTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContext } from "../../context.js";
+import { AgentChatService } from "../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
 import { getPromptFromResource } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -19,23 +18,17 @@ export const summarizeTextFlow: JobProcessRTE<CreateQueueTextTypeData> = (
       }
       return fp.RTE.right(getPromptFromResource(job.resource, job.type));
     }),
-    fp.RTE.chainW(
-      ({ docs, prompt }) =>
-        (ctx: ClientContext) =>
-          pipe(
-            ctx.agent.Chat.Create({
-              Body: {
-                message: `${prompt({
-                  vars: {
-                    text: docs.map((d) => d.pageContent).join("\n"),
-                  },
-                })}\n\n${job.question ?? defaultQuestion}`,
-                conversation_id: null,
-              },
-            }),
-            fp.TE.map((response) => response.data.message.content),
-            fp.TE.mapLeft(toAIBotError),
-          ),
+    fp.RTE.chainW(({ docs, prompt }) =>
+      pipe(
+        AgentChatService.getRawOutput({
+          message: `${prompt({
+            vars: {
+              text: docs.map((d) => d.pageContent).join("\n"),
+            },
+          })}\n\n${job.question ?? defaultQuestion}`,
+          conversationId: null,
+        }),
+      ),
     ),
   );
 };
