@@ -132,6 +132,7 @@ jobs:
     
     strategy:
       fail-fast: false
+      max-parallel: 3
       matrix:
         include:
           - service: admin-web
