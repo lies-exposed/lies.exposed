@@ -1,5 +1,4 @@
 import { Schema } from "effect";
-
 import { type Version4Options, validate, v4 } from "uuid";
 
 const UUID = Schema.UUID.pipe(Schema.brand("UUID")).annotations({

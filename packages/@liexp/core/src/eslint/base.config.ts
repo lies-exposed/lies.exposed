@@ -44,6 +44,7 @@ const config: any = tseslint.config(
           alphabetize: {
             order: "asc",
           },
+          "newlines-between": "never",
         },
       ],
       "import-x/namespace": "off",

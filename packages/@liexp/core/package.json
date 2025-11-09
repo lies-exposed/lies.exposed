@@ -29,14 +29,14 @@
     "globals": "^16.1.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.35.0",
+    "@eslint/js": "^9.39.1",
     "@rollup/plugin-image": "^3.0.3",
     "@tanstack/eslint-plugin-query": "^5.74.7",
     "@types/debug": "^4.1.12",
     "@vitejs/plugin-react": "^5.1.0",
     "debug": "^4.4.0",
     "effect": "^3.17.13",
-    "eslint": "^9.35.0",
+    "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.2",
     "eslint-plugin-fp-ts": "^0.4.0",
     "eslint-plugin-import-x": "^4.16.1",
@@ -44,7 +44,7 @@
     "eslint-plugin-react": "^7.37.5",
     "fp-ts": "^2.16.10",
     "prettier": "^3.5.3",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
     "vite-plugin-svgr": "^4.3.0"
   },
   "peerDependencies": {

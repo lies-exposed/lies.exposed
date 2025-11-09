@@ -73,13 +73,13 @@ export class LinkMediaEntity1653734131242 implements MigrationInterface {
       `ALTER TABLE "link" RENAME COLUMN "imageId" TO "image"`,
     );
 
-    await Promise.all([
-      links.map(async (l) => {
-        await queryRunner.manager.query(
+    await Promise.all(
+      links.map((l) => {
+        return queryRunner.manager.query(
           `UPDATE "link" SET "image" = $1 WHERE "id" IN ($2)`,
           [l.image?.location, l.id],
         );
       }),
-    ]);
+    );
   }
 }

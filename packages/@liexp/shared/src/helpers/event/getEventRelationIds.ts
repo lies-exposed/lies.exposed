@@ -15,17 +15,13 @@ export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   switch (e.type) {
     case EVENT_TYPES.BOOK: {
       const publisherActors =
-        e.payload.publisher && e.payload.publisher.type === "Actor"
-          ? [e.payload.publisher.id]
-          : [];
+        e.payload.publisher?.type === "Actor" ? [e.payload.publisher.id] : [];
       const actors = e.payload.authors
         .flatMap((a) => (a.type === "Actor" ? [a.id] : []))
         .concat(publisherActors);
 
       const publisherGroups =
-        e.payload.publisher && e.payload.publisher.type === "Group"
-          ? [e.payload.publisher.id]
-          : [];
+        e.payload.publisher?.type === "Group" ? [e.payload.publisher.id] : [];
 
       const groups = e.payload.authors
         .flatMap((a) => (a.type === "Group" ? [a.id] : []))
