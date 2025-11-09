@@ -13,14 +13,14 @@ interface ChatMessageWithStructuredOutput {
   role: "user" | "assistant" | "system" | "tool";
   content: string;
   timestamp: string;
-  tool_calls?: Array<{
+  tool_calls?: {
     id: string;
     type: "function";
     function: {
       name: string;
       arguments: string;
     };
-  }>;
+  }[];
   tool_call_id?: string;
   structured_output?: unknown;
   response_metadata?: {

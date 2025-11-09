@@ -19,21 +19,23 @@ export const summarizeTextFlow: JobProcessRTE<CreateQueueTextTypeData> = (
       }
       return fp.RTE.right(getPromptFromResource(job.resource, job.type));
     }),
-    fp.RTE.chainW(({ docs, prompt }) => (ctx: ClientContext) =>
-      pipe(
-        ctx.agent.Chat.Create({
-          Body: {
-            message: `${prompt({
-              vars: {
-                text: docs.map((d) => d.pageContent).join("\n"),
+    fp.RTE.chainW(
+      ({ docs, prompt }) =>
+        (ctx: ClientContext) =>
+          pipe(
+            ctx.agent.Chat.Create({
+              Body: {
+                message: `${prompt({
+                  vars: {
+                    text: docs.map((d) => d.pageContent).join("\n"),
+                  },
+                })}\n\n${job.question ?? defaultQuestion}`,
+                conversation_id: null,
               },
-            })}\n\n${job.question ?? defaultQuestion}`,
-            conversation_id: null,
-          },
-        }),
-        fp.TE.map((response) => response.data.message.content),
-        fp.TE.mapLeft(toAIBotError),
-      ),
+            }),
+            fp.TE.map((response) => response.data.message.content),
+            fp.TE.mapLeft(toAIBotError),
+          ),
     ),
   );
 };
