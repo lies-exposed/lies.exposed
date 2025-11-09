@@ -34,4 +34,3 @@ describe("Create Story", () => {
     expect(response.status).toEqual(401);
   });
 });
-

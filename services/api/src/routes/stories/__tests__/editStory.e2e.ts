@@ -31,4 +31,3 @@ describe("Edit Story", () => {
     expect(response.status).toEqual(401);
   });
 });
-

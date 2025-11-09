@@ -31,4 +31,3 @@ describe("Edit Link", () => {
     expect(response.status).toEqual(401);
   });
 });
-

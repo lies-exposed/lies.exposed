@@ -26,4 +26,3 @@ describe("List Settings", () => {
     expect(response.status).toEqual(401);
   });
 });
-

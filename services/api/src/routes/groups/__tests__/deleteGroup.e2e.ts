@@ -26,4 +26,3 @@ describe("Delete Group", () => {
     expect(response.status).toEqual(401);
   });
 });
-

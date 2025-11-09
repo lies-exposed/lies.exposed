@@ -31,4 +31,3 @@ describe("Edit Group Member", () => {
     expect(response.status).toEqual(401);
   });
 });
-

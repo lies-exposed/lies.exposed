@@ -26,4 +26,3 @@ describe("Get User", () => {
     expect(response.status).toEqual(401);
   });
 });
-

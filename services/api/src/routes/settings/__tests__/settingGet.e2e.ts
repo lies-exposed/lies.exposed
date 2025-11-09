@@ -26,4 +26,3 @@ describe("Get Setting", () => {
     expect(response.status).toEqual(401);
   });
 });
-

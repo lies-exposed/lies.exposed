@@ -26,4 +26,3 @@ describe("Delete Event", () => {
     expect(response.status).toEqual(401);
   });
 });
-

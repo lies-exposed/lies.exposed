@@ -26,4 +26,3 @@ describe("Delete User", () => {
     expect(response.status).toEqual(401);
   });
 });
-
