@@ -5,6 +5,7 @@ import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
 
+
 const config = tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
