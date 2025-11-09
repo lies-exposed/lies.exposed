@@ -17,12 +17,14 @@ import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
-type Agent = ReactAgent;
+export type Agent = ReactAgent;
 
 export interface AgentProvider {
   agent: Agent;
   tools: Tools.Standard[];
-  createAgent: (opts: Partial<Parameters<typeof createReactAgent>[0]>) => Agent;
+  createAgent: (
+    opts: Partial<Parameters<typeof createReactAgent>[0]>,
+  ) => ReactAgent;
   invoke: (
     input: Parameters<Agent["invoke"]>[0],
     options: Parameters<Agent["invoke"]>[1],

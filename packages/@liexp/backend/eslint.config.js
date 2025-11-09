@@ -1,14 +1,14 @@
 import baseConfig from '@liexp/core/lib/eslint/base.config.js'
-import tseslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 
-export default tseslint.config(
+export default defineConfig(
   ...baseConfig,
   {
     files: ["src/**/*.ts"],
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json"],
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },

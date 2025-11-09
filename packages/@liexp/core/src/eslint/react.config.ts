@@ -1,14 +1,14 @@
 import tanstackQuery from "@tanstack/eslint-plugin-query";
+import { defineConfig } from "eslint/config";
 import react from "eslint-plugin-react";
 import globals from "globals";
-import tseslint, { type Config } from "typescript-eslint";
 import baseConfig from "./base.config.js";
 
 if (!react.configs.flat) {
   throw new Error("react.configs.flat is not defined");
 }
 
-const eslintConfig: Config = tseslint.config(
+const eslintConfig = defineConfig(
   // Base TypeScript configuration
   ...baseConfig,
 

@@ -1,5 +1,5 @@
 import eslint from "@eslint/js";
-import { defineConfig } from "eslint/config";
+import { defineConfig, type Config } from "eslint/config";
 import fpTS from "eslint-plugin-fp-ts";
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -10,13 +10,11 @@ const config = defineConfig(
   eslint.configs.recommended,
 
   // TypeScript ESLint recommended rules
-  tseslint.configs.recommendedTypeChecked,
-  tseslint.configs.stylisticTypeChecked,
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
 
-  // Import plugin with TypeScript support
-  // @ts-expect-error - importX.flatConfigs is not assignable to parameter of type 'InfiniteArray<ConfigWithExtends>'.
-  importX.flatConfigs.recommended,
-  importX.flatConfigs.typescript,
+  importX.flatConfigs.recommended as any as Config,
+  importX.flatConfigs.typescript as any as Config,
 
   // Prettier integration (should be last to override conflicting rules)
   eslintPluginPrettierRecommended,
@@ -24,16 +22,23 @@ const config = defineConfig(
   // Custom plugin and rule configuration
   {
     plugins: {
+      "@typescript-eslint": tseslint.plugin,
       "fp-ts": fpTS,
+      // @ts-expect-error - import-x plugin has type incompatibilities with strict ESLint types, but works at runtime
+      "import-x": importX,
     },
 
+    languageOptions: {
+      parser: tseslint.parser,
+      ecmaVersion: "latest",
+      sourceType: "module",
+    },
     settings: {
       "import-x/resolver": {
         typescript: true,
         node: true,
       },
     },
-
     rules: {
       // fp-ts plugin rules
       "fp-ts/no-lib-imports": "off",
