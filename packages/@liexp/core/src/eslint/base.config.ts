@@ -18,7 +18,6 @@ const config = defineConfig(
 
   // Custom plugin and rule configuration
   {
-    files: ["**/*.ts"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       "fp-ts": fpTS,
