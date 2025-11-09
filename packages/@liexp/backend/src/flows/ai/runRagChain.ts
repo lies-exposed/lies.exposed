@@ -1,8 +1,4 @@
-import {
-  type BaseMessage,
-  type BaseMessageLike,
-} from "@langchain/core/dist/messages/base.js";
-import { type InteropZodObject } from "@langchain/core/dist/utils/types";
+import { type AnnotationRoot, type Messages } from "@langchain/langgraph";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
@@ -10,17 +6,16 @@ import {
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type ReactAgent, type AgentMiddleware } from "langchain";
-import { type AnyAnnotationRoot } from "langchain/dist/agents/middleware/types.js";
+import { type AgentMiddleware, type ReactAgent } from "langchain";
 import type { LoggerContext } from "../../context/logger.context.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
-    inputs: (BaseMessage | BaseMessageLike)[],
+    inputs: Messages,
     chain: ReactAgent<
       Record<string, any>,
-      AnyAnnotationRoot | InteropZodObject | undefined,
-      AnyAnnotationRoot | InteropZodObject,
+      AnnotationRoot<any> | undefined,
+      AnnotationRoot<any>,
       readonly AgentMiddleware<any, any, any>[]
     >,
     mode: "stream" | "invoke" = "stream",
@@ -56,7 +51,7 @@ const runRunnableSequence =
           output += chunk;
         }
       } else {
-        output = await chain.invoke(inputs);
+        output = await chain.invoke({ messages: inputs });
       }
 
       ctx.logger.debug.log("Output %s", output);
@@ -66,11 +61,11 @@ const runRunnableSequence =
   };
 
 export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
-  inputs: (BaseMessage | BaseMessageLike)[],
+  inputs: Messages,
   chain: ReactAgent<
     Record<string, any>,
-    AnyAnnotationRoot | InteropZodObject | undefined,
-    AnyAnnotationRoot | InteropZodObject,
+    AnnotationRoot<any> | undefined,
+    AnnotationRoot<any>,
     readonly AgentMiddleware<any, any, any>[]
   >,
   mode: "stream" | "invoke" = "stream",

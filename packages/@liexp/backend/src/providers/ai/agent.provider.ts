@@ -1,14 +1,21 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { type Tools } from "@langchain/core/dist/messages/content/tools.js";
-import { MemorySaver } from "@langchain/langgraph";
+import {
+  type ZodObjectV4,
+  type ZodObjectV3,
+  type InteropZodObject,
+} from "@langchain/core/utils/types";
+import { type AnnotationRoot, MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
+  type AgentMiddleware,
   type AIMessage,
   createAgent as createReactAgent,
   type ReactAgent,
+  type ResponseFormatUndefined,
+  type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -17,11 +24,16 @@ import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
-export type Agent = ReactAgent;
+export type Agent = ReactAgent<
+  ResponseFormatUndefined,
+  AnnotationRoot<any> | ZodObjectV3 | ZodObjectV4,
+  AnnotationRoot<any> | ZodObjectV3 | ZodObjectV4,
+  readonly AgentMiddleware<any, any, any>[]
+>;
 
 export interface AgentProvider {
   agent: Agent;
-  tools: Tools.Standard[];
+  tools: Tool[];
   createAgent: (
     opts: Partial<Parameters<typeof createReactAgent>[0]>,
   ) => ReactAgent;
@@ -52,7 +64,7 @@ export const GetAgentProvider =
   ): TaskEither<ServerError, AgentProvider> => {
     const aiMessageLogger = AIMessageLogger(ctx.logger);
 
-    return fp.TE.tryCatch(async () => {
+    const agent = fp.TE.tryCatch(async () => {
       // Get tools from MCP servers
       const mcpTools = await opts.mcpClient.getTools();
 
@@ -138,4 +150,6 @@ export const GetAgentProvider =
 
       return { agent, tools: allTools, invoke, stream, createAgent };
     }, ServerError.fromUnknown);
+
+    return agent;
   };
