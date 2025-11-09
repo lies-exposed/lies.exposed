@@ -1,14 +1,19 @@
-import tseslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 import baseConfig from './lib/eslint/base.config.js'
+import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
   ...baseConfig,
   {
     files: ["src/**/*.ts"],
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json"],
+        parser: tseslint.parser,
+        ecmaVersion: "latest",
+        sourceType: "module",
+        // Use projectService for automatic TypeScript project detection
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },

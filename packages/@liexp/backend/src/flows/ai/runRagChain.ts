@@ -1,8 +1,4 @@
-import {
-  type BaseMessage,
-  type BaseMessageLike,
-} from "@langchain/core/dist/messages/base.js";
-import { type InteropZodObject } from "@langchain/core/dist/utils/types";
+import { type Messages } from "@langchain/langgraph";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
@@ -10,22 +6,13 @@ import {
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type ReactAgent } from "langchain";
-import {
-  type AgentMiddleware,
-  type AnyAnnotationRoot,
-} from "langchain/dist/agents/middleware/types.js";
 import type { LoggerContext } from "../../context/logger.context.js";
+import { type Agent } from "../../providers/ai/agent.provider.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
-    inputs: Array<BaseMessage | BaseMessageLike>,
-    chain: ReactAgent<
-      Record<string, any>,
-      AnyAnnotationRoot | InteropZodObject | undefined,
-      AnyAnnotationRoot | InteropZodObject,
-      readonly AgentMiddleware<any, any, any>[]
-    >,
+    inputs: Messages,
+    chain: Agent,
     mode: "stream" | "invoke" = "stream",
   ): ReaderTaskEither<C, APIError, any> =>
   (ctx) => {
@@ -69,13 +56,8 @@ const runRunnableSequence =
   };
 
 export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
-  inputs: Array<BaseMessage | BaseMessageLike>,
-  chain: ReactAgent<
-    Record<string, any>,
-    AnyAnnotationRoot | InteropZodObject | undefined,
-    AnyAnnotationRoot | InteropZodObject,
-    readonly AgentMiddleware<any, any, any>[]
-  >,
+  inputs: Messages,
+  chain: Agent,
   mode: "stream" | "invoke" = "stream",
 ): ReaderTaskEither<C, APIError, R> => {
   return runRunnableSequence(inputs, chain, mode);

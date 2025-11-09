@@ -63,9 +63,9 @@ const getSignedUrl =
   };
 
 export type OnUploadProgressFn = (progress: AxiosProgressEvent) => void;
-export type UploadFileOptions = {
+export interface UploadFileOptions {
   onUploadProgress: OnUploadProgressFn;
-};
+}
 
 export const uploadFile =
   (client: APIRESTClient) =>

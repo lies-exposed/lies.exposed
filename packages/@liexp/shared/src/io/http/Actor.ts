@@ -186,9 +186,7 @@ const actorFields = {
 
 // Type interface for Actor (decoded/application type)
 export interface Actor extends Schema.Struct.Type<typeof actorFields> {
-  readonly memberIn: ReadonlyArray<
-    Schema.Schema.Type<typeof UUID> | GroupMember
-  >;
+  readonly memberIn: readonly (Schema.Schema.Type<typeof UUID> | GroupMember)[];
   readonly excerpt: Schema.Schema.Type<typeof BlockNoteDocument> | null;
   readonly body: Schema.Schema.Type<typeof BlockNoteDocument> | null;
   readonly bornOn: Date | undefined;
@@ -199,9 +197,10 @@ export interface Actor extends Schema.Struct.Type<typeof actorFields> {
 // Encoded interface for Actor (wire format)
 export interface ActorEncoded
   extends Schema.Struct.Encoded<typeof actorFields> {
-  readonly memberIn: ReadonlyArray<
-    Schema.Schema.Encoded<typeof UUID> | GroupMemberEncoded
-  >;
+  readonly memberIn: readonly (
+    | Schema.Schema.Encoded<typeof UUID>
+    | GroupMemberEncoded
+  )[];
   readonly excerpt: Schema.Schema.Encoded<typeof BlockNoteDocument> | null;
   readonly body: Schema.Schema.Encoded<typeof BlockNoteDocument> | null;
   readonly bornOn: string | undefined;

@@ -105,7 +105,7 @@ export const InfiniteListBox = <
     APIError,
     {
       pages: EndpointDataOutputType<E>[];
-      pageParams: Array<{ _start: number; _end: number }>;
+      pageParams: { _start: number; _end: number }[];
     },
     any,
     { _start: number; _end: number }

@@ -1,14 +1,16 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { type Tools } from "@langchain/core/dist/messages/content/tools.js";
-import { MemorySaver } from "@langchain/langgraph";
+import { MemorySaver, type AnnotationRoot } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
-  type AIMessage,
   createAgent as createReactAgent,
+  type AgentMiddleware,
+  type AIMessage,
   type ReactAgent,
+  type ResponseFormatUndefined,
+  type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -17,11 +19,16 @@ import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
-type Agent = ReactAgent;
+export type Agent = ReactAgent<
+  ResponseFormatUndefined,
+  undefined,
+  AnnotationRoot<any>,
+  readonly AgentMiddleware<any, any, any>[]
+>;
 
-export type AgentProvider = {
+export interface AgentProvider {
   agent: Agent;
-  tools: Tools.Standard[];
+  tools: Tool[];
   createAgent: (opts: Partial<Parameters<typeof createReactAgent>[0]>) => Agent;
   invoke: (
     input: Parameters<Agent["invoke"]>[0],
@@ -31,7 +38,7 @@ export type AgentProvider = {
     input: Parameters<Agent["stream"]>[0],
     options: Parameters<Agent["stream"]>[1],
   ) => TaskEither<ServerError, AIMessage[]>;
-};
+}
 
 const toAgentError = (e: unknown) => {
   // eslint-disable-next-line no-console
@@ -50,12 +57,12 @@ export const GetAgentProvider =
   ): TaskEither<ServerError, AgentProvider> => {
     const aiMessageLogger = AIMessageLogger(ctx.logger);
 
-    return fp.TE.tryCatch(async () => {
+    const agent = fp.TE.tryCatch(async () => {
       // Get tools from MCP servers
       const mcpTools = await opts.mcpClient.getTools();
 
       // Combine MCP tools with custom tools
-      const allTools = [...mcpTools, createWebScrapingTool(ctx)];
+      const allTools: Tool[] = [...mcpTools, createWebScrapingTool(ctx)];
 
       // Initialize memory to persist state between graph runs
 
@@ -136,4 +143,6 @@ export const GetAgentProvider =
 
       return { agent, tools: allTools, invoke, stream, createAgent };
     }, ServerError.fromUnknown);
+
+    return agent;
   };

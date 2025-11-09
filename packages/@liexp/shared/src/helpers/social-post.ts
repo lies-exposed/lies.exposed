@@ -3,12 +3,12 @@ import { pipe } from "fp-ts/lib/function.js";
 import { type UUID } from "../io/http/Common/UUID.js";
 import { type SocialPost } from "../io/http/SocialPost.js";
 
-export type SocialPostRelationIds = {
+export interface SocialPostRelationIds {
   keywords: readonly UUID[];
   media: readonly UUID[];
   actors: readonly UUID[];
   groups: readonly UUID[];
-};
+}
 
 export const getSocialPostRelationIds = (
   ev: SocialPost,

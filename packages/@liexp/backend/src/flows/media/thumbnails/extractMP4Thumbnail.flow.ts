@@ -34,7 +34,7 @@ const takeVideoScreenshots =
   }): ReaderTaskEither<
     C,
     ServerError,
-    ReadonlyArray<{ key: string; thumbnailName: string }>
+    readonly { key: string; thumbnailName: string }[]
   > =>
   (ctx) => {
     return pipe(

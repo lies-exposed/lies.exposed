@@ -545,7 +545,7 @@ describe("effectToZodStruct", () => {
       });
 
       type RecursiveType = Schema.Schema.Type<typeof baseSchema> & {
-        readonly children?: ReadonlyArray<RecursiveType>;
+        readonly children?: readonly RecursiveType[];
       };
 
       const recursiveSchema: Schema.Schema<RecursiveType> = Schema.Struct({

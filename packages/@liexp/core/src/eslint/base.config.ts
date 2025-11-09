@@ -1,42 +1,52 @@
-import "eslint-import-resolver-typescript";
 import eslint from "@eslint/js";
+import { defineConfig } from "eslint/config";
 import fpTS from "eslint-plugin-fp-ts";
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tseslint from "typescript-eslint";
-// import tsParser from "@typescript-eslint/parser";
 
-const config: any = tseslint.config(
+const config = defineConfig(
+  // Base ESLint recommended rules
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeCheckedOnly,
-  ...tseslint.configs.stylisticTypeCheckedOnly,
+
+  // TypeScript ESLint recommended rules
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+
+  // Prettier integration (should be last to override conflicting rules)
   eslintPluginPrettierRecommended,
+
+  // Custom plugin and rule configuration
   {
-    plugins: { "fp-ts": fpTS, "import-x": importX },
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+      "fp-ts": fpTS,
+      // @ts-expect-error - import-x plugin has type incompatibilities with strict ESLint types, but works at runtime
+      "import-x": importX,
+    },
+    extends: ["import-x/flat/recommended", "import-x/flat/typescript"],
     languageOptions: {
+      parser: tseslint.parser,
       ecmaVersion: "latest",
       sourceType: "module",
-      // parser: tsParser,
-      // parserOptions: {
-      //   project: ["./tsconfig.json"],
-      //   tsconfigRootDir: import.meta.dirname,
-      // },
+      parserOptions: {
+        projectService: true,
+      },
     },
     // settings: {
     //   "import-x/resolver": {
-    //     typescript: {
-    //       project: "./tsconfig.json",
-    //     },
-    //     node: {
-    //       extensions: [".js", ".jsx", ".ts", ".tsx"],
-    //     },
+    //     typescript: true,
+    //     node: true,
     //   },
     // },
     rules: {
+      // fp-ts plugin rules
       "fp-ts/no-lib-imports": "off",
+
+      // Import plugin rules
       "import-x/default": "off",
       "import-x/no-named-as-default-member": "off",
+      "import-x/namespace": "off",
       "import-x/newline-after-import": ["error", { count: 1 }],
       "import-x/order": [
         "error",
@@ -47,7 +57,6 @@ const config: any = tseslint.config(
           "newlines-between": "never",
         },
       ],
-      "import-x/namespace": "off",
       "import-x/extensions": [
         "error",
         "ignorePackages",
@@ -58,6 +67,9 @@ const config: any = tseslint.config(
           tsx: "never",
         },
       ],
+
+      // General ESLint rules
+      "no-console": "error",
       "no-restricted-imports": [
         "error",
         {
@@ -69,15 +81,9 @@ const config: any = tseslint.config(
           ],
         },
       ],
-      "no-console": "error",
-      "@typescript-eslint/restrict-template-expressions": ["off"],
-      "@typescript-eslint/no-redeclare": ["off"],
+
+      // TypeScript ESLint rules - enabled
       "@typescript-eslint/return-await": ["error"],
-      "@typescript-eslint/promise-function-async": ["off"],
-      "@typescript-eslint/strict-boolean-expressions": ["off"],
-      "@typescript-eslint/restrict-plus-operands": ["off"],
-      "@typescript-eslint/no-unsafe-argument": ["off"],
-      "@typescript-eslint/unbound-method": ["off"],
       "@typescript-eslint/no-explicit-any": ["warn"],
       "@typescript-eslint/consistent-type-imports": [
         "error",
@@ -86,11 +92,6 @@ const config: any = tseslint.config(
           prefer: "type-imports",
         },
       ],
-      // to be enabled
-      "@typescript-eslint/no-unsafe-member-access": ["off"],
-      "@typescript-eslint/no-unsafe-assignment": ["off"],
-      "@typescript-eslint/no-empty-function": ["off"],
-      "@typescript-eslint/no-unsafe-return": ["off"],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
@@ -99,9 +100,24 @@ const config: any = tseslint.config(
           caughtErrorsIgnorePattern: "^_",
         },
       ],
-      "@typescript-eslint/no-unsafe-call": ["off"],
+
+      // TypeScript ESLint rules - disabled (with rationale comments)
+      "@typescript-eslint/restrict-template-expressions": "off", // Allow any in template strings
+      "@typescript-eslint/no-redeclare": "off", // Allow redeclaration (fp-ts pattern)
+      "@typescript-eslint/promise-function-async": "off", // Allow non-async promise functions
+      "@typescript-eslint/strict-boolean-expressions": "off", // Allow truthy/falsy checks
+      "@typescript-eslint/restrict-plus-operands": "off", // Allow mixed type addition
+      "@typescript-eslint/no-unsafe-argument": "off", // TODO: Enable after cleanup
+      "@typescript-eslint/unbound-method": "off", // Allow unbound methods
+      "@typescript-eslint/no-unsafe-member-access": "off", // TODO: Enable after cleanup
+      "@typescript-eslint/no-unsafe-assignment": "off", // TODO: Enable after cleanup
+      "@typescript-eslint/no-empty-function": "off", // Allow empty functions
+      "@typescript-eslint/no-unsafe-return": "off", // TODO: Enable after cleanup
+      "@typescript-eslint/no-unsafe-call": "off", // TODO: Enable after cleanup
     },
   },
+
+  // Test file overrides
   {
     files: ["test/**/*.ts", "**/*.spec.ts", "**/*.e2e.ts"],
     rules: {

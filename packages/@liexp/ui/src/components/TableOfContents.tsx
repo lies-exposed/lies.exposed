@@ -61,13 +61,13 @@ export const TableOfContents: React.FC<Items> = ({ items }) => {
 const traverseItem = (
   items: Item[],
   depth: number,
-): Array<{
+): {
   id: string;
   info: { depth: number };
   label: string;
   isExpanded: boolean;
   children: unknown[];
-}> => {
+}[] => {
   return items.map((i) => ({
     id: i.url ?? uuid(),
     info: { depth },

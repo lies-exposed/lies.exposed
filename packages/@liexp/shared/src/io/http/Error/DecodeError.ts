@@ -2,7 +2,7 @@ import { IOError } from "@ts-endpoint/core";
 import { type ParseError } from "effect/ParseResult";
 
 export class _DecodeError extends IOError {
-  status: number = 400;
+  status = 400;
 }
 
 export const DecodeError = {

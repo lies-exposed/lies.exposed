@@ -131,7 +131,8 @@ jobs:
           - 8432:5432
     
     strategy:
-      fail-fast: false
+      fail-fast: true
+      max-parallel: 3
       matrix:
         include:
           - service: admin-web

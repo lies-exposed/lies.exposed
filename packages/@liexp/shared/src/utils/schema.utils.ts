@@ -253,6 +253,6 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
 
 export const effectToZodObject = <T extends Schema.Struct.Fields>(
   schema: T,
-) => {
+): z.ZodObject<{ [K in keyof T]: z.ZodType<Schema.Schema.Type<T[K]>> }> => {
   return z.object(effectToZodStruct(Schema.Struct(schema)));
 };

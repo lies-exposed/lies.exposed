@@ -58,7 +58,7 @@ const eventIconProps = {
   },
 };
 
-export type EventTypeMap = { [K in EventType]: boolean };
+export type EventTypeMap = Record<EventType, boolean>;
 
 export interface EventTypeFiltersProps {
   filters: Partial<EventTypeMap>;

@@ -12,9 +12,9 @@ const extractStructuredContentFromHTML = (
   html: string,
 ): {
   title: string;
-  headings: Array<{ level: number; text: string }>;
+  headings: { level: number; text: string }[];
   content: string;
-  links: Array<{ text: string; href: string }>;
+  links: { text: string; href: string }[];
   listItems: string[];
 } => {
   // Remove script and style elements completely
@@ -32,7 +32,7 @@ const extractStructuredContentFromHTML = (
   const title = titleMatch ? titleMatch[1].trim() : "";
 
   // Extract headings with hierarchy
-  const headings: Array<{ level: number; text: string }> = [];
+  const headings: { level: number; text: string }[] = [];
   const headingRegex = /<h([1-6])[^>]*>([^<]+)<\/h[1-6]>/gi;
   let headingMatch;
   while ((headingMatch = headingRegex.exec(cleanedHtml)) !== null) {
@@ -43,7 +43,7 @@ const extractStructuredContentFromHTML = (
   }
 
   // Extract links
-  const links: Array<{ text: string; href: string }> = [];
+  const links: { text: string; href: string }[] = [];
   const linkRegex = /<a[^>]+href=["']([^"']+)["'][^>]*>([^<]+)<\/a>/gi;
   let linkMatch;
   while ((linkMatch = linkRegex.exec(cleanedHtml)) !== null) {
