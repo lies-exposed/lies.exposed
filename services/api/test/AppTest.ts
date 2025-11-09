@@ -24,6 +24,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import * as path from "path";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
+import { getInitializedPGliteDataSource } from "./utils/pglite-datasource.js";
 
 export interface AppTest {
   ctx: ServerContext;
