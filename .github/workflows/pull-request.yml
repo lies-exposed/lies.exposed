@@ -169,7 +169,7 @@ jobs:
             build_command: pnpm api build
             build_cache_key: api-build
             test_command: pnpm api test
-            test_env_dotenv: services/api/.env.test
+            test_env_dotenv: "./.env.test"
             needs_db_services: true
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
             dockerfile: api.Dockerfile
@@ -257,7 +257,7 @@ jobs:
       - name: Build ${{ matrix.service }} app
         if: ${{ matrix.enabled && matrix.has_app_build }}
         env:
-          DOTENV_CONFIG_PATH: ".env"
+          DOTENV_CONFIG_PATH: "./.env"
         run: ${{ matrix.app_command }}
 
       # Test step
