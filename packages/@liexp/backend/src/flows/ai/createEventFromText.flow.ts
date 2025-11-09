@@ -1,4 +1,3 @@
-import { type Document } from "@langchain/core/dist/documents/document.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
@@ -13,7 +12,7 @@ import {
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { HumanMessage, SystemMessage } from "langchain";
+import { HumanMessage, SystemMessage, type Document } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type DBError } from "../../providers/orm/database.provider.js";

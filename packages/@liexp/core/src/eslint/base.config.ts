@@ -1,5 +1,5 @@
 import eslint from "@eslint/js";
-import { defineConfig, type Config } from "eslint/config";
+import { defineConfig } from "eslint/config";
 import fpTS from "eslint-plugin-fp-ts";
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -13,32 +13,33 @@ const config = defineConfig(
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
 
-  importX.flatConfigs.recommended as Config,
-  importX.flatConfigs.typescript as Config,
-
   // Prettier integration (should be last to override conflicting rules)
   eslintPluginPrettierRecommended,
 
   // Custom plugin and rule configuration
   {
+    files: ["**/*.ts"],
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       "fp-ts": fpTS,
       // @ts-expect-error - import-x plugin has type incompatibilities with strict ESLint types, but works at runtime
       "import-x": importX,
     },
-
+    extends: ["import-x/flat/recommended", "import-x/flat/typescript"],
     languageOptions: {
       parser: tseslint.parser,
       ecmaVersion: "latest",
       sourceType: "module",
-    },
-    settings: {
-      "import-x/resolver": {
-        typescript: true,
-        node: true,
+      parserOptions: {
+        projectService: true,
       },
     },
+    // settings: {
+    //   "import-x/resolver": {
+    //     typescript: true,
+    //     node: true,
+    //   },
+    // },
     rules: {
       // fp-ts plugin rules
       "fp-ts/no-lib-imports": "off",

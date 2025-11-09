@@ -1,4 +1,4 @@
-import { type AnnotationRoot, type Messages } from "@langchain/langgraph";
+import { type Messages } from "@langchain/langgraph";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
@@ -6,18 +6,13 @@ import {
   type APIError,
 } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { type AgentMiddleware, type ReactAgent } from "langchain";
 import type { LoggerContext } from "../../context/logger.context.js";
+import { type Agent } from "../../providers/ai/agent.provider.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
     inputs: Messages,
-    chain: ReactAgent<
-      Record<string, any>,
-      AnnotationRoot<any> | undefined,
-      AnnotationRoot<any>,
-      readonly AgentMiddleware<any, any, any>[]
-    >,
+    chain: Agent,
     mode: "stream" | "invoke" = "stream",
   ): ReaderTaskEither<C, APIError, any> =>
   (ctx) => {
@@ -51,7 +46,7 @@ const runRunnableSequence =
           output += chunk;
         }
       } else {
-        output = await chain.invoke({ messages: inputs });
+        output = await chain.invoke(inputs);
       }
 
       ctx.logger.debug.log("Output %s", output);
@@ -62,12 +57,7 @@ const runRunnableSequence =
 
 export const runAgent = <R = string, C extends LoggerContext = LoggerContext>(
   inputs: Messages,
-  chain: ReactAgent<
-    Record<string, any>,
-    AnnotationRoot<any> | undefined,
-    AnnotationRoot<any>,
-    readonly AgentMiddleware<any, any, any>[]
-  >,
+  chain: Agent,
   mode: "stream" | "invoke" = "stream",
 ): ReaderTaskEither<C, APIError, R> => {
   return runRunnableSequence(inputs, chain, mode);

@@ -9,7 +9,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AgentContext } from "../../context/context.type.js";
 
 // In-memory storage for conversations (in production, use a database)
-const conversations: Map<string, ChatMessage[]> = new Map();
+const conversations = new Map<string, ChatMessage[]>();
 
 export const sendChatMessage =
   (payload: { message: string }) =>
@@ -57,12 +57,12 @@ export const listChatConversations =
     Error,
     {
       total: number;
-      data: Array<{
+      data: {
         id: string;
         messages: ChatMessage[];
         created_at: string;
         updated_at: string;
-      }>;
+      }[];
     }
   > => {
     return pipe(
