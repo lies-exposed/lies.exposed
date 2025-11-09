@@ -2,6 +2,7 @@
 import reactConfig from "@liexp/core/lib/eslint/react.config.js";
 import { defineConfig } from "eslint/config";
 import storybook from "eslint-plugin-storybook";
+import tseslint from "typescript-eslint";
 
 export default defineConfig(
   ...reactConfig,
@@ -14,6 +15,9 @@ export default defineConfig(
         tsconfigRootDir: import.meta.dirname,
         projectService: true,
         project: ["./tsconfig.json"],
+        parser: tseslint.parser,
+        ecmaVersion: "latest",
+        sourceType: "module",
       },
     },
     rules: {
