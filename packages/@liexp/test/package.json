@@ -14,6 +14,7 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint src",
+    "test": "echo 'No tests configured for @liexp/test'",
     "watch": "tsc -b -w"
   },
   "lint-staged": {

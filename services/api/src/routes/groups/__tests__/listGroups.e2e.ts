@@ -81,27 +81,6 @@ describe("List Groups", () => {
     )}`;
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupMemberEntity,
-        groupMembers.flatMap((g) => (g.id ? [g.id] : [])),
-      ),
-    );
-    await throwTE(
-      appTest.ctx.db.delete(
-        ActorEntity,
-        actors.map((a) => a.id),
-      ),
-    );
-    await throwTE(
-      appTest.ctx.db.delete(
-        GroupEntity,
-        groups.map((g) => g.id),
-      ),
-    );
-  });
-
   test("Should return all groups", async () => {
     const response = await appTest.req
       .get(`/v1/groups`)

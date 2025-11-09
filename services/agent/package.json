@@ -27,6 +27,7 @@
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
     "start": "node build/run.js",
+    "test": "echo 'No tests configured for agent'",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },

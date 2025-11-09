@@ -2,6 +2,7 @@ import {
   BOOK,
   DEATH,
   SCIENTIFIC_STUDY,
+  TRANSACTION,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
@@ -10,6 +11,7 @@ import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";
 import { DeathEventArb } from "./DeathEvent.arbitrary.js";
 import { ScientificStudyArb } from "./ScientificStudy.arbitrary.js";
+import { TransactionEventArb } from "./TransactionEvent.arbitrary.js";
 import { UncategorizedArb } from "./Uncategorized.arbitrary.js";
 
 export const getEventArbitrary = (
@@ -25,6 +27,10 @@ export const getEventArbitrary = (
 
   if (Schema.is(SCIENTIFIC_STUDY)(type)) {
     return ScientificStudyArb;
+  }
+
+  if (Schema.is(TRANSACTION)(type)) {
+    return TransactionEventArb;
   }
 
   return UncategorizedArb;

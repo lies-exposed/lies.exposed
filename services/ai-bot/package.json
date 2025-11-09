@@ -25,6 +25,7 @@
     "cli:dev": "node --import tsx/esm src/cli/index.ts",
     "lint": "eslint src",
     "start": "node build/run.js",
+    "test": "echo 'No tests configured for ai-bot'",
     "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {

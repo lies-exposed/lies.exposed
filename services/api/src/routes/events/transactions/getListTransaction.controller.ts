@@ -50,11 +50,11 @@ export const MakeGetListTransactionEventRoute: Route = (r, ctx) => {
           onlyUnshared,
           ...ormOptions,
         })(ctx),
-        TE.chainEitherK(({ results, totals: { patents } }) =>
+        TE.chainEitherK(({ results, totals: { transactions } }) =>
           pipe(
             results,
             TransactionIO.decodeMany,
-            E.map((data) => ({ data, total: patents })),
+            E.map((data) => ({ data, total: transactions })),
           ),
         ),
         TE.map((body) => ({

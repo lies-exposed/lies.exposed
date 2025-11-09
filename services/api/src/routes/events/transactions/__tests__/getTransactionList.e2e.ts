@@ -1,12 +1,12 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { PatentEventArb } from "@liexp/test/lib/arbitrary/events/PatentEvent.arbitrary.js";
+import { TransactionEventArb } from "@liexp/test/lib/arbitrary/events/TransactionEvent.arbitrary.js";
 import fc from "fast-check";
 import { type AppTest, GetAppTest } from "../../../../../test/AppTest.js";
 
 describe("Get Transaction List", () => {
   let appTest: AppTest;
-  const eventsData = fc.sample(PatentEventArb, 100).map((e) => ({
+  const eventsData = fc.sample(TransactionEventArb, 100).map((e) => ({
     ...e,
     draft: false,
     media: [],
@@ -17,21 +17,16 @@ describe("Get Transaction List", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
+  });
 
+  beforeEach(async () => {
+    // Create events inside the transaction so they're automatically rolled back
+    // This happens AFTER testSetup.ts starts the transaction
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        eventsData.map((e) => e.id),
-      ),
-    );
-  });
-
-  test("Should return the patent list", async () => {
-    const response = await appTest.req.get(`/v1/patents`);
+  test("Should return the transaction list", async () => {
+    const response = await appTest.req.get(`/v1/transactions`);
 
     const body = response.body;
     expect(response.status).toEqual(200);

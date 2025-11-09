@@ -1,6 +1,4 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
@@ -19,22 +17,9 @@ describe("Create Death Event", () => {
     nationalities: [],
   }));
 
-  let deathEvent: EventV2Entity;
-
   beforeAll(async () => {
     appTest = await GetAppTest();
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
-  });
-
-  afterAll(async () => {
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, [deathEvent.id]));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, [actor.id]));
-    await throwTE(
-      appTest.ctx.db.delete(
-        UserEntity,
-        users.map((u) => u.id),
-      ),
-    );
   });
 
   test("Should create a death event", async () => {
@@ -71,12 +56,5 @@ describe("Create Death Event", () => {
         victim: actor.id,
       },
     });
-
-    deathEvent = body;
   });
-
-  test.todo("Should create an event with media");
-  test.todo("Should create an event with groups");
-  test.todo("Should create an event with actors");
-  test.todo("Should create an event with group members");
 });

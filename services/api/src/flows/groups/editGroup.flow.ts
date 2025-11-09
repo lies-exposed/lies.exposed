@@ -13,7 +13,7 @@ import * as O from "effect/Option";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 
-export interface EditGroupInput extends EditGroupBody {
+interface EditGroupInput extends EditGroupBody {
   id: string;
 }
 

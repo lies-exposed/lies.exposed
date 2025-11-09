@@ -4,7 +4,7 @@ import {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
-import { type Mock, vi } from "vitest";
+import { vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { dbMock } from "./mocks/db.mock.js";
 import { exifRMock } from "./mocks/exifreader.mock.js";
@@ -21,11 +21,24 @@ import sharpMock from "./mocks/sharp.mock.js";
 import { tgProviderMock } from "./mocks/tg.mock.js";
 import { wikipediaProviderMock } from "./mocks/wikipedia.mock.js";
 
+const fetchHTML = vi
+  .fn<(url: string, opts: any) => Promise<string>>()
+  .mockResolvedValue("<html><body><h1>Example Article</h1></body></html>");
+
+const fetchMetadata = vi
+  .fn<(url: string, opts: any) => Promise<any>>()
+  .mockResolvedValue({
+    title: "Example Article",
+    description: "An example article used in tests",
+    url: "https://example.com/article/1",
+    images: [],
+  });
+
 export interface DepsMocks {
   axios: typeof axiosMock;
   fs: typeof fsMock;
   ffmpeg: typeof ffmpegMock;
-  ner: NLPMock;
+  ner: typeof NLPMock;
   db: typeof dbMock;
   tg: typeof tgProviderMock;
   ig: typeof igProviderMock;
@@ -33,8 +46,8 @@ export interface DepsMocks {
   wiki: typeof wikipediaProviderMock;
   redis: typeof redisMock;
   urlMetadata: {
-    fetchHTML: Mock<any>;
-    fetchMetadata: Mock<any>;
+    fetchHTML: typeof fetchHTML;
+    fetchMetadata: typeof fetchMetadata;
   };
   puppeteer: typeof puppeteerMock;
   exifR: typeof exifRMock;
@@ -42,9 +55,6 @@ export interface DepsMocks {
   queueFS: typeof queueFSMock;
   pdf: typeof pdfJsMock;
 }
-
-const fetchHTML = vi.fn();
-const fetchMetadata = vi.fn();
 
 export const axiosMock = mock<Axios>({
   get: vi.fn(),
@@ -69,7 +79,7 @@ export const mocks: DepsMocks = {
   },
   redis: redisMock,
   puppeteer: puppeteerMock,
-  ner: NLPMock as any,
+  ner: NLPMock,
   sharp: sharpMock,
   exifR: exifRMock,
   queueFS: queueFSMock,

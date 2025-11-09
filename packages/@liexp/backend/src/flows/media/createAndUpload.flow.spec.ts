@@ -4,6 +4,7 @@ import {
   IframeVideoType,
   ImageType,
   MP4Type,
+  PDFType,
 } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
@@ -35,16 +36,76 @@ describe(createAndUpload.name, () => {
     }),
     mocks,
   };
-  const addJob = vi.fn().mockImplementationOnce(() => fp.TE.right(undefined));
+  const addJob = vi.fn();
 
   beforeEach(() => {
     mockClear(Test.ctx.db);
     mockClear(Test.ctx.s3);
+    addJob.mockClear();
+    addJob.mockReturnValue(fp.TE.right(undefined));
 
     mockTERightOnce(Test.ctx.db.save, (_, m) => m);
   });
 
-  test.todo("Should create a media from PDF location");
+  test("Should create a media from PDF location", async () => {
+    const [media] = tests.fc
+      .sample(MediaArb, 1)
+      .map(
+        (
+          {
+            createdAt: _createdAt,
+            updatedAt: _updatedAt,
+            deletedAt: _deletedAt,
+            id,
+            thumbnail: _thumbnail,
+            ...m
+          },
+          _i,
+        ) => ({
+          ...m,
+          id,
+          label: `label-${id}`,
+          location: `https://example.com/${id}.pdf` as URL,
+          type: PDFType.literals[0],
+          creator: undefined,
+          extra: undefined,
+        }),
+      );
+
+    const mediaUploadLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
+    mockTERightOnce(Test.ctx.s3.upload, () => ({
+      Location: mediaUploadLocation,
+    }));
+
+    // Mock the queue for PDF embedding
+    const mockQueue = {
+      addJob: addJob,
+    };
+    Test.ctx.queue.queue.mockReturnValueOnce(mockQueue as any);
+
+    const response = await pipe(
+      createAndUpload(
+        {
+          ...media,
+          location: media.location,
+          thumbnail: undefined,
+        },
+        { Body: "pdf-content", ContentType: PDFType.literals[0] },
+        media.id,
+        false,
+      )(Test.ctx),
+      throwTE,
+    );
+
+    expect(response).toMatchObject({
+      ...media,
+      id: expect.any(String),
+      location: mediaUploadLocation,
+      description: media.description ?? media.label,
+      creator: undefined,
+      extra: undefined,
+    });
+  });
 
   test("Should create a media from image location", async () => {
     const [media] = tests.fc

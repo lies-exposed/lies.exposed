@@ -55,6 +55,12 @@ describe("User login", () => {
   });
 
   test("Should return the access token", async () => {
+    // Ensure user is in "Approved" status for this test
+    // (Transaction isolation means changes from previous tests are rolled back)
+    await throwTE(
+      Test.ctx.db.save(UserEntity, [{ ...user, status: "Approved" }]),
+    );
+
     const response = await Test.req.post("/v1/users/login").send({
       username,
       password: "my-real-secure-password",

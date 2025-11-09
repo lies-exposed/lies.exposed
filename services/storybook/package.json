@@ -16,7 +16,8 @@
     "clean": "rm -rf build && rm -rf node_modules/.cache/storybook",
     "dev": "storybook dev -p 6006 --host storybook.liexp.dev",
     "lint": "eslint",
-    "sb": "storybook"
+    "sb": "storybook",
+    "test": "echo 'No tests configured for storybook'"
   },
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"

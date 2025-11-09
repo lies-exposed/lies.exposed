@@ -164,14 +164,14 @@ const GetDatabaseClient: GetDatabaseClient = (ctx) => {
     fp.TE.tryCatch(() => lazyQ(ctx.connection.manager), handleError());
 
   return {
-    manager: ctx.connection.manager,
+    get manager() {
+      return ctx.connection.manager;
+    }, // ← Getter for dynamic access!
     formatQuery,
     execQuery,
     execSQL: (sql) => {
       const query = formatQuery(sql);
-      return execQuery(() =>
-        ctx.connection.manager.query(query.text, query.values),
-      );
+      return execQuery((db) => db.query(query.text, query.values));
     },
     findOne: (entity, options) => {
       ctx.logger.debug.log(

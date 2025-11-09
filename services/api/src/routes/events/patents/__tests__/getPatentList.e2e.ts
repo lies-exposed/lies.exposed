@@ -20,15 +20,6 @@ describe("Get Patent List", () => {
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData as any[]));
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        eventsData.map((e) => e.id),
-      ),
-    );
-  });
-
   test("Should return the patent list", async () => {
     const response = await appTest.req.get(`/v1/patents`);
 

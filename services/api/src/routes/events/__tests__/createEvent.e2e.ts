@@ -1,6 +1,8 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import {
   saveUser,
   type UserTest,
@@ -10,13 +12,14 @@ import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
+import { GroupMemberArb } from "@liexp/test/lib/arbitrary/GroupMember.arbitrary.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
+import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { CreateEventBodyArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { Schema } from "effect";
 import fc from "fast-check";
 import * as A from "fp-ts/lib/Array.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { In } from "typeorm";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
@@ -25,7 +28,6 @@ describe("Create Event", () => {
   const users: UserTest[] = [];
   let authorizationToken: string;
 
-  let event: http.Events.Uncategorized.Uncategorized;
   const keywords = fc.sample(KeywordArb, 5);
   const actors = fc.sample(ActorArb, 3).map((a) => ({
     ...a,
@@ -33,8 +35,24 @@ describe("Create Event", () => {
     nationalities: [],
     death: undefined,
   }));
-  const eventIds: string[] = [];
-  let actorIds: string[] = [];
+  const groups = fc.sample(GroupArb, 2).map((g) => ({
+    ...g,
+    avatar: undefined,
+    members: [],
+  }));
+  const media = fc.sample(MediaArb, 2).map((m) => ({
+    ...m,
+    events: [],
+    links: [],
+    keywords: [],
+    areas: [],
+    featuredInStories: [],
+    socialPosts: [],
+    creator: undefined,
+    extra: undefined,
+  }));
+
+  let groupMembers: any[] = [];
 
   beforeAll(async () => {
     appTest = await GetAppTest();
@@ -44,37 +62,16 @@ describe("Create Event", () => {
     authorizationToken = authorization;
     await throwTE(appTest.ctx.db.save(ActorEntity, actors));
     await throwTE(appTest.ctx.db.save(KeywordEntity, keywords));
-  });
+    await throwTE(appTest.ctx.db.save(GroupEntity, groups));
+    await throwTE(appTest.ctx.db.save(MediaEntity, media));
 
-  afterAll(async () => {
-    const evKeywords = await pipe(
-      appTest.ctx.db.find(EventV2Entity, {
-        loadRelationIds: {
-          relations: ["keywords"],
-        },
-        where: {
-          id: In(eventIds),
-        },
-      }),
-      TE.map((events) =>
-        events.reduce<string[]>(
-          (acc, e) => acc.concat(e.keywords as any[] as string[]),
-          [],
-        ),
-      ),
-      throwTE,
-    );
-
-    await throwTE(appTest.ctx.db.delete(EventV2Entity, eventIds));
-    await throwTE(appTest.ctx.db.delete(ActorEntity, actorIds));
-    if (evKeywords.length) {
-      await throwTE(
-        appTest.ctx.db.delete(KeywordEntity, [
-          ...evKeywords,
-          ...keywords.map((k) => k.id),
-        ]),
-      );
-    }
+    // Create group members after groups and actors exist
+    groupMembers = fc.sample(GroupMemberArb, 2).map((gm, i) => ({
+      ...gm,
+      actor: actors[i],
+      group: groups[i % groups.length],
+    }));
+    await throwTE(appTest.ctx.db.save(GroupMemberEntity, groupMembers));
   });
 
   test("Should create an event", async () => {
@@ -104,12 +101,10 @@ describe("Create Event", () => {
     expect(response.status).toEqual(201);
 
     expect(decodedBody._tag).toEqual("Right");
-    event = response.body.data;
-    eventIds.push(event.id);
   });
 
   test("Should create an event with actors", async () => {
-    actorIds = actors.map((a) => a.id);
+    const actorIds = actors.map((a) => a.id);
 
     const eventData = {
       ...fc.sample(CreateEventBodyArb({}), 1)[0],
@@ -133,13 +128,86 @@ describe("Create Event", () => {
     expect(response.status).toEqual(201);
 
     expect(decodedBody._tag).toEqual("Right");
-    event = response.body.data;
-    eventIds.push(event.id);
   });
 
-  test.todo("Should create an event with media");
-  test.todo("Should create an event with groups");
-  test.todo("Should create an event with group members");
+  test("Should create an event with media", async () => {
+    const mediaIds = media.map((m) => m.id);
+
+    const eventData = {
+      ...fc.sample(CreateEventBodyArb({}), 1)[0],
+      keywords: [],
+      actors: [],
+      groups: [],
+      groupsMembers: [],
+      links: [],
+      media: mediaIds,
+    };
+    const response = await appTest.req
+      .post(`/v1/events`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(201);
+    expect(body.media).toHaveLength(mediaIds.length);
+  });
+
+  test("Should create an event with groups", async () => {
+    const groupIds = groups.map((g) => g.id);
+
+    const createEventBody = fc.sample(CreateEventBodyArb({}), 1)[0];
+    const eventData = {
+      ...createEventBody,
+      keywords: [],
+      actors: [],
+      media: [],
+      groupsMembers: [],
+      links: [],
+      groups: [],
+      payload: {
+        ...createEventBody.payload,
+        groups: groupIds,
+      },
+    };
+    const response = await appTest.req
+      .post(`/v1/events`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(201);
+
+    expect(body.payload.groups).toHaveLength(groupIds.length);
+  });
+
+  test("Should create an event with group members", async () => {
+    const groupMemberIds = groupMembers.map((gm) => gm.id);
+
+    const createEventBody = fc.sample(CreateEventBodyArb({}), 1)[0];
+    const eventData = {
+      ...createEventBody,
+      keywords: [],
+      actors: [],
+      groups: [],
+      media: [],
+      links: [],
+      payload: {
+        ...createEventBody.payload,
+        groupsMembers: groupMemberIds,
+      },
+    };
+    const response = await appTest.req
+      .post(`/v1/events`)
+      .set("Authorization", authorizationToken)
+      .send(eventData);
+
+    const body = response.body.data;
+
+    expect(response.status).toEqual(201);
+    expect(body.payload.groupsMembers).toHaveLength(groupMemberIds.length);
+  });
 
   test(`Should create a ${EVENT_TYPES.QUOTE} event `, async () => {
     const eventData = {
@@ -167,7 +235,5 @@ describe("Create Event", () => {
     expect(response.status).toEqual(201);
 
     expect(decodedBody._tag).toEqual("Right");
-    event = response.body.data;
-    eventIds.push(event.id);
   });
 });

@@ -12,7 +12,7 @@ import * as O from "effect/Option";
 import { type DeepPartial, Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 
-export interface EditActorInput extends EditActorBody {
+interface EditActorInput extends EditActorBody {
   id: UUID;
 }
 

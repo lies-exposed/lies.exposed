@@ -1,6 +1,7 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
@@ -20,17 +21,11 @@ describe("Get Book List", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-
-    await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
-  afterAll(async () => {
-    await throwTE(
-      appTest.ctx.db.delete(
-        EventV2Entity,
-        eventsData.map((e) => e.id),
-      ),
-    );
+  beforeEach(async () => {
+    // Create events inside the transaction so they're part of the test's transactional context
+    await pipe(appTest.ctx.db.save(EventV2Entity, eventsData), throwTE);
   });
 
   test("Should return the book list", async () => {
@@ -51,7 +46,7 @@ describe("Get Book List", () => {
 
     await throwTE(appTest.ctx.db.save(ActorEntity, [actor]));
 
-    const [eventWithActor] = eventsData;
+    const [, eventWithActor] = eventsData;
     await throwTE(
       appTest.ctx.db.save(EventV2Entity, [
         {
@@ -82,13 +77,13 @@ describe("Get Book List", () => {
 
     await throwTE(appTest.ctx.db.save(GroupEntity, [group]));
 
-    const [eventWithActor] = eventsData;
+    const [eventWithGroup] = eventsData;
     await throwTE(
       appTest.ctx.db.save(EventV2Entity, [
         {
-          ...eventWithActor,
+          ...eventWithGroup,
           payload: {
-            ...eventWithActor.payload,
+            ...eventWithGroup.payload,
             authors: [{ type: "Group", id: group.id }],
           },
         },

@@ -1,6 +1,5 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
-import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/shared/lib/io/index.js";
@@ -45,17 +44,6 @@ describe.skip("Edit Project ", () => {
         },
       ]),
       throwTE,
-    );
-  });
-
-  afterAll(async () => {
-    await throwTE(appTest.ctx.db.delete(ProjectEntity, [project.id]));
-    await throwTE(appTest.ctx.db.delete(AreaEntity, [area.id]));
-    await throwTE(
-      appTest.ctx.db.delete(
-        UserEntity,
-        users.map((u) => u.id),
-      ),
     );
   });
 
