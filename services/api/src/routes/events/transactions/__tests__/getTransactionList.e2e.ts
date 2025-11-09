@@ -17,8 +17,11 @@ describe("Get Transaction List", () => {
 
   beforeAll(async () => {
     appTest = await GetAppTest();
-    // Create events in beforeAll so they're visible to all tests in this suite
-    // The transaction will roll back after all tests complete
+  });
+
+  beforeEach(async () => {
+    // Create events inside the transaction so they're automatically rolled back
+    // This happens AFTER testSetup.ts starts the transaction
     await throwTE(appTest.ctx.db.save(EventV2Entity, eventsData));
   });
 
