@@ -217,10 +217,9 @@ jobs:
             docker_enabled: ${{ github.base_ref == 'release/alpha' }}
             dockerfile: worker.Dockerfile
             docker_image: liexp-worker
-        exclude:
-          - enabled: false
 
     name: CI ${{ matrix.service }}
+    if: ${{ matrix.enabled == 'true' }}
     
     steps:
       - uses: actions/checkout@v4
