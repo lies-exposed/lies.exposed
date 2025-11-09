@@ -17,10 +17,10 @@ type PuppeteerGotoOptions = WaitForOptions & {
  */
 type PuppeteerEvaluate = (page: Page, browser: Browser) => Promise<string>;
 
-type PuppeteerWebBaseLoaderOptions = {
+interface PuppeteerWebBaseLoaderOptions {
   gotoOptions?: PuppeteerGotoOptions;
   evaluate?: PuppeteerEvaluate;
-};
+}
 
 /**
  * Class that extends the BaseDocumentLoader class and implements the
