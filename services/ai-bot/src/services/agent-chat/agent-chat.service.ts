@@ -37,7 +37,7 @@ interface ChatMessageWithStructuredOutput {
 /**
  * Options for structured output requests
  */
-export interface StructuredOutputOptions<T> {
+interface StructuredOutputOptions<T> {
   /**
    * The message to send to the agent
    */

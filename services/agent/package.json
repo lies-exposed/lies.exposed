@@ -22,8 +22,8 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf build",
     "cli": "node build/cli/cli.js",
-    "dev": "node --experimental-require-module --watch build/run.js",
-    "dev:ts": "tsx build/run.ts",
+    "cli:dev": "node src/cli/cli.ts",
+    "dev": "node --watch src/run.ts",
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
     "start": "node build/run.js",
@@ -51,7 +51,6 @@
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
-    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
