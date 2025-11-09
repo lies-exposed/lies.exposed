@@ -1,3 +1,4 @@
+import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
 import { type LangchainContext } from "@liexp/backend/lib/context/langchain.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
@@ -19,6 +20,7 @@ interface AgentProviderContext {
 
 export type AgentContext = ENVContext &
   LoggerContext &
+  JWTProviderContext &
   HTTPProviderContext &
   LangchainContext &
   PuppeteerProviderContext &

@@ -1,21 +1,23 @@
-import { createEventFromDocuments } from "@liexp/backend/lib/flows/ai/createEventFromDocuments.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
 import {
   type Event,
   EventMap,
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type CreateEventFromURLTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
+import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion =
-  "Can you extract an event JSON object from the given text?";
+  "Can you extract an event JSON object from the given text? Return the response in JSON format.";
 
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData,
@@ -43,26 +45,18 @@ export const createEventFromURLFlow: JobProcessRTE<
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
     fp.RTE.bindW("event", ({ docs, prompt, jsonSchema }) =>
-      pipe(
-        createEventFromDocuments(
-          docs,
-          job.data.type,
-          prompt,
-          jsonSchema,
-          job.question ?? defaultQuestion,
-        ),
-        fp.RTE.map((event) => ({
-          ...event,
-          date: job.data.date ? [job.data.date] : event.date,
-          actors: [],
-          groups: [],
-          areas: [],
-          links: [],
-          keywords: [],
-          media: [],
-          groupsMembers: [],
-        })),
-      ),
+      AgentChatService.getStructuredOutput<
+        EventCommonProps & Events.EventRelationIds
+      >({
+        message: `${prompt({
+          vars: {
+            type: job.data.type,
+            jsonSchema: JSON.stringify(jsonSchema),
+            context: docs.map((d) => d.pageContent).join("\n"),
+            question: job.question ?? defaultQuestion,
+          },
+        })}\n\n${job.question ?? defaultQuestion}`,
+      }),
     ),
     fp.RTE.bind(
       "links",

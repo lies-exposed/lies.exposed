@@ -93,7 +93,7 @@ export const GetAgentProvider =
         options: Parameters<typeof agent.invoke>[1],
       ): TaskEither<ServerError, Awaited<ReturnType<typeof agent.invoke>>> =>
         fp.TE.tryCatch(() => {
-          ctx.logger.info.log(`Invoke agent with %O (%O)`, input, options);
+          ctx.logger.info.log(`agent.invoke with %O (%O)`, input, options);
           return agent.invoke(input, options);
         }, toAgentError);
 
@@ -102,7 +102,7 @@ export const GetAgentProvider =
         options: Parameters<typeof agent.stream>[1],
       ) =>
         fp.TE.tryCatch(async () => {
-          ctx.logger.info.log(`Invoke agent with %O (%O)`, input, options);
+          ctx.logger.info.log(`agent.stream with %O (%O)`, input, options);
           const stream = await agent.stream(input, options);
 
           const result: AIMessage[] = [];

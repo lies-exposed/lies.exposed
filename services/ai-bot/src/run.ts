@@ -1,48 +1,34 @@
-import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { getApiToken } from "./flows/getApiToken.flow.js";
 import { loadContext } from "./load-context.js";
 import { type ClientContextRTE } from "./types.js";
 import { exponentialWait } from "./utils/exponentialWait.js";
-import { report, toAIBotError } from "#common/error/index.js";
+import { report } from "#common/error/index.js";
 import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
 
 let token: string | null = null;
 
 const exponentialWaitOneMinute = exponentialWait(60000);
 
-let waitForLocalAIRetry = 0;
-const waitForLocalAI = (): ClientContextRTE<void> => (ctx) => {
+let waitForAgentRetry = 0;
+const waitForAgent = (): ClientContextRTE<void> => (ctx) => {
   return pipe(
-    fp.TE.tryCatch(
-      () =>
-        ctx.openAI.client.models
-          .list()
-          .asResponse()
-          .then((r) => r.json()),
-      toAIBotError,
-    ),
-    fp.TE.orElse((e) => {
-      ctx.logger.error.log("Error getting OpenAI models %O", e);
-
-      return fp.TE.right({ data: [] });
-    }),
-    fp.TE.map((r) => r.data.map((m: { id: string }) => m.id)),
-    LoggerService.TE.debug(ctx, "OpenAI models %O"),
-    fp.TE.chain((models) => {
-      if (models.length === 0) {
+    // Check agent service health by listing conversations
+    ctx.agent.Chat.List({ Query: { limit: "1", offset: "0" } }),
+    fp.TE.fold(
+      (e) => {
+        ctx.logger.error.log("Error connecting to agent service %O", e);
         return pipe(
-          exponentialWaitOneMinute(
-            10000,
-            waitForLocalAIRetry++,
-            "waitForLocalAI",
-          ),
-          fp.RTE.chain(waitForLocalAI),
+          exponentialWaitOneMinute(10000, waitForAgentRetry++, "waitForAgent"),
+          fp.RTE.chain(waitForAgent),
         )(ctx);
-      }
-      return fp.TE.right(undefined);
-    }),
+      },
+      () => {
+        ctx.logger.info.log("Agent service is ready");
+        return fp.TE.right(undefined);
+      },
+    ),
   );
 };
 
@@ -79,7 +65,7 @@ const run = (dryRun: boolean): ClientContextRTE<void> => {
       token = t;
       return token;
     }),
-    fp.RTE.chainFirst(waitForLocalAI),
+    fp.RTE.chainFirst(waitForAgent),
     fp.RTE.chain(() => go(0)),
   );
 };

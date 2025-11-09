@@ -27,8 +27,8 @@ export const ListConversations = Endpoint({
   getPath: () => "/chat/conversations",
   Input: {
     Query: Schema.Struct({
-      limit: Schema.optional(Schema.Number),
-      offset: Schema.optional(Schema.Number),
+      limit: Schema.optional(Schema.NumberFromString),
+      offset: Schema.optional(Schema.NumberFromString),
     }),
   },
   Output: ListConversationsOutput,

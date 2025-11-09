@@ -5,6 +5,7 @@ import {
 } from "@langchain/openai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+import { Schema } from "effect/index";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";
 
@@ -27,18 +28,19 @@ Question: ${question}
 Answer:
 `;
 
-export type AvailableModels =
-  | "gpt-4o"
-  | "gpt-3.5-turbo"
-  | "text-embedding-ada-002"
-  | "salamandra-7b-instruct"
-  | "qwen3-8b"
-  | "qwen3-embedding-8b"
-  | "gemma-2-9b-it-abliterated";
+export const AvailableModels = Schema.Union(
+  Schema.Literal("gpt-4o"),
+  Schema.Literal("qwen3-4b"),
+  Schema.Literal("qwen3-embedding-4b"),
+  Schema.Literal("grok-4-fast"),
+);
+
+export type AvailableModels = typeof AvailableModels.Type;
 
 export interface LangchainProviderOptions {
   baseURL: string;
   apiKey: string;
+  maxRetries?: number;
   models?: {
     chat?: AvailableModels;
     embeddings?: AvailableModels;
@@ -85,6 +87,7 @@ export const GetLangchainProvider = (
       ...opts.options?.chat,
       ...chatOptions,
       configuration: {
+        maxRetries: opts.maxRetries ?? 3,
         baseURL: opts.baseURL,
         ...opts.options?.chat.configuration,
         ...chatOptions.configuration,

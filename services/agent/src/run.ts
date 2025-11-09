@@ -32,6 +32,9 @@ const run = (): Promise<void> => {
       app.use(express.json());
       app.use(express.urlencoded({ extended: true }));
 
+      // Authentication is handled per-route using authenticationHandler middleware
+      // This allows for fine-grained permission control and supports both User and ServiceClient tokens
+
       // Routes
       app.use("/v1", createRoutes(ctx));
 

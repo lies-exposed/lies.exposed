@@ -2,6 +2,7 @@ import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
+import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -32,14 +33,22 @@ export const makeAgentContext = (
       );
       const http = HTTPProvider(axios.create({}));
 
+      agentLogger.debug.log("Initializing JWT provider...");
+      // Initialize JWT provider for M2M authentication
+      const jwt = GetJWTProvider({
+        secret: env.JWT_SECRET,
+        logger: agentLogger,
+      });
+
       agentLogger.debug.log("Initializing Langchain provider...");
       // Initialize Langchain provider for LocalAI
       const langchain = GetLangchainProvider({
         baseURL: env.LOCALAI_BASE_URL,
         apiKey: env.LOCALAI_API_KEY,
+        maxRetries: env.LOCALAI_MAX_RETRIES,
         models: {
-          chat: env.LOCALAI_MODEL as any,
-          embeddings: env.LOCALAI_MODEL as any,
+          chat: env.LOCALAI_MODEL,
+          embeddings: env.LOCALAI_MODEL,
         },
         options: {
           chat: {},
@@ -101,6 +110,7 @@ export const makeAgentContext = (
           return {
             env,
             logger: agentLogger,
+            jwt,
             http,
             langchain,
             puppeteer: puppeteerProvider,

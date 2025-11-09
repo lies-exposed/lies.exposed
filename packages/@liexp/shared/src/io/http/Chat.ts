@@ -5,6 +5,7 @@ export const ChatRole = Schema.Literal(
   "user",
   "assistant",
   "system",
+  "tool",
 ).annotations({
   title: "ChatRole",
   description: "Role of the message sender",
@@ -12,14 +13,59 @@ export const ChatRole = Schema.Literal(
 
 export type ChatRole = typeof ChatRole.Type;
 
+// Tool call structure (for assistant messages that call tools)
+export const ToolCall = Schema.Struct({
+  id: Schema.String,
+  type: Schema.Literal("function"),
+  function: Schema.Struct({
+    name: Schema.String,
+    arguments: Schema.String, // JSON stringified arguments
+  }),
+}).annotations({
+  title: "ToolCall",
+  description: "A tool call made by the assistant",
+});
+
+export type ToolCall = typeof ToolCall.Type;
+
+// Tool response structure (for tool messages responding to tool calls)
+export const ToolResponse = Schema.Struct({
+  tool_call_id: Schema.String,
+  content: Schema.String, // Can be JSON stringified structured data
+}).annotations({
+  title: "ToolResponse",
+  description: "Response from a tool execution",
+});
+
+export type ToolResponse = typeof ToolResponse.Type;
+
 export const ChatMessage = Schema.Struct({
   id: Schema.String,
   role: ChatRole,
   content: Schema.String,
   timestamp: Schema.String, // ISO date string
+  // Optional fields for structured responses (mimicking LangChain's AIMessage)
+  tool_calls: Schema.optional(Schema.Array(ToolCall)),
+  tool_call_id: Schema.optional(Schema.String), // For tool response messages
+  // Structured response data when using function calling / structured output
+  structured_output: Schema.optional(Schema.Unknown),
+  // Additional metadata
+  response_metadata: Schema.optional(
+    Schema.Struct({
+      model: Schema.optional(Schema.String),
+      finish_reason: Schema.optional(Schema.String),
+      usage: Schema.optional(
+        Schema.Struct({
+          prompt_tokens: Schema.optional(Schema.Number),
+          completion_tokens: Schema.optional(Schema.Number),
+          total_tokens: Schema.optional(Schema.Number),
+        }),
+      ),
+    }),
+  ),
 }).annotations({
   title: "ChatMessage",
-  description: "A single chat message",
+  description: "A single chat message with optional structured output support",
 });
 
 export type ChatMessage = typeof ChatMessage.Type;

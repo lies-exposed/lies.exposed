@@ -3,6 +3,9 @@
     "url": "http://api.liexp.dev/v1",
     "mcp": "http://api.liexp.dev/mcp"
   },
+  "agent": {
+    "url": "http://agent.liexp.dev/v1"
+  },
   "localAi": {
     "url": "https://ai.lies.exposed/v1",
     "apiKey": "no-key-is-a-good-key",

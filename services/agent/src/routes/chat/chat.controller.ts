@@ -1,6 +1,8 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
   deleteChatConversation,
@@ -12,18 +14,21 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
 export const MakeSendChatMessageRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Chat.Create, ({ body }) => {
-    return pipe(
-      sendChatMessage(body)(ctx),
-      TE.mapLeft(ServerError.fromUnknown),
-      TE.map((data) => ({
-        body: {
-          data,
-        },
-        statusCode: 200,
-      })),
-    );
-  });
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    Endpoints.Chat.Create,
+    ({ body }) => {
+      return pipe(
+        sendChatMessage(body)(ctx),
+        TE.mapLeft(ServerError.fromUnknown),
+        TE.map((data) => ({
+          body: {
+            data,
+          },
+          statusCode: 200,
+        })),
+      );
+    },
+  );
 };
 
 export const MakeListChatConversationsRoute: Route = (r, ctx) => {

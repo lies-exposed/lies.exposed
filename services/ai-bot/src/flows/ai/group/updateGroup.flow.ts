@@ -1,17 +1,15 @@
-import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { HumanMessage, providerStrategy, SystemMessage } from "langchain";
-import { type ClientContext } from "../../../context.js";
+import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = "Can you give me an excerpt of the given documents?";
+const defaultQuestion =
+  "Can you give me an excerpt of the given documents? Return the response in JSON format with fields: name (string), description (string).";
 
 const GroupStructuredResponse = Schema.Struct({
   name: Schema.String,
@@ -28,37 +26,18 @@ export const updateGroupFlow: JobProcessRTE<
     fp.RTE.Do,
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind(
-      "model",
-      () => (ctx: ClientContext) =>
-        fp.TE.right(
-          ctx.agent.createAgent({
-            responseFormat: providerStrategy(
-              effectToZodObject(GroupStructuredResponse.fields),
-            ),
-          }),
-        ),
+    fp.RTE.bind("result", ({ prompt, docs }) =>
+      AgentChatService.getStructuredOutput<GroupStructuredResponse>({
+        message: `${prompt({
+          vars: {
+            text: docs.map((d) => d.pageContent).join("\n"),
+          },
+        })}\n\n${job.question ?? defaultQuestion}`,
+      }),
     ),
-    fp.RTE.chainW(({ prompt, docs, model }) =>
-      pipe(
-        runAgent<GroupStructuredResponse>(
-          [
-            new SystemMessage(
-              prompt({
-                vars: {
-                  text: docs.map((d) => d.pageContent).join("\n"),
-                },
-              }),
-            ),
-            new HumanMessage(job.question ?? defaultQuestion),
-          ],
-          model,
-        ),
-      ),
-    ),
-    fp.RTE.map(({ description, ...group }) => ({
-      ...group,
-      excerpt: toInitialValue(description),
+    fp.RTE.map(({ result }) => ({
+      name: result.name,
+      excerpt: toInitialValue(result.description),
     })),
   );
 };

@@ -1,19 +1,16 @@
-import { runAgent } from "@liexp/backend/lib/flows/ai/runRagChain.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { effectToZodObject } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
-import { providerStrategy } from "langchain";
-import { type ClientContext } from "../../../context.js";
+import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion = (actorName: string) =>
-  `Give me the requested info for actor ${actorName}`;
+  `Give me the requested info for actor ${actorName}. Return the response in JSON format with fields: firstName (string), lastName (string), username (string in lowercase format firstName-lastName), description (string), bornOn (string in ISO format YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss.sssZ), diedOn (string in ISO format or empty string if still alive), keywords (array of strings).`;
 
 const ActorStructuredResponse = Schema.Struct({
   firstName: Schema.String,
@@ -44,59 +41,29 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("context", () => loadDocs(job)),
-    fp.RTE.bind(
-      "agent",
-      () => (ctx: ClientContext) =>
-        fp.TE.right(
-          ctx.agent.createAgent({
-            responseFormat: providerStrategy(
-              effectToZodObject(ActorStructuredResponse.fields),
-            ),
-          }),
-        ),
-    ),
-    fp.RTE.chainW(({ prompt, context, agent }) =>
-      runAgent<ActorStructuredResponse>(
-        [
-          {
-            role: "system",
-            content: prompt({
-              vars: {
-                text: context.map((doc) => doc.pageContent).join("\n"),
-              },
-            }),
+    fp.RTE.bind("result", ({ prompt, context }) =>
+      AgentChatService.getStructuredOutput<ActorStructuredResponse>({
+        message: `${prompt({
+          vars: {
+            text: context.map((doc) => doc.pageContent).join("\n"),
           },
-          {
-            role: "user",
-            content:
-              job.question ??
-              ("text" in job.data
-                ? defaultQuestion(job.data.text)
-                : "Extract the information from the text."),
-          },
-        ],
-        agent,
-      ),
-    ),
-    LoggerService.RTE.debug("updateActorFlow output %O"),
-    fp.RTE.map(
-      ({
-        description,
-        firstName,
-        lastName,
-        username,
-        bornOn,
-        diedOn,
-        keywords,
-      }) => ({
-        excerpt: toInitialValue(description),
-        firstName,
-        lastName,
-        username,
-        bornOn,
-        diedOn,
-        keywords,
+        })}\n\n${
+          job.question ??
+          ("text" in job.data
+            ? defaultQuestion(job.data.text)
+            : "Extract the information from the text. Return in JSON format.")
+        }`,
       }),
     ),
+    LoggerService.RTE.debug("updateActorFlow output %O"),
+    fp.RTE.map(({ result }) => ({
+      excerpt: toInitialValue(result.description),
+      firstName: result.firstName,
+      lastName: result.lastName,
+      username: result.username,
+      bornOn: result.bornOn,
+      diedOn: result.diedOn,
+      keywords: result.keywords,
+    })),
   );
 };
