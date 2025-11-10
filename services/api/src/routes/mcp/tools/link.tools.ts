@@ -1,6 +1,10 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import {
+  CREATE_LINK,
+  FIND_LINKS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
+import {
   fetchLinks,
   getListQueryEmpty,
 } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
@@ -21,7 +25,7 @@ import { formatLinkToMarkdown } from "./formatters/linkToMarkdown.formatter.js";
 
 export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
-    "findLinks",
+    FIND_LINKS,
     {
       title: "Find link",
       description:
@@ -112,7 +116,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "createLink",
+    CREATE_LINK,
     {
       title: "Create link",
       description:

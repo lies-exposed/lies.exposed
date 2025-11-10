@@ -1,4 +1,8 @@
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import {
+  CREATE_EVENT,
+  FIND_EVENTS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
@@ -17,7 +21,7 @@ import { formatEventToMarkdown } from "./formatters/eventToMarkdown.formatter.js
 
 export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
-    "findEvents",
+    FIND_EVENTS,
     {
       title: "Find events",
       description:
@@ -25,10 +29,18 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
-          query: Schema.UndefinedOr(Schema.String),
-          actors: Schema.UndefinedOr(Schema.Array(UUID)),
-          groups: Schema.UndefinedOr(Schema.Array(UUID)),
-          type: Schema.UndefinedOr(EventType),
+          query: Schema.UndefinedOr(Schema.String).annotations({
+            description: "Search query string to filter events",
+          }),
+          actors: Schema.Array(UUID).annotations({
+            description: "Array of actor UUIDs involved in the event",
+          }),
+          groups: Schema.Array(UUID).annotations({
+            description: "Array of group UUIDs involved in the event",
+          }),
+          type: Schema.UndefinedOr(EventType).annotations({
+            description: "Type of the event",
+          }),
         }),
       ),
     },
@@ -103,10 +115,10 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       groupsMembers: Schema.Array(UUID).annotations({
         description: "Array of group member UUIDs involved in the event",
       }),
-      location: Schema.NullOr(UUID).annotations({
+      location: Schema.UndefinedOr(UUID).annotations({
         description: "Location UUID where the event occurred or null",
       }),
-      endDate: Schema.NullOr(Schema.String).annotations({
+      endDate: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "End date of the event in ISO format (YYYY-MM-DD) or null for single-day events",
       }),
@@ -114,7 +126,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "createEvent",
+    CREATE_EVENT,
     {
       title: "Create event",
       description:

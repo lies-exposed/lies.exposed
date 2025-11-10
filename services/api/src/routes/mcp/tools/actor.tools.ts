@@ -1,4 +1,9 @@
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
+import {
+  CREATE_ACTOR,
+  EDIT_ACTOR,
+  FIND_ACTORS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
@@ -18,21 +23,21 @@ import { toControllerError } from "../../../io/ControllerError.js";
 import { formatActorToMarkdown } from "./formatters/actorToMarkdown.formatter.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
+  // Simplified schema for xAI compatibility - avoid nested unions
   const inputSchema = effectToZodStruct(
     Schema.Struct({
       fullName: Schema.UndefinedOr(Schema.String),
-      memberIn: Schema.UndefinedOr(Schema.Array(UUID)),
+      memberIn: Schema.Array(UUID).annotations({
+        description: "Array of group UUIDs the actor is a member of",
+      }),
       withDeleted: Schema.UndefinedOr(Schema.Boolean),
-      sort: Schema.UndefinedOr(
-        Schema.Union(
-          Schema.Literal("createdAt"),
-          Schema.Literal("fullName"),
-          Schema.Literal("username"),
-        ),
-      ),
-      order: Schema.UndefinedOr(
-        Schema.Union(Schema.Literal("ASC"), Schema.Literal("DESC")),
-      ),
+      sort: Schema.UndefinedOr(Schema.String).annotations({
+        description:
+          'Sort field: "createdAt", "fullName", or "username". Defaults to createdAt',
+      }),
+      order: Schema.UndefinedOr(Schema.String).annotations({
+        description: 'Sort order: "ASC" or "DESC". Defaults to DESC',
+      }),
       start: Schema.UndefinedOr(Schema.Number).annotations({
         description: "Pagination start index",
       }),
@@ -43,7 +48,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "findActors",
+    FIND_ACTORS,
     {
       title: "Find actors",
       description:
@@ -52,14 +57,24 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema,
     },
     async ({ fullName, memberIn, withDeleted, sort, order, start, end }) => {
+      // Validate and cast sort/order strings to expected types
+      const validSort =
+        sort === "createdAt" || sort === "fullName" || sort === "username"
+          ? sort
+          : undefined;
+      const validOrder =
+        order === "ASC" || order === "DESC" ? order : undefined;
+
       return pipe(
         fetchActors({
           q: fullName ? O.some(fullName) : O.none(),
-          memberIn: memberIn?.length ? O.some(memberIn) : O.none(),
-          withDeleted:
-            withDeleted !== undefined ? O.some(withDeleted) : O.none(),
-          _sort: O.fromNullable(sort),
-          _order: O.fromNullable(order),
+          memberIn: pipe(
+            O.some(memberIn),
+            O.filter((arr) => arr.length > 0),
+          ),
+          withDeleted: O.fromNullable(withDeleted),
+          _sort: O.fromNullable(validSort as any),
+          _order: O.fromNullable(validOrder as any),
           _start: O.fromNullable(start),
           _end: O.fromNullable(end),
         })(ctx),
@@ -88,29 +103,29 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       color: Schema.String.annotations({
         description: "Color associated with the actor (hex format, without #)",
       }),
-      excerpt: Schema.NullOr(Schema.String).annotations({
+      excerpt: Schema.UndefinedOr(Schema.String).annotations({
         description: "Short description of the actor as plain text or null",
       }),
       nationalities: Schema.Array(UUID).annotations({
         description: "Array of nationality UUIDs",
       }),
-      body: Schema.NullOr(Schema.String).annotations({
+      body: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full body content as plain text or null",
       }),
       avatar: UUID.annotations({
         description: "Avatar media UUID or null",
       }),
-      bornOn: Schema.NullOr(Schema.String).annotations({
+      bornOn: Schema.UndefinedOr(Schema.String).annotations({
         description: "Birth date in ISO format (YYYY-MM-DD) or null",
       }),
-      diedOn: Schema.NullOr(Schema.String).annotations({
+      diedOn: Schema.UndefinedOr(Schema.String).annotations({
         description: "Death date in ISO format (YYYY-MM-DD) or null",
       }),
     }),
   );
 
   server.registerTool(
-    "createActor",
+    CREATE_ACTOR,
     {
       title: "Create actor",
       description:
@@ -232,7 +247,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "editActor",
+    EDIT_ACTOR,
     {
       title: "Edit actor",
       description:

@@ -12,20 +12,15 @@ import type TelegramBot from "node-telegram-bot-api";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
-import { type FFMPEGProviderContext } from "../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../context/http.context.js";
-import {
-  type ImgProcClientContext,
-  type TGBotProviderContext,
-} from "../../context/index.js";
+import { type TGBotProviderContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
-import { type PDFProviderContext } from "../../context/pdf.context.js";
-import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../context/queue.context.js";
+import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { ServerError } from "../../errors/ServerError.js";
-import { createAndUpload } from "../media/createAndUpload.flow.js";
+import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
 import { upload } from "../space/upload.flow.js";
 
 export const parseVideo =
@@ -39,10 +34,7 @@ export const parseVideo =
       ConfigContext &
       FSClientContext &
       HTTPProviderContext &
-      PDFProviderContext &
-      FFMPEGProviderContext &
-      PuppeteerProviderContext &
-      ImgProcClientContext,
+      RedisContext,
   >(
     description: string,
     video: TelegramBot.Video,
@@ -88,7 +80,7 @@ export const parseVideo =
         thumb: thumbTask,
       }),
       TE.chain(({ video, thumb }) => {
-        return createAndUpload(
+        return uploadAndCreate(
           {
             id: mediaId,
             type: MP4Type.literals[0],

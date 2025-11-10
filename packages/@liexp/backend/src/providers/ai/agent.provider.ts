@@ -17,6 +17,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
+import * as ToolNames from "./toolNames.constants.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 export type Agent = ReactAgent<
@@ -50,6 +51,41 @@ interface GetAgentProviderOptions {
   mcpClient: MultiServerMCPClient;
 }
 
+/**
+ * Filters tools based on provider compatibility.
+ * xAI has stricter requirements for tool schemas, so we exclude tools with:
+ * - Deeply nested unions (e.g., Union(Union(...), Undefined))
+ * - Complex array schemas with unions or structs
+ * - Multiple levels of nullable/optional fields
+ * - EventType enums and other complex union types
+ */
+const filterToolsForProvider = (
+  tools: Tool[],
+  provider: "openai" | "xai",
+): Tool[] => {
+  if (provider === "openai") {
+    return tools; // OpenAI supports all tool schemas
+  }
+
+  // For xAI, enable tools incrementally - test one at a time
+  // All schemas have been simplified to avoid nested unions
+  const allowedForXAI = new Set([
+    // Phase 1: Basic tools (TESTED ✓)
+    ToolNames.BLOCK_NOTE_TO_TEXT, // Simple text conversion
+    // actor tools
+    ToolNames.CREATE_ACTOR, // Actor creation with simplified schema
+    // ToolNames.FIND_ACTORS, //Search actors (simplified schema - no nested unions)
+    // media
+    ToolNames.UPLOAD_MEDIA_FROM_URL, // TEST: Upload image from URL
+    ToolNames.CREATE_MEDIA, // TEST: Create media entity
+    // ToolNames.FIND_MEDIA, // TEST: Search media (simplified schema)
+  ]);
+
+  const filteredTools = tools.filter((tool) => allowedForXAI.has(tool.name));
+
+  return filteredTools;
+};
+
 export const GetAgentProvider =
   (opts: GetAgentProviderOptions) =>
   <C extends LangchainContext & LoggerContext & PuppeteerProviderContext>(
@@ -61,8 +97,30 @@ export const GetAgentProvider =
       // Get tools from MCP servers
       const mcpTools = await opts.mcpClient.getTools();
 
+      ctx.logger.info.log(
+        `Loaded ${mcpTools.length} MCP tools for provider: ${ctx.langchain.options.provider}`,
+      );
+
+      // Filter tools based on provider compatibility
+      const filteredMcpTools = filterToolsForProvider(
+        mcpTools,
+        ctx.langchain.options.provider,
+      );
+
+      if (filteredMcpTools.length < mcpTools.length) {
+        const filtered = mcpTools.filter(
+          (t) => !filteredMcpTools.find((ft) => ft.name === t.name),
+        );
+        ctx.logger.warn.log(
+          `Filtered out ${filtered.length} tools for xAI compatibility: ${filtered.map((t) => t.name).join(", ")}`,
+        );
+      }
+
       // Combine MCP tools with custom tools
-      const allTools: Tool[] = [...mcpTools, createWebScrapingTool(ctx)];
+      const allTools: Tool[] = [
+        ...filteredMcpTools,
+        createWebScrapingTool(ctx),
+      ];
 
       // Initialize memory to persist state between graph runs
 

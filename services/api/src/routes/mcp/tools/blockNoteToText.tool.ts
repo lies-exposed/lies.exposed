@@ -1,3 +1,4 @@
+import { BLOCK_NOTE_TO_TEXT } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
@@ -11,7 +12,7 @@ export const registerBlockNoteTools = (server: McpServer) => {
   );
 
   server.registerTool(
-    "blockNoteToText",
+    BLOCK_NOTE_TO_TEXT,
     {
       title: "Convert BlockNote to text",
       description:

@@ -1,5 +1,9 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
+import {
+  CREATE_AREA,
+  FIND_AREAS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchAreas } from "@liexp/backend/lib/queries/areas/fetchAreas.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
@@ -18,7 +22,7 @@ import { formatAreaToMarkdown } from "./formatters/areaToMarkdown.formatter.js";
 
 export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
-    "findAreas",
+    FIND_AREAS,
     {
       title: "Find area",
       description:
@@ -109,7 +113,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "createArea",
+    CREATE_AREA,
     {
       title: "Create area",
       description:

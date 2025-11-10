@@ -1,4 +1,9 @@
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import {
+  CREATE_GROUP,
+  EDIT_GROUP,
+  FIND_GROUPS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
@@ -18,7 +23,7 @@ import { formatGroupToMarkdown } from "./formatters/groupToMarkdown.formatter.js
 
 export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
-    "findGroups",
+    FIND_GROUPS,
     {
       title: "Find groups",
       description:
@@ -79,42 +84,42 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       ).annotations({
         description: "Whether the group is Public or Private",
       }),
-      excerpt: Schema.NullOr(Schema.String).annotations({
+      excerpt: Schema.UndefinedOr(Schema.String).annotations({
         description: "Short description of the group as plain text or null",
       }),
-      body: Schema.NullOr(Schema.String).annotations({
+      body: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full body content as plain text or null",
       }),
-      avatar: Schema.NullOr(UUID).annotations({
+      avatar: Schema.UndefinedOr(UUID).annotations({
         description: "Avatar media UUID or null",
       }),
-      startDate: Schema.NullOr(Schema.String).annotations({
+      startDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "Group start date in ISO format (YYYY-MM-DD) or null",
       }),
-      endDate: Schema.NullOr(Schema.String).annotations({
+      endDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "Group end date in ISO format (YYYY-MM-DD) or null",
       }),
-      members: Schema.Array(
-        Schema.Struct({
-          actor: UUID.annotations({ description: "Actor UUID" }),
-          body: Schema.String.annotations({
-            description: "Member description",
-          }),
-          startDate: Schema.String.annotations({
-            description: "Member start date in ISO format (YYYY-MM-DD)",
-          }),
-          endDate: Schema.NullOr(Schema.String).annotations({
-            description: "Member end date in ISO format (YYYY-MM-DD) or null",
-          }),
-        }),
-      ).annotations({
-        description: "Array of group members",
-      }),
+      // members: Schema.Array(
+      //   Schema.Struct({
+      //     actor: UUID.annotations({ description: "Actor UUID" }),
+      //     body: Schema.String.annotations({
+      //       description: "Member description",
+      //     }),
+      //     startDate: Schema.String.annotations({
+      //       description: "Member start date in ISO format (YYYY-MM-DD)",
+      //     }),
+      //     endDate: Schema.UndefinedOr(Schema.String).annotations({
+      //       description: "Member end date in ISO format (YYYY-MM-DD) or null",
+      //     }),
+      //   }),
+      // ).annotations({
+      //   description: "Array of group members",
+      // }),
     }),
   );
 
   server.registerTool(
-    "createGroup",
+    CREATE_GROUP,
     {
       title: "Create group",
       description:
@@ -132,7 +137,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       avatar,
       startDate,
       endDate,
-      members,
+      // members,
     }) => {
       const groupBody: AddGroupBody = {
         name,
@@ -144,12 +149,13 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
         avatar: avatar ?? undefined,
         startDate: startDate ? new Date(startDate) : undefined,
         endDate: endDate ? new Date(endDate) : undefined,
-        members: (members ?? []).map((member) => ({
-          actor: member.actor,
-          body: toInitialValue(member.body),
-          startDate: new Date(member.startDate),
-          endDate: member.endDate ? O.some(new Date(member.endDate)) : O.none(),
-        })),
+        // members: (members ?? []).map((member) => ({
+        //   actor: member.actor,
+        //   body: toInitialValue(member.body),
+        //   startDate: new Date(member.startDate),
+        //   endDate: member.endDate ? O.some(new Date(member.endDate)) : O.none(),
+        // })),
+        members: [],
       };
 
       return pipe(
@@ -247,7 +253,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    "editGroup",
+    EDIT_GROUP,
     {
       title: "Edit group",
       description:

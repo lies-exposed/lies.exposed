@@ -46,7 +46,7 @@ export const Subscriber = <
                 ctx.logger.error.log(
                   `Handling message for channel %s failed: %O`,
                   pubSub.channel,
-                  e,
+                  JSON.stringify(e, null, 2),
                 );
 
                 return () => fp.T.of(undefined);

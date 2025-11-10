@@ -1,17 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import {
   IframeVideoType,
-  MEDIA,
-  PDFType,
   type MediaType,
 } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
-import {
-  OpenAIEmbeddingQueueType,
-  PendingStatus,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";
@@ -19,21 +12,17 @@ import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../context/config.context.js";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type ENVContext } from "../../context/env.context.js";
-import { type FFMPEGProviderContext } from "../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../context/http.context.js";
-import { type ImgProcClientContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
-import { type PDFProviderContext } from "../../context/pdf.context.js";
-import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../context/queue.context.js";
+import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
 import { upload } from "../../flows/space/upload.flow.js";
+import { MediaPubSub } from "../../pubsub/media/index.js";
 import { MediaRepository } from "../../services/entity-repository.service.js";
-import { LoggerService } from "../../services/logger/logger.service.js";
-import { createThumbnail } from "./thumbnails/createThumbnail.flow.js";
 
 export type CreateAndUploadFlowContext = SpaceContext &
   ENVContext &
@@ -43,12 +32,9 @@ export type CreateAndUploadFlowContext = SpaceContext &
   ConfigContext &
   FSClientContext &
   HTTPProviderContext &
-  PDFProviderContext &
-  FFMPEGProviderContext &
-  PuppeteerProviderContext &
-  ImgProcClientContext;
+  RedisContext;
 
-export const createAndUpload = <C extends CreateAndUploadFlowContext>(
+export const uploadAndCreate = <C extends CreateAndUploadFlowContext>(
   createMediaData: Media.CreateMedia,
   { Body, ContentType }: { Body: any; ContentType?: MediaType },
   id: UUID | undefined,
@@ -56,7 +42,9 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
 ): ReaderTaskEither<C, ServerError, MediaEntity> => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("mediaId", () => fp.RTE.right(id ?? uuid())),
+    fp.RTE.bind("mediaId", () =>
+      fp.RTE.right<C, ServerError, UUID>(id ?? uuid()),
+    ),
     fp.RTE.bind("location", ({ mediaId }) => {
       // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
@@ -82,18 +70,14 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
       );
     }),
     // ctx.logger.debug.logInTaskEither("Result %O"),
-    LoggerService.RTE.info("Result %O"),
-    fp.RTE.bind("thumbnail", ({ mediaId, location }) =>
+    // LoggerService.RTE.info("Result %O"),
+    fp.RTE.bind("thumbnail", ({ mediaId }) =>
       pipe(
         extractThumb
           ? pipe(
-              createThumbnail<C>({
-                ...createMediaData,
-                id: mediaId,
-                location,
-                thumbnail: null,
-              }),
-              fp.RTE.map((s) => s[0]),
+              MediaPubSub.GenerateThumbnailPubSub.publish<C>({ id: mediaId }),
+              fp.RTE.map(() => undefined),
+              fp.RTE.mapLeft(ServerError.fromUnknown),
             )
           : fp.RTE.right(createMediaData.thumbnail),
       ),
@@ -115,28 +99,28 @@ export const createAndUpload = <C extends CreateAndUploadFlowContext>(
       ]),
     ),
     fp.RTE.map((m) => m[0]),
-    fp.RTE.chainFirst((m) => (ctx) => {
-      if (Schema.is(PDFType)(m.type)) {
-        return pipe(
-          ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
-            id: m.id,
-            resource: MEDIA.literals[0],
-            status: PendingStatus.literals[0],
-            error: null,
-            result: null,
-            prompt: null,
-            question: null,
-            type: OpenAIEmbeddingQueueType.literals[0],
-            data: {
-              url: m.location,
-              type: "pdf" as const,
-            },
-          } satisfies Queue),
-          fp.TE.mapLeft(ServerError.fromUnknown),
-        );
-      }
+    // fp.RTE.chainFirst((m) => (ctx) => {
+    //   if (Schema.is(PDFType)(m.type)) {
+    //     return pipe(
+    //       ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
+    //         id: m.id,
+    //         resource: MEDIA.literals[0],
+    //         status: PendingStatus.literals[0],
+    //         error: null,
+    //         result: null,
+    //         prompt: null,
+    //         question: null,
+    //         type: OpenAIEmbeddingQueueType.literals[0],
+    //         data: {
+    //           url: m.location,
+    //           type: "pdf" as const,
+    //         },
+    //       } satisfies Queue),
+    //       fp.TE.mapLeft(ServerError.fromUnknown),
+    //     );
+    //   }
 
-      return fp.TE.right(undefined);
-    }),
+    //   return fp.TE.right(undefined);
+    // }),
   );
 };
