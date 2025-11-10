@@ -101,7 +101,7 @@
     "dotenv": "^17.2.1",
     "eslint": "^9.39.1",
     "fast-check": "^3.23.2",
-    "nodemw": "^0.24.0",
+    "nodemw": "^0.25.0",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
     "supertest": "^7.1.0",
