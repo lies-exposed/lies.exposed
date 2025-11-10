@@ -13,6 +13,8 @@ const ENV = Schema.Struct({
   LOCALAI_MODEL: AvailableModels,
   LOCALAI_API_KEY: Schema.String,
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
+  // TODO: extract this to a proper schema
+  AI_PROVIDER: Schema.Union(Schema.Literal("openai"), Schema.Literal("xai")),
   // API service configuration
   API_BASE_URL: Schema.optional(Schema.String),
   API_TOKEN: Schema.String,

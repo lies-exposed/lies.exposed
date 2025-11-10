@@ -6,7 +6,7 @@ import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
-import { AgentChatService } from "../../services/agent-chat/agent-chat.service.js";
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { type ClientContextRTE } from "../../types.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";
 import { loadDocs } from "./common/loadDocs.flow.js";

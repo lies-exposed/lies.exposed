@@ -69,10 +69,7 @@ export const GetAgentProvider =
       const agentCheckpointer = new MemorySaver();
 
       const agent = createReactAgent({
-        model: ctx.langchain.chat.withConfig({
-          tool_choice: "auto",
-          verbosity: "high",
-        }),
+        model: ctx.langchain.chat,
         tools: allTools,
         checkpointer: agentCheckpointer,
         systemPrompt: readFileSync(
@@ -84,7 +81,7 @@ export const GetAgentProvider =
 
       ctx.logger.info.log(`Agent created: %s`, agent.options.description);
       ctx.logger.debug.log(
-        `Agent tools: %O`,
+        `Agent tools (${allTools.length}): %O`,
         allTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
       );
 
@@ -126,10 +123,7 @@ export const GetAgentProvider =
         opts: Partial<Parameters<typeof createReactAgent>[0]>,
       ) => {
         return createReactAgent({
-          model: ctx.langchain.chat.withConfig({
-            tool_choice: "auto",
-            verbosity: "high",
-          }),
+          model: ctx.langchain.chat,
           tools: allTools,
           checkpointer: agentCheckpointer,
           systemPrompt: readFileSync(

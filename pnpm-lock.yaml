@@ -144,6 +144,9 @@ importers:
       '@langchain/openai':
         specifier: ^1.0.0
         version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+      '@langchain/xai':
+        specifier: ^1.0.0
+        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
@@ -3160,6 +3163,12 @@ packages:
 
   '@langchain/textsplitters@1.0.0':
     resolution: {integrity: sha512-L1gOwOJXeM+6MKzrj9shSsDyH32j898jgqvVArOjdge2zLyY+Mv4aOuyAAxbPyaFdQXlxKfa9xjqIUyv8TzrqA==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@langchain/core': ^1.0.0
+
+  '@langchain/xai@1.0.0':
+    resolution: {integrity: sha512-r/MsnUwueEL5zo3jYuSB+Kx7E/qamNLHIhUYUOPxVFl1QF4CKTB3JdrWMCRyvOHRAKYHBU1BXZ3iAhAoib51Rw==}
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.0.0
@@ -12475,6 +12484,13 @@ snapshots:
     dependencies:
       '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       js-tiktoken: 1.0.21
+
+  '@langchain/xai@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
+    dependencies:
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/openai': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+    transitivePeerDependencies:
+      - ws
 
   '@lezer/common@1.2.3': {}
 

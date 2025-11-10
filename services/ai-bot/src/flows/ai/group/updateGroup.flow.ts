@@ -1,9 +1,11 @@
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
-import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
+import { toAIBotError } from "../../../common/error/index.js";
+import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -27,13 +29,19 @@ export const updateGroupFlow: JobProcessRTE<
     fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("result", ({ prompt, docs }) =>
-      AgentChatService.getStructuredOutput<GroupStructuredResponse>({
-        message: `${prompt({
-          vars: {
-            text: docs.map((d) => d.pageContent).join("\n"),
-          },
-        })}\n\n${job.question ?? defaultQuestion}`,
-      }),
+      pipe(
+        AgentChatService.getStructuredOutput<
+          ClientContext,
+          GroupStructuredResponse
+        >({
+          message: `${prompt({
+            vars: {
+              text: docs.map((d) => d.pageContent).join("\n"),
+            },
+          })}\n\n${job.question ?? defaultQuestion}`,
+        }),
+        fp.RTE.mapLeft(toAIBotError),
+      ),
     ),
     fp.RTE.map(({ result }) => ({
       name: result.name,

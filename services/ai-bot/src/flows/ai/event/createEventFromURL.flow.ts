@@ -1,3 +1,4 @@
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
@@ -11,7 +12,7 @@ import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
-import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
+import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -45,18 +46,22 @@ export const createEventFromURLFlow: JobProcessRTE<
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
     fp.RTE.bindW("event", ({ docs, prompt, jsonSchema }) =>
-      AgentChatService.getStructuredOutput<
-        EventCommonProps & Events.EventRelationIds
-      >({
-        message: `${prompt({
-          vars: {
-            type: job.data.type,
-            jsonSchema: JSON.stringify(jsonSchema),
-            context: docs.map((d) => d.pageContent).join("\n"),
-            question: job.question ?? defaultQuestion,
-          },
-        })}\n\n${job.question ?? defaultQuestion}`,
-      }),
+      pipe(
+        AgentChatService.getStructuredOutput<
+          ClientContext,
+          EventCommonProps & Events.EventRelationIds
+        >({
+          message: `${prompt({
+            vars: {
+              type: job.data.type,
+              jsonSchema: JSON.stringify(jsonSchema),
+              context: docs.map((d) => d.pageContent).join("\n"),
+              question: job.question ?? defaultQuestion,
+            },
+          })}\n\n${job.question ?? defaultQuestion}`,
+        }),
+        fp.RTE.mapLeft(toAIBotError),
+      ),
     ),
     fp.RTE.bind(
       "links",

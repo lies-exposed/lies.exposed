@@ -10,7 +10,7 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js";
 import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
@@ -81,17 +81,20 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
     fp.RTE.bindW("aiEvent", ({ prompt, docs, jsonSchema }) =>
-      AgentChatService.getStructuredOutput<EventCommonProps>({
-        message: `${prompt({
-          vars: {
-            type: job.data.type,
-            jsonSchema: JSON.stringify(jsonSchema),
-            context: docs.map((d) => d.pageContent).join("\n"),
-            question: job.question ?? defaultQuestion,
-          },
-        })}\n\n${job.question ?? defaultQuestion}`,
-        conversationId: null,
-      }),
+      pipe(
+        AgentChatService.getStructuredOutput<ClientContext, EventCommonProps>({
+          message: `${prompt({
+            vars: {
+              type: job.data.type,
+              jsonSchema: JSON.stringify(jsonSchema),
+              context: docs.map((d) => d.pageContent).join("\n"),
+              question: job.question ?? defaultQuestion,
+            },
+          })}\n\n${job.question ?? defaultQuestion}`,
+          conversationId: null,
+        }),
+        fp.RTE.mapLeft(toAIBotError),
+      ),
     ),
     fp.RTE.map(({ event, aiEvent }) =>
       pipe({

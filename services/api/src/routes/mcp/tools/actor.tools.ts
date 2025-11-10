@@ -2,7 +2,7 @@ import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import type { AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
+import { AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
@@ -14,6 +14,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../context/context.type.js";
 import { createActor } from "../../../flows/actors/createActor.flow.js";
 import { editActor } from "../../../flows/actors/editActor.flow.js";
+import { toControllerError } from "../../../io/ControllerError.js";
 import { formatActorToMarkdown } from "./formatters/actorToMarkdown.formatter.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
@@ -96,7 +97,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       body: Schema.NullOr(Schema.String).annotations({
         description: "Full body content as plain text or null",
       }),
-      avatar: Schema.NullOr(UUID).annotations({
+      avatar: UUID.annotations({
         description: "Avatar media UUID or null",
       }),
       bornOn: Schema.NullOr(Schema.String).annotations({
@@ -128,7 +129,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       bornOn,
       diedOn,
     }) => {
-      const actorBody: AddActorBody = {
+      const actorBody = {
         username,
         fullName,
         color,
@@ -136,12 +137,17 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
         nationalities: nationalities ?? [],
         body: body ? toInitialValue(body) : undefined,
         avatar: avatar ?? undefined,
-        bornOn: bornOn ? new Date(bornOn) : undefined,
-        diedOn: diedOn ? new Date(diedOn) : undefined,
+        bornOn: bornOn ?? undefined,
+        diedOn: diedOn !== "" ? diedOn : undefined,
       };
 
+      console.log("actorBody", actorBody);
+
       return pipe(
-        createActor(actorBody)(ctx),
+        Schema.decodeUnknownEither(AddActorBody)(actorBody),
+        fp.E.mapLeft(toControllerError),
+        fp.TE.fromEither,
+        fp.TE.chain((body) => createActor(body)(ctx)),
         LoggerService.TE.debug(ctx, "Created actor %O"),
         fp.TE.map((actor) => {
           if ("success" in actor) {

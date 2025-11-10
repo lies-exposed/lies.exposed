@@ -1,18 +1,22 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
+import {
+  toAPIError,
+  type APIError,
+} from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
-import { type JSONSchema } from "effect";
+import { type API } from "@ts-endpoint/resource-client";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
-import { HumanMessage, SystemMessage, type Document } from "langchain";
+import { type Document } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
+import { AgentChatService } from "../../services/agent-chat/agent-chat.service.js";
 import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
-import { runAgent } from "./runRagChain.js";
 
 export const createEventFromDocuments = <
-  C extends LangchainContext & LoggerContext,
+  C extends LangchainContext & LoggerContext & { agent: API<Endpoints> },
 >(
   documents: Document[],
   type: EventType,
@@ -22,32 +26,20 @@ export const createEventFromDocuments = <
     question: string;
     context: string;
   }>,
-  jsonSchema: JSONSchema.JsonSchema7,
+  jsonSchema: any,
   question: string,
 ): ReaderTaskEither<C, APIError, EventCommonProps> => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => getCreateEventPromptPartial<C>(prompt, type)),
-    fp.RTE.bind(
-      "model",
-      () => (ctx) =>
-        fp.TE.right(
-          ctx.langchain.chat.withConfig({
-            response_format: {
-              type: "json_object",
-            },
-          }),
-        ),
+    fp.RTE.chain(({ prompt }) =>
+      pipe(
+        AgentChatService.getStructuredOutput<C, EventCommonProps>({
+          message: `${prompt}\n\n${question}`,
+          schema: jsonSchema,
+        }),
+        fp.RTE.mapLeft(toAPIError),
+      ),
     ),
-    fp.RTE.chain(({ prompt, model }) => {
-      return runAgent<EventCommonProps, C>(
-        [
-          new SystemMessage(prompt),
-          new HumanMessage(documents.map((d) => d.content).join("\n")),
-          new HumanMessage(question),
-        ],
-        model,
-      );
-    }),
   );
 };

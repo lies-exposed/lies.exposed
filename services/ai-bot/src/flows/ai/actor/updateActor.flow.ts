@@ -1,3 +1,4 @@
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
@@ -8,7 +9,7 @@ import {
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
-import { AgentChatService } from "../../../services/agent-chat/agent-chat.service.js";
+import { type ClientContext } from "../../../context.js";
 import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
@@ -55,18 +56,24 @@ export const updateActorFlow: JobProcessRTE<
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
     fp.RTE.bind("context", () => loadDocs(job)),
     fp.RTE.bind("result", ({ prompt, context }) =>
-      AgentChatService.getStructuredOutput<ActorStructuredResponse>({
-        message: `${prompt({
-          vars: {
-            text: context.map((doc) => doc.pageContent).join("\n"),
-          },
-        })}\n\n${
-          job.question ??
-          ("text" in job.data
-            ? defaultQuestion(job.data.text)
-            : "Extract the information from the text. Return in JSON format.")
-        }`,
-      }),
+      pipe(
+        AgentChatService.getStructuredOutput<
+          ClientContext,
+          ActorStructuredResponse
+        >({
+          message: `${prompt({
+            vars: {
+              text: context.map((doc) => doc.pageContent).join("\n"),
+            },
+          })}\n\n${
+            job.question ??
+            ("text" in job.data
+              ? defaultQuestion(job.data.text)
+              : "Extract the information from the text. Return in JSON format.")
+          }`,
+        }),
+        fp.RTE.mapLeft(toAIBotError),
+      ),
     ),
     LoggerService.RTE.debug("updateActorFlow output %O"),
     fp.RTE.map(({ result }) => ({
