@@ -9,7 +9,6 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -28,12 +27,15 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find media",
       description:
-        "Search for media using various criteria like title or keywords. Returns the media item in JSON format",
+        "Search for media using various criteria like title, location or keywords. Returns the media item in markdown format.",
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
           query: Schema.String,
-          type: Schema.UndefinedOr(Schema.String).annotations({
+          location: Schema.UndefinedOr(URL).annotations({
+            description: "Location associated with the media",
+          }),
+          type: Schema.UndefinedOr(MediaType).annotations({
             description:
               'Media type: "image/jpeg", "image/png", "video/mp4", "application/pdf", etc.',
           }),
@@ -47,7 +49,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         }),
       ),
     },
-    async ({ query, type, sort, order }) => {
+    async ({ query, location, type, sort, order }) => {
       // Validate string inputs
       const validSort =
         sort === "createdAt" || sort === "title" || sort === "type"
@@ -56,21 +58,22 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       const validOrder =
         order === "ASC" || order === "DESC" ? order : undefined;
 
-      return pipe(
-        fetchManyMedia({
+      const result = pipe(
+        fetchManyMedia<ServerContext>({
           q: O.some(query),
-          type: type ? O.some(type as any) : O.none(),
-          _sort: validSort ? O.some(validSort as any) : O.none(),
-          _order: validOrder ? O.some(validOrder as any) : O.none(),
-        })(ctx),
-        LoggerService.TE.debug(ctx, "Results %O"),
-        fp.TE.map(([medias]) => {
-          if (medias.length > 0) {
-            const media = Schema.decodeUnknownSync(Media)(medias[0]);
+          location: O.fromNullable(location),
+          type: O.fromNullable(type),
+          _sort: O.fromNullable(validSort),
+          _order: O.fromNullable(validOrder),
+        }),
+        LoggerService.RTE.debug("Results %O"),
+        fp.RTE.chainEitherK(([media]) => MediaIO.decodeMany(media)),
+        fp.RTE.map((media) => {
+          if (media.length > 0) {
             return {
               content: [
                 {
-                  text: formatMediaToMarkdown(media),
+                  text: formatMediaToMarkdown(media[0]),
                   type: "text" as const,
                 },
               ],
@@ -85,8 +88,11 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
             ],
           };
         }),
+        (rte) => rte(ctx),
         throwTE,
       );
+
+      return result;
     },
   );
 
@@ -95,8 +101,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     UPLOAD_MEDIA_FROM_URL,
     {
       title: "Upload media from URL",
-      description:
-        "Download an image or media file from a URL and upload it to storage. Returns the uploaded media entity with UUID that can be used when creating actors, groups, or events.",
+      description: `Download an image or media file from a URL and upload it to storage. Returns the uploaded media entity with UUID that can be used when creating actors, groups, or events. You should check if the media location already exists with ${FIND_MEDIA} tool to avoid duplicates.`,
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({

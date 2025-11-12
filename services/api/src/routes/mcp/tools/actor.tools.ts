@@ -153,7 +153,11 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
         body: body ? toInitialValue(body) : undefined,
         avatar: avatar ?? undefined,
         bornOn: bornOn ?? undefined,
-        diedOn: diedOn !== "" ? diedOn : undefined,
+        diedOn: pipe(
+          O.fromNullable(diedOn),
+          O.filter((date) => date !== ""),
+          O.getOrUndefined,
+        ),
       };
 
       console.log("actorBody", actorBody);
@@ -196,50 +200,38 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       id: UUID.annotations({
         description: "UUID of the actor to edit",
       }),
-      username: Schema.NullOr(Schema.String).annotations({
+      username: Schema.UndefinedOr(Schema.String).annotations({
         description: "Unique username for the actor or null to keep current",
       }),
-      fullName: Schema.NullOr(Schema.String).annotations({
+      fullName: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full name of the actor or null to keep current",
       }),
-      color: Schema.NullOr(Schema.String).annotations({
+      color: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Color associated with the actor (hex format, without #) or null to keep current",
       }),
-      excerpt: Schema.NullOr(Schema.String).annotations({
+      excerpt: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Short description of the actor as plain text or null to keep current",
       }),
-      nationalities: Schema.NullOr(Schema.Array(UUID)).annotations({
+      nationalities: Schema.Array(UUID).annotations({
         description: "Array of nationality UUIDs or null to keep current",
       }),
-      body: Schema.NullOr(Schema.String).annotations({
+      body: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full body content as plain text or null to keep current",
       }),
-      avatar: Schema.NullOr(UUID).annotations({
+      avatar: Schema.UndefinedOr(UUID).annotations({
         description: "Avatar media UUID or null to keep current",
       }),
-      bornOn: Schema.NullOr(Schema.String).annotations({
+      bornOn: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Birth date in ISO format (YYYY-MM-DD) or null to keep current",
       }),
-      diedOn: Schema.NullOr(Schema.String).annotations({
+      diedOn: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Death date in ISO format (YYYY-MM-DD) or null to keep current",
       }),
-      memberIn: Schema.NullOr(
-        Schema.Array(
-          Schema.Union(
-            UUID,
-            Schema.Struct({
-              group: UUID,
-              body: Schema.String,
-              startDate: Schema.String,
-              endDate: Schema.NullOr(Schema.String),
-            }),
-          ),
-        ),
-      ).annotations({
+      memberIn: Schema.Array(Schema.Union(UUID)).annotations({
         description:
           "Array of group memberships (as UUIDs or detailed objects) or null to keep current",
       }),
@@ -291,19 +283,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
           diedOn: O.fromNullable(diedOn),
           memberIn: pipe(
             O.fromNullable(memberIn),
-            O.map((members) =>
-              members.map((m) => {
-                if (typeof m === "string") {
-                  return m;
-                }
-                return {
-                  group: m.group,
-                  body: toInitialValue(m.body),
-                  startDate: new Date(m.startDate),
-                  endDate: m.endDate ? O.some(new Date(m.endDate)) : O.none(),
-                };
-              }),
-            ),
+            O.filter((members) => members.length > 0),
           ),
         })(ctx),
         LoggerService.TE.debug(ctx, "Updated actor %O"),

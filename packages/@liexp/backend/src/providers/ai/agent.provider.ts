@@ -6,11 +6,11 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
   createAgent as createReactAgent,
+  type Tool,
   type AgentMiddleware,
   type AIMessage,
   type ReactAgent,
   type ResponseFormatUndefined,
-  type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -67,21 +67,27 @@ const filterToolsForProvider = (
     return tools; // OpenAI supports all tool schemas
   }
 
-  // For xAI, enable tools incrementally - test one at a time
-  // All schemas have been simplified to avoid nested unions
-  const allowedForXAI = new Set([
-    // Phase 1: Basic tools (TESTED ✓)
-    ToolNames.BLOCK_NOTE_TO_TEXT, // Simple text conversion
-    // actor tools
-    ToolNames.CREATE_ACTOR, // Actor creation with simplified schema
-    // ToolNames.FIND_ACTORS, //Search actors (simplified schema - no nested unions)
-    // media
-    ToolNames.UPLOAD_MEDIA_FROM_URL, // TEST: Upload image from URL
-    ToolNames.CREATE_MEDIA, // TEST: Create media entity
-    // ToolNames.FIND_MEDIA, // TEST: Search media (simplified schema)
-  ]);
-
-  const filteredTools = tools.filter((tool) => allowedForXAI.has(tool.name));
+  const filteredTools = tools.filter(
+    (tool) =>
+      ![
+        // actors
+        ToolNames.FIND_ACTORS,
+        ToolNames.EDIT_ACTOR,
+        // links
+        ToolNames.FIND_LINKS,
+        ToolNames.CREATE_LINK,
+        // groups
+        ToolNames.FIND_GROUPS,
+        ToolNames.CREATE_GROUP,
+        ToolNames.EDIT_GROUP,
+        // events
+        ToolNames.FIND_EVENTS,
+        ToolNames.CREATE_EVENT,
+        // areas
+        ToolNames.FIND_AREAS,
+        ToolNames.CREATE_AREA,
+      ].includes(tool.name),
+  );
 
   return filteredTools;
 };
