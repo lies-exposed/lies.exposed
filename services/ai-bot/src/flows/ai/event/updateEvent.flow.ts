@@ -1,3 +1,4 @@
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
@@ -10,7 +11,6 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js";
 import { loadText } from "../common/loadText.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";

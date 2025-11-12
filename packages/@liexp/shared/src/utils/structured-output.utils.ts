@@ -80,5 +80,3 @@ export const createStructuredOutputStrategy = <T extends Schema.Struct.Fields>(
   }
   return createToolStrategy(fields, options);
 };
-
-

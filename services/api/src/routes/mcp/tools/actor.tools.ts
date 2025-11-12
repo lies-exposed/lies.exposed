@@ -116,10 +116,10 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
         description: "Avatar media UUID or null",
       }),
       bornOn: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Birth date in ISO format (YYYY-MM-DD) or null",
+        description: "Birth date in ISO format (YYYY-MM-DD) or undefined",
       }),
       diedOn: Schema.UndefinedOr(Schema.String).annotations({
-        description: "Death date in ISO format (YYYY-MM-DD) or null",
+        description: "Death date in ISO format (YYYY-MM-DD) or undefined",
       }),
     }),
   );
@@ -159,8 +159,6 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
           O.getOrUndefined,
         ),
       };
-
-      console.log("actorBody", actorBody);
 
       return pipe(
         Schema.decodeUnknownEither(AddActorBody)(actorBody),
@@ -229,7 +227,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       }),
       diedOn: Schema.UndefinedOr(Schema.String).annotations({
         description:
-          "Death date in ISO format (YYYY-MM-DD) or null to keep current",
+          "Death date in ISO format (YYYY-MM-DD) or undefined to keep current",
       }),
       memberIn: Schema.Array(Schema.Union(UUID)).annotations({
         description:
