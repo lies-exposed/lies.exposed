@@ -25,6 +25,10 @@ export const CREATE_MEDIA = "createMedia";
 // Event tools
 export const FIND_EVENTS = "findEvents";
 export const CREATE_EVENT = "createEvent";
+export const CREATE_UNCATEGORIZED_EVENT = "createUncategorizedEvent";
+export const CREATE_BOOK_EVENT = "createBookEvent";
+export const CREATE_QUOTE_EVENT = "createQuoteEvent";
+export const CREATE_PATENT_EVENT = "createPatentEvent";
 
 // Area tools
 export const FIND_AREAS = "findAreas";

@@ -30,18 +30,29 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
-          query: Schema.String,
-          withDeleted: Schema.UndefinedOr(Schema.Boolean),
+          query: Schema.String.annotations({
+            description:
+              "Search query string to filter areas by name or description",
+          }),
+          withDeleted: Schema.UndefinedOr(Schema.Boolean).annotations({
+            description: "Include deleted areas in the search results",
+          }),
           sort: Schema.Union(
             Schema.Literal("createdAt"),
             Schema.Literal("label"),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort field: "createdAt" or "label". Defaults to createdAt',
+          }),
           order: Schema.Union(
             Schema.Literal("ASC"),
             Schema.Literal("DESC"),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort order: "ASC" for ascending or "DESC" for descending',
+          }),
           start: Schema.UndefinedOr(Schema.Number).annotations({
             description: "Pagination start index",
           }),
@@ -56,8 +67,8 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         fetchAreas(
           {
             q: O.some(query),
-            _sort: sort ? O.some(sort) : O.none(),
-            _order: order ? O.some(order) : O.none(),
+            _sort: O.fromNullable(sort),
+            _order: O.fromNullable(order),
             ids: O.none(),
             draft: O.none(),
             withDeleted: O.fromNullable(withDeleted),
@@ -69,15 +80,22 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         LoggerService.TE.debug(ctx, `Results %O`),
         fp.TE.chainEitherK(([areas]) => AreaIO.decodeMany(areas)),
         fp.TE.map((decodedAreas) => {
+          if (decodedAreas.length === 0) {
+            return {
+              content: [
+                {
+                  text: `No areas found matching the search criteria${query ? ` for "${query}"` : ""}.`,
+                  type: "text" as const,
+                },
+              ],
+            };
+          }
           return {
-            content: [
-              {
-                text: decodedAreas
-                  .map(formatAreaToMarkdown)
-                  .join("\n\n---\n\n"),
-                type: "text" as const,
-              },
-            ],
+            content: decodedAreas.map((area) => ({
+              text: formatAreaToMarkdown(area),
+              type: "text" as const,
+              href: `area://${area.id}`,
+            })),
           };
         }),
         throwTE,
@@ -103,7 +121,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         type: Schema.Literal("Point").annotations({
           description: "Geometry type (currently only Point is supported)",
         }),
-        coordinates: Schema.Tuple(Schema.Number, Schema.Number).annotations({
+        coordinates: Schema.Array(Schema.Number).annotations({
           description: "Coordinates tuple [longitude, latitude]",
         }),
       }).annotations({
@@ -127,7 +145,13 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         slug,
         draft,
         body: toInitialValue(body),
-        geometry,
+        geometry:
+          geometry.type === "Point" && geometry.coordinates.length === 2
+            ? {
+                type: geometry.type,
+                coordinates: [geometry.coordinates[0], geometry.coordinates[1]],
+              }
+            : (geometry as CreateAreaBody["geometry"]),
       };
 
       return pipe(

@@ -10,8 +10,7 @@ import {
 } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID as UUIDType } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { Link } from "@liexp/shared/lib/io/http/Link.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -33,19 +32,30 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
-          query: Schema.UndefinedOr(Schema.String),
-          ids: Schema.UndefinedOr(Schema.Array(Schema.UUID)),
+          query: Schema.UndefinedOr(Schema.String).annotations({
+            description:
+              "Search query string to filter links by title or URL (optional)",
+          }),
+          ids: Schema.Array(Schema.UUID).annotations({
+            description: "Array of link UUIDs to filter by",
+          }),
           sort: Schema.Union(
             Schema.Literal("createdAt"),
             Schema.Literal("title"),
             Schema.Literal("url"),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort field: "createdAt", "title", or "url". Defaults to createdAt',
+          }),
           order: Schema.Union(
             Schema.Literal("ASC"),
             Schema.Literal("DESC"),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort order: "ASC" for ascending or "DESC" for descending',
+          }),
         }),
       ),
     },
@@ -67,24 +77,25 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
         )(ctx),
         LoggerService.TE.debug(ctx, `Results %O`),
         fp.TE.map(([links]) => {
-          if (links.length > 0) {
-            const link = Schema.decodeUnknownSync(Link)(links[0]);
+          if (links.length === 0) {
             return {
               content: [
                 {
-                  text: formatLinkToMarkdown(link),
+                  text: `No links found matching the search criteria${query ? ` for "${query}"` : ""}.`,
                   type: "text" as const,
                 },
               ],
             };
           }
           return {
-            content: [
-              {
-                text: "No links found matching the search criteria.",
+            content: links.map((link) => {
+              const decodedLink = Schema.decodeUnknownSync(Link)(link);
+              return {
+                text: formatLinkToMarkdown(decodedLink),
                 type: "text" as const,
-              },
-            ],
+                href: `link://${decodedLink.id}`,
+              };
+            }),
           };
         }),
         throwTE,
@@ -100,16 +111,16 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       title: Schema.String.annotations({
         description: "Title of the link",
       }),
-      publishDate: Schema.NullOr(Schema.String).annotations({
+      publishDate: Schema.UndefinedOr(Schema.String).annotations({
         description: "Publish date in ISO format (YYYY-MM-DD) or null",
       }),
-      description: Schema.NullOr(Schema.String).annotations({
+      description: Schema.UndefinedOr(Schema.String).annotations({
         description: "Description of the link or null",
       }),
-      events: Schema.Array(UUIDType).annotations({
+      events: Schema.Array(UUID).annotations({
         description: "Array of event UUIDs to associate with the link",
       }),
-      creatorId: UUIDType.annotations({
+      creatorId: UUID.annotations({
         description: "UUID of the user creating the link",
       }),
     }),

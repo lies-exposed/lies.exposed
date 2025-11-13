@@ -31,7 +31,10 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
-          query: Schema.String,
+          query: Schema.String.annotations({
+            description:
+              "Search query string to filter media by title or description",
+          }),
           location: Schema.UndefinedOr(URL).annotations({
             description: "Location associated with the media",
           }),
@@ -69,23 +72,22 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
         LoggerService.RTE.debug("Results %O"),
         fp.RTE.chainEitherK(([media]) => MediaIO.decodeMany(media)),
         fp.RTE.map((media) => {
-          if (media.length > 0) {
+          if (media.length === 0) {
             return {
               content: [
                 {
-                  text: formatMediaToMarkdown(media[0]),
+                  text: `No media found matching the search criteria${query ? ` for "${query}"` : ""}.`,
                   type: "text" as const,
                 },
               ],
             };
           }
           return {
-            content: [
-              {
-                text: "No media found matching the search criteria.",
-                type: "text" as const,
-              },
-            ],
+            content: media.map((m) => ({
+              text: formatMediaToMarkdown(m),
+              type: "text" as const,
+              href: `media://${m.id}`,
+            })),
           };
         }),
         (rte) => rte(ctx),

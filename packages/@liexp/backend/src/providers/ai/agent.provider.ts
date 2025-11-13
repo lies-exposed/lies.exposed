@@ -17,7 +17,6 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
 import { AIMessageLogger } from "./aiMessage.helper.js";
-import * as ToolNames from "./toolNames.constants.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 export type Agent = ReactAgent<
@@ -51,47 +50,6 @@ interface GetAgentProviderOptions {
   mcpClient: MultiServerMCPClient;
 }
 
-/**
- * Filters tools based on provider compatibility.
- * xAI has stricter requirements for tool schemas, so we exclude tools with:
- * - Deeply nested unions (e.g., Union(Union(...), Undefined))
- * - Complex array schemas with unions or structs
- * - Multiple levels of nullable/optional fields
- * - EventType enums and other complex union types
- */
-const filterToolsForProvider = (
-  tools: Tool[],
-  provider: "openai" | "xai",
-): Tool[] => {
-  if (provider === "openai") {
-    return tools; // OpenAI supports all tool schemas
-  }
-
-  const filteredTools = tools.filter(
-    (tool) =>
-      ![
-        // actors
-        ToolNames.FIND_ACTORS,
-        ToolNames.EDIT_ACTOR,
-        // links
-        ToolNames.FIND_LINKS,
-        ToolNames.CREATE_LINK,
-        // groups
-        ToolNames.FIND_GROUPS,
-        ToolNames.CREATE_GROUP,
-        ToolNames.EDIT_GROUP,
-        // events
-        ToolNames.FIND_EVENTS,
-        ToolNames.CREATE_EVENT,
-        // areas
-        ToolNames.FIND_AREAS,
-        ToolNames.CREATE_AREA,
-      ].includes(tool.name),
-  );
-
-  return filteredTools;
-};
-
 export const GetAgentProvider =
   (opts: GetAgentProviderOptions) =>
   <C extends LangchainContext & LoggerContext & PuppeteerProviderContext>(
@@ -107,26 +65,8 @@ export const GetAgentProvider =
         `Loaded ${mcpTools.length} MCP tools for provider: ${ctx.langchain.options.provider}`,
       );
 
-      // Filter tools based on provider compatibility
-      const filteredMcpTools = filterToolsForProvider(
-        mcpTools,
-        ctx.langchain.options.provider,
-      );
-
-      if (filteredMcpTools.length < mcpTools.length) {
-        const filtered = mcpTools.filter(
-          (t) => !filteredMcpTools.find((ft) => ft.name === t.name),
-        );
-        ctx.logger.warn.log(
-          `Filtered out ${filtered.length} tools for xAI compatibility: ${filtered.map((t) => t.name).join(", ")}`,
-        );
-      }
-
       // Combine MCP tools with custom tools
-      const allTools: Tool[] = [
-        ...filteredMcpTools,
-        createWebScrapingTool(ctx),
-      ];
+      const allTools: Tool[] = [...mcpTools, createWebScrapingTool(ctx)];
 
       // Initialize memory to persist state between graph runs
 

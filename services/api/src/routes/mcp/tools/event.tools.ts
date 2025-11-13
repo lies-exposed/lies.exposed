@@ -1,13 +1,26 @@
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import {
-  CREATE_EVENT,
+  CREATE_BOOK_EVENT,
+  CREATE_PATENT_EVENT,
+  CREATE_QUOTE_EVENT,
+  CREATE_UNCATEGORIZED_EVENT,
   FIND_EVENTS,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type CreateBookBody } from "@liexp/shared/lib/io/http/Events/Book.js";
+import {
+  BOOK,
+  EventType,
+  PATENT,
+  QUOTE,
+  UNCATEGORIZED,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type CreatePatentBody } from "@liexp/shared/lib/io/http/Events/Patent.js";
+import { type CreateQuoteBody } from "@liexp/shared/lib/io/http/Events/Quote.js";
+import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events/Uncategorized.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -62,47 +75,62 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
         })(ctx),
         LoggerService.TE.debug(ctx, `Results %O`),
         fp.TE.chainEitherK((result) => EventV2IO.decodeMany(result.results)),
-        fp.TE.map((result) => ({
-          content: result.map((eventResult) => {
+        fp.TE.map((events) => {
+          if (events.length === 0) {
             return {
-              text: formatEventToMarkdown(eventResult),
-              uri: `event://${eventResult.id}`,
-              type: "text" as const,
+              content: [
+                {
+                  text: `No events found matching the search criteria${query ? ` for "${query}"` : ""}.`,
+                  type: "text" as const,
+                },
+              ],
             };
-          }),
-        })),
+          }
+          return {
+            content: events.map((eventResult) => {
+              return {
+                text: formatEventToMarkdown(eventResult),
+                uri: `event://${eventResult.id}`,
+                type: "text" as const,
+              };
+            }),
+          };
+        }),
         throwTE,
       );
     },
   );
 
-  const createInputSchema = effectToZodStruct(
+  // Base schema shared by all event creation tools
+  const baseEventSchema = Schema.Struct({
+    date: Schema.String.annotations({
+      description: "Event date in ISO format (YYYY-MM-DD)",
+    }),
+    draft: Schema.Boolean.annotations({
+      description: "Whether the event is a draft (true) or published (false)",
+    }),
+    excerpt: Schema.NullOr(Schema.String).annotations({
+      description:
+        "Short description/excerpt of the event as plain text or null",
+    }),
+    body: Schema.NullOr(Schema.String).annotations({
+      description: "Full body/description of the event as plain text or null",
+    }),
+    media: Schema.Array(UUID).annotations({
+      description: "Array of media UUIDs to associate with the event",
+    }),
+    links: Schema.Array(UUID).annotations({
+      description: "Array of link UUIDs to associate with the event",
+    }),
+    keywords: Schema.Array(UUID).annotations({
+      description: "Array of keyword UUIDs to associate with the event",
+    }),
+  });
+
+  // Create Uncategorized Event Tool
+  const createUncategorizedInputSchema = effectToZodStruct(
     Schema.Struct({
-      type: EventType.annotations({
-        description:
-          "Type of the event (Book, Death, Documentary, Patent, ScientificStudy, Transaction, Quote, or Uncategorized)",
-      }),
-      date: Schema.String.annotations({
-        description: "Event date in ISO format (YYYY-MM-DD)",
-      }),
-      draft: Schema.Boolean.annotations({
-        description: "Whether the event is a draft (true) or published (false)",
-      }),
-      excerpt: Schema.NullOr(Schema.String).annotations({
-        description: "Short description/excerpt of the event as plain text",
-      }),
-      body: Schema.NullOr(Schema.String).annotations({
-        description: "Full body/description of the event as plain text",
-      }),
-      media: Schema.Array(UUID).annotations({
-        description: "Array of media UUIDs to associate with the event",
-      }),
-      links: Schema.Array(UUID).annotations({
-        description: "Array of link UUIDs to associate with the event",
-      }),
-      keywords: Schema.Array(UUID).annotations({
-        description: "Array of keyword UUIDs to associate with the event",
-      }),
+      ...baseEventSchema.fields,
       title: Schema.String.annotations({
         description: "Title of the event",
       }),
@@ -116,26 +144,25 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
         description: "Array of group member UUIDs involved in the event",
       }),
       location: Schema.UndefinedOr(UUID).annotations({
-        description: "Location UUID where the event occurred or null",
+        description: "Location UUID where the event occurred or undefined",
       }),
       endDate: Schema.UndefinedOr(Schema.String).annotations({
         description:
-          "End date of the event in ISO format (YYYY-MM-DD) or null for single-day events",
+          "End date of the event in ISO format (YYYY-MM-DD) or undefined for single-day events",
       }),
     }),
   );
 
   server.registerTool(
-    CREATE_EVENT,
+    CREATE_UNCATEGORIZED_EVENT,
     {
-      title: "Create event",
+      title: "Create uncategorized event",
       description:
-        "Create a new event in the database with the provided information. Events represent factual occurrences with associated actors, groups, media, and links. Returns the created event details in structured markdown format.",
-      annotations: { title: "Create event", tool: true },
-      inputSchema: createInputSchema,
+        "Create a new uncategorized event in the database. Uncategorized events are general factual occurrences with associated actors, groups, media, and links. Returns the created event details in structured markdown format.",
+      annotations: { title: "Create uncategorized event", tool: true },
+      inputSchema: createUncategorizedInputSchema,
     },
     async ({
-      type,
       date,
       draft,
       excerpt,
@@ -150,8 +177,8 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       location,
       endDate,
     }) => {
-      const eventBody: any = {
-        type,
+      const eventBody: CreateEventBody = {
+        type: UNCATEGORIZED.literals[0],
         date: new Date(date),
         draft,
         excerpt: excerpt ? toInitialValue(excerpt) : undefined,
@@ -164,14 +191,287 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
           actors: actors ?? [],
           groups: groups ?? [],
           groupsMembers: groupsMembers ?? [],
-          location: location ? O.some(location) : O.none(),
-          endDate: endDate ? O.some(new Date(endDate)) : O.none(),
+          location: O.fromNullable(location),
+          endDate: pipe(
+            O.fromNullable(endDate),
+            O.map((d) => new Date(d)),
+          ),
         },
       };
 
       return pipe(
         createEvent(eventBody)(ctx),
-        LoggerService.TE.debug(ctx, "Created event %O"),
+        LoggerService.TE.debug(ctx, "Created uncategorized event %O"),
+        fp.TE.map((event) => ({
+          content: [
+            {
+              text: formatEventToMarkdown(event),
+              type: "text" as const,
+              uri: `event://${event.id}`,
+            },
+          ],
+        })),
+        throwTE,
+      );
+    },
+  );
+
+  // Create Book Event Tool
+  const createBookInputSchema = effectToZodStruct(
+    Schema.Struct({
+      ...baseEventSchema.fields,
+      title: Schema.String.annotations({
+        description: "Title of the book",
+      }),
+      pdfMediaId: UUID.annotations({
+        description: "UUID of the PDF media for the book (required)",
+      }),
+      audioMediaId: Schema.UndefinedOr(UUID).annotations({
+        description: "UUID of the audio media for the book (optional)",
+      }),
+      authors: Schema.Array(
+        Schema.Struct({
+          type: Schema.Union(
+            Schema.Literal("Actor"),
+            Schema.Literal("Group"),
+          ).annotations({
+            description: 'Type of author: "Actor" or "Group"',
+          }),
+          id: UUID.annotations({
+            description: "UUID of the actor or group",
+          }),
+        }),
+      ).annotations({
+        description: "Array of authors (actors or groups) with their IDs",
+      }),
+      publisher: Schema.UndefinedOr(
+        Schema.Struct({
+          type: Schema.Union(
+            Schema.Literal("Actor"),
+            Schema.Literal("Group"),
+          ).annotations({
+            description: 'Type of publisher: "Actor" or "Group"',
+          }),
+          id: UUID.annotations({
+            description: "UUID of the publisher actor or group",
+          }),
+        }),
+      ).annotations({
+        description: "Publisher information (optional)",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    CREATE_BOOK_EVENT,
+    {
+      title: "Create book event",
+      description:
+        "Create a new book event in the database. Book events represent published books with authors, publishers, and associated media (PDF, audio). Returns the created book event details in structured markdown format.",
+      annotations: { title: "Create book event", tool: true },
+      inputSchema: createBookInputSchema,
+    },
+    async ({
+      date,
+      draft,
+      excerpt,
+      body,
+      media,
+      links,
+      keywords,
+      title,
+      pdfMediaId,
+      audioMediaId,
+      authors,
+      publisher,
+    }) => {
+      const eventBody: CreateBookBody = {
+        type: BOOK.literals[0],
+        date: new Date(date),
+        draft,
+        excerpt: excerpt ? toInitialValue(excerpt) : undefined,
+        body: body ? toInitialValue(body) : undefined,
+        media: media ?? [],
+        links: links ?? [],
+        keywords: keywords ?? [],
+        payload: {
+          title,
+          media: {
+            pdf: pdfMediaId,
+            audio: audioMediaId,
+          },
+          authors,
+          publisher,
+        },
+      };
+
+      return pipe(
+        createEvent(eventBody)(ctx),
+        LoggerService.TE.debug(ctx, "Created book event %O"),
+        fp.TE.map((event) => ({
+          content: [
+            {
+              text: formatEventToMarkdown(event),
+              type: "text" as const,
+              uri: `event://${event.id}`,
+            },
+          ],
+        })),
+        throwTE,
+      );
+    },
+  );
+
+  // Create Quote Event Tool
+  const createQuoteInputSchema = effectToZodStruct(
+    Schema.Struct({
+      ...baseEventSchema.fields,
+      actor: Schema.UndefinedOr(UUID).annotations({
+        description: "UUID of the actor who made the quote (optional)",
+      }),
+      subject: Schema.UndefinedOr(
+        Schema.Struct({
+          type: Schema.Union(
+            Schema.Literal("Actor"),
+            Schema.Literal("Group"),
+          ).annotations({
+            description: 'Type of subject: "Actor" or "Group"',
+          }),
+          id: UUID.annotations({
+            description: "UUID of the actor or group",
+          }),
+        }),
+      ).annotations({
+        description: "Subject of the quote (optional)",
+      }),
+      quote: Schema.UndefinedOr(Schema.String).annotations({
+        description: "The quote text itself (optional)",
+      }),
+      details: Schema.UndefinedOr(Schema.String).annotations({
+        description: "Additional details or context about the quote (optional)",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    CREATE_QUOTE_EVENT,
+    {
+      title: "Create quote event",
+      description:
+        "Create a new quote event in the database. Quote events represent statements or quotes made by actors, with optional subject and contextual details. Returns the created quote event details in structured markdown format.",
+      annotations: { title: "Create quote event", tool: true },
+      inputSchema: createQuoteInputSchema,
+    },
+    async ({
+      date,
+      draft,
+      excerpt,
+      body,
+      media,
+      links,
+      keywords,
+      actor,
+      subject,
+      quote,
+      details,
+    }) => {
+      const eventBody: CreateQuoteBody = {
+        type: QUOTE.literals[0],
+        date: new Date(date),
+        draft,
+        excerpt: excerpt ? toInitialValue(excerpt) : undefined,
+        body: body ? toInitialValue(body) : undefined,
+        media: media ?? [],
+        links: links ?? [],
+        keywords: keywords ?? [],
+        payload: {
+          actor,
+          subject,
+          quote,
+          details,
+        },
+      };
+
+      return pipe(
+        createEvent(eventBody)(ctx),
+        LoggerService.TE.debug(ctx, "Created quote event %O"),
+        fp.TE.map((event) => ({
+          content: [
+            {
+              text: formatEventToMarkdown(event),
+              type: "text" as const,
+              uri: `event://${event.id}`,
+            },
+          ],
+        })),
+        throwTE,
+      );
+    },
+  );
+
+  // Create Patent Event Tool
+  const createPatentInputSchema = effectToZodStruct(
+    Schema.Struct({
+      ...baseEventSchema.fields,
+      title: Schema.String.annotations({
+        description: "Title of the patent",
+      }),
+      ownerActors: Schema.Array(UUID).annotations({
+        description: "Array of actor UUIDs who own the patent",
+      }),
+      ownerGroups: Schema.Array(UUID).annotations({
+        description: "Array of group UUIDs who own the patent",
+      }),
+      source: UUID.annotations({
+        description: "UUID of the source/reference for the patent",
+      }),
+    }),
+  );
+
+  server.registerTool(
+    CREATE_PATENT_EVENT,
+    {
+      title: "Create patent event",
+      description:
+        "Create a new patent event in the database. Patent events represent registered patents with their owners (actors and/or groups) and source documentation. Returns the created patent event details in structured markdown format.",
+      annotations: { title: "Create patent event", tool: true },
+      inputSchema: createPatentInputSchema,
+    },
+    async ({
+      date,
+      draft,
+      excerpt,
+      body,
+      media,
+      links,
+      keywords,
+      title,
+      ownerActors,
+      ownerGroups,
+      source,
+    }) => {
+      const eventBody: CreatePatentBody = {
+        type: PATENT.literals[0],
+        date: new Date(date),
+        draft,
+        excerpt: excerpt ? toInitialValue(excerpt) : undefined,
+        body: body ? toInitialValue(body) : undefined,
+        media: media ?? [],
+        links: links ?? [],
+        keywords: keywords ?? [],
+        payload: {
+          title,
+          owners: {
+            actors: ownerActors ?? [],
+            groups: ownerGroups ?? [],
+          },
+          source,
+        },
+      };
+
+      return pipe(
+        createEvent(eventBody)(ctx),
+        LoggerService.TE.debug(ctx, "Created patent event %O"),
         fp.TE.map((event) => ({
           content: [
             {

@@ -2,7 +2,6 @@ import { type Logger } from "@liexp/core/lib/index.js";
 import { type ToolCall, type AIMessage } from "langchain";
 
 export const AIMessageLogger = (logger: Logger) => (message: AIMessage) => {
-  console.log(message);
   // Log message type/role if available
   const messageType =
     "_getType" in message

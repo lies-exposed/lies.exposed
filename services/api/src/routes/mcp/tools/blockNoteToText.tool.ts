@@ -8,7 +8,12 @@ import { Schema } from "effect";
 
 export const registerBlockNoteTools = (server: McpServer) => {
   const inputSchema = effectToZodStruct(
-    Schema.Struct({ blocknote: BlockNoteDocument }),
+    Schema.Struct({
+      blocknote: BlockNoteDocument.annotations({
+        description:
+          "BlockNote JSON document to convert to plain text (usually from 'excerpt', 'body', or 'body2' fields)",
+      }),
+    }),
   );
 
   server.registerTool(

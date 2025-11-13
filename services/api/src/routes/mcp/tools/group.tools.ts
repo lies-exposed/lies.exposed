@@ -31,16 +31,27 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(
         Schema.Struct({
-          query: Schema.String,
-          withDeleted: Schema.Union(Schema.Boolean, Schema.Undefined),
+          query: Schema.String.annotations({
+            description:
+              "Search query string to filter groups by name or description",
+          }),
+          withDeleted: Schema.UndefinedOr(Schema.Boolean).annotations({
+            description: "Include deleted groups in the search results",
+          }),
           sort: Schema.Union(
             Schema.Union(Schema.Literal("createdAt"), Schema.Literal("name")),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort field: "createdAt" or "name". Defaults to createdAt',
+          }),
           order: Schema.Union(
             Schema.Union(Schema.Literal("ASC"), Schema.Literal("DESC")),
             Schema.Undefined,
-          ),
+          ).annotations({
+            description:
+              'Sort order: "ASC" for ascending or "DESC" for descending',
+          }),
         }),
       ),
     },
@@ -54,6 +65,16 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
         LoggerService.RTE.debug(`Results %O`),
         fp.RTE.chainEitherK((result) => GroupIO.decodeMany(result[0])),
         fp.RTE.map((groups) => {
+          if (groups.length === 0) {
+            return {
+              content: [
+                {
+                  text: `No groups found matching the search criteria${query ? ` for "${query}"` : ""}.`,
+                  type: "text" as const,
+                },
+              ],
+            };
+          }
           return {
             content: groups.map((group) => ({
               text: formatGroupToMarkdown(group),
@@ -193,60 +214,41 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       id: UUID.annotations({
         description: "UUID of the group to edit",
       }),
-      name: Schema.NullOr(Schema.String).annotations({
+      name: Schema.UndefinedOr(Schema.String).annotations({
         description: "Name of the group or null to keep current",
       }),
-      username: Schema.NullOr(Schema.String).annotations({
+      username: Schema.UndefinedOr(Schema.String).annotations({
         description: "Unique username for the group or null to keep current",
       }),
-      color: Schema.NullOr(Schema.String).annotations({
+      color: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Color associated with the group (hex format, without #) or null to keep current",
       }),
-      kind: Schema.NullOr(
+      kind: Schema.UndefinedOr(
         Schema.Union(Schema.Literal("Public"), Schema.Literal("Private")),
       ).annotations({
         description:
           "Whether the group is Public or Private or null to keep current",
       }),
-      excerpt: Schema.NullOr(Schema.String).annotations({
+      excerpt: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Short description of the group as plain text or null to keep current",
       }),
-      body: Schema.NullOr(Schema.String).annotations({
+      body: Schema.UndefinedOr(Schema.String).annotations({
         description: "Full body content as plain text or null to keep current",
       }),
-      avatar: Schema.NullOr(UUID).annotations({
+      avatar: Schema.UndefinedOr(UUID).annotations({
         description: "Avatar media UUID or null to keep current",
       }),
-      startDate: Schema.NullOr(Schema.String).annotations({
+      startDate: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Group start date in ISO format (YYYY-MM-DD) or null to keep current",
       }),
-      endDate: Schema.NullOr(Schema.String).annotations({
+      endDate: Schema.UndefinedOr(Schema.String).annotations({
         description:
           "Group end date in ISO format (YYYY-MM-DD) or null to keep current",
       }),
-      members: Schema.NullOr(
-        Schema.Array(
-          Schema.Union(
-            UUID,
-            Schema.Struct({
-              actor: UUID.annotations({ description: "Actor UUID" }),
-              body: Schema.String.annotations({
-                description: "Member description",
-              }),
-              startDate: Schema.String.annotations({
-                description: "Member start date in ISO format (YYYY-MM-DD)",
-              }),
-              endDate: Schema.NullOr(Schema.String).annotations({
-                description:
-                  "Member end date in ISO format (YYYY-MM-DD) or null",
-              }),
-            }),
-          ),
-        ),
-      ).annotations({
+      members: Schema.Array(UUID).annotations({
         description: "Array of group members or null to keep current",
       }),
     }),
@@ -294,21 +296,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
           endDate: O.fromNullable(endDate),
           members: pipe(
             O.fromNullable(members),
-            O.map((m) =>
-              m.map((member) => {
-                if (typeof member === "string") {
-                  return member;
-                }
-                return {
-                  actor: member.actor,
-                  body: O.fromNullable(toInitialValue(member.body)),
-                  startDate: new Date(member.startDate),
-                  endDate: member.endDate
-                    ? O.some(new Date(member.endDate))
-                    : O.none(),
-                };
-              }),
-            ),
+            O.filter((m) => m.length > 0),
           ),
         })(ctx),
         LoggerService.TE.debug(ctx, "Updated group %O"),
