@@ -1231,8 +1231,8 @@ importers:
         specifier: ^9.39.1
         version: 9.39.1(jiti@2.6.1)
       eslint-plugin-storybook:
-        specifier: ^9.1.16
-        version: 9.1.16(eslint@9.39.1(jiti@2.6.1))(storybook@10.0.7(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3)
+        specifier: ^10.0.7
+        version: 10.0.7(eslint@9.39.1(jiti@2.6.1))(storybook@10.0.7(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3)
       prettier:
         specifier: ^3.5.3
         version: 3.6.2
@@ -6283,12 +6283,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@9.1.16:
-    resolution: {integrity: sha512-I8f3DXniPxFbcptVgOjtIHNvW6sDu1O2d1zNsxLKmeAvEaRLus1ij8iFHCgkNzMthrU5U2F4Wdo/aaSpz5kHjA==}
-    engines: {node: '>=20.0.0'}
+  eslint-plugin-storybook@10.0.7:
+    resolution: {integrity: sha512-qOQq9KdT1jsBgT3qsxUH2n67aj1WR8D1XCoER8Q6yuVlS5TimNwk1mZeWkXVf/o4RQQT6flT2y5cG2gPLZPvJA==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^9.1.16
+      storybook: ^10.0.7
 
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
@@ -15910,7 +15909,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@9.1.16(eslint@9.39.1(jiti@2.6.1))(storybook@10.0.7(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3):
+  eslint-plugin-storybook@10.0.7(eslint@9.39.1(jiti@2.6.1))(storybook@10.0.7(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vite@7.2.2(@types/node@24.10.1)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/utils': 8.46.4(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
