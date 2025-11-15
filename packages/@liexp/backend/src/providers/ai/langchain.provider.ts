@@ -3,6 +3,7 @@ import {
   type ChatOpenAIFields,
   OpenAIEmbeddings,
 } from "@langchain/openai";
+import { ChatXAI, type ChatXAIInput } from "@langchain/xai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
 import { Schema } from "effect/index";
@@ -37,10 +38,11 @@ export const AvailableModels = Schema.Union(
 
 export type AvailableModels = typeof AvailableModels.Type;
 
-export interface LangchainProviderOptions {
+export interface LangchainProviderOptions<Provider extends "openai" | "xai"> {
   baseURL: string;
   apiKey: string;
   maxRetries?: number;
+  provider: Provider;
   models?: {
     chat?: AvailableModels;
     embeddings?: AvailableModels;
@@ -51,9 +53,9 @@ export interface LangchainProviderOptions {
   };
 }
 
-export interface LangchainProvider {
-  readonly options: LangchainProviderOptions;
-  chat: ChatOpenAI;
+export interface LangchainProvider<Provider extends "openai" | "xai"> {
+  readonly options: LangchainProviderOptions<Provider>;
+  chat: Provider extends "openai" ? ChatOpenAI : ChatXAI;
   embeddings: OpenAIEmbeddings;
   queryDocument: <Args extends { text: string; question?: string }>(
     docs: LangchainDocument[],
@@ -64,37 +66,48 @@ export interface LangchainProvider {
 
 const langchainLogger = GetLogger("langchain");
 
-export const GetLangchainProvider = (
-  opts: LangchainProviderOptions,
-): LangchainProvider => {
+export const GetLangchainProvider = <P extends "openai" | "xai">(
+  opts: LangchainProviderOptions<P>,
+): LangchainProvider<P> => {
   const defaultChatModel = opts.models?.chat ?? "gpt-4o";
 
   const options = {
     ...opts,
   };
 
-  const makeChat = (
-    model: string,
-    chatOptions: ChatOpenAIFields = {},
-  ): ChatOpenAI => {
-    const chat = new ChatOpenAI({
-      model,
-      temperature: 0,
-      apiKey: opts.apiKey,
-      timeout: 60 * 30 * 1000, // 30 minutes
-      streaming: true,
-      streamUsage: true,
-      ...opts.options?.chat,
-      ...chatOptions,
-      configuration: {
-        maxRetries: opts.maxRetries ?? 3,
-        baseURL: opts.baseURL,
-        ...opts.options?.chat.configuration,
-        ...chatOptions.configuration,
-      },
-    });
+  langchainLogger.debug.log("Initializing Langchain provider...", opts);
 
-    return chat;
+  const makeChat = <P extends "openai" | "xai">(
+    provider: P,
+    model: string,
+    chatOptions: P extends "openai" ? ChatOpenAIFields : ChatXAIInput = {},
+  ): P extends "openai" ? ChatOpenAI : ChatXAI => {
+    if (provider === "openai") {
+      const openAIChatOptions = chatOptions as ChatOpenAIFields;
+      return new ChatOpenAI({
+        model,
+        temperature: 0,
+        apiKey: opts.apiKey,
+        timeout: 60 * 30 * 1000, // 30 minutes
+        streaming: true,
+        streamUsage: true,
+        ...opts.options?.chat,
+        ...chatOptions,
+        configuration: {
+          maxRetries: opts.maxRetries ?? 3,
+          baseURL: opts.baseURL,
+          ...opts.options?.chat.configuration,
+          ...openAIChatOptions.configuration,
+        },
+      }) as P extends "openai" ? ChatOpenAI : ChatXAI;
+    }
+
+    return new ChatXAI({
+      model,
+      apiKey: opts.apiKey,
+      ...chatOptions,
+      ...opts.options?.chat,
+    }) as P extends "openai" ? ChatOpenAI : ChatXAI;
   };
 
   const makeEmbedding = (
@@ -116,7 +129,7 @@ export const GetLangchainProvider = (
     });
   };
 
-  const chat = makeChat(defaultChatModel);
+  const chat = makeChat(options.provider, defaultChatModel);
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
 
@@ -131,12 +144,11 @@ export const GetLangchainProvider = (
   return {
     options,
     chat,
-    // agent,
     embeddings,
-    queryDocument: async (content, question, options) => {
-      const model = options?.model ?? embeddingsModel;
+    queryDocument: async (content, question, opts) => {
+      const model = opts?.model ?? embeddingsModel;
 
-      const chatModel = options?.model ?? defaultChatModel;
+      const chatModel = opts?.model ?? defaultChatModel;
 
       langchainLogger.info.log(
         "queryDocument use embedding model %s to query document with size %d using chat model %s",
@@ -145,7 +157,7 @@ export const GetLangchainProvider = (
         chatModel,
       );
 
-      const chat = makeChat(chatModel);
+      const chat = makeChat(options.provider, chatModel);
 
       const stream = await chat.stream(question);
 
@@ -159,9 +171,9 @@ export const GetLangchainProvider = (
   };
 };
 
-export type LangchainProviderReader = Reader.Reader<
-  LangchainProviderOptions,
-  LangchainProvider
+export type LangchainProviderReader<P extends "openai" | "xai"> = Reader.Reader<
+  LangchainProviderOptions<P>,
+  LangchainProvider<P>
 >;
 
 export type { LangchainDocument };

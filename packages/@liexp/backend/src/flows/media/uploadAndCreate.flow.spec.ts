@@ -17,22 +17,19 @@ import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { sharpMock } from "../../test/mocks/sharp.mock.js";
 import { mocks } from "../../test/mocks.js";
 import {
-  createAndUpload,
+  uploadAndCreate,
   type CreateAndUploadFlowContext,
-} from "./createAndUpload.flow.js";
+} from "./uploadAndCreate.flow.js";
 
-describe(createAndUpload.name, () => {
+describe(uploadAndCreate.name, () => {
   const Test = {
     ctx: mockedContext<CreateAndUploadFlowContext>({
       fs: mockDeep(),
       http: mockDeep(),
-      pdf: mockDeep(),
-      ffmpeg: mockDeep(),
-      puppeteer: mockDeep(),
-      imgProc: mockDeep(),
       s3: mockDeep(),
       queue: mockDeep(),
       db: mockDeep(),
+      redis: mockDeep(),
     }),
     mocks,
   };
@@ -84,7 +81,7 @@ describe(createAndUpload.name, () => {
     Test.ctx.queue.queue.mockReturnValueOnce(mockQueue as any);
 
     const response = await pipe(
-      createAndUpload(
+      uploadAndCreate(
         {
           ...media,
           location: media.location,
@@ -136,7 +133,7 @@ describe(createAndUpload.name, () => {
     }));
 
     const response = await pipe(
-      createAndUpload(
+      uploadAndCreate(
         {
           ...media,
           location: media.location,
@@ -185,7 +182,7 @@ describe(createAndUpload.name, () => {
     }));
 
     const result = await pipe(
-      createAndUpload(
+      uploadAndCreate(
         {
           ...media,
           location: media.location,
@@ -247,7 +244,7 @@ describe(createAndUpload.name, () => {
       );
 
     const response = await pipe(
-      createAndUpload(
+      uploadAndCreate(
         {
           ...media,
           location: media.location,
@@ -314,7 +311,7 @@ describe(createAndUpload.name, () => {
     Test.mocks.redis.publish.mockResolvedValueOnce(1);
 
     const task = pipe(
-      createAndUpload(
+      uploadAndCreate(
         {
           ...media,
           location: media.location,

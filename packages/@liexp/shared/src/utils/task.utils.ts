@@ -2,16 +2,10 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import * as T from "fp-ts/lib/Task.js";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { throwTE } from "./fp.utils.js";
 
-export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
-  return te().then((rr) => {
-    if (rr._tag === "Left") {
-      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
-      return Promise.reject(rr.left);
-    }
-    return Promise.resolve(rr.right);
-  });
-};
+// TODO: remove in favor of the throwTE exported by fp.utils.ts
+export { throwTE };
 
 /**
  *

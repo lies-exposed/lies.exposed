@@ -1,13 +1,12 @@
-import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { type API } from "@ts-endpoint/resource-client";
 import { type Schema } from "effect";
-import { toAIBotError } from "../../common/error/index.js";
-import { type ClientContext } from "../../context.js";
-import { type ClientContextRTE } from "../../types.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { type LoggerContext } from "../../context/logger.context.js";
+import { ServerError } from "../../errors/index.js";
+import { LoggerService } from "../logger/logger.service.js";
 
-/**
- * Extended ChatMessage type with optional fields explicitly typed
- */
 interface ChatMessageWithStructuredOutput {
   id: string;
   role: "user" | "assistant" | "system" | "tool";
@@ -137,10 +136,10 @@ export const AgentChatService = {
    * );
    * ```
    */
-  getStructuredOutput: <T>(
+  getStructuredOutput: <C extends LoggerContext & { agent: API<Endpoints> }, T>(
     options: StructuredOutputOptions<T>,
-  ): ClientContextRTE<T> => {
-    return (ctx: ClientContext) =>
+  ): ReaderTaskEither<C, ServerError, T> => {
+    return (ctx) =>
       pipe(
         ctx.agent.Chat.Create({
           Body: {
@@ -183,7 +182,7 @@ export const AgentChatService = {
             );
           }
         }),
-        fp.TE.mapLeft(toAIBotError),
+        fp.TE.mapLeft(ServerError.fromUnknown),
       );
   },
 
@@ -206,11 +205,11 @@ export const AgentChatService = {
    * );
    * ```
    */
-  getRawOutput: (options: {
+  getRawOutput: <C extends LoggerContext & { agent: API<Endpoints> }>(options: {
     message: string;
     conversationId?: string | null;
-  }): ClientContextRTE<string> => {
-    return (ctx: ClientContext) =>
+  }): ReaderTaskEither<C, ServerError, string> => {
+    return (ctx) =>
       pipe(
         ctx.agent.Chat.Create({
           Body: {
@@ -228,7 +227,7 @@ export const AgentChatService = {
 
           return message.content;
         }),
-        fp.TE.mapLeft(toAIBotError),
+        fp.TE.mapLeft(ServerError.fromUnknown),
       );
   },
 
@@ -240,14 +239,17 @@ export const AgentChatService = {
    * @param options - Configuration for the request
    * @returns A ReaderTaskEither that resolves to the parsed structured output
    */
-  getStructuredOutputWithLogging: <T>(
+  getStructuredOutputWithLogging: <
+    C extends LoggerContext & { agent: API<Endpoints> },
+    T,
+  >(
     flowName: string,
     options: StructuredOutputOptions<T>,
-  ): ClientContextRTE<T> => {
+  ): ReaderTaskEither<C, ServerError, T> => {
     return pipe(
       fp.RTE.Do,
       LoggerService.RTE.debug(`${flowName}: making request`),
-      fp.RTE.chain(() => AgentChatService.getStructuredOutput<T>(options)),
+      fp.RTE.chain(() => AgentChatService.getStructuredOutput<C, T>(options)),
       LoggerService.RTE.debug(`${flowName}: received response %O`),
     );
   },

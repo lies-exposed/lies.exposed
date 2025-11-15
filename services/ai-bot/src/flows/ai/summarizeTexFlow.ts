@@ -1,6 +1,6 @@
+import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateQueueTextTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { AgentChatService } from "../../services/agent-chat/agent-chat.service.js";
 import { loadDocs } from "./common/loadDocs.flow.js";
 import { getPromptFromResource } from "./prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";

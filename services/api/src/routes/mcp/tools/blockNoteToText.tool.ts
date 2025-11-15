@@ -1,3 +1,4 @@
+import { BLOCK_NOTE_TO_TEXT } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
@@ -7,11 +8,16 @@ import { Schema } from "effect";
 
 export const registerBlockNoteTools = (server: McpServer) => {
   const inputSchema = effectToZodStruct(
-    Schema.Struct({ blocknote: BlockNoteDocument }),
+    Schema.Struct({
+      blocknote: BlockNoteDocument.annotations({
+        description:
+          "BlockNote JSON document to convert to plain text (usually from 'excerpt', 'body', or 'body2' fields)",
+      }),
+    }),
   );
 
   server.registerTool(
-    "blockNoteToText",
+    BLOCK_NOTE_TO_TEXT,
     {
       title: "Convert BlockNote to text",
       description:

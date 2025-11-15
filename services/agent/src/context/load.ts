@@ -27,10 +27,7 @@ export const makeAgentContext = (
       const agentLogger = logger.GetLogger(namespace);
       agentLogger.debug.log("Environment loaded:", env.LOCALAI_BASE_URL);
       agentLogger.debug.log("API_BASE_URL:", env.API_BASE_URL);
-      agentLogger.debug.log(
-        "API_TOKEN length:",
-        env.API_TOKEN?.length ?? "MISSING",
-      );
+
       const http = HTTPProvider(axios.create({}));
 
       agentLogger.debug.log("Initializing JWT provider...");
@@ -40,12 +37,12 @@ export const makeAgentContext = (
         logger: agentLogger,
       });
 
-      agentLogger.debug.log("Initializing Langchain provider...");
       // Initialize Langchain provider for LocalAI
       const langchain = GetLangchainProvider({
         baseURL: env.LOCALAI_BASE_URL,
         apiKey: env.LOCALAI_API_KEY,
         maxRetries: env.LOCALAI_MAX_RETRIES,
+        provider: env.AI_PROVIDER,
         models: {
           chat: env.LOCALAI_MODEL,
           embeddings: env.LOCALAI_MODEL,

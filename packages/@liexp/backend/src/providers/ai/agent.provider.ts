@@ -6,11 +6,11 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
   createAgent as createReactAgent,
+  type Tool,
   type AgentMiddleware,
   type AIMessage,
   type ReactAgent,
   type ResponseFormatUndefined,
-  type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
@@ -61,6 +61,10 @@ export const GetAgentProvider =
       // Get tools from MCP servers
       const mcpTools = await opts.mcpClient.getTools();
 
+      ctx.logger.info.log(
+        `Loaded ${mcpTools.length} MCP tools for provider: ${ctx.langchain.options.provider}`,
+      );
+
       // Combine MCP tools with custom tools
       const allTools: Tool[] = [...mcpTools, createWebScrapingTool(ctx)];
 
@@ -69,10 +73,7 @@ export const GetAgentProvider =
       const agentCheckpointer = new MemorySaver();
 
       const agent = createReactAgent({
-        model: ctx.langchain.chat.withConfig({
-          tool_choice: "auto",
-          verbosity: "high",
-        }),
+        model: ctx.langchain.chat,
         tools: allTools,
         checkpointer: agentCheckpointer,
         systemPrompt: readFileSync(
@@ -84,7 +85,7 @@ export const GetAgentProvider =
 
       ctx.logger.info.log(`Agent created: %s`, agent.options.description);
       ctx.logger.debug.log(
-        `Agent tools: %O`,
+        `Agent tools (${allTools.length}): %O`,
         allTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
       );
 
@@ -126,10 +127,7 @@ export const GetAgentProvider =
         opts: Partial<Parameters<typeof createReactAgent>[0]>,
       ) => {
         return createReactAgent({
-          model: ctx.langchain.chat.withConfig({
-            tool_choice: "auto",
-            verbosity: "high",
-          }),
+          model: ctx.langchain.chat,
           tools: allTools,
           checkpointer: agentCheckpointer,
           systemPrompt: readFileSync(

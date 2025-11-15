@@ -11,6 +11,7 @@ import { type AgentContext } from "../context/context.type.js";
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const threadId = uuid();
   const agent = ctx.agent.agent;
+  const defaultQuestion = _args[1];
 
   const aiMessageLogger = AIMessageLogger(ctx.logger);
 
@@ -30,18 +31,20 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
     try {
       let answer = "";
       for await (const [streamMode, chunk] of agentFinalState) {
-        ctx.logger.debug.log("Agent stream:", streamMode, chunk);
-        const messages = (
-          "agent" in chunk ? chunk.agent.messages : []
-        ) as AIMessage[];
-        const toolMessages = (
-          "tools" in chunk ? chunk.tools.messages : []
-        ) as AIMessage[];
+        // ctx.logger.debug.log("Agent stream:", streamMode, chunk);
+        if (streamMode === "debug") {
+          ctx.logger.debug.log("Agent debug: %o", chunk);
+        } else if (streamMode === "messages") {
+          answer += chunk[0].content;
+        } else {
+          const messages = (
+            "agent" in chunk ? chunk.agent.messages : []
+          ) as AIMessage[];
+          const toolMessages = (
+            "tools" in chunk ? chunk.tools.messages : []
+          ) as AIMessage[];
 
-        [...messages, ...toolMessages].forEach(aiMessageLogger);
-
-        if ("agent" in chunk) {
-          answer += chunk.agent.messages.map((m: any) => m.content).join("\n");
+          [...messages, ...toolMessages].forEach(aiMessageLogger);
         }
       }
       return answer;
@@ -52,15 +55,17 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   };
 
   const chat = async (ag: typeof agent) => {
-    const { question } = await prompts({
-      message: 'Enter a command (type "exit" to quit):',
-      type: "text",
-      name: "question",
-    });
+    const { question } = defaultQuestion
+      ? await Promise.resolve({ question: defaultQuestion })
+      : await prompts({
+          message: 'Enter a command (type "exit" to quit):',
+          type: "text",
+          name: "question",
+        });
 
     if (!question || question.toLowerCase() === "exit") {
       ctx.logger.info.log("Goodbye!");
-      return;
+      process.exit(0);
     } else {
       const result = await ask(ag, question);
 

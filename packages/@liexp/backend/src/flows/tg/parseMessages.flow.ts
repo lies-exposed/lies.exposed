@@ -12,16 +12,16 @@ import {
   type TGBotProviderContext,
 } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
-import { type PDFProviderContext } from "../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../context/queue.context.js";
+import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { toTGError, type TGError } from "../../providers/tg/tg.provider.js";
 import { LoggerService } from "../../services/logger/logger.service.js";
 import {
-  type EventResult,
   createFromTGMessage,
+  type EventResult,
 } from "./createFromTGMessage.flow.js";
 
 export const parseTGMessageFlow = <
@@ -38,7 +38,7 @@ export const parseTGMessageFlow = <
     QueuesProviderContext &
     ConfigContext &
     FFMPEGProviderContext &
-    PDFProviderContext,
+    RedisContext,
 >(
   filePath: string,
   deleteFile: boolean,

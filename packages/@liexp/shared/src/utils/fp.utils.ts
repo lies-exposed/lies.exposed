@@ -1,6 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import * as E from "fp-ts/lib/Either.js";
+import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -8,6 +9,22 @@ export const traverseArrayOfE = <A, E, B>(
   results: readonly A[],
   fn: (a: A) => E.Either<E, B>,
 ): E.Either<E, readonly B[]> => pipe(results, fp.A.traverse(E.Applicative)(fn));
+
+export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
+  return te().then((rr) => {
+    if (rr._tag === "Left") {
+      // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+      return Promise.reject(rr.left);
+    }
+    return Promise.resolve(rr.right);
+  });
+};
+
+export const throwRTE =
+  <C, E, A>(rte: ReaderTaskEither<C, E, A>) =>
+  async (ctx: C): Promise<A> => {
+    return pipe(rte(ctx), throwTE);
+  };
 
 interface ReqInput<D> {
   skip: number;

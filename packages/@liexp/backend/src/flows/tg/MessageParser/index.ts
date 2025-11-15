@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
-  type VideoPlatformMatch,
   getPlatform,
+  type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
@@ -21,13 +21,13 @@ import { type FFMPEGProviderContext } from "../../../context/ffmpeg.context.js";
 import { type FSClientContext } from "../../../context/fs.context.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import {
-  type TGBotProviderContext,
   type ImgProcClientContext,
+  type TGBotProviderContext,
 } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
-import { type PDFProviderContext } from "../../../context/pdf.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { type QueuesProviderContext } from "../../../context/queue.context.js";
+import { type RedisContext } from "../../../context/redis.context.js";
 import { type SpaceContext } from "../../../context/space.context.js";
 import { type URLMetadataContext } from "../../../context/urlMetadata.context.js";
 import { type UserEntity } from "../../../entities/User.entity.js";
@@ -39,16 +39,22 @@ import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
 import { parseURLs } from "../parseURL.flow.js";
 import { parseVideo } from "../parseVideo.flow.js";
 
-interface MessageParserAPI<
-  C extends DatabaseContext &
-    TGBotProviderContext &
-    LoggerContext &
-    SpaceContext &
-    ENVContext &
-    URLMetadataContext &
-    QueuesProviderContext &
-    PuppeteerProviderContext,
-> {
+type MessageParserContext = DatabaseContext &
+  TGBotProviderContext &
+  LoggerContext &
+  SpaceContext &
+  ENVContext &
+  URLMetadataContext &
+  QueuesProviderContext &
+  ConfigContext &
+  FSClientContext &
+  HTTPProviderContext &
+  RedisContext &
+  PuppeteerProviderContext &
+  FFMPEGProviderContext &
+  ImgProcClientContext;
+
+interface MessageParserAPI<C extends MessageParserContext> {
   parseDocument: ReaderTaskEither<C, TGError, UUID[]>;
   parsePhoto: ReaderTaskEither<C, TGError, UUID[]>;
   parseVideo: ReaderTaskEither<C, TGError, UUID[]>;
@@ -76,22 +82,7 @@ const takeURLsFromMessageEntity =
     return acc;
   };
 
-export const MessageParser = <
-  C extends DatabaseContext &
-    TGBotProviderContext &
-    LoggerContext &
-    SpaceContext &
-    ENVContext &
-    URLMetadataContext &
-    QueuesProviderContext &
-    PuppeteerProviderContext &
-    ConfigContext &
-    FFMPEGProviderContext &
-    FSClientContext &
-    HTTPProviderContext &
-    PDFProviderContext &
-    ImgProcClientContext,
->(
+export const MessageParser = <C extends MessageParserContext>(
   message: TelegramBot.Message,
 ): MessageParserAPI<C> => {
   const { url: urlEntity, video: videoURLS } = [
