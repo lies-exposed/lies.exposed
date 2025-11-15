@@ -31,10 +31,10 @@
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@mui/material": "^7.3.4",
-    "@storybook/addon-docs": "^9.1.10",
-    "@storybook/addon-links": "^9.1.10",
-    "@storybook/builder-vite": "^9.1.10",
-    "@storybook/react-vite": "^9.1.10",
+    "@storybook/addon-docs": "^10.0.7",
+    "@storybook/addon-links": "^10.0.7",
+    "@storybook/builder-vite": "^10.0.7",
+    "@storybook/react-vite": "^10.0.7",
     "@tanstack/react-query": "^5.90.2",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@visx/gradient": "^3.12.0",
@@ -48,7 +48,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-virtualized": "^9.22.6",
-    "storybook": "^9.1.10",
+    "storybook": "^10.0.7",
     "vite": "^7.2.2"
   },
   "devDependencies": {
