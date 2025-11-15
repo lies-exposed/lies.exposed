@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "@langchain/mcp-adapters": "^1.0.0",
-    "@langchain/openai": "^1.0.0",
+    "@langchain/openai": "^1.1.1",
+    "@langchain/xai": "^1.0.1",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",

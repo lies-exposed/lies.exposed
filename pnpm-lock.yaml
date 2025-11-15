@@ -76,7 +76,7 @@ importers:
         version: 3.3.0
       '@langchain/langgraph':
         specifier: ^1.0.1
-        version: 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
+        version: 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -137,16 +137,16 @@ importers:
         version: 3.922.0
       '@langchain/core':
         specifier: ^1.0.3
-        version: 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+        version: 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
       '@langchain/mcp-adapters':
         specifier: ^1.0.0
-        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))
+        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))
       '@langchain/openai':
-        specifier: ^1.0.0
-        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+        specifier: ^1.1.1
+        version: 1.1.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
       '@langchain/xai':
-        specifier: ^1.0.0
-        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+        specifier: ^1.0.1
+        version: 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
@@ -194,7 +194,7 @@ importers:
         version: 5.8.2
       langchain:
         specifier: ^1.0.3
-        version: 1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
+        version: 1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -318,10 +318,10 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@visx/network':
         specifier: ^3
         version: 3.12.0(react@18.3.1)
@@ -503,13 +503,13 @@ importers:
         version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/react-admin':
         specifier: file:../../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@ts-endpoint/tanstack-query':
         specifier: file:../../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       '@visx/axis':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -756,7 +756,7 @@ importers:
         version: 5.90.6(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -820,10 +820,13 @@ importers:
     dependencies:
       '@langchain/mcp-adapters':
         specifier: ^1.0.0
-        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))
+        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))
       '@langchain/openai':
-        specifier: ^1.0.0
-        version: 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+        specifier: ^1.1.1
+        version: 1.1.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+      '@langchain/xai':
+        specifier: ^1.0.1
+        version: 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -856,7 +859,7 @@ importers:
         version: 2.16.11
       langchain:
         specifier: ^1.0.3
-        version: 1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
+        version: 1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -1174,7 +1177,7 @@ importers:
         version: 5.90.6(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@visx/gradient':
         specifier: ^3.12.0
         version: 3.12.0(react@18.3.1)
@@ -1259,10 +1262,10 @@ importers:
         version: 5.90.6(react@18.3.1)
       '@ts-endpoint/react-admin':
         specifier: file:../../patches/ts-endpoint-react-admin-0.1.0.tgz
-        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
+        version: file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
-        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)
+        version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
       compression:
         specifier: ^1.8.0
         version: 1.8.1
@@ -3167,14 +3170,20 @@ packages:
     peerDependencies:
       '@langchain/core': ^1.0.0-alpha.6
 
+  '@langchain/openai@1.1.1':
+    resolution: {integrity: sha512-0kUaXejo/sn6QAohWHDaAUapC4CJRkJIajGaWfJC+llSqpDBnmBE1oHg1M2fi1OCeP+ns9SxB6BTsq4Qbiqmig==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@langchain/core': ^1.0.0
+
   '@langchain/textsplitters@1.0.0':
     resolution: {integrity: sha512-L1gOwOJXeM+6MKzrj9shSsDyH32j898jgqvVArOjdge2zLyY+Mv4aOuyAAxbPyaFdQXlxKfa9xjqIUyv8TzrqA==}
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.0.0
 
-  '@langchain/xai@1.0.0':
-    resolution: {integrity: sha512-r/MsnUwueEL5zo3jYuSB+Kx7E/qamNLHIhUYUOPxVFl1QF4CKTB3JdrWMCRyvOHRAKYHBU1BXZ3iAhAoib51Rw==}
+  '@langchain/xai@1.0.1':
+    resolution: {integrity: sha512-h1em23oDFPaC4IMYeXfSPdCZmcPpWayZFm27VbvKNd5Zupul+LFMaQFTPYw/elSyb0AeFYPUwJkQqlkCJJ7QOQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.0.0
@@ -8276,6 +8285,18 @@ packages:
       zod:
         optional: true
 
+  openai@6.9.0:
+    resolution: {integrity: sha512-n2sJRYmM+xfJ0l3OfH8eNnIyv3nQY7L08gZQu3dw6wSdfPtKAk92L83M2NIP5SS8Cl/bsBBG3yKzEOjkx0O+7A==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   openapi-types@12.1.3:
     resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
 
@@ -12358,14 +12379,14 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - openai
 
-  '@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))':
+  '@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.21
-      langsmith: 0.3.74(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+      langsmith: 0.3.74(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -12382,9 +12403,9 @@ snapshots:
       '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
 
-  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))':
+  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
 
   '@langchain/langgraph-sdk@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -12397,13 +12418,13 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@langchain/langgraph-sdk@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@langchain/langgraph-sdk@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       p-queue: 6.6.2
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
@@ -12420,11 +12441,11 @@ snapshots:
       - react
       - react-dom
 
-  '@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)':
+  '@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)':
     dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))
-      '@langchain/langgraph-sdk': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))
+      '@langchain/langgraph-sdk': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uuid: 10.0.0
       zod: 3.25.76
     optionalDependencies:
@@ -12445,10 +12466,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@langchain/mcp-adapters@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))':
+  '@langchain/mcp-adapters@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@langchain/langgraph@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76))':
     dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/langgraph': 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/langgraph': 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
       '@modelcontextprotocol/sdk': 1.20.1
       debug: 4.4.3
       zod: 3.25.76
@@ -12466,15 +12487,6 @@ snapshots:
     transitivePeerDependencies:
       - ws
 
-  '@langchain/openai@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
-    dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
-      js-tiktoken: 1.0.21
-      openai: 6.5.0(ws@8.18.3)(zod@3.25.76)
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - ws
-
   '@langchain/openai@1.0.0-alpha.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
     dependencies:
       '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
@@ -12484,15 +12496,24 @@ snapshots:
     transitivePeerDependencies:
       - ws
 
+  '@langchain/openai@1.1.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
+    dependencies:
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
+      js-tiktoken: 1.0.21
+      openai: 6.9.0(ws@8.18.3)(zod@3.25.76)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - ws
+
   '@langchain/textsplitters@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76)))':
     dependencies:
       '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@5.23.2(ws@8.18.3)(zod@3.25.76))
       js-tiktoken: 1.0.21
 
-  '@langchain/xai@1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
+  '@langchain/xai@1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)':
     dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/openai': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/openai': 1.1.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(ws@8.18.3)
     transitivePeerDependencies:
       - ws
 
@@ -13763,7 +13784,7 @@ snapshots:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
+  '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)(react-admin@5.12.3(@mui/system@7.3.3(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@mui/utils@7.3.3(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1))':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       axios: 1.12.2(debug@4.4.3)
@@ -13777,7 +13798,7 @@ snapshots:
       axios: 1.12.2(debug@4.4.3)
       fp-ts: 2.16.11
 
-  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2(debug@4.4.3))(fp-ts@2.16.11)':
+  '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)':
     dependencies:
       '@ts-endpoint/core': file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/resource-client': file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
@@ -15014,7 +15035,7 @@ snapshots:
   axios@1.7.4(debug@4.4.3):
     dependencies:
       follow-redirects: 1.15.11(debug@4.4.3)
-      form-data: 4.0.0
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -17681,12 +17702,12 @@ snapshots:
       - react-dom
       - zod-to-json-schema
 
-  langchain@1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76)):
+  langchain@1.0.3(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76)):
     dependencies:
-      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/langgraph': 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)))
-      langsmith: 0.3.74(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/core': 1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/langgraph': 1.0.1(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.24.6(zod@3.25.76))(zod@3.25.76)
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.0.3(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)))
+      langsmith: 0.3.74(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
       zod: 3.25.76
     transitivePeerDependencies:
@@ -17711,7 +17732,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
 
-  langsmith@0.3.74(@opentelemetry/api@1.9.0)(openai@6.5.0(ws@8.18.3)(zod@3.25.76)):
+  langsmith@0.3.74(@opentelemetry/api@1.9.0)(openai@6.9.0(ws@8.18.3)(zod@3.25.76)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -17722,7 +17743,7 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
-      openai: 6.5.0(ws@8.18.3)(zod@3.25.76)
+      openai: 6.9.0(ws@8.18.3)(zod@3.25.76)
 
   lazy-cache@0.2.7: {}
 
@@ -18520,6 +18541,11 @@ snapshots:
       zod: 3.25.76
 
   openai@6.5.0(ws@8.18.3)(zod@3.25.76):
+    optionalDependencies:
+      ws: 8.18.3
+      zod: 3.25.76
+
+  openai@6.9.0(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
       ws: 8.18.3
       zod: 3.25.76
