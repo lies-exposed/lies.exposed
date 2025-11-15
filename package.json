@@ -40,8 +40,8 @@
     "knip": "pnpm run services:clean && VITE_VALIDATE_ENV=false knip"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^24.3.0",
     "@vitest/coverage-v8": "^4.0.4",
     "corepack": "^0.34.0",
