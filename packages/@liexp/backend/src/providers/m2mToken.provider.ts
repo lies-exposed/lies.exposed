@@ -1,7 +1,7 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
-import { type AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
 import * as IO from "fp-ts/lib/IO.js";
 import { type JWTProvider } from "./jwt/jwt.provider.js";
 

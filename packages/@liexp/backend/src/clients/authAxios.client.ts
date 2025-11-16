@@ -34,9 +34,9 @@ export const makeAuthAxiosClient = (
 
       let token: string;
       if (config.signAs === "user") {
-        token = config.jwt.signUser(payload as any)();
+        token = config.jwt.signUser(payload)();
       } else {
-        token = config.jwt.signClient(payload as any)();
+        token = config.jwt.signClient(payload)();
       }
 
       req.headers.set("Authorization", `Bearer ${token}`);

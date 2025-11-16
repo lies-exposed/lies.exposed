@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { Request, Response } from "express";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
+import type { Request, Response } from "express";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { makeRateLimiter } from "../express/middleware/rateLimit.factory.js";
 
 describe("rateLimit.factory", () => {

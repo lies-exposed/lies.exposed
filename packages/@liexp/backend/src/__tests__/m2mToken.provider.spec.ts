@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
 import {
   buildServiceClientPayload,

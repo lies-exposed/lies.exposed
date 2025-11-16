@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Request, Response, NextFunction } from "express";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import {
   CORRELATION_ID_HEADER,
   generateCorrelationId,
@@ -90,11 +90,7 @@ describe("correlation utils", () => {
     it("should generate correlation ID when not present", () => {
       const middleware = correlationMiddleware();
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       const correlationId = mockRequest.headers![CORRELATION_ID_HEADER];
       expect(correlationId).toBeDefined();
@@ -109,25 +105,15 @@ describe("correlation utils", () => {
 
       const middleware = correlationMiddleware();
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
-      expect(mockRequest.headers["x-correlation-id"]).toBe(
-        "existing-id-456",
-      );
+      expect(mockRequest.headers["x-correlation-id"]).toBe("existing-id-456");
     });
 
     it("should set correlation ID in response headers", () => {
       const middleware = correlationMiddleware();
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockResponse.setHeader).toHaveBeenCalledWith(
         "x-correlation-id",
@@ -138,11 +124,7 @@ describe("correlation utils", () => {
     it("should call next middleware", () => {
       const middleware = correlationMiddleware();
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
@@ -150,11 +132,7 @@ describe("correlation utils", () => {
     it("should use same ID for request and response", () => {
       const middleware = correlationMiddleware();
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       const requestId = mockRequest.headers![CORRELATION_ID_HEADER];
       const responseId = (mockResponse.setHeader as any).mock.calls[0][1];

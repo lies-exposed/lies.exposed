@@ -35,7 +35,9 @@ export const correlationMiddleware = () => {
     // Generate new ID if not present
     if (!correlationId) {
       correlationId = generateCorrelationId();
-      req.headers[CORRELATION_ID_HEADER] = correlationId;
+      // Store correlation ID in a custom property to avoid mutating req.headers
+      (req as Request & { correlationId?: string }).correlationId =
+        correlationId;
     }
 
     // Add correlation ID to response headers for tracing

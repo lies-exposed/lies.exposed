@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
-import { makeAuthAxiosClient } from "../clients/authAxios.client.js";
 import type { InternalAxiosRequestConfig } from "axios";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { makeAuthAxiosClient } from "../clients/authAxios.client.js";
+import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
 
 describe("authAxios.client", () => {
   const mockLogger: Logger = {

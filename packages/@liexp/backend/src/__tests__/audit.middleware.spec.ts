@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { Request, Response, NextFunction } from "express";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
+import type { Request, Response, NextFunction } from "express";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { makeAuditMiddleware } from "../express/middleware/audit.middleware.js";
 
 describe("audit.middleware", () => {
@@ -38,11 +38,7 @@ describe("audit.middleware", () => {
     it("should log incoming request", () => {
       const middleware = makeAuditMiddleware({ logger: mockLogger });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         expect.stringContaining("Incoming request"),
@@ -57,11 +53,7 @@ describe("audit.middleware", () => {
       mockRequest.headers = { "x-correlation-id": "corr-123" };
       const middleware = makeAuditMiddleware({ logger: mockLogger });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         expect.stringContaining("Incoming request"),
@@ -79,11 +71,7 @@ describe("audit.middleware", () => {
         getUserContext: (req) => mockUser,
       });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         expect.stringContaining("Incoming request"),
@@ -97,11 +85,7 @@ describe("audit.middleware", () => {
     it("should call next middleware", () => {
       const middleware = makeAuditMiddleware({ logger: mockLogger });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       expect(mockNext).toHaveBeenCalledTimes(1);
     });
@@ -109,11 +93,7 @@ describe("audit.middleware", () => {
     it("should log request completion with duration", () => {
       const middleware = makeAuditMiddleware({ logger: mockLogger });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       // Trigger response completion by calling the finish event handler
       const onMock = mockResponse.on as any;
@@ -136,11 +116,7 @@ describe("audit.middleware", () => {
       const middleware = makeAuditMiddleware({ logger: mockLogger });
       mockResponse.statusCode = 404;
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       // Trigger response completion by calling the finish event handler
       const onMock = mockResponse.on as any;
@@ -162,11 +138,7 @@ describe("audit.middleware", () => {
     it("should measure request duration accurately", async () => {
       const middleware = makeAuditMiddleware({ logger: mockLogger });
 
-      middleware(
-        mockRequest as Request,
-        mockResponse as Response,
-        mockNext,
-      );
+      middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
       // Simulate some processing time
       await new Promise((resolve) => setTimeout(resolve, 50));

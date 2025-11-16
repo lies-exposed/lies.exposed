@@ -556,13 +556,13 @@ Completed Tasks:
 ```json
 {
   "dependencies": {
-    "express": "^4.19.2",
+    "express": "^5",
     "compression": "^1.7.4",
     "express-rate-limit": "^7.1.5",
     "axios": "^1.6.5"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.1",
     "@types/compression": "^1.7.5",
     "tsx": "^4.7.0"
   }
