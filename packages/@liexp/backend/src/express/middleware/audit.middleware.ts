@@ -30,8 +30,7 @@ export const makeAuditMiddleware = (config: AuditConfig) => {
     );
 
     // Capture response finish event to log timing
-    const originalSend = res.send;
-    res.send = function (body: any): Response {
+    res.on('finish', () => {
       const duration = Date.now() - startTime;
 
       config.logger.info.log(
@@ -42,9 +41,7 @@ export const makeAuditMiddleware = (config: AuditConfig) => {
         duration,
         correlationId ?? "none",
       );
-
-      return originalSend.call(this, body);
-    };
+    });
 
     next();
   };

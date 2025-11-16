@@ -24,10 +24,10 @@ describe("audit.middleware", () => {
       headers: {},
     };
 
-    const sendMock = vi.fn();
+    const onMock = vi.fn();
     mockResponse = {
       statusCode: 200,
-      send: sendMock,
+      on: onMock,
       setHeader: vi.fn(),
     };
 
@@ -115,9 +115,12 @@ describe("audit.middleware", () => {
         mockNext,
       );
 
-      // Trigger response completion
-      const originalSend = mockResponse.send as any;
-      originalSend("test response");
+      // Trigger response completion by calling the finish event handler
+      const onMock = mockResponse.on as any;
+      const finishHandler = onMock.mock.calls.find(
+        (call: any[]) => call[0] === "finish",
+      )[1];
+      finishHandler();
 
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         expect.stringContaining("Request completed"),
@@ -139,8 +142,12 @@ describe("audit.middleware", () => {
         mockNext,
       );
 
-      const originalSend = mockResponse.send as any;
-      originalSend("not found");
+      // Trigger response completion by calling the finish event handler
+      const onMock = mockResponse.on as any;
+      const finishHandler = onMock.mock.calls.find(
+        (call: any[]) => call[0] === "finish",
+      )[1];
+      finishHandler();
 
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         expect.stringContaining("Request completed"),
@@ -164,8 +171,12 @@ describe("audit.middleware", () => {
       // Simulate some processing time
       await new Promise((resolve) => setTimeout(resolve, 50));
 
-      const originalSend = mockResponse.send as any;
-      originalSend("response");
+      // Trigger response completion by calling the finish event handler
+      const onMock = mockResponse.on as any;
+      const finishHandler = onMock.mock.calls.find(
+        (call: any[]) => call[0] === "finish",
+      )[1];
+      finishHandler();
 
       const completionLog = (mockLogger.info.log as any).mock.calls.find(
         (call: any[]) => call[0].includes("Request completed"),
