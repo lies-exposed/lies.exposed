@@ -6,7 +6,6 @@ const eslintConfig = tseslint.config(...baseEslintConfig, {
   ignores: ["**/*.d.ts"],
   languageOptions: {
     parserOptions: {
-      project: ["./tsconfig.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
