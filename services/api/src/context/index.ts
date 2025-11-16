@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { makeAuthAxiosClient } from "@liexp/backend/lib/clients/authAxios.client.js";
 import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
@@ -103,17 +104,11 @@ export const makeContext =
       },
     });
 
-    const client = axios.default.create({
+    const client = makeAuthAxiosClient({
       baseURL: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
-    });
-
-    client.interceptors.request.use((req) => {
-      req.headers.set(
-        "Authorization",
-        `Bearer ${jwtClient.signUser({} as any)()}`,
-      );
-
-      return req;
+      jwt: jwtClient,
+      logger: serverLogger,
+      signAs: "user",
     });
 
     const apiClient = GetResourceClient(client, Endpoints, {
