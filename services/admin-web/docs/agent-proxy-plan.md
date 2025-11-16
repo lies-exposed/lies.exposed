@@ -42,8 +42,8 @@ Implement a server-side proxy within the `admin-web` service that allows the adm
 # Add to services/admin-web/.env
 
 # Server configuration (similar to web service)
-ADMIN_SERVER_PORT=3001
-ADMIN_SERVER_HOST=0.0.0.0
+SERVER_PORT=3001
+SERVER_HOST=0.0.0.0
 
 # JWT secret for M2M authentication (must match agent/api)
 JWT_SECRET=my-secret
@@ -365,6 +365,10 @@ app.use(cors({
 
 ## Implementation Plan
 
+**Important**: 
+- Each phase requires its own feature branch. Creating a new branch must be the **first step** when starting a new phase.
+- Each phase must be validated with TypeScript compilation (`pnpm build` or `pnpm typecheck`) before being marked as complete. All TypeScript errors must be resolved.
+
 ### Phase 0: Extract shared logic to `@liexp/backend` (Priority 0) ✅ COMPLETE
 
 **Status**: ✅ Complete - All extraction tasks finished and tested
@@ -431,9 +435,81 @@ Completed Tasks:
 **Next**: Phase 1 - Implement admin-web proxy server using extracted modules
 
 
-### Phase 1: Server Setup (Priority 1)
+### Phase 1: Server Setup (Priority 1) ✅ COMPLETE
 
-#### Files to Create:
+**Status**: ✅ Complete - All server components implemented and building successfully
+
+All TypeScript errors resolved. Server builds cleanly with `pnpm build:server`.
+
+Completed Tasks:
+
+✅ Created the following files:
+
+1. **`services/admin-web/src/server/io/ENV.ts`** (36 lines)
+   - Effect Schema for environment validation
+   - All required vars: SERVER_PORT, SERVER_HOST, JWT_SECRET, AGENT_URL, SERVICE_CLIENT_*, RATE_LIMIT_*
+   
+2. **`services/admin-web/src/server/context/index.ts`** (103 lines)
+   - AdminProxyContext interface with logger, jwt, m2m, agent client
+   - makeAdminProxyContext function using fp-ts TaskEither pattern
+   - Local ControllerError and TEControllerError types
+   - Initializes all providers and clients
+   
+3. **`services/admin-web/src/server/routes/agent-proxy.routes.ts`** (163 lines)
+   - POST /api/proxy/agent/chat endpoint
+   - Admin authentication via authenticationHandler (AdminRead permission)
+   - Per-user rate limiting (100 req/min default)
+   - Audit middleware logging all requests with correlation IDs
+   - Request validation using ChatRequest schema
+   - M2M token retrieval and agent service calls
+   - Comprehensive error mapping (401, 429, 5xx → user-friendly messages)
+   - GET /health endpoint for proxy health checks
+   
+4. **`services/admin-web/src/server/server.tsx`** (175 lines)
+   - Express app with CORS, JSON parsing, compression
+   - Environment validation using Effect Schema
+   - Context initialization (JWT, M2M, Agent client)
+   - Proxy routes mounted at /api/proxy/agent
+   - Global health check at /api/health
+   - Vite dev middleware (development) or static serving (production)
+   - Error handler with production/dev modes
+   - Graceful server startup on SERVER_PORT/HOST
+   
+5. **`services/admin-web/tsconfig.server.json`** (35 lines)
+   - Extends base tsconfig
+   - Outputs to build/server
+   - Includes only src/server/** files
+   - Excludes client code, tests
+   
+✅ Updated files:
+
+1. **`services/admin-web/package.json`**
+   - Added dependencies: @liexp/backend, compression, cors, express, sirv
+   - Added devDependencies: @types/compression, @types/cors, @types/express, tsx
+   - Added scripts: dev:server, build:server, serve
+   
+2. **`services/admin-web/.env`**
+   - Added SERVER_PORT=3001
+   - Added SERVER_HOST=0.0.0.0
+   - Added JWT_SECRET=my-secret
+   - Added AGENT_URL=http://agent.liexp.dev/v1
+   - Added SERVICE_CLIENT_ID, SERVICE_CLIENT_USER_ID (placeholder UUIDs)
+   - Added SERVICE_CLIENT_PERMISSIONS=AdminRead
+   - Added RATE_LIMIT_WINDOW_MS=60000, RATE_LIMIT_MAX_REQUESTS=100
+
+✅ Build validation:
+   - `pnpm build:server` ✅ SUCCESS
+   - All TypeScript errors resolved
+   - Server code compiles cleanly
+
+**Key fixes applied**:
+   - Used `getUserKey` instead of `keyGenerator` for rate limiter
+   - Removed `Headers` parameter from agent.Chat.Create call (not supported)
+   - Made TE.fold callbacks async to satisfy Promise return type
+   - Added type assertions for Express middleware (compression, rate limiter) to handle version mismatches
+   - Used `any` types where needed for Express request extensions (req.user)
+
+**Next**: Phase 2 - Frontend Integration
 
 1. **`services/admin-web/src/server/server.tsx`**
    - Express app initialization
@@ -672,8 +748,8 @@ CMD ["node", "build/server/server.js"]
 
 ```properties
 NODE_ENV=production
-ADMIN_SERVER_PORT=80
-ADMIN_SERVER_HOST=0.0.0.0
+SERVER_PORT=80
+SERVER_HOST=0.0.0.0
 JWT_SECRET=<production-secret>
 AGENT_URL=https://agent.lies.exposed/v1
 SERVICE_CLIENT_ID=<production-uuid>

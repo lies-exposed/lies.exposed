@@ -8,7 +8,7 @@ import { type JWTProvider } from "./jwt/jwt.provider.js";
 export interface ServiceClientConfig {
   id: UUID;
   userId: UUID;
-  permissions: AuthPermission[];
+  permissions: readonly AuthPermission[];
 }
 
 export interface M2MTokenContext {

@@ -51,7 +51,6 @@ const GetQueueJobProvider = <J extends Queue.Queue>(
       getJob: (resource, id) => {
         return pipe(
           fs.getObject(getJobPath({ resource, type, id })),
-          // fp.TE.mapLeft(toControllerError),
           fp.TE.map(JSON.parse),
         );
       },
@@ -65,7 +64,6 @@ const GetQueueJobProvider = <J extends Queue.Queue>(
           fp.A.traverse(fp.TE.ApplicativePar)((file) => {
             return pipe(
               fs.getObject(path.resolve(configPath, file)),
-              // fp.TE.mapLeft(toControllerError),
               fp.TE.map(JSON.parse),
             );
           }),
@@ -116,7 +114,6 @@ export const GetQueueProvider = (
         fp.A.traverse(fp.TE.ApplicativePar)((file) => {
           return pipe(
             fs.getObject(path.resolve(configPath, file)),
-            // fp.TE.mapLeft(toControllerError),
             fp.TE.map((data) => JSON.parse(data)),
             fp.TE.chain((data) => {
               if (opts?.status && !opts.status.includes(data.status)) {

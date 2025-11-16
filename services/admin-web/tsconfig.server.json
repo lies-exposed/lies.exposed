@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build/server",
+    "module": "ESNext",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  },
+  "include": [
+    "src/server/**/*"
+  ],
+  "exclude": [
+    "src/client",
+    "src/components",
+    "src/pages",
+    "src/hooks",
+    "src/configuration",
+    "src/AdminPage.tsx",
+    "src/index.tsx",
+    "src/reportWebVitals.ts",
+    "src/theme.ts",
+    "node_modules",
+    "build",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}
