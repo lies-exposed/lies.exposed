@@ -1,6 +1,8 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import type { InternalAxiosRequestConfig } from "axios";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
+import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/index.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeAuthAxiosClient } from "../clients/authAxios.client.js";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
 
@@ -12,9 +14,24 @@ describe("authAxios.client", () => {
     error: { log: vi.fn() },
   } as any;
 
+  const userEncoded: UserEncoded = {
+    id: uuid(),
+    username: "testuser",
+    status: "Approved",
+    telegramId: null,
+    telegramToken: null,
+    permissions: [],
+    firstName: "Test",
+    lastName: "User",
+    email: "test.user@example.com",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    deletedAt: null,
+  };
+
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((payload: any) => () => "client-token-123"),
-    signUser: vi.fn((payload: any) => () => "user-token-456"),
+    signClient: vi.fn((_payload: any) => () => "client-token-123"),
+    signUser: vi.fn((_payload: any) => () => "user-token-456"),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
   } as any;
@@ -30,6 +47,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "user",
+        getPayload: () => userEncoded,
       });
 
       expect(client.defaults.baseURL).toBe("https://api.example.com");
@@ -41,6 +59,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "user",
+        getPayload: () => userEncoded,
       });
 
       // Verify interceptor was added (axios tracks them internally)
@@ -55,7 +74,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "user",
-        getPayload: () => customPayload,
+        getPayload: () => customPayload as any,
       });
 
       expect(client).toBeDefined();
@@ -68,6 +87,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "user",
+        getPayload: () => userEncoded,
       });
 
       const clientService = makeAuthAxiosClient({
@@ -75,6 +95,7 @@ describe("authAxios.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         signAs: "client",
+        getPayload: () => ({}) as ServiceClient,
       });
 
       expect(clientUser).toBeDefined();

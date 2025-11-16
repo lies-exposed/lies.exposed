@@ -68,7 +68,7 @@ describe("audit.middleware", () => {
       const mockUser = { id: "user-123", email: "test@example.com" };
       const middleware = makeAuditMiddleware({
         logger: mockLogger,
-        getUserContext: (req) => mockUser,
+        getUserContext: () => mockUser,
       });
 
       middleware(mockRequest as Request, mockResponse as Response, mockNext);

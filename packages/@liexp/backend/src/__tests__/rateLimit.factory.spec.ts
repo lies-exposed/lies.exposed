@@ -1,6 +1,6 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import type { Request, Response } from "express";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { Request } from "express";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeRateLimiter } from "../express/middleware/rateLimit.factory.js";
 
 describe("rateLimit.factory", () => {
@@ -12,7 +12,6 @@ describe("rateLimit.factory", () => {
   } as any;
 
   let mockRequest: Partial<Request>;
-  let mockResponse: Partial<Response>;
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -24,13 +23,6 @@ describe("rateLimit.factory", () => {
       socket: {
         remoteAddress: "127.0.0.1",
       } as any,
-    };
-
-    mockResponse = {
-      status: vi.fn().mockReturnThis(),
-      json: vi.fn().mockReturnThis(),
-      getHeader: vi.fn(),
-      setHeader: vi.fn(),
     };
   });
 
@@ -94,7 +86,7 @@ describe("rateLimit.factory", () => {
     it("should log warning when rate limit exceeded", () => {
       const limiter = makeRateLimiter({
         logger: mockLogger,
-        getUserKey: (req) => "test-user",
+        getUserKey: () => "test-user",
       });
 
       // The logging happens in the handler callback

@@ -16,7 +16,7 @@ describe("m2mToken.provider", () => {
   } as any;
 
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((payload: any) => () => "mock-signed-token"),
+    signClient: vi.fn((_payload: any) => () => "mock-signed-token"),
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),

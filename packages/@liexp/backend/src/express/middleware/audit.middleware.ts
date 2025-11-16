@@ -30,7 +30,7 @@ export const makeAuditMiddleware = (config: AuditConfig) => {
     );
 
     // Capture response finish event to log timing
-    res.on('finish', () => {
+    res.on("finish", () => {
       const duration = Date.now() - startTime;
 
       config.logger.info.log(
