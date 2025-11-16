@@ -7,7 +7,7 @@ import {
   type AuthAxiosClientConfig,
 } from "./authAxios.client.js";
 
-export type AgentClientConfig = Omit<AuthAxiosClientConfig, "signAs">;
+export type AgentClientConfig = Omit<AuthAxiosClientConfig<"client">, "signAs">;
 
 /**
  * Create an HTTP client for calling agent service endpoints

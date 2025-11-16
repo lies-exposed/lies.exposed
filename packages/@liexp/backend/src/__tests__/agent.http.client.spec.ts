@@ -1,5 +1,7 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeAgentClient } from "../clients/agent.http.client.js";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
 
@@ -11,8 +13,11 @@ describe("agent.http.client", () => {
     error: { log: vi.fn() },
   } as any;
 
+  const id = uuid();
+  const userId = uuid();
+
   const mockJWT: JWTProvider = {
-    signClient: vi.fn((payload: any) => () => "agent-token-789"),
+    signClient: vi.fn((_payload: any) => () => "agent-token-789"),
     signUser: vi.fn(),
     verifyClient: vi.fn(),
     verifyUser: vi.fn(),
@@ -29,9 +34,9 @@ describe("agent.http.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         getPayload: () => ({
-          id: "service-id",
-          userId: "user-id",
-          permissions: ["AdminRead"],
+          id,
+          userId,
+          permissions: [AdminRead.literals[0]],
         }),
       });
 
@@ -45,9 +50,9 @@ describe("agent.http.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         getPayload: () => ({
-          id: "service-id",
-          userId: "user-id",
-          permissions: ["AdminRead"],
+          id,
+          userId,
+          permissions: [AdminRead.literals[0]],
         }),
       });
 
@@ -58,9 +63,9 @@ describe("agent.http.client", () => {
 
     it("should use 'client' signing mode for M2M authentication", () => {
       const payload = {
-        id: "service-id",
-        userId: "user-id",
-        permissions: ["AdminRead"],
+        id,
+        userId,
+        permissions: [AdminRead.literals[0]],
       };
 
       makeAgentClient({
@@ -99,9 +104,9 @@ describe("agent.http.client", () => {
         jwt: mockJWT,
         logger: mockLogger,
         getPayload: () => ({
-          id: "service-id",
-          userId: "user-id",
-          permissions: ["AdminRead"],
+          id,
+          userId,
+          permissions: [AdminRead.literals[0]],
         }),
       });
 
