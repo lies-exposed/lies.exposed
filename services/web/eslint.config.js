@@ -8,7 +8,6 @@ export default defineConfig(
   files: ['src/**/*.tsx', 'src/**/*.ts'],
   languageOptions: {
     parserOptions: {
-      project: ["./tsconfig.json"],
       tsconfigRootDir: import.meta.dirname,
       parser: tseslint.parser,
       ecmaVersion: "latest",

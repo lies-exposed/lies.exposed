@@ -9,7 +9,6 @@ const eslintConfig = defineConfig(
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json"],
         tsconfigRootDir: import.meta.dirname,
         parser: tseslint.parser,
         ecmaVersion: "latest",

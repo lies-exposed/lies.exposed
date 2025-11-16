@@ -14,7 +14,6 @@ export default defineConfig(
       parserOptions: {
         tsconfigRootDir: import.meta.dirname,
         projectService: true,
-        project: ["./tsconfig.json"],
         parser: tseslint.parser,
         ecmaVersion: "latest",
         sourceType: "module",

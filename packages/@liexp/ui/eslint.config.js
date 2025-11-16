@@ -6,7 +6,6 @@ export default defineConfig(...reactEslintConfig, {
   files: ["src/**/*.ts", "src/**/*.tsx"],
   languageOptions: {
     parserOptions: {
-      project: ["./tsconfig.json"],
       tsconfigRootDir: import.meta.dirname,
       parser: tseslint.parser,
       ecmaVersion: "latest",
