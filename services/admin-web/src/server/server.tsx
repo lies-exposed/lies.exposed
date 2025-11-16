@@ -1,14 +1,20 @@
 /**
  * Admin Web Server with Agent Proxy
  *
- * Serves the admin frontend (Vite) and provides a proxy for
- * agent service calls with M2M authentication.
+ * Serves the admin frontend (Vite SPA) and provides API proxy routes
+ * for agent service calls with M2M authentication.
  *
- * Based on web service server pattern (services/web/src/server/server.tsx)
+ * Architecture:
+ * - In development: Uses Vite dev server with HMR
+ * - In production: Serves static built files
+ * - API routes (/api/*) are handled before Vite middleware
+ * - Vite handles HTML serving and SPA fallback in development
  */
 
 import * as path from "path";
+import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import compression from "compression";
 import cors from "cors";
 import { Schema } from "effect";
@@ -28,12 +34,10 @@ const logger = GetLogger("admin-server");
 export const run = async (base: string): Promise<void> => {
   logger.info.log("Starting admin server (base: %s)", base);
 
-  const isProduction = process.env.NODE_ENV === "production";
-
-  // Decode and validate environment
-  const envDecodeResult = Schema.decodeUnknownEither(AdminProxyENV)(
-    process.env,
-  );
+  // Load and validate environment
+  const envDecodeResult = loadAndParseENV(
+    ENVParser(Schema.decodeUnknownEither(AdminProxyENV)),
+  )(process.cwd());
 
   if (envDecodeResult._tag === "Left") {
     logger.error.log(
@@ -44,17 +48,18 @@ export const run = async (base: string): Promise<void> => {
   }
 
   const env = envDecodeResult.right;
+  const isProduction = env.NODE_ENV === "production";
 
   logger.debug.log("Environment loaded: %O", {
     SERVER_PORT: env.SERVER_PORT,
     SERVER_HOST: env.SERVER_HOST,
     AGENT_URL: env.AGENT_URL,
+    NODE_ENV: env.NODE_ENV,
     isProduction,
   });
 
   // Initialize context (JWT, M2M, Agent client)
   const contextTE = makeAdminProxyContext(env);
-
   const contextResult = await contextTE();
 
   if (contextResult._tag === "Left") {
@@ -63,7 +68,6 @@ export const run = async (base: string): Promise<void> => {
   }
 
   const ctx = contextResult.right;
-
   logger.info.log("Context initialized successfully");
 
   // Initialize Express app
@@ -78,17 +82,16 @@ export const run = async (base: string): Promise<void> => {
     }),
   );
 
-  // JSON body parser
+  // Body parsers
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Compression
   app.use(compression());
 
-  // Register proxy routes at /api/proxy/agent
-  const proxyRouter = express.Router() as Router;
-  registerAgentProxyRoutes(proxyRouter, ctx);
-  app.use("/api/proxy/agent", proxyRouter);
+  // ============================================================
+  // API Routes (must be registered BEFORE Vite middleware)
+  // ============================================================
 
   // Global health check
   app.get("/api/health", (_req, res) => {
@@ -99,39 +102,53 @@ export const run = async (base: string): Promise<void> => {
     });
   });
 
-  // Serve frontend (Vite dev or production static)
-  const cwd = process.cwd();
-  const outputDir = isProduction
-    ? path.resolve(cwd, "build")
-    : path.resolve(cwd, "src");
+  // Agent proxy routes at /api/proxy/agent
+  const proxyRouter = express.Router() as Router;
+  registerAgentProxyRoutes(proxyRouter, ctx);
+  app.use("/api/proxy/agent", proxyRouter);
+
+  // ============================================================
+  // Frontend Serving (Vite dev server or static files)
+  // ============================================================
 
   if (isProduction) {
-    // Production: serve static files
-    logger.info.log("Serving production build from %s", outputDir);
-    app.use(base, sirv(path.resolve(outputDir, "client"), { extensions: [] }));
+    // Production: serve pre-built static files
+    const buildPath = path.resolve(process.cwd(), "build");
+    logger.info.log("Serving production build from %s", buildPath);
 
-    // Fallback to index.html for SPA
-    const indexFile = path.resolve(outputDir, "client/index.html");
+    // Serve static assets
+    app.use(base, sirv(buildPath, { extensions: [] }));
+
+    // SPA fallback - serve index.html for all other routes
     app.get("*", (_req, res) => {
-      res.sendFile(indexFile);
+      res.sendFile(path.resolve(buildPath, "index.html"));
     });
   } else {
-    // Development: use Vite dev middleware
-    logger.info.log("Using Vite dev middleware");
+    // Development: use Vite dev server with HMR
+    logger.info.log("Starting Vite dev server in middleware mode");
 
     const { createServer: createViteServer } = await import("vite");
 
     const vite = await createViteServer({
       server: { middlewareMode: true },
-      configFile: path.resolve(cwd, "vite.config.ts"),
-      appType: "spa",
+      appType: "spa", // Vite handles HTML serving and SPA fallback
       base,
     });
 
+    // Vite's middleware handles:
+    // - HMR WebSocket
+    // - Source file transformation
+    // - Static asset serving
+    // - HTML serving and SPA fallback
     app.use(vite.middlewares);
+
+    logger.info.log("Vite dev server initialized with HMR enabled");
   }
 
-  // Error handler
+  // ============================================================
+  // Error Handler (must be last)
+  // ============================================================
+
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
     logger.error.log("Express error: %O", err);
     res.status(500).json({
@@ -140,13 +157,20 @@ export const run = async (base: string): Promise<void> => {
     });
   });
 
-  // Start server
+  // ============================================================
+  // Start Server
+  // ============================================================
+
   const server = app.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
     logger.info.log(
-      "Server listening on %s:%d",
+      "✓ Server listening on http://%s:%d",
       env.SERVER_HOST,
       env.SERVER_PORT,
     );
+    if (!isProduction) {
+      logger.info.log("✓ Vite HMR enabled");
+      logger.info.log("✓ API proxy available at /api/proxy/agent/*");
+    }
   });
 
   server.on("error", (e) => {
@@ -155,13 +179,18 @@ export const run = async (base: string): Promise<void> => {
   });
 };
 
-// Run if called directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  run("/").catch((e) => {
-    logger.error.log("Failed to start server: %O", e);
-    process.exit(1);
-  });
-}
+// ============================================================
+// Entry Point
+// ============================================================
+
+void run("/").catch((e) => {
+  logger.error.log("Failed to start server: %O", e);
+  process.exit(1);
+});
+
+// ============================================================
+// Process Error Handlers
+// ============================================================
 
 process.on("uncaughtException", (e) => {
   logger.error.log("Process uncaught exception: %O", e);

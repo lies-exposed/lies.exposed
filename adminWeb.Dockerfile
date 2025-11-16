@@ -16,8 +16,6 @@ COPY ./services/admin-web /usr/src/app/services/admin-web
 
 WORKDIR /usr/src/app
 
-CMD ["pnpm", "admin-web", "dev"]
-
 FROM base AS dev
 
 WORKDIR /usr/src/app
@@ -25,6 +23,8 @@ WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
+
+CMD ["pnpm", "admin-web", "docker:dev"]
 
 FROM base AS build
 

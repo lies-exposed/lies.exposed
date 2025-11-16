@@ -23,7 +23,7 @@
     "clean": "rm -rf build",
     "cli": "node build/cli/cli.js",
     "cli:dev": "node src/cli/cli.ts",
-    "dev": "node --watch src/run.ts",
+    "dev": "tsx --watch src/run.ts",
     "docker:dev": "pnpm dev",
     "lint": "eslint src",
     "start": "node build/run.js",

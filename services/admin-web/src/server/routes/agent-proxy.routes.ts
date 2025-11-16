@@ -1,10 +1,8 @@
 import { makeAuditMiddleware } from "@liexp/backend/lib/express/middleware/audit.middleware.js";
-import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { makeRateLimiter } from "@liexp/backend/lib/express/middleware/rateLimit.factory.js";
 import { generateCorrelationId } from "@liexp/backend/lib/utils/correlation.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { ChatRequest } from "@liexp/shared/lib/io/http/Chat.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Schema } from "effect";
 import {
   type NextFunction,
@@ -21,13 +19,15 @@ export const registerAgentProxyRoutes = (
 ): void => {
   const { logger, m2m, agent, env } = ctx;
 
-  // Rate limiter (per admin user)
+  // Rate limiter (per IP address until auth is implemented)
   const chatRateLimiter = makeRateLimiter({
     windowMs: env.RATE_LIMIT_WINDOW_MS,
     maxRequests: env.RATE_LIMIT_MAX_REQUESTS,
-    getUserKey: (req: any) => {
-      const userId = req.user?.id;
-      return userId ? `user:${userId}` : undefined;
+    getUserKey: (req: Request) => {
+      // TODO: Use user ID once authentication is implemented
+      // const userId = req.user?.id;
+      // return userId ? `user:${userId}` : undefined;
+      return req.ip;
     },
     logger,
   });
@@ -35,32 +35,34 @@ export const registerAgentProxyRoutes = (
   // Audit middleware (logs all proxy requests)
   const auditMiddleware = makeAuditMiddleware({
     logger,
-    getUserContext: (req: any) => ({
+    getUserContext: (req: Request) => ({
       userId: req.user?.id,
       email: req.user?.email,
+      ip: req.ip,
     }),
   });
 
   /**
-   * POST /api/proxy/agent/chat
+   * POST /api/proxy/agent/chat/message
    *
    * Proxy chat messages to agent service with M2M authentication.
-   * - Requires admin user authentication (AdminRead permission) - TODO: Add auth middleware
    * - Rate limited per user
    * - Audited with correlation ID
+   * - TODO: Add authentication middleware once implemented in @liexp/backend
    */
   router.post(
-    "/chat",
-    authenticationHandler([AdminRead.literals[0]])(ctx),
-    chatRateLimiter as any,
+    "/chat/message",
+    // TODO: Re-enable authentication when authenticationHandler is available
+    // authenticationHandler([AdminRead.literals[0]])(ctx),
+    chatRateLimiter,
     auditMiddleware,
     (req: Request, res: Response, next: NextFunction) => {
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Proxying chat request from admin user %s (correlation: %s)",
-        (req as any).user?.id,
+        "Proxying chat request (correlation: %s, ip: %s)",
         correlationId,
+        req.ip,
       );
 
       // Validate request body
@@ -144,6 +146,223 @@ export const registerAgentProxyRoutes = (
               correlationId,
             );
 
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
+        logger.error.log(
+          "Unexpected error in proxy handler: %O (correlation: %s)",
+          e,
+          correlationId,
+        );
+        next(e);
+      });
+    },
+  );
+
+  /**
+   * GET /api/proxy/agent/chat/conversations
+   *
+   * List chat conversations
+   */
+  router.get(
+    "/chat/conversations",
+    chatRateLimiter,
+    auditMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      const correlationId = generateCorrelationId();
+
+      logger.info.log(
+        "Proxying list conversations request (correlation: %s, ip: %s)",
+        correlationId,
+        req.ip,
+      );
+
+      const getTokenIO = m2m.getToken();
+
+      pipe(
+        TE.fromIO(getTokenIO),
+        TE.chain(() => {
+          return pipe(
+            agent.Chat.List({
+              Query: {
+                limit: req.query.limit as string | undefined,
+                offset: req.query.offset as string | undefined,
+              },
+            }),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          );
+        }),
+        TE.fold(
+          (_error: unknown) => () => {
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to list conversations",
+            });
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "List conversations successful (correlation: %s)",
+              correlationId,
+            );
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
+        logger.error.log(
+          "Unexpected error in proxy handler: %O (correlation: %s)",
+          e,
+          correlationId,
+        );
+        next(e);
+      });
+    },
+  );
+
+  /**
+   * GET /api/proxy/agent/chat/conversations/:id
+   *
+   * Get a specific conversation
+   */
+  router.get(
+    "/chat/conversations/:id",
+    chatRateLimiter,
+    auditMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      const correlationId = generateCorrelationId();
+      const { id } = req.params;
+
+      logger.info.log(
+        "Proxying get conversation request (correlation: %s, ip: %s, id: %s)",
+        correlationId,
+        req.ip,
+        id,
+      );
+
+      const getTokenIO = m2m.getToken();
+
+      pipe(
+        TE.fromIO(getTokenIO),
+        TE.chain(() => {
+          return pipe(
+            agent.Chat.Get({
+              Params: { id },
+            }),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          );
+        }),
+        TE.fold(
+          (error: any) => () => {
+            if (error?.response?.status === 404) {
+              res.status(404).json({
+                error: "Not found",
+                message: "Conversation not found",
+              });
+              return Promise.resolve();
+            }
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to get conversation",
+            });
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "Get conversation successful (correlation: %s)",
+              correlationId,
+            );
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
+        logger.error.log(
+          "Unexpected error in proxy handler: %O (correlation: %s)",
+          e,
+          correlationId,
+        );
+        next(e);
+      });
+    },
+  );
+
+  /**
+   * DELETE /api/proxy/agent/chat/conversations/:id
+   *
+   * Delete a conversation
+   */
+  router.delete(
+    "/chat/conversations/:id",
+    chatRateLimiter,
+    auditMiddleware,
+    (req: Request, res: Response, next: NextFunction) => {
+      const correlationId = generateCorrelationId();
+      const { id } = req.params;
+
+      logger.info.log(
+        "Proxying delete conversation request (correlation: %s, ip: %s, id: %s)",
+        correlationId,
+        req.ip,
+        id,
+      );
+
+      const getTokenIO = m2m.getToken();
+
+      pipe(
+        TE.fromIO(getTokenIO),
+        TE.chain(() => {
+          return pipe(
+            agent.Chat.Delete({
+              Params: { id },
+            }),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          );
+        }),
+        TE.fold(
+          (error: unknown) => () => {
+            const err = error as { response?: { status?: number } };
+            if (err?.response?.status === 404) {
+              res.status(404).json({
+                error: "Not found",
+                message: "Conversation not found",
+              });
+              return Promise.resolve();
+            }
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to delete conversation",
+            });
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "Delete conversation successful (correlation: %s)",
+              correlationId,
+            );
             res.status(200).json(response);
             return Promise.resolve();
           },

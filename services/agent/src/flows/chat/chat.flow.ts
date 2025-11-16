@@ -12,14 +12,17 @@ import { type AgentContext } from "../../context/context.type.js";
 const conversations = new Map<string, ChatMessage[]>();
 
 export const sendChatMessage =
-  (payload: { message: string }) =>
+  (payload: { message: string; conversation_id: string | null }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
+    // Use existing conversation_id or generate a new one
+    const conversationId = payload.conversation_id ?? uuid();
+
     return pipe(
       ctx.agent.invoke(
         {
           messages: [payload.message],
         },
-        { configurable: { thread_id: "default" } },
+        { configurable: { thread_id: conversationId } },
       ),
       TE.mapLeft((error) => ServerError.fromUnknown(error)),
       TE.map((result) => {
@@ -30,14 +33,31 @@ export const sendChatMessage =
             ? lastMessage.content
             : JSON.stringify(lastMessage?.content ?? "No response");
 
+        const userMessage: ChatMessage = {
+          id: uuid(),
+          content: payload.message,
+          role: "user",
+          timestamp: new Date().toISOString(),
+        };
+
+        const assistantMessage: ChatMessage = {
+          id: lastMessage.id ?? uuid(),
+          content,
+          role: "assistant",
+          timestamp: new Date().toISOString(),
+        };
+
+        // Store messages in conversation
+        const existingMessages = conversations.get(conversationId) ?? [];
+        conversations.set(conversationId, [
+          ...existingMessages,
+          userMessage,
+          assistantMessage,
+        ]);
+
         return {
-          message: {
-            id: lastMessage.id ?? uuid(),
-            content,
-            role: "assistant",
-            timestamp: new Date().toISOString(),
-          },
-          conversationId: "default",
+          message: assistantMessage,
+          conversationId,
         };
       }),
     );

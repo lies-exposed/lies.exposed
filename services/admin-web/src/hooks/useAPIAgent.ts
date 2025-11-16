@@ -1,74 +1,50 @@
-import { useCallback, useMemo } from "react";
+import type {
+  ChatMessage,
+  ChatRequest,
+} from "@liexp/shared/lib/io/http/Chat.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { useCallback } from "react";
+import { useAgentAPI } from "./useAgentAPI.js";
 
-interface ChatRequest {
+export interface AgentAPIError {
+  status: number;
   message: string;
-  conversation_id?: string | null;
-  model?: string;
-}
-
-interface ChatMessage {
-  id: string;
-  role: "user" | "assistant" | "system";
-  content: string;
-  timestamp: string;
-}
-
-interface ChatResponse {
-  message: ChatMessage;
-  conversationId: string;
-}
-
-interface APIResponse {
-  data: ChatResponse;
+  originalError?: unknown;
 }
 
 interface AgentClient {
   sendMessage: (
     data: ChatRequest,
   ) => Promise<{ message: ChatMessage; conversationId: string }>;
-  baseUrl: string;
 }
 
+/**
+ * Hook for interacting with the Agent API
+ * Uses the typed endpoint client via useAgentAPI
+ * Communicates through the admin-web proxy which handles M2M authentication
+ */
 export const useAPIAgent = (): AgentClient => {
-  const baseUrl = useMemo(() => {
-    // Use environment variable or fallback based on current location
-    if (import.meta.env.VITE_AGENT_URL) {
-      return import.meta.env.VITE_AGENT_URL;
-    }
-
-    // Fallback for development
-    return window.location.hostname.includes("localhost")
-      ? "http://localhost:3003/v1"
-      : "https://agent.liexp.dev/v1";
-  }, []);
+  const agentAPI = useAgentAPI();
 
   const sendMessage = useCallback(
     async (
       data: ChatRequest,
     ): Promise<{ message: ChatMessage; conversationId: string }> => {
-      const response = await fetch(`${baseUrl}/chat/message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      // Use typed endpoint client - wrap data in Body property
+      const response = await pipe(
+        agentAPI.Chat.Create({
+          Body: data,
+        }),
+        throwTE,
+      );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result: APIResponse = await response.json();
-      return {
-        message: result.data.message,
-        conversationId: result.data.conversationId,
-      };
+      return response.data;
     },
-    [baseUrl],
+    [agentAPI],
   );
 
   return {
     sendMessage,
-    baseUrl,
   };
 };
