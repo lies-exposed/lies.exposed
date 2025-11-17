@@ -43,11 +43,30 @@ Purpose: give an AI coding agent the minimal, high-value facts to be immediately
   - Start infra (DB + services): `docker compose up -d db` then `docker compose up api web admin-web data`
   - Watch API during development: `pnpm api watch` (run outside containers to trigger restarts)
   - Build all: `pnpm build`
+  - Lint code: `pnpm lint` (individual packages have ESLint configs)
+  - Type check: `pnpm typecheck`
+  - Format code: `pnpm format` (uses Prettier)
+  - Run tests: `pnpm vitest` or `pnpm --filter <package> test`
 
 - When making changes:
   - Update or reuse types in `@liexp/shared`; prefer type-safe changes.
   - Add unit tests in the relevant package using vitest (see `vitest.config.*` files).
   - Run `pnpm typecheck` and fix errors before opening PRs.
+  - Run `pnpm lint` to check code style and fix issues.
+  - Commit messages follow conventional commits (enforced by commitlint).
+
+- Common pitfalls to avoid:
+  - Never edit files in `lib/` or `build/` directories (these are generated build outputs).
+  - Always edit source files in `src/` directories.
+  - Don't use optional properties in OpenAI structured output schemas (see `AGENT.md` for details).
+  - Ensure pnpm workspace context: run commands from correct directory or use `--filter` flag.
+  - For fp-ts/Effect patterns: don't mix imperative and functional styles; follow existing patterns.
+
+- Security and best practices:
+  - No hardcoded secrets or credentials in code.
+  - Use environment variables for configuration (see `.env.example` if available).
+  - Validate all external inputs using schemas from `@liexp/shared`.
+  - Handle errors properly using fp-ts `Either`/`TaskEither` or Effect error channels.
 
 - Files to consult first (in order):
   1. `AGENTS.md` (root) — platform and agent overview (primary source for agent/tool rules)
