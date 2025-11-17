@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import { makeAuthAxiosClient } from "@liexp/backend/lib/clients/authAxios.client.js";
 import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provider.js";
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
@@ -20,12 +19,8 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -104,19 +99,6 @@ export const makeContext =
       },
     });
 
-    const client = makeAuthAxiosClient({
-      baseURL: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
-      jwt: jwtClient,
-      logger: serverLogger,
-      signAs: "user",
-    });
-
-    const apiClient = GetResourceClient(client, Endpoints, {
-      decode: EffectDecoder((e) =>
-        DecodeError.of("Resource client decode error", e),
-      ),
-    });
-
     const config = Config(env, process.cwd());
 
     return pipe(
@@ -160,7 +142,6 @@ export const makeContext =
           }),
         ),
         config: fp.TE.right(config),
-        api: fp.TE.right(apiClient),
         redis: GetRedisClient({
           client: () =>
             new Redis({
