@@ -48,9 +48,7 @@ describe("correlation utils", () => {
     });
 
     it("should return undefined when header not present", () => {
-      const mockRequest = {
-        headers: {},
-      } as Partial<Request>;
+      const mockRequest = { headers: {} } as Partial<Request>;
 
       const id = getCorrelationId(mockRequest as Request);
 
@@ -71,7 +69,7 @@ describe("correlation utils", () => {
   });
 
   describe("correlationMiddleware", () => {
-    let mockRequest: Partial<Request>;
+    let mockRequest: Partial<Request> & { correlationId?: string };
     let mockResponse: Partial<Response>;
     let mockNext: NextFunction;
 
@@ -92,7 +90,7 @@ describe("correlation utils", () => {
 
       middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
-      const correlationId = mockRequest.headers![CORRELATION_ID_HEADER];
+      const correlationId = mockRequest.correlationId;
       expect(correlationId).toBeDefined();
       expect(typeof correlationId).toBe("string");
       expect(correlationId).toMatch(/^[0-9a-f-]{36}$/i);
@@ -134,7 +132,7 @@ describe("correlation utils", () => {
 
       middleware(mockRequest as Request, mockResponse as Response, mockNext);
 
-      const requestId = mockRequest.headers![CORRELATION_ID_HEADER];
+      const requestId = mockRequest.correlationId;
       const responseId = (mockResponse.setHeader as any).mock.calls[0][1];
 
       expect(requestId).toBe(responseId);
