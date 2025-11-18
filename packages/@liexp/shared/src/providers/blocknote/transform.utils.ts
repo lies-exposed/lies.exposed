@@ -41,10 +41,20 @@ const blockSerializer =
         return [];
       }
       case "paragraph": {
+        // BNBlock can have either content or children depending on the block type
+        // We treat both as potential sources of nested blocks
+        const nestedItems: unknown[] = [
+          ...("content" in p && Array.isArray(p.content) ? p.content : []),
+          ...("children" in p &&
+          Array.isArray((p as { children?: unknown[] }).children)
+            ? (p as { children: unknown[] }).children
+            : []),
+        ];
+
         return pipe(
-          [...(p?.content ?? []), ...((p as any)?.children ?? [])],
+          nestedItems,
           // fp.A.filter((c) => !["text", "link"].includes(c.type)),
-          fp.A.map(f),
+          fp.A.map((item) => f(item as BNBlock)),
           fp.A.compact,
           fp.A.flatten,
           (a) => [...a],
@@ -86,7 +96,10 @@ const inlineRelationsPluginSerializer = (
       return pipe(
         content,
         fp.A.filter((c) => !["text", "link"].includes(c.type)),
-        fp.A.map((c) => inlineRelationsPluginSerializer(c as any)),
+        // Content items that are not text or link are treated as BNBlock for recursion
+        fp.A.map((c) =>
+          inlineRelationsPluginSerializer(c as unknown as BNBlock),
+        ),
         fp.A.compact,
         fp.A.flatten,
         (a) => [...a],

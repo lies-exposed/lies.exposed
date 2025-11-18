@@ -4,6 +4,8 @@ import { pipe } from "fp-ts/lib/function.js";
 import {
   ACTOR,
   GROUP,
+  type ByActor,
+  type ByGroup,
   type BySubject,
   type BySubjectId,
   type UUID,
@@ -60,18 +62,22 @@ const toBySubjectArray = (
   actors: readonly Actor.Actor[],
   groups: readonly Group.Group[],
 ): BySubject[] => {
-  return ss.flatMap((s) => {
-    const subject: BySubject["id"] | undefined = findBySubject(
-      s,
-      actors,
-      groups,
-    );
+  return ss.flatMap((s): BySubject[] => {
+    const subject = findBySubject(s, actors, groups);
     if (subject) {
-      const bySubject: BySubject = {
-        type: s.type,
-        id: subject as any,
-      };
-      return [bySubject];
+      if (s.type === "Actor") {
+        const bySubject: ByActor = {
+          type: s.type,
+          id: subject as Actor.Actor,
+        };
+        return [bySubject];
+      } else {
+        const bySubject: ByGroup = {
+          type: s.type,
+          id: subject as Group.Group,
+        };
+        return [bySubject];
+      }
     }
     return [];
   });
