@@ -10,7 +10,8 @@ export const loadPuppeteer = async (): Promise<{
     "puppeteer-extra-plugin-stealth"
   );
   const { addExtra } = await import("puppeteer-extra");
-  const p = addExtra(puppeteer as any);
+  // puppeteer module needs to be cast as compatible type for addExtra
+  const p = addExtra(puppeteer as unknown as Parameters<typeof addExtra>[0]);
   p.use(puppeteerStealth());
 
   return { client: p, KnownDevices: puppeteer.KnownDevices };
