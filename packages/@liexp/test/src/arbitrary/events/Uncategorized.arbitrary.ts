@@ -3,7 +3,6 @@ import * as http from "@liexp/shared/lib/io/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb } from "../Date.arbitrary.js";
-import { CreateKeywordArb, TagArb } from "../Keyword.arbitrary.js";
 import { URLArb } from "../URL.arbitrary.js";
 import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
@@ -27,50 +26,73 @@ const createEventProps = http.Events.CreateEventPlainBody.members[4].omit(
 export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds: _mediaIds = false,
-  keywordIds = false,
-}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.CreateEventPlainBody> =>
-  Arbitrary.make(createEventProps).map((b) => ({
-    ...b,
-    excerpt: undefined,
-    body: undefined,
-    payload: {
-      title: fc.sample(fc.string(), 1)[0],
-      actors: fc.sample(UUIDArb),
-      groups: fc.sample(UUIDArb),
-      groupsMembers: fc.sample(UUIDArb),
-      location: undefined,
-      endDate: fc.sample(fc.oneof(fc.constant(undefined), DateArb), 1)[0],
-    } as any,
-    media: fc.sample(
-      fc.record({
-        location: URLArb,
-        description: fc.string(),
-      }),
-    ) as any,
-    links: fc.sample(
-      linksIds
-        ? fc.oneof(
-            fc.record({
-              url: URLArb,
-              publishDate: DateArb,
-            }),
+  keywordIds: _keywordIds = false,
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.Uncategorized.CreateEventBody> =>
+  Arbitrary.make(createEventProps).map(
+    (b) =>
+      ({
+        ...b,
+        type: EVENT_TYPES.UNCATEGORIZED,
+        excerpt: undefined,
+        body: undefined,
+        payload: {
+          title: fc.sample(fc.string(), 1)[0],
+          actors: fc.sample(UUIDArb),
+          groups: fc.sample(UUIDArb),
+          groupsMembers: fc.sample(UUIDArb),
+          location: null,
+          endDate: fc.sample(fc.oneof(fc.constant(null), DateArb), 1)[0],
+        },
+        media: fc.sample(
+          fc.oneof(
             UUIDArb,
-          )
-        : fc.record({
-            url: URLArb,
-            publishDate: DateArb,
-          }),
-    ) as any,
-    keywords: fc.sample(
-      keywordIds
-        ? CreateKeywordArb
-        : fc.record({
-            tag: TagArb(),
-          }),
-      5,
-    ) as any,
-    date: fc.sample(DateArb, 1)[0],
-  }));
+            fc.record({
+              id: fc.option(UUIDArb, { nil: undefined }),
+              location: URLArb,
+              label: fc.option(fc.string(), { nil: undefined }),
+              description: fc.option(fc.string(), { nil: undefined }),
+              thumbnail: fc.option(URLArb, { nil: undefined }),
+              extra: fc.constant(undefined),
+              type: fc.constantFrom(
+                ...http.Media.MediaType.members.map((m) => m.literals[0]),
+              ),
+              events: fc.constant([]),
+              links: fc.constant([]),
+              keywords: fc.constant([]),
+              areas: fc.constant([]),
+            }),
+          ),
+          3,
+        ),
+        links: fc.sample(
+          linksIds
+            ? fc.oneof(
+                UUIDArb,
+                fc.record({
+                  url: URLArb,
+                  publishDate: DateArb,
+                  title: fc.option(fc.string(), { nil: undefined }),
+                  description: fc.option(fc.string(), { nil: undefined }),
+                  image: fc.option(URLArb, { nil: undefined }),
+                  creator: fc.option(fc.string(), { nil: undefined }),
+                  keywords: fc.constant([]),
+                }),
+              )
+            : fc.record({
+                url: URLArb,
+                publishDate: DateArb,
+                title: fc.option(fc.string(), { nil: undefined }),
+                description: fc.option(fc.string(), { nil: undefined }),
+                image: fc.option(URLArb, { nil: undefined }),
+                creator: fc.option(fc.string(), { nil: undefined }),
+                keywords: fc.constant([]),
+              }),
+          2,
+        ),
+        keywords: fc.sample(UUIDArb, 5),
+        date: fc.sample(DateArb, 1)[0],
+      }) as unknown as http.Events.Uncategorized.CreateEventBody,
+  );
 
 const uncategorizedProps = http.Events.Uncategorized.Uncategorized.omit(
   "id",
