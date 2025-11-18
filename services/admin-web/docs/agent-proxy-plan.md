@@ -681,7 +681,7 @@ Completed Tasks:
   "devDependencies": {
     "@types/express": "^5.0.1",
     "@types/compression": "^1.7.5",
-    "tsx": "^4.7.0"
+    "tsx": "^4.20.6"
   }
 }
 ```

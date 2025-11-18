@@ -16,18 +16,10 @@
     "sourceMap": true
   },
   "include": [
-    "src/server/**/*"
+    "src/server/**/*",
+    "typings"
   ],
   "exclude": [
-    "src/client",
-    "src/components",
-    "src/pages",
-    "src/hooks",
-    "src/configuration",
-    "src/AdminPage.tsx",
-    "src/index.tsx",
-    "src/reportWebVitals.ts",
-    "src/theme.ts",
     "node_modules",
     "build",
     "**/*.test.ts",

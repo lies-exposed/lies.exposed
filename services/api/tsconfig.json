@@ -6,7 +6,10 @@
     "baseUrl": "./src",
     "jsx": "react-jsx",
     "rootDir": "./",
-    "lib": ["DOM", "ESNext"],
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
     "tsBuildInfoFile": "build/.tsbuildinfo",
     "target": "ESNext",
     "module": "NodeNext",
@@ -18,33 +21,65 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": false,
-    "types": ["../../node_modules/vitest/globals"],
+    "types": [
+      "../../node_modules/vitest/globals",
+      "../../packages/@liexp/shared/typings/page-metadata-parser",
+      "../../packages/@liexp/backend/typings/express",
+    ],
     "paths": {
-      "#app/*": ["./app/*"],
-      "#context/*": ["./context/*"],
-      "#flows/*": ["./flows/*"],
-      "#io/*": ["./io/*"],
-      "#jobs/*": ["./jobs/*"],
-      "#providers/*": ["providers/*"],
-      "#queries/*": ["queries/*"],
-      "#routes/*": ["./routes/*"],
-      "#services/*": ["./services/*"],
-      "#types/*": ["./types/*"],
-      "#utils/*": ["./utils/*"]
+      "#app/*": [
+        "./app/*"
+      ],
+      "#context/*": [
+        "./context/*"
+      ],
+      "#flows/*": [
+        "./flows/*"
+      ],
+      "#io/*": [
+        "./io/*"
+      ],
+      "#jobs/*": [
+        "./jobs/*"
+      ],
+      "#providers/*": [
+        "providers/*"
+      ],
+      "#queries/*": [
+        "queries/*"
+      ],
+      "#routes/*": [
+        "./routes/*"
+      ],
+      "#services/*": [
+        "./services/*"
+      ],
+      "#types/*": [
+        "./types/*"
+      ],
+      "#utils/*": [
+        "./utils/*"
+      ]
     }
   },
   "include": [
     "./src",
-    "./typings",
-    "../../packages/@liexp/shared/typings",
-    "../../packages/@liexp/backend/typings",
     "./scripts",
     "./test"
   ],
-  "exclude": ["**/build", "**/lib"],
+  "exclude": [
+    "**/build",
+    "**/lib"
+  ],
   "references": [
-    { "path": "../../packages/@liexp/core" },
-    { "path": "../../packages/@liexp/shared" },
-    { "path": "../../packages/@liexp/backend" }
+    {
+      "path": "../../packages/@liexp/core"
+    },
+    {
+      "path": "../../packages/@liexp/shared"
+    },
+    {
+      "path": "../../packages/@liexp/backend"
+    }
   ]
 }

@@ -15,11 +15,15 @@
     "noUnusedLocals": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "skipLibCheck": true,
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
-      "../../packages/@liexp/ui/typings"
+      "../../packages/@liexp/ui/typings",
+      "../../packages/@liexp/backend/typings",
     ],
     "baseUrl": "./src",
     "rootDir": "./",
@@ -27,9 +31,19 @@
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "paths": {
-      "@client/*": ["./client/*"]
+      "@client/*": [
+        "./client/*"
+      ]
     }
   },
-  "include": ["./src", "./typings", "eslint.config.js", "vite.config.ts"],
-  "exclude": ["node_modules", "build"]
+  "include": [
+    "./src",
+    "./typings",
+    "eslint.config.js",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
 }

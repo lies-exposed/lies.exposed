@@ -7,12 +7,19 @@
     "jsx": "react-jsx",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
+    "types": [
+      "../../packages/@liexp/shared/typings/page-metadata-parser",
+      "../../packages/@liexp/backend/typings/express",
+    ],
   },
   "include": [
     "./src",
     "./typings",
-    "../../packages/@liexp/shared/typings",
-    "../../packages/@liexp/backend/typings"
   ],
-  "exclude": ["**/__tests__/**", "*/__mocks__/**", "./test/**", "**/*.spec.ts"]
+  "exclude": [
+    "**/__tests__/**",
+    "*/__mocks__/**",
+    "./test/**",
+    "**/*.spec.ts"
+  ]
 }

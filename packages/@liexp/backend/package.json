@@ -8,10 +8,12 @@
   "module": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
-    "./lib/*": "./lib/*"
+    "./lib/*": "./lib/*",
+    "./typings/*": "./typings/*"
   },
   "files": [
-    "lib"
+    "lib",
+    "typings"
   ],
   "scripts": {
     "typecheck": "tsc",
