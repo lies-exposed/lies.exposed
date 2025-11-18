@@ -53,7 +53,7 @@
     "react-admin": "^5.12.3",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.8",
+    "vitest": "^4.0.10",
     "vitest-mock-extended": "^3.1.0"
   },
   "peerDependencies": {
