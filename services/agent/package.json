@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@langchain/mcp-adapters": "^1.0.0",
-    "@langchain/openai": "^1.1.1",
+    "@langchain/openai": "^1.1.2",
     "@langchain/xai": "^1.0.1",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
@@ -48,7 +48,7 @@
     "effect": "^3.17.13",
     "express": "^5.1.0",
     "fp-ts": "^2.16.10",
-    "langchain": "^1.0.3",
+    "langchain": "^1.0.5",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
