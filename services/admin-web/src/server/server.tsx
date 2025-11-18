@@ -72,7 +72,7 @@ export const run = async (base: string): Promise<void> => {
   // CORS (allow admin frontend)
   app.use(
     cors({
-      origin: process.env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
+      origin: env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
       credentials: true,
       methods: ["POST", "GET", "OPTIONS"],
     }),

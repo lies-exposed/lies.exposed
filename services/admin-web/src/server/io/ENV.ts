@@ -35,6 +35,7 @@ const PermissionsFromString = Schema.transform(
 });
 
 export const AdminProxyENV = Schema.Struct({
+  VITE_PUBLIC_URL: Schema.String,
   // Server configuration
   SERVER_PORT: Schema.NumberFromString,
   SERVER_HOST: Schema.String,
