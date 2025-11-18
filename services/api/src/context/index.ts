@@ -19,12 +19,8 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { GetResourceClient } from "@ts-endpoint/resource-client";
 import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -103,25 +99,6 @@ export const makeContext =
       },
     });
 
-    const client = axios.default.create({
-      baseURL: `http://${env.SERVER_HOST}${env.SERVER_PORT ? `:${env.SERVER_PORT}` : ""}`,
-    });
-
-    client.interceptors.request.use((req) => {
-      req.headers.set(
-        "Authorization",
-        `Bearer ${jwtClient.signUser({} as any)()}`,
-      );
-
-      return req;
-    });
-
-    const apiClient = GetResourceClient(client, Endpoints, {
-      decode: EffectDecoder((e) =>
-        DecodeError.of("Resource client decode error", e),
-      ),
-    });
-
     const config = Config(env, process.cwd());
 
     return pipe(
@@ -165,7 +142,6 @@ export const makeContext =
           }),
         ),
         config: fp.TE.right(config),
-        api: fp.TE.right(apiClient),
         redis: GetRedisClient({
           client: () =>
             new Redis({
