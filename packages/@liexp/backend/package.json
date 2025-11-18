@@ -49,6 +49,7 @@
     "@langchain/xai": "^1.0.1",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.80",
+    "@types/express": "^5.0.3",
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.9",
@@ -58,6 +59,7 @@
     "effect": "^3.17.13",
     "eslint": "^9.39.1",
     "exifreader": "^4.30.0",
+    "express-rate-limit": "^8.2.1",
     "fast-check": "^3.23.2",
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
@@ -75,11 +77,11 @@
     "vitest-mock-extended": "^3.1.0"
   },
   "peerDependencies": {
-    "@langchain/xai": "^1.0.1",
     "@langchain/core": "^1.0.1",
     "@langchain/langgraph": "^1.0.1",
     "@langchain/mcp-adapters": "^1.0.0",
     "@langchain/openai": "^1.1.1",
+    "@langchain/xai": "^1.0.1",
     "@napi-rs/canvas": "^0.1.80",
     "debug": "^4.4.0",
     "effect": "^3.17.13",

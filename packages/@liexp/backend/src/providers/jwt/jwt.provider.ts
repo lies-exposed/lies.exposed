@@ -38,11 +38,9 @@ export const toError =
 
 export interface JWTProvider {
   signUser: (user: UserEncoded) => IO.IO<string>;
-  signClient: (client: typeof ServiceClient.Type) => IO.IO<string>;
+  signClient: (client: ServiceClient) => IO.IO<string>;
   verifyUser: (string: string) => IOE.IOEither<JWTError, AuthUser>;
-  verifyClient: (
-    string: string,
-  ) => IOE.IOEither<JWTError, typeof ServiceClient.Type>;
+  verifyClient: (string: string) => IOE.IOEither<JWTError, ServiceClient>;
 }
 
 export interface JWTClientContext {
