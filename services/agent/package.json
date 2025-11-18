@@ -43,7 +43,7 @@
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.12.2",
-    "cors": "2.8.5",
+    "cors": "^2.8.5",
     "debug": "^4.4.0",
     "effect": "^3.17.13",
     "express": "^5.2.0",
