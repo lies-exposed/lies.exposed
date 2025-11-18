@@ -1,7 +1,7 @@
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type URL } from "../io/http/Common/index.js";
+import { URL as URLSchema, type URL } from "../io/http/Common/index.js";
 import { MediaType } from "../io/http/Media/MediaType.js";
 
 type Youtube = "youtube";
@@ -265,7 +265,11 @@ export const parseURL = (
 
   if (iframeVideosMatch) {
     return pipe(
-      parsePlatformURL(url as any),
+      E.tryCatch(
+        () => Schema.decodeSync(URLSchema)(url),
+        (err) => new Error(`Invalid URL: ${err}`),
+      ),
+      E.chain((validUrl) => parsePlatformURL(validUrl)),
       E.map((location) => ({
         type: MediaType.members[7].literals[0],
         location,

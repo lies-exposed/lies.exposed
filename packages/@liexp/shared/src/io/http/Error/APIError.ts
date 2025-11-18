@@ -48,14 +48,21 @@ export const fromIOError = (e: IOError): APIError => {
         status: e.status as APIStatusCode,
         name: "APIError",
         message: e.message,
-        details: e.details.errors as any[],
+        details: Array.isArray(e.details.errors)
+          ? e.details.errors.map(String)
+          : [String(e.details.errors)],
       };
     case "ClientError": {
       return {
         status: e.status as APIStatusCode,
         name: "APIError",
         message: e.message,
-        details: e.details.meta as any,
+        details:
+          e.details.meta !== undefined
+            ? Array.isArray(e.details.meta)
+              ? e.details.meta.map(String)
+              : [JSON.stringify(e.details.meta)]
+            : undefined,
       };
     }
     default:
@@ -65,7 +72,12 @@ export const fromIOError = (e: IOError): APIError => {
           : (e.status as APIStatusCode),
         name: "APIError",
         message: e.message,
-        details: e.details.meta as any,
+        details:
+          e.details.meta !== undefined
+            ? Array.isArray(e.details.meta)
+              ? e.details.meta.map(String)
+              : [JSON.stringify(e.details.meta)]
+            : undefined,
       };
   }
 };

@@ -70,7 +70,9 @@ export const PDFProvider = (ctx: PDFProviderContext): PDFProvider => {
         return textList
           .map(({ items }) =>
             items
-              .filter((t): t is TextItem => !!(t as any).str)
+              .filter(
+                (t): t is TextItem => "str" in t && typeof t.str === "string",
+              )
               .map((str) => str.str)
               .join(""),
           )
