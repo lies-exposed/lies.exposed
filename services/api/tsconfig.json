@@ -21,10 +21,10 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": false,
-    "types": [
+    "typeRoots": [
       "../../node_modules/vitest/globals",
-      "../../packages/@liexp/shared/typings/page-metadata-parser",
-      "../../packages/@liexp/backend/typings/express",
+      "../../packages/@liexp/shared/typings",
+      "../../packages/@liexp/backend/typings",
     ],
     "paths": {
       "#app/*": [
