@@ -1,3 +1,5 @@
+import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { Schema } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
 
@@ -13,7 +15,8 @@ export const URLArb = fc
     segments: HumanReadableStringArb({ joinChar: "/" }),
     query: fc.webQueryParameters(),
   })
-  .map(
-    ({ protocol, domain, extension, segments, query }) =>
-      `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}` as any,
+  .map(({ protocol, domain, extension, segments, query }) =>
+    Schema.decodeSync(URL)(
+      `${protocol}://${domain.toLocaleLowerCase()}.${extension}/${segments}?${query}`,
+    ),
   );
