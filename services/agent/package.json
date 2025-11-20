@@ -48,7 +48,7 @@
     "effect": "^3.17.13",
     "express": "^5.1.0",
     "fp-ts": "^2.16.10",
-    "langchain": "^1.0.5",
+    "langchain": "^1.0.6",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
