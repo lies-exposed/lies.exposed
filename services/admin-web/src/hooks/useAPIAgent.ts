@@ -7,12 +7,6 @@ import { pipe } from "fp-ts/lib/function.js";
 import { useCallback } from "react";
 import { useAgentAPI } from "./useAgentAPI.js";
 
-export interface AgentAPIError {
-  status: number;
-  message: string;
-  originalError?: unknown;
-}
-
 interface AgentClient {
   sendMessage: (
     data: ChatRequest,

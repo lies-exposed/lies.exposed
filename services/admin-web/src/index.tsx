@@ -42,8 +42,7 @@ root.render(
         <AgentAPIContext.Provider
           value={APIRESTClient({
             url: "/api/proxy/agent",
-            // No auth needed - admin session cookies handle authentication
-            getAuth: () => null,
+            getAuth: getAuthFromLocalStorage,
           })}
         >
           <QueryClientProvider client={new QueryClient()}>

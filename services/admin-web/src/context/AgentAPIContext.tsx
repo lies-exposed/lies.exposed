@@ -1,3 +1,4 @@
+import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import * as React from "react";
 
@@ -9,7 +10,6 @@ import * as React from "react";
 export const AgentAPIContext = React.createContext<APIRESTClient>(
   APIRESTClient({
     url: "/api/proxy/agent",
-    // No auth needed - admin-web session cookies handle authentication
-    getAuth: () => null,
+    getAuth: getAuthFromLocalStorage,
   }),
 );
