@@ -1,6 +1,9 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
 import type { Request, Response } from "express";
-import rateLimit, { type RateLimitRequestHandler } from "express-rate-limit";
+import rateLimit, {
+  ipKeyGenerator,
+  type RateLimitRequestHandler,
+} from "express-rate-limit";
 
 export interface RateLimitConfig {
   logger: logger.Logger;
@@ -52,7 +55,10 @@ export const makeRateLimiter = (
         ? forwardedFor[0]
         : forwardedFor;
       const ip = req.ip ?? forwardedIp ?? req.socket.remoteAddress;
-      return `ip:${ip}`;
+      if (!ip) {
+        throw new Error("Unable to determine IP address for rate limiting");
+      }
+      return ipKeyGenerator(ip);
     },
 
     // Skip function

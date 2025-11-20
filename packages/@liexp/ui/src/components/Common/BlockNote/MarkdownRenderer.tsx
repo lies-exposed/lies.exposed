@@ -1,7 +1,7 @@
 import { useBlockNoteEditor } from "@blocknote/react";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/type.js";
 import * as React from "react";
-import { BNEditor } from "./BlockNote/index.js";
+import { BNEditor } from "./index.js";
 
 export const MarkdownRenderer: React.FC<{ children: string }> = ({
   children,

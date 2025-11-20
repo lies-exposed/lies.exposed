@@ -9,6 +9,7 @@ import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { configuration } from "./configuration/index.js";
+import { AgentAPIContext } from "./context/AgentAPIContext.js";
 import reportWebVitals from "./reportWebVitals.js";
 
 config.autoAddCss = false;
@@ -38,10 +39,17 @@ root.render(
           getAuth: getAuthFromLocalStorage,
         })}
       >
-        <QueryClientProvider client={new QueryClient()}>
-          <AdminPage />
-          {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={true} />} */}
-        </QueryClientProvider>
+        <AgentAPIContext.Provider
+          value={APIRESTClient({
+            url: "/api/proxy/agent",
+            getAuth: getAuthFromLocalStorage,
+          })}
+        >
+          <QueryClientProvider client={new QueryClient()}>
+            <AdminPage />
+            {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={true} />} */}
+          </QueryClientProvider>
+        </AgentAPIContext.Provider>
       </DataProviderContext.Provider>
     </ConfigurationContext.Provider>
   </React.StrictMode>,
