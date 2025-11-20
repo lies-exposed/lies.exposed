@@ -6,7 +6,8 @@ export const ProgressBar: React.FC<{
   progress: AxiosProgressEvent;
 }> = ({ progress }) => {
   const variant = progress.progress ? "determinate" : "indeterminate";
-  return <LinearProgress value={progress.progress ?? 0} variant={variant} />;
+  const value = progress.progress ? progress.progress * 100 : 0;
+  return <LinearProgress value={value} variant={variant} />;
 };
 
 export const useProgressBar = () => {
