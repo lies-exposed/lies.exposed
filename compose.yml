@@ -177,6 +177,8 @@ services:
       dockerfile: adminWeb.Dockerfile
     env_file:
       - ./services/admin-web/.env
+    environment:
+      SERVER_PORT: "80"
     volumes:
       - admin-node-modules:/usr/src/app/node_modules
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -187,6 +189,7 @@ services:
       - liexp.dev
       - api.liexp.dev
       - space.liexp.dev
+      - agent.liexp.dev
     # healthcheck:
     #   test: ["CMD", "curl", "-f", "http://liexp.dev:4001/"]
     #   interval: 10s
@@ -215,10 +218,11 @@ services:
       timeout: 20s
       retries: 10
       start_period: 15s
-    depends_on:
-      - localai.liexp.dev
+    # depends_on:
+    #   - localai.liexp.dev
     volumes:
       - agent-node-modules:/usr/src/app/node_modules
+      - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
       - ./services/agent:/usr/src/app/services/agent:cached
     mem_limit: 512M

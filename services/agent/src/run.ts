@@ -4,7 +4,11 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import cors from "cors";
 import D from "debug";
-import express from "express";
+import express, {
+  type Request,
+  type Response,
+  type NextFunction,
+} from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { makeAgentContext } from "#context/load.js";
 import { createRoutes } from "#routes/index.js";
@@ -38,6 +42,17 @@ const run = (): Promise<void> => {
       // Routes
       app.use("/v1", createRoutes(ctx));
 
+      app.use(
+        (err: Error, _req: Request, res: Response, _next: NextFunction) => {
+          serverLogger.error.log("Express error: %O", err);
+          res.status(500).json({
+            error: "Internal server error",
+            message: err.message,
+            details: "details" in err ? err.details : undefined,
+          });
+        },
+      );
+
       return TE.right(app);
     }),
     TE.chain(({ ctx, app }) => {
@@ -51,14 +66,16 @@ const run = (): Promise<void> => {
         },
       );
 
-      process.on("beforeExit", () => {
+      process.on("beforeExit", (code) => {
+        if (code) {
+          serverLogger.error.log("Server closed with error code:", code);
+        }
         serverLogger.debug.log("closing server...");
         server.close();
       });
 
       server.on("error", (e) => {
         serverLogger.error.log("An error occurred %O", e);
-        process.exit(1);
       });
 
       return TE.right(undefined);

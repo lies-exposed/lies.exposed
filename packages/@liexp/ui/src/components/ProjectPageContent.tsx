@@ -3,7 +3,7 @@ import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { MarkdownRenderer } from "./Common/MarkdownRenderer.js";
+import { MarkdownRenderer } from "./Common/BlockNote/MarkdownRenderer.js";
 import { ProjectAreasMap } from "./Graph/ProjectAreasMap.js";
 import { Grid, Typography } from "./mui/index.js";
 import { MediaSlider } from "./sliders/MediaSlider.js";
