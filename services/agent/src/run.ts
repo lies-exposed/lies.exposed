@@ -76,6 +76,12 @@ const run = (): Promise<void> => {
 
       server.on("error", (e) => {
         serverLogger.error.log("An error occurred %O", e);
+        if ("details" in e) {
+          serverLogger.error.log(
+            "Error details: %O",
+            JSON.stringify(e.details),
+          );
+        }
       });
 
       return TE.right(undefined);

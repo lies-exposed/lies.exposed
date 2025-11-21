@@ -18,7 +18,7 @@ export const toError =
   (l: logger.Logger) =>
   (override?: Partial<JWTError>) =>
   (e: unknown): JWTError => {
-    l.error.log("An error occurred %O", e);
+    l.debug.log("A JWT error occurred %O", JSON.stringify(e, null, 2));
     if (e) {
       if (e instanceof jwt.JsonWebTokenError) {
         return new JWTError(e.message, {
@@ -29,7 +29,7 @@ export const toError =
       }
     }
 
-    return new JWTError("An error occurred", {
+    return new JWTError("A JWT error occurred", {
       status: (override?.status ?? 401) + "",
       kind: "ClientError",
       meta: [String(e)],

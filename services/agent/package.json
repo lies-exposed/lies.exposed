@@ -24,7 +24,7 @@
     "cli": "node build/cli/cli.js",
     "cli:dev": "node src/cli/cli.ts",
     "dev": "tsx --watch src/run.ts",
-    "docker:dev": "pnpm dev",
+    "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
     "start": "node build/run.js",
     "test": "echo 'No tests configured for agent'",
