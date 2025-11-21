@@ -5,7 +5,7 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
-import prompts from "prompts";
+import * as prompts from "prompts";
 import { type AgentContext } from "../context/context.type.js";
 
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
@@ -35,7 +35,7 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
         if (streamMode === "debug") {
           ctx.logger.debug.log("Agent debug: %o", chunk);
         } else if (streamMode === "messages") {
-          answer += chunk[0].content;
+          answer += JSON.stringify(chunk[0].content);
         } else {
           const messages = (
             "agent" in chunk ? chunk.agent.messages : []
@@ -57,7 +57,7 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
   const chat = async (ag: typeof agent) => {
     const { question } = defaultQuestion
       ? await Promise.resolve({ question: defaultQuestion })
-      : await prompts({
+      : await prompts.default({
           message: 'Enter a command (type "exit" to quit):',
           type: "text",
           name: "question",
