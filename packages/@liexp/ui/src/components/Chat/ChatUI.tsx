@@ -1,5 +1,5 @@
 import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
 import { MarkdownContent } from "../Common/Markdown/MarkdownContent.js";
@@ -79,6 +79,10 @@ const MessageBubble = styled(Paper)<{ isUser: boolean }>(
       ? theme.palette.primary.contrastText
       : theme.palette.text.primary,
     borderRadius: theme.spacing(2),
+    position: "relative",
+    "&:hover .copy-button": {
+      opacity: 1,
+    },
   }),
 );
 
@@ -170,6 +174,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onToggleFullSize,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -178,6 +183,17 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleCopyMessage = async (messageId: string, content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopiedMessageId(messageId);
+      setTimeout(() => setCopiedMessageId(null), 2000);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("Failed to copy message:", err);
+    }
+  };
 
   return (
     <div className={className}>
@@ -253,17 +269,49 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     ) : (
                       <MarkdownContent content={message.content} />
                     )}
-                    <Typography
-                      variant="caption"
+                    <Box
                       sx={{
-                        display: "block",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
                         mt: 0.5,
-                        opacity: 0.7,
-                        fontSize: "0.7rem",
                       }}
                     >
-                      {formatTime(message.timestamp)}
-                    </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          opacity: 0.7,
+                          fontSize: "0.7rem",
+                        }}
+                      >
+                        {formatTime(message.timestamp)}
+                      </Typography>
+                      {message.role === "assistant" && (
+                        <IconButton
+                          className="copy-button"
+                          size="small"
+                          onClick={() =>
+                            void handleCopyMessage(message.id, message.content)
+                          }
+                          sx={{
+                            opacity: 0,
+                            transition: "opacity 0.2s",
+                            backgroundColor: "rgba(0, 0, 0, 0.05)",
+                            "&:hover": {
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                            },
+                            ml: 1,
+                          }}
+                          title="Copy message"
+                        >
+                          {copiedMessageId === message.id ? (
+                            <Icons.CheckBox sx={{ fontSize: "1rem" }} />
+                          ) : (
+                            <Icons.Copy sx={{ fontSize: "1rem" }} />
+                          )}
+                        </IconButton>
+                      )}
+                    </Box>
                   </MessageBubble>
                 </Stack>
               ))}
