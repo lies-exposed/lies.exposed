@@ -104,9 +104,9 @@ export const GetLangchainProvider = <P extends "openai" | "xai">(
 
     return new ChatXAI({
       model,
-      apiKey: opts.apiKey,
       ...chatOptions,
       ...opts.options?.chat,
+      apiKey: opts.apiKey,
     }) as P extends "openai" ? ChatOpenAI : ChatXAI;
   };
 
