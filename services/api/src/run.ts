@@ -62,7 +62,7 @@ const run = (): Promise<void> => {
         serverLogger.error.log("An error occurred %O", e);
         serverLogger.error.log("Stack trace: %O", e.stack);
         if ("details" in e) {
-          serverLogger.error.log("Details: %O", e.details);
+          serverLogger.error.log("Details: %O", JSON.stringify(e.details));
         }
         process.exit(1);
       });

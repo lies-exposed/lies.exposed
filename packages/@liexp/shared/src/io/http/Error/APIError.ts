@@ -108,7 +108,7 @@ export const toAPIError = (e: unknown): APIError => {
     Schema.decodeUnknownEither(APIError),
     fp.E.getOrElse(() => {
       return Schema.encodeSync(APIError)({
-        message: "An error occurred",
+        message: "Unknown error",
         name: "APIError",
         details: [JSON.stringify(e)],
         status: 500,
