@@ -53,7 +53,7 @@ export const run = async (base: string): Promise<void> => {
   logger.debug.log("Environment loaded: %O", {
     SERVER_PORT: env.SERVER_PORT,
     SERVER_HOST: env.SERVER_HOST,
-    AGENT_URL: env.AGENT_URL,
+    AGENT_URL: env.AGENT_API_URL,
     NODE_ENV: env.NODE_ENV,
     isProduction,
   });

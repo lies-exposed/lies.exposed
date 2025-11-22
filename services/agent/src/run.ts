@@ -82,6 +82,7 @@ const run = (): Promise<void> => {
             JSON.stringify(e.details),
           );
         }
+        process.exit(1);
       });
 
       return TE.right(undefined);

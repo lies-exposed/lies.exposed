@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect/index";
 import { tool } from "langchain";
+import { type LoggerContext } from "../../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../../context/puppeteer.context.js";
 import { toPuppeteerError } from "../../puppeteer.provider.js";
 
@@ -360,7 +361,11 @@ const scrapeWebPageInput = effectToZod(ScrapeWebpageInputSchema);
 /**
  * Creates a web scraping tool optimized for LLM consumption
  */
-export const createWebScrapingTool = (ctx: PuppeteerProviderContext) => {
+export const createWebScrapingTool = <
+  C extends PuppeteerProviderContext & LoggerContext,
+>(
+  ctx: C,
+) => {
   const scrapeFunction = async (
     input: ScrapeWebPageInputSchema,
   ): Promise<string> => {
@@ -383,10 +388,31 @@ export const createWebScrapingTool = (ctx: PuppeteerProviderContext) => {
             fp.TE.tryCatch(async () => {
               const page = await browser.newPage();
 
+              // Set realistic browser headers to avoid bot detection
+              await page.setUserAgent(
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+              );
+
+              // Set additional headers to mimic real browser
+              await page.setExtraHTTPHeaders({
+                Accept:
+                  "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Accept-Encoding": "gzip, deflate, br",
+                Connection: "keep-alive",
+                "Upgrade-Insecure-Requests": "1",
+                "Sec-Fetch-Dest": "document",
+                "Sec-Fetch-Mode": "navigate",
+                "Sec-Fetch-Site": "none",
+                "Sec-Fetch-User": "?1",
+                "Cache-Control": "max-age=0",
+              });
+
               // Navigate to the page
               const waitUntilOption = waitForNetworkIdle
                 ? "networkidle0"
                 : "domcontentloaded";
+              ctx.logger.debug.log(`Navigating to URL: ${url}`);
               await page.goto(url, {
                 waitUntil: waitUntilOption,
                 timeout: 30000,
@@ -401,6 +427,7 @@ export const createWebScrapingTool = (ctx: PuppeteerProviderContext) => {
                   });
               }
 
+              ctx.logger.debug.log(`Extracting content from URL: ${url}`);
               // Get the full HTML content
               const html = await page.content();
 

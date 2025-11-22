@@ -24,7 +24,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find actors",
       description:
-        "Search for persons in DB using various criteria like full name, username, or associated keywords. Returns the actor details in structured markdown format that is optimized for LLM understanding",
+        "Search for persons in DB using various criteria like full name, username, or associated keywords. ALWAYS use this tool BEFORE creating a new actor to check if the person already exists. Try multiple search variations (full name, abbreviations, alternative spellings). Returns the actor details in structured markdown format that is optimized for LLM understanding.",
       annotations: { title: "Find actor", tool: true },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
@@ -48,7 +48,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create actor",
       description:
-        "Create a new actor (person) in the database with the provided information. Returns the created actor details in structured markdown format.",
+        "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. Returns the created actor details in structured markdown format.",
       annotations: { title: "Create actor", tool: true },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },

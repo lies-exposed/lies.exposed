@@ -1,5 +1,6 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import fc from "fast-check";
@@ -20,15 +21,20 @@ describe("MCP EDIT_MEDIA Tool", () => {
     testMedia = media[0];
 
     await throwTE(Test.ctx.db.save(MediaEntity, media));
+
+    Test.mocks.axios.get.mockResolvedValue({
+      status: 200,
+      data: {},
+    });
   });
 
   test("Should update media location", async () => {
     const result = await pipe(
       editMediaToolTask({
         id: testMedia.id,
-        location: "https://example.com/updated-image.jpg",
+        location: "https://example.com/updated-image.jpg" as URL,
         type: testMedia.type,
-        label: testMedia.label,
+        label: testMedia.label ?? testMedia.id,
         description: undefined,
       }),
       throwRTE(Test.ctx),
@@ -61,7 +67,7 @@ describe("MCP EDIT_MEDIA Tool", () => {
         id: testMedia.id,
         location: testMedia.location,
         type: "image/png",
-        label: testMedia.label,
+        label: testMedia.label!,
         description: undefined,
       }),
       throwRTE(Test.ctx),
@@ -77,7 +83,7 @@ describe("MCP EDIT_MEDIA Tool", () => {
         id: testMedia.id,
         location: testMedia.location,
         type: testMedia.type,
-        label: testMedia.label,
+        label: testMedia.label ?? testMedia.location,
         description: "Updated description",
       }),
       throwRTE(Test.ctx),
@@ -93,7 +99,7 @@ describe("MCP EDIT_MEDIA Tool", () => {
         id: testMedia.id,
         location: testMedia.location,
         type: testMedia.type,
-        label: testMedia.label,
+        label: testMedia.label!,
         description: undefined,
       }),
       throwRTE(Test.ctx),
@@ -107,7 +113,7 @@ describe("MCP EDIT_MEDIA Tool", () => {
     const result = await pipe(
       editMediaToolTask({
         id: testMedia.id,
-        location: "https://example.com/completely-updated.jpg",
+        location: "https://example.com/completely-updated.jpg" as URL,
         type: "image/jpeg",
         label: "Completely Updated Media",
         description: "All fields have been updated",

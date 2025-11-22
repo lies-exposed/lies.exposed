@@ -23,7 +23,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find groups",
       description:
-        "Search for groups using various criteria like name or keywords. Returns the groups in JSON format",
+        "Search for groups (organizations) using various criteria like name or keywords. ALWAYS use this tool BEFORE creating a new group to check if the organization already exists. Try multiple search variations (full name, abbreviations, acronyms). Returns the groups in JSON format.",
       annotations: { tool: true },
       inputSchema: effectToZodStruct(FindGroupsInputSchema),
     },
@@ -54,7 +54,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create group",
       description:
-        "Create a new group (organization) in the database with the provided information. Returns the created group details in structured markdown format.",
+        "Create a new group (organization) in the database with the provided information. IMPORTANT: Always search for existing groups using findGroups with multiple name variations (full name, abbreviations, acronyms like 'WHO' for 'World Health Organization') BEFORE creating a new group to avoid duplicates. Only create if no match exists. Returns the created group details in structured markdown format.",
       annotations: { title: "Create group", tool: true },
       inputSchema: effectToZodStruct(CreateInputSchema),
     },

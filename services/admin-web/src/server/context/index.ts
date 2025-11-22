@@ -35,7 +35,7 @@ export const makeAdminProxyContext = (
   logger.debug.log("Initializing admin proxy context with env: %O", {
     SERVER_PORT: env.SERVER_PORT,
     SERVER_HOST: env.SERVER_HOST,
-    AGENT_URL: env.AGENT_URL,
+    AGENT_URL: env.AGENT_API_URL,
     SERVICE_CLIENT_ID: env.SERVICE_CLIENT_ID,
     JWT_SECRET: "***",
   });
@@ -67,7 +67,7 @@ export const makeAdminProxyContext = (
     TE.bind("agent", ({ jwt }) =>
       pipe(
         makeAgentClient({
-          baseURL: env.AGENT_URL,
+          baseURL: env.AGENT_API_URL,
           jwt,
           logger,
           getPayload: () => ({

@@ -377,6 +377,170 @@ export const registerAgentProxyRoutes = (
     },
   );
 
+  /**
+   * POST /api/proxy/agent/chat/message/stream
+   *
+   * Proxy streaming chat messages to agent service with M2M authentication.
+   * Returns Server-Sent Events (SSE) stream with tool calls and responses.
+   * - Requires authentication (AdminRead permission)
+   * - Rate limited per authenticated user
+   * - Audited with correlation ID
+   * - Streams events in real-time to client
+   */
+  router.post(
+    "/chat/message/stream",
+    authenticationHandler([AdminRead.literals[0]])(ctx),
+    chatRateLimiter,
+    auditMiddleware,
+    async (req: Request, res: Response) => {
+      const correlationId = generateCorrelationId();
+
+      logger.info.log(
+        "Proxying streaming chat request (correlation: %s, user: %s, ip: %s)",
+        correlationId,
+        req.user?.id ?? "unknown",
+        req.ip,
+      );
+
+      try {
+        // Get M2M token
+        const token = m2m.getToken()();
+
+        // Set headers for Server-Sent Events
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+        res.setHeader("X-Accel-Buffering", "no");
+
+        // Send initial comment to establish connection
+        res.write(": proxy connected\n\n");
+
+        // Handle client disconnect
+        req.on("close", () => {
+          logger.info.log(
+            "Client disconnected, cleaning up stream (correlation: %s)",
+            correlationId,
+          );
+        });
+
+        logger.debug.log(
+          "Calling agent streaming endpoint with M2M token (correlation: %s)",
+          correlationId,
+        );
+
+        // Make streaming request to agent service
+        const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
+
+        const response = await fetch(agentUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            "x-correlation-id": correlationId,
+          },
+          body: JSON.stringify(req.body),
+        });
+
+        if (!response.ok) {
+          logger.error.log(
+            "Agent streaming request failed: %d (correlation: %s)",
+            response.status,
+            correlationId,
+          );
+
+          res.write(
+            `data: ${JSON.stringify({
+              type: "error",
+              timestamp: new Date().toISOString(),
+              error: `Agent service returned ${response.status}`,
+            })}\n\n`,
+          );
+          res.end();
+          return;
+        }
+
+        if (!response.body) {
+          logger.error.log(
+            "Agent response has no body (correlation: %s)",
+            correlationId,
+          );
+          res.write(
+            `data: ${JSON.stringify({
+              type: "error",
+              timestamp: new Date().toISOString(),
+              error: "No response body from agent service",
+            })}\n\n`,
+          );
+          res.end();
+          return;
+        }
+
+        // Pipe the response body directly to the client response using Web Streams API
+        await response.body.pipeTo(
+          new WritableStream({
+            write(chunk) {
+              if (!res.writableEnded) {
+                res.write(chunk);
+
+                // Log chunks for debugging
+                const chunkStr = new TextDecoder().decode(chunk);
+                if (chunkStr.includes("data: ")) {
+                  logger.debug.log(
+                    "Forwarded SSE event (correlation: %s): %s",
+                    correlationId,
+                    chunkStr.substring(0, 200),
+                  );
+                }
+              }
+            },
+            close() {
+              logger.info.log(
+                "Streaming completed successfully (correlation: %s)",
+                correlationId,
+              );
+              if (!res.writableEnded) {
+                res.end();
+              }
+            },
+            abort(err) {
+              logger.error.log(
+                "Stream aborted: %O (correlation: %s)",
+                err,
+                correlationId,
+              );
+              if (!res.writableEnded) {
+                res.end();
+              }
+            },
+          }),
+        );
+      } catch (error) {
+        logger.error.log(
+          "Streaming proxy error: %O (correlation: %s)",
+          error,
+          correlationId,
+        );
+
+        // Send error event if possible
+        if (!res.headersSent) {
+          res.status(500).json({
+            error: "Streaming failed",
+            message: error instanceof Error ? error.message : "Unknown error",
+          });
+        } else {
+          res.write(
+            `data: ${JSON.stringify({
+              type: "error",
+              timestamp: new Date().toISOString(),
+              error: error instanceof Error ? error.message : "Unknown error",
+            })}\n\n`,
+          );
+          res.end();
+        }
+      }
+    },
+  );
+
   // Health check for proxy
   router.get("/health", (_req, res) => {
     res.status(200).json({

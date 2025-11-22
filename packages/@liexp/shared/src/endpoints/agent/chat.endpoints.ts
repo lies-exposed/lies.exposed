@@ -4,6 +4,7 @@ import {
   ChatConversation,
   ChatRequest,
   ChatResponse,
+  ChatStreamEvent,
 } from "../../io/http/Chat.js";
 import { ListOutput, Output } from "../../io/http/Common/Output.js";
 
@@ -58,11 +59,25 @@ export const DeleteConversation = Endpoint({
   }),
 });
 
+// Note: Streaming endpoint is handled separately as Server-Sent Events
+// It doesn't follow the standard endpoint pattern due to SSE streaming nature
+export const SendMessageStream = Endpoint({
+  Method: "POST",
+  getPath: () => "/chat/message/stream",
+  Input: {
+    Body: ChatRequest,
+  },
+  // Output is a stream of ChatStreamEvent via Server-Sent Events
+  Output: ChatStreamEvent,
+});
+
 export const chat = ResourceEndpoints({
   Get: GetConversation,
   List: ListConversations,
   Create: SendMessage,
   Edit: SendMessage, // reuse for editing
   Delete: DeleteConversation,
-  Custom: {},
+  Custom: {
+    Stream: SendMessageStream,
+  },
 });

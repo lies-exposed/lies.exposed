@@ -21,11 +21,6 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "allowSyntheticDefaultImports": false,
-    "typeRoots": [
-      "../../node_modules/vitest/globals",
-      "../../packages/@liexp/shared/typings",
-      "../../packages/@liexp/backend/typings",
-    ],
     "paths": {
       "#app/*": [
         "./app/*"
@@ -65,7 +60,9 @@
   "include": [
     "./src",
     "./scripts",
-    "./test"
+    "./test",
+    "../../packages/@liexp/backend/typings/**/*.d.ts",
+    "../../packages/@liexp/shared/typings/**/*.d.ts"
   ],
   "exclude": [
     "**/build",

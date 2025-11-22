@@ -83,6 +83,8 @@ export const makeAgentContext = (
               },
             });
 
+            await mcpClient.initializeConnections();
+
             // Wrap the client to make it compatible
             return Promise.resolve(mcpClient);
           },

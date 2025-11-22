@@ -7,6 +7,7 @@
     "jsx": "react-jsx",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
+    "types": ["express", "page-metadata-parser"],
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/backend/typings",
