@@ -77,7 +77,7 @@ export const GetAgentProvider =
         tools: allTools,
         checkpointer: agentCheckpointer,
         systemPrompt: readFileSync(
-          path.resolve(process.cwd(), "AGENT.md"),
+          path.resolve(process.cwd(), "AGENTS.md"),
           "utf-8",
         ),
         description: "A React agent for handling user queries",

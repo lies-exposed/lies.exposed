@@ -8,6 +8,7 @@ import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { UnauthorizedError } from "express-jwt";
+import { describe, expect, it } from "vitest";
 import { toAPIError, toControllerError } from "./ControllerError.js";
 
 describe("ControllerError", () => {

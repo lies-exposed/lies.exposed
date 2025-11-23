@@ -5,6 +5,7 @@ import {
 } from "@liexp/shared/lib/io/http/Query/index.js";
 import * as O from "effect/Option";
 import { Like } from "typeorm";
+import { describe, test, expect } from "vitest";
 
 describe("ORM utils V2", () => {
   test("Should return only pagination", () => {

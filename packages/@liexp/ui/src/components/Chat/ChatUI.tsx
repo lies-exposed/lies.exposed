@@ -86,15 +86,6 @@ const MessageBubble = styled(Paper)<{ isUser: boolean }>(
   }),
 );
 
-const InputContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(1),
-  borderTop: `1px solid ${theme.palette.divider}`,
-  backgroundColor: theme.palette.background.paper,
-  display: "flex",
-  gap: theme.spacing(1),
-  alignItems: "flex-end",
-}));
-
 export interface ToolCall {
   id: string;
   type: "function";
@@ -139,6 +130,12 @@ export interface ChatUIProps {
   isFullSize?: boolean;
   /** Callback when full-size toggle is clicked */
   onToggleFullSize?: () => void;
+  /** Whether context is enabled */
+  isContextEnabled?: boolean;
+  /** Callback when context toggle is clicked */
+  onToggleContext?: () => void;
+  /** Label to display for current context (e.g., "actors #123") */
+  contextLabel?: string;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -172,6 +169,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onRetry,
   isFullSize = false,
   onToggleFullSize,
+  isContextEnabled = false,
+  onToggleContext,
+  contextLabel,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -360,27 +360,70 @@ export const ChatUI: React.FC<ChatUIProps> = ({
             )}
 
             {/* Input */}
-            <InputContainer>
-              <TextField
-                fullWidth
-                multiline
-                maxRows={4}
-                placeholder={inputPlaceholder}
-                value={inputValue}
-                onChange={(e) => onInputChange(e.target.value)}
-                onKeyPress={onKeyPress}
-                disabled={isLoading}
-                variant="outlined"
-                size="small"
-              />
-              <IconButton
-                onClick={onSendMessage}
-                disabled={!inputValue.trim() || isLoading}
-                color="primary"
-              >
-                <Icons.ArrowUp />
-              </IconButton>
-            </InputContainer>
+            <Box
+              sx={{
+                p: 1,
+                borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+                backgroundColor: (theme) => theme.palette.background.paper,
+              }}
+            >
+              {isContextEnabled && contextLabel && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    px: 1,
+                    py: 0.5,
+                    mb: 1,
+                    backgroundColor: (theme) => theme.palette.primary.light,
+                    color: (theme) => theme.palette.primary.contrastText,
+                    borderRadius: 1,
+                    fontSize: "0.75rem",
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  <Icons.PinOutlined sx={{ fontSize: "0.875rem" }} />
+                  <Typography variant="caption">{contextLabel}</Typography>
+                </Box>
+              )}
+              <Box sx={{ display: "flex", gap: 1, alignItems: "flex-end" }}>
+                <TextField
+                  fullWidth
+                  multiline
+                  maxRows={4}
+                  placeholder={inputPlaceholder}
+                  value={inputValue}
+                  onChange={(e) => onInputChange(e.target.value)}
+                  onKeyPress={onKeyPress}
+                  disabled={isLoading}
+                  variant="outlined"
+                  size="small"
+                />
+                {onToggleContext && (
+                  <IconButton
+                    onClick={onToggleContext}
+                    title={
+                      isContextEnabled ? "Disable Context" : "Enable Context"
+                    }
+                    sx={{
+                      color: isContextEnabled
+                        ? (theme) => theme.palette.primary.main
+                        : (theme) => theme.palette.action.disabled,
+                    }}
+                  >
+                    <Icons.PinOutlined />
+                  </IconButton>
+                )}
+                <IconButton
+                  onClick={onSendMessage}
+                  disabled={!inputValue.trim() || isLoading}
+                  color="primary"
+                >
+                  <Icons.ArrowUp />
+                </IconButton>
+              </Box>
+            </Box>
           </ChatModal>,
           document.body,
         )}

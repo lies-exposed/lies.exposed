@@ -59,7 +59,7 @@ const UncategorizedEventCreate: React.FC = () => {
           />
         </FormTab>
         <FormTab label="body">
-          <BlockNoteInput source="body" />
+          <BlockNoteInput source="body" defaultValue={null} />
           <ReferenceArrayActorInput source="payload.actors" defaultValue={[]} />
           <ReferenceArrayField source="payload.actors" reference="actors">
             <Datagrid rowClick="edit">

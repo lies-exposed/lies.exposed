@@ -70,11 +70,24 @@ export const ChatMessage = Schema.Struct({
 
 export type ChatMessage = typeof ChatMessage.Type;
 
+// Resource context for react-admin integration
+export const ResourceContext = Schema.Struct({
+  resource: Schema.String, // e.g., "actors", "events", "links"
+  recordId: Schema.NullOr(Schema.String), // ID of the current record being edited
+  action: Schema.optional(Schema.String), // e.g., "edit", "create", "list", "show"
+}).annotations({
+  title: "ResourceContext",
+  description: "React-admin resource context for context-aware assistance",
+});
+
+export type ResourceContext = typeof ResourceContext.Type;
+
 // Chat request/response types
 export const ChatRequest = Schema.Struct({
   message: Schema.String,
   conversation_id: Schema.NullOr(Schema.String),
   model: Schema.optional(Schema.String),
+  resource_context: Schema.optional(ResourceContext),
 }).annotations({
   title: "ChatRequest",
   description: "Request to send a chat message",
@@ -116,3 +129,45 @@ export const ListChatConversationsQuery = Schema.partial(
 });
 
 export type ListChatConversationsQuery = typeof ListChatConversationsQuery.Type;
+
+// Streaming event types for Server-Sent Events
+export const StreamEventType = Schema.Literal(
+  "content_delta", // Incremental content from assistant
+  "tool_call_start", // Tool invocation started
+  "tool_call_end", // Tool invocation completed
+  "message_start", // New message starting
+  "message_end", // Message completed
+  "error", // Error occurred
+).annotations({
+  title: "StreamEventType",
+  description: "Type of streaming event",
+});
+
+export type StreamEventType = typeof StreamEventType.Type;
+
+// Streaming event payload
+export const ChatStreamEvent = Schema.Struct({
+  type: StreamEventType,
+  timestamp: Schema.String,
+  // Content delta for incremental text
+  content: Schema.optional(Schema.String),
+  // Tool call information
+  tool_call: Schema.optional(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      arguments: Schema.optional(Schema.String), // JSON stringified
+      result: Schema.optional(Schema.String), // JSON stringified result
+    }),
+  ),
+  // Message metadata
+  message_id: Schema.optional(Schema.String),
+  role: Schema.optional(ChatRole),
+  // Error information
+  error: Schema.optional(Schema.String),
+}).annotations({
+  title: "ChatStreamEvent",
+  description: "Server-sent event for chat streaming",
+});
+
+export type ChatStreamEvent = typeof ChatStreamEvent.Type;

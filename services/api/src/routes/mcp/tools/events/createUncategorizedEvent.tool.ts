@@ -48,10 +48,10 @@ export const CreateUncategorizedEventInputSchema = Schema.Struct({
   groupsMembers: Schema.Array(UUID).annotations({
     description: "Array of group member UUIDs involved in the event",
   }),
-  location: Schema.NullOr(UUID).annotations({
+  location: Schema.UndefinedOr(UUID).annotations({
     description: "Location UUID where the event occurred or null",
   }),
-  endDate: Schema.NullOr(Schema.String).annotations({
+  endDate: Schema.UndefinedOr(Schema.String).annotations({
     description:
       "End date of the event in ISO format (YYYY-MM-DD) or null for single-day events",
   }),

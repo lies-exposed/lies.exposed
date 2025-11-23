@@ -385,11 +385,11 @@ const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
 );
 
 const AdminPage: React.FC = () => {
-  const apiProvider = useDataProvider();
-  const authProvider = GetAuthProvider(apiProvider);
+  const dataProvider = useDataProvider();
+  const authProvider = GetAuthProvider(dataProvider);
   return (
     <Admin
-      dataProvider={apiProvider}
+      dataProvider={dataProvider}
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}

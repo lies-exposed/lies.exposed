@@ -15,10 +15,8 @@ export class JWTError extends IOError {
 }
 
 export const toError =
-  (l: logger.Logger) =>
   (override?: Partial<JWTError>) =>
   (e: unknown): JWTError => {
-    l.debug.log("A JWT error occurred %O", JSON.stringify(e, null, 2));
     if (e) {
       if (e instanceof jwt.JsonWebTokenError) {
         return new JWTError(e.message, {
@@ -70,7 +68,7 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
       const tk = token.replace("Bearer ", "");
       // ctx.logger.debug.log("Verifying token %s", tk);
       return pipe(
-        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
+        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError({})),
         IOE.chain((result) => {
           return pipe(
             IOE.fromEither(
@@ -78,7 +76,7 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
                 Schema.decodeUnknownEither(AuthUser)(result),
               ),
             ),
-            IOE.mapLeft(toError(ctx.logger)({})),
+            IOE.mapLeft(toError({})),
           );
         }),
       );
@@ -87,7 +85,7 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
       const tk = token.replace("Bearer ", "");
       // ctx.logger.debug.log("Verifying token %s", tk);
       return pipe(
-        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError(ctx.logger)({})),
+        IOE.tryCatch(() => jwt.verify(tk, ctx.secret), toError({})),
         IOE.chain((result) => {
           return pipe(
             IOE.fromEither(
@@ -95,7 +93,7 @@ export const GetJWTProvider = (ctx: JWTClientContext): JWTProvider => {
                 Schema.decodeUnknownEither(ServiceClient)(result),
               ),
             ),
-            IOE.mapLeft(toError(ctx.logger)({})),
+            IOE.mapLeft(toError({})),
           );
         }),
       );
