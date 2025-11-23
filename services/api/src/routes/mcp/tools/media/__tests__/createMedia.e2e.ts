@@ -1,3 +1,5 @@
+import { afterEach, beforeEach } from "node:test";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -11,9 +13,20 @@ describe("MCP CREATE_MEDIA Tool", () => {
     Test = await GetAppTest();
   });
 
+  beforeEach(() => {
+    Test.mocks.axios.get.mockResolvedValue({
+      status: 200,
+      data: {},
+    } as any);
+  });
+
+  afterEach(() => {
+    Test.mocks.axios.get.mockReset();
+  });
+
   test("Should create media with external URL", async () => {
     const newMediaData = {
-      location: "https://example.com/external-image.jpg",
+      location: "https://example.com/external-image.jpg" as URL,
       type: "image/jpeg" as const,
       label: "External Image",
       description: "An external image reference",
@@ -35,7 +48,7 @@ describe("MCP CREATE_MEDIA Tool", () => {
 
   test("Should create media without description", async () => {
     const newMediaData = {
-      location: "https://example.com/simple-media.png",
+      location: "https://example.com/simple-media.png" as URL,
       type: "image/png" as const,
       label: "Simple Media",
       description: undefined,
@@ -52,7 +65,7 @@ describe("MCP CREATE_MEDIA Tool", () => {
 
   test("Should create media with PDF type", async () => {
     const newMediaData = {
-      location: "https://example.com/document.pdf",
+      location: "https://example.com/document.pdf" as URL,
       type: "application/pdf" as const,
       label: "PDF Document",
       description: "A PDF document reference",
@@ -69,7 +82,7 @@ describe("MCP CREATE_MEDIA Tool", () => {
 
   test("Should create media with video type", async () => {
     const newMediaData = {
-      location: "https://example.com/video.mp4",
+      location: "https://example.com/video.mp4" as URL,
       type: "video/mp4" as const,
       label: "Video File",
       description: undefined,
@@ -86,7 +99,7 @@ describe("MCP CREATE_MEDIA Tool", () => {
 
   test("Should create media with detailed description", async () => {
     const newMediaData = {
-      location: "https://example.com/detailed-image.jpg",
+      location: "https://example.com/detailed-image.jpg" as URL,
       type: "image/jpeg" as const,
       label: "Detailed Image",
       description:

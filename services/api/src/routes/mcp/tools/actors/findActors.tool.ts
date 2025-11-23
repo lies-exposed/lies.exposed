@@ -63,7 +63,7 @@ export const findActorsToolTask = ({
     fetchActors<ServerContext>({
       q: O.fromNullable(fullName),
       memberIn: pipe(
-        O.some(memberIn),
+        O.fromNullable(memberIn),
         O.filter((arr) => arr.length > 0),
       ),
       withDeleted: O.fromNullable(withDeleted),

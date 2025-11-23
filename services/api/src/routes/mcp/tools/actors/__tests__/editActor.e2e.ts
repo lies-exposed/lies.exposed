@@ -1,6 +1,7 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import {
   toActorEntity,
@@ -151,10 +152,26 @@ describe("MCP EDIT_ACTOR Tool", () => {
   });
 
   test("Should update actor memberIn groups", async () => {
+    const [member] = await throwTE(
+      Test.ctx.db.save(GroupMemberEntity, [
+        {
+          group: testGroup,
+          actor: testActor,
+          startDate: new Date(),
+          endDate: new Date(),
+          excerpt: null,
+          body: null,
+          events: [],
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+      ]),
+    );
     const result = await pipe(
       editActorToolTask({
         id: testActor.id,
-        memberIn: [testGroup.id],
+        memberIn: [member.id],
         fullName: undefined,
         username: undefined,
         color: undefined,

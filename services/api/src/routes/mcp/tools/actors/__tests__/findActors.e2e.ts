@@ -1,9 +1,11 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import {
   toActorEntity,
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
@@ -26,6 +28,7 @@ describe("MCP FIND_ACTORS Tool", () => {
       toActorEntity({
         ...a,
         memberIn: [],
+        nationalities: [],
         death: undefined,
       }),
     );
@@ -121,8 +124,20 @@ describe("MCP FIND_ACTORS Tool", () => {
     const actor = testActors[0];
 
     // Update actor to be member of group
-    actor.memberIn = [group];
-    await throwTE(Test.ctx.db.save(ActorEntity, actor));
+    const groupMemeber = {
+      id: uuid(),
+      group: group,
+      actor: { ...actor, memberIn: [] },
+      startDate: new Date(),
+      endDate: new Date(),
+      excerpt: null,
+      body: null,
+      events: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null,
+    };
+    await throwTE(Test.ctx.db.save(GroupMemberEntity, [groupMemeber]));
 
     const result = await pipe(
       findActorsToolTask({

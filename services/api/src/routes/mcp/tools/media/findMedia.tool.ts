@@ -14,7 +14,7 @@ import { formatMediaToMarkdown } from "../formatters/mediaToMarkdown.formatter.j
 
 export const FindMediaInputSchema = Schema.Struct({
   query: Schema.String.annotations({
-    description: "Search query string to filter media by title or description",
+    description: "Search query string to filter media by label or description",
   }),
   location: Schema.UndefinedOr(URL).annotations({
     description: "Location associated with the media",
@@ -25,7 +25,7 @@ export const FindMediaInputSchema = Schema.Struct({
   }),
   sort: Schema.UndefinedOr(Schema.String).annotations({
     description:
-      'Sort field: "createdAt", "title", or "type". Defaults to createdAt',
+      'Sort field: "createdAt", "label", or "type". Defaults to createdAt',
   }),
   order: Schema.UndefinedOr(Schema.String).annotations({
     description: 'Sort order: "ASC" or "DESC". Defaults to DESC',
@@ -46,7 +46,7 @@ export const findMediaToolTask = ({
 > => {
   // Validate string inputs
   const validSort =
-    sort === "createdAt" || sort === "title" || sort === "type"
+    sort === "createdAt" || sort === "label" || sort === "type"
       ? sort
       : undefined;
   const validOrder = order === "ASC" || order === "DESC" ? order : undefined;

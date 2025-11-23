@@ -1,6 +1,9 @@
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { toUserEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import {
+  toLinkEntity,
+  toUserEntity,
+} from "@liexp/backend/lib/test/utils/entities/index.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
@@ -13,22 +16,15 @@ import { findLinksToolTask } from "../findLinks.tool.js";
 describe("MCP FIND_LINKS Tool", () => {
   let Test: AppTest;
   let testLinks: LinkEntity[];
-  let testUser: UserEntity;
 
   beforeAll(async () => {
     Test = await GetAppTest();
 
     const users = fc.sample(UserArb, 1).map(toUserEntity);
-    testUser = users[0];
 
     // Create test data
     const links = fc.sample(LinkArb, 5);
-    testLinks = links.map((l) => ({
-      ...l,
-      creator: testUser,
-      events: [],
-      keywords: [],
-    }));
+    testLinks = links.map(toLinkEntity);
 
     await throwTE(Test.ctx.db.save(UserEntity, users));
     await throwTE(Test.ctx.db.save(LinkEntity, testLinks));

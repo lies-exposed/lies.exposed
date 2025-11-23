@@ -16,7 +16,13 @@ describe("MCP FIND_MEDIA Tool", () => {
     Test = await GetAppTest();
 
     // Create test data
-    testMedia = fc.sample(MediaArb, 5).map(toMediaEntity);
+    testMedia = fc
+      .sample(MediaArb, 5)
+      .map(toMediaEntity)
+      .map((m) => ({
+        ...m,
+        label: m.label ?? m.location,
+      }));
 
     await throwTE(Test.ctx.db.save(MediaEntity, testMedia));
   });
@@ -25,7 +31,7 @@ describe("MCP FIND_MEDIA Tool", () => {
     const media = testMedia[0];
     const result = await pipe(
       findMediaToolTask({
-        query: media.label.substring(0, 5),
+        query: media.label!.substring(0, 5),
         location: undefined,
         type: undefined,
         sort: undefined,
@@ -72,13 +78,13 @@ describe("MCP FIND_MEDIA Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
   });
 
-  test("Should support sorting by title", async () => {
+  test("Should support sorting by label", async () => {
     const result = await pipe(
       findMediaToolTask({
         query: "",
         location: undefined,
         type: undefined,
-        sort: "title",
+        sort: "label",
         order: "ASC",
       }),
       throwRTE(Test.ctx),
@@ -107,7 +113,7 @@ describe("MCP FIND_MEDIA Tool", () => {
   test("Should support descending order", async () => {
     const result = await pipe(
       findMediaToolTask({
-        query: testMedia[0].label.substring(0, 3),
+        query: testMedia[0].label!.substring(0, 3),
         location: undefined,
         type: undefined,
         sort: "createdAt",

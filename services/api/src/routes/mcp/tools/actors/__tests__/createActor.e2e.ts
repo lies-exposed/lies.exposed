@@ -1,12 +1,7 @@
-import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import {
-  toAreaEntity,
-  toMediaEntity,
-} from "@liexp/backend/lib/test/utils/entities/index.js";
+import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
@@ -17,17 +12,13 @@ import { createActorToolTask } from "../createActor.tool.js";
 describe("MCP CREATE_ACTOR Tool", () => {
   let Test: AppTest;
   let avatar: Media;
-  let nationality: AreaEntity;
 
   beforeAll(async () => {
     Test = await GetAppTest();
 
     avatar = fc.sample(MediaArb, 1)[0];
-    const areas = fc.sample(AreaArb, 1).map(toAreaEntity);
-    nationality = areas[0];
 
     await throwTE(Test.ctx.db.save(MediaEntity, [avatar].map(toMediaEntity)));
-    await throwTE(Test.ctx.db.save(AreaEntity, areas));
   });
 
   test("Should create a new actor with required fields", async () => {
@@ -36,7 +27,7 @@ describe("MCP CREATE_ACTOR Tool", () => {
       fullName: "Test Actor One",
       color: "FF5733",
       excerpt: "A test actor created via MCP tools",
-      nationalities: [nationality.id],
+      nationalities: [],
       body: undefined,
       avatar: avatar.id,
       bornOn: "1990-01-01",
@@ -65,7 +56,7 @@ describe("MCP CREATE_ACTOR Tool", () => {
       fullName: "Complete Test Actor",
       color: "00FF00",
       excerpt: "A complete test actor",
-      nationalities: [nationality.id],
+      nationalities: [],
       body: "This is a detailed biography of the test actor.",
       avatar: avatar.id,
       bornOn: "1985-05-15",
@@ -87,7 +78,7 @@ describe("MCP CREATE_ACTOR Tool", () => {
       fullName: "No Avatar Actor",
       color: "0000FF",
       excerpt: "Actor without avatar",
-      nationalities: [nationality.id],
+      nationalities: [],
       body: undefined,
       avatar: undefined as any,
       bornOn: undefined,
@@ -109,7 +100,7 @@ describe("MCP CREATE_ACTOR Tool", () => {
       fullName: "Minimal Actor",
       color: "FFFF00",
       excerpt: "Minimal test actor",
-      nationalities: [nationality.id],
+      nationalities: [],
       body: undefined,
       avatar: avatar.id,
       bornOn: "1995-03-20",

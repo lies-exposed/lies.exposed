@@ -1,3 +1,4 @@
+import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import {
   fetchLinks,
   getListQueryEmpty,
@@ -5,7 +6,6 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { Link } from "@liexp/shared/lib/io/http/Link.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -67,8 +67,9 @@ export const findLinksToolTask = ({
         },
         false,
       )(ctx),
+      fp.TE.chainEitherK(([links]) => LinkIO.decodeMany(links)),
       LoggerService.TE.debug(ctx, `Results %O`),
-      fp.TE.map(([links]) => {
+      fp.TE.map((links) => {
         if (links.length === 0) {
           return {
             content: [
@@ -81,11 +82,10 @@ export const findLinksToolTask = ({
         }
         return {
           content: links.map((link) => {
-            const decodedLink = Schema.decodeUnknownSync(Link)(link);
             return {
-              text: formatLinkToMarkdown(decodedLink),
+              text: formatLinkToMarkdown(link),
               type: "text" as const,
-              href: `link://${decodedLink.id}`,
+              href: `link://${link.id}`,
             };
           }),
         };
