@@ -32,7 +32,7 @@ const decodeUserFromRequest =
     // const headerKeys = Object.keys(req.headers);
     // logger.debug.log(`Checking headers %O for authorization`, headerKeys);
     const decodedHeaders = Schema.decodeUnknownEither(HeadersWithAuthorization)(
-      req.headers as unknown,
+      req.headers,
     );
 
     return pipe(
@@ -115,7 +115,7 @@ const decodeServiceClientFromRequest =
   ) =>
   ({ logger: _logger, jwt }: C): IOE.IOEither<JWTError, ServiceClient> => {
     const decodedHeaders = Schema.decodeUnknownEither(HeadersWithAuthorization)(
-      req.headers as unknown,
+      req.headers,
     );
 
     return pipe(
