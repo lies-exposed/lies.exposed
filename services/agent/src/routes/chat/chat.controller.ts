@@ -1,5 +1,3 @@
-import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import { type Route } from "#routes/route.types.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
@@ -12,6 +10,8 @@ import {
   listChatConversations,
   sendChatMessage,
 } from "#flows/chat/chat.flow.js";
+import { AddEndpoint } from "#routes/endpoint.subscriber.js";
+import { type Route } from "#routes/route.types.js";
 
 export const MakeSendChatMessageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
