@@ -20,6 +20,7 @@ import { CreateEventBodyArb } from "@liexp/test/lib/arbitrary/events/Uncategoriz
 import { Schema } from "effect";
 import fc from "fast-check";
 import * as A from "fp-ts/lib/Array.js";
+import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

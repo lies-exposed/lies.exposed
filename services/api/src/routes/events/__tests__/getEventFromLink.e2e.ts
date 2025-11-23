@@ -8,6 +8,7 @@ import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { GroupMemberArb } from "@liexp/test/lib/arbitrary/GroupMember.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import fc from "fast-check";
+import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Get event from link", () => {

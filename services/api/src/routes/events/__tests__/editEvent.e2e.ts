@@ -23,6 +23,7 @@ import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { Schema } from "effect";
 import fc from "fast-check";
+import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

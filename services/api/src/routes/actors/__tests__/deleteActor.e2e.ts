@@ -6,6 +6,7 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { describe, test, expect, beforeAll } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

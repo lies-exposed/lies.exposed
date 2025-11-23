@@ -2,6 +2,7 @@ import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { fc } from "@liexp/test";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
+import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

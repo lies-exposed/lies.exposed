@@ -15,6 +15,7 @@ import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized
 import { fc } from "@liexp/test/lib/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import jwt from "jsonwebtoken";
+import { beforeEach, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("List Events", () => {

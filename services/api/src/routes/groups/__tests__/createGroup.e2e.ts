@@ -1,5 +1,6 @@
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import * as tests from "@liexp/test";
+import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
