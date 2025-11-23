@@ -5,7 +5,7 @@ import { registerAreaTools } from "./areas/area.tools.js";
 import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
 import { registerEventTools } from "./events/event.tools.js";
 import { registerGroupTools } from "./groups/group.tools.js";
-import { registerLinkTools } from "./link.tools.js";
+import { registerLinkTools } from "./links/link.tools.js";
 import { registerMediaTools } from "./media.tools.js";
 
 export const registerTools = (server: McpServer, ctx: ServerContext) => {
