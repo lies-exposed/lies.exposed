@@ -39,7 +39,7 @@ export class UserEntity extends DeletableEntity {
   status: UserStatus;
 
   @Column({ type: "json", default: [] })
-  permissions: AuthPermission[];
+  permissions: readonly AuthPermission[];
 
   // telegram auth
   @Column({ type: "varchar", unique: true, nullable: true })

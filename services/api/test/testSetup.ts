@@ -1,21 +1,14 @@
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
-import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
-import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
 import D from "debug";
-import { ServerContext } from "../src/context/context.type.js";
+import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
+import { type ServerContext } from "../src/context/context.type.js";
+import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
 import {
   startTransaction,
   rollbackTransaction,
   cleanupTransactionalState,
 } from "./utils/transactional-db.js";
 
-// Mock external dependencies at the module level
-// These mocks apply to all tests
-vi.mock("axios", () => ({
-  default: {
-    create: vi.fn(() => ({})),
-  },
-}));
 vi.mock("page-metadata-parser");
 vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
 vi.mock("@aws-sdk/client-s3");

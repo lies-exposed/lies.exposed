@@ -1,13 +1,17 @@
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type Area } from "@liexp/shared/lib/io/http/Area.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { type Link, type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type User } from "@liexp/shared/lib/io/http/User.js";
 import { Schema } from "effect";
 import { type ActorEntity } from "../../../entities/Actor.entity.js";
+import { type AreaEntity } from "../../../entities/Area.entity.js";
 import { type GroupEntity } from "../../../entities/Group.entity.js";
 import { type LinkEntity } from "../../../entities/Link.entity.js";
 import { type MediaEntity } from "../../../entities/Media.entity.js";
+import { type UserEntity } from "../../../entities/User.entity.js";
 
 export const toActorEntity = (actor: Actor): ActorEntity => {
   return {
@@ -101,4 +105,24 @@ export const toGroupEntity = ({
   endDate: g.endDate ?? null,
   members: [],
   deletedAt: g.deletedAt ?? null,
+});
+
+export const toAreaEntity = (a: Area): AreaEntity => ({
+  ...a,
+  socialPosts: [],
+  featuredImage: null,
+  media: [],
+  events: [],
+  deletedAt: a.deletedAt ?? null,
+});
+
+export const toUserEntity = (u: User): UserEntity => ({
+  ...u,
+  eventSuggestions: [],
+  stories: [],
+  links: [],
+  media: [],
+  graphs: [],
+  passwordHash: "",
+  deletedAt: null,
 });

@@ -1,0 +1,51 @@
+import {
+  CREATE_AREA,
+  FIND_AREAS,
+} from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
+import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { flow, pipe } from "fp-ts/lib/function.js";
+import { type ServerContext } from "../../../../context/context.type.js";
+import {
+  CreateAreaInputSchema,
+  createAreaToolTask,
+} from "./createArea.tool.js";
+import { FindAreasInputSchema, findAreasToolTask } from "./findAreas.tool.js";
+
+export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
+  server.registerTool(
+    FIND_AREAS,
+    {
+      title: "Find area",
+      description:
+        "Search for areas using various criteria like name or keywords. Returns the area in JSON format",
+      annotations: { tool: true },
+      inputSchema: effectToZodStruct(FindAreasInputSchema),
+    },
+    (input) =>
+      pipe(
+        findAreasToolTask({
+          query: input.query,
+          withDeleted: input.withDeleted,
+          sort: input.sort,
+          order: input.order,
+          start: input.start,
+          end: input.end,
+        }),
+        throwRTE(ctx),
+      ),
+  );
+
+  server.registerTool(
+    CREATE_AREA,
+    {
+      title: "Create area",
+      description:
+        "Create a new geographic area in the database with the provided information. Returns the created area details in structured markdown format.",
+      annotations: { title: "Create area", tool: true },
+      inputSchema: effectToZodStruct(CreateAreaInputSchema),
+    },
+    flow(createAreaToolTask, throwRTE(ctx)),
+  );
+};

@@ -38,15 +38,21 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
             .leftJoinAndSelect("actors.avatar", "avatar")
             .loadAllRelationIds({ relations: ["memberIn"] }),
           (q) => {
+            // Join through group_member table if filtering by memberIn
+            if (O.isSome(memberIn) && memberIn.value.length > 0) {
+              return q
+                .innerJoin("actors.memberIn", "group_member")
+                .innerJoin("group_member.group", "group")
+                .andWhere("group.id IN (:...memberInGroups)", {
+                  memberInGroups: memberIn.value,
+                });
+            }
+            return q;
+          },
+          (q) => {
             if (O.isSome(ids)) {
               return q.andWhere("actors.id IN (:...ids)", {
                 ids: ids.value,
-              });
-            }
-
-            if (O.isSome(memberIn)) {
-              return q.andWhere("actors.memberIn IN (:...memberIn)", {
-                memberIn: memberIn.value,
               });
             }
 
