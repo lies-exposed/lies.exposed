@@ -119,7 +119,7 @@ describe("MCP FIND_ACTORS Tool", () => {
   test("Should filter actors by memberIn groups", async () => {
     const group = testGroups[0];
     const actor = testActors[0];
-    
+
     // Update actor to be member of group
     actor.memberIn = [group];
     await throwTE(Test.ctx.db.save(ActorEntity, actor));

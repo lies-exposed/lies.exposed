@@ -28,7 +28,8 @@ export const FindLinksInputSchema = Schema.Struct({
     Schema.Literal("url"),
     Schema.Undefined,
   ).annotations({
-    description: 'Sort field: "createdAt", "title", or "url". Defaults to createdAt',
+    description:
+      'Sort field: "createdAt", "title", or "url". Defaults to createdAt',
   }),
   order: Schema.Union(
     Schema.Literal("ASC"),

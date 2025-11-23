@@ -10,11 +10,8 @@ import { type ServerContext } from "../../../context/context.type.js";
 import {
   CreateLinkInputSchema,
   createLinkToolTask,
-} from "./links/createLink.tool.js";
-import {
-  FindLinksInputSchema,
-  findLinksToolTask,
-} from "./links/findLinks.tool.js";
+} from "./createLink.tool.js";
+import { FindLinksInputSchema, findLinksToolTask } from "./findLinks.tool.js";
 
 export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(

@@ -10,11 +10,8 @@ import { type ServerContext } from "../../../context/context.type.js";
 import {
   CreateAreaInputSchema,
   createAreaToolTask,
-} from "./areas/createArea.tool.js";
-import {
-  FindAreasInputSchema,
-  findAreasToolTask,
-} from "./areas/findAreas.tool.js";
+} from "./createArea.tool.js";
+import { FindAreasInputSchema, findAreasToolTask } from "./findAreas.tool.js";
 
 export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(

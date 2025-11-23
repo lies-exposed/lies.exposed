@@ -13,20 +13,14 @@ import { type ServerContext } from "../../../context/context.type.js";
 import {
   CreateMediaInputSchema,
   createMediaToolTask,
-} from "./media/createMedia.tool.js";
-import {
-  EditMediaInputSchema,
-  editMediaToolTask,
-} from "./media/editMedia.tool.js";
-import {
-  FindMediaInputSchema,
-  findMediaToolTask,
-} from "./media/findMedia.tool.js";
-import { GetMediaInputSchema, getMediaToolTask } from "./media/getMedia.tool.js";
+} from "./createMedia.tool.js";
+import { EditMediaInputSchema, editMediaToolTask } from "./editMedia.tool.js";
+import { FindMediaInputSchema, findMediaToolTask } from "./findMedia.tool.js";
+import { GetMediaInputSchema, getMediaToolTask } from "./getMedia.tool.js";
 import {
   UploadMediaFromURLInputSchema,
   uploadMediaFromURLToolTask,
-} from "./media/uploadMediaFromURL.tool.js";
+} from "./uploadMediaFromURL.tool.js";
 
 export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(

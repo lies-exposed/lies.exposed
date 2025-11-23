@@ -13,8 +13,7 @@ import { formatMediaToMarkdown } from "../formatters/mediaToMarkdown.formatter.j
 
 export const CreateMediaInputSchema = Schema.Struct({
   location: URL.annotations({
-    description:
-      "URL of the media file (can be external URL or storage URL)",
+    description: "URL of the media file (can be external URL or storage URL)",
   }),
   type: MediaType.annotations({
     description: "Type of media (Image, Video, PDF, etc.)",

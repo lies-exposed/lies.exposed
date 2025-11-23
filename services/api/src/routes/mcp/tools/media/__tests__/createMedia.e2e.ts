@@ -89,7 +89,8 @@ describe("MCP CREATE_MEDIA Tool", () => {
       location: "https://example.com/detailed-image.jpg",
       type: "image/jpeg" as const,
       label: "Detailed Image",
-      description: "This is a comprehensive description of the image with multiple details",
+      description:
+        "This is a comprehensive description of the image with multiple details",
     };
 
     const result = await pipe(

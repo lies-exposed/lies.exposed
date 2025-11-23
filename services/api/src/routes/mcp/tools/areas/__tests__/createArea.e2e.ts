@@ -61,7 +61,7 @@ describe("MCP CREATE_AREA Tool", () => {
 
   test("Should return existing area when slug already exists", async () => {
     const existingSlug = "existing-area-slug";
-    
+
     // Create the first area
     await throwTE(
       Test.ctx.db.save(AreaEntity, {

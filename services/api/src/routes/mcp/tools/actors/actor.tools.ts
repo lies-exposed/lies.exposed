@@ -11,15 +11,12 @@ import { type ServerContext } from "../../../context/context.type.js";
 import {
   CreateActorInputSchema,
   createActorToolTask,
-} from "./actors/createActor.tool.js";
-import {
-  EditActorInputSchema,
-  editActorToolTask,
-} from "./actors/editActor.tool.js";
+} from "./createActor.tool.js";
+import { EditActorInputSchema, editActorToolTask } from "./editActor.tool.js";
 import {
   FindActorsInputSchema,
   findActorsToolTask,
-} from "./actors/findActors.tool.js";
+} from "./findActors.tool.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
