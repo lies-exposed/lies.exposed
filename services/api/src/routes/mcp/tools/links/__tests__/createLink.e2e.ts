@@ -5,8 +5,8 @@ import {
   toUserEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { EventArb } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
+import { EventArb } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";

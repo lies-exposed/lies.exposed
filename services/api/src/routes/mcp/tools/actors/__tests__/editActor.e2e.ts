@@ -23,7 +23,6 @@ describe("MCP EDIT_ACTOR Tool", () => {
   let Test: AppTest;
   let testActor: ActorEntity;
   let avatar: MediaEntity;
-  let nationality: AreaEntity;
   let testGroup: GroupEntity;
 
   beforeAll(async () => {
@@ -42,7 +41,6 @@ describe("MCP EDIT_ACTOR Tool", () => {
     avatar = media[0];
 
     const areas = fc.sample(AreaArb, 1).map(toAreaEntity);
-    nationality = areas[0];
 
     const groups = fc.sample(GroupArb, 1).map((g) =>
       toGroupEntity({
