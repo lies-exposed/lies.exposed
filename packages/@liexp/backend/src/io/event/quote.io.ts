@@ -3,6 +3,7 @@ import {
   type _DecodeError,
   DecodeError,
 } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { type QuotePayload } from "@liexp/shared/lib/io/http/Events/Quote.js";
 import * as io from "@liexp/shared/lib/io/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -13,14 +14,15 @@ import { IOCodec } from "../DomainCodec.js";
 const toQuoteIO = (
   event: EventV2Entity,
 ): E.Either<_DecodeError, io.http.Events.Quote.Quote> => {
-  const p: any = event.payload;
+  const p = event.payload as QuotePayload;
   return pipe(
     {
       ...event,
       payload: {
         ...p,
         actor: undefined,
-        subject: p.subject ?? { type: "Actor", id: p.actor },
+        subject:
+          p.subject ?? (p.actor && { type: "Actor", id: p.actor }) ?? undefined,
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,

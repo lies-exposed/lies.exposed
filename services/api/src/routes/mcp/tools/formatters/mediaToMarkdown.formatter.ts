@@ -1,6 +1,4 @@
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
-import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 
 /**
  * Formats a Media object into structured markdown text that is more easily
@@ -53,8 +51,8 @@ export const formatMediaToMarkdown = (media: Media): string => {
   lines.push("");
 
   // Description section
-  if (media.description && isValidValue(media.description)) {
-    const descriptionText = getTextContents(media.description);
+  if (media.description) {
+    const descriptionText = media.description;
     if (descriptionText.trim()) {
       lines.push("## Description");
       lines.push(descriptionText.trim());

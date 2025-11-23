@@ -14,16 +14,20 @@ export const EDIT_ACTOR = "editActor";
 
 // Group tools
 export const FIND_GROUPS = "findGroups";
+export const GET_GROUP = "getGroup";
 export const CREATE_GROUP = "createGroup";
 export const EDIT_GROUP = "editGroup";
 
 // Media tools
 export const FIND_MEDIA = "findMedia";
+export const GET_MEDIA = "getMedia";
 export const UPLOAD_MEDIA_FROM_URL = "uploadMediaFromURL";
 export const CREATE_MEDIA = "createMedia";
+export const EDIT_MEDIA = "editMedia";
 
 // Event tools
 export const FIND_EVENTS = "findEvents";
+export const GET_EVENT = "getEvent";
 export const CREATE_EVENT = "createEvent";
 export const CREATE_UNCATEGORIZED_EVENT = "createUncategorizedEvent";
 export const CREATE_BOOK_EVENT = "createBookEvent";

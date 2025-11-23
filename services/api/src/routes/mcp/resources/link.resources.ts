@@ -1,7 +1,7 @@
 import { fetchLinks } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import {
   ResourceTemplate,
   type McpServer,
@@ -18,8 +18,8 @@ export const registerLinkResources = (
     new ResourceTemplate("link://{id}", {
       list: (_extra) => {
         return pipe(
-          fetchLinks({}, true)(ctx),
-          fp.TE.map(([links]) => ({
+          fetchLinks({}, true),
+          fp.RTE.map(([links]) => ({
             resources: links.map((link) => ({
               name: link.title,
               uri: `link://${link.id}`,
@@ -27,7 +27,7 @@ export const registerLinkResources = (
               description: link.description ?? link.title,
             })),
           })),
-          throwTE,
+          throwRTE(ctx),
         );
       },
     }),
@@ -42,12 +42,12 @@ export const registerLinkResources = (
             ids: O.some((Array.isArray(id) ? id : [id]) as UUID[]),
           },
           true,
-        )(ctx),
-        fp.TE.filterOrElse(
+        ),
+        fp.RTE.filterOrElse(
           ([links]) => links.length > 0,
           () => new Error("Link not found"),
         ),
-        fp.TE.map(([links]) => ({
+        fp.RTE.map(([links]) => ({
           contents: [
             {
               uri: uri.href,
@@ -55,7 +55,7 @@ export const registerLinkResources = (
             },
           ],
         })),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );

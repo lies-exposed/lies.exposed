@@ -1,7 +1,8 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { URL as URLSchema, type URL } from "../io/http/Common/index.js";
+import { URL, URL as URLSchema } from "../io/http/Common/index.js";
 import { MediaType } from "../io/http/Media/MediaType.js";
 
 type Youtube = "youtube";
@@ -232,50 +233,57 @@ export const parsePlatformURL = (url: URL): E.Either<Error, URL> => {
 
 export const parseURL = (
   url: string,
-): E.Either<Error, { type: MediaType; location: string }> => {
-  if (url.includes(".jpg") ?? url.includes(".jpeg")) {
-    return E.right({
-      type: MediaType.members[1].literals[0],
-      location: url,
-    });
-  }
+): E.Either<Error, { type: MediaType; location: URL }> => {
+  return pipe(
+    Schema.decodeUnknownEither(URL)(url),
+    fp.E.chain((url) => {
+      if (url.includes(".jpg") ?? url.includes(".jpeg")) {
+        return E.right({
+          type: MediaType.members[1].literals[0],
+          location: url,
+        });
+      }
 
-  if (url.includes(".png")) {
-    return E.right({
-      type: MediaType.members[2].literals[0],
-      location: url,
-    });
-  }
+      if (url.includes(".png")) {
+        return E.right({
+          type: MediaType.members[2].literals[0],
+          location: url,
+        });
+      }
 
-  if (url.includes(".pdf")) {
-    return E.right({
-      type: MediaType.members[6].literals[0],
-      location: url,
-    });
-  }
+      if (url.includes(".pdf")) {
+        return E.right({
+          type: MediaType.members[6].literals[0],
+          location: url,
+        });
+      }
 
-  if (url.includes(".mp4")) {
-    return E.right({
-      type: MediaType.members[5].literals[0],
-      location: url,
-    });
-  }
+      if (url.includes(".mp4")) {
+        return E.right({
+          type: MediaType.members[5].literals[0],
+          location: url,
+        });
+      }
 
-  const iframeVideosMatch = supportedPlatformsRegExp.some((v) => v.test(url));
+      const iframeVideosMatch = supportedPlatformsRegExp.some((v) =>
+        v.test(url),
+      );
 
-  if (iframeVideosMatch) {
-    return pipe(
-      E.tryCatch(
-        () => Schema.decodeSync(URLSchema)(url),
-        (err) => new Error(`Invalid URL: ${err}`),
-      ),
-      E.chain((validUrl) => parsePlatformURL(validUrl)),
-      E.map((location) => ({
-        type: MediaType.members[7].literals[0],
-        location,
-      })),
-    );
-  }
+      if (iframeVideosMatch) {
+        return pipe(
+          E.tryCatch(
+            () => Schema.decodeSync(URLSchema)(url),
+            (err) => new Error(`Invalid URL: ${err}`),
+          ),
+          E.chain((validUrl) => parsePlatformURL(validUrl)),
+          E.map((location) => ({
+            type: MediaType.members[7].literals[0],
+            location,
+          })),
+        );
+      }
 
-  return E.left(new Error(`No matching media for given url: ${url}`));
+      return E.left(new Error(`No matching media for given url: ${url}`));
+    }),
+  );
 };

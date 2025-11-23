@@ -3,8 +3,8 @@ import { type ServerContext } from "../../../context/context.type.js";
 import { registerActorTools } from "./actor.tools.js";
 import { registerAreaTools } from "./area.tools.js";
 import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
-import { registerEventTools } from "./event.tools.js";
-import { registerGroupTools } from "./group.tools.js";
+import { registerEventTools } from "./events/event.tools.js";
+import { registerGroupTools } from "./groups/group.tools.js";
 import { registerLinkTools } from "./link.tools.js";
 import { registerMediaTools } from "./media.tools.js";
 
