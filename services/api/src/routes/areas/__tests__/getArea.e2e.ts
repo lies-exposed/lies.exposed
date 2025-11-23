@@ -5,6 +5,7 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
+import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

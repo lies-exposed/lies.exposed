@@ -1,3 +1,4 @@
+import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("OpenGraph metadata route", () => {

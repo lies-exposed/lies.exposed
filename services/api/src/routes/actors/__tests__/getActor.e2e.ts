@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 
 describe("Get Actor", () => {

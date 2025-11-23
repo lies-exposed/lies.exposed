@@ -9,6 +9,7 @@ import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { ProjectArb } from "@liexp/test/lib/arbitrary/Project.arbitrary.js";
 import { Schema } from "effect";
 import fc from "fast-check";
+import { describe, test, expect, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 

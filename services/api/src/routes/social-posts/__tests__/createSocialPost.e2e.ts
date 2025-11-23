@@ -10,7 +10,7 @@ import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { CreateSocialPostArb } from "@liexp/test/lib/arbitrary/SocialPost.arbitrary.js";
 import { differenceInMinutes, parseISO } from "date-fns";
-import { describe, beforeAll, test, expect } from "vitest";
+import { describe, beforeAll, beforeEach, test, expect } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Create Social Post", () => {

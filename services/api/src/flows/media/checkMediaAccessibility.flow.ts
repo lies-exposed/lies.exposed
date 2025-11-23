@@ -4,7 +4,7 @@ import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.j
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type ServerContext } from "../../context/context.type.js";
 
-export interface MediaAccessibilityResult {
+interface MediaAccessibilityResult {
   accessible: boolean;
   method: "http";
   error?: string;

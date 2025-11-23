@@ -3,6 +3,7 @@ import { hash } from "@liexp/backend/lib/utils/password.utils.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import fc from "fast-check";
+import { describe, test, expect, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("GET User Me", () => {

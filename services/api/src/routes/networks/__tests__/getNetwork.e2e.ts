@@ -6,6 +6,7 @@ import * as tests from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { addDays } from "date-fns";
+import { describe, test, expect, beforeAll } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 
 describe("Get Network", () => {
@@ -17,8 +18,6 @@ describe("Get Network", () => {
       id: "1",
     } as any)()}`;
   });
-
-  afterEach(async () => {});
 
   test.skip("Should return nodes and links for type 'keyword' ", async () => {
     const [keyword] = tests.fc.sample(KeywordArb, 1);
