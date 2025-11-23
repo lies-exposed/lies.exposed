@@ -1,5 +1,6 @@
 import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { createAgentServiceClient } from "../../../utils/serviceClientTokenGenerator.js";
 

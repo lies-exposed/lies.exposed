@@ -599,6 +599,14 @@ pnpm test
 
 Keep tests small and focused to avoid flakiness. Start with smoke tests (healthcheck, simple CRUD) and reuse existing mocks in `AppTest` for deterministic runs.
 
+#### MCP (Model Context Protocol) Testing Notes
+
+- The MCP server implementation in `services/api/src/routes/mcp/` uses `@modelcontextprotocol/sdk` for production use
+- MCP SDK's `StreamableHTTPServerTransport` is designed for real MCP clients (like the agent service)
+- E2E tests currently call MCP tools through the HTTP endpoint, which may result in 406 errors from the SDK's transport layer
+- **For production**: The MCP server works correctly when called by real MCP clients (e.g., `MultiServerMCPClient` in the agent service)
+- **For testing**: Consider testing tool logic directly rather than through the full MCP protocol stack, or accept that current e2e tests verify authentication and basic routing only
+
 ### Testing Best Practices
 
 #### Test Structure
@@ -606,6 +614,16 @@ Keep tests small and focused to avoid flakiness. Start with smoke tests (healthc
 - Follow Arrange-Act-Assert pattern
 - Isolate test cases
 - Clean up test data
+
+#### Assertion Guidelines
+- **Test for what SHOULD be, not what should NOT be**
+  - ✅ Good: `expect(response.status).toBe(200)` — tests the expected success state
+  - ❌ Bad: `expect([401, 403]).not.toContain(response.status)` — tests what it's not, unclear what it should be
+  - ✅ Good: `expect(response.status).toBe(400)` — tests the expected error state
+  - ❌ Bad: `expect(response.status).not.toBe(200)` — could be 400, 401, 500, or anything
+- Assert specific expected values (200 for success, specific 4xx/5xx for errors)
+- Use positive assertions that document the expected behavior
+- Negative assertions hide the actual expectation and make tests harder to debug
 
 #### Mock Data
 - Use factories for consistent data

@@ -21,9 +21,9 @@ export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
 };
 
 export const throwRTE =
-  <C, E, A>(rte: ReaderTaskEither<C, E, A>) =>
-  async (ctx: C): Promise<A> => {
-    return pipe(rte(ctx), throwTE);
+  <C>(ctx: C) =>
+  <E, A>(rte: ReaderTaskEither<C, E, A>): Promise<A> => {
+    return pipe(rte, (rte) => rte(ctx), throwTE);
   };
 
 interface ReqInput<D> {

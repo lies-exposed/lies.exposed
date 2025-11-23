@@ -1,23 +1,28 @@
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import {
   CREATE_MEDIA,
+  EDIT_MEDIA,
   FIND_MEDIA,
+  GET_MEDIA,
   UPLOAD_MEDIA_FROM_URL,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchManyMedia } from "@liexp/backend/lib/queries/media/fetchManyMedia.query.js";
+import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { pipe } from "fp-ts/lib/function.js";
+import { Equal } from "typeorm";
 import { type ServerContext } from "../../../context/context.type.js";
 import { createMediaFromURLFlow } from "../../../flows/media/createMediaFromURL.flow.js";
+import { editMedia } from "../../../flows/media/editMedia.flow.js";
 import { uploadMediaFromURLFlow } from "../../../flows/media/uploadMediaFromURL.flow.js";
 import { formatMediaToMarkdown } from "./formatters/mediaToMarkdown.formatter.js";
 
@@ -90,11 +95,48 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
             })),
           };
         }),
-        (rte) => rte(ctx),
-        throwTE,
+        throwRTE(ctx),
       );
 
       return result;
+    },
+  );
+
+  server.registerTool(
+    GET_MEDIA,
+    {
+      title: "Get media",
+      description:
+        "Get media by id. Returns the media item in markdown format.",
+      annotations: { tool: true },
+      inputSchema: effectToZodStruct(
+        Schema.Struct({
+          id: UUID.annotations({
+            description: "UUID of the media to retrieve",
+          }),
+        }),
+      ),
+    },
+    async ({ id }) => {
+      return pipe(
+        MediaRepository.findOneOrFail<ServerContext>({
+          where: { id: Equal(id) },
+        }),
+        LoggerService.RTE.debug("Results %O"),
+        fp.RTE.chainEitherK((media) => MediaIO.decodeSingle(media)),
+        fp.RTE.map((media) => {
+          return {
+            content: [
+              {
+                text: formatMediaToMarkdown(media),
+                type: "text" as const,
+                href: `media://${media.id}`,
+              },
+            ],
+          };
+        }),
+        throwRTE(ctx),
+      );
     },
   );
 
@@ -132,9 +174,9 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
           type,
           label,
           description,
-        })(ctx),
-        fp.TE.chainEitherK((media) => MediaIO.decodeSingle(media)),
-        fp.TE.map((media) => ({
+        }),
+        fp.RTE.chainEitherK((media) => MediaIO.decodeSingle(media)),
+        fp.RTE.map((media) => ({
           content: [
             {
               text: formatMediaToMarkdown(media),
@@ -143,7 +185,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
             },
           ],
         })),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );
@@ -176,15 +218,24 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     },
     async ({ location, type, label, description }) => {
       return pipe(
-        createMediaFromURLFlow({
-          id: uuid(),
-          location,
-          type,
-          label,
-          description,
-        })(ctx),
-        fp.TE.chainEitherK((media) => MediaIO.decodeSingle(media)),
-        fp.TE.map((media) => ({
+        createMediaFromURLFlow(
+          {
+            id: uuid(),
+            location,
+            type,
+            label,
+            description,
+            areas: [],
+            keywords: [],
+            links: [],
+            events: [],
+            thumbnail: undefined,
+            extra: undefined,
+          },
+          null,
+        ),
+        fp.RTE.chainEitherK((media) => MediaIO.decodeSingle(media)),
+        fp.RTE.map((media) => ({
           content: [
             {
               text: formatMediaToMarkdown(media),
@@ -193,7 +244,71 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
             },
           ],
         })),
-        throwTE,
+        throwRTE(ctx),
+      );
+    },
+  );
+
+  // Edit media tool (for existing URLs)
+  server.registerTool(
+    EDIT_MEDIA,
+    {
+      title: "Edit media",
+      description:
+        "Edit a media entity in the database with an existing URL (e.g., external image URL). The edited media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
+      annotations: { tool: true },
+      inputSchema: effectToZodStruct(
+        Schema.Struct({
+          id: UUID.annotations({
+            description: "UUID of the media to edit",
+          }),
+          location: URL.annotations({
+            description:
+              "URL of the media file (can be external URL or storage URL)",
+          }),
+          type: MediaType.annotations({
+            description: "Type of media (Image, Video, PDF, etc.)",
+          }),
+          label: Schema.String.annotations({
+            description: "Label/title for the media",
+          }),
+          description: Schema.UndefinedOr(Schema.String).annotations({
+            description: "Optional detailed description of the media",
+          }),
+        }),
+      ),
+    },
+    async ({ id, location, type, label, description }) => {
+      return pipe(
+        editMedia(id, {
+          location,
+          type,
+          label,
+          description: O.fromNullable(description),
+          areas: [],
+          keywords: [],
+          links: [],
+          events: [],
+          thumbnail: O.none(),
+          extra: O.none(),
+          overrideExtra: O.none(),
+          overrideThumbnail: O.none(),
+          transfer: O.none(),
+          transferThumbnail: O.none(),
+          restore: O.none(),
+          creator: O.none(),
+        }),
+        fp.RTE.chainEitherK((media) => MediaIO.decodeSingle(media)),
+        fp.RTE.map((media) => ({
+          content: [
+            {
+              text: formatMediaToMarkdown(media),
+              type: "text" as const,
+              href: `media://${media.id}`,
+            },
+          ],
+        })),
+        throwRTE(ctx),
       );
     },
   );

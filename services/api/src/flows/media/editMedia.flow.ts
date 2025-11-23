@@ -8,6 +8,7 @@ import { type EditMediaBody } from "@liexp/shared/lib/io/http/Media/index.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { Equal } from "typeorm";
+import { checkMediaAccessibility } from "./checkMediaAccessibility.flow.js";
 import { type ServerContext } from "#context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 
@@ -94,19 +95,27 @@ export const editMedia = (
             )
           : fp.RTE.right(fp.O.getOrElse(() => m.thumbnail)(thumbnail)),
     ),
-    fp.RTE.bind("location", ({ media }) =>
-      O.isSome(transfer)
-        ? pipe(
-            MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
-              mediaId: media.id,
-              url: media.location,
-              fileName: media.id,
-              mimeType: media.type,
-            }),
-            fp.RTE.map(() => location),
-          )
-        : fp.RTE.right(location),
-    ),
+    fp.RTE.bind("location", ({ media }) => {
+      if (O.isSome(transfer)) {
+        return pipe(
+          MediaPubSub.TransferMediaFromExternalProviderPubSub.publish({
+            mediaId: media.id,
+            url: media.location,
+            fileName: media.id,
+            mimeType: media.type,
+          }),
+          fp.RTE.map(() => location),
+        );
+      }
+      if (location === media.location) {
+        return fp.RTE.right(location);
+      }
+
+      return pipe(
+        checkMediaAccessibility(location),
+        fp.RTE.map(() => location),
+      );
+    }),
     fp.RTE.chain(({ media, location, thumbnail }) =>
       pipe(
         MediaRepository.save<ServerContext>([

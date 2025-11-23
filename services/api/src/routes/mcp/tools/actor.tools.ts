@@ -10,8 +10,8 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -71,7 +71,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     },
     async ({ fullName, memberIn, withDeleted, sort, order, start, end }) => {
       return pipe(
-        fetchActors({
+        fetchActors<ServerContext>({
           q: O.fromNullable(fullName),
           memberIn: pipe(
             O.some(memberIn),
@@ -82,10 +82,10 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
           _order: O.fromNullable(order),
           _start: O.fromNullable(start),
           _end: O.fromNullable(end),
-        })(ctx),
-        LoggerService.TE.debug(ctx, `Results %O`),
-        fp.TE.chainEitherK((result) => ActorIO.decodeMany(result.results)),
-        fp.TE.map((actors) => {
+        }),
+        LoggerService.RTE.debug("Results %O"),
+        fp.RTE.chainEitherK((result) => ActorIO.decodeMany(result.results)),
+        fp.RTE.map((actors) => {
           if (actors.length === 0) {
             return {
               content: [
@@ -104,7 +104,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             })),
           };
         }),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );
@@ -180,10 +180,10 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       return pipe(
         Schema.decodeUnknownEither(AddActorBody)(actorBody),
         fp.E.mapLeft(toControllerError),
-        fp.TE.fromEither,
-        fp.TE.chain((body) => createActor(body)(ctx)),
-        LoggerService.TE.debug(ctx, "Created actor %O"),
-        fp.TE.map((actor) => {
+        fp.RTE.fromEither,
+        fp.RTE.chain((body) => createActor(body)),
+        LoggerService.RTE.debug("Created actor %O"),
+        fp.RTE.map((actor) => {
           if ("success" in actor) {
             return {
               content: [
@@ -205,7 +205,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             ],
           };
         }),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );
@@ -300,9 +300,9 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             O.fromNullable(memberIn),
             O.filter((members) => members.length > 0),
           ),
-        })(ctx),
-        LoggerService.TE.debug(ctx, "Updated actor %O"),
-        fp.TE.map((actor) => ({
+        }),
+        LoggerService.RTE.debug("Updated actor %O"),
+        fp.RTE.map((actor) => ({
           content: [
             {
               text: formatActorToMarkdown(actor),
@@ -311,7 +311,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
             },
           ],
         })),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );

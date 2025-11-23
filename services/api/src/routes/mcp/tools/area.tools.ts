@@ -1,20 +1,19 @@
-import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import {
   CREATE_AREA,
   FIND_AREAS,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { fetchAreas } from "@liexp/backend/lib/queries/areas/fetchAreas.query.js";
+import { AreaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import type { CreateAreaBody } from "@liexp/shared/lib/io/http/Area.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Equal } from "typeorm";
 import { type ServerContext } from "../../../context/context.type.js";
@@ -64,7 +63,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     },
     async ({ query, withDeleted, sort, order, start, end }) => {
       return pipe(
-        fetchAreas(
+        fetchAreas<ServerContext>(
           {
             q: O.some(query),
             _sort: O.fromNullable(sort),
@@ -76,10 +75,10 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
             _end: O.fromNullable(end),
           },
           false,
-        )(ctx),
-        LoggerService.TE.debug(ctx, `Results %O`),
-        fp.TE.chainEitherK(([areas]) => AreaIO.decodeMany(areas)),
-        fp.TE.map((decodedAreas) => {
+        ),
+        LoggerService.RTE.debug("Results %O"),
+        fp.RTE.chainEitherK(([areas]) => AreaIO.decodeMany(areas)),
+        fp.RTE.map((decodedAreas) => {
           if (decodedAreas.length === 0) {
             return {
               content: [
@@ -98,7 +97,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
             })),
           };
         }),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );
@@ -155,20 +154,20 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       };
 
       return pipe(
-        ctx.db.findOne(AreaEntity, {
+        AreaRepository.findOne<ServerContext>({
           where: { slug: Equal(slug) },
           loadRelationIds: true,
         }),
-        TE.chain((area) => {
+        fp.RTE.chain((area) => {
           if (fp.O.isSome(area)) {
-            return TE.right([area.value]);
+            return fp.RTE.right([area.value]);
           }
-          return ctx.db.save(AreaEntity, [areaBody]);
+          return AreaRepository.save([areaBody]);
         }),
-        fp.TE.map(([a]) => a),
-        TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
-        LoggerService.TE.debug(ctx, "Created area %O"),
-        fp.TE.map((area) => ({
+        fp.RTE.map(([a]) => a),
+        fp.RTE.chainEitherK((a) => AreaIO.decodeSingle(a)),
+        LoggerService.RTE.debug("Created area %O"),
+        fp.RTE.map((area) => ({
           content: [
             {
               text: formatAreaToMarkdown(area),
@@ -176,7 +175,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
             },
           ],
         })),
-        throwTE,
+        throwRTE(ctx),
       );
     },
   );

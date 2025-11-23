@@ -17,6 +17,7 @@ import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type MockInstance } from "vitest";
+import { describe, test, expect, beforeAll, vi, beforeEach } from "vitest";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
@@ -76,6 +77,12 @@ describe("Create Media", () => {
       });
     });
 
+    // Mock the HEAD request for media validation
+    Test.mocks.axios.get.mockResolvedValueOnce({
+      status: 200,
+      data: {},
+    } as any);
+
     Test.mocks.redis.publish.mockResolvedValue(1);
 
     const response = await Test.req
@@ -127,6 +134,12 @@ describe("Create Media", () => {
         Location: uploadThumbLocation,
       });
     });
+
+    // Mock the HEAD request for media validation
+    Test.mocks.axios.get.mockResolvedValueOnce({
+      status: 200,
+      data: {},
+    } as any);
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
@@ -182,6 +195,12 @@ describe("Create Media", () => {
           creator: undefined,
         }),
       );
+
+    // Mock the HEAD request for media validation
+    Test.mocks.axios.get.mockResolvedValueOnce({
+      status: 200,
+      data: {},
+    } as any);
 
     Test.mocks.redis.publish.mockResolvedValue(1);
 
