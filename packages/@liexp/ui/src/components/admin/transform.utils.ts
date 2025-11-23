@@ -79,9 +79,11 @@ export const transformUncategorized: TransformEventFn = (data, relations) => {
     },
     { ...relations, areas: [], groupsMembers: [] },
   );
+
   return {
     ...data,
     keywords,
+    body: Array.isArray(data.body) && data.body.length > 0 ? data.body : null,
     payload: {
       ...data.payload,
       groups,

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach } from "node:test";
+import { afterEach } from "node:test";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -11,17 +11,14 @@ describe("MCP CREATE_MEDIA Tool", () => {
 
   beforeAll(async () => {
     Test = await GetAppTest();
-  });
-
-  beforeEach(() => {
     Test.mocks.axios.get.mockResolvedValue({
       status: 200,
       data: {},
-    } as any);
+    });
   });
 
   afterEach(() => {
-    Test.mocks.axios.get.mockReset();
+    Test.mocks.axios.get.mockClear();
   });
 
   test("Should create media with external URL", async () => {

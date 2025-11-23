@@ -33,6 +33,7 @@ export const CREATE_UNCATEGORIZED_EVENT = "createUncategorizedEvent";
 export const CREATE_BOOK_EVENT = "createBookEvent";
 export const CREATE_QUOTE_EVENT = "createQuoteEvent";
 export const CREATE_PATENT_EVENT = "createPatentEvent";
+export const CREATE_SCIENTIFIC_STUDY_EVENT = "createScientificStudyEvent";
 
 // Area tools
 export const FIND_AREAS = "findAreas";

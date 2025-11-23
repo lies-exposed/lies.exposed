@@ -1,3 +1,4 @@
+import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Schema } from "effect";
@@ -47,7 +48,7 @@ export const AdminProxyENV = Schema.Struct({
   JWT_SECRET: Schema.String,
 
   // Agent service configuration
-  AGENT_URL: Schema.String,
+  AGENT_API_URL: URL,
 
   // ServiceClient identity
   SERVICE_CLIENT_ID: UUID,

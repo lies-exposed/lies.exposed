@@ -18,7 +18,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
     FIND_LINKS,
     {
-      title: "Find link",
+      title: "Find links",
       description:
         "Search for links using various criteria like title or keywords. Returns the link item in JSON format",
       annotations: { tool: true },

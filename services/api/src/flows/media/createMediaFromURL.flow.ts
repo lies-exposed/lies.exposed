@@ -1,12 +1,13 @@
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
+import { checkMediaAccessibility } from "@liexp/backend/lib/flows/media/checkMediaAccessibility.flow.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { checkMediaAccessibility } from "./checkMediaAccessibility.flow.js";
+import { type ServerContext } from "../../context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 /**
@@ -42,7 +43,9 @@ export const createMediaFromURLFlow = (
         fp.RTE.right,
       );
     }),
-    fp.RTE.chainFirst(({ location }) => checkMediaAccessibility(location)),
+    fp.RTE.chainFirst(({ location }) =>
+      checkMediaAccessibility<ServerContext>(location),
+    ),
     fp.RTE.chain(({ location }) =>
       MediaRepository.save([
         {

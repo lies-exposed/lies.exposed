@@ -31,13 +31,21 @@ const SelectThumbnailModalContent: React.FC<{
   }
 
   return (
-    <Stack direction={"column"} spacing={2}>
-      <Stack
-        direction="row"
-        flexWrap={"wrap"}
-        spacing={2}
-        alignItems={"center"}
-        justifyContent={"center"}
+    <Stack
+      direction={"column"}
+      spacing={3}
+      sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}
+    >
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: 2,
+          maxHeight: "60vh",
+          overflowY: "auto",
+          p: 1,
+          flex: 1,
+        }}
       >
         {(extra.thumbnails ?? []).map((t) => (
           <Box
@@ -45,31 +53,63 @@ const SelectThumbnailModalContent: React.FC<{
             onClick={() => {
               setThumbnail(t);
             }}
-            style={{
-              boxShadow: `0 0 5px ${thumbnail === t ? "blue" : "transparent"}`,
+            sx={{
+              cursor: "pointer",
+              border: thumbnail === t ? "3px solid" : "2px solid",
+              borderColor: thumbnail === t ? "primary.main" : "grey.300",
+              borderRadius: 1,
+              overflow: "hidden",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                borderColor: "primary.light",
+                transform: "scale(1.02)",
+                boxShadow: 2,
+              },
+              backgroundColor:
+                thumbnail === t ? "primary.light" : "transparent",
+              opacity: thumbnail === t ? 1 : 0.8,
             }}
           >
-            <img
-              src={t}
-              style={{
-                width: extra.thumbnailWidth === 0 ? 200 : extra.thumbnailWidth,
-                height:
-                  extra.thumbnailHeight === 0 ? "auto" : extra.thumbnailHeight,
+            <Box
+              sx={{
+                position: "relative",
+                paddingTop:
+                  extra.thumbnailHeight && extra.thumbnailWidth
+                    ? `${(extra.thumbnailHeight / extra.thumbnailWidth) * 100}%`
+                    : "56.25%", // 16:9 default aspect ratio
+                width: "100%",
               }}
-            />
+            >
+              <img
+                src={t}
+                alt="Thumbnail option"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
           </Box>
         ))}
-      </Stack>
-      <Button
-        onClick={() => {
-          if (thumbnail) {
-            onThumbnailSelect(thumbnail);
-          }
-          onClose();
-        }}
-        variant="contained"
-        label="Use the thumbnail"
-      />
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          onClick={() => {
+            if (thumbnail) {
+              onThumbnailSelect(thumbnail);
+            }
+            onClose();
+          }}
+          variant="contained"
+          label="Use the thumbnail"
+          disabled={!thumbnail}
+          size="large"
+        />
+      </Box>
     </Stack>
   );
 };
