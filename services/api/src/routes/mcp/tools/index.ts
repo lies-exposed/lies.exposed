@@ -6,7 +6,7 @@ import { registerBlockNoteTools } from "./blockNoteToText.tool.js";
 import { registerEventTools } from "./events/event.tools.js";
 import { registerGroupTools } from "./groups/group.tools.js";
 import { registerLinkTools } from "./links/link.tools.js";
-import { registerMediaTools } from "./media.tools.js";
+import { registerMediaTools } from "./media/media.tools.js";
 
 export const registerTools = (server: McpServer, ctx: ServerContext) => {
   registerActorTools(server, ctx);
