@@ -6,8 +6,8 @@ import {
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { flow, pipe } from "fp-ts/lib/function.js";
-import { type ServerContext } from "../../../context/context.type.js";
+import { pipe } from "fp-ts/lib/function.js";
+import { type ServerContext } from "../../../../context/context.type.js";
 import {
   CreateActorInputSchema,
   createActorToolTask,
@@ -32,7 +32,6 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       pipe(
         findActorsToolTask({
           fullName: undefined,
-          memberIn: [],
           withDeleted: undefined,
           sort: undefined,
           order: undefined,
@@ -79,6 +78,20 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { title: "Edit actor", tool: true },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },
-    flow(editActorToolTask, throwRTE(ctx)),
+    (input) =>
+      pipe(
+        editActorToolTask({
+          ...input,
+          username: input.username ?? undefined,
+          fullName: input.fullName ?? undefined,
+          color: input.color ?? undefined,
+          excerpt: input.excerpt ?? undefined,
+          body: input.body ?? undefined,
+          avatar: input.avatar ?? undefined,
+          bornOn: input.bornOn ?? undefined,
+          diedOn: input.diedOn ?? undefined,
+        }),
+        throwRTE(ctx),
+      ),
   );
 };

@@ -1,12 +1,8 @@
-import { EventEntity } from "@liexp/backend/lib/entities/Event.entity.js";
+import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import {
-  toEventEntity,
-  toUserEntity,
-} from "@liexp/backend/lib/test/utils/entities/index.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
-import { EventArb } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
+import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -16,26 +12,44 @@ import { createLinkToolTask } from "../createLink.tool.js";
 describe("MCP CREATE_LINK Tool", () => {
   let Test: AppTest;
   let testUser: UserEntity;
-  let testEvent: EventEntity;
+  let testEvent: EventV2Entity;
 
   beforeAll(async () => {
     Test = await GetAppTest();
 
-    const users = fc.sample(UserArb, 1).map(toUserEntity);
+    const users = fc.sample(UserArb, 1).map(
+      (u): UserEntity => ({
+        ...u,
+        permissions: [],
+        passwordHash: "testpasswordhash",
+        links: [],
+        media: [],
+        stories: [],
+        graphs: [],
+        eventSuggestions: [],
+        deletedAt: null,
+      }),
+    );
     testUser = users[0];
 
-    const events = fc.sample(EventArb, 1).map((e) =>
-      toEventEntity({
+    const events = fc
+      .sample(getEventArbitrary("Uncategorized"), 1)
+      .map((e) => ({
         ...e,
         links: [],
         media: [],
         keywords: [],
-      }),
-    );
+        socialPosts: [],
+        actors: [],
+        stories: [],
+        groups: [],
+        location: null,
+        deletedAt: null,
+      }));
     testEvent = events[0];
 
     await throwTE(Test.ctx.db.save(UserEntity, users));
-    await throwTE(Test.ctx.db.save(EventEntity, events));
+    await throwTE(Test.ctx.db.save(EventV2Entity, events));
   });
 
   test("Should create a new link with required fields", async () => {

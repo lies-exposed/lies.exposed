@@ -9,7 +9,7 @@ import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { flow, pipe } from "fp-ts/lib/function.js";
-import { type ServerContext } from "../../../context/context.type.js";
+import { type ServerContext } from "../../../../context/context.type.js";
 import {
   CreateMediaInputSchema,
   createMediaToolTask,
@@ -65,7 +65,14 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(UploadMediaFromURLInputSchema),
     },
-    flow(uploadMediaFromURLToolTask, throwRTE(ctx)),
+    (input) =>
+      pipe(
+        uploadMediaFromURLToolTask({
+          ...input,
+          description: input.description ?? undefined,
+        }),
+        throwRTE(ctx),
+      ),
   );
 
   server.registerTool(
@@ -77,7 +84,14 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(CreateMediaInputSchema),
     },
-    flow(createMediaToolTask, throwRTE(ctx)),
+    (input) =>
+      pipe(
+        createMediaToolTask({
+          ...input,
+          description: input.description ?? undefined,
+        }),
+        throwRTE(ctx),
+      ),
   );
 
   server.registerTool(
@@ -89,6 +103,13 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       annotations: { tool: true },
       inputSchema: effectToZodStruct(EditMediaInputSchema),
     },
-    flow(editMediaToolTask, throwRTE(ctx)),
+    (input) =>
+      pipe(
+        editMediaToolTask({
+          ...input,
+          description: input.description ?? undefined,
+        }),
+        throwRTE(ctx),
+      ),
   );
 };

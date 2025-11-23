@@ -6,7 +6,7 @@ import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { flow, pipe } from "fp-ts/lib/function.js";
-import { type ServerContext } from "../../../context/context.type.js";
+import { type ServerContext } from "../../../../context/context.type.js";
 import {
   CreateAreaInputSchema,
   createAreaToolTask,
