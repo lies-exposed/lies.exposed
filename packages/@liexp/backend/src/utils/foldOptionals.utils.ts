@@ -13,7 +13,7 @@ export const foldOptionals = <T extends Record<string, O.Option<any>>>(
     obj,
     R.filter(O.isSome),
     R.map((v) => v.value),
-  ) as any;
+  ) as { [K in keyof T]: T[K] extends O.Option<infer A> ? A : never };
 
 export const optionalsToUndefined = <T extends Record<string, O.Option<any>>>(
   obj: T,

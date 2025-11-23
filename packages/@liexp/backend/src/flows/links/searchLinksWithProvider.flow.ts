@@ -46,7 +46,7 @@ export const searchEventsFromProvider =
         pipe(
           providers,
           fp.A.map((provider) => {
-            const site = (defaultSites as any)[provider];
+            const site = defaultSites[provider as keyof typeof defaultSites];
             ctx.logger.debug.log("Provider %s (%s)", provider, site);
             return site;
           }),
