@@ -10,6 +10,7 @@ import {
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { parse } from "date-fns";
 import { Schema } from "effect";
+import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -25,6 +26,9 @@ import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { type LinkEntity } from "../../entities/Link.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/ServerError.js";
+import { ActorIO } from "../../io/Actor.io.js";
+import { GroupIO } from "../../io/group.io.js";
+import { KeywordIO } from "../../io/keyword.io.js";
 import { LinkIO } from "../../io/link.io.js";
 import { extractRelationsFromURL } from "../admin/nlp/extractRelationsFromURL.flow.js";
 import { fetchAndSave } from "../links/link.flow.js";
@@ -209,15 +213,22 @@ const extractByProvider =
 
           TE.bind("relations", () =>
             pipe(
-              fp.TE.right(
+              sequenceS(fp.E.Applicative)({
+                actors: pipe(entities.actors, ActorIO.decodeMany),
+                groups: pipe(entities.groups, GroupIO.decodeMany),
+                keywords: pipe(entities.keywords, KeywordIO.decodeMany),
+                links: pipe(entities.links, LinkIO.decodeMany),
+              }),
+              fp.TE.fromEither,
+              fp.TE.map((mapped) =>
                 getRelationIdsFromEventRelations({
                   groupsMembers: [],
                   media: [],
                   areas: [],
-                  actors: entities.actors as any[],
-                  groups: entities.groups as any[],
-                  keywords: entities.keywords as any[],
-                  links: entities.links as any[],
+                  actors: mapped.actors,
+                  groups: mapped.groups,
+                  keywords: mapped.keywords,
+                  links: mapped.links,
                 }),
               ),
             ),

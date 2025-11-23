@@ -128,7 +128,7 @@ const getOrder = (
         fp.Ord.reverse,
       ),
     ),
-    fp.A.reduce({} as any, (acc, v) => {
+    fp.A.reduce({} as Record<string, any>, (acc, v) => {
       acc[v[0]] = v[1].value;
       return acc;
     }),
