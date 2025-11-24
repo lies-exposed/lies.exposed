@@ -71,7 +71,7 @@
     "eslint": "^9.39.1",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vite": "^7.2.2",
+    "vite": "^7.2.4",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-optimizer": "^1.4.3",
     "vite-tsconfig-paths": "^5.1.4"
