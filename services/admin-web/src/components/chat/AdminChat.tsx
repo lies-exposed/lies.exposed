@@ -5,7 +5,7 @@ import {
   useResourceContext,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import React, { useState, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
