@@ -41,6 +41,7 @@ export const CREATE_AREA = "createArea";
 
 // Link tools
 export const FIND_LINKS = "findLinks";
+export const GET_LINK = "getLink";
 export const CREATE_LINK = "createLink";
 
 // Web scraping tools
