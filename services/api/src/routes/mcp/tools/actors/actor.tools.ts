@@ -2,11 +2,12 @@ import {
   CREATE_ACTOR,
   EDIT_ACTOR,
   FIND_ACTORS,
+  GET_ACTOR,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
 import { type McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { flow, pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../../context/context.type.js";
 import {
   CreateActorInputSchema,
@@ -17,6 +18,7 @@ import {
   FindActorsInputSchema,
   findActorsToolTask,
 } from "./findActors.tool.js";
+import { GetActorInputSchema, getActorToolTask } from "./getActor.tool.js";
 
 export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
@@ -41,6 +43,18 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
         }),
         throwRTE(ctx),
       ),
+  );
+
+  server.registerTool(
+    GET_ACTOR,
+    {
+      title: "Get actor",
+      description:
+        "Retrieve an actor (person) by its ID. Returns the actor details in structured markdown format.",
+      annotations: { title: "Get actor", tool: true },
+      inputSchema: effectToZodStruct(GetActorInputSchema),
+    },
+    flow(getActorToolTask, throwRTE(ctx)),
   );
 
   server.registerTool(

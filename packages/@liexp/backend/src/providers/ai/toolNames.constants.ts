@@ -9,6 +9,7 @@ export const BLOCK_NOTE_TO_TEXT = "blockNoteToText";
 
 // Actor tools
 export const FIND_ACTORS = "findActors";
+export const GET_ACTOR = "getActor";
 export const CREATE_ACTOR = "createActor";
 export const EDIT_ACTOR = "editActor";
 
@@ -37,6 +38,7 @@ export const CREATE_SCIENTIFIC_STUDY_EVENT = "createScientificStudyEvent";
 
 // Area tools
 export const FIND_AREAS = "findAreas";
+export const GET_AREA = "getArea";
 export const CREATE_AREA = "createArea";
 
 // Link tools
