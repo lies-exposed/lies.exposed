@@ -32,7 +32,15 @@
     "services/admin-web": {
       "entry": ["src/index.tsx"],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}"]
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignoreDependencies": [
+        "@ts-endpoint/resource-client"
+      ],
+      "ignore": [
+        "src/hooks/useAgentAPI.ts",
+        "src/hooks/useAPIAgent.ts",
+        "src/hooks/useAgentDataProvider.ts"
+      ]
     },
     "services/ai-bot": {
       "entry": ["src/run.ts"],
