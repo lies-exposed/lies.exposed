@@ -2,6 +2,7 @@ import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import { type Area } from "@liexp/shared/lib/io/http/Area.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Group } from "@liexp/shared/lib/io/http/Group.js";
+import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
 import { type Link, type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type User } from "@liexp/shared/lib/io/http/User.js";
@@ -9,6 +10,7 @@ import { Schema } from "effect";
 import { type ActorEntity } from "../../../entities/Actor.entity.js";
 import { type AreaEntity } from "../../../entities/Area.entity.js";
 import { type GroupEntity } from "../../../entities/Group.entity.js";
+import { type KeywordEntity } from "../../../entities/Keyword.entity.js";
 import { type LinkEntity } from "../../../entities/Link.entity.js";
 import { type MediaEntity } from "../../../entities/Media.entity.js";
 import { type UserEntity } from "../../../entities/User.entity.js";
@@ -125,4 +127,16 @@ export const toUserEntity = (u: User): UserEntity => ({
   graphs: [],
   passwordHash: "",
   deletedAt: null,
+});
+
+export const toKeywordEntity = (k: Keyword): KeywordEntity => ({
+  ...k,
+  media: [],
+  links: [],
+  events: [],
+  stories: [],
+  socialPosts: [],
+  eventCount: 0,
+  linkCount: 0,
+  deletedAt: k.deletedAt ?? null,
 });

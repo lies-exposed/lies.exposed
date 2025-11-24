@@ -40,11 +40,13 @@ export const CREATE_SCIENTIFIC_STUDY_EVENT = "createScientificStudyEvent";
 export const FIND_AREAS = "findAreas";
 export const GET_AREA = "getArea";
 export const CREATE_AREA = "createArea";
+export const EDIT_AREA = "editArea";
 
 // Link tools
 export const FIND_LINKS = "findLinks";
 export const GET_LINK = "getLink";
 export const CREATE_LINK = "createLink";
+export const EDIT_LINK = "editLink";
 
 // Web scraping tools
 export const SCRAPE_WEB_PAGE = "scrapeWebPage";

@@ -1,79 +1,30 @@
-import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
-import { fetchCoordinates } from "@liexp/backend/lib/flows/geo/fetchCoordinates.flow.js";
-import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
-import { type GeocodeError } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
-import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { editArea } from "@liexp/backend/lib/flows/areas/editArea.flow.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import { type Option } from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
+import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const MakeEditAreaRoute: Route = (r, { db, geo, logger, jwt }) => {
-  AddEndpoint(r, authenticationHandler(["admin:edit"])({ logger, jwt }))(
+export const MakeEditAreaRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Area.Edit,
     ({ params: { id }, body: { media, events, updateGeometry, ...body } }) => {
-      logger.debug.log("Area update data %O", { ...body, media });
-
-      const getGeometry = pipe(
-        updateGeometry,
-        fp.O.filter((a) => a),
-        fp.O.chain(() => body.label),
-        fp.O.fold(
-          () =>
-            TE.right<GeocodeError, Option<Geometry.Geometry>>(body.geometry),
-          (label) => fetchCoordinates(label)({ geo }),
-        ),
-        fp.TE.map(fp.O.toUndefined),
-      );
+      ctx.logger.debug.log("Area update data %O", { ...body, media });
 
       return pipe(
-        sequenceS(TE.ApplicativePar)({
-          geometry: getGeometry,
-          events: pipe(
-            events,
-            fp.O.fold(
-              () => undefined,
-              (ids) => ids.map((id) => ({ id })),
-            ),
-            TE.right,
-          ),
-          body: TE.right({
-            ...foldOptionals({ ...body }),
-            media: media.map((id) => ({ id })),
-            id,
-          }),
-        }),
-        TE.chain(({ events, geometry, body: { featuredImage, ...body } }) =>
-          db.save(AreaEntity, [
-            {
-              ...body,
-              featuredImage: featuredImage ? { id: featuredImage } : null,
-              geometry,
-              ...(events ? { events } : {}),
-            },
-          ]),
-        ),
-        TE.chain(() =>
-          db.findOneOrFail(AreaEntity, {
-            where: { id: Equal(id) },
-            loadRelationIds: {
-              relations: ["media", "events"],
-            },
-            relations: {
-              featuredImage: true,
-            },
-          }),
-        ),
-        TE.chainEitherK((a) => AreaIO.decodeSingle(a)),
-        TE.map((page) => ({
+        editArea({
+          id,
+          ...body,
+          media,
+          events,
+          updateGeometry,
+        })(ctx),
+        TE.mapLeft(toControllerError),
+        TE.map((area) => ({
           body: {
-            data: page,
+            data: area,
           },
           statusCode: 200,
         })),
