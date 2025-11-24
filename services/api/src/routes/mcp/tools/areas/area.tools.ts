@@ -1,5 +1,6 @@
 import {
   CREATE_AREA,
+  EDIT_AREA,
   FIND_AREAS,
   GET_AREA,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
@@ -12,6 +13,7 @@ import {
   CreateAreaInputSchema,
   createAreaToolTask,
 } from "./createArea.tool.js";
+import { EditAreaInputSchema, editAreaToolTask } from "./editArea.tool.js";
 import { FindAreasInputSchema, findAreasToolTask } from "./findAreas.tool.js";
 import { GetAreaInputSchema, getAreaToolTask } from "./getArea.tool.js";
 
@@ -61,5 +63,28 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: effectToZodStruct(CreateAreaInputSchema),
     },
     flow(createAreaToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    EDIT_AREA,
+    {
+      title: "Edit area",
+      description:
+        "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.",
+      annotations: { title: "Edit area", tool: true },
+      inputSchema: effectToZodStruct(EditAreaInputSchema),
+    },
+    (input) =>
+      pipe(
+        editAreaToolTask({
+          ...input,
+          label: input.label ?? undefined,
+          body: input.body ?? undefined,
+          draft: input.draft ?? undefined,
+          featuredImage: input.featuredImage ?? undefined,
+          updateGeometry: input.updateGeometry ?? undefined,
+        }),
+        throwRTE(ctx),
+      ),
   );
 };

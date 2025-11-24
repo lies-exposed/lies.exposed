@@ -1,5 +1,6 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import fc from "fast-check";
@@ -42,7 +43,7 @@ describe("MCP GET_MEDIA Tool", () => {
   });
 
   test("Should return error for non-existent media id", async () => {
-    const nonExistentId = "00000000-0000-0000-0000-000000000000";
+    const nonExistentId = "00000000-0000-0000-0000-000000000000" as UUID;
 
     await expect(
       pipe(
