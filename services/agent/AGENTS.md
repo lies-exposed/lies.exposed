@@ -85,6 +85,20 @@ When using tools, always:
 6. Provide clear explanations of how you used the tools
 7. **Document your search attempts** before creating new entities
 
+### Edit Tools Behavior
+
+When using edit tools (for example `EDIT_EVENT` or type-specific edit tools like `editBookEvent`):
+
+- Omitted fields or fields explicitly set to `undefined` are ignored — the existing value is preserved.
+- Fields explicitly set to `null` will reset/clear the corresponding value in the database (for example, set `publisher` to `null` or clear an `excerpt`).
+- For arrays (actors, groups, keywords):
+   - Omitting the array or passing `undefined` keeps the current list.
+   - Passing `null` clears the list.
+   - Passing an empty array `[]` sets the list to empty.
+- The generic `EDIT_EVENT` accepts a discriminated `payload` (the `type` discriminator lives inside the `payload`, matching shared `EditEventBody` in the schema). Select the correct member and supply its `payload` object.
+- Always resolve actor/group IDs with `findActors`/`findGroups` before using them in edit payloads — do not create actors/groups inside edit calls.
+- Keep edit tool calls efficient (search once, reuse results) to stay under the 25 tool-call recursion limit.
+
 ### Common Tool Patterns
 
 **Pattern 1: Adding an actor to an event**

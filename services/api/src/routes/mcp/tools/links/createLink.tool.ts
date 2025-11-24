@@ -27,9 +27,6 @@ export const CreateLinkInputSchema = Schema.Struct({
   events: Schema.Array(UUID).annotations({
     description: "Array of event UUIDs to associate with the link",
   }),
-  creatorId: UUID.annotations({
-    description: "UUID of the user creating the link",
-  }),
 });
 export type CreateLinkInputSchema = typeof CreateLinkInputSchema.Type;
 
@@ -39,7 +36,6 @@ export const createLinkToolTask = ({
   publishDate,
   description,
   events,
-  creatorId,
 }: CreateLinkInputSchema): ReaderTaskEither<
   ServerContext,
   Error,
@@ -53,14 +49,14 @@ export const createLinkToolTask = ({
           url,
           title,
           publishDate: publishDate ? new Date(publishDate) : undefined,
-          description: description ?? "",
+          description: description ?? null,
           keywords: [],
           events: events.map((id) => ({ id })),
-          creator: { id: creatorId },
+          creator: null,
         },
       ]),
       TE.map(([data]) => data),
-      TE.chainEitherK((link) => LinkIO.decodeSingle(link)),
+      TE.chainEitherK(LinkIO.decodeSingle),
       LoggerService.TE.debug(ctx, "Created link %O"),
       fp.TE.map((link) => ({
         content: [

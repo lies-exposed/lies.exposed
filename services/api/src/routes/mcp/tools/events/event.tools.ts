@@ -1,9 +1,21 @@
 import {
   CREATE_BOOK_EVENT,
+  CREATE_DEATH_EVENT,
+  CREATE_DOCUMENTARY_EVENT,
   CREATE_PATENT_EVENT,
   CREATE_QUOTE_EVENT,
   CREATE_SCIENTIFIC_STUDY_EVENT,
+  EDIT_EVENT,
+  CREATE_TRANSACTION_EVENT,
   CREATE_UNCATEGORIZED_EVENT,
+  // EDIT_BOOK_EVENT,
+  // EDIT_DEATH_EVENT,
+  // EDIT_DOCUMENTARY_EVENT,
+  // EDIT_PATENT_EVENT,
+  // EDIT_QUOTE_EVENT,
+  // EDIT_SCIENTIFIC_STUDY_EVENT,
+  // EDIT_TRANSACTION_EVENT,
+  // EDIT_UNCATEGORIZED_EVENT,
   FIND_EVENTS,
   GET_EVENT,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
@@ -17,6 +29,14 @@ import {
   createBookEventToolTask,
 } from "./createBookEvent.tool.js";
 import {
+  CreateDeathEventInputSchema,
+  createDeathEventToolTask,
+} from "./createDeathEvent.tool.js";
+import {
+  CreateDocumentaryEventInputSchema,
+  createDocumentaryEventToolTask,
+} from "./createDocumentaryEvent.tool.js";
+import {
   CreatePatentEventInputSchema,
   createPatentEventToolTask,
 } from "./createPatentEvent.tool.js";
@@ -29,9 +49,46 @@ import {
   createScientificStudyEventToolTask,
 } from "./createScientificStudyEvent.tool.js";
 import {
+  CreateTransactionEventInputSchema,
+  createTransactionEventToolTask,
+} from "./createTransactionEvent.tool.js";
+import {
   CreateUncategorizedEventInputSchema,
   createUncategorizedEventToolTask,
 } from "./createUncategorizedEvent.tool.js";
+// import {
+//   EditBookEventInputSchema,
+//   editBookEventToolTask,
+// } from "./editBookEvent.tool.js";
+// import {
+//   EditDeathEventInputSchema,
+//   editDeathEventToolTask,
+// } from "./editDeathEvent.tool.js";
+// import {
+//   EditDocumentaryEventInputSchema,
+//   editDocumentaryEventToolTask,
+// } from "./editDocumentaryEvent.tool.js";
+import { EditEventInputSchema, editEventToolTask } from "./editEvent.tool.js";
+// import {
+//   EditPatentEventInputSchema,
+//   editPatentEventToolTask,
+// } from "./editPatentEvent.tool.js";
+// import {
+//   EditQuoteEventInputSchema,
+//   editQuoteEventToolTask,
+// } from "./editQuoteEvent.tool.js";
+// import {
+//   EditScientificStudyEventInputSchema,
+//   editScientificStudyEventToolTask,
+// } from "./editScientificStudyEvent.tool.js";
+// import {
+//   EditTransactionEventInputSchema,
+//   editTransactionEventToolTask,
+// } from "./editTransactionEvent.tool.js";
+// import {
+//   EditUncategorizedEventInputSchema,
+//   editUncategorizedEventToolTask,
+// } from "./editUncategorizedEvent.tool.js";
 import {
   FindEventsInputSchema,
   findEventsToolTask,
@@ -137,4 +194,266 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
         throwRTE(ctx),
       ),
   );
+
+  server.registerTool(
+    EDIT_EVENT,
+    {
+      title: "Edit event",
+      description:
+        "Edit an existing event. Provide the event `id`, the event `type` (discriminator), base fields (date, draft, excerpt, body, media, links, keywords) and a type-specific `payload`. IMPORTANT: Use findActors/findGroups to resolve IDs for actors/groups and avoid creating new actors inside this tool. It's acceptable to leave actors/groups/keywords empty. Keep tool calls efficient to remain under the 25 recursion limit.",
+      annotations: { title: "Edit event", tool: true },
+      inputSchema: effectToZodStruct(EditEventInputSchema),
+    },
+    ({
+      date,
+      draft,
+      excerpt,
+      body,
+      media,
+      links,
+      keywords,
+      payload,
+      ...input
+    }) =>
+      pipe(
+        editEventToolTask({
+          ...input,
+          draft,
+          date: date ?? undefined,
+          excerpt,
+          body,
+          media,
+          links,
+          keywords,
+          payload,
+        }),
+        throwRTE(ctx),
+      ),
+  );
+
+  server.registerTool(
+    CREATE_DEATH_EVENT,
+    {
+      title: "Create death event",
+      description:
+        "Create a new death event in the database. Death events represent the death of an actor (person) at a specific location and date. IMPORTANT: Search for the victim actor using findActors first and use existing ID only. Search for the location if applicable. Be efficient to stay under the 25 recursion limit. Returns the created death event details in structured markdown format.",
+      annotations: { title: "Create death event", tool: true },
+      inputSchema: effectToZodStruct(CreateDeathEventInputSchema),
+    },
+    flow(createDeathEventToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    CREATE_DOCUMENTARY_EVENT,
+    {
+      title: "Create documentary event",
+      description:
+        "Create a new documentary event in the database. Documentary events represent documentary films or video productions with authors (directors/creators) and subjects. IMPORTANT: Search for existing actors and groups for authors and subjects using findActors/findGroups before creating. Use only existing IDs. Empty arrays are acceptable. Be efficient to stay under the 25 recursion limit. Returns the created documentary event details in structured markdown format.",
+      annotations: { title: "Create documentary event", tool: true },
+      inputSchema: effectToZodStruct(CreateDocumentaryEventInputSchema),
+    },
+    flow(createDocumentaryEventToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    CREATE_TRANSACTION_EVENT,
+    {
+      title: "Create transaction event",
+      description:
+        "Create a new transaction event in the database. Transaction events represent financial transactions between entities (actors or groups) with amounts and currencies. IMPORTANT: Verify that 'from' and 'to' entities exist using findActors/findGroups before creating. Use existing IDs only. Returns the created transaction event details in structured markdown format.",
+      annotations: { title: "Create transaction event", tool: true },
+      inputSchema: effectToZodStruct(CreateTransactionEventInputSchema),
+    },
+    flow(createTransactionEventToolTask, throwRTE(ctx)),
+  );
+
+  // server.registerTool(
+  //   EDIT_UNCATEGORIZED_EVENT,
+  //   {
+  //     title: "Edit uncategorized event",
+  //     description:
+  //       "Update an existing uncategorized event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify event details, actors, groups, location, dates, media, links, or keywords. Returns the updated event details in structured markdown format.",
+  //     annotations: { title: "Edit uncategorized event", tool: true },
+  //     inputSchema: effectToZodStruct(EditUncategorizedEventInputSchema),
+  //   },
+  //   ({
+  //     title,
+  //     date,
+  //     media,
+  //     groups,
+  //     groupsMembers,
+  //     actors,
+  //     draft,
+  //     excerpt,
+  //     body,
+  //     links,
+  //     keywords,
+  //     location,
+  //     endDate,
+  //     ...input
+  //   }) =>
+  //     pipe(
+  //       editUncategorizedEventToolTask({
+  //         title,
+  //         date,
+  //         media,
+  //         groups,
+  //         groupsMembers,
+  //         actors,
+  //         draft,
+  //         excerpt,
+  //         body,
+  //         links,
+  //         keywords,
+  //         location,
+  //         endDate,
+  //         ...input,
+  //       }),
+  //       throwRTE(ctx),
+  //     ),
+  // );
+
+  // server.registerTool(
+  //   EDIT_BOOK_EVENT,
+  //   {
+  //     title: "Edit book event",
+  //     description:
+  //       "Update an existing book event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify book title, authors, publisher, PDF/audio media, or other event details. Returns the updated book event details in structured markdown format.",
+  //     annotations: { title: "Edit book event", tool: true },
+  //     inputSchema: effectToZodStruct(EditBookEventInputSchema),
+  //   },
+  //   flow(editBookEventToolTask, throwRTE(ctx)),
+  // );
+
+  // server.registerTool(
+  //   EDIT_QUOTE_EVENT,
+  //   {
+  //     title: "Edit quote event",
+  //     description:
+  //       "Update an existing quote event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify the quote text, actor, subject, details, or other event metadata. Returns the updated quote event details in structured markdown format.",
+  //     annotations: { title: "Edit quote event", tool: true },
+  //     inputSchema: effectToZodStruct(EditQuoteEventInputSchema),
+  //   },
+  //   ({
+  //     id,
+  //     date,
+  //     draft,
+  //     excerpt,
+  //     body,
+  //     media,
+  //     links,
+  //     keywords,
+  //     actor,
+  //     subject,
+  //     quote,
+  //     details,
+  //   }) =>
+  //     pipe(
+  //       editQuoteEventToolTask({
+  //         id,
+  //         date,
+  //         draft,
+  //         excerpt,
+  //         body,
+  //         media,
+  //         links,
+  //         keywords,
+  //         actor,
+  //         subject,
+  //         quote,
+  //         details,
+  //       }),
+  //       throwRTE(ctx),
+  //     ),
+  // );
+
+  // server.registerTool(
+  //   EDIT_PATENT_EVENT,
+  //   {
+  //     title: "Edit patent event",
+  //     description:
+  //       "Update an existing patent event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify patent title, owners (actors/groups), source, or other event details. Returns the updated patent event details in structured markdown format.",
+  //     annotations: { title: "Edit patent event", tool: true },
+  //     inputSchema: effectToZodStruct(EditPatentEventInputSchema),
+  //   },
+  //   ({
+  //     id,
+  //     date,
+  //     draft,
+  //     excerpt,
+  //     body,
+  //     media,
+  //     links,
+  //     keywords,
+  //     title,
+  //     ownerActors,
+  //     ownerGroups,
+  //     source,
+  //   }) =>
+  //     pipe(
+  //       editPatentEventToolTask({
+  //         id,
+  //         date,
+  //         draft,
+  //         excerpt,
+  //         body,
+  //         media,
+  //         links,
+  //         keywords,
+  //         title,
+  //         ownerActors,
+  //         ownerGroups,
+  //         source,
+  //       }),
+  //       throwRTE(ctx),
+  //     ),
+  // );
+
+  // server.registerTool(
+  //   EDIT_SCIENTIFIC_STUDY_EVENT,
+  //   {
+  //     title: "Edit scientific study event",
+  //     description:
+  //       "Update an existing scientific study event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify study title, authors, publisher, URL, image, or other event metadata. IMPORTANT: When adding authors or publisher, search for existing entities using findActors/findGroups first. Returns the updated scientific study event details in structured markdown format.",
+  //     annotations: { title: "Edit scientific study event", tool: true },
+  //     inputSchema: effectToZodStruct(EditScientificStudyEventInputSchema),
+  //   },
+  //   flow(editScientificStudyEventToolTask, throwRTE(ctx)),
+  // );
+
+  // server.registerTool(
+  //   EDIT_DEATH_EVENT,
+  //   {
+  //     title: "Edit death event",
+  //     description:
+  //       "Update an existing death event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify the victim, location, date, or other event details. Returns the updated death event details in structured markdown format.",
+  //     annotations: { title: "Edit death event", tool: true },
+  //     inputSchema: effectToZodStruct(EditDeathEventInputSchema),
+  //   },
+  //   flow(editDeathEventToolTask, throwRTE(ctx)),
+  // );
+
+  // server.registerTool(
+  //   EDIT_DOCUMENTARY_EVENT,
+  //   {
+  //     title: "Edit documentary event",
+  //     description:
+  //       "Update an existing documentary event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify documentary title, media, website, authors, subjects, or other event details. Returns the updated documentary event details in structured markdown format.",
+  //     annotations: { title: "Edit documentary event", tool: true },
+  //     inputSchema: effectToZodStruct(EditDocumentaryEventInputSchema),
+  //   },
+  //   flow(editDocumentaryEventToolTask, throwRTE(ctx)),
+  // );
+
+  // server.registerTool(
+  //   EDIT_TRANSACTION_EVENT,
+  //   {
+  //     title: "Edit transaction event",
+  //     description:
+  //       "Update an existing transaction event by UUID. Only the fields provided will be updated; omitted fields remain unchanged. Use this to modify transaction title, amount, currency, sender (from), receiver (to), or other event details. Returns the updated transaction event details in structured markdown format.",
+  //     annotations: { title: "Edit transaction event", tool: true },
+  //     inputSchema: effectToZodStruct(EditTransactionEventInputSchema),
+  //   },
+  //   flow(editTransactionEventToolTask, throwRTE(ctx)),
+  // );
 };
