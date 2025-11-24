@@ -1,6 +1,7 @@
 import {
   CREATE_AREA,
   FIND_AREAS,
+  GET_AREA,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
@@ -12,6 +13,7 @@ import {
   createAreaToolTask,
 } from "./createArea.tool.js";
 import { FindAreasInputSchema, findAreasToolTask } from "./findAreas.tool.js";
+import { GetAreaInputSchema, getAreaToolTask } from "./getArea.tool.js";
 
 export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
@@ -35,6 +37,18 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
         }),
         throwRTE(ctx),
       ),
+  );
+
+  server.registerTool(
+    GET_AREA,
+    {
+      title: "Get area",
+      description:
+        "Retrieve an area by its ID. Returns the area details in structured markdown format.",
+      annotations: { title: "Get area", tool: true },
+      inputSchema: effectToZodStruct(GetAreaInputSchema),
+    },
+    flow(getAreaToolTask, throwRTE(ctx)),
   );
 
   server.registerTool(

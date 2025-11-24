@@ -200,6 +200,7 @@ services:
       - reverseproxy
 
   agent.liexp.dev:
+    restart: always
     build:
       context: .
       target: dev

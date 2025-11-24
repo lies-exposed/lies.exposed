@@ -1,3 +1,4 @@
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -13,7 +14,7 @@ describe("MCP UPLOAD_MEDIA_FROM_URL Tool", () => {
 
   test("Should upload media from URL with image type", async () => {
     const uploadData = {
-      url: "https://example.com/test-image.jpg",
+      url: "https://example.com/test-image.jpg" as URL,
       type: "image/jpeg" as const,
       label: "Test Image",
       description: "A test image uploaded from URL",
@@ -38,7 +39,7 @@ describe("MCP UPLOAD_MEDIA_FROM_URL Tool", () => {
 
   test("Should handle upload with different media types", async () => {
     const uploadData = {
-      url: "https://example.com/test-video.mp4",
+      url: "https://example.com/test-video.mp4" as URL,
       type: "video/mp4" as const,
       label: "Test Video",
       description: undefined,
@@ -60,7 +61,7 @@ describe("MCP UPLOAD_MEDIA_FROM_URL Tool", () => {
 
   test("Should upload media without description", async () => {
     const uploadData = {
-      url: "https://example.com/simple-image.png",
+      url: "https://example.com/simple-image.png" as URL,
       type: "image/png" as const,
       label: "Simple Image",
       description: undefined,
