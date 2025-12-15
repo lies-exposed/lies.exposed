@@ -24,15 +24,12 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find groups",
       description:
         "Search for groups (organizations) using various criteria like name or keywords. ALWAYS use this tool BEFORE creating a new group to check if the organization already exists. Try multiple search variations (full name, abbreviations, acronyms). Returns the groups in JSON format.",
-      annotations: { tool: true },
+      annotations: { title: "Find groups" },
       inputSchema: effectToZodStruct(FindGroupsInputSchema),
     },
     (input) =>
       pipe(
         findGroupsToolTask({
-          sort: "createdAt",
-          order: "ASC",
-          withDeleted: undefined,
           ...input,
         }),
         throwRTE(ctx),
@@ -44,7 +41,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Get group",
       inputSchema: effectToZodStruct(GetGroupInputSchema),
-      annotations: { title: "Get group", tool: true },
+      annotations: { title: "Get group" },
     },
     flow(getGroupToolTask, throwRTE(ctx)),
   );
@@ -55,17 +52,13 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create group",
       description:
         "Create a new group (organization) in the database with the provided information. IMPORTANT: Always search for existing groups using findGroups with multiple name variations (full name, abbreviations, acronyms like 'WHO' for 'World Health Organization') BEFORE creating a new group to avoid duplicates. Only create if no match exists. Returns the created group details in structured markdown format.",
-      annotations: { title: "Create group", tool: true },
+      annotations: { title: "Create group" },
       inputSchema: effectToZodStruct(CreateInputSchema),
     },
     (input) =>
       pipe(
         createGroupToolTask({
-          startDate: undefined,
-          endDate: undefined,
-          avatar: undefined,
           ...input,
-          body: input.body ?? undefined,
         }),
         throwRTE(ctx),
       ),
@@ -77,7 +70,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit group",
       description:
         "Edit an existing group (organization) in the database with the provided information. Only provided fields will be updated. Returns the updated group details in structured markdown format.",
-      annotations: { title: "Edit group", tool: true },
+      annotations: { title: "Edit group" },
       inputSchema: effectToZodStruct(EditInputSchema),
     },
     (input) =>

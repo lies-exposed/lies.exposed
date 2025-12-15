@@ -24,7 +24,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find links",
       description:
         "Search for links using various criteria like title or keywords. Returns the link item in JSON format",
-      annotations: { tool: true },
+      annotations: { title: "Find links" },
       inputSchema: effectToZodStruct(FindLinksInputSchema),
     },
     (input) =>
@@ -45,7 +45,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       title: "Get link",
       description:
         "Retrieve a link by its ID. Returns the link item in JSON format.",
-      annotations: { tool: true },
+      annotations: { title: "Get link" },
       inputSchema: effectToZodStruct(GetLinkInputSchema),
     },
     flow(getLinkToolTask, throwRTE(ctx)),
@@ -57,7 +57,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create link",
       description:
         "Create a new link in the database with the provided URL and metadata. Returns the created link details in structured markdown format.",
-      annotations: { title: "Create link", tool: true },
+      annotations: { title: "Create link" },
       inputSchema: effectToZodStruct(CreateLinkInputSchema),
     },
     (input) =>
@@ -77,7 +77,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit link",
       description:
         "Edit an existing link in the database. Only provided fields will be updated. Returns the updated link details in structured markdown format.",
-      annotations: { title: "Edit link", tool: true },
+      annotations: { title: "Edit link" },
       inputSchema: effectToZodStruct(EditLinkInputSchema),
     },
     (input) =>
