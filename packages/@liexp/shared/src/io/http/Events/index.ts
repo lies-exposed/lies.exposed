@@ -11,7 +11,18 @@ import * as Arrest from "./Arrest.js";
 import * as Book from "./Book.js";
 import * as Death from "./Death.js";
 import * as Documentary from "./Documentary.js";
-import { EventType, EventTypes } from "./EventType.js";
+import {
+  BOOK,
+  DEATH,
+  DOCUMENTARY,
+  EventType,
+  EventTypes,
+  PATENT,
+  QUOTE,
+  SCIENTIFIC_STUDY,
+  TRANSACTION,
+  UNCATEGORIZED,
+} from "./EventType.js";
 import * as Fined from "./Fined.js";
 import * as Patent from "./Patent.js";
 import * as Protest from "./Protest.js";
@@ -106,6 +117,34 @@ export const EditEventBody = Schema.Union(
 });
 
 export type EditEventBody = typeof EditEventBody.Type;
+
+export const EditEventTypeAndPayload = Schema.Union(
+  Schema.Struct({ type: BOOK, payload: Book.BookPayload }),
+  Schema.Struct({ type: DEATH, payload: Death.DeathPayload }),
+  Schema.Struct({ type: PATENT, payload: Patent.PatentPayload }),
+  Schema.Struct({
+    type: SCIENTIFIC_STUDY,
+    payload: ScientificStudy.ScientificStudyPayload,
+  }),
+  Schema.Struct({
+    type: DOCUMENTARY,
+    payload: Documentary.DocumentaryPayload,
+  }),
+  Schema.Struct({
+    type: TRANSACTION,
+    payload: Transaction.TransactionPayload,
+  }),
+  Schema.Struct({
+    type: QUOTE,
+    payload: Quote.QuotePayload,
+  }),
+  Schema.Struct({
+    type: UNCATEGORIZED,
+    payload: Uncategorized.UncategorizedV2Payload,
+  }),
+);
+
+export type EditEventTypeAndPayload = typeof EditEventTypeAndPayload.Type;
 
 export const Event = Schema.Union(
   Book.Book,
