@@ -6,9 +6,9 @@ import {
   TRANSACTION,
   QUOTE,
 } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { Schema } from "effect";
+import { Arbitrary, Schema } from "effect";
 import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";
 import { DeathEventArb } from "./DeathEvent.arbitrary.js";
@@ -47,3 +47,5 @@ export const getEventArbitrary = <E extends EventType>(
 
   return UncategorizedArb;
 };
+
+export const EventTypeArb = Arbitrary.make(EventType);

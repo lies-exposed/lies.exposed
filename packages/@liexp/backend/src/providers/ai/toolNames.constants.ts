@@ -35,6 +35,10 @@ export const CREATE_BOOK_EVENT = "createBookEvent";
 export const CREATE_QUOTE_EVENT = "createQuoteEvent";
 export const CREATE_PATENT_EVENT = "createPatentEvent";
 export const CREATE_SCIENTIFIC_STUDY_EVENT = "createScientificStudyEvent";
+export const CREATE_DEATH_EVENT = "createDeathEvent";
+export const CREATE_DOCUMENTARY_EVENT = "createDocumentaryEvent";
+export const CREATE_TRANSACTION_EVENT = "createTransactionEvent";
+export const EDIT_EVENT = "editEvent";
 
 // Area tools
 export const FIND_AREAS = "findAreas";

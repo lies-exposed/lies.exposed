@@ -1,8 +1,12 @@
 import {
   CREATE_BOOK_EVENT,
+  CREATE_DEATH_EVENT,
+  CREATE_DOCUMENTARY_EVENT,
   CREATE_PATENT_EVENT,
   CREATE_QUOTE_EVENT,
   CREATE_SCIENTIFIC_STUDY_EVENT,
+  EDIT_EVENT,
+  CREATE_TRANSACTION_EVENT,
   CREATE_UNCATEGORIZED_EVENT,
   FIND_EVENTS,
   GET_EVENT,
@@ -17,6 +21,14 @@ import {
   createBookEventToolTask,
 } from "./createBookEvent.tool.js";
 import {
+  CreateDeathEventInputSchema,
+  createDeathEventToolTask,
+} from "./createDeathEvent.tool.js";
+import {
+  CreateDocumentaryEventInputSchema,
+  createDocumentaryEventToolTask,
+} from "./createDocumentaryEvent.tool.js";
+import {
   CreatePatentEventInputSchema,
   createPatentEventToolTask,
 } from "./createPatentEvent.tool.js";
@@ -29,9 +41,14 @@ import {
   createScientificStudyEventToolTask,
 } from "./createScientificStudyEvent.tool.js";
 import {
+  CreateTransactionEventInputSchema,
+  createTransactionEventToolTask,
+} from "./createTransactionEvent.tool.js";
+import {
   CreateUncategorizedEventInputSchema,
   createUncategorizedEventToolTask,
 } from "./createUncategorizedEvent.tool.js";
+import { EditEventInputSchema, editEventToolTask } from "./editEvent.tool.js";
 import {
   FindEventsInputSchema,
   findEventsToolTask,
@@ -136,5 +153,77 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
         }),
         throwRTE(ctx),
       ),
+  );
+
+  server.registerTool(
+    EDIT_EVENT,
+    {
+      title: "Edit event",
+      description:
+        "Edit an existing event. Provide the event `id`, the event `type` (discriminator), base fields (date, draft, excerpt, body, media, links, keywords) and a type-specific `payload`. IMPORTANT: Use findActors/findGroups to resolve IDs for actors/groups and avoid creating new actors inside this tool. It's acceptable to leave actors/groups/keywords empty. Keep tool calls efficient to remain under the 25 recursion limit.",
+      annotations: { title: "Edit event", tool: true },
+      inputSchema: effectToZodStruct(EditEventInputSchema),
+    },
+    ({
+      date,
+      draft,
+      excerpt,
+      body,
+      media,
+      links,
+      keywords,
+      payload,
+      ...input
+    }) =>
+      pipe(
+        editEventToolTask({
+          ...input,
+          draft,
+          date: date ?? undefined,
+          excerpt,
+          body,
+          media,
+          links,
+          keywords,
+          payload,
+        }),
+        throwRTE(ctx),
+      ),
+  );
+
+  server.registerTool(
+    CREATE_DEATH_EVENT,
+    {
+      title: "Create death event",
+      description:
+        "Create a new death event in the database. Death events represent the death of an actor (person) at a specific location and date. IMPORTANT: Search for the victim actor using findActors first and use existing ID only. Search for the location if applicable. Be efficient to stay under the 25 recursion limit. Returns the created death event details in structured markdown format.",
+      annotations: { title: "Create death event", tool: true },
+      inputSchema: effectToZodStruct(CreateDeathEventInputSchema),
+    },
+    flow(createDeathEventToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    CREATE_DOCUMENTARY_EVENT,
+    {
+      title: "Create documentary event",
+      description:
+        "Create a new documentary event in the database. Documentary events represent documentary films or video productions with authors (directors/creators) and subjects. IMPORTANT: Search for existing actors and groups for authors and subjects using findActors/findGroups before creating. Use only existing IDs. Empty arrays are acceptable. Be efficient to stay under the 25 recursion limit. Returns the created documentary event details in structured markdown format.",
+      annotations: { title: "Create documentary event", tool: true },
+      inputSchema: effectToZodStruct(CreateDocumentaryEventInputSchema),
+    },
+    flow(createDocumentaryEventToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    CREATE_TRANSACTION_EVENT,
+    {
+      title: "Create transaction event",
+      description:
+        "Create a new transaction event in the database. Transaction events represent financial transactions between entities (actors or groups) with amounts and currencies. IMPORTANT: Verify that 'from' and 'to' entities exist using findActors/findGroups before creating. Use existing IDs only. Returns the created transaction event details in structured markdown format.",
+      annotations: { title: "Create transaction event", tool: true },
+      inputSchema: effectToZodStruct(CreateTransactionEventInputSchema),
+    },
+    flow(createTransactionEventToolTask, throwRTE(ctx)),
   );
 };
