@@ -21,10 +21,10 @@ export const BookPayload = Schema.Struct({
   title: Schema.String,
   media: Schema.Struct({
     pdf: UUID,
-    audio: Schema.Union(UUID, Schema.Undefined),
+    audio: Schema.UndefinedOr(UUID),
   }),
   authors: Schema.Array(BySubjectId),
-  publisher: Schema.Union(BySubjectId, Schema.Undefined),
+  publisher: Schema.UndefinedOr(BySubjectId),
 }).annotations({
   title: "BookPayload",
 });

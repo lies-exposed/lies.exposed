@@ -1,5 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Area, type EditAreaBody } from "@liexp/shared/lib/io/http/Area.js";
+import {
+  type Area,
+  type EditAreaBody,
+} from "@liexp/shared/lib/io/http/Area.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
