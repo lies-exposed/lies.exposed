@@ -1,4 +1,4 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common";
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   type NetworkLink,
   type NetworkNode,
