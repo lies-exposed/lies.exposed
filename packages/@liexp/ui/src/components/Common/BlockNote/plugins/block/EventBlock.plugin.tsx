@@ -1,4 +1,4 @@
-import { insertOrUpdateBlock } from "@blocknote/core";
+import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -29,7 +29,7 @@ const insertEventBlock =
     title,
     subtext: "Insert an event block",
     onItemClick: () => {
-      insertOrUpdateBlock(editor, {
+      insertOrUpdateBlockForSlashMenu(editor, {
         type: "event",
         id: uuid(),
         props: {
