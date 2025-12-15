@@ -27,22 +27,10 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find actors",
       description:
         "Search for persons in DB using various criteria like full name, username, or associated keywords. ALWAYS use this tool BEFORE creating a new actor to check if the person already exists. Try multiple search variations (full name, abbreviations, alternative spellings). Returns the actor details in structured markdown format that is optimized for LLM understanding.",
-      annotations: { title: "Find actor", tool: true },
+      annotations: { title: "Find actor" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
-    (input) =>
-      pipe(
-        findActorsToolTask({
-          fullName: undefined,
-          withDeleted: undefined,
-          sort: undefined,
-          order: undefined,
-          start: undefined,
-          end: undefined,
-          ...input,
-        }),
-        throwRTE(ctx),
-      ),
+    (input) => pipe(findActorsToolTask(input), throwRTE(ctx)),
   );
 
   server.registerTool(
@@ -51,7 +39,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       title: "Get actor",
       description:
         "Retrieve an actor (person) by its ID. Returns the actor details in structured markdown format.",
-      annotations: { title: "Get actor", tool: true },
+      annotations: { title: "Get actor" },
       inputSchema: effectToZodStruct(GetActorInputSchema),
     },
     flow(getActorToolTask, throwRTE(ctx)),
@@ -63,7 +51,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create actor",
       description:
         "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. Returns the created actor details in structured markdown format.",
-      annotations: { title: "Create actor", tool: true },
+      annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
     (input) =>
@@ -89,7 +77,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit actor",
       description:
         "Edit an existing actor (person) in the database with the provided information. Only provided fields will be updated. Returns the updated actor details in structured markdown format.",
-      annotations: { title: "Edit actor", tool: true },
+      annotations: { title: "Edit actor" },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },
     (input) =>

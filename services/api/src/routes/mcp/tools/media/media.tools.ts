@@ -29,7 +29,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find media",
       description:
         "Search for media using various criteria like title, location or keywords. Returns the media item in markdown format.",
-      annotations: { tool: true },
+      annotations: { title: "Find media" },
       inputSchema: effectToZodStruct(FindMediaInputSchema),
     },
     (input) =>
@@ -51,7 +51,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Get media",
       description:
         "Get media by id. Returns the media item in markdown format.",
-      annotations: { tool: true },
+      annotations: { title: "Get media" },
       inputSchema: effectToZodStruct(GetMediaInputSchema),
     },
     flow(getMediaToolTask, throwRTE(ctx)),
@@ -62,7 +62,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Upload media from URL",
       description: `Download an image or media file from a URL and upload it to storage. Returns the uploaded media entity with UUID that can be used when creating actors, groups, or events. You should check if the media location already exists with ${FIND_MEDIA} tool to avoid duplicates.`,
-      annotations: { tool: true },
+      annotations: { title: "Upload media from URL" },
       inputSchema: effectToZodStruct(UploadMediaFromURLInputSchema),
     },
     (input) =>
@@ -81,7 +81,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create media",
       description:
         "Create a media entity in the database with an existing URL (e.g., external image URL). The created media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
-      annotations: { tool: true },
+      annotations: { title: "Create media" },
       inputSchema: effectToZodStruct(CreateMediaInputSchema),
     },
     (input) =>
@@ -100,7 +100,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit media",
       description:
         "Edit a media entity in the database with an existing URL (e.g., external image URL). The edited media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
-      annotations: { tool: true },
+      annotations: { title: "Edit media" },
       inputSchema: effectToZodStruct(EditMediaInputSchema),
     },
     (input) =>

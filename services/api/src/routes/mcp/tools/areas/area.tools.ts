@@ -24,7 +24,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Find area",
       description:
         "Search for areas using various criteria like name or keywords. Returns the area in JSON format",
-      annotations: { tool: true },
+      annotations: { title: "Find areas" },
       inputSchema: effectToZodStruct(FindAreasInputSchema),
     },
     (input) =>
@@ -47,7 +47,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Get area",
       description:
         "Retrieve an area by its ID. Returns the area details in structured markdown format.",
-      annotations: { title: "Get area", tool: true },
+      annotations: { title: "Get area" },
       inputSchema: effectToZodStruct(GetAreaInputSchema),
     },
     flow(getAreaToolTask, throwRTE(ctx)),
@@ -59,7 +59,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create area",
       description:
         "Create a new geographic area in the database with the provided information. Returns the created area details in structured markdown format.",
-      annotations: { title: "Create area", tool: true },
+      annotations: { title: "Create area" },
       inputSchema: effectToZodStruct(CreateAreaInputSchema),
     },
     flow(createAreaToolTask, throwRTE(ctx)),
@@ -71,7 +71,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit area",
       description:
         "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.",
-      annotations: { title: "Edit area", tool: true },
+      annotations: { title: "Edit area" },
       inputSchema: effectToZodStruct(EditAreaInputSchema),
     },
     (input) =>
