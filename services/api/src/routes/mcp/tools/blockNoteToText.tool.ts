@@ -22,7 +22,7 @@ export const registerBlockNoteTools = (server: McpServer) => {
       title: "Convert BlockNote to text",
       description:
         "Convert BlockNote JSON blocks into plain text format. Usually the 'excerpt', 'body' and 'body2' fields of entities retrieved by the API MCP server",
-      annotations: { tool: true },
+      annotations: { title: "Convert BlockNote to text" },
       inputSchema: inputSchema,
     },
     (opts) => {
