@@ -33,7 +33,7 @@
     "@rollup/plugin-image": "^3.0.3",
     "@tanstack/eslint-plugin-query": "^5.74.7",
     "@types/debug": "^4.1.12",
-    "@vitejs/plugin-react": "^5.1.1",
+    "@vitejs/plugin-react": "^5.1.2",
     "debug": "^4.4.0",
     "effect": "^3.17.13",
     "eslint": "^9.39.1",
