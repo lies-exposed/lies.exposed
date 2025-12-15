@@ -161,7 +161,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       title: "Edit event",
       description:
         "Edit an existing event. Provide the event `id`, the event `type` (discriminator), base fields (date, draft, excerpt, body, media, links, keywords) and a type-specific `payload`. IMPORTANT: Use findActors/findGroups to resolve IDs for actors/groups and avoid creating new actors inside this tool. It's acceptable to leave actors/groups/keywords empty. Keep tool calls efficient to remain under the 25 recursion limit.",
-      annotations: { title: "Edit event", tool: true },
+      annotations: { title: "Edit event" },
       inputSchema: effectToZodStruct(EditEventInputSchema),
     },
     ({
@@ -197,7 +197,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create death event",
       description:
         "Create a new death event in the database. Death events represent the death of an actor (person) at a specific location and date. IMPORTANT: Search for the victim actor using findActors first and use existing ID only. Search for the location if applicable. Be efficient to stay under the 25 recursion limit. Returns the created death event details in structured markdown format.",
-      annotations: { title: "Create death event", tool: true },
+      annotations: { title: "Create death event" },
       inputSchema: effectToZodStruct(CreateDeathEventInputSchema),
     },
     flow(createDeathEventToolTask, throwRTE(ctx)),
@@ -209,7 +209,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create documentary event",
       description:
         "Create a new documentary event in the database. Documentary events represent documentary films or video productions with authors (directors/creators) and subjects. IMPORTANT: Search for existing actors and groups for authors and subjects using findActors/findGroups before creating. Use only existing IDs. Empty arrays are acceptable. Be efficient to stay under the 25 recursion limit. Returns the created documentary event details in structured markdown format.",
-      annotations: { title: "Create documentary event", tool: true },
+      annotations: { title: "Create documentary event" },
       inputSchema: effectToZodStruct(CreateDocumentaryEventInputSchema),
     },
     flow(createDocumentaryEventToolTask, throwRTE(ctx)),
@@ -221,7 +221,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       title: "Create transaction event",
       description:
         "Create a new transaction event in the database. Transaction events represent financial transactions between entities (actors or groups) with amounts and currencies. IMPORTANT: Verify that 'from' and 'to' entities exist using findActors/findGroups before creating. Use existing IDs only. Returns the created transaction event details in structured markdown format.",
-      annotations: { title: "Create transaction event", tool: true },
+      annotations: { title: "Create transaction event" },
       inputSchema: effectToZodStruct(CreateTransactionEventInputSchema),
     },
     flow(createTransactionEventToolTask, throwRTE(ctx)),
