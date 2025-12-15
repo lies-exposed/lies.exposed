@@ -4,26 +4,25 @@ import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
-import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ServerContext } from "../../../../context/context.type.js";
 import { formatEventToMarkdown } from "../formatters/eventToMarkdown.formatter.js";
 
-// Optionize only the keys you list; arrays and nested objects are left as-is.
-export const optionizeKeys = <T extends Record<string, unknown>>(
-  obj: T,
-  keys: (keyof T)[],
-) =>
-  keys.reduce(
-    (acc, k) => {
-      const v = obj[k as string];
-      return {
-        ...acc,
-        [k]: v === undefined ? O.none() : O.some(v),
-      };
-    },
-    { ...obj } as Record<string, unknown>,
-  );
+// // Optionize only the keys you list; arrays and nested objects are left as-is.
+// export const optionizeKeys = <T extends Record<string, unknown>>(
+//   obj: T,
+//   keys: (keyof T)[],
+// ) =>
+//   keys.reduce(
+//     (acc, k) => {
+//       const v = obj[k as string];
+//       return {
+//         ...acc,
+//         [k]: v === undefined ? O.none() : O.some(v),
+//       };
+//     },
+//     { ...obj } as Record<string, unknown>,
+//   );
 
 /**
  * Shared base event schema fields used across all event types
@@ -89,7 +88,7 @@ export const baseEditEventSchema = Schema.Struct({
 /**
  * Base fields for create event input
  */
-export interface BaseCreateEventInput {
+interface BaseCreateEventInput {
   date: string;
   draft: boolean;
   excerpt: string | null;
@@ -97,19 +96,6 @@ export interface BaseCreateEventInput {
   media: readonly string[];
   links: readonly string[];
   keywords: readonly string[];
-}
-
-/**
- * Base fields for edit event input
- */
-export interface BaseEditEventInput {
-  date?: string;
-  draft?: boolean;
-  excerpt?: string;
-  body?: string;
-  media?: readonly string[];
-  links?: readonly string[];
-  keywords?: readonly string[];
 }
 
 /**
@@ -125,24 +111,6 @@ export const transformBaseCreateEventFields = (
   media: (input.media ?? []) as any,
   links: (input.links ?? []) as any,
   keywords: (input.keywords ?? []) as any,
-});
-
-/**
- * Transforms base edit event input fields to the format expected by the event body
- */
-export const transformBaseEditEventFields = (input: BaseEditEventInput) => ({
-  date: input.date !== undefined ? O.some(new Date(input.date)) : O.none(),
-  draft: input.draft !== undefined ? O.some(input.draft) : O.none(),
-  excerpt:
-    input.excerpt !== undefined
-      ? O.some(toInitialValue(input.excerpt))
-      : O.none(),
-  body:
-    input.body !== undefined ? O.some(toInitialValue(input.body)) : O.none(),
-  media: input.media !== undefined ? O.some(input.media as any) : O.none(),
-  links: input.links !== undefined ? O.some(input.links as any) : O.none(),
-  keywords:
-    input.keywords !== undefined ? O.some(input.keywords as any) : O.none(),
 });
 
 /**
