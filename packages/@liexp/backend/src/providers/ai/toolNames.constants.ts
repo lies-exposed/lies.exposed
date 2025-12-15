@@ -34,19 +34,11 @@ export const CREATE_UNCATEGORIZED_EVENT = "createUncategorizedEvent";
 export const CREATE_BOOK_EVENT = "createBookEvent";
 export const CREATE_QUOTE_EVENT = "createQuoteEvent";
 export const CREATE_PATENT_EVENT = "createPatentEvent";
-export const EDIT_EVENT = "editEvent";
 export const CREATE_SCIENTIFIC_STUDY_EVENT = "createScientificStudyEvent";
 export const CREATE_DEATH_EVENT = "createDeathEvent";
 export const CREATE_DOCUMENTARY_EVENT = "createDocumentaryEvent";
 export const CREATE_TRANSACTION_EVENT = "createTransactionEvent";
-export const EDIT_UNCATEGORIZED_EVENT = "editUncategorizedEvent";
-export const EDIT_BOOK_EVENT = "editBookEvent";
-export const EDIT_QUOTE_EVENT = "editQuoteEvent";
-export const EDIT_PATENT_EVENT = "editPatentEvent";
-export const EDIT_SCIENTIFIC_STUDY_EVENT = "editScientificStudyEvent";
-export const EDIT_DEATH_EVENT = "editDeathEvent";
-export const EDIT_DOCUMENTARY_EVENT = "editDocumentaryEvent";
-export const EDIT_TRANSACTION_EVENT = "editTransactionEvent";
+export const EDIT_EVENT = "editEvent";
 
 // Area tools
 export const FIND_AREAS = "findAreas";

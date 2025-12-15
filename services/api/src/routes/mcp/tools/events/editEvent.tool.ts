@@ -45,16 +45,6 @@ const liftEventBodyPayloadWithOptions = ({
   keywords,
   payload,
 }: EditEventInputSchema): E.Either<ControllerError, EditEventBody> => {
-  // const baseFields = transformBaseEditEventFields({
-  //   date,
-  //   draft,
-  //   excerpt,
-  //   body,
-  //   media,
-  //   links,
-  //   keywords,
-  // });
-
   const unknownBody = {
     date,
     draft,
