@@ -1,4 +1,4 @@
-import { insertOrUpdateBlock } from "@blocknote/core";
+import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
@@ -34,7 +34,7 @@ export const insertMediaBlock = (editor: BNESchemaEditor) => ({
   key: "media-block-1",
   subtext: "Insert a media block",
   onItemClick: () => {
-    insertOrUpdateBlock(editor, {
+    insertOrUpdateBlockForSlashMenu(editor, {
       type: "media",
       props: {
         id: DEFAULT_ID,
@@ -184,7 +184,7 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
     };
 
     const onChange = ({ ...mediaBlockProps }: MediaBlockProps): void => {
-      insertOrUpdateBlock(editor, {
+      insertOrUpdateBlockForSlashMenu(editor, {
         type: "media",
         props: { ...mediaBlockProps },
       });
