@@ -339,7 +339,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
               <Box>
                 <ColorInput source="color" required />
                 <DateInput source="startDate" required />
-                <DateInput source="endDate" required />
+                <DateInput source="endDate" />
                 <TextWithSlugInput
                   source="name"
                   slugSource="username"
