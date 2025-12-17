@@ -110,4 +110,6 @@ jobs:
           file: ./${{ matrix.dockerfile }}
           push: true
           tags: ${{ matrix.image_tag }}
+        env:
+          VITE_NODE_ENV: ${{ matrix.service == 'admin-web' && 'production' || matrix.service == 'web' && 'production' || '' }}
 
