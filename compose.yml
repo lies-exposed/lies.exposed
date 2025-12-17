@@ -80,6 +80,7 @@ services:
     mem_limit: 1G
     networks:
       - reverseproxy
+    platform: "linux/amd64"
 
   worker.liexp.dev:
     build:
@@ -114,6 +115,7 @@ services:
       options:
         max-file: 1
         max-size: 1m
+    platform: "linux/amd64"
 
   ai-bot:
     build:
