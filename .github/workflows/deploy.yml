@@ -18,65 +18,8 @@ on:
       - "services/worker/**"
 
 jobs:
-  # First, determine which services need to be deployed based on changed files
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      admin-web: ${{ steps.filter.outputs.admin-web }}
-      agent: ${{ steps.filter.outputs.agent }}
-      ai-bot: ${{ steps.filter.outputs.ai-bot }}
-      api: ${{ steps.filter.outputs.api }}
-      web: ${{ steps.filter.outputs.web }}
-      worker: ${{ steps.filter.outputs.worker }}
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            admin-web:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/ui/**"
-              - "services/admin-web/**"
-            agent:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/backend/**"
-              - "services/agent/**"
-            ai-bot:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/backend/**"
-              - "services/ai-bot/**"
-            api:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/backend/**"
-              - "services/api/**"
-            web:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/ui/**"
-              - "services/web/**"
-            worker:
-              - ".github/workflows/**"
-              - "packages/@liexp/core/**"
-              - "packages/@liexp/shared/**"
-              - "packages/@liexp/backend/**"
-              - "services/worker/**"
-
   # Setup: Install deps and build (only needed for ai-bot)
   setup:
-    needs: detect-changes
-    # Only run if ai-bot needs deployment (it's the only service that needs pre-built artifacts)
-    if: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -101,43 +44,34 @@ jobs:
 
   # Build and push Docker images in parallel
   deploy:
-    needs: [detect-changes, setup]
-    # Allow this job to run even if setup is skipped
-    if: |
-      always() &&
-      (needs.detect-changes.outputs.admin-web == 'true' ||
-       needs.detect-changes.outputs.agent == 'true' ||
-       needs.detect-changes.outputs.ai-bot == 'true' ||
-       needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.web == 'true' ||
-       needs.detect-changes.outputs.worker == 'true')
+    needs: [setup]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
           - service: admin-web
-            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
+            enabled: true
             dockerfile: adminWeb.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-admin-web:latest
           - service: agent
-            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            enabled: true
             dockerfile: agent.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-agent:latest
           - service: ai-bot
-            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            enabled: true
             dockerfile: ai-bot.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-ai-bot:latest
             needs_artifacts: true
           - service: api
-            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            enabled: true
             dockerfile: api.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-api:latest
           - service: web
-            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            enabled: true
             dockerfile: web.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-web:latest
           - service: worker
-            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            enabled: true
             dockerfile: worker.Dockerfile
             image_tag: ghcr.io/lies-exposed/liexp-worker:latest
 
