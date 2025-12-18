@@ -3,7 +3,7 @@ name: Deploy Services
 on:
   push:
     branches:
-      - release/alpha
+      - main
     paths:
       - ".github/workflows/**"
       - "packages/@liexp/core/**"

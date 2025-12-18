@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - daily
-      - release/alpha
+      - main
       - master
     paths:
       - ".github/workflows/**"
@@ -143,7 +143,7 @@ jobs:
             has_app_build: true
             build_cache_key: admin-web-build
             test_command: pnpm admin-web test
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: adminWeb.Dockerfile
             docker_image: liexp-admin-web
           - service: agent
@@ -152,7 +152,7 @@ jobs:
             build_command: pnpm agent build
             build_cache_key: agent-build
             test_command: pnpm agent test
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: agent.Dockerfile
             docker_image: liexp-agent
           - service: ai-bot
@@ -161,7 +161,7 @@ jobs:
             build_command: pnpm ai-bot build
             build_cache_key: ai-bot-build
             test_command: pnpm ai-bot test
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: ai-bot.Dockerfile
             docker_image: liexp-ai-bot
           - service: api
@@ -172,7 +172,7 @@ jobs:
             test_command: pnpm api test
             test_env_dotenv: "./.env.test"
             needs_db_services: true
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: api.Dockerfile
             docker_image: liexp-api
           - service: packages
@@ -206,7 +206,7 @@ jobs:
             has_app_build: true
             build_cache_key: web-build
             test_command: pnpm web test
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: web.Dockerfile
             docker_image: liexp-web
           - service: worker
@@ -215,7 +215,7 @@ jobs:
             build_command: pnpm worker build
             build_cache_key: worker-build
             test_command: pnpm worker test
-            docker_enabled: ${{ github.base_ref == 'release/alpha' }}
+            docker_enabled: ${{ github.base_ref == 'main' }}
             dockerfile: worker.Dockerfile
             docker_image: liexp-worker
 
@@ -269,7 +269,7 @@ jobs:
           DEBUG: ${{ matrix.test_env_debug || '-@liexp*' }}
         run: ${{ matrix.test_command }}
 
-      # Docker build step (only for PRs targeting release/alpha)
+      # Docker build step (only for PRs targeting main)
       - name: Docker build ${{ matrix.service }}
         if: ${{ matrix.enabled && matrix.docker_enabled && matrix.dockerfile }}
         uses: ./.github/actions/docker-build-push

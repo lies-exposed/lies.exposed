@@ -29,7 +29,7 @@ mkdir ./lies-exposed
 
 cd ./lies-exposed
 
-git clone -b release/alpha --depth 1 git@github.com:lies-exposed/lies.exposed.git ./
+git clone -b main --depth 1 git@github.com:lies-exposed/lies.exposed.git ./
 
 sudo nginx -s reload
 

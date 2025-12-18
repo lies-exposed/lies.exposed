@@ -889,7 +889,7 @@ RATE_LIMIT_MAX_REQUESTS=50
 ## Rollout Plan
 
 ### Phase 1: Alpha (Staging)
-- Deploy to `release/alpha` branch
+- Deploy to `main` branch
 - Test with internal admin users
 - Monitor logs for errors
 - Verify M2M authentication works

@@ -9,7 +9,7 @@
 ![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/web-pull-request.yml?label=PR%20-%20Web)
 ![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/admin-web-pull-request.yml?label=PR%20-%20Admin%20Web)
 
-![GitHub Workflow Deploy Alpha Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/deploy-alpha.yml?branch=release/alpha&label=Deploy%20Alpha)
+![GitHub Workflow Deploy Alpha Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/deploy-alpha.yml?branch=main&label=Deploy)
 
 ---
 
