@@ -9,6 +9,14 @@
       "ignoreDependencies": ["husky", "lint-staged", "corepack"],
       "ignoreUnresolved": ["tslib"]
     },
+    "packages/@liexp/shared": {
+      "includeEntryExports": false,
+      "entry": ["src/**/*.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": [
+        "@floating-ui/dom"
+      ]
+    },
     "packages/@liexp/*": {
       "includeEntryExports": false,
       "entry": ["src/**/*.{ts,tsx}"],
