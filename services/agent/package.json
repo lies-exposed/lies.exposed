@@ -35,9 +35,9 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@langchain/mcp-adapters": "^1.0.0",
-    "@langchain/openai": "^1.1.2",
-    "@langchain/xai": "^1.0.1",
+    "@langchain/mcp-adapters": "^1.1.0",
+    "@langchain/openai": "^1.2.0",
+    "@langchain/xai": "^1.1.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
@@ -48,7 +48,7 @@
     "effect": "^3.17.13",
     "express": "^5.2.1",
     "fp-ts": "^2.16.10",
-    "langchain": "^1.0.6",
+    "langchain": "^1.2.1",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
