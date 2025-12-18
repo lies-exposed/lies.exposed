@@ -111,5 +111,5 @@ jobs:
           push: true
           tags: ${{ matrix.image_tag }}
         env:
-          VITE_NODE_ENV: ${{ matrix.service == 'admin-web' && 'production' || matrix.service == 'web' && 'production' || '' }}
+          DOTENV_CONFIG_PATH: ${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || null }}
 
