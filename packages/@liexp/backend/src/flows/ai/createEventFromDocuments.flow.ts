@@ -35,7 +35,7 @@ export const createEventFromDocuments = <
     fp.RTE.chain(({ prompt }) =>
       pipe(
         AgentChatService.getStructuredOutput<C, EventCommonProps>({
-          message: `${prompt}\n\n${question}`,
+          message: `${prompt.toFormattedString()}\n\n${question}`,
           schema: jsonSchema,
         }),
         fp.RTE.mapLeft(toAPIError),
