@@ -1,28 +1,28 @@
 import { readFileSync } from "fs";
 import path from "path";
-import { MemorySaver, type AnnotationRoot } from "@langchain/langgraph";
+import { MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
   createAgent as createReactAgent,
-  type Tool,
   type AgentMiddleware,
   type AIMessage,
+  type AnyAnnotationRoot,
   type ReactAgent,
   type ResponseFormatUndefined,
+  type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
-import { AIMessageLogger } from "./aiMessage.helper.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 export type Agent = ReactAgent<
   ResponseFormatUndefined,
   undefined,
-  AnnotationRoot<any>,
+  AnyAnnotationRoot,
   readonly AgentMiddleware<any, any, any>[]
 >;
 
@@ -55,7 +55,7 @@ export const GetAgentProvider =
   <C extends LangchainContext & LoggerContext & PuppeteerProviderContext>(
     ctx: C,
   ): TaskEither<ServerError, AgentProvider> => {
-    const aiMessageLogger = AIMessageLogger(ctx.logger);
+    // const aiMessageLogger = AIMessageLogger(ctx.logger);
 
     const agent = fp.TE.tryCatch(async () => {
       // Get tools from MCP servers
@@ -109,15 +109,11 @@ export const GetAgentProvider =
           const result: AIMessage[] = [];
           for await (const chunk of stream) {
             ctx.logger.debug.log(`Stream chunk: %O`, chunk);
-            if (Array.isArray(chunk.agent?.messages)) {
-              result.push(...(chunk.agent.messages as AIMessage[]));
+            if (Array.isArray(chunk)) {
+              result.push(...(chunk as AIMessage[]));
             }
 
-            const messages = (chunk.agent?.messages ??
-              chunk.tools?.messages ??
-              []) as AIMessage[];
-
-            messages.forEach(aiMessageLogger);
+            // chunk.forEach(aiMessageLogger);
           }
 
           return result;
@@ -139,7 +135,13 @@ export const GetAgentProvider =
         });
       };
 
-      return { agent, tools: allTools, invoke, stream, createAgent };
+      return {
+        agent,
+        tools: allTools,
+        invoke,
+        stream,
+        createAgent,
+      } as any as AgentProvider;
     }, ServerError.fromUnknown);
 
     return agent;

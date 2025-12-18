@@ -63,9 +63,9 @@ export const createActorToolTask = ({
     username,
     fullName,
     color,
-    excerpt: excerpt ? toInitialValue(excerpt) : toInitialValue(""),
-    nationalities: nationalities ?? [],
+    excerpt: excerpt ? toInitialValue(excerpt) : undefined,
     body: body ? toInitialValue(body) : undefined,
+    nationalities: nationalities ?? [],
     avatar: avatar ?? undefined,
     bornOn: bornOn ?? undefined,
     diedOn: pipe(

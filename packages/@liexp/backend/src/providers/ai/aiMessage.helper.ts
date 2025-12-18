@@ -1,17 +1,14 @@
 import { type Logger } from "@liexp/core/lib/index.js";
-import { type ToolCall, type AIMessage } from "langchain";
+import { type AIMessage } from "langchain";
 
 export const AIMessageLogger = (logger: Logger) => (message: AIMessage) => {
   // Log message type/role if available
-  const messageType =
-    "_getType" in message
-      ? (message._getType as () => string)()
-      : message.constructor.name;
+  const messageType = message.type;
 
   // Log tool calls (when AI decides to use a tool)
   const tool_calls = "tool_calls" in message ? (message.tool_calls ?? []) : [];
   if (tool_calls.length > 0) {
-    tool_calls.forEach((t: ToolCall) => {
+    tool_calls.forEach((t) => {
       logger.info.log(`[${messageType}] Run tool: %s`, t.name);
       logger.debug.log(`Tool arguments: %O`, t.args);
     });

@@ -11,7 +11,7 @@ import { type Agent } from "../../providers/ai/agent.provider.js";
 
 const runRunnableSequence =
   <C extends LoggerContext = LoggerContext>(
-    inputs: Messages,
+    messages: Messages,
     chain: Agent,
     mode: "stream" | "invoke" = "stream",
   ): ReaderTaskEither<C, APIError, any> =>
@@ -19,10 +19,10 @@ const runRunnableSequence =
     return fp.TE.tryCatch(async () => {
       ctx.logger.debug.log("Running sequence in mode %s", mode);
 
-      let output;
+      let output = "";
       if (mode === "stream") {
         const stream = await chain.stream(
-          { messages: inputs },
+          { messages: messages },
           {
             configurable: {
               thread_id: uuid(),
@@ -36,17 +36,20 @@ const runRunnableSequence =
             "generate_structured_response" in chunk &&
             "structuredResponse" in chunk.generate_structured_response
           ) {
-            output = chunk.generate_structured_response.structuredResponse;
+            output = JSON.stringify(
+              chunk.generate_structured_response.structuredResponse,
+            );
             continue;
           } else if ("agent" in chunk) {
-            output = chunk.agent;
+            output += JSON.stringify(chunk.agent);
             continue;
           }
           output ??= "";
-          output += chunk;
+          output += JSON.stringify(chunk.content.messages);
         }
       } else {
-        output = await chain.invoke(inputs);
+        const result = await chain.invoke({ messages });
+        output = JSON.stringify(result.messages);
       }
 
       ctx.logger.debug.log("Output %s", output);
