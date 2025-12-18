@@ -24,7 +24,7 @@
     "lint": "pnpm -r run lint",
     "lint:all": "eslint -c eslint.config.js",
     "corepack": "corepack",
-    "corepack:up": "pnpm -r -c exec 'corepack use pnpm@latest-10'",
+    "corepack:up": "corepack use pnpm@latest-10 && pnpm -r -c exec 'corepack use pnpm@latest-10'",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
     "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin-web --filter agent run clean",
     "post-deploy": "./deploy/post-deploy.sh",
@@ -71,5 +71,5 @@
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz"
   },
-  "packageManager": "pnpm@10.23.0+sha512.21c4e5698002ade97e4efe8b8b4a89a8de3c85a37919f957e7a0f30f38fbc5bbdd05980ffe29179b2fb6e6e691242e098d945d1601772cad0fef5fb6411e2a4b"
+  "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402"
 }
