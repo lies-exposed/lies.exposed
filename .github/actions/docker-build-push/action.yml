@@ -22,6 +22,9 @@ inputs:
   password:
     required: true
     description: "Registry password or token"
+  build-args:
+    required: false
+    description: "Docker build args"
 
 runs:
   using: "composite"
@@ -43,4 +46,5 @@ runs:
         file: ./${{ inputs.dockerfile }}
         push: ${{ inputs.push }}
         tags: ${{ inputs.image_name }}
+        build-args: ${{ inputs.build-args }}
 
