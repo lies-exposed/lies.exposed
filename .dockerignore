@@ -16,6 +16,8 @@ node_modules
 !services/ai-bot/build
 public
 .env*
+!services/admin-web/.env.prod
+!services/web/.env.prod
 !.env
 *.Dockerfile
 compose.yml
