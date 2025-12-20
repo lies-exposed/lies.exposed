@@ -1,8 +1,12 @@
+# syntax=docker/dockerfile:1
+
+
+
 FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
 
-COPY patches patches
+COPY ./patches /usr/src/app/patches
 COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
 COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
 COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared
@@ -19,9 +23,14 @@ CMD ["pnpm", "docker:dev"]
 
 FROM dev AS build
 
+ARG DOTENV_CONFIG_PATH=".env"
+
 ENV VITE_NODE_ENV=production
 
 RUN pnpm web build
+
+ENV DOTENV_CONFIG_PATH=${DOTENV_CONFIG_PATH}
+
 RUN pnpm web build:app-server
 
 FROM build AS pruned
