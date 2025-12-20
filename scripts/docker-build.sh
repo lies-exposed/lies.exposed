@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
 BE_WORKER_IMAGE=liexp-worker
@@ -78,14 +80,14 @@ if [ "$base" = true ]; then
 fi
 
 if [ "$admin" = true ]; then
-  cp ./services/admin-web/.env.prod ./services/admin-web/.env
-  docker build . \
+  docker build \
+    --build-arg DOTENV_CONFIG_PATH=.env.prod \
     --file adminWeb.Dockerfile \
     --target production \
     --tag $ADMIN_WEB_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:latest \
+    . \
     "${other_args[@]}"
-  git checkout -- ./services/admin-web/.env
 fi
 
 if [ "$ai_bot" = true ]; then
@@ -129,16 +131,12 @@ if [ "$agent" = true ]; then
 fi
 
 if [ "$web" = true ]; then
-  mv ./services/web/.env ./services/web/.env.temp
-  cp ./services/web/.env.prod ./services/web/.env
   docker build . \
+    --build-arg DOTENV_CONFIG_PATH=".env.prod" \
     --force-rm \
     --file web.Dockerfile \
     --target production \
-    --build-arg DOTENV_CONFIG_PATH=.env.prod \
     --tag $WEB_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$WEB_IMAGE:latest \
     "${other_args[@]}"
-  rm ./services/web/.env
-  mv ./services/web/.env.temp ./services/web/.env
 fi

@@ -110,6 +110,6 @@ jobs:
           file: ./${{ matrix.dockerfile }}
           push: true
           tags: ${{ matrix.image_tag }}
-        env:
-          DOTENV_CONFIG_PATH: ${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || null }}
+          build-args: |
+            DOTENV_CONFIG_PATH=${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
 

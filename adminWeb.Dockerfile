@@ -28,11 +28,16 @@ CMD ["pnpm", "admin-web", "docker:dev"]
 
 FROM base AS build
 
+ARG DOTENV_CONFIG_PATH=".env"
+
 COPY --from=dev /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app
 
 RUN pnpm admin-web build
+
+ENV DOTENV_CONFIG_PATH=$DOTENV_CONFIG_PATH
+
 RUN pnpm admin-web build:app
 
 FROM build AS pruned
