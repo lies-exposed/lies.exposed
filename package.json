@@ -37,7 +37,7 @@
     "vitest:expected-cov": "vitest run --coverage.enabled --coverage.thresholds.lines=90 --coverage.thresholds.functions=90 --coverage.thresholds.statements=90",
     "vitest:cov": "vitest run --coverage.enabled",
     "vitest:changed": "vitest --changed=HEAD^1",
-    "knip": "pnpm run services:clean && VITE_VALIDATE_ENV=false knip"
+    "knip": "VITE_VALIDATE_ENV=false knip"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
@@ -47,7 +47,7 @@
     "corepack": "^0.34.0",
     "eslint": "^9.39.1",
     "husky": "^9.1.7",
-    "knip": "^5.56.0",
+    "knip": "^5.75.2",
     "lint-staged": "^16.0.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.46.3",
