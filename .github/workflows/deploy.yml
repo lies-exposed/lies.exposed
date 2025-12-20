@@ -89,27 +89,16 @@ jobs:
           name: ai-bot-build
           path: services/ai-bot/build/
 
-      # Docker build and push
-      - name: Log in to registry
-        if: ${{ matrix.enabled }}
-        uses: docker/login-action@v3
+      # Docker build step (only for PRs targeting main)
+      - name: Docker build ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.dockerfile }}
+        uses: ./.github/actions/docker-build-push
         with:
-          registry: ghcr.io
-          username: ${{ secrets.GHCR_IO_USERNAME }}
-          password: ${{ secrets.GHCR_IO_TOKEN }}
-
-      - name: Set up Docker Buildx
-        if: ${{ matrix.enabled }}
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push ${{ matrix.service }} image
-        if: ${{ matrix.enabled }}
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          file: ./${{ matrix.dockerfile }}
+          dockerfile: ${{ matrix.dockerfile }}
+          image_name: ${{ matrix.image_tag }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           push: true
-          tags: ${{ matrix.image_tag }}
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
 
