@@ -47,7 +47,7 @@
     "@types/react-dom": "^18.3.6",
     "axios": "^1.12.2",
     "effect": "^3.17.13",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
     "pdfjs-dist": "^5.4.149",
