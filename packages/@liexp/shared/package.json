@@ -65,7 +65,7 @@
     "effect": "^3",
     "fp-ts": "^2",
     "langchain": "^1",
-    "openai": "^5",
+    "openai": "^6",
     "pdfjs-dist": "^5",
     "react": "^18",
     "react-admin": "^5",
