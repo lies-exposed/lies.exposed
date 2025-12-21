@@ -128,7 +128,7 @@
     "effect": "^3.17.13",
     "eslint": "^9.39.1",
     "fp-ts": "^2.16.10",
-    "openai": "^5.23.2",
+    "openai": "^6.15.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-tsconfig-paths": "^6.0.1",
