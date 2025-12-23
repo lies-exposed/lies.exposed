@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.922.0",
-    "@langchain/core": "^1.1.7",
+    "@langchain/core": "^1.1.8",
     "@langchain/mcp-adapters": "^1.1.1",
     "@langchain/openai": "^1.2.0",
     "@langchain/xai": "^1.1.0",
@@ -66,7 +66,7 @@
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
     "ioredis": "^5.8.1",
-    "langchain": "^1.2.2",
+    "langchain": "^1.2.3",
     "page-metadata-parser": "^1.1.4",
     "pdfjs-dist": "^5.4.149",
     "puppeteer-core": "^24.8.1",
