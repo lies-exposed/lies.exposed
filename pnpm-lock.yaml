@@ -199,8 +199,8 @@ importers:
         specifier: ^5.8.1
         version: 5.8.2
       langchain:
-        specifier: ^1.2.1
-        version: 1.2.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
+        specifier: ^1.2.3
+        version: 1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -903,8 +903,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       langchain:
-        specifier: ^1.2.1
-        version: 1.2.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
+        specifier: ^1.2.3
+        version: 1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -7686,8 +7686,31 @@ packages:
     peerDependencies:
       '@langchain/core': 1.1.6
 
+  langchain@1.2.3:
+    resolution: {integrity: sha512-3k986xJuqg4az53JxV5LnGlOzIXF1d9Kq6Y9s7XjitvzhpsbFuTDV5/kiF4cx3pkNGyw0mUXC4tLz9RxucO0hw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@langchain/core': 1.1.8
+
   langsmith@0.3.87:
     resolution: {integrity: sha512-XXR1+9INH8YX96FKWc5tie0QixWz6tOqAsAKfcJyPkE0xPep+NDz0IQLR32q4bn10QK3LqD2HN6T3n6z1YLW7Q==}
+    peerDependencies:
+      '@opentelemetry/api': '*'
+      '@opentelemetry/exporter-trace-otlp-proto': '*'
+      '@opentelemetry/sdk-trace-base': '*'
+      openai: '*'
+    peerDependenciesMeta:
+      '@opentelemetry/api':
+        optional: true
+      '@opentelemetry/exporter-trace-otlp-proto':
+        optional: true
+      '@opentelemetry/sdk-trace-base':
+        optional: true
+      openai:
+        optional: true
+
+  langsmith@0.4.2:
+    resolution: {integrity: sha512-BvBeFgSmR9esl8x5wsiDlALiHKKPybw2wE2Hh6x1tgSZki46H9c9KI9/06LARbPhyyDu/TZU7exfg6fnhdj1Qg==}
     peerDependencies:
       '@opentelemetry/api': '*'
       '@opentelemetry/exporter-trace-otlp-proto': '*'
@@ -17875,12 +17898,12 @@ snapshots:
       - react-dom
       - zod-to-json-schema
 
-  langchain@1.2.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1)):
+  langchain@1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1)):
     dependencies:
       '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))
       '@langchain/langgraph': 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@3.25.76)
       '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)))
-      langsmith: 0.3.87(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))
+      langsmith: 0.4.2(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1))
       uuid: 10.0.0
       zod: 3.25.76
     transitivePeerDependencies:
@@ -17917,6 +17940,18 @@ snapshots:
       openai: 5.23.2(ws@8.18.3)(zod@4.2.1)
 
   langsmith@0.3.87(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      chalk: 4.1.2
+      console-table-printer: 2.15.0
+      p-queue: 6.6.2
+      semver: 7.7.3
+      uuid: 10.0.0
+    optionalDependencies:
+      '@opentelemetry/api': 1.9.0
+      openai: 6.14.0(ws@8.18.3)(zod@4.2.1)
+
+  langsmith@0.4.2(@opentelemetry/api@1.9.0)(openai@6.14.0(ws@8.18.3)(zod@4.2.1)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
