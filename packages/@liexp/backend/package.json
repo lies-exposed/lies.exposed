@@ -45,8 +45,8 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.922.0",
-    "@langchain/core": "^1.1.6",
-    "@langchain/mcp-adapters": "^1.1.0",
+    "@langchain/core": "^1.1.8",
+    "@langchain/mcp-adapters": "^1.1.1",
     "@langchain/openai": "^1.2.0",
     "@langchain/xai": "^1.1.0",
     "@liexp/test": "workspace:*",

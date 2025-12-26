@@ -31,7 +31,7 @@ importers:
         version: 24.10.4
       '@vitest/coverage-v8':
         specifier: ^4.0.4
-        version: 4.0.4(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.0.4(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       corepack:
         specifier: ^0.34.0
         version: 0.34.0
@@ -55,7 +55,7 @@ importers:
         version: 8.46.4(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
   packages/@liexp/backend:
     dependencies:
@@ -76,7 +76,7 @@ importers:
         version: 3.3.0
       '@langchain/langgraph':
         specifier: ^1.0.1
-        version: 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
+        version: 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
       '@liexp/core':
         specifier: workspace:*
         version: link:../core
@@ -136,17 +136,17 @@ importers:
         specifier: ^3.922.0
         version: 3.930.0
       '@langchain/core':
-        specifier: ^1.1.6
-        version: 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+        specifier: ^1.1.8
+        version: 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       '@langchain/mcp-adapters':
-        specifier: ^1.1.0
-        version: 1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
+        specifier: ^1.1.1
+        version: 1.1.1(@cfworker/json-schema@4.1.1)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
       '@langchain/openai':
         specifier: ^1.2.0
-        version: 1.2.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+        version: 1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
       '@langchain/xai':
         specifier: ^1.1.0
-        version: 1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+        version: 1.1.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
@@ -200,7 +200,7 @@ importers:
         version: 5.8.2
       langchain:
         specifier: ^1.2.3
-        version: 1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
+        version: 1.2.3(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
       page-metadata-parser:
         specifier: ^1.1.4
         version: 1.1.4
@@ -224,13 +224,13 @@ importers:
         version: 5.9.3
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vitest-mock-extended:
         specifier: ^3.1.0
-        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
 
   packages/@liexp/core:
     dependencies:
@@ -242,16 +242,16 @@ importers:
         version: 16.3.0
       vite:
         specifier: ^7
-        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vite-plugin-css-injected-by-js:
         specifier: ^3
-        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vite-plugin-optimizer:
         specifier: ^1
         version: 1.4.3
       vite-tsconfig-paths:
         specifier: ^6
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -267,7 +267,7 @@ importers:
         version: 4.1.12
       '@vitejs/plugin-react':
         specifier: ^5.1.2
-        version: 5.1.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 5.1.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       debug:
         specifier: ^4.4.0
         version: 4.4.3
@@ -303,7 +303,7 @@ importers:
         version: 5.9.3
       vite-plugin-svgr:
         specifier: ^4.3.0
-        version: 4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
 
   packages/@liexp/shared:
     dependencies:
@@ -342,7 +342,7 @@ importers:
         version: 4.4.3
       langchain:
         specifier: ^1
-        version: 1.2.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))
+        version: 1.2.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -403,13 +403,13 @@ importers:
         version: 5.9.3
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vitest-mock-extended:
         specifier: ^3.1.0
-        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
 
   packages/@liexp/test:
     dependencies:
@@ -744,13 +744,13 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.3.0
-        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
   services/admin-web:
     dependencies:
@@ -850,28 +850,28 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.3.0
-        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vite-plugin-css-injected-by-js:
         specifier: ^3.5.2
-        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vite-plugin-optimizer:
         specifier: ^1.4.3
         version: 1.4.3
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
 
   services/agent:
     dependencies:
       '@langchain/mcp-adapters':
-        specifier: ^1.1.0
-        version: 1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
+        specifier: ^1.1.1
+        version: 1.1.1(@cfworker/json-schema@4.1.1)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
       '@langchain/openai':
         specifier: ^1.2.0
-        version: 1.2.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+        version: 1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
       '@langchain/xai':
         specifier: ^1.1.0
-        version: 1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+        version: 1.1.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -904,7 +904,7 @@ importers:
         version: 2.16.11
       langchain:
         specifier: ^1.2.3
-        version: 1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
+        version: 1.2.3(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
@@ -952,17 +952,17 @@ importers:
         specifier: ^3.927.0
         version: 3.932.0
       '@langchain/community':
-        specifier: ^1.0.4
-        version: 1.0.4(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.932.0)(@aws-sdk/credential-provider-node@3.932.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(zod@4.2.1))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(@smithy/util-utf8@2.3.0)(cheerio@1.0.0)(fast-xml-parser@5.2.5)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.8.2)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.3)(lodash@4.17.21)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+        specifier: ^1.1.1
+        version: 1.1.1(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.932.0)(@aws-sdk/credential-provider-node@3.932.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(zod@4.2.1))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(@smithy/util-utf8@2.3.0)(cheerio@1.0.0)(fast-xml-parser@5.2.5)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.8.2)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.3)(lodash@4.17.21)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
       '@langchain/core':
-        specifier: ^1.1.6
-        version: 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+        specifier: ^1.1.8
+        version: 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       '@langchain/langgraph':
         specifier: ^1.0.2
-        version: 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
+        version: 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
       '@langchain/mcp-adapters':
-        specifier: ^1.1.0
-        version: 1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
+        specifier: ^1.1.1
+        version: 1.1.1(@cfworker/json-schema@4.1.1)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))
       '@liexp/backend':
         specifier: workspace:*
         version: link:../../packages/@liexp/backend
@@ -1171,13 +1171,13 @@ importers:
         version: 7.1.4
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vitest-mock-extended:
         specifier: ^3.1.0
-        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       wink-nlp:
         specifier: ^2.3.0
         version: 2.4.0
@@ -1210,16 +1210,16 @@ importers:
         version: 7.3.4(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react@18.3.1))(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/addon-docs':
         specifier: ^10.1.10
-        version: 10.1.10(@types/react@18.3.24)(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 10.1.10(@types/react@18.3.24)(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@storybook/addon-links':
         specifier: ^10.1.10
         version: 10.1.10(react@18.3.1)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@storybook/builder-vite':
         specifier: ^10.1.10
-        version: 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@storybook/react-vite':
         specifier: ^10.1.10
-        version: 10.1.10(esbuild@0.27.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 10.1.10(esbuild@0.27.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@tanstack/react-query':
         specifier: ^5.90.2
         version: 5.90.5(react@18.3.1)
@@ -1264,7 +1264,7 @@ importers:
         version: 10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       vite:
         specifier: ^7.3.0
-        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     devDependencies:
       '@types/d3':
         specifier: ^7.4.3
@@ -1386,16 +1386,16 @@ importers:
         version: 5.9.3
       vite:
         specifier: ^7.3.0
-        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vite-plugin-css-injected-by-js:
         specifier: ^3.5.2
-        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vite-plugin-optimizer:
         specifier: ^1.4.3
         version: 1.4.3
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
 
   services/worker:
     dependencies:
@@ -1516,10 +1516,10 @@ importers:
         version: 5.9.3
       vite-tsconfig-paths:
         specifier: ^6.0.1
-        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+        version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.15
-        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+        version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
 packages:
 
@@ -2807,8 +2807,8 @@ packages:
     resolution: {integrity: sha512-Rfyvq70Zrb561BqSuXLsl0rG0/1tz913EQDL/4zpkp+laFGUxXIVPSaJWcdREJwADXLZDkQyaWplzEaPQvh+7A==}
     hasBin: true
 
-  '@langchain/classic@1.0.4':
-    resolution: {integrity: sha512-Jxu75fsOPcwgDTPnnn8+XT5oCl9NxXUHs0zSw//WdovfHvnDCYp+gqAVE5JxigCroNmK0lqDsHqZFoG/gczTKg==}
+  '@langchain/classic@1.0.7':
+    resolution: {integrity: sha512-Na8d3Jg/5YwwB2V5sg2Ic9uKcn2ZNqiN1XgxItb/gRgOXrGZ2E4f3eCOAQQlbjpsU3wYhiRCE1e56SGq3NhGPw==}
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.0.0
@@ -2823,8 +2823,8 @@ packages:
       typeorm:
         optional: true
 
-  '@langchain/community@1.0.4':
-    resolution: {integrity: sha512-T3wOexFYS6PjhnNA67u97adDWYQETxkqu+kmR3EBhKAkH4ma+s2iMI6HbbNicgHORBlT3lT3nwi5G6MiszraZA==}
+  '@langchain/community@1.1.1':
+    resolution: {integrity: sha512-sIgINJN7lW3HDayp8P/9ly5dLsvEA4etorAeIB6l49eY8ECQR4g5rwjxPFoG2Vm8SsboW1cJHwOVSxelh/Kw9Q==}
     engines: {node: '>=20'}
     peerDependencies:
       '@arcjet/redact': ^v1.0.0-alpha.23
@@ -3185,8 +3185,8 @@ packages:
       youtubei.js:
         optional: true
 
-  '@langchain/core@1.1.6':
-    resolution: {integrity: sha512-db5H+nLb6rwTW7noIlspN9nDi8b6NeuRWpelzS3+/BuasrJlZ6QbTDxkIqJRTEyLB2av3xOHlYHNmDHKal0XYA==}
+  '@langchain/core@1.1.8':
+    resolution: {integrity: sha512-kIUidOgc0ZdyXo4Ahn9Zas+OayqOfk4ZoKPi7XaDipNSWSApc2+QK5BVcjvwtzxstsNOrmXJiJWEN6WPF/MvAw==}
     engines: {node: '>=20'}
 
   '@langchain/langgraph-checkpoint@1.0.0':
@@ -3220,18 +3220,12 @@ packages:
       zod-to-json-schema:
         optional: true
 
-  '@langchain/mcp-adapters@1.1.0':
-    resolution: {integrity: sha512-961bufgmlLBWSJ3kA1vJbocM1v678D6a4e/NXOxE4KsSslpJZvaz5XmTmpHa5XBM5wKcUOjDdJdvLuOC2Pw5KQ==}
+  '@langchain/mcp-adapters@1.1.1':
+    resolution: {integrity: sha512-oMnozcaZ9e4SzPIcA8EfrSxT7TForMvPfGrUj+l/a+qHS2zcSMOSUH11joy4YwGiRVQgO/68TK8ceukWaeLbDw==}
     engines: {node: '>=20.10.0'}
     peerDependencies:
       '@langchain/core': ^1.0.0
       '@langchain/langgraph': ^1.0.0
-
-  '@langchain/openai@1.1.2':
-    resolution: {integrity: sha512-o642toyaRfx7Cej10jK6eK561gkIGTCQrN42fqAU9OhmTBkUflmRNKhqbcHj/RU+NOJfFM//hgwNU2gHespEkw==}
-    engines: {node: '>=20'}
-    peerDependencies:
-      '@langchain/core': ^1.0.0
 
   '@langchain/openai@1.2.0':
     resolution: {integrity: sha512-r2g5Be3Sygw7VTJ89WVM/M94RzYToNTwXf8me1v+kgKxzdHbd/8XPYDFxpXEp3REyPgUrtJs+Oplba9pkTH5ug==}
@@ -3239,8 +3233,8 @@ packages:
     peerDependencies:
       '@langchain/core': ^1.0.0
 
-  '@langchain/textsplitters@1.0.0':
-    resolution: {integrity: sha512-L1gOwOJXeM+6MKzrj9shSsDyH32j898jgqvVArOjdge2zLyY+Mv4aOuyAAxbPyaFdQXlxKfa9xjqIUyv8TzrqA==}
+  '@langchain/textsplitters@1.0.1':
+    resolution: {integrity: sha512-rheJlB01iVtrOUzttscutRgLybPH9qR79EyzBEbf1u97ljWyuxQfCwIWK+SjoQTM9O8M7GGLLRBSYE26Jmcoww==}
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.0.0
@@ -3299,10 +3293,6 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
-
-  '@modelcontextprotocol/sdk@1.19.1':
-    resolution: {integrity: sha512-3Y2h3MZKjec1eAqSTBclATlX+AbC6n1LgfVzRMJLt3v6w0RCYgwLrjbxPDbhsYHt6Wdqc/aCceNJYgj448ELQQ==}
-    engines: {node: '>=18'}
 
   '@modelcontextprotocol/sdk@1.25.1':
     resolution: {integrity: sha512-yO28oVFFC7EBoiKdAn+VqRm+plcfv4v0xp6osG/VsCB0NlPZWi87ajbCZZ8f/RvOFLEu7//rSRmuZZ7lMoe3gQ==}
@@ -10682,6 +10672,11 @@ packages:
     engines: {node: '>= 14.6'}
     hasBin: true
 
+  yaml@2.8.2:
+    resolution: {integrity: sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
   yargs-parser@21.1.1:
     resolution: {integrity: sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==}
     engines: {node: '>=12'}
@@ -12471,11 +12466,11 @@ snapshots:
       wrap-ansi: 8.1.0
       wrap-ansi-cjs: wrap-ansi@7.0.0
 
-  '@joshwooding/vite-plugin-react-docgen-typescript@0.6.3(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@joshwooding/vite-plugin-react-docgen-typescript@0.6.3(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       glob: 11.1.0
       react-docgen-typescript: 2.4.0(typescript@5.9.3)
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     optionalDependencies:
       typescript: 5.9.3
 
@@ -12514,22 +12509,21 @@ snapshots:
 
   '@jsonquerylang/jsonquery@4.1.1': {}
 
-  '@langchain/classic@1.0.4(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(cheerio@1.0.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)':
+  '@langchain/classic@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(cheerio@1.0.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/openai': 1.1.2(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
-      '@langchain/textsplitters': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/openai': 1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+      '@langchain/textsplitters': 1.0.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
       handlebars: 4.7.8
       js-yaml: 4.1.1
       jsonpointer: 5.0.1
       openapi-types: 12.1.3
-      p-retry: 4.6.2
       uuid: 10.0.0
-      yaml: 2.8.1
+      yaml: 2.8.2
       zod: 3.25.76
     optionalDependencies:
       cheerio: 1.0.0
-      langsmith: 0.3.87(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      langsmith: 0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       typeorm: 0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2)
     transitivePeerDependencies:
       - '@opentelemetry/api'
@@ -12538,13 +12532,13 @@ snapshots:
       - openai
       - ws
 
-  '@langchain/community@1.0.4(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.932.0)(@aws-sdk/credential-provider-node@3.932.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(zod@4.2.1))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(@smithy/util-utf8@2.3.0)(cheerio@1.0.0)(fast-xml-parser@5.2.5)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.8.2)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.3)(lodash@4.17.21)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)':
+  '@langchain/community@1.1.1(@aws-crypto/sha256-js@5.2.0)(@aws-sdk/client-s3@3.932.0)(@aws-sdk/credential-provider-node@3.932.0)(@browserbasehq/sdk@2.6.0)(@browserbasehq/stagehand@1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(zod@4.2.1))(@ibm-cloud/watsonx-ai@1.3.0)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(@smithy/util-utf8@2.3.0)(cheerio@1.0.0)(fast-xml-parser@5.2.5)(ibm-cloud-sdk-core@5.1.0)(ignore@5.3.2)(ioredis@5.8.2)(jsdom@26.1.0(canvas@3.0.1))(jsonwebtoken@9.0.3)(lodash@4.17.21)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(pdf-parse@1.1.1)(pg@8.16.3)(playwright@1.49.0)(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)':
     dependencies:
       '@browserbasehq/stagehand': 1.5.0(@playwright/test@1.49.0)(deepmerge@4.3.1)(dotenv@17.2.1)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(zod@4.2.1)
       '@ibm-cloud/watsonx-ai': 1.3.0
-      '@langchain/classic': 1.0.4(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(cheerio@1.0.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/openai': 1.1.2(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+      '@langchain/classic': 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(cheerio@1.0.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(typeorm@0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2))(ws@8.18.3)
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/openai': 1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
       binary-extensions: 2.3.0
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.1.0
@@ -12577,14 +12571,14 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - peggy
 
-  '@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))':
+  '@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.21
-      langsmith: 0.3.87(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
+      langsmith: 0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
       mustache: 4.2.0
       p-queue: 6.6.2
       uuid: 10.0.0
@@ -12595,14 +12589,14 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - openai
 
-  '@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))':
+  '@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.21
-      langsmith: 0.3.87(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      langsmith: 0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       mustache: 4.2.0
       p-queue: 6.6.2
       uuid: 10.0.0
@@ -12613,41 +12607,41 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - openai
 
-  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))':
+  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
 
-  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))':
+  '@langchain/langgraph-checkpoint@1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       uuid: 10.0.0
 
-  '@langchain/langgraph-sdk@1.3.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@langchain/langgraph-sdk@1.3.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       p-queue: 6.6.2
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@langchain/langgraph-sdk@1.3.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@langchain/langgraph-sdk@1.3.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       p-queue: 6.6.2
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76)':
+  '@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))
-      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))
+      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uuid: 10.0.0
       zod: 3.25.76
     optionalDependencies:
@@ -12656,11 +12650,11 @@ snapshots:
       - react
       - react-dom
 
-  '@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@3.25.76)':
+  '@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@3.25.76)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
-      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
+      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uuid: 10.0.0
       zod: 3.25.76
     optionalDependencies:
@@ -12669,11 +12663,11 @@ snapshots:
       - react
       - react-dom
 
-  '@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)':
+  '@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
-      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
+      '@langchain/langgraph-sdk': 1.3.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       uuid: 10.0.0
       zod: 4.2.1
     optionalDependencies:
@@ -12682,45 +12676,38 @@ snapshots:
       - react
       - react-dom
 
-  '@langchain/mcp-adapters@1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))':
+  '@langchain/mcp-adapters@1.1.1(@cfworker/json-schema@4.1.1)(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@langchain/langgraph@1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1))':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
-      '@modelcontextprotocol/sdk': 1.19.1
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@4.2.1)
+      '@modelcontextprotocol/sdk': 1.25.1(@cfworker/json-schema@4.1.1)(hono@4.11.1)(zod@3.25.76)
       debug: 4.4.3
       zod: 3.25.76
     optionalDependencies:
       extended-eventsource: 1.7.0
     transitivePeerDependencies:
+      - '@cfworker/json-schema'
+      - hono
       - supports-color
 
-  '@langchain/openai@1.1.2(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)':
+  '@langchain/openai@1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      js-tiktoken: 1.0.21
-      openai: 6.15.0(ws@8.18.3)(zod@3.25.76)
-      zod: 3.25.76
-    transitivePeerDependencies:
-      - ws
-
-  '@langchain/openai@1.2.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)':
-    dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       js-tiktoken: 1.0.21
       openai: 6.14.0(ws@8.18.3)(zod@3.25.76)
       zod: 3.25.76
     transitivePeerDependencies:
       - ws
 
-  '@langchain/textsplitters@1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))':
+  '@langchain/textsplitters@1.0.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       js-tiktoken: 1.0.21
 
-  '@langchain/xai@1.1.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)':
+  '@langchain/xai@1.1.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)':
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/openai': 1.2.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/openai': 1.2.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(ws@8.18.3)
     transitivePeerDependencies:
       - ws
 
@@ -12793,23 +12780,6 @@ snapshots:
       '@types/mdx': 2.0.13
       '@types/react': 18.3.24
       react: 18.3.1
-
-  '@modelcontextprotocol/sdk@1.19.1':
-    dependencies:
-      ajv: 6.12.6
-      content-type: 1.0.5
-      cors: 2.8.5
-      cross-spawn: 7.0.6
-      eventsource: 3.0.7
-      eventsource-parser: 3.0.6
-      express: 5.2.1
-      express-rate-limit: 7.5.1(express@5.2.1)
-      pkce-challenge: 5.0.1
-      raw-body: 3.0.2
-      zod: 3.25.76
-      zod-to-json-schema: 3.25.0(zod@3.25.76)
-    transitivePeerDependencies:
-      - supports-color
 
   '@modelcontextprotocol/sdk@1.25.1(@cfworker/json-schema@4.1.1)(hono@4.11.1)(zod@3.25.76)':
     dependencies:
@@ -13683,10 +13653,10 @@ snapshots:
 
   '@standard-schema/spec@1.0.0': {}
 
-  '@storybook/addon-docs@10.1.10(@types/react@18.3.24)(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@storybook/addon-docs@10.1.10(@types/react@18.3.24)(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       '@mdx-js/react': 3.1.1(@types/react@18.3.24)(react@18.3.1)
-      '@storybook/csf-plugin': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@storybook/csf-plugin': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@storybook/icons': 2.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/react-dom-shim': 10.1.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       react: 18.3.1
@@ -13707,27 +13677,27 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
 
-  '@storybook/builder-vite@10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@storybook/builder-vite@10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
-      '@storybook/csf-plugin': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
-      '@vitest/mocker': 3.2.4(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@storybook/csf-plugin': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
+      '@vitest/mocker': 3.2.4(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       storybook: 10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       ts-dedent: 2.2.0
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - esbuild
       - msw
       - rollup
       - webpack
 
-  '@storybook/csf-plugin@10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@storybook/csf-plugin@10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       storybook: 10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       unplugin: 2.3.11
     optionalDependencies:
       esbuild: 0.27.1
       rollup: 4.53.4
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
   '@storybook/global@5.0.0': {}
 
@@ -13742,11 +13712,11 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       storybook: 10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
-  '@storybook/react-vite@10.1.10(esbuild@0.27.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@storybook/react-vite@10.1.10(esbuild@0.27.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
-      '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.3(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@joshwooding/vite-plugin-react-docgen-typescript': 0.6.3(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@rollup/pluginutils': 5.3.0(rollup@4.53.4)
-      '@storybook/builder-vite': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@storybook/builder-vite': 10.1.10(esbuild@0.27.1)(rollup@4.53.4)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@storybook/react': 10.1.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)
       empathic: 2.0.0
       magic-string: 0.30.21
@@ -13756,7 +13726,7 @@ snapshots:
       resolve: 1.22.11
       storybook: 10.1.10(@testing-library/dom@10.4.0)(prettier@3.6.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tsconfig-paths: 4.2.0
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - esbuild
       - msw
@@ -14855,7 +14825,7 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
 
-  '@vitejs/plugin-react@5.1.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@vitejs/plugin-react@5.1.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5)
@@ -14863,11 +14833,11 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.53
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/coverage-v8@4.0.4(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@vitest/coverage-v8@4.0.4(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       '@bcoe/v8-coverage': 1.0.2
       '@vitest/utils': 4.0.4
@@ -14880,7 +14850,7 @@ snapshots:
       magicast: 0.3.5
       std-env: 3.10.0
       tinyrainbow: 3.0.3
-      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -14901,21 +14871,21 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@3.2.4(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@vitest/mocker@3.2.4(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       '@vitest/spy': 3.2.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
-  '@vitest/mocker@4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))':
     dependencies:
       '@vitest/spy': 4.0.15
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -17958,11 +17928,11 @@ snapshots:
 
   kuler@2.0.0: {}
 
-  langchain@1.2.1(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76)):
+  langchain@1.2.1(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76)):
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
-      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76)
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
+      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@3.25.76))(zod@3.25.76)
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)))
       langsmith: 0.3.87(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76))
       uuid: 10.0.0
       zod: 3.25.76
@@ -17975,11 +17945,11 @@ snapshots:
       - react-dom
       - zod-to-json-schema
 
-  langchain@1.2.3(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1)):
+  langchain@1.2.3(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1)):
     dependencies:
-      '@langchain/core': 1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
-      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@3.25.76)
-      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.6(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
+      '@langchain/core': 1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
+      '@langchain/langgraph': 1.0.7(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.0(zod@4.2.1))(zod@3.25.76)
+      '@langchain/langgraph-checkpoint': 1.0.0(@langchain/core@1.1.8(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)))
       langsmith: 0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1))
       uuid: 10.0.0
       zod: 3.25.76
@@ -18004,7 +17974,7 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       openai: 6.15.0(ws@8.18.3)(zod@3.25.76)
 
-  langsmith@0.3.87(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)):
+  langsmith@0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@3.25.76)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -18014,7 +17984,7 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
-      openai: 6.15.0(ws@8.18.3)(zod@4.2.1)
+      openai: 6.15.0(ws@8.18.3)(zod@3.25.76)
 
   langsmith@0.4.2(@opentelemetry/api@1.9.0)(openai@6.15.0(ws@8.18.3)(zod@4.2.1)):
     dependencies:
@@ -21180,35 +21150,35 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.3
 
-  vite-plugin-css-injected-by-js@3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-css-injected-by-js@3.5.2(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)):
     dependencies:
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
   vite-plugin-optimizer@1.4.3: {}
 
-  vite-plugin-svgr@4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-plugin-svgr@4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)):
     dependencies:
       '@rollup/pluginutils': 5.3.0(rollup@4.53.4)
       '@svgr/core': 8.1.0(typescript@5.9.3)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0(typescript@5.9.3))
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
       - typescript
 
-  vite-tsconfig-paths@6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)):
+  vite-tsconfig-paths@6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
       tsconfck: 3.1.6(typescript@5.9.3)
     optionalDependencies:
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1):
+  vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2):
     dependencies:
       esbuild: 0.27.1
       fdir: 6.5.0(picomatch@4.0.3)
@@ -21223,24 +21193,24 @@ snapshots:
       sass: 1.82.0
       terser: 5.37.0
       tsx: 4.20.6
-      yaml: 2.8.1
+      yaml: 2.8.2
 
-  vitest-mock-extended@3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)):
+  vitest-mock-extended@3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
-  vitest-mock-extended@3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)):
+  vitest-mock-extended@3.1.0(typescript@5.9.3)(vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)):
     dependencies:
       ts-essentials: 10.0.4(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vitest: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
 
-  vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1):
+  vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@2.11.2))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 4.0.15
-      '@vitest/mocker': 4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@vitest/pretty-format': 4.0.15
       '@vitest/runner': 4.0.15
       '@vitest/snapshot': 4.0.15
@@ -21257,7 +21227,7 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
@@ -21276,10 +21246,10 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1):
+  vitest@4.0.15(@opentelemetry/api@1.9.0)(@types/node@24.10.4)(jiti@2.6.1)(jsdom@26.1.0(canvas@3.0.1))(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 4.0.15
-      '@vitest/mocker': 4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.15(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
       '@vitest/pretty-format': 4.0.15
       '@vitest/runner': 4.0.15
       '@vitest/snapshot': 4.0.15
@@ -21296,7 +21266,7 @@ snapshots:
       tinyexec: 1.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.1)
+      vite: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@opentelemetry/api': 1.9.0
@@ -21532,6 +21502,8 @@ snapshots:
   yaml@1.10.2: {}
 
   yaml@2.8.1: {}
+
+  yaml@2.8.2: {}
 
   yargs-parser@21.1.1: {}
 
