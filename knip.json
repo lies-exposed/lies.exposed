@@ -5,7 +5,6 @@
   "workspaces": {
     ".": {
       "ignore": ["services/*/build/**", "packages/@liexp/*/lib/**", "**/temp/**"],
-      "ignoreBinaries": ["corepack use pnpm@latest-10"],
       "ignoreDependencies": ["husky", "lint-staged", "corepack"],
       "ignoreUnresolved": ["tslib"]
     },
@@ -63,8 +62,7 @@
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
-        "test/AppTest.ts",
-        "test/testSetup.ts"
+        "test/AppTest.ts"
       ],
       "project": [
         "src/**/*.{ts,js}",
@@ -72,7 +70,10 @@
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
       ],
-      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
+      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"],
+      "ignoreDependencies": [
+        "@esbuild/aix-ppc64"
+      ]
     },
     "services/worker": {
       "entry": ["src/run.ts", "src/bin/cli.ts"],

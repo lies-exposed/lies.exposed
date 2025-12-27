@@ -1,0 +1,6 @@
+{
+  "main": "./build/run-esbuild.cjs",
+  "output": "./build/api.blob",
+  "disableExperimentalSEAWarning": true,
+  "useCodeCache": true
+}
