@@ -1,4 +1,3 @@
-import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
@@ -14,6 +13,7 @@ import {
   Input,
   Stack,
 } from "../../../../mui/index.js";
+import { insertOrUpdateBlock } from "../../utils/blockHelpers.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface LinkBlockProps {
@@ -31,7 +31,7 @@ export const insertLinkBlock = (editor: BNESchemaEditor) => ({
   key: "link-block-1",
   subtext: "Insert a Link block",
   onItemClick: () => {
-    insertOrUpdateBlockForSlashMenu(editor, {
+    insertOrUpdateBlock(editor, {
       type: LINK_BLOCK_PLUGIN_TYPE,
       props: {
         id: DEFAULT_ID,
@@ -166,8 +166,7 @@ export const linkBlock = createReactBlockSpec(
       };
 
       const onChange = ({ ...mediaBlockProps }: LinkBlockProps): void => {
-        insertOrUpdateBlockForSlashMenu(editor, {
-          ...currentCursor,
+        editor.updateBlock(currentCursor.block, {
           type: LINK_BLOCK_PLUGIN_TYPE,
           props: { ...mediaBlockProps },
         });

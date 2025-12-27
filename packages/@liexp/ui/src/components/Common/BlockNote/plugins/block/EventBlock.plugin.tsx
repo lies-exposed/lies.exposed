@@ -1,4 +1,3 @@
-import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
@@ -13,6 +12,7 @@ import EventsBox from "../../../../../containers/EventsBox.js";
 import { AutocompleteEventInput } from "../../../../Input/AutocompleteEventInput.js";
 import { Box, IconButton, Icons, Stack } from "../../../../mui/index.js";
 import { EventIcon } from "../../../Icons/index.js";
+import { insertOrUpdateBlock } from "../../utils/blockHelpers.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 const DEFAULT_ID = "missing-id";
@@ -29,7 +29,7 @@ const insertEventBlock =
     title,
     subtext: "Insert an event block",
     onItemClick: () => {
-      insertOrUpdateBlockForSlashMenu(editor, {
+      insertOrUpdateBlock(editor, {
         type: "event",
         id: uuid(),
         props: {
