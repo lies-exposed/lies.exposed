@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'services/**'
+      - 'packages/**'
+      - 'compose*.yml'
+      - '.github/workflows/deploy.yml'
+      - 'Dockerfile*'
 
 permissions:
   contents: write
@@ -15,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
-    # disabled for now
+    # Temporarily disabled while we validate and stabilize the release pipeline.
+    # Re-enable this job by removing the `if: true == false` condition once the release process is ready to run in CI.
     if: true == false
     steps:
       - uses: googleapis/release-please-action@v4
