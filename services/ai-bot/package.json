@@ -55,7 +55,7 @@
     "@esbuild/aix-ppc64": "^0.25.4",
     "@types/node": "^24.3.0",
     "esbuild": "^0.25.9",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
