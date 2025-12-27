@@ -7,6 +7,10 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
+RUN apk add --no-cache \
+    curl \
+    binutils
+
 WORKDIR /usr/src/app
 
 FROM pnpm AS api-base
@@ -29,8 +33,7 @@ RUN apk add --no-cache \
     harfbuzz \
     ca-certificates \
     ttf-freefont \
-    ffmpeg \
-    curl
+    ffmpeg
 
 RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /prod \
