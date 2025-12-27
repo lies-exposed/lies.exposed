@@ -1,4 +1,4 @@
-FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
+FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
 
 WORKDIR /usr/src/app
 
@@ -24,13 +24,15 @@ FROM dev AS build
 
 RUN pnpm api build
 
+RUN pnpm api pkg
+
 FROM build AS pruned
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm api fetch --prod
 
 RUN pnpm api --prod deploy --legacy /prod/api
 
-FROM node:24-alpine AS production
+FROM node:24-slim AS production
 
 ARG VERSION
 ARG COMMIT_HASH
@@ -39,6 +41,7 @@ ENV COMMIT_HASH=${COMMIT_HASH}
 
 WORKDIR /prod/api
 
-COPY --from=pruned /prod/api .
+COPY --from=build /usr/src/app/services/api/build/api ./api
+COPY --from=pruned /prod/api/node_modules ./node_modules
 
-CMD ["node", "build/run.js"]
+CMD ["./api"]

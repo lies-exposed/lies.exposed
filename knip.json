@@ -13,7 +13,8 @@
         "husky",
         "lint-staged",
         "corepack"
-      ]
+      ],
+      "ignoreUnresolved": ["tslib"]
     },
     "packages/@liexp/shared": {
       "includeEntryExports": false,
@@ -96,6 +97,9 @@
       ],
       "ignore": [
         "ormconfig.js"
+      ],
+      "ignoreDependencies": [
+        "@esbuild/aix-ppc64"
       ]
     },
     "services/worker": {

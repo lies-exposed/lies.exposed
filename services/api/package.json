@@ -25,9 +25,13 @@
     "config",
     "ormconfig.js"
   ],
+  "main": "build/run-esbuild.cjs",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsc -b tsconfig.build.json",
+    "build:tsc": "tsc -b tsconfig.build.json",
+    "build:es": "node --import tsx/esm ./esbuild.config.mjs",
+    "build": "pnpm build:tsc && pnpm build:es",
+    "pkg": "./scripts/pkg.sh",
     "clean": "rm -rf build deploy",
     "db:diagram": "node -r tsx/cjs -T ./node_modules/.bin/typeorm-uml ormconfig.js -D LR -d ./data/media/docs/diagrams/typeorm-uml.png",
     "db:dump": "tsx ./src/scripts/database.dump.ts",
@@ -88,7 +92,9 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@electric-sql/pglite": "^0.3.13",
+    "@esbuild/aix-ppc64": "^0.25.4",
     "@liexp/test": "workspace:*",
+    "esbuild": "^0.25.9",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
