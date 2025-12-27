@@ -58,7 +58,6 @@ jobs:
   # Build and push Docker images in parallel (only when release is created)
   deploy:
     needs: [release-please, setup]
-    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -112,6 +111,6 @@ jobs:
           image_name: ${{ matrix.image_tag }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          push: true
+          push: ${{ needs.release-please.outputs.releases_created }}
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
