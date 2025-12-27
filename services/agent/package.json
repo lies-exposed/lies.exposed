@@ -35,7 +35,7 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@langchain/mcp-adapters": "^1.1.0",
+    "@langchain/mcp-adapters": "^1.1.1",
     "@langchain/openai": "^1.2.0",
     "@langchain/xai": "^1.1.0",
     "@liexp/backend": "workspace:*",
