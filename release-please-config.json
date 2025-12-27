@@ -33,6 +33,10 @@
       "release-type": "node",
       "changelog-path": "packages/@liexp/shared/CHANGELOG.md"
     },
+    "packages/@liexp/test": {
+      "release-type": "node",
+      "changelog-path": "packages/@liexp/test/CHANGELOG.md"
+    },
     "packages/@liexp/ui": {
       "release-type": "node",
       "changelog-path": "packages/@liexp/ui/CHANGELOG.md"
@@ -64,10 +68,6 @@
     "services/storybook": {
       "release-type": "node",
       "changelog-path": "services/storybook/CHANGELOG.md"
-    },
-    "packages/@liexp/test": {
-      "release-type": "node",
-      "changelog-path": "packages/@liexp/test/CHANGELOG.md"
     }
   }
 }
