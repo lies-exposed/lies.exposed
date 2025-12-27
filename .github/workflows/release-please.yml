@@ -32,7 +32,7 @@ jobs:
   # Setup: Install deps and build (only when release is created)
   setup:
     needs: [release-please]
-    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -58,7 +58,7 @@ jobs:
   # Build and push Docker images in parallel (only when release is created)
   deploy:
     needs: [release-please, setup]
-    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
+    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     strategy:
       matrix:
