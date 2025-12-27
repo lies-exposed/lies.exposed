@@ -35,9 +35,6 @@ node_modules/
 *.tgz
 !patches/*.tgz
 
-# IDE
-.vscode
-
 # certificates
 certs
 

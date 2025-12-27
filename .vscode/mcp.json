@@ -12,7 +12,6 @@
       "type": "http"
     },
     "basic-memory": {
-      "type": "stdio",
       "command": "uvx",
       "args": ["basic-memory", "mcp", "--project", "lies-exposed"]
     }
