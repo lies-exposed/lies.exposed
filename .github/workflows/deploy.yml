@@ -1,25 +1,41 @@
-name: Deploy Services
+name: Release Please
 
 on:
   push:
     branches:
       - main
     paths:
-      - ".github/workflows/**"
-      - "packages/@liexp/core/**"
-      - "packages/@liexp/shared/**"
-      - "packages/@liexp/ui/**"
-      - "packages/@liexp/backend/**"
-      - "services/admin-web/**"
-      - "services/agent/**"
-      - "services/ai-bot/**"
-      - "services/api/**"
-      - "services/web/**"
-      - "services/worker/**"
+      - 'services/**'
+      - 'packages/**'
+      - 'compose*.yml'
+      - '.github/workflows/deploy.yml'
+      - 'Dockerfile*'
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
 
 jobs:
-  # Setup: Install deps and build (only needed for ai-bot)
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
+    # Temporarily disabled while we validate and stabilize the release pipeline.
+    # Re-enable this job by removing the `if: true == false` condition once the release process is ready to run in CI.
+    if: true == false
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  # Setup: Install deps and build (only when release is created)
   setup:
+    needs: [release-please]
+    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,9 +58,10 @@ jobs:
           path: services/ai-bot/build/
           retention-days: 1
 
-  # Build and push Docker images in parallel
+  # Build and push Docker images in parallel (only when release is created)
   deploy:
-    needs: [setup]
+    needs: [release-please, setup]
+    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -76,7 +93,7 @@ jobs:
             image_tag: ghcr.io/lies-exposed/liexp-worker:latest
 
     name: Deploy ${{ matrix.service }}
-    
+
     steps:
       - uses: actions/checkout@v4
         if: ${{ matrix.enabled }}
@@ -89,7 +106,7 @@ jobs:
           name: ai-bot-build
           path: services/ai-bot/build/
 
-      # Docker build step (only for PRs targeting main)
+      # Docker build and push
       - name: Docker build ${{ matrix.service }}
         if: ${{ matrix.enabled && matrix.dockerfile }}
         uses: ./.github/actions/docker-build-push
@@ -101,4 +118,3 @@ jobs:
           push: true
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
-
