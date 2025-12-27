@@ -1,0 +1,19 @@
+{
+  "servers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "github-mcp": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "type": "http"
+    },
+    "api-liexp-dev": {
+      "url": "http://api.liexp.dev/mcp",
+      "type": "http"
+    },
+    "basic-memory": {
+      "command": "uvx",
+      "args": ["basic-memory", "mcp", "--project", "lies-exposed"]
+    }
+  }
+}
