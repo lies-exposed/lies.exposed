@@ -63,10 +63,6 @@
       "release-type": "node",
       "changelog-path": "services/agent/CHANGELOG.md"
     },
-    "services/data": {
-      "release-type": "node",
-      "changelog-path": "services/data/CHANGELOG.md"
-    },
     "services/storybook": {
       "release-type": "node",
       "changelog-path": "services/storybook/CHANGELOG.md"
