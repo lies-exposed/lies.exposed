@@ -59,10 +59,10 @@ export const MakeURLMetadata = (
   ): TE.TaskEither<E, Metadata> => {
     return pipe(
       fetchHTML(url, opts, toError),
-      TE.chain((dom) =>
+      TE.chain((html) =>
         fp.TE.tryCatch(async () => {
-          const { JSDOM } = await import("jsdom");
-          return new JSDOM(dom).window.document;
+          const { parseHTML } = await import("linkedom");
+          return parseHTML(html).document;
         }, toError),
       ),
       TE.map((dom) => ctx.parser.getMetadata(dom, url, metadataRuleSets)),
