@@ -21,9 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
-    # Temporarily disabled while we validate and stabilize the release pipeline.
-    # Re-enable this job by removing the `if: true == false` condition once the release process is ready to run in CI.
-    if: true == false
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
@@ -35,7 +32,7 @@ jobs:
   # Setup: Install deps and build (only when release is created)
   setup:
     needs: [release-please]
-    if: needs.release-please.outputs.releases_created
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,7 +58,7 @@ jobs:
   # Build and push Docker images in parallel (only when release is created)
   deploy:
     needs: [release-please, setup]
-    if: needs.release-please.outputs.releases_created
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
