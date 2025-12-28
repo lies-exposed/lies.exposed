@@ -159,20 +159,21 @@ export const createViteServerHelper = async (
       serverEntry = templateConfig.serverEntry;
 
       if (fs.existsSync(staticConfig.indexFile)) {
-        const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
-        getTemplate = async (url: string, originalUrl?: string) => {
-          let template = templateFile;
-          if (templateConfig.getTemplate) {
-            template = await templateConfig.getTemplate(url, originalUrl);
-          }
-          return template;
-        };
+        if (templateConfig.getTemplate) {
+          // Use custom template resolver directly; it may implement its own caching.
+          getTemplate = templateConfig.getTemplate;
+        } else {
+          const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
+          getTemplate = async (_url: string, _originalUrl?: string) => {
+            return templateFile;
+          };
+        }
       }
 
       transformTemplate = templateConfig.transformTemplate ?? ((t) => t);
     } else {
       // SPA fallback - serve index.html for all routes
-      app.get("*", (_req: any, res: any) => {
+      app.get("*", (_req: express.Request, res: express.Response) => {
         res.sendFile(path.resolve(staticConfig.indexFile));
       });
     }
@@ -183,7 +184,7 @@ export const createViteServerHelper = async (
     const { createServer: createViteServer } = await import("vite");
 
     viteInstance = await createViteServer({
-      server: { middlewareMode: true, ...viteConfig.serverOptions },
+      server: { ...viteConfig.serverOptions, middlewareMode: true },
       appType: viteConfig.appType,
       configFile: viteConfig.configFile,
       base: viteConfig.base,
@@ -193,27 +194,35 @@ export const createViteServerHelper = async (
 
     // Template handling for development
     if (templateConfig?.serverEntry) {
-      // Extract the entry path from the function or use default
-      const entryPath = templateConfig.serverEntry
-        .toString()
-        .includes("import(")
-        ? (/import\(["']([^"']+)["']\)/.exec(
-            templateConfig.serverEntry.toString(),
-          )?.[1] ?? "/src/server/entry.tsx")
-        : "/src/server/entry.tsx";
+      // Resolve the server entry path from configuration or use default
+      const explicitEntryPath =
+        typeof (templateConfig as any).serverEntry === "string"
+          ? (templateConfig as any).serverEntry
+          : typeof (templateConfig as any).serverEntryPath === "string"
+            ? (templateConfig as any).serverEntryPath
+            : "/src/server/entry.tsx";
 
       serverEntry = () =>
-        viteInstance.ssrLoadModule(entryPath, { fixStacktrace: true });
+        viteInstance.ssrLoadModule(explicitEntryPath, { fixStacktrace: true });
 
       if (fs.existsSync(staticConfig.indexFile)) {
-        const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
-        getTemplate = async (url: string, originalUrl?: string) => {
-          let template = templateFile;
-          if (templateConfig.getTemplate) {
-            template = await templateConfig.getTemplate(url, originalUrl);
-          }
-          return viteInstance.transformIndexHtml(url, template, originalUrl);
-        };
+        if (templateConfig.getTemplate) {
+          // Delegate template generation entirely to the custom handler
+          getTemplate = async (url: string, originalUrl?: string) => {
+            const template = await templateConfig.getTemplate!(url, originalUrl);
+            return viteInstance.transformIndexHtml(url, template, originalUrl);
+          };
+        } else {
+          // Read and cache the template once at startup for reuse
+          const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
+          getTemplate = async (url: string, originalUrl?: string) => {
+            return viteInstance.transformIndexHtml(
+              url,
+              templateFile,
+              originalUrl,
+            );
+          };
+        }
       }
 
       transformTemplate = templateConfig.transformTemplate ?? ((t) => t);
