@@ -89,6 +89,9 @@ importers:
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
+      compression:
+        specifier: ^1.8.1
+        version: 1.8.1
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -119,6 +122,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      sirv:
+        specifier: ^3.0.1
+        version: 3.0.1
       typeorm:
         specifier: ^0.3.27
         version: 0.3.27(babel-plugin-macros@3.1.0)(ioredis@5.8.2)(pg@8.16.3)(reflect-metadata@0.2.2)
@@ -153,6 +159,9 @@ importers:
       '@napi-rs/canvas':
         specifier: ^0.1.80
         version: 0.1.80
+      '@types/compression':
+        specifier: ^1.8.1
+        version: 1.8.1
       '@types/express':
         specifier: ^5.0.3
         version: 5.0.3
@@ -219,6 +228,9 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
+      vite:
+        specifier: ^7.3.0
+        version: 7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2)
       vite-tsconfig-paths:
         specifier: ^6.0.1
         version: 6.0.1(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.20.6)(yaml@2.8.2))
@@ -775,9 +787,6 @@ importers:
       '@ts-endpoint/resource-client':
         specifier: file:../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
-      compression:
-        specifier: ^1.8.1
-        version: 1.8.1
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -805,16 +814,10 @@ importers:
       react-router:
         specifier: ^7.9.2
         version: 7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      sirv:
-        specifier: ^3.0.1
-        version: 3.0.1
       web-vitals:
         specifier: ^4.2.4
         version: 4.2.4
     devDependencies:
-      '@types/compression':
-        specifier: ^1.7.5
-        version: 1.8.1
       '@types/cors':
         specifier: ^2.8.17
         version: 2.8.19
@@ -1314,9 +1317,6 @@ importers:
       '@ts-endpoint/tanstack-query':
         specifier: file:../../patches/ts-endpoint-tanstack-query-0.1.0.tgz
         version: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz(axios@1.12.2)(fp-ts@2.16.11)
-      compression:
-        specifier: ^1.8.0
-        version: 1.8.1
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
@@ -1350,13 +1350,7 @@ importers:
       react-router:
         specifier: ^7.9.2
         version: 7.9.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      sirv:
-        specifier: ^3.0.1
-        version: 3.0.1
     devDependencies:
-      '@types/compression':
-        specifier: ^1.7.5
-        version: 1.8.1
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
