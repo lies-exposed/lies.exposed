@@ -54,14 +54,14 @@ export interface ServerHelperConfig {
     /** Body parser limits */
     bodyLimit?: string;
     /** Additional middleware to register before Vite */
-    beforeViteMiddleware?: (app: any) => void;
+    beforeViteMiddleware?: (app: express.Application) => void;
     /** Additional middleware to register after Vite */
-    afterViteMiddleware?: (app: any) => void;
+    afterViteMiddleware?: (app: express.Application) => void;
   };
   /** Error handling configuration */
   errorConfig?: {
     /** Custom error handler */
-    onRequestError?: (error: any) => void;
+    onRequestError?: (error: unknown) => void;
     /** Whether to expose error details in production */
     exposeErrorDetails?: boolean;
   };
@@ -69,7 +69,7 @@ export interface ServerHelperConfig {
 
 export interface ViteServerHelper {
   /** Express application instance */
-  app: any;
+  app: express.Express;
   /** Vite dev server instance (only in development) */
   vite?: any;
   /** Server entry loader function */
@@ -164,8 +164,8 @@ export const createViteServerHelper = async (
           getTemplate = templateConfig.getTemplate;
         } else {
           const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
-          getTemplate = async (_url: string, _originalUrl?: string) => {
-            return templateFile;
+          getTemplate = (_url: string, _originalUrl?: string) => {
+            return Promise.resolve(templateFile);
           };
         }
       }
@@ -195,27 +195,22 @@ export const createViteServerHelper = async (
     // Template handling for development
     if (templateConfig?.serverEntry) {
       // Resolve the server entry path from configuration or use default
-      const explicitEntryPath =
-        typeof (templateConfig as any).serverEntry === "string"
-          ? (templateConfig as any).serverEntry
-          : typeof (templateConfig as any).serverEntryPath === "string"
-            ? (templateConfig as any).serverEntryPath
-            : "/src/server/entry.tsx";
+      const entry = await templateConfig.serverEntry();
 
       serverEntry = () =>
-        viteInstance.ssrLoadModule(explicitEntryPath, { fixStacktrace: true });
+        viteInstance.ssrLoadModule(entry, { fixStacktrace: true });
 
       if (fs.existsSync(staticConfig.indexFile)) {
         if (templateConfig.getTemplate) {
           // Delegate template generation entirely to the custom handler
           getTemplate = async (url: string, originalUrl?: string) => {
-            const template = await templateConfig.getTemplate!(url, originalUrl);
+            const template = await templateConfig.getTemplate(url, originalUrl);
             return viteInstance.transformIndexHtml(url, template, originalUrl);
           };
         } else {
           // Read and cache the template once at startup for reuse
           const templateFile = fs.readFileSync(staticConfig.indexFile, "utf8");
-          getTemplate = async (url: string, originalUrl?: string) => {
+          getTemplate = (url: string, originalUrl?: string) => {
             return viteInstance.transformIndexHtml(
               url,
               templateFile,
@@ -243,24 +238,31 @@ export const createViteServerHelper = async (
   // Error Handler
   // ============================================================
 
-  app.use((err: Error, _req: any, res: any, _next: any) => {
-    logger.error.log("Express error: %O", err);
+  app.use(
+    (
+      err: Error,
+      _req: express.Request,
+      res: express.Response,
+      _next: express.NextFunction,
+    ) => {
+      logger.error.log("Express error: %O", err);
 
-    if (errorConfig?.onRequestError) {
-      errorConfig.onRequestError(err);
-    }
+      if (errorConfig?.onRequestError) {
+        errorConfig.onRequestError(err);
+      }
 
-    // In development with Vite, let Vite handle stack trace fixing
-    if (viteInstance?.ssrFixStacktrace) {
-      viteInstance.ssrFixStacktrace(err);
-    }
+      // In development with Vite, let Vite handle stack trace fixing
+      if (viteInstance?.ssrFixStacktrace) {
+        viteInstance.ssrFixStacktrace(err);
+      }
 
-    const exposeDetails = errorConfig?.exposeErrorDetails ?? !isProduction;
-    res.status(500).json({
-      error: "Internal server error",
-      message: exposeDetails ? err.message : "Something went wrong",
-    });
-  });
+      const exposeDetails = errorConfig?.exposeErrorDetails ?? !isProduction;
+      res.status(500).json({
+        error: "Internal server error",
+        message: exposeDetails ? err.message : "Something went wrong",
+      });
+    },
+  );
 
   return {
     app,

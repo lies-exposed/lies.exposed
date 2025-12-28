@@ -48,6 +48,8 @@ export const run = async (base: string): Promise<void> => {
     ? path.resolve(outputDir, "server/entry.js")
     : "/src/server/entry.tsx";
 
+  const templateFile = fs.readFileSync(indexFile, "utf8");
+
   // ============================================================
   // Create Vite Server Helper with SSR Support
   // ============================================================
@@ -71,17 +73,17 @@ export const run = async (base: string): Promise<void> => {
       templateConfig: {
         serverEntry: isProduction ? () => import(serverEntryPath) : undefined, // Will be handled by helper for dev mode
         getTemplate: isProduction
-          ? async (url: string, originalUrl?: string) => {
-              const templateFile = fs.readFileSync(indexFile, "utf8");
-              return templateFile.replace(
+          ? async () => {
+              const html = templateFile.replace(
                 "<!--web-analytics-->",
                 `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
               );
+              return Promise.resolve(html);
             }
-          : async (url: string, originalUrl?: string) => {
+          : async () => {
               // Development mode - just read the template file, Vite will handle transformation
               const templateFile = fs.readFileSync(indexFile, "utf8");
-              return templateFile;
+              return Promise.resolve(templateFile);
             },
         transformTemplate: (t: string) => t,
       },
