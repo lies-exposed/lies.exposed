@@ -54,9 +54,9 @@ export interface ServerHelperConfig {
     /** Body parser limits */
     bodyLimit?: string;
     /** Additional middleware to register before Vite */
-    beforeViteMiddleware?: (app: express.Application) => void;
+    beforeViteMiddleware?: (app: ReturnType<typeof express>) => void;
     /** Additional middleware to register after Vite */
-    afterViteMiddleware?: (app: express.Application) => void;
+    afterViteMiddleware?: (app: ReturnType<typeof express>) => void;
   };
   /** Error handling configuration */
   errorConfig?: {
@@ -69,7 +69,7 @@ export interface ServerHelperConfig {
 
 export interface ViteServerHelper {
   /** Express application instance */
-  app: express.Express;
+  app: ReturnType<typeof express>;
   /** Vite dev server instance (only in development) */
   vite?: any;
   /** Server entry loader function */
