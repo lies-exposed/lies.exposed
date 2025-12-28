@@ -21,7 +21,7 @@ export interface StaticFileConfig {
   buildPath: string;
   /** Path to client files (for SSR apps) */
   clientPath?: string;
-  /** Path to index.html file */
+  /** Absolute path to index.html file */
   indexFile: string;
   /** Extensions to serve (default: []) */
   extensions?: string[];
@@ -205,7 +205,10 @@ export const createViteServerHelper = async (
         if (templateConfig.getTemplate) {
           // Delegate template generation entirely to the custom handler
           getTemplate = async (url: string, originalUrl?: string) => {
-            const template = await templateConfig.getTemplate!(url, originalUrl);
+            const template = await templateConfig.getTemplate!(
+              url,
+              originalUrl,
+            );
             return viteInstance.transformIndexHtml(url, template, originalUrl);
           };
         } else {
