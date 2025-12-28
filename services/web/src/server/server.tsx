@@ -8,14 +8,11 @@
 // other imports
 import * as fs from "fs";
 import * as path from "path";
+import { createViteServerHelper } from "@liexp/backend/lib/express/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { getServer } from "@liexp/ui/lib/react/ssr.js";
-import { type ServerRenderer } from "@liexp/ui/lib/react/vite/render.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
-import compression from "compression";
 import D from "debug";
-import express from "express";
-import sirv from "sirv";
 import { routes } from "../client/routes.js";
 
 const webSrvLog = GetLogger("web");
@@ -43,77 +40,79 @@ export const run = async (base: string): Promise<void> => {
     ? path.resolve(cwd, "build")
     : path.resolve(cwd, "src");
 
-  const app = express();
-
   const indexFile = isProduction
     ? path.resolve(outputDir, "client/index.html")
     : path.resolve(cwd, "index.html");
 
-  let serverEntry;
-  let getTemplate;
-  let transformTemplate;
-  let onRequestError;
-  // let routes;
+  const serverEntryPath = isProduction
+    ? path.resolve(outputDir, "server/entry.js")
+    : "/src/server/entry.tsx";
 
-  if (isProduction) {
-    serverEntry = () => import(path.resolve(outputDir, "server/entry.js"));
-    const templateFile = fs.readFileSync(indexFile, "utf8");
+  // ============================================================
+  // Create Vite Server Helper with SSR Support
+  // ============================================================
 
-    getTemplate = (_url: string, _originalUrl: string) =>
-      Promise.resolve(
-        templateFile.replace(
-          "<!--web-analytics-->",
-          `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
-        ),
-      );
-
-    transformTemplate = (template: string) => template;
-    onRequestError = (e: any) => {
-      webSrvLog.error.log("app error", e);
-    };
-
-    app.use(compression());
-    app.use(base, sirv(path.resolve(outputDir, "client"), { extensions: [] }));
-  } else {
-    const { createServer: createViteServer } = await import("vite");
-
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      configFile: path.resolve(process.cwd(), "vite.config.ts"),
-      appType: "custom",
-      base,
+  const { app, serverEntry, getTemplate, transformTemplate } =
+    await createViteServerHelper({
+      logger: webSrvLog,
+      isProduction,
+      viteConfig: {
+        appType: "custom", // SSR mode
+        base,
+        configFile: path.resolve(process.cwd(), "vite.config.ts"),
+      },
+      staticConfig: {
+        buildPath: outputDir,
+        clientPath: isProduction
+          ? path.resolve(outputDir, "client")
+          : undefined,
+        indexFile,
+      },
+      templateConfig: {
+        serverEntry: isProduction ? () => import(serverEntryPath) : undefined, // Will be handled by helper for dev mode
+        getTemplate: isProduction
+          ? async (url: string, originalUrl?: string) => {
+              const templateFile = fs.readFileSync(indexFile, "utf8");
+              return templateFile.replace(
+                "<!--web-analytics-->",
+                `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
+              );
+            }
+          : async (url: string, originalUrl?: string) => {
+              // Development mode - just read the template file, Vite will handle transformation
+              const templateFile = fs.readFileSync(indexFile, "utf8");
+              return templateFile;
+            },
+        transformTemplate: (t: string) => t,
+      },
+      expressConfig: {
+        compression: isProduction,
+        beforeViteMiddleware: () => {
+          // Custom middleware can be added here if needed
+        },
+      },
+      errorConfig: {
+        exposeErrorDetails: !isProduction,
+        onRequestError: (e: any) => {
+          webSrvLog.error.log("app error", e);
+        },
+      },
     });
 
-    serverEntry = () =>
-      vite.ssrLoadModule("/src/server/entry.tsx", {
-        fixStacktrace: true,
-      }) as Promise<{
-        render: ServerRenderer;
-        configuration: any;
-      }>;
-
-    app.use(vite.middlewares);
-
-    getTemplate = (url: string, originalUrl: string): Promise<string> => {
-      const templateFile = fs.readFileSync(indexFile, "utf8");
-      return vite.transformIndexHtml(url, templateFile, originalUrl);
-    };
-
-    transformTemplate = (t: string) => t;
-
-    onRequestError = (e: any) => {
-      vite.ssrFixStacktrace(e);
-    };
-  }
+  // ============================================================
+  // Setup SSR Server
+  // ============================================================
 
   const server = getServer({
     app,
     routes,
-    getTemplate,
-    serverEntry,
+    getTemplate: getTemplate!,
+    serverEntry: serverEntry!,
     apiProvider: { ssr: ssrApiProvider, client: apiProvider },
-    transformTemplate,
-    onRequestError,
+    transformTemplate: transformTemplate!,
+    onRequestError: (e: any) => {
+      webSrvLog.error.log("app error", e);
+    },
   });
 
   server.on("error", (e) => {

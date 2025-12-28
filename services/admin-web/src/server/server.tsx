@@ -12,19 +12,13 @@
  */
 
 import * as path from "path";
+import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
-import compression from "compression";
 import cors from "cors";
 import { Schema } from "effect";
-import express, {
-  type Router,
-  type Request,
-  type Response,
-  type NextFunction,
-} from "express";
-import sirv from "sirv";
+import express from "express";
 import { makeAdminProxyContext } from "./context/index.js";
 import { AdminProxyENV } from "./io/ENV.js";
 import { registerAgentProxyRoutes } from "./routes/agent-proxy.routes.js";
@@ -70,91 +64,55 @@ export const run = async (base: string): Promise<void> => {
   const ctx = contextResult.right;
   logger.info.log("Context initialized successfully");
 
-  // Initialize Express app
-  const app = express();
-
-  // CORS (allow admin frontend)
-  app.use(
-    cors({
-      origin: env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
-      credentials: true,
-      methods: ["POST", "GET", "OPTIONS"],
-    }),
-  );
-
-  // Body parsers
-  app.use(express.json({ limit: "10mb" }));
-  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-
-  // Compression
-  app.use(compression());
-
   // ============================================================
-  // API Routes (must be registered BEFORE Vite middleware)
+  // Create Vite Server Helper
   // ============================================================
 
-  // Global health check
-  app.get("/api/health", (_req, res) => {
-    res.status(200).json({
-      status: "ok",
-      service: "admin-web",
-      timestamp: new Date().toISOString(),
-    });
-  });
+  const buildPath = path.resolve(process.cwd(), "build");
+  const indexFile = path.resolve(buildPath, "index.html");
 
-  // Agent proxy routes at /api/proxy/agent
-  const proxyRouter = express.Router() as Router;
-  registerAgentProxyRoutes(proxyRouter, ctx);
-  app.use("/api/proxy/agent", proxyRouter);
-
-  // ============================================================
-  // Frontend Serving (Vite dev server or static files)
-  // ============================================================
-
-  if (isProduction) {
-    // Production: serve pre-built static files
-    const buildPath = path.resolve(process.cwd(), "build");
-    logger.info.log("Serving production build from %s", buildPath);
-
-    // Serve static assets
-    app.use(base, sirv(buildPath, { extensions: [] }));
-
-    // SPA fallback - serve index.html for all other routes
-    app.get("*", (_req, res) => {
-      res.sendFile(path.resolve(buildPath, "index.html"));
-    });
-  } else {
-    // Development: use Vite dev server with HMR
-    logger.info.log("Starting Vite dev server in middleware mode");
-
-    const { createServer: createViteServer } = await import("vite");
-
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa", // Vite handles HTML serving and SPA fallback
+  const { app } = await createViteServerHelper({
+    logger,
+    isProduction,
+    viteConfig: {
+      appType: "spa",
       base,
-    });
+    },
+    staticConfig: {
+      buildPath,
+      indexFile,
+    },
+    expressConfig: {
+      compression: true,
+      bodyLimit: "10mb",
+      beforeViteMiddleware: (app) => {
+        // CORS (allow admin frontend)
+        app.use(
+          cors({
+            origin: env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
+            credentials: true,
+            methods: ["POST", "GET", "OPTIONS"],
+          }),
+        );
 
-    // Vite's middleware handles:
-    // - HMR WebSocket
-    // - Source file transformation
-    // - Static asset serving
-    // - HTML serving and SPA fallback
-    app.use(vite.middlewares);
+        // Global health check
+        app.get("/api/health", (_req: any, res: any) => {
+          res.status(200).json({
+            status: "ok",
+            service: "admin-web",
+            timestamp: new Date().toISOString(),
+          });
+        });
 
-    logger.info.log("Vite dev server initialized with HMR enabled");
-  }
-
-  // ============================================================
-  // Error Handler (must be last)
-  // ============================================================
-
-  app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-    logger.error.log("Express error: %O", err);
-    res.status(500).json({
-      error: "Internal server error",
-      message: isProduction ? "Something went wrong" : err.message,
-    });
+        // Agent proxy routes at /api/proxy/agent
+        const proxyRouter = express.Router();
+        registerAgentProxyRoutes(proxyRouter, ctx);
+        app.use("/api/proxy/agent", proxyRouter);
+      },
+    },
+    errorConfig: {
+      exposeErrorDetails: !isProduction,
+    },
   });
 
   // ============================================================
@@ -173,7 +131,7 @@ export const run = async (base: string): Promise<void> => {
     }
   });
 
-  server.on("error", (e) => {
+  server.on("error", (e: any) => {
     logger.error.log("Server error: %O", e);
     process.exit(1);
   });

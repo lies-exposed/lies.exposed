@@ -1,9 +1,8 @@
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
-import { Schema } from "effect";
 
-export const AppEnv = defineEnv((t) => ({
+export const AppEnv = defineEnv((Schema) => ({
   VITE_NODE_ENV: Schema.String,
   VITE_PUBLIC_URL: Schema.String,
   VITE_API_URL: Schema.String,
