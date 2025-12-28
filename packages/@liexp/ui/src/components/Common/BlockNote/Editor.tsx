@@ -62,8 +62,9 @@ function filterSuggestionItems(
     ({ title, aliases }) =>
       title.toLowerCase().includes(query.toLowerCase()) ||
       (aliases &&
-        aliases.filter((alias) => alias.toLowerCase().includes(query.toLowerCase()))
-          .length !== 0),
+        aliases.filter((alias) =>
+          alias.toLowerCase().includes(query.toLowerCase()),
+        ).length !== 0),
   );
 }
 
