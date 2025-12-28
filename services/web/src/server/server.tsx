@@ -8,7 +8,7 @@
 // other imports
 import * as fs from "fs";
 import * as path from "path";
-import { createViteServerHelper } from "@liexp/backend/lib/express/index.js";
+import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
