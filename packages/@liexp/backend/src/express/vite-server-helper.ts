@@ -29,7 +29,7 @@ export interface StaticFileConfig {
 
 export interface TemplateConfig {
   /** Function to get template content */
-  getTemplate: (url: string, originalUrl?: string) => Promise<string>;
+  getTemplate?: (url: string, originalUrl?: string) => Promise<string>;
   /** Function to transform template */
   transformTemplate?: (template: string) => string;
   /** Function to load server entry module */
@@ -54,9 +54,9 @@ export interface ServerHelperConfig {
     /** Body parser limits */
     bodyLimit?: string;
     /** Additional middleware to register before Vite */
-    beforeViteMiddleware?: (app: ReturnType<typeof express>) => void;
+    beforeViteMiddleware?: (app: express.Express) => void;
     /** Additional middleware to register after Vite */
-    afterViteMiddleware?: (app: ReturnType<typeof express>) => void;
+    afterViteMiddleware?: (app: express.Express) => void;
   };
   /** Error handling configuration */
   errorConfig?: {
@@ -102,7 +102,8 @@ export const createViteServerHelper = async (
   // Express Middleware Setup
   // ============================================================
 
-  if (expressConfig.compression !== false) {
+  // Compression middleware - only enable when explicitly requested
+  if (expressConfig.compression === true) {
     app.use(compression());
   }
 
@@ -204,7 +205,7 @@ export const createViteServerHelper = async (
         if (templateConfig.getTemplate) {
           // Delegate template generation entirely to the custom handler
           getTemplate = async (url: string, originalUrl?: string) => {
-            const template = await templateConfig.getTemplate(url, originalUrl);
+            const template = await templateConfig.getTemplate!(url, originalUrl);
             return viteInstance.transformIndexHtml(url, template, originalUrl);
           };
         } else {

@@ -184,7 +184,7 @@ describe("vite-server-helper", () => {
         expect(result.transformTemplate).toBeDefined();
 
         // Test template getter
-        const template = await result.getTemplate!("http://localhost", "/");
+        await result.getTemplate!("http://localhost", "/");
         expect(mockGetTemplate).toHaveBeenCalledWith("http://localhost", "/");
         expect(mockViteServer.transformIndexHtml).toHaveBeenCalled();
       });

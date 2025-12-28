@@ -26,9 +26,9 @@ const config = defineViteConfig({
     host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
     hmr: true,
     allowedHosts:
-      process.env.VITE_NODE_ENV !== "production"
-        ? ["admin.liexp.dev"]
-        : ["admin.lies.exposed"],
+      process.env.VITE_NODE_ENV === "production"
+        ? ["admin.lies.exposed"]
+        : ["admin.liexp.dev"],
   },
   output: "build",
   target: "spa",

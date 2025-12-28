@@ -48,8 +48,6 @@ export const run = async (base: string): Promise<void> => {
     ? path.resolve(outputDir, "server/entry.js")
     : "/src/server/entry.tsx";
 
-  const templateFile = fs.readFileSync(indexFile, "utf8");
-
   // ============================================================
   // Create Vite Server Helper with SSR Support
   // ============================================================
@@ -72,6 +70,7 @@ export const run = async (base: string): Promise<void> => {
         serverEntry: () => Promise.resolve(serverEntryPath), // Always provide the entry path
         getTemplate: isProduction
           ? async () => {
+              const templateFile = fs.readFileSync(indexFile, "utf8");
               const html = templateFile.replace(
                 "<!--web-analytics-->",
                 `<script data-goatcounter="https://liexp.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>`,
@@ -79,7 +78,8 @@ export const run = async (base: string): Promise<void> => {
               return Promise.resolve(html);
             }
           : async () => {
-              // Development mode - use cached template file, Vite will handle transformation
+              // Development mode - read template file, Vite will handle transformation
+              const templateFile = fs.readFileSync(indexFile, "utf8");
               return Promise.resolve(templateFile);
             },
         transformTemplate: (t: string) => t,
@@ -99,13 +99,20 @@ export const run = async (base: string): Promise<void> => {
   // Setup SSR Server
   // ============================================================
 
+  // Verify required SSR dependencies are available
+  if (!getTemplate || !serverEntry || !transformTemplate) {
+    throw new Error(
+      "SSR configuration incomplete: missing required template or server entry functions",
+    );
+  }
+
   const server = getServer({
     app,
     routes,
-    getTemplate: getTemplate!,
-    serverEntry: serverEntry!,
+    getTemplate,
+    serverEntry,
     apiProvider: { ssr: ssrApiProvider, client: apiProvider },
-    transformTemplate: transformTemplate!,
+    transformTemplate,
     onRequestError: (e) => {
       webSrvLog.error.log("app error", e);
     },
