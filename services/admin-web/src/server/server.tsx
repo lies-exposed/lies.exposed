@@ -96,7 +96,7 @@ export const run = async (base: string): Promise<void> => {
         );
 
         // Global health check
-        app.get("/api/health", (_req: any, res: any) => {
+        app.get("/api/health", (_req, res) => {
           res.status(200).json({
             status: "ok",
             service: "admin-web",

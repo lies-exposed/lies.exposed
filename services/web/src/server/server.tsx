@@ -65,13 +65,11 @@ export const run = async (base: string): Promise<void> => {
       },
       staticConfig: {
         buildPath: outputDir,
-        clientPath: isProduction
-          ? path.resolve(outputDir, "client")
-          : undefined,
+        clientPath: isProduction ? path.resolve(outputDir, "client") : cwd, // Development: align with indexFile location at project root
         indexFile,
       },
       templateConfig: {
-        serverEntry: isProduction ? () => import(serverEntryPath) : undefined, // Will be handled by helper for dev mode
+        serverEntry: () => Promise.resolve(serverEntryPath), // Always provide the entry path
         getTemplate: isProduction
           ? async () => {
               const html = templateFile.replace(
@@ -81,21 +79,17 @@ export const run = async (base: string): Promise<void> => {
               return Promise.resolve(html);
             }
           : async () => {
-              // Development mode - just read the template file, Vite will handle transformation
-              const templateFile = fs.readFileSync(indexFile, "utf8");
+              // Development mode - use cached template file, Vite will handle transformation
               return Promise.resolve(templateFile);
             },
         transformTemplate: (t: string) => t,
       },
       expressConfig: {
         compression: isProduction,
-        beforeViteMiddleware: () => {
-          // Custom middleware can be added here if needed
-        },
       },
       errorConfig: {
         exposeErrorDetails: !isProduction,
-        onRequestError: (e: any) => {
+        onRequestError: (e) => {
           webSrvLog.error.log("app error", e);
         },
       },
@@ -112,7 +106,7 @@ export const run = async (base: string): Promise<void> => {
     serverEntry: serverEntry!,
     apiProvider: { ssr: ssrApiProvider, client: apiProvider },
     transformTemplate: transformTemplate!,
-    onRequestError: (e: any) => {
+    onRequestError: (e) => {
       webSrvLog.error.log("app error", e);
     },
   });
