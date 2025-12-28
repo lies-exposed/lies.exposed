@@ -54,13 +54,16 @@ const getCustomSlashMenuItems = (
   ];
 };
 
-function filterSuggestionItems(e: DefaultReactSuggestionItem[], t: string) {
-  return e.filter(
-    ({ title: n, aliases: o }) =>
-      n.toLowerCase().includes(t.toLowerCase()) ||
-      (o &&
-        o.filter((r) => r.toLowerCase().includes(t.toLowerCase())).length !==
-          0),
+function filterSuggestionItems(
+  items: DefaultReactSuggestionItem[],
+  query: string,
+) {
+  return items.filter(
+    ({ title, aliases }) =>
+      title.toLowerCase().includes(query.toLowerCase()) ||
+      (aliases &&
+        aliases.filter((alias) => alias.toLowerCase().includes(query.toLowerCase()))
+          .length !== 0),
   );
 }
 
