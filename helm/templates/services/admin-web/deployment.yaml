@@ -20,6 +20,14 @@ spec:
       containers:
         - image: ghcr.io/lies-exposed/liexp-admin-web:latest
           imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: 4010
+            failureThreshold: 10
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 20
           name: admin-web
           ports:
             - containerPort: 80

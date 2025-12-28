@@ -1,7 +1,5 @@
 # syntax=docker/dockerfile:1
 
-
-
 FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
 
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
