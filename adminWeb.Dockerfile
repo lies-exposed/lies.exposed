@@ -14,31 +14,23 @@ WORKDIR /usr/src/app
 
 FROM base AS dev
 
-WORKDIR /usr/src/app
-
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 RUN pnpm packages:build
 
 CMD ["pnpm", "admin-web", "docker:dev"]
 
-FROM base AS build
+FROM dev AS build
 
 ARG DOTENV_CONFIG_PATH=".env"
-
-COPY --from=dev /usr/src/app /usr/src/app
-
-WORKDIR /usr/src/app
 
 RUN pnpm admin-web build
 
 ENV DOTENV_CONFIG_PATH=$DOTENV_CONFIG_PATH
 
-RUN pnpm admin-web build:app
+RUN pnpm admin-web build:app-server
 
 FROM build AS pruned
-
-COPY --from=base /usr/src/app ./
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm admin-web fetch --prod
 
@@ -46,14 +38,10 @@ RUN pnpm admin-web --prod deploy --legacy /prod/admin-web
 
 WORKDIR /prod/admin-web
 
-FROM nginx:1.25.4-alpine AS production
+FROM node:24-alpine AS production
 
-# COPY ./resources/nginx/snippets/ /etc/nginx/snippets/
-# RUN mkdir -p /etc/nginx/conf.d/
+WORKDIR /prod/admin-web
 
-# create directory for logs
-RUN mkdir -p /var/log/nginx/
+COPY --from=pruned /prod/admin-web ./
 
-COPY --from=build /usr/src/app/services/admin-web/build /usr/share/nginx/html
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "./build/server/server.js"]

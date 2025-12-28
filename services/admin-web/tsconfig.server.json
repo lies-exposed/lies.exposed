@@ -1,19 +1,13 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./build/server",
-    "module": "ESNext",
-    "target": "ES2022",
-    "lib": ["ES2022"],
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
     "noEmit": false,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "outDir": "./build",
+    "rootDir": "./src",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "tsBuildInfoFile": "build/.server.tsbuildinfo"
   },
   "include": [
     "src/server/**/*",
