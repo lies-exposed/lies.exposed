@@ -758,8 +758,6 @@ Completed Tasks:
 {
   "dependencies": {
     "express": "^5",
-    "compression": "^1.7.4",
-    "express-rate-limit": "^7.1.5",
     "axios": "^1.6.5"
   },
   "devDependencies": {

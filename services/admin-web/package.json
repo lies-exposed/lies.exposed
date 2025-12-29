@@ -12,6 +12,7 @@
     "build": "tsc -b tsconfig.build.json",
     "build:app": "vite build",
     "build:server": "tsc -p tsconfig.server.json",
+    "build:app-server": "pnpm build:app && pnpm build:server",
     "clean": "rm -rf build",
     "dev": "vite dev",
     "dev:server": "tsx watch src/server/server.tsx",
