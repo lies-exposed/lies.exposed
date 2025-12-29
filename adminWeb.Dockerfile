@@ -1,10 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM node:24-slim AS base
-
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN npm i -g corepack@latest && corepack use pnpm@latest-10
+FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS base
 
 COPY ./package.json /usr/src/app/package.json
 COPY ./pnpm-lock.yaml /usr/src/app/pnpm-lock.yaml

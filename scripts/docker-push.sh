@@ -14,6 +14,7 @@ AGENT_IMAGE=ghcr.io/lies-exposed/liexp-agent
 (exec ./scripts/docker-login.sh "$1")
 
 base=false
+pnpm=false
 api=false
 be_worker=false
 web=false
@@ -42,6 +43,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --ai-bot)
             ai_bot=true
+            shift
+            ;;
+        --pnpm)
+            pnpm=true
             shift
             ;;
         --base)
