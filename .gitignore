@@ -81,3 +81,6 @@ localai/models/.*.yaml
 # Aider configuration
 .aider.*
 .aider*
+
+# Service data
+services/data

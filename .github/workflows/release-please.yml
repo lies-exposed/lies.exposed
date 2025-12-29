@@ -7,9 +7,14 @@ on:
     paths:
       - 'services/**'
       - 'packages/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
       - 'compose*.yml'
       - '.github/workflows/deploy.yml'
       - 'Dockerfile*'
+      - 'release-please-config.json'
+      - '.release-please-manifest.json'
+  workflow_dispatch:
 
 permissions:
   contents: write
