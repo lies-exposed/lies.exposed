@@ -15,6 +15,7 @@
   },
   "files": [
     "build",
+    "patches",
     "AGENTS.md"
   ],
   "scripts": {

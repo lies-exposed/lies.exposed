@@ -11,7 +11,7 @@ packages:
 onlyBuiltDependencies:
   - exifreader
   - esbuild
-  - sharp
+  # - sharp
 
 ignoredBuiltDependencies:
   - "@parcel/watcher"
@@ -30,11 +30,12 @@ overrides:
   "react-is": "^18"
 
 nodeLinker: hoisted
-linkWorkspacePackages: deep
-preferWorkspacePackages: true
 
-# keep the PNPM legacy workspace hoisting behavior
-injectWorkspacePackages: false
+injectWorkspacePackages: true
+preferWorkspacePackages: true
+linkWorkspacePackages: deep
+syncInjectedDepsAfterScripts:
+- build
 
 supportedArchitectures:
   os:

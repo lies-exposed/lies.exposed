@@ -2,7 +2,7 @@ FROM ghcr.io/lies-exposed/liexp-base:24-latest AS dev
 
 WORKDIR /usr/src/app
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json ./
 
 COPY patches patches
 COPY packages/@liexp/core packages/@liexp/core
@@ -27,7 +27,7 @@ FROM build AS pruned
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm worker fetch --prod
 
-RUN pnpm worker --prod deploy --legacy /prod/worker
+RUN pnpm worker --prod deploy /prod/worker
 
 FROM ghcr.io/lies-exposed/liexp-base:24-latest AS production
 

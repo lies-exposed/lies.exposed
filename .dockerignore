@@ -1,24 +1,36 @@
+# Dependencies (installed in container)
+node_modules
+**/node_modules
+
+# Build artifacts (built in container)
+**/lib
+**/build
+!services/ai-bot/build
+
+# Dev/CI tooling
 .cache
 .github
 .husky
 .vscode
 .git
-_data
+.agents
+
+# Test artifacts
 **/coverage
 **/dump
-deploy
 **/temp
+
+# Data directories
+_data
+backup
 models
-node_modules
-**/node_modules
-**/lib
-**/build
-!services/ai-bot/build
-public
+
+# Environment files
 .env*
 !services/admin/.env.prod
 !services/web/.env.prod
 !.env
+
+# Docker files (not needed in context)
 *.Dockerfile
 compose.yml
-

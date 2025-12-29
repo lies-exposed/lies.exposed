@@ -34,7 +34,7 @@ FROM build AS pruned
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm admin fetch --prod
 
-RUN pnpm admin --prod deploy --legacy /prod/admin
+RUN pnpm admin --prod deploy /prod/admin
 
 WORKDIR /prod/admin
 
