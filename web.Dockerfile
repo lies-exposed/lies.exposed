@@ -8,6 +8,7 @@ COPY ./patches /usr/src/app/patches
 COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
 COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
 COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared
+COPY ./packages/@liexp/backend /usr/src/app/packages/@liexp/backend
 COPY ./packages/@liexp/ui /usr/src/app/packages/@liexp/ui
 COPY ./services/web /usr/src/app/services/web
 
