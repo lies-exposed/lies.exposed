@@ -5,8 +5,8 @@
   "bump-patch-for-minor-pre-major": true,
   "include-v-in-tag": true,
   "include-component-in-tag": true,
-  "initial-version": "0.1.0",
-  "bootstrap-sha": "cd0acf915dab59cb25a40e7857223faca138c2fe",
+  "release-as": "0.1.0",
+  "pull-request-title-pattern": "chore(${scope}): release ${version}",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
     { "type": "fix", "section": "Bug Fixes" },
