@@ -6,6 +6,8 @@
   "include-v-in-tag": true,
   "include-component-in-tag": true,
   "release-as": "0.1.0",
+  "bootstrap-sha": "2a16257cd9a92460c45dd7b71be89e7748706d62",
+  "skip-github-release": true,
   "pull-request-title-pattern": "chore(${scope}): release ${version}",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
@@ -21,7 +23,7 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "component": "lies.exposed",
+      "component": "workspace",
       "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/backend": {
