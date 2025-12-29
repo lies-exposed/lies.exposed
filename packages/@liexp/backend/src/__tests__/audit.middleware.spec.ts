@@ -1,15 +1,16 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
 import type { Request, Response, NextFunction } from "express";
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { mock } from "vitest-mock-extended";
 import { makeAuditMiddleware } from "../express/middleware/audit.middleware.js";
 
 describe("audit.middleware", () => {
-  const mockLogger: Logger = {
+  const mockLogger = mock<Logger>({
     debug: { log: vi.fn() },
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  });
 
   let mockRequest: Partial<Request>;
   let mockResponse: Partial<Response>;

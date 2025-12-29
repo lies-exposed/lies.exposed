@@ -2,6 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import type { Logger } from "@liexp/core/lib/logger/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
 import {
   createViteServerHelper,
   type ServerHelperConfig,
@@ -54,12 +55,12 @@ vi.mock("fs");
 vi.mock("path");
 
 describe("vite-server-helper", () => {
-  const mockLogger: Logger = {
+  const mockLogger = mock<Logger>({
     debug: { log: vi.fn() },
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  });
 
   const baseConfig: ServerHelperConfig = {
     logger: mockLogger,
