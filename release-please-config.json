@@ -29,62 +29,62 @@
     "packages/@liexp/backend": {
       "release-type": "node",
       "component": "backend",
-      "changelog-path": "packages/@liexp/backend/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/core": {
       "release-type": "node",
       "component": "core",
-      "changelog-path": "packages/@liexp/core/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/shared": {
       "release-type": "node",
       "component": "shared",
-      "changelog-path": "packages/@liexp/shared/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/test": {
       "release-type": "node",
       "component": "test",
-      "changelog-path": "packages/@liexp/test/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/ui": {
       "release-type": "node",
       "component": "ui",
-      "changelog-path": "packages/@liexp/ui/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/api": {
       "release-type": "node",
       "component": "api",
-      "changelog-path": "services/api/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/worker": {
       "release-type": "node",
       "component": "worker",
-      "changelog-path": "services/worker/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/ai-bot": {
       "release-type": "node",
       "component": "ai-bot",
-      "changelog-path": "services/ai-bot/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/web": {
       "release-type": "node",
       "component": "web",
-      "changelog-path": "services/web/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/admin-web": {
       "release-type": "node",
       "component": "admin-web",
-      "changelog-path": "services/admin-web/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/agent": {
       "release-type": "node",
       "component": "agent",
-      "changelog-path": "services/agent/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     },
     "services/storybook": {
       "release-type": "node",
       "component": "storybook",
-      "changelog-path": "services/storybook/CHANGELOG.md"
+      "changelog-path": "CHANGELOG.md"
     }
   }
 }
