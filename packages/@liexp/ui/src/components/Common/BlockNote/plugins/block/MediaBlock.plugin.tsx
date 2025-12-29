@@ -1,4 +1,3 @@
-import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
@@ -20,6 +19,7 @@ import {
   Input,
   Stack,
 } from "../../../../mui/index.js";
+import { insertOrUpdateBlock } from "../../utils/blockHelpers.js";
 import { EditMenu } from "../EditMenu/EditMenu.js";
 
 interface MediaBlockProps {
@@ -34,7 +34,7 @@ export const insertMediaBlock = (editor: BNESchemaEditor) => ({
   key: "media-block-1",
   subtext: "Insert a media block",
   onItemClick: () => {
-    insertOrUpdateBlockForSlashMenu(editor, {
+    insertOrUpdateBlock(editor, {
       type: "media",
       props: {
         id: DEFAULT_ID,
@@ -184,7 +184,7 @@ export const mediaBlock = createReactBlockSpec(mediaBlockSpecs, {
     };
 
     const onChange = ({ ...mediaBlockProps }: MediaBlockProps): void => {
-      insertOrUpdateBlockForSlashMenu(editor, {
+      editor.updateBlock(currentCursor.block, {
         type: "media",
         props: { ...mediaBlockProps },
       });

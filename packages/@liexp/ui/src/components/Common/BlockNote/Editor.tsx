@@ -1,4 +1,3 @@
-import { filterSuggestionItems } from "@blocknote/core/extensions";
 import { BlockNoteView } from "@blocknote/mantine";
 import {
   type DefaultReactSuggestionItem,
@@ -54,6 +53,20 @@ const getCustomSlashMenuItems = (
     insertLinkBlock(editor),
   ];
 };
+
+function filterSuggestionItems(
+  items: DefaultReactSuggestionItem[],
+  query: string,
+) {
+  return items.filter(
+    ({ title, aliases }) =>
+      title.toLowerCase().includes(query.toLowerCase()) ||
+      (aliases &&
+        aliases.filter((alias) =>
+          alias.toLowerCase().includes(query.toLowerCase()),
+        ).length !== 0),
+  );
+}
 
 export interface BNEditorProps {
   readOnly: boolean;
