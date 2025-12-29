@@ -3,16 +3,17 @@ import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
 import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { mock } from "vitest-mock-extended";
 import { makeAuthAxiosClient } from "../clients/authAxios.client.js";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";
 
 describe("authAxios.client", () => {
-  const mockLogger: Logger = {
+  const mockLogger = mock<Logger>({
     debug: { log: vi.fn() },
     info: { log: vi.fn() },
     warn: { log: vi.fn() },
     error: { log: vi.fn() },
-  } as any;
+  });
 
   const userEncoded: UserEncoded = {
     id: uuid(),
