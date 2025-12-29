@@ -36,11 +36,13 @@
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
+    "compression": "^1.8.1",
     "date-fns": "^4.1.0",
-    "linkedom": "^0.18.9",
     "jsonwebtoken": "^9.0.2",
+    "linkedom": "^0.18.9",
     "nodemw": "^0.25.0",
     "reflect-metadata": "^0.2.2",
+    "sirv": "^3.0.1",
     "typeorm": "^0.3.27"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "@langchain/xai": "^1.1.0",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.80",
+    "@types/compression": "^1.8.1",
     "@types/express": "^5.0.3",
     "@types/fluent-ffmpeg": "^2.1.27",
     "@types/jsonwebtoken": "^9.0.9",
@@ -73,6 +76,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "sharp": "^0.34.1",
     "typescript": "^5.9.3",
+    "vite": "^7.3.0",
     "vite-tsconfig-paths": "^6.0.1",
     "vitest": "^4.0.15",
     "vitest-mock-extended": "^3.1.0"
