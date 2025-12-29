@@ -25,7 +25,7 @@
 - ✅ Implemented environment validation using Effect Schema
 - ✅ Created AdminProxyContext with JWT, M2M, and agent client initialization
 - ✅ Implemented proxy routes with authentication, rate limiting, and audit logging
-- ✅ Added health check endpoints (`/api/health`, `/api/proxy/agent/health`)
+- ✅ Added health check endpoints (`/api/healthcheck`, `/api/proxy/agent/healthcheck`)
 - ✅ Configured TypeScript build for server code (tsconfig.server.json)
 - ✅ Updated package.json with server dependencies and scripts
 - ✅ All TypeScript errors resolved - builds successfully with `pnpm build:server`
@@ -528,7 +528,7 @@ Completed Tasks:
    - Environment validation using Effect Schema
    - Context initialization (JWT, M2M, Agent client)
    - Proxy routes mounted at /api/proxy/agent
-   - Global health check at /api/health
+   - Global health check at /api/healthcheck
    - Vite dev middleware (development) or static serving (production)
    - Error handler with production/dev modes
    - Graceful server startup on SERVER_PORT/HOST

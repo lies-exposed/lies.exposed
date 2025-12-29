@@ -5,6 +5,10 @@ FROM base AS pnpm
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+
+# install curl for healthcheck
+RUN apk add --no-cache curl
+
 RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
 WORKDIR /usr/src/app
@@ -29,8 +33,7 @@ RUN apk add --no-cache \
     harfbuzz \
     ca-certificates \
     ttf-freefont \
-    ffmpeg \
-    curl
+    ffmpeg
 
 RUN addgroup -S pptruser && adduser -S -G pptruser pptruser \
     && mkdir -p /home/pptruser/Downloads /prod \
