@@ -5,7 +5,8 @@
   "bump-patch-for-minor-pre-major": true,
   "include-v-in-tag": true,
   "include-component-in-tag": true,
-  "initial-version": "0.1.0",
+  "release-as": "0.1.0",
+  "pull-request-title-pattern": "chore(${scope}): release ${version}",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
     { "type": "fix", "section": "Bug Fixes" },
@@ -20,68 +21,68 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "changelog-path": "CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "lies.exposed",
+      "changelog-path": "CHANGELOG.md"
     },
     "packages/@liexp/backend": {
       "release-type": "node",
-      "changelog-path": "packages/@liexp/backend/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "backend",
+      "changelog-path": "packages/@liexp/backend/CHANGELOG.md"
     },
     "packages/@liexp/core": {
       "release-type": "node",
-      "changelog-path": "packages/@liexp/core/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "core",
+      "changelog-path": "packages/@liexp/core/CHANGELOG.md"
     },
     "packages/@liexp/shared": {
       "release-type": "node",
-      "changelog-path": "packages/@liexp/shared/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "shared",
+      "changelog-path": "packages/@liexp/shared/CHANGELOG.md"
     },
     "packages/@liexp/test": {
       "release-type": "node",
-      "changelog-path": "packages/@liexp/test/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "test",
+      "changelog-path": "packages/@liexp/test/CHANGELOG.md"
     },
     "packages/@liexp/ui": {
       "release-type": "node",
-      "changelog-path": "packages/@liexp/ui/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "ui",
+      "changelog-path": "packages/@liexp/ui/CHANGELOG.md"
     },
     "services/api": {
       "release-type": "node",
-      "changelog-path": "services/api/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "api",
+      "changelog-path": "services/api/CHANGELOG.md"
     },
     "services/worker": {
       "release-type": "node",
-      "changelog-path": "services/worker/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "worker",
+      "changelog-path": "services/worker/CHANGELOG.md"
     },
     "services/ai-bot": {
       "release-type": "node",
-      "changelog-path": "services/ai-bot/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "ai-bot",
+      "changelog-path": "services/ai-bot/CHANGELOG.md"
     },
     "services/web": {
       "release-type": "node",
-      "changelog-path": "services/web/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "web",
+      "changelog-path": "services/web/CHANGELOG.md"
     },
     "services/admin-web": {
       "release-type": "node",
-      "changelog-path": "services/admin-web/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "admin-web",
+      "changelog-path": "services/admin-web/CHANGELOG.md"
     },
     "services/agent": {
       "release-type": "node",
-      "changelog-path": "services/agent/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "agent",
+      "changelog-path": "services/agent/CHANGELOG.md"
     },
     "services/storybook": {
       "release-type": "node",
-      "changelog-path": "services/storybook/CHANGELOG.md",
-      "initial-version": "0.1.0"
+      "component": "storybook",
+      "changelog-path": "services/storybook/CHANGELOG.md"
     }
   }
 }
