@@ -96,7 +96,7 @@
   "draft": false,
   "initial-version": "0.1.0",
   "release-search-depth": 10,
-  "changelog-type": "default",
+  "changelog-type": "github",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
