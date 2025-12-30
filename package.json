@@ -29,7 +29,7 @@
     "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin-web --filter agent run clean",
     "post-deploy": "./deploy/post-deploy.sh",
     "shared": "pnpm --filter '@liexp/shared'",
-    "storybook": "pnpm --filter 'storybook'",
+    "storybook": "pnpm --filter '@liexp/storybook'",
     "test": "pnpm --filter '@liexp/test'",
     "ui": "pnpm --filter '@liexp/ui'",
     "web": "pnpm --filter 'web'",
