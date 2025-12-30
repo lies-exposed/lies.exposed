@@ -4,72 +4,86 @@
     ".": {
       "release-type": "node",
       "package-name": "lies.exposed",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["root", "monorepo", "release"]
     },
     "packages/@liexp/backend": {
       "release-type": "node",
       "package-name": "@liexp/backend",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["backend"]
     },
     "packages/@liexp/core": {
       "release-type": "node", 
       "package-name": "@liexp/core",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["core"]
     },
     "packages/@liexp/shared": {
       "release-type": "node",
       "package-name": "@liexp/shared",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["shared"]
     },
     "packages/@liexp/test": {
       "release-type": "node",
       "package-name": "@liexp/test",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["test"]
     },
     "packages/@liexp/ui": {
       "release-type": "node",
       "package-name": "@liexp/ui",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["ui"]
     },
     "services/admin-web": {
       "release-type": "node",
       "package-name": "@liexp/admin-web",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["admin", "admin-web"]
     },
     "services/ai-bot": {
       "release-type": "node",
       "package-name": "@liexp/ai-bot",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["ai", "ai-bot"]
     },
     "services/api": {
       "release-type": "node", 
       "package-name": "@liexp/api",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["api"]
     },
     "services/web": {
       "release-type": "node",
       "package-name": "@liexp/web",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["web"]
     },
     "services/worker": {
       "release-type": "node",
       "package-name": "@liexp/worker",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["worker"]
     },
     "services/agent": {
       "release-type": "node",
       "package-name": "@liexp/agent",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["agent"]
     },
     "services/data": {
       "release-type": "node",
       "package-name": "@liexp/data",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["data"]
     },
     "services/storybook": {
       "release-type": "node",
       "package-name": "@liexp/storybook",
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "include-scope": ["storybook"]
     }
   },
   "bootstrap-sha": "HEAD",
@@ -81,14 +95,13 @@
   "bump-patch-for-minor-pre-major": false,
   "draft": false,
   "prerelease": false,
+  "changelog-type": "github",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
     {"type": "chore", "section": "Miscellaneous", "hidden": true},
     {"type": "docs", "section": "Documentation", "hidden": true},
-    {"type": "style", "section": "Styles", "hidden": true},
     {"type": "refactor", "section": "Code Refactoring", "hidden": true},
-    {"type": "perf", "section": "Performance Improvements"},
     {"type": "test", "section": "Tests", "hidden": true},
     {"type": "build", "section": "Build System", "hidden": true},
     {"type": "ci", "section": "Continuous Integration", "hidden": true}
