@@ -96,11 +96,11 @@
   "draft": false,
   "initial-version": "0.1.0",
   "release-search-depth": 10,
-  "changelog-type": "github",
+  "changelog-type": "default",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
-    {"type": "chore", "section": "Miscellaneous", "hidden": true},
+    {"type": "chore", "section": "Miscellaneous"},
     {"type": "docs", "section": "Documentation", "hidden": true},
     {"type": "refactor", "section": "Code Refactoring", "hidden": true},
     {"type": "test", "section": "Tests", "hidden": true},
