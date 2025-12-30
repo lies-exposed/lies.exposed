@@ -14,7 +14,7 @@
       "include-scope": ["backend"]
     },
     "packages/@liexp/core": {
-      "release-type": "node", 
+      "release-type": "node",
       "package-name": "@liexp/core",
       "include-v-in-tag": false,
       "include-scope": ["core"]
@@ -39,49 +39,49 @@
     },
     "services/admin-web": {
       "release-type": "node",
-      "package-name": "@liexp/admin-web",
+      "package-name": "admin-web",
       "include-v-in-tag": false,
       "include-scope": ["admin", "admin-web"]
     },
     "services/ai-bot": {
       "release-type": "node",
-      "package-name": "@liexp/ai-bot",
+      "package-name": "ai-bot",
       "include-v-in-tag": false,
       "include-scope": ["ai", "ai-bot"]
     },
     "services/api": {
-      "release-type": "node", 
-      "package-name": "@liexp/api",
+      "release-type": "node",
+      "package-name": "api",
       "include-v-in-tag": false,
       "include-scope": ["api"]
     },
     "services/web": {
       "release-type": "node",
-      "package-name": "@liexp/web",
+      "package-name": "web",
       "include-v-in-tag": false,
       "include-scope": ["web"]
     },
     "services/worker": {
       "release-type": "node",
-      "package-name": "@liexp/worker",
+      "package-name": "worker",
       "include-v-in-tag": false,
       "include-scope": ["worker"]
     },
     "services/agent": {
       "release-type": "node",
-      "package-name": "@liexp/agent",
+      "package-name": "agent",
       "include-v-in-tag": false,
       "include-scope": ["agent"]
     },
     "services/data": {
       "release-type": "node",
-      "package-name": "@liexp/data",
+      "package-name": "data",
       "include-v-in-tag": false,
       "include-scope": ["data"]
     },
     "services/storybook": {
       "release-type": "node",
-      "package-name": "@liexp/storybook",
+      "package-name": "storybook",
       "include-v-in-tag": false,
       "include-scope": ["storybook"]
     }

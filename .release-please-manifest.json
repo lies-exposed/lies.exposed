@@ -1,7 +1,7 @@
 {
   ".": "0.1.0",
   "packages/@liexp/backend": "0.1.0",
-  "packages/@liexp/core": "0.1.0", 
+  "packages/@liexp/core": "0.1.0",
   "packages/@liexp/shared": "0.1.0",
   "packages/@liexp/test": "0.1.0",
   "packages/@liexp/ui": "0.1.0",
