@@ -84,7 +84,7 @@
       "include-scope": [
         "storybook"
       ],
-      "component": "storybook"
+      "component": "@liexp/storybook"
     }
   },
   "bootstrap-sha": "77c2bfdc74c216006260f7e6347e7d8a84f4baaa",
