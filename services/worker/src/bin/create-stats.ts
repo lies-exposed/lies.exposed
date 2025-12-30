@@ -19,7 +19,22 @@ export const createStats: CommandFlow = async (ctx, args): Promise<void> => {
     throw new Error(toError(`Missing parameter 'type' `));
   }
 
-  const type: "keywords" | "groups" | "actors" = _type as any;
+  const validTypes = ["keywords", "groups", "actors"] as const;
+  type ValidType = (typeof validTypes)[number];
+
+  const isValidType = (value: string): value is ValidType => {
+    return validTypes.includes(value as ValidType);
+  };
+
+  if (!isValidType(_type)) {
+    throw new Error(
+      toError(
+        `Invalid type '${_type}'. Must be one of: ${validTypes.join(", ")}`,
+      ),
+    );
+  }
+
+  const type = _type;
 
   ctx.logger.info.log("Creating stats for type ", type);
 

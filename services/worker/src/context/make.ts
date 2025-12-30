@@ -147,7 +147,7 @@ export const makeContext = (
         fp.TE.map((sharp) =>
           MakeImgProcClient({
             logger: serverLogger.extend("imgproc"),
-            client: sharp as any,
+            client: sharp,
             exifR: ExifReader,
           }),
         ),
