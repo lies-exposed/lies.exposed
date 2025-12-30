@@ -11,6 +11,5 @@
   "services/web": "0.1.0",
   "services/worker": "0.1.0",
   "services/agent": "0.1.0",
-  "services/data": "0.1.0",
   "services/storybook": "0.1.0"
 }
