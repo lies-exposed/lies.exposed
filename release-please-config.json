@@ -94,7 +94,8 @@
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": false,
   "draft": false,
-  "prerelease": false,
+  "initial-version": "0.1.0",
+  "release-search-depth": 10,
   "changelog-type": "default",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},

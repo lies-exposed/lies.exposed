@@ -1,16 +1,1 @@
-{
-  ".": "0.1.0",
-  "packages/@liexp/backend": "0.1.0",
-  "packages/@liexp/core": "0.1.0",
-  "packages/@liexp/shared": "0.1.0",
-  "packages/@liexp/test": "0.1.0",
-  "packages/@liexp/ui": "0.1.0",
-  "services/admin-web": "0.1.0",
-  "services/ai-bot": "0.1.0",
-  "services/api": "0.1.0",
-  "services/web": "0.1.0",
-  "services/worker": "0.1.0",
-  "services/agent": "0.1.0",
-  "services/data": "0.1.0",
-  "services/storybook": "0.1.0"
-}
+{}
