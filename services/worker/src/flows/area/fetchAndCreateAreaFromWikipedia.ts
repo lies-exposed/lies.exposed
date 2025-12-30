@@ -14,6 +14,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
+import { type DeepPartial } from "typeorm";
 import { type RTE } from "../../types.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
@@ -23,6 +24,11 @@ export const fetchAndCreateAreaFromWikipedia = (
   title: string,
   wp: WikiProviders,
 ): RTE<{ area: AreaEntity; media: MediaEntity[] }> => {
+  type NewAreaData = Omit<DeepPartial<AreaEntity>, "label" | "slug"> & {
+    label: string;
+    slug: string;
+  };
+
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("wikipedia", () =>
@@ -42,7 +48,6 @@ export const fetchAndCreateAreaFromWikipedia = (
 
       return {
         area: {
-          id: undefined as any,
           label: title,
           slug,
           excerpt: toInitialValue(intro),
@@ -55,10 +60,9 @@ export const fetchAndCreateAreaFromWikipedia = (
           body: null,
           createdAt: new Date(),
           updatedAt: new Date(),
-        },
+        } as NewAreaData,
         media: featuredMedia
-          ? {
-              id: undefined as any,
+          ? ({
               thumbnail: undefined,
               type: contentTypeFromFileExt(featuredMedia),
               location: featuredMedia,
@@ -72,7 +76,7 @@ export const fetchAndCreateAreaFromWikipedia = (
               deletedAt: undefined,
               createdAt: new Date(),
               updatedAt: new Date(),
-            }
+            } as DeepPartial<MediaEntity>)
           : undefined,
       };
     }),

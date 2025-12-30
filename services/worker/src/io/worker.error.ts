@@ -16,7 +16,36 @@ export type WorkerError =
   | IOError;
 
 export const toWorkerError = (e: unknown): WorkerError => {
-  return e as any;
+  // If it's already one of our known error types, return it
+  if (e instanceof Error && "status" in e && "details" in e) {
+    return e as WorkerError;
+  }
+
+  // If it's a standard Error, convert it to IOError
+  if (e instanceof Error) {
+    return {
+      name: "WorkerError",
+      status: 500,
+      message: e.message,
+      details: {
+        kind: "ServerError" as const,
+        status: "500",
+        meta: e.stack,
+      },
+    } as IOError;
+  }
+
+  // For unknown types, create a generic error
+  return {
+    name: "WorkerError",
+    status: 500,
+    message: "An unknown error occurred",
+    details: {
+      kind: "ServerError" as const,
+      status: "500",
+      meta: String(e),
+    },
+  } as IOError;
 };
 
 export const report = (e: WorkerError): string => {

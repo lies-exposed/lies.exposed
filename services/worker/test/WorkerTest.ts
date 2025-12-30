@@ -67,7 +67,7 @@ export const loadAppContext = async (
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
-        getDataSource(getORMConfig(process.env as any)),
+        getDataSource(getORMConfig(process.env as Record<string, string | undefined>)),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
@@ -89,7 +89,7 @@ export const loadAppContext = async (
         mocks.puppeteer.devices,
       ),
       tg: mocks.tg,
-      s3: MakeSpaceProvider(mocks.s3 as any),
+      s3: MakeSpaceProvider(mocks.s3),
       ig: mocks.ig,
       fs: GetFSClient({ client: mocks.fs }),
       wp: mocks.wiki,
@@ -98,32 +98,32 @@ export const loadAppContext = async (
         fetchHTML: (url: string, opts: any) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
-            (e) => e as any,
+            toWorkerError,
           );
         },
         fetchMetadata: (url: string, opts: any) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
-            (e) => e as any,
+            toWorkerError,
           );
         },
       },
-      http: HTTPProvider(mocks.axios as any as AxiosInstance),
+      http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
       imgProc: MakeImgProcClient({
         logger,
         exifR: mocks.exifR,
-        client: mocks.sharp as any,
+        client: mocks.sharp,
       }),
       ner: GetNERProvider({
         logger,
         entitiesFile: path.resolve(__dirname, "entities.json"),
-        nlp: mocks.ner as any,
+        nlp: mocks.ner,
       }),
-      langchain: {} as any,
-      blocknote: {} as any,
-      pdf: PDFProvider({ client: {} as any }),
+      langchain: {} as Record<string, never>,
+      blocknote: {} as Record<string, never>,
+      pdf: PDFProvider({ client: {} as Record<string, never> }),
       geo: GeocodeProvider({
-        http: HTTPProvider(mocks.axios as any),
+        http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
         apiKey: "fake-geo-api-key",
       }),
       queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
@@ -188,7 +188,7 @@ export const initAppTest = async (
   return appTest;
 };
 
-const g = global as any as {
+const g = global as typeof global & {
   appTest: WorkerTest;
   appContext: WorkerContext;
 };
