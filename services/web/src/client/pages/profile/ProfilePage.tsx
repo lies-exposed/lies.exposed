@@ -32,12 +32,13 @@ import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
 import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
+import type { I18nProvider } from "react-admin";
 import * as React from "react";
 import { Route } from "react-router";
 import { UserEditMe } from "./UserEditMe.js";
 import { UserListMe } from "./UserListMe.js";
 
-const i18nProvider = (polyglotI18nProvider as any)(() => englishMessages, "en");
+const i18nProvider = polyglotI18nProvider(() => englishMessages, "en") as I18nProvider;
 
 const ProfilePage: React.FC = () => {
   const apiProvider = useDataProvider();
@@ -53,7 +54,7 @@ const ProfilePage: React.FC = () => {
           <SignIn redirectTo={"/profile"} />
         </Login>
       }
-      theme={themeOptions as any}
+      theme={themeOptions}
       requireAuth
       basename="/profile"
     >

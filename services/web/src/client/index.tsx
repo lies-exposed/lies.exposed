@@ -14,6 +14,7 @@ import {
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
+  type DehydratedState,
 } from "@tanstack/react-query";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
@@ -70,7 +71,7 @@ function Main(): React.ReactElement {
     });
   });
 
-  const dehydratedState = (window as any).__REACT_QUERY_STATE__;
+  const dehydratedState = (window as Window & { __REACT_QUERY_STATE__?: DehydratedState }).__REACT_QUERY_STATE__;
 
   return (
     <BrowserRouter>

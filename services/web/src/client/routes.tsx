@@ -300,9 +300,10 @@ export const routes: ServerRoute[] = [
             queryKey: Q.Area.list.getKey(
               undefined,
               {
-                ids: Schema.is(UUID)((event.payload as any).location)
-                  ? [(event.payload as any).location]
-                  : [],
+                ids: 
+                  "location" in event.payload && Schema.is(UUID)(event.payload.location)
+                    ? [event.payload.location]
+                    : [],
                 _end: "1",
               },
               true,

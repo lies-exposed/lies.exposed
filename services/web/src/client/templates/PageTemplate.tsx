@@ -22,7 +22,7 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
               <Container style={{ display: "flex" }}>
                 <TOCPlugin value={m.body2} />
                 <MainContent>
-                  <BNEditor content={m.body2 as any} readOnly />
+                  <BNEditor content={m.body2} readOnly />
                 </MainContent>
               </Container>
             ) : (
