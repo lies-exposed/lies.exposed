@@ -87,7 +87,6 @@
     }
   },
   "bootstrap-sha": "77c2bfdc74c216006260f7e6347e7d8a84f4baaa",
-  "initial-version": "0.1.0",
   "group-pull-request-title-pattern": "chore: release ${version}",
   "separate-pull-requests": false,
   "tag-separator": "@",
@@ -97,10 +96,6 @@
   "draft": false,
   "prerelease": false,
   "changelog-type": "default",
-  "always-link-local": false,
-  "release-search-depth": 100,
-  "skip-github-release": false,
-  "release-type": "node",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
