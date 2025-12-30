@@ -2,109 +2,142 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
     ".": {
-      "release-type": "node",
-      "package-name": "lies.exposed",
-      "include-v-in-tag": false,
-      "include-scope": ["root", "monorepo", "release"]
+      "component": "lies.exposed",
+      "include-component-in-tag": false,
+      "exclude-paths": [
+        "packages",
+        "services"
+      ],
+      "include-scope": [
+        "release",
+        "workspace"
+      ]
     },
     "packages/@liexp/backend": {
-      "release-type": "node",
-      "package-name": "@liexp/backend",
-      "include-v-in-tag": false,
-      "include-scope": ["backend"]
+      "component": "@liexp/backend",
+      "include-scope": [
+        "backend"
+      ]
     },
     "packages/@liexp/core": {
-      "release-type": "node",
-      "package-name": "@liexp/core",
-      "include-v-in-tag": false,
-      "include-scope": ["core"]
+      "component": "@liexp/core",
+      "include-scope": [
+        "core"
+      ]
     },
     "packages/@liexp/shared": {
-      "release-type": "node",
-      "package-name": "@liexp/shared",
-      "include-v-in-tag": false,
-      "include-scope": ["shared"]
+      "component": "@liexp/shared",
+      "include-scope": [
+        "shared"
+      ]
     },
     "packages/@liexp/test": {
-      "release-type": "node",
-      "package-name": "@liexp/test",
-      "include-v-in-tag": false,
-      "include-scope": ["test"]
+      "component": "@liexp/test",
+      "include-scope": [
+        "test"
+      ]
     },
     "packages/@liexp/ui": {
-      "release-type": "node",
-      "package-name": "@liexp/ui",
-      "include-v-in-tag": false,
-      "include-scope": ["ui"]
+      "component": "@liexp/ui",
+      "include-scope": [
+        "ui"
+      ]
     },
     "services/admin-web": {
-      "release-type": "node",
-      "package-name": "admin-web",
-      "include-v-in-tag": false,
-      "include-scope": ["admin", "admin-web"]
+      "component": "admin-web",
+      "include-scope": [
+        "admin",
+        "admin-web"
+      ]
     },
     "services/ai-bot": {
-      "release-type": "node",
-      "package-name": "ai-bot",
-      "include-v-in-tag": false,
-      "include-scope": ["ai", "ai-bot"]
+      "include-scope": [
+        "ai-bot"
+      ],
+      "component": "ai-bot"
     },
     "services/api": {
-      "release-type": "node",
-      "package-name": "api",
-      "include-v-in-tag": false,
-      "include-scope": ["api"]
+      "include-scope": [
+        "api"
+      ],
+      "component": "api"
     },
     "services/web": {
-      "release-type": "node",
-      "package-name": "web",
-      "include-v-in-tag": false,
-      "include-scope": ["web"]
+      "include-scope": [
+        "web"
+      ],
+      "component": "web"
     },
     "services/worker": {
-      "release-type": "node",
-      "package-name": "worker",
-      "include-v-in-tag": false,
-      "include-scope": ["worker"]
+      "include-scope": [
+        "worker"
+      ],
+      "component": "worker"
     },
     "services/agent": {
-      "release-type": "node",
-      "package-name": "agent",
-      "include-v-in-tag": false,
-      "include-scope": ["agent"]
-    },
-    "services/data": {
-      "release-type": "node",
-      "package-name": "data",
-      "include-v-in-tag": false,
-      "include-scope": ["data"]
+      "include-scope": [
+        "agent"
+      ],
+      "component": "agent"
     },
     "services/storybook": {
-      "release-type": "node",
-      "package-name": "storybook",
-      "include-v-in-tag": false,
-      "include-scope": ["storybook"]
+      "include-scope": [
+        "storybook"
+      ],
+      "component": "storybook"
     }
   },
   "bootstrap-sha": "77c2bfdc74c216006260f7e6347e7d8a84f4baaa",
-  "group-pull-request-title-pattern": "chore: release ${version}",
+  "group-pull-request-title-pattern": "chore: release ${component} ${version}",
   "separate-pull-requests": false,
   "tag-separator": "@",
-  "include-component-in-tag": false,
   "bump-minor-pre-major": true,
   "bump-patch-for-minor-pre-major": false,
+  "include-v-in-tag": false,
   "draft": false,
   "initial-version": "0.1.0",
   "release-search-depth": 10,
   "changelog-type": "default",
+  "plugins": [
+    "node-workspace"
+  ],
   "changelog-sections": [
-    {"type": "feat", "section": "Features"},
-    {"type": "fix", "section": "Bug Fixes"},
-    {"type": "chore", "section": "Miscellaneous"},
-    {"type": "docs", "section": "Documentation", "hidden": true},
-    {"type": "refactor", "section": "Code Refactoring", "hidden": true},
-    {"type": "test", "section": "Tests", "hidden": true},
-    {"type": "build", "section": "Build System", "hidden": true},
-    {"type": "ci", "section": "Continuous Integration", "hidden": true}
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "chore",
+      "section": "Miscellaneous"
+    },
+    {
+      "type": "docs",
+      "section": "Documentation",
+      "hidden": true
+    },
+    {
+      "type": "refactor",
+      "section": "Code Refactoring",
+      "hidden": true
+    },
+    {
+      "type": "test",
+      "section": "Tests",
+      "hidden": true
+    },
+    {
+      "type": "build",
+      "section": "Build System",
+      "hidden": true
+    },
+    {
+      "type": "ci",
+      "section": "Continuous Integration",
+      "hidden": true
+    }
   ]
 }
