@@ -96,9 +96,11 @@
   "bump-patch-for-minor-pre-major": false,
   "draft": false,
   "prerelease": false,
-  "changelog-type": "github",
+  "changelog-type": "default",
   "always-link-local": false,
   "release-search-depth": 100,
+  "skip-github-release": false,
+  "release-type": "node",
   "changelog-sections": [
     {"type": "feat", "section": "Features"},
     {"type": "fix", "section": "Bug Fixes"},
