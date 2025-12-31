@@ -38,6 +38,8 @@ runs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
+      with:
+        platforms: linux/amd64
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
@@ -47,4 +49,7 @@ runs:
         push: ${{ inputs.push }}
         tags: ${{ inputs.image_name }}
         build-args: ${{ inputs.build-args }}
+        platforms: linux/amd64
+        no-cache: true
+        pull: true
 
