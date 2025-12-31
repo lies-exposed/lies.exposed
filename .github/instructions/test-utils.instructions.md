@@ -1,6 +1,6 @@
 ---
 applyTo: "**/test/**/*.ts,**/test/**/*.js,**/*test*.ts,**/*Test*.ts"
-excludeAgent: ["code-review"]
+
 ---
 
 # Test Utilities Instructions

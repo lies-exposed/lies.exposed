@@ -1,6 +1,6 @@
 ---
 applyTo: "**/*.ts,**/*.js,**/*.tsx,**/*.jsx,**/*.md"
-excludeAgent: ["code-review"]
+
 ---
 
 # Code Quality Instructions
@@ -71,12 +71,11 @@ feat(invalid-scope): add thing  # Invalid scope
 ```typescript
 // ✅ CORRECT: External → Monorepo → Internal (alphabetical within groups)
 import fc from "fast-check";
-import { pipe } from "fp-ts/lib/function.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 

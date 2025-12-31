@@ -78,10 +78,8 @@ describe("FunctionOrFlowName", () => {
 ### Error Handling Tests
 ```typescript
 it("should handle errors correctly", async () => {
-  // Mock error condition
-  mockTERightOnce(mockCtx.db.findOneOrFail, () => { 
-    throw new Error("Database error"); 
-  });
+  // Mock error condition in the TaskEither Left channel
+  mockTELeftOnce(mockCtx.db.findOneOrFail, () => new Error("Database error"));
   
   // Test error path
   await expect(pipe(
