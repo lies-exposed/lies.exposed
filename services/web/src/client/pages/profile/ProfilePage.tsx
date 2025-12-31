@@ -21,6 +21,7 @@ import {
   Admin,
   Login,
   Resource,
+  type I18nProvider,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   StoryCreate,
@@ -33,7 +34,6 @@ import englishMessages from "@liexp/ui/lib/i18n/en-US.js";
 import { themeOptions } from "@liexp/ui/lib/theme/index.js";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import * as React from "react";
-import type { I18nProvider } from "react-admin";
 import { Route } from "react-router";
 import { UserEditMe } from "./UserEditMe.js";
 import { UserListMe } from "./UserListMe.js";
