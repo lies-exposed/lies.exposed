@@ -71,7 +71,9 @@ function Main(): React.ReactElement {
     });
   });
 
-  const dehydratedState = (window as Window & { __REACT_QUERY_STATE__?: DehydratedState }).__REACT_QUERY_STATE__;
+  const dehydratedState = (
+    window as Window & { __REACT_QUERY_STATE__?: DehydratedState }
+  ).__REACT_QUERY_STATE__;
 
   return (
     <BrowserRouter>
