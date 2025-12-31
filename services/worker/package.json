@@ -60,7 +60,7 @@
     "nodemw": "^0.25.0",
     "page-metadata-parser": "^1.1.4",
     "parse2-kmz": "^1.0.7",
-    "pdfjs-dist": "^5.4.149",
+    "pdfjs-dist": "^5.4.530",
     "pg": "^8.16.0",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
