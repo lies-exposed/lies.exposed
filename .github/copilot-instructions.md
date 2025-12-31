@@ -19,68 +19,19 @@ This is a pnpm monorepo with multiple deployable services under `services/` and 
 
 ## Functional Programming with fp-ts and Effect (CRITICAL PATTERNS)
 
-### Core fp-ts Patterns
-```typescript
-// Standard data transformation pipeline
-pipe(
-  fp.RTE.Do,
-  fp.RTE.bind("data", () => loadData()),
-  fp.RTE.chainEitherK(validateData),
-  fp.RTE.map(processData)
-)
+### Core Principles
+- Use `pipe` for data transformation pipelines
+- `TaskEither` for async operations with error handling
+- `Option` for nullable value handling
+- `Effect` for modern functional effects (preferred for new code)
 
-// Error handling with TaskEither
-const processWithError = pipe(
-  fetchData,
-  fp.TE.chain(validateData),
-  fp.TE.mapLeft(toControllerError),
-  fp.TE.fold(
-    (error) => fp.T.of({ error: error.message }),
-    (data) => fp.T.of({ success: data })
-  )
-)
-
-// Option handling for nullable values
-pipe(
-  fp.O.fromNullable(maybeValue),
-  fp.O.fold(
-    () => "default value",
-    (value) => processValue(value)
-  )
-)
-```
-
-### Effect Patterns (Modern Approach)
-```typescript
-// State update with Effect
-const updateState = pipe(
-  Effect.Do,
-  Effect.bind("current", () => getCurrentState),
-  Effect.bind("new", ({ current }) => validateAndTransform(current)),
-  Effect.tap(({ new }) => persistState(new))
-)
-
-// Async operations with proper error handling
-const fetchAndProcess = pipe(
-  fetchData,
-  Effect.flatMap(processData),
-  Effect.catchAll(handleError),
-  Effect.provideService(LoggerLive)
-)
-```
-
-### Common fp-ts Imports and Usage
+### Essential Imports
 ```typescript
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import * as E from "fp-ts/lib/Either.js";
-import * as O from "fp-ts/lib/Option.js";
-import * as A from "fp-ts/lib/Array.js";
-
-// Use fp.RTE for ReaderTaskEither operations
-// Use throwTE for converting TaskEither to Promise in tests
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 ```
+
+*Detailed patterns are in the code-quality path-specific instructions.*
 
 ## Testing Patterns (CRITICAL FOR QUALITY)
 
@@ -113,32 +64,16 @@ expect(result).toMatchObject({ id: expect.any(String) });
 
 ## Code Organization and Imports
 
-### Absolute Imports (REQUIRED)
-- Use absolute imports from monorepo packages: `@liexp/core`, `@liexp/shared`, `@liexp/backend`
-- Domain models and validation live in `packages/@liexp/shared`
-- Import ordering: external → internal → types
-
-### File Structure Rules
+### Project Structure
 - **Source files**: Always edit `src/` directories  
-- **Build outputs**: NEVER edit `lib/` or `build/` directories (these are generated)
-- **Naming**: `kebab-case.ts` for utils, `PascalCase.ts` for classes/types
+- **Build outputs**: NEVER edit `lib/` or `build/` directories (generated)
+- **Monorepo packages**: `@liexp/core`, `@liexp/shared`, `@liexp/backend`, `@liexp/ui`, `@liexp/test`
+- **Domain models**: Located in `packages/@liexp/shared`
 
-### OpenAI Structured Output (AI Flow Schemas)
+*Detailed import patterns, naming conventions, and file extensions are in path-specific instructions.*
+
+### AI Schema Requirements (OpenAI Structured Output)
 **CRITICAL**: All properties must be required in OpenAI structured output schemas.
-```typescript
-// ❌ WRONG - Optional properties cause errors
-const BadSchema = Schema.Struct({
-  name: Schema.String,
-  date: Schema.optional(Schema.String), // This will fail
-});
-
-// ✅ CORRECT - All required, use null/sentinel values
-const GoodSchema = Schema.Struct({
-  name: Schema.String,
-  date: Schema.String, // Use "unknown" for missing dates
-  publisher: Schema.NullOr(Schema.String), // null for truly optional
-});
-```
 - Never use `Schema.optional()`, `Schema.UndefinedOr()`, or `Schema.DateFromString`
 - Use `Schema.NullOr()` for truly optional values
 - Use sentinel values: `"unknown"`, `"not specified"`, `"N/A"` for missing data
@@ -158,38 +93,19 @@ const GoodSchema = Schema.Struct({
 
 ### Essential Commands
 ```bash
-# Install dependencies
-pnpm install
-
-# Start infrastructure
-docker compose up -d db
-docker compose up api web admin-web data
-
-# Development with hot reload
-pnpm api watch  # Run outside containers for file watching
-
-# Build and validation
-pnpm build      # Build all packages
-pnpm typecheck  # Type checking across workspace
-pnpm lint       # ESLint validation
-pnpm format     # Prettier formatting
-
-# Testing
-pnpm vitest                    # Run all tests
-pnpm --filter <package> test   # Run tests for specific package
-pnpm --filter services/api test # Run API e2e tests
+pnpm install           # Install dependencies
+docker compose up -d db && docker compose up api web admin-web
+pnpm api watch         # Development with hot reload
+pnpm build            # Build and validation
+pnpm typecheck        # Type checking
+pnpm lint             # ESLint validation
+pnpm vitest           # Run all tests
 ```
 
 ### Workspace Commands (pnpm)
-```bash
-# Use filter for package-specific commands
-pnpm --filter api run lint
-pnpm api lint  # Shorthand when workspace aliases are available
-
-# Always check your working directory
-# From package dir: pnpm run lint
-# From root: pnpm --filter <package> run lint
-```
+- Use filter for package-specific commands: `pnpm --filter api run lint`
+- Shorthand when aliases available: `pnpm api lint`
+- Always check working directory context
 
 ## Development Workflow & Quality Standards
 
@@ -205,56 +121,21 @@ pnpm api lint  # Shorthand when workspace aliases are available
 - **Unit Tests**: Test pure functions and business logic
 - **Test Data**: Use arbitraries from `@liexp/test` for consistent data generation
 
-### Error Handling Patterns
-```typescript
-// TaskEither error handling
-import { toControllerError } from "#io/ControllerError.js";
-
-const safeOperation = pipe(
-  riskyOperation(),
-  fp.TE.mapLeft(toControllerError),
-  fp.TE.fold(
-    (error) => fp.T.of({ error: error.message }),
-    (data) => fp.T.of({ success: data })
-  )
-);
-
-// Effect error handling
-const safeEffectOperation = pipe(
-  riskyEffectOperation,
-  Effect.catchAll((error) => 
-    Effect.fail(new ControllerError(error.message))
-  )
-);
-```
+*Detailed patterns and examples are provided in path-specific instructions.*
 
 ## Common Pitfalls and Solutions
 
 ### Build and File Structure
 - ❌ Never edit files in `lib/` or `build/` directories (generated outputs)
 - ✅ Always edit source files in `src/` directories
+
+### Development Workflow
 - ❌ Don't mix imperative and functional styles
 - ✅ Follow existing fp-ts/Effect patterns consistently
-
-### AI/Agent Development
-- ❌ Don't use `services/ai-bot/AGENT.md` for copilot instruction rules
-- ✅ Use root `AGENTS.md` as authoritative source for MCP tools and flows
-- ❌ Don't create large AI flow rewrites
-- ✅ Add small, well-typed helpers in `@liexp/backend` and wire into existing flows
-
-### Testing Anti-Patterns (NEVER DO THESE)
-- ❌ Don't test what should NOT happen: `expect(status).not.toBe(500)`
-- ❌ Don't use vague negative assertions: `expect(result).not.toBeNull()`  
-- ❌ Don't skip `throwTE` when testing TaskEither flows
-- ❌ Don't mix imperative and functional testing styles
-- ❌ Don't create brittle tests with hardcoded data (use arbitraries)
-- ❌ Don't write tests without proper AppTest setup for E2E
-
-### Security and Configuration
-- ❌ No hardcoded secrets or credentials in code
-- ✅ Use environment variables (see `.env.example`)
 - ❌ Don't skip input validation
-- ✅ Validate all external inputs using schemas from `@liexp/shared`
+- ✅ Use environment variables (see `.env.example`)
+
+*Detailed pitfalls and solutions are covered in path-specific instructions.*
 
 ## Reference Files (Consult First)
 1. **`AGENTS.md` (root)** — Platform and agent overview (primary source for agent/tool rules)
@@ -266,6 +147,8 @@ const safeEffectOperation = pipe(
 - Follow conventional commits (enforced by commitlint)
 - Run `pnpm typecheck` and `pnpm lint` before committing
 - Ensure tests pass: `pnpm vitest`
+
+*Detailed commit message format and code quality standards are in path-specific instructions.*
 
 ---
 *For deeper patterns and examples, consult `AGENTS.md`. For implementation details, explore the source code in `packages/@liexp/*` and `services/*/src`.*
