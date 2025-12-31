@@ -55,7 +55,7 @@ jobs:
         run: pnpm ai-bot build
 
       - name: Upload ai-bot build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ai-bot-build
           path: services/ai-bot/build/
