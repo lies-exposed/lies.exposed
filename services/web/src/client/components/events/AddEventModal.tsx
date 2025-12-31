@@ -49,7 +49,7 @@ const EventSuggestionsList: React.FC<EventSuggestionsListProps> = ({
         return (
           <Grid key={e.id} size={{ sm: 12, md: 4 }}>
             <CreateEventCard
-              event={e.event as any}
+              event={e.event as unknown as http.Events.SearchEvent.SearchEvent}
               showRelations={false}
               variant={e.id === selected?.id ? "outlined" : "elevation"}
               elevation={e.id === selected?.id ? 0 : 2}
@@ -76,11 +76,16 @@ const AddEventModal: React.FC<AddEventModalProps> = (props) => {
   const conf = useConfiguration();
 
   const [open, setOpen] = React.useState(false);
-  const [url, setUrl] = React.useState({
+  const [url, setUrl] = React.useState<{
+    value: string;
+    submitted: string;
+    suggestions: http.EventSuggestion.CreateEventSuggestion[];
+    events: http.Events.SearchEvent.SearchEvent[];
+  }>({
     value: "",
     submitted: "",
-    suggestions: [] as any[],
-    events: [] as any[],
+    suggestions: [],
+    events: [],
   });
 
   const [selectedSuggestion, setSelectedSuggestion] = React.useState<

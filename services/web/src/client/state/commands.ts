@@ -35,7 +35,7 @@ export const createEventSuggestion = (
     mutationFn: (params) =>
       pipe(
         api.Endpoints.Event.Custom.CreateSuggestion({
-          Body: params as any,
+          Body: params as unknown as typeof http.EventSuggestion.CreateEventSuggestion.Encoded,
         }),
         throwTE,
       ),
@@ -49,7 +49,7 @@ export const getURLMetadata = (
       pipe(
         api.Endpoints.OpenGraph.Custom.GetMetadata({
           Query: {
-            url: params.url as any,
+            url: params.url,
             type: "Link",
           },
         }),
