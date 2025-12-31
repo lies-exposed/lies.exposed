@@ -67,7 +67,7 @@
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "sharp": "^0.34.1",
-    "typeorm": "^0.3.27",
+    "typeorm": "^0.3.28",
     "wink-eng-lite-web-model": "^1.8.0",
     "wink-nlp": "^2.3.0",
     "wink-nlp-utils": "^2.1.0"
@@ -75,7 +75,7 @@
   "devDependencies": {
     "@types/debug": "^4.1.12",
     "@types/fluent-ffmpeg": "^2.1.27",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.21",
     "@types/node-telegram-bot-api": "^0.64.8",
     "@types/prompts": "^2.4.9",
     "dotenv": "^17.2.1",

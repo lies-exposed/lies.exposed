@@ -113,10 +113,10 @@
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/d3-hierarchy": "^3.1.7",
-    "@types/d3-sankey": "^0.12.4",
+    "@types/d3-sankey": "^0.12.5",
     "@types/d3-scale": "^4.0.9",
     "@types/express": "^5.0.1",
-    "@types/lodash": "^4.17.20",
+    "@types/lodash": "^4.17.21",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
     "@types/react-slick": "^0.23.13",
