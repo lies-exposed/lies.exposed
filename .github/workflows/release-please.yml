@@ -20,7 +20,6 @@ permissions:
   contents: write
   pull-requests: write
   packages: write
-  actions: write
 
 jobs:
   release-please:
