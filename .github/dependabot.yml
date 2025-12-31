@@ -1,6 +1,14 @@
 ---
 version: 2
 updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    target-branch: "main"
+
   # ignore all updates for the @liexp/packages
   - package-ecosystem: "npm"
     directories:
