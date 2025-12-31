@@ -40,7 +40,7 @@ jobs:
     if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: ./.github/actions/install-deps
         with:
@@ -96,7 +96,7 @@ jobs:
     name: Deploy ${{ matrix.service }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: ${{ matrix.enabled }}
 
       # Download ai-bot build artifacts if needed
