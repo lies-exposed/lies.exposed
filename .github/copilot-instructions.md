@@ -1,80 +1,154 @@
 <!--
 Guidance for AI coding assistants working on the lies.exposed monorepo.
-Keep this file short, specific, and actionable. See AGENTS.md and services/ai-bot/AGENT.md
-for deeper agent integration details.
+Keep this file short, specific, and actionable. See AGENTS.md for deeper patterns.
 -->
 
-# Copilot instructions for lies.exposed
+# Copilot Instructions for lies.exposed
 
-Purpose: give an AI coding agent the minimal, high-value facts to be immediately productive.
+**Purpose**: Give an AI coding agent the minimal, high-value facts to be immediately productive in a functional programming environment with comprehensive testing.
 
-- Big picture: this is a pnpm monorepo with multiple deployable services under `services/` and
-  shared packages under `packages/`. Key services: `api` (TypeORM + PostgreSQL + Redis queues),
-  `ai-bot` (background AI flows in `services/ai-bot/`), `worker`, `web`, and `admin-web`.
+## Big Picture
+This is a pnpm monorepo with multiple deployable services under `services/` and shared packages under `packages/`. Key services: `api` (TypeORM + PostgreSQL + Redis queues), `ai-bot` (background AI flows), `worker`, `web`, and `admin-web`.
 
-- Primary workflows:
-  - Local dev: prefer Docker Compose (`compose.yml`) for databases and dependent services.
-    Use `pnpm install` then `docker compose up` to boot infra. See `README.md` and `AGENTS.md`.
-  - Fast development: run `pnpm <service> watch` (e.g. `pnpm api watch`) in a separate shell
-    while running containers so file changes trigger restarts.
-  - Builds: `pnpm build` at repo root builds all packages; services also contain local build scripts.
+## Primary Workflows
+- **Local dev**: Docker Compose (`compose.yml`) for databases and dependent services.
+  Use `pnpm install` then `docker compose up` to boot infra. See `README.md` and `AGENTS.md`.
+- **Fast development**: Run `pnpm <service> watch` (e.g. `pnpm api watch`) in a separate shell
+  while running containers so file changes trigger restarts.
+- **Builds**: `pnpm build` at repo root builds all packages; services also contain local build scripts.
 
-- Code and patterns to follow (do not invent other styles):
-  - Functional programming with fp-ts and Effect is pervasive. Prefer existing patterns in
-    `packages/@liexp/*` and `services/*/src` (look for `pipe`, `Effect`, `fp.RTE`, `TaskEither`).
-  - Use absolute imports from monorepo packages (e.g. `@liexp/core`, `@liexp/shared`).
-  - Domain models and validation live in `packages/@liexp/shared` — consult it for types and
-    API payload shapes before changing endpoints.
+## Functional Programming with fp-ts and Effect (CRITICAL PATTERNS)
 
-- AI/Agent-specific guidance:
-  - Use the root `AGENTS.md` as the authoritative source for MCP tools and flows (tool names like
-    `createEventFromURLFlow`, `embedAndQuestionFlow`). Do NOT use `services/ai-bot/AGENT.md` for
-    authoritative agent rules or instruction wording — treat it as implementation notes only.
-  - When augmenting AI flows, prefer adding small, well-typed helpers in `@liexp/backend` and
-    wiring them into existing flows rather than large rewrites.
+### Core Principles
+- Use `pipe` for data transformation pipelines
+- `TaskEither` for async operations with error handling
+- `Option` for nullable value handling
+- `Effect` for modern functional effects (preferred for new code)
 
-- Integration points and infra:
-  - Database: PostgreSQL (TypeORM) — check `services/api/ormconfig.js` and migrations in the API.
-  - Queueing: Redis-backed job queue used by `ai-bot`/`worker` — inspect service configs under `services/*/config`.
-  - Docker: `compose.yml` and `compose.reverse-proxy.yml` control local service composition.
+### Essential Imports
+```typescript
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+```
 
-- Developer commands and quick examples:
-  - Install deps: `pnpm install`
-  - Start infra (DB + services): `docker compose up -d db` then `docker compose up api web admin-web data`
-  - Watch API during development: `pnpm api watch` (run outside containers to trigger restarts)
-  - Build all: `pnpm build`
-  - Lint code: `pnpm lint` (individual packages have ESLint configs)
-  - Type check: `pnpm typecheck`
-  - Format code: `pnpm format` (uses Prettier)
-  - Run tests: `pnpm vitest` or `pnpm --filter <package> test`
+*Detailed patterns are in the code-quality path-specific instructions.*
 
-- When making changes:
-  - Update or reuse types in `@liexp/shared`; prefer type-safe changes.
-  - Add unit tests in the relevant package using vitest (see `vitest.config.*` files).
-  - Run `pnpm typecheck` and fix errors before opening PRs.
-  - Run `pnpm lint` to check code style and fix issues.
-  - Commit messages follow conventional commits (enforced by commitlint).
+## Testing Patterns (CRITICAL FOR QUALITY)
 
-- Common pitfalls to avoid:
-  - Never edit files in `lib/` or `build/` directories (these are generated build outputs).
-  - Always edit source files in `src/` directories.
-  - Don't use optional properties in OpenAI structured output schemas (see `AGENT.md` for details).
-  - Ensure pnpm workspace context: run commands from correct directory or use `--filter` flag.
-  - For fp-ts/Effect patterns: don't mix imperative and functional styles; follow existing patterns.
+### Testing Philosophy
+**ALWAYS test what SHOULD happen, not what should NOT happen.**
 
-- Security and best practices:
-  - No hardcoded secrets or credentials in code.
-  - Use environment variables for configuration (see `.env.example` if available).
-  - Validate all external inputs using schemas from `@liexp/shared`.
-  - Handle errors properly using fp-ts `Either`/`TaskEither` or Effect error channels.
+### Key Testing Requirements
+- **Unit Tests**: Use `throwTE` to convert TaskEither to Promise, use arbitraries for test data
+- **E2E Tests**: Use `GetAppTest()` setup with proper authentication patterns
+- **Mocking**: Use `vitest-mock-extended` and `mockTERightOnce` for fp-ts types
+- **Assertions**: Test specific expected values: `expect(status).toBe(200)`, not `expect(status).not.toBe(500)`
 
-- Files to consult first (in order):
-  1. `AGENTS.md` (root) — platform and agent overview (primary source for agent/tool rules)
-  2. `packages/@liexp/shared/` — domain models and API schemas
-  3. `services/api/README.md` and `services/api/ormconfig.js` — API-specific wiring
-  4. `compose.yml` and `compose.reverse-proxy.yml` — local infra composition
-  
-  Note: `services/ai-bot/AGENT.md` exists but must be ignored when deriving copilot instruction
-  rules — it's implementation-level notes and may conflict with repository-wide agent policies.
+### Critical Anti-Patterns (NEVER DO)
+```typescript
+// ❌ BAD: Negative assertions hide expectations
+expect(response.status).not.toBe(500);
+expect(result).not.toBeNull();
 
-If anything here is unclear or you need more detail (examples of flows, common FP idioms used, or CI nuances), ask and I will expand this file.
+// ✅ GOOD: Test specific expected outcomes  
+expect(response.status).toBe(200);
+expect(result).toMatchObject({ id: expect.any(String) });
+```
+
+### Test Organization
+- **E2E tests**: `services/api/test/*.e2e.ts` with AppTest setup
+- **Unit tests**: `**/*.spec.ts` co-located with source files
+- **Test utilities**: `**/test/**/*.ts` for mocks and helpers
+
+*Detailed testing patterns are provided in path-specific instructions for each test type.*
+
+## Code Organization and Imports
+
+### Project Structure
+- **Source files**: Always edit `src/` directories  
+- **Build outputs**: NEVER edit `lib/` or `build/` directories (generated)
+- **Monorepo packages**: `@liexp/core`, `@liexp/shared`, `@liexp/backend`, `@liexp/ui`, `@liexp/test`
+- **Domain models**: Located in `packages/@liexp/shared`
+
+*Detailed import patterns, naming conventions, and file extensions are in path-specific instructions.*
+
+### AI Schema Requirements (OpenAI Structured Output)
+**CRITICAL**: All properties must be required in OpenAI structured output schemas.
+- Never use `Schema.optional()`, `Schema.UndefinedOr()`, or `Schema.DateFromString`
+- Use `Schema.NullOr()` for truly optional values
+- Use sentinel values: `"unknown"`, `"not specified"`, `"N/A"` for missing data
+
+## Database and Entities
+
+### TypeORM Patterns
+- Database: PostgreSQL with TypeORM
+- Migrations: `services/api/ormconfig.js`
+- Entities: Use existing entity patterns in `@liexp/backend/src/entities/`
+
+### Integration Points
+- **Queueing**: Redis-backed job queue (ai-bot/worker)
+- **Docker**: `compose.yml` and `compose.reverse-proxy.yml` for local development
+
+## Development Commands
+
+### Essential Commands
+```bash
+pnpm install           # Install dependencies
+docker compose up -d db && docker compose up api web admin-web
+pnpm api watch         # Development with hot reload
+pnpm build            # Build and validation
+pnpm typecheck        # Type checking
+pnpm lint             # ESLint validation
+pnpm vitest           # Run all tests
+```
+
+### Workspace Commands (pnpm)
+- Use filter for package-specific commands: `pnpm --filter api run lint`
+- Shorthand when aliases available: `pnpm api lint`
+- Always check working directory context
+
+## Development Workflow & Quality Standards
+
+### Priority Order (STRICT)
+1. **Functionality**: Core logic works correctly
+2. **Type Safety**: All TypeScript types are correct
+3. **Tests**: Comprehensive test coverage (unit + e2e)
+4. **Code Style**: Formatting and linting (addressed last)
+
+### Testing Requirements
+- **Coverage**: Minimum 80% coverage for new code
+- **E2E Tests**: Use `GetAppTest()` for API testing
+- **Unit Tests**: Test pure functions and business logic
+- **Test Data**: Use arbitraries from `@liexp/test` for consistent data generation
+
+*Detailed patterns and examples are provided in path-specific instructions.*
+
+## Common Pitfalls and Solutions
+
+### Build and File Structure
+- ❌ Never edit files in `lib/` or `build/` directories (generated outputs)
+- ✅ Always edit source files in `src/` directories
+
+### Development Workflow
+- ❌ Don't mix imperative and functional styles
+- ✅ Follow existing fp-ts/Effect patterns consistently
+- ❌ Don't skip input validation
+- ✅ Use environment variables (see `.env.example`)
+
+*Detailed pitfalls and solutions are covered in path-specific instructions.*
+
+## Reference Files (Consult First)
+1. **`AGENTS.md` (root)** — Platform and agent overview (primary source for agent/tool rules)
+2. **`packages/@liexp/shared/`** — Domain models and API schemas
+3. **`services/api/README.md` and `ormconfig.js`** — API-specific configuration
+4. **`compose.yml`** — Local infrastructure composition
+
+### Commit Standards
+- Follow conventional commits (enforced by commitlint)
+- Run `pnpm typecheck` and `pnpm lint` before committing
+- Ensure tests pass: `pnpm vitest`
+
+*Detailed commit message format and code quality standards are in path-specific instructions.*
+
+---
+*For deeper patterns and examples, consult `AGENTS.md`. For implementation details, explore the source code in `packages/@liexp/*` and `services/*/src`.*
