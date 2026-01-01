@@ -1,15 +1,15 @@
 {
-  ".": "0.1.1",
-  "packages/@liexp/backend": "0.1.1",
+  ".": "0.1.2",
+  "packages/@liexp/backend": "0.1.2",
   "packages/@liexp/core": "0.1.1",
-  "packages/@liexp/shared": "0.1.1",
-  "packages/@liexp/test": "0.1.1",
-  "packages/@liexp/ui": "0.1.1",
-  "services/admin-web": "0.1.1",
-  "services/ai-bot": "0.1.1",
-  "services/api": "0.1.1",
-  "services/web": "0.1.1",
-  "services/worker": "0.1.1",
-  "services/agent": "0.1.1",
-  "services/storybook": "0.1.1"
+  "packages/@liexp/shared": "0.1.2",
+  "packages/@liexp/test": "0.1.2",
+  "packages/@liexp/ui": "0.1.2",
+  "services/admin-web": "0.1.2",
+  "services/ai-bot": "0.1.2",
+  "services/api": "0.1.2",
+  "services/web": "0.1.2",
+  "services/worker": "0.1.2",
+  "services/agent": "0.1.2",
+  "services/storybook": "0.1.2"
 }
