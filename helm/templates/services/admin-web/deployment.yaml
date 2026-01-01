@@ -19,6 +19,9 @@ spec:
         - name: ghcr-io-registry-auth
       containers:
         - image: ghcr.io/lies-exposed/liexp-admin-web:latest
+          envFrom:
+            - configMapRef:
+                name: admin-web-env
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -30,7 +33,7 @@ spec:
             timeoutSeconds: 20
           name: admin-web
           ports:
-            - containerPort: 80
+            - containerPort: 4010
               protocol: TCP
           # tty: true
           {{- if .Values.adminWeb.dev -}}

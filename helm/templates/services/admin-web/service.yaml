@@ -8,7 +8,7 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 4010
   selector:
     lies.exposed/name: admin-web
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
