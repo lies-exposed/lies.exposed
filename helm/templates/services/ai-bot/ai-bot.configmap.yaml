@@ -7,6 +7,9 @@ data:
         "url": "http://api.prod.svc.cluster.local/v1",
         "mcp": "http://api.prod.svc.cluster.local/mcp"
       },
+      "agent": {
+        "url": "http://agent.prod.svc.cluster.local/v1"
+      },
       "localAi": {
         "url": "http://localai.prod.svc.cluster.local/v1",
         "apiKey": "{{ .Values.localai.openAIApiKey }}",

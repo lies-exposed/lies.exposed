@@ -174,7 +174,7 @@ export const createViteServerHelper = async (
       transformTemplate = templateConfig.transformTemplate ?? ((t) => t);
     } else {
       // SPA fallback - serve index.html for all routes
-      app.get("*", (_req: express.Request, res: express.Response) => {
+      app.get("/*", (_req: express.Request, res: express.Response) => {
         res.sendFile(path.resolve(staticConfig.indexFile));
       });
     }
