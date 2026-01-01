@@ -10,7 +10,6 @@ spec:
     matchLabels:
       lies.exposed/name: admin-web
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
-      # app.kubernetes.io/component: admin-frontend
   template:
     metadata:
 {{ tuple . "admin-web" | include "adminWeb.labels" | indent 8 }}

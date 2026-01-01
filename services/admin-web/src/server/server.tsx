@@ -77,6 +77,11 @@ export const run = async (base: string): Promise<void> => {
     viteConfig: {
       appType: "spa",
       base,
+      configFile: path.resolve(process.cwd(), "vite.config.ts"),
+      serverOptions: {
+        host: env.SERVER_HOST,
+        port: env.SERVER_PORT,
+      },
     },
     staticConfig: {
       buildPath,
