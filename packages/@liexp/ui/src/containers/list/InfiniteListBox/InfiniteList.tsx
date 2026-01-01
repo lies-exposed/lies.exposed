@@ -133,7 +133,7 @@ export interface InfiniteListProps extends InfiniteListBaseProps {
 const cellCache = new CellMeasurerCache({
   fixedWidth: true,
   minWidth: 200,
-  fixedHeight: true,
+  fixedHeight: false,
   defaultHeight: 300,
 });
 

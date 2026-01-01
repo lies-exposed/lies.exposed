@@ -92,8 +92,9 @@ const StyledMasonry = styled(Masonry)(({ theme: _theme }) => ({
 }));
 
 const cellCache = new CellMeasurerCache({
-  fixedWidth: false,
+  fixedWidth: true,
   fixedHeight: false,
+  defaultWidth: 200,
 });
 
 type InfiniteMasonryProps = MasonryProps &
