@@ -7,7 +7,7 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import { createApp, type WebAppConfig } from "../src/server/server.js";
+import { createApp, type WebAppConfig } from "../src/server/createApp.js";
 
 export interface WebAppTest {
   app: e.Express;

@@ -165,6 +165,7 @@ export const createSsrServer = async (
   config: SsrServerConfig,
 ): Promise<SsrServerResult> => {
   const {
+    service,
     logger,
     isProduction,
     viteConfig,
@@ -179,7 +180,7 @@ export const createSsrServer = async (
   let templateHandlers: SsrTemplateHandlers;
 
   // Setup common Express middleware
-  setupExpressMiddleware(app, expressConfig, logger);
+  setupExpressMiddleware(app, expressConfig, logger, service);
 
   if (isProduction) {
     // Production: Static file serving

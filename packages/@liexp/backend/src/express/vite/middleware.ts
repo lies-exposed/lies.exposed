@@ -11,6 +11,7 @@ export const setupExpressMiddleware = (
   app: express.Express,
   config: ExpressConfig,
   logger: Logger,
+  serviceName?: string,
 ): void => {
   // Compression middleware - only enable when explicitly requested
   if (config.compression === true) {
@@ -22,6 +23,16 @@ export const setupExpressMiddleware = (
     app.use(express.json({ limit: config.bodyLimit }));
     app.use(express.urlencoded({ extended: true, limit: config.bodyLimit }));
   }
+
+  // Health check endpoint - available for all services
+  app.get("/healthcheck", (_req, res) => {
+    logger.debug.log("Healthcheck endpoint hit");
+    res.status(200).json({
+      status: "ok",
+      service: serviceName ?? "unknown",
+      timestamp: new Date().toISOString(),
+    });
+  });
 
   // Register pre-Vite middleware
   if (config.beforeViteMiddleware) {

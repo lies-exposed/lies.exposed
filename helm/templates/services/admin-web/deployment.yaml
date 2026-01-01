@@ -24,7 +24,7 @@ spec:
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
-              path: /api/healthcheck
+              path: /healthcheck
               port: 4010
             failureThreshold: 10
             initialDelaySeconds: 15

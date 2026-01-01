@@ -35,6 +35,7 @@ export const createViteServerHelper = async (
     }
 
     const ssrConfig: SsrServerConfig = {
+      service: config.service,
       logger: config.logger,
       isProduction: config.isProduction,
       viteConfig: { ...viteConfig, appType: "custom" },
@@ -52,6 +53,7 @@ export const createViteServerHelper = async (
 
   // SPA mode: appType is "spa" and no clientPath
   const result = await createSpaServer({
+    service: config.service,
     logger: config.logger,
     isProduction: config.isProduction,
     viteConfig: { ...viteConfig, appType: "spa" },
