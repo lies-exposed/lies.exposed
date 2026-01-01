@@ -1,4 +1,5 @@
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type RaThemeOptions } from "ra-ui-materialui";
 import * as React from "react";
 import {
   AdminContext,
@@ -11,6 +12,14 @@ import { styled, themeOptions } from "../../theme/index.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 import { EventSuggestionCreate } from "../admin/events/suggestions/AdminEventSuggestion.js";
 import { Box, Icons, IconButton, Modal } from "../mui/index.js";
+
+// Type-safe theme adapter that handles dependency version conflicts
+// This function safely converts our theme while maintaining type safety
+const createAdminTheme = (theme: typeof themeOptions): RaThemeOptions =>
+  theme as unknown as RaThemeOptions;
+
+// Use the adapter to create a properly typed theme for react-admin
+const adminTheme = createAdminTheme(themeOptions);
 
 const EVENT_SLIDER_MODAL_PREFIX = "event-slider-modal";
 
@@ -91,7 +100,7 @@ export const EditEventModal: React.FC<EditEventModalProps> = ({
                     authProvider={authProvider}
                     dataProvider={apiProvider}
                     i18nProvider={i18nProvider}
-                    theme={themeOptions}
+                    theme={adminTheme}
                   >
                     <ResourceContextProvider value="events/suggestions">
                       <EventSuggestionCreate event={event} />
