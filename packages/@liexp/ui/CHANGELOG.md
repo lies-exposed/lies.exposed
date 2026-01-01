@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.2...@liexp/ui@0.1.3) (2026-01-01)
+
+
+### Bug Fixes
+
+* **web:** keep only one fixed dimension for react-virutalized CellMeasurerCache ([#2961](https://github.com/lies-exposed/lies.exposed/issues/2961)) ([b5ae7aa](https://github.com/lies-exposed/lies.exposed/commit/b5ae7aab2a0994a289c1d789c1bceb83299d2f73))
+
 ## [0.1.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.1...@liexp/ui@0.1.2) (2026-01-01)
 
 
