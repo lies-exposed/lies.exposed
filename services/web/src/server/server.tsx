@@ -17,25 +17,34 @@ import { getServer } from "./ssr.js";
 
 const webSrvLog = GetLogger("web");
 
-export const run = async (base: string): Promise<void> => {
+export interface WebAppConfig {
+  base: string;
+  isProduction?: boolean;
+  ssrApiUrl?: string;
+  apiUrl?: string;
+}
+
+export const createApp = async (config: WebAppConfig) => {
+  const {
+    base,
+    isProduction = process.env.VITE_NODE_ENV === "production",
+    ssrApiUrl = process.env.VITE_SSR_API_URL,
+    apiUrl = process.env.VITE_API_URL,
+  } = config;
+
   D.enable(process.env.VITE_DEBUG ?? "@liexp:*:error");
 
-  webSrvLog.debug.log("Running with process.env %O", base, process.env);
+  webSrvLog.debug.log("Creating app with config %O", config);
+  webSrvLog.info.log(
+    "Creating app (base %s, production: %s)",
+    base,
+    isProduction,
+  );
 
-  webSrvLog.info.log("Server running (base %s)", base);
-
-  const isProduction = process.env.VITE_NODE_ENV === "production";
-
-  const ssrApiProvider = APIRESTClient({
-    url: process.env.VITE_SSR_API_URL,
-  });
-
-  const apiProvider = APIRESTClient({
-    url: process.env.VITE_API_URL,
-  });
+  const ssrApiProvider = APIRESTClient({ url: ssrApiUrl });
+  const apiProvider = APIRESTClient({ url: apiUrl });
 
   const cwd = process.cwd();
-
   const outputDir = isProduction
     ? path.resolve(cwd, "build")
     : path.resolve(cwd, "src");
@@ -62,14 +71,19 @@ export const run = async (base: string): Promise<void> => {
         appType: "custom", // SSR mode
         base,
         configFile: path.resolve(process.cwd(), "vite.config.ts"),
+        // Use a separate cache directory for tests to avoid conflicts with Docker
+        cacheDir:
+          process.env.NODE_ENV === "test"
+            ? path.resolve(process.cwd(), "node_modules/.vite-test")
+            : undefined,
       },
       staticConfig: {
         buildPath: outputDir,
-        clientPath: isProduction ? path.resolve(outputDir, "client") : cwd, // Development: align with indexFile location at project root
+        clientPath: isProduction ? path.resolve(outputDir, "client") : cwd,
         indexFile,
       },
       templateConfig: {
-        serverEntry: () => Promise.resolve(serverEntryPath), // Always provide the entry path
+        serverEntry: () => Promise.resolve(serverEntryPath),
         getTemplate: isProduction
           ? async () => {
               templateFile ??= fs
@@ -82,7 +96,6 @@ export const run = async (base: string): Promise<void> => {
               return Promise.resolve(templateFile);
             }
           : async () => {
-              // Development mode - read template file, Vite will handle transformation
               const templateFile = fs.readFileSync(indexFile, "utf8");
               return Promise.resolve(templateFile);
             },
@@ -90,6 +103,16 @@ export const run = async (base: string): Promise<void> => {
       },
       expressConfig: {
         compression: isProduction,
+        beforeViteMiddleware: (expressApp) => {
+          // Health check endpoint for monitoring
+          expressApp.get("/api/health", (_req, res) => {
+            res.json({
+              status: "ok",
+              service: "web",
+              timestamp: new Date().toISOString(),
+            });
+          });
+        },
       },
       errorConfig: {
         exposeErrorDetails: !isProduction,
@@ -123,6 +146,12 @@ export const run = async (base: string): Promise<void> => {
     },
   });
 
+  return server;
+};
+
+export const startServer = async (config: WebAppConfig): Promise<void> => {
+  const server = await createApp(config);
+
   server.on("error", (e) => {
     webSrvLog.error.log("app error", e);
   });
@@ -144,15 +173,21 @@ export const run = async (base: string): Promise<void> => {
   });
 };
 
-run("/").catch((e) => {
-  // eslint-disable-next-line no-console
-  console.error(e);
-  process.exit(1);
-});
+export const run = async (base: string): Promise<void> => {
+  await startServer({ base });
+};
 
-process.on("uncaughtException", (e) => {
-  // eslint-disable-next-line no-console
-  console.error("Process uncaught exception", e);
+// Only run the server if this file is executed directly (not imported during testing)
+if (require.main === module || process.env.NODE_ENV !== "test") {
+  run("/").catch((e) => {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    process.exit(1);
+  });
 
-  process.exit(1);
-});
+  process.on("uncaughtException", (e) => {
+    // eslint-disable-next-line no-console
+    console.error("Process uncaught exception", e);
+    process.exit(1);
+  });
+}

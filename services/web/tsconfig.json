@@ -26,7 +26,7 @@
       "@containers/*": ["./client/containers/*"]
     }
   },
-  "include": ["./src", "./typings", "eslint.config.js", "vite.config.ts"],
+  "include": ["./src", "./test", "./typings", "eslint.config.js", "vite.config.ts"],
   "references": [
     {
       "path": "../../packages/@liexp/core"
