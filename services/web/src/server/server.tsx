@@ -10,10 +10,10 @@ import * as fs from "fs";
 import * as path from "path";
 import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { getServer } from "@liexp/ui/lib/react/ssr.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import D from "debug";
 import { routes } from "../client/routes.js";
+import { getServer } from "./ssr.js";
 
 const webSrvLog = GetLogger("web");
 
@@ -114,7 +114,8 @@ export const run = async (base: string): Promise<void> => {
     app,
     routes,
     getTemplate,
-    serverEntry,
+    // Cast serverEntry from generic type to specific type
+    serverEntry: serverEntry as Parameters<typeof getServer>[0]["serverEntry"],
     apiProvider: { ssr: ssrApiProvider, client: apiProvider },
     transformTemplate,
     onRequestError: (e) => {

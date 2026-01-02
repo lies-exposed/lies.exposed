@@ -3,14 +3,17 @@ import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
+import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
+import {
+  isAsyncDataRoute,
+  type ServerRoute,
+} from "@liexp/ui/lib/react/types.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
 import { CreateQueryProvider } from "@ts-endpoint/tanstack-query";
 import type * as express from "express";
 import * as pathToRegexp from "path-to-regexp";
-import { type Configuration } from "../context/ConfigurationContext.js";
-import { isAsyncDataRoute, type ServerRoute } from "./types.js";
-import { requestHandler, type ServerRenderer } from "./vite/render.js";
+import { requestHandler, type AppServerRenderer } from "./ssr-render.js";
 
 const ssrLog = GetLogger("ssr");
 
@@ -19,7 +22,7 @@ interface GetServerOptions {
   routes: ServerRoute[];
   getTemplate: (url: string, originalUrl: string) => Promise<string>;
   serverEntry: () => Promise<{
-    render: ServerRenderer;
+    render: AppServerRenderer;
     configuration: Configuration;
   }>;
   transformTemplate: (template: string) => string;
@@ -27,19 +30,16 @@ interface GetServerOptions {
     client: APIRESTClient;
     ssr: APIRESTClient;
   };
-  onRequestError: (e: any) => void;
+  onRequestError: (e: unknown) => void;
 }
 
-export const getServer = (
-  {
-    app,
-    routes,
-    apiProvider,
-    onRequestError,
-    ...requestOptions
-  }: GetServerOptions,
-  // viteServer: ViteDevServer,
-): express.Express => {
+export const getServer = ({
+  app,
+  routes,
+  apiProvider,
+  onRequestError,
+  ...requestOptions
+}: GetServerOptions): express.Express => {
   const Q = CreateQueryProvider(
     GetResourceClient(apiProvider.ssr.client, Endpoints, {
       decode: EffectDecoder((e) => DecodeError.of("APIError", e)),
