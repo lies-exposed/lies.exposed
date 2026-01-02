@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import * as path from "path";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import compression from "compression";
 import express from "express";
@@ -14,6 +13,8 @@ export interface ViteServerConfig {
   configFile?: string;
   /** Additional vite server options */
   serverOptions?: Record<string, any>;
+  /** Custom cache directory for Vite (useful for tests) */
+  cacheDir?: string;
 }
 
 export interface StaticFileConfig {
@@ -116,7 +117,9 @@ export const createViteServerHelper = async (
 
   // Register pre-Vite middleware
   if (expressConfig.beforeViteMiddleware) {
+    logger.info.log("Registering beforeViteMiddleware");
     expressConfig.beforeViteMiddleware(app);
+    logger.info.log("✓ beforeViteMiddleware registered");
   }
 
   // ============================================================
@@ -136,6 +139,15 @@ export const createViteServerHelper = async (
       "Setting up production static file serving from %s",
       staticConfig.buildPath,
     );
+    logger.info.log("Index file path: %s", staticConfig.indexFile);
+    logger.info.log(
+      "Index file exists: %s",
+      fs.existsSync(staticConfig.indexFile),
+    );
+    logger.info.log(
+      "Build path exists: %s",
+      fs.existsSync(staticConfig.buildPath),
+    );
 
     if (staticConfig.clientPath) {
       // SSR: Serve client files from specific path
@@ -146,18 +158,66 @@ export const createViteServerHelper = async (
         }),
       );
     } else {
-      // SPA: Serve all files from build path
-      app.use(
+      // SPA: Serve static files and fallback to index.html
+      logger.info.log(
+        "Setting up sirv middleware with base: '%s'",
         viteConfig.base,
-        sirv(staticConfig.buildPath, {
-          extensions: staticConfig.extensions ?? [],
-        }),
       );
+      logger.info.log(
+        "Build path exists: %s",
+        fs.existsSync(staticConfig.buildPath),
+      );
+
+      const sirvOptions = {
+        extensions: staticConfig.extensions ?? [],
+        single: true, // This handles SPA fallback automatically
+        dev: false, // Production mode
+        etag: true, // Enable ETag headers
+        maxAge: 31536000, // Cache for 1 year in production
+        immutable: true, // Mark assets as immutable in production
+      };
+
+      logger.info.log("sirv options: %O", sirvOptions);
+
+      const sirvMiddleware = sirv(staticConfig.buildPath, sirvOptions);
+
+      // For root base path, use sirv directly without path prefix
+      if (viteConfig.base === "/" || viteConfig.base === "") {
+        // Add debug wrapper around sirv
+        app.use((req, res, next) => {
+          logger.debug.log(
+            "sirv middleware handling: %s %s (original: %s)",
+            req.method,
+            req.path,
+            req.originalUrl,
+          );
+          sirvMiddleware(req, res, next);
+        });
+      } else {
+        // Add debug wrapper around sirv with base path
+        app.use(viteConfig.base, (req, res, next) => {
+          logger.debug.log(
+            "sirv middleware handling: %s %s (original: %s)",
+            req.method,
+            req.path,
+            req.originalUrl,
+          );
+          sirvMiddleware(req, res, next);
+        });
+      }
+
+      logger.info.log("✓ Static file middleware registered");
     }
 
     // Template handling for production
     if (templateConfig) {
-      serverEntry = templateConfig.serverEntry;
+      // Load the server entry module in production
+      if (templateConfig.serverEntry) {
+        const entry = await templateConfig.serverEntry();
+
+        // In production, we need to import the built module (ES modules)
+        serverEntry = () => import(entry);
+      }
 
       if (fs.existsSync(staticConfig.indexFile)) {
         if (templateConfig.getTemplate) {
@@ -172,12 +232,8 @@ export const createViteServerHelper = async (
       }
 
       transformTemplate = templateConfig.transformTemplate ?? ((t) => t);
-    } else {
-      // SPA fallback - serve index.html for all routes
-      app.get("/*", (_req: express.Request, res: express.Response) => {
-        res.sendFile(path.resolve(staticConfig.indexFile));
-      });
     }
+    // Static files served via sirv middleware with SPA fallback route registered below
   } else {
     // Development: Vite dev server
     logger.info.log("Setting up Vite dev server in middleware mode");
@@ -189,6 +245,12 @@ export const createViteServerHelper = async (
       appType: viteConfig.appType,
       configFile: viteConfig.configFile,
       base: viteConfig.base,
+      cacheDir: viteConfig.cacheDir,
+      // When using a custom cache directory, disable deps optimization to avoid
+      // conflicts with existing cache directories (e.g., from Docker containers)
+      optimizeDeps: viteConfig.cacheDir
+        ? { noDiscovery: true, include: [] }
+        : undefined,
     });
 
     app.use(viteInstance.middlewares);
@@ -235,7 +297,40 @@ export const createViteServerHelper = async (
 
   // Register post-Vite middleware
   if (expressConfig.afterViteMiddleware) {
+    logger.info.log("Registering afterViteMiddleware");
     expressConfig.afterViteMiddleware(app);
+    logger.info.log("✓ afterViteMiddleware registered");
+  }
+
+  // ============================================================
+  // SPA Fallback Route (must be last before error handler)
+  // ============================================================
+
+  // For SPA apps in production, add explicit fallback to serve index.html
+  // This catches any routes not handled by static files or API routes
+  if (
+    isProduction &&
+    viteConfig.appType === "spa" &&
+    !staticConfig.clientPath
+  ) {
+    app.get("/*splat", (req, res, next) => {
+      // Skip API routes
+      if (req.path.startsWith("/api/")) {
+        logger.debug.log("SPA fallback: skipping API route %s", req.path);
+        return next();
+      }
+
+      // Serve index.html for all other routes (client-side routing)
+      logger.info.log("SPA fallback: serving index.html for %s", req.path);
+      res.sendFile(staticConfig.indexFile, (err) => {
+        if (err) {
+          logger.error.log("SPA fallback: error serving index.html: %O", err);
+          next(err);
+        }
+      });
+    });
+
+    logger.info.log("✓ SPA fallback route registered (catch-all)");
   }
 
   // ============================================================
