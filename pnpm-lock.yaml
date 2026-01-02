@@ -612,9 +612,6 @@ importers:
       ol:
         specifier: ^10.7.0
         version: 10.7.0
-      path-to-regexp:
-        specifier: ^8.2.0
-        version: 8.3.0
       query-string:
         specifier: ^9.1.1
         version: 9.2.2
