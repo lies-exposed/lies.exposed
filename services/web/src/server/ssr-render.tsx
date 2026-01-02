@@ -4,7 +4,7 @@ import {
   createSSRHandler,
   type ServerRenderer,
   type ServerRendererProps,
-} from "@liexp/backend/lib/express/vite/index.js";
+} from "@liexp/backend/lib/express/vite/ssr-handler.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
