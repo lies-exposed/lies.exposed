@@ -48,7 +48,9 @@
       "entry": [
         "src/client/index.tsx",
         "src/server/server.tsx",
-        "src/server/entry.tsx"
+        "src/server/entry.tsx",
+        "test/WebAppTest.ts",
+        "test/testSetup.ts"
       ],
       "includeEntryExports": false,
       "project": [
