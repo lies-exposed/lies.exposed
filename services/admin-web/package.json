@@ -21,6 +21,9 @@
     "serve": "node build/server/server.js",
     "start": "vite start",
     "test": "vitest --passWithNoTests",
+    "test:e2e": "vitest run --config vitest.config.e2e.ts",
+    "test:e2e:watch": "vitest --config vitest.config.e2e.ts",
+    "test:e2e:coverage": "vitest run --config vitest.config.e2e.ts --coverage",
     "watch": "tsc -b --watch"
   },
   "lint-staged": {
@@ -59,20 +62,25 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
+    "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.1",
     "@types/node": "^24.10.1",
     "@types/react": "^18.3.20",
     "@types/react-dom": "^18.3.6",
+    "@types/supertest": "^6.0.3",
     "dotenv": "^17.2.1",
     "eslint": "^9.39.1",
+    "msw": "^2.12.7",
+    "supertest": "^7.1.0",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
     "vite-plugin-css-injected-by-js": "^3.5.2",
     "vite-plugin-optimizer": "^1.4.3",
-    "vite-tsconfig-paths": "^6.0.3"
+    "vite-tsconfig-paths": "^6.0.3",
+    "vitest": "^2.1.8"
   },
   "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402"
 }
