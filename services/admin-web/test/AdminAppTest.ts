@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { fc } from "@liexp/test/lib/index.js";
-import type * as e from "express-serve-static-core";
+import type * as e from "express";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import supertest from "supertest";

@@ -1,26 +1,48 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
   "includeEntryExports": true,
-  "ignoreWorkspaces": ["services/data"],
+  "ignoreWorkspaces": [
+    "services/data"
+  ],
   "workspaces": {
     ".": {
-      "ignore": ["services/*/build/**", "packages/@liexp/*/lib/**", "**/temp/**"],
-      "ignoreBinaries": ["corepack use pnpm@latest-10"],
-      "ignoreDependencies": ["husky", "lint-staged", "corepack"],
-      "ignoreUnresolved": ["tslib"]
+      "ignore": [
+        "services/*/build/**",
+        "packages/@liexp/*/lib/**",
+        "**/temp/**"
+      ],
+      "ignoreBinaries": [
+        "corepack use pnpm@latest-10"
+      ],
+      "ignoreDependencies": [
+        "husky",
+        "lint-staged",
+        "corepack"
+      ],
+      "ignoreUnresolved": [
+        "tslib"
+      ]
     },
     "packages/@liexp/shared": {
       "includeEntryExports": false,
-      "entry": ["src/**/*.ts"],
-      "project": ["src/**/*.ts"],
+      "entry": [
+        "src/**/*.ts"
+      ],
+      "project": [
+        "src/**/*.ts"
+      ],
       "ignoreDependencies": [
         "@floating-ui/dom"
       ]
     },
     "packages/@liexp/*": {
       "includeEntryExports": false,
-      "entry": ["src/**/*.{ts,tsx}"],
-      "project": ["src/**/*.{ts,tsx}"]
+      "entry": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx}"
+      ]
     },
     "services/web": {
       "entry": [
@@ -29,7 +51,9 @@
         "src/server/entry.tsx"
       ],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}"],
+      "project": [
+        "src/**/*.{ts,tsx}"
+      ],
       "ignore": [
         "src/client/components/events/AddEventModal.tsx",
         "src/client/pages/DocsPage.tsx",
@@ -38,9 +62,15 @@
       ]
     },
     "services/admin-web": {
-      "entry": ["src/index.tsx"],
+      "entry": [
+        "src/index.tsx",
+        "test/AdminAppTest.ts",
+        "test/testSetup.ts"
+      ],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}"],
+      "project": [
+        "src/**/*.{ts,tsx}"
+      ],
       "ignoreDependencies": [
         "@ts-endpoint/resource-client"
       ],
@@ -51,8 +81,12 @@
       ]
     },
     "services/ai-bot": {
-      "entry": ["src/run.ts"],
-      "project": ["src/**/*.ts"],
+      "entry": [
+        "src/run.ts"
+      ],
+      "project": [
+        "src/**/*.ts"
+      ],
       "ignoreDependencies": [
         "@aws-sdk/client-sso-oidc",
         "@aws-sdk/client-sts",
@@ -72,20 +106,39 @@
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
       ],
-      "ignore": ["ormconfig.js", "test/__mocks__/**/*", "test/globalSetup.ts"]
+      "ignore": [
+        "ormconfig.js",
+        "test/__mocks__/**/*",
+        "test/globalSetup.ts"
+      ]
     },
     "services/worker": {
-      "entry": ["src/run.ts", "src/bin/cli.ts"],
-      "project": ["src/**/*.ts"]
+      "entry": [
+        "src/run.ts",
+        "src/bin/cli.ts"
+      ],
+      "project": [
+        "src/**/*.ts"
+      ]
     },
     "services/agent": {
-      "entry": ["src/run.ts", "src/cli/cli.ts"],
-      "project": ["src/**/*.ts"]
+      "entry": [
+        "src/run.ts",
+        "src/cli/cli.ts"
+      ],
+      "project": [
+        "src/**/*.ts"
+      ]
     },
     "services/storybook": {
-      "entry": [".storybook/*.{ts,tsx}", "src/stories/**/*.tsx"],
+      "entry": [
+        ".storybook/*.{ts,tsx}",
+        "src/stories/**/*.tsx"
+      ],
       "includeEntryExports": false,
-      "project": ["src/**/*.{ts,tsx}"]
+      "project": [
+        "src/**/*.{ts,tsx}"
+      ]
     }
   }
 }
