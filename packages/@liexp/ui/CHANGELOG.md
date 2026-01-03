@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.3...@liexp/ui@0.1.4) (2026-01-03)
+
+
+### Bug Fixes
+
+* **ui:** use react-hook-form hooks to keep TextWithSlugInput values in syn ([#2971](https://github.com/lies-exposed/lies.exposed/issues/2971)) ([88f3f2d](https://github.com/lies-exposed/lies.exposed/commit/88f3f2d4a06e8b3a5a13574ee8b3686486247df2))
+
+
+### Miscellaneous
+
+* **backend:** moved node SSR logic from @liexp/ui ([#2967](https://github.com/lies-exposed/lies.exposed/issues/2967)) ([a6ed9f0](https://github.com/lies-exposed/lies.exposed/commit/a6ed9f0579033fbf556e805ea1ed4dda46cef899))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.2
+    * @liexp/shared bumped to 0.1.3
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.2...@liexp/ui@0.1.3) (2026-01-01)
 
 
