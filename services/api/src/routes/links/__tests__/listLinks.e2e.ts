@@ -82,12 +82,8 @@ describe("List Links", () => {
 
     test("Should filter links by minimum events count", async () => {
       // Create test links with varying numbers of events
-      const testLinks = tests.fc
-        .sample(LinkArb, 3)
-        .map(toLinkEntity);
-      const savedLinks = await throwTE(
-        Test.ctx.db.save(LinkEntity, testLinks),
-      );
+      const testLinks = tests.fc.sample(LinkArb, 3).map(toLinkEntity);
+      const savedLinks = await throwTE(Test.ctx.db.save(LinkEntity, testLinks));
 
       // Link 0: No events
       // Link 1: 2 events
