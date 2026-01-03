@@ -19,6 +19,7 @@ import {
   TextInput,
   useRecordContext,
 } from "../react-admin.js";
+import { EditToolbar } from "../toolbar/index.js";
 import { PublishNowButton } from "./PublishNowButton.js";
 import { ResourceEntityInput } from "./ResourceEntityInput.js";
 import { SocialPostEditContent } from "./SocialPostEditContent.js";
@@ -157,7 +158,7 @@ export const SocialPostEdit: React.FC = () => {
       transform={transformSocialPost}
       preview={null}
     >
-      <TabbedForm>
+      <TabbedForm toolbar={<EditToolbar />}>
         <TabbedForm.Tab label="General">
           <SocialPostStatus />
           <ResourceEntityInput />

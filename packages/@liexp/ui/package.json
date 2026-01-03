@@ -21,7 +21,7 @@
     "build": "tsc -b tsconfig.build.json",
     "clean": "rm -rf lib",
     "lint": "eslint src",
-    "test": "vitest --passWithNoTests",
+    "test": "vitest",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
@@ -94,7 +94,7 @@
     "react-ellipsis-component": "^1.1.11",
     "react-error-boundary": "^6.0.0",
     "react-helmet-async": "^2.0.5",
-    "react-hook-form": "^7.56.3",
+    "react-hook-form": "^7.69.0",
     "react-markdown": "^10.1.0",
     "react-router": "^7.11.0",
     "react-share": "^5.2.2",
@@ -109,6 +109,9 @@
     "waveform-data": "^4.5.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
     "@types/d3": "^7.4.3",
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-sankey": "^0.12.5",
@@ -125,6 +128,7 @@
     "effect": "^3.17.13",
     "eslint": "^9.39.1",
     "fp-ts": "^2.16.10",
+    "jsdom": "^27.4.0",
     "openai": "^6.15.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",

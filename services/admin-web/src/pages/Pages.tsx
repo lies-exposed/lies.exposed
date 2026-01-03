@@ -18,6 +18,7 @@ import {
   type EditProps,
   type ListProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
+import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
 import * as React from "react";
 
 export const PageList: React.FC<ListProps> = (props) => (
@@ -44,7 +45,7 @@ export const PageEdit: React.FC<EditProps> = (props) => {
       {...props}
       redirect={false}
     >
-      <TabbedForm>
+      <TabbedForm toolbar={<EditToolbar />}>
         <FormTab label="Generals">
           <TextInput source="title" />
           <TextInput source="path" />

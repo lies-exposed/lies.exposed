@@ -21,6 +21,7 @@ import {
   type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { ReferenceMediaTab } from "@liexp/ui/lib/components/admin/tabs/ReferenceMediaTab.js";
+import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
 import { transformMedia } from "@liexp/ui/lib/components/admin/transform.utils.js";
 import { Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
@@ -94,7 +95,7 @@ const AreaEdit: React.FC<EditProps> = () => (
     preview={<AreaPreview />}
     actions={<AreaTGPostButton />}
   >
-    <TabbedForm>
+    <TabbedForm toolbar={<EditToolbar />}>
       <FormTab label="Generals">
         <TextWithSlugInput source="label" slugSource="slug" />
         <BooleanInput source="draft" />
