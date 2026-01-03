@@ -14,8 +14,16 @@ export const setupExpressMiddleware = (
   serviceName?: string,
 ): void => {
   // Compression middleware - only enable when explicitly requested
-  if (config.compression === true) {
-    app.use(compression());
+  if (config.compression) {
+    if (typeof config.compression === "boolean") {
+      app.use(compression());
+    } else if (config.compression.enabled) {
+      app.use(
+        compression({
+          filter: config.compression.filter ?? compression.filter,
+        }),
+      );
+    }
   }
 
   // Body parser configuration
