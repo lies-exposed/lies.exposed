@@ -211,12 +211,22 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             }
 
             if (O.isSome(eventsCount)) {
-              q.andWhere(
-                `(SELECT COUNT(*) FROM event_v2_links_link jt 
-                  INNER JOIN event_v2 e ON e.id = jt."eventV2Id" 
-                  WHERE jt."linkId" = link.id AND e."deletedAt" IS NULL) >= :eventsCount`,
-                { eventsCount: eventsCount.value },
-              );
+              q
+                .leftJoin(
+                  "event_v2_links_link",
+                  "eventLinkForCount",
+                  'eventLinkForCount."linkId" = link.id',
+                )
+                .leftJoin(
+                  "event_v2",
+                  "eventForCount",
+                  'eventForCount.id = eventLinkForCount."eventV2Id"',
+                )
+                .addGroupBy("link.id")
+                .having(
+                  'COUNT(CASE WHEN eventForCount."deletedAt" IS NULL THEN 1 END) >= :eventsCount',
+                  { eventsCount: eventsCount.value },
+                );
             }
 
             return q;
