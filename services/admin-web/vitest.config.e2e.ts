@@ -4,6 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineProject({
   plugins: [tsconfigPaths()],
   test: {
+    name: 'e2e',
     globals: true,
     environment: "node",
     testTimeout: 30000,
