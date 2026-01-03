@@ -79,7 +79,7 @@ export const setupSpaFallback = (
   indexFile: string,
   logger: Logger,
 ): void => {
-  app.get("/*splat", (req, res, next) => {
+  app.get("/{*splat}", (req, res, next) => {
     // Skip API routes
     if (req.path.startsWith("/api/")) {
       logger.debug.log("SPA fallback: skipping API route %s", req.path);
