@@ -211,12 +211,11 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             }
 
             if (O.isSome(eventsCount)) {
-              q
-                .leftJoin(
-                  "event_v2_links_link",
-                  "eventLinkForCount",
-                  'eventLinkForCount."linkId" = link.id',
-                )
+              q.leftJoin(
+                "event_v2_links_link",
+                "eventLinkForCount",
+                'eventLinkForCount."linkId" = link.id',
+              )
                 .leftJoin(
                   "event_v2",
                   "eventForCount",
