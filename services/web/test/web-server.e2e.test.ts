@@ -19,7 +19,7 @@ describe.sequential("Web Server E2E Tests", () => {
 
     describe("Basic Server Functionality", () => {
       it("should respond to health check endpoint", async () => {
-        const response = await Test.req.get("/api/health");
+        const response = await Test.req.get("/healthcheck");
 
         expect(response.status).toBe(200);
         expect(response.body).toMatchObject({
@@ -157,7 +157,7 @@ describe.sequential("Web Server E2E Tests", () => {
         // In SPA mode, non-existent routes serve the main HTML file
         expect(response.status).toBe(200);
         expect(response.type).toBe("text/html");
-      }, 15000); // Increased timeout for SSR processing
+      }); // Increased timeout for SSR processing
     });
 
     describe("Production Static File Handling", () => {

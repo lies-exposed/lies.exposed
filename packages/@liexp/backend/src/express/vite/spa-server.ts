@@ -109,6 +109,7 @@ export const createSpaServer = async (
   config: SpaServerConfig,
 ): Promise<SpaServerResult> => {
   const {
+    service,
     logger,
     isProduction,
     viteConfig,
@@ -121,7 +122,7 @@ export const createSpaServer = async (
   let viteInstance: ViteDevServer | undefined;
 
   // Setup common Express middleware
-  setupExpressMiddleware(app, expressConfig, logger);
+  setupExpressMiddleware(app, expressConfig, logger, service);
 
   if (isProduction) {
     // Production: Static file serving with SPA fallback

@@ -10,6 +10,7 @@ import type TestAgent from "supertest/lib/agent.js";
 import { type AdminProxyENV } from "../src/server/io/ENV.js";
 import {URL} from '@liexp/shared/lib/io/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
+import {createApp} from '../src/server/createApp.js'
 
 export interface AdminAppTest {
   app: e.Express;
@@ -34,15 +35,6 @@ const createAgentApiHandlers = () => [
         modelUsed: "mock-model",
         tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],
       },
-    });
-  }),
-
-  // Agent health check mock
-  http.get("http://mock-agent/api/health", () => {
-    return HttpResponse.json({
-      status: "ok",
-      service: "agent",
-      timestamp: new Date().toISOString(),
     });
   }),
 
@@ -136,9 +128,6 @@ export const createAdminServerTest = async (
 
   // Note: Development mode uses the existing index.html file
   // No need to create a mock file since it already exists
-
-  // Dynamic import to avoid ESM issues in tests
-  const { createApp } = await import("../src/server/createApp.js");
   
   // Mock JWT verification for testing
   const originalVerifyJWT = process.env.NODE_ENV;

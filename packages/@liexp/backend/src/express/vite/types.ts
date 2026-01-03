@@ -72,6 +72,7 @@ export interface ErrorConfig {
  * Base configuration shared by SPA and SSR servers
  */
 export interface BaseServerConfig {
+  service: string;
   /** Logger instance */
   logger: Logger;
   /** Whether running in production mode */

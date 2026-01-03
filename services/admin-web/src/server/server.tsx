@@ -11,17 +11,12 @@
  * - Vite handles HTML serving and SPA fallback in development
  */
 
-import * as path from "path";
-import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
-import cors from "cors";
 import { Schema } from "effect";
-import express from "express";
-import { makeAdminProxyContext } from "./context/index.js";
+import { createApp } from "./createApp.js";
 import { AdminProxyENV } from "./io/ENV.js";
-import { registerAgentProxyRoutes } from "./routes/agent-proxy.routes.js";
 
 const logger = GetLogger("admin-server");
 
@@ -44,81 +39,7 @@ export const run = async (base: string): Promise<void> => {
   const env = envDecodeResult.right;
   const isProduction = env.NODE_ENV === "production";
 
-  logger.debug.log("Environment loaded: %O", {
-    SERVER_PORT: env.SERVER_PORT,
-    SERVER_HOST: env.SERVER_HOST,
-    AGENT_URL: env.AGENT_API_URL,
-    NODE_ENV: env.NODE_ENV,
-    isProduction,
-  });
-
-  // Initialize context (JWT, M2M, Agent client)
-  const contextTE = makeAdminProxyContext(env);
-  const contextResult = await contextTE();
-
-  if (contextResult._tag === "Left") {
-    logger.error.log("Failed to initialize context: %O", contextResult.left);
-    throw new Error("Context initialization failed");
-  }
-
-  const ctx = contextResult.right;
-  logger.info.log("Context initialized successfully");
-
-  // ============================================================
-  // Create Vite Server Helper
-  // ============================================================
-
-  const buildPath = path.resolve(process.cwd(), "build");
-  const indexFile = path.resolve(buildPath, "index.html");
-
-  const { app } = await createViteServerHelper({
-    logger,
-    isProduction,
-    viteConfig: {
-      appType: "spa",
-      base,
-      configFile: path.resolve(process.cwd(), "vite.config.ts"),
-      serverOptions: {
-        host: env.SERVER_HOST,
-        port: env.SERVER_PORT,
-      },
-    },
-    staticConfig: {
-      buildPath,
-      indexFile,
-    },
-    expressConfig: {
-      compression: true,
-      bodyLimit: "10mb",
-      beforeViteMiddleware: (app) => {
-        // CORS (allow admin frontend)
-        app.use(
-          cors({
-            origin: env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
-            credentials: true,
-            methods: ["POST", "GET", "OPTIONS"],
-          }),
-        );
-
-        // Global health check
-        app.get("/api/health", (_req, res) => {
-          res.status(200).json({
-            status: "ok",
-            service: "admin-web",
-            timestamp: new Date().toISOString(),
-          });
-        });
-
-        // Agent proxy routes at /api/proxy/agent
-        const proxyRouter = express.Router();
-        registerAgentProxyRoutes(proxyRouter, ctx);
-        app.use("/api/proxy/agent", proxyRouter);
-      },
-    },
-    errorConfig: {
-      exposeErrorDetails: !isProduction,
-    },
-  });
+  const app = await createApp(env);
 
   // ============================================================
   // Start Server
@@ -136,7 +57,7 @@ export const run = async (base: string): Promise<void> => {
     }
   });
 
-  server.on("error", (e: any) => {
+  server.on("error", (e) => {
     logger.error.log("Server error: %O", e);
     process.exit(1);
   });

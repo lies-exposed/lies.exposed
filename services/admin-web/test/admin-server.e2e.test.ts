@@ -2,7 +2,7 @@ import { describe, expect, it, beforeAll, afterAll } from "vitest";
 import { GetAdminAppTest, closeAdminAppTest } from "./AdminAppTest.js";
 import type { AdminAppTest } from "./AdminAppTest.js";
 
-describe("Admin Web Server", () => {
+describe.sequential("Admin Web Server", () => {
   let AdminTest: AdminAppTest;
 
   describe("Development Mode", () => {
@@ -44,21 +44,9 @@ describe("Admin Web Server", () => {
     });
 
     describe("Health Check Endpoints", () => {
-      it("should return health status on /api/health", async () => {
+      it("should return health status on /healthcheck", async () => {
         const response = await AdminTest.req
-          .get("/api/health")
-          .expect(200);
-
-        expect(response.body).toMatchObject({
-          status: "ok",
-          service: "admin-web",
-          timestamp: expect.any(String),
-        });
-      });
-
-      it("should return health status on /api/healthcheck", async () => {
-        const response = await AdminTest.req
-          .get("/api/healthcheck")
+          .get("/healthcheck")
           .expect(200);
 
         expect(response.body).toMatchObject({
@@ -105,7 +93,7 @@ describe("Admin Web Server", () => {
     describe("CORS Headers", () => {
       it("should include CORS headers for API requests", async () => {
         const response = await AdminTest.req
-          .options("/api/health")
+          .options("/api/proxy/agent/chat/message")
           .expect(204); // OPTIONS requests typically return 204 No Content
 
         // Basic CORS validation - should at least have origin header
@@ -166,7 +154,7 @@ describe("Admin Web Server", () => {
 
     it("should maintain health check functionality in production", async () => {
       const response = await ProdAdminTest.req
-        .get("/api/health")
+        .get("/healthcheck")
         .expect(200);
 
       expect(response.body).toMatchObject({

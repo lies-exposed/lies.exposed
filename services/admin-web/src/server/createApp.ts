@@ -81,6 +81,7 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
   }
 
   const { app } = await createViteServerHelper({
+    service: "admin-web",
     logger,
     isProduction,
     viteConfig: {
@@ -113,26 +114,6 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
             origin: env.VITE_PUBLIC_URL ?? "http://admin.liexp.dev",
           }),
         );
-
-        // Global health check (note: liveness probe uses /api/healthcheck)
-        app.get("/api/health", (_req, res) => {
-          logger.debug.log("Health check endpoint hit");
-          res.status(200).json({
-            status: "ok",
-            service: "admin-web",
-            timestamp: new Date().toISOString(),
-          });
-        });
-
-        // Alias for Kubernetes health check
-        app.get("/api/healthcheck", (_req, res) => {
-          logger.debug.log("Healthcheck endpoint hit");
-          res.status(200).json({
-            status: "ok",
-            service: "admin-web",
-            timestamp: new Date().toISOString(),
-          });
-        });
 
         // Agent proxy routes at /api/proxy/agent
         const proxyRouter = express.Router();
