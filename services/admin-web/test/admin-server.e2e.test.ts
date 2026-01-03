@@ -135,21 +135,31 @@ describe.sequential("Admin Web Server", () => {
       await closeAdminAppTest();
     });
 
-    it("should serve the production index page", async () => {
+    it("should serve the production index page for root path", async () => {
       const response = await ProdAdminTest.req
-        .get("/");
+        .get("/")
+        .expect(200);
 
-      // Production mode may return 404 if build assets don't exist, which is acceptable for tests
-      // The important thing is that the server starts up correctly
-      expect([200, 404]).toContain(response.status);
+      expect(response.type).toBe("text/html");
+      expect(response.text).toContain("<title>Admin - lies.exposed</title>");
     });
 
-    it("should serve production assets for admin routes", async () => {
+    it("should serve production index page for admin routes", async () => {
       const response = await ProdAdminTest.req
-        .get("/admin/users");
+        .get("/admin/users")
+        .expect(200);
 
-      // Production mode may return 404 if build assets don't exist, which is acceptable for tests
-      expect([200, 404]).toContain(response.status);
+      expect(response.type).toBe("text/html");
+      expect(response.text).toContain("<title>Admin - lies.exposed</title>");
+    });
+
+    it("should serve production index page for nested routes", async () => {
+      const response = await ProdAdminTest.req
+        .get("/admin/some/deeply/nested/route")
+        .expect(200);
+
+      expect(response.type).toBe("text/html");
+      expect(response.text).toContain("<title>Admin - lies.exposed</title>");
     });
 
     it("should maintain health check functionality in production", async () => {

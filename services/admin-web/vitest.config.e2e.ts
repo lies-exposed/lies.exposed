@@ -15,6 +15,8 @@ export default defineProject({
     env: {
       NODE_ENV: "test",
     },
+    // Run test files sequentially to avoid Vite cache conflicts
+    fileParallelism: false,
   },
   esbuild: {
     target: "node18",
