@@ -7,9 +7,23 @@
       "url": "https://api.githubcopilot.com/mcp/",
       "type": "http"
     },
+    "api-liexp-dev-db": {
+       "command": "npx",
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-postgres",
+          "postgresql://liexp:liexp-password@localhost:8432/liexp"
+        ]
+    },
     "api-liexp-dev": {
       "url": "http://api.liexp.dev/mcp",
       "type": "http"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
     },
     "basic-memory": {
       "command": "uvx",
