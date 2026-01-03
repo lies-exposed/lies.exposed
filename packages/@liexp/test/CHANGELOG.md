@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.2...@liexp/test@0.1.3) (2026-01-03)
+
+
+### Miscellaneous
+
+* **web:** added vitest configuration for e2e tests ([#2969](https://github.com/lies-exposed/lies.exposed/issues/2969)) ([01a18be](https://github.com/lies-exposed/lies.exposed/commit/01a18bead95bb71e842ccbd57441987f2934e295))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.2
+    * @liexp/shared bumped to 0.1.3
+
 ## [0.1.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.1...@liexp/test@0.1.2) (2026-01-01)
 
 

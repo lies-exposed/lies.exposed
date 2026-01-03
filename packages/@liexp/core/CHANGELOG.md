@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.1...@liexp/core@0.1.2) (2026-01-03)
+
+
+### Bug Fixes
+
+* **ui:** use react-hook-form hooks to keep TextWithSlugInput values in syn ([#2971](https://github.com/lies-exposed/lies.exposed/issues/2971)) ([88f3f2d](https://github.com/lies-exposed/lies.exposed/commit/88f3f2d4a06e8b3a5a13574ee8b3686486247df2))
+
 ## [0.1.1](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.0...@liexp/core@0.1.1) (2025-12-30)
 
 
