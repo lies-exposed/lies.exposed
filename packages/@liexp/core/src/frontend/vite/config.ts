@@ -102,6 +102,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           "react",
           "react-dom",
           "react-router",
+          "react-hook-form",
           "@mui/material",
           "@mui/icons-material",
           "@mui/system",
