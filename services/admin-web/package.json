@@ -20,10 +20,8 @@
     "lint": "eslint src",
     "serve": "node build/server/server.js",
     "start": "vite start",
-    "test": "vitest --passWithNoTests",
-    "test:e2e": "vitest run --config vitest.config.e2e.ts",
-    "test:e2e:watch": "vitest --config vitest.config.e2e.ts",
-    "test:e2e:coverage": "vitest run --config vitest.config.e2e.ts --coverage",
+    "test": "vitest",
+    "test:e2e": "vitest --project e2e",
     "watch": "tsc -b --watch"
   },
   "lint-staged": {
