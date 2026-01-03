@@ -8,8 +8,7 @@ beforeAll(async () => {
   Object.assign(process.env, {
     NODE_ENV: "test",
     VITE_NODE_ENV: "test",
-    // VITE_DEBUG: "@liexp:*:error",
-    VITE_DEBUG: "@liexp:*",
+    VITE_DEBUG: "@liexp:*:error",
     VITE_API_URL: "http://mock-api/v1",
     VITE_SSR_API_URL: "http://mock-api/v1",
     VIRTUAL_HOST: "127.0.0.1",
