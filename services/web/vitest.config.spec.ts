@@ -4,7 +4,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 export default defineProject({
   plugins: [tsconfigPaths()],
   test: {
-    name: "web-unit",
+    name: "web-spec",
     globals: true,
     environment: "node",
     include: ["src/**/*.spec.ts", "src/**/*.test.ts"],

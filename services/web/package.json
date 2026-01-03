@@ -25,7 +25,8 @@
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
     "test": "vitest",
-    "test:e2e": "vitest --project=e2e",
+    "test:e2e": "vitest --project=web-e2e",
+    "test:spec": "vitest --project=web-spec",
     "watch": "tsc -b --watch",
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
   },
