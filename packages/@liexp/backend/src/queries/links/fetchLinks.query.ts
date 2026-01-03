@@ -27,6 +27,7 @@ export const getListQueryEmpty: GetListLinkQuery = {
   noPublishDate: O.none(),
   events: O.none(),
   emptyEvents: O.none(),
+  eventsCount: O.none(),
   keywords: O.none(),
   startDate: O.none(),
   endDate: O.none(),
@@ -44,6 +45,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
     ids,
     q: search,
     emptyEvents,
+    eventsCount,
     onlyDeleted,
     provider,
     creator,
@@ -88,7 +90,11 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             .leftJoinAndSelect("link.creator", "creator")
             .leftJoinAndSelect("link.image", "image")
             .leftJoinAndSelect("link.keywords", "keywords")
-            .leftJoinAndSelect("link.events", "events"),
+            .leftJoinAndSelect(
+              "link.events",
+              "events",
+              "events.deletedAt IS NULL",
+            ),
           (q) => {
             if (isAdmin) {
               return q.leftJoinAndSelect(
@@ -100,49 +106,92 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             return q;
           },
           (q) => {
+            let hasWhere = false;
+
             if (O.isSome(search)) {
-              return q.where(
+              q.where(
                 "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
                 {
                   q: `%${search.value.toLowerCase()}%`,
                 },
               );
+              hasWhere = true;
             }
 
             if (O.isSome(creator)) {
-              return q.where("creator.id = :creator", {
-                creator: creator.value,
-              });
+              if (hasWhere) {
+                q.andWhere("creator.id = :creator", {
+                  creator: creator.value,
+                });
+              } else {
+                q.where("creator.id = :creator", {
+                  creator: creator.value,
+                });
+                hasWhere = true;
+              }
             }
 
             if (O.isSome(provider)) {
-              return q.where("link.provider = :provider", {
-                provider: provider.value,
-              });
+              if (hasWhere) {
+                q.andWhere("link.provider = :provider", {
+                  provider: provider.value,
+                });
+              } else {
+                q.where("link.provider = :provider", {
+                  provider: provider.value,
+                });
+                hasWhere = true;
+              }
             }
 
             if (O.isSome(ids) && ids.value.length > 0) {
-              return q.where("link.id IN (:...ids)", {
-                ids: ids.value,
-              });
+              if (hasWhere) {
+                q.andWhere("link.id IN (:...ids)", {
+                  ids: ids.value,
+                });
+              } else {
+                q.where("link.id IN (:...ids)", {
+                  ids: ids.value,
+                });
+                hasWhere = true;
+              }
             }
 
             if (O.isSome(emptyEvents)) {
               if (emptyEvents.value) {
-                return q.where("events.id IS NULL");
+                if (hasWhere) {
+                  q.andWhere("events.id IS NULL");
+                } else {
+                  q.where("events.id IS NULL");
+                  hasWhere = true;
+                }
               }
             }
 
             if (O.isSome(events)) {
-              return q.where("events.id IN (:...eventIds)", {
-                eventIds: events.value,
-              });
+              if (hasWhere) {
+                q.andWhere("events.id IN (:...eventIds)", {
+                  eventIds: events.value,
+                });
+              } else {
+                q.where("events.id IN (:...eventIds)", {
+                  eventIds: events.value,
+                });
+                hasWhere = true;
+              }
             }
 
             if (O.isSome(keywords)) {
-              return q.where("keywords.id IN (:...keywordIds)", {
-                keywordIds: keywords.value,
-              });
+              if (hasWhere) {
+                q.andWhere("keywords.id IN (:...keywordIds)", {
+                  keywordIds: keywords.value,
+                });
+              } else {
+                q.where("keywords.id IN (:...keywordIds)", {
+                  keywordIds: keywords.value,
+                });
+                hasWhere = true;
+              }
             }
 
             if (O.isSome(noPublishDate)) {
@@ -151,7 +200,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
 
             if (O.isSome(onlyDeleted)) {
               if (onlyDeleted.value) {
-                q.withDeleted().where("link.deletedAt IS NOT NULL");
+                q.withDeleted().andWhere("link.deletedAt IS NOT NULL");
               }
             }
 
@@ -159,6 +208,24 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
               q.andWhere(
                 '"socialPosts_spCount" < 1 OR "socialPosts_spCount" IS NULL',
               );
+            }
+
+            if (O.isSome(eventsCount)) {
+              q.leftJoin(
+                "event_v2_links_link",
+                "eventLinkForCount",
+                'eventLinkForCount."linkId" = link.id',
+              )
+                .leftJoin(
+                  "event_v2",
+                  "eventForCount",
+                  'eventForCount.id = eventLinkForCount."eventV2Id"',
+                )
+                .addGroupBy("link.id")
+                .having(
+                  'COUNT(CASE WHEN eventForCount."deletedAt" IS NULL THEN 1 END) >= :eventsCount',
+                  { eventsCount: eventsCount.value },
+                );
             }
 
             return q;
