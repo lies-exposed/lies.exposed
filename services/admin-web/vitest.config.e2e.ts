@@ -1,9 +1,10 @@
-import { defineConfig } from "vitest/config";
+import { defineProject } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-export default defineConfig({
+export default defineProject({
   plugins: [tsconfigPaths()],
   test: {
+    name: 'e2e',
     globals: true,
     environment: "node",
     testTimeout: 30000,
@@ -11,19 +12,8 @@ export default defineConfig({
     setupFiles: ["./test/testSetup.ts"],
     include: ["test/**/*.e2e.test.ts"],
     exclude: ["node_modules/**", "build/**"],
-    reporters: ["verbose"],
-    watch: false,
     env: {
       NODE_ENV: "test",
-    },
-    coverage: {
-      reporter: ["text", "json", "html"],
-      exclude: [
-        "node_modules/**",
-        "build/**",
-        "test/**",
-        "**/*.d.ts",
-      ],
     },
   },
   esbuild: {
