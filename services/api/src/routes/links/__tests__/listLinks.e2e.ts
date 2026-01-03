@@ -79,5 +79,86 @@ describe("List Links", () => {
 
       expect(data.length).toBe(1);
     });
+
+    test("Should filter links by minimum events count", async () => {
+      // Create test links with varying numbers of events
+      const testLinks = tests.fc
+        .sample(LinkArb, 3)
+        .map(toLinkEntity);
+      const savedLinks = await throwTE(
+        Test.ctx.db.save(LinkEntity, testLinks),
+      );
+
+      // Link 0: No events
+      // Link 1: 2 events
+      const eventsFor1 = tests.fc.sample(UncategorizedArb, 2).map((e) => ({
+        ...e,
+        date: new Date(),
+        keywords: [],
+        media: [],
+        links: [{ id: savedLinks[1].id }],
+        socialPosts: [],
+      }));
+
+      // Link 2: 5 events
+      const eventsFor2 = tests.fc.sample(UncategorizedArb, 5).map((e) => ({
+        ...e,
+        date: new Date(),
+        keywords: [],
+        media: [],
+        links: [{ id: savedLinks[2].id }],
+        socialPosts: [],
+      }));
+
+      await throwTE(
+        Test.ctx.db.save(EventV2Entity, [...eventsFor1, ...eventsFor2]),
+      );
+
+      // Test filter with eventsCount=3, should only return link with 5 events
+      const response1 = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({
+          eventsCount: "3",
+        });
+
+      expect(response1.status).toBe(200);
+      const filteredLinks = response1.body.data.filter((l: any) =>
+        [savedLinks[0].id, savedLinks[1].id, savedLinks[2].id].includes(l.id),
+      );
+      expect(filteredLinks.length).toBe(1);
+      expect(filteredLinks[0].id).toBe(savedLinks[2].id);
+
+      // Test filter with eventsCount=2, should return both links with 2 and 5 events
+      const response2 = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({
+          eventsCount: "2",
+        });
+
+      expect(response2.status).toBe(200);
+      const filteredLinks2 = response2.body.data.filter((l: any) =>
+        [savedLinks[0].id, savedLinks[1].id, savedLinks[2].id].includes(l.id),
+      );
+      expect(filteredLinks2.length).toBe(2);
+      expect(filteredLinks2.map((l: any) => l.id).sort()).toEqual(
+        [savedLinks[1].id, savedLinks[2].id].sort(),
+      );
+
+      // Test filter with eventsCount=1, should return both links with events
+      const response3 = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({
+          eventsCount: "1",
+        });
+
+      expect(response3.status).toBe(200);
+      const filteredLinks3 = response3.body.data.filter((l: any) =>
+        [savedLinks[0].id, savedLinks[1].id, savedLinks[2].id].includes(l.id),
+      );
+      expect(filteredLinks3.length).toBe(2);
+    });
   });
 });
