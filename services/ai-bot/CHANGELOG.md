@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.3...ai-bot@0.1.4) (2026-01-03)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.2...ai-bot@0.1.3) (2026-01-03)
 
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.3...worker@0.1.4) (2026-01-03)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.2...worker@0.1.3) (2026-01-03)
 
 

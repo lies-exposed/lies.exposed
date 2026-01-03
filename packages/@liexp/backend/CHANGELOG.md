@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.3...@liexp/backend@0.1.4) (2026-01-03)
+
+
+### Bug Fixes
+
+* **backend:** fix SPA fallback route not matching root path in Express 5 ([#2974](https://github.com/lies-exposed/lies.exposed/issues/2974)) ([ce813ed](https://github.com/lies-exposed/lies.exposed/commit/ce813ed96b603325b85cbd1684796f4dc370aab9))
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.2...@liexp/backend@0.1.3) (2026-01-03)
 
 
