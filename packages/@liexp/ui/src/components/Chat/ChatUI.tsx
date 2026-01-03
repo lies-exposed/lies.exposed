@@ -136,6 +136,12 @@ export interface ChatUIProps {
   onToggleContext?: () => void;
   /** Label to display for current context (e.g., "actors #123") */
   contextLabel?: string;
+  /** Streaming message content (content_delta accumulation) */
+  streamingMessage?: {
+    content: string;
+    tool_calls?: ToolCall[];
+    timestamp: string;
+  } | null;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -172,9 +178,11 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   isContextEnabled = false,
   onToggleContext,
   contextLabel,
+  streamingMessage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
+  const [isStreamingExpanded, setIsStreamingExpanded] = useState(true);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -182,7 +190,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, streamingMessage]);
 
   const handleCopyMessage = async (messageId: string, content: string) => {
     try {
@@ -255,68 +263,276 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 </Box>
               )}
 
-              {messages.map((message) => (
-                <Stack
-                  key={message.id}
-                  direction="row"
-                  justifyContent={
-                    message.role === "user" ? "flex-end" : "flex-start"
-                  }
-                >
-                  <MessageBubble isUser={message.role === "user"}>
-                    {message.role === "tool" ? (
-                      <ToolMessageDisplay message={message} />
-                    ) : (
-                      <MarkdownContent content={message.content} />
-                    )}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mt: 0.5,
-                      }}
-                    >
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          opacity: 0.7,
-                          fontSize: "0.7rem",
-                        }}
-                      >
-                        {formatTime(message.timestamp)}
-                      </Typography>
-                      {message.role === "assistant" && (
-                        <IconButton
-                          className="copy-button"
-                          size="small"
-                          onClick={() =>
-                            void handleCopyMessage(message.id, message.content)
-                          }
-                          sx={{
-                            opacity: 0,
-                            transition: "opacity 0.2s",
-                            backgroundColor: "rgba(0, 0, 0, 0.05)",
-                            "&:hover": {
-                              backgroundColor: "rgba(0, 0, 0, 0.1)",
-                            },
-                            ml: 1,
-                          }}
-                          title="Copy message"
-                        >
-                          {copiedMessageId === message.id ? (
-                            <Icons.CheckBox sx={{ fontSize: "1rem" }} />
-                          ) : (
-                            <Icons.Copy sx={{ fontSize: "1rem" }} />
-                          )}
-                        </IconButton>
-                      )}
-                    </Box>
-                  </MessageBubble>
-                </Stack>
-              ))}
+              {messages.flatMap((message) => {
+                // Create an array to hold message components
+                const messageComponents: React.ReactElement[] = [];
 
-              {isLoading && (
+                // Add the main message (if it has content)
+                if (message.role === "tool") {
+                  // Tool messages are standalone
+                  messageComponents.push(
+                    <Stack
+                      key={message.id}
+                      direction="row"
+                      justifyContent="flex-start"
+                    >
+                      <MessageBubble isUser={false}>
+                        <ToolMessageDisplay message={message} />
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            mt: 0.5,
+                          }}
+                        >
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              opacity: 0.7,
+                              fontSize: "0.7rem",
+                            }}
+                          >
+                            {formatTime(message.timestamp)}
+                          </Typography>
+                        </Box>
+                      </MessageBubble>
+                    </Stack>,
+                  );
+                } else {
+                  // User or assistant messages
+                  if (message.content) {
+                    messageComponents.push(
+                      <Stack
+                        key={message.id}
+                        direction="row"
+                        justifyContent={
+                          message.role === "user" ? "flex-end" : "flex-start"
+                        }
+                      >
+                        <MessageBubble isUser={message.role === "user"}>
+                          <MarkdownContent content={message.content} />
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              mt: 0.5,
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                opacity: 0.7,
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              {formatTime(message.timestamp)}
+                            </Typography>
+                            {message.role === "assistant" && (
+                              <IconButton
+                                className="copy-button"
+                                size="small"
+                                onClick={() =>
+                                  void handleCopyMessage(
+                                    message.id,
+                                    message.content,
+                                  )
+                                }
+                                sx={{
+                                  opacity: 0,
+                                  transition: "opacity 0.2s",
+                                  backgroundColor: "rgba(0, 0, 0, 0.05)",
+                                  "&:hover": {
+                                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                                  },
+                                  ml: 1,
+                                }}
+                                title="Copy message"
+                              >
+                                {copiedMessageId === message.id ? (
+                                  <Icons.CheckBox sx={{ fontSize: "1rem" }} />
+                                ) : (
+                                  <Icons.Copy sx={{ fontSize: "1rem" }} />
+                                )}
+                              </IconButton>
+                            )}
+                          </Box>
+                        </MessageBubble>
+                      </Stack>,
+                    );
+                  }
+
+                  // Add separate message bubbles for each tool call
+                  if (
+                    message.role === "assistant" &&
+                    message.tool_calls &&
+                    message.tool_calls.length > 0
+                  ) {
+                    message.tool_calls.forEach((toolCall) => {
+                      messageComponents.push(
+                        <Stack
+                          key={`${message.id}-tool-${toolCall.id}`}
+                          direction="row"
+                          justifyContent="flex-start"
+                        >
+                          <MessageBubble isUser={false}>
+                            <ToolMessageDisplay
+                              message={{
+                                id: toolCall.id,
+                                role: "tool",
+                                content: JSON.stringify({
+                                  tool: toolCall.function.name,
+                                  arguments: toolCall.function.arguments,
+                                }),
+                                timestamp: message.timestamp,
+                                tool_calls: [toolCall],
+                              }}
+                            />
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                mt: 0.5,
+                              }}
+                            >
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  opacity: 0.7,
+                                  fontSize: "0.7rem",
+                                }}
+                              >
+                                {formatTime(message.timestamp)}
+                              </Typography>
+                            </Box>
+                          </MessageBubble>
+                        </Stack>,
+                      );
+                    });
+                  }
+                }
+
+                return messageComponents;
+              })}
+
+              {/* Streaming message (sticky to bottom until completed) */}
+              {streamingMessage && (
+                <Box
+                  sx={{
+                    position: "sticky",
+                    bottom: 0,
+                    backgroundColor: (theme) => theme.palette.grey[50],
+                    zIndex: 1,
+                  }}
+                >
+                  {/* Streaming content message */}
+                  {streamingMessage.content && (
+                    <Stack direction="row" justifyContent="flex-start">
+                      <MessageBubble isUser={false}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            mb: 0.5,
+                            cursor: "pointer",
+                          }}
+                          onClick={() =>
+                            setIsStreamingExpanded(!isStreamingExpanded)
+                          }
+                        >
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              fontWeight: "bold",
+                              color: "primary.main",
+                              fontSize: "0.75rem",
+                            }}
+                          >
+                            AI is responding...
+                          </Typography>
+                          <Icons.ExpandMore
+                            sx={{
+                              fontSize: "1rem",
+                              color: "primary.main",
+                              transform: isStreamingExpanded
+                                ? "rotate(180deg)"
+                                : "rotate(0deg)",
+                              transition: "transform 0.2s",
+                              ml: 1,
+                            }}
+                          />
+                        </Box>
+                        {isStreamingExpanded && (
+                          <MarkdownContent content={streamingMessage.content} />
+                        )}
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            mt: 0.5,
+                          }}
+                        >
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              opacity: 0.7,
+                              fontSize: "0.7rem",
+                            }}
+                          >
+                            {formatTime(streamingMessage.timestamp)}
+                          </Typography>
+                        </Box>
+                      </MessageBubble>
+                    </Stack>
+                  )}
+
+                  {/* Streaming tool calls as separate messages */}
+                  {streamingMessage.tool_calls &&
+                    streamingMessage.tool_calls.length > 0 &&
+                    streamingMessage.tool_calls.map((toolCall) => (
+                      <Stack
+                        key={`streaming-tool-${toolCall.id}`}
+                        direction="row"
+                        justifyContent="flex-start"
+                      >
+                        <MessageBubble isUser={false}>
+                          <ToolMessageDisplay
+                            message={{
+                              id: toolCall.id,
+                              role: "tool",
+                              content: JSON.stringify({
+                                tool: toolCall.function.name,
+                                arguments: toolCall.function.arguments,
+                              }),
+                              timestamp: streamingMessage.timestamp,
+                              tool_calls: [toolCall],
+                            }}
+                          />
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              mt: 0.5,
+                            }}
+                          >
+                            <Typography
+                              variant="caption"
+                              sx={{
+                                opacity: 0.7,
+                                fontSize: "0.7rem",
+                              }}
+                            >
+                              {formatTime(streamingMessage.timestamp)}
+                            </Typography>
+                          </Box>
+                        </MessageBubble>
+                      </Stack>
+                    ))}
+                </Box>
+              )}
+
+              {isLoading && !streamingMessage && (
                 <MessageBubble isUser={false}>
                   <Typography variant="body2" sx={{ fontStyle: "italic" }}>
                     AI is thinking...

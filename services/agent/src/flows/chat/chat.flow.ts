@@ -36,7 +36,10 @@ export const sendChatMessage =
         {
           messages: [enhancedMessage],
         },
-        { configurable: { thread_id: conversationId } },
+        {
+          configurable: { thread_id: conversationId },
+          recursionLimit: 50,
+        },
       ),
       TE.mapLeft((error) => ServerError.fromUnknown(error)),
       TE.map((result) => {
@@ -157,6 +160,7 @@ export const sendChatMessageStream = (payload: {
         {
           streamMode: ["messages", "updates", "debug"],
           configurable: { thread_id: conversationId },
+          recursionLimit: 50,
         },
       );
 

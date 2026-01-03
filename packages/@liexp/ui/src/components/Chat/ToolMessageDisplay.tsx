@@ -30,10 +30,11 @@ export const ToolMessageDisplay: React.FC<{
     }
     if (parsedContent.arguments) {
       toolParams = parsedContent.arguments;
-      // Try to parse arguments if it's a JSON string
-      if (typeof toolParams === "string") {
+      // Try to parse arguments if it's a JSON string (could be double-stringified)
+      if (typeof toolParams === "string" && toolParams.trim()) {
         try {
-          toolParams = JSON.parse(toolParams);
+          const parsed = JSON.parse(toolParams);
+          toolParams = parsed;
         } catch {
           // Keep as string
         }
@@ -60,10 +61,17 @@ export const ToolMessageDisplay: React.FC<{
 
   if (toolCall) {
     toolName = toolCall.function.name;
-    try {
-      toolParams = JSON.parse(toolCall.function.arguments);
-    } catch {
-      toolParams = toolCall.function.arguments;
+
+    // Only override toolParams if we didn't get it from content or if it's empty
+    if (!toolParams) {
+      try {
+        toolParams = JSON.parse(toolCall.function.arguments);
+      } catch {
+        // If it's not valid JSON, check if it's an empty string
+        if (toolCall.function.arguments?.trim()) {
+          toolParams = toolCall.function.arguments;
+        }
+      }
     }
   }
 
