@@ -20,7 +20,6 @@ import {
   TextInput,
   Toolbar,
   ToolbarClasses,
-  useEditController,
   usePermissions,
   useRecordContext,
   useRefresh,
@@ -179,13 +178,107 @@ const MediaEditToolbar: React.FC = () => {
   );
 };
 
+const MediaEditFormContent: React.FC<{ isAdmin: boolean; bar: any }> = ({
+  isAdmin,
+  bar,
+}) => {
+  const record = useRecordContext();
+
+  return (
+    <TabbedForm
+      toolbar={<MediaEditToolbar />}
+      style={{
+        background: record?.deletedAt ? alpha("#ff0000", 0.3) : undefined,
+      }}
+    >
+      <FormTab label="general">
+        <Grid container spacing={2}>
+          <Grid size={{ md: 6 }}>
+            <MediaInput source="location" showInputOnClick bar={bar} />
+            <TransferButton source="location" />
+            <GenerateExtraButton source="extra" />
+          </Grid>
+          <Grid size={{ md: 6 }}>
+            {isAdmin && <ReferenceUserInput source="creator" />}
+            <ReferenceArrayKeywordInput source="keywords" showAdd />
+            <ThumbnailEditField source="thumbnail" />
+            <MediaSuggestedEntityRelations />
+          </Grid>
+          <Grid size={{ md: 12 }}>
+            <TextInput source="label" fullWidth />
+            <TextInput source="description" fullWidth multiline />
+            <OpenAIEmbeddingJobButton<Media>
+              resource={"media"}
+              question={EMBED_MEDIA_PROMPT()}
+              transformValue={({ type, location, label, description }) => {
+                if (Schema.is(PDFType)(type)) {
+                  return {
+                    url: location,
+                    type: "pdf",
+                  };
+                }
+                return {
+                  text: description ?? label,
+                };
+              }}
+            />
+            <Box>
+              <Box>
+                <DateField
+                  label="Updated At"
+                  source="updatedAt"
+                  showTime={true}
+                />
+              </Box>
+              <Box>
+                <DateField
+                  label="Created At"
+                  source="createdAt"
+                  showTime={true}
+                />
+              </Box>
+              <DateField
+                label="Deleted At"
+                source="deletedAt"
+                showTime={true}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </FormTab>
+      <FormTab label="events">
+        <Stack spacing={2} width={"100%"}>
+          <CreateEventFromMediaButton />
+          <ReferenceArrayEventInput source="events" defaultValue={[]} />
+          <ReferenceManyEventField
+            label="Events"
+            target="media[]"
+            source="id"
+            filter={{
+              withDrafts: true,
+            }}
+          />
+        </Stack>
+      </FormTab>
+      <FormTab label="areas">
+        <ReferenceAreaTab source="areas" />
+      </FormTab>
+      <FormTab label="links">
+        <ReferenceLinkTab source="links" />
+      </FormTab>
+      <FormTab label="social posts">
+        <SocialPostFormTabContent type="media" source="id" />
+      </FormTab>
+    </TabbedForm>
+  );
+};
+
 export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
   const apiProvider = useDataProvider();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
-  const { record } = useEditController(props);
   const { bar, onUploadProgress } = useProgressBar();
 
-  if (isLoadingPermissions || !record) {
+  if (isLoadingPermissions) {
     return <LoadingPage />;
   }
 
@@ -206,91 +299,7 @@ export const MediaEdit: React.FC<EditProps> = (props: EditProps) => {
         </Stack>
       }
     >
-      <TabbedForm
-        toolbar={<MediaEditToolbar />}
-        style={{
-          background: record?.deletedAt ? alpha("#ff0000", 0.3) : undefined,
-        }}
-      >
-        <FormTab label="general">
-          <Grid container spacing={2}>
-            <Grid size={{ md: 6 }}>
-              <MediaInput source="location" showInputOnClick bar={bar} />
-              <TransferButton {...props} source="location" />
-              <GenerateExtraButton source="extra" />
-            </Grid>
-            <Grid size={{ md: 6 }}>
-              {isAdmin && <ReferenceUserInput source="creator" />}
-              <ReferenceArrayKeywordInput source="keywords" showAdd />
-              <ThumbnailEditField source="thumbnail" />
-              <MediaSuggestedEntityRelations />
-            </Grid>
-            <Grid size={{ md: 12 }}>
-              <TextInput source="label" fullWidth />
-              <TextInput source="description" fullWidth multiline />
-              <OpenAIEmbeddingJobButton<Media>
-                resource={"media"}
-                question={EMBED_MEDIA_PROMPT()}
-                transformValue={({ type, location, label, description }) => {
-                  if (Schema.is(PDFType)(type)) {
-                    return {
-                      url: location,
-                      type: "pdf",
-                    };
-                  }
-                  return {
-                    text: description ?? label,
-                  };
-                }}
-              />
-              <Box>
-                <Box>
-                  <DateField
-                    label="Updated At"
-                    source="updatedAt"
-                    showTime={true}
-                  />
-                </Box>
-                <Box>
-                  <DateField
-                    label="Created At"
-                    source="createdAt"
-                    showTime={true}
-                  />
-                </Box>
-                <DateField
-                  label="Deleted At"
-                  source="deletedAt"
-                  showTime={true}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-        </FormTab>
-        <FormTab label="events">
-          <Stack spacing={2} width={"100%"}>
-            <CreateEventFromMediaButton />
-            <ReferenceArrayEventInput source="events" defaultValue={[]} />
-            <ReferenceManyEventField
-              label="Events"
-              target="media[]"
-              source="id"
-              filter={{
-                withDrafts: true,
-              }}
-            />
-          </Stack>
-        </FormTab>
-        <FormTab label="areas">
-          <ReferenceAreaTab source="areas" />
-        </FormTab>
-        <FormTab label="links">
-          <ReferenceLinkTab source="links" />
-        </FormTab>
-        <FormTab label="social posts">
-          <SocialPostFormTabContent type="media" source="id" />
-        </FormTab>
-      </TabbedForm>
+      <MediaEditFormContent isAdmin={isAdmin} bar={bar} />
     </EditForm>
   );
 };

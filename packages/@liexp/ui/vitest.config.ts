@@ -7,7 +7,10 @@ export default defineConfig({
     name: 'ui',
     root: __dirname,
     globals: true,
-    include: [path.join(__dirname, "/src/**/*.spec.ts")],
+    watch: false,
+    environment: 'jsdom',
+    setupFiles: ['./test.setup.js'],
+    include: [path.join(__dirname, "/src/**/*.spec.{ts,tsx}")],
     coverage: {
       thresholds: {
         statements: 80,

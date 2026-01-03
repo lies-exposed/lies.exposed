@@ -28,6 +28,7 @@ import {
   usePermissions,
   useRecordContext,
 } from "../react-admin.js";
+import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { EditTitle } from "./EditTitle.js";
 import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
@@ -61,7 +62,7 @@ export const LinkEdit: React.FC = () => {
       preview={<LinkPreview record={record} />}
       transform={transformLink}
     >
-      <TabbedForm>
+      <TabbedForm toolbar={<EditToolbar />}>
         <TabbedForm.Tab label="General">
           <Grid container spacing={2}>
             <Grid size={{ md: 6 }}>

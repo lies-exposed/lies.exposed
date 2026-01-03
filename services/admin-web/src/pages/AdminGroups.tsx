@@ -47,6 +47,7 @@ import {
   type SelectInputProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
+import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
 import {
   Box,
   Grid,
@@ -215,7 +216,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
       preview={<GroupPreview />}
       redirect={false}
     >
-      <TabbedForm>
+      <TabbedForm toolbar={<EditToolbar />}>
         <TabbedForm.Tab label="Generals">
           <Grid container spacing={2} width="100%">
             <Grid size={{ md: 6, lg: 9 }}>

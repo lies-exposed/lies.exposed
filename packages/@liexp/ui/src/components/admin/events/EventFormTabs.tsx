@@ -10,6 +10,7 @@ import {
 import { LazyFormTabContent } from "../tabs/LazyFormTabContent.js";
 import { ReferenceLinkTab } from "../tabs/ReferenceLinkTab.js";
 import { ReferenceMediaTab } from "../tabs/ReferenceMediaTab.js";
+import { EditToolbar } from "../toolbar/index.js";
 import { EventsFlowGraphFormTab } from "./tabs/EventsFlowGraphFormTab.js";
 import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab.js";
 
@@ -19,7 +20,7 @@ interface EventFormTabsProps {
 
 export const EventFormTabs: React.FC<EventFormTabsProps> = ({ children }) => {
   return (
-    <TabbedForm>
+    <TabbedForm toolbar={<EditToolbar />}>
       <TabbedForm.Tab label="Generals">
         <EventGeneralTab>
           {(props, handlers) => children(props, handlers)}

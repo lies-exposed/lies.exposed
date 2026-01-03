@@ -2,7 +2,7 @@ import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { AdminCreate } from "@liexp/shared/lib/io/http/User.js";
+import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
@@ -47,11 +47,11 @@ describe("Create From TG Message", () => {
     urlMetadata: mockDeep(),
     s3: mockDeep(),
     http: mockDeep(),
-    pdf: mockDeep(),
     imgProc: mockDeep(),
     fs: mockDeep(),
     ffmpeg: mockDeep(),
     queue: mockDeep(),
+    redis: mockDeep(),
   });
 
   beforeAll(() => {
