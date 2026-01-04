@@ -40,14 +40,10 @@ export const replaceActorInEventPayload = <
   const replaceBySubjectArray = <T extends { type: string; id: UUID }>(
     arr: T[],
   ): T[] => {
-    const hasSource = arr.some(
-      (s) => s.type === "Actor" && s.id === sourceId,
-    );
+    const hasSource = arr.some((s) => s.type === "Actor" && s.id === sourceId);
     if (!hasSource) return arr;
 
-    const hasTarget = arr.some(
-      (s) => s.type === "Actor" && s.id === targetId,
-    );
+    const hasTarget = arr.some((s) => s.type === "Actor" && s.id === targetId);
     return arr
       .filter((s) => !(s.type === "Actor" && s.id === sourceId))
       .concat(hasTarget ? [] : [{ type: "Actor", id: targetId } as T]);
@@ -57,7 +53,7 @@ export const replaceActorInEventPayload = <
 
   switch (event.type) {
     case EVENT_TYPES.BOOK: {
-      const authors = payload.authors as Array<{ type: string; id: UUID }>;
+      const authors = payload.authors as { type: string; id: UUID }[];
       const publisher = payload.publisher as
         | { type: string; id: UUID }
         | undefined;
@@ -72,9 +68,7 @@ export const replaceActorInEventPayload = <
     }
 
     case EVENT_TYPES.QUOTE: {
-      const subject = payload.subject as
-        | { type: string; id: UUID }
-        | undefined;
+      const subject = payload.subject as { type: string; id: UUID } | undefined;
       return {
         ...event,
         payload: {

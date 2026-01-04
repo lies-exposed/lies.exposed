@@ -40,13 +40,14 @@ describe("Merge Actor", () => {
     // Add very unique suffix to ensure uniqueness across all test runs
     const uniqueSuffix = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
 
-    // Create test nations
+    // Create test nations with unique isoCodes
+    const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
     [nation1, nation2, nation3] = tests.fc
       .sample(tests.Nation.NationArb, 3)
       .map((n, i) => ({
         ...n,
         name: `${n.name}-merge-test-${uniqueSuffix}-${i}`,
-        isoCode: `M${i}${uniqueSuffix.slice(0, 6)}`, // Unique isoCode to avoid constraint violation
+        isoCode: `T${i}${randomPart}`, // Unique isoCode per test run (e.g., T0ABCD, T1ABCD, T2ABCD)
       }));
     await throwTE(Test.ctx.db.save(NationEntity, [nation1, nation2, nation3]));
 
@@ -132,6 +133,7 @@ describe("Merge Actor", () => {
     const [event1Data, event2Data] = tests.fc.sample(UncategorizedArb, 2);
     event1 = {
       ...event1Data,
+      draft: false, // Ensure event is not a draft so merge can find it
       payload: {
         ...event1Data.payload,
         actors: [sourceActor.id],
@@ -144,6 +146,7 @@ describe("Merge Actor", () => {
     };
     event2 = {
       ...event2Data,
+      draft: false, // Ensure event is not a draft so merge can find it
       payload: {
         ...event2Data.payload,
         actors: [sourceActor.id, targetActor.id], // Both actors in this event
