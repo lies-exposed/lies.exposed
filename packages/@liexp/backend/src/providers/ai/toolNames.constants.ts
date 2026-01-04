@@ -52,5 +52,9 @@ export const GET_LINK = "getLink";
 export const CREATE_LINK = "createLink";
 export const EDIT_LINK = "editLink";
 
+// Nation tools
+export const FIND_NATIONS = "findNations";
+export const GET_NATION = "getNation";
+
 // Web scraping tools
 export const SCRAPE_WEB_PAGE = "scrapeWebPage";

@@ -1,38 +1,38 @@
-import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { toActorEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
+import { NationArb } from "@liexp/test/lib/arbitrary/Nation.arbitrary.js";
 import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
-import { beforeAll, describe, expect, test } from "vitest";
+import { beforeAll, beforeEach, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../../../test/AppTest.js";
-import { getActorToolTask } from "../getActor.tool.js";
+import { getNationToolTask } from "../getNation.tool.js";
 
-describe("MCP GET_ACTOR Tool", () => {
+describe("MCP GET_NATION Tool", () => {
   let Test: AppTest;
-  let testActors: ActorEntity[];
+  let testNations: NationEntity[];
 
   beforeAll(async () => {
     Test = await GetAppTest();
-
-    // Create test data
-    testActors = fc.sample(ActorArb, 5).map((a) =>
-      toActorEntity({
-        ...a,
-        memberIn: [],
-        death: undefined,
-      }),
-    );
-
-    await throwTE(Test.ctx.db.save(ActorEntity, testActors));
   });
 
-  test("Should get actor by ID", async () => {
-    const actor = testActors[0];
+  beforeEach(async () => {
+    // Create test data with unique ISO codes
+    testNations = fc.sample(NationArb, 5).map((n, index) => ({
+      ...n,
+      isoCode: `XN${index}`, // Using XN prefix to avoid conflicts: XN0, XN1, XN2, XN3, XN4
+      description: null, // NationEntity has description field
+      actors: [],
+    })) as NationEntity[];
+
+    await throwTE(Test.ctx.db.save(NationEntity, testNations));
+  });
+
+  test("Should get nation by ID", async () => {
+    const nation = testNations[0];
 
     const result = await pipe(
-      getActorToolTask({ id: actor.id }),
+      getNationToolTask({ id: nation.id }),
       throwRTE(Test.ctx),
     );
 
@@ -43,31 +43,33 @@ describe("MCP GET_ACTOR Tool", () => {
     const content = result.content[0];
     expect(content).toHaveProperty("text");
     expect(content).toHaveProperty("type", "text");
-    expect(content).toHaveProperty("href");
-    // @ts-expect-error - href is not in MCP SDK types but exists at runtime
-    expect(content.href).toContain(actor.id);
-    // @ts-expect-error - text is not in MCP SDK types but exists at runtime
-    expect(content.text).toContain(actor.fullName);
+    if (content.type === "text") {
+      expect(content).toHaveProperty("href");
+      // @ts-expect-error - href is not in MCP SDK types but exists at runtime
+      expect(content.href).toContain(nation.id);
+      expect(content.text).toContain(nation.name);
+      expect(content.text).toContain(nation.isoCode);
+    }
   });
 
-  test("Should handle non-existent actor ID", async () => {
+  test("Should handle non-existent nation ID", async () => {
     const nonExistentId = fc.sample(UUIDArb, 1)[0];
 
     await expect(
-      pipe(getActorToolTask({ id: nonExistentId }), throwRTE(Test.ctx)),
+      pipe(getNationToolTask({ id: nonExistentId }), throwRTE(Test.ctx)),
     ).rejects.toThrow();
   });
 
   test("Should reject requests without token", async () => {
-    const actor = testActors[0];
+    const nation = testNations[0];
     const toolCallRequest = {
       jsonrpc: "2.0",
-      id: 3,
+      id: 1,
       method: "tools/call",
       params: {
-        name: "getActor",
+        name: "getNation",
         arguments: {
-          id: actor.id,
+          id: nation.id,
         },
       },
     };
@@ -81,15 +83,15 @@ describe("MCP GET_ACTOR Tool", () => {
   });
 
   test("Should reject requests with invalid token", async () => {
-    const actor = testActors[0];
+    const nation = testNations[0];
     const toolCallRequest = {
       jsonrpc: "2.0",
-      id: 4,
+      id: 2,
       method: "tools/call",
       params: {
-        name: "getActor",
+        name: "getNation",
         arguments: {
-          id: actor.id,
+          id: nation.id,
         },
       },
     };

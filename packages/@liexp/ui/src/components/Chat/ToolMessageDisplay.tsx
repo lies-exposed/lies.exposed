@@ -100,12 +100,13 @@ export const ToolMessageDisplay: React.FC<{
         border: "1px solid rgba(0, 0, 0, 0.15)",
         borderRadius: 1,
         overflow: "hidden",
+        backgroundColor: "rgba(255, 243, 224, 0.3)", // Light orange tint to distinguish from AI messages
       }}
     >
       {/* Tool Header */}
       <Box
         sx={{
-          backgroundColor: "rgba(25, 118, 210, 0.08)",
+          backgroundColor: "rgba(255, 152, 0, 0.12)", // Orange background for tools
           borderBottom: isExpanded ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
           padding: "0.5em 0.75em",
           display: "flex",
@@ -115,17 +116,17 @@ export const ToolMessageDisplay: React.FC<{
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <Icons.Assignment sx={{ fontSize: "1rem", color: "primary.main" }} />
+        <Icons.AutoAwesome sx={{ fontSize: "1rem", color: "warning.main" }} />
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
             variant="body2"
             sx={{
               fontWeight: "bold",
               fontSize: "0.8rem",
-              color: "primary.main",
+              color: "warning.dark",
             }}
           >
-            {toolName}
+            Tool: {toolName}
           </Typography>
           {!isExpanded && paramSummary && (
             <Typography
@@ -146,7 +147,7 @@ export const ToolMessageDisplay: React.FC<{
         <Icons.ExpandMore
           sx={{
             fontSize: "1rem",
-            color: "primary.main",
+            color: "warning.main",
             transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.2s",
             flexShrink: 0,
@@ -160,7 +161,7 @@ export const ToolMessageDisplay: React.FC<{
           sx={{
             backgroundColor: "rgba(0, 0, 0, 0.02)",
             padding: "0.5em 0.75em",
-            borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
+            borderBottom: toolResult ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
           }}
         >
           <Typography
@@ -173,7 +174,7 @@ export const ToolMessageDisplay: React.FC<{
               color: "text.secondary",
             }}
           >
-            Parameters:
+            Input Parameters:
           </Typography>
           <Box
             component="pre"
@@ -185,7 +186,7 @@ export const ToolMessageDisplay: React.FC<{
               backgroundColor: "rgba(0, 0, 0, 0.03)",
               padding: "0.4em",
               borderRadius: "4px",
-              maxHeight: "200px",
+              maxHeight: "150px",
             }}
           >
             {JSON.stringify(toolParams, null, 2)}
@@ -193,8 +194,8 @@ export const ToolMessageDisplay: React.FC<{
         </Box>
       )}
 
-      {/* Tool Result (collapsible) */}
-      {isExpanded && (
+      {/* Tool Result (collapsible, only shown when expanded) */}
+      {isExpanded && toolResult && (
         <Box sx={{ padding: "0.5em 0.75em" }}>
           <Typography
             variant="caption"
@@ -213,30 +214,33 @@ export const ToolMessageDisplay: React.FC<{
               component="pre"
               sx={{
                 margin: 0,
-                fontSize: "0.75rem",
+                fontSize: "0.7rem",
                 fontFamily: "monospace",
                 overflow: "auto",
                 backgroundColor: "rgba(0, 0, 0, 0.03)",
                 padding: "0.4em",
                 borderRadius: "4px",
                 whiteSpace: "pre-wrap",
-                maxHeight: "300px",
+                maxHeight: "400px",
               }}
             >
               {JSON.stringify(toolResult, null, 2)}
             </Box>
           ) : (
-            <Typography
-              variant="body2"
+            <Box
               sx={{
-                fontSize: "0.8rem",
+                fontSize: "0.75rem",
                 whiteSpace: "pre-wrap",
-                maxHeight: "300px",
+                maxHeight: "400px",
                 overflow: "auto",
+                backgroundColor: "rgba(0, 0, 0, 0.03)",
+                padding: "0.4em",
+                borderRadius: "4px",
+                fontFamily: "monospace",
               }}
             >
               {String(toolResult)}
-            </Typography>
+            </Box>
           )}
         </Box>
       )}
