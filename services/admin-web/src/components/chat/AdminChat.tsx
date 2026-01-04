@@ -150,7 +150,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
 
     // Use current timestamp for streaming messages
     return {
-     content: streamingContent,
+      content: streamingContent,
       tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
       timestamp: new Date().toISOString(),
     };
