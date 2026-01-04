@@ -98,7 +98,7 @@
     "@types/react-dom": "^18.3.6",
     "@types/supertest": "^6.0.3",
     "dotenv": "^17.2.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "fast-check": "^3.23.2",
     "nodemw": "^0.25.0",
     "puppeteer-core": "^24.8.1",
