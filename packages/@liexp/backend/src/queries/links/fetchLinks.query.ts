@@ -200,7 +200,12 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
 
             if (O.isSome(onlyDeleted)) {
               if (onlyDeleted.value) {
-                q.withDeleted().andWhere("link.deletedAt IS NOT NULL");
+                if (hasWhere) {
+                  q.withDeleted().andWhere("link.deletedAt IS NOT NULL");
+                } else {
+                  q.withDeleted().where("link.deletedAt IS NOT NULL");
+                  hasWhere = true;
+                }
               }
             }
 
@@ -211,25 +216,23 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             }
 
             if (O.isSome(eventsCount)) {
-              q.leftJoin(
-                "event_v2_links_link",
-                "eventLinkForCount",
-                'eventLinkForCount."linkId" = link.id',
-              )
-                .leftJoin(
-                  "event_v2",
-                  "eventForCount",
-                  'eventForCount.id = eventLinkForCount."eventV2Id"',
-                )
-                .addGroupBy("link.id")
-                .addGroupBy("creator.id")
-                .addGroupBy("image.id")
-                .addGroupBy("keywords.id")
-                .addGroupBy("events.id")
-                .having(
-                  'COUNT(CASE WHEN eventForCount."deletedAt" IS NULL THEN 1 END) >= :eventsCount',
-                  { eventsCount: eventsCount.value },
-                );
+              q.andWhere((qb) => {
+                const subQuery = qb
+                  .subQuery()
+                  .select('"eventLink"."linkId"')
+                  .from("event_v2_links_link", "eventLink")
+                  .innerJoin(
+                    "event_v2",
+                    "evt",
+                    'evt.id = "eventLink"."eventV2Id" AND evt."deletedAt" IS NULL',
+                  )
+                  .groupBy('"eventLink"."linkId"')
+                  .having("COUNT(evt.id) >= :eventsCount", {
+                    eventsCount: eventsCount.value,
+                  })
+                  .getQuery();
+                return `link.id IN ${subQuery}`;
+              });
             }
 
             return q;
