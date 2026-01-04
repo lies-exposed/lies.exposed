@@ -110,7 +110,7 @@ describe("MCP FIND_NATIONS Tool", () => {
     const result = await pipe(
       findNationsToolTask({
         name: undefined,
-        isoCode: "us",
+        isoCode: "za",
       }),
       throwRTE(Test.ctx),
     );
@@ -148,7 +148,7 @@ describe("MCP FIND_NATIONS Tool", () => {
     const result = await pipe(
       findNationsToolTask({
         name: "France",
-        isoCode: "FR",
+        isoCode: "ZC",
       }),
       throwRTE(Test.ctx),
     );
@@ -160,7 +160,7 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(content.type).toBe("text");
     if (content.type === "text") {
       expect(content.text).toContain("France");
-      expect(content.text).toContain("FR");
+      expect(content.text).toContain("ZC");
     }
   });
 
