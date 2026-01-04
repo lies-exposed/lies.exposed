@@ -64,7 +64,7 @@ const HeaderMenuItemFC: React.FC<HeaderMenuItemProps> = ({
   const selected =
     m.view === currentView || m.subItems.some((i) => i.view === currentView);
 
-  const showSubMenu = (selectedItem && selectedItem.view === m.view) ?? false;
+  const showSubMenu = selectedItem?.view === m.view;
 
   return (
     <HeaderMenuItemBox className={menuItemClasses.root}>

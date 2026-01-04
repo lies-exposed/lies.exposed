@@ -2,18 +2,15 @@ import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
 import React, { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
-import { MarkdownContent } from "../Common/Markdown/MarkdownContent.js";
-import {
-  Box,
-  CardHeader,
-  IconButton,
-  TextField,
-  Typography,
-  Paper,
-  Stack,
-  Icons,
-} from "../mui/index.js";
-import { ToolMessageDisplay } from "./ToolMessageDisplay.js";
+import { Box, Paper, Icons } from "../mui/index.js";
+import { ChatHeader } from "./ChatHeader.js";
+import { ChatInput } from "./ChatInput.js";
+import { ContentMessage } from "./ContentMessage.js";
+import { ErrorDisplay } from "./ErrorDisplay.js";
+import { LoadingMessage } from "./LoadingMessage.js";
+import { StreamingMessage } from "./StreamingMessage.js";
+import { ToolMessage } from "./ToolMessage.js";
+import { WelcomeMessage } from "./WelcomeMessage.js";
 
 // Styled components
 const FloatingButton = styled(Paper)(({ theme }) => ({
@@ -67,26 +64,7 @@ const MessagesContainer = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.grey[50],
 }));
 
-const MessageBubble = styled(Paper)<{ isUser: boolean }>(
-  ({ theme, isUser }) => ({
-    padding: theme.spacing(1, 2),
-    maxWidth: "70%",
-    alignSelf: isUser ? "flex-end" : "flex-start",
-    backgroundColor: isUser
-      ? theme.palette.primary.main
-      : theme.palette.grey[200],
-    color: isUser
-      ? theme.palette.primary.contrastText
-      : theme.palette.text.primary,
-    borderRadius: theme.spacing(2),
-    position: "relative",
-    "&:hover .copy-button": {
-      opacity: 1,
-    },
-  }),
-);
-
-export interface ToolCall {
+interface ToolCall {
   id: string;
   type: "function";
   function: {
@@ -136,6 +114,12 @@ export interface ChatUIProps {
   onToggleContext?: () => void;
   /** Label to display for current context (e.g., "actors #123") */
   contextLabel?: string;
+  /** Streaming message content (content_delta accumulation) */
+  streamingMessage?: {
+    content: string;
+    tool_calls?: ToolCall[];
+    timestamp: string;
+  } | null;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -172,6 +156,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   isContextEnabled = false,
   onToggleContext,
   contextLabel,
+  streamingMessage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -182,7 +167,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, streamingMessage]);
 
   const handleCopyMessage = async (messageId: string, content: string) => {
     try {
@@ -208,222 +193,101 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       {isOpen &&
         createPortal(
           <ChatModal isFullSize={isFullSize}>
-            {/* Header */}
-            <CardHeader
-              title={
-                <Typography variant="h6" component="div">
-                  {title}
-                </Typography>
-              }
-              action={
-                <Box sx={{ display: "flex", gap: 0.5 }}>
-                  {onToggleFullSize && (
-                    <IconButton
-                      onClick={onToggleFullSize}
-                      title={isFullSize ? "Minimize" : "Maximize"}
-                    >
-                      {isFullSize ? (
-                        <Icons.OpenInFull
-                          sx={{ transform: "rotate(180deg)" }}
-                        />
-                      ) : (
-                        <Icons.OpenInFull />
-                      )}
-                    </IconButton>
-                  )}
-                  <IconButton onClick={onToggle} title="Close">
-                    <Icons.Close />
-                  </IconButton>
-                </Box>
-              }
-              sx={{
-                backgroundColor: (theme) => theme.palette.primary.main,
-                color: (theme) => theme.palette.primary.contrastText,
-                "& .MuiCardHeader-action": {
-                  color: "inherit",
-                },
-              }}
+            <ChatHeader
+              title={title}
+              isFullSize={isFullSize}
+              onToggle={onToggle}
+              onToggleFullSize={onToggleFullSize}
             />
 
-            {/* Messages */}
             <MessagesContainer>
               {messages.length === 0 && (
-                <Box sx={{ textAlign: "center", mt: 2 }}>
-                  <Typography variant="body2" color="text.secondary">
-                    {welcomeMessage}
-                  </Typography>
-                </Box>
+                <WelcomeMessage message={welcomeMessage} />
               )}
 
-              {messages.map((message) => (
-                <Stack
-                  key={message.id}
-                  direction="row"
-                  justifyContent={
-                    message.role === "user" ? "flex-end" : "flex-start"
-                  }
-                >
-                  <MessageBubble isUser={message.role === "user"}>
-                    {message.role === "tool" ? (
-                      <ToolMessageDisplay message={message} />
-                    ) : (
-                      <MarkdownContent content={message.content} />
-                    )}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mt: 0.5,
-                      }}
-                    >
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          opacity: 0.7,
-                          fontSize: "0.7rem",
+              {messages.flatMap((message) => {
+                const messageComponents: React.ReactElement[] = [];
+
+                if (message.role === "tool") {
+                  // Tool messages are standalone
+                  messageComponents.push(
+                    <ToolMessage
+                      key={message.id}
+                      message={message}
+                      formatTime={formatTime}
+                    />,
+                  );
+                } else {
+                  // User or assistant messages
+                  if (message.content) {
+                    messageComponents.push(
+                      <ContentMessage
+                        key={message.id}
+                        message={message}
+                        formatTime={formatTime}
+                        copiedMessageId={copiedMessageId}
+                        onCopyMessage={(messageId, content) => {
+                          void handleCopyMessage(messageId, content);
                         }}
-                      >
-                        {formatTime(message.timestamp)}
-                      </Typography>
-                      {message.role === "assistant" && (
-                        <IconButton
-                          className="copy-button"
-                          size="small"
-                          onClick={() =>
-                            void handleCopyMessage(message.id, message.content)
-                          }
-                          sx={{
-                            opacity: 0,
-                            transition: "opacity 0.2s",
-                            backgroundColor: "rgba(0, 0, 0, 0.05)",
-                            "&:hover": {
-                              backgroundColor: "rgba(0, 0, 0, 0.1)",
-                            },
-                            ml: 1,
-                          }}
-                          title="Copy message"
-                        >
-                          {copiedMessageId === message.id ? (
-                            <Icons.CheckBox sx={{ fontSize: "1rem" }} />
-                          ) : (
-                            <Icons.Copy sx={{ fontSize: "1rem" }} />
-                          )}
-                        </IconButton>
-                      )}
-                    </Box>
-                  </MessageBubble>
-                </Stack>
-              ))}
+                      />,
+                    );
+                  }
 
-              {isLoading && (
-                <MessageBubble isUser={false}>
-                  <Typography variant="body2" sx={{ fontStyle: "italic" }}>
-                    AI is thinking...
-                  </Typography>
-                </MessageBubble>
+                  // Add separate message bubbles for each tool call
+                  if (
+                    message.role === "assistant" &&
+                    message.tool_calls &&
+                    message.tool_calls.length > 0
+                  ) {
+                    message.tool_calls.forEach((toolCall, index) => {
+                      messageComponents.push(
+                        <ToolMessage
+                          key={`${message.id}-tool-${toolCall.id}-${index}`}
+                          message={{
+                            id: toolCall.id,
+                            role: "tool",
+                            content: JSON.stringify({
+                              tool: toolCall.function.name,
+                              arguments: toolCall.function.arguments,
+                            }),
+                            timestamp: message.timestamp,
+                            tool_calls: [toolCall],
+                          }}
+                          formatTime={formatTime}
+                        />,
+                      );
+                    });
+                  }
+                }
+
+                return messageComponents;
+              })}
+
+              {streamingMessage && (
+                <StreamingMessage
+                  streamingMessage={streamingMessage}
+                  formatTime={formatTime}
+                />
               )}
+
+              {isLoading && !streamingMessage && <LoadingMessage />}
 
               <div ref={messagesEndRef} />
             </MessagesContainer>
 
-            {/* Error Display */}
-            {error && (
-              <Box
-                sx={{
-                  p: 1,
-                  backgroundColor: "#ffebee",
-                  color: "#c62828",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: 1,
-                }}
-              >
-                <Typography variant="body2" sx={{ flex: 1 }}>
-                  {error}
-                </Typography>
-                {onRetry && (
-                  <IconButton
-                    size="small"
-                    onClick={onRetry}
-                    sx={{
-                      color: "#c62828",
-                      "&:hover": { backgroundColor: "rgba(198, 40, 40, 0.1)" },
-                    }}
-                    title="Retry sending message"
-                  >
-                    <Icons.Refresh sx={{ fontSize: "1rem" }} />
-                  </IconButton>
-                )}
-              </Box>
-            )}
+            {error && <ErrorDisplay error={error} onRetry={onRetry} />}
 
-            {/* Input */}
-            <Box
-              sx={{
-                p: 1,
-                borderTop: (theme) => `1px solid ${theme.palette.divider}`,
-                backgroundColor: (theme) => theme.palette.background.paper,
-              }}
-            >
-              {isContextEnabled && contextLabel && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 0.5,
-                    px: 1,
-                    py: 0.5,
-                    mb: 1,
-                    backgroundColor: (theme) => theme.palette.primary.light,
-                    color: (theme) => theme.palette.primary.contrastText,
-                    borderRadius: 1,
-                    fontSize: "0.75rem",
-                    alignSelf: "flex-start",
-                  }}
-                >
-                  <Icons.PinOutlined sx={{ fontSize: "0.875rem" }} />
-                  <Typography variant="caption">{contextLabel}</Typography>
-                </Box>
-              )}
-              <Box sx={{ display: "flex", gap: 1, alignItems: "flex-end" }}>
-                <TextField
-                  fullWidth
-                  multiline
-                  maxRows={4}
-                  placeholder={inputPlaceholder}
-                  value={inputValue}
-                  onChange={(e) => onInputChange(e.target.value)}
-                  onKeyPress={onKeyPress}
-                  disabled={isLoading}
-                  variant="outlined"
-                  size="small"
-                />
-                {onToggleContext && (
-                  <IconButton
-                    onClick={onToggleContext}
-                    title={
-                      isContextEnabled ? "Disable Context" : "Enable Context"
-                    }
-                    sx={{
-                      color: isContextEnabled
-                        ? (theme) => theme.palette.primary.main
-                        : (theme) => theme.palette.action.disabled,
-                    }}
-                  >
-                    <Icons.PinOutlined />
-                  </IconButton>
-                )}
-                <IconButton
-                  onClick={onSendMessage}
-                  disabled={!inputValue.trim() || isLoading}
-                  color="primary"
-                >
-                  <Icons.ArrowUp />
-                </IconButton>
-              </Box>
-            </Box>
+            <ChatInput
+              inputValue={inputValue}
+              inputPlaceholder={inputPlaceholder}
+              isLoading={isLoading}
+              isContextEnabled={isContextEnabled}
+              contextLabel={contextLabel}
+              onInputChange={onInputChange}
+              onKeyPress={onKeyPress}
+              onSendMessage={onSendMessage}
+              onToggleContext={onToggleContext}
+            />
           </ChatModal>,
           document.body,
         )}

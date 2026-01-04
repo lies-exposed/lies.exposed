@@ -48,8 +48,13 @@ export interface TemplateConfig {
  * Express middleware configuration
  */
 export interface ExpressConfig {
-  /** Enable compression middleware */
-  compression?: boolean;
+  /** Enable compression middleware (boolean or config object with filter) */
+  compression?:
+    | boolean
+    | {
+        enabled: boolean;
+        filter?: (req: express.Request, res: express.Response) => boolean;
+      };
   /** Body parser limits */
   bodyLimit?: string;
   /** Additional middleware to register before Vite */

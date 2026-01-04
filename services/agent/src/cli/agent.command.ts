@@ -25,6 +25,7 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
         configurable: {
           thread_id: threadId,
         },
+        recursionLimit: 50,
       },
     );
 

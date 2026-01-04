@@ -103,7 +103,19 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
       indexFile,
     },
     expressConfig: {
-      compression: true,
+      compression: {
+        enabled: true,
+        // Disable compression for SSE streams because compression buffering can delay event delivery to clients, breaking the real-time nature of Server-Sent Events
+        filter: (_req, res) => {
+          // Don't compress SSE responses
+          const contentType = res.getHeader("Content-Type");
+          if (contentType?.toString().includes("text/event-stream")) {
+            return false;
+          }
+          // Default compression filter for everything else
+          return true;
+        },
+      },
       bodyLimit: "10mb",
       beforeViteMiddleware: (app) => {
         logger.info.log("Registering beforeViteMiddleware");

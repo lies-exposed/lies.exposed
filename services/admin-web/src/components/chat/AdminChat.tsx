@@ -1,4 +1,3 @@
-import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
 import {
   useRecordContext,
@@ -27,6 +26,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     error,
     conversationId,
     streamingContent,
+    activeToolCalls,
     sendMessage,
   } = useStreamingChat();
 
@@ -132,34 +132,37 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     }
   };
 
-  // Combine regular messages with streaming content
-  const displayMessages = useMemo(() => {
-    // Only show streaming message if there's actual content
-    if (!streamingContent) {
-      return messages;
-    }
+  // Create streaming message object if there's content
+  const streamingMessage = useMemo(() => {
+    if (!streamingContent) return null;
 
-    // Add a temporary message for streaming content
-    const streamingMessage: ChatMessage = {
-      id: "streaming-temp",
-      role: "assistant",
+    // Convert activeToolCalls Map to array of ToolCall objects
+    const toolCalls = Array.from(activeToolCalls.entries()).map(
+      ([id, { name, args }]) => ({
+        id,
+        type: "function" as const,
+        function: {
+          name,
+          arguments: args ?? "",
+        },
+      }),
+    );
+
+    // Use current timestamp for streaming messages
+    return {
       content: streamingContent,
+      tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
       timestamp: new Date().toISOString(),
     };
-
-    return [...messages, streamingMessage];
-  }, [messages, streamingContent]);
-
-  // Show loading only when we have no streaming content yet
-  const showLoadingState = isLoading && !streamingContent;
+  }, [streamingContent, activeToolCalls]);
 
   return (
     <ChatUI
       className={className}
       isOpen={isOpen}
-      messages={displayMessages}
+      messages={messages}
       inputValue={inputValue}
-      isLoading={showLoadingState}
+      isLoading={isLoading}
       error={error ?? undefined}
       welcomeMessage="Welcome! I'm your AI assistant for the lies.exposed platform. Ask me about actors, events, fact-checking, or anything else you need help with."
       inputPlaceholder="Type your message..."
@@ -173,6 +176,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       isContextEnabled={isContextEnabled}
       onToggleContext={handleToggleContext}
       contextLabel={contextLabel}
+      streamingMessage={streamingMessage}
     />
   );
 };
