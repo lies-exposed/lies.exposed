@@ -6,6 +6,7 @@ export default defineProject({
   test: {
     name: "web-spec",
     globals: true,
+    watch: false,
     environment: "node",
     include: ["src/**/*.spec.ts", "src/**/*.test.ts"],
     exclude: ["node_modules/**", "build/**", "**/*.e2e.ts"],

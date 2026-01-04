@@ -6,6 +6,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     name: "api-e2e",
     root: toAlias("./"),
     globals: true,
+    watch: false,
     include: [toAlias(`./src/**/*.e2e.ts`)],
     setupFiles: [toAlias(`test/testSetup.ts`)],
     globalSetup: [toAlias(`test/globalSetup.ts`)],
