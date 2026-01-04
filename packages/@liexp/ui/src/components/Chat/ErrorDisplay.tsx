@@ -14,8 +14,8 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     <Box
       sx={{
         p: 1,
-        backgroundColor: "#ffebee",
-        color: "#c62828",
+        backgroundColor: (theme) => theme.palette.error.light,
+        color: (theme) => theme.palette.error.dark,
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -30,8 +30,11 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           size="small"
           onClick={onRetry}
           sx={{
-            color: "#c62828",
-            "&:hover": { backgroundColor: "rgba(198, 40, 40, 0.1)" },
+            color: (theme) => theme.palette.error.dark,
+            "&:hover": {
+              backgroundColor: (theme) => theme.palette.error.main,
+              color: (theme) => theme.palette.error.contrastText,
+            },
           }}
           title="Retry sending message"
         >

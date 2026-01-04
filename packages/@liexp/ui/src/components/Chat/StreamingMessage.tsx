@@ -109,7 +109,9 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                   fontSize: "0.7rem",
                 }}
               >
-                {formatTime(streamingMessage.timestamp)}
+                {streamingMessage.timestamp
+                  ? formatTime(streamingMessage.timestamp)
+                  : "Streaming..."}
               </Typography>
             </Box>
           </MessageBubble>
