@@ -6,6 +6,7 @@ export default defineProject({
   test: {
     name: 'e2e',
     globals: true,
+    watch: false,
     environment: "node",
     testTimeout: 30000,
     hookTimeout: 30000,

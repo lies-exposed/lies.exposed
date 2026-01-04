@@ -6,6 +6,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     name: "api-spec",
     root: toAlias("./"),
     globals: true,
+    watch: false,
     include: [toAlias("./src/**/*.spec.ts")],
     exclude: ["**/build", "src/migrations", "src/scripts"],
     coverage: {
