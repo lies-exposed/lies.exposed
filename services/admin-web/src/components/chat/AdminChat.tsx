@@ -148,7 +148,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       }),
     );
 
-    // Don't include timestamp in streaming message to avoid confusion 
+    // Don't include timestamp in streaming message to avoid confusion
     // - timestamp will be added when message is completed and saved
     return {
       content: streamingContent,
