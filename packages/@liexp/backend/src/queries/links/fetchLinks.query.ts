@@ -222,6 +222,10 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
                   'eventForCount.id = eventLinkForCount."eventV2Id"',
                 )
                 .addGroupBy("link.id")
+                .addGroupBy("creator.id")
+                .addGroupBy("image.id")
+                .addGroupBy("keywords.id")
+                .addGroupBy("events.id")
                 .having(
                   'COUNT(CASE WHEN eventForCount."deletedAt" IS NULL THEN 1 END) >= :eventsCount',
                   { eventsCount: eventsCount.value },
