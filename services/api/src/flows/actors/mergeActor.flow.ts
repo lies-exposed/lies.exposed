@@ -103,7 +103,10 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
                     fp.TE.chain((events) => {
                       // Update each event's payload to replace sourceId with targetId
                       const updatedEvents = events.map((event) =>
-                        replaceActorInEventPayload(event, { sourceId, targetId }),
+                        replaceActorInEventPayload(event, {
+                          sourceId,
+                          targetId,
+                        }),
                       );
 
                       return txCtx.save(EventV2Entity, updatedEvents);
