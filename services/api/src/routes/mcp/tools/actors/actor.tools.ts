@@ -50,7 +50,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create actor",
       description:
-        "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. Returns the created actor details in structured markdown format.",
+        "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the created actor details in structured markdown format. Requires the 'avatar' to be an already existing media in DB.",
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
@@ -76,7 +76,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit actor",
       description:
-        "Edit an existing actor (person) in the database with the provided information. Only provided fields will be updated. Returns the updated actor details in structured markdown format.",
+        "Update an existing actor with new information. IMPORTANT: Always search for the actor using findActors BEFORE editing to verify it exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the updated actor details in structured markdown format.",
       annotations: { title: "Edit actor" },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },
