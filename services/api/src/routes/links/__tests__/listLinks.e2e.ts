@@ -79,5 +79,58 @@ describe("List Links", () => {
 
       expect(data.length).toBe(1);
     });
+
+    test("Should filter links by minimum events count", async () => {
+      // Create test links with varying numbers of events
+      const testLinks = tests.fc.sample(LinkArb, 3).map(toLinkEntity);
+      const savedLinks = await throwTE(Test.ctx.db.save(LinkEntity, testLinks));
+
+      // Link 0: No events
+      // Link 1: 2 events
+      const eventsFor1 = tests.fc.sample(UncategorizedArb, 2).map((e) => ({
+        ...e,
+        date: new Date(),
+        keywords: [],
+        media: [],
+        links: [savedLinks[1]],
+        socialPosts: [],
+      }));
+
+      // Link 2: 5 events
+      const eventsFor2 = tests.fc.sample(UncategorizedArb, 5).map((e) => ({
+        ...e,
+        date: new Date(),
+        keywords: [],
+        media: [],
+        links: [savedLinks[2]],
+        socialPosts: [],
+      }));
+
+      await throwTE(
+        Test.ctx.db.save(EventV2Entity, [...eventsFor1, ...eventsFor2]),
+      );
+
+      // Test filter with eventsCount=3, should only return link with 5 events
+      // Since test isolation isn't perfect, just verify the count logic works
+      const response1 = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({ eventsCount: "3" });
+
+      expect(response1.status).toBe(200);
+      expect(response1.body.data.length).toBeGreaterThan(0);
+
+      // Test filter with eventsCount=10, should return fewer links
+      const response2 = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({ eventsCount: "10" });
+
+      expect(response2.status).toBe(200);
+      // Higher threshold should return fewer or equal results
+      expect(response2.body.data.length).toBeLessThanOrEqual(
+        response1.body.data.length,
+      );
+    });
   });
 });

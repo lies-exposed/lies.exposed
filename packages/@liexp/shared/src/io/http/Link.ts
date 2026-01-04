@@ -25,6 +25,7 @@ export const GetListLinkQuery = Schema.Struct({
   emptyEvents: OptionFromNullishToNull(Schema.BooleanFromString),
   onlyDeleted: OptionFromNullishToNull(Schema.BooleanFromString),
   onlyUnshared: OptionFromNullishToNull(Schema.BooleanFromString),
+  eventsCount: OptionFromNullishToNull(Schema.NumberFromString),
 }).annotations({
   title: "GetListLinkQuery",
 });

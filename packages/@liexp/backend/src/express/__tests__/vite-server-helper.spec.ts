@@ -61,6 +61,7 @@ describe("vite-server-helper", () => {
   });
 
   const baseSpaConfig: ServerHelperConfig = {
+    service: "test-spa-app",
     logger: mockLogger,
     isProduction: false,
     viteConfig: {
@@ -78,6 +79,7 @@ describe("vite-server-helper", () => {
   };
 
   const baseSsrConfig: ServerHelperConfig = {
+    service: "test-ssr-app",
     logger: mockLogger,
     isProduction: false,
     viteConfig: {
@@ -626,6 +628,7 @@ describe("vite-server-helper", () => {
   describe("Configuration Validation", () => {
     it("should handle minimal SPA configuration", async () => {
       const minimalConfig: ServerHelperConfig = {
+        service: "test-spa-app",
         logger: mockLogger,
         isProduction: true,
         viteConfig: {
@@ -647,6 +650,7 @@ describe("vite-server-helper", () => {
 
     it("should handle all optional configurations for SSR", async () => {
       const fullConfig: ServerHelperConfig = {
+        service: "test-ssr-app",
         logger: mockLogger,
         isProduction: false,
         viteConfig: {
