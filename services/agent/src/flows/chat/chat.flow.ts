@@ -38,6 +38,7 @@ export const sendChatMessage =
         },
         {
           configurable: { thread_id: conversationId },
+          // Set recursion limit to prevent infinite loops in agent tool calling chains
           recursionLimit: 50,
         },
       ),

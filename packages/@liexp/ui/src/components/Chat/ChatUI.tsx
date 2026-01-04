@@ -192,6 +192,13 @@ export const ChatUI: React.FC<ChatUIProps> = ({
     scrollToBottom();
   }, [messages, streamingMessage]);
 
+  // Reset streaming expanded state when streaming message changes or completes
+  useEffect(() => {
+    if (streamingMessage) {
+      setIsStreamingExpanded(true);
+    }
+  }, [streamingMessage]);
+
   const handleCopyMessage = async (messageId: string, content: string) => {
     try {
       await navigator.clipboard.writeText(content);
@@ -201,6 +208,122 @@ export const ChatUI: React.FC<ChatUIProps> = ({
       // eslint-disable-next-line no-console
       console.error("Failed to copy message:", err);
     }
+  };
+
+  // Helper function to render tool message with timestamp
+  const renderToolMessage = (
+    key: string,
+    message: ChatMessage,
+    timestamp: string,
+  ): React.ReactElement => {
+    return (
+      <Stack key={key} direction="row" justifyContent="flex-start">
+        <MessageBubble isUser={false}>
+          <ToolMessageDisplay message={message} />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mt: 0.5,
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{
+                opacity: 0.7,
+                fontSize: "0.7rem",
+              }}
+            >
+              {formatTime(timestamp)}
+            </Typography>
+          </Box>
+        </MessageBubble>
+      </Stack>
+    );
+  };
+
+  // Helper function to render user or assistant message content
+  const renderContentMessage = (message: ChatMessage): React.ReactElement => {
+    return (
+      <Stack
+        key={message.id}
+        direction="row"
+        justifyContent={message.role === "user" ? "flex-end" : "flex-start"}
+      >
+        <MessageBubble isUser={message.role === "user"}>
+          <MarkdownContent content={message.content} />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mt: 0.5,
+            }}
+          >
+            <Typography
+              variant="caption"
+              sx={{
+                opacity: 0.7,
+                fontSize: "0.7rem",
+              }}
+            >
+              {formatTime(message.timestamp)}
+            </Typography>
+            {message.role === "assistant" && (
+              <IconButton
+                className="copy-button"
+                size="small"
+                onClick={() =>
+                  void handleCopyMessage(message.id, message.content)
+                }
+                sx={{
+                  opacity: 0,
+                  transition: "opacity 0.2s",
+                  backgroundColor: "rgba(0, 0, 0, 0.05)",
+                  "&:hover": {
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                  ml: 1,
+                }}
+                title="Copy message"
+              >
+                {copiedMessageId === message.id ? (
+                  <Icons.CheckBox sx={{ fontSize: "1rem" }} />
+                ) : (
+                  <Icons.Copy sx={{ fontSize: "1rem" }} />
+                )}
+              </IconButton>
+            )}
+          </Box>
+        </MessageBubble>
+      </Stack>
+    );
+  };
+
+  // Helper function to render assistant tool calls
+  const renderAssistantToolCalls = (
+    message: ChatMessage,
+  ): React.ReactElement[] => {
+    if (!message.tool_calls || message.tool_calls.length === 0) {
+      return [];
+    }
+
+    return message.tool_calls.map((toolCall, index) => {
+      return renderToolMessage(
+        `${message.id}-tool-${toolCall.id}-${index}`,
+        {
+          id: toolCall.id,
+          role: "tool",
+          content: JSON.stringify({
+            tool: toolCall.function.name,
+            arguments: toolCall.function.arguments,
+          }),
+          timestamp: message.timestamp,
+          tool_calls: [toolCall],
+        },
+        message.timestamp,
+      );
+    });
   };
 
   return (
@@ -264,151 +387,24 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               )}
 
               {messages.flatMap((message) => {
-                // Create an array to hold message components
                 const messageComponents: React.ReactElement[] = [];
 
-                // Add the main message (if it has content)
                 if (message.role === "tool") {
                   // Tool messages are standalone
                   messageComponents.push(
-                    <Stack
-                      key={message.id}
-                      direction="row"
-                      justifyContent="flex-start"
-                    >
-                      <MessageBubble isUser={false}>
-                        <ToolMessageDisplay message={message} />
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            mt: 0.5,
-                          }}
-                        >
-                          <Typography
-                            variant="caption"
-                            sx={{
-                              opacity: 0.7,
-                              fontSize: "0.7rem",
-                            }}
-                          >
-                            {formatTime(message.timestamp)}
-                          </Typography>
-                        </Box>
-                      </MessageBubble>
-                    </Stack>,
+                    renderToolMessage(message.id, message, message.timestamp),
                   );
                 } else {
                   // User or assistant messages
                   if (message.content) {
-                    messageComponents.push(
-                      <Stack
-                        key={message.id}
-                        direction="row"
-                        justifyContent={
-                          message.role === "user" ? "flex-end" : "flex-start"
-                        }
-                      >
-                        <MessageBubble isUser={message.role === "user"}>
-                          <MarkdownContent content={message.content} />
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              mt: 0.5,
-                            }}
-                          >
-                            <Typography
-                              variant="caption"
-                              sx={{
-                                opacity: 0.7,
-                                fontSize: "0.7rem",
-                              }}
-                            >
-                              {formatTime(message.timestamp)}
-                            </Typography>
-                            {message.role === "assistant" && (
-                              <IconButton
-                                className="copy-button"
-                                size="small"
-                                onClick={() =>
-                                  void handleCopyMessage(
-                                    message.id,
-                                    message.content,
-                                  )
-                                }
-                                sx={{
-                                  opacity: 0,
-                                  transition: "opacity 0.2s",
-                                  backgroundColor: "rgba(0, 0, 0, 0.05)",
-                                  "&:hover": {
-                                    backgroundColor: "rgba(0, 0, 0, 0.1)",
-                                  },
-                                  ml: 1,
-                                }}
-                                title="Copy message"
-                              >
-                                {copiedMessageId === message.id ? (
-                                  <Icons.CheckBox sx={{ fontSize: "1rem" }} />
-                                ) : (
-                                  <Icons.Copy sx={{ fontSize: "1rem" }} />
-                                )}
-                              </IconButton>
-                            )}
-                          </Box>
-                        </MessageBubble>
-                      </Stack>,
-                    );
+                    messageComponents.push(renderContentMessage(message));
                   }
 
                   // Add separate message bubbles for each tool call
-                  if (
-                    message.role === "assistant" &&
-                    message.tool_calls &&
-                    message.tool_calls.length > 0
-                  ) {
-                    message.tool_calls.forEach((toolCall) => {
-                      messageComponents.push(
-                        <Stack
-                          key={`${message.id}-tool-${toolCall.id}`}
-                          direction="row"
-                          justifyContent="flex-start"
-                        >
-                          <MessageBubble isUser={false}>
-                            <ToolMessageDisplay
-                              message={{
-                                id: toolCall.id,
-                                role: "tool",
-                                content: JSON.stringify({
-                                  tool: toolCall.function.name,
-                                  arguments: toolCall.function.arguments,
-                                }),
-                                timestamp: message.timestamp,
-                                tool_calls: [toolCall],
-                              }}
-                            />
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                mt: 0.5,
-                              }}
-                            >
-                              <Typography
-                                variant="caption"
-                                sx={{
-                                  opacity: 0.7,
-                                  fontSize: "0.7rem",
-                                }}
-                              >
-                                {formatTime(message.timestamp)}
-                              </Typography>
-                            </Box>
-                          </MessageBubble>
-                        </Stack>,
-                      );
-                    });
+                  if (message.role === "assistant") {
+                    messageComponents.push(
+                      ...renderAssistantToolCalls(message),
+                    );
                   }
                 }
 
@@ -421,8 +417,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                   sx={{
                     position: "sticky",
                     bottom: 0,
-                    backgroundColor: (theme) => theme.palette.grey[50],
-                    zIndex: 1,
+                    backgroundColor: (theme) => theme.palette.background.paper,
+                    zIndex: (theme) => theme.zIndex.appBar + 1,
                   }}
                 >
                   {/* Streaming content message */}
@@ -430,6 +426,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     <Stack direction="row" justifyContent="flex-start">
                       <MessageBubble isUser={false}>
                         <Box
+                          role="button"
+                          tabIndex={0}
                           sx={{
                             display: "flex",
                             alignItems: "center",
@@ -440,6 +438,18 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                           onClick={() =>
                             setIsStreamingExpanded(!isStreamingExpanded)
                           }
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setIsStreamingExpanded(!isStreamingExpanded);
+                            }
+                          }}
+                          aria-label={
+                            isStreamingExpanded
+                              ? "Collapse streaming message"
+                              : "Expand streaming message"
+                          }
+                          aria-expanded={isStreamingExpanded}
                         >
                           <Typography
                             variant="caption"
@@ -490,45 +500,22 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                   {/* Streaming tool calls as separate messages */}
                   {streamingMessage.tool_calls &&
                     streamingMessage.tool_calls.length > 0 &&
-                    streamingMessage.tool_calls.map((toolCall) => (
-                      <Stack
-                        key={`streaming-tool-${toolCall.id}`}
-                        direction="row"
-                        justifyContent="flex-start"
-                      >
-                        <MessageBubble isUser={false}>
-                          <ToolMessageDisplay
-                            message={{
-                              id: toolCall.id,
-                              role: "tool",
-                              content: JSON.stringify({
-                                tool: toolCall.function.name,
-                                arguments: toolCall.function.arguments,
-                              }),
-                              timestamp: streamingMessage.timestamp,
-                              tool_calls: [toolCall],
-                            }}
-                          />
-                          <Box
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              mt: 0.5,
-                            }}
-                          >
-                            <Typography
-                              variant="caption"
-                              sx={{
-                                opacity: 0.7,
-                                fontSize: "0.7rem",
-                              }}
-                            >
-                              {formatTime(streamingMessage.timestamp)}
-                            </Typography>
-                          </Box>
-                        </MessageBubble>
-                      </Stack>
-                    ))}
+                    streamingMessage.tool_calls.map((toolCall, index) =>
+                      renderToolMessage(
+                        `streaming-tool-${toolCall.id}-${index}`,
+                        {
+                          id: toolCall.id,
+                          role: "tool",
+                          content: JSON.stringify({
+                            tool: toolCall.function.name,
+                            arguments: toolCall.function.arguments,
+                          }),
+                          timestamp: streamingMessage.timestamp,
+                          tool_calls: [toolCall],
+                        },
+                        streamingMessage.timestamp,
+                      ),
+                    )}
                 </Box>
               )}
 

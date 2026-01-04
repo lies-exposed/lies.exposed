@@ -105,10 +105,11 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
     expressConfig: {
       compression: {
         enabled: true,
-        // Disable compression for SSE streams to allow real-time streaming
+        // Disable compression for SSE streams because compression buffering can delay event delivery to clients, breaking the real-time nature of Server-Sent Events
         filter: (_req, res) => {
           // Don't compress SSE responses
-          if (res.getHeader("Content-Type") === "text/event-stream") {
+          const contentType = res.getHeader("Content-Type");
+          if (contentType?.toString().includes("text/event-stream")) {
             return false;
           }
           // Default compression filter for everything else

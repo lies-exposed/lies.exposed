@@ -148,10 +148,12 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       }),
     );
 
+    // Don't include timestamp in streaming message to avoid confusion 
+    // - timestamp will be added when message is completed and saved
     return {
       content: streamingContent,
       tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
-      timestamp: new Date().toISOString(),
+      timestamp: "",
     };
   }, [streamingContent, activeToolCalls]);
 
