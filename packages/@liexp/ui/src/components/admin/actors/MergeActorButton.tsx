@@ -99,10 +99,10 @@ export const MergeActorButton: React.FC = () => {
         <DialogContent>
           <Box sx={{ pt: 2 }}>
             <p style={{ marginBottom: 16 }}>
-              This will transfer all relations (events, stories, group
-              memberships, nationalities) from &quot;{record.fullName}&quot; to
-              the selected actor, and then delete &quot;{record.fullName}
-              &quot;.
+              This will transfer all relations (events, stories, nationalities)
+              from &quot;{record.fullName}&quot; to the selected actor. Group
+              memberships of &quot;{record.fullName}&quot; will be removed when
+              the actor is deleted.
             </p>
             <p style={{ marginBottom: 16, fontWeight: "bold", color: "red" }}>
               This action cannot be undone!

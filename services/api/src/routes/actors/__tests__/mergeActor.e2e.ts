@@ -46,6 +46,7 @@ describe("Merge Actor", () => {
       .map((n, i) => ({
         ...n,
         name: `${n.name}-merge-test-${uniqueSuffix}-${i}`,
+        isoCode: `M${i}${uniqueSuffix.slice(0, 6)}`, // Unique isoCode to avoid constraint violation
       }));
     await throwTE(Test.ctx.db.save(NationEntity, [nation1, nation2, nation3]));
 
@@ -159,6 +160,20 @@ describe("Merge Actor", () => {
   test("Should return a 401 without authentication", async () => {
     await Test.req
       .post("/v1/actors/merge")
+      .send({
+        sourceId: sourceActor.id,
+        targetId: targetActor.id,
+      })
+      .expect(401);
+  });
+
+  test("Should return a 401 when user lacks admin:create permission", async () => {
+    const unauthorizedUser = await saveUser(Test.ctx, ["admin:read"]);
+    const { authorization } = await loginUser(Test)(unauthorizedUser);
+
+    await Test.req
+      .post("/v1/actors/merge")
+      .set("Authorization", authorization)
       .send({
         sourceId: sourceActor.id,
         targetId: targetActor.id,

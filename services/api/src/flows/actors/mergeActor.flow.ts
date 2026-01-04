@@ -7,6 +7,7 @@ import {
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { replaceActorInEventPayload } from "@liexp/shared/lib/helpers/event/replaceActorInEventPayload.js";
 import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -21,12 +22,13 @@ interface MergeActorInput {
 }
 
 /**
- * Merges one actor into another, transferring all relations:
+ * Merges one actor into another, transferring these relations:
  * - Events (ManyToMany via event payloads)
  * - Stories (ManyToMany)
- * - Group memberships (OneToMany GroupMemberEntity)
  * - Nationalities (ManyToMany)
- * After transferring all relations, the source actor is deleted.
+ *
+ * Group memberships (OneToMany GroupMemberEntity) are NOT transferred and will
+ * be soft-deleted via cascade when the source actor is deleted.
  */
 export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
   const { sourceId, targetId } = input;
@@ -100,28 +102,11 @@ export const mergeActor = (input: MergeActorInput): TEReader<Actor> => {
                     }),
                     fp.TE.chain((events) => {
                       // Update each event's payload to replace sourceId with targetId
-                      return pipe(
-                        events.map((event) => {
-                          const payload = event.payload as Record<
-                            string,
-                            unknown
-                          >;
-                          const actors = payload.actors as string[];
-                          const updatedActors = actors
-                            .filter((id: string) => id !== sourceId)
-                            .concat(
-                              actors.includes(targetId) ? [] : [targetId],
-                            );
-
-                          return txCtx.update(EventV2Entity, event.id, {
-                            payload: {
-                              ...payload,
-                              actors: updatedActors,
-                            },
-                          });
-                        }),
-                        (updates) => fp.TE.sequenceArray(updates),
+                      const updatedEvents = events.map((event) =>
+                        replaceActorInEventPayload(event, { sourceId, targetId }),
                       );
+
+                      return txCtx.save(EventV2Entity, updatedEvents);
                     }),
                   );
                 }),
