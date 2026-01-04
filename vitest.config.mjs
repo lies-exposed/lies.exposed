@@ -6,6 +6,9 @@ export default defineConfig({
     watch: false,
     projects: [
       "./packages/@liexp/*",
+      "./services/web/vitest.config.e2e.ts",
+      "./services/web/vitest.config.spec.ts",
+      "./services/admin-web/vitest.config.e2e.ts",
       "./services/api/vitest.config.e2e.ts",
       "./services/api/vitest.config.spec.ts",
     ],
