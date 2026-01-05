@@ -1,106 +1,129 @@
 {
-  "folders": [
-    {
-      "name": "ci",
-      "path": ".github",
-    },
-    {
-      "name": "data",
-      "path": "services/data",
-    },
-    {
-      "name": "✨ lies.exposed",
-      "path": ".",
-    },
-    {
-      "name": "🚀 @liexp/backend",
-      "path": "packages/@liexp/backend",
-    },
-    {
-      "name": "📦 @liexp/core",
-      "path": "packages/@liexp/core",
-    },
-    {
-      "name": "📦 @liexp/shared",
-      "path": "packages/@liexp/shared",
-    },
-    {
-      "name": "📦 @liexp/test",
-      "path": "packages/@liexp/test",
-    },
-    {
-      "name": "📦 @liexp/ui",
-      "path": "packages/@liexp/ui",
-    },
-    {
-      "name": "🚀 admin-web",
-      "path": "services/admin-web",
-    },
-    {
-      "name": "🚀 ai-bot",
-      "path": "services/ai-bot",
-    },
-    {
-      "name": "🚀 api",
-      "path": "services/api",
-    },
-    {
-      "name": "storybook",
-      "path": "services/storybook",
-    },
-    {
-      "name": "🚀 web",
-      "path": "services/web",
-    },
-    {
-      "name": "worker",
-      "path": "services/worker",
-    },
-    {
-      "name": "agent",
-      "path": "services/agent",
+    "folders": [
+        {
+            "name": "ci",
+            "path": ".github"
+        },
+        {
+            "name": "data",
+            "path": "services/data"
+        },
+        {
+            "name": "✨ lies.exposed",
+            "path": "."
+        },
+        {
+            "name": "🚀 @liexp/backend",
+            "path": "packages/@liexp/backend"
+        },
+        {
+            "name": "📦 @liexp/core",
+            "path": "packages/@liexp/core"
+        },
+        {
+            "name": "📦 @liexp/shared",
+            "path": "packages/@liexp/shared"
+        },
+        {
+            "name": "📦 @liexp/test",
+            "path": "packages/@liexp/test"
+        },
+        {
+            "name": "📦 @liexp/ui",
+            "path": "packages/@liexp/ui"
+        },
+        {
+            "name": "🚀 admin-web",
+            "path": "services/admin-web"
+        },
+        {
+            "name": "🚀 ai-bot",
+            "path": "services/ai-bot"
+        },
+        {
+            "name": "🚀 api",
+            "path": "services/api"
+        },
+        {
+            "name": "storybook",
+            "path": "services/storybook"
+        },
+        {
+            "name": "🚀 web",
+            "path": "services/web"
+        },
+        {
+            "name": "worker",
+            "path": "services/worker"
+        },
+        {
+            "name": "agent",
+            "path": "services/agent"
+        }
+    ],
+    "settings": {
+        "search.exclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/*.code-search": true,
+            "build/**": true,
+            "coverage/**": true,
+            "lib/**": true
+        },
+        "typescript.format.enable": true,
+        "eslint.codeActionsOnSave.mode": "problems",
+        "eslint.workingDirectories": [
+            "./"
+        ],
+        "eslint.useFlatConfig": true,
+        "explorer.fileNesting.enabled": true,
+        "explorer.fileNesting.patterns": {
+            "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+            "*.jsx": "${capture}.js",
+            "*.ts": "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts",
+            "*.tsx": "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts",
+            "tsconfig.json": "tsconfig.*.json",
+            "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb"
+        },
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "never",
+            "source.fixAll.eslint": "explicit"
+        },
+        "explorer.autoRevealExclude": {
+            "**/node_modules": true,
+            "**/bower_components": true,
+            "**/lib": true,
+            "**/build": true
+        },
+        "typescript.preferences.importModuleSpecifier": "project-relative",
+        "yaml.maxItemsComputed": 500,
+        "helm-intellisense.customValueFileNames": [
+            "helm/values.yaml",
+            "helm/values.dev.yaml"
+        ],
+        "typescript.experimental.useTsgo": false,
+        "mcp": {
+            "servers": {
+                "github-mcp": {
+                    "url": "https://api.githubcopilot.com/mcp/",
+                    "type": "http"
+                },
+                "api-liexp-dev": {
+                    "url": "http://api.liexp.dev/mcp",
+                    "type": "http"
+                },
+                "basic-memory": {
+                    "type": "stdio",
+                    "command": "uvx",
+                    "args": [
+                        "basic-memory",
+                        "mcp",
+                        "--project",
+                        "lies-exposed"
+                    ]
+                }
+            },
+            "inputs": []
+        }
     }
-  ],
-  "settings": {
-    "search.exclude": {
-      "**/node_modules": true,
-      "**/bower_components": true,
-      "**/*.code-search": true,
-      "build/**": true,
-      "coverage/**": true,
-      "lib/**": true,
-    },
-    "typescript.format.enable": true,
-    "eslint.codeActionsOnSave.mode": "problems",
-    "eslint.workingDirectories": [
-      "./"
-    ],
-    "eslint.useFlatConfig": true,
-    "explorer.fileNesting.enabled": true,
-    "explorer.fileNesting.patterns": {
-      "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-      "*.jsx": "${capture}.js",
-      "*.ts": "$(capture).js, $(capture).d.ts.map, $(capture).*.ts, $(capture)_*.js, $(capture)_*.ts",
-      "*.tsx": "$(capture).ts, $(capture).*.tsx, $(capture)_*.ts, $(capture)_*.tsx, $(capture).less, $(capture).module.less, $(capture).module.less.d.ts, $(capture).scss, $(capture).module.scss, $(capture).module.scss.d.ts, $(capture).css.ts",
-      "tsconfig.json": "tsconfig.*.json",
-      "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
-    },
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "never",
-      "source.fixAll.eslint": "explicit",
-    },
-    "explorer.autoRevealExclude": {
-      "**/node_modules": true,
-      "**/bower_components": true,
-      "**/lib": true,
-      "**/build": true,
-    },
-    "typescript.preferences.importModuleSpecifier": "project-relative",
-    "yaml.maxItemsComputed": 500,
-    "helm-intellisense.customValueFileNames": [
-      "helm/values.yaml",
-      "helm/values.dev.yaml"
-    ],
-    "typescript.experimental.useTsgo": false
-  }
 }
