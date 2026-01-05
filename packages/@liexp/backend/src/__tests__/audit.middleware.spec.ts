@@ -156,7 +156,8 @@ describe("audit.middleware", () => {
       );
       const duration = completionLog[4];
 
-      expect(duration).toBeGreaterThanOrEqual(50);
+      // Allow for timer imprecision - timers may resolve slightly earlier than requested
+      expect(duration).toBeGreaterThanOrEqual(45);
       expect(duration).toBeLessThan(200); // reasonable upper bound
     });
   });
