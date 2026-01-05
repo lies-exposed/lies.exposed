@@ -94,5 +94,3 @@ export const ReferenceMediaInputWithUpload: React.FC<
     </Stack>
   );
 };
-
-export default ReferenceMediaInputWithUpload;
