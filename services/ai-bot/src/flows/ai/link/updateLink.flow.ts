@@ -19,7 +19,7 @@ const UpdateLinkStructuredResponse = Schema.Struct({
   }),
   publishDate: Schema.String.annotations({
     description:
-      "The date the content was published in ISO 8601 format (empty string if not published)",
+      "The date the content was published in 'YYYY-MM-DD' format (empty string if not published, fallback to 1st day of the year if unknown)",
   }),
 });
 type UpdateLinkStructuredResponse = typeof UpdateLinkStructuredResponse.Type;

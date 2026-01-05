@@ -209,6 +209,8 @@ const MediaEditFormContent: React.FC<{ isAdmin: boolean; bar: any }> = ({
             <TextInput source="description" fullWidth multiline />
             <OpenAIEmbeddingJobButton<Media>
               resource={"media"}
+              label="Summarize Media Content"
+              description="AI will analyze the media (PDF, video, image, or iframe) and generate a summary of its content"
               question={EMBED_MEDIA_PROMPT()}
               transformValue={({ type, location, label, description }) => {
                 if (Schema.is(PDFType)(type)) {

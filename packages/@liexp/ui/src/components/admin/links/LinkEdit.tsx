@@ -86,6 +86,8 @@ export const LinkEdit: React.FC = () => {
                 <OpenAIEmbeddingJobButton<Link>
                   resource="links"
                   type={OpenAIEmbeddingQueueType.Type}
+                  label="Extract Title & Description"
+                  description="AI will browse the link and extract its title, description, and publish date"
                   transformValue={({ url }) => ({
                     url,
                     type: "link",

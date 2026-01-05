@@ -1,12 +1,13 @@
 import * as React from "react";
 import { AutoAwesome } from "../../mui/icons.js";
-import { Button, Stack } from "../../mui/index.js";
+import { Button, Stack, Tooltip } from "../../mui/index.js";
 import { LoadingIndicator } from "../react-admin.js";
 
 export interface OpenAIButtonBaseProps {
   prompt?: string;
   question?: string;
   model?: string;
+  description?: string;
 }
 
 interface OpenAIButtonProps extends OpenAIButtonBaseProps {
@@ -17,6 +18,7 @@ interface OpenAIButtonProps extends OpenAIButtonBaseProps {
 
 export const OpenAIButton: React.FC<OpenAIButtonProps> = ({
   label,
+  description,
   onClick,
 }) => {
   const [isLoading, setLoading] = React.useState(false);
@@ -28,16 +30,27 @@ export const OpenAIButton: React.FC<OpenAIButtonProps> = ({
       setLoading(false);
     });
   };
+
+  const button = (
+    <Button
+      variant="contained"
+      size="small"
+      onClick={onButtonClick}
+      startIcon={<AutoAwesome />}
+    >
+      {label}
+    </Button>
+  );
+
   return (
     <Stack direction="row">
-      <Button
-        variant="contained"
-        size="small"
-        onClick={onButtonClick}
-        startIcon={<AutoAwesome />}
-      >
-        {label}
-      </Button>
+      {description ? (
+        <Tooltip title={description} arrow placement="top">
+          {button}
+        </Tooltip>
+      ) : (
+        button
+      )}
       {isLoading && <LoadingIndicator />}
     </Stack>
   );
