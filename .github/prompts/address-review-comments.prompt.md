@@ -32,7 +32,7 @@ agent: agent
 6. **Documentation**
    - Add comment to PR thread explaining resolutions
    - Provide suggested commit message following conventional commits format
-   - Format: `<type>(<scope>): <description>` (see code-quality.instructions.md)
+   - Format: `<type>(<scope>): <description>` (see .github/instructions/code-quality.instructions.md)
 
 7. **Final Report**
    - List all comments addressed (already fixed vs newly implemented)
