@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import {
@@ -7,7 +8,6 @@ import {
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
-import { randomUUID } from "crypto";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -29,7 +29,8 @@ describe("MCP FIND_LINKS Tool", () => {
     testLinks = links.map((link, index) => {
       const entity = toLinkEntity(link);
       // Ensure each URL is unique with test-suite prefix
-      entity.url = `https://example.com/findlinks/${testSuiteId}/${index}` as any;
+      entity.url =
+        `https://example.com/findlinks/${testSuiteId}/${index}` as any;
       return entity;
     });
 

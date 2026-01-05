@@ -1,9 +1,9 @@
+import { randomUUID } from "crypto";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
 import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
-import { randomUUID } from "crypto";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
