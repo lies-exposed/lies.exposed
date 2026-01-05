@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.3...api@0.1.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** filter links by events count ([#2978](https://github.com/lies-exposed/lies.exposed/issues/2978)) ([2baee88](https://github.com/lies-exposed/lies.exposed/commit/2baee882c054639ecc76437aaf7fd9589d6fa43a))
+* **api:** added endpoint to merge actors ([#2984](https://github.com/lies-exposed/lies.exposed/issues/2984)) ([459df12](https://github.com/lies-exposed/lies.exposed/commit/459df124dbb2c7d73c3eb1e5418d00d11bfa6352))
+* **api:** added tools to find and get nation entities ([#2983](https://github.com/lies-exposed/lies.exposed/issues/2983)) ([3e6de57](https://github.com/lies-exposed/lies.exposed/commit/3e6de57e4f0456a4892fc9facc010989540ecf81))
+
+
+### Miscellaneous
+
+* **workspace:** disabled watch as default for running tests ([#2982](https://github.com/lies-exposed/lies.exposed/issues/2982)) ([abc2ea9](https://github.com/lies-exposed/lies.exposed/commit/abc2ea983764205742b91dfffaa5f404ad138e81))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+    * @liexp/shared bumped to 0.1.4
+  * devDependencies
+    * @liexp/test bumped to 0.1.4
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.2...api@0.1.3) (2026-01-03)
 
 

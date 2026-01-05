@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.3...agent@0.1.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** chat  tools and messages stream and UI adjustments ([#2981](https://github.com/lies-exposed/lies.exposed/issues/2981)) ([faa9068](https://github.com/lies-exposed/lies.exposed/commit/faa9068fdac40812d72d7c3661e6fa16aa8e2d5a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+    * @liexp/shared bumped to 0.1.4
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.2...agent@0.1.3) (2026-01-03)
 
 

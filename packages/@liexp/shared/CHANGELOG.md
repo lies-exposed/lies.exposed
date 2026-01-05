@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.3...@liexp/shared@0.1.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** filter links by events count ([#2978](https://github.com/lies-exposed/lies.exposed/issues/2978)) ([2baee88](https://github.com/lies-exposed/lies.exposed/commit/2baee882c054639ecc76437aaf7fd9589d6fa43a))
+* **api:** added endpoint to merge actors ([#2984](https://github.com/lies-exposed/lies.exposed/issues/2984)) ([459df12](https://github.com/lies-exposed/lies.exposed/commit/459df124dbb2c7d73c3eb1e5418d00d11bfa6352))
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.2...@liexp/shared@0.1.3) (2026-01-03)
 
 
