@@ -13,13 +13,13 @@ export const createS3ProviderConfig = <E extends ENV>(
   env: E,
 ): MakeSpaceProviderConfig => {
   const config: S3ClientConfig = {
-    endpoint: `${env.NODE_ENV === "production" ? "https" : "http"}://${env.SPACE_ENDPOINT}`,
+    endpoint: `${env.SPACE_USE_TLS === true ? "https" : "http"}://${env.SPACE_ENDPOINT}`,
     region: env.SPACE_REGION,
     credentials: {
       accessKeyId: env.SPACE_ACCESS_KEY_ID,
       secretAccessKey: env.SPACE_ACCESS_KEY_SECRET,
     },
-    tls: env.NODE_ENV === "production",
+    tls: env.SPACE_USE_TLS === true,
     forcePathStyle: true,
   };
 

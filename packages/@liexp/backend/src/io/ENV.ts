@@ -52,6 +52,7 @@ export const SPACE_ENV = Schema.Struct({
   SPACE_REGION: Schema.String,
   SPACE_ACCESS_KEY_ID: Schema.String,
   SPACE_ACCESS_KEY_SECRET: Schema.String,
+  SPACE_USE_TLS: Schema.UndefinedOr(Schema.BooleanFromString),
 }).annotations({
   title: "SPACE_ENV",
 });

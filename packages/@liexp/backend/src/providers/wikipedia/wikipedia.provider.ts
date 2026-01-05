@@ -52,7 +52,6 @@ interface WikipediaProviderOpts {
   logger: Logger;
   client: Bot;
   restClient: AxiosInstance;
-  spaceEndpoint: string;
 }
 
 const toMWError = (e: unknown): Error => {
@@ -63,7 +62,6 @@ export const WikipediaProvider = ({
   logger,
   client,
   restClient,
-  spaceEndpoint: _spaceEndpoint,
 }: WikipediaProviderOpts): WikipediaProvider => {
   logger.debug.log("Wikipedia provider created");
 
