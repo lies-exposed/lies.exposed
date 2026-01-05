@@ -1,15 +1,13 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
-import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
+import { ReferenceMediaInputWithUpload } from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInputWithUpload.js";
 import { ReferenceArrayNationInput } from "@liexp/ui/lib/components/admin/nations/ReferenceArrayNationInput.js";
 import {
   Create,
@@ -34,7 +32,7 @@ export const transformActor =
   (dataProvider: APIRESTClient) =>
   async (
     id: string,
-    { newMemberIn = [], ...data }: RaRecord<UUID>,
+    { newMemberIn = [], newAvatarUpload, ...data }: RaRecord<UUID>,
   ): Promise<RaRecord> => {
     if (data._from === "wikipedia") {
       return data;
@@ -43,6 +41,19 @@ export const transformActor =
     return pipe(
       fp.TE.Do,
       fp.TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media>> => {
+        // New avatar upload takes precedence
+        if (newAvatarUpload?.rawFile) {
+          return pipe(
+            uploadImages(dataProvider)("actors", id, [
+              {
+                file: newAvatarUpload.rawFile,
+                type: newAvatarUpload.rawFile.type,
+              },
+            ]),
+            fp.TE.map((avatar) => avatar[0]),
+          );
+        }
+
         if (data?.avatar?.rawFile) {
           return pipe(
             uploadImages(dataProvider)("actors", id, [
@@ -52,11 +63,14 @@ export const transformActor =
           );
         }
 
-        if (Schema.is(Schema.String)(data.avatar)) {
-          return fp.TE.right({
-            location: data.avatar as URL,
-            type: contentTypeFromFileExt(data.avatar),
-          });
+        // Check if avatar is a UUID (selected existing media)
+        if (Schema.is(UUID)(data.avatar)) {
+          return fp.TE.right({ id: data.avatar });
+        }
+
+        // Check if avatar is an object with id (e.g., from Edit form)
+        if (Schema.is(UUID)(data.avatar?.id)) {
+          return fp.TE.right({ id: data.avatar.id });
         }
 
         return fp.TE.right(data.avatar);
@@ -145,7 +159,12 @@ const ActorCreate: React.FC<CreateProps> = (props) => {
                   />
                 </Grid>
                 <Grid size={{ sm: 12, md: 6 }}>
-                  <ReferenceMediaInput source="avatar" fullWidth />
+                  <ReferenceMediaInputWithUpload
+                    source="avatar"
+                    uploadLabel="Upload avatar"
+                    showPreview={false}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid size={{ md: 12 }}>
                   <BlockNoteInput source="excerpt" onlyText={true} />
