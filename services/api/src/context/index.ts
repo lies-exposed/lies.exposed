@@ -67,7 +67,6 @@ export const makeContext =
       restClient: axios.default.create({
         baseURL: "https://en.wikipedia.org/api/rest_v1",
       }),
-      spaceEndpoint: env.SPACE_ENDPOINT,
     });
 
     const rationalWikiProvider = WikipediaProvider({
@@ -82,7 +81,6 @@ export const makeContext =
       restClient: axios.default.create({
         baseURL: "https://rationalwiki.org/api/rest_v1",
       }),
-      spaceEndpoint: env.SPACE_ENDPOINT,
     });
 
     const fsClient = GetFSClient({ client: fs });
