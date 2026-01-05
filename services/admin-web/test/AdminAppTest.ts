@@ -9,9 +9,9 @@ import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { type AdminProxyENV } from "../src/server/io/ENV.js";
-import {URL} from '@liexp/shared/lib/io/http/Common/URL.js'
+import { URL } from '@liexp/shared/lib/io/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
-import {createApp} from '../src/server/createApp.js'
+import { createApp } from '../src/server/createApp.js'
 
 // Get service root directory (resolves to services/admin-web/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -126,19 +126,23 @@ export const createAdminServerTest = async (
   if (!fs.existsSync(serverEntry)) {
     throw new Error(
       `Server entry source file not found at ${serverEntry}. ` +
-        `Make sure the TypeScript source file exists.`,
+      `Make sure the TypeScript source file exists.`,
     );
   }
 
   // Note: Development mode uses the existing index.html file
   // No need to create a mock file since it already exists
-  
+
   // Mock JWT verification for testing
   const originalVerifyJWT = process.env.NODE_ENV;
   process.env.NODE_ENV = isProduction ? "production" : "development";
-  
-  const app = await createApp(mockEnv);
-  
+
+  const app = await createApp({
+    env: mockEnv,
+    serviceRoot: SERVICE_ROOT,
+    isProduction,
+  });
+
   // Restore environment
   if (originalVerifyJWT !== undefined) {
     process.env.NODE_ENV = originalVerifyJWT;

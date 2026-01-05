@@ -39,7 +39,11 @@ export const run = async (base: string): Promise<void> => {
   const env = envDecodeResult.right;
   const isProduction = env.NODE_ENV === "production";
 
-  const app = await createApp(env);
+  const app = await createApp({
+    env,
+    serviceRoot: process.cwd(),
+    isProduction,
+  });
 
   // ============================================================
   // Start Server
@@ -51,6 +55,7 @@ export const run = async (base: string): Promise<void> => {
       env.SERVER_HOST,
       env.SERVER_PORT,
     );
+
     if (!isProduction) {
       logger.info.log("✓ Vite HMR enabled");
       logger.info.log("✓ API proxy available at /api/proxy/agent/*");
