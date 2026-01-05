@@ -269,7 +269,7 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
                   resource="groups"
                   type={OpenAISummarizeQueueType.Type}
                   label="Generate Organization Summary"
-                  description="AI will retrieve related events, analyze the organization's activities using those events as context, and generate a factual summary with verified information from Wikipedia and other sources"
+                  description="AI retrieves related events and generates a factual organization summary using verified Wikipedia sources"
                   transformValue={({ name, excerpt }) =>
                     pipe(
                       excerpt ? getTextContents(excerpt) : "",

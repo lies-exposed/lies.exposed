@@ -86,7 +86,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                 resource="actors"
                 type={OpenAISummarizeQueueType.Type}
                 label="Generate Biography Summary"
-                description="AI will retrieve related events, analyze the actor's biography using those events as context, and generate a comprehensive description with verified information from Wikipedia and other sources"
+                description="AI retrieves related events and generates a comprehensive actor biography using verified Wikipedia sources"
                 transformValue={({ excerpt, fullName }) =>
                   pipe(
                     excerpt && isValidValue(excerpt)
