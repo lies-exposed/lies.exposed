@@ -19,6 +19,7 @@ interface OpenAIPromptButtonProps<A extends RaRecord> {
   question?: string;
   model?: string;
   label?: string;
+  description?: string;
   transformValue: (
     value: A,
   ) => Omit<Queue.CreateQueue["data"], "question" | "prompt" | "result">;
@@ -28,6 +29,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   model = "gpt-4",
   prompt,
   question,
+  description,
   resource,
   type = "openai-embedding",
   idSource = "id",
@@ -85,6 +87,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
         model={model}
         prompt={prompt}
         question={question}
+        description={description}
         onClick={ingestFile}
         isLoading={isLoading}
         label={label}

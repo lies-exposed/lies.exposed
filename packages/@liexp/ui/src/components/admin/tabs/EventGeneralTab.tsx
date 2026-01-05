@@ -161,6 +161,8 @@ export const EventGeneralTab: React.FC<EventGeneralTabProps> = ({
           <OpenAIEmbeddingJobButton<Event>
             type={OpenAIEmbeddingQueueType.literals[0]}
             resource="events"
+            label="Generate Event Summary"
+            description="AI will create a professional summary of this event, focusing on key actions, dates, actors and groups involved"
             transformValue={(event) => ({
               text: getOpenAIPromptText(event),
               type: event.type,

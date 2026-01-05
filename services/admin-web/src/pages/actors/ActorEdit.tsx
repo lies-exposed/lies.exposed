@@ -85,6 +85,8 @@ const ActorEdit: React.FC<EditProps> = (props) => {
               <OpenAIEmbeddingJobButton<Actor>
                 resource="actors"
                 type={OpenAISummarizeQueueType.Type}
+                label="Generate Biography Summary"
+                description="AI will retrieve related events, analyze the actor's biography using those events as context, and generate a comprehensive description with verified information from Wikipedia and other sources"
                 transformValue={({ excerpt, fullName }) =>
                   pipe(
                     excerpt && isValidValue(excerpt)
