@@ -6,6 +6,7 @@ import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextCo
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
+import { MergeActorButton } from "@liexp/ui/lib/components/admin/actors/MergeActorButton.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
@@ -54,6 +55,7 @@ const EditActions: React.FC = () => {
   return (
     <>
       {record?.fullName ? <SearchLinksButton query={record.fullName} /> : null}
+      {record ? <MergeActorButton /> : null}
     </>
   );
 };

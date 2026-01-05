@@ -92,11 +92,22 @@ export const Delete = Endpoint({
   Output: SingleActorOutput,
 });
 
+export const Merge = Endpoint({
+  Method: "POST",
+  getPath: () => "/actors/merge",
+  Input: {
+    Body: Actor.MergeActorBody,
+  },
+  Output: SingleActorOutput,
+});
+
 export const actors = ResourceEndpoints({
   Get,
   List,
   Edit,
   Create,
   Delete,
-  Custom: {},
+  Custom: {
+    Merge,
+  },
 });

@@ -165,6 +165,20 @@ export const EditActorBody = Schema.Struct({
 });
 export type EditActorBody = typeof EditActorBody.Type;
 
+export const MergeActorBody = Schema.Struct({
+  sourceId: UUID.annotations({
+    description: "UUID of the source actor to merge from (will be deleted)",
+  }),
+  targetId: UUID.annotations({
+    description: "UUID of the target actor to merge into (will be kept)",
+  }),
+}).annotations({
+  title: "MergeActorBody",
+  description:
+    "Schema for merging one actor into another, transferring all relations",
+});
+export type MergeActorBody = typeof MergeActorBody.Type;
+
 const actorFields = {
   ...BaseProps.fields,
   fullName: Schema.String.annotations({
