@@ -3,7 +3,7 @@ import { vi } from "vitest";
 import { type DeepMockProxy, mock } from "vitest-mock-extended";
 
 export const fsMock: DeepMockProxy<typeof fs> = mock({
-  existsSync: vi.fn().mockImplementation(() => {
-    throw new Error("fs.existsSync is not implemented");
-  }),
+  existsSync: vi.fn().mockReturnValue(true),
+  mkdirSync: vi.fn().mockReturnValue(undefined),
+  writeFileSync: vi.fn().mockReturnValue(undefined),
 });

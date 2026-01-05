@@ -1,4 +1,4 @@
-import { BACKEND_ENV, SPACE_ENV } from "@liexp/backend/lib/io/ENV.js";
+import { BACKEND_ENV } from "@liexp/backend/lib/io/ENV.js";
 import { Schema } from "effect";
 
 const CRON_ENVS = Schema.Struct({
@@ -35,7 +35,6 @@ const GEO_CODE_ENVS = Schema.Struct({
 const SERVICES_ENVS = Schema.Struct({
   ...REDIS_ENVS.fields,
   ...TG_BOT_ENVS.fields,
-  ...SPACE_ENV.fields,
   ...GEO_CODE_ENVS.fields,
 }).annotations({
   title: "SERVICES_ENVS",

@@ -1541,6 +1541,9 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@liexp/test':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/test
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12

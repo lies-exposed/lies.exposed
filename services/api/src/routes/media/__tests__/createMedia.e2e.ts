@@ -1,8 +1,7 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { CreateMediaThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/createThumbnail.pubSub.js";
 import { ExtractMediaExtraPubSub } from "@liexp/backend/lib/pubsub/media/extractMediaExtra.pubSub.js";
-import { type MockUpload } from "@liexp/backend/lib/test/mocks/s3.mock.js";
-import { sharpMock } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
+import { sharpInstanceMocks } from "@liexp/backend/lib/test/mocks/sharp.mock.js";
 import {
   saveUser,
   type UserTest,
@@ -25,7 +24,7 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
   const users: UserTest[] = [];
-  let uploadSpy: MockInstance<new () => MockUpload>;
+  let uploadSpy: MockInstance;
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -44,7 +43,7 @@ describe("Create Media", () => {
     Test.mocks.puppeteer.page.waitForSelector.mockClear();
     Test.mocks.puppeteer.page.$eval.mockClear();
     Test.mocks.redis.publish.mockClear();
-    mockClear(sharpMock);
+    mockClear(sharpInstanceMocks);
   });
 
   test("Should create a media from image location", async () => {
@@ -71,11 +70,16 @@ describe("Create Media", () => {
       );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
-    uploadSpy.mockImplementation(function () {
-      this.done = vi.fn().mockResolvedValueOnce({
+
+    const mockUploadInstance = {
+      done: vi.fn().mockResolvedValueOnce({
         Location: uploadThumbLocation,
-      });
-    });
+      }),
+    };
+
+    uploadSpy.mockImplementationOnce(function (this: any) {
+      return mockUploadInstance;
+    } as any);
 
     // Mock the HEAD request for media validation
     Test.mocks.axios.get.mockResolvedValueOnce({
@@ -129,11 +133,16 @@ describe("Create Media", () => {
       );
 
     const uploadThumbLocation = tests.fc.sample(tests.fc.webUrl(), 1)[0];
-    uploadSpy.mockImplementation(function () {
-      this.done = vi.fn().mockResolvedValueOnce({
+
+    const mockUploadInstance = {
+      done: vi.fn().mockResolvedValueOnce({
         Location: uploadThumbLocation,
-      });
-    });
+      }),
+    };
+
+    uploadSpy.mockImplementationOnce(function (this: any) {
+      return mockUploadInstance;
+    } as any);
 
     // Mock the HEAD request for media validation
     Test.mocks.axios.get.mockResolvedValueOnce({
@@ -276,7 +285,7 @@ describe("Create Media", () => {
 
     expect(response.status).toBe(500);
 
-    expect(sharpMock.toFormat).not.toHaveBeenCalled();
-    expect(sharpMock.toBuffer).not.toHaveBeenCalled();
+    expect(sharpInstanceMocks.toFormat).not.toHaveBeenCalled();
+    expect(sharpInstanceMocks.toBuffer).not.toHaveBeenCalled();
   });
 });

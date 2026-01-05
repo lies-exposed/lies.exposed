@@ -14,7 +14,7 @@ import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mockClear, mockDeep } from "vitest-mock-extended";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
-import { sharpMock } from "../../test/mocks/sharp.mock.js";
+import { sharpInstanceMocks } from "../../test/mocks/sharp.mock.js";
 import { mocks } from "../../test/mocks.js";
 import {
   uploadAndCreate,
@@ -325,7 +325,7 @@ describe(uploadAndCreate.name, () => {
 
     await expect(throwTE(task)).rejects.toThrowError();
 
-    expect(sharpMock.toFormat).not.toHaveBeenCalled();
-    expect(sharpMock.toBuffer).not.toHaveBeenCalled();
+    expect(sharpInstanceMocks.toFormat).not.toHaveBeenCalled();
+    expect(sharpInstanceMocks.toBuffer).not.toHaveBeenCalled();
   });
 });
