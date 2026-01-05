@@ -107,10 +107,13 @@
     "services/worker": {
       "entry": [
         "src/run.ts",
-        "src/bin/cli.ts"
+        "src/bin/cli.ts",
+        "test/**/*.{spec,e2e}.ts",
+        "test/WorkerTest.ts"
       ],
       "project": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "test/**/*.{ts,js}"
       ]
     },
     "services/agent": {

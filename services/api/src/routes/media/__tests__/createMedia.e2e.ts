@@ -15,7 +15,6 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type MockInstance } from "vitest";
 import { describe, test, expect, beforeAll, vi, beforeEach } from "vitest";
 import { mockClear } from "vitest-mock-extended";
 import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
@@ -24,7 +23,7 @@ import { loginUser } from "../../../../test/utils/user.utils.js";
 describe("Create Media", () => {
   let Test: AppTest, authorizationToken: string;
   const users: UserTest[] = [];
-  let uploadSpy: MockInstance;
+  let uploadSpy: any;
 
   beforeAll(async () => {
     Test = await GetAppTest();

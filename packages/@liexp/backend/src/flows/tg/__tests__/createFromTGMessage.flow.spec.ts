@@ -89,11 +89,15 @@ describe("Create From TG Message", () => {
         mocks.puppeteer.page.emulate.mockReset().mockResolvedValueOnce({});
         mocks.puppeteer.page.$$.mockReset().mockResolvedValueOnce([]);
         mocks.puppeteer.page.screenshot.mockResolvedValueOnce(Buffer.from(""));
-        mocks.s3.classes.Upload.mockReset().mockImplementation(() => ({
+        const uploadSpy = vi.spyOn(mocks.s3.classes, "Upload");
+        const mockUploadInstance = {
           done: vi.fn().mockResolvedValueOnce({
             Location: fc.sample(fc.webUrl({ size: "small" }), 1)[0],
           }),
-        }));
+        };
+        uploadSpy.mockImplementationOnce(function (this: any) {
+          return mockUploadInstance;
+        } as any);
         mocks.queueFS.writeObject.mockImplementation(() =>
           fp.TE.right(undefined),
         );
@@ -205,12 +209,10 @@ describe("Create From TG Message", () => {
       mocks.puppeteer.page.goto.mockReset().mockResolvedValueOnce({});
 
       // mock s3 upload
-      mocks.s3.client.send.mockImplementationOnce(() =>
-        Promise.resolve({
-          Key: fc.sample(fc.string(), 1)[0],
-          Location: fc.sample(fc.webUrl(), 1)[0],
-        }),
-      );
+      mocks.s3.client.send.mockImplementationOnce(() => ({
+        Key: fc.sample(fc.string(), 1)[0],
+        Location: fc.sample(fc.webUrl(), 1)[0],
+      }));
 
       const result = await throwTE(createFromTGMessage(message, {})(ctx));
 
@@ -523,12 +525,10 @@ describe("Create From TG Message", () => {
           );
 
           // mock s3 upload
-          mocks.s3.client.send.mockImplementationOnce(() =>
-            Promise.resolve({
-              Key: fc.sample(fc.string(), 1)[0],
-              Location: fc.sample(fc.webUrl(), 1)[0],
-            }),
-          );
+          mocks.s3.client.send.mockImplementationOnce(() => ({
+            Key: fc.sample(fc.string(), 1)[0],
+            Location: fc.sample(fc.webUrl(), 1)[0],
+          }));
         });
 
         videos.forEach(() => {
@@ -548,28 +548,24 @@ describe("Create From TG Message", () => {
 
           // mock s3 upload
           mocks.s3.client.send
-            .mockImplementationOnce(() => {
-              return Promise.resolve({
-                Key: fc.sample(fc.string(), 1)[0],
-                Location: fc.sample(
-                  fc
-                    .string({ minLength: 10, maxLength: 12 })
-                    .map((id) => `https://youtube.com/watch?v=${id}`),
-                  1,
-                )[0],
-              });
-            })
-            .mockImplementationOnce(() =>
-              Promise.resolve({
-                Key: fc.sample(fc.string(), 1)[0],
-                Location: fc.sample(
-                  fc
-                    .string({ minLength: 10, maxLength: 12 })
-                    .map((id) => `https://youtube.com/watch?v=${id}`),
-                  1,
-                )[0],
-              }),
-            );
+            .mockImplementationOnce(() => ({
+              Key: fc.sample(fc.string(), 1)[0],
+              Location: fc.sample(
+                fc
+                  .string({ minLength: 10, maxLength: 12 })
+                  .map((id) => `https://youtube.com/watch?v=${id}`),
+                1,
+              )[0],
+            }))
+            .mockImplementationOnce(() => ({
+              Key: fc.sample(fc.string(), 1)[0],
+              Location: fc.sample(
+                fc
+                  .string({ minLength: 10, maxLength: 12 })
+                  .map((id) => `https://youtube.com/watch?v=${id}`),
+                1,
+              )[0],
+            }));
         });
 
         const result = await throwTE(createFromTGMessage(message, {})(ctx));

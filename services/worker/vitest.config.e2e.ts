@@ -18,9 +18,6 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       include: ["src/**/*.ts"],
       exclude: ["test/**/*.e2e.ts", "test"],
     },
-    // "reporters": [
-    //   "hanging-process"
-    // ]
   },
   poolOptions: {
     forks: {

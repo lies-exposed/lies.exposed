@@ -6,7 +6,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { Arbs, fc } from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { beforeAll, beforeEach, describe, expect, test } from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { type WorkerTest, GetAppTest } from "./WorkerTest.js";
 
 describe("GenerateThumbnail Subscriber", () => {
