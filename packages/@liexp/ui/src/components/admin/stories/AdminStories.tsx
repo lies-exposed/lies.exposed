@@ -147,13 +147,21 @@ const transformStory =
     // Check if featuredImage is a UUID (selected existing media)
     if (Schema.is(UUID)(restData.featuredImage)) {
       const relations = relationsTransformer(restData.body2);
-      return { ...restData, featuredImage: { id: restData.featuredImage }, ...relations };
+      return {
+        ...restData,
+        featuredImage: { id: restData.featuredImage },
+        ...relations,
+      };
     }
 
     // Check if featuredImage is an object with id (e.g., from Edit form)
     if (Schema.is(UUID)(restData.featuredImage?.id)) {
       const relations = relationsTransformer(restData.body2);
-      return { ...restData, featuredImage: { id: restData.featuredImage.id }, ...relations };
+      return {
+        ...restData,
+        featuredImage: { id: restData.featuredImage.id },
+        ...relations,
+      };
     }
 
     const relations = relationsTransformer(restData.body2);

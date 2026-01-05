@@ -59,7 +59,9 @@ export const ReferenceMediaInputWithUpload: React.FC<
     source
       .replace(/\.id$/, "")
       .split(".")
-      .map((part, i) => (i === 0 ? `new${part.charAt(0).toUpperCase()}${part.slice(1)}` : part))
+      .map((part, i) =>
+        i === 0 ? `new${part.charAt(0).toUpperCase()}${part.slice(1)}` : part,
+      )
       .join("") + "Upload";
 
   const actualUploadSource = uploadSource ?? defaultUploadSource;
