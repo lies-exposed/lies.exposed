@@ -19,7 +19,7 @@ import { EventsNetworkGraphFormTab } from "@liexp/ui/lib/components/admin/events
 import { GroupDataGrid } from "@liexp/ui/lib/components/admin/groups/GroupDataGrid.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import { OpenAIEmbeddingJobButton } from "@liexp/ui/lib/components/admin/media/OpenAIJobButton.js";
-import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
+import { ReferenceMediaInputWithUpload } from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInputWithUpload.js";
 import GroupPreview from "@liexp/ui/lib/components/admin/previews/GroupPreview.js";
 import {
   ArrayInput,
@@ -29,8 +29,6 @@ import {
   DateField,
   DateInput,
   FormDataConsumer,
-  ImageField,
-  ImageInput,
   List,
   ReferenceManyField,
   SelectInput,
@@ -128,29 +126,47 @@ const transformGroup =
     }));
     const members = (data.members ?? []).concat(newMembers);
 
+    // Extract newAvatarUpload from data
+    const { newAvatarUpload, ...restData } = data;
+
     return pipe(
       TE.Do,
       TE.bind("avatar", (): TE.TaskEither<Error, Partial<Media.Media>[]> => {
-        if (data.avatar?.rawFile) {
+        // New avatar upload takes precedence
+        if (newAvatarUpload?.rawFile) {
           return pipe(
-            uploadImages(apiProvider)("groups", data.id, [
-              { file: data.avatar.rawFile, type: data.avatar.rawFile.type },
+            uploadImages(apiProvider)("groups", restData.id, [
+              {
+                file: newAvatarUpload.rawFile,
+                type: newAvatarUpload.rawFile.type,
+              },
             ]),
           );
         }
 
-        if (Schema.is(UUID)(data.avatar?.id)) {
+        if (restData.avatar?.rawFile) {
+          return pipe(
+            uploadImages(apiProvider)("groups", restData.id, [
+              {
+                file: restData.avatar.rawFile,
+                type: restData.avatar.rawFile.type,
+              },
+            ]),
+          );
+        }
+
+        if (Schema.is(UUID)(restData.avatar?.id)) {
           return TE.right([
             {
-              id: data.avatar.id,
+              id: restData.avatar.id,
             },
           ]);
         }
 
-        if (!Schema.is(UUID)(data.avatar)) {
+        if (!Schema.is(UUID)(restData.avatar)) {
           return TE.right([
             {
-              id: data.avatar.id,
+              id: restData.avatar.id,
             },
           ]);
         }
@@ -171,8 +187,8 @@ const transformGroup =
                   links: [],
                   keywords: [],
                   areas: [],
-                  label: data.name,
-                  description: data.name,
+                  label: restData.name,
+                  description: restData.name,
                 },
               }),
             toError,
@@ -181,19 +197,19 @@ const transformGroup =
         );
       }),
       TE.map(({ avatarMedia }) => ({
-        ...data,
-        excerpt: data.excerpt,
-        body: data.body,
+        ...restData,
+        excerpt: restData.excerpt,
+        body: restData.body,
         avatar: avatarMedia.id,
-        startDate: data.startDate
-          ? data.startDate.includes("T")
-            ? data.startDate
-            : parseDate(data.startDate).toISOString()
+        startDate: restData.startDate
+          ? restData.startDate.includes("T")
+            ? restData.startDate
+            : parseDate(restData.startDate).toISOString()
           : undefined,
-        endDate: data.endDate
-          ? data.endDate.includes("T")
-            ? data.endDate
-            : parseDate(data.endDate).toISOString()
+        endDate: restData.endDate
+          ? restData.endDate.includes("T")
+            ? restData.endDate
+            : parseDate(restData.endDate).toISOString()
           : undefined,
         members,
       })),
@@ -266,10 +282,11 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </Grid>
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Avatar">
-          <ReferenceMediaInput source="avatar.id" />
-          <ImageInput source="avatar">
-            <ImageField source="thumbnail" />
-          </ImageInput>
+          <ReferenceMediaInputWithUpload
+            source="avatar.id"
+            uploadLabel="Upload new avatar"
+            fullWidth
+          />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Body">
           <BlockNoteInput label="body" source="body" />
@@ -348,9 +365,12 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
                 />
                 <GroupKindInput source="kind" required />
                 <GroupMemberArrayInput source="members" />
-                <ImageInput source="avatar">
-                  <ImageField source="thumbnail" />
-                </ImageInput>
+                <ReferenceMediaInputWithUpload
+                  source="avatar"
+                  uploadLabel="Upload avatar"
+                  showPreview={false}
+                  fullWidth
+                />
                 <BlockNoteInput source="excerpt" onlyText isRequired={true} />
                 <BlockNoteInput source="body" />
               </Box>

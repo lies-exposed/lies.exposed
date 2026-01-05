@@ -18,7 +18,7 @@ import ReferenceGroupInput from "@liexp/ui/lib/components/admin/groups/Reference
 import { SearchLinksButton } from "@liexp/ui/lib/components/admin/links/SearchLinksButton.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import { OpenAIEmbeddingJobButton } from "@liexp/ui/lib/components/admin/media/OpenAIJobButton.js";
-import ReferenceMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInput.js";
+import { ReferenceMediaInputWithUpload } from "@liexp/ui/lib/components/admin/media/input/ReferenceMediaInputWithUpload.js";
 import { ReferenceArrayNationInput } from "@liexp/ui/lib/components/admin/nations/ReferenceArrayNationInput.js";
 import ActorPreview from "@liexp/ui/lib/components/admin/previews/ActorPreview.js";
 import {
@@ -26,9 +26,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  FunctionField,
-  ImageField,
-  ImageInput,
   ReferenceArrayField,
   SimpleFormIterator,
   TabbedForm,
@@ -114,19 +111,10 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <DateField source="updatedAt" />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Avatar">
-          <ImageField source="avatar.location" />
-          <ReferenceMediaInput source="avatar.id" fullWidth />
-          <FunctionField
-            render={(r) => {
-              if (!r.avatar) {
-                return (
-                  <ImageInput source="avatar">
-                    <ImageField source="thumbnail" />
-                  </ImageInput>
-                );
-              }
-              return null;
-            }}
+          <ReferenceMediaInputWithUpload
+            source="avatar.id"
+            uploadLabel="Upload new avatar"
+            fullWidth
           />
         </TabbedForm.Tab>
 

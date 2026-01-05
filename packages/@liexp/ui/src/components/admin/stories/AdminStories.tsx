@@ -1,4 +1,3 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -15,7 +14,7 @@ import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent
 import { EditForm } from "../common/EditForm.js";
 import { TextWithSlugInput } from "../common/inputs/TextWithSlugInput.js";
 import ReferenceArrayKeywordInput from "../keywords/ReferenceArrayKeywordInput.js";
-import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
+import { ReferenceMediaInputWithUpload } from "../media/input/ReferenceMediaInputWithUpload.js";
 import StoryPreview from "../previews/StoryPreview.js";
 import {
   ArrayInput,
@@ -107,19 +106,39 @@ export const StoryList: React.FC<ListProps> = (props) => {
 const transformStory =
   (apiProvider: APIRESTClient) =>
   (data: RaRecord): RaRecord | Promise<RaRecord> => {
-    if (data.featuredImage?.rawFile) {
+    // Extract newFeaturedImageUpload from data
+    const { newFeaturedImageUpload, ...restData } = data;
+
+    // New upload takes precedence
+    if (newFeaturedImageUpload?.rawFile) {
       return pipe(
-        uploadImages(apiProvider)("stories", data.path, [
-          data.featuredImage.rawFile,
+        uploadImages(apiProvider)("stories", restData.path, [
+          newFeaturedImageUpload.rawFile,
         ]),
-        TE.map((locations) => ({ ...data, featuredImage: locations[0] })),
+        TE.map((locations) => ({
+          ...restData,
+          featuredImage: locations[0],
+        })),
         throwTE,
       );
     }
 
-    const relations = relationsTransformer(data.body2);
+    if (restData.featuredImage?.rawFile) {
+      return pipe(
+        uploadImages(apiProvider)("stories", restData.path, [
+          restData.featuredImage.rawFile,
+        ]),
+        TE.map((locations) => ({
+          ...restData,
+          featuredImage: locations[0],
+        })),
+        throwTE,
+      );
+    }
 
-    return { ...data, ...relations };
+    const relations = relationsTransformer(restData.body2);
+
+    return { ...restData, ...relations };
   };
 
 const StoryTitle: React.FC = () => {
@@ -172,9 +191,9 @@ export const StoryEdit: React.FC<EditProps> = (props) => {
                     fullWidth
                   />
                   <DateInput source="date" />
-                  <ReferenceMediaInput
+                  <ReferenceMediaInputWithUpload
                     source="featuredImage.id"
-                    allowedTypes={ImageType.members.map((t) => t.literals[0])}
+                    uploadLabel="Upload featured image"
                     fullWidth
                   />
                 </Stack>
@@ -232,9 +251,11 @@ export const StoryCreate: React.FC<CreateProps> = (props) => {
         <BooleanInput source="draft" />
         <TextWithSlugInput source="title" slugSource="path" fullWidth />
         <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
-        <ReferenceMediaInput
+        <ReferenceMediaInputWithUpload
           source="featuredImage"
-          allowedTypes={ImageType.members.map((t) => t.literals[0])}
+          uploadLabel="Upload featured image"
+          showPreview={false}
+          fullWidth
         />
         <DateInput source="date" />
         <ArrayInput source="links">
