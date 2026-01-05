@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.4...@liexp/shared@0.1.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** description with Tooltip for AI jobs ([#2994](https://github.com/lies-exposed/lies.exposed/issues/2994)) ([6b4847a](https://github.com/lies-exposed/lies.exposed/commit/6b4847a8f6383755e2d7bee57306db5b0287dc5a))
+* **ui:** remove isLoading from OpenAIJobUtton ([#2997](https://github.com/lies-exposed/lies.exposed/issues/2997)) ([d873e4d](https://github.com/lies-exposed/lies.exposed/commit/d873e4d652d6b7194b5d94508c24cca503e50d71))
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.3...@liexp/shared@0.1.4) (2026-01-05)
 
 

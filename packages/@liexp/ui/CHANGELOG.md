@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.5...@liexp/ui@0.1.6) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** create entities with either new media or existing one ([#2985](https://github.com/lies-exposed/lies.exposed/issues/2985)) ([63302bf](https://github.com/lies-exposed/lies.exposed/commit/63302bf638482501b5d13d02bedb1a87cc833877))
+* **admin:** description with Tooltip for AI jobs ([#2994](https://github.com/lies-exposed/lies.exposed/issues/2994)) ([6b4847a](https://github.com/lies-exposed/lies.exposed/commit/6b4847a8f6383755e2d7bee57306db5b0287dc5a))
+* **ui:** remove isLoading from OpenAIJobUtton ([#2997](https://github.com/lies-exposed/lies.exposed/issues/2997)) ([d873e4d](https://github.com/lies-exposed/lies.exposed/commit/d873e4d652d6b7194b5d94508c24cca503e50d71))
+
+
+### Miscellaneous
+
+* **workspace:** only lint and build changed packages on pre-push ([#2993](https://github.com/lies-exposed/lies.exposed/issues/2993)) ([6702c26](https://github.com/lies-exposed/lies.exposed/commit/6702c264806f60b79b52454ad9a0b1bee9261c08))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/shared bumped to 0.1.5
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.4...@liexp/ui@0.1.5) (2026-01-05)
 
 

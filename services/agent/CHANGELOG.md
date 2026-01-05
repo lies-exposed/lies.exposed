@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.4...agent@0.1.5) (2026-01-05)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.5
+    * @liexp/shared bumped to 0.1.5
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.3...agent@0.1.4) (2026-01-05)
 
 

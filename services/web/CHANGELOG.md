@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.5...web@0.1.6) (2026-01-05)
+
+
+### Miscellaneous
+
+* **api:** solved typecheck errors in test files ([#2991](https://github.com/lies-exposed/lies.exposed/issues/2991)) ([1bbc8e2](https://github.com/lies-exposed/lies.exposed/commit/1bbc8e2bc031d857eec2c13b340c9a4ce9493116))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.5
+    * @liexp/shared bumped to 0.1.5
+    * @liexp/ui bumped to 0.1.6
+  * devDependencies
+    * @liexp/test bumped to 0.1.5
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.4...web@0.1.5) (2026-01-05)
 
 

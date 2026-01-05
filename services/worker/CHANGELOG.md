@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.4...worker@0.1.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* **backend:** handle space TLS connection via env variable ([#2986](https://github.com/lies-exposed/lies.exposed/issues/2986)) ([ccfa27e](https://github.com/lies-exposed/lies.exposed/commit/ccfa27ed47281a7d7975c0d0506d342f3ba2468b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.5
+    * @liexp/shared bumped to 0.1.5
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.3...worker@0.1.4) (2026-01-05)
 
 

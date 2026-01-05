@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.4...@liexp/backend@0.1.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* **backend:** account for timer imprecision in audit middleware test ([#2988](https://github.com/lies-exposed/lies.exposed/issues/2988)) ([1db46c6](https://github.com/lies-exposed/lies.exposed/commit/1db46c6066d318e8fc26bf3dfab7605527eb327d))
+* **backend:** handle space TLS connection via env variable ([#2986](https://github.com/lies-exposed/lies.exposed/issues/2986)) ([ccfa27e](https://github.com/lies-exposed/lies.exposed/commit/ccfa27ed47281a7d7975c0d0506d342f3ba2468b))
+
+
+### Miscellaneous
+
+* **api:** solved typecheck errors in test files ([#2991](https://github.com/lies-exposed/lies.exposed/issues/2991)) ([1bbc8e2](https://github.com/lies-exposed/lies.exposed/commit/1bbc8e2bc031d857eec2c13b340c9a4ce9493116))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/shared bumped to 0.1.5
+  * devDependencies
+    * @liexp/test bumped to 0.1.5
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.3...@liexp/backend@0.1.4) (2026-01-05)
 
 
