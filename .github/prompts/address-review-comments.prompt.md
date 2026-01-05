@@ -6,7 +6,7 @@ agent: agent
 
 1. **Fetch PR Information**
    - Use MCP GitHub tools to get PR for current branch
-   - Retrieve all review comments (resolved and unresolved)
+   - Retrieve all review comments with MCP GitHub tools (resolved and unresolved)
    - Filter for unresolved comments only
 
 2. **Analyze Current State**
