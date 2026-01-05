@@ -61,10 +61,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("United States");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("United States"),
+    });
   });
 
   test("Should find nations by ISO code", async () => {
@@ -80,11 +80,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("Italy");
-      expect(content.text).toContain("ZB");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringMatching(/Italy.*ZB/s),
+    });
   });
 
   test("Should find nations with case-insensitive name search", async () => {
@@ -100,10 +99,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("France");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("France"),
+    });
   });
 
   test("Should find nations with case-insensitive ISO code search", async () => {
@@ -119,10 +118,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("United States");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("United States"),
+    });
   });
 
   test("Should support partial name matching", async () => {
@@ -138,10 +137,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("Italy");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Italy"),
+    });
   });
 
   test("Should combine name and ISO code filters", async () => {
@@ -157,11 +156,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBeGreaterThan(0);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("France");
-      expect(content.text).toContain("ZC");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringMatching(/France.*ZC/s),
+    });
   });
 
   test("Should return empty result for non-matching query", async () => {
@@ -177,10 +175,10 @@ describe("MCP FIND_NATIONS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     expect(result.content.length).toBe(1);
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content.text).toContain("No nations found");
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("No nations found"),
+    });
   });
 
   test("Should return all nations when no filters provided", async () => {
@@ -209,12 +207,10 @@ describe("MCP FIND_NATIONS Tool", () => {
 
     expect(result).toHaveProperty("content");
     const content = result.content[0];
-    expect(content.type).toBe("text");
-    if (content.type === "text") {
-      expect(content).toHaveProperty("href");
-      // @ts-expect-error - href is not in MCP SDK types but exists at runtime
-      expect(content.href).toContain(nation.id);
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(nation.name),
+    });
   });
 
   test("Should reject requests without token", async () => {

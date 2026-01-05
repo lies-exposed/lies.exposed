@@ -44,10 +44,11 @@ describe("MCP CREATE_ACTOR Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(newActorData.fullName);
-    expect(content).toHaveProperty("href");
-    expect(content.href).toMatch(/^actor:\/\//);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(newActorData.fullName),
+      href: expect.stringMatching(/^actor:\/\//),
+    });
   });
 
   test("Should create actor with all optional fields", async () => {

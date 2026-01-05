@@ -1,5 +1,9 @@
 import { defineProject } from "vitest/config";
 import tsconfigPaths from "vite-tsconfig-paths";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineProject({
   plugins: [tsconfigPaths()],
@@ -13,6 +17,7 @@ export default defineProject({
     setupFiles: ["./test/testSetup.ts"],
     include: ["test/**/*.e2e.test.ts"],
     exclude: ["node_modules/**", "build/**"],
+    root: __dirname,
     env: {
       NODE_ENV: "test",
     },

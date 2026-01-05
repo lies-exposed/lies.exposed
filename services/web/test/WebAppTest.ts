@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { fileURLToPath } from "node:url";
 import * as path from "path";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { fc, Media, Event } from "@liexp/test/lib/index.js";
@@ -8,6 +9,10 @@ import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { createApp, type WebAppConfig } from "../src/server/createApp.js";
+
+// Get the directory of this file to resolve paths relative to the service root
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SERVICE_ROOT = path.resolve(__dirname, "..");
 
 export interface WebAppTest {
   app: e.Express;
@@ -141,8 +146,7 @@ export const createWebServerTest = async (
 
   // Ensure test files exist for production mode
   if (isProduction) {
-    const cwd = process.cwd();
-    const buildDir = path.resolve(cwd, "build");
+    const buildDir = path.resolve(SERVICE_ROOT, "build");
     const clientDir = path.resolve(buildDir, "client");
     const indexFile = path.resolve(clientDir, "index.html");
 
@@ -167,8 +171,7 @@ export const createWebServerTest = async (
   }
 
   // Verify the TypeScript source server entry exists (used by both development and production)
-  const cwd = process.cwd();
-  const srcDir = path.resolve(cwd, "src", "server");
+  const srcDir = path.resolve(SERVICE_ROOT, "src", "server");
   const serverEntry = path.resolve(srcDir, "entry.tsx");
   if (!fs.existsSync(serverEntry)) {
     throw new Error(
@@ -182,6 +185,7 @@ export const createWebServerTest = async (
 
   const config: WebAppConfig = {
     base: "/",
+    serviceRoot: SERVICE_ROOT,
     isProduction,
     // Use mock API for both dev and production tests - MSW handles the mocking
     ssrApiUrl: "http://mock-api/v1",

@@ -16,17 +16,17 @@ const winkMethods = mock<WinkMethods>(
   { deep: true },
 );
 
-const NLPMock = vi.fn(() => winkMethods);
-
-(NLPMock as any).winkMethods = winkMethods;
-(NLPMock as any).doc = doc;
-(NLPMock as any).sentences = sentences;
-
 interface NLPMock {
   (): MockProxy<WinkMethods>;
   winkMethods: MockProxy<WinkMethods>;
   doc: MockProxy<Document>;
   sentences: MockProxy<Sentences>;
 }
+
+const NLPMock = vi.fn(() => winkMethods) as unknown as NLPMock;
+
+NLPMock.winkMethods = winkMethods;
+NLPMock.doc = doc;
+NLPMock.sentences = sentences;
 
 export default NLPMock;

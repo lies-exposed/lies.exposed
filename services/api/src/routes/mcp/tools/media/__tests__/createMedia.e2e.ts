@@ -39,8 +39,11 @@ describe("MCP CREATE_MEDIA Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(newMediaData.label);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(newMediaData.label),
+      href: expect.stringMatching(/^media:\/\//),
+    });
   });
 
   test("Should create media without description", async () => {

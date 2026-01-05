@@ -7,6 +7,7 @@ import {
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
 import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
+import { randomUUID } from "crypto";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
@@ -16,15 +17,21 @@ import { findLinksToolTask } from "../findLinks.tool.js";
 describe("MCP FIND_LINKS Tool", () => {
   let Test: AppTest;
   let testLinks: LinkEntity[];
+  const testSuiteId = randomUUID();
 
   beforeAll(async () => {
     Test = await GetAppTest();
 
     const users = fc.sample(UserArb, 1).map(toUserEntity);
 
-    // Create test data
+    // Create test data with unique URLs to avoid constraint violations
     const links = fc.sample(LinkArb, 5);
-    testLinks = links.map(toLinkEntity);
+    testLinks = links.map((link, index) => {
+      const entity = toLinkEntity(link);
+      // Ensure each URL is unique with test-suite prefix
+      entity.url = `https://example.com/findlinks/${testSuiteId}/${index}` as any;
+      return entity;
+    });
 
     await throwTE(Test.ctx.db.save(UserEntity, users));
     await throwTE(Test.ctx.db.save(LinkEntity, testLinks));
@@ -59,7 +66,11 @@ describe("MCP FIND_LINKS Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("No links found");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("No links found"),
+    });
   });
 
   test("Should filter links by ids", async () => {

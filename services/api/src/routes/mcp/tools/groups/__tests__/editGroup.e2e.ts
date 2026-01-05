@@ -60,7 +60,11 @@ describe("MCP EDIT_GROUP Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content.text).toContain("Updated Group Name");
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Updated Group Name"),
+      href: expect.stringContaining(groupToEdit.id),
+    });
   });
 
   test("Should edit multiple fields at once", async () => {
@@ -86,7 +90,11 @@ describe("MCP EDIT_GROUP Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content.text).toContain("Multi-Field Update");
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Multi-Field Update"),
+      href: expect.stringContaining(groupToEdit.id),
+    });
   });
 
   test("Should update body content", async () => {

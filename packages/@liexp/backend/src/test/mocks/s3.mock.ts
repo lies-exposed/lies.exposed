@@ -6,6 +6,8 @@ class MockUpload {
   }
 }
 
+const MockUploadConstructor = vi.fn(() => new MockUpload());
+
 const s3Mock = {
   client: {
     config: {
@@ -24,9 +26,9 @@ const s3Mock = {
       .mockImplementation(() => Promise.reject(new Error("Not implemented"))),
   },
   classes: {
-    Upload: MockUpload,
+    Upload: MockUploadConstructor,
   },
   getSignedUrl: vi.fn(),
 };
 
-export { s3Mock, MockUpload };
+export { s3Mock, MockUpload, MockUploadConstructor };

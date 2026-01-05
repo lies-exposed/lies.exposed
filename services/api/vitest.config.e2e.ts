@@ -14,12 +14,6 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     pool: "forks",
     bail: 1,
     isolate: false,
-    poolOptions: {
-      forks: {
-            singleFork: true,
-            isolate: false,
-          },
-    },
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.e2e.ts", "test"],
@@ -27,5 +21,11 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     // "reporters": [
     //   "hanging-process"
     // ]
+  },
+  poolOptions: {
+    forks: {
+      singleFork: true,
+      isolate: false,
+    },
   },
 }));

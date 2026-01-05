@@ -11,6 +11,7 @@ export const webSrvLog = GetLogger("web");
 
 export interface WebAppConfig {
   base: string;
+  serviceRoot: string;
   isProduction?: boolean;
   ssrApiUrl?: string;
   apiUrl?: string;
@@ -19,6 +20,7 @@ export interface WebAppConfig {
 export const createApp = async (config: WebAppConfig) => {
   const {
     base,
+    serviceRoot,
     isProduction = process.env.VITE_NODE_ENV === "production",
     ssrApiUrl = process.env.VITE_SSR_API_URL,
     apiUrl = process.env.VITE_API_URL,
@@ -36,14 +38,13 @@ export const createApp = async (config: WebAppConfig) => {
   const ssrApiProvider = APIRESTClient({ url: ssrApiUrl });
   const apiProvider = APIRESTClient({ url: apiUrl });
 
-  const cwd = process.cwd();
   const outputDir = isProduction
-    ? path.resolve(cwd, "build")
-    : path.resolve(cwd, "src");
+    ? path.resolve(serviceRoot, "build")
+    : path.resolve(serviceRoot, "src");
 
   const indexFile = isProduction
     ? path.resolve(outputDir, "client/index.html")
-    : path.resolve(cwd, "index.html");
+    : path.resolve(serviceRoot, "index.html");
 
   const serverEntryPath = isProduction
     ? path.resolve(outputDir, "server/entry.js")
@@ -62,16 +63,18 @@ export const createApp = async (config: WebAppConfig) => {
       viteConfig: {
         appType: "custom", // SSR mode
         base,
-        configFile: path.resolve(process.cwd(), "vite.config.ts"),
+        configFile: path.resolve(serviceRoot, "vite.config.ts"),
         // Use a separate cache directory for tests to avoid conflicts with Docker
         cacheDir:
           process.env.NODE_ENV === "test"
-            ? path.resolve(process.cwd(), "node_modules/.vite-test")
+            ? path.resolve(serviceRoot, "node_modules/.vite-test")
             : undefined,
       },
       staticConfig: {
         buildPath: outputDir,
-        clientPath: isProduction ? path.resolve(outputDir, "client") : cwd,
+        clientPath: isProduction
+          ? path.resolve(outputDir, "client")
+          : serviceRoot,
         indexFile,
       },
       templateConfig: {

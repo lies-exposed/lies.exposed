@@ -41,11 +41,11 @@ describe("MCP GET_LINK Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content).toHaveProperty("type", "text");
-    expect(content).toHaveProperty("href");
-    expect(content.href).toContain(link.id);
-    expect(content.text).toContain(link.title);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(link.title),
+      href: expect.stringContaining(link.id),
+    });
   });
 
   test("Should handle non-existent link ID", async () => {

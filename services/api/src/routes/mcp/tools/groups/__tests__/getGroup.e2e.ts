@@ -56,11 +56,11 @@ describe("MCP GET_GROUP Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content).toHaveProperty("type", "text");
-    expect(content).toHaveProperty("href");
-    expect(content.href).toContain(group.id);
-    expect(content.text).toContain(group.name);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(group.name),
+      href: expect.stringContaining(group.id),
+    });
   });
 
   test("Should handle non-existent group ID", async () => {

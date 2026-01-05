@@ -83,7 +83,11 @@ describe("MCP EDIT_LINK Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content.text).toContain("Updated Link Title");
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Updated Link Title"),
+      href: expect.stringContaining(linkToEdit.id),
+    });
   });
 
   test("Should edit link URL", async () => {
@@ -224,6 +228,11 @@ describe("MCP EDIT_LINK Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("Complete Update");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Complete Update"),
+      href: expect.stringContaining(linkToEdit.id),
+    });
   });
 });

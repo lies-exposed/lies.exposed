@@ -73,7 +73,11 @@ describe("MCP FIND_GROUPS Tool", () => {
     expect(Array.isArray(result.content)).toBe(true);
     // Should return "no groups found" message
     if (result.content.length > 0) {
-      expect(result.content[0].text).toContain("No groups found");
+      const content = result.content[0];
+      expect(content).toMatchObject({
+        type: "text",
+        text: expect.stringContaining("No groups found"),
+      });
     }
   });
 
