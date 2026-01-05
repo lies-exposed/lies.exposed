@@ -1,7 +1,9 @@
+import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
+import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
@@ -113,7 +115,10 @@ const transformStory =
     if (newFeaturedImageUpload?.rawFile) {
       return pipe(
         uploadImages(apiProvider)("stories", restData.path, [
-          newFeaturedImageUpload.rawFile,
+          {
+            file: newFeaturedImageUpload.rawFile,
+            type: newFeaturedImageUpload.rawFile.type,
+          },
         ]),
         TE.map((locations) => ({
           ...restData,
@@ -126,7 +131,10 @@ const transformStory =
     if (restData.featuredImage?.rawFile) {
       return pipe(
         uploadImages(apiProvider)("stories", restData.path, [
-          restData.featuredImage.rawFile,
+          {
+            file: restData.featuredImage.rawFile,
+            type: restData.featuredImage.rawFile.type,
+          },
         ]),
         TE.map((locations) => ({
           ...restData,
@@ -134,6 +142,18 @@ const transformStory =
         })),
         throwTE,
       );
+    }
+
+    // Check if featuredImage is a UUID (selected existing media)
+    if (Schema.is(UUID)(restData.featuredImage)) {
+      const relations = relationsTransformer(restData.body2);
+      return { ...restData, featuredImage: { id: restData.featuredImage }, ...relations };
+    }
+
+    // Check if featuredImage is an object with id (e.g., from Edit form)
+    if (Schema.is(UUID)(restData.featuredImage?.id)) {
+      const relations = relationsTransformer(restData.body2);
+      return { ...restData, featuredImage: { id: restData.featuredImage.id }, ...relations };
     }
 
     const relations = relationsTransformer(restData.body2);

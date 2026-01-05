@@ -32,6 +32,8 @@ export interface ReferenceMediaInputWithUploadProps
  * @param label - Label for the reference input
  * @param uploadLabel - Label for the upload input (defaults to "Upload new")
  * @param showPreview - Whether to show a preview of the current media (defaults to true)
+ * @param fullWidth - Whether the input should span the full available width
+ * @param allowedTypes - List of allowed media types that can be selected
  */
 export const ReferenceMediaInputWithUpload: React.FC<
   ReferenceMediaInputWithUploadProps
