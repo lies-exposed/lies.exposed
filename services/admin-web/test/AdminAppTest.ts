@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import { fileURLToPath } from "node:url";
 import * as path from "path";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { fc } from "@liexp/test/lib/index.js";
@@ -8,9 +9,13 @@ import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { type AdminProxyENV } from "../src/server/io/ENV.js";
-import {URL} from '@liexp/shared/lib/io/http/Common/URL.js'
+import { URL } from '@liexp/shared/lib/io/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
-import {createApp} from '../src/server/createApp.js'
+import { createApp } from '../src/server/createApp.js'
+
+// Get service root directory (resolves to services/admin-web/)
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const SERVICE_ROOT = path.resolve(__dirname, "..");
 
 export interface AdminAppTest {
   app: e.Express;
@@ -116,25 +121,28 @@ export const createAdminServerTest = async (
   }
 
   // Verify the TypeScript source server entry exists (used by both development and production)
-  const cwd = process.cwd();
-  const srcDir = path.resolve(cwd, "src", "server");
+  const srcDir = path.resolve(SERVICE_ROOT, "src", "server");
   const serverEntry = path.resolve(srcDir, "server.tsx");
   if (!fs.existsSync(serverEntry)) {
     throw new Error(
       `Server entry source file not found at ${serverEntry}. ` +
-        `Make sure the TypeScript source file exists.`,
+      `Make sure the TypeScript source file exists.`,
     );
   }
 
   // Note: Development mode uses the existing index.html file
   // No need to create a mock file since it already exists
-  
+
   // Mock JWT verification for testing
   const originalVerifyJWT = process.env.NODE_ENV;
   process.env.NODE_ENV = isProduction ? "production" : "development";
-  
-  const app = await createApp(mockEnv);
-  
+
+  const app = await createApp({
+    env: mockEnv,
+    serviceRoot: SERVICE_ROOT,
+    isProduction,
+  });
+
   // Restore environment
   if (originalVerifyJWT !== undefined) {
     process.env.NODE_ENV = originalVerifyJWT;

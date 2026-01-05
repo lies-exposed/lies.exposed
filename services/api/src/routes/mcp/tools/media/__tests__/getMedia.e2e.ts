@@ -36,10 +36,11 @@ describe("MCP GET_MEDIA Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(testMedia.label);
-    expect(content).toHaveProperty("href");
-    expect(content.href).toBe(`media://${testMedia.id}`);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(testMedia.label!),
+      href: `media://${testMedia.id}`,
+    });
   });
 
   test("Should return error for non-existent media id", async () => {

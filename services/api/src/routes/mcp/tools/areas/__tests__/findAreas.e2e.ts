@@ -54,7 +54,11 @@ describe("MCP FIND_AREAS Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("No areas found");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("No areas found"),
+    });
   });
 
   test("Should support sorting by label", async () => {

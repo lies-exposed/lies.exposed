@@ -34,8 +34,10 @@ describe("MCP CREATE_AREA Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(newAreaData.label);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(newAreaData.label),
+    });
   });
 
   test("Should create area as draft", async () => {
@@ -63,17 +65,19 @@ describe("MCP CREATE_AREA Tool", () => {
     const existingSlug = "existing-area-slug";
 
     // Create the first area
-    await throwTE(
-      Test.ctx.db.save(AreaEntity, {
-        label: "Existing Area",
-        slug: existingSlug,
-        draft: false,
-        body: [],
-        geometry: {
-          type: "Point",
-          coordinates: [10.0, 20.0],
+    const existingArea = await throwTE(
+      Test.ctx.db.save(AreaEntity, [
+        {
+          label: "Existing Area",
+          slug: existingSlug,
+          draft: false,
+          body: [],
+          geometry: {
+            type: "Point",
+            coordinates: [10.0, 20.0],
+          },
         },
-      }),
+      ]),
     );
 
     // Try to create another area with the same slug
@@ -95,8 +99,11 @@ describe("MCP CREATE_AREA Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    // Should return the existing area
-    expect(result.content[0].text).toContain("Existing Area");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(existingArea[0].id),
+    });
   });
 
   test("Should create area with different coordinates", async () => {

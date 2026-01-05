@@ -18,10 +18,21 @@ import { registerAgentProxyRoutes } from "./routes/agent-proxy.routes.js";
 
 const logger = GetLogger("admin-createApp");
 
-export const createApp = async (env: AdminProxyENV): Promise<Express> => {
-  logger.info.log("Creating admin web app");
+export interface AdminWebAppConfig {
+  env: AdminProxyENV;
+  serviceRoot: string;
+  isProduction?: boolean;
+}
 
-  const isProduction = env.NODE_ENV === "production";
+export const createApp = async (
+  config: AdminWebAppConfig,
+): Promise<Express> => {
+  const {
+    env,
+    serviceRoot,
+    isProduction = env.NODE_ENV === "production",
+  } = config;
+  logger.info.log("Creating admin web app");
 
   // Initialize context (JWT, M2M, Agent client)
   const contextTE = makeAdminProxyContext(env);
@@ -49,14 +60,14 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
   // ├── node_modules/
   // └── package.json
   //
-  // process.cwd() = /prod/admin-web
+  // serviceRoot = /prod/admin-web
   // So build path = /prod/admin-web/build
-  const buildPath = path.resolve(process.cwd(), "build");
+  const buildPath = path.resolve(serviceRoot, "build");
   const indexFile = path.resolve(buildPath, "index.html");
 
   // Log detailed debugging information
   logger.info.log("Environment: %s", env.NODE_ENV);
-  logger.info.log("Process cwd: %s", process.cwd());
+  logger.info.log("Service root: %s", serviceRoot);
   logger.info.log(
     "__dirname equivalent: %s",
     path.dirname(new URL(import.meta.url).pathname),
@@ -87,7 +98,7 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
     viteConfig: {
       appType: "spa",
       base: "/",
-      configFile: path.resolve(process.cwd(), "vite.config.ts"),
+      configFile: path.resolve(serviceRoot, "vite.config.ts"),
       serverOptions: {
         host: env.SERVER_HOST,
         port: env.SERVER_PORT,
@@ -95,7 +106,7 @@ export const createApp = async (env: AdminProxyENV): Promise<Express> => {
       // Use a separate cache directory for tests to avoid conflicts with Docker
       cacheDir:
         process.env.NODE_ENV === "test"
-          ? path.resolve(process.cwd(), "node_modules/.vite-test")
+          ? path.resolve(serviceRoot, "node_modules/.vite-test")
           : undefined,
     },
     staticConfig: {

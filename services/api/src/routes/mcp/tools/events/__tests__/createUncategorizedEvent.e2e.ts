@@ -25,8 +25,8 @@ describe("MCP CREATE_UNCATEGORIZED_EVENT Tool", () => {
       groupsMembers: [],
       media: [],
       keywords: [],
-      location: null,
-      endDate: null,
+      location: undefined,
+      endDate: undefined,
     };
   };
 

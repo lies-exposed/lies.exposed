@@ -80,7 +80,11 @@ describe("MCP FIND_ACTORS Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("No actors found");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("No actors found"),
+    });
   });
 
   test("Should support sorting by username", async () => {

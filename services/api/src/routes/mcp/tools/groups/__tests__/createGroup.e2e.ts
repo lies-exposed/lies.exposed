@@ -43,10 +43,11 @@ describe("MCP CREATE_GROUP Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(newGroupData.name);
-    expect(content).toHaveProperty("href");
-    expect(content.href).toMatch(/^group:\/\//);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(newGroupData.name),
+      href: expect.stringMatching(/^group:\/\//),
+    });
   });
 
   test("Should create group with optional fields", async () => {

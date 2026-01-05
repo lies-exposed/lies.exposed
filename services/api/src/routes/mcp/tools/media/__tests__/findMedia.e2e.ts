@@ -58,7 +58,11 @@ describe("MCP FIND_MEDIA Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("No media found");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("No media found"),
+    });
   });
 
   test("Should filter media by type", async () => {

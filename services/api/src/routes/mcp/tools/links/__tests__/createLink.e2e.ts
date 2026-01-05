@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -13,6 +14,7 @@ describe("MCP CREATE_LINK Tool", () => {
   let Test: AppTest;
   let testUser: UserEntity;
   let testEvent: EventV2Entity;
+  const testSuiteId = randomUUID();
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -54,7 +56,7 @@ describe("MCP CREATE_LINK Tool", () => {
 
   test("Should create a new link with required fields", async () => {
     const newLinkData = {
-      url: "https://example.com/test-link",
+      url: `https://example.com/createlink/${testSuiteId}/test-link`,
       title: "Test Link",
       publishDate: undefined,
       description: undefined,
@@ -72,13 +74,15 @@ describe("MCP CREATE_LINK Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain(newLinkData.title);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(newLinkData.title),
+    });
   });
 
   test("Should create link with publishDate", async () => {
     const newLinkData = {
-      url: "https://example.com/dated-link",
+      url: `https://example.com/createlink/${testSuiteId}/dated-link`,
       title: "Dated Link",
       publishDate: "2024-01-15",
       description: undefined,
@@ -97,7 +101,7 @@ describe("MCP CREATE_LINK Tool", () => {
 
   test("Should create link with description", async () => {
     const newLinkData = {
-      url: "https://example.com/described-link",
+      url: `https://example.com/createlink/${testSuiteId}/described-link`,
       title: "Link with Description",
       publishDate: undefined,
       description: "This is a detailed description of the link",
@@ -116,7 +120,7 @@ describe("MCP CREATE_LINK Tool", () => {
 
   test("Should create link associated with events", async () => {
     const newLinkData = {
-      url: "https://example.com/event-link",
+      url: `https://example.com/createlink/${testSuiteId}/event-link`,
       title: "Event Associated Link",
       publishDate: undefined,
       description: undefined,
@@ -135,7 +139,7 @@ describe("MCP CREATE_LINK Tool", () => {
 
   test("Should create link with all optional fields", async () => {
     const newLinkData = {
-      url: "https://example.com/complete-link",
+      url: `https://example.com/createlink/${testSuiteId}/complete-link`,
       title: "Complete Link",
       publishDate: "2024-03-20",
       description: "A complete link with all fields filled",
@@ -154,7 +158,7 @@ describe("MCP CREATE_LINK Tool", () => {
 
   test("Should create link without description and publishDate", async () => {
     const newLinkData = {
-      url: "https://example.com/minimal-link",
+      url: `https://example.com/createlink/${testSuiteId}/minimal-link`,
       title: "Minimal Link",
       publishDate: undefined,
       description: undefined,

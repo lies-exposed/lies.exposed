@@ -35,11 +35,11 @@ describe("MCP GET_AREA Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content).toHaveProperty("type", "text");
-    expect(content).toHaveProperty("href");
-    expect(content.href).toContain(area.id);
-    expect(content.text).toContain(area.label);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(area.label),
+      href: expect.stringContaining(area.id),
+    });
   });
 
   test("Should handle non-existent area ID", async () => {

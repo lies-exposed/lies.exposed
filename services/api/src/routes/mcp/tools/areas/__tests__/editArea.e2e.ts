@@ -54,7 +54,11 @@ describe("MCP EDIT_AREA Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content.text).toContain("Updated Area Name");
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Updated Area Name"),
+      href: expect.stringContaining(areaToEdit.id),
+    });
   });
 
   test("Should edit area draft status", async () => {
@@ -131,6 +135,11 @@ describe("MCP EDIT_AREA Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("Multi-Field Update");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Multi-Field Update"),
+      href: expect.stringContaining(areaToEdit.id),
+    });
   });
 });

@@ -41,15 +41,13 @@ describe("MCP GET_NATION Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content).toHaveProperty("type", "text");
-    if (content.type === "text") {
-      expect(content).toHaveProperty("href");
-      // @ts-expect-error - href is not in MCP SDK types but exists at runtime
-      expect(content.href).toContain(nation.id);
-      expect(content.text).toContain(nation.name);
-      expect(content.text).toContain(nation.isoCode);
-    }
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringMatching(
+        new RegExp(`${nation.name}.*${nation.isoCode}`, "s"),
+      ),
+      href: expect.stringContaining(nation.id),
+    });
   });
 
   test("Should handle non-existent nation ID", async () => {

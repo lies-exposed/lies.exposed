@@ -58,7 +58,12 @@ describe("MCP EDIT_MEDIA Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("Updated Label");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Updated Label"),
+      href: `media://${testMedia.id}`,
+    });
   });
 
   test("Should update media type", async () => {
@@ -123,6 +128,11 @@ describe("MCP EDIT_MEDIA Tool", () => {
 
     expect(result).toHaveProperty("content");
     expect(Array.isArray(result.content)).toBe(true);
-    expect(result.content[0].text).toContain("Completely Updated Media");
+    const content = result.content[0];
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Completely Updated Media"),
+      href: `media://${testMedia.id}`,
+    });
   });
 });

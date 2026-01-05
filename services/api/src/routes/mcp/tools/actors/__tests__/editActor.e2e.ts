@@ -81,8 +81,11 @@ describe("MCP EDIT_ACTOR Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content.text).toContain("Updated Full Name");
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining("Updated Full Name"),
+      href: expect.stringContaining(testActor.id),
+    });
   });
 
   test("Should update actor username", async () => {

@@ -41,13 +41,11 @@ describe("MCP GET_ACTOR Tool", () => {
     expect(result.content.length).toBeGreaterThan(0);
 
     const content = result.content[0];
-    expect(content).toHaveProperty("text");
-    expect(content).toHaveProperty("type", "text");
-    expect(content).toHaveProperty("href");
-    // @ts-expect-error - href is not in MCP SDK types but exists at runtime
-    expect(content.href).toContain(actor.id);
-    // @ts-expect-error - text is not in MCP SDK types but exists at runtime
-    expect(content.text).toContain(actor.fullName);
+    expect(content).toMatchObject({
+      type: "text",
+      text: expect.stringContaining(actor.fullName),
+      href: expect.stringContaining(actor.id),
+    });
   });
 
   test("Should handle non-existent actor ID", async () => {
