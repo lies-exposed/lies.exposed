@@ -8,7 +8,7 @@ import { type ClientContext } from "../../../context.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in ISO 8601 format or empty string if not published).`;
+const defaultQuestion = `Return the requested information in JSON format with fields: title (string), description (string), publishDate (string in 'YYYY-MM-DD' format or empty string if not published).`;
 
 const UpdateLinkStructuredResponse = Schema.Struct({
   title: Schema.String.annotations({

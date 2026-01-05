@@ -3,7 +3,7 @@ import { type PromptFn } from "./prompt.type.js";
 export const EMBED_GROUP_SUMMARIZE_PROMPT: PromptFn<{ text: string }> = ({
   vars: { text },
 }) => `
-You are an expert in giving description about organizations and groups.
+You are an expert in giving descriptions of organizations and groups.
 The group can be either a company, a website entity, a group of people, a family group, or any collective organization.
 
 Your task is to write a factual summary about a group using:
