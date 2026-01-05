@@ -13,7 +13,6 @@ export interface OpenAIButtonBaseProps {
 interface OpenAIButtonProps extends OpenAIButtonBaseProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   label: string;
-  isLoading: boolean;
 }
 
 export const OpenAIButton: React.FC<OpenAIButtonProps> = ({

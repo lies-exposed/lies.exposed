@@ -36,7 +36,6 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   label = "Embed with AI",
   transformValue,
 }: OpenAIPromptButtonProps<A>): React.ReactNode => {
-  const [isLoading, setLoading] = React.useState(false);
   const [queue, setQueue] = React.useState<Queue.Queue | null>(null);
   const api = useDataProvider();
   const record = useRecordContext<A>();
@@ -59,7 +58,6 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
       })
       .finally(() => {
         setId(id);
-        setLoading(false);
       });
   };
 
@@ -89,7 +87,6 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
         question={question}
         description={description}
         onClick={ingestFile}
-        isLoading={isLoading}
         label={label}
       />
       {queue ? (
