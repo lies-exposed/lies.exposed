@@ -13,7 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVICE_ROOT = path.resolve(__dirname, "../..");
 
 const run = async (base: string): Promise<void> => {
-  const server = await createApp({ 
+  const server = await createApp({
     base,
     serviceRoot: SERVICE_ROOT,
   });
