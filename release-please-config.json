@@ -11,7 +11,8 @@
       "include-scope": [
         "release",
         "workspace"
-      ]
+      ],
+      "always-update": true
     },
     "packages/@liexp/backend": {
       "component": "@liexp/backend",
