@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/admin-web@0.1.4...admin-web@0.1.5) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** chat  tools and messages stream and UI adjustments ([#2981](https://github.com/lies-exposed/lies.exposed/issues/2981)) ([faa9068](https://github.com/lies-exposed/lies.exposed/commit/faa9068fdac40812d72d7c3661e6fa16aa8e2d5a))
+* **api:** added endpoint to merge actors ([#2984](https://github.com/lies-exposed/lies.exposed/issues/2984)) ([459df12](https://github.com/lies-exposed/lies.exposed/commit/459df124dbb2c7d73c3eb1e5418d00d11bfa6352))
+* **backend:** fix SPA fallback route not matching root path in Express 5 ([#2974](https://github.com/lies-exposed/lies.exposed/issues/2974)) ([ce813ed](https://github.com/lies-exposed/lies.exposed/commit/ce813ed96b603325b85cbd1684796f4dc370aab9))
+
+
+### Miscellaneous
+
+* **workspace:** disabled watch as default for running tests ([#2982](https://github.com/lies-exposed/lies.exposed/issues/2982)) ([abc2ea9](https://github.com/lies-exposed/lies.exposed/commit/abc2ea983764205742b91dfffaa5f404ad138e81))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+    * @liexp/shared bumped to 0.1.4
+    * @liexp/ui bumped to 0.1.5
+  * devDependencies
+    * @liexp/test bumped to 0.1.4
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/admin-web@0.1.3...admin-web@0.1.4) (2026-01-03)
 
 

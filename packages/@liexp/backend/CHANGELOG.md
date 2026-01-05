@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.3...@liexp/backend@0.1.4) (2026-01-05)
+
+
+### Bug Fixes
+
+* **admin:** chat  tools and messages stream and UI adjustments ([#2981](https://github.com/lies-exposed/lies.exposed/issues/2981)) ([faa9068](https://github.com/lies-exposed/lies.exposed/commit/faa9068fdac40812d72d7c3661e6fa16aa8e2d5a))
+* **admin:** filter links by events count ([#2978](https://github.com/lies-exposed/lies.exposed/issues/2978)) ([2baee88](https://github.com/lies-exposed/lies.exposed/commit/2baee882c054639ecc76437aaf7fd9589d6fa43a))
+* **api:** added tools to find and get nation entities ([#2983](https://github.com/lies-exposed/lies.exposed/issues/2983)) ([3e6de57](https://github.com/lies-exposed/lies.exposed/commit/3e6de57e4f0456a4892fc9facc010989540ecf81))
+* **backend:** fix SPA fallback route not matching root path in Express 5 ([#2974](https://github.com/lies-exposed/lies.exposed/issues/2974)) ([ce813ed](https://github.com/lies-exposed/lies.exposed/commit/ce813ed96b603325b85cbd1684796f4dc370aab9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/shared bumped to 0.1.4
+  * devDependencies
+    * @liexp/test bumped to 0.1.4
+
 ## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.2...@liexp/backend@0.1.3) (2026-01-03)
 
 

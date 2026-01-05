@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.4...web@0.1.5) (2026-01-05)
+
+
+### Miscellaneous
+
+* **workspace:** disabled watch as default for running tests ([#2982](https://github.com/lies-exposed/lies.exposed/issues/2982)) ([abc2ea9](https://github.com/lies-exposed/lies.exposed/commit/abc2ea983764205742b91dfffaa5f404ad138e81))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.4
+    * @liexp/shared bumped to 0.1.4
+    * @liexp/ui bumped to 0.1.5
+  * devDependencies
+    * @liexp/test bumped to 0.1.4
+
 ## [0.1.4](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.3...web@0.1.4) (2026-01-03)
 
 
