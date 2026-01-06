@@ -78,8 +78,32 @@ export const createEventFromURLFlow: JobProcessRTE<
         ),
     ),
     LoggerService.RTE.debug("`createEventFromURLFlow` result: %O"),
-    fp.RTE.chainEitherK(({ event, links }) =>
-      pipe(
+    fp.RTE.chainEitherK(({ event, links }) => {
+      // Ensure we have at least one link - this is critical for buildEvent
+      if (links.length === 0) {
+        return fp.E.left(
+          toAIBotError(
+            new Error(
+              `No link found in database for URL: ${job.data.url}. Please create the link first before creating the event.`,
+            ),
+          ),
+        );
+      }
+
+      // Determine the date with fallbacks:
+      // 1. AI-provided date (if non-empty array or single value)
+      // 2. Job's date from queue data
+      // 3. Link's publish date
+      // 4. Current date as last resort
+      const aiDate = Array.isArray(event.date)
+        ? event.date.length > 0
+          ? event.date
+          : undefined
+        : event.date;
+      const fallbackDate = job.data.date ?? links[0]?.publishDate ?? new Date();
+      const eventDate = aiDate ?? [fallbackDate];
+
+      return pipe(
         buildEvent(job.data.type, {
           ...event,
           // Provide defaults for relation IDs that AI might not return
@@ -89,16 +113,18 @@ export const createEventFromURLFlow: JobProcessRTE<
           keywords: event.keywords ?? [],
           media: event.media ?? [],
           areas: event.areas ?? [],
-          // Ensure date is an array
-          date: Array.isArray(event.date)
-            ? event.date
-            : event.date
-              ? [event.date]
-              : [],
+          // Use computed date with fallbacks
+          date: Array.isArray(eventDate) ? eventDate : [eventDate],
           links: links.map((l) => l.id),
         }),
         fp.E.fromOption(() =>
-          toAIBotError(new Error("Cant't create event from response ")),
+          toAIBotError(
+            new Error(
+              `Can't create ${job.data.type} event from response. Missing required fields: ${
+                links.length === 0 ? "links" : event.date ? "" : "date"
+              }`,
+            ),
+          ),
         ),
         fp.E.map(
           (ev) =>
@@ -117,7 +143,7 @@ export const createEventFromURLFlow: JobProcessRTE<
               draft: true,
             }) as Event,
         ),
-      ),
-    ),
+      );
+    }),
   );
 };
