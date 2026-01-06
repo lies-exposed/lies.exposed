@@ -198,6 +198,7 @@ jobs:
             build_command: pnpm worker build
             build_cache_key: worker-build
             test_command: pnpm worker test
+            test_env_dotenv: "./.env.test"
 
     name: CI ${{ matrix.service }}
     
