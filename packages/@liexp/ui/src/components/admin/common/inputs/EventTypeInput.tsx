@@ -24,11 +24,9 @@ import {
   type InputProps,
 } from "../../react-admin.js";
 
-export const EventTypeInput: React.FC<InputProps> = ({
-  source,
-  defaultValue,
-  onChange,
-}) => {
+export const EventTypeInput: React.FC<
+  InputProps & { hideTransform?: boolean }
+> = ({ source, defaultValue, onChange, hideTransform = false }) => {
   const record = useRecordContext<Events.Event>();
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
@@ -140,14 +138,16 @@ export const EventTypeInput: React.FC<InputProps> = ({
             </MenuItem>
           ))}
         </Select>
-        <Button
-          label="Transform"
-          size="small"
-          disabled={value === type}
-          onClick={() => {
-            void doTransform(record);
-          }}
-        />
+        {!hideTransform && (
+          <Button
+            label="Transform"
+            size="small"
+            disabled={value === type}
+            onClick={() => {
+              void doTransform(record);
+            }}
+          />
+        )}
       </Box>
     )
   );
