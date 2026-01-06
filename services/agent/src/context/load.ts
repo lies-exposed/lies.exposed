@@ -80,6 +80,12 @@ export const makeAgentContext = (
                 headers: {
                   Authorization: `Bearer ${env.API_TOKEN}`,
                 },
+                // Enable automatic reconnection when API restarts or session expires
+                reconnect: {
+                  enabled: true,
+                  maxAttempts: 5,
+                  delayMs: 10_000,
+                },
               },
             });
 
