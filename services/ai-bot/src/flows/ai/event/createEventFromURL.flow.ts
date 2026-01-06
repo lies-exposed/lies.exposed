@@ -20,6 +20,18 @@ import { type JobProcessRTE } from "#services/job-processor/job-processor.servic
 const defaultQuestion =
   "Can you extract an event JSON object from the given text? Return the response in JSON format.";
 
+/**
+ * Removes undefined values from an object to prevent JSON serialization from converting them to null
+ * This is critical for queue job results that will be deserialized by the worker
+ */
+const removeUndefinedFromPayload = <T extends Record<string, any>>(
+  payload: T,
+): Exclude<T, undefined> =>
+  pipe(
+    payload,
+    fp.Rec.filter((value) => (value === undefined ? false : true)),
+  ) as Exclude<T, undefined>;
+
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData,
   Event
@@ -126,23 +138,26 @@ export const createEventFromURLFlow: JobProcessRTE<
             ),
           ),
         ),
-        fp.E.map(
-          (ev) =>
-            ({
-              ...ev,
-              id: job.id,
-              excerpt: toInitialValue(event.excerpt),
-              body: null,
-              links: links.map((l) => l.id),
-              keywords: [],
-              media: [],
-              socialPosts: [],
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              deletedAt: undefined,
-              draft: true,
-            }) as Event,
-        ),
+        fp.E.map((ev) => {
+          // Remove undefined values from payload to prevent JSON serialization from converting them to null
+          const cleanedPayload = removeUndefinedFromPayload(ev.payload);
+
+          return {
+            ...ev,
+            payload: cleanedPayload,
+            id: job.id,
+            excerpt: toInitialValue(event.excerpt),
+            body: null,
+            links: links.map((l) => l.id),
+            keywords: [],
+            media: [],
+            socialPosts: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: undefined,
+            draft: true,
+          } as unknown as Event;
+        }),
       );
     }),
   );
