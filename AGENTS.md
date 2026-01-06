@@ -356,6 +356,66 @@ docker compose up api web.liexp.dev admin.liexp.dev
 - **AI Bot**: Background processing service
 - **Worker**: Automation and social media tasks
 
+### Remote Kubernetes Cluster Access
+
+#### Accessing the Remote Cluster from Development
+
+The production cluster runs on a remote microk8s instance. To access it from your development machine:
+
+```bash
+# Use the microk8s kubeconfig file stored locally
+kubectl --kubeconfig ~/.kube/microk8s-local <command>
+
+# Examples:
+# List all pods
+kubectl --kubeconfig ~/.kube/microk8s-local get pods -A
+
+# Get pods in prod namespace
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod get pods
+
+# View agent logs
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs -l app=agent --tail=100
+
+# View API logs
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs -l app=api --tail=100
+
+# Describe a pod for debugging
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod describe pod <pod-name>
+
+# Restart a deployment
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod rollout restart deployment/<deployment-name>
+```
+
+**Important Notes:**
+- The `--kubeconfig ~/.kube/microk8s-local` flag is required because the cluster is remote (not a local microk8s instance)
+- The `microk8s` CLI is NOT available on development machines - only `kubectl` with the kubeconfig
+- Main services are deployed in the `prod` namespace
+
+#### Common Debugging Commands
+
+```bash
+# Check pod status and restarts
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod get pods -o wide
+
+# Watch for pod changes in real-time
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod get pods -w
+
+# Get logs with timestamps
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs <pod-name> --timestamps
+
+# Follow logs in real-time
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs -f <pod-name>
+
+# Get logs from a specific container in multi-container pod
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs <pod-name> -c <container-name>
+
+# Search logs for errors
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod logs <pod-name> | grep -i error
+
+# Execute command in a pod
+kubectl --kubeconfig ~/.kube/microk8s-local -n prod exec -it <pod-name> -- /bin/sh
+```
+
 ### Deployment with Helm
 
 #### Kubernetes Deployment
