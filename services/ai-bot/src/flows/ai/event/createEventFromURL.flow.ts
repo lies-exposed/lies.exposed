@@ -80,7 +80,23 @@ export const createEventFromURLFlow: JobProcessRTE<
     LoggerService.RTE.debug("`createEventFromURLFlow` result: %O"),
     fp.RTE.chainEitherK(({ event, links }) =>
       pipe(
-        buildEvent(job.data.type, { ...event, links: links.map((l) => l.id) }),
+        buildEvent(job.data.type, {
+          ...event,
+          // Provide defaults for relation IDs that AI might not return
+          actors: event.actors ?? [],
+          groups: event.groups ?? [],
+          groupsMembers: event.groupsMembers ?? [],
+          keywords: event.keywords ?? [],
+          media: event.media ?? [],
+          areas: event.areas ?? [],
+          // Ensure date is an array
+          date: Array.isArray(event.date)
+            ? event.date
+            : event.date
+              ? [event.date]
+              : [],
+          links: links.map((l) => l.id),
+        }),
         fp.E.fromOption(() =>
           toAIBotError(new Error("Cant't create event from response ")),
         ),
