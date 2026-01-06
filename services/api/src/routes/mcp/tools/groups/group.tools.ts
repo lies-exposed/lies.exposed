@@ -40,6 +40,8 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     GET_GROUP,
     {
       title: "Get group",
+      description:
+        "Retrieve detailed information about a specific group (organization) using its unique identifier. Returns the group details in structured markdown format.",
       inputSchema: effectToZodStruct(GetGroupInputSchema),
       annotations: { title: "Get group" },
     },
