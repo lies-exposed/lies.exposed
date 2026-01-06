@@ -18,7 +18,7 @@ import { registerAgentProxyRoutes } from "./routes/agent-proxy.routes.js";
 
 const logger = GetLogger("admin-createApp");
 
-export interface AdminWebAppConfig {
+interface AdminWebAppConfig {
   env: AdminProxyENV;
   serviceRoot: string;
   isProduction?: boolean;
