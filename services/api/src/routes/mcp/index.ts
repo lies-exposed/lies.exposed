@@ -16,12 +16,15 @@ export const MakeMCPRoutes: Route = (router, ctx) => {
   const transports: Record<string, StreamableHTTPServerTransport> = {};
 
   // Add service client authentication middleware for all environments
-  router.use(
-    "/mcp",
-    authenticationHandler([AdminRead.literals[0], MCPToolsAccess.literals[0]])(
-      ctx,
-    ),
-  );
+  if (ctx.env.NODE_ENV !== "development") {
+    router.use(
+      "/mcp",
+      authenticationHandler([
+        AdminRead.literals[0],
+        MCPToolsAccess.literals[0],
+      ])(ctx),
+    );
+  }
 
   // Handle POST requests for client-to-server communication
   router.post("/mcp", async (req, res) => {

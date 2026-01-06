@@ -91,7 +91,9 @@ export const makeContext =
     });
 
     const urlMetadataClient = MakeURLMetadata({
-      client: axios.default.create({}),
+      client: axios.default.create({
+        timeout: 30000, // 30 second timeout for URL metadata fetching
+      }),
       parser: {
         getMetadata: metadataParser.getMetadata,
       },
