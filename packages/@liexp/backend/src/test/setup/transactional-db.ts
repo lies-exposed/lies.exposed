@@ -1,5 +1,5 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { DataSource, type QueryRunner } from "typeorm";
+import { type DataSource, type QueryRunner, type EntityManager } from "typeorm";
 
 /**
  * Per-worker cache for transactional DB state
@@ -7,13 +7,13 @@ import { DataSource, type QueryRunner } from "typeorm";
  */
 const workerQueryRunners = new Map<string, QueryRunner>();
 const workerTransactionActive = new Map<string, boolean>();
-const workerOriginalManagers = new Map<string, import("typeorm").EntityManager>();
+const workerOriginalManagers = new Map<string, EntityManager>();
 
 /**
  * Get worker ID for instance isolation
  */
 const getWorkerId = (): string => {
-  return process.env.VITEST_POOL_ID || "default";
+  return process.env.VITEST_POOL_ID ?? "default";
 };
 
 /**
@@ -29,19 +29,19 @@ const getContext = (): { dataSource?: DataSource; db?: any } => {
   // Try to get from appContext first (set by testSetup.ts)
   let dataSource = g.appContext?.db?.manager?.connection;
   let db = g.appContext?.db;
-  
+
   // If not found, try from appTest (set by individual tests)
-  if (!dataSource || !dataSource.isInitialized) {
+  if (!dataSource?.isInitialized) {
     dataSource = g.appTest?.ctx?.db?.manager?.connection;
     db = g.appTest?.ctx?.db;
   }
-  
+
   return { dataSource, db };
 };
 
 /**
  * Start a transaction for the current test
- * Uses "hard patch" approach: replaces both DataSource.manager and ctx.db.manager 
+ * Uses "hard patch" approach: replaces both DataSource.manager and ctx.db.manager
  * with QueryRunner.manager getter. This ensures ALL operations use the transaction,
  * including HTTP requests that go through ctx.db.manager
  */
@@ -50,7 +50,7 @@ export const startTransaction = async (): Promise<void> => {
   const { dataSource, db } = getContext();
 
   // If DataSource is not available (test is skipped or not initialized), skip transaction
-  if (!dataSource || !dataSource.isInitialized) {
+  if (!dataSource?.isInitialized) {
     return;
   }
 
@@ -103,7 +103,7 @@ export const rollbackTransaction = async (): Promise<void> => {
     return;
   }
 
-  if (!dataSource || !dataSource.isInitialized) {
+  if (!dataSource?.isInitialized) {
     // Still release the query runner before returning
     await queryRunner.release();
     workerQueryRunners.delete(workerId);
@@ -125,7 +125,7 @@ export const rollbackTransaction = async (): Promise<void> => {
       writable: true,
       configurable: true,
     });
-    
+
     // Also restore ctx.db.manager if it exists
     if (db) {
       Object.defineProperty(db, "manager", {
@@ -166,4 +166,3 @@ export const cleanupTransactionalState = async (): Promise<void> => {
   const logger = GetLogger("transactional-db");
   logger.info.log("🧹 Cleaned up transactional state for worker: %s", workerId);
 };
-

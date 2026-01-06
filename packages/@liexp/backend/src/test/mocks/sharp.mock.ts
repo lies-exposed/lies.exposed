@@ -1,8 +1,8 @@
 import type sharp from "sharp";
 import { vi } from "vitest";
-import { type DeepMockProxy, mock } from "vitest-mock-extended";
+import { mock } from "vitest-mock-extended";
 
-export const sharpMock: DeepMockProxy<sharp.Sharp> = mock({
+export const sharpInstanceMocks = mock<sharp.Sharp>({
   keepExif: vi.fn().mockReturnThis(),
   rotate: vi.fn().mockReturnThis(),
   resize: vi.fn().mockReturnThis(),
@@ -10,4 +10,6 @@ export const sharpMock: DeepMockProxy<sharp.Sharp> = mock({
   toBuffer: vi.fn().mockResolvedValueOnce(Buffer.from([])),
 });
 
-export default sharpMock as any as typeof sharp;
+export const sharpInit = (() => sharpInstanceMocks) as unknown as typeof sharp;
+
+export default { get: sharpInit, mocks: sharpInstanceMocks };

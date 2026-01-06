@@ -1,6 +1,4 @@
-import { WorkerContext } from "#context/context.js";
-import { ENV } from "#io/env.js";
-import { toWorkerError } from "#io/worker.error.js";
+import path from "path";
 import { ACTOR_ENTITY_NAME } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { AREA_ENTITY_NAME } from "@liexp/backend/lib/entities/Area.entity.js";
 import { EVENT_ENTITY_NAME } from "@liexp/backend/lib/entities/Event.v2.entity.js";
@@ -20,38 +18,28 @@ import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
 import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
 import {
   getDataSource,
   getORMConfig,
 } from "@liexp/backend/lib/utils/data-source.js";
-import { GetLogger, Logger } from "@liexp/core/lib/logger/index.js";
+import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
+import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
-import { AxiosInstance } from "axios";
+import { type AxiosInstance } from "axios";
+import { Schema } from "effect";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";
 import { toError } from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-import path from "path";
-import { vi } from "vitest";
 import { Config } from "../src/config.js";
-import { Schema } from "effect";
-import { GetRedisClient } from '@liexp/backend/lib/providers/redis/redis.provider.js';
-
-vi.mock("axios", () => ({
-  default: {
-    create: vi.fn(() => mocks.axios),
-  },
-}));
-vi.mock("page-metadata-parser");
-vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
-vi.mock("@aws-sdk/client-s3");
-vi.mock("@aws-sdk/s3-request-presigner");
-vi.mock("@aws-sdk/lib-storage");
-vi.mock("node-telegram-bot-api");
+import { type WorkerContext } from "#context/context.js";
+import { ENV } from "#io/env.js";
+import { toWorkerError } from "#io/worker.error.js";
 
 export interface WorkerTest {
   ctx: WorkerContext;
@@ -67,7 +55,7 @@ export const loadAppContext = async (
   return pipe(
     sequenceS(TE.ApplicativePar)({
       db: pipe(
-        getDataSource(getORMConfig(process.env as Record<string, string | undefined>)),
+        getDataSource(getORMConfig(process.env as unknown as ENV)),
         TE.chain((source) => GetTypeORMClient(source)),
       ),
       env: pipe(
@@ -95,16 +83,20 @@ export const loadAppContext = async (
       wp: mocks.wiki,
       rw: mocks.wiki,
       urlMetadata: {
-        fetchHTML: (url: string, opts: any) => {
+        fetchHTML: <E>(url: string, opts: any, toError: (e: unknown) => E) => {
           return TE.tryCatch(
             () => mocks.urlMetadata.fetchHTML(url, opts) as Promise<any>,
-            toWorkerError,
+            toError,
           );
         },
-        fetchMetadata: (url: string, opts: any) => {
+        fetchMetadata: <E>(
+          url: string,
+          opts: any,
+          toError: (e: unknown) => E,
+        ) => {
           return TE.tryCatch(
-            () => mocks.urlMetadata.fetchMetadata(url, opts) as Promise<any>,
-            toWorkerError,
+            () => mocks.urlMetadata.fetchMetadata(url, opts),
+            toError,
           );
         },
       },
@@ -112,7 +104,7 @@ export const loadAppContext = async (
       imgProc: MakeImgProcClient({
         logger,
         exifR: mocks.exifR,
-        client: mocks.sharp,
+        client: mocks.sharp.get,
       }),
       ner: GetNERProvider({
         logger,
@@ -120,8 +112,8 @@ export const loadAppContext = async (
         nlp: mocks.ner,
       }),
       langchain: {} as Record<string, never>,
-      blocknote: {} as Record<string, never>,
-      pdf: PDFProvider({ client: {} as Record<string, never> }),
+      blocknote: editor, // Use real server-side blocknote implementation
+      pdf: PDFProvider({ client: mocks.pdf }),
       geo: GeocodeProvider({
         http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
         apiKey: "fake-geo-api-key",
