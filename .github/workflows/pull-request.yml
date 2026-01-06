@@ -250,13 +250,21 @@ jobs:
           DEBUG: ${{ matrix.test_env_debug || '-@liexp*' }}
         run: ${{ matrix.test_command }}
 
-  # Knip report (only for root changes)
+  # Knip report (for package or service changes)
   knip-report:
     needs: [detect-changes, install]
     if: |
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped') &&
-      needs.detect-changes.outputs.root == 'true'
+      (needs.detect-changes.outputs.packages == 'true' ||
+       needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.agent == 'true' ||
+       needs.detect-changes.outputs.ai-bot == 'true' ||
+       needs.detect-changes.outputs.api == 'true' ||
+       needs.detect-changes.outputs.storybook == 'true' ||
+       needs.detect-changes.outputs.web == 'true' ||
+       needs.detect-changes.outputs.worker == 'true' ||
+       needs.detect-changes.outputs.root == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
