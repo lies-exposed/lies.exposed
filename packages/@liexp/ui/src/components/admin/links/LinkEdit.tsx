@@ -9,6 +9,7 @@ import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
 import URLMetadataInput from "../common/URLMetadataInput.js";
 import { CreateEventFromLinkButton } from "../events/CreateEventFromLinkButton.js";
+import { CreateEventFromURLQueueButton } from "../events/CreateEventFromURLQueueButton.js";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
 import ReferenceManyEventField from "../events/ReferenceManyEventField.js";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
@@ -107,6 +108,7 @@ export const LinkEdit: React.FC = () => {
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Events">
           <Stack direction={"column"} spacing={2}>
+            <CreateEventFromURLQueueButton />
             <CreateEventFromLinkButton />
             <ReferenceArrayEventInput source="newEvents" defaultValue={[]} />
             <ReferenceManyEventField
