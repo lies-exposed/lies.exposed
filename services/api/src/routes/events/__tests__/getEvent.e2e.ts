@@ -70,13 +70,13 @@ describe("Get Event", () => {
     });
   });
 
-  test("Should NOT return deleted event for unauthenticated user", async () => {
+  test("Should return 404 for deleted event when user is unauthenticated", async () => {
     const response = await Test.req.get(`/v1/events/${deletedEvent.id}`);
 
     expect(response.status).toEqual(404); // NotFoundError
   });
 
-  test("Should NOT return deleted event for non-admin user", async () => {
+  test("Should return 404 for deleted event when non-admin user is authenticated", async () => {
     const response = await Test.req
       .get(`/v1/events/${deletedEvent.id}`)
       .set("Authorization", authorizationToken);
