@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.6...@liexp/ui@0.1.7) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ui:** create event from link with AI button ([#3017](https://github.com/lies-exposed/lies.exposed/issues/3017)) ([8bf695e](https://github.com/lies-exposed/lies.exposed/commit/8bf695e2b24e7f4812ce46ffc476fd30f959b79b))
+* **ui:** create event from link with redirect to new event ([#3001](https://github.com/lies-exposed/lies.exposed/issues/3001)) ([d097d0d](https://github.com/lies-exposed/lies.exposed/commit/d097d0df035aba3d05939463e5cdbd8d873bc4fc))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/shared bumped to 0.1.6
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.1.5...@liexp/ui@0.1.6) (2026-01-05)
 
 

@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/admin-web@0.1.6...admin-web@0.1.7) (2026-01-07)
+
+
+### Miscellaneous
+
+* **admin:** removed unused export of AdminWebConfigApp type ([#3014](https://github.com/lies-exposed/lies.exposed/issues/3014)) ([e6fc2dc](https://github.com/lies-exposed/lies.exposed/commit/e6fc2dc379281e68c6830b8c9e473f38beb0f85e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+    * @liexp/ui bumped to 0.1.7
+  * devDependencies
+    * @liexp/test bumped to 0.1.6
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/admin-web@0.1.5...admin-web@0.1.6) (2026-01-05)
 
 

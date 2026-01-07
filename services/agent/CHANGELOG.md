@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.5...agent@0.1.6) (2026-01-07)
+
+
+### Bug Fixes
+
+* **agent:** reconnect to api MCP server automatically on fail ([#3002](https://github.com/lies-exposed/lies.exposed/issues/3002)) ([343d2cc](https://github.com/lies-exposed/lies.exposed/commit/343d2ccc6e219294b1da61473c57b48794a475d7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.4...agent@0.1.5) (2026-01-05)
 
 

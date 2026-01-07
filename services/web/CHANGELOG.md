@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.6...web@0.1.7) (2026-01-07)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+    * @liexp/ui bumped to 0.1.7
+  * devDependencies
+    * @liexp/test bumped to 0.1.6
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.5...web@0.1.6) (2026-01-05)
 
 

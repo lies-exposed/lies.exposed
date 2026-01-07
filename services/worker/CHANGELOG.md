@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.5...worker@0.1.6) (2026-01-07)
+
+
+### Miscellaneous
+
+* **worker:** proper mocks initialization for e2e tests ([#2998](https://github.com/lies-exposed/lies.exposed/issues/2998)) ([4619599](https://github.com/lies-exposed/lies.exposed/commit/4619599251bb8eca66c3a35ad17d10e0f9c3d2a9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+  * devDependencies
+    * @liexp/test bumped to 0.1.6
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/worker@0.1.4...worker@0.1.5) (2026-01-05)
 
 
