@@ -49,6 +49,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
     onlyDeleted,
     provider,
     creator,
+    url,
     onlyUnshared: _onlyUnshared,
     noPublishDate: _noPublishDate,
     ...others
@@ -139,6 +140,19 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
               } else {
                 q.where("link.provider = :provider", {
                   provider: provider.value,
+                });
+                hasWhere = true;
+              }
+            }
+
+            if (O.isSome(url)) {
+              if (hasWhere) {
+                q.andWhere("link.url = :url", {
+                  url: url.value,
+                });
+              } else {
+                q.where("link.url = :url", {
+                  url: url.value,
                 });
                 hasWhere = true;
               }

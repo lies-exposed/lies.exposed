@@ -20,6 +20,18 @@ import { type JobProcessRTE } from "#services/job-processor/job-processor.servic
 const defaultQuestion =
   "Can you extract an event JSON object from the given text? Return the response in JSON format.";
 
+/**
+ * Removes undefined values from an object to prevent JSON serialization from converting them to null
+ * This is critical for queue job results that will be deserialized by the worker
+ */
+const removeUndefinedFromPayload = <T extends Record<string, unknown>>(
+  payload: T,
+): T =>
+  pipe(
+    payload,
+    fp.Rec.filter((value) => value !== undefined),
+  ) as T;
+
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData,
   Event
@@ -78,30 +90,73 @@ export const createEventFromURLFlow: JobProcessRTE<
         ),
     ),
     LoggerService.RTE.debug("`createEventFromURLFlow` result: %O"),
-    fp.RTE.chainEitherK(({ event, links }) =>
-      pipe(
-        buildEvent(job.data.type, { ...event, links: links.map((l) => l.id) }),
+    fp.RTE.chainEitherK(({ event, links }) => {
+      // Ensure we have at least one link - this is critical for buildEvent
+      if (links.length === 0) {
+        return fp.E.left(
+          toAIBotError(
+            new Error(
+              `No link found in database for URL: ${job.data.url}. Please create the link first before creating the event.`,
+            ),
+          ),
+        );
+      }
+
+      // Determine the date with fallbacks:
+      // 1. AI-provided date (if non-empty array or single value)
+      // 2. Job's date from queue data
+      // 3. Link's publish date
+      // 4. Current date as last resort
+      const aiDate = Array.isArray(event.date)
+        ? event.date.length > 0
+          ? event.date
+          : undefined
+        : event.date;
+      const fallbackDate = job.data.date ?? links[0].publishDate ?? new Date();
+      const eventDate = aiDate ?? [fallbackDate];
+
+      return pipe(
+        buildEvent(job.data.type, {
+          ...event,
+          // Provide defaults for relation IDs that AI might not return
+          actors: event.actors ?? [],
+          groups: event.groups ?? [],
+          groupsMembers: event.groupsMembers ?? [],
+          keywords: event.keywords ?? [],
+          media: event.media ?? [],
+          areas: event.areas ?? [],
+          // Use computed date with fallbacks (already normalized as an array)
+          date: eventDate,
+          links: links.map((l) => l.id),
+        }),
         fp.E.fromOption(() =>
-          toAIBotError(new Error("Cant't create event from response ")),
+          toAIBotError(
+            new Error(
+              `Can't create ${job.data.type} event from response. buildEvent returned None.`,
+            ),
+          ),
         ),
-        fp.E.map(
-          (ev) =>
-            ({
-              ...ev,
-              id: job.id,
-              excerpt: toInitialValue(event.excerpt),
-              body: null,
-              links: links.map((l) => l.id),
-              keywords: [],
-              media: [],
-              socialPosts: [],
-              createdAt: new Date(),
-              updatedAt: new Date(),
-              deletedAt: undefined,
-              draft: true,
-            }) as Event,
-        ),
-      ),
-    ),
+        fp.E.map((ev) => {
+          // Remove undefined values from payload to prevent JSON serialization from converting them to null
+          const cleanedPayload = removeUndefinedFromPayload(ev.payload);
+
+          return {
+            media: [],
+            links: [],
+            keywords: [],
+            ...ev,
+            payload: cleanedPayload,
+            id: job.id,
+            excerpt: toInitialValue(event.excerpt),
+            body: null,
+            socialPosts: [],
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            deletedAt: undefined,
+            draft: true,
+          } as Event;
+        }),
+      );
+    }),
   );
 };

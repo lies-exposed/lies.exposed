@@ -24,9 +24,16 @@ Your job is to extract the needed info from text in the shape of an 'event' JSON
 {{
   title: "The title of the event",
   excerpt: "A short description of the event (100 words max)",
-  date: "An array composed of 2 JSON valid date strings. The first element indicates the start, while the second is the end of the event and can be optional.",
-  url: "An optional link to an article or reference of the event",
+  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). The first element indicates the start date, while the second (optional) is the end date of the event. ALWAYS include at least one date.",
 }}
+
+IMPORTANT: 
+- You MUST always extract or infer at least one date for the event
+- Dates MUST be in ISO format (YYYY-MM-DD)
+- Do NOT include URLs, links, or references in your response - these are managed separately
+- Focus on extracting factual information from the provided text
+- For scientific studies: extract the title, publication date, and key findings
+- For books: extract the title, publication date, and summary
 `;
 
 /**
