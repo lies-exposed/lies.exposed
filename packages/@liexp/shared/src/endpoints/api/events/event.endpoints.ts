@@ -107,7 +107,7 @@ export const Get = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/${id}`,
   Input: {
-    Params: Schema.Struct({ id: Schema.String }),
+    Params: Schema.Struct({ id: UUID }),
   },
   Output: SingleEventOutput,
 });
