@@ -124,7 +124,7 @@
     "@types/throttle-debounce": "^5.0.2",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
-    "axios": "^1.12.2",
+    "axios": "^1.13.2",
     "effect": "^3.17.13",
     "eslint": "^9.39.2",
     "fp-ts": "^2.16.10",
