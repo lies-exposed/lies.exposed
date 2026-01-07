@@ -50,7 +50,7 @@
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "cors": "^2.8.5",
     "debug": "^4.4.0",
-    "effect": "^3.17.13",
+    "effect": "^3.19.14",
     "express": "^5.2.1",
     "fp-ts": "^2.16.10",
     "openai": "^6.15.0",
