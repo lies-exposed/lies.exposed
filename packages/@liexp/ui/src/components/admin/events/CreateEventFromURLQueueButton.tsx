@@ -6,7 +6,11 @@ import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, MenuItem, Select, Stack, Typography } from "../../mui/index.js";
 import { OpenAIButton } from "../media/OpenAIButton.js";
-import { Link as RALink, useRecordContext, useRefresh } from "../react-admin.js";
+import {
+  Link as RALink,
+  useRecordContext,
+  useRefresh,
+} from "../react-admin.js";
 
 const QUEUE_TYPE = "openai-create-event-from-url";
 
@@ -42,10 +46,9 @@ export const CreateEventFromURLQueueButton: React.FC = () => {
         refresh();
         // Fetch the newly created queue job
         return api
-          .get<{ data: Queue.Queue }>(
-            `queues/${QUEUE_TYPE}/events/${newEventId}`,
-            {},
-          )
+          .get<{
+            data: Queue.Queue;
+          }>(`queues/${QUEUE_TYPE}/events/${newEventId}`, {})
           .then((queue) => {
             setQueue(queue.data);
           });
