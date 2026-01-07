@@ -1,6 +1,7 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { toLinkEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
+import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";
@@ -131,6 +132,33 @@ describe("List Links", () => {
       expect(response2.body.data.length).toBeLessThanOrEqual(
         response1.body.data.length,
       );
+    });
+
+    test("Should filter links by exact URL", async () => {
+      // Create test links with specific URLs
+      const testLink1 = toLinkEntity({
+        ...tests.fc.sample(LinkArb, 1)[0],
+        url: "https://example.com/specific-article" as URL,
+      });
+      const testLink2 = toLinkEntity({
+        ...tests.fc.sample(LinkArb, 1)[0],
+        url: "https://example.com/another-article" as URL,
+      });
+
+      const savedLinks = await throwTE(
+        Test.ctx.db.save(LinkEntity, [testLink1, testLink2]),
+      );
+
+      // Test filter with exact URL match
+      const response = await Test.req
+        .get("/v1/links")
+        .set("Authorization", authorizationToken)
+        .query({ url: savedLinks[0].url });
+
+      expect(response.status).toBe(200);
+      expect(response.body.data.length).toBe(1);
+      expect(response.body.data[0].id).toBe(savedLinks[0].id);
+      expect(response.body.data[0].url).toBe(savedLinks[0].url);
     });
   });
 });

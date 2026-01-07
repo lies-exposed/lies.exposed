@@ -6,6 +6,7 @@ import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
 import { type Link, type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { Media } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type User } from "@liexp/shared/lib/io/http/User.js";
+import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ActorEntity } from "../../../entities/Actor.entity.js";
 import { type AreaEntity } from "../../../entities/Area.entity.js";
@@ -88,6 +89,7 @@ export const toLinkEntity = (a: Link): LinkEntity => ({
     : a.image
       ? toMediaEntity(a.image)
       : null,
+  url: sanitizeURL(a.url),
   creator: null,
   events: [],
   keywords: [],
