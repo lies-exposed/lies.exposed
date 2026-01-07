@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.5...ai-bot@0.1.6) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ai-bot:** create event from url queue job ([#3015](https://github.com/lies-exposed/lies.exposed/issues/3015)) ([b5bf5f2](https://github.com/lies-exposed/lies.exposed/commit/b5bf5f25761d3326bf1e93d375192eea2858f72b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.4...ai-bot@0.1.5) (2026-01-05)
 
 

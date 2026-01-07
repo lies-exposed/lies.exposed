@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.5...@liexp/shared@0.1.6) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ai-bot:** create event from url queue job ([#3015](https://github.com/lies-exposed/lies.exposed/issues/3015)) ([b5bf5f2](https://github.com/lies-exposed/lies.exposed/commit/b5bf5f25761d3326bf1e93d375192eea2858f72b))
+* **api:** get event with deleted items for admins ([#3020](https://github.com/lies-exposed/lies.exposed/issues/3020)) ([0d10219](https://github.com/lies-exposed/lies.exposed/commit/0d102194a77d17278b31c44ff4b1fa9445e10390))
+* **ui:** create event from link with AI button ([#3017](https://github.com/lies-exposed/lies.exposed/issues/3017)) ([8bf695e](https://github.com/lies-exposed/lies.exposed/commit/8bf695e2b24e7f4812ce46ffc476fd30f959b79b))
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.4...@liexp/shared@0.1.5) (2026-01-05)
 
 

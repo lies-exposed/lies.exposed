@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.5...api@0.1.6) (2026-01-07)
+
+
+### Bug Fixes
+
+* **ai-bot:** create event from url queue job ([#3015](https://github.com/lies-exposed/lies.exposed/issues/3015)) ([b5bf5f2](https://github.com/lies-exposed/lies.exposed/commit/b5bf5f25761d3326bf1e93d375192eea2858f72b))
+* **api:** added missing description to getGroup MCP tool ([#3016](https://github.com/lies-exposed/lies.exposed/issues/3016)) ([42bf2c8](https://github.com/lies-exposed/lies.exposed/commit/42bf2c82e8367a83858882a639c785d8d52bfd51))
+* **api:** get event with deleted items for admins ([#3020](https://github.com/lies-exposed/lies.exposed/issues/3020)) ([0d10219](https://github.com/lies-exposed/lies.exposed/commit/0d102194a77d17278b31c44ff4b1fa9445e10390))
+* **api:** set timeout to 30s for get metadata client ([#3003](https://github.com/lies-exposed/lies.exposed/issues/3003)) ([21037df](https://github.com/lies-exposed/lies.exposed/commit/21037dffdb4db88b6c48e88f79b5e1083831f803))
+
+
+### Miscellaneous
+
+* **worker:** proper mocks initialization for e2e tests ([#2998](https://github.com/lies-exposed/lies.exposed/issues/2998)) ([4619599](https://github.com/lies-exposed/lies.exposed/commit/4619599251bb8eca66c3a35ad17d10e0f9c3d2a9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.6
+    * @liexp/shared bumped to 0.1.6
+  * devDependencies
+    * @liexp/test bumped to 0.1.6
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.4...api@0.1.5) (2026-01-05)
 
 
