@@ -29,7 +29,7 @@ const removeUndefinedFromPayload = <T extends Record<string, any>>(
 ): Exclude<T, undefined> =>
   pipe(
     payload,
-    fp.Rec.filter((value) => (value === undefined ? false : true)),
+    fp.Rec.filter((value) => value !== undefined),
   ) as Exclude<T, undefined>;
 
 export const createEventFromURLFlow: JobProcessRTE<
@@ -112,7 +112,7 @@ export const createEventFromURLFlow: JobProcessRTE<
           ? event.date
           : undefined
         : event.date;
-      const fallbackDate = job.data.date ?? links[0]?.publishDate ?? new Date();
+      const fallbackDate = job.data.date ?? links[0].publishDate ?? new Date();
       const eventDate = aiDate ?? [fallbackDate];
 
       return pipe(
@@ -132,9 +132,7 @@ export const createEventFromURLFlow: JobProcessRTE<
         fp.E.fromOption(() =>
           toAIBotError(
             new Error(
-              `Can't create ${job.data.type} event from response. Missing required fields: ${
-                links.length === 0 ? "links" : event.date ? "" : "date"
-              }`,
+              `Can't create ${job.data.type} event from response. buildEvent returned None.`,
             ),
           ),
         ),
@@ -156,7 +154,7 @@ export const createEventFromURLFlow: JobProcessRTE<
             updatedAt: new Date(),
             deletedAt: undefined,
             draft: true,
-          } as unknown as Event;
+          } as Event;
         }),
       );
     }),
