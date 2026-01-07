@@ -30,7 +30,6 @@ agent: agent
    - Fix any errors before proceeding
 
 6. **Documentation**
-   - Add comment to PR thread explaining resolutions
    - Provide suggested commit message following conventional commits format
    - Format: `<type>(<scope>): <description>` (see .github/instructions/code-quality.instructions.md)
 
