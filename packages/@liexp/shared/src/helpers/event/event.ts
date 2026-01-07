@@ -433,8 +433,8 @@ export const buildEvent = (
           date,
           payload: {
             title: props.title,
-            location: props.location ?? undefined,
-            endDate: props.date?.at(1) ?? undefined,
+            location: props.location,
+            endDate: props.date?.at(1),
             actors: props.actors,
             groups: props.groups,
             groupsMembers: props.groupsMembers,

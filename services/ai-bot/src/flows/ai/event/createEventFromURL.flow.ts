@@ -24,13 +24,13 @@ const defaultQuestion =
  * Removes undefined values from an object to prevent JSON serialization from converting them to null
  * This is critical for queue job results that will be deserialized by the worker
  */
-const removeUndefinedFromPayload = <T extends Record<string, any>>(
+const removeUndefinedFromPayload = <T extends Record<string, unknown>>(
   payload: T,
-): Exclude<T, undefined> =>
+): T =>
   pipe(
     payload,
     fp.Rec.filter((value) => value !== undefined),
-  ) as Exclude<T, undefined>;
+  ) as T;
 
 export const createEventFromURLFlow: JobProcessRTE<
   CreateEventFromURLTypeData,
@@ -125,8 +125,8 @@ export const createEventFromURLFlow: JobProcessRTE<
           keywords: event.keywords ?? [],
           media: event.media ?? [],
           areas: event.areas ?? [],
-          // Use computed date with fallbacks
-          date: Array.isArray(eventDate) ? eventDate : [eventDate],
+          // Use computed date with fallbacks (already normalized as an array)
+          date: eventDate,
           links: links.map((l) => l.id),
         }),
         fp.E.fromOption(() =>
@@ -141,14 +141,14 @@ export const createEventFromURLFlow: JobProcessRTE<
           const cleanedPayload = removeUndefinedFromPayload(ev.payload);
 
           return {
+            media: [],
+            links: [],
+            keywords: [],
             ...ev,
             payload: cleanedPayload,
             id: job.id,
             excerpt: toInitialValue(event.excerpt),
             body: null,
-            links: links.map((l) => l.id),
-            keywords: [],
-            media: [],
             socialPosts: [],
             createdAt: new Date(),
             updatedAt: new Date(),
