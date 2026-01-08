@@ -1,3 +1,4 @@
+import { type UUID } from "../../http/Common/UUID.js";
 import { type EventType } from "../../http/Events/EventType.js";
 import { type PromptFn } from "./prompt.type.js";
 
@@ -67,4 +68,40 @@ export const CREATE_EVENT_FROM_TEXT_PROMPT: PromptFn<{
 ${CREATE_EVENT_FROM_URL_PROMPT({ vars })}
 
 Try to create a valid event, without inventing any detail from the following question: ${vars.question}
+`;
+
+/**
+ * Prompt for updating an existing event by ID.
+ *
+ *
+ */
+export const UPDATE_EVENT_PROMPT: PromptFn<{
+  id: UUID;
+  jsonSchema: string;
+  type: EventType;
+}> = ({ vars }) => `
+You are an expert in extracting and updating structured JSON from text. Your task is to UPDATE an existing event with new information.
+
+Your job is to analyze this context and update the event JSON object with accurate, relevant information:
+
+{{
+  title: "Updated title of the event if more accurate information is found, otherwise keep the current title",
+  excerpt: "An updated comprehensive description of the event (100 words max), incorporating new insights from the links and entity information",
+  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Update if more precise dates are found, otherwise keep the current date. The first element is the start date, the second (optional) is the end date.",
+}}
+
+IMPORTANT GUIDELINES:
+- Use the proper MCP tools to access data from lies.exposed
+- UPDATE the event information based on the context you elaborate after gathering all the relevant information and current event data
+- PRESERVE the core facts of the event while enriching with new details
+- Extract more precise dates if available in the context
+- Synthesize information from multiple sources for a comprehensive excerpt
+- Focus on factual information from the provided context
+- Do NOT include URLs, links, or references - these are managed separately
+- Do NOT invent or speculate beyond what's in the context
+- For scientific studies: update with publication details, methodology, and key findings
+- For books: update with publication info, author details, and comprehensive summary
+- Incorporate relevant context from actors' and groups' biographies when they add meaningful information
+
+The event to update is the ${vars.id}
 `;

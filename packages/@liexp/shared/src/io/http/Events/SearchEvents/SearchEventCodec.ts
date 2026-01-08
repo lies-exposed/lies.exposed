@@ -38,6 +38,7 @@ export const SearchEventCodec = <
       ...payloadT.fields,
       ...payloadOverride,
     }),
+    date: Schema.Date,
     media: Schema.Array(Media),
     keywords: Schema.Array(Keyword),
     links: Schema.Array(Link),

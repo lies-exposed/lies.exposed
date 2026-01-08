@@ -6,6 +6,7 @@ import { getTitle } from "./getTitle.helper.js";
 export interface EventCommonProps {
   title: string;
   excerpt?: string;
+  body?: string;
   url?: string;
   location?: UUID;
   date?: Date[];

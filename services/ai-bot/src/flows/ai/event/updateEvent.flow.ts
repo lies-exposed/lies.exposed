@@ -1,19 +1,16 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
 import {
   type Event,
   EventMap,
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type UpdateEventTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
+import { UPDATE_EVENT_PROMPT } from "@liexp/shared/lib/io/openai/prompts/event.prompts.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { JSONSchema, type Schema } from "effect";
+import { JSONSchema, Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadLinksWithPuppeteer } from "../common/loadLinksWithPuppeteer.flow.js";
-import { loadText } from "../common/loadText.flow.js";
-import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
 const defaultQuestion =
@@ -22,7 +19,18 @@ const defaultQuestion =
 export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
   job,
 ) => {
-  const eventSchema = EventMap[job.data.type];
+  const EventSchemaWithBlocknote = EventMap[job.data.type];
+
+  /**
+   * Override excerpt and body to String for OpenAI structured output compatibility.
+   * OpenAI's structured output doesn't support complex BlockNote document types,
+   * so we use String here and convert back to BlockNote format in the final map step.
+   */
+  const EventSchema = Schema.Struct({
+    ...EventSchemaWithBlocknote.fields,
+    excerpt: Schema.String,
+    body: Schema.String,
+  });
 
   return pipe(
     fp.RTE.Do,
@@ -37,36 +45,9 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
           fp.TE.mapLeft(toAIBotError),
         ),
     ),
-    fp.RTE.bind(
-      "docs",
-      ({ event }) =>
-        (ctx) =>
-          pipe(
-            ctx.api.Link.List({
-              Query: { ids: event.links },
-            }),
-            fp.TE.chain((links) =>
-              pipe(
-                links.data,
-                fp.A.traverse(fp.TE.ApplicativePar)((l) => {
-                  const description = l.description;
-                  if (description) {
-                    return loadText(description)(ctx);
-                  }
-                  return pipe(
-                    loadLinksWithPuppeteer([l.url])(ctx),
-                    fp.TE.map(fp.A.flatten),
-                  );
-                }),
-                fp.TE.map(fp.A.flatten),
-                fp.TE.map((docs) => [...docs]),
-              ),
-            ),
-          ),
-    ),
     fp.RTE.bindW("jsonSchema", () =>
       pipe(
-        JSONSchema.make(eventSchema as Schema.Schema<unknown>),
+        JSONSchema.make(EventSchema),
         fp.RTE.right,
         LoggerService.RTE.debug((s) => [
           `Event JSON Schema ${JSON.stringify(s, null, 2)}`,
@@ -78,17 +59,16 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
       if (job.prompt) {
         return fp.RTE.right(() => job.prompt!);
       }
-      return fp.RTE.right(getEventFromJsonPrompt(job.type));
+      return fp.RTE.right(UPDATE_EVENT_PROMPT);
     }),
-    fp.RTE.bindW("aiEvent", ({ prompt, docs, jsonSchema }) =>
+    fp.RTE.bindW("aiEvent", ({ prompt, jsonSchema }) =>
       pipe(
-        AgentChatService.getStructuredOutput<ClientContext, EventCommonProps>({
+        AgentChatService.getStructuredOutput<ClientContext, Event>({
           message: `${prompt({
             vars: {
+              id: job.data.id,
               type: job.data.type,
               jsonSchema: JSON.stringify(jsonSchema),
-              context: docs.map((d) => d.pageContent).join("\n"),
-              question: job.question ?? defaultQuestion,
             },
           })}\n\n${job.question ?? defaultQuestion}`,
           conversationId: null,
@@ -96,21 +76,22 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
         fp.RTE.mapLeft(toAIBotError),
       ),
     ),
-    fp.RTE.map(({ event, aiEvent }) =>
-      pipe({
-        ...event,
-        id: job.id,
-        excerpt: toInitialValue(aiEvent.excerpt),
-        body: null,
-        links: [],
-        keywords: [],
-        media: [],
-        socialPosts: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: undefined,
-        draft: true,
-      } as Event),
+    fp.RTE.map(
+      ({ event, aiEvent }) =>
+        ({
+          ...event,
+          ...aiEvent,
+          payload: {
+            ...event.payload,
+            ...aiEvent.payload,
+          },
+          id: job.data.id,
+          excerpt: aiEvent.excerpt
+            ? toInitialValue(aiEvent.excerpt)
+            : event.excerpt,
+          body: aiEvent.body ? toInitialValue(aiEvent.body) : event.body,
+          draft: true,
+        }) as Event,
     ),
   );
 };

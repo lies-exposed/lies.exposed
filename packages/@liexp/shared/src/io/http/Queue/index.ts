@@ -13,7 +13,10 @@ import {
   CreateEventFromURLQueueData,
   OpenAICreateEventFromURLType,
 } from "./event/CreateEventFromURLQueue.js";
-import { OpenAIUpdateEventQueueType } from "./event/UpdateEventQueue.js";
+import {
+  OpenAIUpdateEventQueueType,
+  UpdateEventQueueData,
+} from "./event/UpdateEventQueue.js";
 import { EventQueue } from "./event/index.js";
 
 export const QueueResourceNames = ResourcesNames;
@@ -123,6 +126,7 @@ const CreateQueueData = Schema.Union(
   CreateQueueTextData,
   CreateQueueURLData,
   CreateEventFromURLQueueData,
+  UpdateEventQueueData,
 ).annotations({
   title: "CreateQueueData",
 });

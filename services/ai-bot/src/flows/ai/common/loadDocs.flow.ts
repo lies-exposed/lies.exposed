@@ -57,17 +57,9 @@ export const loadDocs = (job: Queue): ClientContextRTE<Document[]> => {
         fp.RTE.map((arr) => [...arr]),
       );
     }
+    case Schema.is(UpdateEventQueueData)(job.data):
     case Schema.is(EVENTS)(job.resource): {
       return loadEventDocs(job);
-    }
-
-    case Schema.is(UpdateEventQueueData)(job.data): {
-      return pipe(
-        [...job.data.urls],
-        loadLinksWithPuppeteer,
-        fp.RTE.map(fp.A.flatten),
-        fp.RTE.map((arr) => [...arr]),
-      );
     }
 
     default: {
