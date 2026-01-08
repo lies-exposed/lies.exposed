@@ -20,6 +20,12 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
   job,
 ) => {
   const EventSchemaWithBlocknote = EventMap[job.data.type];
+
+  /**
+   * Override excerpt and body to String for OpenAI structured output compatibility.
+   * OpenAI's structured output doesn't support complex BlockNote document types,
+   * so we use String here and convert back to BlockNote format in the final map step.
+   */
   const EventSchema = Schema.Struct({
     ...EventSchemaWithBlocknote.fields,
     excerpt: Schema.String,
