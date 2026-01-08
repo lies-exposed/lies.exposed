@@ -80,8 +80,8 @@ describe("Delete Event", () => {
       );
       const softDeletedEvent = fp.O.toNullable(softDeletedEventOption);
 
-      expect(softDeletedEvent).not.toBeNull();
-      expect(softDeletedEvent?.deletedAt).not.toBeNull();
+      expect(softDeletedEvent).toBeTruthy();
+      expect(softDeletedEvent?.deletedAt).toBeInstanceOf(Date);
     });
   });
 

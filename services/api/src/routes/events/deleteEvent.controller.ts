@@ -7,6 +7,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { AdminDelete } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -17,25 +18,24 @@ export const DeleteEventRoute: Route = (r, ctx) => {
       return pipe(
         RequestDecoder.decodeNullableUser(req, [])(ctx),
         fp.TE.fromIO,
-        fp.RTE.fromTaskEither,
-        fp.RTE.chain((user) =>
+        fp.TE.chain((user) =>
           getEventById(id, {
             withDeleted: user ? checkIsAdmin(user.permissions) : false,
-          }),
+          })(ctx),
         ),
-        fp.RTE.tapTaskEither((event) =>
+        fp.TE.tap((event) =>
           event.deletedAt
             ? ctx.db.delete(EventV2Entity, id)
             : ctx.db.softDelete(EventV2Entity, id),
         ),
-        fp.RTE.chainEitherK(EventV2IO.decodeSingle),
-        fp.RTE.map((data) => ({
+        TE.chainEitherK(EventV2IO.decodeSingle),
+        TE.map((data) => ({
           body: {
             data,
           },
           statusCode: 200,
         })),
-      )(ctx);
+      );
     },
   );
 };
