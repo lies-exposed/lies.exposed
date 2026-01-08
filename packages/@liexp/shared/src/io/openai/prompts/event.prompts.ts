@@ -71,7 +71,8 @@ Try to create a valid event, without inventing any detail from the following que
 `;
 
 /**
- * Prompt for updating an existing event with new information from links and related entities.
+ * Prompt for updating an existing event by ID.
+ *
  *
  */
 export const UPDATE_EVENT_PROMPT: PromptFn<{
@@ -81,20 +82,17 @@ export const UPDATE_EVENT_PROMPT: PromptFn<{
 }> = ({ vars }) => `
 You are an expert in extracting and updating structured JSON from text. Your task is to UPDATE an existing event with new information.
 
-The context provided includes:
-1. Content extracted from the event's associated links (web pages, articles, documents)
-2. Biographical information about actors (people) and groups (organizations) involved in the event
-
 Your job is to analyze this context and update the event JSON object with accurate, relevant information:
 
 {{
-  title: "Updated title of the event if more accurate information is found",
+  title: "Updated title of the event if more accurate information is found, otherwise keep the current title",
   excerpt: "An updated comprehensive description of the event (100 words max), incorporating new insights from the links and entity information",
-  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Update if more precise dates are found. The first element is the start date, the second (optional) is the end date.",
+  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Update if more precise dates are found, otherwise keep the current date. The first element is the start date, the second (optional) is the end date.",
 }}
 
 IMPORTANT GUIDELINES:
-- UPDATE the event information based on the provided context
+- Use the proper MCP tools to access data from lies.exposed
+- UPDATE the event information based on the context you elaborate after gathering all the relevant information and current event data
 - PRESERVE the core facts of the event while enriching with new details
 - Extract more precise dates if available in the context
 - Synthesize information from multiple sources for a comprehensive excerpt

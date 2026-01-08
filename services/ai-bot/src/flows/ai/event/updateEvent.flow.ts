@@ -79,7 +79,7 @@ export const updateEventFlow: JobProcessRTE<UpdateEventTypeData, Event> = (
             ...event.payload,
             ...aiEvent.payload,
           },
-          id: job.id,
+          id: job.data.id,
           excerpt: aiEvent.excerpt
             ? toInitialValue(aiEvent.excerpt)
             : event.excerpt,
