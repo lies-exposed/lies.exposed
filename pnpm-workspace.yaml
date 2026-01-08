@@ -35,3 +35,11 @@ preferWorkspacePackages: true
 
 # keep the PNPM legacy workspace hoisting behavior
 injectWorkspacePackages: false
+
+supportedArchitectures:
+  os:
+    - current
+  cpu:
+    - current
+  libc:
+    - current
