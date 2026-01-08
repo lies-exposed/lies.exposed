@@ -103,7 +103,7 @@
     "nodemw": "^0.25.0",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
-    "supertest": "^7.1.0",
+    "supertest": "^7.2.2",
     "vite-tsconfig-paths": "^6.0.3",
     "vitest": "^4.0.16",
     "vitest-mock-extended": "^3.1.0",
