@@ -5,17 +5,16 @@ import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
-import { OpenAIUpdateEventQueueType } from "@liexp/shared/lib/io/http/Queue/event/UpdateEventQueue.js";
 import {
   type OpenAIEmbeddingQueueType,
   type OpenAISummarizeQueueType,
-  type QueueResourceNames,
   type Queue,
+  type QueueResourceNames,
 } from "@liexp/shared/lib/io/http/Queue/index.js";
 import { EMBED_ACTOR_PROMPT } from "@liexp/shared/lib/io/openai/prompts/actor.prompts.js";
 import {
-  CREATE_EVENT_FROM_URL_PROMPT,
   CREATE_EVENT_FROM_TEXT_PROMPT,
+  CREATE_EVENT_FROM_URL_PROMPT,
   EMBED_EVENT_PROMPT,
 } from "@liexp/shared/lib/io/openai/prompts/event.prompts.js";
 import { EMBED_GROUP_SUMMARIZE_PROMPT } from "@liexp/shared/lib/io/openai/prompts/group.prompts.js";
@@ -58,18 +57,14 @@ export const getPromptForJob = (
 };
 
 export const getEventFromJsonPrompt = (
-  type:
-    | OpenAICreateEventFromTextType
-    | OpenAICreateEventFromURLType
-    | OpenAIUpdateEventQueueType,
+  type: OpenAICreateEventFromTextType | OpenAICreateEventFromURLType,
 ) => {
   switch (true) {
     case Schema.is(OpenAICreateEventFromTextType)(type): {
       return CREATE_EVENT_FROM_TEXT_PROMPT;
     }
 
-    case Schema.is(OpenAICreateEventFromURLType)(type):
-    case Schema.is(OpenAIUpdateEventQueueType)(type): {
+    case Schema.is(OpenAICreateEventFromURLType)(type): {
       return CREATE_EVENT_FROM_URL_PROMPT;
     }
 
