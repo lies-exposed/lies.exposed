@@ -36,7 +36,6 @@ import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js"
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
-import { UpdateMetadataButton } from "./button/UpdateMetadataButton.js";
 import { transformLink } from "./transformLink.js";
 
 export const LinkEdit: React.FC = () => {
@@ -54,8 +53,7 @@ export const LinkEdit: React.FC = () => {
       title={<EditTitle />}
       actions={
         <Toolbar>
-          <Stack direction="row" spacing={2}>
-            <UpdateMetadataButton />
+          <Stack direction="row" spacing={2} padding={2}>
             <LinkTGPostButton />
           </Stack>
         </Toolbar>
