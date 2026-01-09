@@ -1,30 +1,34 @@
 import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
+import { type SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
 import type * as http from "../../io/http/index.js";
 
 export const getTitle = (
-  e: http.Events.Event,
+  event: http.Events.Event | SearchEvent,
   relations: http.Events.EventRelations,
 ): string => {
-  switch (e.type) {
+  switch (event.type) {
     case EVENT_TYPES.BOOK:
     case EVENT_TYPES.DOCUMENTARY:
     case EVENT_TYPES.PATENT:
     case EVENT_TYPES.SCIENTIFIC_STUDY:
     case EVENT_TYPES.TRANSACTION:
     case EVENT_TYPES.UNCATEGORIZED:
-      return e.payload.title;
+      return event.payload.title;
     case EVENT_TYPES.QUOTE: {
       const byActor = relations?.actors?.[0] ?? { fullName: "Unknown" };
       return `${byActor.fullName} - `.concat(
-        e.payload.details
-          ? `${e.payload.details}`
-          : (e.payload.quote?.split(" ").slice(0, 10).join(" ").concat("...") ??
-              ""),
+        event.payload.details
+          ? `${event.payload.details}`
+          : (event.payload.quote
+              ?.split(" ")
+              .slice(0, 10)
+              .join(" ")
+              .concat("...") ?? ""),
       );
     }
     case EVENT_TYPES.DEATH: {
       const victimName =
-        (relations?.actors ?? []).find((a) => a.id === e.payload.victim)
+        (relations?.actors ?? []).find((a) => a.id === event.payload.victim)
           ?.fullName ?? "unknown";
       return `Death of ${victimName}`;
     }
