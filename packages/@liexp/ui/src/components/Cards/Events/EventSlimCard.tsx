@@ -20,6 +20,8 @@ import {
 export interface EventSlimCardProps extends CardProps {
   event: Events.Event;
   defaultImage: string;
+  /** Optional image URL to display. If not provided, falls back to defaultImage. */
+  image?: string;
   showMedia?: boolean;
   layout?: "vertical" | "horizontal";
   onEventClick?: (e: Events.Event) => void;
@@ -30,10 +32,11 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
   showMedia = true,
   onEventClick,
   defaultImage,
+  image,
   layout = "vertical",
   ...props
 }) => {
-  // const { media } = getRelationIds(event);
+  const displayImage = image ?? defaultImage;
   const title = getTitle(event, {
     actors: [],
     groups: [],
@@ -70,7 +73,7 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
             >
               <CardMedia
                 component="img"
-                image={defaultImage}
+                image={displayImage}
                 style={{
                   height: props.style?.maxHeight ?? 150,
                   width: isVertical ? "100%" : 150,

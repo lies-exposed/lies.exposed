@@ -26,6 +26,13 @@ export const ListEventOutput = Schema.Struct({
   totals: http.Events.SearchEvent.EventTotals.EventTotals,
   firstDate: Schema.Union(Schema.String, Schema.Undefined),
   lastDate: Schema.Union(Schema.String, Schema.Undefined),
+  // Optional relations - populated when `relations` query param is provided
+  actors: Schema.optional(Schema.Array(http.Actor.Actor)),
+  groups: Schema.optional(Schema.Array(http.Group.Group)),
+  keywords: Schema.optional(Schema.Array(http.Keyword.Keyword)),
+  media: Schema.optional(Schema.Array(http.Media.Media)),
+  links: Schema.optional(Schema.Array(http.Link.Link)),
+  groupsMembers: Schema.optional(Schema.Array(http.GroupMember.GroupMember)),
 }).annotations({
   title: "Events",
 });

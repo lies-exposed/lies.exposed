@@ -4,12 +4,33 @@ import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  type Actor,
+  type Events,
+  type Group,
+  type GroupMember,
+  type Keyword,
+  type Link,
+  type Media,
+} from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
-import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import {
+  fetchEventsRelations,
+  type RelationType,
+} from "../../flows/events/fetchEventsRelations.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
+
+interface FetchedRelations {
+  actors: readonly Actor.Actor[];
+  groups: readonly Group.Group[];
+  keywords: readonly Keyword.Keyword[];
+  media: readonly Media.Media[];
+  links: readonly Link.Link[];
+  groupsMembers: readonly GroupMember.GroupMember[];
+}
 
 export const ListEventRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Event.List, ({ query }) => {
@@ -38,8 +59,15 @@ export const ListEventRoute: Route = (r, ctx) => {
       ids,
       spCount,
       onlyUnshared,
+      relations,
       ...queryRest
     } = query;
+
+    const relationsFilter = pipe(
+      relations,
+      O.map((r) => r as RelationType[]),
+      O.getOrElse((): RelationType[] => []),
+    );
 
     // ctx.logger.debug.log("query %O", queryRest);
 
@@ -89,24 +117,53 @@ export const ListEventRoute: Route = (r, ctx) => {
         pipe(
           results,
           EventV2IO.decodeMany,
-          E.map((data) => ({
-            data: data.map((d) => ({
+          TE.fromEither,
+          TE.chain((events: readonly Events.Event[]) =>
+            relationsFilter.length > 0
+              ? pipe(
+                  fetchEventsRelations(events, false, {
+                    relations: relationsFilter,
+                  })(ctx),
+                  TE.map(
+                    ({
+                      events: _,
+                      ...fetchedRelations
+                    }): {
+                      events: readonly Events.Event[];
+                      relations: FetchedRelations | undefined;
+                    } => ({
+                      events,
+                      relations: fetchedRelations,
+                    }),
+                  ),
+                )
+              : TE.right<
+                  never,
+                  {
+                    events: readonly Events.Event[];
+                    relations: FetchedRelations | undefined;
+                  }
+                >({ events, relations: undefined }),
+          ),
+          TE.map(({ events, relations }) => ({
+            data: events.map((d) => ({
               ...d,
               // TODO: fix this
-              score: 1,
+              score: 1 as const,
             })),
+            relations,
             ...rest,
           })),
-          TE.fromEither,
         ),
       ),
-      TE.map(({ data, total, totals, firstDate, lastDate }) => ({
+      TE.map(({ data, relations, total, totals, firstDate, lastDate }) => ({
         body: {
           data,
           total,
           totals,
           firstDate: firstDate?.toISOString(),
           lastDate: lastDate?.toISOString(),
+          ...(relations ?? {}),
         },
         statusCode: 200,
       })),

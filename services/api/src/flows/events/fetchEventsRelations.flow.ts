@@ -21,10 +21,18 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";
 
+export type RelationType = "actors" | "groups" | "media" | "keywords";
+
+interface FetchEventsRelationsOptions {
+  /** Filter which relations to fetch. If not provided, fetches all relations. */
+  relations?: RelationType[];
+}
+
 export const fetchEventsRelations =
   (
     events: readonly Events.Event[],
     isAdmin: boolean,
+    options: FetchEventsRelationsOptions = {},
   ): TEReader<{
     events: readonly Events.Event[];
     actors: readonly Actor.Actor[];
@@ -35,59 +43,66 @@ export const fetchEventsRelations =
     groupsMembers: readonly GroupMember.GroupMember[];
   }> =>
   (ctx) => {
+    const { relations: relationsFilter } = options;
+    const shouldFetch = (type: RelationType): boolean =>
+      !relationsFilter || relationsFilter.includes(type);
+
     return pipe(
       TE.right(takeEventRelations(events)),
       TE.chain((relations) =>
         pipe(
           fetchRelations(
             {
-              keywords: pipe(
-                relations.keywords,
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
-              actors: pipe(
-                relations.actors,
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
-              groups: pipe(
-                relations.groups,
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
-              groupsMembers: O.some(relations.groupsMembers),
+              keywords: shouldFetch("keywords")
+                ? pipe(relations.keywords, O.fromNullable, O.filter(isNonEmpty))
+                : O.none(),
+              actors: shouldFetch("actors")
+                ? pipe(relations.actors, O.fromNullable, O.filter(isNonEmpty))
+                : O.none(),
+              groups: shouldFetch("groups")
+                ? pipe(relations.groups, O.fromNullable, O.filter(isNonEmpty))
+                : O.none(),
+              groupsMembers: shouldFetch("groups")
+                ? O.some(relations.groupsMembers)
+                : O.none(),
               links: O.some(relations.links),
-              media: pipe(
-                relations.media,
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
+              media: shouldFetch("media")
+                ? pipe(relations.media, O.fromNullable, O.filter(isNonEmpty))
+                : O.none(),
             },
             isAdmin,
           )(ctx),
           TE.chain((relations) =>
             sequenceS(TE.ApplicativePar)({
               events: fp.TE.right(events),
-              actors: pipe(
-                ActorIO.decodeMany(relations.actors),
-                fp.TE.fromEither,
-              ),
-              groups: pipe(
-                relations.groups.map((g) => ({ ...g, members: [] })),
-                (gg) => GroupIO.decodeMany(gg),
-                fp.TE.fromEither,
-              ),
-              keywords: pipe(
-                relations.keywords,
-                KeywordIO.decodeMany,
-                fp.TE.fromEither,
-              ),
-              media: pipe(
-                relations.media.map((m) => ({ ...m, links: [], keywords: [] })),
-                (mm) => MediaIO.decodeMany(mm),
-                fp.TE.fromEither,
-              ),
+              actors: shouldFetch("actors")
+                ? pipe(ActorIO.decodeMany(relations.actors), fp.TE.fromEither)
+                : fp.TE.right([]),
+              groups: shouldFetch("groups")
+                ? pipe(
+                    relations.groups.map((g) => ({ ...g, members: [] })),
+                    (gg) => GroupIO.decodeMany(gg),
+                    fp.TE.fromEither,
+                  )
+                : fp.TE.right([]),
+              keywords: shouldFetch("keywords")
+                ? pipe(
+                    relations.keywords,
+                    KeywordIO.decodeMany,
+                    fp.TE.fromEither,
+                  )
+                : fp.TE.right([]),
+              media: shouldFetch("media")
+                ? pipe(
+                    relations.media.map((m) => ({
+                      ...m,
+                      links: [],
+                      keywords: [],
+                    })),
+                    (mm) => MediaIO.decodeMany(mm),
+                    fp.TE.fromEither,
+                  )
+                : fp.TE.right([]),
               links: pipe(LinkIO.decodeMany(relations.links), TE.fromEither),
               groupsMembers: TE.right([]),
             }),
