@@ -20,16 +20,27 @@ interface SearchableItem {
 export interface AutocompleteInputProps<L, T>
   extends Omit<
     AutocompleteProps<T, boolean, boolean, boolean>,
-    "renderInput" | "options" | "onChange"
+    "renderInput" | "options" | "onChange" | "renderOption"
   > {
   placeholder?: string;
   query: (
     params: Partial<EndpointQueryType<L>>,
   ) => UseQueryResult<EndpointOutputType<L>, IOError>;
+  mapResponseData?: (data: EndpointOutputType<L> | undefined) => T[];
   searchToFilter: (t: string) => Record<string, string>;
   getOptionLabel: (v: T | string) => string;
   selectedItems: T[];
   onItemsChange: (items: T[]) => void;
+  /**
+   * Custom render option that receives the full response data as the 4th parameter.
+   * This allows access to relations (media, actors, etc.) when rendering options.
+   */
+  renderOption?: (
+    props: React.HTMLAttributes<HTMLLIElement> & { key: string },
+    option: T,
+    state: { selected: boolean; index: number; inputValue: string },
+    responseData: EndpointOutputType<L> | undefined,
+  ) => React.ReactNode;
 }
 
 export const AutocompleteInput = <
@@ -44,6 +55,7 @@ export const AutocompleteInput = <
   renderOption,
   searchToFilter,
   onItemsChange,
+  mapResponseData,
   autoFocus,
   ...props
 }: AutocompleteInputProps<L, T>): React.ReactElement => {
@@ -69,7 +81,8 @@ export const AutocompleteInput = <
   }, [inputValue]);
 
   const items = query(itemQueryParams);
-  const data: T[] = items.data?.data ?? [];
+  const responseData = items.data;
+  const data: T[] = mapResponseData?.(responseData) ?? responseData?.data ?? [];
 
   const { options, value } = React.useMemo(() => {
     const options = data.filter((i) => !selectedIds.includes(i.id));
@@ -124,7 +137,12 @@ export const AutocompleteInput = <
         );
       }}
       renderTags={renderTags}
-      renderOption={renderOption}
+      renderOption={
+        renderOption
+          ? (props, option, state) =>
+              renderOption(props, option, state, responseData)
+          : undefined
+      }
       {...props}
     />
   );

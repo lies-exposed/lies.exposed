@@ -3,13 +3,31 @@ import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
 import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { EventCardGrid } from "../Cards/Events/EventCardGrid.js";
 import EventSlimCard from "../Cards/Events/EventSlimCard.js";
 import { AutocompleteInput } from "./AutocompleteInput.js";
+
+/**
+ * Get the first image URL for an event from the media array
+ */
+const getEventImage = (
+  event: Events.Event,
+  mediaList: readonly Media.Media[] | undefined,
+): string | undefined => {
+  if (!mediaList || mediaList.length === 0 || event.media.length === 0) {
+    return undefined;
+  }
+  const firstMediaId = event.media[0];
+  const media = mediaList.find((m) => m.id === firstMediaId);
+  if (!media) {
+    return undefined;
+  }
+  return media.thumbnail ?? media.location;
+};
 
 interface AutocompleteEventInputProps {
   className?: string;
@@ -29,6 +47,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
 }) => {
   const Queries = useEndpointQueries();
   const conf = useConfiguration();
+
   return (
     <AutocompleteInput<typeof Endpoints.Event.List, Events.Event>
       placeholder="Event description..."
@@ -53,11 +72,13 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           {
             ...p,
             ...filter,
-            // TODO: implement this on backend
-            relations: [MEDIA.Type],
+            relations: [MEDIA.literals[0]],
           },
           discrete,
         )
+      }
+      mapResponseData={(data) =>
+        (data?.data as Events.Event[] | undefined) ?? []
       }
       renderTags={(items) => (
         <EventCardGrid
@@ -67,7 +88,8 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           }}
         />
       )}
-      renderOption={(props, item, _state) => {
+      renderOption={(_props, item, _state, response) => {
+        const image = getEventImage(item, response?.media ?? []);
         return (
           <EventSlimCard
             key={item.id}
@@ -79,6 +101,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
               );
             }}
             defaultImage={conf.platforms.web.defaultImage}
+            image={image}
             style={{
               maxHeight: 200,
             }}
