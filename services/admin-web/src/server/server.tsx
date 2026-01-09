@@ -5,12 +5,17 @@
  * for agent service calls with M2M authentication.
  *
  * Architecture:
- * - In development: Uses Vite dev server with HMR
+ * - In development: Uses Vite dev server with full HMR support
  * - In production: Serves static built files
  * - API routes (/api/*) are handled before Vite middleware
  * - Vite handles HTML serving and SPA fallback in development
+ *
+ * HMR Note:
+ * For full HMR support in development, we create the HTTP server first
+ * and pass it to Vite so it can attach its WebSocket server for HMR.
  */
 
+import http from "http";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
@@ -39,33 +44,69 @@ export const run = async (base: string): Promise<void> => {
   const env = envDecodeResult.right;
   const isProduction = env.NODE_ENV === "production";
 
+  // ============================================================
+  // Create HTTP Server First (for HMR WebSocket attachment)
+  // ============================================================
+  // In development, we need to create the HTTP server before the Express app
+  // so that Vite can attach its HMR WebSocket server to it.
+  // In production, this step is still valid but HMR is not used.
+
+  let httpServer: http.Server | undefined;
+
+  if (!isProduction) {
+    // Create HTTP server first for HMR WebSocket attachment
+    httpServer = http.createServer();
+    logger.info.log("✓ HTTP server created for HMR WebSocket attachment");
+  }
+
+  // ============================================================
+  // Create Express App with Vite
+  // ============================================================
+
   const app = await createApp({
     env,
     serviceRoot: process.cwd(),
     isProduction,
+    httpServer,
   });
 
   // ============================================================
   // Start Server
   // ============================================================
 
-  const server = app.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
-    logger.info.log(
-      "✓ Server listening on http://%s:%d",
-      env.SERVER_HOST,
-      env.SERVER_PORT,
-    );
+  if (httpServer) {
+    // Development: Use pre-created HTTP server with Express handler
+    httpServer.on("request", app);
 
-    if (!isProduction) {
-      logger.info.log("✓ Vite HMR enabled");
+    httpServer.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
+      logger.info.log(
+        "✓ Server listening on http://%s:%d",
+        env.SERVER_HOST,
+        env.SERVER_PORT,
+      );
+      logger.info.log("✓ Vite HMR enabled with WebSocket attachment");
       logger.info.log("✓ API proxy available at /api/proxy/agent/*");
-    }
-  });
+    });
 
-  server.on("error", (e) => {
-    logger.error.log("Server error: %O", e);
-    process.exit(1);
-  });
+    httpServer.on("error", (e) => {
+      logger.error.log("Server error: %O", e);
+      process.exit(1);
+    });
+  } else {
+    // Production: Use Express's built-in server
+    const server = app.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
+      logger.info.log(
+        "✓ Server listening on http://%s:%d",
+        env.SERVER_HOST,
+        env.SERVER_PORT,
+      );
+    });
+
+    server.on("error", (e) => {
+      logger.error.log("Server error: %O", e);
+      process.exit(1);
+    });
+  }
 };
 
 // ============================================================
