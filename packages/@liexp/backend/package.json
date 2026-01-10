@@ -55,7 +55,7 @@
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.80",
     "@types/compression": "^1.8.1",
-    "@types/express": "^5.0.3",
+    "@types/express": "^5.0.6",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.13",

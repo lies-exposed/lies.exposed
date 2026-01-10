@@ -57,8 +57,8 @@
   "devDependencies": {
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
-    "@types/express": "^5.0.1",
-    "@types/node": "^24.10.6",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.7",
     "@types/prompts": "^2.4.9",
     "dotenv": "^17.2.1",
     "eslint": "^9.39.2",

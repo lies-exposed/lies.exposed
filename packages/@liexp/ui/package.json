@@ -116,7 +116,7 @@
     "@types/d3-hierarchy": "^3.1.7",
     "@types/d3-sankey": "^0.12.5",
     "@types/d3-scale": "^4.0.9",
-    "@types/lodash": "^4.17.22",
+    "@types/lodash": "^4.17.23",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "@types/react-slick": "^0.23.13",
