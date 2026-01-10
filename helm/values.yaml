@@ -4,7 +4,7 @@ do:
 
 domain: liexp.dev
 
-adminWeb:
+admin:
   dev: false
   nginxConfPath: "/home/node/resources/nginx/admin.liex.dev"
 

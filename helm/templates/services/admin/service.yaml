@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: admin-web
-{{ tuple . "admin-web" | include "adminWeb.labels" | indent 2 }}
+  name: admin
+{{ tuple . "admin" | include "admin.labels" | indent 2 }}
 spec:
   type: ClusterIP
   ports:
@@ -10,5 +10,5 @@ spec:
       port: 80
       targetPort: 4010
   selector:
-    lies.exposed/name: admin-web
+    lies.exposed/name: admin
     app.kubernetes.io/instance: {{ .Release.Name | quote }}

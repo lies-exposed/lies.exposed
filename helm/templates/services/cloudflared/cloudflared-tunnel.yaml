@@ -84,7 +84,7 @@ data:
       - hostname: "api.lies.exposed"
         service: "http://api.prod.svc.cluster.local"
       - hostname: "admin.lies.exposed"
-        service: "http://admin-web.prod.svc.cluster.local"
+        service: "http://admin.prod.svc.cluster.local"
       - hostname: "space.lies.exposed"
         service: "http://minio.minio-operator.svc.cluster.local"
       - hostname: "space-console.lies.exposed"
