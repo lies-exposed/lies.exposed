@@ -16,7 +16,7 @@ interface AgentClient {
 /**
  * Hook for interacting with the Agent API
  * Uses the typed endpoint client via useAgentAPI
- * Communicates through the admin-web proxy which handles M2M authentication
+ * Communicates through the admin proxy which handles M2M authentication
  */
 export const useAPIAgent = (): AgentClient => {
   const agentAPI = useAgentAPI();

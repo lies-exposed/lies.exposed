@@ -55,7 +55,7 @@
         "src/client/state/commands.ts"
       ]
     },
-    "services/admin-web": {
+    "services/admin": {
       "entry": [
         "src/index.tsx",
         "test/AdminAppTest.ts"

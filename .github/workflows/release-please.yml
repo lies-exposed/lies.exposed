@@ -67,10 +67,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - service: admin-web
+          - service: admin
             enabled: true
-            dockerfile: adminWeb.Dockerfile
-            image_tag: ghcr.io/lies-exposed/liexp-admin-web:latest
+            dockerfile: admin.Dockerfile
+            image_tag: ghcr.io/lies-exposed/liexp-admin:latest
           - service: agent
             enabled: true
             dockerfile: agent.Dockerfile
@@ -118,4 +118,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           push: ${{ needs.release-please.outputs.releases_created }}
           build-args: |
-            DOTENV_CONFIG_PATH=${{ matrix.service == 'admin-web' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
+            DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}

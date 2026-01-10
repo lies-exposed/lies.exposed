@@ -13,7 +13,7 @@ import { URL } from '@liexp/shared/lib/io/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
 import { createApp } from '../src/server/createApp.js'
 
-// Get service root directory (resolves to services/admin-web/)
+// Get service root directory (resolves to services/admin/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVICE_ROOT = path.resolve(__dirname, "..");
 

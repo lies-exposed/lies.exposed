@@ -1,10 +1,10 @@
-{{- if .Values.adminWeb.dev -}}
+{{- if .Values.admin.dev -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: admin-web-build-pv-claim
+  name: admin-build-pv-claim
   namespace: {{ .Release.Namespace }}
-  {{ tuple . "admin-web-build-pv-claim" | include "adminWeb.labels" | indent 2 }}
+  {{ tuple . "admin-build-pv-claim" | include "admin.labels" | indent 2 }}
 spec:
   storageClassName: manual
   accessModes:
@@ -14,7 +14,7 @@ spec:
       storage: 1Gi
   selector:
     matchLabels:
-      lies.exposed/name: admin-web-build-volume
+      lies.exposed/name: admin-build-volume
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
       app.kubernetes.io/namespace: {{ .Release.Namespace | quote }}
 {{- end -}}

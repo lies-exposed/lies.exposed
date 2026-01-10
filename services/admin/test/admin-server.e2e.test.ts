@@ -51,7 +51,7 @@ describe.sequential("Admin Web Server", () => {
 
         expect(response.body).toMatchObject({
           status: "ok",
-          service: "admin-web",
+          service: "admin",
           timestamp: expect.any(String),
         });
       });
@@ -169,7 +169,7 @@ describe.sequential("Admin Web Server", () => {
 
       expect(response.body).toMatchObject({
         status: "ok",
-        service: "admin-web",
+        service: "admin",
         timestamp: expect.any(String),
       });
     });

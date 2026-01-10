@@ -249,7 +249,7 @@ Key external dependencies include:
 - **[API Service](../api)**: Main REST API that orchestrates worker jobs
 - **[AI Bot Service](../ai-bot)**: AI processing service that queues jobs for the worker
 - **[Web Service](../web)**: Frontend that displays processed data
-- **[Admin Web Service](../admin-web)**: Administrative interface for managing jobs
+- **[Admin Web Service](../admin)**: Administrative interface for managing jobs
 
 ## Architecture
 

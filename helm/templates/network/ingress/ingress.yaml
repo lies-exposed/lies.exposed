@@ -41,7 +41,7 @@ spec:
             path: /admin/
             backend:
               service:
-                name: admin-web
+                name: admin
                 port:
                   number: 80
     - host: "telegram.{{ .Values.domain }}"

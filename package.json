@@ -8,7 +8,7 @@
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
   "scripts": {
-    "admin-web": "pnpm --filter 'admin-web'",
+    "admin": "pnpm --filter 'admin'",
     "agent": "pnpm --filter 'agent'",
     "ai-bot": "pnpm --filter 'ai-bot'",
     "api": "pnpm --filter 'api'",
@@ -26,7 +26,7 @@
     "corepack": "corepack",
     "corepack:up": "corepack use pnpm@latest-10 && pnpm -r -c exec 'corepack use pnpm@latest-10'",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
-    "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin-web --filter agent run clean",
+    "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin --filter agent run clean",
     "post-deploy": "./deploy/post-deploy.sh",
     "shared": "pnpm --filter '@liexp/shared'",
     "storybook": "pnpm --filter '@liexp/storybook'",

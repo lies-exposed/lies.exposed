@@ -55,7 +55,7 @@ export const createApp = async (
   // ============================================================
 
   // In production Docker, the structure is:
-  // /prod/admin-web/
+  // /prod/admin/
   // ├── build/
   // │   ├── index.html (from Vite)
   // │   ├── assets/ (from Vite)
@@ -64,8 +64,8 @@ export const createApp = async (
   // ├── node_modules/
   // └── package.json
   //
-  // serviceRoot = /prod/admin-web
-  // So build path = /prod/admin-web/build
+  // serviceRoot = /prod/admin
+  // So build path = /prod/admin/build
   const buildPath = path.resolve(serviceRoot, "build");
   const indexFile = path.resolve(buildPath, "index.html");
 
@@ -96,7 +96,7 @@ export const createApp = async (
   }
 
   const { app } = await createViteServerHelper({
-    service: "admin-web",
+    service: "admin",
     logger,
     isProduction,
     viteConfig: {

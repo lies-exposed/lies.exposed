@@ -176,16 +176,17 @@ services:
     build:
       context: .
       target: dev
-      dockerfile: adminWeb.Dockerfile
+      dockerfile: admin.Dockerfile
     env_file:
-      - ./services/admin-web/.env
+      - ./services/admin/.env
+      - ./services/admin/.env.server
     environment:
       SERVER_PORT: "80"
     volumes:
       - admin-node-modules:/usr/src/app/node_modules
       - ./tsconfig.json:/usr/src/app/tsconfig.json
       - ./packages/@liexp:/usr/src/app/packages/@liexp:ro
-      - ./services/admin-web:/usr/src/app/services/admin-web:cached
+      - ./services/admin:/usr/src/app/services/admin:cached
     tty: true
     depends_on:
       - liexp.dev

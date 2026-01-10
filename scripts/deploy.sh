@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "$admin" = true ]; then
-    # deploy admin-web
+    # deploy admin
     ./scripts/deploy.admin.sh "$HOST"
 fi
 

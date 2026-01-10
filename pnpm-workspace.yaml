@@ -4,7 +4,7 @@ packages:
   - services/worker
   - services/ai-bot
   - services/web
-  - services/admin-web
+  - services/admin
   - services/storybook
   - services/agent
 

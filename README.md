@@ -7,7 +7,7 @@
 
 ![GitHub Workflow API Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/api-pull-request.yml?label=PR%20-%20API)
 ![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/web-pull-request.yml?label=PR%20-%20Web)
-![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/admin-web-pull-request.yml?label=PR%20-%20Admin%20Web)
+![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/admin-pull-request.yml?label=PR%20-%20Admin%20Web)
 
 ![GitHub Workflow Deploy Alpha Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/deploy-alpha.yml?branch=main&label=Deploy)
 
@@ -30,7 +30,7 @@ Packages contains all the common code used in `services`.
 
 The `services` are the deployable projects:
 
-- [admin-web](./services/admin-web/README.md)
+- [admin](./services/admin/README.md)
 - [api](./services/api/README.md)
 - [storybook](./services/storybook/README.md)
 - [web](./services/web/README.md)
@@ -52,7 +52,7 @@ If you want to start developing with `docker compose`:
 ```sh
 docker compose build # build base image
 docker compose up -d db # starts db in background
-docker compose up api web admin-web data # starts api, web, admin-web and data services
+docker compose up api web admin data # starts api, web, admin and data services
 ```
 
 **N.B.: you need to run `pnpm api watch` in another shell to make the api container to trigger restart event**

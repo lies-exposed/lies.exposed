@@ -5,7 +5,7 @@ set -x
 BASE_IMAGE=liexp-base
 API_IMAGE=liexp-api
 BE_WORKER_IMAGE=liexp-worker
-ADMIN_WEB_IMAGE=liexp-admin-web
+ADMIN_WEB_IMAGE=liexp-admin
 WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
 AGENT_IMAGE=liexp-agent
@@ -82,7 +82,7 @@ fi
 if [ "$admin" = true ]; then
   docker build \
     --build-arg DOTENV_CONFIG_PATH=.env.prod \
-    --file adminWeb.Dockerfile \
+    --file admin.Dockerfile \
     --target production \
     --tag $ADMIN_WEB_IMAGE:latest \
     --tag ghcr.io/lies-exposed/$ADMIN_WEB_IMAGE:latest \

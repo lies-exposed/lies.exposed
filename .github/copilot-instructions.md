@@ -8,7 +8,7 @@ Keep this file short, specific, and actionable. See AGENTS.md for deeper pattern
 **Purpose**: Give an AI coding agent the minimal, high-value facts to be immediately productive in a functional programming environment with comprehensive testing.
 
 ## Big Picture
-This is a pnpm monorepo with multiple deployable services under `services/` and shared packages under `packages/`. Key services: `api` (TypeORM + PostgreSQL + Redis queues), `ai-bot` (background AI flows), `worker`, `web`, and `admin-web`.
+This is a pnpm monorepo with multiple deployable services under `services/` and shared packages under `packages/`. Key services: `api` (TypeORM + PostgreSQL + Redis queues), `ai-bot` (background AI flows), `worker`, `web`, and `admin`.
 
 ## Primary Workflows
 - **Local dev**: Docker Compose (`compose.yml`) for databases and dependent services.
@@ -94,7 +94,7 @@ expect(result).toMatchObject({ id: expect.any(String) });
 ### Essential Commands
 ```bash
 pnpm install           # Install dependencies
-docker compose up -d db && docker compose up api web admin-web
+docker compose up -d db && docker compose up api web admin
 pnpm api watch         # Development with hot reload
 pnpm build            # Build and validation
 pnpm typecheck        # Type checking
@@ -103,8 +103,8 @@ pnpm vitest           # Run all tests
 ```
 
 ### Workspace Commands (pnpm)
-- Use filter for package-specific commands: `pnpm --filter api run lint`
 - Shorthand when aliases available: `pnpm api lint`
+- Use filter for package-specific commands: `pnpm --filter api run lint`
 - Always check working directory context
 
 ## Development Workflow & Quality Standards
