@@ -52,9 +52,7 @@ describe(MakeLinkGroupEventsRoute.name, () => {
 
     group = tests.fc.sample(GroupArb, 1)[0];
     await throwTE(
-      Test.ctx.db.save(GroupEntity, [
-        { ...group, members: [], avatar: null },
-      ]),
+      Test.ctx.db.save(GroupEntity, [{ ...group, members: [], avatar: null }]),
     );
   });
 
