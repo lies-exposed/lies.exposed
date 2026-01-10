@@ -101,6 +101,45 @@ export const Merge = Endpoint({
   Output: SingleActorOutput,
 });
 
+// Link existing events to an actor
+export const LinkEventsBody = Schema.Struct({
+  eventIds: Schema.Array(UUID),
+}).annotations({ identifier: "LinkActorEventsBody" });
+
+export const LinkEventsOutput = Schema.Struct({
+  data: Schema.Struct({
+    linked: Schema.Array(UUID),
+    failed: Schema.Array(
+      Schema.Struct({
+        eventId: UUID,
+        reason: Schema.String,
+      }),
+    ),
+  }),
+}).annotations({ identifier: "LinkActorEventsOutput" });
+
+export const LinkEvents = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/actors/${id}/events`,
+  Input: {
+    Params: Schema.Struct({ id: UUID }),
+    Body: LinkEventsBody,
+  },
+  Output: LinkEventsOutput,
+});
+
+// Unlink an event from an actor
+export const UnlinkEvent = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id, eventId }) => `/actors/${id}/events/${eventId}`,
+  Input: {
+    Params: Schema.Struct({ id: UUID, eventId: UUID }),
+  },
+  Output: Schema.Struct({
+    data: Schema.Struct({ success: Schema.Boolean }),
+  }),
+});
+
 export const actors = ResourceEndpoints({
   Get,
   List,
@@ -109,5 +148,7 @@ export const actors = ResourceEndpoints({
   Delete,
   Custom: {
     Merge,
+    LinkEvents,
+    UnlinkEvent,
   },
 });

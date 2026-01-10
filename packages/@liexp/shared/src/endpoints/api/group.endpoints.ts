@@ -96,11 +96,53 @@ export const Delete = Endpoint({
   Output: Group.GroupOutput,
 });
 
+// Link existing events to a group
+export const LinkEventsBody = Schema.Struct({
+  eventIds: Schema.Array(UUID),
+}).annotations({ identifier: "LinkGroupEventsBody" });
+
+export const LinkEventsOutput = Schema.Struct({
+  data: Schema.Struct({
+    linked: Schema.Array(UUID),
+    failed: Schema.Array(
+      Schema.Struct({
+        eventId: UUID,
+        reason: Schema.String,
+      }),
+    ),
+  }),
+}).annotations({ identifier: "LinkGroupEventsOutput" });
+
+export const LinkEvents = Endpoint({
+  Method: "POST",
+  getPath: ({ id }) => `/groups/${id}/events`,
+  Input: {
+    Params: Schema.Struct({ id: UUID }),
+    Body: LinkEventsBody,
+  },
+  Output: LinkEventsOutput,
+});
+
+// Unlink an event from a group
+export const UnlinkEvent = Endpoint({
+  Method: "DELETE",
+  getPath: ({ id, eventId }) => `/groups/${id}/events/${eventId}`,
+  Input: {
+    Params: Schema.Struct({ id: UUID, eventId: UUID }),
+  },
+  Output: Schema.Struct({
+    data: Schema.Struct({ success: Schema.Boolean }),
+  }),
+});
+
 export const groups = ResourceEndpoints({
   Get,
   Edit,
   List,
   Create,
   Delete,
-  Custom: {},
+  Custom: {
+    LinkEvents,
+    UnlinkEvent,
+  },
 });
