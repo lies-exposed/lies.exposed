@@ -48,10 +48,10 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.957.0",
-    "@langchain/core": "^1.1.11",
+    "@langchain/core": "^1.1.12",
     "@langchain/mcp-adapters": "^1.1.1",
     "@langchain/openai": "^1.2.1",
-    "@langchain/xai": "^1.1.1",
+    "@langchain/xai": "^1.2.0",
     "@liexp/test": "workspace:*",
     "@napi-rs/canvas": "^0.1.80",
     "@types/compression": "^1.8.1",
