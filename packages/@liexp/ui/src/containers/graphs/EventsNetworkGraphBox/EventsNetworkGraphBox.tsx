@@ -207,7 +207,9 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     control={
                       <Checkbox
                         checked={relations.includes(Actor.ACTORS.literals[0])}
-                        onChange={handleRelationChange(Actor.ACTORS.literals[0])}
+                        onChange={handleRelationChange(
+                          Actor.ACTORS.literals[0],
+                        )}
                       />
                     }
                   />
@@ -216,7 +218,9 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     control={
                       <Checkbox
                         checked={relations.includes(Group.GROUPS.literals[0])}
-                        onChange={handleRelationChange(Group.GROUPS.literals[0])}
+                        onChange={handleRelationChange(
+                          Group.GROUPS.literals[0],
+                        )}
                       />
                     }
                   />
@@ -224,8 +228,12 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Keywords</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Keyword.KEYWORDS.literals[0])}
-                        onChange={handleRelationChange(Keyword.KEYWORDS.literals[0])}
+                        checked={relations.includes(
+                          Keyword.KEYWORDS.literals[0],
+                        )}
+                        onChange={handleRelationChange(
+                          Keyword.KEYWORDS.literals[0],
+                        )}
                       />
                     }
                   />
