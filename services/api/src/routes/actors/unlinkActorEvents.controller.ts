@@ -3,7 +3,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { removeActorFromEventPayload } from "@liexp/shared/lib/helpers/event/addActorToEventPayload.js";
+import { removeActorFromEvent } from "@liexp/shared/lib/helpers/event/addActorToEventPayload.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -31,7 +31,7 @@ export const MakeUnlinkActorEventRoute: Route = (r, { db, logger, jwt }) => {
           }),
         ),
         TE.chain((event) => {
-          const updatedEvent = removeActorFromEventPayload(event, actorId);
+          const updatedEvent = removeActorFromEvent(event, actorId);
           return db.save(EventV2Entity, [updatedEvent]);
         }),
         TE.map(() => ({
