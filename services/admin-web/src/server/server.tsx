@@ -76,7 +76,10 @@ export const run = async (base: string): Promise<void> => {
 
   if (httpServer) {
     // Development: Use pre-created HTTP server with Express handler
-    httpServer.on("request", app);
+    // Wrap in callback to avoid ESLint no-misused-promises (Express handlers may be async)
+    httpServer.on("request", (req, res) => {
+      app(req, res);
+    });
 
     httpServer.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
       logger.info.log(
