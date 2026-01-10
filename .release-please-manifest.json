@@ -5,7 +5,7 @@
   "packages/@liexp/shared": "0.1.6",
   "packages/@liexp/test": "0.1.6",
   "packages/@liexp/ui": "0.1.7",
-  "services/admin-web": "0.1.7",
+  "services/admin": "0.1.7",
   "services/ai-bot": "0.1.6",
   "services/api": "0.1.6",
   "services/web": "0.1.7",

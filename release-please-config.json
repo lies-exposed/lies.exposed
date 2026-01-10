@@ -44,11 +44,10 @@
         "ui"
       ]
     },
-    "services/admin-web": {
-      "component": "admin-web",
+    "services/admin": {
+      "component": "admin",
       "include-scope": [
-        "admin",
-        "admin-web"
+        "admin"
       ]
     },
     "services/ai-bot": {
