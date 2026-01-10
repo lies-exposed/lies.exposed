@@ -7,7 +7,7 @@ BASE_IMAGE=ghcr.io/lies-exposed/liexp-base
 API_IMAGE=ghcr.io/lies-exposed/liexp-api
 BE_WORKER_IMAGE=ghcr.io/lies-exposed/liexp-worker
 WEB_IMAGE=ghcr.io/lies-exposed/liexp-web
-ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin-web
+ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin
 AI_BOT_IMAGE=ghcr.io/lies-exposed/liexp-ai-bot
 AGENT_IMAGE=ghcr.io/lies-exposed/liexp-agent
 
