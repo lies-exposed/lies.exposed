@@ -77,11 +77,11 @@ services:
       options:
         max-file: 5
         max-size: 10m
-  admin-web:
-    image: ghcr.io/lies-exposed/liexp-admin-web:latest
-    container_name: liexp-admin-web
+  admin:
+    image: ghcr.io/lies-exposed/liexp-admin:latest
+    container_name: liexp-admin
     env_file:
-      - .env.admin-web
+      - .env.admin
     restart: always
     depends_on:
       - api

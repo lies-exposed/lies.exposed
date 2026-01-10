@@ -32,7 +32,7 @@ updates:
       - "/services/web"
       - "/services/ai-bot"
       - "/services/worker"
-      - "/services/admin-web"
+      - "/services/admin"
       - "/services/storybook"
     schedule:
       interval: "weekly"

@@ -7,7 +7,7 @@ import { useAgentDataProvider } from "./useAgentDataProvider.js";
 
 /**
  * Provide context with @ts-endpoint/resource-client for Agent API
- * Uses the admin-web proxy endpoint (/api/proxy/agent)
+ * Uses the admin proxy endpoint (/api/proxy/agent)
  * The proxy handles M2M authentication with the agent service
  */
 export const useAgentAPI = (): API<Endpoints> => {

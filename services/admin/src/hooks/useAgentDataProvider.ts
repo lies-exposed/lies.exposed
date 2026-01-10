@@ -4,7 +4,7 @@ import { AgentAPIContext } from "../context/AgentAPIContext.js";
 
 /**
  * Provide context with @ts-endpoint/react-admin client for Agent API
- * Uses the admin-web proxy to communicate with the agent service
+ * Uses the admin proxy to communicate with the agent service
  */
 export const useAgentDataProvider = (): APIRESTClient => {
   const dataProvider = useContext(AgentAPIContext);

@@ -2,14 +2,14 @@
 
 **Status**: Phase 1 Complete - Server Infrastructure Ready  
 **Date**: November 18, 2025  
-**Service**: admin-web (colocated proxy server)
+**Service**: admin (colocated proxy server)
 
 ---
 
 ## Implementation Changelog
 
 ### November 18, 2025 - Phase 2 Complete
-- ✅ Implemented frontend integration for admin-web proxy
+- ✅ Implemented frontend integration for admin proxy
 - ✅ Created AgentAPIClient for calling proxy endpoints
 - ✅ Implemented useChat and useConversationHistory React hooks
 - ✅ Updated useAPIAgent to conditionally use proxy based on environment variable
@@ -17,10 +17,10 @@
 - ✅ Implemented loading and error state management
 - ✅ Added VITE_USE_AGENT_PROXY toggle for backward compatibility
 - ✅ All TypeScript errors resolved - builds successfully with `pnpm build`
-- 📦 Branch: `feat/admin-web-frontend-proxy`
+- 📦 Branch: `feat/admin-frontend-proxy`
 
 ### November 18, 2025 - Phase 1 Complete
-- ✅ Implemented complete server infrastructure for admin-web proxy
+- ✅ Implemented complete server infrastructure for admin proxy
 - ✅ Created server entry point with Express, CORS, compression, error handling
 - ✅ Implemented environment validation using Effect Schema
 - ✅ Created AdminProxyContext with JWT, M2M, and agent client initialization
@@ -29,7 +29,7 @@
 - ✅ Configured TypeScript build for server code (tsconfig.server.json)
 - ✅ Updated package.json with server dependencies and scripts
 - ✅ All TypeScript errors resolved - builds successfully with `pnpm build:server`
-- 📦 Branch: `feat/admin-web-server`
+- 📦 Branch: `feat/admin-server`
 
 ### November 18, 2025 - Phase 0 Complete
 - ✅ Extracted shared infrastructure to `@liexp/backend`
@@ -53,7 +53,7 @@
 
 ## Executive Summary
 
-Implement a server-side proxy within the `admin-web` service that allows the admin frontend to call `agent.liexp.dev` chat endpoints using M2M (machine-to-machine) authentication.
+Implement a server-side proxy within the `admin` service that allows the admin frontend to call `agent.liexp.dev` chat endpoints using M2M (machine-to-machine) authentication.
 
 **Current Status**: Phase 1 Complete (November 18, 2025)
 - ✅ Shared infrastructure extracted to `@liexp/backend`
@@ -64,7 +64,7 @@ The proxy:
 - Uses a single ServiceClient identity for all admin requests
 - Signs JWT tokens locally using the shared `JWT_SECRET`
 - Only proxies the `/chat/message` endpoint initially
-- Is colocated within the admin-web service (similar to web service server pattern)
+- Is colocated within the admin service (similar to web service server pattern)
 - Authenticates admin users before proxying requests
 - Audits all proxied calls with admin user context
 
@@ -73,9 +73,9 @@ The proxy:
 ## Design Decisions (User Confirmed)
 
 ✅ **Single service identity**: All admin-proxy traffic uses one ServiceClient JWT (not per-admin tokens)  
-✅ **JWT secret storage**: Add `JWT_SECRET` to admin-web `.env` (same value as agent/api)  
+✅ **JWT secret storage**: Add `JWT_SECRET` to admin `.env` (same value as agent/api)  
 ✅ **Initial scope**: Only proxy the chat endpoint (`POST /v1/chat/message`)  
-✅ **Deployment**: Colocate proxy server within admin-web service  
+✅ **Deployment**: Colocate proxy server within admin service  
 
 ---
 
@@ -87,10 +87,10 @@ The proxy:
 - `JWT_SECRET=my-secret` — shared secret for signing/verifying JWTs
 - Both agent and api use `GetJWTProvider({ secret: env.JWT_SECRET, logger })` 
 
-**Required for admin-web**:
+**Required for admin**:
 
 ```properties
-# Add to services/admin-web/.env
+# Add to services/admin/.env
 
 # Server configuration (similar to web service)
 SERVER_PORT=3001
@@ -194,7 +194,7 @@ Admin FE
 ### Component Breakdown
 
 #### 1. Server Entry Point
-**File**: `services/admin-web/src/server/server.tsx`
+**File**: `services/admin/src/server/server.tsx`
 
 Similar to web service pattern (`services/web/src/server/server.tsx`):
 - Express app with middleware (cors, json, compression)
@@ -204,7 +204,7 @@ Similar to web service pattern (`services/web/src/server/server.tsx`):
 - Error handlers
 
 #### 2. Proxy Routes
-**File**: `services/admin-web/src/server/routes/agent-proxy.routes.ts`
+**File**: `services/admin/src/server/routes/agent-proxy.routes.ts`
 
 ```typescript
 POST /api/proxy/agent/chat
@@ -216,7 +216,7 @@ POST /api/proxy/agent/chat
 ```
 
 #### 3. M2M Token Provider
-**File**: `services/admin-web/src/server/providers/m2m-token.provider.ts`
+**File**: `services/admin/src/server/providers/m2m-token.provider.ts`
 
 ```typescript
 interface M2MTokenProvider {
@@ -230,7 +230,7 @@ interface M2MTokenProvider {
 ```
 
 #### 4. Agent HTTP Client
-**File**: `services/admin-web/src/server/clients/agent.client.ts`
+**File**: `services/admin/src/server/clients/agent.client.ts`
 
 ```typescript
 interface AgentClient {
@@ -247,7 +247,7 @@ interface AgentClient {
 ```
 
 #### 5. Context Setup
-**File**: `services/admin-web/src/server/context/index.ts`
+**File**: `services/admin/src/server/context/index.ts`
 
 ```typescript
 interface AdminProxyContext {
@@ -263,7 +263,7 @@ interface AdminProxyContext {
 
 ## Shared logic to centralize (move to `@liexp/backend`)
 
-Before implementing the proxy, extract functionality that will be useful across services (to avoid duplication). The `api` already contains several patterns and helpers we will likely re-use; move these into `packages/@liexp/backend` so both `services/api` and `services/admin-web` can import them.
+Before implementing the proxy, extract functionality that will be useful across services (to avoid duplication). The `api` already contains several patterns and helpers we will likely re-use; move these into `packages/@liexp/backend` so both `services/api` and `services/admin` can import them.
 
 Suggested modules to extract and proposed locations:
 
@@ -282,7 +282,7 @@ Suggested modules to extract and proposed locations:
       - `AgentClient.sendChatMessage(req)`
 
 - `middleware/audit.middleware.ts`
-   - Purpose: Reusable audit middleware to log proxied requests with user context and correlation id. Both `api` and `admin-web` can call this to keep consistent logs/audits.
+   - Purpose: Reusable audit middleware to log proxied requests with user context and correlation id. Both `api` and `admin` can call this to keep consistent logs/audits.
    - Location: `packages/@liexp/backend/src/express/middleware/audit.middleware.ts`
    - API: `auditMiddleware(options?: { logger, captureBody?: boolean })`
 
@@ -297,12 +297,12 @@ Suggested modules to extract and proposed locations:
 
 Why move these to `@liexp/backend`?
 - They are infrastructure concerns and already live conceptually in the `backend` package (JWT provider, auth middleware exist there).
-- Centralizing avoids copy/paste and ensures consistent behaviour (logging format, token creation, error mapping) across `api` and `admin-web`.
+- Centralizing avoids copy/paste and ensures consistent behaviour (logging format, token creation, error mapping) across `api` and `admin`.
 
 Extraction steps (high level):
 1. Add new files under `packages/@liexp/backend/src/` with the small, well-typed APIs described above. Implement using existing helpers (GetJWTProvider, logger, effect Schema types).
 2. Replace existing duplicated code in `services/api` with imports from `@liexp/backend`.
-3. Implement the proxy in `services/admin-web` importing the shared helpers from `@liexp/backend`.
+3. Implement the proxy in `services/admin` importing the shared helpers from `@liexp/backend`.
 4. Run `pnpm -w build` or `pnpm -w typecheck` and fix any type/import issues.
 5. Add unit tests under `packages/@liexp/backend` for the new providers/middleware.
 
@@ -319,7 +319,7 @@ I inspected `services/api` and other services for code that will be duplicated b
    - This pattern (create axios client + interceptors that set JWT auth) is duplicated in `services/ai-bot/src/load-context.ts`.
 
 Extraction recommendation for this case:
-   - Provide a small helper in `@liexp/backend` such as `makeAuthAxiosClient({ jwt, baseURL, signAs: 'user' | 'client' })` that returns an axios instance already configured with the correct authorization header and optional correlation-id forwarding. This will let `api`, `ai-bot` and `admin-web` share the same behaviour.
+   - Provide a small helper in `@liexp/backend` such as `makeAuthAxiosClient({ jwt, baseURL, signAs: 'user' | 'client' })` that returns an axios instance already configured with the correct authorization header and optional correlation-id forwarding. This will let `api`, `ai-bot` and `admin` share the same behaviour.
 
 - `GetJWTProvider` initialization
    - Multiple services (api, agent, ai-bot) initialize `GetJWTProvider({ secret: env.JWT_SECRET, logger })`. Keep `GetJWTProvider` in `@liexp/backend` (already exists) and ensure shared env schema documents the `JWT_SECRET` var.
@@ -488,13 +488,13 @@ Completed Tasks:
 - `services/api` refactored to use new modules
 - Comprehensive test suite (67 passing tests)
 
-**Next**: Phase 1 - Implement admin-web proxy server using extracted modules
+**Next**: Phase 1 - Implement admin proxy server using extracted modules
 
 
 ### Phase 1: Server Setup (Priority 1) ✅ COMPLETE
 
 **Status**: ✅ Complete - All server components implemented and building successfully  
-**Branch**: `feat/admin-web-server`  
+**Branch**: `feat/admin-server`  
 **Date**: November 18, 2025
 
 All TypeScript errors resolved. Server builds cleanly with `pnpm build:server`.
@@ -503,17 +503,17 @@ Completed Tasks:
 
 ✅ Created the following files:
 
-1. **`services/admin-web/src/server/io/ENV.ts`** (36 lines)
+1. **`services/admin/src/server/io/ENV.ts`** (36 lines)
    - Effect Schema for environment validation
    - All required vars: SERVER_PORT, SERVER_HOST, JWT_SECRET, AGENT_URL, SERVICE_CLIENT_*, RATE_LIMIT_*
    
-2. **`services/admin-web/src/server/context/index.ts`** (103 lines)
+2. **`services/admin/src/server/context/index.ts`** (103 lines)
    - AdminProxyContext interface with logger, jwt, m2m, agent client
    - makeAdminProxyContext function using fp-ts TaskEither pattern
    - Local ControllerError and TEControllerError types
    - Initializes all providers and clients
    
-3. **`services/admin-web/src/server/routes/agent-proxy.routes.ts`** (163 lines)
+3. **`services/admin/src/server/routes/agent-proxy.routes.ts`** (163 lines)
    - POST /api/proxy/agent/chat endpoint
    - Admin authentication via authenticationHandler (AdminRead permission)
    - Per-user rate limiting (100 req/min default)
@@ -523,7 +523,7 @@ Completed Tasks:
    - Comprehensive error mapping (401, 429, 5xx → user-friendly messages)
    - GET /health endpoint for proxy health checks
    
-4. **`services/admin-web/src/server/server.tsx`** (175 lines)
+4. **`services/admin/src/server/server.tsx`** (175 lines)
    - Express app with CORS, JSON parsing, compression
    - Environment validation using Effect Schema
    - Context initialization (JWT, M2M, Agent client)
@@ -533,7 +533,7 @@ Completed Tasks:
    - Error handler with production/dev modes
    - Graceful server startup on SERVER_PORT/HOST
    
-5. **`services/admin-web/tsconfig.server.json`** (35 lines)
+5. **`services/admin/tsconfig.server.json`** (35 lines)
    - Extends base tsconfig
    - Outputs to build/server
    - Includes only src/server/** files
@@ -541,12 +541,12 @@ Completed Tasks:
    
 ✅ Updated files:
 
-1. **`services/admin-web/package.json`**
+1. **`services/admin/package.json`**
    - Added dependencies: @liexp/backend, compression, cors, express, sirv
    - Added devDependencies: @types/compression, @types/cors, @types/express, tsx
    - Added scripts: dev:server, build:server, serve
    
-2. **`services/admin-web/.env`**
+2. **`services/admin/.env`**
    - Added SERVER_PORT=3001
    - Added SERVER_HOST=0.0.0.0
    - Added JWT_SECRET=my-secret
@@ -591,17 +591,17 @@ Completed Tasks:
 
 **Status**: ✅ Complete - All frontend components implemented and building successfully
 
-**Branch**: `feat/admin-web-frontend-proxy`  
+**Branch**: `feat/admin-frontend-proxy`  
 **Date**: November 18, 2025
 
-All TypeScript errors resolved. Admin-web builds cleanly with `pnpm build`.
+All TypeScript errors resolved. admin builds cleanly with `pnpm build`.
 
 Completed Tasks:
 
 ✅ Created the following files:
 
-1. **`services/admin-web/src/client/agent-api.client.ts`** (98 lines)
-   - Purpose: Client for calling admin-web proxy to agent service
+1. **`services/admin/src/client/agent-api.client.ts`** (98 lines)
+   - Purpose: Client for calling admin proxy to agent service
    - Key Exports:
      - AgentAPIClient interface (sendMessage, checkHealth)
      - AgentAPIError interface (status, message, originalError)
@@ -612,7 +612,7 @@ Completed Tasks:
      - Comprehensive error handling with AgentAPIError type
      - Health check endpoint support
 
-2. **`services/admin-web/src/hooks/useChat.ts`** (159 lines)
+2. **`services/admin/src/hooks/useChat.ts`** (159 lines)
    - Purpose: React hooks for chat functionality
    - Key Exports:
      - useChat hook for sending messages
@@ -625,23 +625,23 @@ Completed Tasks:
 
 ✅ Updated files:
 
-1. **`services/admin-web/src/hooks/useAPIAgent.ts`**
+1. **`services/admin/src/hooks/useAPIAgent.ts`**
    - Added VITE_USE_AGENT_PROXY environment variable support
    - When proxy enabled, uses makeAgentAPIClient instead of direct fetch
    - Backwards compatible - falls back to direct agent calls when proxy disabled
    - Imports ChatMessage and ChatRequest from @liexp/shared
 
-2. **`services/admin-web/src/components/chat/AdminChat.tsx`**
+2. **`services/admin/src/components/chat/AdminChat.tsx`**
    - Updated ChatMessage interface to include "tool" role (matches shared schema)
 
-3. **`services/admin-web/.env`**
+3. **`services/admin/.env`**
    - Added VITE_USE_AGENT_PROXY=true flag
    - Enables toggling between proxy and direct agent calls
 
-4. **`services/admin-web/package.json`**
+4. **`services/admin/package.json`**
    - Added @types/node to devDependencies
 
-5. **`services/admin-web/tsconfig.server.json`**
+5. **`services/admin/tsconfig.server.json`**
    - Removed explicit "types": ["node"] to fix type resolution
 
 ✅ Build validation:
@@ -667,11 +667,11 @@ Completed Tasks:
 
 #### Files to Create/Update:
 
-1. **`services/admin-web/src/client/clients/agent-api.client.ts`**
+1. **`services/admin/src/client/clients/agent-api.client.ts`**
    - Client-side wrapper for calling proxy endpoints
    - POST /api/proxy/agent/chat
 
-2. **`services/admin-web/src/client/hooks/useChat.ts`**
+2. **`services/admin/src/client/hooks/useChat.ts`**
    - React hook for sending chat messages via proxy
    - Handle loading, error states
    - Manage conversation history
@@ -691,19 +691,19 @@ Completed Tasks:
 
 #### Test Files:
 
-1. **`services/admin-web/src/server/__tests__/m2m-token.provider.test.ts`**
+1. **`services/admin/src/server/__tests__/m2m-token.provider.test.ts`**
    - Test token generation
    - Test token caching
    - Test ServiceClient payload construction
 
-2. **`services/admin-web/src/server/__tests__/agent-proxy.routes.test.ts`**
+2. **`services/admin/src/server/__tests__/agent-proxy.routes.test.ts`**
    - Test authentication (admin required)
    - Test input validation
    - Test rate limiting
    - Test error handling
    - Mock agent responses
 
-3. **`services/admin-web/src/server/__tests__/integration.test.ts`**
+3. **`services/admin/src/server/__tests__/integration.test.ts`**
    - End-to-end: FE → proxy → mock agent
    - Test full request/response flow
 
@@ -722,20 +722,20 @@ Completed Tasks:
 
 #### Files to Create/Update:
 
-1. **`services/admin-web/Dockerfile`** (if not exists, or update existing)
+1. **`services/admin/Dockerfile`** (if not exists, or update existing)
    - Multi-stage build
    - Build client (Vite)
    - Build server (TypeScript)
    - Runtime: serve both
 
 2. **`compose.yml`** (root)
-   - Update admin-web service to expose server port
+   - Update admin service to expose server port
    - Add JWT_SECRET to environment
 
 3. **`.github/workflows/deploy.yml`**
-   - Ensure admin-web builds include server
+   - Ensure admin builds include server
 
-4. **`services/admin-web/README.md`**
+4. **`services/admin/README.md`**
    - Document server setup
    - Document proxy usage
    - Document environment variables
@@ -834,11 +834,11 @@ Completed Tasks:
 # Terminal 1: Start dependencies (DB, Redis, API, Agent)
 docker compose up db redis api agent
 
-# Terminal 2: Start admin-web server (dev mode with watch)
-cd services/admin-web
+# Terminal 2: Start admin server (dev mode with watch)
+cd services/admin
 pnpm dev:server
 
-# Terminal 3: Start admin-web client (Vite dev)
+# Terminal 3: Start admin client (Vite dev)
 pnpm watch:client
 ```
 
@@ -951,7 +951,7 @@ RATE_LIMIT_MAX_REQUESTS=50
 
 ### For Operators
 
-**`services/admin-web/docs/deployment.md`**:
+**`services/admin/docs/deployment.md`**:
 - How to configure environment variables
 - How to generate SERVICE_CLIENT_ID/USER_ID
 - How to rotate JWT_SECRET
@@ -959,7 +959,7 @@ RATE_LIMIT_MAX_REQUESTS=50
 
 ### For Developers
 
-**`services/admin-web/docs/proxy-api.md`**:
+**`services/admin/docs/proxy-api.md`**:
 - Proxy endpoint reference
 - Request/response schemas
 - Error codes
@@ -1040,9 +1040,9 @@ RATE_LIMIT_MAX_REQUESTS=50
 ## Open Questions (RESOLVED)
 
 - ✅ Service identity: Single ServiceClient for all admin traffic
-- ✅ JWT secret storage: Added to admin-web .env
+- ✅ JWT secret storage: Added to admin .env
 - ✅ Endpoints to proxy: Only /chat/message initially
-- ✅ Deployment: Colocated within admin-web service
+- ✅ Deployment: Colocated within admin service
 
 ---
 
@@ -1061,7 +1061,7 @@ RATE_LIMIT_MAX_REQUESTS=50
 
 - **Agent**: `services/agent/.env` — uses `JWT_SECRET=my-secret`
 - **API**: `services/api/.env` — uses `JWT_SECRET=my-secret`
-- **Admin Web**: `services/admin-web/.env` — needs `JWT_SECRET` added
+- **Admin Web**: `services/admin/.env` — needs `JWT_SECRET` added
 
 ---
 

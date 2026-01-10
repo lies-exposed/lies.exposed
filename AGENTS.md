@@ -121,7 +121,7 @@ The public-facing frontend application built with React and Server-Side Renderin
 - **Search & Discovery**: Advanced content search and filtering
 - **Responsive Design**: Mobile-optimized user experience
 
-### 5. Admin Web Service (`services/admin-web/`)
+### 5. Admin Web Service (`services/admin/`)
 
 Administrative interface for content management and system configuration.
 
@@ -151,7 +151,7 @@ The platform is built using a monorepo architecture with shared packages:
 #### `@liexp/ui` 
 - **Purpose**: Reusable React components and design system
 - **Features**: UI components, themes, styling utilities
-- **Usage**: Used by web and admin-web services for consistent UX
+- **Usage**: Used by web and admin services for consistent UX
 
 #### `@liexp/backend`
 - **Purpose**: Backend utilities and common server functionality

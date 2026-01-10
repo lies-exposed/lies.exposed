@@ -10,7 +10,7 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      admin-web: ${{ steps.filter.outputs.admin-web }}
+      admin: ${{ steps.filter.outputs.admin }}
       agent: ${{ steps.filter.outputs.agent }}
       ai-bot: ${{ steps.filter.outputs.ai-bot }}
       api: ${{ steps.filter.outputs.api }}
@@ -31,12 +31,12 @@ jobs:
               - "**/package.json"
               - "pnpm-lock.yaml"
               - "pnpm-workspace.yaml"
-            admin-web:
+            admin:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
-              - "services/admin-web/**"
+              - "services/admin/**"
             agent:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
@@ -129,14 +129,14 @@ jobs:
       max-parallel: 3
       matrix:
         include:
-          - service: admin-web
-            enabled: ${{ needs.detect-changes.outputs.admin-web == 'true' }}
-            lint_command: pnpm admin-web lint
-            build_command: pnpm admin-web build
-            app_command: pnpm admin-web build:app
+          - service: admin
+            enabled: ${{ needs.detect-changes.outputs.admin == 'true' }}
+            lint_command: pnpm admin lint
+            build_command: pnpm admin build
+            app_command: pnpm admin build:app
             has_app_build: true
-            build_cache_key: admin-web-build
-            test_command: pnpm admin-web test
+            build_cache_key: admin-build
+            test_command: pnpm admin test
           - service: agent
             enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
             lint_command: pnpm agent lint
@@ -253,7 +253,7 @@ jobs:
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped') &&
       (needs.detect-changes.outputs.packages == 'true' ||
-       needs.detect-changes.outputs.admin-web == 'true' ||
+       needs.detect-changes.outputs.admin == 'true' ||
        needs.detect-changes.outputs.agent == 'true' ||
        needs.detect-changes.outputs.ai-bot == 'true' ||
        needs.detect-changes.outputs.api == 'true' ||
