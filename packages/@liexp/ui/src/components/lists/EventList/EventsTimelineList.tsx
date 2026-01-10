@@ -120,8 +120,10 @@ const Row: React.FC<
   );
 };
 
-export interface EventsTimelineListProps
-  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
+export interface EventsTimelineListProps extends Omit<
+  EventListItemProps,
+  "event" | "onRowInvalidate"
+> {
   events: SearchEventQueryResult;
   width: number;
   height: number;

@@ -75,8 +75,9 @@ export interface NetworkNode<N extends NetworkNodeDatum> {
   data: N;
 }
 
-export interface NetworkPointNode<N extends NetworkNodeDatum>
-  extends NetworkNode<N> {
+export interface NetworkPointNode<
+  N extends NetworkNodeDatum,
+> extends NetworkNode<N> {
   x: number;
   y: number;
 }

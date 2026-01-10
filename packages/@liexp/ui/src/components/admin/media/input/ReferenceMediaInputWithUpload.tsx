@@ -11,8 +11,10 @@ import {
 import { MediaField } from "../MediaField.js";
 import ReferenceMediaInput from "./ReferenceMediaInput.js";
 
-export interface ReferenceMediaInputWithUploadProps
-  extends Omit<ReferenceInputProps, "children"> {
+export interface ReferenceMediaInputWithUploadProps extends Omit<
+  ReferenceInputProps,
+  "children"
+> {
   source: string;
   uploadSource?: string;
   label?: string;

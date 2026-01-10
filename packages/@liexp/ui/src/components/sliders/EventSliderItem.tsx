@@ -19,8 +19,10 @@ import KeywordList from "../lists/KeywordList.js";
 import { Box, Grid, Link, Typography } from "../mui/index.js";
 import { MediaSlider } from "./MediaSlider.js";
 
-export interface EventSliderItemBaseProps
-  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
+export interface EventSliderItemBaseProps extends Omit<
+  EventListItemProps,
+  "event" | "onRowInvalidate"
+> {
   type: EventType;
   title: string;
   date: Date;

@@ -39,8 +39,10 @@ export const GroupsBoxWrapper: React.FC<GroupsBoxWrapperProps> = ({
   );
 };
 
-export interface GroupsBoxProps
-  extends Omit<GroupsBoxWrapperProps, "children"> {
+export interface GroupsBoxProps extends Omit<
+  GroupsBoxWrapperProps,
+  "children"
+> {
   style?: React.CSSProperties;
   onItemClick: (g: Group.Group, e: React.SyntheticEvent) => void;
 }

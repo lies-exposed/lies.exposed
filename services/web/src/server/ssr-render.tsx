@@ -22,11 +22,10 @@ config.autoAddCss = false;
 /**
  * Extended server renderer props with API provider
  */
-interface AppServerRendererProps
-  extends ServerRendererProps<
-    typeof ECOTheme,
-    ReturnType<typeof createEmotionCache>
-  > {
+interface AppServerRendererProps extends ServerRendererProps<
+  typeof ECOTheme,
+  ReturnType<typeof createEmotionCache>
+> {
   apiProvider: APIRESTClient;
 }
 

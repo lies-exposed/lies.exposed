@@ -38,11 +38,10 @@ export type SearchOption =
       item: string;
     };
 
-interface SearchInputProps
-  extends Omit<
-    AutocompleteProps<any, true, undefined, true>,
-    "renderInput" | "options"
-  > {
+interface SearchInputProps extends Omit<
+  AutocompleteProps<any, true, undefined, true>,
+  "renderInput" | "options"
+> {
   query: SearchEventsQueryInputNoPagination;
   onQueryChange: (items: SearchFilter) => void;
   inputParams?: Partial<Omit<AutocompleteRenderInputParams, "InputProps">> & {

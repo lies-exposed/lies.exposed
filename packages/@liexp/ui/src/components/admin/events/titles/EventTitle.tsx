@@ -15,8 +15,10 @@ import { ScientificStudyEventTitle } from "./ScientificStudyEventTitle.js";
 import { TransactionTitle } from "./TransactionTitle.js";
 import { UncategorizedEventTitle } from "./UncategorizedEventTitle.js";
 
-interface EventTitleProps
-  extends Omit<FieldProps<http.Events.Event>, "source"> {
+interface EventTitleProps extends Omit<
+  FieldProps<http.Events.Event>,
+  "source"
+> {
   source?: string;
 }
 

@@ -40,8 +40,10 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-export interface EventsFilterSummaryProps
-  extends Omit<SearchEventQueryResult, "events" | "total"> {
+export interface EventsFilterSummaryProps extends Omit<
+  SearchEventQueryResult,
+  "events" | "total"
+> {
   className: string;
   queryFilters: SearchEventQueryInput;
   onQueryChange: (f: SearchEventQueryInput) => void;

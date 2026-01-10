@@ -17,8 +17,10 @@ import { Box } from "../../mui/index.js";
 import { type EventListItemProps } from "./EventListItem.js";
 import EventsTimelineList from "./EventsTimelineList.js";
 
-export interface EventsTimelineProps
-  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
+export interface EventsTimelineProps extends Omit<
+  EventListItemProps,
+  "event" | "onRowInvalidate"
+> {
   className?: string;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;

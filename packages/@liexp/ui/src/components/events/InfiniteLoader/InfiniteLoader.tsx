@@ -17,8 +17,10 @@ import { type EventListItemProps } from "../../lists/EventList/EventListItem.js"
 import { type EventsTimelineListProps } from "../../lists/EventList/EventsTimelineList.js";
 import { Box } from "../../mui/index.js";
 
-export interface EventsInfiniteLoaderProps
-  extends Omit<EventListItemProps, "event" | "onRowInvalidate"> {
+export interface EventsInfiniteLoaderProps extends Omit<
+  EventListItemProps,
+  "event" | "onRowInvalidate"
+> {
   className?: string;
   hash: string;
   queryParams: Omit<SearchEventQueryInput, "hash" | "_start" | "_end">;

@@ -54,11 +54,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
     },
   },
 }));
-export interface EventSliderProps
-  extends Pick<
-    EventSliderItemBaseProps,
-    "onActorClick" | "onGroupClick" | "onGroupMemberClick" | "onKeywordClick"
-  > {
+export interface EventSliderProps extends Pick<
+  EventSliderItemBaseProps,
+  "onActorClick" | "onGroupClick" | "onGroupMemberClick" | "onKeywordClick"
+> {
   className?: string;
   events: Events.SearchEvent.SearchEvent[];
   totals: EventTotals;

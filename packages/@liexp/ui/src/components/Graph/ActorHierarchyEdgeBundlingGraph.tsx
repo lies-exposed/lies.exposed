@@ -6,8 +6,7 @@ import {
 } from "../Common/Graph/HierarchicalEdgeBundling.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 
-export interface ActorHierarchyEdgeBundlingGraphProps
-  extends HierarchicalEdgeBundlingOnClickProps {
+export interface ActorHierarchyEdgeBundlingGraphProps extends HierarchicalEdgeBundlingOnClickProps {
   actor: string;
   width: number;
 }

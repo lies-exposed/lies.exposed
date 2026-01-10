@@ -23,8 +23,9 @@ import {
   type CardProps,
 } from "../../mui/index.js";
 
-export interface EventCardProps<E extends SearchEvent.SearchEvent>
-  extends CardProps {
+export interface EventCardProps<
+  E extends SearchEvent.SearchEvent,
+> extends CardProps {
   event: E;
   defaultImage?: string;
   showMedia?: boolean;

@@ -9,11 +9,10 @@ export interface SearchableItem {
   id: string;
 }
 
-export interface SearchableInputProps<I extends SearchableItem>
-  extends Omit<
-    AutocompleteProps<I, boolean, boolean, boolean>,
-    "renderInput" | "options"
-  > {
+export interface SearchableInputProps<I extends SearchableItem> extends Omit<
+  AutocompleteProps<I, boolean, boolean, boolean>,
+  "renderInput" | "options"
+> {
   placeholder?: string;
   label: string;
   items: I[];

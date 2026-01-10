@@ -13,8 +13,10 @@ import useWindowDimensions from "../../../hooks/useWindowsDimensions.js";
 import { styled, useTheme } from "../../../theme/index.js";
 import { type InfiniteListBaseProps } from "./types.js";
 
-export interface CellRendererProps
-  extends Omit<MasonryCellProps, "key" | "parent"> {
+export interface CellRendererProps extends Omit<
+  MasonryCellProps,
+  "key" | "parent"
+> {
   item: any;
   isLast: boolean;
   measure: () => void;

@@ -4,8 +4,10 @@ import * as React from "react";
 import { Avatar } from "../Common/Avatar.js";
 import { ChipCount, type ChipCountProps } from "../Common/ChipCount.js";
 
-interface ActorChipCountProps
-  extends Omit<ChipCountProps, "label" | "avatar" | "color"> {
+interface ActorChipCountProps extends Omit<
+  ChipCountProps,
+  "label" | "avatar" | "color"
+> {
   actor: Actor.Actor;
 }
 
