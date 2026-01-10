@@ -51,8 +51,6 @@ temp
 .env
 .env.*
 !.env.test
-!services/admin/.env.prod
-!services/web/.env.prod
 *.tsbuildinfo
 
 # Imported csv

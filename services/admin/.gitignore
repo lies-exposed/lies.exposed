@@ -14,6 +14,8 @@
 # misc
 .DS_Store
 .env*
+!.env
+!.env.server
 !.env.prod
 
 npm-debug.log*
