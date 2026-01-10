@@ -78,7 +78,7 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
   selectedActorIds,
   selectedGroupIds,
   selectedKeywordIds,
-  relations: _relations = [KEYWORDS.Type],
+  relations: _relations = [KEYWORDS.literals[0]],
   onRelationsChange,
   showRelations = true,
   transform,
@@ -206,8 +206,10 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Actors</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Actor.ACTORS.Type)}
-                        onChange={handleRelationChange(Actor.ACTORS.Type)}
+                        checked={relations.includes(Actor.ACTORS.literals[0])}
+                        onChange={handleRelationChange(
+                          Actor.ACTORS.literals[0],
+                        )}
                       />
                     }
                   />
@@ -215,8 +217,10 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Groups</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Group.GROUPS.Type)}
-                        onChange={handleRelationChange(Group.GROUPS.Type)}
+                        checked={relations.includes(Group.GROUPS.literals[0])}
+                        onChange={handleRelationChange(
+                          Group.GROUPS.literals[0],
+                        )}
                       />
                     }
                   />
@@ -224,8 +228,12 @@ export const EventsNetworkGraphBoxWrapper = <T extends any>({
                     label={<Typography variant="caption">Keywords</Typography>}
                     control={
                       <Checkbox
-                        checked={relations.includes(Keyword.KEYWORDS.Type)}
-                        onChange={handleRelationChange(Keyword.KEYWORDS.Type)}
+                        checked={relations.includes(
+                          Keyword.KEYWORDS.literals[0],
+                        )}
+                        onChange={handleRelationChange(
+                          Keyword.KEYWORDS.literals[0],
+                        )}
                       />
                     }
                   />

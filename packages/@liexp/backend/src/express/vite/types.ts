@@ -1,6 +1,21 @@
+import type http from "http";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import type express from "express";
 import type { ViteDevServer } from "vite";
+
+/**
+ * HMR configuration options for Vite in middleware mode
+ */
+export interface HmrConfig {
+  /** HTTP server to attach HMR WebSocket to (required for full HMR in middleware mode) */
+  server?: http.Server;
+  /** Host for HMR WebSocket (defaults to server host) */
+  host?: string;
+  /** Port for HMR client to connect to (useful when behind proxy) */
+  clientPort?: number;
+  /** Protocol for HMR client (ws or wss) */
+  protocol?: "ws" | "wss";
+}
 
 /**
  * Vite server configuration options
@@ -16,6 +31,8 @@ export interface ViteServerConfig {
   serverOptions?: Record<string, unknown>;
   /** Custom cache directory for Vite (useful for tests) */
   cacheDir?: string;
+  /** HMR configuration (for middleware mode) */
+  hmr?: HmrConfig | boolean;
 }
 
 /**

@@ -146,12 +146,17 @@ describe("vite-server-helper", () => {
         );
 
         const { createServer } = await import("vite");
-        expect(createServer).toHaveBeenCalledWith({
-          server: { middlewareMode: true },
-          appType: "spa",
-          base: "/",
-          configFile: undefined,
-        });
+        expect(createServer).toHaveBeenCalledWith(
+          expect.objectContaining({
+            server: expect.objectContaining({
+              middlewareMode: true,
+              hmr: true,
+            }),
+            appType: "spa",
+            base: "/",
+            configFile: undefined,
+          }),
+        );
       });
 
       it("should handle custom vite config options", async () => {
@@ -168,12 +173,18 @@ describe("vite-server-helper", () => {
         await createViteServerHelper(config);
 
         const { createServer } = await import("vite");
-        expect(createServer).toHaveBeenCalledWith({
-          server: { port: 3000, middlewareMode: true },
-          appType: "spa",
-          base: "/",
-          configFile: "/custom/vite.config.js",
-        });
+        expect(createServer).toHaveBeenCalledWith(
+          expect.objectContaining({
+            server: expect.objectContaining({
+              port: 3000,
+              middlewareMode: true,
+              hmr: true,
+            }),
+            appType: "spa",
+            base: "/",
+            configFile: "/custom/vite.config.js",
+          }),
+        );
       });
 
       it("should configure cacheDir when provided", async () => {
@@ -693,6 +704,207 @@ describe("vite-server-helper", () => {
       // Test transform function
       const transformed = result.transformTemplate!("<html>test</html>");
       expect(transformed).toBe("<HTML>TEST</HTML>");
+    });
+  });
+
+  describe("HMR Configuration", () => {
+    it("should enable HMR with default configuration when hmr is undefined", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          // hmr is undefined
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: true,
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR enabled with default configuration",
+      );
+    });
+
+    it("should enable HMR with default configuration when hmr is true", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: true,
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: true,
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR enabled with default configuration",
+      );
+    });
+
+    it("should disable HMR when hmr is false", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: false,
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: false,
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR disabled by configuration",
+      );
+    });
+
+    it("should configure HMR with custom host and clientPort", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: {
+            host: "localhost",
+            clientPort: 24678,
+          },
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: {
+              host: "localhost",
+              clientPort: 24678,
+            },
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR host: %s",
+        "localhost",
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR client port: %d",
+        24678,
+      );
+    });
+
+    it("should configure HMR with protocol option", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: {
+            protocol: "wss",
+          },
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: {
+              protocol: "wss",
+            },
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR protocol: %s",
+        "wss",
+      );
+    });
+
+    it("should pass HMR config through for SSR mode", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSsrConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSsrConfig.viteConfig,
+          hmr: {
+            host: "0.0.0.0",
+            clientPort: 3002,
+            protocol: "ws",
+          },
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: {
+              host: "0.0.0.0",
+              clientPort: 3002,
+              protocol: "ws",
+            },
+          }),
+        }),
+      );
+    });
+
+    it("should not configure HMR in production mode", async () => {
+      const { createServer } = await import("vite");
+      vi.mocked(createServer).mockClear();
+
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: true,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: {
+            host: "localhost",
+            clientPort: 24678,
+          },
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      // In production, Vite dev server is not created
+      expect(createServer).not.toHaveBeenCalled();
     });
   });
 });

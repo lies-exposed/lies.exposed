@@ -3,6 +3,7 @@ export type {
   BaseServerConfig,
   ErrorConfig,
   ExpressConfig,
+  HmrConfig,
   ServerHelperConfig,
   SpaServerConfig,
   SpaServerResult,

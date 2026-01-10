@@ -6,6 +6,7 @@
  */
 
 import * as fs from "fs";
+import type http from "http";
 import * as path from "path";
 import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
@@ -22,6 +23,8 @@ interface AdminWebAppConfig {
   env: AdminProxyENV;
   serviceRoot: string;
   isProduction?: boolean;
+  /** HTTP server for HMR WebSocket attachment (required for full HMR in dev) */
+  httpServer?: http.Server;
 }
 
 export const createApp = async (
@@ -31,6 +34,7 @@ export const createApp = async (
     env,
     serviceRoot,
     isProduction = env.NODE_ENV === "production",
+    httpServer,
   } = config;
   logger.info.log("Creating admin web app");
 
@@ -108,6 +112,12 @@ export const createApp = async (
         process.env.NODE_ENV === "test"
           ? path.resolve(serviceRoot, "node_modules/.vite-test")
           : undefined,
+      // HMR configuration: attach WebSocket server to the HTTP server for full HMR support
+      hmr: httpServer
+        ? {
+            server: httpServer,
+          }
+        : true,
     },
     staticConfig: {
       buildPath,

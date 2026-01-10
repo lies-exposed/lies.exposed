@@ -204,9 +204,13 @@ export const createSsrServer = async (
       logger,
     );
   } else {
-    // Development: Vite dev server
+    // Development: Vite dev server with HMR support
     const { vite } = await createViteDevServer(
-      { ...viteConfig, appType: "custom" },
+      {
+        ...viteConfig,
+        appType: "custom",
+        hmr: viteConfig.hmr,
+      },
       logger,
     );
     viteInstance = vite;

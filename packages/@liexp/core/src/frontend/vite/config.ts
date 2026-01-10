@@ -1,15 +1,91 @@
+import * as fs from "fs";
 import * as path from "path";
 import image from "@rollup/plugin-image";
 import viteReact from "@vitejs/plugin-react";
 import { Schema } from "effect";
-import { type ConfigEnv, type UserConfig } from "vite";
+import { type Alias, type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import optimizer from "vite-plugin-optimizer";
 import svgr from "vite-plugin-svgr";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
-import { type GetViteConfigParams } from "./type.js";
+import { type GetViteConfigParams, type MonorepoHmrConfig } from "./type.js";
+
+/**
+ * Auto-detect monorepo root by looking for packages/@liexp directory
+ * Walks up from cwd until it finds the packages directory or hits filesystem root
+ */
+const detectMonorepoRoot = (cwd: string): string | null => {
+  let current = cwd;
+  const root = path.parse(current).root;
+
+  while (current !== root) {
+    const packagesPath = path.join(current, "packages", "@liexp");
+    if (fs.existsSync(packagesPath)) {
+      return current;
+    }
+    current = path.dirname(current);
+  }
+
+  return null;
+};
+
+/**
+ * Builds resolve aliases for monorepo packages to redirect lib/ -> src/
+ * This enables HMR for package source changes without rebuilding
+ */
+const buildMonorepoAliases = (
+  monorepoRoot: string,
+  config: MonorepoHmrConfig,
+): { aliases: Alias[]; watchPaths: string[]; excludePatterns: string[] } => {
+  const packagesDir = config.packagesDir ?? "packages";
+  const packagePrefixes = config.packagePrefixes ?? ["@liexp/"];
+  const packagesPath = path.resolve(monorepoRoot, packagesDir);
+
+  const aliases: Alias[] = [];
+  const watchPaths: string[] = [];
+  const excludePatterns: string[] = [];
+
+  for (const prefix of packagePrefixes) {
+    // Handle scoped packages like @liexp/
+    const scopeDir = prefix.startsWith("@")
+      ? path.join(packagesPath, prefix.slice(0, -1)) // Remove trailing /
+      : packagesPath;
+
+    if (!fs.existsSync(scopeDir)) {
+      continue;
+    }
+
+    // Add to exclude patterns for optimizeDeps
+    const scopeName = prefix.endsWith("/") ? prefix.slice(0, -1) : prefix;
+    excludePatterns.push(scopeName);
+
+    const packages = fs.readdirSync(scopeDir);
+
+    for (const pkg of packages) {
+      const pkgSrcPath = path.join(scopeDir, pkg, "src");
+
+      // Only add alias if src directory exists
+      if (fs.existsSync(pkgSrcPath)) {
+        const pkgName = prefix.startsWith("@")
+          ? `${prefix.slice(0, -1)}/${pkg}` // @liexp/core
+          : pkg;
+
+        // Alias: @liexp/core/lib/* -> packages/@liexp/core/src/*
+        aliases.push({
+          find: new RegExp(`^${pkgName.replace("/", "\\/")}/lib/(.*)$`),
+          replacement: `${pkgSrcPath}/$1`,
+        });
+
+        // Add to watch paths
+        watchPaths.push(pkgSrcPath);
+      }
+    }
+  }
+
+  return { aliases, watchPaths, excludePatterns };
+};
 
 // https://vitejs.dev/config/
 export const defineViteConfig = <A extends Record<string, any>>(
@@ -61,6 +137,33 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
     );
 
+    // Build monorepo HMR configuration (development only, enabled by default)
+    const monorepoHmrEnabled =
+      mode === "development" && config.monorepoHmr !== false;
+
+    const monorepoHmrResult = (() => {
+      if (!monorepoHmrEnabled) {
+        return { aliases: [], watchPaths: [], excludePatterns: [] };
+      }
+
+      const monorepoRoot = detectMonorepoRoot(config.cwd);
+      if (!monorepoRoot) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          "[vite-config] Monorepo root not found, disabling monorepo HMR",
+        );
+        return { aliases: [], watchPaths: [], excludePatterns: [] };
+      }
+
+      const hmrConfig: MonorepoHmrConfig =
+        typeof config.monorepoHmr === "object" ? config.monorepoHmr : {};
+
+      // eslint-disable-next-line no-console
+      console.log("[vite-config] Monorepo HMR enabled, root:", monorepoRoot);
+
+      return buildMonorepoAliases(monorepoRoot, hmrConfig);
+    })();
+
     const viteConfig: UserConfig = {
       mode,
       appType: config.target,
@@ -94,6 +197,8 @@ export const defineViteConfig = <A extends Record<string, any>>(
         entries: [path.join(config.cwd, "src/**")],
         // https://github.com/staylor/react-helmet-async/issues/208#issuecomment-2948288817
         include: ["react-helmet-async"],
+        // Exclude monorepo packages from pre-bundling to enable HMR
+        exclude: monorepoHmrResult.excludePatterns,
       },
 
       resolve: {
@@ -120,6 +225,8 @@ export const defineViteConfig = <A extends Record<string, any>>(
           ".json",
         ],
         alias: [
+          // Monorepo package aliases (lib/ -> src/) for HMR
+          ...monorepoHmrResult.aliases,
           {
             find: "react/jsx-runtime.js",
             replacement: "react/jsx-runtime",
@@ -134,7 +241,18 @@ export const defineViteConfig = <A extends Record<string, any>>(
           },
         ],
       },
-      server: config.server,
+      server: {
+        ...config.server,
+        // Add monorepo package paths to file watcher
+        watch:
+          monorepoHmrResult.watchPaths.length > 0
+            ? {
+                ...config.server?.watch,
+                // Include monorepo package source directories
+                ignored: ["!**/packages/@liexp/*/src/**"],
+              }
+            : config.server?.watch,
+      },
       ssr: {
         external: ["react", "react-dom"],
         noExternal: ["react-helmet-async"],

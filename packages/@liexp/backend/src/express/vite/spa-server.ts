@@ -140,9 +140,13 @@ export const createSpaServer = async (
       logger,
     );
   } else {
-    // Development: Vite dev server
+    // Development: Vite dev server with HMR support
     const { vite } = await createViteDevServer(
-      { ...viteConfig, appType: "spa" },
+      {
+        ...viteConfig,
+        appType: "spa",
+        hmr: viteConfig.hmr,
+      },
       logger,
     );
     viteInstance = vite;

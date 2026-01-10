@@ -72,7 +72,7 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
   selectedActorIds: _selectedActorIds,
   selectedGroupIds: _selectedGroupIds,
   selectedKeywordIds: _selectedKeywordIds,
-  relations: _relations = [KEYWORDS.Type],
+  relations: _relations = [KEYWORDS.literals[0]],
   onRelationsChange,
   showRelations = true,
   ...props
@@ -306,8 +306,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       label={<Typography variant="caption">Actors</Typography>}
                       control={
                         <Checkbox
-                          checked={relations.includes(ACTORS.Type)}
-                          onChange={handleRelationChange(ACTORS.Type)}
+                          checked={relations.includes(ACTORS.literals[0])}
+                          onChange={handleRelationChange(ACTORS.literals[0])}
                         />
                       }
                     />
@@ -315,8 +315,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       label={<Typography variant="caption">Groups</Typography>}
                       control={
                         <Checkbox
-                          checked={relations.includes(GROUPS.Type)}
-                          onChange={handleRelationChange(GROUPS.Type)}
+                          checked={relations.includes(GROUPS.literals[0])}
+                          onChange={handleRelationChange(GROUPS.literals[0])}
                         />
                       }
                     />
@@ -326,8 +326,8 @@ const HierarchyNetworkGraphBoxWrapper: React.FC<
                       }
                       control={
                         <Checkbox
-                          checked={relations.includes(KEYWORDS.Type)}
-                          onChange={handleRelationChange(KEYWORDS.Type)}
+                          checked={relations.includes(KEYWORDS.literals[0])}
+                          onChange={handleRelationChange(KEYWORDS.literals[0])}
                         />
                       }
                     />
@@ -401,7 +401,7 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
     selectedKeywordIds: string[];
   }>({
     startDate: query.startDate,
-    type: query.eventType ?? EventType.members.map((t) => t.Type),
+    type: query.eventType ?? EventType.members.map((t) => t.literals[0]),
     endDate: query.endDate,
     selectedActorIds: props.selectedActorIds ?? [],
     selectedGroupIds: props.selectedGroupIds ?? [],

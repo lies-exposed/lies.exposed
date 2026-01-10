@@ -108,7 +108,7 @@ export const createAdminServerTest = async (
         `<!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Web App - Production Test</title>
+  <title>Admin - lies.exposed</title>
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
 </head>
 <body>
