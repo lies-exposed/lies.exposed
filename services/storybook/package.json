@@ -49,15 +49,15 @@
     "react-dom": "^18.3.1",
     "react-virtualized": "^9.22.6",
     "storybook": "^10.1.11",
-    "vite": "^7.3.0"
+    "vite": "^7.3.1"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
-    "@types/react": "^18.3.20",
-    "@types/react-virtualized": "^9.22.2",
+    "@types/react": "^18.3.27",
+    "@types/react-virtualized": "^9.22.3",
     "eslint": "^9.39.2",
     "eslint-plugin-storybook": "^10.1.11",
-    "prettier": "^3.5.3",
+    "prettier": "^3.7.4",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402"

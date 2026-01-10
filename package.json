@@ -40,15 +40,15 @@
     "knip": "VITE_VALIDATE_ENV=false knip"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
-    "@types/node": "^24.10.1",
+    "@commitlint/cli": "^20.3.1",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@types/node": "^24.10.6",
     "@vitest/coverage-v8": "^4.0.16",
-    "corepack": "^0.34.0",
+    "corepack": "^0.34.5",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",
-    "knip": "^5.80.0",
-    "lint-staged": "^16.0.0",
+    "knip": "^5.80.2",
+    "lint-staged": "^16.2.7",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.52.0",
     "vitest": "^4.0.16"
