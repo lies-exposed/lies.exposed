@@ -10,18 +10,17 @@ import { Box } from "../components/mui/index.js";
 import { useEndpointQueries } from "../hooks/useEndpointQueriesProvider.js";
 import { type EventsQueryParams } from "./EventsPanel.js";
 
-interface EventsNetworkProps
-  extends Omit<
-    EventsSankeyGraphProps,
-    | "events"
-    | "actors"
-    | "groups"
-    | "groupsMembers"
-    | "keywords"
-    | "selectedActorIds"
-    | "selectedGroupIds"
-    | "selectedKeywordIds"
-  > {
+interface EventsNetworkProps extends Omit<
+  EventsSankeyGraphProps,
+  | "events"
+  | "actors"
+  | "groups"
+  | "groupsMembers"
+  | "keywords"
+  | "selectedActorIds"
+  | "selectedGroupIds"
+  | "selectedKeywordIds"
+> {
   filter: Omit<EventsQueryParams, "tab">;
 }
 

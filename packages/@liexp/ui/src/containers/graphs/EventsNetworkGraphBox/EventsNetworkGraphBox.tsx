@@ -38,11 +38,10 @@ import {
   type TransformNetworkOutputProps,
 } from "./transformNetworkOutput.js";
 
-export interface EventNetworkGraphBoxProps
-  extends Omit<
-    EventsNetworkGraphProps,
-    "events" | "actors" | "groups" | "keywords" | "graph" | "width" | "height"
-  > {
+export interface EventNetworkGraphBoxProps extends Omit<
+  EventsNetworkGraphProps,
+  "events" | "actors" | "groups" | "keywords" | "graph" | "width" | "height"
+> {
   count?: number;
   type: NetworkType;
   relations?: NetworkGroupBy[];
@@ -58,9 +57,9 @@ export interface EventNetworkGraphBoxProps
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-constraint
-interface EventNetworkGraphBoxWrapperProps<T extends any>
-  extends EventNetworkGraphBoxProps {
+interface EventNetworkGraphBoxWrapperProps<
+  T,
+> extends EventNetworkGraphBoxProps {
   hash: string;
   filters?: (opts: T) => React.ReactNode | null;
   transform: (
@@ -274,8 +273,10 @@ export const EventsNetworkGraphBox: React.FC<EventNetworkGraphBoxProps> = ({
   );
 };
 
-interface EventNetworkGraphBoxWithFiltersProps
-  extends Omit<EventNetworkGraphBoxProps, "relations" | "onRelationsChange"> {
+interface EventNetworkGraphBoxWithFiltersProps extends Omit<
+  EventNetworkGraphBoxProps,
+  "relations" | "onRelationsChange"
+> {
   relations?: NetworkGroupBy[];
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
   showFilter?: boolean;
@@ -422,8 +423,10 @@ export const EventNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface EventsNetworkGraphBoxWithQueryProps<P>
-  extends Omit<EventNetworkGraphBoxProps, "id" | "query"> {
+interface EventsNetworkGraphBoxWithQueryProps<P> extends Omit<
+  EventNetworkGraphBoxProps,
+  "id" | "query"
+> {
   useQuery: UseGetQueryFn<any, P, any>;
   params: Partial<P>;
   eventsBoxQuery: any;

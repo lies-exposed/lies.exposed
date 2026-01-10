@@ -209,8 +209,9 @@ export interface Actor extends Schema.Struct.Type<typeof actorFields> {
 }
 
 // Encoded interface for Actor (wire format)
-export interface ActorEncoded
-  extends Schema.Struct.Encoded<typeof actorFields> {
+export interface ActorEncoded extends Schema.Struct.Encoded<
+  typeof actorFields
+> {
   readonly memberIn: readonly (
     | Schema.Schema.Encoded<typeof UUID>
     | GroupMemberEncoded

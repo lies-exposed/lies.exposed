@@ -26,11 +26,10 @@ import {
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";
 import { type UseListQueryFn } from "../../state/queries/type.js";
 
-export interface HierarchyNetworkGraphBoxProps
-  extends Omit<
-    HierarchyNetworkGraphProps,
-    "events" | "actors" | "groups" | "keywords" | "graph" | "width" | "height"
-  > {
+export interface HierarchyNetworkGraphBoxProps extends Omit<
+  HierarchyNetworkGraphProps,
+  "events" | "actors" | "groups" | "keywords" | "graph" | "width" | "height"
+> {
   count?: number;
   id: string;
   type: StatsType;
@@ -371,11 +370,10 @@ export const HierarchyNetworkGraphBox: React.FC<
   );
 };
 
-interface HierarchyNetworkGraphBoxWithFiltersProps
-  extends Omit<
-    HierarchyNetworkGraphBoxProps,
-    "relations" | "onRelationsChange"
-  > {
+interface HierarchyNetworkGraphBoxWithFiltersProps extends Omit<
+  HierarchyNetworkGraphBoxProps,
+  "relations" | "onRelationsChange"
+> {
   relations?: NetworkGroupBy[];
   onRelationsChange?: (relations: NetworkGroupBy[]) => void;
   showFilter?: boolean;
@@ -524,8 +522,10 @@ export const HierarchyNetworkGraphBoxWithFilters: React.FC<
   );
 };
 
-interface HierarchyNetworkGraphBoxWithQueryProps<P>
-  extends Omit<HierarchyNetworkGraphBoxProps, "id" | "query"> {
+interface HierarchyNetworkGraphBoxWithQueryProps<P> extends Omit<
+  HierarchyNetworkGraphBoxProps,
+  "id" | "query"
+> {
   useQuery: UseListQueryFn<any, P, any>;
   params: Partial<P>;
   eventsBoxQuery: any;

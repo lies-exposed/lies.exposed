@@ -42,8 +42,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.21",
-    "@types/react": "^18.3.20",
+    "@types/lodash": "^4.17.22",
+    "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "axios": "^1.13.2",
     "effect": "^3.19.14",
@@ -53,7 +53,7 @@
     "pdfjs-dist": "^5.4.530",
     "react-admin": "^5.13.4",
     "typescript": "^5.9.3",
-    "vite-tsconfig-paths": "^6.0.3",
+    "vite-tsconfig-paths": "^6.0.4",
     "vitest": "^4.0.16",
     "vitest-mock-extended": "^3.1.0"
   },

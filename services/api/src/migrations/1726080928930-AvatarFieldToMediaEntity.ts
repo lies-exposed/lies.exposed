@@ -1,8 +1,6 @@
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
-export class AvatarFieldToMediaEntity1726080928930
-  implements MigrationInterface
-{
+export class AvatarFieldToMediaEntity1726080928930 implements MigrationInterface {
   name = "AvatarFieldToMediaEntity1726080928930";
 
   public async up(queryRunner: QueryRunner): Promise<void> {

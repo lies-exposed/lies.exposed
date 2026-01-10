@@ -79,10 +79,10 @@ interface HTTPProvider {
 }
 
 const HTTPProvider = (client: AxiosInstance): HTTPProvider => {
-  const get = <T>(
+  const get = <T, R>(
     url: string,
-    config?: AxiosRequestConfig<any>,
-  ): TE.TaskEither<HTTPError, T> =>
+    config?: AxiosRequestConfig<T>,
+  ): TE.TaskEither<HTTPError, R> =>
     liftFetch(() => client.get(url, config), Schema.decodeEither(Schema.Any));
 
   const post = <T, R>(

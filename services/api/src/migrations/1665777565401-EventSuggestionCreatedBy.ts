@@ -1,8 +1,6 @@
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
-export class EventSuggestionCreatedBy1665777565401
-  implements MigrationInterface
-{
+export class EventSuggestionCreatedBy1665777565401 implements MigrationInterface {
   name = "EventSuggestionCreatedBy1665777565401";
 
   public async up(queryRunner: QueryRunner): Promise<void> {

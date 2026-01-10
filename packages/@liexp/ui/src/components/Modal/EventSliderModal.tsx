@@ -59,8 +59,10 @@ const StyledModal = styled(Modal)(({ theme }) => ({
   },
 }));
 
-export interface EventSliderModalProps
-  extends Omit<EventSliderProps, "events" | "open" | "totals" | "onClose"> {
+export interface EventSliderModalProps extends Omit<
+  EventSliderProps,
+  "events" | "open" | "totals" | "onClose"
+> {
   query: SearchEventsQueryInputNoPagination;
   open?: boolean;
   onQueryChange: (q: SearchEventsQueryInputNoPagination) => void;

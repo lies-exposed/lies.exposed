@@ -1,8 +1,6 @@
 import { type MigrationInterface, type QueryRunner } from "typeorm";
 
-export class RemoveActorAndGroupOldAvatar1761150918382
-  implements MigrationInterface
-{
+export class RemoveActorAndGroupOldAvatar1761150918382 implements MigrationInterface {
   name = "RemoveActorAndGroupOldAvatar1761150918382";
 
   public async up(queryRunner: QueryRunner): Promise<void> {

@@ -58,11 +58,11 @@
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.1",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.10.6",
     "@types/prompts": "^2.4.9",
     "dotenv": "^17.2.1",
     "eslint": "^9.39.2",
-    "tsx": "^4.20.6"
+    "tsx": "^4.21.0"
   },
   "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402"
 }

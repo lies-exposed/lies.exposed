@@ -3,9 +3,8 @@ import { defineMain } from "@storybook/react-vite/node";
 
 const viteFinal: ViteFinal = async (config, { configType }) => {
   const { mergeConfig } = await import("vite");
-  const { reactVirtualized } = await import(
-    "@liexp/ui/lib/vite/plugins/react-virtualized.js"
-  );
+  const { reactVirtualized } =
+    await import("@liexp/ui/lib/vite/plugins/react-virtualized.js");
 
   if (configType === "DEVELOPMENT") {
     config.server!.allowedHosts = config.server?.allowedHosts ?? [];

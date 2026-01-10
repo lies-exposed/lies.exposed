@@ -5,8 +5,10 @@ import EventsAppBar, {
   type EventsAppBarProps,
 } from "../components/events/filters/EventsAppBar.js";
 
-interface EventsAppBarBoxProps
-  extends Omit<EventsAppBarProps, "events" | "totals"> {
+interface EventsAppBarBoxProps extends Omit<
+  EventsAppBarProps,
+  "events" | "totals"
+> {
   hash: string;
 }
 

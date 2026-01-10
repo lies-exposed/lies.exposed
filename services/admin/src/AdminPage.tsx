@@ -51,15 +51,15 @@ const SocialPostEdit = React.lazy(() =>
 );
 
 const EventSuggestionEdit = React.lazy(() =>
-  import(
-    "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js"
-  ).then((m) => ({ default: m.EventSuggestionEdit })),
+  import("@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js").then(
+    (m) => ({ default: m.EventSuggestionEdit }),
+  ),
 );
 
 const EventSuggestionList = React.lazy(() =>
-  import(
-    "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js"
-  ).then((m) => ({ default: m.EventSuggestionList })),
+  import("@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js").then(
+    (m) => ({ default: m.EventSuggestionList }),
+  ),
 );
 
 const LinkCreate = React.lazy(() =>

@@ -138,8 +138,10 @@ export const fetchRelations =
     });
   };
 
-export interface SearchEventQueryInput
-  extends Omit<Partial<GetSearchEventsQueryInput>, "_start" | "_end"> {
+export interface SearchEventQueryInput extends Omit<
+  Partial<GetSearchEventsQueryInput>,
+  "_start" | "_end"
+> {
   _start: number;
   _end: number;
   hash: string;

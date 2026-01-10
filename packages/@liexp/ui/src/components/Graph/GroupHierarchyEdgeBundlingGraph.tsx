@@ -6,8 +6,7 @@ import {
 } from "../Common/Graph/HierarchicalEdgeBundling.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 
-export interface GroupHierarchyEdgeBundlingGraphProps
-  extends HierarchicalEdgeBundlingOnClickProps {
+export interface GroupHierarchyEdgeBundlingGraphProps extends HierarchicalEdgeBundlingOnClickProps {
   group: string;
   width: number;
 }

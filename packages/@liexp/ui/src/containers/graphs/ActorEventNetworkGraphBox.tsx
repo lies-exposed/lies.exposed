@@ -8,8 +8,10 @@ import {
   type EventNetworkGraphBoxProps,
 } from "./EventsNetworkGraphBox/EventsNetworkGraphBox.js";
 
-export interface ActorEventNetworkGraphBoxProps
-  extends Omit<EventNetworkGraphBoxProps, "id" | "type"> {
+export interface ActorEventNetworkGraphBoxProps extends Omit<
+  EventNetworkGraphBoxProps,
+  "id" | "type"
+> {
   params: Partial<EndpointQueryType<typeof Endpoints.Networks.Get>>;
 }
 

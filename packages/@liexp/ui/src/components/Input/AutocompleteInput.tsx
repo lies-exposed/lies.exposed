@@ -17,11 +17,10 @@ interface SearchableItem {
   id: string;
 }
 
-export interface AutocompleteInputProps<L, T>
-  extends Omit<
-    AutocompleteProps<T, boolean, boolean, boolean>,
-    "renderInput" | "options" | "onChange" | "renderOption"
-  > {
+export interface AutocompleteInputProps<L, T> extends Omit<
+  AutocompleteProps<T, boolean, boolean, boolean>,
+  "renderInput" | "options" | "onChange" | "renderOption"
+> {
   placeholder?: string;
   query: (
     params: Partial<EndpointQueryType<L>>,

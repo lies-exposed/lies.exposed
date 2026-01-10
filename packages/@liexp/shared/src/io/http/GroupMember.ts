@@ -46,15 +46,17 @@ const groupMemberFields = {
 };
 
 // Type interface for GroupMember (decoded/application type)
-export interface GroupMember
-  extends Schema.Struct.Type<typeof groupMemberFields> {
+export interface GroupMember extends Schema.Struct.Type<
+  typeof groupMemberFields
+> {
   readonly group: Schema.Schema.Type<typeof Group>;
   readonly actor: Actor;
 }
 
 // Encoded interface for GroupMember (wire format)
-export interface GroupMemberEncoded
-  extends Schema.Struct.Encoded<typeof groupMemberFields> {
+export interface GroupMemberEncoded extends Schema.Struct.Encoded<
+  typeof groupMemberFields
+> {
   readonly group: Schema.Schema.Encoded<typeof Group>;
   readonly actor: ActorEncoded;
 }

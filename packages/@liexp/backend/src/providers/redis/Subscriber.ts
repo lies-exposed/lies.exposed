@@ -7,8 +7,10 @@ import type { RedisContext } from "../../context/redis.context.js";
 import type { RedisPubSub } from "./RedisPubSub.js";
 import { RedisError, toRedisError } from "./redis.error.js";
 
-export interface Subscriber<C, T, K extends string, E>
-  extends RedisPubSub<T, K> {
+export interface Subscriber<C, T, K extends string, E> extends RedisPubSub<
+  T,
+  K
+> {
   subscribe: (ctx: C) => TE.TaskEither<E, (message: string) => Promise<void>>;
 }
 

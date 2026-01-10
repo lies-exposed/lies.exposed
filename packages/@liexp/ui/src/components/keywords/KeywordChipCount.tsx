@@ -4,8 +4,10 @@ import * as React from "react";
 import { ChipCount, type ChipCountProps } from "../Common/ChipCount.js";
 import { KeywordChip } from "./KeywordChip.js";
 
-interface KeywordChipCountProps
-  extends Omit<ChipCountProps, "label" | "avatar" | "color"> {
+interface KeywordChipCountProps extends Omit<
+  ChipCountProps,
+  "label" | "avatar" | "color"
+> {
   keyword: Keyword.Keyword;
 }
 
