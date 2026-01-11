@@ -13,7 +13,6 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadDocs } from "../common/loadDocs.flow.js";
 import { getEventFromJsonPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -40,7 +39,6 @@ export const createEventFromURLFlow: JobProcessRTE<
 
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bindW("jsonSchema", () =>
       pipe(
         JSONSchema.make(eventSchema as Schema.Schema<unknown>),
@@ -57,7 +55,7 @@ export const createEventFromURLFlow: JobProcessRTE<
       }
       return fp.RTE.right(getEventFromJsonPrompt(job.type));
     }),
-    fp.RTE.bindW("event", ({ docs, prompt, jsonSchema }) =>
+    fp.RTE.bindW("event", ({ prompt, jsonSchema }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
@@ -67,7 +65,7 @@ export const createEventFromURLFlow: JobProcessRTE<
             vars: {
               type: job.data.type,
               jsonSchema: JSON.stringify(jsonSchema),
-              context: docs.map((d) => d.pageContent).join("\n"),
+              context: job.data.url,
               question: job.question ?? defaultQuestion,
             },
           })}\n\n${job.question ?? defaultQuestion}`,

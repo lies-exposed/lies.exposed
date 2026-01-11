@@ -10,7 +10,6 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -54,8 +53,7 @@ export const updateActorFlow: JobProcessRTE<
       ),
     ),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind("context", () => loadDocs(job)),
-    fp.RTE.bind("result", ({ prompt, context }) =>
+    fp.RTE.bind("result", ({ prompt, actor }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
@@ -63,7 +61,7 @@ export const updateActorFlow: JobProcessRTE<
         >({
           message: `${prompt({
             vars: {
-              text: context.map((doc) => doc.pageContent).join("\n"),
+              text: actor,
             },
           })}\n\n${
             job.question ??

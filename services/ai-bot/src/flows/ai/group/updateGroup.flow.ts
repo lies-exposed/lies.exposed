@@ -6,7 +6,6 @@ import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
-import { loadDocs } from "../common/loadDocs.flow.js";
 import { getPromptForJob } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
@@ -26,9 +25,8 @@ export const updateGroupFlow: JobProcessRTE<
 > = (job) => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bind("docs", () => loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.bind("result", ({ prompt, docs }) =>
+    fp.RTE.bind("result", ({ prompt }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
@@ -36,7 +34,7 @@ export const updateGroupFlow: JobProcessRTE<
         >({
           message: `${prompt({
             vars: {
-              text: docs.map((d) => d.pageContent).join("\n"),
+              text: JSON.stringify(job.data),
             },
           })}\n\n${job.question ?? defaultQuestion}`,
         }),

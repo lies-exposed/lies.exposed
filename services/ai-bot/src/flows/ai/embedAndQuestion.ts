@@ -9,7 +9,6 @@ import { type Queue } from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
 import { type ClientContextRTE } from "../../types.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";
-import { loadDocs } from "./common/loadDocs.flow.js";
 import { updateGroupFlow } from "./group/updateGroup.flow.js";
 import { updateLinkFlow } from "./link/updateLink.flow.js";
 import { getPromptForJob } from "./prompts.js";
@@ -22,13 +21,12 @@ const embedAndQuestionCommonFlow = (
 ): ClientContextRTE<string> => {
   return pipe(
     fp.RTE.Do,
-    fp.RTE.apS("docs", loadDocs(job)),
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),
-    fp.RTE.chainW(({ docs, prompt }) =>
+    fp.RTE.chainW(({ prompt }) =>
       AgentChatService.getRawOutput({
         message: `${prompt({
           vars: {
-            text: docs.map((d) => d.pageContent).join("\n"),
+            text: JSON.stringify(job.data),
           },
         })}\n\n${job.question ?? defaultQuestion}`,
         conversationId: null,
