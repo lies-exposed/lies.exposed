@@ -34,7 +34,6 @@ export const createApp = async (
     env,
     serviceRoot,
     isProduction = env.NODE_ENV === "production",
-    httpServer,
   } = config;
   logger.info.log("Creating admin web app");
 
@@ -109,15 +108,20 @@ export const createApp = async (
       },
       // Use a separate cache directory for tests to avoid conflicts with Docker
       cacheDir:
-        process.env.NODE_ENV === "test"
+        env.NODE_ENV === "test"
           ? path.resolve(serviceRoot, "node_modules/.vite-test")
           : undefined,
-      // HMR configuration: attach WebSocket server to the HTTP server for full HMR support
-      hmr: httpServer
-        ? {
-            server: httpServer,
-          }
-        : true,
+      // HMR configuration: enable in development with correct port (24679 to avoid conflicts)
+      // Disabled in production since there's no hot reloading needed
+      // Note: Don't set `host` - server binds to serverOptions.host (0.0.0.0),
+      // and client auto-detects from page URL (admin.liexp.dev)
+      hmr:
+        env.NODE_ENV === "production"
+          ? false
+          : {
+              port: 24679,
+              clientPort: 24679,
+            },
     },
     staticConfig: {
       buildPath,

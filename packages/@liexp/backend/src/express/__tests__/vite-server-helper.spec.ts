@@ -138,7 +138,8 @@ describe("vite-server-helper", () => {
         expect(result.app).toBeDefined();
         expect(result.vite).toBe(mockViteServer);
         expect(mockLogger.info.log).toHaveBeenCalledWith(
-          "Setting up Vite dev server in middleware mode",
+          "Setting up Vite dev server in middleware mode: %O",
+          expect.anything(),
         );
         expect(mockLogger.info.log).toHaveBeenCalledWith(
           "Vite dev server initialized with %s mode",
@@ -820,6 +821,43 @@ describe("vite-server-helper", () => {
       expect(mockLogger.info.log).toHaveBeenCalledWith(
         "HMR client port: %d",
         24678,
+      );
+    });
+
+    it("should configure HMR with custom server port", async () => {
+      const config: ServerHelperConfig = {
+        ...baseSpaConfig,
+        isProduction: false,
+        viteConfig: {
+          ...baseSpaConfig.viteConfig,
+          hmr: {
+            port: 24679,
+            clientPort: 24679,
+          },
+        },
+      };
+
+      await createViteServerHelper(config);
+
+      const { createServer } = await import("vite");
+      expect(createServer).toHaveBeenCalledWith(
+        expect.objectContaining({
+          server: expect.objectContaining({
+            middlewareMode: true,
+            hmr: {
+              port: 24679,
+              clientPort: 24679,
+            },
+          }),
+        }),
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR server port: %d",
+        24679,
+      );
+      expect(mockLogger.info.log).toHaveBeenCalledWith(
+        "HMR client port: %d",
+        24679,
       );
     });
 

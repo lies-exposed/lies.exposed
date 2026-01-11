@@ -24,7 +24,11 @@ const config = defineViteConfig({
   server: {
     port,
     host: process.env.VIRTUAL_HOST ?? "0.0.0.0",
-    hmr: true,
+    hmr: {
+      host: process.env.VIRTUAL_HOST ?? "127.0.0.1",
+      port: 24679,
+      clientPort: 24679,
+    },
     allowedHosts:
       process.env.VITE_NODE_ENV === "production"
         ? ["admin.lies.exposed"]

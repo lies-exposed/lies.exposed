@@ -42,6 +42,11 @@ const buildHmrConfig = (
     logger.info.log("HMR host: %s", hmrConfig.host);
   }
 
+  if (hmrConfig.port) {
+    hmrOptions.port = hmrConfig.port;
+    logger.info.log("HMR server port: %d", hmrConfig.port);
+  }
+
   if (hmrConfig.clientPort) {
     hmrOptions.clientPort = hmrConfig.clientPort;
     logger.info.log("HMR client port: %d", hmrConfig.clientPort);
@@ -69,7 +74,7 @@ export const createViteDevServer = async (
   config: ViteServerConfig,
   logger: Logger,
 ): Promise<ViteDevServerResult> => {
-  logger.info.log("Setting up Vite dev server in middleware mode");
+  logger.info.log("Setting up Vite dev server in middleware mode: %O", config);
 
   const { createServer: createViteServer } = await import("vite");
 
@@ -93,6 +98,7 @@ export const createViteDevServer = async (
   });
 
   logger.info.log("Vite dev server initialized with %s mode", config.appType);
+  logger.info.log("Vite HMR config: %O", hmrConfig);
 
   return { vite };
 };

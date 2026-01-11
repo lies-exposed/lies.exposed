@@ -11,7 +11,9 @@ export interface HmrConfig {
   server?: http.Server;
   /** Host for HMR WebSocket (defaults to server host) */
   host?: string;
-  /** Port for HMR client to connect to (useful when behind proxy) */
+  /** Port for HMR WebSocket server to listen on */
+  port?: number;
+  /** Port for HMR client to connect to (useful when behind proxy, defaults to port) */
   clientPort?: number;
   /** Protocol for HMR client (ws or wss) */
   protocol?: "ws" | "wss";
