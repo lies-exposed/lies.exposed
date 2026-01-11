@@ -23,6 +23,7 @@
     "format": "pnpm -r run format",
     "lint": "pnpm -r run lint",
     "lint:all": "eslint -c eslint.config.js",
+    "lint:changed": "./scripts/lint-changed.sh",
     "corepack": "corepack",
     "corepack:up": "corepack use pnpm@latest-10 && pnpm -r -c exec 'corepack use pnpm@latest-10'",
     "packages:build": "pnpm --filter '@liexp/*' -r run build",
