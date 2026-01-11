@@ -1,14 +1,11 @@
 import type * as Queue from "@liexp/shared/lib/io/http/Queue/index.js";
 import get from "lodash/get.js";
 import * as React from "react";
+import { useNavigate } from "react-router";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
-import { Stack, Typography } from "../../mui/index.js";
-import {
-  Link,
-  type RaRecord,
-  useRecordContext,
-  useRefresh,
-} from "../react-admin.js";
+import { Stack } from "../../mui/index.js";
+import { QueueStatusIcon } from "../queue/QueueStatusIcon.js";
+import { type RaRecord, useRecordContext, useRefresh } from "../react-admin.js";
 import { OpenAIButton } from "./OpenAIButton.js";
 
 interface OpenAIPromptButtonProps<A extends RaRecord> {
@@ -40,6 +37,7 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
   const api = useDataProvider();
   const record = useRecordContext<A>();
   const refresh = useRefresh();
+  const navigate = useNavigate();
 
   const [id, setId] = React.useState(get(record, idSource));
 
@@ -51,6 +49,12 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
 
   const ingestFile: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
+
+    if (queue) {
+      void navigate(`/queues/${type}/${resource}/${id}`);
+      return;
+    }
+
     void api
       .post(`queues/${type}/${resource}`, {
         data: { result: undefined, ...value, prompt, question },
@@ -71,12 +75,10 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
         setQueue(null);
         refresh();
       });
-  }, []);
+  }, [id]);
 
-  const queueStats = queue?.status ? (
-    <Typography component={"b"} fontWeight={"bold"}>
-      {queue.status}
-    </Typography>
+  const queueStatusIcon = queue?.status ? (
+    <QueueStatusIcon status={queue.status} />
   ) : null;
 
   return (
@@ -88,13 +90,9 @@ export const OpenAIEmbeddingJobButton = <A extends RaRecord = RaRecord>({
         description={description}
         onClick={ingestFile}
         label={label}
+        startIcon={queueStatusIcon}
+        variant={!queue ? "contained" : "outlined"}
       />
-      {queue ? (
-        <Typography>
-          Job in the queue with status {queueStats} exists.
-          <Link to={`/queues/${type}/${resource}/${id}`}>Check the job</Link>
-        </Typography>
-      ) : null}
     </Stack>
   );
 };
