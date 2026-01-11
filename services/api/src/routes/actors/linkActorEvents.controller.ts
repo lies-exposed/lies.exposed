@@ -3,7 +3,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { addActorToEventPayload } from "@liexp/shared/lib/helpers/event/addActorToEventPayload.js";
+import { addActorToEvent } from "@liexp/shared/lib/helpers/event/addActorToEventPayload.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as A from "fp-ts/lib/Array.js";
@@ -48,7 +48,7 @@ export const MakeLinkActorEventsRoute: Route = (r, { db, logger, jwt }) => {
                     where: { id: Equal(eventId) },
                   }),
                   TE.chain((event) => {
-                    const updatedEvent = addActorToEventPayload(event, actorId);
+                    const updatedEvent = addActorToEvent(event, actorId);
                     if (!updatedEvent) {
                       return TE.right<ControllerError, LinkResult>({
                         eventId,
@@ -56,6 +56,7 @@ export const MakeLinkActorEventsRoute: Route = (r, { db, logger, jwt }) => {
                         reason: `Event type '${event.type}' doesn't support adding actors`,
                       });
                     }
+
                     return pipe(
                       db.save(EventV2Entity, [updatedEvent]),
                       TE.map((): LinkResult => ({ eventId, success: true })),

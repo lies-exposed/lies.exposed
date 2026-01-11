@@ -11,6 +11,7 @@ import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
+import { LinkExistingEventsButton } from "@liexp/ui/lib/components/admin/common/LinkExistingEventsButton.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import ReferenceManyEventField from "@liexp/ui/lib/components/admin/events/ReferenceManyEventField.js";
@@ -318,6 +319,9 @@ export const GroupEdit: React.FC<EditProps> = (props: EditProps) => {
           </ReferenceManyField>
         </TabbedForm.Tab>
         <TabbedForm.Tab label="events">
+          <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+            <LinkExistingEventsButton entityType="groups" />
+          </Stack>
           <ReferenceManyEventField source="id" target="groups[]" />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Network">

@@ -8,6 +8,7 @@ import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/Entitr
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MergeActorButton } from "@liexp/ui/lib/components/admin/actors/MergeActorButton.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
+import { LinkExistingEventsButton } from "@liexp/ui/lib/components/admin/common/LinkExistingEventsButton.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
 import { TextWithSlugInput } from "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js";
 import { CreateEventButton } from "@liexp/ui/lib/components/admin/events/CreateEventButton.js";
@@ -34,7 +35,7 @@ import {
   type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
-import { Grid } from "@liexp/ui/lib/components/mui/index.js";
+import { Grid, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
@@ -144,28 +145,31 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           </ReferenceArrayField>
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Events">
+          <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+            <LinkExistingEventsButton entityType="actors" />
+            <CreateEventButton
+              transform={async (t, r) => {
+                if (t === EVENT_TYPES.DEATH) {
+                  return {
+                    draft: true,
+                    type: t,
+                    excerpt: null,
+                    body: null,
+                    date: new Date(),
+                    payload: {
+                      victim: r.id,
+                      location: O.none as Option<UUID>,
+                    },
+                    media: [],
+                    keywords: [],
+                    links: [],
+                  };
+                }
+                return Promise.reject(new Error(`Can't create event ${t}`));
+              }}
+            />
+          </Stack>
           <ReferenceManyEventField source="id" target="actors[]" />
-          <CreateEventButton
-            transform={async (t, r) => {
-              if (t === EVENT_TYPES.DEATH) {
-                return {
-                  draft: true,
-                  type: t,
-                  excerpt: null,
-                  body: null,
-                  date: new Date(),
-                  payload: {
-                    victim: r.id,
-                    location: O.none as Option<UUID>,
-                  },
-                  media: [],
-                  keywords: [],
-                  links: [],
-                };
-              }
-              return Promise.reject(new Error(`Can't create event ${t}`));
-            }}
-          />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="networks">
           <LazyFormTabContent tab={5}>

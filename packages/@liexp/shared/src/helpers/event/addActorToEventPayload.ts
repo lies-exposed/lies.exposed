@@ -16,7 +16,7 @@ export const addActorToEventPayload = <
 >(
   event: E,
   actorId: UUID,
-): E | null => {
+): E["payload"] | null => {
   const addToArray = (arr: UUID[] | undefined): UUID[] => {
     const existing = arr ?? [];
     if (existing.includes(actorId)) return existing;
@@ -32,13 +32,10 @@ export const addActorToEventPayload = <
         groups: [],
       };
       return {
-        ...event,
-        payload: {
-          ...payload,
-          owners: {
-            ...owners,
-            actors: addToArray(owners.actors),
-          },
+        ...payload,
+        owners: {
+          ...owners,
+          actors: addToArray(owners.actors),
         },
       };
     }
@@ -50,13 +47,10 @@ export const addActorToEventPayload = <
         groups: UUID[];
       }) ?? { actors: [], groups: [] };
       return {
-        ...event,
-        payload: {
-          ...payload,
-          subjects: {
-            ...subjects,
-            actors: addToArray(subjects.actors),
-          },
+        ...payload,
+        subjects: {
+          ...subjects,
+          actors: addToArray(subjects.actors),
         },
       };
     }
@@ -64,11 +58,8 @@ export const addActorToEventPayload = <
     case EVENT_TYPES.SCIENTIFIC_STUDY: {
       const authors = (payload.authors as UUID[]) ?? [];
       return {
-        ...event,
-        payload: {
-          ...payload,
-          authors: addToArray(authors),
-        },
+        ...payload,
+        authors: addToArray(authors),
       };
     }
 
@@ -76,11 +67,8 @@ export const addActorToEventPayload = <
     default: {
       const actors = (payload.actors as UUID[]) ?? [];
       return {
-        ...event,
-        payload: {
-          ...payload,
-          actors: addToArray(actors),
-        },
+        ...payload,
+        actors: addToArray(actors),
       };
     }
 
@@ -106,7 +94,7 @@ export const removeActorFromEventPayload = <
 >(
   event: E,
   actorId: UUID,
-): E => {
+): E["payload"] => {
   const removeFromArray = (arr: UUID[] | undefined): UUID[] => {
     if (!arr) return [];
     return arr.filter((id) => id !== actorId);
@@ -121,13 +109,10 @@ export const removeActorFromEventPayload = <
         groups: [],
       };
       return {
-        ...event,
-        payload: {
-          ...payload,
-          owners: {
-            ...owners,
-            actors: removeFromArray(owners.actors),
-          },
+        ...payload,
+        owners: {
+          ...owners,
+          actors: removeFromArray(owners.actors),
         },
       };
     }
@@ -142,17 +127,14 @@ export const removeActorFromEventPayload = <
         groups: UUID[];
       }) ?? { actors: [], groups: [] };
       return {
-        ...event,
-        payload: {
-          ...payload,
-          authors: {
-            ...authors,
-            actors: removeFromArray(authors.actors),
-          },
-          subjects: {
-            ...subjects,
-            actors: removeFromArray(subjects.actors),
-          },
+        ...payload,
+        authors: {
+          ...authors,
+          actors: removeFromArray(authors.actors),
+        },
+        subjects: {
+          ...subjects,
+          actors: removeFromArray(subjects.actors),
         },
       };
     }
@@ -160,11 +142,8 @@ export const removeActorFromEventPayload = <
     case EVENT_TYPES.SCIENTIFIC_STUDY: {
       const authors = (payload.authors as UUID[]) ?? [];
       return {
-        ...event,
-        payload: {
-          ...payload,
-          authors: removeFromArray(authors),
-        },
+        ...payload,
+        authors: removeFromArray(authors),
       };
     }
 
@@ -172,11 +151,8 @@ export const removeActorFromEventPayload = <
     default: {
       const actors = (payload.actors as UUID[]) ?? [];
       return {
-        ...event,
-        payload: {
-          ...payload,
-          actors: removeFromArray(actors),
-        },
+        ...payload,
+        actors: removeFromArray(actors),
       };
     }
 
@@ -185,6 +161,30 @@ export const removeActorFromEventPayload = <
     case EVENT_TYPES.QUOTE:
     case EVENT_TYPES.TRANSACTION:
     case EVENT_TYPES.BOOK:
-      return event;
+      return event.payload;
   }
+};
+
+export const addActorToEvent = <
+  E extends { type: Event["type"]; payload: Record<string, unknown> },
+>(
+  event: E,
+  actorId: UUID,
+) => {
+  return {
+    ...event,
+    payload: addActorToEventPayload(event, actorId),
+  };
+};
+
+export const removeActorFromEvent = <
+  E extends { type: Event["type"]; payload: Record<string, unknown> },
+>(
+  event: E,
+  actorId: UUID,
+) => {
+  return {
+    ...event,
+    payload: removeActorFromEventPayload(event, actorId),
+  };
 };
