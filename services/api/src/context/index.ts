@@ -7,7 +7,6 @@ import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.pr
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
-import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { createS3ProviderConfig } from "@liexp/backend/lib/providers/space/creates3ProviderConfig.js";
@@ -27,8 +26,6 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Redis } from "ioredis";
 import MW from "nodemw";
 import * as metadataParser from "page-metadata-parser";
-import * as puppeteer from "puppeteer-core";
-import { type VanillaPuppeteer } from "puppeteer-extra";
 import WinkFn from "wink-nlp";
 import { type TEControllerError } from "../types/TEControllerError.js";
 import { type ServerContext } from "./context.type.js";
@@ -111,13 +108,6 @@ export const makeContext =
         urlMetadata: fp.TE.right(urlMetadataClient),
         env: fp.TE.right(env),
         blocknote: fp.TE.right(editor),
-        puppeteer: fp.TE.right(
-          GetPuppeteerProvider(
-            puppeteer as any as VanillaPuppeteer,
-            {},
-            puppeteer.KnownDevices,
-          ),
-        ),
         ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
         http: fp.TE.right(HTTPProvider(axios.default.create({}))),
         geo: fp.TE.right(

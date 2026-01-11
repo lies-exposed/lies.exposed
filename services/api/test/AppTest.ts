@@ -5,7 +5,6 @@ import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.pr
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
-import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
@@ -76,11 +75,6 @@ export const loadAppContext = async (
         config,
         jwt: GetJWTProvider({ secret: env.JWT_SECRET, logger }),
         ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
-        puppeteer: GetPuppeteerProvider(
-          mocks.puppeteer,
-          { headless: "shell" },
-          mocks.puppeteer.devices,
-        ),
         s3: MakeSpaceProvider(mocks.s3 as any),
         fs: GetFSClient({ client: mocks.fs }),
         wp: mocks.wiki,

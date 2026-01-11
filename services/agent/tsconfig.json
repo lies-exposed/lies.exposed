@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "rootDir": "./src",
+    "rootDir": "./",
     "baseUrl": "./src",
     "moduleResolution": "bundler",
     "module": "ESNext",
@@ -16,8 +16,8 @@
       "#cli/*": ["./cli/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "build", "**/*.test.ts", "**/*.spec.ts"],
+  "include": ["src/**/*", "test/**/*"],
+  "exclude": ["node_modules", "build"],
   "references": [
     { "path": "../../packages/@liexp/core" },
     { "path": "../../packages/@liexp/shared" }
