@@ -6,11 +6,8 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import {
   createAgent as createReactAgent,
-  type AgentMiddleware,
   type AIMessage,
-  type AnyAnnotationRoot,
   type ReactAgent,
-  type ResponseFormatUndefined,
   type Tool,
 } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";
@@ -19,12 +16,7 @@ import { type PuppeteerProviderContext } from "../../context/puppeteer.context.j
 import { ServerError } from "../../errors/index.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
-export type Agent = ReactAgent<
-  ResponseFormatUndefined,
-  undefined,
-  AnyAnnotationRoot,
-  readonly AgentMiddleware<any, any, any>[]
->;
+export type Agent = ReactAgent;
 
 export interface AgentProvider {
   agent: Agent;
