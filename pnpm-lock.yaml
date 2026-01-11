@@ -90,6 +90,9 @@ importers:
       '@ts-endpoint/resource-client':
         specifier: file:../../../patches/ts-endpoint-resource-client-0.1.0.tgz
         version: file:patches/ts-endpoint-resource-client-0.1.0.tgz(axios@1.13.2)(fp-ts@2.16.11)
+      brave-search:
+        specifier: ^0.9.0
+        version: 0.9.0(debug@4.4.3)
       compression:
         specifier: ^1.8.1
         version: 1.8.1
@@ -921,6 +924,9 @@ importers:
       axios:
         specifier: ^1.13.2
         version: 1.13.2(debug@4.4.3)
+      brave-search:
+        specifier: ^0.9.0
+        version: 0.9.0(debug@4.4.3)
       cors:
         specifier: ^2.8.5
         version: 2.8.5
@@ -5610,6 +5616,9 @@ packages:
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
+
+  brave-search@0.9.0:
+    resolution: {integrity: sha512-DNcCOUDuhcBYDsWI9h4hIwXxc1dhT/TnTTNPot19k7FBY5ZfOYpEa1Xqh56BVO79lCTY/SES+0rVtmHfEFz8yQ==}
 
   browserslist@4.28.1:
     resolution: {integrity: sha512-ZC5Bd0LgJXgwGqUknZY/vkUQ04r8NXnJZ3yYi4vDmSiZmC/pdSN0NbNRPxZpbtO4uAfDUAFffO8IZoM3Gj8IkA==}
@@ -15481,6 +15490,12 @@ snapshots:
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
+
+  brave-search@0.9.0(debug@4.4.3):
+    dependencies:
+      axios: 1.13.2(debug@4.4.3)
+    transitivePeerDependencies:
+      - debug
 
   browserslist@4.28.1:
     dependencies:
