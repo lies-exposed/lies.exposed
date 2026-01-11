@@ -41,6 +41,11 @@ import {
   faUsersBetweenLines,
   faChartLine,
   faFlag,
+  faCheck,
+  faCheckDouble,
+  faExclamation,
+  faSpinner,
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -51,6 +56,11 @@ library.add(
   faTelegram,
   faInstagram,
   // solid
+  faCheck,
+  faClock,
+  faCheckDouble,
+  faExclamation,
+  faSpinner,
   faCalendar,
   faFlask,
   faFlag,

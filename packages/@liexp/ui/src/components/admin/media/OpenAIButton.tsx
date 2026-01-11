@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AutoAwesome } from "../../mui/icons.js";
-import { Button, Stack, Tooltip } from "../../mui/index.js";
+import { Button, type ButtonProps, Stack, Tooltip } from "../../mui/index.js";
 import { LoadingIndicator } from "../react-admin.js";
 
 export interface OpenAIButtonBaseProps {
@@ -13,12 +13,16 @@ export interface OpenAIButtonBaseProps {
 interface OpenAIButtonProps extends OpenAIButtonBaseProps {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   label: string;
+  variant?: ButtonProps["variant"];
+  startIcon?: React.ReactNode;
 }
 
 export const OpenAIButton: React.FC<OpenAIButtonProps> = ({
   label,
   description,
   onClick,
+  startIcon,
+  variant = "contained",
 }) => {
   const [isLoading, setLoading] = React.useState(false);
 
@@ -32,10 +36,10 @@ export const OpenAIButton: React.FC<OpenAIButtonProps> = ({
 
   const button = (
     <Button
-      variant="contained"
+      variant={variant}
       size="small"
       onClick={onButtonClick}
-      startIcon={<AutoAwesome />}
+      startIcon={startIcon ?? <AutoAwesome />}
     >
       {label}
     </Button>

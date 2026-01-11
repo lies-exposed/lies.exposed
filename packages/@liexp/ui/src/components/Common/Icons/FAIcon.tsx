@@ -10,6 +10,11 @@ import * as React from "react";
 
 export interface FAIconProps extends FontAwesomeIconProps {
   icon:
+    | "check"
+    | "clock"
+    | "spinner"
+    | "check-double"
+    | "exclamation"
     | "paragraph"
     | "header"
     | "quote-left"
