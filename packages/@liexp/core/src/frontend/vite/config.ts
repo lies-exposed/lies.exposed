@@ -138,8 +138,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
     );
 
     // Build monorepo HMR configuration (development only, enabled by default)
-    const monorepoHmrEnabled =
-      mode === "development" && config.monorepoHmr !== false;
+    const monorepoHmrEnabled = mode === "development";
 
     const monorepoHmrResult = (() => {
       if (!monorepoHmrEnabled) {

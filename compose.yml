@@ -150,7 +150,7 @@ services:
       VIRTUAL_PORT: 80
     ports:
       # hmr port
-      - "127.0.0.1:24678:24678"
+      - "24678:24678"
     volumes:
       - web-node-modules:/usr/src/app/node_modules
       - ./tsconfig.json:/usr/src/app/tsconfig.json
@@ -177,6 +177,9 @@ services:
       context: .
       target: dev
       dockerfile: admin.Dockerfile
+    ports:
+      # HMR WebSocket port - must be explicitly mapped for browser access
+      - "24679:24679"
     env_file:
       - ./services/admin/.env
       - ./services/admin/.env.server
@@ -232,6 +235,8 @@ services:
     mem_limit: 512M
     networks:
       - reverseproxy
+    depends_on:
+      - api.liexp.dev
 
   localai.liexp.dev:
     # image: localai/localai:master-aio-cpu

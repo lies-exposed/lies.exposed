@@ -38,6 +38,7 @@ const PermissionsFromString = Schema.transform(
 export const AdminProxyENV = Schema.Struct({
   NODE_ENV: Schema.String,
   DEBUG: Schema.String,
+  VIRTUAL_HOST: Schema.String,
   // vite public (client)
   VITE_PUBLIC_URL: Schema.String,
   // Server configuration
