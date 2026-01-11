@@ -211,6 +211,9 @@ importers:
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
+      hono:
+        specifier: ^4.11.1
+        version: 4.11.1
       ioredis:
         specifier: ^5.8.1
         version: 5.8.2
@@ -942,6 +945,9 @@ importers:
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
+      hono:
+        specifier: ^4.11.1
+        version: 4.11.1
       langchain:
         specifier: ^1.2.7
         version: 1.2.7(@langchain/core@1.1.12(@opentelemetry/api@1.9.0)(openai@6.16.0(ws@8.19.0)(zod@4.3.5)))(@opentelemetry/api@1.9.0)(openai@6.16.0(ws@8.19.0)(zod@4.3.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.1(zod@4.3.5))
@@ -982,6 +988,9 @@ importers:
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
+      vitest:
+        specifier: ^4.0.16
+        version: 4.0.16(@opentelemetry/api@1.9.0)(@types/node@24.10.6)(jiti@2.6.1)(jsdom@27.4.0(canvas@3.0.1))(msw@2.12.7(@types/node@24.10.6)(typescript@5.9.3))(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
 
   services/ai-bot:
     dependencies:
@@ -1033,6 +1042,9 @@ importers:
       fp-ts:
         specifier: ^2.16.10
         version: 2.16.11
+      hono:
+        specifier: ^4.11.1
+        version: 4.11.1
       openai:
         specifier: ^6.15.0
         version: 6.15.0(ws@8.19.0)(zod@4.3.5)
@@ -1148,9 +1160,6 @@ importers:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
-      zod:
-        specifier: ^4.3.5
-        version: 4.3.5
     devDependencies:
       '@liexp/test':
         specifier: workspace:*

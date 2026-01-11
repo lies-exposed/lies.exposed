@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as Ord from "fp-ts/lib/Ord.js";
@@ -34,7 +35,11 @@ export const searchEventsFromProvider =
       keywords,
     }: typeof Endpoints.Event.Custom.SearchEventsFromProvider.Input.Body.Encoded,
     user: UserEntity,
-  ): ReaderTaskEither<C, ServerError, any> =>
+  ): ReaderTaskEither<
+    C,
+    ServerError,
+    { data: readonly Link.Link[]; total: number }
+  > =>
   (ctx) => {
     const tasks = pipe(
       pipe(

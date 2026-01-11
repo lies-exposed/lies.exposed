@@ -70,6 +70,7 @@
     "fast-check": "^3.23.2",
     "fast-csv": "^5.0.2",
     "fp-ts": "^2.16.10",
+    "hono": "^4.11.1",
     "ioredis": "^5.8.1",
     "langchain": "^1.2.7",
     "page-metadata-parser": "^1.1.4",

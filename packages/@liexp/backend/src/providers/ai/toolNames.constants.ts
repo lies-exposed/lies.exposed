@@ -51,6 +51,7 @@ export const FIND_LINKS = "findLinks";
 export const GET_LINK = "getLink";
 export const CREATE_LINK = "createLink";
 export const EDIT_LINK = "editLink";
+export const SEARCH_WEB = "searchWeb";
 
 // Nation tools
 export const FIND_NATIONS = "findNations";
