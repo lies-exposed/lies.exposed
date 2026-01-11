@@ -27,7 +27,7 @@
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
     "start": "node build/run.js",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
