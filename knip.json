@@ -6,7 +6,8 @@
       "ignore": [
         "services/*/build/**",
         "packages/@liexp/*/lib/**",
-        "**/temp/**"
+        "**/temp/**",
+        "localai/**"
       ],
       "ignoreDependencies": [
         "husky",
@@ -46,13 +47,11 @@
       ],
       "includeEntryExports": false,
       "project": [
-        "src/**/*.{ts,tsx}"
+        "src/**/*.{ts,tsx}",
+        "test/**/*.ts"
       ],
       "ignore": [
-        "src/client/components/events/AddEventModal.tsx",
-        "src/client/pages/DocsPage.tsx",
-        "src/client/templates/PageTemplate.tsx",
-        "src/client/state/commands.ts"
+        "src/client/templates/PageTemplate.tsx"
       ]
     },
     "services/admin": {
