@@ -40,7 +40,7 @@
     ]
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
