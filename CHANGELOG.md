@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/0.1.7...0.1.8) (2026-01-11)
+
+
+### Bug Fixes
+
+* **agent:** provide searchWebTools in agent service ([#3045](https://github.com/lies-exposed/lies.exposed/issues/3045)) ([1191a71](https://github.com/lies-exposed/lies.exposed/commit/1191a713da3eb66fa59f4ce275fc7f6e88a47693))
+* **backend:** added brave provider for web searches ([#3044](https://github.com/lies-exposed/lies.exposed/issues/3044)) ([e1723b5](https://github.com/lies-exposed/lies.exposed/commit/e1723b5869cc4745cb885f0b3cab463863adc0f4))
+
+
+### Miscellaneous
+
+* **admin:** renamed service to 'admin' ([#3035](https://github.com/lies-exposed/lies.exposed/issues/3035)) ([b88833a](https://github.com/lies-exposed/lies.exposed/commit/b88833a6a915bd0d9e0da639b034642b614a01eb))
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+* reference AGENTS.md directly in CLAUDE.md ([#3033](https://github.com/lies-exposed/lies.exposed/issues/3033)) ([c44e7fe](https://github.com/lies-exposed/lies.exposed/commit/c44e7fe1ad40c98732b173c6e0c9faaf810657ee))
+* **workspace:** bump supertest from 7.1.0 to 7.2.2 ([#3027](https://github.com/lies-exposed/lies.exposed/issues/3027)) ([7b7ece9](https://github.com/lies-exposed/lies.exposed/commit/7b7ece9e22aa502a13b44d2c3e5171803b32e0c1))
+* **workspace:** pnpm overrides for zod@^4 ([#3042](https://github.com/lies-exposed/lies.exposed/issues/3042)) ([334ef1d](https://github.com/lies-exposed/lies.exposed/commit/334ef1d9ab455ba643a561e39daed4f1a8eda60e))
+* **workspace:** support only current architecture with pnpm ([#3028](https://github.com/lies-exposed/lies.exposed/issues/3028)) ([ea983bc](https://github.com/lies-exposed/lies.exposed/commit/ea983bc5e2a50a008117b3c46ed1eb25b37fe62b))
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/0.1.6...0.1.7) (2026-01-07)
 
 

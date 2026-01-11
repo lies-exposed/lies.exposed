@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.6...@liexp/test@0.1.7) (2026-01-11)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.5...@liexp/test@0.1.6) (2026-01-07)
 
 

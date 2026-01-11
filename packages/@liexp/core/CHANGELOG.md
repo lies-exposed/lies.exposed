@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.2...@liexp/core@0.1.3) (2026-01-11)
+
+
+### Miscellaneous
+
+* **admin:** implement HMR for development server ([#3034](https://github.com/lies-exposed/lies.exposed/issues/3034)) ([13f4b42](https://github.com/lies-exposed/lies.exposed/commit/13f4b4256065f256272575d27892e6bcf9b310c9))
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+
 ## [0.1.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.1...@liexp/core@0.1.2) (2026-01-03)
 
 

@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.6...agent@0.1.7) (2026-01-11)
+
+
+### Bug Fixes
+
+* **agent:** provide searchWebTools in agent service ([#3045](https://github.com/lies-exposed/lies.exposed/issues/3045)) ([1191a71](https://github.com/lies-exposed/lies.exposed/commit/1191a713da3eb66fa59f4ce275fc7f6e88a47693))
+* **backend:** added brave provider for web searches ([#3044](https://github.com/lies-exposed/lies.exposed/issues/3044)) ([e1723b5](https://github.com/lies-exposed/lies.exposed/commit/e1723b5869cc4745cb885f0b3cab463863adc0f4))
+
+
+### Miscellaneous
+
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.7
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.5...agent@0.1.6) (2026-01-07)
 
 
