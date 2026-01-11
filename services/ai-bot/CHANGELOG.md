@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.6...ai-bot@0.1.7) (2026-01-11)
+
+
+### Bug Fixes
+
+* **ai-bot:** update event flow with proper types and prompts ([#3025](https://github.com/lies-exposed/lies.exposed/issues/3025)) ([ba42afe](https://github.com/lies-exposed/lies.exposed/commit/ba42afef414865c5b70c902fb052e515a2d3ef6a))
+
+
+### Miscellaneous
+
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.7
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.5...ai-bot@0.1.6) (2026-01-07)
 
 

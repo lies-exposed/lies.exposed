@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.6...api@0.1.7) (2026-01-11)
+
+
+### Bug Fixes
+
+* **agent:** provide searchWebTools in agent service ([#3045](https://github.com/lies-exposed/lies.exposed/issues/3045)) ([1191a71](https://github.com/lies-exposed/lies.exposed/commit/1191a713da3eb66fa59f4ce275fc7f6e88a47693))
+* **api:** actors and groups events linking routes ([#3041](https://github.com/lies-exposed/lies.exposed/issues/3041)) ([4d31bcb](https://github.com/lies-exposed/lies.exposed/commit/4d31bcb720288d516fc98de679883a61b79bafea))
+* **api:** event hard delete ([#3024](https://github.com/lies-exposed/lies.exposed/issues/3024)) ([c27656f](https://github.com/lies-exposed/lies.exposed/commit/c27656f01331e1bfcbc7c2ffca37960796b54c5d))
+* **api:** include relations in listed events when requested via query params ([#3032](https://github.com/lies-exposed/lies.exposed/issues/3032)) ([e9d85a7](https://github.com/lies-exposed/lies.exposed/commit/e9d85a796367ef7410b02ed0039fcdd26710e2fd))
+
+
+### Miscellaneous
+
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+* **workspace:** bump supertest from 7.1.0 to 7.2.2 ([#3027](https://github.com/lies-exposed/lies.exposed/issues/3027)) ([7b7ece9](https://github.com/lies-exposed/lies.exposed/commit/7b7ece9e22aa502a13b44d2c3e5171803b32e0c1))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.7
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+  * devDependencies
+    * @liexp/test bumped to 0.1.7
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/api@0.1.5...api@0.1.6) (2026-01-07)
 
 

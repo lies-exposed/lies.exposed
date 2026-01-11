@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.7...web@0.1.8) (2026-01-11)
+
+
+### Miscellaneous
+
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+* **workspace:** bump supertest from 7.1.0 to 7.2.2 ([#3027](https://github.com/lies-exposed/lies.exposed/issues/3027)) ([7b7ece9](https://github.com/lies-exposed/lies.exposed/commit/7b7ece9e22aa502a13b44d2c3e5171803b32e0c1))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.7
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+    * @liexp/ui bumped to 0.1.8
+  * devDependencies
+    * @liexp/test bumped to 0.1.7
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.6...web@0.1.7) (2026-01-07)
 
 

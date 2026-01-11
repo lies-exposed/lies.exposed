@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/admin@0.1.7...admin@0.1.8) (2026-01-11)
+
+
+### Miscellaneous
+
+* **admin:** renamed service to 'admin' ([#3035](https://github.com/lies-exposed/lies.exposed/issues/3035)) ([b88833a](https://github.com/lies-exposed/lies.exposed/commit/b88833a6a915bd0d9e0da639b034642b614a01eb))
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.7
+    * @liexp/core bumped to 0.1.3
+    * @liexp/shared bumped to 0.1.7
+    * @liexp/ui bumped to 0.1.8
+  * devDependencies
+    * @liexp/test bumped to 0.1.7
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/admin-web@0.1.6...admin-web@0.1.7) (2026-01-07)
 
 

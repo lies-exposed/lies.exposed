@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.6...@liexp/shared@0.1.7) (2026-01-11)
+
+
+### Bug Fixes
+
+* **ai-bot:** update event flow with proper types and prompts ([#3025](https://github.com/lies-exposed/lies.exposed/issues/3025)) ([ba42afe](https://github.com/lies-exposed/lies.exposed/commit/ba42afef414865c5b70c902fb052e515a2d3ef6a))
+* **api:** actors and groups events linking routes ([#3041](https://github.com/lies-exposed/lies.exposed/issues/3041)) ([4d31bcb](https://github.com/lies-exposed/lies.exposed/commit/4d31bcb720288d516fc98de679883a61b79bafea))
+* **api:** include relations in listed events when requested via query params ([#3032](https://github.com/lies-exposed/lies.exposed/issues/3032)) ([e9d85a7](https://github.com/lies-exposed/lies.exposed/commit/e9d85a796367ef7410b02ed0039fcdd26710e2fd))
+* **ui:** created UpdateEventQueueButton component ([#3030](https://github.com/lies-exposed/lies.exposed/issues/3030)) ([d23f7eb](https://github.com/lies-exposed/lies.exposed/commit/d23f7ebab3efbb2c32d65fe37d9af72624cf4645))
+* **ui:** show event media relation in autocomplete input component ([#3031](https://github.com/lies-exposed/lies.exposed/issues/3031)) ([5f2257b](https://github.com/lies-exposed/lies.exposed/commit/5f2257b7e20ac1ad24069b264d8838a1715ed1fb))
+
+
+### Miscellaneous
+
+* **deps:** update dev dependencies ([#3036](https://github.com/lies-exposed/lies.exposed/issues/3036)) ([f2a56cc](https://github.com/lies-exposed/lies.exposed/commit/f2a56cc94fc740e7e60868997273d91401545839))
+* **workspace:** pnpm overrides for zod@^4 ([#3042](https://github.com/lies-exposed/lies.exposed/issues/3042)) ([334ef1d](https://github.com/lies-exposed/lies.exposed/commit/334ef1d9ab455ba643a561e39daed4f1a8eda60e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.3
+
 ## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.5...@liexp/shared@0.1.6) (2026-01-07)
 
 
