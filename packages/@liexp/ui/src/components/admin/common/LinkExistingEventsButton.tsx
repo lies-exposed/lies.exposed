@@ -203,5 +203,3 @@ export const LinkExistingEventsButton: React.FC<
     </>
   );
 };
-
-export default LinkExistingEventsButton;
