@@ -38,8 +38,7 @@
     "lodash": "^4.17.21",
     "page-metadata-parser": "^1.1.4",
     "query-string": "^9.1.1",
-    "uuid": "^11.1.0",
-    "zod": "^3.25.76"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.22",
@@ -69,7 +68,8 @@
     "pdfjs-dist": "^5",
     "react": "^18",
     "react-admin": "^5",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^4"
   },
   "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402"
 }
