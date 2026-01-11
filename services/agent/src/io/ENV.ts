@@ -18,6 +18,9 @@ const ENV = Schema.Struct({
   // API service configuration
   API_BASE_URL: Schema.optional(Schema.String),
   API_TOKEN: Schema.String,
+
+  // Brave Search
+  BRAVE_API_KEY: Schema.String,
 }).annotations({ title: "AGENT_ENV" });
 
 type ENV = typeof ENV.Type;

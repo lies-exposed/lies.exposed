@@ -10,6 +10,7 @@ import {
   type ReactAgent,
   type Tool,
 } from "langchain";
+import { type BraveProviderContext } from "../../context/brave.context.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
@@ -44,7 +45,12 @@ interface GetAgentProviderOptions {
 
 export const GetAgentProvider =
   (opts: GetAgentProviderOptions) =>
-  <C extends LangchainContext & LoggerContext & PuppeteerProviderContext>(
+  <
+    C extends LangchainContext &
+      LoggerContext &
+      PuppeteerProviderContext &
+      BraveProviderContext,
+  >(
     ctx: C,
   ): TaskEither<ServerError, AgentProvider> => {
     // const aiMessageLogger = AIMessageLogger(ctx.logger);

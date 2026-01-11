@@ -2,6 +2,7 @@ import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
+import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
@@ -10,6 +11,7 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import axios from "axios";
+import { BraveSearch } from "brave-search";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import * as puppeteer from "puppeteer-core";
@@ -61,6 +63,9 @@ export const makeAgentContext = (
         puppeteer.KnownDevices,
       );
 
+      const braveSearch = new BraveSearch(env.BRAVE_API_KEY);
+      const braveProvider = GetBraveProvider(braveSearch);
+
       agentLogger.debug.log("Initializing Agent provider...");
       // Initialize real MCP client to connect to API service
       return pipe(
@@ -108,6 +113,7 @@ export const makeAgentContext = (
             langchain,
             logger: agentLogger,
             puppeteer: puppeteerProvider,
+            brave: braveProvider,
           }),
         ),
         TE.map((agentProvider) => {
@@ -119,6 +125,7 @@ export const makeAgentContext = (
             http,
             langchain,
             puppeteer: puppeteerProvider,
+            brave: braveProvider,
             agent: agentProvider,
           };
         }),

@@ -36,6 +36,7 @@
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
+    "brave-search": "^0.9.0",
     "compression": "^1.8.1",
     "date-fns": "^4.1.0",
     "ip-address": "^10.1.0",
