@@ -1,12 +1,12 @@
 import { type EndpointsMapType } from "@ts-endpoint/core";
 import { chat } from "./chat.endpoints.js";
 
-interface Endpoints extends EndpointsMapType {
+interface AgentEndpoints extends EndpointsMapType {
   Chat: typeof chat;
 }
 
-const Endpoints = {
+const AgentEndpoints = {
   Chat: chat,
 };
 
-export { Endpoints };
+export { AgentEndpoints };

@@ -1,4 +1,4 @@
-import { Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { type API, GetResourceClient } from "@ts-endpoint/resource-client";
@@ -10,10 +10,10 @@ import { useAgentDataProvider } from "./useAgentDataProvider.js";
  * Uses the admin proxy endpoint (/api/proxy/agent)
  * The proxy handles M2M authentication with the agent service
  */
-export const useAgentAPI = (): API<Endpoints> => {
+export const useAgentAPI = (): API<AgentEndpoints> => {
   const dataProvider = useAgentDataProvider();
   return React.useMemo(() => {
-    return GetResourceClient(dataProvider.client, Endpoints, {
+    return GetResourceClient(dataProvider.client, AgentEndpoints, {
       decode: EffectDecoder((e) => DecodeError.of("Agent API decode error", e)),
     });
   }, [dataProvider]);
