@@ -2,7 +2,7 @@ import tanstackQuery from "@tanstack/eslint-plugin-query";
 import { defineConfig } from "eslint/config";
 import react from "eslint-plugin-react";
 import globals from "globals";
-import baseConfig from "./base.config.js";
+import { baseConfig } from "./base.config.js";
 
 if (!react.configs.flat) {
   throw new Error("react.configs.flat is not defined");

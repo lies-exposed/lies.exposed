@@ -82,3 +82,6 @@ localai/models/.*.yaml
 
 # Service data
 services/data
+
+# Project Structure cache
+**/projectStructure.cache.json

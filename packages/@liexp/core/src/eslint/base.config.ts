@@ -3,9 +3,14 @@ import { defineConfig } from "eslint/config";
 import fpTS from "eslint-plugin-fp-ts";
 import { importX } from "eslint-plugin-import-x";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import {
+  projectStructureParser,
+  projectStructurePlugin,
+  createFolderStructure,
+} from "eslint-plugin-project-structure";
 import tseslint from "typescript-eslint";
 
-const config = defineConfig(
+export const baseConfig = defineConfig(
   // Base ESLint recommended rules
   eslint.configs.recommended,
 
@@ -126,4 +131,32 @@ const config = defineConfig(
   },
 );
 
-export default config;
+export const defineProjectStructureConfig = (
+  params: Parameters<typeof createFolderStructure>[0],
+) => {
+  const config = createFolderStructure({
+    ignorePatterns: [
+      "projectStructure.cache.json",
+      "node_modules",
+      ...(params.ignorePatterns ?? []),
+    ],
+    ...params,
+  });
+
+  return defineConfig({
+    files: ["**"], // Check all file extensions.
+    ignores: ["projectStructure.cache.json"],
+    languageOptions: { parser: projectStructureParser },
+    plugins: {
+      "project-structure": projectStructurePlugin,
+    },
+    settings: {
+      // If you want to change the location of generating the projectStructure.cache.json file.
+      // "project-structure/cache-location": "./src/cats",
+    },
+    rules: {
+      // If you have many rules in a separate file.
+      "project-structure/folder-structure": ["error", config],
+    },
+  });
+};

@@ -14,10 +14,10 @@
     "isolatedModules": true,
     "outDir": "./lib",
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "tsBuildInfoFile": "lib/.tsbuildinfo",
     "typeRoots": ["../../../node_modules/@types"]
   },
-  "include": ["./src", "./typings"],
+  "include": ["./src", "./typings", "eslint.config.js"],
   "exclude": ["node_modules", "lib"]
 }
