@@ -1,16 +1,15 @@
-import { defineProject } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import tsconfigPaths from "vite-tsconfig-paths";
+import { defineProject } from "vitest/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineProject({
   plugins: [tsconfigPaths()],
   test: {
-    name: 'e2e',
+    name: "e2e",
     globals: true,
-    watch: false,
     environment: "node",
     testTimeout: 30000,
     hookTimeout: 30000,

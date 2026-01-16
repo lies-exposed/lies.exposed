@@ -7,12 +7,7 @@ export default defineConfig({
     watch: false,
     coverage: {
       reporter: ["text", "json", "html"],
-      exclude: [
-        "node_modules/**",
-        "build/**",
-        "test/**",
-        "**/*.d.ts",
-      ],
+      exclude: ["node_modules/**", "build/**", "test/**", "**/*.d.ts"],
     },
   },
 });

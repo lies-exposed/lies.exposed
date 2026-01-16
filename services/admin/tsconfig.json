@@ -40,7 +40,9 @@
     "./src",
     "./typings",
     "eslint.config.js",
-    "vite.config.ts"
+    "vite.config.ts",
+    "vitest.config.ts",
+    "vitest.config.e2e.ts"
   ],
   "exclude": [
     "node_modules",
