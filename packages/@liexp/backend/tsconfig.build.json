@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "./src",
     "tsBuildInfoFile": "lib/.build.tsbuildinfo"
   },
   "include": ["src/**/*.ts", "typings", "../shared/typings", "src/**/*.json"],

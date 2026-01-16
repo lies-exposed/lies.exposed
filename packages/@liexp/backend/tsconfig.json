@@ -14,10 +14,10 @@
     "strictPropertyInitialization": false,
     "outDir": "./lib",
     "baseUrl": "./src",
-    "rootDir": "./src",
+    "rootDir": "./",
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
-  "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
+  "include": ["./src", "./typings", "../shared/typings", "eslint.config.js", "vitest.config.ts"],
   "exclude": ["node_modules", "lib"],
   "references": [
     {
