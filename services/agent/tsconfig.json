@@ -16,7 +16,7 @@
       "#cli/*": ["./cli/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/**/*", "eslint.config.js"],
   "exclude": ["node_modules", "build"],
   "references": [
     { "path": "../../packages/@liexp/core" },
