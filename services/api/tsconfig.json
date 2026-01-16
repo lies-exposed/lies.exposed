@@ -61,6 +61,7 @@
     "./src",
     "./scripts",
     "./test",
+    "eslint.config.js",
     "../../packages/@liexp/backend/typings/**/*.d.ts",
     "../../packages/@liexp/shared/typings/**/*.d.ts"
   ],
