@@ -1,7 +1,7 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Schema } from "effect";
 import type { Request, Response } from "express";
@@ -18,7 +18,7 @@ import { type Route } from "#routes/route.types.js";
 
 export const MakeSendChatMessageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
-    Endpoints.Chat.Create,
+    AgentEndpoints.Chat.Create,
     ({ body }) => {
       return pipe(
         sendChatMessage(body)(ctx),
@@ -35,7 +35,7 @@ export const MakeSendChatMessageRoute: Route = (r, ctx) => {
 };
 
 export const MakeListChatConversationsRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Chat.List, ({ query }) => {
+  AddEndpoint(r)(AgentEndpoints.Chat.List, ({ query }) => {
     return pipe(
       listChatConversations(query)(ctx),
       TE.mapLeft(ServerError.fromUnknown),
@@ -51,7 +51,7 @@ export const MakeListChatConversationsRoute: Route = (r, ctx) => {
 };
 
 export const MakeGetChatConversationRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Chat.Get, ({ params: { id } }) => {
+  AddEndpoint(r)(AgentEndpoints.Chat.Get, ({ params: { id } }) => {
     return pipe(
       getChatConversation(id)(ctx),
       TE.mapLeft(ServerError.fromUnknown),
@@ -73,7 +73,7 @@ export const MakeGetChatConversationRoute: Route = (r, ctx) => {
 };
 
 export const MakeDeleteChatConversationRoute: Route = (r, ctx) => {
-  AddEndpoint(r)(Endpoints.Chat.Delete, ({ params: { id } }) => {
+  AddEndpoint(r)(AgentEndpoints.Chat.Delete, ({ params: { id } }) => {
     return pipe(
       deleteChatConversation(id)(ctx),
       TE.mapLeft(ServerError.fromUnknown),
@@ -99,7 +99,7 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
       try {
         // Validate request body
         const parseResult = Schema.decodeUnknownEither(
-          Endpoints.Chat.Custom.Stream.Input.Body,
+          AgentEndpoints.Chat.Custom.Stream.Input.Body,
         )(req.body);
 
         if (parseResult._tag === "Left") {
@@ -131,11 +131,10 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
         const streamGenerator = sendChatMessageStream(body)(ctx);
 
         for await (const event of streamGenerator) {
+          ctx.logger.debug.log("Sent stream event: %s", event.type);
           // Format as SSE: data: {json}\n\n
           const eventData = JSON.stringify(event);
           res.write(`data: ${eventData}\n\n`);
-
-          ctx.logger.debug.log("Sent stream event: %s", event.type);
         }
 
         // Send completion marker

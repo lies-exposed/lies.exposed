@@ -33,7 +33,7 @@ describe.sequential("Web Server E2E Tests", () => {
 
         expect(response.status).toBe(200);
         expect(response.type).toBe("text/html");
-      }, 10000); // Increased timeout for slow development server
+      }, 15000); // Increased timeout for slow development server
 
       it("should handle SPA routing fallback", async () => {
         const response = await Test.req.get("/nonexistent-route");

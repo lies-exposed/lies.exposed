@@ -14,15 +14,6 @@ const SingleChatOutput = Output(ChatResponse).annotations({
 
 const ListConversationsOutput = ListOutput(ChatConversation, "Conversations");
 
-export const SendMessage = Endpoint({
-  Method: "POST",
-  getPath: () => "/chat/message",
-  Input: {
-    Body: ChatRequest,
-  },
-  Output: SingleChatOutput,
-});
-
 export const ListConversations = Endpoint({
   Method: "GET",
   getPath: () => "/chat/conversations",
@@ -33,6 +24,15 @@ export const ListConversations = Endpoint({
     }),
   },
   Output: ListConversationsOutput,
+});
+
+export const SendMessage = Endpoint({
+  Method: "POST",
+  getPath: () => "/chat/message",
+  Input: {
+    Body: ChatRequest,
+  },
+  Output: SingleChatOutput,
 });
 
 export const GetConversation = Endpoint({

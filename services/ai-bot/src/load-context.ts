@@ -6,7 +6,7 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
-import { Endpoints as AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";

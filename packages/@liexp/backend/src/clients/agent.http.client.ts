@@ -1,4 +1,4 @@
-import { Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
 import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { GetResourceClient } from "@ts-endpoint/resource-client";
@@ -20,7 +20,7 @@ export const makeAgentClient = (config: AgentClientConfig) => {
     signAs: "client",
   });
 
-  return GetResourceClient(client, Endpoints, {
+  return GetResourceClient(client, AgentEndpoints, {
     decode: EffectDecoder((e) =>
       DecodeError.of("Agent client decode error", e),
     ),

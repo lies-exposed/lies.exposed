@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type API } from "@ts-endpoint/resource-client";
 import { type Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -136,7 +136,10 @@ export const AgentChatService = {
    * );
    * ```
    */
-  getStructuredOutput: <C extends LoggerContext & { agent: API<Endpoints> }, T>(
+  getStructuredOutput: <
+    C extends LoggerContext & { agent: API<AgentEndpoints> },
+    T,
+  >(
     options: StructuredOutputOptions<T>,
   ): ReaderTaskEither<C, ServerError, T> => {
     return (ctx) =>
@@ -205,7 +208,9 @@ export const AgentChatService = {
    * );
    * ```
    */
-  getRawOutput: <C extends LoggerContext & { agent: API<Endpoints> }>(options: {
+  getRawOutput: <
+    C extends LoggerContext & { agent: API<AgentEndpoints> },
+  >(options: {
     message: string;
     conversationId?: string | null;
   }): ReaderTaskEither<C, ServerError, string> => {
@@ -240,7 +245,7 @@ export const AgentChatService = {
    * @returns A ReaderTaskEither that resolves to the parsed structured output
    */
   getStructuredOutputWithLogging: <
-    C extends LoggerContext & { agent: API<Endpoints> },
+    C extends LoggerContext & { agent: API<AgentEndpoints> },
     T,
   >(
     flowName: string,

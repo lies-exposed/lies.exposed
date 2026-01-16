@@ -3,7 +3,7 @@ import { type HTTPProviderContext } from "@liexp/backend/lib/context/http.contex
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { type PDFProviderContext } from "@liexp/backend/lib/context/pdf.context.js";
 import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppeteer.context.js";
-import { type Endpoints as AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { type API } from "@ts-endpoint/resource-client";
 import { type AIBotConfig } from "./config.js";

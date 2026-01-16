@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Endpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
+import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
 import {
   toAPIError,
@@ -16,7 +16,7 @@ import { AgentChatService } from "../../services/agent-chat/agent-chat.service.j
 import { getCreateEventPromptPartial } from "./createEventFromText.flow.js";
 
 export const createEventFromDocuments = <
-  C extends LangchainContext & LoggerContext & { agent: API<Endpoints> },
+  C extends LangchainContext & LoggerContext & { agent: API<AgentEndpoints> },
 >(
   documents: Document[],
   type: EventType,
