@@ -1,5 +1,6 @@
 import { config, dom } from "@fortawesome/fontawesome-svg-core";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
+import { AgentAPIContext } from "@liexp/ui/lib/context/AgentAPIContext.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -8,7 +9,6 @@ import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { configuration } from "./configuration/index.js";
-import { AgentAPIContext } from "./context/AgentAPIContext.js";
 import reportWebVitals from "./reportWebVitals.js";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
