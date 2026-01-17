@@ -1,6 +1,6 @@
-import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import * as React from "react";
+import { getAuthFromLocalStorage } from "../client/api.js";
 
 /**
  * Context for the Agent API client
