@@ -1,8 +1,8 @@
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { MP3Type, OGGType } from "@liexp/shared/lib/io/http/Media/index.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";

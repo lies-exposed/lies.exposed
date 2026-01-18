@@ -1,10 +1,10 @@
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";

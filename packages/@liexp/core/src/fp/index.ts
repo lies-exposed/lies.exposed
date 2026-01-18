@@ -19,6 +19,9 @@ import { pipe, flow } from "fp-ts/lib/function.js";
 import * as N from "fp-ts/lib/number.js";
 import * as S from "fp-ts/lib/string.js";
 import * as Void from "fp-ts/lib/void.js";
+import * as ArrayUtils from "./utils/Array.utils.js";
+import * as NonEmptyArrayUtils from "./utils/NonEmptyArray.utils.js";
+import * as OptionUtils from "./utils/Option.utils.js";
 
 export const fp = {
   A,
@@ -42,6 +45,11 @@ export const fp = {
   Date: date,
   sequenceS,
   sequenceT,
+  Utils: {
+    A: ArrayUtils,
+    O: OptionUtils,
+    NEA: NonEmptyArrayUtils,
+  },
 };
 
 export { pipe, flow };

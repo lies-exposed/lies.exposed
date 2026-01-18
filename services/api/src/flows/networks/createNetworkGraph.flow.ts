@@ -1,6 +1,7 @@
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
@@ -29,7 +30,6 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { type Option } from "effect/Option";

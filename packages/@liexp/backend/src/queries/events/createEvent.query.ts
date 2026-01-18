@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import type * as http from "@liexp/shared/lib/io/http/index.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DeepPartial } from "typeorm";

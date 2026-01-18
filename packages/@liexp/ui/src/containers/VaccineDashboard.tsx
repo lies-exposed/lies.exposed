@@ -1,4 +1,5 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { type VaccineDistributionDatum } from "@liexp/shared/lib/io/http/covid/VaccineDistributionDatum.js";
 import {
   Covid19ADRs,
@@ -7,7 +8,6 @@ import {
   Covid19WorldVaccineDistribution,
   CovidWHOWorldData,
 } from "@liexp/shared/lib/io/http/graphs/Graph.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { scaleOrdinal } from "@visx/scale";
 import { isAfter, isBefore } from "date-fns";
 import { Schema } from "effect";

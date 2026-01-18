@@ -8,10 +8,10 @@ import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { type EventRelations } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -43,13 +43,13 @@ export const fetchEventsRelations =
           fetchRelations(
             {
               keywords: shouldFetch("keywords")
-                ? pipe(relations.keywords, O.fromNullable, O.filter(isNonEmpty))
+                ? pipe(relations.keywords, fp.Utils.O.fromNonEmptyArray)
                 : O.none(),
               actors: shouldFetch("actors")
-                ? pipe(relations.actors, O.fromNullable, O.filter(isNonEmpty))
+                ? pipe(relations.actors, fp.Utils.O.fromNonEmptyArray)
                 : O.none(),
               groups: shouldFetch("groups")
-                ? pipe(relations.groups, O.fromNullable, O.filter(isNonEmpty))
+                ? pipe(relations.groups, fp.Utils.O.fromNonEmptyArray)
                 : O.none(),
               groupsMembers: shouldFetch("groups")
                 ? O.some(relations.groupsMembers)

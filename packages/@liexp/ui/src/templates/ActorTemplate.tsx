@@ -1,3 +1,4 @@
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -6,7 +7,6 @@ import {
   type Group,
   type Keyword,
 } from "@liexp/shared/lib/io/http/index.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import { Schema } from "effect/index";
