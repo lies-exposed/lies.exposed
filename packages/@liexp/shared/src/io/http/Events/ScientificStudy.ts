@@ -10,9 +10,9 @@ import { SCIENTIFIC_STUDY } from "./EventType.js";
 export const ScientificStudyPayload = Schema.Struct({
   title: Schema.String,
   url: UUID,
-  image: Schema.Union(UUID, Schema.String, Schema.Undefined),
+  image: Schema.UndefinedOr(UUID),
   authors: Schema.Array(UUID),
-  publisher: Schema.Union(UUID, Schema.Undefined),
+  publisher: Schema.UndefinedOr(UUID),
 }).annotations({
   title: "ScientificStudyPayload",
 });
