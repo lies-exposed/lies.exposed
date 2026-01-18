@@ -2,7 +2,6 @@ import * as http from "@liexp/shared/lib/io/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb, MAX_DATE, MIN_DATE } from "../Date.arbitrary.js";
-import { URLArb } from "../URL.arbitrary.js";
 import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
@@ -28,7 +27,7 @@ export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
-      image: fc.sample(URLArb, 1)[0],
+      image: fc.sample(UUIDArb, 1)[0],
       publisher: fc.sample(UUIDArb, 1)[0],
       url: fc.sample(UUIDArb, 1)[0],
     },
@@ -63,7 +62,7 @@ export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.Scient
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
       publisher: fc.sample(UUIDArb, 1)[0],
-      image: fc.sample(URLArb, 1)[0],
+      image: fc.sample(UUIDArb, 1)[0],
       url: fc.sample(UUIDArb, 1)[0],
     },
     media: [],
