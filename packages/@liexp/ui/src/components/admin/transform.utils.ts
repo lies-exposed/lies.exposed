@@ -1,4 +1,4 @@
-import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.js";
+import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
 import * as http from "@liexp/shared/lib/io/http/index.js";

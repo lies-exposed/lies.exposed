@@ -1,4 +1,4 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
@@ -37,7 +37,7 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
   ...props
 }) => {
   const displayImage = image ?? defaultImage;
-  const title = getTitle(event, {
+  const title = EventHelper.getTitle(event, {
     actors: [],
     groups: [],
     media: [],

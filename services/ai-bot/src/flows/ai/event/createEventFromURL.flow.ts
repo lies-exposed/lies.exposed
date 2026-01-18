@@ -1,8 +1,8 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { buildEvent } from "@liexp/shared/lib/helpers/event/event.js";
-import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
+import { buildEvent } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import {
   type Event,
   EventMap,
@@ -139,9 +139,6 @@ export const createEventFromURLFlow: JobProcessRTE<
           const cleanedPayload = removeUndefinedFromPayload(ev.payload);
 
           return {
-            media: [],
-            links: [],
-            keywords: [],
             ...ev,
             payload: cleanedPayload,
             id: job.id,

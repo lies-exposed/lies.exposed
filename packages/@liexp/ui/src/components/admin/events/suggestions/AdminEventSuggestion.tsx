@@ -1,4 +1,4 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
@@ -100,7 +100,7 @@ export const EventSuggestionList: React.FC<ListProps> = (props) => {
                   EVENT_TYPES.PATENT,
                 ].includes(r.payload.event.type) ? (
                   <Typography>
-                    {getTitle(r.payload.event, {
+                    {EventHelper.getTitle(r.payload.event, {
                       media: [],
                       keywords: [],
                       groups: [],

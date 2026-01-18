@@ -3,16 +3,16 @@ import {
   type SearchEventOutput,
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type SearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
-  type Actor,
-  type Events,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+  type SearchEvent,
+  type SearchEventsQuery,
+} from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import {
+  type EventRelations,
+  type Event,
+} from "@liexp/shared/lib/io/http/Events/index.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -28,13 +28,7 @@ export const fetchEventsWithRelations =
       ...rest
     }: Partial<SearchEventsQuery.GetSearchEventsQuery>,
     isAdmin: boolean,
-  ): TEReader<{
-    events: readonly Events.Event[];
-    actors: readonly Actor.Actor[];
-    groups: readonly Group.Group[];
-    keywords: readonly Keyword.Keyword[];
-    media: readonly Media.Media[];
-  }> =>
+  ): TEReader<EventRelations & { events: readonly SearchEvent[] }> =>
   (ctx) => {
     return pipe(
       walkPaginatedRequest<SearchEventOutput, ControllerError, Event>(
@@ -54,6 +48,17 @@ export const fetchEventsWithRelations =
         0,
         10,
       )(ctx),
-      TE.chain((events) => fetchEventsRelations(events, isAdmin)(ctx)),
+      TE.chain((events) =>
+        pipe(
+          fetchEventsRelations(events, isAdmin)(ctx),
+          TE.map((relations) =>
+            pipe(
+              events,
+              fp.A.map((e) => EventsMapper.toSearchEvent(e, relations)),
+              (ev) => ({ ...relations, events: ev }),
+            ),
+          ),
+        ),
+      ),
     );
   };

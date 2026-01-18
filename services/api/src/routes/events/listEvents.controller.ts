@@ -125,15 +125,14 @@ export const ListEventRoute: Route = (r, ctx) => {
                     relations: relationsFilter,
                   })(ctx),
                   TE.map(
-                    ({
-                      events: _,
-                      ...fetchedRelations
-                    }): {
+                    (
+                      relations,
+                    ): {
                       events: readonly Events.Event[];
                       relations: FetchedRelations | undefined;
                     } => ({
                       events,
-                      relations: fetchedRelations,
+                      relations,
                     }),
                   ),
                 )

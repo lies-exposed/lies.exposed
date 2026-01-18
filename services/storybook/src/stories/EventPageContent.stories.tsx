@@ -1,4 +1,4 @@
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   type EventType,
   EVENT_TYPES,
@@ -44,7 +44,7 @@ const Template: StoryFn<{ type: EventType } & EventPageContentProps> = ({
           <MainContent>
             <EventPageContent
               {...props}
-              event={toSearchEvent(events.data[0], {})}
+              event={EventsMapper.toSearchEvent(events.data[0], {})}
             />
           </MainContent>
         );

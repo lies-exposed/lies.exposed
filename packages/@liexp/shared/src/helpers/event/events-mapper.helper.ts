@@ -1,7 +1,18 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { Schema } from "effect";
 import { type BySubject } from "../../io/http/Common/index.js";
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
-import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
+import {
+  BOOK,
+  DEATH,
+  DOCUMENTARY,
+  EVENT_TYPES,
+  PATENT,
+  QUOTE,
+  SCIENTIFIC_STUDY,
+  TRANSACTION,
+  UNCATEGORIZED,
+} from "../../io/http/Events/EventType.js";
 import { type SearchBookEvent } from "../../io/http/Events/SearchEvents/SearchBookEvent.js";
 import { type SearchDocumentaryEvent } from "../../io/http/Events/SearchEvents/SearchDocumentaryEvent.js";
 import { type SearchQuoteEvent } from "../../io/http/Events/SearchEvents/SearchQuoteEvent.js";
@@ -9,7 +20,7 @@ import { type SearchTransactionEvent } from "../../io/http/Events/SearchEvents/S
 import { type EventRelations } from "../../io/http/Events/index.js";
 import { type Events, type Area, type Media } from "../../io/http/index.js";
 import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
-import { eventRelationIdsMonoid } from "./event.js";
+import { eventRelationIdsMonoid } from "./event.helper.js";
 import {
   getRelationIds,
   getRelationIdsFromEventRelations,
@@ -204,7 +215,7 @@ export const updateCache = (
   };
 };
 
-export const toSearchEvent = (
+const toSearchEvent = (
   e: Events.Event,
   s: Partial<Omit<SearchEventsQueryCache, "events">>,
 ): Events.SearchEvent.SearchEvent => {
@@ -435,9 +446,7 @@ export const toSearchEvent = (
   }
 };
 
-export const fromSearchEvent = (
-  e: Events.SearchEvent.SearchEvent,
-): Events.Event => {
+const fromSearchEvent = (e: Events.SearchEvent.SearchEvent): Events.Event => {
   const relations = pipe(
     e,
     getSearchEventRelations,
@@ -553,4 +562,30 @@ export const fromSearchEvent = (
       };
     }
   }
+};
+
+export const getTotals = (
+  eventTotals: Events.SearchEvent.EventTotals.EventTotals,
+  e: Events.Event | Events.SearchEvent.SearchEvent,
+): Events.SearchEvent.EventTotals.EventTotals => {
+  return {
+    uncategorized:
+      eventTotals.uncategorized + (Schema.is(UNCATEGORIZED)(e.type) ? 1 : 0),
+    scientificStudies:
+      eventTotals.scientificStudies +
+      (Schema.is(SCIENTIFIC_STUDY)(e.type) ? 1 : 0),
+    transactions:
+      eventTotals.transactions + (Schema.is(TRANSACTION)(e.type) ? 1 : 0),
+    patents: eventTotals.patents + (Schema.is(PATENT)(e.type) ? 1 : 0),
+    deaths: eventTotals.deaths + (Schema.is(DEATH)(e.type) ? 1 : 0),
+    books: eventTotals.books + (Schema.is(BOOK)(e.type) ? 1 : 0),
+    documentaries:
+      eventTotals.documentaries + (Schema.is(DOCUMENTARY)(e.type) ? 1 : 0),
+    quotes: eventTotals.quotes + (Schema.is(QUOTE)(e.type) ? 1 : 0),
+  };
+};
+
+export const EventsMapper = {
+  fromSearchEvent,
+  toSearchEvent,
 };

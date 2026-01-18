@@ -1,13 +1,10 @@
 import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.js";
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  getColorByEventType,
-  getTotals,
-} from "@liexp/shared/lib/helpers/event/event.js";
+import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
@@ -146,7 +143,7 @@ export const getEventGraph = (
         media: eventMedia,
       } = getSearchEventRelations(e);
 
-      const eventTitle = getTitleForSearchEvent(e);
+      const eventTitle = SearchEventHelper.getTitle(e);
 
       const nonEmptyEventActors = pipe(
         allActors.filter((a) => eventActors.some((aa) => aa.id === a.id)),
@@ -462,21 +459,8 @@ export const createNetworkGraph =
         const cleanedActors = cleanItemsFromSlateFields(actors);
         const cleanedGroups = cleanItemsFromSlateFields(groups);
 
-        const events = pipe(
-          _events,
-          fp.A.map((aa) =>
-            toSearchEvent(aa, {
-              actors: cleanedActors,
-              groups: cleanedGroups,
-              keywords: keywords,
-              media: media,
-              groupsMembers: [],
-            }),
-          ),
-        );
-
         const eventGraph = getEventGraph(type, ids, {
-          events,
+          events: _events,
           actors: cleanedActors,
           groups: cleanedGroups,
           keywords,

@@ -1,3 +1,6 @@
+import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
+import { type ENVContext } from "@liexp/backend/lib/context/env.context.js";
+import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
@@ -5,20 +8,14 @@ import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.js";
-import {
-  type GroupMember,
-  type Actor,
-  type Events,
-  type Group,
-  type Keyword,
-  type Media,
-  type Link,
-} from "@liexp/shared/lib/io/http/index.js";
+import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { type EventRelations } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { type ENV } from "../../io/ENV.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 export type RelationType = "actors" | "groups" | "media" | "keywords";
@@ -29,19 +26,11 @@ interface FetchEventsRelationsOptions {
 }
 
 export const fetchEventsRelations =
-  (
+  <C extends DatabaseContext & LoggerContext & ENVContext<ENV>>(
     events: readonly Events.Event[],
     isAdmin: boolean,
     options: FetchEventsRelationsOptions = {},
-  ): TEReader<{
-    events: readonly Events.Event[];
-    actors: readonly Actor.Actor[];
-    groups: readonly Group.Group[];
-    keywords: readonly Keyword.Keyword[];
-    media: readonly Media.Media[];
-    links: readonly Link.Link[];
-    groupsMembers: readonly GroupMember.GroupMember[];
-  }> =>
+  ): TEReader<EventRelations, C> =>
   (ctx) => {
     const { relations: relationsFilter } = options;
     const shouldFetch = (type: RelationType): boolean =>
@@ -105,6 +94,7 @@ export const fetchEventsRelations =
                 : fp.TE.right([]),
               links: pipe(LinkIO.decodeMany(relations.links), TE.fromEither),
               groupsMembers: TE.right([]),
+              areas: TE.right([]),
             }),
           ),
         ),

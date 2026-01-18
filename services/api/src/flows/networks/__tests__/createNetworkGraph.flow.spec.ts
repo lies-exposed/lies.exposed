@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
 import {
@@ -46,7 +46,7 @@ const searchEventSample = (n: number, o: any): SearchEvent.SearchEvent[] =>
       },
     }))
     .map((ev) =>
-      toSearchEvent(ev, {
+      EventsMapper.toSearchEvent(ev, {
         actors: [],
         groups: [],
         keywords: [],

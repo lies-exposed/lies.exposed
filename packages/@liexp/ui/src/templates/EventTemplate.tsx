@@ -1,5 +1,5 @@
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { type http } from "@liexp/shared/lib/io/index.js";
@@ -97,7 +97,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
     <StyledBox className={classes.root}>
       <EventRelations event={event}>
         {({ actors, groups, groupsMembers, keywords, media, links, areas }) => {
-          const searchEvent = toSearchEvent(event, {
+          const searchEvent = EventsMapper.toSearchEvent(event, {
             actors,
             groups,
             media,
@@ -106,7 +106,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
             keywords,
           });
 
-          const { title } = getEventCommonProps(event, {
+          const { title } = EventHelper.getCommonProps(event, {
             actors,
             groups,
             groupsMembers: [],

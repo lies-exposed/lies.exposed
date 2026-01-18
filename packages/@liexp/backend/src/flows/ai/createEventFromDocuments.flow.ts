@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
-import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/getCommonProps.helper.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import {
   toAPIError,
   type APIError,

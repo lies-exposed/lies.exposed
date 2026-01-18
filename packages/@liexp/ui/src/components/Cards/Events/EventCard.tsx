@@ -1,5 +1,5 @@
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
@@ -44,7 +44,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
   ...props
 }: EventCardProps<E>): React.JSX.Element => {
   const { actors, groups, media, keywords } = getSearchEventRelations(event);
-  const title = getTitleForSearchEvent(event);
+  const title = SearchEventHelper.getTitle(event);
 
   const defaultMedia = media[0]?.thumbnail ?? defaultImage;
   const _image =

@@ -151,6 +151,7 @@ describe("Search Events", () => {
         bornOn: _bornOn,
         ...expectedActor
       } = firstActor;
+
       expect(response.body.data.events[0]).toMatchObject({
         payload: {
           actors: [

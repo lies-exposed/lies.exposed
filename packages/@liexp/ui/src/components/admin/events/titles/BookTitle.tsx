@@ -1,4 +1,4 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import type * as Events from "@liexp/shared/lib/io/http/Events/index.js";
 import * as React from "react";
 import { useRecordContext, type FieldProps } from "../../react-admin.js";
@@ -11,7 +11,7 @@ export const BookTitle: React.FC<FieldProps<Events.Book.Book>> = ({
   return (
     record && (
       <span>
-        {getTitle(record, {
+        {EventHelper.getTitle(record, {
           groupsMembers: [],
           keywords: [],
           links: [],

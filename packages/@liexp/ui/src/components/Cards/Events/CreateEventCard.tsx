@@ -1,4 +1,4 @@
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
@@ -29,7 +29,7 @@ const CreateEventCard: React.FC<EventCardProps> = ({
   ...props
 }) => {
   const { keywords } = event;
-  const title = getTitleForSearchEvent(event);
+  const title = SearchEventHelper.getTitle(event);
 
   const image = "";
 

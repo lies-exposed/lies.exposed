@@ -1,5 +1,5 @@
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
-import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
@@ -46,15 +46,18 @@ const EventsTimeline: React.FC<{
   return (
     <List className={classes.list}>
       {events.map((e) => {
-        const { title } = getEventCommonProps(fromSearchEvent(e), {
-          actors: [],
-          groups: [],
-          groupsMembers: [],
-          keywords: [],
-          media: [],
-          links: [],
-          areas: [],
-        });
+        const { title } = EventHelper.getCommonProps(
+          EventsMapper.fromSearchEvent(e),
+          {
+            actors: [],
+            groups: [],
+            groupsMembers: [],
+            keywords: [],
+            media: [],
+            links: [],
+            areas: [],
+          },
+        );
         return (
           <ListItem
             className={classes.listItem}
