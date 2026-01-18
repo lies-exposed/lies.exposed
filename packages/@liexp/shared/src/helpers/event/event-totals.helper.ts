@@ -10,6 +10,9 @@ const getTotal = (
     (filters.patents ? totals.patents : 0) +
     (filters.scientificStudies ? totals.scientificStudies : 0) +
     (filters.transactions ? totals.transactions : 0) +
+    (filters.books ? totals.books : 0) +
+    (filters.quotes ? totals.quotes : 0) +
+    (filters.patents ? totals.patents : 0) +
     (filters.uncategorized ? totals.uncategorized : 0)
   );
 };
