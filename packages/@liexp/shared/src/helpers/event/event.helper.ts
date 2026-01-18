@@ -14,7 +14,6 @@ import {
 import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { type Common, type Events, type Network } from "../../io/http/index.js";
 import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
-import { isNonEmpty } from "../../utils/array.utils.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
 const { Ord, Eq, S, N } = fp;
@@ -162,7 +161,7 @@ export const eventsInDateRange =
 const nonEmptyArrayOrNull = <A>(
   x: readonly A[],
 ): readonly [A, ...A[]] | null => {
-  return pipe(x ?? [], fp.O.fromPredicate(isNonEmpty), fp.O.toNullable);
+  return fp.Utils.NEA.nonEmptyArrayOr(x ?? [], null);
 };
 
 // const concatToNEAOrNull = <A>(x: A[], y: A[]): NonEmptyArray<A> | null => {

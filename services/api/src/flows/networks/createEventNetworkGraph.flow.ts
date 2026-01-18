@@ -11,6 +11,7 @@ import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations
 import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import {
@@ -41,7 +42,6 @@ import {
   type Keyword,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import * as O from "effect/Option";
 import { type Monoid } from "fp-ts/Monoid";
 import { sequenceS } from "fp-ts/lib/Apply.js";

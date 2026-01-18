@@ -1,5 +1,5 @@
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { type Events } from "@liexp/shared/lib/io/http/index.js";
-import { groupBy } from "@liexp/shared/lib/utils/array.utils.js";
 import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils.js";
 import * as Eq from "fp-ts/lib/Eq.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -116,7 +116,7 @@ const EventList: React.FC<EventListProps> = ({
   style,
   ...props
 }) => {
-  const orderedEvents = pipe(events, groupBy(byEqualDate));
+  const orderedEvents = pipe(events, fp.Utils.A.groupBy(byEqualDate));
 
   return (
     <List className={`events ${className}`} subheader={<div />} style={style}>

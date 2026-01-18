@@ -1,5 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import {
   eqByUUID,
   ordEventDate,
 } from "@liexp/shared/lib/helpers/event/event.helper.js";
@@ -22,10 +26,6 @@ import {
   type Keyword,
   type Page,
 } from "@liexp/shared/lib/io/http/index.js";
-import {
-  isNonEmpty,
-  type NonEmptyArray,
-} from "@liexp/shared/lib/utils/array.utils.js";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { ParentSize } from "@visx/responsive";
 import ordinalScale from "@visx/scale/lib/scales/ordinal.js";

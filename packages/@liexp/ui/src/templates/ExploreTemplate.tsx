@@ -1,14 +1,14 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import {
-  isNonEmpty,
-  type NonEmptyArray,
-} from "@liexp/shared/lib/utils/array.utils.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

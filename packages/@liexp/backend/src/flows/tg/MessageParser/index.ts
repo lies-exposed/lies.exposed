@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import {
   getPlatform,
@@ -6,7 +7,6 @@ import {
 } from "@liexp/shared/lib/helpers/media.helper.js";
 import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { isNonEmpty } from "@liexp/shared/lib/utils/array.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";

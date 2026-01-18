@@ -1,4 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+  nonEmptyArrayOr,
+} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
@@ -9,11 +14,6 @@ import {
   type NetworkType,
 } from "@liexp/shared/lib/io/http/Network/Network.js";
 import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
-import {
-  isNonEmpty,
-  type NonEmptyArray,
-  nonEmptyArrayOr,
-} from "@liexp/shared/lib/utils/array.utils.js";
 import { ParentSize } from "@visx/responsive";
 import { parseISO } from "date-fns";
 import { Schema } from "effect";
