@@ -43,13 +43,13 @@ export const fetchEventsRelations =
           fetchRelations(
             {
               keywords: shouldFetch("keywords")
-                ? pipe(relations.keywords, fp.Utils.O.fromNonEmptyArray)
+                ? pipe(relations.keywords, O.fromNullable, O.filter(isNonEmpty))
                 : O.none(),
               actors: shouldFetch("actors")
-                ? pipe(relations.actors, fp.Utils.O.fromNonEmptyArray)
+                ? pipe(relations.actors, O.fromNullable, O.filter(isNonEmpty))
                 : O.none(),
               groups: shouldFetch("groups")
-                ? pipe(relations.groups, fp.Utils.O.fromNonEmptyArray)
+                ? pipe(relations.groups, O.fromNullable, O.filter(isNonEmpty))
                 : O.none(),
               groupsMembers: shouldFetch("groups")
                 ? O.some(relations.groupsMembers)
