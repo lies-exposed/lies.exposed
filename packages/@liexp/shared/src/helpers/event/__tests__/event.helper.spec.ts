@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import { describe, expect, it } from "vitest";
 import { type UUID } from "../../../io/http/Common/UUID.js";
 import { EVENT_TYPES } from "../../../io/http/Events/EventType.js";
-import { type Events, type Actor, type Link } from "../../../io/http/index.js";
+import { type Events, type Actor } from "../../../io/http/index.js";
 import {
   eqByUUID,
   eventsDataToNavigatorItems,
