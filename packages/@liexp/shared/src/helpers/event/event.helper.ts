@@ -227,7 +227,7 @@ export interface EventCommonProps {
   date?: Date[];
 }
 
-export const getEventCommonProps = (
+const getEventCommonProps = (
   e: Events.Event,
   relations: Events.EventRelations,
 ): EventCommonProps => {
@@ -277,6 +277,10 @@ export const getEventCommonProps = (
 
 interface EventHelper<E> {
   getTitle: (event: E, relationIds: Events.EventRelations) => string;
+  getCommonProps: (
+    event: E,
+    relations: Events.EventRelations,
+  ) => EventCommonProps;
   transform: (
     event: E,
     targetType: Events.EventType,
@@ -576,6 +580,7 @@ export const getTitle = (
 
 const EventHelper: EventHelper<Events.Event> = {
   getTitle,
+  getCommonProps: getEventCommonProps,
   transform,
 };
 

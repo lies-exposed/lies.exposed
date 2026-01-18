@@ -1,4 +1,4 @@
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
@@ -106,7 +106,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
             keywords,
           });
 
-          const { title } = getEventCommonProps(event, {
+          const { title } = EventHelper.getCommonProps(event, {
             actors,
             groups,
             groupsMembers: [],
