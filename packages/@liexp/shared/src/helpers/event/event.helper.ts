@@ -1,25 +1,20 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { format, subWeeks } from "date-fns";
-import { Schema } from "effect";
+import { Match } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
 import type * as O from "fp-ts/lib/Option.js";
+import { uuid, type UUID } from "../../io/http/Common/UUID.js";
 import {
-  BOOK,
   DEATH,
-  DOCUMENTARY,
   EVENT_TYPES,
   PATENT,
-  QUOTE,
-  SCIENTIFIC_STUDY,
   TRANSACTION,
-  UNCATEGORIZED,
 } from "../../io/http/Events/EventType.js";
 import { type EventRelationIds } from "../../io/http/Events/index.js";
-import { type Events, type Common, type Network } from "../../io/http/index.js";
+import { type Common, type Events, type Network } from "../../io/http/index.js";
 import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
 import { isNonEmpty } from "../../utils/array.utils.js";
-import { type EventCommonProps } from "./getCommonProps.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
 const { Ord, Eq, S, N } = fp;
@@ -96,7 +91,7 @@ export const eventsDataToNavigatorItems = (
 };
 
 export const ordEventDate = Ord.Contravariant.contramap(
-  Ord.ordDate,
+  fp.Date.Ord,
   (e: { date: Date }) => e.date,
 );
 
@@ -223,6 +218,72 @@ export const eventRelationIdsMonoid: Monoid<EventRelationIds> = {
   }),
 };
 
+export interface EventCommonProps {
+  title: string;
+  excerpt?: string;
+  body?: string;
+  url?: string;
+  location?: UUID;
+  date?: Date[];
+}
+
+export const getEventCommonProps = (
+  e: Events.Event,
+  relations: Events.EventRelations,
+): EventCommonProps => {
+  const title = getTitle(e, relations);
+  switch (e.type) {
+    case EVENT_TYPES.SCIENTIFIC_STUDY: {
+      return {
+        title,
+        url: e.payload.url,
+        date: [e.date],
+      };
+    }
+    case EVENT_TYPES.PATENT: {
+      return {
+        title,
+        url: e.payload.source,
+        date: [e.date],
+      };
+    }
+    case EVENT_TYPES.DOCUMENTARY: {
+      return {
+        title,
+        url:
+          relations.links.find((l) => l.id === e.payload.website)?.title ??
+          relations.links.at(-1)?.title ??
+          e.payload.website ??
+          "no url",
+        date: [e.date],
+      };
+    }
+    case EVENT_TYPES.UNCATEGORIZED: {
+      return {
+        title,
+        url: undefined,
+        date: e.payload.endDate ? [e.date, e.payload.endDate] : [e.date],
+        location: e.payload.location,
+      };
+    }
+    default: {
+      return {
+        title,
+        url: undefined,
+      };
+    }
+  }
+};
+
+interface EventHelper<E> {
+  getTitle: (event: E, relationIds: Events.EventRelations) => string;
+  transform: (
+    event: E,
+    targetType: Events.EventType,
+    props: EventCommonProps & Events.EventRelationIds,
+  ) => O.Option<E>;
+}
+
 export const takeEventRelations = (
   ev: readonly Events.Event[],
 ): Events.EventRelationIds => {
@@ -237,15 +298,30 @@ export const takeEventRelations = (
 export const buildEvent = (
   type: Events.EventType,
   props: EventCommonProps & Events.EventRelationIds,
-): O.Option<Pick<Events.Event, "type" | "date" | "payload">> => {
-  switch (type) {
-    case EVENT_TYPES.DEATH: {
+): O.Option<Events.Event> => {
+  const commonProps = {
+    id: uuid(),
+    excerpt: null,
+    body: null,
+    draft: true,
+    links: [],
+    media: [],
+    keywords: [],
+    socialPosts: [],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    deletedAt: undefined,
+  };
+  return Match.value(type).pipe(
+    Match.withReturnType<O.Option<Events.Event>>(),
+    Match.when(DEATH.literals[0], () => {
       return pipe(
         sequenceS(fp.O.Applicative)({
           actor: fp.O.fromNullable(props.actors.at(0)),
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ actor, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.DEATH,
           date,
           payload: {
@@ -254,8 +330,8 @@ export const buildEvent = (
           },
         })),
       );
-    }
-    case EVENT_TYPES.TRANSACTION: {
+    }),
+    Match.when(TRANSACTION.literals[0], () => {
       const from = pipe(
         props.actors,
         fp.A.head,
@@ -291,6 +367,7 @@ export const buildEvent = (
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ to, from, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.TRANSACTION,
           date,
           payload: {
@@ -302,14 +379,15 @@ export const buildEvent = (
           },
         })),
       );
-    }
-    case EVENT_TYPES.PATENT: {
+    }),
+    Match.when(PATENT.literals[0], () => {
       return pipe(
         sequenceS(fp.O.Applicative)({
           source: fp.O.fromNullable(props.links.at(0)),
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ source, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.PATENT,
           date,
           payload: {
@@ -322,8 +400,8 @@ export const buildEvent = (
           },
         })),
       );
-    }
-    case EVENT_TYPES.DOCUMENTARY: {
+    }),
+    Match.when(EVENT_TYPES.DOCUMENTARY, () => {
       return pipe(
         sequenceS(fp.O.Applicative)({
           media: pipe([...props.media], fp.A.head),
@@ -331,6 +409,7 @@ export const buildEvent = (
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ media, website, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.DOCUMENTARY,
           date,
           payload: {
@@ -348,15 +427,15 @@ export const buildEvent = (
           },
         })),
       );
-    }
-
-    case EVENT_TYPES.SCIENTIFIC_STUDY: {
+    }),
+    Match.when(EVENT_TYPES.SCIENTIFIC_STUDY, () => {
       return pipe(
         sequenceS(fp.O.Applicative)({
           url: fp.O.fromNullable(props.links.at(0)),
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ url, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.SCIENTIFIC_STUDY,
           date,
           payload: {
@@ -368,9 +447,8 @@ export const buildEvent = (
           },
         })),
       );
-    }
-
-    case EVENT_TYPES.QUOTE: {
+    }),
+    Match.when(EVENT_TYPES.QUOTE, () => {
       const subjectOpt = pipe(
         props.actors,
         fp.A.head,
@@ -390,6 +468,7 @@ export const buildEvent = (
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ subject, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.QUOTE,
           date,
           payload: {
@@ -400,9 +479,8 @@ export const buildEvent = (
           },
         })),
       );
-    }
-
-    case EVENT_TYPES.BOOK: {
+    }),
+    Match.when(EVENT_TYPES.BOOK, () => {
       return pipe(
         sequenceS(fp.O.Applicative)({
           actorAuthors: fp.O.some(props.actors),
@@ -410,6 +488,7 @@ export const buildEvent = (
           date: fp.O.fromNullable(props.date?.at(0)),
         }),
         fp.O.map(({ actorAuthors, media, date }) => ({
+          ...commonProps,
           type: EVENT_TYPES.BOOK,
           date,
           payload: {
@@ -423,12 +502,12 @@ export const buildEvent = (
           },
         })),
       );
-    }
-
-    default: {
+    }),
+    Match.when(EVENT_TYPES.UNCATEGORIZED, () => {
       return pipe(
         fp.O.fromNullable(props.date?.at(0)),
         fp.O.map((date) => ({
+          ...commonProps,
           type: EVENT_TYPES.UNCATEGORIZED,
           date,
           payload: {
@@ -441,8 +520,9 @@ export const buildEvent = (
           },
         })),
       );
-    }
-  }
+    }),
+    Match.exhaustive,
+  );
 };
 
 export const transform = (
@@ -461,20 +541,42 @@ export const transform = (
   );
 };
 
-export const getTotals = (
-  acc: Events.SearchEvent.EventTotals.EventTotals,
-  e: Events.Event | Events.SearchEvent.SearchEvent,
-): Events.SearchEvent.EventTotals.EventTotals => {
-  return {
-    uncategorized:
-      acc.uncategorized + (Schema.is(UNCATEGORIZED)(e.type) ? 1 : 0),
-    scientificStudies:
-      acc.scientificStudies + (Schema.is(SCIENTIFIC_STUDY)(e.type) ? 1 : 0),
-    transactions: acc.transactions + (Schema.is(TRANSACTION)(e.type) ? 1 : 0),
-    patents: acc.patents + (Schema.is(PATENT)(e.type) ? 1 : 0),
-    deaths: acc.deaths + (Schema.is(DEATH)(e.type) ? 1 : 0),
-    books: acc.books + (Schema.is(BOOK)(e.type) ? 1 : 0),
-    documentaries: acc.documentaries + (Schema.is(DOCUMENTARY)(e.type) ? 1 : 0),
-    quotes: acc.quotes + (Schema.is(QUOTE)(e.type) ? 1 : 0),
-  };
+export const getTitle = (
+  event: Events.Event,
+  relations: Events.EventRelations,
+): string => {
+  switch (event.type) {
+    case EVENT_TYPES.BOOK:
+    case EVENT_TYPES.DOCUMENTARY:
+    case EVENT_TYPES.PATENT:
+    case EVENT_TYPES.SCIENTIFIC_STUDY:
+    case EVENT_TYPES.TRANSACTION:
+    case EVENT_TYPES.UNCATEGORIZED:
+      return event.payload.title;
+    case EVENT_TYPES.QUOTE: {
+      const byActor = relations?.actors?.[0] ?? { fullName: "Unknown" };
+      return `${byActor.fullName} - `.concat(
+        event.payload.details
+          ? `${event.payload.details}`
+          : (event.payload.quote
+              ?.split(" ")
+              .slice(0, 10)
+              .join(" ")
+              .concat("...") ?? ""),
+      );
+    }
+    case EVENT_TYPES.DEATH: {
+      const victimName =
+        (relations?.actors ?? []).find((a) => a.id === event.payload.victim)
+          ?.fullName ?? "unknown";
+      return `Death of ${victimName}`;
+    }
+  }
 };
+
+const EventHelper: EventHelper<Events.Event> = {
+  getTitle,
+  transform,
+};
+
+export { EventHelper };

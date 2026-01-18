@@ -1,4 +1,4 @@
-import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.js";
+import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import {

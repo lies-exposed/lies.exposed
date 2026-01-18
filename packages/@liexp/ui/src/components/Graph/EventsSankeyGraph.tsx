@@ -2,10 +2,10 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   eqByUUID,
   ordEventDate,
-} from "@liexp/shared/lib/helpers/event/event.js";
+} from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/index.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
@@ -552,7 +552,7 @@ export function createEventNetworkGraphProps({
     orderedEvents,
     fp.A.reduce(result, (acc, e) => {
       // get topic from relative directory
-      const isBetweenDateRange = Ord.between(Ord.ordDate)(minDate, maxDate)(
+      const isBetweenDateRange = Ord.between(fp.Date.Ord)(minDate, maxDate)(
         e.date,
       );
 
@@ -563,7 +563,7 @@ export function createEventNetworkGraphProps({
           keywords: eventKeywords,
         } = getSearchEventRelations(e);
 
-        const eventTitle = getTitleForSearchEvent(e);
+        const eventTitle = SearchEventHelper.getTitle(e);
 
         const filteredEventActors = pipe(
           eventActors,

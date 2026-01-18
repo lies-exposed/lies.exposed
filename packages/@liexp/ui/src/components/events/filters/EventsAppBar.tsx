@@ -1,4 +1,4 @@
-import { getTotal } from "@liexp/shared/lib/helpers/event/index.js";
+import { EventTotalsHelper } from "@liexp/shared/lib/helpers/event/event-totals.helper.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import {
@@ -280,7 +280,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
     };
   }, [query, actors, groups, keywords, groupsMembers]);
 
-  const totalEvents = getTotal(totals, {
+  const totalEvents = EventTotalsHelper.getTotal(totals, {
     transactions: filters.events.Transaction,
     documentaries: filters.events.Documentary,
     uncategorized: filters.events.Uncategorized,

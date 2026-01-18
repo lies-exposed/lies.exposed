@@ -1,11 +1,11 @@
 import { type EventNetworkDatum } from "../../io/http/Network/Network.js";
 import { type Events } from "../../io/http/index.js";
-import { getTitleForSearchEvent } from "./getTitle.helper.js";
+import { SearchEventHelper } from "./searchEvent.helper.js";
 
 export const toEventNetworkDatum = (
   event: Events.SearchEvent.SearchEvent,
 ): EventNetworkDatum => {
-  const title = getTitleForSearchEvent(event);
+  const title = SearchEventHelper.getTitle(event);
   return {
     id: event.id,
     label: title,

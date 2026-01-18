@@ -1,4 +1,4 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
@@ -36,7 +36,7 @@ export interface EventGeneralTabProps {
 }
 
 const getOpenAIPromptText = (event: Event) => {
-  const title = getTitle(event, {
+  const title = EventHelper.getTitle(event, {
     actors: [],
     groups: [],
     keywords: [],

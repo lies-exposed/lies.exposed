@@ -3,7 +3,7 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -94,33 +94,39 @@ export const SearchEventRoute: Route = (r, ctx) => {
         pipe(
           EventV2IO.decodeMany(events),
           TE.fromEither,
-          TE.chain((events) => fetchEventsRelations(events, false)(ctx)),
-          TE.map(({ events, ...relations }) =>
+          TE.chain((events) =>
             pipe(
-              events,
-              fp.A.map((e) => toSearchEvent(e, relations)),
-              (events) => ({ events, ...relations }),
+              fetchEventsRelations(events, false)(ctx),
+              TE.map((relations) =>
+                pipe(
+                  events,
+                  fp.A.map((e) => EventsMapper.toSearchEvent(e, relations)),
+                  (ev) => ({ ...relations, events: ev }),
+                ),
+              ),
             ),
           ),
         ),
       ),
       TE.map(
-        ({ searchEvents, events: { firstDate, lastDate, total, totals } }) => ({
-          body: {
-            data: {
-              ...searchEvents,
+        ({ searchEvents, events: { firstDate, lastDate, total, totals } }) => {
+          return {
+            body: {
+              data: {
+                ...searchEvents,
+                total,
+                totals,
+                firstDate: firstDate?.toISOString(),
+                lastDate: lastDate?.toISOString(),
+              },
               total,
               totals,
               firstDate: firstDate?.toISOString(),
               lastDate: lastDate?.toISOString(),
             },
-            total,
-            totals,
-            firstDate: firstDate?.toISOString(),
-            lastDate: lastDate?.toISOString(),
-          },
-          statusCode: 200,
-        }),
+            statusCode: 200,
+          };
+        },
       ),
     );
   });

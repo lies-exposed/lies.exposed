@@ -11,15 +11,15 @@ import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations
 import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  getColorByEventType,
-  getTotals,
-} from "@liexp/shared/lib/helpers/event/event.js";
+import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitleForSearchEvent } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import {
+  getTotals,
+  EventsMapper,
+} from "@liexp/shared/lib/helpers/event/search-event.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
@@ -84,7 +84,7 @@ const getEventGraph: Flow<[GetEventGraphOpts], NetworkGraphOutput> =
           media: eventMedia,
         } = getSearchEventRelations(e);
 
-        const eventTitle = getTitleForSearchEvent(e);
+        const eventTitle = SearchEventHelper.getTitle(e);
 
         const actorLinks = pipe(
           eventActors,
@@ -370,27 +370,12 @@ export const createEventNetworkGraph =
         return pipe(
           fetchRelations(
             {
-              keywords: pipe(
-                keywords,
-
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
-              actors: pipe(
-                actors,
-
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
+              keywords: pipe(keywords, O.fromNullable, O.filter(isNonEmpty)),
+              actors: pipe(actors, O.fromNullable, O.filter(isNonEmpty)),
               groups: pipe(groups, O.fromNullable, O.filter(isNonEmpty)),
               groupsMembers: O.some(groupsMembers),
               links: O.none(),
-              media: pipe(
-                media,
-
-                O.fromNullable,
-                O.filter(isNonEmpty),
-              ),
+              media: pipe(media, O.fromNullable, O.filter(isNonEmpty)),
             },
             isAdmin,
           )(ctx),
@@ -429,7 +414,7 @@ export const createEventNetworkGraph =
         ctx.logger.debug.log(`Keywords %d`, keywords.length);
         ctx.logger.debug.log(`Media %d`, media.length);
 
-        const searchEvent = toSearchEvent(event, {
+        const searchEvent = EventsMapper.toSearchEvent(event, {
           actors,
           groups,
           keywords,
@@ -465,7 +450,7 @@ export const createEventNetworkGraph =
                     //   return ee;
                     // },
                     fp.A.map((e) =>
-                      toSearchEvent(e, {
+                      EventsMapper.toSearchEvent(e, {
                         actors,
                         groups,
                         keywords,

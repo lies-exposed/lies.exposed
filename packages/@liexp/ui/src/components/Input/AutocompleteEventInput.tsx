@@ -1,6 +1,6 @@
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { MEDIA } from "@liexp/shared/lib/io/http/Media/index.js";
 import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
@@ -54,7 +54,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       getOptionLabel={(a) =>
         typeof a === "string"
           ? a
-          : getTitle(a, {
+          : EventHelper.getTitle(a, {
               actors: [],
               groups: [],
               keywords: [],
@@ -82,7 +82,7 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
       }
       renderTags={(items) => (
         <EventCardGrid
-          events={items.map((e) => toSearchEvent(e, {}))}
+          events={items.map((e) => EventsMapper.toSearchEvent(e, {}))}
           onEventClick={(a) => {
             onChange(items.filter((i) => i.id !== a.id));
           }}

@@ -1,4 +1,4 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import type { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -167,7 +167,7 @@ export const LinkExistingEventsButton: React.FC<
                   >
                     <EventIcon type={event.type} style={{ marginRight: 10 }} />
                     <ListItemText
-                      primary={getTitle(event, {
+                      primary={EventHelper.getTitle(event, {
                         media: [],
                         links: [],
                         keywords: [],

@@ -1,8 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
-import { toSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
@@ -56,9 +56,9 @@ export const EventSocialPostButton: React.FC<{ id: UUID }> = ({ id }) => {
               throwTE,
             );
 
-            const title = getTitle(event, relations);
+            const title = EventHelper.getTitle(event, relations);
 
-            const searchEvent = toSearchEvent(event, relations);
+            const searchEvent = EventsMapper.toSearchEvent(event, relations);
 
             if (searchEvent.type === "Quote") {
               const { subject } = searchEvent.payload;

@@ -1,6 +1,6 @@
 import { type EventTotals } from "../../io/http/Events/EventTotals.js";
 
-export const getTotal = (
+const getTotal = (
   totals: EventTotals,
   filters: { [K in keyof EventTotals]: boolean },
 ): number => {
@@ -13,3 +13,9 @@ export const getTotal = (
     (filters.uncategorized ? totals.uncategorized : 0)
   );
 };
+
+const EventTotalsHelper = {
+  getTotal,
+};
+
+export { EventTotalsHelper };

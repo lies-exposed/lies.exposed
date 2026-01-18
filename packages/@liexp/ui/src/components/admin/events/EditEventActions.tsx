@@ -1,5 +1,4 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { getTitle } from "@liexp/shared/lib/helpers/event/getTitle.helper.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
@@ -15,8 +14,7 @@ export const EventEditActions: React.FC = () => {
   const record = useRecordContext<SearchEvent>();
   const { title, date } = React.useMemo(() => {
     if (record) {
-      const relations = getSearchEventRelations(record);
-      const title = getTitle(record, relations);
+      const title = SearchEventHelper.getTitle(record);
       return { title, date: record.date, type: record.type };
     }
 

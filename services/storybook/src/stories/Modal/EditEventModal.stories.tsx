@@ -1,5 +1,5 @@
-import { getTitle } from "@liexp/shared/lib/helpers/event/index.js";
-import { fromSearchEvent } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
@@ -72,8 +72,12 @@ const Template: StoryFn<EditEventModalProps> = () => {
             >
               Pick another event
             </Button>
-            Open {getTitle(fromSearchEvent(e), { ...relations, areas: [] })}:{" "}
-            <EditEventButton id={e.id} />
+            Open{" "}
+            {EventHelper.getTitle(EventsMapper.fromSearchEvent(e), {
+              ...relations,
+              areas: [],
+            })}
+            : <EditEventButton id={e.id} />
           </Box>
         );
       }}

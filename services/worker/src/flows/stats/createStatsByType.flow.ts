@@ -1,15 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
-import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
-import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
-import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
+import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { ensureFolderExists } from "@liexp/backend/lib/flows/fs/ensureFolderExists.flow.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
-import { type DBError } from "@liexp/backend/lib/providers/orm/index.js";
+import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations.query.js";
 import {
   searchEventV2Query,
   type SearchEventOutput,
@@ -19,7 +15,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import {
   getNewRelationIds,
-  toSearchEvent,
+  EventsMapper,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
@@ -28,16 +24,12 @@ import {
   type SearchEvent,
 } from "@liexp/shared/lib/io/http/Events/index.js";
 import {
-  type Events,
   type GroupMember,
   type Media,
 } from "@liexp/shared/lib/io/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { In } from "typeorm";
 import { toWorkerError, type WorkerError } from "../../io/worker.error.js";
 import { type RTE } from "../../types.js";
 
@@ -48,8 +40,6 @@ interface StatsCache {
   keywords: Map<string, number>;
   groupsMembers: Map<string, GroupMember.GroupMember>;
   media: Map<string, Media.Media>;
-
-  // links: Map<string, Link.Link>;
 }
 
 const updateMap = (
@@ -101,68 +91,6 @@ export const createStatsByType =
     );
 
     LoggerService.debug(["%s stats file %s", filePath])(ctx);
-
-    const fetchRelations = ({
-      actors,
-      groups,
-      groupsMembers,
-      media,
-      keywords,
-    }: // links,
-    Events.EventRelationIds): TaskEither<
-      DBError,
-      {
-        actors: ActorEntity[];
-        groups: GroupEntity[];
-        groupsMembers: GroupMemberEntity[];
-        keywords: KeywordEntity[];
-        media: MediaEntity[];
-      }
-    > => {
-      return sequenceS(fp.TE.ApplicativePar)({
-        actors:
-          actors.length === 0
-            ? fp.TE.right([])
-            : ctx.db.find(ActorEntity, {
-                where: {
-                  id: In(actors),
-                },
-              }),
-        groups:
-          groups.length === 0
-            ? fp.TE.right([])
-            : ctx.db.find(GroupEntity, {
-                where: {
-                  id: In(groups),
-                },
-              }),
-        groupsMembers:
-          groupsMembers.length === 0
-            ? fp.TE.right([])
-            : ctx.db.find(GroupMemberEntity, {
-                where: {
-                  id: In(groupsMembers),
-                },
-                relations: ["actor", "group"],
-              }),
-        media:
-          media.length === 0
-            ? fp.TE.right([])
-            : ctx.db.find(MediaEntity, {
-                where: {
-                  id: In(media),
-                },
-              }),
-        keywords:
-          keywords.length === 0
-            ? fp.TE.right([])
-            : ctx.db.find(KeywordEntity, {
-                where: {
-                  id: In(keywords),
-                },
-              }),
-      });
-    };
 
     const initialSearchEventsQueryCache: SearchEventsQueryCache = {
       events: [],
@@ -222,82 +150,112 @@ export const createStatsByType =
               getNewRelationIds(events, searchEventsQueryCache),
               fp.TE.right,
               LoggerService.TE.debug(ctx, `new relation ids %O`),
-              fp.TE.chain(fetchRelations),
-              fp.TE.map(
-                ({
-                  actors,
-                  groups,
-                  groupsMembers: _groupsMembers,
-                  media: _media,
-                  keywords,
-                }) => {
-                  const init: StatsCache = {
-                    events: [],
-                    media: new Map(),
-                    actors: new Map(actors.map((a) => [a.id as string, 0])),
-                    groups: new Map(groups.map((a) => [a.id as string, 0])),
-                    keywords: new Map(keywords.map((k) => [k.id as string, 0])),
-                    groupsMembers: new Map(),
-                  };
-                  const result = pipe(
-                    events,
-                    fp.A.reduce(init, (acc, e) => {
-                      const searchEvent = toSearchEvent(e, {
-                        media: [],
-                        groupsMembers: [],
-                        keywords: keywords.map((k) => ({
-                          ...k,
-                          color: k.color ?? generateRandomColor(),
-                          events: [],
-                          links: [],
-                          media: [],
-                          socialPosts: [],
-                        })),
-                        groups: groups.map((g) => ({
-                          ...g,
-                          username: g.username ?? undefined,
-                          subGroups: [],
-                          startDate: g.startDate ?? undefined,
-                          endDate: g.endDate ?? undefined,
-                          avatar: pipe(
-                            fp.O.fromNullable(g.avatar!),
-                            fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
-                            fp.O.fold(
-                              () => undefined,
-                              fp.E.getOrElse(
-                                (): Media.Media | undefined => undefined,
-                              ),
-                            ),
-                          ),
-                          members: [],
-                        })),
-                        actors: actors.map((a) => ({
-                          ...a,
-                          death: a.death ?? undefined,
-                          bornOn: a.bornOn ?? undefined,
-                          diedOn: a.diedOn ?? undefined,
-                          avatar: pipe(
-                            fp.O.fromNullable(a.avatar as MediaEntity),
-                            fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
-                            fp.O.fold(
-                              () => undefined,
-                              fp.E.getOrElse(
-                                (): Media.Media | undefined => undefined,
-                              ),
-                            ),
-                          ),
-                          memberIn: [],
-                          nationalities: [],
-                        })),
-                      });
-
-                      return updateCache(acc, searchEvent);
-                    }),
-                  );
-
-                  return result;
-                },
+              fp.TE.chain(
+                ({ actors, groups, keywords, links, media, groupsMembers }) =>
+                  fetchRelations(
+                    {
+                      actors: pipe(
+                        actors,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                      groups: pipe(
+                        groups,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                      keywords: pipe(
+                        keywords,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                      links: pipe(
+                        links,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                      groupsMembers: pipe(
+                        groupsMembers,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                      media: pipe(
+                        media,
+                        O.fromNullable,
+                        O.filter(fp.A.isNonEmpty),
+                      ),
+                    },
+                    false,
+                  )(ctx),
               ),
+              fp.TE.map(({ actors, groups, media: _media, keywords }) => {
+                const init: StatsCache = {
+                  events: [],
+                  media: new Map(),
+                  actors: new Map(actors.map((a) => [a.id as string, 0])),
+                  groups: new Map(groups.map((a) => [a.id as string, 0])),
+                  keywords: new Map(keywords.map((k) => [k.id as string, 0])),
+                  groupsMembers: new Map(),
+                };
+                const result = pipe(
+                  events,
+                  fp.A.reduce(init, (acc, e) => {
+                    const searchEvent = EventsMapper.toSearchEvent(e, {
+                      areas: [],
+                      media: [],
+                      groupsMembers: [],
+                      keywords: keywords.map((k) => ({
+                        ...k,
+                        color: k.color ?? generateRandomColor(),
+                        events: [],
+                        links: [],
+                        media: [],
+                        socialPosts: [],
+                      })),
+                      groups: groups.map((g) => ({
+                        ...g,
+                        username: g.username ?? undefined,
+                        subGroups: [],
+                        startDate: g.startDate ?? undefined,
+                        endDate: g.endDate ?? undefined,
+                        avatar: pipe(
+                          fp.O.fromNullable(g.avatar),
+                          fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
+                          fp.O.fold(
+                            () => undefined,
+                            fp.E.getOrElse(
+                              (): Media.Media | undefined => undefined,
+                            ),
+                          ),
+                        ),
+                        members: [],
+                      })),
+                      actors: actors.map((a) => ({
+                        ...a,
+                        death: a.death ?? undefined,
+                        bornOn: a.bornOn ?? undefined,
+                        diedOn: a.diedOn ?? undefined,
+                        avatar: pipe(
+                          fp.O.fromNullable(a.avatar as MediaEntity),
+                          fp.O.map((avatar) => MediaIO.decodeSingle(avatar)),
+                          fp.O.fold(
+                            () => undefined,
+                            fp.E.getOrElse(
+                              (): Media.Media | undefined => undefined,
+                            ),
+                          ),
+                        ),
+                        memberIn: [],
+                        nationalities: [],
+                      })),
+                    });
+
+                    return updateCache(acc, searchEvent);
+                  }),
+                );
+
+                return result;
+              }),
             );
           }),
         ),

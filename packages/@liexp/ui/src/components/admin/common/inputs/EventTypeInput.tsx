@@ -1,7 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { transform } from "@liexp/shared/lib/helpers/event/event.js";
+import {
+  getEventCommonProps,
+  EventHelper,
+} from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { getEventCommonProps } from "@liexp/shared/lib/helpers/event/index.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
@@ -59,7 +61,7 @@ export const EventTypeInput: React.FC<
         pipe(
           getEventCommonProps(event, relations),
           (common) =>
-            transform(event, type, {
+            EventHelper.transform(event, type, {
               ...common,
               ...getRelationIds(event),
             }),
