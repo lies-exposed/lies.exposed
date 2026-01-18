@@ -4,7 +4,7 @@ import {
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   type SearchEvent,
   type SearchEventsQuery,

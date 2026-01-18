@@ -3,7 +3,7 @@ import {
   getNewRelationIds,
   updateCache,
   type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/search-event.js";
+} from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
 import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";

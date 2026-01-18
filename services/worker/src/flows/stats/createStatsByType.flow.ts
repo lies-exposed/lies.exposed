@@ -12,12 +12,12 @@ import {
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import {
   getNewRelationIds,
   EventsMapper,
   type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/search-event.js";
+} from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import {
   EventType,

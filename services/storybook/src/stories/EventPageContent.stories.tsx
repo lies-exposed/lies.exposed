@@ -1,4 +1,4 @@
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   type EventType,
   EVENT_TYPES,

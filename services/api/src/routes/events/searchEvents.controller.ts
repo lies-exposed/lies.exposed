@@ -3,7 +3,7 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";

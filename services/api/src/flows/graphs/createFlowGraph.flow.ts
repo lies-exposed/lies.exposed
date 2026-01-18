@@ -3,8 +3,8 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
+import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { getTotals } from "@liexp/shared/lib/helpers/event/search-event.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
 import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
 import {

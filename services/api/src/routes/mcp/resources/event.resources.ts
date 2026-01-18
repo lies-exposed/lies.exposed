@@ -2,7 +2,7 @@ import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/search-event.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
