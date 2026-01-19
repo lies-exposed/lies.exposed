@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.2.0](https://github.com/lies-exposed/lies.exposed/compare/admin@0.1.8...admin@0.2.0) (2026-01-19)
+
+
+### Features
+
+* added endpoint to merge events ([#3055](https://github.com/lies-exposed/lies.exposed/issues/3055)) ([46da181](https://github.com/lies-exposed/lies.exposed/commit/46da1812e13deae9b8d1736e7c2295372660a43b))
+
+
+### Bug Fixes
+
+* **api:** endpoints to link actors to events ([#3053](https://github.com/lies-exposed/lies.exposed/issues/3053)) ([78e9925](https://github.com/lies-exposed/lies.exposed/commit/78e9925c90d0fdde7d39a41db96d7a0642e5d135))
+* **shared:** renamed Endpoints for agent to AgentEndpoints ([#3063](https://github.com/lies-exposed/lies.exposed/issues/3063)) ([5366305](https://github.com/lies-exposed/lies.exposed/commit/53663056c564a92b4ca01805f61edd849b000a26))
+
+
+### Miscellaneous
+
+* **admin:** moved hooks and context to @liexp/ui ([#3064](https://github.com/lies-exposed/lies.exposed/issues/3064)) ([3f9d3b5](https://github.com/lies-exposed/lies.exposed/commit/3f9d3b54e186a476216161624f50069d4a5835c5))
+* **admin:** setup custom HMR port for server ([#3051](https://github.com/lies-exposed/lies.exposed/issues/3051)) ([99ef38c](https://github.com/lies-exposed/lies.exposed/commit/99ef38c1d3f8b299341ed2df4dc9197eda0ef4be))
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **workspace:** bump dev dependencies ([#3070](https://github.com/lies-exposed/lies.exposed/issues/3070)) ([e49cb92](https://github.com/lies-exposed/lies.exposed/commit/e49cb9211fca3e425d804eb4891efddec88752b5))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.8
+    * @liexp/core bumped to 0.1.4
+    * @liexp/shared bumped to 0.2.0
+    * @liexp/ui bumped to 0.2.0
+  * devDependencies
+    * @liexp/test bumped to 0.1.8
+
 ## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/admin@0.1.7...admin@0.1.8) (2026-01-11)
 
 

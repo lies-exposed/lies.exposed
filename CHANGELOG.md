@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/0.1.8...0.1.9) (2026-01-19)
+
+
+### Bug Fixes
+
+* **ai-bot:** remove loadDocs flow in favor of agent tools ([#3048](https://github.com/lies-exposed/lies.exposed/issues/3048)) ([144bb66](https://github.com/lies-exposed/lies.exposed/commit/144bb6671520d893e6f1975f995e589412f00838))
+
+
+### Miscellaneous
+
+* **admin:** setup custom HMR port for server ([#3051](https://github.com/lies-exposed/lies.exposed/issues/3051)) ([99ef38c](https://github.com/lies-exposed/lies.exposed/commit/99ef38c1d3f8b299341ed2df4dc9197eda0ef4be))
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **web:** removed unused files ([#3049](https://github.com/lies-exposed/lies.exposed/issues/3049)) ([591a382](https://github.com/lies-exposed/lies.exposed/commit/591a382ff290dc71b790d471f5c56d1b22231866))
+* **workspace:** added script to lint only changed file ([#3054](https://github.com/lies-exposed/lies.exposed/issues/3054)) ([ae6c2b3](https://github.com/lies-exposed/lies.exposed/commit/ae6c2b3696f11a51a1dc88a712eeefa9800fd763))
+* **workspace:** bump dev dependencies ([#3070](https://github.com/lies-exposed/lies.exposed/issues/3070)) ([e49cb92](https://github.com/lies-exposed/lies.exposed/commit/e49cb9211fca3e425d804eb4891efddec88752b5))
+* **workspace:** bump nginx image for telegram.liexp.dev to 1.27.1-alpine ([#3065](https://github.com/lies-exposed/lies.exposed/issues/3065)) ([92cf396](https://github.com/lies-exposed/lies.exposed/commit/92cf39664727bf87b94d146f1c53a1c61111eef2))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+* **workspace:** install tslib in dev deps ([#3050](https://github.com/lies-exposed/lies.exposed/issues/3050)) ([04449d3](https://github.com/lies-exposed/lies.exposed/commit/04449d397105a76742d10c9cfd0c67b033fbe99b))
+
 ## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/0.1.7...0.1.8) (2026-01-11)
 
 
