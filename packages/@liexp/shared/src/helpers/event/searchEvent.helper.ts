@@ -4,7 +4,7 @@ import { EVENT_TYPES, type EventType } from "../../io/http/Events/EventType.js";
 import { type SearchEvent } from "../../io/http/Events/index.js";
 import { buildEvent, EventHelper } from "./event.helper.js";
 import { EventsMapper } from "./events-mapper.helper.js";
-import { getRelationIdsFromEventRelations } from "./getEventRelationIds";
+import { getRelationIdsFromEventRelations } from "./getEventRelationIds.js";
 import { getSearchEventRelations } from "./getSearchEventRelations.js";
 
 interface SearchEventHelper<E extends SearchEvent.SearchEvent> {
