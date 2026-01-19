@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.7...agent@0.1.8) (2026-01-19)
+
+
+### Bug Fixes
+
+* **shared:** renamed Endpoints for agent to AgentEndpoints ([#3063](https://github.com/lies-exposed/lies.exposed/issues/3063)) ([5366305](https://github.com/lies-exposed/lies.exposed/commit/53663056c564a92b4ca01805f61edd849b000a26))
+
+
+### Miscellaneous
+
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **workspace:** bump dev dependencies ([#3070](https://github.com/lies-exposed/lies.exposed/issues/3070)) ([e49cb92](https://github.com/lies-exposed/lies.exposed/commit/e49cb9211fca3e425d804eb4891efddec88752b5))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.8
+    * @liexp/core bumped to 0.1.4
+    * @liexp/shared bumped to 0.2.0
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.6...agent@0.1.7) (2026-01-11)
 
 

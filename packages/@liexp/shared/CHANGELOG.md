@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.2.0](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.7...@liexp/shared@0.2.0) (2026-01-19)
+
+
+### Features
+
+* added endpoint to merge events ([#3055](https://github.com/lies-exposed/lies.exposed/issues/3055)) ([46da181](https://github.com/lies-exposed/lies.exposed/commit/46da1812e13deae9b8d1736e7c2295372660a43b))
+
+
+### Bug Fixes
+
+* **api:** endpoints to link actors to events ([#3053](https://github.com/lies-exposed/lies.exposed/issues/3053)) ([78e9925](https://github.com/lies-exposed/lies.exposed/commit/78e9925c90d0fdde7d39a41db96d7a0642e5d135))
+* **shared:** added merge events helper ([#3072](https://github.com/lies-exposed/lies.exposed/issues/3072)) ([395e45b](https://github.com/lies-exposed/lies.exposed/commit/395e45be885a25a5a897d7dd21867f37362d7fe8))
+* **shared:** renamed Endpoints for agent to AgentEndpoints ([#3063](https://github.com/lies-exposed/lies.exposed/issues/3063)) ([5366305](https://github.com/lies-exposed/lies.exposed/commit/53663056c564a92b4ca01805f61edd849b000a26))
+* **shared:** use UUID for scientific study payload image ([#3066](https://github.com/lies-exposed/lies.exposed/issues/3066)) ([e069dee](https://github.com/lies-exposed/lies.exposed/commit/e069deefbe953c44ab94593dd6bdaf3bfe4a9543))
+
+
+### Miscellaneous
+
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **core:** fp module utils ([#3068](https://github.com/lies-exposed/lies.exposed/issues/3068)) ([1937350](https://github.com/lies-exposed/lies.exposed/commit/19373509798471fb3303c05af721479f71fa023b))
+* **shared:** added spec tests for event helpers ([#3069](https://github.com/lies-exposed/lies.exposed/issues/3069)) ([9fa9f27](https://github.com/lies-exposed/lies.exposed/commit/9fa9f272f1ca0bbbdbff4b0289c84ac9fc4b92cc))
+* **shared:** refactor event helpers ([#3067](https://github.com/lies-exposed/lies.exposed/issues/3067)) ([d9c5980](https://github.com/lies-exposed/lies.exposed/commit/d9c5980b68af7ca62f95b09922041613ac1e1677))
+* **workspace:** bump dev dependencies ([#3070](https://github.com/lies-exposed/lies.exposed/issues/3070)) ([e49cb92](https://github.com/lies-exposed/lies.exposed/commit/e49cb9211fca3e425d804eb4891efddec88752b5))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.4
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.1.6...@liexp/shared@0.1.7) (2026-01-11)
 
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.8...@liexp/storybook@0.1.9) (2026-01-19)
+
+
+### Miscellaneous
+
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **shared:** refactor event helpers ([#3067](https://github.com/lies-exposed/lies.exposed/issues/3067)) ([d9c5980](https://github.com/lies-exposed/lies.exposed/commit/d9c5980b68af7ca62f95b09922041613ac1e1677))
+* **workspace:** bump dev dependencies ([#3070](https://github.com/lies-exposed/lies.exposed/issues/3070)) ([e49cb92](https://github.com/lies-exposed/lies.exposed/commit/e49cb9211fca3e425d804eb4891efddec88752b5))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.4
+    * @liexp/shared bumped to 0.2.0
+    * @liexp/test bumped to 0.1.8
+    * @liexp/ui bumped to 0.2.0
+
 ## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.7...@liexp/storybook@0.1.8) (2026-01-11)
 
 

@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.7...@liexp/test@0.1.8) (2026-01-19)
+
+
+### Bug Fixes
+
+* **shared:** use UUID for scientific study payload image ([#3066](https://github.com/lies-exposed/lies.exposed/issues/3066)) ([e069dee](https://github.com/lies-exposed/lies.exposed/commit/e069deefbe953c44ab94593dd6bdaf3bfe4a9543))
+
+
+### Miscellaneous
+
+* bump pnpm from 10.28.0 to 10.28.1 ([#3074](https://github.com/lies-exposed/lies.exposed/issues/3074)) ([449492d](https://github.com/lies-exposed/lies.exposed/commit/449492de5d2088b42f5297a52fb2da38fb5cc429))
+* **workspace:** bump pnpm from 10.26.0 to 10.28.0 ([#3052](https://github.com/lies-exposed/lies.exposed/issues/3052)) ([8b1b474](https://github.com/lies-exposed/lies.exposed/commit/8b1b4740e2978b495d11f4d05320481abf4fefe0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.4
+    * @liexp/shared bumped to 0.2.0
+
 ## [0.1.7](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.6...@liexp/test@0.1.7) (2026-01-11)
 
 
