@@ -1,3 +1,5 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import get from "lodash/get.js";
 import * as React from "react";
@@ -5,6 +7,7 @@ import {
   Labeled,
   useInput,
   useRecordContext,
+  useResourceContext,
   type InputProps,
 } from "react-admin";
 import { ErrorBoundary } from "react-error-boundary";
@@ -114,12 +117,19 @@ const BlockNoteInput: React.FC<
     readOnly?: boolean;
   }
 > = ({ onlyText = false, readOnly = false, ...props }) => {
+  const resource = useResourceContext<{ resource: ResourcesNames }>() as
+    | ResourcesNames
+    | undefined;
+  const record = useRecordContext<{ id: UUID }>();
+
   return (
     <RaBlockNoteInput
       {...props}
       label={typeof props.label === "string" ? props.label : props.source}
       variant={onlyText ? "plain" : "extended"}
       readOnly={readOnly}
+      resource={resource}
+      resourceId={record?.id}
     />
   );
 };

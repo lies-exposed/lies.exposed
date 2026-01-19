@@ -1,3 +1,5 @@
+import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type ResourcesNames } from "@liexp/shared/lib/io/http/ResourcesNames.js";
 import * as React from "react";
 import type { BNEditorProps } from "./Editor.js";
 
@@ -21,4 +23,20 @@ const BNEditorWrapper: React.FC<BNEditorProps> = (props) => {
   );
 };
 
-export { BNEditorWrapper as BNEditor, BNEditorProps };
+interface BNAdminEditorProps extends BNEditorProps {
+  resource: ResourcesNames;
+  resourceId: UUID;
+}
+const BNAdminEditorWrapper: React.FC<BNAdminEditorProps> = (props) => {
+  return (
+    <React.Suspense fallback={<div />}>
+      <BNEditor {...props} />
+    </React.Suspense>
+  );
+};
+
+export {
+  BNEditorWrapper as BNEditor,
+  BNAdminEditorWrapper as BNAdminEditor,
+  BNEditorProps,
+};
