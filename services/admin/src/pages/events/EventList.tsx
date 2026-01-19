@@ -1,15 +1,26 @@
+import { pipe } from "@liexp/core/lib/fp/index.js";
+import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { MergeEventsHelper } from "@liexp/shared/lib/helpers/event/merge-event.helper.js";
 import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import {
+  type Event,
+  EventType,
+} from "@liexp/shared/lib/io/http/Events/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import ExcerptField from "@liexp/ui/lib/components/admin/common/ExcerptField.js";
 import ReferenceArrayGroupMemberInput from "@liexp/ui/lib/components/admin/common/ReferenceArrayGroupMemberInput.js";
+import { EventTypeSelect } from "@liexp/ui/lib/components/admin/common/inputs/EventTypeInput.js";
 import ReferenceArrayGroupInput from "@liexp/ui/lib/components/admin/groups/ReferenceArrayGroupInput.js";
 import ReferenceArrayKeywordInput from "@liexp/ui/lib/components/admin/keywords/ReferenceArrayKeywordInput.js";
 import {
   BooleanField,
   BooleanInput,
+  BulkDeleteButton,
+  Button,
+  Confirm,
   Datagrid,
   DateField,
   DateInput,
@@ -22,17 +33,27 @@ import {
   ReferenceField,
   SavedQueriesList,
   TextField,
+  useListContext,
+  useNotify,
+  useRefresh,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   Box,
   Card,
   CardContent,
+  Divider,
   Icons,
   Stack,
   Typography,
   alpha,
 } from "@liexp/ui/lib/components/mui/index.js";
+import { useAPI } from "@liexp/ui/lib/hooks/useAPI.js";
 import * as React from "react";
+import {
+  MergeResultPreview,
+  MergeEventCard,
+  MergeSummary,
+} from "../../components/MergedEventPreview.js";
 
 const RESOURCE = "events";
 
@@ -70,6 +91,163 @@ const eventsFilter = [
   <DateInput key="startDate" source="startDate" />,
   <DateInput key="endDate" source="endDate" />,
 ];
+
+const MergeEventsButton = () => {
+  const [clicked, setClicked] = React.useState(false);
+  const [toType, setToType] = React.useState<EventType>(
+    EVENT_TYPES.UNCATEGORIZED,
+  );
+  const { selectedIds, data } = useListContext();
+  const api = useAPI();
+  const refresh = useRefresh();
+  const notify = useNotify();
+
+  // Sort events by selected order to ensure predictable target selection
+  const events = selectedIds
+    .map((id) => (data ?? []).find((e) => e.id === id))
+    .filter((e): e is Event => e !== undefined);
+
+  const [targetEvent, ...sourceEvents] = events;
+
+  const onClick = () => {
+    setClicked(true);
+    // Set initial type to match target event
+    if (targetEvent) {
+      setToType(targetEvent.type);
+    }
+  };
+
+  const onSubmit = () => {
+    if (toType) {
+      void pipe(
+        api.Event.Custom.EditManyEvents({
+          Body: {
+            // TODO: fix @ts-endpoint
+            params: {
+              ids: selectedIds,
+              action: "merge",
+              toType,
+            },
+          },
+        }),
+        throwTE,
+      )
+        .then(() => {
+          notify("Events merged successfully", { type: "success" });
+          refresh();
+        })
+        .catch((err) => {
+          notify(err.message, { type: "error" });
+        });
+    }
+  };
+
+  // Extract all relation IDs from events for fetching
+  const allRelationIds = React.useMemo(() => {
+    if (events.length === 0) {
+      return { actors: [], groups: [], groupsMembers: [] };
+    }
+    return takeEventRelations(events);
+  }, [events]);
+
+  const mergedEvent = toType
+    ? MergeEventsHelper.mergeEvents(events, toType, {
+        groups: [],
+        actors: [],
+        links: [],
+        media: [],
+        keywords: [],
+        groupsMembers: [],
+        areas: [],
+      })
+    : undefined;
+
+  const canMerge = events.length >= 2;
+
+  return (
+    <>
+      <Button
+        startIcon={<Icons.MergeTypeIcon />}
+        label="Merge"
+        onClick={onClick}
+        disabled={!canMerge}
+      />
+      <Confirm
+        isOpen={clicked}
+        title={`Merge ${events.length} events`}
+        content={
+          <Stack spacing={2} sx={{ minWidth: 500 }}>
+            {/* Target Event Section */}
+            {targetEvent && (
+              <Box>
+                <Typography
+                  variant="overline"
+                  color="success.main"
+                  fontWeight="bold"
+                >
+                  Target Event (will be kept)
+                </Typography>
+                <MergeEventCard event={targetEvent} role="target" />
+              </Box>
+            )}
+
+            <Divider />
+
+            {/* Source Events Section */}
+            {sourceEvents.length > 0 && (
+              <Box>
+                <Typography
+                  variant="overline"
+                  color="error.main"
+                  fontWeight="bold"
+                >
+                  Source Events (will be soft-deleted)
+                </Typography>
+                <Stack spacing={1}>
+                  {sourceEvents.map((e) => (
+                    <MergeEventCard key={e.id} event={e} role="source" />
+                  ))}
+                </Stack>
+              </Box>
+            )}
+
+            <Divider />
+
+            {/* Event Type Selection */}
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Typography variant="body2">Target event type:</Typography>
+              <EventTypeSelect eventType={toType} onChange={setToType} />
+            </Stack>
+
+            {/* Merge Summary */}
+            <MergeSummary events={events} mergedEvent={mergedEvent} />
+
+            {/* Result Preview */}
+            {mergedEvent ? (
+              <MergeResultPreview
+                mergedEvent={mergedEvent}
+                actorIds={[...allRelationIds.actors]}
+                groupIds={[...allRelationIds.groups]}
+              />
+            ) : null}
+          </Stack>
+        }
+        onConfirm={onSubmit}
+        onClose={() => {
+          setClicked(false);
+        }}
+        confirmColor="primary"
+      />
+    </>
+  );
+};
+
+const PostBulkActionButtons = () => (
+  <>
+    <MergeEventsButton />
+    <BulkDeleteButton />
+  </>
+);
 
 const EventListAside: React.FC = () => {
   return (
@@ -151,6 +329,7 @@ const EventList: React.FC = () => (
 
         return `/events/${record.id}`;
       }}
+      bulkActionButtons={<PostBulkActionButtons />}
     >
       <BooleanField source="draft" />
       <FunctionField
