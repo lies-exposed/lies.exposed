@@ -3,6 +3,7 @@ import { Schema } from "effect";
 import { OptionFromNullishToNull } from "../../../io/http/Common/OptionFromNullishToNull.js";
 import { Output } from "../../../io/http/Common/Output.js";
 import { UUID } from "../../../io/http/Common/UUID.js";
+import { EventType } from "../../../io/http/Events/EventType.js";
 import { SearchEvent } from "../../../io/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "../../../io/http/Events/SearchEvents/SearchEventsQuery.js";
 import { PaginationQuery } from "../../../io/http/Query/PaginationQuery.js";
@@ -225,6 +226,21 @@ export const Delete = Endpoint({
   Output: SingleEventOutput,
 });
 
+export const EditManyEvents = Endpoint({
+  Method: "PUT",
+  getPath: () => `/events`,
+  Input: {
+    Body: Schema.Struct({
+      params: Schema.Struct({
+        action: Schema.Literal("merge"),
+        ids: Schema.Array(UUID),
+        toType: EventType,
+      }),
+    }),
+  },
+  Output: SingleEventOutput,
+});
+
 const events = ResourceEndpoints({
   Get,
   Create,
@@ -241,6 +257,7 @@ const events = ResourceEndpoints({
     GetSuggestion,
     SearchEventsFromProvider,
     SearchEvents,
+    EditManyEvents,
   },
 });
 
