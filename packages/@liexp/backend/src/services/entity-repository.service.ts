@@ -4,6 +4,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import {
   type DeepPartial,
   type EntityTarget,
+  type FindManyOptions,
   type FindOneOptions,
   type ObjectLiteral,
 } from "typeorm";
@@ -27,6 +28,9 @@ export interface EntityRepository<E extends ObjectLiteral> {
   findOneOrFail: <C extends DatabaseContext>(
     opts: FindOneOptions<E>,
   ) => ReaderTaskEither<C, DBError, E>;
+  find: <C extends DatabaseContext>(
+    opts: FindManyOptions<E>,
+  ) => ReaderTaskEither<C, DBError, E[]>;
   save: <C extends DatabaseContext>(
     entities: DeepPartial<E>[],
   ) => ReaderTaskEither<C, DBError, E[]>;
@@ -47,6 +51,12 @@ const EntityRepository = <E extends ObjectLiteral>(
     ): ReaderTaskEither<C, DBError, E> =>
     (ctx) =>
       pipe(ctx.db.findOneOrFail(e, opts)),
+  find:
+    <C extends DatabaseContext>(
+      opts: FindManyOptions<E>,
+    ): ReaderTaskEither<C, DBError, E[]> =>
+    (ctx) =>
+      pipe(ctx.db.find(e, opts)),
   save:
     <C extends DatabaseContext>(
       entities: DeepPartial<E>[],
