@@ -5,8 +5,9 @@ import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { checkBucketOrCreate } from "./app/bootstrap/checkBucketOrCreate.bootstrap.js";
+import { seedNations } from "./app/bootstrap/nations.seeder.js";
 import { makeApp } from "./app/index.js";
-import { seedNations } from "./app/nations.seeder.js";
 import { loadContext } from "./context/load.js";
 import * as ControllerError from "#io/ControllerError.js";
 
@@ -27,6 +28,7 @@ const run = (): Promise<void> => {
     TE.apS("ctx", loadContext("server")),
     TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.chainFirst(({ ctx }) => seedNations(ctx)),
+    TE.chainFirst(({ ctx }) => checkBucketOrCreate(ctx)),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
       // TODO: handle properly a possible error thrown by mkdirSync
