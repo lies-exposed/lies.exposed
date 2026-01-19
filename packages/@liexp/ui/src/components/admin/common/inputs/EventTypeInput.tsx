@@ -1,7 +1,10 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import {
+  EVENT_TYPES,
+  type EventType,
+} from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { Events } from "@liexp/shared/lib/io/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -9,6 +12,7 @@ import get from "lodash/get";
 import * as React from "react";
 import { useAPI } from "../../../../hooks/useAPI.js";
 import { fetchRelations } from "../../../../state/queries/SearchEventsQuery.js";
+import { EventIcon } from "../../../Common/Icons/EventIcon.js";
 import {
   Box,
   MenuItem,
@@ -23,19 +27,55 @@ import {
   type InputProps,
 } from "../../react-admin.js";
 
+export const EventTypeSelect: React.FC<{
+  eventType?: EventType;
+  onChange?: (type: EventType) => void;
+}> = ({
+  eventType: defaultEventType = EVENT_TYPES.UNCATEGORIZED,
+  onChange,
+}) => {
+  const [eventType, setEventType] = React.useState<EventType>(defaultEventType);
+
+  const onSelectChange = (e: SelectChangeEvent): void => {
+    setEventType(e.target.value as EventType);
+    onChange?.(e.target.value as EventType);
+  };
+
+  return (
+    <Select
+      size="small"
+      label="Transform in"
+      onChange={onSelectChange}
+      value={eventType}
+      defaultValue={defaultEventType}
+    >
+      {Events.EventType.members.map((t) => (
+        <MenuItem key={t.literals[0]} value={t.literals[0]}>
+          <EventIcon type={t.literals[0]} style={{ marginRight: 10 }} />{" "}
+          {t.literals[0]}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+};
+
 export const EventTypeInput: React.FC<
-  InputProps & { hideTransform?: boolean }
+  Omit<InputProps, "onChange"> & {
+    hideTransform?: boolean;
+    onChange?: (type: EventType) => void;
+  }
 > = ({ source, defaultValue, onChange, hideTransform = false }) => {
   const record = useRecordContext<Events.Event>();
+  const [type, setType] = React.useState(defaultValue);
   const redirect = useRedirect();
   const apiProvider = useDataProvider();
   const api = useAPI();
 
-  const value = get(record, source ?? "type") ?? defaultValue;
-  const [type, setType] = React.useState(value ?? EVENT_TYPES.UNCATEGORIZED);
-  const onSelectChange = (e: SelectChangeEvent): void => {
-    setType(e.target.value);
-    onChange?.(e.target.value);
+  const value: EventType = get(record, source ?? "type") ?? defaultValue;
+
+  const onSelectChange = (eventType: EventType): void => {
+    setType(eventType);
+    onChange?.(eventType);
   };
 
   const doTransform = async (record: Events.Event): Promise<void> => {
@@ -71,8 +111,6 @@ export const EventTypeInput: React.FC<
     if (!plainEvent) {
       throw new Error("No event matched");
     }
-
-    // console.log(Events.Event.decode(plainEvent));
 
     await apiProvider
       .update("events", {
@@ -124,19 +162,7 @@ export const EventTypeInput: React.FC<
   return (
     record && (
       <Box>
-        <Select
-          size="small"
-          label="Transform in"
-          onChange={onSelectChange}
-          value={type}
-          defaultValue={type}
-        >
-          {Events.EventType.members.map((t) => (
-            <MenuItem key={t.literals[0]} value={t.literals[0]}>
-              {t.literals[0]}
-            </MenuItem>
-          ))}
-        </Select>
+        <EventTypeSelect eventType={value} onChange={onSelectChange} />
         {!hideTransform && (
           <Button
             label="Transform"

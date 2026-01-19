@@ -23,6 +23,7 @@ export interface EventSlimCardProps extends CardProps {
   /** Optional image URL to display. If not provided, falls back to defaultImage. */
   image?: string;
   showMedia?: boolean;
+  showExcerpt?: boolean;
   layout?: "vertical" | "horizontal";
   onEventClick?: (e: Events.Event) => void;
 }
@@ -30,6 +31,7 @@ export interface EventSlimCardProps extends CardProps {
 const EventSlimCard: React.FC<EventSlimCardProps> = ({
   event,
   showMedia = true,
+  showExcerpt = true,
   onEventClick,
   defaultImage,
   image,
@@ -87,19 +89,20 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
               title={title}
               subheader={formatDate(date)}
             />
-
-            <CardContent>
-              {isValidValue(event.excerpt) ? (
-                <Box
-                  style={{
-                    maxHeight: 100,
-                    overflow: "hidden",
-                  }}
-                >
-                  <BNEditor content={event.excerpt} readOnly />
-                </Box>
-              ) : null}
-            </CardContent>
+            {showExcerpt ? (
+              <CardContent>
+                {isValidValue(event.excerpt) ? (
+                  <Box
+                    style={{
+                      maxHeight: 100,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <BNEditor content={event.excerpt} readOnly />
+                  </Box>
+                ) : null}
+              </CardContent>
+            ) : null}
           </Stack>
         </Stack>
       </CardActionArea>
