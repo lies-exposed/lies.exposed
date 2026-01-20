@@ -1,8 +1,8 @@
-import * as http from "@liexp/shared/lib/io/http/index.js";
-import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary";
+import { BlockNoteDocumentFromText } from "./common/BlockNoteDocument.arbitrary";
 
 export const PageArb: fc.Arbitrary<http.Page.Page> = Arbitrary.make(
   http.Page.Page,
@@ -14,15 +14,11 @@ export const PageArb: fc.Arbitrary<http.Page.Page> = Arbitrary.make(
   title: fc
     .sample(HumanReadableStringArb({ count: 10 }), 1)
     .reduce((acc, s) => acc.concat(s), ""),
-  excerpt: toInitialValue(
-    fc
-      .sample(HumanReadableStringArb({ count: 40 }))
-      .reduce((acc, s) => acc.concat(s), ""),
+  excerpt: fc.sample(
+    HumanReadableStringArb({ count: 40 }).chain(BlockNoteDocumentFromText),
   ),
-  body2: toInitialValue(
-    fc
-      .sample(HumanReadableStringArb({ count: 100 }))
-      .reduce((acc, s) => acc.concat(s), ""),
+  body2: fc.sample(
+    HumanReadableStringArb({ count: 100 }).chain(BlockNoteDocumentFromText),
   ),
   deletedAt: undefined,
 }));

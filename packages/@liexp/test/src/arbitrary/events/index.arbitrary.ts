@@ -5,9 +5,9 @@ import {
   SCIENTIFIC_STUDY,
   TRANSACTION,
   QUOTE,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { Arbitrary, Schema } from "effect";
 import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";

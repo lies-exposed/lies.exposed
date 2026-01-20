@@ -1,4 +1,4 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Arbitrary } from "effect";
 import type * as fc from "fast-check";
 

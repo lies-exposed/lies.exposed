@@ -1,4 +1,4 @@
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb, MAX_DATE, MIN_DATE } from "../Date.arbitrary.js";

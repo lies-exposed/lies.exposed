@@ -1,7 +1,7 @@
-import * as http from "@liexp/shared/lib/io/http/index.js";
-import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Schema, Arbitrary } from "effect";
 import fc from "fast-check";
+import { BlockNoteDocumentFromText } from "./common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 const {
@@ -25,7 +25,7 @@ export const AreaArb = Arbitrary.make(Schema.Struct(areaProps)).map((p) => ({
   slug: fc.sample(fc.string({ minLength: 40 }), 1)[0],
   media: [],
   events: [],
-  body: toInitialValue("Area content body"),
+  body: fc.sample(BlockNoteDocumentFromText("Area content body"), 1)[0],
   featuredImage: null,
   geometry: fc.sample(
     fc.record({

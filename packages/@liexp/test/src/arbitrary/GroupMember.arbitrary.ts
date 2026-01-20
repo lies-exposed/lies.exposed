@@ -1,5 +1,5 @@
-import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import { type GroupMember } from "@liexp/io/lib/http/GroupMember.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { ActorArb } from "./Actor.arbitrary.js";

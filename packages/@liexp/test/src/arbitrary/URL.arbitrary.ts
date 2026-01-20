@@ -1,4 +1,4 @@
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { Schema } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";

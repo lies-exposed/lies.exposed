@@ -1,4 +1,4 @@
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";

@@ -1,4 +1,4 @@
-import * as Events from "@liexp/shared/lib/io/http/Events/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb } from "../Date.arbitrary.js";
