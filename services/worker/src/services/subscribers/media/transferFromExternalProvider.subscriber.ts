@@ -2,7 +2,7 @@ import { Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { TransferMediaFromExternalProviderPubSub } from "@liexp/backend/lib/pubsub/media/transferFromExternalProvider.pubSub.js";
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { Schema } from "effect";
 import { transferFromExternalProvider } from "../../../flows/media/transferFromExternalProvider.flow.js";
 import { toWorkerError } from "../../../io/worker.error.js";

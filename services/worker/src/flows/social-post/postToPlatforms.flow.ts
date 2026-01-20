@@ -2,11 +2,11 @@ import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.
 import { getSocialPostById } from "@liexp/backend/lib/flows/social-post/getSocialPostById.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   PUBLISHED,
   type CreateSocialPost,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type RTE } from "../../types.js";
 import { postToIG } from "./postToIG.flow.js";

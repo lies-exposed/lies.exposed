@@ -2,12 +2,12 @@ import { fetchMedia } from "@liexp/backend/lib/flows/media/fetchMedia.flow.js";
 import { upload } from "@liexp/backend/lib/flows/space/upload.flow.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type URL, type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   ImageType,
   PDFType,
   type MediaType,
-} from "@liexp/shared/lib/io/http/Media/index.js";
+} from "@liexp/io/lib/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";
 import { type RTE } from "../../types.js";

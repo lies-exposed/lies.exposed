@@ -6,9 +6,9 @@ import {
 } from "@liexp/backend/lib/flows/wikipedia/fetchFromWikipedia.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type AddActorBody } from "@liexp/shared/lib/io/http/Actor.js";
-import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type AddActorBody } from "@liexp/io/lib/http/Actor.js";
+import { uuid, UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { ImageType } from "@liexp/io/lib/http/Media/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { Schema } from "effect";

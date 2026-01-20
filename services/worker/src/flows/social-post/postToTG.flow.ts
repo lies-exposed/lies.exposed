@@ -2,15 +2,15 @@ import { type Stream } from "stream";
 import { type ENVContext } from "@liexp/backend/lib/context/env.context.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/index.js";
+import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import {
   SocialPostDocument,
   SocialPostPhoto,
   SocialPostVideo,
   type CreateSocialPost,
   type SocialPostContentMedia,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
 import type TelegramBot from "node-telegram-bot-api";
 import { type ENV } from "../../io/env.js";
