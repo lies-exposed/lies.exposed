@@ -1,4 +1,4 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
 import { type ResponsiveStyleValue } from "@mui/system";
 import * as React from "react";
 import {

@@ -1,11 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import {
-  APIError,
-  toAPIError,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { CoreError } from "@liexp/shared/lib/io/http/Error/CoreError.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { ErrorDecoder } from "@liexp/shared/lib/io/http/Error/ErrorDecoder.js";
+import { APIError, toAPIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { CoreError } from "@liexp/io/lib/http/Error/CoreError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { ErrorDecoder } from "@liexp/io/lib/http/Error/ErrorDecoder.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

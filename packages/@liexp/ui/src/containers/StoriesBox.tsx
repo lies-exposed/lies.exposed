@@ -1,4 +1,4 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story.js";
+import { type Story } from "@liexp/io/lib/http/Story.js";
 import * as React from "react";
 import { type GetListParams } from "react-admin";
 import QueriesRenderer from "../components/QueriesRenderer.js";

@@ -1,4 +1,4 @@
-import { type NetworkNodeDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type NetworkNodeDatum } from "@liexp/io/lib/http/Network/Network.js";
 import { Group } from "@visx/group";
 import * as React from "react";
 

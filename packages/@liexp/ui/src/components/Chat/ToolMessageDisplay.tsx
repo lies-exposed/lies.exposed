@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
+import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import React from "react";
 import { Box, Icons, Typography } from "../mui/index.js";
 /**

@@ -1,4 +1,4 @@
-import type * as Queue from "@liexp/shared/lib/io/http/Queue/index.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import get from "lodash/get.js";
 import * as React from "react";
 import { useNavigate } from "react-router";

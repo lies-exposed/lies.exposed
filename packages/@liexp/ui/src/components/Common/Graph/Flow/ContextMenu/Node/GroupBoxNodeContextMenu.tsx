@@ -1,4 +1,4 @@
-import { http } from "@liexp/shared/lib/io/index.js";
+import { http } from "@liexp/io/lib/index.js";
 import { type Node, useReactFlow } from "@xyflow/react";
 import * as React from "react";
 import { Button, Icons, Stack } from "../../../../../mui/index.js";

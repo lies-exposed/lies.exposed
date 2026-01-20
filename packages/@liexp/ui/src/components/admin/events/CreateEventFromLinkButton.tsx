@@ -1,10 +1,10 @@
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import {
   type CreateEventPlainBody,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Link } from "@liexp/shared/lib/io/http/Link.js";
-import type * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
+import { type Link } from "@liexp/io/lib/http/Link.js";
+import type * as io from "@liexp/io/lib/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

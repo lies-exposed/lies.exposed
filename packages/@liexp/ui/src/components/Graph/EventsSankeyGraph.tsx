@@ -3,21 +3,14 @@ import {
   isNonEmpty,
   type NonEmptyArray,
 } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import {
-  eqByUUID,
-  ordEventDate,
-} from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import {
   type NetworkLink,
   type EventNetworkDatum,
   type NetworkPointNode,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import {
   type Actor,
   type Common,
@@ -25,7 +18,14 @@ import {
   type Group,
   type Keyword,
   type Page,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import {
+  eqByUUID,
+  ordEventDate,
+} from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { ParentSize } from "@visx/responsive";
 import ordinalScale from "@visx/scale/lib/scales/ordinal.js";

@@ -1,9 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import {
-  type Media,
-  type ResourcesNames,
-} from "@liexp/shared/lib/io/http/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Media, type ResourcesNames } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect/index";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

@@ -1,4 +1,4 @@
-import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Actor, type Group } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { type AvatarSize } from "../Common/Avatar.js";
 import { List } from "../Common/List.js";

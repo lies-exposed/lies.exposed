@@ -1,6 +1,6 @@
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import {
   type EndpointsRESTClient,
   RAEndpointsClient,

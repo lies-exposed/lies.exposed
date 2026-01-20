@@ -1,4 +1,4 @@
-import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { TO_PUBLISH } from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { colors } from "../../../theme/index.js";

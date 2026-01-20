@@ -1,7 +1,7 @@
 import {
   type ThumbnailsExtra,
   ThumbnailsExtraError,
-} from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+} from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { Schema } from "effect";
 import * as React from "react";
 import {

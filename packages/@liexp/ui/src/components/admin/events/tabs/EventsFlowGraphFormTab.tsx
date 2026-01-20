@@ -1,8 +1,8 @@
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { type FlowGraphType } from "@liexp/io/lib/http/graphs/FlowGraph.js";
+import { type Network } from "@liexp/io/lib/http/index.js";
 import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
-import { type Network } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { EventsFlowGraphBox } from "../../../../containers/graphs/EventsFlowGraphBox.js";
 import { useDataProvider } from "../../../../hooks/useDataProvider.js";

@@ -1,4 +1,4 @@
-import { type Project } from "@liexp/shared/lib/io/http/Project.js";
+import { type Project } from "@liexp/io/lib/http/Project.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { sequenceS } from "fp-ts/lib/Apply.js";

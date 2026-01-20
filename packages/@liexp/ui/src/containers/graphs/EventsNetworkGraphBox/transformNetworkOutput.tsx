@@ -1,21 +1,21 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
   EventType,
   type SearchEvent,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
 import {
   type NetworkLink,
   type NetworkGraphOutput,
   type EventNetworkDatum,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { differenceInDays, parseISO } from "date-fns";
 import { Schema } from "effect";
 import { type Either } from "fp-ts/lib/Either.js";

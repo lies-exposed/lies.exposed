@@ -1,6 +1,6 @@
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { Stack } from "../../mui/index.js";

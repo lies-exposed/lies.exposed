@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import {
   BaseEdge,

@@ -1,4 +1,4 @@
-import { type SocialPlatform } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { type SocialPlatform } from "@liexp/io/lib/http/SocialPost.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";
 import { LoadingIndicator } from "react-admin";

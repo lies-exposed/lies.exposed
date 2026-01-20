@@ -1,4 +1,4 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story.js";
+import { type Story } from "@liexp/io/lib/http/Story.js";
 import * as React from "react";
 import { Grid } from "../mui/index.js";
 import { StoryCard } from "./StoryCard.js";

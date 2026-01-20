@@ -4,7 +4,7 @@ import {
   type GetListQueryDateRange,
   type GetListQueryGroups,
   type GetListQueryKeywords,
-} from "@liexp/shared/lib/io/http/Query/GetListQuery.js";
+} from "@liexp/io/lib/http/Query/GetListQuery.js";
 import { type serializedType } from "@ts-endpoint/core";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";

@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { type Area } from "@liexp/io/lib/http/Area.js";
 import * as React from "react";
 import { type AvatarSize } from "../Common/Avatar.js";
 import { Typography } from "../mui/index.js";

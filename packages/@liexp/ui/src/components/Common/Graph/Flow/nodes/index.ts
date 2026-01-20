@@ -1,9 +1,4 @@
-import {
-  Actor,
-  Events,
-  Group,
-  Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+import { Actor, Events, Group, Keyword } from "@liexp/io/lib/http/index.js";
 import { type BuiltInNode, type NodeTypes } from "@xyflow/react";
 import { ActorNode, type ActorNodeType } from "./ActorNode.js";
 import { EventNode, type EventNodeType } from "./EventNode.js";

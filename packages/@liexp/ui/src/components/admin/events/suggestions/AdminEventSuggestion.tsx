@@ -1,6 +1,6 @@
+import { EventSuggestionStatus } from "@liexp/io/lib/http/EventSuggestion.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import {

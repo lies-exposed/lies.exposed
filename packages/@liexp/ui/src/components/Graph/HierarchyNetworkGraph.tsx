@@ -1,13 +1,13 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { EventTypes } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { EventTypes } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { ForcedNetworkGraph } from "../Common/Graph/ForcedNetworkGraph.js";

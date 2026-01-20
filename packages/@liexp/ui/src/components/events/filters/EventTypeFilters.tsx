@@ -1,9 +1,9 @@
 import { flow, fp } from "@liexp/core/lib/fp/index.js";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
   EVENT_TYPES,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";

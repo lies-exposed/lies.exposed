@@ -1,10 +1,10 @@
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
 import { Box, type BoxProps } from "../../mui/index.js";

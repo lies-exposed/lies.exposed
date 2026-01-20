@@ -1,7 +1,7 @@
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateSocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../../context/ConfigurationContext.js";
 import { TabPanel, a11yProps } from "../../Common/TabPanel.js";

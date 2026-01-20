@@ -1,4 +1,4 @@
-import { UserStatus } from "@liexp/shared/lib/io/http/User.js";
+import { UserStatus } from "@liexp/io/lib/http/User.js";
 import * as React from "react";
 // import { AvatarField } from "../common/AvatarField.js";
 // import { MediaField } from "../media/MediaField.js";

@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import {
   EVENT_TYPES,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { Events } from "@liexp/io/lib/http/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import get from "lodash/get";

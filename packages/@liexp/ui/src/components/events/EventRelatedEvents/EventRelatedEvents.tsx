@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { Events } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import * as React from "react";
 import EventsBox from "../../../containers/EventsBox.js";

@@ -1,6 +1,6 @@
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { type API, GetResourceClient } from "@ts-endpoint/resource-client";
 import * as React from "react";
 import { useAgentDataProvider } from "./useAgentDataProvider.js";

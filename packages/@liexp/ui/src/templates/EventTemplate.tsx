@@ -1,9 +1,9 @@
 import { type NonEmptyArray } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import {

@@ -1,5 +1,5 @@
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import { type SearchEventsQueryInputNoPagination } from "../../state/queries/SearchEventsQuery.js";

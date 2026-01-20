@@ -1,11 +1,11 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
   type Story,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";

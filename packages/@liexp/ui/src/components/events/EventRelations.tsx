@@ -1,7 +1,7 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { Schema } from "effect";
 import * as React from "react";
 import QueriesRenderer from "../QueriesRenderer.js";

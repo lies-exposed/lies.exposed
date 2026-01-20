@@ -1,5 +1,5 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { type ResponsiveStyleValue } from "@mui/system";
 import * as A from "fp-ts/lib/Array.js";
 import { pipe } from "fp-ts/lib/function.js";

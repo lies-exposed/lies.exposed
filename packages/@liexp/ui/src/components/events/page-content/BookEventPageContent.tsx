@@ -1,4 +1,4 @@
-import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Events, type Media } from "@liexp/io/lib/http/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";

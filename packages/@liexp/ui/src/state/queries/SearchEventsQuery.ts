@@ -1,12 +1,6 @@
-import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import {
-  getNewRelationIds,
-  updateCache,
-  type SearchEventsQueryCache,
-} from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { type GetSearchEventsQueryInput } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
+import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { type GetSearchEventsQueryInput } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
 import {
   type Actor,
   type Events,
@@ -15,7 +9,13 @@ import {
   type Keyword,
   type Link,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import {
+  getNewRelationIds,
+  updateCache,
+  type SearchEventsQueryCache,
+} from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import {
   useInfiniteQuery,

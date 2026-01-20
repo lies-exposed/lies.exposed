@@ -1,7 +1,7 @@
 import {
   type NetworkNodeDatum,
   type NetworkPointNode,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import { AxisBottom } from "@visx/axis";
 import { localPoint } from "@visx/event";
 import { Group } from "@visx/group";

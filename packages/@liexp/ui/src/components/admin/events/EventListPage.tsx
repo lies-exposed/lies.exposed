@@ -2,8 +2,8 @@ import {
   DEATH,
   EVENT_TYPES,
   SCIENTIFIC_STUDY,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import * as io from "@liexp/io/lib/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { Schema } from "effect";
 import * as R from "fp-ts/lib/Record.js";

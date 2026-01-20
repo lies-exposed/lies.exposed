@@ -1,4 +1,4 @@
-import { ByActor, ByGroup } from "@liexp/shared/lib/io/http/Common/index.js";
+import { ByActor, ByGroup } from "@liexp/io/lib/http/Common/index.js";
 import { Schema } from "effect";
 import get from "lodash/get.js";
 import * as React from "react";

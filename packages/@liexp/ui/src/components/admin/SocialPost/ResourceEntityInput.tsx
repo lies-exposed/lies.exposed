@@ -1,7 +1,7 @@
 import {
   SocialPostResourceType,
   type SocialPost,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
 import * as React from "react";
 import { Box, Stack } from "../../mui/index.js";
 import ReferenceActorInput from "../actors/ReferenceActorInput.js";

@@ -1,4 +1,4 @@
-import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+import { type ExtractEntitiesWithNLPOutput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import clsx from "clsx";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";

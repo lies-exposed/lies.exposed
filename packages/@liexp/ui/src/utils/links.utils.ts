@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/lib/io/index.js";
+import type * as io from "@liexp/io/lib/index.js";
 import { type NavigateFunction } from "react-router";
 import { type Configuration } from "../context/ConfigurationContext.js";
 

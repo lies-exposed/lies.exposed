@@ -1,4 +1,4 @@
-import { type Status } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { type Status } from "@liexp/io/lib/http/Queue/index.js";
 import React from "react";
 import { FAIcon, type FAIconProps } from "../../Common/Icons/index.js";
 

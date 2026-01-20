@@ -1,6 +1,6 @@
+import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import type { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LinkIcon from "@mui/icons-material/Link";

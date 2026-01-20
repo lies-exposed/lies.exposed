@@ -1,5 +1,5 @@
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { ordEventDate } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { Group } from "@visx/group";
 import { HeatmapCircle } from "@visx/heatmap";

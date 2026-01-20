@@ -1,4 +1,4 @@
-import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Group } from "@liexp/io/lib/http/index.js";
 import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
 import { GroupListItem } from "../../../../lists/GroupList.js";

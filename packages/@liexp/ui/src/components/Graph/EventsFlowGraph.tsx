@@ -1,12 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type FlowGraphOutput } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
-import {
-  Actor,
-  Events,
-  Group,
-  Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type FlowGraphOutput } from "@liexp/io/lib/http/graphs/FlowGraph.js";
+import { Actor, Events, Group, Keyword } from "@liexp/io/lib/http/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { parseISO } from "date-fns";
 import { pipe } from "fp-ts/lib/function.js";

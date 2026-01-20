@@ -1,5 +1,5 @@
-import { Events } from "@liexp/shared/lib/io/http/index.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { Events } from "@liexp/io/lib/http/index.js";
+import { http } from "@liexp/io/lib/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

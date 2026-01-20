@@ -1,4 +1,4 @@
-import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Events, type Media } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
 import { BNEditor } from "../../Common/BlockNote/index.js";

@@ -1,4 +1,4 @@
-import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Area, type Media } from "@liexp/io/lib/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";

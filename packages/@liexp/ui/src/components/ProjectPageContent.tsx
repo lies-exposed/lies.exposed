@@ -1,4 +1,4 @@
-import { type Events, type Project } from "@liexp/shared/lib/io/http/index.js";
+import { type Events, type Project } from "@liexp/io/lib/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";

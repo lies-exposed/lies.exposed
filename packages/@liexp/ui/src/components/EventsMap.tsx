@@ -1,5 +1,5 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { Events } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";
 import Feature from "ol/Feature.js";

@@ -22,6 +22,9 @@
       "path": "../core"
     },
     {
+      "path": "../io"
+    },
+    {
       "path": "../shared"
     }
   ],

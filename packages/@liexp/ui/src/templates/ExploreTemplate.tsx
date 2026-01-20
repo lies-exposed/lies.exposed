@@ -3,12 +3,12 @@ import {
   isNonEmpty,
   type NonEmptyArray,
 } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

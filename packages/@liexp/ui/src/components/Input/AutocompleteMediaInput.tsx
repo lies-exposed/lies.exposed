@@ -1,5 +1,5 @@
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import { MediaList, MediaListItemRef } from "../lists/MediaList.js";

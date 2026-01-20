@@ -1,6 +1,6 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateEventBody } from "@liexp/shared/lib/io/http/Events/index.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateEventBody } from "@liexp/io/lib/http/Events/index.js";
+import * as io from "@liexp/io/lib/index.js";
 import * as React from "react";
 import {
   Button,

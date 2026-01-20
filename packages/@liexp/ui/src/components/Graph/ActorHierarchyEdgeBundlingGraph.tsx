@@ -1,4 +1,4 @@
-import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+import { StatsType } from "@liexp/io/lib/http/Stats.js";
 import * as React from "react";
 import {
   HierarchicalEdgeBundling,

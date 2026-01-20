@@ -1,9 +1,9 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type NetworkLink,
   type NetworkNode,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import { Actor } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { Actor } from "@liexp/io/lib/http/index.js";
 
 export type ActorNetworkNodeProps = NetworkNode<{
   id: UUID;

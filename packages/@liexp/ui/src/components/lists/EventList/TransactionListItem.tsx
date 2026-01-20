@@ -1,13 +1,10 @@
-import {
-  ByActorId,
-  ByGroupId,
-} from "@liexp/shared/lib/io/http/Common/index.js";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { ByActorId, ByGroupId } from "@liexp/io/lib/http/Common/index.js";
+import { TRANSACTION } from "@liexp/io/lib/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { ArrowRight as ArrowRightIcon } from "@mui/icons-material";

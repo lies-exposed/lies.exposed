@@ -1,4 +1,4 @@
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
+import { type ResourcesNames } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { useAuthProvider } from "ra-core";
 import * as React from "react";

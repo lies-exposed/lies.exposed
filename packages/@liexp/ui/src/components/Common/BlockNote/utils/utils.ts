@@ -5,7 +5,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 //   type BNEditorDocument,
 //   type BNESchemaEditor,
 // } from "@liexp/shared/lib/providers/blocknote/index.js";
-import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { schema } from "../EditorSchema.js";

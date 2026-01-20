@@ -1,9 +1,9 @@
-import { type GroupMember } from "@liexp/shared/lib/io/http/GroupMember.js";
+import { type GroupMember } from "@liexp/io/lib/http/GroupMember.js";
 import {
   type Actor,
   type Group,
   type Project,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
 import { BNEditor } from "./Common/BlockNote/index.js";

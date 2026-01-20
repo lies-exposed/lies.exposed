@@ -1,5 +1,5 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as React from "react";
 import {
   EventsSankeyGraph,
@@ -64,17 +64,19 @@ export const EventsNetwork: React.FC<EventsNetworkProps> = ({
             return {
               actors: acc.actors.concat(
                 actors
-                  .filter((a) => !acc.actors.some((aa) => aa === a.id))
+                  .filter((a) => !acc.actors.some((aa: UUID) => aa === a.id))
                   .map((a) => a.id),
               ),
               groups: acc.groups.concat(
                 groups
-                  .filter((a) => !acc.groups.some((aa) => aa === a.id))
+                  .filter((a) => !acc.groups.some((aa: UUID) => aa === a.id))
                   .map((a) => a.id),
               ),
               groupsMembers: acc.groupsMembers.concat(
                 groupsMembers
-                  .filter((a) => !acc.groupsMembers.some((aa) => aa === a.id))
+                  .filter(
+                    (a) => !acc.groupsMembers.some((aa: UUID) => aa === a.id),
+                  )
                   .map((a) => a.id),
               ),
             };

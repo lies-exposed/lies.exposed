@@ -1,5 +1,5 @@
+import { type Nation } from "@liexp/io/lib/http/Nation.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type Nation } from "@liexp/shared/lib/io/http/Nation.js";
 import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import { FlagIcon } from "../components/Common/Icons/FlagIcon.js";

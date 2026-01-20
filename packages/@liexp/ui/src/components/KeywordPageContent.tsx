@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { Grid, Typography } from "./mui/index.js";
 

@@ -2,14 +2,14 @@ import {
   nonEmptyArrayOr,
   type NonEmptyArray,
 } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type EventType,
   type SearchEvent,
-} from "@liexp/shared/lib/io/http/Events/index.js";
-import { type GetNetworkQuerySerialized } from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type FlowGraphType } from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
-import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
+import { type GetNetworkQuerySerialized } from "@liexp/io/lib/http/Network/Network.js";
+import { type FlowGraphType } from "@liexp/io/lib/http/graphs/FlowGraph.js";
+import { Actor, Group, Keyword } from "@liexp/io/lib/http/index.js";
 import { type Node } from "@xyflow/react";
 import * as React from "react";
 import { FullSizeLoader } from "../../components/Common/FullSizeLoader.js";

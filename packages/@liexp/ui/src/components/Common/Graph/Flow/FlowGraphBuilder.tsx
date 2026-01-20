@@ -1,5 +1,5 @@
-import { Group } from "@liexp/shared/lib/io/http/index.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { Group } from "@liexp/io/lib/http/index.js";
+import { http } from "@liexp/io/lib/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import {
   type Connection,

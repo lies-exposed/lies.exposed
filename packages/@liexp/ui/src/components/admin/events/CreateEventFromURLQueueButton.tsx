@@ -1,7 +1,7 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import type { Link } from "@liexp/shared/lib/io/http/Link.js";
-import type * as Queue from "@liexp/shared/lib/io/http/Queue/index.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import type { Link } from "@liexp/io/lib/http/Link.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
+import * as io from "@liexp/io/lib/index.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, MenuItem, Select, Stack, Typography } from "../../mui/index.js";

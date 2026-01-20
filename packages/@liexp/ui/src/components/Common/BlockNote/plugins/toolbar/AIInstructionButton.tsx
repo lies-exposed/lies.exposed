@@ -3,8 +3,8 @@ import {
   useComponentsContext,
   useSelectedBlocks,
 } from "@blocknote/react";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/ResourcesNames.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type ResourcesNames } from "@liexp/io/lib/http/ResourcesNames.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import * as React from "react";
 import { useAPIAgent } from "../../../../../hooks/useAPIAgent.js";

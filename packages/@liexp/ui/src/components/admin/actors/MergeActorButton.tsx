@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
 import * as React from "react";
 import {
   Button,

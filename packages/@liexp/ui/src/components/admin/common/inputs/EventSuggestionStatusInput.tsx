@@ -1,4 +1,4 @@
-import { EventSuggestionStatus } from "@liexp/shared/lib/io/http/EventSuggestion.js";
+import { EventSuggestionStatus } from "@liexp/io/lib/http/EventSuggestion.js";
 import * as React from "react";
 import { SelectInput, type SelectInputProps } from "react-admin";
 

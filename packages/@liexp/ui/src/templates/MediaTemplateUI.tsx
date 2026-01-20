@@ -1,5 +1,5 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { type Keyword, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { type Keyword, type Media } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import MediaElement from "../components/Media/MediaElement.js";

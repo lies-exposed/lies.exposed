@@ -1,13 +1,13 @@
 import {
   EventType,
   type SearchEvent,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import EventSliderModal from "../components/Modal/EventSliderModal.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";

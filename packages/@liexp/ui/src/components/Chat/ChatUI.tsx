@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
+import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import React, { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";

@@ -1,4 +1,4 @@
-import { type GroupMember } from "@liexp/shared/lib/io/http/index.js";
+import { type GroupMember } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import QueriesRenderer from "./QueriesRenderer.js";
 import { GroupsMembersList } from "./lists/GroupMemberList.js";

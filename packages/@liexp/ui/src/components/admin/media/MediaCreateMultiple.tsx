@@ -1,12 +1,12 @@
-import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   ImageType,
   MP3Type,
   MP4Type,
   OGGType,
   PDFType,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
+} from "@liexp/io/lib/http/Media/MediaType.js";
+import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";

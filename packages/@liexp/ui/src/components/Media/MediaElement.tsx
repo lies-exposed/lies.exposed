@@ -1,4 +1,4 @@
-import { Media } from "@liexp/shared/lib/io/http/index.js";
+import { Media } from "@liexp/io/lib/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";

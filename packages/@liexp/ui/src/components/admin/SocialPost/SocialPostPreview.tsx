@@ -1,7 +1,7 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { type SocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
+import { type SocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import {
   contentTypeFromFileExt,
   fileExtFromContentType,
