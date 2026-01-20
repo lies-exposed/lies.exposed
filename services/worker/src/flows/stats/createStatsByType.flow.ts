@@ -12,21 +12,18 @@ import {
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import {
+  EventType,
+  type SearchEvent,
+} from "@liexp/io/lib/http/Events/index.js";
+import { type GroupMember, type Media } from "@liexp/io/lib/http/index.js";
 import {
   getNewRelationIds,
   EventsMapper,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { type UUID } from "@liexp/io/lib/http/Common/index.js";
-import {
-  EventType,
-  type SearchEvent,
-} from "@liexp/io/lib/http/Events/index.js";
-import {
-  type GroupMember,
-  type Media,
-} from "@liexp/io/lib/http/index.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";

@@ -2,6 +2,7 @@
   ".": "0.1.9",
   "packages/@liexp/backend": "0.1.8",
   "packages/@liexp/core": "0.1.4",
+  "packages/@liexp/io": "0.2.0",
   "packages/@liexp/shared": "0.2.0",
   "packages/@liexp/test": "0.1.8",
   "packages/@liexp/ui": "0.2.0",

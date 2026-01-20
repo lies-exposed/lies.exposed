@@ -14,6 +14,7 @@ inputs:
     default: |-
       .github/workflows/*
       packages/@liexp/core/src/*
+      packages/@liexp/io/src/*
       packages/@liexp/shared/src/*
       packages/@liexp/ui/src/*
       services/web/*
