@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import {
   AutocompleteMediaInput,
   type AutocompleteMediaInputProps,

@@ -1,8 +1,8 @@
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   type EventType,
   EVENT_TYPES,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   EventPageContent,
   type EventPageContentProps,

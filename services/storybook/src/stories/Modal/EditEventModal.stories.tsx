@@ -1,9 +1,9 @@
-import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   EventSuggestionCreate,
   EventSuggestionEdit,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
+import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import EditEventButton from "@liexp/ui/lib/components/Common/Button/EditEventButton.js";
 import {
   EditEventModal,

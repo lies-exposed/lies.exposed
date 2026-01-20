@@ -1,4 +1,4 @@
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { type SearchEventsQueryInputNoPagination } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
 import {

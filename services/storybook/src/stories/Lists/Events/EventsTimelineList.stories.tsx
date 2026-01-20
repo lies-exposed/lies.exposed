@@ -1,4 +1,4 @@
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { subYears } from "@liexp/shared/lib/utils/date.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";

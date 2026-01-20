@@ -1,4 +1,4 @@
-import { Events } from "@liexp/shared/lib/io/http/index.js";
+import { Events } from "@liexp/io/lib/http/index.js";
 import {
   EventsSankeyGraph,
   type EventsSankeyGraphProps,

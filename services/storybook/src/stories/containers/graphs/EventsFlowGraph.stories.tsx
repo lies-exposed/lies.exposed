@@ -1,4 +1,4 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
 import { AutocompleteKeywordInput } from "@liexp/ui/lib/components/Input/AutocompleteKeywordInput.js";
