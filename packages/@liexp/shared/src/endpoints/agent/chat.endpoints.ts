@@ -1,12 +1,12 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
 import {
   ChatConversation,
   ChatRequest,
   ChatResponse,
   ChatStreamEvent,
-} from "../../io/http/Chat.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
+} from "@liexp/io/lib/http/Chat.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const SingleChatOutput = Output(ChatResponse).annotations({
   title: "ChatResponse",

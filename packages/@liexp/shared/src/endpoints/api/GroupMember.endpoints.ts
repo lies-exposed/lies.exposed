@@ -1,12 +1,12 @@
+import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { CreateGroupMember } from "@liexp/io/lib/http/GroupMember.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { nonEmptyRecordFromType } from "../../io/Common/NonEmptyRecord.js";
-import { BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { CreateGroupMember } from "../../io/http/GroupMember.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
-import * as http from "../../io/http/index.js";
 
 export const List = Endpoint({
   Method: "GET",

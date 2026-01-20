@@ -1,7 +1,7 @@
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
+import * as Stats from "@liexp/io/lib/http/Stats.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { GetListQuery } from "../../io/http/Query/index.js";
-import * as Stats from "../../io/http/Stats.js";
 
 export const List = Endpoint({
   Method: "GET",

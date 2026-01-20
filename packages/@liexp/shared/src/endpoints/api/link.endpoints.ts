@@ -1,7 +1,12 @@
+import {
+  ListOutput,
+  Output,
+  URL,
+  UUID,
+} from "@liexp/io/lib/http/Common/index.js";
+import * as Link from "@liexp/io/lib/http/Link.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ListOutput, Output, URL, UUID } from "../../io/http/Common/index.js";
-import * as Link from "../../io/http/Link.js";
 
 const OneLinkOutput = Output(Link.Link).annotations({
   title: "Link",

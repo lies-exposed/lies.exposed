@@ -1,13 +1,13 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../../io/http/Common/Output.js";
-import { UUID } from "../../../io/http/Common/index.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   CreateScientificStudyBody,
   ScientificStudy,
-} from "../../../io/http/Events/ScientificStudy.js";
-import { GetSearchEventsQuery } from "../../../io/http/Events/SearchEvents/SearchEventsQuery.js";
+} from "@liexp/io/lib/http/Events/ScientificStudy.js";
+import { GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const SingleStudyOutput = Output(ScientificStudy).annotations({
   title: "ScientificStudy",

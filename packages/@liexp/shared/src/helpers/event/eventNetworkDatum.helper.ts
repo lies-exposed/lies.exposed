@@ -1,5 +1,5 @@
-import { type EventNetworkDatum } from "../../io/http/Network/Network.js";
-import { type Events } from "../../io/http/index.js";
+import { type EventNetworkDatum } from "@liexp/io/lib/http/Network/Network.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { SearchEventHelper } from "./searchEvent.helper.js";
 
 export const toEventNetworkDatum = (

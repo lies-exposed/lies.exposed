@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { toAPIError } from "@liexp/io/lib/http/Error/APIError.js";
 import { assertType, describe, expectTypeOf, it } from "vitest";
 import { Endpoints } from "../../endpoints/api/index.js";
-import { toAPIError } from "../../io/http/Error/APIError.js";
 import { toTERequest } from "./api.provider.js";
 
 describe("ApiProvider", () => {

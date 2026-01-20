@@ -1,5 +1,5 @@
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { describe, expect, test } from "vitest";
-import { type EventTotals } from "../../../io/http/Events/EventTotals.js";
 import { EventTotalsHelper } from "../event-totals.helper.js";
 
 describe("EventTotalsHelper", () => {

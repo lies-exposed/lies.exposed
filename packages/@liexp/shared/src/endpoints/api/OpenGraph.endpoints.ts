@@ -1,10 +1,10 @@
+import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { URL } from "@liexp/io/lib/http/Common/index.js";
+import { Link } from "@liexp/io/lib/http/Link.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { nonEmptyRecordFromType } from "../../io/Common/NonEmptyRecord.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { URL } from "../../io/http/Common/index.js";
-import { Link } from "../../io/http/Link.js";
-import * as Media from "../../io/http/Media/index.js";
 
 const SingleMediaOutput = Output(Media.Media).annotations({
   title: "SingleMediaMedia",

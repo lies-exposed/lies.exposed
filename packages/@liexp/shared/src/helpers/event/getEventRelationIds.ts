@@ -1,7 +1,7 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
-import { type Events } from "../../io/http/index.js";
 
 export const getRelationIds = (e: Events.Event): Events.EventRelationIds => {
   const commonIds = {

@@ -1,9 +1,9 @@
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { CreateMedia, EditMediaBody } from "@liexp/io/lib/http/Media/index.js";
+import { Media } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { CreateMedia, EditMediaBody } from "../../io/http/Media/index.js";
-import { Media } from "../../io/http/index.js";
 
 const SingleMediaOutput = Output(Media.Media).annotations({
   title: "Media",

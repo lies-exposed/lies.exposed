@@ -1,14 +1,14 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
+import { Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
 import {
   EditUserBody,
   ListUserQuery,
   SignUpUserBody,
   User,
-} from "../../io/http/User.js";
+} from "@liexp/io/lib/http/User.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const OutputUser = Output(User).annotations({ title: "User" });
 

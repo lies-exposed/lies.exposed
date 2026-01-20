@@ -1,7 +1,7 @@
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { Schema } from "effect";
 import { describe, expect, test } from "vitest";
 import type { z } from "zod/v3";
-import { BlockNoteDocument } from "../io/http/Common/BlockNoteDocument.js";
 import { effectToZod, effectToZodStruct } from "./schema.utils.js";
 
 describe("effectToZod", () => {

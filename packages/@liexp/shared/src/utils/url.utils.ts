@@ -1,8 +1,8 @@
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { Schema } from "effect/index";
 import * as R from "fp-ts/lib/Record.js";
 import { pipe } from "fp-ts/lib/function.js";
 import qs from "query-string";
-import { URL } from "../io/http/Common/URL.js";
 
 export const sanitizeURL = (url: URL): URL => {
   const [cleanURL, query] = url.split("?");

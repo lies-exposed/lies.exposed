@@ -1,11 +1,11 @@
+import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import { Actor } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { nonEmptyRecordFromType } from "../../io/Common/NonEmptyRecord.js";
-import { BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/index.js";
-import { Actor } from "../../io/http/index.js";
 
 export const SingleActorOutput = Output(Actor.Actor).annotations({
   identifier: "SingleActorOutput",

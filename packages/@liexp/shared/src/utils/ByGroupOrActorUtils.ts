@@ -1,4 +1,4 @@
-// import { Common } from "../io/http";
+// import { Common } from "@liexp/io/lib/http";
 // import * as A from "fp-ts/lib/Array.js";
 // import { pipe } from "fp-ts/lib/function.js";
 

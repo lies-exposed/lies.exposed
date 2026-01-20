@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EventRelationIds } from "@liexp/io/lib/http/Events/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
-import { type UUID } from "../../io/http/Common/UUID.js";
-import { type EventRelationIds } from "../../io/http/Events/index.js";
 import { isValidValue } from "./isValidValue.js";
 import { type BNESchemaEditor, type BNBlock } from "./type.js";
 

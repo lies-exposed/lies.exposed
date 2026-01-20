@@ -1,20 +1,20 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
+import { Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   MediaImageLayer,
   TextLayer,
   WatermarkLayer,
-} from "../../io/http/admin/BuildImage.js";
+} from "@liexp/io/lib/http/admin/BuildImage.js";
 import {
   ExtractEntitiesWithNLPInput,
   ExtractEntitiesWithNLPOutput,
-} from "../../io/http/admin/ExtractNLPEntities.js";
+} from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import {
   AdminMediaStats,
   AdminMediaStatsTotals,
-} from "../../io/http/admin/stats/AdminMediaStats.js";
+} from "@liexp/io/lib/http/admin/stats/AdminMediaStats.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 export const List = Endpoint({
   Method: "GET",

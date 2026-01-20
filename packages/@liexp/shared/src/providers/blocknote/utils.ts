@@ -1,8 +1,11 @@
+import {
+  BlockNoteDocument,
+  type BlockNoteBlock,
+} from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
-import { uuid } from "../../io/http/Common/UUID.js";
 import { type BNBlock } from "./type.js";
 
 const toContent = (v: string) => ({
@@ -31,7 +34,7 @@ const toInitialValueS = (value: string): BlockNoteDocument => {
   const splits = value.split("\n") as NEA.NonEmptyArray<string>;
   return pipe(
     splits,
-    NEA.map((v): BNBlock => toParagraph(v)),
+    NEA.map((v): BlockNoteBlock => toParagraph(v)),
   ) as unknown as BlockNoteDocument;
 };
 

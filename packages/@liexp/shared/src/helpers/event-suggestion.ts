@@ -1,9 +1,9 @@
+import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { http } from "@liexp/io/lib/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type Metadata } from "page-metadata-parser";
-import { type UUID, uuid } from "../io/http/Common/UUID.js";
-import { EVENT_TYPES } from "../io/http/Events/EventType.js";
-import { http } from "../io/index.js";
 
 export const getSuggestions =
   (createExcerptValue: (b: string) => Promise<any>) =>

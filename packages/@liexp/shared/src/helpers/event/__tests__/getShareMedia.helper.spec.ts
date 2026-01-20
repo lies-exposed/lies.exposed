@@ -1,6 +1,6 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { describe, expect, it } from "vitest";
-import { type UUID } from "../../../io/http/Common/UUID.js";
-import { type Media } from "../../../io/http/index.js";
 import {
   getShareMultipleMedia,
   getShareMedia,

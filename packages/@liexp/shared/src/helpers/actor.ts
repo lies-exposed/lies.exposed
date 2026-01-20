@@ -1,6 +1,10 @@
+import {
+  type Actor,
+  type Common,
+  type Group,
+} from "@liexp/io/lib/http/index.js";
 import * as S from "fp-ts/lib/string.js";
 import kebabCase from "lodash/kebabCase.js";
-import { type Actor, type Common, type Group } from "../io/http/index.js";
 
 export const getActors =
   (allActors: Actor.Actor[]) =>

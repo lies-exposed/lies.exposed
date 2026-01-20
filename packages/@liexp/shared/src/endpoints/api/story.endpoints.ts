@@ -1,11 +1,11 @@
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
+import { Story } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
-import { Story } from "../../io/http/index.js";
 
 const StoryOutput = Output(Story.Story).annotations({ title: "StoryOutput" });
 const GetListStoryQuery = Schema.Struct({

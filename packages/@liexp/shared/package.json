@@ -31,14 +31,14 @@
     "@blocknote/server-util": "^0.46.1",
     "@floating-ui/dom": "^1.7.4",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz",
     "date-fns": "^4.1.0",
     "lodash": "^4.17.21",
     "page-metadata-parser": "^1.1.4",
-    "query-string": "^9.1.1",
-    "uuid": "^11.1.0"
+    "query-string": "^9.1.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.23",

@@ -1,6 +1,6 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { describe, expect, it } from "vitest";
-import { type UUID } from "../../../io/http/Common/UUID.js";
-import { EVENT_TYPES } from "../../../io/http/Events/EventType.js";
 import { replaceActorInEventPayload } from "../replaceActorInEventPayload.js";
 
 const createUUID = (id: string): UUID => id as UUID;

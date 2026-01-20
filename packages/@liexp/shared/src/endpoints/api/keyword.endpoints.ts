@@ -1,7 +1,7 @@
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import * as Keyword from "@liexp/io/lib/http/Keyword.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { UUID } from "../../io/http/Common/index.js";
-import * as Keyword from "../../io/http/Keyword.js";
 
 export const List = Endpoint({
   Method: "GET",

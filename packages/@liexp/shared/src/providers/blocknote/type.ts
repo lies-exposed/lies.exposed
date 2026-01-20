@@ -9,13 +9,13 @@ import {
   type InlineContentSpec,
   type StyleSchemaFromSpecs,
 } from "@blocknote/core";
-import { type EventBlockSpecs } from "./EventBlock.specs";
-import { type MediaBlockSpecs } from "./MediaBlock.specs";
-import { type actorInlineSpec } from "./actorInline.specs";
-import { type AreaInlineSpec } from "./areaInline.specs";
-import { type GroupInlineSpec } from "./groupInline.specs";
-import { type KeywordInlineSpec } from "./keywordInline.specs";
-import { type RelationInlineSpec } from "./relationInline.specs";
+import { type EventBlockSpecs } from "./EventBlock.specs.js";
+import { type MediaBlockSpecs } from "./MediaBlock.specs.js";
+import { type actorInlineSpec } from "./actorInline.specs.js";
+import { type AreaInlineSpec } from "./areaInline.specs.js";
+import { type GroupInlineSpec } from "./groupInline.specs.js";
+import { type KeywordInlineSpec } from "./keywordInline.specs.js";
+import { type RelationInlineSpec } from "./relationInline.specs.js";
 
 export type RealBlockNoteSchema = BlockNoteSchema<
   BlockSchemaFromSpecs<

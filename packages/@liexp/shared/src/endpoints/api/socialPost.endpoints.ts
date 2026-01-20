@@ -1,15 +1,15 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/index.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   CreateSocialPost,
   EditSocialPost,
   GetListSocialPostQuery,
   SocialPost,
   SocialPostResourceType,
-} from "../../io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 export const SingleSocialPostOutput = Output(SocialPost).annotations({
   title: "SocialPost",
