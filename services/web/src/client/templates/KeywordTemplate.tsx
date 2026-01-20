@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import { KeywordTemplate } from "@liexp/ui/lib/templates/KeywordTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import * as React from "react";

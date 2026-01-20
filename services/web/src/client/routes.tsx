@@ -1,9 +1,9 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { DOCUMENTARY } from "@liexp/io/lib/http/Events/EventType.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { StatsType } from "@liexp/io/lib/http/Stats.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { StatsType } from "@liexp/shared/lib/io/http/Stats.js";
 import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import {

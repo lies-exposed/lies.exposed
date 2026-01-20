@@ -1,6 +1,6 @@
+import { BOOK } from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchBookEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchBookEvent.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent.js";
 import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
 import { CellRenderer } from "@liexp/ui/lib/containers/list/InfiniteListBox/CellRenderer.js";
 import { InfiniteListBox } from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteListBox.js";

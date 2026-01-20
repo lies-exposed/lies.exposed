@@ -1,4 +1,4 @@
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { BOOK } from "@liexp/io/lib/http/Events/EventType.js";
 import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";

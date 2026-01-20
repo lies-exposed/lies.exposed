@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import { GroupTemplate } from "@liexp/ui/lib/templates/GroupTemplate.js";
 import { useRouteQuery } from "@liexp/ui/lib/utils/history.utils.js";
