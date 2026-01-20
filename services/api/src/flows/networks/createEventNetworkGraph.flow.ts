@@ -12,6 +12,27 @@ import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/sear
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import {
+  EventTotalsMonoid,
+  type EventTotals,
+} from "@liexp/io/lib/http/Events/EventTotals.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import {
+  type EventNetworkDatum,
+  type NetworkGraphOutput,
+  type NetworkGroupBy,
+  type NetworkLink,
+} from "@liexp/io/lib/http/Network/Network.js";
+import {
+  type Actor,
+  type Group,
+  type Keyword,
+  type Media,
+} from "@liexp/io/lib/http/index.js";
 import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import {
@@ -21,27 +42,6 @@ import {
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
 import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import {
-  EventTotalsMonoid,
-  type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import {
-  type EventNetworkDatum,
-  type NetworkGraphOutput,
-  type NetworkGroupBy,
-  type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import {
-  type Actor,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/shared/lib/io/http/index.js";
 import * as O from "effect/Option";
 import { type Monoid } from "fp-ts/Monoid";
 import { sequenceS } from "fp-ts/lib/Apply.js";

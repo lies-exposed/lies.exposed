@@ -1,12 +1,12 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type OnLoginErrorFn } from "@liexp/backend/lib/providers/ig/ig.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/index.js";
 import {
   SocialPostPhoto,
   type CreateSocialPost,
   type SocialPostContentMedia,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type MediaRepositoryConfigureResponseRootObject } from "instagram-private-api";

@@ -1,5 +1,5 @@
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
 import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";

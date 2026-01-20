@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type GetListLinkQuery } from "@liexp/shared/lib/io/http/Link.js";
+import { type GetListLinkQuery } from "@liexp/io/lib/http/Link.js";
 import { type Schema } from "effect";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

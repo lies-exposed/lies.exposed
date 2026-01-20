@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import * as Query from "@liexp/shared/lib/io/http/Query/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Query from "@liexp/io/lib/http/Query/index.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";
 import { contramap } from "fp-ts/lib/Ord.js";

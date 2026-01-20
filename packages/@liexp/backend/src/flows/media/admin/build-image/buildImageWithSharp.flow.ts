@@ -5,7 +5,7 @@ import {
   type MediaImageLayer,
   type TextLayer,
   type WatermarkLayer,
-} from "@liexp/shared/lib/io/http/admin/BuildImage.js";
+} from "@liexp/io/lib/http/admin/BuildImage.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import {

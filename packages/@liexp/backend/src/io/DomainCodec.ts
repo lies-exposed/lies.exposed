@@ -2,7 +2,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
 import { type Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";

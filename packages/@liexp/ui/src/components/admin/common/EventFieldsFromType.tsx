@@ -1,5 +1,5 @@
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
 import { Stack } from "../../mui/index.js";

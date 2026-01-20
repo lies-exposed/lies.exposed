@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { type Area } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { AutoSizer } from "react-virtualized";
 import { AutocompleteAreaInput } from "../components/Input/AutocompleteAreaInput.js";

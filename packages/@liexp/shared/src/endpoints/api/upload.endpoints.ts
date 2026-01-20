@@ -1,8 +1,8 @@
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { ValidContentType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { Endpoint } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ACTORS } from "../../io/http/Actor.js";
-import { GROUPS } from "../../io/http/Group.js";
-import { ValidContentType } from "../../io/http/Media/MediaType.js";
 
 export const UploadResource = Schema.Union(
   ACTORS,

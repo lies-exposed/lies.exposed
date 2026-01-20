@@ -3,7 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { makeRateLimiter } from "@liexp/backend/lib/express/middleware/rateLimit.factory.js";
 import { generateCorrelationId } from "@liexp/backend/lib/utils/correlation.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import {
   type NextFunction,
   type Request,

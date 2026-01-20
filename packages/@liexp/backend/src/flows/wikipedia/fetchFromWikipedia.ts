@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type WikipediaProvider } from "../../providers/wikipedia/wikipedia.provider.js";
 

@@ -7,9 +7,9 @@ import {
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { replaceActorInEventPayload } from "@liexp/shared/lib/helpers/event/replaceActorInEventPayload.js";
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { Equal, In } from "typeorm";

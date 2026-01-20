@@ -1,11 +1,8 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { PendingStatus, type Queue } from "@liexp/io/lib/http/Queue/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import {
-  PendingStatus,
-  type Queue,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toQueueIO } from "./queue.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

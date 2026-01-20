@@ -1,4 +1,4 @@
-import { type MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type MediaType } from "@liexp/io/lib/http/Media/index.js";
 import get from "lodash/get";
 import * as React from "react";
 import { Box, Stack } from "../../../mui/index.js";

@@ -11,7 +11,7 @@ import {
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";

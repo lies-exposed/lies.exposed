@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/ResourcesNames.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import { type ResourcesNames } from "@liexp/io/lib/http/ResourcesNames.js";
 import * as React from "react";
 import type { BNEditorProps } from "./Editor.js";
 

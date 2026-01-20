@@ -1,7 +1,7 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EffectDecoder } from "@liexp/shared/lib/endpoints/helpers.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
 import { QueryProviderCustomQueries } from "@liexp/shared/lib/providers/EndpointQueriesProvider/overrides.js";
 import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import {

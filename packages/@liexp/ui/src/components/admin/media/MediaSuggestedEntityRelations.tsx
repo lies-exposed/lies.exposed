@@ -1,6 +1,6 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { ImageType, PDFType } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { ImageType, PDFType } from "@liexp/io/lib/http/Media/index.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { useNLPExtraction } from "../../../hooks/useNLPExtraction.js";

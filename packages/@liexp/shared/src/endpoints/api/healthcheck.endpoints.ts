@@ -1,6 +1,6 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { UUID } from "../../io/http/Common/UUID.js";
 
 export const ListHealthcheck = Endpoint({
   Method: "GET",

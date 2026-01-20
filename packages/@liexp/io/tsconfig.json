@@ -1,0 +1,27 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-jsx",
+    "target": "ES6",
+    "module": "ESNext",
+    "noEmit": false,
+    "composite": true,
+    "incremental": true,
+    "declaration": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "rootDir": "./",
+    "tsBuildInfoFile": "lib/.tsbuildinfo"
+  },
+  "references": [
+    {
+      "path": "../core"
+    }
+  ],
+  "include": ["./src", "./typings", "./src/**/*.json", "./test"],
+  "exclude": ["node_modules", "lib"]
+}

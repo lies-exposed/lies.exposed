@@ -5,7 +5,7 @@ import {
 } from "@langchain/openai";
 import { ChatXAI, type ChatXAIInput } from "@langchain/xai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+import { type PromptFn } from "@liexp/io/lib/openai/prompts/prompt.type.js";
 import { Schema } from "effect/index";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";

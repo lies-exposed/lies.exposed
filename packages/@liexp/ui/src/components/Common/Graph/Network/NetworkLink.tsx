@@ -1,4 +1,4 @@
-import { type NetworkNodeDatum } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { type NetworkNodeDatum } from "@liexp/io/lib/http/Network/Network.js";
 import { type Link } from "@visx/network/lib/types.js";
 import { LinkVertical } from "@visx/shape";
 import * as React from "react";

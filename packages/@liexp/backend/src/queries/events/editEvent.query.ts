@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import type * as http from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";

@@ -1,11 +1,11 @@
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   AdminRead,
   MCPToolsAccess,
   type AuthPermission,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import * as IO from "fp-ts/lib/IO.js";
 import { pipe } from "fp-ts/lib/function.js";
 

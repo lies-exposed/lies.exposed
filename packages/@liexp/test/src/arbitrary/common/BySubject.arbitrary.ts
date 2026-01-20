@@ -1,4 +1,4 @@
-import { BySubjectId } from "@liexp/shared/lib/io/http/Common/BySubject.js";
+import { BySubjectId } from "@liexp/io/lib/http/Common/BySubject.js";
 import { Arbitrary } from "effect";
 import type * as fc from "fast-check";
 

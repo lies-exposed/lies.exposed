@@ -1,7 +1,7 @@
+import { type Media } from "@liexp/io/lib/http/Media/Media.js";
+import * as io from "@liexp/io/lib/index.js";
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
-import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import * as io from "@liexp/shared/lib/io/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { useRecordContext } from "ra-core";
 import * as React from "react";

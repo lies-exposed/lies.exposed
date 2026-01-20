@@ -1,13 +1,13 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import {
   EventTotalsMonoid,
   type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type NetworkGroupBy } from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+} from "@liexp/io/lib/http/Events/EventTotals.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import { type NetworkGroupBy } from "@liexp/io/lib/http/Network/Network.js";
+import { type StatsType } from "@liexp/io/lib/http/Stats.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { ParentSize } from "@visx/responsive";
 import * as React from "react";

@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID, type URL } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type UUID, type URL } from "@liexp/io/lib/http/Common/index.js";
+import { type EventType } from "@liexp/io/lib/http/Events/EventType.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

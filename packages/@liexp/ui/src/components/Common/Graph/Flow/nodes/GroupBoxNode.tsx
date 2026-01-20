@@ -1,4 +1,4 @@
-import { type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Group } from "@liexp/io/lib/http/index.js";
 import {
   Handle,
   type Node,

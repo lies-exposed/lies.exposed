@@ -8,8 +8,8 @@ import {
   MediaExtraMonoid,
   type ThumbnailsExtra,
   ThumbnailsExtraMonoid,
-} from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+} from "@liexp/io/lib/http/Media/MediaExtra.js";
+import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
 import * as O from "effect/Option";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type RTE } from "../types.js";

@@ -4,8 +4,8 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { EventSuggestionRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { EventSuggestionRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";

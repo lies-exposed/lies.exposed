@@ -1,7 +1,7 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helper.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";

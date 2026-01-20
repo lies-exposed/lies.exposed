@@ -7,8 +7,8 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import * as passwordUtils from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UserStatusApproved } from "@liexp/io/lib/http/User.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {
   toControllerError,

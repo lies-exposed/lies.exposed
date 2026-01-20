@@ -1,7 +1,4 @@
-import {
-  AudioType,
-  PDFType,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { AudioType, PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
 import { Grid, Stack } from "../../../mui/index.js";

@@ -1,8 +1,8 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
+import { type ExtractEntitiesWithNLPOutput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { type ExtractEntitiesWithNLPOutput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import * as React from "react";
 import {

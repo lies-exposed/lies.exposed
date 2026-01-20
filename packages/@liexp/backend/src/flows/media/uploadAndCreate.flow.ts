@@ -1,11 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   IframeVideoType,
   type MediaType,
-} from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Media/index.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

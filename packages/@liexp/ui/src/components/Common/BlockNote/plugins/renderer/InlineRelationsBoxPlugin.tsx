@@ -1,10 +1,10 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import { type InlineRelations } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import * as React from "react";
 import ActorsBox from "../../../../../containers/ActorsBox.js";

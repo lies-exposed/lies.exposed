@@ -1,8 +1,8 @@
-import { type Forecast } from "@liexp/shared/lib/io/http/climate-change/Forecast.js";
+import { type Forecast } from "@liexp/io/lib/http/climate-change/Forecast.js";
 import {
   ClimateChangeForecast,
   ClimateChangeHistoryOfSummits,
-} from "@liexp/shared/lib/io/http/graphs/Graph.js";
+} from "@liexp/io/lib/http/graphs/Graph.js";
 import { numTicksForWidth } from "@liexp/shared/lib/utils/graph.utils.js";
 import { AxisBottom } from "@visx/axis";
 import { curveBasis, curveBasisOpen } from "@visx/curve";

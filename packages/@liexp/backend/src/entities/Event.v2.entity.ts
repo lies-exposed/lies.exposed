@@ -1,11 +1,11 @@
-import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   type SCIENTIFIC_STUDY,
   UNCATEGORIZED,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type ScientificStudyPayload } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type ScientificStudyPayload } from "@liexp/io/lib/http/Events/ScientificStudy.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import {
   Column,
   Entity,

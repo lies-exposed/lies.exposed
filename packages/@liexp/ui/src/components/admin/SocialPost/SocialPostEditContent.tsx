@@ -1,4 +1,4 @@
-import type * as SocialPost from "@liexp/shared/lib/io/http/SocialPost.js";
+import type * as SocialPost from "@liexp/io/lib/http/SocialPost.js";
 import * as React from "react";
 import { Grid, Stack } from "../../mui/index.js";
 import { emptySharePayload } from "../Modal/ShareModal.js";

@@ -1,19 +1,23 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { format, subWeeks } from "date-fns";
-import { Match } from "effect";
-import { sequenceS } from "fp-ts/lib/Apply.js";
-import { type Monoid } from "fp-ts/lib/Monoid.js";
-import type * as O from "fp-ts/lib/Option.js";
-import { uuid, type UUID } from "../../io/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   DEATH,
   EVENT_TYPES,
   PATENT,
   TRANSACTION,
-} from "../../io/http/Events/EventType.js";
-import { type EventRelationIds } from "../../io/http/Events/index.js";
-import { type Common, type Events, type Network } from "../../io/http/index.js";
-import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type EventRelationIds } from "@liexp/io/lib/http/Events/index.js";
+import {
+  type Common,
+  type Events,
+  type Network,
+} from "@liexp/io/lib/http/index.js";
+import { makeBySubjectId } from "@liexp/io/lib/utils/BySubjectUtils.js";
+import { format, subWeeks } from "date-fns";
+import { Match } from "effect";
+import { sequenceS } from "fp-ts/lib/Apply.js";
+import { type Monoid } from "fp-ts/lib/Monoid.js";
+import type * as O from "fp-ts/lib/Option.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
 const { Ord, Eq, S, N } = fp;

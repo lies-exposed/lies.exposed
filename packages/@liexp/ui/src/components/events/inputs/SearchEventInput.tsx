@@ -2,7 +2,7 @@ import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
 import { type SearchEventsQueryInputNoPagination } from "../../../state/queries/SearchEventsQuery.js";

@@ -1,4 +1,4 @@
-import { ExtractEntitiesWithNLPInput } from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+import { ExtractEntitiesWithNLPInput } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

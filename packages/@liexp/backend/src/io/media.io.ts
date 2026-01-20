@@ -1,12 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { MediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
-import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { MediaExtraMonoid } from "@liexp/io/lib/http/Media/MediaExtra.js";
+import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
+import * as io from "@liexp/io/lib/index.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

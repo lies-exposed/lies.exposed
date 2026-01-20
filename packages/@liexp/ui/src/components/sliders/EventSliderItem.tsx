@@ -1,8 +1,8 @@
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import type * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDateToShort } from "@liexp/shared/lib/utils/date.utils.js";

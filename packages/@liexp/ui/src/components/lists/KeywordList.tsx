@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { ExpandableList } from "../Common/ExpandableList.js";
 import { List, type ListItemProps } from "../Common/List.js";

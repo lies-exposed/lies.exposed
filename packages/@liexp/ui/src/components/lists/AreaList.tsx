@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/lib/io/http/index.js";
+import type * as io from "@liexp/io/lib/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";

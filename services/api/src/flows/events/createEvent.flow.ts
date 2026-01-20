@@ -5,7 +5,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type CreateEventPlainBody,
   type Event,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";
 

@@ -1,4 +1,4 @@
-import type * as io from "@liexp/shared/lib/io/http/index.js";
+import type * as io from "@liexp/io/lib/http/index.js";
 import { Masonry } from "@mui/lab";
 import { clsx } from "clsx";
 import * as React from "react";

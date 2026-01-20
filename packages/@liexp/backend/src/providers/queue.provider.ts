@@ -1,7 +1,7 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Queue } from "@liexp/io/lib/http/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type FSError, type FSClient } from "./fs/fs.provider.js";
 

@@ -1,4 +1,4 @@
-import { type Keyword, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword, type Media } from "@liexp/io/lib/http/index.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import * as React from "react";
 import { useRecordContext } from "react-admin";

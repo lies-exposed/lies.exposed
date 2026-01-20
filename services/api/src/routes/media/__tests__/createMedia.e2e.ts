@@ -10,7 +10,7 @@ import {
   IframeVideoType,
   ImageType,
   MP4Type,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
+} from "@liexp/io/lib/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

@@ -1,7 +1,7 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type CreateEventFromTextTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
+import { type CreateEventFromTextTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { getEventFromJsonPrompt } from "../prompts.js";

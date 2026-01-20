@@ -1,14 +1,14 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
-import { GetNetworkQuery } from "../../io/http/Network/Network.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { GetNetworkQuery } from "@liexp/io/lib/http/Network/Network.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
 import {
   FlowGraphOutput,
   GetFlowGraphParams,
-} from "../../io/http/graphs/FlowGraph.js";
-import { CreateGraphData, Graph } from "../../io/http/graphs/Graph.js";
+} from "@liexp/io/lib/http/graphs/FlowGraph.js";
+import { CreateGraphData, Graph } from "@liexp/io/lib/http/graphs/Graph.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const SingleGraphOutput = Output(Graph).annotations({
   title: "Graph",

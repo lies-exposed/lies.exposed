@@ -1,10 +1,10 @@
-import { OpenAICreateEventFromTextType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromTextQueueData.js";
-import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
-import { OpenAIUpdateEventQueueType } from "@liexp/shared/lib/io/http/Queue/event/UpdateEventQueue.js";
+import { OpenAICreateEventFromTextType } from "@liexp/io/lib/http/Queue/event/CreateEventFromTextQueueData.js";
+import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
+import { OpenAIUpdateEventQueueType } from "@liexp/io/lib/http/Queue/event/UpdateEventQueue.js";
 import {
   OpenAIEmbeddingQueueType,
   OpenAISummarizeQueueType,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
+} from "@liexp/io/lib/http/Queue/index.js";
 import { embedAndQuestionFlow } from "./embedAndQuestion.js";
 import { createEventFromTextFlow } from "./event/createEventFromText.flow.js";
 import { createEventFromURLFlow } from "./event/createEventFromURL.flow.js";

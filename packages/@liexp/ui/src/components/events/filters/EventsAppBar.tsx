@@ -1,16 +1,16 @@
-import { EventTotalsHelper } from "@liexp/shared/lib/helpers/event/event-totals.helper.js";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import {
   type EventType,
   type SearchEvent,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { EventTotalsHelper } from "@liexp/shared/lib/helpers/event/event-totals.helper.js";
 import { parseISO, subYears } from "date-fns";
 import * as React from "react";
 import { usePopover } from "../../../hooks/usePopover.js";

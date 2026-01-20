@@ -1,13 +1,13 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
 import {
   Area,
   CreateAreaBody,
   EditAreaBody,
   ListAreaQuery,
-} from "../../io/http/Area.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/index.js";
+} from "@liexp/io/lib/http/Area.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const SingleAreaOutput = Output(Area).annotations({
   title: "Area",

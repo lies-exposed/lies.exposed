@@ -1,4 +1,4 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { ImageType } from "@liexp/io/lib/http/Media/index.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

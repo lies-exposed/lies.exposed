@@ -1,4 +1,4 @@
-import { Tag } from "@liexp/shared/lib/io/http/Common/Tag.js";
+import { Tag } from "@liexp/io/lib/http/Common/Tag.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb } from "./Date.arbitrary.js";

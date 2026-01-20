@@ -1,5 +1,5 @@
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
 import { getTextContentsCapped } from "@liexp/shared/lib/providers/blocknote/getTextContentsCapped.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";

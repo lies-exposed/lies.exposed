@@ -1,14 +1,14 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import * as React from "react";

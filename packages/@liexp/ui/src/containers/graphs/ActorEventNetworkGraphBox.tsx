@@ -1,5 +1,5 @@
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
 import { type EndpointQueryType } from "@ts-endpoint/core";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";

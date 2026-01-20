@@ -1,11 +1,11 @@
-import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
   type GetNetworkQuerySerialized,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { type Actor, type Group } from "@liexp/io/lib/http/index.js";
+import { toGetNetworkQuery } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { subYears } from "date-fns";
 import * as React from "react";
 import { EventsNetworkGraphBox } from "../../../../containers/graphs/EventsNetworkGraphBox/EventsNetworkGraphBox.js";

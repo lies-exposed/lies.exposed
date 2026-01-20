@@ -2,7 +2,7 @@ import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import {
   type FilterQuery,
   type GetListQuery,
-} from "@liexp/shared/lib/io/http/Query/index.js";
+} from "@liexp/io/lib/http/Query/index.js";
 import * as O from "effect/Option";
 import { Like } from "typeorm";
 import { describe, test, expect } from "vitest";

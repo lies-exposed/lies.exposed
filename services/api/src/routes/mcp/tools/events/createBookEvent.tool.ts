@@ -1,8 +1,8 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateBookBody } from "@liexp/shared/lib/io/http/Events/Book.js";
-import { BOOK } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateBookBody } from "@liexp/io/lib/http/Events/Book.js";
+import { BOOK } from "@liexp/io/lib/http/Events/EventType.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";

@@ -2,7 +2,7 @@ import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type CreateMedia } from "@liexp/io/lib/http/Media/Media.js";
 import { createMediaFromURLFlow } from "./createMediaFromURL.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
 

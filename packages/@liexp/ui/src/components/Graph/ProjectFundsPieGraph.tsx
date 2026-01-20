@@ -1,5 +1,5 @@
 // import { PieChartGraph } from "@components/Common/Graph/PieChartGraph";
-// import { Events } from "@liexp/shared/lib/io/http";
+// import { Events } from "@liexp/io/lib/http";
 // import ParentSize from "@visx/responsive/lib/components/ParentSize";
 // import * as Array from "fp-ts/lib/Array.js";
 // import { eqString } from "fp-ts/lib/Eq.js";

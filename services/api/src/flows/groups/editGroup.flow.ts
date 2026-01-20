@@ -4,11 +4,8 @@ import { type GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { GroupRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/index.js";
-import {
-  type EditGroupBody,
-  type Group,
-} from "@liexp/shared/lib/io/http/Group.js";
+import { uuid } from "@liexp/io/lib/http/Common/index.js";
+import { type EditGroupBody, type Group } from "@liexp/io/lib/http/Group.js";
 import * as O from "effect/Option";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";

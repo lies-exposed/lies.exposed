@@ -1,9 +1,9 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { BySubjectId } from "@liexp/shared/lib/io/http/Common/BySubject.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { QUOTE } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type CreateQuoteBody } from "@liexp/shared/lib/io/http/Events/Quote.js";
+import { BySubjectId } from "@liexp/io/lib/http/Common/BySubject.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { QUOTE } from "@liexp/io/lib/http/Events/EventType.js";
+import { type CreateQuoteBody } from "@liexp/io/lib/http/Events/Quote.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";

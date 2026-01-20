@@ -1,6 +1,6 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";

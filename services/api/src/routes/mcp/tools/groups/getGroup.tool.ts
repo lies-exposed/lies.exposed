@@ -1,7 +1,7 @@
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { GroupRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

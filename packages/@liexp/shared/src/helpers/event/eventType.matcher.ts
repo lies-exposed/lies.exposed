@@ -1,4 +1,4 @@
+import { EventType } from "@liexp/io/lib/http/Events";
 import * as Match from "effect/Match";
-import { EventType } from "../../io/http/Events";
 
 export const EventTypeMatch = Match.value(EventType);

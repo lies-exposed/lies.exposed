@@ -1,7 +1,7 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";

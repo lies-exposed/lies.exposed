@@ -1,4 +1,4 @@
-import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type Area, type Media } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import MediaSliderBox from "../../containers/MediaSliderBox.js";
 import { paginationToParams } from "../../utils/params.utils.js";

@@ -52,6 +52,7 @@
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@tanstack/react-query": "^5.90.2",

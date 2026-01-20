@@ -22,7 +22,7 @@ jobs:
       needs-install: ${{ steps.filter.outputs.needs-install }}
     steps:
       - uses: actions/checkout@v6
-      
+
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -34,24 +34,28 @@ jobs:
             admin:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
               - "services/admin/**"
             agent:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/agent/**"
             ai-bot:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/ai-bot/**"
             api:
               - ".github/workflows/**"
               - "packages/@liexp/core/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/**"
               - "packages/@liexp/backend/**"
               - "services/api/**"
@@ -65,12 +69,14 @@ jobs:
             web:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/ui/src/**"
               - "services/web/**"
             worker:
               - ".github/workflows/**"
               - "packages/@liexp/core/src/**"
+              - "packages/@liexp/io/src/**"
               - "packages/@liexp/shared/src/**"
               - "packages/@liexp/backend/src/**"
               - "services/worker/**"
@@ -161,12 +167,14 @@ jobs:
             enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
             lint_command: |
               pnpm core lint
+              pnpm io lint
               pnpm shared lint
               pnpm test lint
               pnpm backend lint
               pnpm ui lint
             test_command: |
               pnpm core test
+              pnpm io test
               pnpm shared test
               pnpm test test
               pnpm backend test

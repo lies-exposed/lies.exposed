@@ -4,7 +4,7 @@ import {
   AdminEdit,
   AdminRead,
   type AuthPermission,
-} from "../io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 
 export const checkIsAdmin = (pp: readonly AuthPermission[]): boolean => {
   return (

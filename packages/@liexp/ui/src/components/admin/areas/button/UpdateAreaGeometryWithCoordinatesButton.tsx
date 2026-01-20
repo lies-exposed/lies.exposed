@@ -1,5 +1,5 @@
-import { Position } from "@liexp/shared/lib/io/http/Common/Geometry/Position.js";
-import { type Area } from "@liexp/shared/lib/io/http/index.js";
+import { Position } from "@liexp/io/lib/http/Common/Geometry/Position.js";
+import { type Area } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect/index";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

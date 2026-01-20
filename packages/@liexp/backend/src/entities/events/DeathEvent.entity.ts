@@ -1,4 +1,4 @@
-import { type DeathPayload } from "@liexp/shared/lib/io/http/Events/Death.js";
+import { type DeathPayload } from "@liexp/io/lib/http/Events/Death.js";
 import { ViewColumn, ViewEntity } from "typeorm";
 import { type ActorEntity } from "../Actor.entity.js";
 import { type LinkEntity } from "../Link.entity.js";

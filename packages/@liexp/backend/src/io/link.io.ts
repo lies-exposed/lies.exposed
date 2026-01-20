@@ -1,11 +1,11 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { type Media } from "@liexp/io/lib/http/Media/Media.js";
+import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

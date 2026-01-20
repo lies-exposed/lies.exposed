@@ -1,13 +1,13 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { LINKS } from "@liexp/io/lib/http/Link.js";
 import {
   OpenAIEmbeddingQueueType,
   PendingStatus,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
-import { type Queue } from "@liexp/shared/lib/io/http/Queue/index.js";
+} from "@liexp/io/lib/http/Queue/index.js";
+import { type Queue } from "@liexp/io/lib/http/Queue/index.js";
+import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import { Schema } from "effect";
 import * as A from "fp-ts/lib/Array.js";
 import * as E from "fp-ts/lib/Either.js";

@@ -1,7 +1,7 @@
 import { NODE_ENV } from "@liexp/core/lib/env/node-env.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { OptionFromNullishToNull } from "@liexp/shared/lib/io/http/Common/OptionFromNullishToNull.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Schema } from "effect";
 import { type Either } from "fp-ts/lib/Either.js";
 import { type AIBotError } from "#common/error/index.js";

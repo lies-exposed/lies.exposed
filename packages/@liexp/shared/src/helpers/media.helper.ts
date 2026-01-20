@@ -1,9 +1,9 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { URL, URL as URLSchema } from "@liexp/io/lib/http/Common/index.js";
+import { MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { URL, URL as URLSchema } from "../io/http/Common/index.js";
-import { MediaType } from "../io/http/Media/MediaType.js";
 
 type Youtube = "youtube";
 type Bitchute = "bitchute";

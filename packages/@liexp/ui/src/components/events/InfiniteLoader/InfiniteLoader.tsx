@@ -1,5 +1,5 @@
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import * as React from "react";
 import {
   AutoSizer,

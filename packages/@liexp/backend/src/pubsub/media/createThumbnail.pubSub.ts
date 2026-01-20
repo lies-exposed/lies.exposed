@@ -1,5 +1,5 @@
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { Media } from "@liexp/shared/lib/io/http/Media/index.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
+import { Media } from "@liexp/io/lib/http/Media/index.js";
 import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

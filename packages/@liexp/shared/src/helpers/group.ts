@@ -1,5 +1,5 @@
+import { type Group } from "@liexp/io/lib/http/index.js";
 import { eqString } from "fp-ts/lib/Eq.js";
-import { type Group } from "../io/http/index.js";
 
 export const getGroups =
   (groups: Group.Group[]) =>

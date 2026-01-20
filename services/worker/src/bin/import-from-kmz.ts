@@ -2,7 +2,7 @@
 import path from "path";
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type Geometry } from "@liexp/io/lib/http/Common/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

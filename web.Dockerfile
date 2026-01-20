@@ -6,6 +6,7 @@ COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/s
 
 COPY ./patches /usr/src/app/patches
 COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
+COPY ./packages/@liexp/io /usr/src/app/packages/@liexp/io
 COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
 COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared
 COPY ./packages/@liexp/backend /usr/src/app/packages/@liexp/backend

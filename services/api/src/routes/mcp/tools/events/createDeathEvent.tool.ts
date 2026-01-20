@@ -1,6 +1,6 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateDeathBody } from "@liexp/shared/lib/io/http/Events/Death.js";
-import { DEATH } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateDeathBody } from "@liexp/io/lib/http/Events/Death.js";
+import { DEATH } from "@liexp/io/lib/http/Events/EventType.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { pipe } from "fp-ts/lib/function.js";

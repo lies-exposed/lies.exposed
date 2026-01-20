@@ -1,14 +1,14 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { nonEmptyRecordFromType } from "../../io/Common/NonEmptyRecord.js";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/index.js";
+import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   CreateNationBody,
   GetListNationQuery,
   Nation,
-} from "../../io/http/Nation.js";
+} from "@liexp/io/lib/http/Nation.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 export const SingleNationOutput = Output(Nation).annotations({
   identifier: "SingleNationOutput",

@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type GraphId } from "@liexp/shared/lib/io/http/graphs/Graph.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type GraphId } from "@liexp/io/lib/http/graphs/Graph.js";
 import { LinearGradient } from "@visx/gradient";
 import { ParentSize } from "@visx/responsive";
 import { Schema } from "effect";

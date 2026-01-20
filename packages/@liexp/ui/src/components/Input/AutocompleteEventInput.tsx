@@ -1,9 +1,9 @@
+import { type EventType } from "@liexp/io/lib/http/Events/EventType.js";
+import { MEDIA } from "@liexp/io/lib/http/Media/index.js";
+import { type Events, type Media } from "@liexp/io/lib/http/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { EventHelper } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { MEDIA } from "@liexp/shared/lib/io/http/Media/index.js";
-import { type Events, type Media } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useConfiguration } from "../../context/ConfigurationContext.js";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";

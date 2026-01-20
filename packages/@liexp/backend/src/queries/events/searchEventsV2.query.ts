@@ -1,13 +1,13 @@
 // https://www.postgresql.org/docs/12/functions-json.html
 
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
   EVENT_TYPES,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type GetSearchEventsQuery } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEventsQuery.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

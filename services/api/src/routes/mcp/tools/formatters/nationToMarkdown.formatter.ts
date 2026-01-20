@@ -1,4 +1,4 @@
-import { type Nation } from "@liexp/shared/lib/io/http/Nation.js";
+import { type Nation } from "@liexp/io/lib/http/Nation.js";
 
 /**
  * Format a Nation entity to markdown for AI consumption

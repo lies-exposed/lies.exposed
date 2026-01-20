@@ -1,6 +1,6 @@
 import { type NonEmptyArray } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AutocompleteGroupInput } from "@liexp/ui/lib/components/Input/AutocompleteGroupInput.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";

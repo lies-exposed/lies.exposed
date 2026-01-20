@@ -8,8 +8,8 @@ import {
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";

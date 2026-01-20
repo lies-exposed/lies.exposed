@@ -4,9 +4,9 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   APIError,
   decodeIOErrorDetails,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
+} from "@liexp/io/lib/http/Error/APIError.js";
+import { type _DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
 import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";

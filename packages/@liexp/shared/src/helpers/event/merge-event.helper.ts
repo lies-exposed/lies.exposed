@@ -1,21 +1,24 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type BlockNoteDocument } from "../../io/http/Common/BlockNoteDocument.js";
-import { type UUID } from "../../io/http/Common/UUID.js";
-import { type BookPayload } from "../../io/http/Events/Book.js";
-import { type DeathPayload } from "../../io/http/Events/Death.js";
-import { type DocumentaryPayload } from "../../io/http/Events/Documentary.js";
-import { EVENT_TYPES, type EventType } from "../../io/http/Events/EventType.js";
-import { type PatentPayload } from "../../io/http/Events/Patent.js";
-import { type QuotePayload } from "../../io/http/Events/Quote.js";
-import { type ScientificStudyPayload } from "../../io/http/Events/ScientificStudy.js";
-import { type TransactionPayload } from "../../io/http/Events/Transaction.js";
-import { type UncategorizedV2Payload } from "../../io/http/Events/Uncategorized.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type BookPayload } from "@liexp/io/lib/http/Events/Book.js";
+import { type DeathPayload } from "@liexp/io/lib/http/Events/Death.js";
+import { type DocumentaryPayload } from "@liexp/io/lib/http/Events/Documentary.js";
+import {
+  EVENT_TYPES,
+  type EventType,
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type PatentPayload } from "@liexp/io/lib/http/Events/Patent.js";
+import { type QuotePayload } from "@liexp/io/lib/http/Events/Quote.js";
+import { type ScientificStudyPayload } from "@liexp/io/lib/http/Events/ScientificStudy.js";
+import { type TransactionPayload } from "@liexp/io/lib/http/Events/Transaction.js";
+import { type UncategorizedV2Payload } from "@liexp/io/lib/http/Events/Uncategorized.js";
 import {
   type EventRelationIds,
   type Event,
   type EventRelations,
-} from "../../io/http/Events/index.js";
-import { makeBySubjectId } from "../../io/utils/BySubjectUtils.js";
+} from "@liexp/io/lib/http/Events/index.js";
+import { makeBySubjectId } from "@liexp/io/lib/utils/BySubjectUtils.js";
 import { eventRelationIdsMonoid } from "./event.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 

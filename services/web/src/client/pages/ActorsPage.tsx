@@ -1,4 +1,4 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { AutocompleteActorInput } from "@liexp/ui/lib/components/Input/AutocompleteActorInput.js";
 import { MainContent } from "@liexp/ui/lib/components/MainContent.js";

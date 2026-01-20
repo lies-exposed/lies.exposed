@@ -1,5 +1,5 @@
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
-import { PUBLISHED, TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { ImageType } from "@liexp/io/lib/http/Media/index.js";
+import { PUBLISHED, TO_PUBLISH } from "@liexp/io/lib/http/SocialPost.js";
 import { SocialPostDataGrid } from "@liexp/ui/lib/components/admin/SocialPost/SocialPostDatagrid.js";
 import ReferenceArrayMediaInput from "@liexp/ui/lib/components/admin/media/input/ReferenceArrayMediaInput.js";
 import {

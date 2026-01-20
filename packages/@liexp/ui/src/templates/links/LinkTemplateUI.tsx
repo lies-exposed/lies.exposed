@@ -1,4 +1,4 @@
-import type * as http from "@liexp/shared/lib/io/http/index.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { KeywordsBox } from "../../components/KeywordsBox.js";
 import MediaElement from "../../components/Media/MediaElement.js";

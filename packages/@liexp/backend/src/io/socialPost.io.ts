@@ -2,12 +2,9 @@ import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import {
-  ImageType,
-  MP4Type,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { SocialPost } from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { ImageType, MP4Type } from "@liexp/io/lib/http/Media/MediaType.js";
+import { SocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";

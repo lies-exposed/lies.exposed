@@ -3,7 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import {
   AdminRead,
   MCPToolsAccess,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import type express from "express";

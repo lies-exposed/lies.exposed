@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type AuthUser } from "@liexp/shared/lib/io/http/auth/AuthUser.js";
+import { type AuthUser } from "@liexp/io/lib/http/auth/AuthUser.js";
 import {
   AdminCreate,
   AdminDelete,
@@ -9,8 +9,8 @@ import {
   EventSuggestionCreate,
   EventSuggestionEdit,
   EventSuggestionRead,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import { Schema } from "effect";
 import { type IO } from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";

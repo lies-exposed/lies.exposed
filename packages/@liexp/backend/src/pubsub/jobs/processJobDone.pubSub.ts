@@ -1,8 +1,8 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   QueueResourceNames,
   QueueTypes,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
+} from "@liexp/io/lib/http/Queue/index.js";
 import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

@@ -1,8 +1,8 @@
 import {
   type CreateSocialPost,
   type SocialPlatform,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/SocialPost.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useDataProvider, type Identifier } from "react-admin";
 import { styled } from "../../../theme/index.js";

@@ -1,6 +1,6 @@
-import { type UUID } from "../../io/http/Common/UUID.js";
-import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
-import { type Event } from "../../io/http/Events/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 
 /**
  * Adds a group ID to the event payload.

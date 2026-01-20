@@ -1,11 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import {
   toAPIError,
   type APIError,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+} from "@liexp/io/lib/http/Error/APIError.js";
+import { type EventType } from "@liexp/io/lib/http/Events/EventType.js";
+import { type PromptFn } from "@liexp/io/lib/openai/prompts/prompt.type.js";
+import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { HumanMessage, SystemMessage } from "langchain";
 import { type LangchainContext } from "../../context/langchain.context.js";

@@ -1,7 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import {
+  EVENT_TYPES,
+  type EventType,
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
-import { EVENT_TYPES, type EventType } from "../../io/http/Events/EventType.js";
-import { type SearchEvent } from "../../io/http/Events/index.js";
 import { buildEvent, EventHelper } from "./event.helper.js";
 import { EventsMapper } from "./events-mapper.helper.js";
 import { getRelationIdsFromEventRelations } from "./getEventRelationIds.js";

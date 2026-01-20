@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";

@@ -1,11 +1,11 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
-import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { LINKS } from "@liexp/io/lib/http/Link.js";
+import { type CreateQueueEmbeddingTypeData } from "@liexp/io/lib/http/Queue/index.js";
+import { type Queue } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import { type ClientContextRTE } from "../../types.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";

@@ -13,12 +13,12 @@ import {
 } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { LINKS } from "@liexp/shared/lib/io/http/Link.js";
-import { MEDIA } from "@liexp/shared/lib/io/http/Media/Media.js";
-import { type Queue } from "@liexp/shared/lib/io/http/index.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { Event } from "@liexp/io/lib/http/Events/index.js";
+import { LINKS } from "@liexp/io/lib/http/Link.js";
+import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
+import { type Queue } from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { Equal, type FindOptionsWhere } from "typeorm";

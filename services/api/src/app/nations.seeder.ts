@@ -4,7 +4,7 @@ import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js
 import { NationEntity } from "@liexp/backend/lib/entities/Nation.entity.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Schema } from "effect";
 import { parseJson } from "effect/Schema";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";

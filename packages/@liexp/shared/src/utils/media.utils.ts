@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
+import { ResourcesNames } from "@liexp/io/lib/http/ResourcesNames.js";
 import { Schema } from "effect";
 import { type Option } from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type UploadResource } from "../endpoints/api/upload.endpoints.js";
-import { UUID } from "../io/http/Common/UUID.js";
-import * as Media from "../io/http/Media/index.js";
-import { ResourcesNames } from "../io/http/ResourcesNames.js";
 
 export const contentTypeFromFileExt = (c: string): Media.ValidContentType => {
   switch (c) {

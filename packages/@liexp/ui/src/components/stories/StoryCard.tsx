@@ -1,4 +1,4 @@
-import { type Story } from "@liexp/shared/lib/io/http/Story.js";
+import { type Story } from "@liexp/io/lib/http/Story.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { parseISO } from "date-fns";
 import { Schema } from "effect";

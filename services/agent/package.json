@@ -40,6 +40,7 @@
     "@langchain/xai": "^1.2.1",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.13.2",

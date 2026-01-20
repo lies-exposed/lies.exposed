@@ -1,7 +1,7 @@
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { AREAS } from "@liexp/shared/lib/io/http/Area.js";
+import { AREAS } from "@liexp/io/lib/http/Area.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { type WorkerContext } from "#context/context.js";

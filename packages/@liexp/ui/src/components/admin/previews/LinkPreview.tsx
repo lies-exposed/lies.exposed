@@ -1,5 +1,5 @@
-import { type Link } from "@liexp/shared/lib/io/http/Link.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { type Link } from "@liexp/io/lib/http/Link.js";
+import { http } from "@liexp/io/lib/index.js";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

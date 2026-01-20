@@ -4,16 +4,16 @@ import {
   type NonEmptyArray,
   nonEmptyArrayOr,
 } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import {
   type GetNetworkQuerySerialized,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import { Actor, Group, Keyword } from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { Actor, Group, Keyword } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { parseISO } from "date-fns";
 import { Schema } from "effect";

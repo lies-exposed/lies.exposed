@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type Keyword } from "@liexp/io/lib/http/Keyword.js";
 import { Handle, type NodeProps, Position, type Node } from "@xyflow/react";
 import * as React from "react";
 import { KeywordListItem } from "../../../../lists/KeywordList.js";

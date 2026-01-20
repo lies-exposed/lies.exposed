@@ -6,16 +6,16 @@ import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type Event,
   EventFromURLBody,
   EVENTS,
-} from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAICreateEventFromURLType } from "@liexp/shared/lib/io/http/Queue/event/CreateEventFromURLQueue.js";
-import { PendingStatus } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
+import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
+import { PendingStatus } from "@liexp/io/lib/http/Queue/index.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";

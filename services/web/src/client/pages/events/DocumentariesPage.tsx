@@ -1,6 +1,6 @@
+import { DOCUMENTARY } from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchDocumentaryEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type SearchDocumentaryEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
 import EventCard from "@liexp/ui/lib/components/Cards/Events/EventCard.js";
 import { CellRenderer } from "@liexp/ui/lib/containers/list/InfiniteListBox/CellRenderer.js";
 import { InfiniteListBox } from "@liexp/ui/lib/containers/list/InfiniteListBox/InfiniteListBox.js";

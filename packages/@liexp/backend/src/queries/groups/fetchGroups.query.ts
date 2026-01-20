@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import * as O from "effect/Option";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";

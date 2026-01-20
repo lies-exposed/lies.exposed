@@ -1,7 +1,7 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
-import { type CreateQueueEmbeddingTypeData } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
+import { type CreateQueueEmbeddingTypeData } from "@liexp/io/lib/http/Queue/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";

@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@liexp/backend": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/core": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",

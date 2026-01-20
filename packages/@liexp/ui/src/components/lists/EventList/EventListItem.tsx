@@ -1,11 +1,11 @@
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import {
   type Actor,
   type Events,
   type Group,
   type GroupMember,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { BookListItem } from "./BookListItem.js";
 import { DeathListItem } from "./DeathListItem.js";

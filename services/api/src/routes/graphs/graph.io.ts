@@ -1,8 +1,8 @@
 import { type GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
 import { IOCodec } from "@liexp/backend/lib/io/DomainCodec.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

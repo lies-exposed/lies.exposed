@@ -1,5 +1,5 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceArrayActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceArrayActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";

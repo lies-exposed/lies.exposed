@@ -1,7 +1,4 @@
-import type {
-  ChatMessage,
-  ChatRequest,
-} from "@liexp/shared/lib/io/http/Chat.js";
+import type { ChatMessage, ChatRequest } from "@liexp/io/lib/http/Chat.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { useCallback } from "react";

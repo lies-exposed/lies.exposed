@@ -13,7 +13,7 @@ import {
   EventSuggestionRead,
   MCPToolsAccess,
   type AuthPermission,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 import dotenv from "dotenv";
 import { createServiceClientToken } from "../utils/serviceClientTokenGenerator.js";
 

@@ -1,8 +1,8 @@
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Documentary from "@liexp/io/lib/http/Events/Documentary.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ListOutput, Output } from "../../../io/http/Common/Output.js";
-import { UUID } from "../../../io/http/Common/UUID.js";
-import * as Documentary from "../../../io/http/Events/Documentary.js";
 
 const SingleDocumentaryOutput = Output(Documentary.Documentary).annotations({
   title: "Documentary",

@@ -1,6 +1,6 @@
 import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
+import { TO_PUBLISH } from "@liexp/io/lib/http/SocialPost.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { LessThanOrEqual } from "typeorm";
 import { type CronJobTE } from "./cron-task.type.js";

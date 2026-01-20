@@ -1,8 +1,8 @@
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { Events } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ListOutput, Output } from "../../../io/http/Common/Output.js";
-import { UUID } from "../../../io/http/Common/UUID.js";
-import { Events } from "../../../io/http/index.js";
 
 const SingleQuoteOutput = Output(Events.Quote.Quote).annotations({
   title: "Quote",

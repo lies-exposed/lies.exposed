@@ -1,9 +1,4 @@
-import {
-  Actor,
-  Keyword,
-  Group,
-  Events,
-} from "@liexp/shared/lib/io/http/index.js";
+import { Actor, Keyword, Group, Events } from "@liexp/io/lib/http/index.js";
 import { type Edge } from "@xyflow/react";
 import { ActorLink, type ActorLinkType } from "./ActorLink.js";
 

@@ -1,4 +1,4 @@
-import { type Actor, type Group } from "@liexp/shared/lib/io/http/index.js";
+import { type Actor, type Group } from "@liexp/io/lib/http/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import ActorsBox from "../containers/ActorsBox.js";

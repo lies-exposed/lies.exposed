@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { PngType } from "@liexp/io/lib/http/Media/index.js";
 import {
   contentTypeFromFileExt,
   getMediaThumbKey,

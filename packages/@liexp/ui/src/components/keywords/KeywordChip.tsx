@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword } from "@liexp/io/lib/http/index.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 import { Typography, type TypographyProps } from "../mui/index.js";

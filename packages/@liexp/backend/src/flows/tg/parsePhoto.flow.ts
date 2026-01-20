@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType, MediaType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { ImageType, MediaType } from "@liexp/io/lib/http/Media/index.js";
 import * as A from "fp-ts/lib/Array.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

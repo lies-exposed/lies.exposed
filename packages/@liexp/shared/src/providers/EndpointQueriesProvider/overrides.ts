@@ -14,17 +14,17 @@ import {
   type ResourceEndpointsQueriesOverride,
   defaultUseQueryListParams,
 } from "@ts-endpoint/tanstack-query";
-import { type Endpoints } from "../../endpoints/api/index.js";
+import { type Endpoints as APIEndpoints } from "../../endpoints/api/index.js";
 
 type GetHierarchyNetworkParams = EndpointParamsType<
-  typeof Endpoints.Networks.Get
+  typeof APIEndpoints.Networks.Get
 >;
 
 const GetHierarchyNetwork: CustomQueryOverride<
-  Endpoints,
+  APIEndpoints,
   GetHierarchyNetworkParams,
-  GetListFnParamsE<typeof Endpoints.Networks.Get>,
-  EndpointDataOutputType<typeof Endpoints.Networks.Get>
+  GetListFnParamsE<typeof APIEndpoints.Networks.Get>,
+  EndpointDataOutputType<typeof APIEndpoints.Networks.Get>
 > = (Q) => (p, q) =>
   pipe(
     Q.Networks.Get({
@@ -35,7 +35,7 @@ const GetHierarchyNetwork: CustomQueryOverride<
   );
 
 const NetworksOverride: ResourceEndpointsQueriesOverride<
-  Endpoints,
+  APIEndpoints,
   undefined,
   undefined,
   {
@@ -48,10 +48,10 @@ const NetworksOverride: ResourceEndpointsQueriesOverride<
 };
 
 const GetPageContentByPath: CustomQueryOverride<
-  Endpoints,
+  APIEndpoints,
   string,
   undefined,
-  EndpointDataOutputType<typeof Endpoints.Page.Get>
+  EndpointDataOutputType<typeof APIEndpoints.Page.Get>
 > = (Q) => (path) => {
   return pipe(
     Q.Page.List({
@@ -67,10 +67,10 @@ const GetPageContentByPath: CustomQueryOverride<
 };
 
 const GetByPath: CustomQueryOverride<
-  Endpoints,
+  APIEndpoints,
   string,
   undefined,
-  EndpointOutputType<typeof Endpoints.Story.Get>["data"]
+  EndpointOutputType<typeof APIEndpoints.Story.Get>["data"]
 > = (Q) => (p) => {
   return pipe(
     Q.Story.List({ Query: { ...defaultUseQueryListParams.filter, path: p } }),
@@ -79,7 +79,7 @@ const GetByPath: CustomQueryOverride<
 };
 
 const PageOverride: ResourceEndpointsQueriesOverride<
-  Endpoints,
+  APIEndpoints,
   MinimalEndpointInstance,
   MinimalEndpointInstance,
   {
@@ -91,7 +91,7 @@ const PageOverride: ResourceEndpointsQueriesOverride<
   },
 };
 const StoryOverride: ResourceEndpointsQueriesOverride<
-  Endpoints,
+  APIEndpoints,
   MinimalEndpointInstance,
   MinimalEndpointInstance,
   {
@@ -104,7 +104,7 @@ const StoryOverride: ResourceEndpointsQueriesOverride<
 };
 
 const QueryProviderCustomQueries: QueryProviderOverrides<
-  Endpoints,
+  APIEndpoints,
   {
     Networks: typeof NetworksOverride;
     Page: typeof PageOverride;

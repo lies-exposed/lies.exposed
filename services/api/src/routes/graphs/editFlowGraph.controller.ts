@@ -1,7 +1,7 @@
 import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { AdminEdit } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { createFlowGraph } from "#flows/graphs/createFlowGraph.flow.js";
 import { regenerateFlowGraph } from "#flows/graphs/regenerateFlowGraph.flow.js";

@@ -1,7 +1,7 @@
 import {
   IframeVideoType,
   MP4Type,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
+} from "@liexp/io/lib/http/Media/MediaType.js";
 import * as React from "react";
 import { TextInput } from "react-admin";
 import { Box, Stack } from "../../../mui/index.js";

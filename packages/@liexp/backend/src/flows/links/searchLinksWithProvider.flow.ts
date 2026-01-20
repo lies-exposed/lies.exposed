@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { type Link } from "@liexp/io/lib/http/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type Link } from "@liexp/shared/lib/io/http/index.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as Ord from "fp-ts/lib/Ord.js";

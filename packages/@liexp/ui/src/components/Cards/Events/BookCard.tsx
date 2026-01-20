@@ -1,4 +1,4 @@
-import { type SearchBookEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchBookEvent.js";
+import { type SearchBookEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchBookEvent.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";

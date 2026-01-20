@@ -1,7 +1,7 @@
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import * as Setting from "@liexp/io/lib/http/Setting.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import * as Setting from "../../io/http/Setting.js";
 
 const SingleSettingOutput = Output(Setting.Setting).annotations({
   title: "Setting",

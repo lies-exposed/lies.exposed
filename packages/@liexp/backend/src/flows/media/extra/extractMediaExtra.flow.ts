@@ -4,7 +4,7 @@ import {
   type MediaExtra,
   MP4Type,
   ThumbnailsExtraMonoid,
-} from "@liexp/shared/lib/io/http/Media/index.js";
+} from "@liexp/io/lib/http/Media/index.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";

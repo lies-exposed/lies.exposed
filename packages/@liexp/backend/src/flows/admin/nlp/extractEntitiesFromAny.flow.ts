@@ -1,11 +1,11 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import {
   ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPFromResourceInput,
   type ExtractEntitiesWithNLPOutput,
-} from "@liexp/shared/lib/io/http/admin/ExtractNLPEntities.js";
+} from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { Schema } from "effect";

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { type Readable } from "stream";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   toHTTPError,
   type HTTPError,

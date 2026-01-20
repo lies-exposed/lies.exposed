@@ -1,7 +1,7 @@
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type SocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { type Monoid } from "fp-ts/lib/Monoid.js";
 import { pipe } from "fp-ts/lib/function.js";
-import { type UUID } from "../io/http/Common/UUID.js";
-import { type SocialPost } from "../io/http/SocialPost.js";
 
 export interface SocialPostRelationIds {
   keywords: readonly UUID[];

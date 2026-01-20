@@ -1,4 +1,4 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";

@@ -1,5 +1,5 @@
-import { type EventTotals } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { clsx } from "clsx";
 import * as React from "react";
 import { styled } from "../../theme/index.js";

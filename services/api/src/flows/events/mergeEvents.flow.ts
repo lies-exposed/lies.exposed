@@ -10,13 +10,13 @@ import {
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { EventRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EventType } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import {
   MergeEventsHelper,
   getUniqueIds,
 } from "@liexp/shared/lib/helpers/event/merge-event.helper.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
 import { In } from "typeorm";
 import { toControllerError } from "../../io/ControllerError.js";
 import { type ENV } from "../../io/ENV.js";

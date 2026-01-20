@@ -1,10 +1,10 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
 import {
   type CreateSocialPost,
   TO_PUBLISH,
-} from "@liexp/shared/lib/io/http/SocialPost.js";
+} from "@liexp/io/lib/http/SocialPost.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

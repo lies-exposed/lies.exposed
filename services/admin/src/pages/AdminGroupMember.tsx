@@ -1,4 +1,4 @@
-import type * as http from "@liexp/shared/lib/io/http/index.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";

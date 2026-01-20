@@ -1,7 +1,7 @@
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { OpenAISummarizeQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";

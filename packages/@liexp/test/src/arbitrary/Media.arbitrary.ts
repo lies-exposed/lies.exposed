@@ -1,5 +1,5 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { URLArb } from "./URL.arbitrary.js";

@@ -1,4 +1,4 @@
-import { MediaType, MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
+import { MediaType, MP4Type } from "@liexp/io/lib/http/Media/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { colors } from "../../../theme/index.js";

@@ -1,7 +1,7 @@
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { eventRelationIdsMonoid } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import * as http from "@liexp/shared/lib/io/http/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";

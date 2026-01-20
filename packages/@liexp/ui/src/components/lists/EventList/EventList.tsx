@@ -1,5 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { distanceFromNow } from "@liexp/shared/lib/utils/date.utils.js";
 import * as Eq from "fp-ts/lib/Eq.js";
 import { pipe } from "fp-ts/lib/function.js";

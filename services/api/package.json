@@ -59,6 +59,7 @@
   "dependencies": {
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.25.2",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",

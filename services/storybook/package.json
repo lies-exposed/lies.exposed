@@ -27,6 +27,7 @@
     "@emotion/react": "^11.14.0",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@liexp/test": "workspace:*",
     "@liexp/ui": "workspace:*",

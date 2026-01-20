@@ -1,6 +1,6 @@
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Area, type Media } from "@liexp/shared/lib/io/http/index.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type Area, type Media } from "@liexp/io/lib/http/index.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { subYears } from "date-fns";
 import Feature from "ol/Feature.js";

@@ -1,11 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import {
   IframeVideoType,
   ImageType,
   MP4Type,
   PDFType,
-} from "@liexp/shared/lib/io/http/Media/MediaType.js";
+} from "@liexp/io/lib/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";

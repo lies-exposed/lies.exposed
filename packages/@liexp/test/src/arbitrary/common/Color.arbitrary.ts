@@ -1,4 +1,4 @@
-import { type Color } from "@liexp/shared/lib/io/http/Common/Color.js";
+import { type Color } from "@liexp/io/lib/http/Common/Color.js";
 import fc from "fast-check";
 
 export const ColorArb: fc.Arbitrary<Color> = fc.hexaString({

@@ -13,6 +13,7 @@
     "ai-bot": "pnpm --filter 'ai-bot'",
     "api": "pnpm --filter 'api'",
     "backend": "pnpm --filter '@liexp/backend'",
+    "io": "pnpm --filter '@liexp/io'",
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "clean": "pnpm -r run clean",

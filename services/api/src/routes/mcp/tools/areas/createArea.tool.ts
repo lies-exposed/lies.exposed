@@ -2,7 +2,7 @@ import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { AreaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import type { CreateAreaBody } from "@liexp/shared/lib/io/http/Area.js";
+import type { CreateAreaBody } from "@liexp/io/lib/http/Area.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";

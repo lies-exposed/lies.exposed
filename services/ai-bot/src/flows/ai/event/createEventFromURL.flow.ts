@@ -1,14 +1,11 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { buildEvent } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { type Event, EventMap } from "@liexp/io/lib/http/Events/index.js";
+import { type CreateEventFromURLTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import {
-  type Event,
-  EventMap,
-} from "@liexp/shared/lib/io/http/Events/index.js";
-import { type CreateEventFromURLTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { buildEvent } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";

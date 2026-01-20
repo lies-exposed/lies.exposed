@@ -7,9 +7,9 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import { type LinkMedia } from "@liexp/io/lib/http/Link.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type LinkMedia } from "@liexp/shared/lib/io/http/Link.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import * as O from "fp-ts/lib/Option.js";

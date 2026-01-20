@@ -1,4 +1,4 @@
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import * as React from "react";
 import { type FieldProps, useRecordContext } from "../../react-admin.js";
 

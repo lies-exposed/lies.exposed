@@ -1,13 +1,13 @@
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/EventType.js";
+import { SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import { GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
+import { PaginationQuery } from "@liexp/io/lib/http/Query/PaginationQuery.js";
+import * as http from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../../../io/http/Common/OptionFromNullishToNull.js";
-import { Output } from "../../../io/http/Common/Output.js";
-import { UUID } from "../../../io/http/Common/UUID.js";
-import { EventType } from "../../../io/http/Events/EventType.js";
-import { SearchEvent } from "../../../io/http/Events/SearchEvents/SearchEvent.js";
-import { GetSearchEventsQuery } from "../../../io/http/Events/SearchEvents/SearchEventsQuery.js";
-import { PaginationQuery } from "../../../io/http/Query/PaginationQuery.js";
-import * as http from "../../../io/http/index.js";
 
 const SingleEventOutput = http.Common.Output(http.Events.Event).annotations({
   title: "Event",

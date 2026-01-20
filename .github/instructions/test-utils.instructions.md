@@ -114,7 +114,7 @@ export const loginUser = (Test: AppTest) => async (
 // File: test/factories/entity.factories.ts
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import fc from "fast-check";
 
 export const createTestEvent = async (

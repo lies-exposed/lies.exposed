@@ -1,8 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  APIError,
-  toAPIError,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
+import { APIError, toAPIError } from "@liexp/io/lib/http/Error/APIError.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { type AxiosError } from "axios";

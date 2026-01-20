@@ -1,6 +1,6 @@
 import { fetchLinks } from "@liexp/backend/lib/queries/links/fetchLinks.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import {
   ResourceTemplate,

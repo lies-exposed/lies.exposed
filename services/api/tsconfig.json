@@ -73,6 +73,9 @@
       "path": "../../packages/@liexp/core"
     },
     {
+      "path": "../../packages/@liexp/io"
+    },
+    {
       "path": "../../packages/@liexp/shared"
     },
     {

@@ -1,5 +1,5 @@
+import { type SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
 import * as React from "react";
 import { TextInput, type TextInputProps, useInput } from "react-admin";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";

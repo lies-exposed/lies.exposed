@@ -1,4 +1,4 @@
-import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage.js";
+import { type BuildImageLayer } from "@liexp/io/lib/http/admin/BuildImage.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 import {

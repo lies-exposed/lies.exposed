@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type ImageType } from "@liexp/io/lib/http/Media/index.js";
 import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { ServerError } from "../../../errors/ServerError.js";
 import { type SimpleMedia } from "../../../io/media.io.js";

@@ -1,5 +1,5 @@
+import { type GroupMember } from "@liexp/io/lib/http/index.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type GroupMember } from "@liexp/shared/lib/io/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../hooks/useEndpointQueriesProvider.js";
 import {

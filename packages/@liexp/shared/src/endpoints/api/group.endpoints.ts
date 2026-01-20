@@ -1,9 +1,9 @@
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { Output, UUID } from "@liexp/io/lib/http/Common/index.js";
+import * as Group from "@liexp/io/lib/http/Group.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { Output, UUID } from "../../io/http/Common/index.js";
-import * as Group from "../../io/http/Group.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
 
 export const List = Endpoint({
   Method: "GET",

@@ -1,4 +1,4 @@
-import { type EventTotals } from "../../io/http/Events/EventTotals.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 
 const getTotal = (
   totals: EventTotals,

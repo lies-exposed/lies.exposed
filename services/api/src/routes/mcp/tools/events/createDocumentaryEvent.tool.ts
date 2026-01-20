@@ -1,6 +1,6 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateDocumentaryBody } from "@liexp/shared/lib/io/http/Events/Documentary.js";
-import { DOCUMENTARY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateDocumentaryBody } from "@liexp/io/lib/http/Events/Documentary.js";
+import { DOCUMENTARY } from "@liexp/io/lib/http/Events/EventType.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import { createEvent } from "../../../../flows/events/createEvent.flow.js";

@@ -28,6 +28,12 @@
         "core"
       ]
     },
+    "packages/@liexp/io": {
+      "component": "@liexp/io",
+      "include-scope": [
+        "io"
+      ]
+    },
     "packages/@liexp/shared": {
       "component": "@liexp/shared",
       "include-scope": [

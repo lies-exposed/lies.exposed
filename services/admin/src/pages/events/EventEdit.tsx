@@ -1,5 +1,5 @@
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { EditEventForm } from "@liexp/ui/lib/components/admin/events/EditEventForm.js";
 import { BookEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/BookEditFormTab.js";
 import { DeathEventEditFormTab } from "@liexp/ui/lib/components/admin/events/tabs/DeathEventEditFormTab.js";

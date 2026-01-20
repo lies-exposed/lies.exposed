@@ -1,5 +1,5 @@
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DatabaseContext } from "../../context/db.context.js";

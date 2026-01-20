@@ -1,7 +1,4 @@
-import {
-  EventType,
-  EVENT_TYPES,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { EventType, EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
 import EventTimelineItem, {

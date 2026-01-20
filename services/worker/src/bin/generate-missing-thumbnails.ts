@@ -4,8 +4,8 @@ import { createThumbnail } from "@liexp/backend/lib/flows/media/thumbnails/creat
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { ImageMediaExtraMonoid } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { ImageMediaExtraMonoid } from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { type CommandFlow } from "./command.type.js";

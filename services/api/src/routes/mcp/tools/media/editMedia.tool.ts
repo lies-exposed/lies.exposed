@@ -1,8 +1,8 @@
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { MediaType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";

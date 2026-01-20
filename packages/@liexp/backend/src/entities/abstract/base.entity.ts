@@ -1,4 +1,4 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   CreateDateColumn,
   PrimaryGeneratedColumn,

@@ -1,9 +1,9 @@
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Events } from "@liexp/shared/lib/io/http/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type Events } from "@liexp/io/lib/http/index.js";
 import {
   eventBlockSpecs,
   type BNESchemaEditor,

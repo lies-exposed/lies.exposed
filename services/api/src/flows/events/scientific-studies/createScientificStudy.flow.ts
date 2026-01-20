@@ -1,7 +1,7 @@
 import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type ScientificStudy } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type ScientificStudy } from "@liexp/io/lib/http/Events/index.js";
 import { Equal } from "typeorm";
 import { createScientificStudyFromPlainObject } from "./createFromPlainObject.flow.js";
 import { type TEReader } from "#flows/flow.types.js";

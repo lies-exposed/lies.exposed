@@ -2,8 +2,8 @@ import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.deco
 import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { fetchKeywords } from "@liexp/backend/lib/queries/keywords/fetchKeywords.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { toControllerError } from "../../io/ControllerError.js";
 import { type ServerContext } from "#context/context.type.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

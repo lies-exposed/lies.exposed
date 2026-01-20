@@ -1,5 +1,5 @@
-import { ImageMediaExtra } from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
+import { ImageMediaExtra } from "@liexp/io/lib/http/Media/MediaExtra.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import get from "lodash/get";
 import * as React from "react";

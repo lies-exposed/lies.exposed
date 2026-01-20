@@ -1,11 +1,8 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event, EventType } from "@liexp/io/lib/http/Events/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { MergeEventsHelper } from "@liexp/shared/lib/helpers/event/merge-event.helper.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import {
-  type Event,
-  EventType,
-} from "@liexp/shared/lib/io/http/Events/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";
 import { LinkIcon } from "@liexp/ui/lib/components/Common/Icons/index.js";

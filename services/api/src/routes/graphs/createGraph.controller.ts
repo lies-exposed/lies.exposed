@@ -1,7 +1,7 @@
 import { GraphEntity } from "@liexp/backend/lib/entities/Graph.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { GraphIO } from "./graph.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

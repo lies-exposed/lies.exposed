@@ -4,8 +4,8 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { getEventById } from "@liexp/backend/lib/flows/event/getEventById.flow.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminDelete } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { AdminDelete } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

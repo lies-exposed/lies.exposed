@@ -3,15 +3,15 @@ import {
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import { EVENTS } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import {
   type GetNetworkQuery,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";

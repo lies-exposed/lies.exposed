@@ -1,4 +1,4 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import { Schema } from "effect/index";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

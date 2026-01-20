@@ -5,7 +5,7 @@ import {
   toActorEntity,
   toGroupEntity,
 } from "@liexp/backend/lib/test/utils/entities/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";

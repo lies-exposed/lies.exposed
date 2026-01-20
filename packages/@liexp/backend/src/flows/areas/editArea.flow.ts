@@ -1,10 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type Area,
-  type EditAreaBody,
-} from "@liexp/shared/lib/io/http/Area.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type Area, type EditAreaBody } from "@liexp/io/lib/http/Area.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Geometry } from "@liexp/io/lib/http/Common/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

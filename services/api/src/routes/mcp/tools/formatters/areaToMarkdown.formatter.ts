@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { type Area } from "@liexp/io/lib/http/Area.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 

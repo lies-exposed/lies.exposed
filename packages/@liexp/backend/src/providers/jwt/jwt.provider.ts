@@ -1,7 +1,7 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
-import { AuthUser } from "@liexp/shared/lib/io/http/auth/AuthUser.js";
-import { ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
+import { type UserEncoded } from "@liexp/io/lib/http/User.js";
+import { AuthUser } from "@liexp/io/lib/http/auth/AuthUser.js";
+import { ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import { fromValidationErrors } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";

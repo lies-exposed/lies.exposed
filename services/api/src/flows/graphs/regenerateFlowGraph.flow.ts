@@ -1,9 +1,9 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
-} from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+} from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import * as O from "effect/Option";
 import { type TEReader } from "../flow.types.js";
 import { createFlowGraph, getFilePath } from "./createFlowGraph.flow.js";

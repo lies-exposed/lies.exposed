@@ -1,8 +1,8 @@
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { type NetworkLink } from "@liexp/shared/lib/io/http/Network/Network.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import { type NetworkLink } from "@liexp/io/lib/http/Network/Network.js";
 import { toColorHash } from "@liexp/shared/lib/utils/colors.js";
 import * as d3 from "d3";
 import debounce from "lodash/debounce.js";

@@ -1,15 +1,15 @@
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
-import { Schema } from "effect";
-import { OptionFromNullishToNull } from "../../io/http/Common/OptionFromNullishToNull.js";
-import { ListOutput, Output } from "../../io/http/Common/Output.js";
-import { UUID } from "../../io/http/Common/UUID.js";
+import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   GetNetworkParams,
   GetNetworkQuery,
   NetworkGraphOutput,
-} from "../../io/http/Network/Network.js";
-import { GetListQuery } from "../../io/http/Query/index.js";
-import { StatsType } from "../../io/http/Stats.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
+import { StatsType } from "@liexp/io/lib/http/Stats.js";
+import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Schema } from "effect";
 
 const SingleOutput = Output(NetworkGraphOutput).annotations({
   title: "Network",

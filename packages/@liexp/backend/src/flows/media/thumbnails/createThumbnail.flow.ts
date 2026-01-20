@@ -1,6 +1,6 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";
 import { type ENVContext } from "../../../context/env.context.js";

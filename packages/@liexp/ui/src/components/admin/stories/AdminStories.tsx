@@ -1,4 +1,4 @@
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

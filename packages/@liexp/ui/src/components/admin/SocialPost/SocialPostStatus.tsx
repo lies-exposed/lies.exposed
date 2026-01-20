@@ -1,4 +1,4 @@
-import * as SocialPost from "@liexp/shared/lib/io/http/SocialPost.js";
+import * as SocialPost from "@liexp/io/lib/http/SocialPost.js";
 import * as React from "react";
 import { Box, Stack } from "../../mui/index.js";
 import { SelectInput, useRecordContext } from "../react-admin.js";

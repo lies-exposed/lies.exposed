@@ -9,7 +9,7 @@ import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
 import { type AdminProxyENV } from "../src/server/io/ENV.js";
-import { URL } from '@liexp/shared/lib/io/http/Common/URL.js'
+import { URL } from '@liexp/io/lib/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
 import { createApp } from '../src/server/createApp.js'
 

@@ -1,7 +1,4 @@
-import {
-  ByActorId,
-  ByGroupId,
-} from "@liexp/shared/lib/io/http/Common/index.js";
+import { ByActorId, ByGroupId } from "@liexp/io/lib/http/Common/index.js";
 import get from "lodash/get";
 import * as React from "react";
 import {

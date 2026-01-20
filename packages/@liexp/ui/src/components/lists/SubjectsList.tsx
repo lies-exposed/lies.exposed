@@ -1,7 +1,4 @@
-import {
-  ByActor,
-  type ByGroup,
-} from "@liexp/shared/lib/io/http/Common/BySubject.js";
+import { ByActor, type ByGroup } from "@liexp/io/lib/http/Common/BySubject.js";
 import { Schema } from "effect";
 import * as React from "react";
 import { type AvatarSize } from "../Common/Avatar.js";

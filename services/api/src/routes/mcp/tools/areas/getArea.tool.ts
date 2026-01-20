@@ -2,7 +2,7 @@ import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { AreaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

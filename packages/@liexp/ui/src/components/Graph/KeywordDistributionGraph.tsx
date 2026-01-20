@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword } from "@liexp/io/lib/http/index.js";
 import { ParentSize } from "@visx/responsive";
 import { scaleLog } from "@visx/scale";
 import { Text } from "@visx/text";

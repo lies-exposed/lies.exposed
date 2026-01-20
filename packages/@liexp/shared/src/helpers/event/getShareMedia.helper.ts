@@ -1,11 +1,11 @@
-import { Schema } from "effect";
-import { uuid } from "../../io/http/Common/UUID.js";
-import { VideoExtra } from "../../io/http/Media/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { VideoExtra } from "@liexp/io/lib/http/Media/index.js";
 import {
   type SocialPost,
   type SocialPostContentMedia,
-} from "../../io/http/SocialPost.js";
-import * as http from "../../io/http/index.js";
+} from "@liexp/io/lib/http/SocialPost.js";
+import * as http from "@liexp/io/lib/http/index.js";
+import { Schema } from "effect";
 
 export const getShareMultipleMedia = (
   media: readonly http.Media.Media[],

@@ -1,10 +1,10 @@
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type StatsType } from "@liexp/shared/lib/io/http/Stats.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type StatsType } from "@liexp/io/lib/http/Stats.js";
 import {
   type Actor,
   type Group,
   type Keyword,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { KeywordsBoxWrapper } from "../components/KeywordsBox.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";

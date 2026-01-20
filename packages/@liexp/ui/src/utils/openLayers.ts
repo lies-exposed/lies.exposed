@@ -1,4 +1,4 @@
-import type * as http from "@liexp/shared/lib/io/http/index.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import { type Coordinate } from "ol/coordinate";
 import { Polygon } from "ol/geom.js";
 import { getArea } from "ol/sphere.js";

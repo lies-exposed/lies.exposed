@@ -1,8 +1,5 @@
-import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
-import {
-  MediaType,
-  type MediaExtra,
-} from "@liexp/shared/lib/io/http/Media/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
+import { MediaType, type MediaExtra } from "@liexp/io/lib/http/Media/index.js";
 import {
   Column,
   Entity,

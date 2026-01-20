@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@liexp/shared/lib/io/http/Chat.js";
+import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";

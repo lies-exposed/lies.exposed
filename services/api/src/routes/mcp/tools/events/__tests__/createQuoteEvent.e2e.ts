@@ -1,5 +1,5 @@
-import { type BySubjectId } from "@liexp/shared/lib/io/http/Common/BySubject.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type BySubjectId } from "@liexp/io/lib/http/Common/BySubject.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import fc from "fast-check";

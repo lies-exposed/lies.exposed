@@ -3,8 +3,8 @@ import { type KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.j
 import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type CreateScientificStudyBody } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+import { UUID } from "@liexp/io/lib/http/Common/index.js";
+import { type CreateScientificStudyBody } from "@liexp/io/lib/http/Events/ScientificStudy.js";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial, Equal } from "typeorm";

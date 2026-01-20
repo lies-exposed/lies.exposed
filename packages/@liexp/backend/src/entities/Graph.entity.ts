@@ -1,4 +1,4 @@
-import { type GraphType } from "@liexp/shared/lib/io/http/graphs/Graph.js";
+import { type GraphType } from "@liexp/io/lib/http/graphs/Graph.js";
 import { Column, Entity, Index, ManyToOne, type Relation } from "typeorm";
 import { UserEntity } from "./User.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";

@@ -2,7 +2,7 @@ import {
   type Color,
   type Tag,
   type UUID,
-} from "@liexp/shared/lib/io/http/Common/index.js";
+} from "@liexp/io/lib/http/Common/index.js";
 import {
   Column,
   Entity,

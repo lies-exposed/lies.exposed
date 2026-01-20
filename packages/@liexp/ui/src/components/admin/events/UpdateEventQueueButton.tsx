@@ -1,5 +1,5 @@
-import { EVENTS } from "@liexp/shared/lib/io/http/Events/index.js";
-import { OpenAIUpdateEventQueueType } from "@liexp/shared/lib/io/http/Queue/event/UpdateEventQueue.js";
+import { EVENTS } from "@liexp/io/lib/http/Events/index.js";
+import { OpenAIUpdateEventQueueType } from "@liexp/io/lib/http/Queue/event/UpdateEventQueue.js";
 import * as React from "react";
 import { Stack } from "../../mui/index.js";
 import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";

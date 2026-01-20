@@ -1,7 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Schema } from "effect";
-import { type BySubject } from "../../io/http/Common/index.js";
-import { type EventTotals } from "../../io/http/Events/EventTotals.js";
+import { type BySubject } from "@liexp/io/lib/http/Common/index.js";
+import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
   BOOK,
   DEATH,
@@ -12,14 +11,19 @@ import {
   SCIENTIFIC_STUDY,
   TRANSACTION,
   UNCATEGORIZED,
-} from "../../io/http/Events/EventType.js";
-import { type SearchBookEvent } from "../../io/http/Events/SearchEvents/SearchBookEvent.js";
-import { type SearchDocumentaryEvent } from "../../io/http/Events/SearchEvents/SearchDocumentaryEvent.js";
-import { type SearchQuoteEvent } from "../../io/http/Events/SearchEvents/SearchQuoteEvent.js";
-import { type SearchTransactionEvent } from "../../io/http/Events/SearchEvents/SearchTransactionEvent.js";
-import { type EventRelations } from "../../io/http/Events/index.js";
-import { type Events, type Area, type Media } from "../../io/http/index.js";
-import { BySubjectUtils } from "../../io/utils/BySubjectUtils.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchBookEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchBookEvent.js";
+import { type SearchDocumentaryEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchDocumentaryEvent.js";
+import { type SearchQuoteEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchQuoteEvent.js";
+import { type SearchTransactionEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchTransactionEvent.js";
+import { type EventRelations } from "@liexp/io/lib/http/Events/index.js";
+import {
+  type Events,
+  type Area,
+  type Media,
+} from "@liexp/io/lib/http/index.js";
+import { BySubjectUtils } from "@liexp/io/lib/utils/BySubjectUtils.js";
+import { Schema } from "effect";
 import { eventRelationIdsMonoid } from "./event.helper.js";
 import {
   getRelationIds,

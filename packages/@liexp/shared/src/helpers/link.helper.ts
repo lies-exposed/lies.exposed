@@ -1,4 +1,4 @@
-import { type URL } from "../io/http/Common/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
 
 const excludedURLs = [
   // telegram profiles

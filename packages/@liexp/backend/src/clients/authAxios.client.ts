@@ -1,6 +1,6 @@
 import type * as logger from "@liexp/core/lib/logger/index.js";
-import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/index.js";
+import { type UserEncoded } from "@liexp/io/lib/http/User.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/index.js";
 import type { AxiosInstance, InternalAxiosRequestConfig } from "axios";
 import axios from "axios";
 import { type JWTProvider } from "../providers/jwt/jwt.provider.js";

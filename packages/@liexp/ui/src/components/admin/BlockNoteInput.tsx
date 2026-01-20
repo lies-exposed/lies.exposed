@@ -1,5 +1,5 @@
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type ResourcesNames } from "@liexp/shared/lib/io/http/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type ResourcesNames } from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import get from "lodash/get.js";
 import * as React from "react";

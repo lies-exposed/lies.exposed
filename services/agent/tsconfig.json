@@ -20,6 +20,7 @@
   "exclude": ["node_modules", "build"],
   "references": [
     { "path": "../../packages/@liexp/core" },
+    { "path": "../../packages/@liexp/io" },
     { "path": "../../packages/@liexp/shared" }
   ]
 }

@@ -1,6 +1,6 @@
-import { type Link } from "@liexp/shared/lib/io/http/Link.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
-import { OpenAIEmbeddingQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
+import { type Link } from "@liexp/io/lib/http/Link.js";
+import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
+import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { Grid, Stack, Toolbar } from "../../mui/index.js";

@@ -1,6 +1,10 @@
-import { EVENT_TYPES } from "../../io/http/Events/EventType.js";
-import { type SearchEvent } from "../../io/http/Events/SearchEvents/SearchEvent.js";
-import { type Events, type Actor, type Group } from "../../io/http/index.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
+import {
+  type Events,
+  type Actor,
+  type Group,
+} from "@liexp/io/lib/http/index.js";
 
 export const getSearchEventRelations = (
   e: SearchEvent,

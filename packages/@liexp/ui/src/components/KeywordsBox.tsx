@@ -1,5 +1,5 @@
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { type Keyword } from "@liexp/shared/lib/io/http/index.js";
+import { type Keyword } from "@liexp/io/lib/http/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";

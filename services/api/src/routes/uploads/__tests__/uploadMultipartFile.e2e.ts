@@ -1,5 +1,5 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { PngType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { PngType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { describe, test, expect, beforeAll, vi, afterEach } from "vitest";
