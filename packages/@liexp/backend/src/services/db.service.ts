@@ -1,4 +1,4 @@
-import { type Query } from "@liexp/shared/lib/io/http/index.js";
+import { type Query } from "@liexp/io/lib/http/index.js";
 import { type Reader } from "fp-ts/lib/Reader.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";

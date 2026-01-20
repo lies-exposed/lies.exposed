@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { http } from "@liexp/io/lib/index.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { Brackets } from "typeorm";

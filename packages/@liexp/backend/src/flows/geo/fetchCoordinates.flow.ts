@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Geometry } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type Geometry } from "@liexp/io/lib/http/Common/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type GeocodeProviderContext } from "../../context/index.js";

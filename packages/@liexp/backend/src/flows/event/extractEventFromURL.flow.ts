@@ -1,12 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
-import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type URL as URLT } from "@liexp/shared/lib/io/http/Common/index.js";
+import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type URL as URLT } from "@liexp/io/lib/http/Common/index.js";
 import {
   SCIENTIFIC_STUDY,
   type EventType,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
+import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { parse } from "date-fns";
 import { Schema } from "effect";

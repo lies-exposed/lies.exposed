@@ -1,4 +1,4 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import type { Request, Response, NextFunction } from "express";
 
 /**

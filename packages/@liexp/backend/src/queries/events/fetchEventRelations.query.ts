@@ -1,10 +1,10 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid, UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid, UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type CreateEventLink,
   type EditEventCommon,
-} from "@liexp/shared/lib/io/http/Events/BaseEvent.js";
-import type * as http from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/Events/BaseEvent.js";
+import type * as http from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";

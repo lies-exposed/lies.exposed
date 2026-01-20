@@ -2,8 +2,8 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { Book } from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { Book } from "@liexp/io/lib/http/Events/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

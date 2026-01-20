@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { type UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { type UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

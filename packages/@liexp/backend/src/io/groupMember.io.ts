@@ -2,8 +2,8 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import * as io from "@liexp/io/lib/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { IOError } from "@ts-endpoint/core";

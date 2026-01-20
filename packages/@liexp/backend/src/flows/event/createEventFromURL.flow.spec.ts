@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";

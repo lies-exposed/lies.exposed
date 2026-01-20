@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type _DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

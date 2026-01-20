@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

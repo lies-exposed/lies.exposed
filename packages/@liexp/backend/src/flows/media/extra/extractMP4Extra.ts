@@ -2,7 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   ThumbnailsExtraMonoid,
   type VideoExtra,
-} from "@liexp/shared/lib/io/http/Media/index.js";
+} from "@liexp/io/lib/http/Media/index.js";
 import type Ffmpeg from "fluent-ffmpeg";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../../context/config.context.js";

@@ -1,8 +1,8 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { ImageType } from "@liexp/shared/lib/io/http/Media/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
+import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { ImageType } from "@liexp/io/lib/http/Media/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";

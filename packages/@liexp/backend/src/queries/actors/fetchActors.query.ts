@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as R from "fp-ts/lib/Record.js";

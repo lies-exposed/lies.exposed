@@ -1,10 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
+import { IframeVideoType } from "@liexp/io/lib/http/Media/index.js";
 import {
   getPlatformEmbedURL,
   type VideoPlatformMatch,
 } from "@liexp/shared/lib/helpers/media.helper.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
-import { IframeVideoType } from "@liexp/shared/lib/io/http/Media/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

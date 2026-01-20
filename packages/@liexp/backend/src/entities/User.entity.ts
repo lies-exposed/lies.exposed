@@ -1,8 +1,5 @@
-import {
-  UserStatus,
-  UserStatusPending,
-} from "@liexp/shared/lib/io/http/User.js";
-import { AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { UserStatus, UserStatusPending } from "@liexp/io/lib/http/User.js";
+import { AuthPermission } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Column, Entity, Index, OneToMany, type Relation } from "typeorm";
 import { EventSuggestionEntity } from "./EventSuggestion.entity.js";
 import { GraphEntity } from "./Graph.entity.js";

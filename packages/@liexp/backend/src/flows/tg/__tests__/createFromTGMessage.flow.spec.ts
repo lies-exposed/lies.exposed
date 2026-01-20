@@ -1,8 +1,8 @@
 import path from "path";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { getPlatformEmbedURL } from "@liexp/shared/lib/helpers/media.helper.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { AdminCreate } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";

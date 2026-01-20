@@ -1,8 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  ImageType,
-  type PDFType,
-} from "@liexp/shared/lib/io/http/Media/index.js";
+import { ImageType, type PDFType } from "@liexp/io/lib/http/Media/index.js";
 import { createCanvas } from "@napi-rs/canvas";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import {

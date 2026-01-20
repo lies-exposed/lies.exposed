@@ -1,4 +1,4 @@
-import { type URL, type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type URL, type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   Column,
   Entity,

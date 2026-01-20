@@ -1,7 +1,7 @@
 import { type Readable, type Stream } from "stream";
 import { pipe, fp } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { MP4Type, PDFType } from "@liexp/shared/lib/io/http/Media/MediaType.js";
+import { MP4Type, PDFType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { IOError } from "@ts-endpoint/core";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import type TelegramBot from "node-telegram-bot-api";

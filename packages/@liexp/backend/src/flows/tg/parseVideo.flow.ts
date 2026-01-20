@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { MP4Type } from "@liexp/shared/lib/io/http/Media/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { MP4Type } from "@liexp/io/lib/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";

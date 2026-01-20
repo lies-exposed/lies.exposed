@@ -2,10 +2,10 @@ import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type _DecodeError,
   DecodeError,
-} from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { EVENT_TYPES } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";

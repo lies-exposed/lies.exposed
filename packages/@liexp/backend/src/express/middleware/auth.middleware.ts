@@ -1,7 +1,7 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type AuthUser } from "@liexp/shared/lib/io/http/auth/AuthUser.js";
-import { type AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/service-client/ServiceClient.js";
+import { type AuthUser } from "@liexp/io/lib/http/auth/AuthUser.js";
+import { type AuthPermission } from "@liexp/io/lib/http/auth/permissions/index.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import { addYears } from "date-fns";
 import type * as express from "express";
 import * as IOE from "fp-ts/lib/IOEither.js";

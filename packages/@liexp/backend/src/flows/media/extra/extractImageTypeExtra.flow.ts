@@ -3,7 +3,7 @@ import {
   type ImageMediaExtra,
   ImageMediaExtraMonoid,
   ThumbnailsExtraMonoid,
-} from "@liexp/shared/lib/io/http/Media/MediaExtra.js";
+} from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ConfigContext } from "../../../context/config.context.js";

@@ -1,6 +1,6 @@
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { UserStatusApproved } from "@liexp/shared/lib/io/http/User.js";
-import { type AuthPermission } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { UserStatusApproved } from "@liexp/io/lib/http/User.js";
+import { type AuthPermission } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import fc from "fast-check";
 import { type DatabaseContext } from "../../context/db.context.js";

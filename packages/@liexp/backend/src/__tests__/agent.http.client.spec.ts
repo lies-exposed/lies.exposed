@@ -1,6 +1,6 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { makeAgentClient } from "../clients/agent.http.client.js";
 import type { JWTProvider } from "../providers/jwt/jwt.provider.js";

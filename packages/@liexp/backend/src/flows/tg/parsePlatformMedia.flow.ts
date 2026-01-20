@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID, type URL } from "@liexp/io/lib/http/Common/index.js";
 import { type VideoPlatformMatch } from "@liexp/shared/lib/helpers/media.helper.js";
-import { type UUID, type URL } from "@liexp/shared/lib/io/http/Common/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";

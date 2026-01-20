@@ -1,7 +1,7 @@
 import type { Logger } from "@liexp/core/lib/logger/index.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type UserEncoded } from "@liexp/shared/lib/io/http/User.js";
-import { type ServiceClient } from "@liexp/shared/lib/io/http/auth/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type UserEncoded } from "@liexp/io/lib/http/User.js";
+import { type ServiceClient } from "@liexp/io/lib/http/auth/index.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { makeAuthAxiosClient } from "../clients/authAxios.client.js";

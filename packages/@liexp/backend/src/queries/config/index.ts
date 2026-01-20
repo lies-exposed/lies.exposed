@@ -1,4 +1,4 @@
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
 import { type EventQueryConfig } from "./EventQueryConfig.js";
 import { Book } from "./events/book.config.js";
 import { Death } from "./events/death.config.js";

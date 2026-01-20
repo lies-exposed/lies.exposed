@@ -1,6 +1,6 @@
-import { URL } from "@liexp/shared/lib/io/http/Common/URL.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EventType } from "@liexp/io/lib/http/Events/EventType.js";
 import { Schema } from "effect";
 import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
 

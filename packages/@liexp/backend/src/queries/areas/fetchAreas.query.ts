@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type ListAreaQuery } from "@liexp/shared/lib/io/http/Area.js";
+import { type ListAreaQuery } from "@liexp/io/lib/http/Area.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import * as O from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";

@@ -1,7 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { type APIError } from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { type EventType } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type PromptFn } from "@liexp/shared/lib/io/openai/prompts/prompt.type.js";
+import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { type EventType } from "@liexp/io/lib/http/Events/index.js";
+import { type PromptFn } from "@liexp/io/lib/openai/prompts/prompt.type.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { HumanMessage } from "langchain";
 import { type LoggerContext } from "../../context/logger.context.js";
