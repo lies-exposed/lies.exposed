@@ -433,6 +433,9 @@ importers:
         specifier: ^4.3.5
         version: 4.3.5
     devDependencies:
+      '@liexp/test':
+        specifier: workspace:*
+        version: link:../test
       '@types/lodash':
         specifier: ^4.17.23
         version: 4.17.23
