@@ -105,7 +105,7 @@
     "slick-carousel": "^1.8.1",
     "throttle-debounce": "^5.0.0",
     "topojson-client": "^3.1.0",
-    "vanilla-jsoneditor": "^3.3.1",
+    "vanilla-jsoneditor": "^3.11.0",
     "waveform-data": "^4.5.1"
   },
   "devDependencies": {
