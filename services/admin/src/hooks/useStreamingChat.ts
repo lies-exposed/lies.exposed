@@ -2,7 +2,7 @@ import type {
   ChatMessage,
   ChatRequest,
   ChatStreamEvent,
-} from "@liexp/shared/lib/io/http/Chat.js";
+} from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useCallback, useRef } from "react";
 import { flushSync } from "react-dom";

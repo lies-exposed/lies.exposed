@@ -1,8 +1,8 @@
-import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Group } from "@liexp/shared/lib/io/http/Group.js";
-import { OpenAISummarizeQueueType } from "@liexp/shared/lib/io/http/Queue/index.js";
-import { type Media } from "@liexp/shared/lib/io/http/index.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Group } from "@liexp/io/lib/http/Group.js";
+import { OpenAISummarizeQueueType } from "@liexp/io/lib/http/Queue/index.js";
+import { type Media } from "@liexp/io/lib/http/index.js";
+import * as io from "@liexp/io/lib/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";

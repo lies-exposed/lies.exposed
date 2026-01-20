@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID, uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Media } from "@liexp/io/lib/http/Media/Media.js";
 import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";

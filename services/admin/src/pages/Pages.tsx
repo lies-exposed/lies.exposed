@@ -1,4 +1,4 @@
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import PagePreview from "@liexp/ui/lib/components/admin/previews/PagePreview.js";

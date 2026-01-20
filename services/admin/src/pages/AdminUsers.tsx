@@ -6,7 +6,7 @@ import {
   EventSuggestionCreate,
   EventSuggestionEdit,
   EventSuggestionRead,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
 import {
   AutocompleteArrayInput,
   Create,

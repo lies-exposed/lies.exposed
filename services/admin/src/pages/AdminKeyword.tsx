@@ -1,4 +1,4 @@
-import { type Keyword } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type Keyword } from "@liexp/io/lib/http/Keyword.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";

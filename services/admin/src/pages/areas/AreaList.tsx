@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/shared/lib/io/http/Area.js";
+import { type Area } from "@liexp/io/lib/http/Area.js";
 import { MediaField } from "@liexp/ui/lib/components/admin/media/MediaField.js";
 import {
   BooleanField,

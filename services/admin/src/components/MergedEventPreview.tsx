@@ -1,8 +1,8 @@
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { type Group } from "@liexp/io/lib/http/Group.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
-import { type Group } from "@liexp/shared/lib/io/http/Group.js";
 import { formatDate } from "@liexp/shared/lib/utils/date.utils.js";
 import EventSlimCard from "@liexp/ui/lib/components/Cards/Events/EventSlimCard.js";
 import { EventIcon } from "@liexp/ui/lib/components/Common/Icons/EventIcon.js";

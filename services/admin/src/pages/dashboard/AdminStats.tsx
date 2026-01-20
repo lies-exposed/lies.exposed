@@ -1,7 +1,7 @@
 import {
   type AdminMediaStats,
   type AdminMediaStatsTotals,
-} from "@liexp/shared/lib/io/http/admin/stats/AdminMediaStats.js";
+} from "@liexp/io/lib/http/admin/stats/AdminMediaStats.js";
 import {
   LinkIcon,
   MediaIcon,
