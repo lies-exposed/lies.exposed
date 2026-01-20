@@ -13,12 +13,16 @@
             "path": "."
         },
         {
-            "name": "🚀 @liexp/backend",
-            "path": "packages/@liexp/backend"
-        },
-        {
             "name": "📦 @liexp/core",
             "path": "packages/@liexp/core"
+        },
+        {
+            "name": "🚀 @liexp/io",
+            "path": "packages/@liexp/io"
+        },
+        {
+            "name": "🚀 @liexp/backend",
+            "path": "packages/@liexp/backend"
         },
         {
             "name": "📦 @liexp/shared",
