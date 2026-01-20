@@ -1,12 +1,9 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type Event,
-  EventMap,
-} from "@liexp/shared/lib/io/http/Events/index.js";
-import { type UpdateEventTypeData } from "@liexp/shared/lib/io/http/Queue/event/index.js";
-import { UPDATE_EVENT_PROMPT } from "@liexp/shared/lib/io/openai/prompts/event.prompts.js";
+import { type Event, EventMap } from "@liexp/io/lib/http/Events/index.js";
+import { type UpdateEventTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
+import { UPDATE_EVENT_PROMPT } from "@liexp/io/lib/openai/prompts/event.prompts.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { JSONSchema, Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";

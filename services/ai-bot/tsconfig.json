@@ -28,6 +28,7 @@
   "exclude": ["**/build", "**/lib"],
   "references": [
     { "path": "../../packages/@liexp/core" },
+    { "path": "../../packages/@liexp/io" },
     { "path": "../../packages/@liexp/shared" },
     { "path": "../../packages/@liexp/backend" }
   ]

@@ -36,6 +36,7 @@
     "@langchain/mcp-adapters": "^1.1.1",
     "@liexp/backend": "workspace:*",
     "@liexp/core": "workspace:*",
+    "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@napi-rs/canvas": "^0.1.80",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",

@@ -3,7 +3,7 @@ import { fp } from "@liexp/core/lib/fp/index.js";
 import {
   type QueueResourceNames,
   type QueueTypes,
-} from "@liexp/shared/lib/io/http/Queue/index.js";
+} from "@liexp/io/lib/http/Queue/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { JobProcessor } from "../flows/ai/jobProcessor.js";
