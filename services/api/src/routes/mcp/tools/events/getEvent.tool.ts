@@ -2,7 +2,7 @@ import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { EventRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import { Equal } from "typeorm";

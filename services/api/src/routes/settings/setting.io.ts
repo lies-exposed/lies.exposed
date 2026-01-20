@@ -1,7 +1,7 @@
 import { type SettingEntity } from "@liexp/backend/lib/entities/Setting.entity.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import * as io from "@liexp/shared/lib/io/index.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import * as io from "@liexp/io/lib/index.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { type ControllerError } from "#io/ControllerError.js";

@@ -2,20 +2,16 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { GetEncodeUtils } from "@liexp/backend/lib/utils/encode.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
-import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
-import { ACTORS } from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
+import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   EventTotalsMonoid,
   type EventTotals,
-} from "@liexp/shared/lib/io/http/Events/EventTotals.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { GROUPS } from "@liexp/shared/lib/io/http/Group.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
-import { ValidContentType } from "@liexp/shared/lib/io/http/Media/index.js";
+} from "@liexp/io/lib/http/Events/EventTotals.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
+import { GROUPS } from "@liexp/io/lib/http/Group.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import { ValidContentType } from "@liexp/io/lib/http/Media/index.js";
 import {
   type GetNetworkQuery,
   type NetworkGraphOutput,
@@ -23,13 +19,17 @@ import {
   type NetworkLink,
   type NetworkType,
   type EventNetworkDatum,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import {
   type Actor,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
+import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSearchEventRelations.js";
+import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import { type Option } from "effect/Option";

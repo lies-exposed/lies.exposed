@@ -3,11 +3,8 @@ import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { ActorRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type Actor,
-  type EditActorBody,
-} from "@liexp/shared/lib/io/http/Actor.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { type Actor, type EditActorBody } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as O from "effect/Option";
 import { type DeepPartial, Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";

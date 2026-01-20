@@ -1,5 +1,5 @@
 import { BLOCK_NOTE_TO_TEXT } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
-import { BlockNoteDocument } from "@liexp/shared/lib/io/http/Common/BlockNoteDocument.js";
+import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";

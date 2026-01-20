@@ -1,8 +1,8 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { BuildImageWithSharpPubSub } from "@liexp/backend/lib/pubsub/buildImageWithSharp.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type BuildImageLayer } from "@liexp/io/lib/http/admin/BuildImage.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { type BuildImageLayer } from "@liexp/shared/lib/io/http/admin/BuildImage.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";

@@ -1,6 +1,6 @@
-import { BySubjectId } from "@liexp/shared/lib/io/http/Common/BySubject.js";
-import { TRANSACTION } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type CreateTransactionBody } from "@liexp/shared/lib/io/http/Events/Transaction.js";
+import { BySubjectId } from "@liexp/io/lib/http/Common/BySubject.js";
+import { TRANSACTION } from "@liexp/io/lib/http/Events/EventType.js";
+import { type CreateTransactionBody } from "@liexp/io/lib/http/Events/Transaction.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import { createEvent } from "../../../../flows/events/createEvent.flow.js";

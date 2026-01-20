@@ -2,7 +2,7 @@ import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { leftJoinSocialPosts } from "@liexp/backend/lib/queries/social-post/leftJoinSocialPosts.query.js";
 import { addOrder, getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { http } from "@liexp/shared/lib/io/index.js";
+import { http } from "@liexp/io/lib/index.js";
 import { Schema } from "effect";
 import { Brackets } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";

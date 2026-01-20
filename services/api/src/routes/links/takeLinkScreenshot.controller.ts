@@ -6,8 +6,8 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { LinkPubSub } from "@liexp/backend/lib/pubsub/links/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminEdit } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { AdminEdit } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { type Router } from "express";
 import { Equal } from "typeorm";
 import { type ServerContext } from "#context/context.type.js";

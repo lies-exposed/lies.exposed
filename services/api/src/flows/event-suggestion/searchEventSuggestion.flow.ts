@@ -1,8 +1,8 @@
 import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggestion.entity.js";
 import { addOrder } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import { type http } from "@liexp/io/lib/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEReader } from "#flows/flow.types.js";

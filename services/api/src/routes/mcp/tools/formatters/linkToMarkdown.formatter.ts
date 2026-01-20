@@ -1,4 +1,4 @@
-import { type Link } from "@liexp/shared/lib/io/http/Link.js";
+import { type Link } from "@liexp/io/lib/http/Link.js";
 
 /**
  * Formats a Link object into structured markdown text that is more easily

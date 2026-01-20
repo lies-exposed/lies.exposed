@@ -1,6 +1,6 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
-import { type Uncategorized } from "@liexp/shared/lib/io/http/Events/Uncategorized.js";
+import { type Uncategorized } from "@liexp/io/lib/http/Events/Uncategorized.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

@@ -1,4 +1,4 @@
-import { type Media } from "@liexp/shared/lib/io/http/Media/Media.js";
+import { type Media } from "@liexp/io/lib/http/Media/Media.js";
 
 /**
  * Formats a Media object into structured markdown text that is more easily

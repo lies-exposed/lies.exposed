@@ -1,6 +1,6 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import fc from "fast-check";

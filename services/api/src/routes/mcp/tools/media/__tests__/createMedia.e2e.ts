@@ -1,5 +1,5 @@
 import { afterEach } from "node:test";
-import { type URL } from "@liexp/shared/lib/io/http/Common/URL.js";
+import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";

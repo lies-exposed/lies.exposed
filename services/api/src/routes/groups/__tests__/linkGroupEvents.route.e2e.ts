@@ -1,8 +1,8 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { UNCATEGORIZED } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import * as tests from "@liexp/test";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";

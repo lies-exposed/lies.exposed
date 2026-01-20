@@ -1,4 +1,4 @@
-import { type Actor } from "@liexp/shared/lib/io/http/Actor.js";
+import { type Actor } from "@liexp/io/lib/http/Actor.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 

@@ -15,9 +15,9 @@ import {
   APIError,
   fromIOError,
   reportIOErrorDetails,
-} from "@liexp/shared/lib/io/http/Error/APIError.js";
-import { _DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
-import { IOErrorSchema } from "@liexp/shared/lib/io/http/Error/IOError.js";
+} from "@liexp/io/lib/http/Error/APIError.js";
+import { _DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
 import { type HTTPError } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";

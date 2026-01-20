@@ -1,11 +1,11 @@
 import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import {
   type NetworkGraphOutput,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TEControllerError } from "../../types/TEControllerError.js";
 import { createEventNetworkGraph } from "#flows/networks/createEventNetworkGraph.flow.js";

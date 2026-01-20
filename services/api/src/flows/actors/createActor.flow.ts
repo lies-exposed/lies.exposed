@@ -8,8 +8,8 @@ import {
   type Actor,
   AddActorBody,
   type CreateActorBody,
-} from "@liexp/shared/lib/io/http/Actor.js";
-import { ACTOR } from "@liexp/shared/lib/io/http/Common/BySubject.js";
+} from "@liexp/io/lib/http/Actor.js";
+import { ACTOR } from "@liexp/io/lib/http/Common/BySubject.js";
 import { Schema } from "effect";
 import { Equal } from "typeorm";
 import { type TEReader } from "#flows/flow.types.js";

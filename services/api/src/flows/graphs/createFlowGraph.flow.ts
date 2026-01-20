@@ -3,25 +3,25 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { type UUID } from "@liexp/shared/lib/io/http/Common/index.js";
-import { EventTotalsMonoid } from "@liexp/shared/lib/io/http/Events/EventTotals.js";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
+import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
   type GetNetworkQuery,
   type NetworkLink,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
+} from "@liexp/io/lib/http/Network/Network.js";
 import {
   type FlowGraphOutput,
   type FlowGraphType,
-} from "@liexp/shared/lib/io/http/graphs/FlowGraph.js";
+} from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import {
   type Actor,
   type Events,
   type Group,
   type Keyword,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
+import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import {
   differenceInDays,

@@ -4,9 +4,9 @@ import { checkMediaAccessibility } from "@liexp/backend/lib/flows/media/checkMed
 import { MediaRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import { type CreateMedia } from "@liexp/io/lib/http/Media/Media.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { type CreateMedia } from "@liexp/shared/lib/io/http/Media/Media.js";
 import { type ServerContext } from "../../context/context.type.js";
 import { type TEReader } from "#flows/flow.types.js";
 

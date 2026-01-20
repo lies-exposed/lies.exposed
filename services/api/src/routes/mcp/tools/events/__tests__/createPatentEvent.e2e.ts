@@ -1,4 +1,4 @@
-import { uuid, type UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { PatentEventArb } from "@liexp/test/lib/arbitrary/events/PatentEvent.arbitrary.js";
 import fc from "fast-check";

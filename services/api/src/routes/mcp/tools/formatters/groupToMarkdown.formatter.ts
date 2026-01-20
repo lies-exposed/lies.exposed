@@ -1,4 +1,4 @@
-import { type Group } from "@liexp/shared/lib/io/http/Group.js";
+import { type Group } from "@liexp/io/lib/http/Group.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 

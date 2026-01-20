@@ -3,7 +3,7 @@ import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { DecodeError } from "@liexp/shared/lib/io/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import type * as T from "fp-ts/lib/Task.js";

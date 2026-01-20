@@ -1,5 +1,5 @@
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as tests from "@liexp/test";
 import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";

@@ -1,12 +1,12 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { type SearchEvent } from "@liexp/shared/lib/io/http/Events/index.js";
-import { KEYWORDS } from "@liexp/shared/lib/io/http/Keyword.js";
+import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
+import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
 import {
   type NetworkLink,
   type NetworkType,
-} from "@liexp/shared/lib/io/http/Network/Network.js";
-import { type http } from "@liexp/shared/lib/io/index.js";
+} from "@liexp/io/lib/http/Network/Network.js";
+import { type http } from "@liexp/io/lib/index.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import fc from "fast-check";

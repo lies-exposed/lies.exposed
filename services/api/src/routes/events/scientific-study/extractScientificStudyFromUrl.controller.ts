@@ -5,13 +5,13 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { ScientificStudyIO } from "@liexp/backend/lib/io/event/scientific-study.io.js";
 import { CreateEventFromURLPubSub } from "@liexp/backend/lib/pubsub/events/createEventFromURL.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import {
   AdminCreate,
   AdminDelete,
   AdminEdit,
-} from "@liexp/shared/lib/io/http/auth/permissions/index.js";
+} from "@liexp/io/lib/http/auth/permissions/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";

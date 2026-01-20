@@ -2,8 +2,8 @@ import { SocialPostEntity } from "@liexp/backend/lib/entities/SocialPost.entity.
 import { fetchSocialPostRelations } from "@liexp/backend/lib/flows/social-post/fetchSocialPostRelations.flow.js";
 import { SocialPostIO } from "@liexp/backend/lib/io/socialPost.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { TO_PUBLISH } from "@liexp/io/lib/http/SocialPost.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { TO_PUBLISH } from "@liexp/shared/lib/io/http/SocialPost.js";
 import { addHours } from "date-fns";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toControllerError } from "../../io/ControllerError.js";

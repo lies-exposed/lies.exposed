@@ -7,8 +7,8 @@ import {
   type EventType,
   QUOTE,
   UNCATEGORIZED,
-} from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/EventType.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import {

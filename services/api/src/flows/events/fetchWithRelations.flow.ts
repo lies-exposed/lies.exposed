@@ -4,15 +4,15 @@ import {
   searchEventV2Query,
 } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import {
   type SearchEvent,
   type SearchEventsQuery,
-} from "@liexp/shared/lib/io/http/Events/SearchEvents/SearchEvent.js";
+} from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import {
   type EventRelations,
   type Event,
-} from "@liexp/shared/lib/io/http/Events/index.js";
+} from "@liexp/io/lib/http/Events/index.js";
+import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";

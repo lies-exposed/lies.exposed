@@ -4,7 +4,7 @@ import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type URL } from "@liexp/shared/lib/io/http/Common/index.js";
+import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";

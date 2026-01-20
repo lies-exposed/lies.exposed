@@ -2,8 +2,7 @@ import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import { EventType } from "@liexp/shared/lib/io/http/Events/index.js";
+import { EventType } from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Events,
@@ -12,7 +11,8 @@ import {
   type Keyword,
   type Link,
   type Media,
-} from "@liexp/shared/lib/io/http/index.js";
+} from "@liexp/io/lib/http/index.js";
+import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";

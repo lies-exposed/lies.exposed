@@ -3,12 +3,12 @@ import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
 import { SearchFromWikipediaPubSub } from "@liexp/backend/lib/pubsub/searchFromWikipedia.pubSub.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { GROUP } from "@liexp/shared/lib/io/http/Common/index.js";
+import { GROUP } from "@liexp/io/lib/http/Common/index.js";
 import {
   AddGroupBody,
   type CreateGroupBody,
   type Group,
-} from "@liexp/shared/lib/io/http/Group.js";
+} from "@liexp/io/lib/http/Group.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 import { Equal } from "typeorm";

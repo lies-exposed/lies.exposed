@@ -1,8 +1,8 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/shared/lib/io/http/Common/UUID.js";
-import { SCIENTIFIC_STUDY } from "@liexp/shared/lib/io/http/Events/EventType.js";
-import { type CreateScientificStudyBody } from "@liexp/shared/lib/io/http/Events/ScientificStudy.js";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
+import { type CreateScientificStudyBody } from "@liexp/io/lib/http/Events/ScientificStudy.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";

@@ -1,4 +1,4 @@
-import { type Event } from "@liexp/shared/lib/io/http/Events/index.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 
