@@ -1,0 +1,48 @@
+{
+  "name": "@liexp/io",
+  "version": "0.2.0",
+  "private": true,
+  "license": "MIT",
+  "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./lib/*": "./lib/*"
+  },
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "files": [
+    "lib",
+    "assets"
+  ],
+  "scripts": {
+    "typecheck": "tsc",
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "rm -rf lib",
+    "lint": "eslint src",
+    "test": "vitest",
+    "watch": "tsc -b -w"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
+  },
+  "dependencies": {
+    "@liexp/core": "workspace:*",
+    "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "effect": "^3.19.14",
+    "eslint": "^9.39.2",
+    "fast-check": "^3.23.2",
+    "fp-ts": "^2.16.10",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.0.4",
+    "vitest": "^4.0.17"
+  },
+  "peerDependencies": {
+    "fp-ts": "^2",
+    "effect": "^3"
+  },
+  "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316"
+}
