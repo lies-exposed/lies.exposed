@@ -5,8 +5,8 @@ import {
   type ChatMessage,
   type ResourceContext,
   type ChatStreamEvent,
-} from "@liexp/shared/lib/io/http/Chat.js";
-import { uuid } from "@liexp/shared/lib/io/http/Common/UUID.js";
+} from "@liexp/io/lib/http/Chat.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";

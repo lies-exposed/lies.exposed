@@ -1,8 +1,8 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
-import { AdminRead } from "@liexp/shared/lib/io/http/auth/permissions/index.js";
 import { Schema } from "effect";
 import type { Request, Response } from "express";
 import * as TE from "fp-ts/lib/TaskEither.js";
