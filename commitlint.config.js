@@ -7,8 +7,6 @@ export default {
       "always",
       [
         "workspace",
-        "deps",
-        "deps-dev",
         "core",
         "shared",
         "test",
@@ -22,6 +20,9 @@ export default {
         "agent",
         "storybook",
         "localai",
+        // used by Dependabot
+        "deps",
+        "deps-dev",
       ],
     ],
     "type-enum": [
@@ -37,6 +38,7 @@ export default {
         "ci",
         "test",
         "release",
+        // used by Dependabot
         "build",
       ],
     ],

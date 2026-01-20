@@ -10,7 +10,9 @@
       ],
       "include-scope": [
         "release",
-        "workspace"
+        "workspace",
+        "deps",
+        "dev-deps"
       ],
       "always-update": true
     },
