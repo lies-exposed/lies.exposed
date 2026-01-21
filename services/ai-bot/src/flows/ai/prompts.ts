@@ -13,6 +13,7 @@ import {
 } from "@liexp/io/lib/http/Queue/index.js";
 import { EMBED_ACTOR_PROMPT } from "@liexp/io/lib/openai/prompts/actor.prompts.js";
 import {
+  CREATE_EVENT_FROM_LINKS_PROMPT,
   CREATE_EVENT_FROM_TEXT_PROMPT,
   CREATE_EVENT_FROM_URL_PROMPT,
   EMBED_EVENT_PROMPT,
@@ -71,4 +72,8 @@ export const getEventFromJsonPrompt = (
     default:
       return () => "Reply with fail";
   }
+};
+
+export const getEventFromLinksPrompt = () => {
+  return CREATE_EVENT_FROM_LINKS_PROMPT;
 };

@@ -6,6 +6,7 @@ import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
 import ReferenceGroupInput from "../groups/ReferenceGroupInput.js";
 import { SearchLinksButton } from "../links/SearchLinksButton.js";
 import {
+  BulkDeleteButton,
   Create,
   CreateButton,
   DateInput,
@@ -22,6 +23,7 @@ import {
   usePermissions,
   type ListProps,
 } from "../react-admin.js";
+import { CreateEventFromLinksButton } from "./CreateEventFromLinksButton.js";
 import { LinkDataGrid } from "./LinkDataGrid.js";
 
 const RESOURCE = "links";
@@ -77,6 +79,13 @@ export const LinkListActions: React.FC = () => {
   );
 };
 
+const LinkBulkActionButtons: React.FC = () => (
+  <>
+    <CreateEventFromLinksButton />
+    <BulkDeleteButton />
+  </>
+);
+
 export const LinkList: React.FC<ListProps> = (props) => {
   const { data, isLoading } = useGetIdentity();
 
@@ -103,7 +112,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
       actions={<LinkListActions />}
       aside={<LinkListAside />}
     >
-      <LinkDataGrid />
+      <LinkDataGrid bulkActionButtons={<LinkBulkActionButtons />} />
     </List>
   );
 };

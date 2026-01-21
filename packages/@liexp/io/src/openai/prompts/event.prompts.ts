@@ -71,6 +71,46 @@ Try to create a valid event, without inventing any detail from the following que
 `;
 
 /**
+ * Prompt for creating an event from multiple links.
+ *
+ * This prompt synthesizes information from multiple sources to create a single event.
+ */
+export const CREATE_EVENT_FROM_LINKS_PROMPT: PromptFn<{
+  jsonSchema: string;
+  context: string;
+  type: EventType;
+}> = ({ vars }) => `
+You are an expert in extracting and synthesizing structured JSON from multiple text sources. Your task is to create a SINGLE comprehensive event from multiple link sources.
+
+The texts provided are from different web pages, articles, or documents that relate to the same event or topic.
+
+Your job is to synthesize all the information from these multiple sources into a SINGLE 'event' JSON object:
+
+{{
+  title: "A comprehensive title that captures the essence of the event from all sources",
+  excerpt: "A synthesized description (100-150 words) that combines insights from all sources, presenting a unified view of the event",
+  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Extract the most accurate date(s) from all sources. The first element indicates the start date, the second (optional) is the end date.",
+}}
+
+IMPORTANT GUIDELINES:
+- SYNTHESIZE information from ALL sources - do not just use one source
+- Cross-reference facts between sources for accuracy
+- If sources conflict, prefer the most detailed or recent information
+- You MUST always extract or infer at least one date for the event
+- Dates MUST be in ISO format (YYYY-MM-DD)
+- Do NOT include URLs, links, or references in your response - these are managed separately
+- Focus on extracting factual information and identifying common themes across sources
+- For scientific studies: combine findings from multiple papers into a coherent summary
+- For news articles: synthesize different perspectives into a balanced account
+
+The sources you need to extract and synthesize the event from are:
+
+---------------------------------------------------------------
+${vars.context}
+---------------------------------------------------------------
+`;
+
+/**
  * Prompt for updating an existing event by ID.
  *
  *
