@@ -54,6 +54,7 @@ export interface InfiniteListBoxProps<
     >,
   ) => ResourceQuery<
     EndpointParamsType<E>,
+    any,
     Partial<EndpointQueryType<E>>,
     EndpointOutputType<E>
   >;

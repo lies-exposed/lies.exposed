@@ -4084,26 +4084,26 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
 
   '@ts-endpoint/core@file:patches/ts-endpoint-core-0.1.0.tgz':
-    resolution: {integrity: sha512-BearOwFhCzPcxZK2WozYQ0rarjfOtJtsK28uIhvMf8lSfe+AX6ve4MqrQdC7AYBK+Le2grbmlNJMhKDcKA5C+w==, tarball: file:patches/ts-endpoint-core-0.1.0.tgz}
+    resolution: {integrity: sha512-zfr44YwYnVuuOqop4ixVyu3UVh9UGvi5AnNMiKiuVCg6U810IW6fnWJQWhi2a4d0S1bJKgePIBm7JRgSE1y0xA==, tarball: file:patches/ts-endpoint-core-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       fp-ts: ^2
 
   '@ts-endpoint/express@file:patches/ts-endpoint-express-0.1.0.tgz':
-    resolution: {integrity: sha512-Q7yODRl6Ox2ichZD330bi4Bcnf7Qu7svEKh90RZf/PVp/WuM8PEx58SjqbjFkLCWm6+xocgZb4pOf6EuOc+DOw==, tarball: file:patches/ts-endpoint-express-0.1.0.tgz}
+    resolution: {integrity: sha512-MeaadwGGCbVbqAG6j9YPPpGr2Nz36osCn/whSuCgeiLd9J7NrjOVqGp8M61TvCKb7HwqFZpbCenD8YxH8zM22Q==, tarball: file:patches/ts-endpoint-express-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
-      express: ^5
+      express: ^4 || ^5
       fp-ts: ^2
 
   '@ts-endpoint/http-client@file:patches/ts-endpoint-http-client-0.1.0.tgz':
-    resolution: {integrity: sha512-btoXesFLpBxP4aqr3z8rhRXZ8ztXveDmTAw6vhW5Knl23vyCbW4YMPIQSpt8hY7i9b4PMtwxF9ZJLZwOCkDiFQ==, tarball: file:patches/ts-endpoint-http-client-0.1.0.tgz}
+    resolution: {integrity: sha512-2lVbwRJoNh5GnrlxqVSomjlPdP09SlukQ/Qil9iYEx+mzWyI//uW7Zx7hYEeBanIXFTCMogcKpuVRfduHTLyOw==, tarball: file:patches/ts-endpoint-http-client-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       fp-ts: ^2
 
   '@ts-endpoint/react-admin@file:patches/ts-endpoint-react-admin-0.1.0.tgz':
-    resolution: {integrity: sha512-JryPLJUuU9rfww/P20IU7fZqNm2kxLWETJozCDJl9j3OQgi8JGdiRamsScLRtRiSnxZawq34UJjaWlMloYSXmQ==, tarball: file:patches/ts-endpoint-react-admin-0.1.0.tgz}
+    resolution: {integrity: sha512-k7jzDJfqPyPkdmYJ1jMW6vZnQewLuz8Ms0Ld6CpQH+5BXIxScTiYPn0bXPjiMWMB5t6JsD8zS292IGoNs5ANvA==, tarball: file:patches/ts-endpoint-react-admin-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       axios: ^1
@@ -4111,14 +4111,14 @@ packages:
       react-admin: ^5
 
   '@ts-endpoint/resource-client@file:patches/ts-endpoint-resource-client-0.1.0.tgz':
-    resolution: {integrity: sha512-wEsV5AX51xGqI/y+Wd7zK764wnd3MWGVA+K8AJ/M/wCcy/urblhdckzamjFpSj1R2x0lrOlXdYX1DfwTbIsZag==, tarball: file:patches/ts-endpoint-resource-client-0.1.0.tgz}
+    resolution: {integrity: sha512-71T3NbkSIfRgPvsT6q+La6WRoKMxy/iLArhe16tPEVGo8r38uaATw2yq0522w2U3NY2Zy++Ahea5AkTnAFdYSA==, tarball: file:patches/ts-endpoint-resource-client-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       axios: ^1
       fp-ts: ^2
 
   '@ts-endpoint/tanstack-query@file:patches/ts-endpoint-tanstack-query-0.1.0.tgz':
-    resolution: {integrity: sha512-dhPwp0mm6kj3NJuswd5WzCpEHFtYC31q/a4HK1YSqJY5cZRaQ9HD2N4ysmkNSUhy8mADM5Jv2ETi9CXg7UOmWg==, tarball: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz}
+    resolution: {integrity: sha512-YmppiplIm1rI0STT3aN7etjNXEqM7waZ6MiJ16Cnyr5bRamJBKyaBQOWCKikXmhIw1OY/pkXyDuqXFuqSG3Yfw==, tarball: file:patches/ts-endpoint-tanstack-query-0.1.0.tgz}
     version: 0.1.0
     peerDependencies:
       fp-ts: ^2
