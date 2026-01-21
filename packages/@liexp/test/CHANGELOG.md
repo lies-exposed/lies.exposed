@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.8...@liexp/test@0.1.9) (2026-01-21)
+
+
+### Miscellaneous
+
+* **io:** extract io codecs from @liexp/shared to new @liexp/io package ([#3088](https://github.com/lies-exposed/lies.exposed/issues/3088)) ([6be0b5f](https://github.com/lies-exposed/lies.exposed/commit/6be0b5f515a3b169ef9655996d155ce0fde69990))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.1
+
 ## [0.1.8](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.7...@liexp/test@0.1.8) (2026-01-19)
 
 
