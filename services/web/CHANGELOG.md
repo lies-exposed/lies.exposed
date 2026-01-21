@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.9...web@0.1.10) (2026-01-21)
+
+
+### Bug Fixes
+
+* **web:** path for /profile/* compatible with both web and SSR routing ([#3100](https://github.com/lies-exposed/lies.exposed/issues/3100)) ([3972ba7](https://github.com/lies-exposed/lies.exposed/commit/3972ba71c5fcd3843f698568083efec3cc294b81))
+
+
+### Miscellaneous
+
+* **io:** extract io codecs from @liexp/shared to new @liexp/io package ([#3088](https://github.com/lies-exposed/lies.exposed/issues/3088)) ([6be0b5f](https://github.com/lies-exposed/lies.exposed/commit/6be0b5f515a3b169ef9655996d155ce0fde69990))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.9
+    * @liexp/io bumped to 0.2.1
+    * @liexp/shared bumped to 0.2.1
+    * @liexp/ui bumped to 0.2.1
+  * devDependencies
+    * @liexp/test bumped to 0.1.9
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.8...web@0.1.9) (2026-01-19)
 
 

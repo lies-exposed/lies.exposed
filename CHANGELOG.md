@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/0.1.9...0.1.10) (2026-01-21)
+
+
+### Miscellaneous
+
+* **deps:** bump uuid from 11.1.0 to 13.0.0 ([#2940](https://github.com/lies-exposed/lies.exposed/issues/2940)) ([45a4e15](https://github.com/lies-exposed/lies.exposed/commit/45a4e15ec0bbfc5f0c8f803b3435c89708a5bb5f))
+* ignore dependabot updates for node 25 types ([#3102](https://github.com/lies-exposed/lies.exposed/issues/3102)) ([1447d83](https://github.com/lies-exposed/lies.exposed/commit/1447d834c63bd33cca01e29284bafd2be4c9730e))
+* include 'deps' and 'dev-deps' commit scope in workspace release changelog ([#3085](https://github.com/lies-exposed/lies.exposed/issues/3085)) ([f0485f2](https://github.com/lies-exposed/lies.exposed/commit/f0485f2656fa258687f5d11945c397b1a6990641))
+* **io:** extract io codecs from @liexp/shared to new @liexp/io package ([#3088](https://github.com/lies-exposed/lies.exposed/issues/3088)) ([6be0b5f](https://github.com/lies-exposed/lies.exposed/commit/6be0b5f515a3b169ef9655996d155ce0fde69990))
+* **shared:** added unit tests for helpers and utils ([#3090](https://github.com/lies-exposed/lies.exposed/issues/3090)) ([f1a6f7a](https://github.com/lies-exposed/lies.exposed/commit/f1a6f7aad7c86906d293a4f9ee6d7e92bc1d71d9))
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/0.1.8...0.1.9) (2026-01-19)
 
 

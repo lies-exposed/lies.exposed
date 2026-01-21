@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.9...@liexp/storybook@0.1.10) (2026-01-21)
+
+
+### Miscellaneous
+
+* **io:** extract io codecs from @liexp/shared to new @liexp/io package ([#3088](https://github.com/lies-exposed/lies.exposed/issues/3088)) ([6be0b5f](https://github.com/lies-exposed/lies.exposed/commit/6be0b5f515a3b169ef9655996d155ce0fde69990))
+* **storybook:** added stories for ErrorBox component ([#3101](https://github.com/lies-exposed/lies.exposed/issues/3101)) ([2f68ced](https://github.com/lies-exposed/lies.exposed/commit/2f68ced04151d8dfabb2ce046998a35b1b85ec8e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.1
+    * @liexp/shared bumped to 0.2.1
+    * @liexp/test bumped to 0.1.9
+    * @liexp/ui bumped to 0.2.1
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.8...@liexp/storybook@0.1.9) (2026-01-19)
 
 
