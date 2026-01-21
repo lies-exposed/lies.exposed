@@ -23,6 +23,9 @@
     },
     {
       "path": "../io"
+    },
+    {
+      "path": "../test"
     }
   ],
   "include": ["./src", "./typings", "./src/**/*.json", "./test"],
