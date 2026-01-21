@@ -711,15 +711,10 @@ export const routes: ServerRoute[] = [
       ]);
     },
   },
-  // profile
+  // profile (wildcard to allow react-admin to handle nested routes like /profile/login)
+  // SSR uses path-to-regexp v8 syntax, client uses React Router v7 syntax
   {
-    path: "/profile",
-    route: () => <ProfilePage />,
-    queries: () => async () => Promise.resolve([]),
-  },
-  // profile nested routes for react router
-  {
-    path: import.meta.env?.SSR ? "/profile{/:profilePath}" : "/profile",
+    path: import.meta.env?.SSR ? "/profile{/*path}" : "/profile/*",
     route: () => <ProfilePage />,
     queries: () => async () => Promise.resolve([]),
   },
