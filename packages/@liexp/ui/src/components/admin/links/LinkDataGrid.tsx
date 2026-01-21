@@ -14,7 +14,14 @@ import {
 import { Stack, Typography } from "../../mui/index.js";
 import { MediaField } from "../media/MediaField.js";
 
-export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
+interface LinkDataGridProps extends DatagridProps {
+  bulkActionButtons?: React.ReactElement | false;
+}
+
+export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
+  bulkActionButtons,
+  ...props
+}) => {
   const { permissions, isLoading } = usePermissions();
 
   if (isLoading) {
@@ -23,7 +30,7 @@ export const LinkDataGrid: React.FC<DatagridProps> = (props) => {
 
   const isAdmin = checkIsAdmin(permissions);
   return (
-    <Datagrid rowClick="edit" {...props}>
+    <Datagrid rowClick="edit" bulkActionButtons={bulkActionButtons} {...props}>
       <FunctionField
         render={() => {
           return (

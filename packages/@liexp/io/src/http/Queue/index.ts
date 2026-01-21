@@ -6,6 +6,10 @@ import { PaginationQuery } from "../Query/PaginationQuery.js";
 import { SortQuery } from "../Query/SortQuery.js";
 import { ResourcesNames } from "../ResourcesNames.js";
 import {
+  CreateEventFromLinksQueueData,
+  OpenAICreateEventFromLinksType,
+} from "./event/CreateEventFromLinksQueue.js";
+import {
   CreateEventFromTextQueueData,
   OpenAICreateEventFromTextType,
 } from "./event/CreateEventFromTextQueueData.js";
@@ -33,6 +37,7 @@ export const QueueTypes = Schema.Union(
   OpenAISummarizeQueueType,
   OpenAICreateEventFromURLType,
   OpenAICreateEventFromTextType,
+  OpenAICreateEventFromLinksType,
   OpenAIUpdateEventQueueType,
 ).annotations({
   title: "QueueTypes",
@@ -126,6 +131,7 @@ const CreateQueueData = Schema.Union(
   CreateQueueTextData,
   CreateQueueURLData,
   CreateEventFromURLQueueData,
+  CreateEventFromLinksQueueData,
   UpdateEventQueueData,
 ).annotations({
   title: "CreateQueueData",
