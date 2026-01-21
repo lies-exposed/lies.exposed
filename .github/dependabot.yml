@@ -56,6 +56,9 @@ updates:
         versions: ["19.x"]
       - dependency-name: react-dom
         versions: ["19.x"]
+      - dependency-name: "@types/node"
+        versions:
+          - "25.x"
       - dependency-name: "@types/react"
         versions: ["19.x"]
       - dependency-name: "@types/react-dom"
