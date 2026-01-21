@@ -1377,8 +1377,8 @@ importers:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.6.1)
       eslint-plugin-storybook:
-        specifier: ^10.1.11
-        version: 10.1.11(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.11(@testing-library/dom@10.4.1)(prettier@3.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)
+        specifier: ^10.2.0
+        version: 10.2.0(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.11(@testing-library/dom@10.4.1)(prettier@3.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)
       prettier:
         specifier: ^3.8.0
         version: 3.8.0
@@ -6191,11 +6191,11 @@ packages:
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
 
-  eslint-plugin-storybook@10.1.11:
-    resolution: {integrity: sha512-mbq2r2kK5+AcLl0XDJ3to91JOgzCbHOqj+J3n+FRw6drk+M1boRqMShSoMMm0HdzXPLmlr7iur+qJ5ZuhH6ayQ==}
+  eslint-plugin-storybook@10.2.0:
+    resolution: {integrity: sha512-OtQJ153FOusr8bIMzccjkfMFJEex/3NFx0iXZ+UaeQ0WXearQ+37EGgBay3onkFElyu8AySggq/fdTknPAEvPA==}
     peerDependencies:
       eslint: '>=8'
-      storybook: ^10.1.11
+      storybook: ^10.2.0
 
   eslint-scope@8.4.0:
     resolution: {integrity: sha512-sNXOfKCn74rt8RICKMvJS7XKV/Xk9kA7DyJr8mJik3S7Cwgy3qlkkmyS2uQB3jiJg6VNdZd/pDBJu0nvG2NlTg==}
@@ -15858,7 +15858,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-storybook@10.1.11(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.11(@testing-library/dom@10.4.1)(prettier@3.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3):
+  eslint-plugin-storybook@10.2.0(eslint@9.39.2(jiti@2.6.1))(storybook@10.1.11(@testing-library/dom@10.4.1)(prettier@3.8.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/utils': 8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
