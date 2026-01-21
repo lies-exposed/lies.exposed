@@ -11,6 +11,7 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
       target="_blank"
       style={{ display: "flex", flex: "0 0 auto" }}
     >
+      {/* TODO: change this number and received all these as props */}
       <input type="hidden" name="hosted_button_id" value="BNAGL4D89LJDE" />
       <input type="hidden" name="no_recurring" value="0" />
       <input type="hidden" name="item_name" value="Support for lies.exposed" />
