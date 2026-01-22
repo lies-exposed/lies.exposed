@@ -21,7 +21,7 @@ export interface AgentAppTest {
 /**
  * Creates a mock agent provider for testing
  */
-export const createMockAgentProvider = () => ({
+const createMockAgentProvider = () => ({
   invoke: () =>
     TE.right({
       messages: [

@@ -113,8 +113,14 @@
       ]
     },
     "services/agent": {
+      "entry": [
+        "src/run.ts",
+        "**/*.{spec,e2e}.ts",
+        "test/AppTest.ts"
+      ],
       "project": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "test/**/*.ts"
       ]
     },
     "services/storybook": {
