@@ -37,9 +37,9 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
   defaultValue = "",
   ...props
 }) => {
+  const { control, setValue, getValues, getFieldState } = useFormContext();
   // Watch the source field value
-  const watchedValue = useWatch({ name: source });
-  const { setValue, getValues, getFieldState } = useFormContext();
+  const watchedValue = useWatch({ control, name: source });
 
   // Track whether the user has manually touched the slug field
   const hasManuallyEditedRef = React.useRef(false);
