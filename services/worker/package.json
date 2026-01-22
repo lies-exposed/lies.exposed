@@ -56,7 +56,7 @@
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
     "ioredis": "^5.9.2",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "node-cron": "^4.0.3",
     "node-telegram-bot-api": "^0.67.0",
     "nodemw": "^0.25.0",

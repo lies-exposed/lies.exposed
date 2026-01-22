@@ -412,8 +412,8 @@ importers:
         specifier: ^1
         version: 1.2.3(@langchain/core@1.1.16(@opentelemetry/api@1.9.0)(openai@6.16.0(ws@8.19.0)(zod@4.3.5)))(@opentelemetry/api@1.9.0)(openai@6.16.0(ws@8.19.0)(zod@4.3.5))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.1(zod@4.3.5))
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       openai:
         specifier: ^6
         version: 6.16.0(ws@8.19.0)(zod@4.3.5)
@@ -666,8 +666,8 @@ importers:
         specifier: ^0.4.1
         version: 0.4.1
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       ol:
         specifier: ^10.7.0
         version: 10.7.0
@@ -1564,8 +1564,8 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
       lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
+        specifier: ^4.17.23
+        version: 4.17.23
       node-cron:
         specifier: ^4.0.3
         version: 4.2.1
@@ -7505,8 +7505,8 @@ packages:
   lodash.upperfirst@4.3.1:
     resolution: {integrity: sha512-sReKOYJIJf74dhJONhU4e0/shzi1trVbSWDOhKYE5XV2O+H7Sb2Dihwuc7xWxVl+DgFPyTqIN3zMfT9cq5iWDg==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.17.23:
+    resolution: {integrity: sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w==}
 
   log-update@6.1.0:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
@@ -14162,7 +14162,7 @@ snapshots:
     dependencies:
       '@types/lodash': 4.17.23
       '@types/react': 18.3.27
-      lodash: 4.17.21
+      lodash: 4.17.23
       prop-types: 15.8.1
       react: 18.3.1
 
@@ -14182,7 +14182,7 @@ snapshots:
       classnames: 2.5.1
       d3-path: 1.0.9
       d3-shape: 1.3.7
-      lodash: 4.17.21
+      lodash: 4.17.23
       prop-types: 15.8.1
       react: 18.3.1
 
@@ -14191,7 +14191,7 @@ snapshots:
       '@types/lodash': 4.17.23
       '@types/react': 18.3.27
       classnames: 2.5.1
-      lodash: 4.17.21
+      lodash: 4.17.23
       prop-types: 15.8.1
       react: 18.3.1
       reduce-css-calc: 1.3.0
@@ -16716,7 +16716,7 @@ snapshots:
       debug: 4.4.3
       image-size: 0.7.5
       json-bigint: 1.0.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       luxon: 1.28.1
       reflect-metadata: 0.1.14
       request: 2.88.2
@@ -17408,7 +17408,7 @@ snapshots:
 
   lodash.upperfirst@4.3.1: {}
 
-  lodash@4.17.21: {}
+  lodash@4.17.23: {}
 
   log-update@6.1.0:
     dependencies:
@@ -18766,7 +18766,7 @@ snapshots:
       eventemitter3: 5.0.1
       inflection: 3.0.2
       jsonexport: 3.2.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       query-string: 7.1.3
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -18814,7 +18814,7 @@ snapshots:
       dompurify: 3.3.1
       inflection: 3.0.2
       jsonexport: 3.2.0
-      lodash: 4.17.21
+      lodash: 4.17.23
       query-string: 7.1.3
       ra-core: 5.13.4(@tanstack/react-query@5.90.16(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-hook-form@7.69.0(react@18.3.1))(react-router-dom@7.11.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@7.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -19238,12 +19238,12 @@ snapshots:
 
   request-promise-core@1.1.3(request@2.88.2):
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       request: 2.88.2
 
   request-promise-core@1.1.4(request@2.88.2):
     dependencies:
-      lodash: 4.17.21
+      lodash: 4.17.23
       request: 2.88.2
 
   request-promise@4.2.6(request@2.88.2):
