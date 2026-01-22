@@ -76,7 +76,6 @@ Try to create a valid event, without inventing any detail from the following que
  * This prompt synthesizes information from multiple sources to create a single event.
  */
 export const CREATE_EVENT_FROM_LINKS_PROMPT: PromptFn<{
-  jsonSchema: string;
   context: string;
   type: EventType;
 }> = ({ vars }) => `
@@ -84,21 +83,15 @@ You are an expert in extracting and synthesizing structured JSON from multiple t
 
 The texts provided are from different web pages, articles, or documents that relate to the same event or topic.
 
-Your job is to synthesize all the information from these multiple sources into a SINGLE 'event' JSON object:
-
-{{
-  title: "A comprehensive title that captures the essence of the event from all sources",
-  excerpt: "A synthesized description (100-150 words) that combines insights from all sources, presenting a unified view of the event",
-  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Extract the most accurate date(s) from all sources. The first element indicates the start date, the second (optional) is the end date.",
-}}
+Your job is to synthesize all the information from these multiple sources into a SINGLE 'event' of api.lies.exposed:
 
 IMPORTANT GUIDELINES:
 - SYNTHESIZE information from ALL sources - do not just use one source
 - Cross-reference facts between sources for accuracy
 - If sources conflict, prefer the most detailed or recent information
 - You MUST always extract or infer at least one date for the event
-- Dates MUST be in ISO format (YYYY-MM-DD)
-- Do NOT include URLs, links, or references in your response - these are managed separately
+- Dates MUST be in ISO format (YYYY-MM-DDTHH:mm:ss - if you can't get the time simply use "00:00:00")
+- Do NOT include URLs, links, or references in your response - but ensure to assign the given links to the event you create
 - Focus on extracting factual information and identifying common themes across sources
 - For scientific studies: combine findings from multiple papers into a coherent summary
 - For news articles: synthesize different perspectives into a balanced account
@@ -117,18 +110,11 @@ ${vars.context}
  */
 export const UPDATE_EVENT_PROMPT: PromptFn<{
   id: UUID;
-  jsonSchema: string;
   type: EventType;
 }> = ({ vars }) => `
 You are an expert in extracting and updating structured JSON from text. Your task is to UPDATE an existing event with new information.
 
 Your job is to analyze this context and update the event JSON object with accurate, relevant information:
-
-{{
-  title: "Updated title of the event if more accurate information is found, otherwise keep the current title",
-  excerpt: "An updated comprehensive description of the event (100 words max), incorporating new insights from the links and entity information",
-  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). Update if more precise dates are found, otherwise keep the current date. The first element is the start date, the second (optional) is the end date.",
-}}
 
 IMPORTANT GUIDELINES:
 - Use the proper MCP tools to access data from lies.exposed

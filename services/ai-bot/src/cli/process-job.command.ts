@@ -1,5 +1,6 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import {
   type QueueResourceNames,
   type QueueTypes,
@@ -15,7 +16,7 @@ export const processJobCommand: CommandFlow = async (ctx, args) => {
       Params: {
         type: args[0] as QueueTypes,
         resource: args[1] as QueueResourceNames,
-        id: args[2],
+        id: args[2] as UUID,
       },
     }),
     fp.TE.chain((job) => JobProcessor(job.data, false)(ctx)),

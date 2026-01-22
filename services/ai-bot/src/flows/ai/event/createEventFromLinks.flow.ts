@@ -1,21 +1,28 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { type Event, EventMap } from "@liexp/io/lib/http/Events/index.js";
+import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { type Link } from "@liexp/io/lib/http/Link.js";
 import { type CreateEventFromLinksTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
 import { type Events } from "@liexp/io/lib/http/index.js";
-import { type EventCommonProps } from "@liexp/shared/lib/helpers/event/event.helper.js";
-import { buildEvent } from "@liexp/shared/lib/helpers/event/event.helper.js";
+import {
+  buildEvent,
+  type EventCommonProps,
+} from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { getEventFromLinksPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
 
-const defaultQuestion =
-  "Can you synthesize an event JSON object from the provided multiple link sources? Return the response in JSON format.";
+const defaultQuestion = `
+Can you synthesize an event from the provided multiple link sources?
+Use the api.lies.exposed proper tools to fetch links and create the new resources.
+
+When creating the event you have also to link it with the given linkIds in the links relations to
+
+
+`;
 
 /**
  * Removes undefined values from an object to prevent JSON serialization from converting them to null
@@ -54,20 +61,8 @@ export const createEventFromLinksFlow: JobProcessRTE<
   CreateEventFromLinksTypeData,
   Event
 > = (job) => {
-  const eventSchema = EventMap[job.data.type];
-
   return pipe(
     fp.RTE.Do,
-    fp.RTE.bindW("jsonSchema", () =>
-      pipe(
-        JSONSchema.make(eventSchema as Schema.Schema<unknown>),
-        fp.RTE.right,
-        LoggerService.RTE.debug((s) => [
-          `Event JSON Schema ${JSON.stringify(s, null, 2)}`,
-        ]),
-        fp.RTE.mapLeft(toAIBotError),
-      ),
-    ),
     fp.RTE.bindW(
       "links",
       () => (ctx: ClientContext) =>
@@ -100,7 +95,7 @@ export const createEventFromLinksFlow: JobProcessRTE<
       }
       return fp.RTE.right(getEventFromLinksPrompt());
     }),
-    fp.RTE.bindW("event", ({ prompt, jsonSchema, links }) =>
+    fp.RTE.bindW("event", ({ prompt, links }) =>
       pipe(
         AgentChatService.getStructuredOutput<
           ClientContext,
@@ -109,7 +104,6 @@ export const createEventFromLinksFlow: JobProcessRTE<
           message: `${prompt({
             vars: {
               type: job.data.type,
-              jsonSchema: JSON.stringify(jsonSchema),
               context: buildLinksContext(links),
             },
           })}\n\n${job.question ?? defaultQuestion}`,
