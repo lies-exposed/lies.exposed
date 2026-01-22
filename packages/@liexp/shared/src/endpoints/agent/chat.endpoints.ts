@@ -5,7 +5,7 @@ import {
   ChatStreamEvent,
 } from "@liexp/io/lib/http/Chat.js";
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
-import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
+import { Endpoint, ResourceEndpoints, StreamOutput } from "@ts-endpoint/core";
 import { Schema } from "effect";
 
 const SingleChatOutput = Output(ChatResponse).annotations({
@@ -68,7 +68,7 @@ export const SendMessageStream = Endpoint({
     Body: ChatRequest,
   },
   // Output is a stream of ChatStreamEvent via Server-Sent Events
-  Output: ChatStreamEvent,
+  Output: StreamOutput(ChatStreamEvent),
 });
 
 export const chat = ResourceEndpoints({
