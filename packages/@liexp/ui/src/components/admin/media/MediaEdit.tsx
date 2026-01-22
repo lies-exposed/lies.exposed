@@ -4,7 +4,7 @@ import {
   TransferableType,
   type Media,
 } from "@liexp/io/lib/http/Media/index.js";
-import { EMBED_MEDIA_PROMPT } from "@liexp/io/lib/openai/prompts/media.prompts.js";
+import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/media.prompts.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import { Schema } from "effect";
 import * as React from "react";

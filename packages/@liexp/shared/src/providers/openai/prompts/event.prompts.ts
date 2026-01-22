@@ -1,5 +1,5 @@
-import { type UUID } from "../../http/Common/UUID.js";
-import { type EventType } from "../../http/Events/EventType.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { type EventType } from "@liexp/io/lib/http/Events/EventType.js";
 import { type PromptFn } from "./prompt.type.js";
 
 export const EMBED_EVENT_PROMPT: PromptFn<{ text: string }> = ({ vars }) => `

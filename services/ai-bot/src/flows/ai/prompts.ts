@@ -11,17 +11,17 @@ import {
   type Queue,
   type QueueResourceNames,
 } from "@liexp/io/lib/http/Queue/index.js";
-import { EMBED_ACTOR_PROMPT } from "@liexp/io/lib/openai/prompts/actor.prompts.js";
+import { EMBED_ACTOR_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/actor.prompts.js";
 import {
   CREATE_EVENT_FROM_LINKS_PROMPT,
   CREATE_EVENT_FROM_TEXT_PROMPT,
   CREATE_EVENT_FROM_URL_PROMPT,
   EMBED_EVENT_PROMPT,
-} from "@liexp/io/lib/openai/prompts/event.prompts.js";
-import { EMBED_GROUP_SUMMARIZE_PROMPT } from "@liexp/io/lib/openai/prompts/group.prompts.js";
-import { EMBED_LINK_PROMPT } from "@liexp/io/lib/openai/prompts/link.prompts.js";
-import { EMBED_MEDIA_PROMPT } from "@liexp/io/lib/openai/prompts/media.prompts.js";
-import { type PromptFn } from "@liexp/io/lib/openai/prompts/prompt.type.js";
+} from "@liexp/shared/lib/providers/openai/prompts/event.prompts.js";
+import { EMBED_GROUP_SUMMARIZE_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/group.prompts.js";
+import { EMBED_LINK_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/link.prompts.js";
+import { EMBED_MEDIA_PROMPT } from "@liexp/shared/lib/providers/openai/prompts/media.prompts.js";
+import { type PromptFn } from "@liexp/shared/lib/providers/openai/prompts/prompt.type.js";
 import { Schema } from "effect";
 
 export const getPromptFromResource = (
