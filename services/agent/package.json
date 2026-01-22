@@ -27,7 +27,9 @@
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint src",
     "start": "node build/run.js",
-    "test": "vitest run --passWithNoTests",
+    "test": "pnpm test:spec && pnpm test:e2e",
+    "test:spec": "vitest run -c vitest.config.spec.ts --passWithNoTests",
+    "test:e2e": "vitest run -c vitest.config.ts",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
@@ -62,8 +64,10 @@
     "@types/express": "^5.0.6",
     "@types/node": "^24.10.9",
     "@types/prompts": "^2.4.9",
+    "@types/supertest": "^6.0.3",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
+    "supertest": "^7.1.0",
     "tsx": "^4.21.0",
     "vitest": "^4.0.17"
   },
