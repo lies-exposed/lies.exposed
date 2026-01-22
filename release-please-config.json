@@ -113,7 +113,28 @@
   "release-search-depth": 10,
   "changelog-type": "default",
   "plugins": [
-    "node-workspace"
+    "node-workspace",
+    {
+      "type": "linked-versions",
+      "groupName": "monorepo",
+      "components": [
+        "lies.exposed",
+        "@liexp/backend",
+        "@liexp/core",
+        "@liexp/eslint-config",
+        "@liexp/io",
+        "@liexp/shared",
+        "@liexp/test",
+        "@liexp/ui",
+        "admin",
+        "ai-bot",
+        "api",
+        "web",
+        "worker",
+        "agent",
+        "@liexp/storybook"
+      ]
+    }
   ],
   "changelog-sections": [
     {
