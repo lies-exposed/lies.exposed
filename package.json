@@ -14,6 +14,7 @@
     "api": "pnpm --filter 'api'",
     "backend": "pnpm --filter '@liexp/backend'",
     "io": "pnpm --filter '@liexp/io'",
+    "eslint-config": "pnpm --filter '@liexp/eslint-config'",
     "typecheck": "pnpm -r run typecheck",
     "build": "pnpm -r run build",
     "clean": "pnpm -r run clean",

@@ -1,14 +1,13 @@
 {
-  "name": "@liexp/core",
-  "version": "0.1.4",
+  "name": "@liexp/eslint-config",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
   "type": "module",
   "module": "lib/index.js",
   "private": true,
   "exports": {
-    ".": "./lib/index.js",
-    "./lib/*": "./lib/*"
+    ".": "./lib/index.js"
   },
   "main": "lib/index.js",
   "files": [
@@ -25,30 +24,20 @@
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
-  "dependencies": {},
+  "dependencies": {
+    "globals": "^16.1.0"
+  },
   "devDependencies": {
-    "@liexp/eslint-config": "workspace:*",
-    "@rollup/plugin-image": "^3.0.3",
-    "@types/debug": "^4.1.12",
-    "@vitejs/plugin-react": "^5.1.2",
-    "debug": "^4.4.0",
-    "effect": "^3.19.14",
+    "@eslint/js": "^9.39.2",
+    "@tanstack/eslint-plugin-query": "^5.91.3",
     "eslint": "^9.39.2",
     "eslint-import-resolver-typescript": "^4.4.2",
+    "eslint-plugin-fp-ts": "^0.5.0",
     "eslint-plugin-import-x": "^4.16.1",
-    "fp-ts": "^2.16.10",
-    "typescript": "^5.9.3",
-    "vite-plugin-svgr": "^4.3.0"
-  },
-  "peerDependencies": {
-    "debug": "*",
-    "dotenv": "^17",
-    "effect": "^3",
-    "fp-ts": "^2",
-    "vite": "^7",
-    "vite-plugin-css-injected-by-js": "^3",
-    "vite-plugin-optimizer": "^1",
-    "vite-tsconfig-paths": "^6"
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.8.0",
+    "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316"
 }

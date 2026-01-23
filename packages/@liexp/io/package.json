@@ -32,6 +32,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "effect": "^3.19.14",
     "eslint": "^9.39.2",
     "fast-check": "^3.23.2",

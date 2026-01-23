@@ -13,6 +13,10 @@
             "path": "."
         },
         {
+            "name": "📦 @liexp/eslint-config",
+            "path": "packages/@liexp/eslint-config"
+        },
+        {
             "name": "📦 @liexp/core",
             "path": "packages/@liexp/core"
         },

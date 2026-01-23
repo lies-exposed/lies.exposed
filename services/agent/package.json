@@ -60,6 +60,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",

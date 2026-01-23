@@ -28,6 +28,12 @@
         "core"
       ]
     },
+    "packages/@liexp/eslint-config": {
+      "component": "@liexp/eslint-config",
+      "include-scope": [
+        "eslint-config"
+      ]
+    },
     "packages/@liexp/io": {
       "component": "@liexp/io",
       "include-scope": [

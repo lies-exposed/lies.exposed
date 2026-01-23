@@ -75,6 +75,7 @@
     "wink-nlp-utils": "^2.1.0"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
     "@types/debug": "^4.1.12",
     "@types/fluent-ffmpeg": "^2.1.28",

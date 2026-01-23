@@ -1,7 +1,7 @@
-import baseEslintConfig from "@liexp/core/lib/eslint/base.config.js";
-import tseslint from "typescript-eslint";
+import { baseConfig } from "@liexp/eslint-config";
+import { defineConfig } from "eslint/config";
 
-const eslintConfig = tseslint.config(...baseEslintConfig, {
+const eslintConfig = defineConfig(...baseConfig, {
   files: ["bin/**/*.ts", "src/**/*.ts"],
   ignores: ["**/*.d.ts"],
   languageOptions: {
