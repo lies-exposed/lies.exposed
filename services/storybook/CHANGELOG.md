@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.11](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.10...@liexp/storybook@0.1.11) (2026-01-23)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.2
+    * @liexp/shared bumped to 0.2.2
+    * @liexp/test bumped to 0.1.10
+    * @liexp/ui bumped to 0.2.2
+
 ## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.9...@liexp/storybook@0.1.10) (2026-01-21)
 
 

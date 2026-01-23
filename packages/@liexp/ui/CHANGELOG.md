@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.2.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.1...@liexp/ui@0.2.2) (2026-01-23)
+
+
+### Bug Fixes
+
+* **ui:** set min width for link datagrid function field ([#3117](https://github.com/lies-exposed/lies.exposed/issues/3117)) ([c25387b](https://github.com/lies-exposed/lies.exposed/commit/c25387b6bbf40289c1514a77698dfc1a73de46ee))
+* **ui:** use form control in TextWithSlugInput ([#3114](https://github.com/lies-exposed/lies.exposed/issues/3114)) ([91044ca](https://github.com/lies-exposed/lies.exposed/commit/91044ca972a55f69000b367a8f5cf493b3a0a142))
+
+
+### Miscellaneous
+
+* **agent:** use [@ts-endpoint](https://github.com/ts-endpoint) stream endpoint definition ([#3112](https://github.com/lies-exposed/lies.exposed/issues/3112)) ([52c265d](https://github.com/lies-exposed/lies.exposed/commit/52c265d95ac581d7f61a17da19ed9cdf71833ae7))
+* **shared:** moved ai prompts from io package ([#3111](https://github.com/lies-exposed/lies.exposed/issues/3111)) ([3619422](https://github.com/lies-exposed/lies.exposed/commit/3619422b1c3d65cee35ca81a1e67a8afca91ac6f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.2
+    * @liexp/shared bumped to 0.2.2
+
 ## [0.2.1](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.0...@liexp/ui@0.2.1) (2026-01-21)
 
 

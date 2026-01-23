@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.9...@liexp/backend@0.1.10) (2026-01-23)
+
+
+### Bug Fixes
+
+* **agent:** support Anthropic AI provider ([#3115](https://github.com/lies-exposed/lies.exposed/issues/3115)) ([2952200](https://github.com/lies-exposed/lies.exposed/commit/29522002dc161e57dbac13af0e9c317a839cb4c5))
+
+
+### Miscellaneous
+
+* **shared:** moved ai prompts from io package ([#3111](https://github.com/lies-exposed/lies.exposed/issues/3111)) ([3619422](https://github.com/lies-exposed/lies.exposed/commit/3619422b1c3d65cee35ca81a1e67a8afca91ac6f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.2
+    * @liexp/shared bumped to 0.2.2
+  * devDependencies
+    * @liexp/test bumped to 0.1.10
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.8...@liexp/backend@0.1.9) (2026-01-21)
 
 
