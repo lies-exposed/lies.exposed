@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.973.0",
+    "@liexp/eslint-config": "workspace:*",
     "@langchain/anthropic": "^1.1.7",
     "@langchain/core": "^1.1.16",
     "@langchain/mcp-adapters": "^1.1.1",

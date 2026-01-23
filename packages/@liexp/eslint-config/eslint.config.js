@@ -1,5 +1,5 @@
-import { baseConfig } from '@liexp/eslint-config'
 import { defineConfig } from 'eslint/config'
+import { baseConfig } from './lib/index.js'
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
@@ -9,11 +9,16 @@ export default defineConfig(
     ignores: ["**/*.d.ts"],
     languageOptions: {
       parserOptions: {
-        tsconfigRootDir: import.meta.dirname,
         parser: tseslint.parser,
         ecmaVersion: "latest",
         sourceType: "module",
+        // Use projectService for automatic TypeScript project detection
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
+    },
+    rules: {
+      "import-x/named": ["off"],
     },
   },
 );

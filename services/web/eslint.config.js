@@ -1,9 +1,9 @@
-import reactEslintConfig from "@liexp/core/lib/eslint/react.config.js";
+import {reactConfig} from "@liexp/eslint-config";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-  ...reactEslintConfig,
+  ...reactConfig,
 {
   files: ['src/**/*.tsx', 'src/**/*.ts'],
   languageOptions: {

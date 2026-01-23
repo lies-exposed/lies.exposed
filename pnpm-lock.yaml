@@ -169,6 +169,9 @@ importers:
       '@langchain/xai':
         specifier: ^1.2.2
         version: 1.2.2(@langchain/core@1.1.16(@opentelemetry/api@1.9.0)(openai@6.16.0(ws@8.19.0)(zod@4.3.5)))(ws@8.19.0)
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
@@ -271,9 +274,6 @@ importers:
       dotenv:
         specifier: ^17
         version: 17.2.3
-      globals:
-        specifier: ^16.1.0
-        version: 16.3.0
       vite:
         specifier: ^7
         version: 7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
@@ -287,15 +287,12 @@ importers:
         specifier: ^6
         version: 6.0.4(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
     devDependencies:
-      '@eslint/js':
-        specifier: ^9.39.2
-        version: 9.39.2
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@rollup/plugin-image':
         specifier: ^3.0.3
         version: 3.0.3(rollup@4.53.4)
-      '@tanstack/eslint-plugin-query':
-        specifier: ^5.91.3
-        version: 5.91.3(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.12
@@ -314,6 +311,37 @@ importers:
       eslint-import-resolver-typescript:
         specifier: ^4.4.2
         version: 4.4.4(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import-x:
+        specifier: ^4.16.1
+        version: 4.16.1(@typescript-eslint/utils@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
+      fp-ts:
+        specifier: ^2.16.10
+        version: 2.16.11
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite-plugin-svgr:
+        specifier: ^4.3.0
+        version: 4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
+
+  packages/@liexp/eslint-config:
+    dependencies:
+      globals:
+        specifier: ^16.1.0
+        version: 16.3.0
+    devDependencies:
+      '@eslint/js':
+        specifier: ^9.39.2
+        version: 9.39.2
+      '@tanstack/eslint-plugin-query':
+        specifier: ^5.91.3
+        version: 5.91.3(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint:
+        specifier: ^9.39.2
+        version: 9.39.2(jiti@2.6.1)
+      eslint-import-resolver-typescript:
+        specifier: ^4.4.2
+        version: 4.4.4(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.53.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-fp-ts:
         specifier: ^0.5.0
         version: 0.5.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -326,18 +354,12 @@ importers:
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.39.2(jiti@2.6.1))
-      fp-ts:
-        specifier: ^2.16.10
-        version: 2.16.11
       prettier:
         specifier: ^3.8.0
         version: 3.8.0
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
-      vite-plugin-svgr:
-        specifier: ^4.3.0
-        version: 4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
 
   packages/@liexp/io:
     dependencies:
@@ -351,6 +373,9 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       effect:
         specifier: ^3.19.14
         version: 3.19.14
@@ -436,6 +461,9 @@ importers:
         specifier: ^4.3.5
         version: 4.3.5
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../test
@@ -484,9 +512,6 @@ importers:
 
   packages/@liexp/test:
     dependencies:
-      '@liexp/core':
-        specifier: workspace:*
-        version: link:../core
       '@liexp/io':
         specifier: workspace:*
         version: link:../io
@@ -497,6 +522,9 @@ importers:
         specifier: ^3.23.1
         version: 3.23.2
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       effect:
         specifier: ^3.19.14
         version: 3.19.14
@@ -753,6 +781,9 @@ importers:
         specifier: ^4.5.1
         version: 4.5.2
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -889,6 +920,9 @@ importers:
         specifier: ^4.2.4
         version: 4.2.4
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
@@ -1016,6 +1050,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@types/cors':
         specifier: ^2.8.18
         version: 2.8.19
@@ -1119,6 +1156,9 @@ importers:
       '@esbuild/aix-ppc64':
         specifier: ^0.25.4
         version: 0.25.12
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@types/node':
         specifier: ^24.10.9
         version: 24.10.9
@@ -1219,6 +1259,9 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
@@ -1300,9 +1343,6 @@ importers:
       '@fortawesome/fontawesome-svg-core':
         specifier: ^7.1.0
         version: 7.1.0
-      '@liexp/core':
-        specifier: workspace:*
-        version: link:../../packages/@liexp/core
       '@liexp/io':
         specifier: workspace:*
         version: link:../../packages/@liexp/io
@@ -1376,6 +1416,9 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@types/d3':
         specifier: ^7.4.3
         version: 7.4.3
@@ -1476,6 +1519,9 @@ importers:
         specifier: ^7.12.0
         version: 7.12.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
@@ -1627,6 +1673,9 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
     devDependencies:
+      '@liexp/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/eslint-config
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test

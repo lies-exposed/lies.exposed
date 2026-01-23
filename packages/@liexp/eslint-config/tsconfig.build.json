@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": [],
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "lib", "eslint.config.js"]
+}

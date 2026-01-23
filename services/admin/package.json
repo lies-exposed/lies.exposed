@@ -61,6 +61,7 @@
     "web-vitals": "^4.2.4"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",

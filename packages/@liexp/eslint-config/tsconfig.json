@@ -1,0 +1,23 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": false,
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "ESNext"],
+    "jsx": "react-jsx",
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "outDir": "./lib",
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "typeRoots": ["../../../node_modules/@types"]
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "lib"]
+}

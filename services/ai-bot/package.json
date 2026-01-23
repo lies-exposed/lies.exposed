@@ -52,6 +52,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "@esbuild/aix-ppc64": "^0.25.4",
     "@types/node": "^24.10.9",
     "esbuild": "^0.27.2",

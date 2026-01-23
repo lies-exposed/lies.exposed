@@ -21,12 +21,12 @@
     "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
   },
   "dependencies": {
-    "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
     "date-fns": "^4.1.0",
     "fast-check": "^3.23.1"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "effect": "^3.19.14",
     "eslint": "^9.39.2",
     "fp-ts": "^2.16.10",
