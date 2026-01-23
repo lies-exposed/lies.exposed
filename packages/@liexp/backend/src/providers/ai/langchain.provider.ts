@@ -1,3 +1,4 @@
+import { ChatAnthropic, type AnthropicInput } from "@langchain/anthropic";
 import {
   ChatOpenAI,
   type ChatOpenAIFields,
@@ -30,15 +31,24 @@ Answer:
 `;
 
 export const AvailableModels = Schema.Union(
+  // OpenAI models
   Schema.Literal("gpt-4o"),
+  // Local AI models
   Schema.Literal("qwen3-4b"),
   Schema.Literal("qwen3-embedding-4b"),
+  // XAI models
   Schema.Literal("grok-4-fast"),
+  // Anthropic Claude models
+  Schema.Literal("claude-sonnet-4-20250514"),
+  Schema.Literal("claude-3-7-sonnet-latest"),
+  Schema.Literal("claude-3-5-haiku-latest"),
 );
 
 export type AvailableModels = typeof AvailableModels.Type;
 
-export interface LangchainProviderOptions<Provider extends "openai" | "xai"> {
+export type AIProvider = "openai" | "xai" | "anthropic";
+
+export interface LangchainProviderOptions<Provider extends AIProvider> {
   baseURL: string;
   apiKey: string;
   maxRetries?: number;
@@ -48,14 +58,25 @@ export interface LangchainProviderOptions<Provider extends "openai" | "xai"> {
     embeddings?: AvailableModels;
   };
   options?: {
-    chat: ChatOpenAIFields;
+    chat: Provider extends "anthropic"
+      ? AnthropicInput
+      : Provider extends "xai"
+        ? ChatXAIInput
+        : ChatOpenAIFields;
     embeddings: NonNullable<ConstructorParameters<typeof OpenAIEmbeddings>[0]>;
   };
 }
 
-export interface LangchainProvider<Provider extends "openai" | "xai"> {
+export type ChatModel<Provider extends AIProvider> =
+  Provider extends "anthropic"
+    ? ChatAnthropic
+    : Provider extends "xai"
+      ? ChatXAI
+      : ChatOpenAI;
+
+export interface LangchainProvider<Provider extends AIProvider> {
   readonly options: LangchainProviderOptions<Provider>;
-  chat: Provider extends "openai" ? ChatOpenAI : ChatXAI;
+  chat: ChatModel<Provider>;
   embeddings: OpenAIEmbeddings;
   queryDocument: <Args extends { text: string; question?: string }>(
     docs: LangchainDocument[],
@@ -66,10 +87,12 @@ export interface LangchainProvider<Provider extends "openai" | "xai"> {
 
 const langchainLogger = GetLogger("langchain");
 
-export const GetLangchainProvider = <P extends "openai" | "xai">(
+export const GetLangchainProvider = <P extends AIProvider>(
   opts: LangchainProviderOptions<P>,
 ): LangchainProvider<P> => {
-  const defaultChatModel = opts.models?.chat ?? "gpt-4o";
+  const defaultChatModel =
+    opts.models?.chat ??
+    (opts.provider === "anthropic" ? "claude-sonnet-4-20250514" : "gpt-4o");
 
   const options = {
     ...opts,
@@ -77,12 +100,26 @@ export const GetLangchainProvider = <P extends "openai" | "xai">(
 
   langchainLogger.debug.log("Initializing Langchain provider...", opts);
 
-  const makeChat = <P extends "openai" | "xai">(
+  const makeChat = <P extends AIProvider>(
     provider: P,
     model: string,
-    chatOptions: P extends "openai" ? ChatOpenAIFields : ChatXAIInput = {},
-  ): P extends "openai" ? ChatOpenAI : ChatXAI => {
+    chatOptions: Record<string, unknown> = {},
+  ): ChatModel<P> => {
+    if (provider === "anthropic") {
+      const anthropicChatOpts = (opts.options?.chat ?? {}) as AnthropicInput;
+      return new ChatAnthropic({
+        model,
+        temperature: 0,
+        anthropicApiKey: opts.apiKey,
+        maxRetries: opts.maxRetries ?? 3,
+        streaming: true,
+        ...anthropicChatOpts,
+        ...chatOptions,
+      }) as ChatModel<P>;
+    }
+
     if (provider === "openai") {
+      const openAIChatOpts = (opts.options?.chat ?? {}) as ChatOpenAIFields;
       const openAIChatOptions = chatOptions as ChatOpenAIFields;
       return new ChatOpenAI({
         model,
@@ -91,23 +128,25 @@ export const GetLangchainProvider = <P extends "openai" | "xai">(
         timeout: 60 * 30 * 1000, // 30 minutes
         streaming: true,
         streamUsage: true,
-        ...opts.options?.chat,
-        ...chatOptions,
+        ...openAIChatOpts,
+        ...openAIChatOptions,
         configuration: {
           maxRetries: opts.maxRetries ?? 3,
           baseURL: opts.baseURL,
-          ...opts.options?.chat.configuration,
+          ...openAIChatOpts.configuration,
           ...openAIChatOptions.configuration,
         },
-      }) as P extends "openai" ? ChatOpenAI : ChatXAI;
+      }) as ChatModel<P>;
     }
 
+    // XAI provider
+    const xaiChatOpts = (opts.options?.chat ?? {}) as ChatXAIInput;
     return new ChatXAI({
       model,
+      ...xaiChatOpts,
       ...chatOptions,
-      ...opts.options?.chat,
       apiKey: opts.apiKey,
-    }) as P extends "openai" ? ChatOpenAI : ChatXAI;
+    }) as ChatModel<P>;
   };
 
   const makeEmbedding = (
@@ -171,7 +210,7 @@ export const GetLangchainProvider = <P extends "openai" | "xai">(
   };
 };
 
-export type LangchainProviderReader<P extends "openai" | "xai"> = Reader.Reader<
+export type LangchainProviderReader<P extends AIProvider> = Reader.Reader<
   LangchainProviderOptions<P>,
   LangchainProvider<P>
 >;
