@@ -1,0 +1,211 @@
+#!/bin/bash
+# Unified agent management command
+# Usage: ./agent <command> [args]
+#
+# Commands:
+#   spawn <name> [branch]    Create new agent workspace
+#   run [name]               Run Claude Code in agent workspace
+#   list                     List active agents
+#   cleanup [name]           Remove agent workspace
+#   test <name> <service>    Test agent service with main infra
+#   stop <name>              Stop service test
+
+set -e
+
+SCRIPTS_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPTS_DIR}/../.." && pwd)"
+AGENTS_DIR="${REPO_ROOT}/.agents"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Helper: list existing agents
+list_agents() {
+    if [ -d "$AGENTS_DIR" ]; then
+        ls -1 "$AGENTS_DIR" 2>/dev/null
+    fi
+}
+
+# Helper: list git branches
+list_branches() {
+    git -C "$REPO_ROOT" branch -a 2>/dev/null | sed 's/^[* ]*//' | sed 's|remotes/origin/||' | sort -u
+}
+
+# Helper: interactive selection with fzf or fallback
+select_agent() {
+    local prompt="${1:-Select agent}"
+    local agents=$(list_agents)
+
+    if [ -z "$agents" ]; then
+        echo -e "${RED}No agents found. Create one with: ./agent spawn <name>${NC}" >&2
+        exit 1
+    fi
+
+    if command -v fzf &>/dev/null; then
+        echo "$agents" | fzf --prompt="$prompt: " --height=10 --reverse
+    else
+        echo -e "${YELLOW}Available agents:${NC}" >&2
+        echo "$agents" | nl >&2
+        echo -n "Enter agent name: " >&2
+        read -r selection
+        echo "$selection"
+    fi
+}
+
+# Helper: interactive branch selection
+select_branch() {
+    local prompt="${1:-Select branch}"
+    local branches=$(list_branches)
+
+    if command -v fzf &>/dev/null; then
+        echo "$branches" | fzf --prompt="$prompt: " --height=15 --reverse --query="main"
+    else
+        echo -e "${YELLOW}Common branches: main, daily${NC}" >&2
+        echo -n "Enter branch name [main]: " >&2
+        read -r selection
+        echo "${selection:-main}"
+    fi
+}
+
+# Helper: interactive service selection
+select_service() {
+    local services="api web admin worker agent"
+
+    if command -v fzf &>/dev/null; then
+        echo "$services" | tr ' ' '\n' | fzf --prompt="Select service: " --height=8 --reverse
+    else
+        echo -e "${YELLOW}Available services: $services${NC}" >&2
+        echo -n "Enter service name: " >&2
+        read -r selection
+        echo "$selection"
+    fi
+}
+
+# Commands
+cmd_spawn() {
+    local name="$1"
+    local branch="$2"
+    local run_flag="$3"
+
+    if [ -z "$name" ]; then
+        echo -n "Agent name: "
+        read -r name
+    fi
+
+    if [ -z "$branch" ]; then
+        branch=$(select_branch "Base branch")
+    fi
+
+    "${SCRIPTS_DIR}/spawn.sh" "$name" "$branch" $run_flag
+}
+
+cmd_run() {
+    local name="$1"
+    local branch="$2"
+
+    if [ -z "$name" ]; then
+        # Check if any agents exist
+        if [ -d "$AGENTS_DIR" ] && [ -n "$(ls -A "$AGENTS_DIR" 2>/dev/null)" ]; then
+            name=$(select_agent "Run agent")
+        else
+            echo -n "Agent name (will be created): "
+            read -r name
+            branch=$(select_branch "Base branch")
+        fi
+    fi
+
+    "${SCRIPTS_DIR}/run.sh" "$name" $branch
+}
+
+cmd_list() {
+    "${SCRIPTS_DIR}/list.sh"
+}
+
+cmd_cleanup() {
+    local name="$1"
+    local force="$2"
+
+    if [ -z "$name" ]; then
+        name=$(select_agent "Cleanup agent")
+    fi
+
+    if [ "$force" != "--force" ]; then
+        echo -e "${YELLOW}This will remove: ${AGENTS_DIR}/${name}${NC}"
+        echo -n "Continue? [y/N] "
+        read -r confirm
+        if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+            echo "Cancelled."
+            exit 0
+        fi
+    fi
+
+    "${SCRIPTS_DIR}/cleanup.sh" "$name" $force
+}
+
+cmd_test() {
+    local name="$1"
+    local service="$2"
+    local packages="$3"
+
+    if [ -z "$name" ]; then
+        name=$(select_agent "Test agent")
+    fi
+
+    if [ -z "$service" ]; then
+        service=$(select_service)
+    fi
+
+    "${SCRIPTS_DIR}/test-service.sh" "$name" "$service" $packages
+}
+
+cmd_stop() {
+    local name="$1"
+
+    if [ -z "$name" ]; then
+        name=$(select_agent "Stop test for agent")
+    fi
+
+    "${SCRIPTS_DIR}/stop-test.sh" "$name"
+}
+
+cmd_help() {
+    echo -e "${GREEN}Agent Management${NC}"
+    echo ""
+    echo "Usage: ./agent <command> [args]"
+    echo ""
+    echo "Commands:"
+    echo "  spawn [name] [branch]     Create new agent workspace"
+    echo "  run [name]                Run Claude Code in agent workspace"
+    echo "  list                      List active agents"
+    echo "  cleanup [name] [--force]  Remove agent workspace"
+    echo "  test [name] [service]     Test agent service with main infra"
+    echo "  stop [name]               Stop service test"
+    echo "  help                      Show this help"
+    echo ""
+    echo "Interactive mode:"
+    echo "  Run commands without args for interactive selection"
+    echo "  Install 'fzf' for fuzzy search, otherwise uses simple prompts"
+}
+
+# Main
+command="${1:-help}"
+shift 2>/dev/null || true
+
+case "$command" in
+    spawn)   cmd_spawn "$@" ;;
+    run)     cmd_run "$@" ;;
+    list|ls) cmd_list "$@" ;;
+    cleanup|rm) cmd_cleanup "$@" ;;
+    test)    cmd_test "$@" ;;
+    stop)    cmd_stop "$@" ;;
+    help|-h|--help) cmd_help ;;
+    *)
+        echo -e "${RED}Unknown command: $command${NC}" >&2
+        echo "Run './agent help' for usage." >&2
+        exit 1
+        ;;
+esac

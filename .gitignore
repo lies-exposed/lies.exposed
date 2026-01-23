@@ -82,3 +82,7 @@ localai/models/.*.yaml
 
 # Service data
 services/data
+
+# Multi Agents repo clones
+.agents
+.envrc
