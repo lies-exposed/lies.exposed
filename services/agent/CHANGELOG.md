@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.9...agent@0.1.10) (2026-01-23)
+
+
+### Bug Fixes
+
+* **agent:** support Anthropic AI provider ([#3115](https://github.com/lies-exposed/lies.exposed/issues/3115)) ([2952200](https://github.com/lies-exposed/lies.exposed/commit/29522002dc161e57dbac13af0e9c317a839cb4c5))
+
+
+### Miscellaneous
+
+* **agent:** added e2e test for chat stream endpoint ([#3109](https://github.com/lies-exposed/lies.exposed/issues/3109)) ([ec1ea38](https://github.com/lies-exposed/lies.exposed/commit/ec1ea3807265b573f4677733bbdf0ebf022c9ba5))
+* **agent:** use [@ts-endpoint](https://github.com/ts-endpoint) stream endpoint definition ([#3112](https://github.com/lies-exposed/lies.exposed/issues/3112)) ([52c265d](https://github.com/lies-exposed/lies.exposed/commit/52c265d95ac581d7f61a17da19ed9cdf71833ae7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.10
+    * @liexp/io bumped to 0.2.2
+    * @liexp/shared bumped to 0.2.2
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.8...agent@0.1.9) (2026-01-21)
 
 

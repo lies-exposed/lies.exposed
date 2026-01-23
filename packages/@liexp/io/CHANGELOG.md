@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/io@0.2.1...@liexp/io@0.2.2) (2026-01-23)
+
+
+### Bug Fixes
+
+* **ai-bot:** create event from links prompt without json schema ([#3108](https://github.com/lies-exposed/lies.exposed/issues/3108)) ([60f47a7](https://github.com/lies-exposed/lies.exposed/commit/60f47a7bc94e5456843bc110fb9125c276f963ea))
+
 ## [0.2.1](https://github.com/lies-exposed/lies.exposed/compare/@liexp/io@0.2.0...@liexp/io@0.2.1) (2026-01-21)
 
 

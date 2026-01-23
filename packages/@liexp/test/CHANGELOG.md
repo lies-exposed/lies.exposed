@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.10](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.9...@liexp/test@0.1.10) (2026-01-23)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.2
+
 ## [0.1.9](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.8...@liexp/test@0.1.9) (2026-01-21)
 
 

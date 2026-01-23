@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.2](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.2.1...@liexp/shared@0.2.2) (2026-01-23)
+
+
+### Miscellaneous
+
+* **agent:** use [@ts-endpoint](https://github.com/ts-endpoint) stream endpoint definition ([#3112](https://github.com/lies-exposed/lies.exposed/issues/3112)) ([52c265d](https://github.com/lies-exposed/lies.exposed/commit/52c265d95ac581d7f61a17da19ed9cdf71833ae7))
+* **shared:** moved ai prompts from io package ([#3111](https://github.com/lies-exposed/lies.exposed/issues/3111)) ([3619422](https://github.com/lies-exposed/lies.exposed/commit/3619422b1c3d65cee35ca81a1e67a8afca91ac6f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.2
+  * devDependencies
+    * @liexp/test bumped to 0.1.10
+
 ## [0.2.1](https://github.com/lies-exposed/lies.exposed/compare/@liexp/shared@0.2.0...@liexp/shared@0.2.1) (2026-01-21)
 
 
