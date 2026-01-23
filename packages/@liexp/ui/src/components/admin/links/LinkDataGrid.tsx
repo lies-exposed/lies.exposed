@@ -34,7 +34,7 @@ export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
       <FunctionField
         render={() => {
           return (
-            <Stack direction="row">
+            <Stack direction="row" style={{ minWidth: 500 }}>
               <Stack>
                 <MediaField
                   source="image.thumbnail"
@@ -55,8 +55,8 @@ export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
                       record={{
                         ...record,
                         description:
-                          record.description?.length > 300
-                            ? record.description.substring(0, 300).concat("...")
+                          record.description?.length > 200
+                            ? record.description.substring(0, 200).concat("...")
                             : record.description,
                       }}
                     />
