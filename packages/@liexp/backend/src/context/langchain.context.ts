@@ -1,7 +1,7 @@
 import { type LangchainProvider } from "../providers/ai/langchain.provider.js";
 
 export interface LangchainContext<
-  P extends "openai" | "xai" = "openai" | "xai",
+  P extends "openai" | "xai" | "anthropic" = "openai" | "xai" | "anthropic",
 > {
   /**
    * Langchain provider
