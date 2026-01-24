@@ -8,8 +8,8 @@ import { getSearchEventRelations } from "@liexp/shared/lib/helpers/event/getSear
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
-import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { contentTypeFromFileExt } from "@liexp/shared/lib/utils/media.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useRecordContext } from "react-admin";

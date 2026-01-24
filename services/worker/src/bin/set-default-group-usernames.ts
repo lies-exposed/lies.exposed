@@ -2,8 +2,10 @@ import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
-import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import {
+  walkPaginatedRequest,
+  throwTE,
+} from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { type WorkerError } from "../io/worker.error.js";
 import { type CommandFlow } from "./command.type.js";
