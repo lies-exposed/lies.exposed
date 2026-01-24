@@ -1,8 +1,10 @@
 import { type Messages } from "@langchain/langgraph";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
-import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
+import {
+  toAPIError,
+  type APIError,
+} from "@liexp/io/lib/http/Error/APIError.js";
 import type { ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import type { LoggerContext } from "../../context/logger.context.js";
 import { type Agent } from "../../providers/ai/agent.provider.js";
