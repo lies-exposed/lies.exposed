@@ -9,6 +9,7 @@ export default {
         "workspace",
         "core",
         "eslint-config",
+        "docs",
         "io",
         "shared",
         "test",
