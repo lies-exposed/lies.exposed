@@ -37,8 +37,13 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
   defaultValue = "",
   ...props
 }) => {
-  const { control, setValue, getValues, getFieldState } = useFormContext();
-  // Watch the source field value
+  const formContext = useFormContext();
+
+  const { control, setValue, getValues, getFieldState } = formContext;
+
+  // Watch the source field value using the form's control
+  // Do not override the form's default value here — let useWatch return
+  // the form-provided default so existing record values are respected.
   const watchedValue = useWatch({ control, name: source });
 
   // Track whether the user has manually touched the slug field
@@ -80,6 +85,10 @@ export const TextWithSlugInput: React.FC<JSONInputProps> = ({
       });
     }
   }, [watchedValue, slugSource, setValue, getValues, getFieldState]);
+
+  // No DOM fallback: component must be used within a react-hook-form
+  // context (e.g. inside react-admin's SimpleForm). Tests and stories should
+  // provide the proper form context as well.
 
   return (
     <Stack style={style}>
