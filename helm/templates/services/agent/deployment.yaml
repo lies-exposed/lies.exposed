@@ -46,10 +46,10 @@ spec:
             failureThreshold: 2
           resources:
             limits:
-              memory: 1Gi
-              cpu: 500m
+              memory: 768Mi
+              cpu: 400m
             requests:
-              memory: 512Mi
-              cpu: 200m
+              memory: 384Mi
+              cpu: 150m
       restartPolicy: Always
 {{- end }}

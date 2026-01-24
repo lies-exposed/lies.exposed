@@ -34,6 +34,13 @@ spec:
           ports:
             - containerPort: 4010
               protocol: TCP
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 150m
+            requests:
+              memory: 128Mi
+              cpu: 50m
           # tty: true
           {{- if .Values.admin.dev -}}
           volumeMounts:

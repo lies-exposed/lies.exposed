@@ -36,8 +36,8 @@ spec:
           name: ai-bot
           resources:
             limits:
-              memory: 2Gi
-              cpu: 1000m
+              memory: 1536Mi
+              cpu: 800m
             requests:
               memory: 512Mi
               cpu: 200m
