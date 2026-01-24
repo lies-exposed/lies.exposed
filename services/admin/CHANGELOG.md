@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.3](https://github.com/lies-exposed/lies.exposed/compare/admin@0.2.2...admin@0.2.3) (2026-01-24)
+
+
+### Bug Fixes
+
+* **eslint-config:** created new package with eslint config from @liexp/core ([#3118](https://github.com/lies-exposed/lies.exposed/issues/3118)) ([730d029](https://github.com/lies-exposed/lies.exposed/commit/730d029296f7e539f6db494488e83cf89d8fefd5))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.11
+    * @liexp/core bumped to 0.1.5
+    * @liexp/io bumped to 0.2.3
+    * @liexp/shared bumped to 0.2.3
+    * @liexp/ui bumped to 0.2.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.1.0
+    * @liexp/test bumped to 0.1.11
+
 ## [0.2.2](https://github.com/lies-exposed/lies.exposed/compare/admin@0.2.1...admin@0.2.2) (2026-01-23)
 
 
