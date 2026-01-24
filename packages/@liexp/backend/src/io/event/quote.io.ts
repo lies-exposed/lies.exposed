@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { type QuotePayload } from "@liexp/io/lib/http/Events/Quote.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
@@ -13,7 +10,7 @@ import { IOCodec } from "../DomainCodec.js";
 
 const toQuoteIO = (
   event: EventV2Entity,
-): E.Either<_DecodeError, io.http.Events.Quote.Quote> => {
+): E.Either<DecodeError, io.http.Events.Quote.Quote> => {
   const p = event.payload as QuotePayload;
   return pipe(
     {

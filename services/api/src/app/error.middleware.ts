@@ -1,39 +1,22 @@
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { toAPIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
 import { type NextFunction, type Request, type Response } from "express";
-import {
-  type ControllerError,
-  toAPIError as fromControllerToAPIError,
-  toControllerError,
-} from "#io/ControllerError.js";
+import { toControllerError } from "#io/ControllerError.js";
 
+/**
+ * Express error handler middleware.
+ * Converts any error to an APIError and sends it as the response.
+ */
 export const errorHandler =
   (ctx: LoggerContext) =>
-  (
-    err: ControllerError,
-    req: Request,
-    res: Response,
-    _next: NextFunction,
-  ): void => {
-    return pipe(
-      fp.IOE.tryCatch(() => {
-        ctx.logger.error.log(
-          "An error occurred during %s %s %O",
-          req.method,
-          req.url,
-          err,
-        );
+  (err: unknown, req: Request, res: Response, _next: NextFunction): void => {
+    ctx.logger.error.log(
+      "An error occurred during %s %s %O",
+      req.method,
+      req.url,
+      err,
+    );
 
-        return pipe(err, toControllerError, fromControllerToAPIError);
-      }, toAPIError),
-      fp.IOE.fold(
-        (e) => () => {
-          res.status(e.status).send(e);
-        },
-        (e) => () => {
-          res.status(e.status).send(e);
-        },
-      ),
-    )();
+    const apiError = toAPIError(toControllerError(err));
+    res.status(apiError.status).send(apiError);
   };

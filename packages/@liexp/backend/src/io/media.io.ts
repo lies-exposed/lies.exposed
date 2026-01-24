@@ -1,9 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { MediaExtraMonoid } from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import * as io from "@liexp/io/lib/index.js";
@@ -23,7 +20,7 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
 const encodeMedia = (
   media: MediaEntity,
 ): E.Either<
-  _DecodeError,
+  DecodeError,
   Schema.Schema.Encoded<typeof io.http.Media.AdminMedia>
 > => {
   const extra = media.extra
@@ -58,7 +55,7 @@ const encodeMedia = (
 };
 const decodeMedia = (
   media: MediaEntity,
-): E.Either<_DecodeError, io.http.Media.AdminMedia> => {
+): E.Either<DecodeError, io.http.Media.AdminMedia> => {
   const extra = media.extra
     ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
     : undefined;

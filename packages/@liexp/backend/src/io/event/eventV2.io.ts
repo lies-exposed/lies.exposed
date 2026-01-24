@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import * as io from "@liexp/io/lib/index.js";
@@ -17,10 +14,10 @@ import { QuoteIO } from "./quote.io.js";
 
 const decodeEvent = (
   event: EventV2Entity,
-): E.Either<_DecodeError, io.http.Events.Event> => {
+): E.Either<DecodeError, io.http.Events.Event> => {
   return pipe(
     E.Do,
-    E.bind("eventSpecs", (): E.Either<_DecodeError, Event | EventV2Entity> => {
+    E.bind("eventSpecs", (): E.Either<DecodeError, Event | EventV2Entity> => {
       if (event.type === EVENT_TYPES.QUOTE) {
         return QuoteIO.decodeSingle(event);
       }

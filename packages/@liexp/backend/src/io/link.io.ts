@@ -1,9 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { type Media } from "@liexp/io/lib/http/Media/Media.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
@@ -15,8 +12,8 @@ import { MediaIO } from "./media.io.js";
 
 const toLinkIO = (
   link: LinkEntity,
-): E.Either<_DecodeError, io.http.Link.Link> => {
-  const media: E.Either<_DecodeError, Media | UUID | undefined> = link.image
+): E.Either<DecodeError, io.http.Link.Link> => {
+  const media: E.Either<DecodeError, Media | UUID | undefined> = link.image
     ? Schema.is(UUID)(link.image)
       ? E.right(link.image)
       : MediaIO.decodeSingle(link.image)

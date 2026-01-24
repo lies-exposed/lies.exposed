@@ -1,14 +1,11 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
-import {
-  _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { type Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
-type EitherE<A> = E.Either<_DecodeError, A>;
+type EitherE<A> = E.Either<DecodeError, A>;
 
 export interface IOCodec<A, I, D, E, Args extends any[]> {
   decodeSingle: (a: D, ...args: Args) => EitherE<A>;
@@ -20,8 +17,8 @@ export interface IOCodec<A, I, D, E, Args extends any[]> {
 
 const toIOCodecError =
   (resource: string) =>
-  (e: ParseError | _DecodeError): _DecodeError => {
-    if (!(e instanceof _DecodeError)) {
+  (e: ParseError | DecodeError): DecodeError => {
+    if (!(e instanceof DecodeError)) {
       return DecodeError.of(`Failed to decode ${resource}`, e);
     }
     return e;
@@ -33,8 +30,8 @@ export const IOCodec = <A, I, D, E, Args extends any[]>(
     decode,
     encode,
   }: {
-    decode: (a: D, ...args: Args) => E.Either<ParseError | _DecodeError, A>;
-    encode: (a: E, ...args: Args) => E.Either<ParseError | _DecodeError, I>;
+    decode: (a: D, ...args: Args) => E.Either<ParseError | DecodeError, A>;
+    encode: (a: E, ...args: Args) => E.Either<ParseError | DecodeError, I>;
   },
   resource: string,
 ): IOCodec<A, I, D, E, Args> => {

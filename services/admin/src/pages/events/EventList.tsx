@@ -118,8 +118,8 @@ const MergeEventsButton = () => {
     if (toType) {
       void pipe(
         api.Event.Custom.EditManyEvents({
+          Params: undefined,
           Body: {
-            // TODO: fix @ts-endpoint
             params: {
               ids: selectedIds,
               action: "merge",

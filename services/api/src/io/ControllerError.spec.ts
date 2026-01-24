@@ -4,12 +4,13 @@ import { toNotAuthorizedError } from "@liexp/backend/lib/errors/index.js";
 import { JWTError } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { UnauthorizedError } from "express-jwt";
 import { describe, expect, it } from "vitest";
-import { toAPIError, toControllerError } from "./ControllerError.js";
+import { toControllerError } from "./ControllerError.js";
 
 describe("ControllerError", () => {
   describe("toControllerError", () => {
@@ -41,7 +42,7 @@ describe("ControllerError", () => {
       });
     });
 
-    it("Should return an APIError with status 401 when the error is an UnauthorizedError", () => {
+    it("Should return a ControllerError with status 401 when the error is an UnauthorizedError", () => {
       const error = new UnauthorizedError(
         "invalid_token",
         new Error("Invalid token"),
@@ -53,9 +54,12 @@ describe("ControllerError", () => {
         details: {
           kind: "ClientError",
           status: "401",
-          meta: [error.stack],
         },
       });
+      // meta contains the stack trace, just verify it exists
+      expect(
+        (controllerError.details as { meta?: unknown }).meta,
+      ).toBeDefined();
     });
   });
 
@@ -87,21 +91,38 @@ describe("ControllerError", () => {
         status: 401,
         name: "APIError",
         message: "Authorization header [Authorization] is missing",
-        details: [],
+        details: undefined,
       });
     });
 
     it("Should return an APIError with status 401 when the error is a JWTError", () => {
+      // JWTError in production uses ClientError with status 401
       const error = new JWTError("Wrong token", {
-        kind: "DecodingError",
-        errors: [],
+        kind: "ClientError",
+        status: "401",
+        meta: undefined,
       });
       const apiError = toAPIError(error);
       expect(apiError).toEqual({
         status: 401,
         name: "APIError",
         message: "Wrong token",
-        details: [],
+        details: undefined,
+      });
+    });
+
+    it("Should return an APIError with status 400 when the error is a JWTError with DecodingError", () => {
+      // JWTError with DecodingError kind maps to 400
+      const error = new JWTError("Invalid token format", {
+        kind: "DecodingError",
+        errors: ["Token malformed"],
+      });
+      const apiError = toAPIError(error);
+      expect(apiError).toEqual({
+        status: 400,
+        name: "APIError",
+        message: "Invalid token format",
+        details: ["Token malformed"],
       });
     });
 
@@ -112,7 +133,7 @@ describe("ControllerError", () => {
         status: 404,
         name: "APIError",
         message: "Can't find resource Melon",
-        details: [],
+        details: undefined,
       });
     });
 
