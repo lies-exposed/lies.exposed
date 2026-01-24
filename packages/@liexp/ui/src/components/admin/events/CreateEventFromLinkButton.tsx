@@ -8,7 +8,7 @@ import type * as io from "@liexp/io/lib/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { useFormContext } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { useEndpointsRESTClient } from "../../../hooks/useEndpointRestClient.js";
 import { ErrorBox } from "../../Common/ErrorBox.js";
@@ -94,7 +94,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
   const record = useRecordContext<Link>();
   const navigate = useNavigate();
   const apiProvider = useEndpointsRESTClient();
-  const formGroupState = useFormContext();
+  const formGroupState = useForm();
 
   const [{ error, isCreating }, setState] = React.useState<{
     error: Error | undefined;
