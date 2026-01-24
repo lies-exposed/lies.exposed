@@ -28,7 +28,7 @@ Your job is to extract the needed info from text in the shape of an 'event' JSON
   date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). The first element indicates the start date, while the second (optional) is the end date of the event. ALWAYS include at least one date.",
 }}
 
-IMPORTANT: 
+IMPORTANT:
 - You MUST always extract or infer at least one date for the event
 - Dates MUST be in ISO format (YYYY-MM-DD)
 - Do NOT include URLs, links, or references in your response - these are managed separately
@@ -78,23 +78,31 @@ Try to create a valid event, without inventing any detail from the following que
 export const CREATE_EVENT_FROM_LINKS_PROMPT: PromptFn<{
   context: string;
   type: EventType;
+  jsonSchema: string;
 }> = ({ vars }) => `
 You are an expert in extracting and synthesizing structured JSON from multiple text sources. Your task is to create a SINGLE comprehensive event from multiple link sources.
 
-The texts provided are from different web pages, articles, or documents that relate to the same event or topic.
+CRITICAL INSTRUCTIONS (READ CAREFULLY):
+- You MUST return ONLY a single valid JSON object and NOTHING else (no explanation, no markdown, no trailing text).
+- The JSON must validate against the following JSON schema. Do not change the schema or add top-level wrappers:
 
-Your job is to synthesize all the information from these multiple sources into a SINGLE 'event' of api.lies.exposed:
+${vars.jsonSchema}
 
-IMPORTANT GUIDELINES:
-- SYNTHESIZE information from ALL sources - do not just use one source
-- Cross-reference facts between sources for accuracy
-- If sources conflict, prefer the most detailed or recent information
-- You MUST always extract or infer at least one date for the event
-- Dates MUST be in ISO format (YYYY-MM-DDTHH:mm:ss - if you can't get the time simply use "00:00:00")
-- Do NOT include URLs, links, or references in your response - but ensure to assign the given links to the event you create
-- Focus on extracting factual information and identifying common themes across sources
-- For scientific studies: combine findings from multiple papers into a coherent summary
-- For news articles: synthesize different perspectives into a balanced account
+- Always include a _links_ property in the returned object: an array of link identifiers (strings). Do NOT include URLs or raw links — links will be fetched and inserted by the system later. If there are no links, return an empty array ([]).
+- You MUST always extract or infer at least one date for the event.
+- Dates MUST be in ISO format (YYYY-MM-DDTHH:mm:ss). If time is unavailable, use "00:00:00" for the time portion.
+
+TASK DESCRIPTION:
+- The texts provided are from different web pages, articles, or documents that relate to the same event or topic.
+- Your job is to synthesize all the information from these multiple sources into a SINGLE 'event' JSON compatible with the createEvent MCP tools from api.lies.exposed.
+
+GUIDELINES:
+- SYNTHESIZE information from ALL sources - do not just use one source.
+- Cross-reference facts between sources for accuracy.
+- If sources conflict, prefer the most detailed or recent information, and do not invent facts.
+- Do NOT include URLs, links, or references in your JSON values — these are managed separately.
+- For scientific studies: combine findings from multiple papers into a coherent summary including key findings and publication details.
+- For news articles: synthesize different perspectives into a balanced account.
 
 The sources you need to extract and synthesize the event from are:
 
