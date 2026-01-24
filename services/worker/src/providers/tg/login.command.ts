@@ -1,7 +1,7 @@
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 

@@ -7,7 +7,7 @@ import { EventsMapper } from "@liexp/shared/lib/helpers/event/events-mapper.help
 import { SearchEventHelper } from "@liexp/shared/lib/helpers/event/searchEvent.helper.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import {
   ResourceTemplate,
   type McpServer,

@@ -1,6 +1,6 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { type Actor } from "@liexp/io/lib/http/Actor.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

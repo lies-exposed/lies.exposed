@@ -2,7 +2,7 @@ import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { hash } from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import fc from "fast-check";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, test, expect, beforeAll } from "vitest";

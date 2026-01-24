@@ -2,7 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import fc from "fast-check";

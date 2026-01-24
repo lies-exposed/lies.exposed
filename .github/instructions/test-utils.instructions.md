@@ -71,7 +71,7 @@ export const mockedContext = <T extends Partial<ServerContext>>(
 ```typescript
 // File: test/utils/user.utils.ts
 import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import type { ServerContext } from "#context/context.type.js";
 

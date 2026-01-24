@@ -6,7 +6,7 @@ import {
   MP4Type,
   PDFType,
 } from "@liexp/io/lib/http/Media/MediaType.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import * as tests from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";

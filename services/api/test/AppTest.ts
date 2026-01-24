@@ -15,7 +15,7 @@ import {
 } from "@liexp/backend/lib/utils/data-source.js";
 import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type AxiosInstance } from "axios";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";

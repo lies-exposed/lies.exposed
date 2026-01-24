@@ -1,5 +1,5 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { PatentEventArb } from "@liexp/test/lib/arbitrary/events/PatentEvent.arbitrary.js";
 import fc from "fast-check";
 import { beforeAll, describe, expect, test } from "vitest";

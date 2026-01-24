@@ -1,7 +1,7 @@
 import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import * as dotenv from "dotenv";
 import { Schema } from "effect";

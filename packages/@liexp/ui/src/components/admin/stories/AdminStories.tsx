@@ -1,7 +1,7 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";

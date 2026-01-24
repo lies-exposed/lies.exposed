@@ -1,6 +1,6 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ClientContext } from "../context.js";

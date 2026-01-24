@@ -6,7 +6,7 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { ImageMediaExtraMonoid } from "@liexp/io/lib/http/Media/MediaExtra.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { type CommandFlow } from "./command.type.js";
 

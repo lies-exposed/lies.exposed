@@ -2,7 +2,7 @@ import {
   type ExtractEntitiesWithNLPInput,
   type ExtractEntitiesWithNLPOutput,
 } from "@liexp/io/lib/http/admin/ExtractNLPEntities.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { useEndpointsRESTClient } from "./useEndpointRestClient.js";

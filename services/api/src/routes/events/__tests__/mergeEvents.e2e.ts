@@ -4,7 +4,7 @@ import { LinkEntity } from "@liexp/backend/lib/entities/Link.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { LinkArb } from "@liexp/test/lib/arbitrary/Link.arbitrary.js";

@@ -1,5 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type CommandFlow } from "./command.type.js";
 import { createEntityStats } from "#flows/stats/createStats.flow.js";
 

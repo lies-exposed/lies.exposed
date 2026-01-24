@@ -1,4 +1,4 @@
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";

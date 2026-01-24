@@ -1,7 +1,7 @@
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

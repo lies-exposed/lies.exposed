@@ -1,7 +1,7 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import { Schema } from "effect";
 import { type WorkerContext } from "../context/context.js";

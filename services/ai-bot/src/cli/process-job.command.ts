@@ -5,7 +5,7 @@ import {
   type QueueResourceNames,
   type QueueTypes,
 } from "@liexp/io/lib/http/Queue/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { JobProcessor } from "../flows/ai/jobProcessor.js";
 import { type CommandFlow } from "./CommandFlow.js";

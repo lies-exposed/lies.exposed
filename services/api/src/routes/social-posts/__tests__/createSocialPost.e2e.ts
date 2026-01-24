@@ -5,7 +5,7 @@ import {
   type CreateSocialPost,
   TO_PUBLISH,
 } from "@liexp/io/lib/http/SocialPost.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { CreateSocialPostArb } from "@liexp/test/lib/arbitrary/SocialPost.arbitrary.js";

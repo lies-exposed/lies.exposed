@@ -28,7 +28,7 @@ This is a pnpm monorepo with multiple deployable services under `services/` and 
 ### Essential Imports
 ```typescript
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 ```
 
 *Detailed patterns are in the code-quality path-specific instructions.*

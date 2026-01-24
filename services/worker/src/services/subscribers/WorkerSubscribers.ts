@@ -1,6 +1,6 @@
 import { type Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type RTE } from "../../types.js";
 import { CreateEventFromURLSubscriber } from "./event/createEventFromURL.subscriber.js";
 import { SearchLinksSubscriber } from "./link/searchLinks.subscriber.js";
