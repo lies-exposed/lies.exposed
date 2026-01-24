@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/0.1.11...0.1.12) (2026-01-24)
+
+
+### Bug Fixes
+
+* **eslint-config:** created new package with eslint config from @liexp/core ([#3118](https://github.com/lies-exposed/lies.exposed/issues/3118)) ([730d029](https://github.com/lies-exposed/lies.exposed/commit/730d029296f7e539f6db494488e83cf89d8fefd5))
+
+
+### Miscellaneous
+
+* **docs:** added comprehensive docs for packages and services ([#3122](https://github.com/lies-exposed/lies.exposed/issues/3122)) ([e7ea6fa](https://github.com/lies-exposed/lies.exposed/commit/e7ea6fa1786a14cd10b41f9da90c36a392836901))
+
 ## [0.1.11](https://github.com/lies-exposed/lies.exposed/compare/0.1.10...0.1.11) (2026-01-23)
 
 
