@@ -3,7 +3,7 @@ import { generateThumbnailFlow } from "@liexp/backend/lib/flows/media/thumbnails
 import { GenerateThumbnailPubSub } from "@liexp/backend/lib/pubsub/media/generateThumbnail.pubSub.js";
 import { toMediaEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Arbs, fc } from "@liexp/test/lib/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";

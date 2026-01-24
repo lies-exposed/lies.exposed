@@ -1,7 +1,7 @@
 import path from "path";
 import { createFromTGMessage } from "@liexp/backend/lib/flows/tg/createFromTGMessage.flow.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { actorCommand } from "./actor.command.js";

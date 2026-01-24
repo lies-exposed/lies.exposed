@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { agentCommand } from "#cli/agent.command.js";
 import { makeAgentContext } from "#context/load.js";
 

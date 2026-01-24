@@ -7,7 +7,7 @@ import {
   PDFType,
 } from "@liexp/io/lib/http/Media/MediaType.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";

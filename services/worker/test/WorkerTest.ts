@@ -29,7 +29,7 @@ import { GetLogger, type Logger } from "@liexp/core/lib/logger/index.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { PDFProvider } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type AxiosInstance } from "axios";
 import { Schema } from "effect";
 import { sequenceS, sequenceT } from "fp-ts/lib/Apply.js";

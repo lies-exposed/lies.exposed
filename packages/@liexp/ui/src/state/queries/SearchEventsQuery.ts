@@ -16,7 +16,7 @@ import {
   updateCache,
   type SearchEventsQueryCache,
 } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import {
   useInfiniteQuery,
   useQuery,

@@ -3,7 +3,7 @@ import { ProjectEntity } from "@liexp/backend/lib/entities/Project.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { http } from "@liexp/io/lib/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";
 import { ProjectArb } from "@liexp/test/lib/arbitrary/Project.arbitrary.js";

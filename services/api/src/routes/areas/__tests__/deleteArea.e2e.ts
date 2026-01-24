@@ -2,7 +2,7 @@ import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { type Area } from "@liexp/io/lib/http/Area.js";
 import { AdminDelete } from "@liexp/io/lib/http/auth/permissions/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { AreaArb } from "@liexp/test/lib/arbitrary/Area.arbitrary.js";
 import { beforeAll, describe, expect, test } from "vitest";

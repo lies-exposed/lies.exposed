@@ -2,7 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import kebabCase from "lodash/kebabCase.js";
 import { type WorkerContext } from "#context/context.js";
 import { fetchAndCreateActorFromWikipedia } from "#flows/actor/fetchAndCreateActorFromWikipedia.flow.js";

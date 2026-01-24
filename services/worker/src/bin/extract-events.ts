@@ -5,7 +5,7 @@ import {
 } from "@liexp/backend/lib/flows/event/extractEventFromURL.flow.js";
 import { getOneAdminOrFail } from "@liexp/backend/lib/flows/user/getOneUserOrFail.flow.js";
 import { findByURL } from "@liexp/backend/lib/queries/events/scientificStudy.query.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as A from "fp-ts/lib/Array.js";
 import * as O from "fp-ts/lib/Option.js";

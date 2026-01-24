@@ -3,7 +3,7 @@ import { fetchGroups } from "@liexp/backend/lib/queries/groups/fetchGroups.query
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { walkPaginatedRequest } from "@liexp/shared/lib/utils/fp.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "effect/Option";
 import { type WorkerError } from "../io/worker.error.js";
 import { type CommandFlow } from "./command.type.js";

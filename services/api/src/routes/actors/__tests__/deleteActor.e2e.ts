@@ -2,7 +2,7 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toActorEntity } from "@liexp/backend/lib/test/utils/entities/index.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { fc } from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";

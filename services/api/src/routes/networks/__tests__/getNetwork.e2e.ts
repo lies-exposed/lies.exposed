@@ -1,7 +1,7 @@
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { KeywordEntity } from "@liexp/backend/lib/entities/Keyword.entity.js";
 import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";

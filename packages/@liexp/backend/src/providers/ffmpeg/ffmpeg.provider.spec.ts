@@ -1,4 +1,4 @@
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type ffmpeg from "fluent-ffmpeg";
 import { pipe } from "fp-ts/lib/function.js";
 import { describe, test, beforeEach, expect } from "vitest";

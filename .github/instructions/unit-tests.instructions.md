@@ -12,7 +12,7 @@ When working with unit test files (`.spec.ts`, `.test.ts`), follow these specifi
 ```typescript
 // Core fp-ts imports
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 
 // Testing framework
 import { describe, it, expect, beforeAll, afterAll } from "vitest";

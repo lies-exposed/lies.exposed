@@ -1,5 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { type IOError } from "@ts-endpoint/core";
 import {

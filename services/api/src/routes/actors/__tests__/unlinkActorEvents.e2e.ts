@@ -3,7 +3,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { MediaArb } from "@liexp/test/lib/arbitrary/Media.arbitrary.js";

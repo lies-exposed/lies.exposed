@@ -3,7 +3,7 @@ import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import type TelegramBot from "node-telegram-bot-api";
 import { type WorkerContext } from "#context/context.js";
 import { fetchAndCreateGroupFromWikipedia } from "#flows/group/fetchGroupFromWikipedia.js";

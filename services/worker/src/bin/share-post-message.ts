@@ -1,4 +1,4 @@
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
 import prompts from "prompts";
 import { postToIG } from "../flows/social-post/postToIG.flow.js";

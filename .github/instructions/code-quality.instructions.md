@@ -76,7 +76,7 @@ import { describe, expect, it } from "vitest";
 import { mock } from "vitest-mock-extended";
 
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 
 import { EventV2Entity } from "../../entities/Event.v2.entity.js";

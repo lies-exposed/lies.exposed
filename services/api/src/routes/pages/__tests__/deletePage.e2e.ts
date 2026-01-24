@@ -4,7 +4,7 @@ import {
   AdminDelete,
   AdminRead,
 } from "@liexp/io/lib/http/auth/permissions/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { PageArb } from "@liexp/test/lib/arbitrary/Page.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";

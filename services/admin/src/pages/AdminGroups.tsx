@@ -5,7 +5,7 @@ import { type Media } from "@liexp/io/lib/http/index.js";
 import * as io from "@liexp/io/lib/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { uploadImages } from "@liexp/ui/lib/client/admin/MediaAPI.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";

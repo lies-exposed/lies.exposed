@@ -2,7 +2,7 @@ import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { MP4Type, type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { parseURL } from "@liexp/shared/lib/helpers/media.helper.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import axios, { type AxiosProgressEvent } from "axios";
 import { Schema } from "effect";

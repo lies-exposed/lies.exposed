@@ -1,8 +1,5 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import {
-  toAPIError,
-  type APIError,
-} from "@liexp/io/lib/http/Error/APIError.js";
+import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import {
   type EndpointInstance,
   type MinimalEndpointInstance,
@@ -18,6 +15,7 @@ import * as R from "fp-ts/lib/Record.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Endpoints } from "../../endpoints/api/index.js";
+import { toAPIError } from "../../utils/APIError.utils.js";
 import { liftFetch, type HTTPProvider } from "../http/http.provider.js";
 
 const apiLogger = GetLogger("API");

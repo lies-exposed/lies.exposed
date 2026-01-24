@@ -1,6 +1,6 @@
 import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import prompts from "prompts";
 import { fetchAndCreateActorFromWikipedia } from "../flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
 import { fetchAndCreateAreaFromWikipedia } from "../flows/area/fetchAndCreateAreaFromWikipedia.js";

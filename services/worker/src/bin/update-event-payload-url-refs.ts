@@ -6,7 +6,7 @@ import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { type DocumentaryPayload } from "@liexp/io/lib/http/Events/Documentary.js";
 import { type PatentPayload } from "@liexp/io/lib/http/Events/Patent.js";
 import { type ScientificStudyPayload } from "@liexp/io/lib/http/Events/ScientificStudy.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Brackets } from "typeorm";
 import { type CommandFlow } from "./command.type.js";

@@ -2,7 +2,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { UNCATEGORIZED } from "@liexp/io/lib/http/Events/EventType.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as tests from "@liexp/test";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
