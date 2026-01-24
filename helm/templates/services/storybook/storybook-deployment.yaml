@@ -23,6 +23,13 @@ spec:
           ports:
             - containerPort: 80
               protocol: TCP
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 150m
+            requests:
+              memory: 128Mi
+              cpu: 50m
           volumeMounts:
             - name: storybook-nginx-conf-storage
               mountPath: /etc/nginx/conf.d/default.conf
@@ -46,10 +53,3 @@ spec:
         - name: storybook-build-volume
           persistentVolumeClaim:
             claimName: storybook-build-pv-claim
-      resources:
-        requests:
-          memory: 200Mi
-          cpu: 100m
-        limits:
-          memory: 500Mi
-          cpu: 300m 

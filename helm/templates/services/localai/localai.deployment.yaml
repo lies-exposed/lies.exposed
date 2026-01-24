@@ -50,12 +50,12 @@ spec:
             #   mountPath: /backends
           resources:
             limits:
-              memory: 8Gi
-              cpu: 4000m
+              memory: 5Gi
+              cpu: 2000m
               gpu.intel.com/i915: 1
             requests:
-              memory: 4Gi
-              cpu: 1000m
+              memory: 2Gi
+              cpu: 500m
               gpu.intel.com/i915: 1
       restartPolicy: Always
       volumes:

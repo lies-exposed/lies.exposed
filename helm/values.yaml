@@ -22,26 +22,40 @@ worker:
     limit: null  # Process all media without thumbnails (can be set to a number to limit)
     resources:
       limits:
-        memory: "1Gi"
-        cpu: "500m"
-      requests:
         memory: "512Mi"
-        cpu: "200m"
+        cpu: "300m"
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
     manualJob:
       enabled: false  # Set to true to create a one-time Job for manual execution
       limit: null  # Optional limit for manual runs
       resources:
         limits:
-          memory: "1Gi"
-          cpu: "500m"
-        requests:
           memory: "512Mi"
-          cpu: "200m"
+          cpu: "300m"
+        requests:
+          memory: "256Mi"
+          cpu: "100m"
   upsertNLPEntities:
     enabled: true
     schedule: "0 1 * * *"  # Daily at 1 AM UTC
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "300m"
+      requests:
+        memory: "256Mi"
+        cpu: "100m"
     manualJob:
       enabled: false  # Set to true to create a one-time Job for manual execution
+      resources:
+        limits:
+          memory: "512Mi"
+          cpu: "300m"
+        requests:
+          memory: "256Mi"
+          cpu: "100m"
 
 aiBot:
   configPath: "/home/node/services/ai-bot/config"

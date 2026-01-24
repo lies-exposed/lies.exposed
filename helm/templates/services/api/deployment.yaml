@@ -45,7 +45,11 @@ spec:
               protocol: TCP
           resources:
             limits:
-              memory: "512Mi"
+              memory: 512Mi
+              cpu: 300m
+            requests:
+              memory: 256Mi
+              cpu: 100m
           volumeMounts:
           - name: api-temp-volume
             mountPath: /prod/api/temp

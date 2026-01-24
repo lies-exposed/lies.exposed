@@ -31,11 +31,11 @@ spec:
               mountPath: /var/lib/telegram-bot-api
           resources:
             limits:
-              memory: 512Mi
-              cpu: 300m
-            requests:
               memory: 256Mi
-              cpu: 100m
+              cpu: 150m
+            requests:
+              memory: 128Mi
+              cpu: 50m
       restartPolicy: Always
       volumes:
         - name: telegram-bot-api-data
