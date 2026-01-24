@@ -2,18 +2,20 @@
 
 FROM ghcr.io/lies-exposed/liexp-base:24-pnpm-latest AS dev
 
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc /usr/src/app/
-
-COPY ./patches /usr/src/app/patches
-COPY ./packages/@liexp/core /usr/src/app/packages/@liexp/core
-COPY ./packages/@liexp/io /usr/src/app/packages/@liexp/io
-COPY ./packages/@liexp/test /usr/src/app/packages/@liexp/test
-COPY ./packages/@liexp/shared /usr/src/app/packages/@liexp/shared
-COPY ./packages/@liexp/backend /usr/src/app/packages/@liexp/backend
-COPY ./packages/@liexp/ui /usr/src/app/packages/@liexp/ui
-COPY ./services/web /usr/src/app/services/web
-
 WORKDIR /usr/src/app
+
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml tsconfig.json .npmrc ./
+
+COPY ./patches ./patches
+COPY ./packages/@liexp/eslint-config ./packages/@liexp/eslint-config
+COPY ./packages/@liexp/core ./packages/@liexp/core
+COPY ./packages/@liexp/io ./packages/@liexp/io
+COPY ./packages/@liexp/test ./packages/@liexp/test
+COPY ./packages/@liexp/shared ./packages/@liexp/shared
+COPY ./packages/@liexp/backend ./packages/@liexp/backend
+COPY ./packages/@liexp/ui ./packages/@liexp/ui
+
+COPY ./services/web ./services/web
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
