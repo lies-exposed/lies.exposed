@@ -2,20 +2,20 @@ import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-c
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
+import { EventMap } from "@liexp/io/lib/http/Events/index.js";
 import { type Link } from "@liexp/io/lib/http/Link.js";
 import { type CreateEventFromLinksTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
 import { type Events } from "@liexp/io/lib/http/index.js";
-import { EventMap } from "@liexp/io/lib/http/Events/index.js";
 import {
   buildEvent,
   type EventCommonProps,
 } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
 import { getEventFromLinksPrompt } from "../prompts.js";
 import { type JobProcessRTE } from "#services/job-processor/job-processor.service.js";
-import { JSONSchema, type Schema } from "effect";
 
 const defaultQuestion = `
 Can you synthesize an event from the provided multiple link sources?
