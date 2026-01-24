@@ -1,45 +1,19 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { describe, expect, it } from "vitest";
-import {
-  SimpleForm,
-  AdminContext,
-  ResourceContextProvider,
-  testDataProvider,
-  TextInput,
-} from "../../../admin/react-admin.js";
+import { TextInput } from "../../../admin/react-admin.js";
 import { TextWithSlugInput } from "./TextWithSlugInput.js";
 
-// Simple i18nProvider that just returns the field name
-const testI18nProvider = {
-  translate: (key: string) => {
-    // Extract field name from "resources.posts.fields.fieldname"
-    if (key.startsWith("resources.")) {
-      const parts = key.split(".");
-      return parts[parts.length - 1];
-    }
-    return key;
-  },
-  changeLocale: () => Promise.resolve(),
-  getLocale: () => "en",
-};
-
-// Wrapper component that provides react-admin form context
 const FormWrapper: React.FC<
   React.PropsWithChildren<{ defaultValues?: any }>
 > = ({ children, defaultValues = {} }) => {
+  const formState = useForm({ defaultValues });
   return (
-    <AdminContext
-      dataProvider={testDataProvider()}
-      i18nProvider={testI18nProvider}
-    >
-      <ResourceContextProvider value="posts">
-        <SimpleForm defaultValues={defaultValues} onSubmit={() => {}}>
-          {children}
-        </SimpleForm>
-      </ResourceContextProvider>
-    </AdminContext>
+    <FormProvider {...formState}>
+      <form>{children}</form>
+    </FormProvider>
   );
 };
 
@@ -55,7 +29,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
 
       await user.type(nameInput, "Hello World");
 
@@ -74,7 +48,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
 
       await user.type(nameInput, "Foo & Bar!");
 
@@ -93,7 +67,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
 
       await user.type(nameInput, "Multi   Space   Test");
 
@@ -114,7 +88,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
 
       // First, auto-generate
       await user.type(nameInput, "Initial Name");
@@ -145,7 +119,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
 
       expect(nameInput.value).toBe("Existing Name");
       expect(slugInput.value).toBe("existing-slug");
@@ -168,7 +142,7 @@ describe("TextWithSlugInput", () => {
 
       const nameInput = screen.getByLabelText("Full Name") as HTMLInputElement;
       const usernameInput = screen.getByLabelText(
-        "username",
+        /username/i,
       ) as HTMLInputElement;
 
       await user.type(nameInput, "John Doe");
@@ -191,7 +165,7 @@ describe("TextWithSlugInput", () => {
       );
 
       const nameInput = screen.getByLabelText("Name") as HTMLInputElement;
-      const slugInput = screen.getByLabelText("slug") as HTMLInputElement;
+      const slugInput = screen.getByLabelText(/slug/i) as HTMLInputElement;
       const descInput = screen.getByLabelText(
         "Description",
       ) as HTMLInputElement;
