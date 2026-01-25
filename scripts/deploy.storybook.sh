@@ -15,17 +15,8 @@ pnpm storybook clean
 
 pnpm storybook build:app
 
-ssh "$SSH_HOST" "mkdir -p ~/lies-exposed/storybook/build"
-ssh "$SSH_HOST" "mkdir -p ~/lies-exposed/storybook/logs"
+mc mirror --overwrite --remove \
+    services/storybook/build \
+    lies-exposed-space/storybook
 
-ssh "$SSH_HOST" "rm -rf ~/lies-exposed/storybook/build"
-
-rsync -aP ./services/storybook/build/ "$SSH_HOST":~/lies-exposed/storybook/build
-
-pnpm storybook clean
-
-rm ./services/storybook/.env
 mv ./services/storybook/.env.dev ./services/storybook/.env
-
-
-KUBECONFIG=$HOME/.kube/microk8s-local kubectl --namespace prod delete pod -l lies.exposed/name=storybook

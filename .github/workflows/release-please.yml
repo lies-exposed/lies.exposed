@@ -60,6 +60,50 @@ jobs:
           path: services/ai-bot/build/
           retention-days: 1
 
+  # Build and sync Storybook to MinIO (only when release is created)
+  storybook:
+    needs: [release-please, setup]
+    if: needs.release-please.outputs.releases_created
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/install-deps
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - uses: ./.github/actions/build-packages
+        with:
+          hash: ${{ github.sha }}
+
+      - name: Build Storybook
+        run: |
+          set -euo pipefail
+          # Use production env for Storybook build (CI)
+          cp -f services/storybook/.env.prod services/storybook/.env
+          export VITE_NODE_ENV=production
+
+          pnpm storybook build:app
+
+      - name: Install MinIO Client
+        run: |
+          curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
+          chmod +x mc
+          sudo mv mc /usr/local/bin/
+
+      - name: Configure MinIO alias
+        run: |
+          mc alias set lies-exposed-space \
+            https://space.lies.exposed \
+            ${{ secrets.MINIO_ACCESS_KEY }} \
+            ${{ secrets.MINIO_SECRET_KEY }}
+
+      - name: Sync Storybook to MinIO
+        run: |
+          mc mirror --overwrite --remove \
+            services/storybook/build \
+            lies-exposed-space/storybook
+
   # Build and push Docker images in parallel (only when release is created)
   deploy:
     needs: [release-please, setup]

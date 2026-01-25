@@ -87,7 +87,8 @@ telegram:
     id: "not-real-id"
 
 storybook:
-  buildVolumeHostPath: /home/node/storybook/build
+  # Build is now synced to MinIO bucket 'storybook' by CI
+  minioBucket: storybook
   nginxLogVolumePath: /home/node/storybook/logs
 
 localai:
