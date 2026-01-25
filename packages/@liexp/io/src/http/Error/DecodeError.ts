@@ -5,9 +5,9 @@ export class DecodeError extends IOError {
   name = "DecodeError";
 
   static of(message: string, errors: ParseError): DecodeError {
-    return new DecodeError(message, {
+    return new DecodeError(message + errors.message, {
       kind: "DecodingError",
-      errors: [errors.message],
+      errors: [errors],
     });
   }
 }

@@ -1,8 +1,8 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type Queue } from "@liexp/io/lib/http/Queue/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
-import { toQueueIO } from "./queue.io.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -12,24 +12,23 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
     ({ params: { id, resource, type }, body: { ...userData } }) => {
       ctx.logger.debug.log("Edit queue %s  with %O", id, userData);
       return pipe(
-        TE.Do,
-        TE.bind("queue", () => TE.right(ctx.queue.queue(type))),
-        TE.bind("prevJob", ({ queue }) => queue.getJob(resource, id)),
-        TE.bind("deletePrevJob", ({ queue, prevJob }) =>
+        fp.RTE.Do,
+        fp.RTE.bind("queue", () => fp.RTE.right(GetQueueProvider.queue(type))),
+        fp.RTE.bind("prevJob", ({ queue }) => queue.getJob(resource, id)),
+        fp.RTE.bind("deletePrevJob", ({ queue, prevJob }) =>
           queue.deleteJob(prevJob.resource, prevJob.id),
         ),
-        TE.bind("job", ({ queue, prevJob }) =>
+        fp.RTE.bind("job", ({ queue, prevJob }) =>
           pipe(
-            TE.right({ ...prevJob, ...userData, resource }),
-            TE.chainFirst(queue.addJob),
+            fp.RTE.right({ ...prevJob, ...userData, resource } as Queue),
+            fp.RTE.chainFirst(queue.addJob),
           ),
         ),
-        TE.chainEitherK(({ job }) => toQueueIO(job)),
-        TE.map((data) => ({
+        fp.RTE.map(({ job: data }) => ({
           body: { data },
           statusCode: 200,
         })),
-      );
+      )(ctx);
     },
   );
 };

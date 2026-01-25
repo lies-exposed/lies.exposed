@@ -28,6 +28,7 @@ import { type MediaEntity } from "../../entities/Media.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
 import { ServerError } from "../../errors/index.js";
 import { type DBError } from "../../providers/orm/index.js";
+import { GetQueueProvider } from "../../providers/queue.provider.js";
 import { LinkRepository } from "../../services/entity-repository.service.js";
 import { LoggerService } from "../../services/logger/logger.service.js";
 import { fromURL } from "../links/link.flow.js";
@@ -88,7 +89,9 @@ export const parseURLs =
                 ),
               ),
               TE.chainFirst((l) =>
-                ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
+                GetQueueProvider.queue(
+                  OpenAIEmbeddingQueueType.literals[0],
+                ).addJob({
                   id: l.id,
                   status: PendingStatus.literals[0],
                   type: OpenAIEmbeddingQueueType.literals[0],
@@ -101,7 +104,7 @@ export const parseURLs =
                     url: l.url,
                     type: "link",
                   },
-                } as Queue),
+                } as Queue)(ctx),
               ),
               TE.mapLeft(ServerError.fromUnknown),
             );

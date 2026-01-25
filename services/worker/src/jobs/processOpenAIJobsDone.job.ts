@@ -2,12 +2,15 @@ import { type ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { type EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { type GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
+import { QueueIO } from "@liexp/backend/lib/io/queue.io.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import {
   ActorRepository,
   EventRepository,
   GroupRepository,
   LinkRepository,
   MediaRepository,
+  QueueRepository,
   StoryRepository,
   type EntityRepository,
 } from "@liexp/backend/lib/services/entity-repository.service.js";
@@ -18,10 +21,11 @@ import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
+import { DoneStatus } from "@liexp/io/lib/http/Queue/index.js";
 import { type Queue } from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
-import { Equal, type FindOptionsWhere } from "typeorm";
+import { Equal, In, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type WorkerContext } from "#context/context.js";
@@ -142,10 +146,13 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
 
       return fp.RTE.of(job);
     }),
-    fp.RTE.chainFirst((job) => (ctx) => {
+    fp.RTE.chainFirst((job) => {
       return pipe(
-        ctx.queue.queue(job.type).updateJob(job, "completed"),
-        fp.TE.mapLeft(toWorkerError),
+        GetQueueProvider.queue<Queue.Queue, WorkerContext>(job.type).updateJob(
+          job,
+          "completed",
+        ),
+        fp.RTE.mapLeft(toWorkerError),
       );
     }),
     LoggerService.RTE.info(["Job %s completed", job.id]),
@@ -158,8 +165,10 @@ export const processOpenAIJobsDone: CronJobTE = () => {
     fp.RTE.apS(
       "doneJobs",
       pipe(
-        fp.RTE.ask<WorkerContext>(),
-        fp.RTE.chainTaskEitherK((ctx) => ctx.queue.list({ status: ["done"] })),
+        QueueRepository.find({
+          where: { status: In([DoneStatus.literals[0]]) },
+        }),
+        fp.RTE.chainEitherK(QueueIO.decodeMany),
         fp.RTE.mapLeft(toWorkerError),
       ),
     ),

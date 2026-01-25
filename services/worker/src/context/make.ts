@@ -176,9 +176,7 @@ export const makeContext = (
         }),
       ),
     ),
-    fp.TE.bind("queue", (ctx) =>
-      fp.TE.right(GetQueueProvider(fsClient, ctx.config.dirs.temp.queue)),
-    ),
+    fp.TE.bind("queue", () => fp.TE.right(GetQueueProvider)),
     fp.TE.bind("pdf", ({ config }) =>
       fp.TE.right(
         PDFProvider({

@@ -2,6 +2,7 @@ import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
 import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.decoder.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { createEventQuery } from "@liexp/backend/lib/queries/events/createEvent.query.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
@@ -42,23 +43,23 @@ export const CreateEventRoute: Route = (r, ctx) => {
                   uuid(),
                   TE.right,
                   TE.chainFirst((id) =>
-                    ctx.queue
-                      .queue(OpenAICreateEventFromURLType.literals[0])
-                      .addJob({
-                        id,
-                        status: PendingStatus.literals[0],
-                        type: OpenAICreateEventFromURLType.literals[0],
-                        resource: EVENTS.literals[0],
-                        error: null,
-                        question: null,
-                        result: null,
-                        prompt: null,
-                        data: {
-                          type: body.type,
-                          url: body.url,
-                          date: body.date,
-                        },
-                      }),
+                    GetQueueProvider.queue(
+                      OpenAICreateEventFromURLType.literals[0],
+                    ).addJob({
+                      id,
+                      status: PendingStatus.literals[0],
+                      type: OpenAICreateEventFromURLType.literals[0],
+                      resource: EVENTS.literals[0],
+                      error: null,
+                      question: null,
+                      result: null,
+                      prompt: null,
+                      data: {
+                        type: body.type,
+                        url: body.url,
+                        date: body.date,
+                      },
+                    })(ctx),
                   ),
                   TE.map((_id) => ({ success: true })),
                 )

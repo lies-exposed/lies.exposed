@@ -1,7 +1,7 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -11,13 +11,15 @@ export const MakeQueueDeleteRoute: Route = (r, ctx) => {
     ({ params: { id, resource, type } }) => {
       ctx.logger.debug.log("Delete user %s ", id);
       return pipe(
-        ctx.queue.queue(type).getJob(resource, id),
-        TE.chainFirst(() => ctx.queue.queue(type).deleteJob(resource, id)),
-        TE.map((data) => ({
+        GetQueueProvider.queue(type).getJob(resource, id),
+        fp.RTE.chainFirst(() =>
+          GetQueueProvider.queue(type).deleteJob(resource, id),
+        ),
+        fp.RTE.map((data) => ({
           body: { data },
           statusCode: 200,
         })),
-      );
+      )(ctx);
     },
   );
 };

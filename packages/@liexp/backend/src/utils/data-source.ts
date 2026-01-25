@@ -18,6 +18,7 @@ import { MediaEntity } from "../entities/Media.entity.js";
 import { NationEntity } from "../entities/Nation.entity.js";
 import { PageEntity } from "../entities/Page.entity.js";
 import { ProjectEntity } from "../entities/Project.entity.js";
+import { QueueEntity } from "../entities/Queue.entity.js";
 import { SettingEntity } from "../entities/Setting.entity.js";
 import { SocialPostEntity } from "../entities/SocialPost.entity.js";
 import { StoryEntity } from "../entities/Story.entity.js";
@@ -47,6 +48,7 @@ export const ALL_ENTITIES: EntityTarget<unknown>[] = [
   SocialPostEntity,
   GraphEntity,
   SettingEntity,
+  QueueEntity,
 ];
 
 /**

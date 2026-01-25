@@ -118,7 +118,7 @@ export const loadAppContext = async (
         http: HTTPProvider(mocks.axios as unknown as AxiosInstance),
         apiKey: "fake-geo-api-key",
       }),
-      queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
+      queue: GetQueueProvider,
     })),
     TE.bind("config", Config(process.cwd())),
     throwTE,

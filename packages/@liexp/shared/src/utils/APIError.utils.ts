@@ -14,7 +14,7 @@ export const decodeIOErrorDetails = (
   return details.kind === "ServerError"
     ? (details.meta as string[])
     : details.kind === "DecodingError"
-      ? (details.errors as string[])
+      ? details.errors.map((e) => String(e))
       : [];
 };
 
