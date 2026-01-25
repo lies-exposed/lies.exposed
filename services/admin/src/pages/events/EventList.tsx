@@ -1,4 +1,4 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Event, EventType } from "@liexp/io/lib/http/Events/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
@@ -45,6 +45,7 @@ import {
   alpha,
 } from "@liexp/ui/lib/components/mui/index.js";
 import { useAPI } from "@liexp/ui/lib/hooks/useAPI.js";
+import { type ReadonlyNonEmptyArray } from "fp-ts/lib/ReadonlyNonEmptyArray.js";
 import * as React from "react";
 import {
   MergeResultPreview,
@@ -147,18 +148,24 @@ const MergeEventsButton = () => {
     return takeEventRelations(events);
   }, [events]);
 
-  const mergedEvent =
-    toType && events.length > 0
-      ? MergeEventsHelper.mergeEvents(events, toType, {
-          groups: [],
-          actors: [],
-          links: [],
-          media: [],
-          keywords: [],
-          groupsMembers: [],
-          areas: [],
-        })
-      : undefined;
+  const mergedEvent = pipe(
+    events as readonly Event[],
+    fp.O.fromPredicate(
+      (ev): ev is ReadonlyNonEmptyArray<Event> => toType && fp.A.isNonEmpty(ev),
+    ),
+    fp.O.map((ev) =>
+      MergeEventsHelper.mergeEvents(ev, toType, {
+        groups: [],
+        actors: [],
+        links: [],
+        media: [],
+        keywords: [],
+        groupsMembers: [],
+        areas: [],
+      }),
+    ),
+    fp.O.toUndefined,
+  );
 
   const canMerge = events.length >= 2;
 
