@@ -23,10 +23,10 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/component: worker
-      
+
       - podSelector:
           matchLabels:
-            app.kubernetes.io/component: db-dump
+            app.kubernetes.io/component: cache
   egress:
     - to:
       - podSelector:
@@ -36,7 +36,7 @@ spec:
       - podSelector:
           matchLabels:
             app.kubernetes.io/component: worker
-      
+
       - podSelector:
           matchLabels:
-            app.kubernetes.io/component: db-dump
+            app.kubernetes.io/component: cache

@@ -33,8 +33,11 @@ spec:
                   TIMESTAMP="$(date +%Y%m%d%H%M%S)"
                   FILE="/dump/lies-exposed-db-${TIMESTAMP}.sql"
                   echo "Starting pg_dump -> ${FILE}"
-                  host={{ .Values.db.host }}
-                  pg_dump "user=$POSTGRES_USER password=$POSTGRES_PASSWORD port=5432 host=$host dbname=$POSTGRES_DB connect_timeout=30" -v -O -f "${FILE}"
+                  # Use provided db.host if set, otherwise fall back to the in-cluster service DNS for the `db` Service
+                  host={{ .Values.db.host | default (printf "db.%s.svc.cluster.local" .Release.Namespace) }}
+                  port={{ .Values.db.port | default 5432 }}
+                  echo "Connecting to ${host}:${port} as $POSTGRES_USER"
+                  pg_dump "user=$POSTGRES_USER password=$POSTGRES_PASSWORD port=$port host=$host dbname=$POSTGRES_DB connect_timeout=30" -v -O -f "${FILE}"
                   echo "Dump written to ${FILE}"
               imagePullPolicy: IfNotPresent
               resources:
