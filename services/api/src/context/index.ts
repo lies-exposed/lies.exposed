@@ -99,49 +99,52 @@ export const makeContext =
     const config = Config(env, process.cwd());
 
     return pipe(
-      sequenceS(fp.TE.ApplicativePar)({
-        logger: fp.TE.right(serverLogger),
-        db,
-        s3: fp.TE.right(MakeSpaceProvider(createS3ProviderConfig(env))),
-        fs: fp.TE.right(fsClient),
-        jwt: fp.TE.right(jwtClient),
-        urlMetadata: fp.TE.right(urlMetadataClient),
-        env: fp.TE.right(env),
-        blocknote: fp.TE.right(editor),
-        ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
-        http: fp.TE.right(HTTPProvider(axios.default.create({}))),
-        geo: fp.TE.right(
-          GeocodeProvider({
-            http: HTTPProvider(
-              axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
-            ),
-            apiKey: env.GEO_CODE_API_KEY,
-          }),
-        ),
-        wp: fp.TE.right(wpProvider),
-        rw: fp.TE.right(rationalWikiProvider),
-        queue: fp.TE.right(GetQueueProvider(fsClient, config.dirs.temp.queue)),
-        ner: fp.TE.right(
-          GetNERProvider({
-            logger: logger.GetLogger("ner"),
-            entitiesFile: path.resolve(
-              process.cwd(),
-              "config/nlp/entities.json",
-            ),
-            nlp: WinkFn,
-          }),
-        ),
-        config: fp.TE.right(config),
-        redis: GetRedisClient({
-          client: () =>
-            new Redis({
-              host: env.REDIS_HOST,
-              port: 6379,
-              lazyConnect: true,
+      db,
+      fp.TE.chain((db) =>
+        sequenceS(fp.TE.ApplicativePar)({
+          logger: fp.TE.right(serverLogger),
+          db: fp.TE.right(db),
+          s3: fp.TE.right(MakeSpaceProvider(createS3ProviderConfig(env))),
+          fs: fp.TE.right(fsClient),
+          jwt: fp.TE.right(jwtClient),
+          urlMetadata: fp.TE.right(urlMetadataClient),
+          env: fp.TE.right(env),
+          blocknote: fp.TE.right(editor),
+          ffmpeg: fp.TE.right(GetFFMPEGProvider(ffmpeg)),
+          http: fp.TE.right(HTTPProvider(axios.default.create({}))),
+          geo: fp.TE.right(
+            GeocodeProvider({
+              http: HTTPProvider(
+                axios.default.create({ baseURL: env.GEO_CODE_BASE_URL }),
+              ),
+              apiKey: env.GEO_CODE_API_KEY,
             }),
-          connect: env.REDIS_CONNECT,
+          ),
+          wp: fp.TE.right(wpProvider),
+          rw: fp.TE.right(rationalWikiProvider),
+          queue: fp.TE.right(GetQueueProvider),
+          ner: fp.TE.right(
+            GetNERProvider({
+              logger: logger.GetLogger("ner"),
+              entitiesFile: path.resolve(
+                process.cwd(),
+                "config/nlp/entities.json",
+              ),
+              nlp: WinkFn,
+            }),
+          ),
+          config: fp.TE.right(config),
+          redis: GetRedisClient({
+            client: () =>
+              new Redis({
+                host: env.REDIS_HOST,
+                port: 6379,
+                lazyConnect: true,
+              }),
+            connect: env.REDIS_CONNECT,
+          }),
         }),
-      }),
+      ),
       fp.TE.mapLeft((e) => ({
         ...e,
         name: e.name,
