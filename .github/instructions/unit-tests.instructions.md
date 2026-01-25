@@ -4,128 +4,77 @@ applyTo: "**/*.spec.ts,**/*.test.ts"
 
 # Unit Test Instructions
 
-When working with unit test files (`.spec.ts`, `.test.ts`), follow these specific patterns:
+> **Full documentation**: [docs/testing/unit-tests.md](../../docs/testing/unit-tests.md)
 
-## Required Patterns
+## Quick Reference (LLM Action Block)
 
-### Import Structure
+### Required Imports
 ```typescript
-// Core fp-ts imports
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-
-// Testing framework
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import { mock } from "vitest-mock-extended";
 import fc from "fast-check";
-
-// Test utilities
 import { mockedContext } from "../../test/context.js";
-import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
-
-// Arbitraries for test data
-import { HumanReadableStringArb } from "@liexp/test/lib/arbitrary/HumanReadableString.arbitrary.js";
+import { mockTERightOnce, mockTELeftOnce } from "../../test/mocks/mock.utils.js";
 ```
 
-### Test Structure
+### Test Structure Template
 ```typescript
-describe("FunctionOrFlowName", () => {
-  const mockCtx = mockedContext({
-    db: mock(),
-    logger: mock(),
-    // other dependencies
-  });
+describe("FunctionName", () => {
+  const mockCtx = mockedContext({ db: mock(), logger: mock() });
 
-  describe("when specific_condition", () => {
-    it("should expected_behavior", async () => {
-      // Arrange: Set up test data using arbitraries
-      const [testData] = fc.sample(HumanReadableStringArb(), 1);
-      
-      // Mock dependencies
-      mockTERightOnce(mockCtx.db.findOneOrFail, () => expectedEntity);
-      
-      // Act: Execute the function under test
-      const result = await pipe(
-        functionUnderTest(testData)(mockCtx),
-        throwTE // CRITICAL: Convert TaskEither to Promise
-      );
-      
-      // Assert: Test specific expected outcomes
-      expect(result).toMatchObject(expectedResult);
-      expect(mockCtx.db.findOneOrFail).toHaveBeenCalledWith(/* expected args */);
-    });
+  it("should expected_behavior", async () => {
+    // Arrange
+    const [testData] = fc.sample(SomeArb(), 1);
+    mockTERightOnce(mockCtx.db.findOne, () => expectedEntity);
+
+    // Act
+    const result = await pipe(
+      functionUnderTest(testData)(mockCtx),
+      throwTE  // CRITICAL: Always use throwTE
+    );
+
+    // Assert
+    expect(result).toMatchObject(expected);
   });
 });
 ```
 
-## Critical Requirements
+### Critical Rules
 
-### ✅ ALWAYS DO
-- Use `throwTE` to convert `TaskEither` to `Promise` for testing
-- Use property-based testing with fast-check and arbitraries
-- Mock external dependencies with `mockTERightOnce`
-- Test specific expected values: `expect(status).toBe(200)`
-- Use `mockedContext` for creating test contexts
-- Generate test data with arbitraries from `@liexp/test`
+**ALWAYS**:
+- Use `throwTE` to convert TaskEither to Promise
+- Use `fc.sample(Arb, 1)[0]` for test data
+- Use `mockTERightOnce` / `mockTELeftOnce` for mocks
+- Test specific values: `expect(x).toBe(200)`
 
-### ❌ NEVER DO
-- Test negative assertions: `expect(result).not.toBe(null)` ❌
-- Use hardcoded test data without arbitraries ❌
-- Test TaskEither directly without `throwTE` ❌
-- Mock implementation details instead of behavior ❌
-- Use `jest` mocking (use `vitest-mock-extended` instead) ❌
+**NEVER**:
+- Use negative assertions: `expect(x).not.toBe(null)` ❌
+- Use hardcoded test data
+- Use Jest mocking (use vitest-mock-extended)
+- Test TaskEither without `throwTE`
 
-### Error Handling Tests
+### Error Testing
 ```typescript
-it("should handle errors correctly", async () => {
-  // Mock error condition in the TaskEither Left channel
-  mockTELeftOnce(mockCtx.db.findOneOrFail, () => new Error("Database error"));
-  
-  // Test error path
+it("should handle errors", async () => {
+  mockTELeftOnce(mockCtx.db.find, () => new Error("DB error"));
+
   await expect(pipe(
-    functionUnderTest(testData)(mockCtx),
+    functionUnderTest(data)(mockCtx),
     throwTE
-  )).rejects.toThrow("Database error");
+  )).rejects.toThrow("DB error");
 });
-```
-
-### Mock Patterns
-```typescript
-// Mock with return value inspection
-let savedEntity: any;
-mockTERightOnce(mockCtx.db.save, (_, entity) => {
-  savedEntity = entity[0];
-  return entity;
-});
-
-// Mock Option types
-mockTERightOnce(mockCtx.service.findOptional, () => fp.O.some(mockData));
-mockTERightOnce(mockCtx.service.findOptional, () => fp.O.none);
-
-// Mock complex operations
-mockTERightOnce(mockCtx.puppeteer.execute, () => 
-  fp.O.some({
-    type: "SCIENTIFIC_STUDY",
-    payload: { title: testTitle, url: testUrl }
-  })
-);
 ```
 
 ### Property-Based Testing
 ```typescript
-it("should handle all valid inputs correctly", () => {
-  fc.assert(fc.property(
-    fc.string({ minLength: 1, maxLength: 100 }),
-    fc.nat({ max: 1000 }),
-    async (testString, testNumber) => {
-      const result = await pipe(
-        functionUnderTest({ text: testString, count: testNumber })(mockCtx),
-        throwTE
-      );
-      
-      expect(result).toBeDefined();
-      expect(typeof result.id).toBe("string");
-    }
-  ));
-});
+fc.assert(fc.property(
+  fc.string({ minLength: 1 }),
+  fc.nat({ max: 100 }),
+  async (str, num) => {
+    const result = await pipe(fn({ str, num })(ctx), throwTE);
+    expect(result).toBeDefined();
+  }
+));
 ```

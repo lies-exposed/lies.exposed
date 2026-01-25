@@ -1,0 +1,179 @@
+# Worker Service
+
+**Location:** `services/worker`
+**Version:** 0.1.10
+
+## Purpose
+
+The Worker service handles background automation:
+- Runs scheduled cron jobs
+- Listens to Redis pub/sub for event-driven tasks
+- Enriches entities from Wikipedia
+- Manages social media posting (Telegram, Instagram)
+- Processes media (thumbnails, transfers)
+- Runs NLP entity extraction
+- Generates platform statistics
+
+## Architecture
+
+**Entry Point:** `services/worker/src/run.ts`
+
+The service initializes:
+1. WorkerContext with all providers
+2. Redis subscribers for event handling
+3. Cron jobs for scheduled tasks
+4. Telegram bot for command handling
+
+### Directory Structure
+
+```
+services/worker/
+├── src/
+│   ├── context/       # WorkerContext definition
+│   ├── jobs/          # Cron job orchestration
+│   ├── services/
+│   │   └── subscribers/  # Redis subscriber setup
+│   ├── flows/         # Business logic flows
+│   ├── providers/
+│   │   └── tg/        # Telegram bot commands
+│   └── bin/           # CLI utilities
+├── test/
+└── build/
+```
+
+### WorkerContext
+
+```typescript
+type WorkerContext = ENVContext &
+  LoggerContext &
+  DatabaseContext &
+  ConfigContext &
+  FSClientContext &
+  RedisContext &
+  SpaceContext &
+  PDFProviderContext &
+  HTTPProviderContext &
+  PuppeteerProviderContext &
+  NERProviderContext &
+  ImgProcClientContext &
+  FFMPEGProviderContext &
+  TGBotProviderContext &
+  IGProviderContext &
+  QueuesProviderContext &
+  GeocodeProviderContext &
+  BlockNoteContext &
+  URLMetadataContext &
+  WikipediaProviderContext & {
+    rw: WikipediaProvider;
+  };
+```
+
+## Cron Jobs
+
+| Job | Schedule Env Var | Description |
+|-----|------------------|-------------|
+| Social Posting | `SOCIAL_POSTING_CRON` | Post scheduled content to social platforms |
+| Temp Folder Cleanup | `TEMP_FOLDER_CLEAN_UP_CRON` | Clean temporary files |
+| Process Done Jobs | `PROCESS_DONE_JOB_CRON` | Handle completed AI queue jobs |
+| Regenerate Thumbnails | `REGENERATE_MEDIA_THUMBNAILS_CRON` | Regenerate missing thumbnails |
+
+## Redis Subscribers
+
+| Subscriber | Purpose |
+|------------|---------|
+| `SearchLinksSubscriber` | Search for links |
+| `TakeLinkScreenshotSubscriber` | Capture link screenshots |
+| `GenerateThumbnailSubscriber` | Generate media thumbnails |
+| `CreateMediaThumbnailSubscriber` | Create specific thumbnails |
+| `ExtractMediaExtraSubscriber` | Extract media metadata |
+| `TransferFromExternalProviderSubscriber` | Transfer media from external URLs |
+| `CreateEventFromURLSubscriber` | Create events from URLs |
+| `PostToSocialPlatformsSubscriber` | Post to social media |
+| `ExtractEntitiesWithNLPSubscriber` | NLP entity extraction |
+| `SearchFromWikipediaSubscriber` | Wikipedia search and creation |
+| `CreateEntityStatsSubscriber` | Generate entity statistics |
+| `ProcessJobDoneSubscriber` | Handle completed queue jobs |
+
+## Wikipedia Integration
+
+```typescript
+// Fetch and create actor from Wikipedia
+fetchAndCreateActorFromWikipedia(title: string, wp: WikiProviders)
+
+// Search and create actor from Wikipedia
+searchActorAndCreateFromWikipedia(search: string, wp: WikiProviders)
+
+// Similar flows for areas and groups
+fetchAndCreateAreaFromWikipedia(title: string, wp: WikiProviders)
+fetchGroupFromWikipedia(title: string, wp: WikiProviders)
+```
+
+## Social Media Posting
+
+The worker supports posting to:
+- **Telegram**: Via `node-telegram-bot-api`
+- **Instagram**: Via `instagram-private-api`
+
+```typescript
+postToSocialPlatforms({
+  id: UUID,
+  platforms: { IG: boolean, TG: boolean }
+})
+```
+
+## Environment Variables
+
+| Variable | Description |
+|----------|-------------|
+| `WEB_URL` | Frontend URL |
+| `DB_*` | Database configuration |
+| `SPACE_*` | S3 storage configuration |
+| `REDIS_HOST`, `REDIS_CONNECT` | Redis configuration |
+| `TG_BOT_TOKEN`, `TG_BOT_CHAT`, `TG_BOT_USERNAME` | Telegram bot |
+| `TG_BOT_POLLING`, `TG_BOT_BASE_API_URL` | Telegram settings |
+| `IG_USERNAME`, `IG_PASSWORD` | Instagram credentials |
+| `GEO_CODE_BASE_URL`, `GEO_CODE_API_KEY` | Geocoding |
+| `TEMP_FOLDER_CLEAN_UP_CRON` | Cleanup schedule |
+| `SOCIAL_POSTING_CRON` | Social posting schedule |
+| `PROCESS_DONE_JOB_CRON` | Job processing schedule |
+| `REGENERATE_MEDIA_THUMBNAILS_CRON` | Thumbnail schedule |
+
+## CLI Commands
+
+```bash
+# From services/worker directory
+pnpm bin:run <command>
+pnpm bin:generate-thumbnails
+pnpm bin:upsert-nlp-entities
+
+# Available CLI commands (in /src/bin/)
+# - assign-default-area-featured-image
+# - clean-space-media
+# - clean-tg-messages
+# - create-from-wikipedia
+# - create-stats
+# - extract-entities-from-url
+# - extract-events
+# - generate-missing-thumbnails
+# - import-from-kmz
+# - parse-tg-message
+# - set-default-group-usernames
+# - share-post-message
+# - update-event-payload-url-refs
+# - upsert-nlp-entities
+# - upsert-tg-pinned-message
+```
+
+## Development Commands
+
+```bash
+# From repo root
+pnpm --filter worker dev        # Start development with watch
+pnpm --filter worker build      # Compile TypeScript
+pnpm --filter worker test       # Run tests
+pnpm --filter worker test:e2e   # Run e2e tests
+
+# From services/worker directory
+pnpm dev
+pnpm build
+```
