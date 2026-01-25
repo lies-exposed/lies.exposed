@@ -31,8 +31,12 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import {
   Assignment as AssignmentIcon,
+  GroupsIcon,
+  LightbulbIcon,
   PermMedia as PermMediaIcon,
   PostAdd as PostAddIcon,
+  QueueIcon,
+  SettingsIcon,
 } from "@liexp/ui/lib/components/mui/icons.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
@@ -449,6 +453,7 @@ const AdminPage: React.FC = () => {
         list={GroupMemberList}
         create={GroupMemberCreate}
         edit={GroupMemberEdit}
+        icon={GroupsIcon}
       />
       <Resource
         name="areas"
@@ -469,6 +474,7 @@ const AdminPage: React.FC = () => {
         name="events/suggestions"
         list={EventSuggestionList}
         edit={EventSuggestionEdit}
+        icon={LightbulbIcon}
       />
 
       <Resource
@@ -532,12 +538,6 @@ const AdminPage: React.FC = () => {
         icon={TransactionEventIcon}
       />
       <Resource
-        name="links"
-        list={LinkList}
-        edit={LinkEdit}
-        create={LinkCreate}
-      />
-      <Resource
         name="keywords"
         list={KeywordList}
         edit={KeywordEdit}
@@ -564,6 +564,7 @@ const AdminPage: React.FC = () => {
         list={SettingList}
         edit={SettingEdit}
         create={SettingCreate}
+        icon={SettingsIcon}
       />
 
       <Resource
@@ -574,7 +575,12 @@ const AdminPage: React.FC = () => {
         icon={NationIcon}
       />
 
-      <Resource name="queues" list={QueueList} create={QueueCreate} />
+      <Resource
+        name="queues"
+        list={QueueList}
+        create={QueueCreate}
+        icon={QueueIcon}
+      />
       <CustomRoutes>
         <Route path="/" element={<AdminStats />} />
         <Route path="/queues/:type/:resource/:id" element={<QueueEdit />} />

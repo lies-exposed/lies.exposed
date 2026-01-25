@@ -2,10 +2,6 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import {
-  generateRandomColor,
-  toColorHash,
-} from "@liexp/shared/lib/utils/colors.js";
 import * as React from "react";
 
 export interface FAIconProps extends FontAwesomeIconProps {
@@ -67,42 +63,31 @@ export const GroupIcon: FAIconFC = (props) => (
   />
 );
 export const UserIcon: FAIconFC = (props) => (
-  <FAIcon color={toColorHash(generateRandomColor())} {...props} icon={"user"} />
+  <FAIcon color="#3b82f6" {...props} icon={"user"} />
 );
 export const SocialPostIcon: FAIconFC = (props) => (
-  <FAIcon
-    color={toColorHash(generateRandomColor())}
-    {...props}
-    icon={"share-nodes"}
-  />
+  <FAIcon color="#8b5cf6" {...props} icon={"share-nodes"} />
 );
 export const AreaIcon: FAIconFC = (props) => (
-  <FAIcon
-    color={toColorHash(generateRandomColor())}
-    {...props}
-    icon={"map-location"}
-  />
+  <FAIcon color="#f59e0b" {...props} icon={"map-location"} />
 );
 export const LinkIcon: FAIconFC = (props) => (
-  <FAIcon {...props} icon={"link"} style={{ cursor: "pointer" }} />
+  <FAIcon
+    color="#6366f1"
+    {...props}
+    icon={"link"}
+    style={{ cursor: "pointer" }}
+  />
 );
 
 export const MediaIcon: FAIconFC = (props) => (
-  <FAIcon
-    color={toColorHash(generateRandomColor())}
-    {...props}
-    icon={"file-image"}
-  />
+  <FAIcon color="#ec4899" {...props} icon={"file-image"} />
 );
 
 export const GraphIcon: FAIconFC = (props) => (
-  <FAIcon
-    color={toColorHash(generateRandomColor())}
-    {...props}
-    icon={"chart-line"}
-  />
+  <FAIcon color="#14b8a6" {...props} icon={"chart-line"} />
 );
 
 export const NationIcon: FAIconFC = (props) => (
-  <FAIcon color={toColorHash(generateRandomColor())} {...props} icon="flag" />
+  <FAIcon color="#ef4444" {...props} icon="flag" />
 );
