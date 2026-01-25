@@ -12,8 +12,8 @@ function:
     response_regex:
         - <function=(?P<name>\w+)>(?P<arguments>.*)</function>
 known_usecases:
-    - FLAG_COMPLETION
     - FLAG_CHAT
+    - FLAG_COMPLETION
 mmap: true
 name: gpt-4
 parameters:

@@ -43,3 +43,12 @@ template:
         <|im_end|>
         {{.Input -}}
         <|im_start|>assistant
+mcp:
+  remote: |
+    {
+      "mcpServers": {
+        "lies-exposed": {
+          "url": "http://api.liexp.dev/mcp"
+        }
+      }
+    }
