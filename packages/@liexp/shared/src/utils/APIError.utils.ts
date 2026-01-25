@@ -6,7 +6,7 @@ import {
 import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
 import { IOError, type IOErrorDetails } from "@ts-endpoint/core";
 import { Schema } from "effect/index";
-import { pipe } from "fp-ts/lib/function";
+import { pipe } from "fp-ts/lib/function.js";
 
 export const decodeIOErrorDetails = (
   details: IOErrorDetails<any>,
