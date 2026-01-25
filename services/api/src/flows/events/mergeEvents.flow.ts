@@ -17,6 +17,8 @@ import {
   MergeEventsHelper,
   getUniqueIds,
 } from "@liexp/shared/lib/helpers/event/merge-event.helper.js";
+import { type NonEmptyArray } from "fp-ts/lib/NonEmptyArray.js";
+import { type ReadonlyNonEmptyArray } from "fp-ts/lib/ReadonlyNonEmptyArray.js";
 import { In } from "typeorm";
 import { toControllerError } from "../../io/ControllerError.js";
 import { type ENV } from "../../io/ENV.js";
@@ -113,7 +115,7 @@ const toEntityRelationFormat = (event: Event): MergedEventData => ({
  * Decodes events, fetches relations, and builds the merged event data.
  */
 const buildMergedEventData = <C extends MergeContext>(
-  allEvents: EventV2Entity[],
+  allEvents: NonEmptyArray<EventV2Entity>,
   targetType: EventType,
 ): TEReader<MergedEventData, C> =>
   pipe(
@@ -125,7 +127,11 @@ const buildMergedEventData = <C extends MergeContext>(
       fetchEventsRelations<C>(decoded, true),
     ),
     fp.RTE.map(({ decoded, relations }) =>
-      MergeEventsHelper.mergeEvents(decoded, targetType, relations),
+      MergeEventsHelper.mergeEvents(
+        decoded as ReadonlyNonEmptyArray<Event>,
+        targetType,
+        relations,
+      ),
     ),
     fp.RTE.map(toEntityRelationFormat),
     fp.RTE.mapLeft(toControllerError),

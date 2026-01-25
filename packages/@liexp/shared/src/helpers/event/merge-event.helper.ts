@@ -14,11 +14,12 @@ import { type ScientificStudyPayload } from "@liexp/io/lib/http/Events/Scientifi
 import { type TransactionPayload } from "@liexp/io/lib/http/Events/Transaction.js";
 import { type UncategorizedV2Payload } from "@liexp/io/lib/http/Events/Uncategorized.js";
 import {
-  type EventRelationIds,
   type Event,
+  type EventRelationIds,
   type EventRelations,
 } from "@liexp/io/lib/http/Events/index.js";
 import { makeBySubjectId } from "@liexp/io/lib/utils/BySubjectUtils.js";
+import { type ReadonlyNonEmptyArray } from "fp-ts/lib/ReadonlyNonEmptyArray.js";
 import { eventRelationIdsMonoid } from "./event.helper.js";
 import { getRelationIds } from "./getEventRelationIds.js";
 
@@ -123,7 +124,7 @@ const mergeUniqueUUIDs = (arrays: UUID[][]): UUID[] => {
 };
 
 const mergeEvents = (
-  events: readonly Event[],
+  events: ReadonlyNonEmptyArray<Event>,
   toType: EventType,
   _relations: EventRelations,
 ): Event => {
