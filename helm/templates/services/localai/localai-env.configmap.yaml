@@ -5,6 +5,8 @@ data:
   LOCALAI_THREADS: "4"
   LOCALAI_API_KEY: {{ .Values.localai.openAIApiKey | quote }}
   LOCALAI_SINGLE_ACTIVE_BACKEND: "true"
+  WATCHDOG_IDLE: "true"
+  WATCHDOG_IDLE_TIMEOUT: "15m"
 kind: ConfigMap
 metadata:
   name: localai-env
