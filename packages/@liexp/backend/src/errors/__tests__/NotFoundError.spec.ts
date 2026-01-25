@@ -10,7 +10,7 @@ describe(NotFoundError.name, () => {
         name: NotFoundError.name,
         message: "Can't find resource Melon",
         details: {
-          kind: "ServerError",
+          kind: "ClientError",
           status: "404",
         },
       });

@@ -1,9 +1,6 @@
 import { flow, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
@@ -18,14 +15,14 @@ const encodeGroupIO = ({
   avatar,
   ...group
 }: GroupEntity): E.Either<
-  _DecodeError,
+  DecodeError,
   Schema.Schema.Encoded<typeof io.http.Group.Group>
 > => {
   return pipe(
     E.Do,
     E.bind(
       "avatar",
-      (): E.Either<_DecodeError, io.http.Media.Media | undefined> =>
+      (): E.Either<DecodeError, io.http.Media.Media | undefined> =>
         avatar ? pipe(MediaIO.decodeSingle(avatar)) : E.right(undefined),
     ),
     E.map(({ avatar }) => ({
@@ -58,13 +55,13 @@ const encodeGroupIO = ({
 const decodeGroupIO = ({
   avatar,
   ...group
-}: GroupEntity): E.Either<_DecodeError, io.http.Group.Group> => {
+}: GroupEntity): E.Either<DecodeError, io.http.Group.Group> => {
   return pipe(
     E.Do,
     E.bind(
       "avatar",
       (): E.Either<
-        _DecodeError,
+        DecodeError,
         UUID | Schema.Schema.Encoded<typeof io.http.Media.Media> | undefined
       > =>
         avatar

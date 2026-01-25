@@ -1,8 +1,5 @@
 import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { ImageType, MP4Type } from "@liexp/io/lib/http/Media/MediaType.js";
 import { SocialPost } from "@liexp/io/lib/http/SocialPost.js";
 import { Schema } from "effect";
@@ -21,7 +18,7 @@ import { MediaIO } from "./media.io.js";
 
 const encodeSocialPost = (
   socialPost: SocialPostEntity,
-): E.Either<_DecodeError, typeof SocialPost.Encoded> => {
+): E.Either<DecodeError, typeof SocialPost.Encoded> => {
   return pipe(
     {
       ...socialPost,
@@ -51,7 +48,7 @@ export type SocialPostEntityWithContent = Omit<SocialPostEntity, "content"> & {
 const decodeSocialPost = ({
   content,
   ...socialPost
-}: SocialPostEntityWithContent): E.Either<_DecodeError, SocialPost> => {
+}: SocialPostEntityWithContent): E.Either<DecodeError, SocialPost> => {
   return pipe(
     sequenceS(fp.E.Applicative)({
       media: MediaIO.decodeMany(content.media),

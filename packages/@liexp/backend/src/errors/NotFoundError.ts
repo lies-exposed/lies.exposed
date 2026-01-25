@@ -6,6 +6,6 @@ export class NotFoundError extends IOError {
 
 export const toNotFoundError = (entityName: string): NotFoundError =>
   new NotFoundError(`Can't find resource ${entityName}`, {
-    kind: "ServerError",
+    kind: "ClientError",
     status: "404",
   });

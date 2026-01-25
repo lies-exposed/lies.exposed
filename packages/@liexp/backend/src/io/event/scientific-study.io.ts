@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -12,7 +9,7 @@ import { IOCodec } from "../DomainCodec.js";
 
 const toScientificStudyIO = (
   event: EventV2Entity,
-): E.Either<_DecodeError, io.http.Events.ScientificStudy.ScientificStudy> => {
+): E.Either<DecodeError, io.http.Events.ScientificStudy.ScientificStudy> => {
   return pipe(
     {
       ...event,

@@ -1,9 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -15,11 +12,11 @@ import { MediaIO } from "./media.io.js";
 const toAreaIO = ({
   featuredImage,
   ...area
-}: AreaEntity): E.Either<_DecodeError, io.http.Area.Area> => {
+}: AreaEntity): E.Either<DecodeError, io.http.Area.Area> => {
   return pipe(
     featuredImage
       ? MediaIO.decodeSingle(featuredImage)
-      : E.right<_DecodeError, io.http.Media.Media | null>(null),
+      : E.right<DecodeError, io.http.Media.Media | null>(null),
     fp.E.chain((media) =>
       pipe(
         {

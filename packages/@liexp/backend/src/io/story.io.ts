@@ -1,9 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
@@ -16,7 +13,7 @@ const toStoryIO = ({
   body2,
   creator,
   ...story
-}: StoryEntity): E.Either<_DecodeError, io.http.Story.Story> => {
+}: StoryEntity): E.Either<DecodeError, io.http.Story.Story> => {
   return pipe(
     {
       ...story,

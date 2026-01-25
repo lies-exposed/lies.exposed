@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
@@ -17,7 +14,7 @@ import { GroupIO } from "./group.io.js";
 
 const toGroupMemberIO = (
   groupMember: GroupMemberEntity,
-): E.Either<_DecodeError, io.http.GroupMember.GroupMember> => {
+): E.Either<DecodeError, io.http.GroupMember.GroupMember> => {
   return pipe(
     sequenceS(E.Applicative)({
       group: GroupIO.encodeSingle(groupMember.group),

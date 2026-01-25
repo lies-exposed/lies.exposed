@@ -1,9 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
@@ -16,15 +13,12 @@ import { MediaIO } from "./media.io.js";
 
 export const encodeActor = (
   a: ActorEntity,
-): E.Either<
-  _DecodeError,
-  Schema.Schema.Encoded<typeof io.http.Actor.Actor>
-> => {
+): E.Either<DecodeError, Schema.Schema.Encoded<typeof io.http.Actor.Actor>> => {
   return pipe(
     E.Do,
     E.bind(
       "avatar",
-      (): E.Either<_DecodeError, UUID | io.http.Media.Media | undefined> =>
+      (): E.Either<DecodeError, UUID | io.http.Media.Media | undefined> =>
         a.avatar
           ? Schema.is(UUID)(a.avatar)
             ? E.right(a.avatar)
@@ -62,13 +56,13 @@ export const encodeActor = (
 
 const decodeActor = ({
   ...a
-}: ActorEntity): E.Either<_DecodeError, io.http.Actor.Actor> => {
+}: ActorEntity): E.Either<DecodeError, io.http.Actor.Actor> => {
   return pipe(
     E.Do,
     E.bind(
       "avatar",
       (): E.Either<
-        _DecodeError,
+        DecodeError,
         UUID | Schema.Schema.Encoded<typeof io.http.Media.Media> | undefined
       > =>
         a.avatar

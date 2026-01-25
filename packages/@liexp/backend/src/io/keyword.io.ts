@@ -1,8 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import {
-  type _DecodeError,
-  DecodeError,
-} from "@liexp/io/lib/http/Error/DecodeError.js";
+import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import * as io from "@liexp/io/lib/index.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
 import { IOError } from "@ts-endpoint/core";
@@ -13,7 +10,7 @@ import { IOCodec } from "./DomainCodec.js";
 
 const toKeywordIO = (
   keyword: KeywordEntity,
-): E.Either<_DecodeError, io.http.Keyword.Keyword> => {
+): E.Either<DecodeError, io.http.Keyword.Keyword> => {
   return pipe(
     {
       ...keyword,

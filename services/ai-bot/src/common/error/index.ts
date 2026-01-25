@@ -1,19 +1,17 @@
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { type PuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import {
-  APIError,
-  decodeIOErrorDetails,
-} from "@liexp/io/lib/http/Error/APIError.js";
-import { type _DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
+import { APIError } from "@liexp/io/lib/http/Error/APIError.js";
+import { type DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
 import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
+import { decodeIOErrorDetails } from "@liexp/shared/lib/utils/APIError.utils.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
 
 export type AIBotError =
-  | _DecodeError
+  | DecodeError
   | PuppeteerError
   | PDFError
   | FSError
