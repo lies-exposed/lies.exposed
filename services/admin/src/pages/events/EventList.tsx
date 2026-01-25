@@ -147,17 +147,18 @@ const MergeEventsButton = () => {
     return takeEventRelations(events);
   }, [events]);
 
-  const mergedEvent = toType
-    ? MergeEventsHelper.mergeEvents(events, toType, {
-        groups: [],
-        actors: [],
-        links: [],
-        media: [],
-        keywords: [],
-        groupsMembers: [],
-        areas: [],
-      })
-    : undefined;
+  const mergedEvent =
+    toType && events.length > 0
+      ? MergeEventsHelper.mergeEvents(events, toType, {
+          groups: [],
+          actors: [],
+          links: [],
+          media: [],
+          keywords: [],
+          groupsMembers: [],
+          areas: [],
+        })
+      : undefined;
 
   const canMerge = events.length >= 2;
 
