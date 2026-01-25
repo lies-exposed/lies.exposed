@@ -30,6 +30,18 @@ spec:
             requests:
               memory: 128Mi
               cpu: 50m
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
           volumeMounts:
             - name: storybook-nginx-conf-storage
               mountPath: /etc/nginx/conf.d/default.conf
@@ -37,8 +49,8 @@ spec:
               subPath: storybook.conf
             - name: storybook-nginx-log
               mountPath: /var/log/nginx
-            - name: storybook-build-volume
-              mountPath: /var/www/storybook
+            - name: nginx-cache
+              mountPath: /var/cache/nginx/storybook
       restartPolicy: Always
       volumes:
         - name: storybook-nginx-conf-storage
@@ -50,6 +62,6 @@ spec:
         - name: storybook-nginx-log
           persistentVolumeClaim:
             claimName: storybook-nginx-log-pv-claim
-        - name: storybook-build-volume
-          persistentVolumeClaim:
-            claimName: storybook-build-pv-claim
+        - name: nginx-cache
+          emptyDir:
+            sizeLimit: 100Mi
