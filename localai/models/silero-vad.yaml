@@ -1,8 +1,10 @@
 backend: silero-vad
+download_files:
+    - filename: silero-vad.onnx
+      sha256: a4a068cd6cf1ea8355b84327595838ca748ec29a25bc91fc82e6c299ccdc5808
+      uri: https://huggingface.co/onnx-community/silero-vad/resolve/main/onnx/model.onnx
+known_usecases:
+    - FLAG_VAD
 name: silero-vad
 parameters:
-  model: silero-vad.onnx
-download_files:
-- filename: silero-vad.onnx
-  uri: https://huggingface.co/onnx-community/silero-vad/resolve/main/onnx/model.onnx
-  sha256: a4a068cd6cf1ea8355b84327595838ca748ec29a25bc91fc82e6c299ccdc5808
+    model: silero-vad.onnx
