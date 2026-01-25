@@ -51,6 +51,7 @@ temp
 .env
 .env.*
 !.env.test
+!services/storybook/.env.prod
 *.tsbuildinfo
 
 # Imported csv
