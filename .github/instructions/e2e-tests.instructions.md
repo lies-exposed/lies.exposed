@@ -1,250 +1,107 @@
 ---
-applyTo: "**/*.e2e.ts,**/test/**/*.ts"
+applyTo: "**/*.e2e.ts,**/test/**/*.e2e.ts"
 ---
 
 # E2E Test Instructions
 
-When working with end-to-end test files, follow these specific patterns for the lies.exposed API testing:
+> **Full documentation**: [docs/testing/e2e-tests.md](../../docs/testing/e2e-tests.md)
 
-## Required Setup
+## Quick Reference (LLM Action Block)
 
-### AppTest Pattern (CRITICAL)
+### Required Setup
 ```typescript
 import { GetAppTest } from "#test/AppTest.js";
 import { saveUser, loginUser } from "#test/utils/user.utils.js";
 import { describe, beforeAll, it, expect } from "vitest";
-import { MediaArb, ProjectArb } from "@liexp/test";
 import fc from "fast-check";
+import { MediaArb, ActorArb } from "@liexp/test";
 
-describe("API Endpoint Tests", () => {
+describe("Endpoint Tests", () => {
   let Test: AppTest;
-  
+
   beforeAll(async () => {
     Test = await GetAppTest();
   });
-  
-  // Test implementation here
 });
 ```
 
 ### Authentication Pattern
 ```typescript
-it("should require authentication for protected endpoints", async () => {
-  // Test without authentication
-  await Test.req
-    .get("/api/v1/protected-endpoint")
-    .expect(401);
-});
-
-it("should allow access with proper authentication", async () => {
-  // Create user with specific scopes
-  const user = await saveUser(Test.ctx, ["admin:read", "admin:write"]);
-  
-  // Login and get authorization header
+it("should work with auth", async () => {
+  const user = await saveUser(Test.ctx, ["resource:read", "resource:write"]);
   const { authorization } = await loginUser(Test)(user);
-  
-  // Make authenticated request
+
   const response = await Test.req
-    .get("/api/v1/protected-endpoint")
+    .get("/api/v1/resource")
     .set("Authorization", authorization)
     .expect(200);
-    
+
   expect(response.body).toHaveProperty("data");
 });
 ```
 
-## CRUD Operation Patterns
+### CRUD Templates
 
-### CREATE Operations
+**CREATE**:
 ```typescript
-it("should create new resource", async () => {
-  const user = await saveUser(Test.ctx, ["resource:create"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  // Generate test data with arbitraries
-  const [testData] = fc.sample(ResourceArb(), 1);
-  
-  const response = await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", authorization)
-    .send(testData)
-    .expect(201);
-    
-  // Test specific expected structure
-  expect(response.body).toMatchObject({
-    id: expect.any(String),
-    ...testData,
-    createdAt: expect.any(String)
-  });
-});
+const [data] = fc.sample(ResourceArb(), 1);
+await Test.req.post("/api/v1/resources")
+  .set("Authorization", authorization)
+  .send(data)
+  .expect(201);
 ```
 
-### READ Operations
+**READ**:
 ```typescript
-it("should retrieve resource by ID", async () => {
-  const user = await saveUser(Test.ctx, ["resource:read"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  // Create test resource first
-  const testResource = await createTestResource(Test.ctx);
-  
-  const response = await Test.req
-    .get(`/api/v1/resources/${testResource.id}`)
-    .set("Authorization", authorization)
-    .expect(200);
-    
-  expect(response.body.id).toBe(testResource.id);
-});
-
-it("should return 404 for non-existent resource", async () => {
-  const user = await saveUser(Test.ctx, ["resource:read"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  await Test.req
-    .get("/api/v1/resources/non-existent-id")
-    .set("Authorization", authorization)
-    .expect(404);
-});
+await Test.req.get(`/api/v1/resources/${id}`)
+  .set("Authorization", authorization)
+  .expect(200);
 ```
 
-### UPDATE Operations
+**UPDATE**:
 ```typescript
-it("should update existing resource", async () => {
-  const user = await saveUser(Test.ctx, ["resource:update"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  // Create test resource
-  const testResource = await createTestResource(Test.ctx);
-  const updateData = { name: "Updated Name" };
-  
-  const response = await Test.req
-    .put(`/api/v1/resources/${testResource.id}`)
-    .set("Authorization", authorization)
-    .send(updateData)
-    .expect(200);
-    
-  expect(response.body.name).toBe("Updated Name");
-  expect(response.body.id).toBe(testResource.id);
-});
+await Test.req.put(`/api/v1/resources/${id}`)
+  .set("Authorization", authorization)
+  .send({ name: "Updated" })
+  .expect(200);
 ```
 
-### DELETE Operations
+**DELETE**:
 ```typescript
-it("should delete resource", async () => {
-  const user = await saveUser(Test.ctx, ["resource:delete"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  const testResource = await createTestResource(Test.ctx);
-  
-  await Test.req
-    .delete(`/api/v1/resources/${testResource.id}`)
-    .set("Authorization", authorization)
-    .expect(204);
-    
-  // Verify resource is deleted
-  await Test.req
-    .get(`/api/v1/resources/${testResource.id}`)
-    .set("Authorization", authorization)
-    .expect(404);
-});
+await Test.req.delete(`/api/v1/resources/${id}`)
+  .set("Authorization", authorization)
+  .expect(204);
 ```
 
-## Validation Testing
+### Critical Rules
 
-### Input Validation
-```typescript
-it("should validate required fields", async () => {
-  const user = await saveUser(Test.ctx, ["resource:create"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  const invalidData = { /* missing required fields */ };
-  
-  const response = await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", authorization)
-    .send(invalidData)
-    .expect(400);
-    
-  expect(response.body.error).toContain("required");
-});
+**ALWAYS**:
+- Use `GetAppTest()` for setup
+- Use `saveUser(ctx, scopes)` + `loginUser(Test)(user)`
+- Test specific status codes: `.expect(200)`, `.expect(404)`
+- Use arbitraries for test data
 
-it("should validate field formats", async () => {
-  const user = await saveUser(Test.ctx, ["resource:create"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  const invalidData = { 
-    email: "invalid-email",
-    date: "invalid-date"
-  };
-  
-  await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", authorization)
-    .send(invalidData)
-    .expect(400);
-});
-```
-
-## Critical Requirements
-
-### ✅ ALWAYS DO
-- Use `GetAppTest()` for all E2E test setup
-- Create users with specific scopes using `saveUser`
-- Use `loginUser` for authentication headers
-- Test both authenticated and unauthenticated requests
-- Use arbitraries for generating test data
-- Test specific HTTP status codes: `expect(200)`, `expect(404)`
-- Test response body structure with `toMatchObject`
-- Clean up test data (automatic with AppTest)
-
-### ❌ NEVER DO
-- Skip authentication testing ❌
-- Use hardcoded user data ❌
-- Test negative status codes: `expect(status).not.toBe(500)` ❌
-- Mock the HTTP layer in E2E tests ❌
-- Test implementation details instead of API behavior ❌
+**NEVER**:
+- Use negative assertions: `expect(status).not.toBe(500)` ❌
+- Skip authentication testing
+- Use hardcoded user data
+- Mock HTTP layer in E2E tests
 
 ### Permission Testing
 ```typescript
-it("should enforce permission requirements", async () => {
-  // User with insufficient permissions
-  const readOnlyUser = await saveUser(Test.ctx, ["resource:read"]);
-  const { authorization: readAuth } = await loginUser(Test)(readOnlyUser);
-  
-  // Try to perform write operation
-  await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", readAuth)
-    .send(testData)
-    .expect(403); // Forbidden
-    
-  // User with correct permissions
-  const writeUser = await saveUser(Test.ctx, ["resource:create"]);
-  const { authorization: writeAuth } = await loginUser(Test)(writeUser);
-  
-  // Should succeed
-  await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", writeAuth)
-    .send(testData)
-    .expect(201);
-});
-```
+// User WITHOUT permission
+const readUser = await saveUser(Test.ctx, ["resource:read"]);
+const { authorization: readAuth } = await loginUser(Test)(readUser);
+await Test.req.post("/api/v1/resources")
+  .set("Authorization", readAuth)
+  .send(data)
+  .expect(403);  // Forbidden
 
-### Error Handling
-```typescript
-it("should handle server errors gracefully", async () => {
-  const user = await saveUser(Test.ctx, ["resource:read"]);
-  const { authorization } = await loginUser(Test)(user);
-  
-  // Test with data that causes server error
-  const response = await Test.req
-    .post("/api/v1/resources")
-    .set("Authorization", authorization)
-    .send(problematicData)
-    .expect(500);
-    
-  expect(response.body).toHaveProperty("error");
-  expect(typeof response.body.error).toBe("string");
-});
+// User WITH permission
+const writeUser = await saveUser(Test.ctx, ["resource:create"]);
+const { authorization: writeAuth } = await loginUser(Test)(writeUser);
+await Test.req.post("/api/v1/resources")
+  .set("Authorization", writeAuth)
+  .send(data)
+  .expect(201);  // Created
 ```

@@ -31,7 +31,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 ```
 
-*Detailed patterns are in the code-quality path-specific instructions.*
+*Detailed patterns: [docs/development/functional-programming.md](../docs/development/functional-programming.md)*
 
 ## Testing Patterns (CRITICAL FOR QUALITY)
 
@@ -50,7 +50,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 expect(response.status).not.toBe(500);
 expect(result).not.toBeNull();
 
-// ✅ GOOD: Test specific expected outcomes  
+// ✅ GOOD: Test specific expected outcomes
 expect(response.status).toBe(200);
 expect(result).toMatchObject({ id: expect.any(String) });
 ```
@@ -60,23 +60,28 @@ expect(result).toMatchObject({ id: expect.any(String) });
 - **Unit tests**: `**/*.spec.ts` co-located with source files
 - **Test utilities**: `**/test/**/*.ts` for mocks and helpers
 
-*Detailed testing patterns are provided in path-specific instructions for each test type.*
+*Detailed testing patterns:*
+- *[docs/testing/unit-tests.md](../docs/testing/unit-tests.md)*
+- *[docs/testing/e2e-tests.md](../docs/testing/e2e-tests.md)*
+- *[docs/testing/test-utils.md](../docs/testing/test-utils.md)*
 
 ## Code Organization and Imports
 
 ### Project Structure
-- **Source files**: Always edit `src/` directories  
+- **Source files**: Always edit `src/` directories
 - **Build outputs**: NEVER edit `lib/` or `build/` directories (generated)
 - **Monorepo packages**: `@liexp/core`, `@liexp/shared`, `@liexp/backend`, `@liexp/ui`, `@liexp/test`
 - **Domain models**: Located in `packages/@liexp/shared`
 
-*Detailed import patterns, naming conventions, and file extensions are in path-specific instructions.*
+*Detailed patterns: [docs/development/code-quality.md](../docs/development/code-quality.md)*
 
 ### AI Schema Requirements (OpenAI Structured Output)
 **CRITICAL**: All properties must be required in OpenAI structured output schemas.
 - Never use `Schema.optional()`, `Schema.UndefinedOr()`, or `Schema.DateFromString`
 - Use `Schema.NullOr()` for truly optional values
 - Use sentinel values: `"unknown"`, `"not specified"`, `"N/A"` for missing data
+
+*Detailed patterns: [docs/ai/openai-schemas.md](../docs/ai/openai-schemas.md)*
 
 ## Database and Entities
 
@@ -121,7 +126,7 @@ pnpm vitest           # Run all tests
 - **Unit Tests**: Test pure functions and business logic
 - **Test Data**: Use arbitraries from `@liexp/test` for consistent data generation
 
-*Detailed patterns and examples are provided in path-specific instructions.*
+*Detailed patterns: [docs/testing/README.md](../docs/testing/README.md)*
 
 ## Common Pitfalls and Solutions
 
@@ -135,20 +140,31 @@ pnpm vitest           # Run all tests
 - ❌ Don't skip input validation
 - ✅ Use environment variables (see `.env.example`)
 
-*Detailed pitfalls and solutions are covered in path-specific instructions.*
+*Detailed patterns: [docs/development/README.md](../docs/development/README.md)*
 
-## Reference Files (Consult First)
+## Reference Documentation
+
+### Primary References
 1. **`AGENTS.md` (root)** — Platform and agent overview (primary source for agent/tool rules)
-2. **`packages/@liexp/shared/`** — Domain models and API schemas
-3. **`services/api/README.md` and `ormconfig.js`** — API-specific configuration
-4. **`compose.yml`** — Local infrastructure composition
+2. **[docs/](../docs/README.md)** — Comprehensive documentation
+3. **`packages/@liexp/shared/`** — Domain models and API schemas
+4. **`services/api/README.md` and `ormconfig.js`** — API-specific configuration
+
+### Documentation Structure
+- [Getting Started](../docs/getting-started/README.md) — Setup and prerequisites
+- [Services](../docs/services/README.md) — Service architecture and APIs
+- [Packages](../docs/packages/README.md) — Shared package documentation
+- [Development](../docs/development/README.md) — Code quality and workflows
+- [Testing](../docs/testing/README.md) — Testing patterns and utilities
+- [AI](../docs/ai/README.md) — AI processing and schemas
+- [Deployment](../docs/deployment/README.md) — Docker, Kubernetes, Helm
 
 ### Commit Standards
 - Follow conventional commits (enforced by commitlint)
 - Run `pnpm typecheck` and `pnpm lint` before committing
 - Ensure tests pass: `pnpm vitest`
 
-*Detailed commit message format and code quality standards are in path-specific instructions.*
+*Detailed commit format: [docs/development/code-quality.md](../docs/development/code-quality.md)*
 
 ---
 *For deeper patterns and examples, consult `AGENTS.md`. For implementation details, explore the source code in `packages/@liexp/*` and `services/*/src`.*
