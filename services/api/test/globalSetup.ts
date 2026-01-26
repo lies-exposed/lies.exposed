@@ -1,5 +1,5 @@
-import { createGlobalSetup } from "@liexp/backend/lib/test/setup/globalSetup.js";
 import * as path from "path";
+import { createGlobalSetup } from "@liexp/backend/lib/test/setup/globalSetup.js";
 import { ENV } from "../src/io/ENV.js";
 
 const dotenvConfigPath = path.resolve(
