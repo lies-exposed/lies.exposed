@@ -1,16 +1,24 @@
 import { saveUser } from "@liexp/backend/lib/test/utils/user.utils.js";
+import fc from "fast-check";
 import { beforeAll, describe, expect, test } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../../test/AppTest.js";
 import { loginUser } from "../../../../../test/utils/user.utils.js";
 
 describe("Get Queue", () => {
-  let Test: AppTest, authorizationToken: string, user;
+  let Test: AppTest,
+    authorizationToken: string,
+    adminAuthorization: string,
+    user;
 
   beforeAll(async () => {
     Test = await GetAppTest();
     user = await saveUser(Test.ctx, []);
     const { authorization } = await loginUser(Test)(user);
     authorizationToken = authorization;
+
+    const adminUser = await saveUser(Test.ctx, ["admin:create", "admin:read"]);
+    const { authorization: adminAuth } = await loginUser(Test)(adminUser);
+    adminAuthorization = adminAuth;
   });
 
   test("Should return 401 when Authorization header is not present", async () => {
@@ -27,5 +35,26 @@ describe("Get Queue", () => {
       .set("Authorization", authorizationToken);
 
     expect(response.status).toEqual(401);
+  });
+
+  test("Should return 200 and queue when authorized", async () => {
+    const id = fc.sample(fc.uuid(), 1)[0];
+    const text = fc.sample(fc.string({ minLength: 10, maxLength: 200 }), 1)[0];
+
+    // Create a queue job as admin
+    await Test.req
+      .post("/v1/queues/openai-summarize/events")
+      .set("Authorization", adminAuthorization)
+      .send({ id, data: { text } })
+      .expect(200);
+
+    const getRes = await Test.req
+      .get(`/v1/queues/openai-summarize/events/${id}`)
+      .set("Authorization", adminAuthorization)
+      .expect(200);
+
+    expect(getRes.body).toHaveProperty("data");
+    expect(getRes.body.data).toHaveProperty("id", id);
+    expect(getRes.body.data).toHaveProperty("type", "openai-summarize");
   });
 });
