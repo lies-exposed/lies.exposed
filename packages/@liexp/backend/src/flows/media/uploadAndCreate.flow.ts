@@ -99,28 +99,5 @@ export const uploadAndCreate = <C extends CreateAndUploadFlowContext>(
       ]),
     ),
     fp.RTE.map((m) => m[0]),
-    // fp.RTE.chainFirst((m) => (ctx) => {
-    //   if (Schema.is(PDFType)(m.type)) {
-    //     return pipe(
-    //       ctx.queue.queue(OpenAIEmbeddingQueueType.literals[0]).addJob({
-    //         id: m.id,
-    //         resource: MEDIA.literals[0],
-    //         status: PendingStatus.literals[0],
-    //         error: null,
-    //         result: null,
-    //         prompt: null,
-    //         question: null,
-    //         type: OpenAIEmbeddingQueueType.literals[0],
-    //         data: {
-    //           url: m.location,
-    //           type: "pdf" as const,
-    //         },
-    //       } satisfies Queue),
-    //       fp.TE.mapLeft(ServerError.fromUnknown),
-    //     );
-    //   }
-
-    //   return fp.TE.right(undefined);
-    // }),
   );
 };

@@ -10,21 +10,21 @@ import { IOCodec } from "./DomainCodec.js";
 export const toQueueIO = (
   unknownQueue: QueueEntity,
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
-  const queue = {
-    ...unknownQueue,
-    question: "question" in unknownQueue ? unknownQueue?.question : null,
-    // data: JSON.parse(unknownQueue.data as any),
-    result: unknownQueue?.result ?? null,
-    prompt: unknownQueue?.prompt ?? null,
-    error: unknownQueue?.error ?? null,
-  };
-
   return pipe(
-    queue,
-    Schema.decodeUnknownEither(io.http.Queue.Queue),
-    E.mapLeft((e) =>
-      DecodeError.of(`Failed to decode queue (${JSON.stringify(queue)})`, e),
-    ),
+    {
+      ...unknownQueue,
+      result: unknownQueue?.result ?? null,
+      prompt: unknownQueue?.prompt ?? null,
+      error: unknownQueue?.error ?? null,
+    },
+    (q) =>
+      pipe(
+        q,
+        Schema.decodeUnknownEither(io.http.Queue.Queue),
+        E.mapLeft((e) =>
+          DecodeError.of(`Failed to decode queue (${JSON.stringify(q)})`, e),
+        ),
+      ),
   );
 };
 

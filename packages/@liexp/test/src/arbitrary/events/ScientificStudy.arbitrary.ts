@@ -22,8 +22,8 @@ export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.
     ...body,
     draft: false,
     date: fc.sample(DateArb, 1)[0],
-    excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
-    body: fc.sample(BlockNoteDocumentArb, 1)[0],
+    excerpt: fc.sample(BlockNoteDocumentArb(), 1)[0],
+    body: fc.sample(BlockNoteDocumentArb(), 1)[0],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),
@@ -56,8 +56,8 @@ export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.Scient
     ...body,
     id: fc.sample(UUIDArb, 1)[0],
     date: fc.sample(fc.date({ min: MIN_DATE, max: MAX_DATE }))[0],
-    excerpt: fc.sample(BlockNoteDocumentArb, 1)[0],
-    body: fc.sample(BlockNoteDocumentArb, 1)[0],
+    excerpt: fc.sample(BlockNoteDocumentArb(), 1)[0],
+    body: fc.sample(BlockNoteDocumentArb(), 1)[0],
     payload: {
       title: fc.sample(fc.string(), 1)[0],
       authors: fc.sample(UUIDArb, 2),

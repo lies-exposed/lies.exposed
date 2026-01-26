@@ -139,7 +139,6 @@ const CreateQueueData = Schema.Union(
 
 export const CreateQueue = Schema.Struct({
   id: UUID,
-  question: OptionFromNullishToNull(Schema.String),
   result: OptionFromNullishToNull(Schema.String),
   prompt: OptionFromNullishToNull(Schema.String),
   data: CreateQueueData,
@@ -158,7 +157,6 @@ const CreateQueueTypeData = Schema.Union(
 export const Queue = Schema.extend(
   Schema.Struct({
     id: UUID,
-    question: Schema.Union(Schema.String, Schema.Null),
     result: Schema.Union(Schema.String, Schema.Null, Schema.Any),
     prompt: Schema.Union(Schema.String, Schema.Null),
     resource: QueueResourceNames,

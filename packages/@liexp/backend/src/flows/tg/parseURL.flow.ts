@@ -97,7 +97,6 @@ export const parseURLs =
                   type: OpenAIEmbeddingQueueType.literals[0],
                   resource: LINKS.literals[0],
                   error: null,
-                  question: null,
                   result: null,
                   prompt: null,
                   data: {

@@ -13,7 +13,9 @@ type JobProcessors = (
 export type JobProcessRTE<
   Q extends Pick<Queue.Queue, "data" | "type">,
   R = string,
-> = (job: Omit<Queue.Queue, "data" | "type"> & Q) => ClientContextRTE<R>;
+> = (
+  job: Omit<Queue.Queue, "data" | "type"> & Q & { question: string | null },
+) => ClientContextRTE<R>;
 
 type JobTypesMap = Record<QueueTypes, JobProcessRTE<any, any>>;
 
@@ -50,7 +52,7 @@ const processJob =
         ),
         (job) => {
           return pipe(
-            processTE(job)(ctx),
+            processTE({ question: null, ...job })(ctx),
             LoggerService.TE.debug(ctx, (result) => [
               `Job %s updated %O`,
               job.id,

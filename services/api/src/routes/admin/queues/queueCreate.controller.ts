@@ -12,16 +12,12 @@ import { type Route } from "#routes/route.types.js";
 export const MakeQueueCreateRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:create"])(ctx))(
     Endpoints.Queues.Create,
-    ({
-      params: { resource, type },
-      body: { id, result, question, prompt, data },
-    }) => {
+    ({ params: { resource, type }, body: { id, result, prompt, data } }) => {
       return pipe(
         fp.RTE.right<ServerContext, ServerError, Queue>({
           id,
           resource,
           type,
-          question: fp.O.toNullable(question),
           prompt: fp.O.toNullable(prompt),
           data,
           error: null,

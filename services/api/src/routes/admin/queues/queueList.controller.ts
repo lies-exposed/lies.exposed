@@ -19,6 +19,7 @@ export const MakeQueueListRoute: Route = (r, ctx) => {
       );
       const status = pipe(query.status, O.map(In), O.getOrUndefined);
       const type = pipe(query.type, O.getOrUndefined);
+
       return pipe(
         QueueRepository.find({
           where: {

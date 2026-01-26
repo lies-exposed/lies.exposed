@@ -38,7 +38,6 @@ export class QueueEntity extends DeletableEntity {
   @Column({ type: "jsonb" })
   data: Queue.Queue["data"];
 
-  // question: Schema.Union(Schema.String, Schema.Null),
   @Column({ type: "jsonb", nullable: true })
   result: Queue.Queue["result"];
 

@@ -29,14 +29,16 @@ export const toParagraph = (v: string): BlockNoteBlock => {
   };
 };
 
-export const BlockNoteBlockArb: fc.Arbitrary<BlockNoteBlock> = fc
-  .lorem()
-  .map((block) => toParagraph(block));
+export const BlockNoteBlockArb = (
+  text?: string,
+): fc.Arbitrary<BlockNoteBlock> => {
+  const textArb = text ? fc.constant(text) : fc.lorem();
+  return textArb.map((block) => toParagraph(block));
+};
 
-export const BlockNoteDocumentArb: fc.Arbitrary<BlockNoteDocument> =
-  BlockNoteBlockArb.map((block) =>
+export const BlockNoteDocumentArb = (
+  text?: string,
+): fc.Arbitrary<BlockNoteDocument> =>
+  BlockNoteBlockArb(text).map((block) =>
     Schema.decodeSync(BlockNoteDocumentSchema)([block]),
   );
-
-export const BlockNoteDocumentFromText = (text: string) =>
-  fc.constant(text).map(toParagraph);

@@ -51,7 +51,6 @@ export const CreateEventRoute: Route = (r, ctx) => {
                       type: OpenAICreateEventFromURLType.literals[0],
                       resource: EVENTS.literals[0],
                       error: null,
-                      question: null,
                       result: null,
                       prompt: null,
                       data: {

@@ -85,7 +85,7 @@ describe("Edit Actor", () => {
       .map(
         ({ createdAt: _createdAt, updatedAt: _updatedAt, avatar, ...a }) => ({
           ...a,
-          body: tests.fc.sample(BlockNoteDocumentArb, 1)[0],
+          body: tests.fc.sample(BlockNoteDocumentArb(), 1)[0],
           avatar: avatar ? avatar.id : undefined,
         }),
       )[0];
