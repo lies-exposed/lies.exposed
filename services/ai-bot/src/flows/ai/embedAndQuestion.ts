@@ -5,9 +5,7 @@ import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocum
 import { GROUPS } from "@liexp/io/lib/http/Group.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/io/lib/http/Queue/index.js";
-import { type Queue } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
-import { type ClientContextRTE } from "../../types.js";
 import { updateActorFlow } from "./actor/updateActor.flow.js";
 import { updateGroupFlow } from "./group/updateGroup.flow.js";
 import { updateLinkFlow } from "./link/updateLink.flow.js";
@@ -16,9 +14,10 @@ import { type JobProcessRTE } from "#services/job-processor/job-processor.servic
 
 const defaultQuestion = "Write a summary of the text.";
 
-const embedAndQuestionCommonFlow = (
-  job: Omit<Queue.Queue, "data" | "type"> & CreateQueueEmbeddingTypeData,
-): ClientContextRTE<string> => {
+const embedAndQuestionCommonFlow: JobProcessRTE<
+  CreateQueueEmbeddingTypeData,
+  string
+> = (job) => {
   return pipe(
     fp.RTE.Do,
     fp.RTE.bind("prompt", () => fp.RTE.right(getPromptForJob(job))),

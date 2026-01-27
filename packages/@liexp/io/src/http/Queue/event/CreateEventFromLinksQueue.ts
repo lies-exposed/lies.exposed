@@ -11,7 +11,11 @@ export type OpenAICreateEventFromLinksType =
 export const CreateEventFromLinksQueueData = Schema.Struct({
   linkIds: Schema.Array(UUID),
   type: EventType,
-  date: Schema.Union(Schema.Date, Schema.Undefined),
+  date: Schema.Union(
+    Schema.DateFromSelf,
+    Schema.DateFromString,
+    Schema.Undefined,
+  ),
 }).annotations({
   title: "CreateEventFromLinksQueueData",
 });

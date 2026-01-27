@@ -2,6 +2,7 @@ import { type Option } from "fp-ts/lib/Option.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import {
+  type DeleteResult,
   type DeepPartial,
   type EntityTarget,
   type FindManyOptions,
@@ -17,9 +18,13 @@ import { KeywordEntity } from "../entities/Keyword.entity.js";
 import { LinkEntity } from "../entities/Link.entity.js";
 import { MediaEntity } from "../entities/Media.entity.js";
 import { NationEntity } from "../entities/Nation.entity.js";
+import { QueueEntity } from "../entities/Queue.entity.js";
 import { StoryEntity } from "../entities/Story.entity.js";
 import { UserEntity } from "../entities/User.entity.js";
-import { type DBError } from "../providers/orm/database.provider.js";
+import {
+  type Criteria,
+  type DBError,
+} from "../providers/orm/database.provider.js";
 
 export interface EntityRepository<E extends ObjectLiteral> {
   findOne: <C extends DatabaseContext>(
@@ -34,6 +39,12 @@ export interface EntityRepository<E extends ObjectLiteral> {
   save: <C extends DatabaseContext>(
     entities: DeepPartial<E>[],
   ) => ReaderTaskEither<C, DBError, E[]>;
+  softDelete: <C extends DatabaseContext>(
+    entities: DeepPartial<E>[],
+  ) => ReaderTaskEither<C, DBError, DeleteResult>;
+  delete: <C extends DatabaseContext>(
+    entities: DeepPartial<E>[],
+  ) => ReaderTaskEither<C, DBError, DeleteResult>;
 }
 
 const EntityRepository = <E extends ObjectLiteral>(
@@ -63,6 +74,18 @@ const EntityRepository = <E extends ObjectLiteral>(
     ): ReaderTaskEither<C, DBError, E[]> =>
     (ctx) =>
       pipe(ctx.db.save(e, entities)),
+  softDelete:
+    <C extends DatabaseContext>(
+      criteria: Criteria,
+    ): ReaderTaskEither<C, DBError, DeleteResult> =>
+    (ctx) =>
+      pipe(ctx.db.softDelete(e, criteria)),
+  delete:
+    <C extends DatabaseContext>(
+      criteria: Criteria,
+    ): ReaderTaskEither<C, DBError, DeleteResult> =>
+    (ctx) =>
+      pipe(ctx.db.delete(e, criteria)),
 });
 
 export const ActorRepository = EntityRepository(ActorEntity);
@@ -75,3 +98,4 @@ export const StoryRepository = EntityRepository(StoryEntity);
 export const EventRepository = EntityRepository(EventV2Entity);
 export const KeywordRepository = EntityRepository(KeywordEntity);
 export const UserRepository = EntityRepository(UserEntity);
+export const QueueRepository = EntityRepository(QueueEntity);

@@ -2,6 +2,7 @@ import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { type FormatConfig, type SQLQuery } from "@databases/sql";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common";
 import { IOError } from "@ts-endpoint/core";
 import type * as O from "fp-ts/lib/Option.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
@@ -27,15 +28,15 @@ export class DBError extends IOError {
   name = "DBError";
 }
 
-type Criteria =
-  | string
-  | string[]
-  | number
-  | number[]
-  | Date
-  | Date[]
-  | ObjectId
-  | ObjectId[];
+export type Criteria = UUID[] | ObjectId[] | ObjectLiteral;
+// | string
+// | string[]
+// | number
+// | number[]
+// | Date
+// | Date[]
+// | ObjectId
+// | ObjectId[];
 
 interface DatabaseClient {
   manager: EntityManager;

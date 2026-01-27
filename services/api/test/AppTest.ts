@@ -107,7 +107,7 @@ export const loadAppContext = async (
           http: HTTPProvider(mocks.axios as any),
           apiKey: "fake-geo-api-key",
         }),
-        queue: GetQueueProvider(mocks.queueFS, "fake-config-path"),
+        queue: GetQueueProvider,
       };
     }),
     TE.map((ctx) => {
@@ -131,9 +131,9 @@ export const initAppTest = async (
       }
 
       ctx.logger.debug.log("Connecting to new DB %s", database);
-
+      const ormConfig = getORMConfig({ ...ctx.env, DB_DATABASE: database });
       return pipe(
-        getDataSource(getORMConfig({ ...ctx.env, DB_DATABASE: database })),
+        getDataSource(ormConfig),
         TE.chain((source) => GetTypeORMClient(source)),
       );
     }),

@@ -118,7 +118,6 @@ export const createEventFromLinksFlow: JobProcessRTE<
               type: job.data.type,
               jsonSchema: JSON.stringify(jsonSchema),
               context: buildLinksContext(links),
-              // question: job.question ?? defaultQuestion,
             },
           })}\n\n${job.question ?? defaultQuestion}`,
         }),

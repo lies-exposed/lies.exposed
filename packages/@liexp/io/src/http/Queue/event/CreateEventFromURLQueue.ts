@@ -11,7 +11,11 @@ export type OpenAICreateEventFromURLType =
 export const CreateEventFromURLQueueData = Schema.Struct({
   url: URL,
   type: EventType,
-  date: Schema.Union(Schema.Date, Schema.Undefined),
+  date: Schema.Union(
+    Schema.DateFromSelf,
+    Schema.DateFromString,
+    Schema.Undefined,
+  ),
 });
 
 export type CreateEventFromURLQueueData =
