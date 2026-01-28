@@ -53,7 +53,7 @@
     "effect": "^3.19.14",
     "express": "^5.2.1",
     "fp-ts": "^2.16.10",
-    "langchain": "^1.2.14",
+    "langchain": "^1.2.15",
     "prompts": "^2.4.2",
     "puppeteer-core": "^24.8.1",
     "puppeteer-extra": "^3.3.6",
