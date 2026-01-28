@@ -5,6 +5,7 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { ensureConfigFoldersExist } from "./app/config.hooks.js";
 import { makeApp } from "./app/index.js";
 import { seedNations } from "./app/nations.seeder.js";
 import { loadContext } from "./context/load.js";
@@ -27,16 +28,9 @@ const run = (): Promise<void> => {
     TE.apS("ctx", loadContext("server")),
     TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.chainFirst(({ ctx }) => seedNations(ctx)),
+    TE.chainFirst(({ ctx }) => ensureConfigFoldersExist(ctx)),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
-      // TODO: handle properly a possible error thrown by mkdirSync
-      [
-        ...Object.values(ctx.config.dirs.config),
-        ...Object.values(ctx.config.dirs.temp),
-      ].forEach((folder) => {
-        ctx.fs._fs.mkdirSync(folder, { recursive: true });
-      });
-
       const server = app.listen(
         ctx.env.SERVER_PORT,
         ctx.env.SERVER_HOST,
