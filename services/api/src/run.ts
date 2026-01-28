@@ -5,11 +5,11 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import D from "debug";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { ensureConfigFoldersExist } from "./app/config.hooks.js";
 import { makeApp } from "./app/index.js";
 import { seedNations } from "./app/nations.seeder.js";
 import { loadContext } from "./context/load.js";
 import * as ControllerError from "#io/ControllerError.js";
-import { ensureConfigFoldersExist } from "./app/config.hooks.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
