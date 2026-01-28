@@ -5,15 +5,15 @@ on:
     branches:
       - main
     paths:
-      - 'services/**'
-      - 'packages/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'compose*.yml'
-      - '.github/workflows/deploy.yml'
-      - 'Dockerfile*'
-      - 'release-please-config.json'
-      - '.release-please-manifest.json'
+      - "services/**"
+      - "packages/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "compose*.yml"
+      - ".github/workflows/deploy.yml"
+      - "Dockerfile*"
+      - "release-please-config.json"
+      - ".release-please-manifest.json"
   workflow_dispatch:
 
 permissions:
@@ -37,7 +37,6 @@ jobs:
   # Setup: Install deps and build (only when release is created)
   setup:
     needs: [release-please]
-    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -63,7 +62,6 @@ jobs:
   # Build and sync Storybook to MinIO (only when release is created)
   storybook:
     needs: [release-please, setup]
-    if: needs.release-please.outputs.releases_created
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -86,20 +84,15 @@ jobs:
           pnpm storybook build:app
 
       - name: Install MinIO Client
+        if: needs.release-please.outputs.releases_created == 'true'
         run: |
           curl -O https://dl.min.io/client/mc/release/linux-amd64/mc
           chmod +x mc
           sudo mv mc /usr/local/bin/
-
-      - name: Configure MinIO alias
-        run: |
           mc alias set lies-exposed-space \
             https://space.lies.exposed \
             ${{ secrets.MINIO_ACCESS_KEY }} \
             ${{ secrets.MINIO_SECRET_KEY }}
-
-      - name: Sync Storybook to MinIO
-        run: |
           mc mirror --overwrite --remove \
             services/storybook/build \
             lies-exposed-space/storybook
@@ -160,6 +153,6 @@ jobs:
           image_name: ${{ matrix.image_tag }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          push: ${{ needs.release-please.outputs.releases_created }}
+          push: ${{ needs.release-please.outputs.releases_created == 'true' }}
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
