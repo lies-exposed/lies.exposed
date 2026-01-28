@@ -9,6 +9,7 @@ import { makeApp } from "./app/index.js";
 import { seedNations } from "./app/nations.seeder.js";
 import { loadContext } from "./context/load.js";
 import * as ControllerError from "#io/ControllerError.js";
+import { ensureConfigFoldersExist } from "./app/config.hooks.js";
 
 const run = (): Promise<void> => {
   process.env.NODE_ENV = process.env.NODE_ENV ?? "development";
@@ -27,16 +28,9 @@ const run = (): Promise<void> => {
     TE.apS("ctx", loadContext("server")),
     TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.chainFirst(({ ctx }) => seedNations(ctx)),
+    TE.chainFirst(({ ctx }) => ensureConfigFoldersExist(ctx)),
     TE.mapLeft(ControllerError.report),
     TE.chain(({ ctx, app }) => {
-      // TODO: handle properly a possible error thrown by mkdirSync
-      [
-        ...Object.values(ctx.config.dirs.config),
-        ...Object.values(ctx.config.dirs.temp),
-      ].forEach((folder) => {
-        ctx.fs._fs.mkdirSync(folder, { recursive: true });
-      });
-
       const server = app.listen(
         ctx.env.SERVER_PORT,
         ctx.env.SERVER_HOST,
