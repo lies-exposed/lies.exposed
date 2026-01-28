@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.2.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.3...@liexp/ui@0.2.4) (2026-01-28)
+
+
+### Bug Fixes
+
+* **admin:** missing sidebar pages icons and fixed colors ([#3135](https://github.com/lies-exposed/lies.exposed/issues/3135)) ([96f7d18](https://github.com/lies-exposed/lies.exposed/commit/96f7d18d2ae7d1187eaa17a5f872372cd4438590))
+
+
+### Miscellaneous
+
+* refactor error logic ([#3129](https://github.com/lies-exposed/lies.exposed/issues/3129)) ([d04b8ff](https://github.com/lies-exposed/lies.exposed/commit/d04b8ffddb517d49feae3a22649e988bdc77658e))
+* **shared:** merge task utils in fp utils ([#3127](https://github.com/lies-exposed/lies.exposed/issues/3127)) ([dd4f906](https://github.com/lies-exposed/lies.exposed/commit/dd4f90624ef87b5864bfb009cc356f8df683470a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.6
+    * @liexp/io bumped to 0.2.4
+    * @liexp/shared bumped to 0.2.4
+
 ## [0.2.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.2...@liexp/ui@0.2.3) (2026-01-24)
 
 

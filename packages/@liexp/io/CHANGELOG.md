@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.4](https://github.com/lies-exposed/lies.exposed/compare/@liexp/io@0.2.3...@liexp/io@0.2.4) (2026-01-28)
+
+
+### Miscellaneous
+
+* moved queue implementation from fs to pg ([#3136](https://github.com/lies-exposed/lies.exposed/issues/3136)) ([5d9efc8](https://github.com/lies-exposed/lies.exposed/commit/5d9efc865751e6468b0e883a87005029f4e32802))
+* refactor error logic ([#3129](https://github.com/lies-exposed/lies.exposed/issues/3129)) ([d04b8ff](https://github.com/lies-exposed/lies.exposed/commit/d04b8ffddb517d49feae3a22649e988bdc77658e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.1.6
+
 ## [0.2.3](https://github.com/lies-exposed/lies.exposed/compare/@liexp/io@0.2.2...@liexp/io@0.2.3) (2026-01-24)
 
 

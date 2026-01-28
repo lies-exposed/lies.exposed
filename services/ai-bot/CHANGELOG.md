@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.11...ai-bot@0.1.12) (2026-01-28)
+
+
+### Miscellaneous
+
+* moved queue implementation from fs to pg ([#3136](https://github.com/lies-exposed/lies.exposed/issues/3136)) ([5d9efc8](https://github.com/lies-exposed/lies.exposed/commit/5d9efc865751e6468b0e883a87005029f4e32802))
+* refactor error logic ([#3129](https://github.com/lies-exposed/lies.exposed/issues/3129)) ([d04b8ff](https://github.com/lies-exposed/lies.exposed/commit/d04b8ffddb517d49feae3a22649e988bdc77658e))
+* **shared:** merge task utils in fp utils ([#3127](https://github.com/lies-exposed/lies.exposed/issues/3127)) ([dd4f906](https://github.com/lies-exposed/lies.exposed/commit/dd4f90624ef87b5864bfb009cc356f8df683470a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.12
+    * @liexp/core bumped to 0.1.6
+    * @liexp/io bumped to 0.2.4
+    * @liexp/shared bumped to 0.2.4
+
 ## [0.1.11](https://github.com/lies-exposed/lies.exposed/compare/ai-bot@0.1.10...ai-bot@0.1.11) (2026-01-24)
 
 

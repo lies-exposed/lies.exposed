@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.13](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.12...web@0.1.13) (2026-01-28)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.12
+    * @liexp/core bumped to 0.1.6
+    * @liexp/io bumped to 0.2.4
+    * @liexp/shared bumped to 0.2.4
+    * @liexp/ui bumped to 0.2.4
+  * devDependencies
+    * @liexp/test bumped to 0.1.12
+
 ## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.11...web@0.1.12) (2026-01-24)
 
 

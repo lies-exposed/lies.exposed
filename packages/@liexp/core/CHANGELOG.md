@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.5...@liexp/core@0.1.6) (2026-01-28)
+
+
+### Miscellaneous
+
+* **shared:** merge task utils in fp utils ([#3127](https://github.com/lies-exposed/lies.exposed/issues/3127)) ([dd4f906](https://github.com/lies-exposed/lies.exposed/commit/dd4f90624ef87b5864bfb009cc356f8df683470a))
+
 ## [0.1.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.4...@liexp/core@0.1.5) (2026-01-24)
 
 
