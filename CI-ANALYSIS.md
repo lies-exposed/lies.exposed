@@ -14,7 +14,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 | 2026-01-29 | Updated workflows to use content-based caching | `.github/workflows/pull-request.yml`, `.github/workflows/release-please.yml` |
 | 2026-01-29 | Removed build-api action (replaced by build-service) | `.github/actions/build-api/` (deleted) |
 | 2026-01-29 | New test-service action with spec/e2e support | `.github/actions/test-service/action.yml` (new) |
-| 2026-01-29 | Updated workflow to use test-service with DB config | `.github/workflows/pull-request.yml` |
+| 2026-01-29 | Separate test-e2e job with DB services (API only) | `.github/workflows/pull-request.yml` |
 
 ## Current Structure Overview
 
@@ -41,7 +41,8 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 
 **Current Flow:**
 ```
-detect-changes → install → ci (matrix: 8 services, max 5 parallel) + knip-report
+detect-changes → install → ci (8 services, max 5 parallel) + test-e2e (API only, with DB)
+                       ↘ knip-report
 ```
 
 **Jobs:**
@@ -57,10 +58,9 @@ detect-changes → install → ci (matrix: 8 services, max 5 parallel) + knip-re
 
 **Current Inefficiencies:**
 1. ~~Matrix limited to 3 parallel jobs (could be higher)~~ **FIXED** - Now 5 parallel
-2. PostgreSQL/Redis services start for every matrix job, even non-API ones
-3. `ci` job uses `always()` condition, runs even when install fails
-4. Each matrix job downloads dependencies independently
-5. ~~Build caches are per-service, not shared across runs~~ **FIXED** - Content-based caching with restore-keys
+2. ~~PostgreSQL/Redis services start for every matrix job~~ **FIXED** - Separate `test-e2e` job for API only
+3. Each matrix job downloads dependencies independently (mitigated by caching)
+4. ~~Build caches are per-service, not shared across runs~~ **FIXED** - Content-based caching with restore-keys
 
 ---
 
@@ -512,12 +512,10 @@ jobs:
 | 1 | Enable Docker layer caching | Low | High | **DONE** |
 | 2 | Increase matrix parallelization | Low | Medium | **DONE** |
 | 3 | Fix content-based build caching | Low | High | **DONE** |
-| 4 | Separate API tests with DB services | Medium | Medium | Pending |
-| 5 | Fix `always()` condition | Low | Low | Pending |
-| 6 | Remove unused action | Low | Low | Pending |
-| 7 | Split lint into separate job | Medium | Medium | Pending |
-| 8 | Turborepo (only if #3 insufficient) | High | Medium | Optional |
-| 9 | Create reusable workflows | Medium | Medium | Pending |
+| 4 | Separate API e2e tests with DB services | Medium | Medium | **DONE** |
+| 5 | Remove unused detect-changes action | Low | Low | Pending |
+| 6 | Turborepo (only if needed) | High | Medium | Optional |
+| 7 | Create reusable workflows | Medium | Medium | Optional |
 
 ---
 
