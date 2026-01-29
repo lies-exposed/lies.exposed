@@ -100,8 +100,6 @@ jobs:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
-        with:
-          hash: ${{ github.sha }}
 
   # Combined CI job for lint, build, test, and docker
   ci:
@@ -132,7 +130,7 @@ jobs:
     
     strategy:
       fail-fast: true
-      max-parallel: 3
+      max-parallel: 5
       matrix:
         include:
           - service: admin
@@ -141,25 +139,21 @@ jobs:
             build_command: pnpm admin build
             app_command: pnpm admin build:app
             has_app_build: true
-            build_cache_key: admin-build
             test_command: pnpm admin test
           - service: agent
             enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
             lint_command: pnpm agent lint
             build_command: pnpm agent build
-            build_cache_key: agent-build
             test_command: pnpm agent test
           - service: ai-bot
             enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
             lint_command: pnpm ai-bot lint
             build_command: pnpm ai-bot build
-            build_cache_key: ai-bot-build
             test_command: pnpm ai-bot test
           - service: api
             enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
             lint_command: pnpm api lint
             build_command: pnpm api build
-            build_cache_key: api-build
             test_command: pnpm api test
             test_env_dotenv: "./.env.test"
             needs_db_services: true
@@ -186,7 +180,6 @@ jobs:
             build_command: pnpm storybook typecheck
             app_command: pnpm storybook build:app
             has_app_build: true
-            build_cache_key: storybook-build
             test_command: pnpm storybook test
           - service: web
             enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
@@ -194,13 +187,11 @@ jobs:
             build_command: pnpm web build
             app_command: pnpm web build:app-server
             has_app_build: true
-            build_cache_key: web-build
             test_command: pnpm web test
           - service: worker
             enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
             lint_command: pnpm worker lint
             build_command: pnpm worker build
-            build_cache_key: worker-build
             test_command: pnpm worker test
             test_env_dotenv: "./.env.test"
 
@@ -214,31 +205,23 @@ jobs:
         if: ${{ matrix.enabled }}
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-          build_hash: ${{ github.sha }}
 
       # Lint step
       - name: Lint ${{ matrix.service }}
         if: ${{ matrix.enabled && matrix.lint_command }}
         run: ${{ matrix.lint_command }}
 
-      # Build cache setup
-      - name: Setup build cache for ${{ matrix.service }}
-        if: ${{ matrix.enabled && matrix.build_cache_key }}
-        uses: actions/cache@v5
-        with:
-          path: services/**/build
-          key: ${{ matrix.build_cache_key }}
-
-      # Build step (for API, use build-api action for consistency)
+      # Build step with content-based caching
       - name: Build API (with action)
         if: ${{ matrix.enabled && matrix.service == 'api' }}
         uses: ./.github/actions/build-api
-        with:
-          hash: ${{ github.sha }}
 
       - name: Build ${{ matrix.service }}
-        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'api' }}
-        run: ${{ matrix.build_command }}
+        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'api' && matrix.service != 'packages' }}
+        uses: ./.github/actions/build-service
+        with:
+          service: ${{ matrix.service }}
+          build_command: ${{ matrix.build_command }}
 
       - name: Build ${{ matrix.service }} app
         if: ${{ matrix.enabled && matrix.has_app_build }}
@@ -276,7 +259,6 @@ jobs:
       - uses: ./.github/actions/setup-workspace
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-          build_hash: ${{ github.sha }}
 
       - name: Post the knip results
         run: pnpm knip

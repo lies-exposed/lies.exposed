@@ -46,8 +46,6 @@ jobs:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
-        with:
-          hash: ${{ github.sha }}
 
       - name: Build ai-bot
         run: pnpm ai-bot build
@@ -71,8 +69,6 @@ jobs:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - uses: ./.github/actions/build-packages
-        with:
-          hash: ${{ github.sha }}
 
       - name: Build Storybook
         run: |

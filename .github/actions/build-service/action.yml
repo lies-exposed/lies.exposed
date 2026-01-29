@@ -1,0 +1,41 @@
+name: "Build Service"
+description: "Build a service with content-based caching"
+
+inputs:
+  service:
+    required: true
+    description: "Service name (e.g., api, admin, web)"
+  build_command:
+    required: true
+    description: "Command to build the service"
+
+outputs:
+  cache-hit:
+    description: "Whether the cache was hit"
+    value: ${{ steps.service-build.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Compute service hash
+      id: hash
+      shell: bash
+      run: |
+        # Hash service source files + built packages (dependencies)
+        SERVICE_HASH=$(find services/${{ inputs.service }}/src -type f \( -name "*.ts" -o -name "*.tsx" \) 2>/dev/null | sort | xargs cat 2>/dev/null | sha256sum | cut -d' ' -f1)
+        PACKAGES_HASH=$(find packages -type f -name "*.js" -path "*/lib/*" 2>/dev/null | sort | xargs cat 2>/dev/null | sha256sum | cut -d' ' -f1)
+        COMBINED="${SERVICE_HASH:0:8}-${PACKAGES_HASH:0:8}"
+        echo "service_hash=${COMBINED}" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v5
+      id: service-build
+      with:
+        path: services/${{ inputs.service }}/build
+        key: linux-${{ inputs.service }}-build-${{ steps.hash.outputs.service_hash }}
+        restore-keys: |
+          linux-${{ inputs.service }}-build-
+
+    - name: Build ${{ inputs.service }}
+      if: steps.service-build.outputs.cache-hit != 'true'
+      run: ${{ inputs.build_command }}
+      shell: bash

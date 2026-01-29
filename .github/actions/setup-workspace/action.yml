@@ -1,13 +1,10 @@
 name: Setup Workspace
-description: Checkout, install deps, and build packages
+description: Checkout, install deps, and build packages with content-based caching
 
 inputs:
   hash:
     required: true
     description: "The hash obtained from hashFiles('**/pnpm-lock.yaml')"
-  build_hash:
-    required: true
-    description: "The hash for build packages cache (usually github.sha)"
 
 runs:
   using: "composite"
@@ -17,6 +14,3 @@ runs:
         hash: ${{ inputs.hash }}
 
     - uses: ./.github/actions/build-packages
-      with:
-        hash: ${{ inputs.build_hash }}
-
