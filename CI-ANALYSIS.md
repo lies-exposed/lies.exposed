@@ -16,6 +16,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 | 2026-01-29 | New test-service action with spec/e2e support | `.github/actions/test-service/action.yml` (new) |
 | 2026-01-29 | Conditional DB services in matrix (api/worker only) | `.github/workflows/pull-request.yml` |
 | 2026-01-29 | Aggregate change detection outputs (any-service, any-code) | `.github/workflows/pull-request.yml` |
+| 2026-01-29 | Removed unused detect-changes action | `.github/actions/detect-changes/` (deleted) |
 
 ## Current Structure Overview
 
@@ -31,8 +32,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 │   ├── build-packages/        # Shared packages build with content-based caching
 │   ├── build-service/         # Generic service build with content-based caching
 │   ├── test-service/          # Generic test runner with spec/e2e and DB support
-│   ├── docker-build-push/     # Docker build and registry push
-│   └── detect-changes/        # Legacy change detection (unused)
+│   └── docker-build-push/     # Docker build and registry push
 └── dependabot.yml             # Dependency update automation
 ```
 
@@ -515,7 +515,7 @@ jobs:
 | 3 | Fix content-based build caching | Low | High | **DONE** |
 | 4 | Conditional DB services in matrix | Medium | Medium | **DONE** |
 | 5 | Optimize change detection outputs | Low | Low | **DONE** |
-| 6 | Remove unused detect-changes action | Low | Low | Pending |
+| 6 | Remove unused detect-changes action | Low | Low | **DONE** |
 | 7 | Turborepo (only if needed) | High | Medium | Optional |
 | 8 | Create reusable workflows | Medium | Medium | Optional |
 
