@@ -6,6 +6,7 @@ This guide covers development best practices, code quality standards, and workfl
 
 - [Code Quality](./code-quality.md) - Commit messages, code style, import organization
 - [Functional Programming](./functional-programming.md) - fp-ts and Effect patterns
+- [CI/CD Workflows](./ci-workflows.md) - GitHub Actions, caching, adding services
 - [Kubernetes Access](./kubernetes.md) - Remote cluster access and debugging
 
 ## Development Priority Order
