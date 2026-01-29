@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  # First, determine which services need to be tested based on changed files
+  # Determine which services need CI based on changed files
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
@@ -86,8 +86,7 @@ jobs:
               - "package.json"
               - "pnpm-lock.yaml"
 
-  # Install dependencies once (populates cache for all other jobs)
-  # Only runs if dependencies changed, otherwise jobs rely on existing cache
+  # Install dependencies and build packages (shared cache for all jobs)
   install:
     needs: detect-changes
     if: needs.detect-changes.outputs.needs-install == 'true'
@@ -101,14 +100,225 @@ jobs:
 
       - uses: ./.github/actions/build-packages
 
-  # Combined CI job for lint, build, test, and docker
-  ci:
+  # Lint jobs - run in parallel per service
+  lint:
     needs: [detect-changes, install]
     if: |
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
-    # Postgres and Redis services (only used by API tests)
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - service: admin
+            enabled: ${{ needs.detect-changes.outputs.admin == 'true' }}
+            command: pnpm admin lint
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            command: pnpm agent lint
+          - service: ai-bot
+            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            command: pnpm ai-bot lint
+          - service: api
+            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            command: pnpm api lint
+          - service: packages-core
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm core lint
+          - service: packages-io
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm io lint
+          - service: packages-shared
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm shared lint
+          - service: packages-test
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm test lint
+          - service: packages-backend
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm backend lint
+          - service: packages-ui
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            command: pnpm ui lint
+          - service: storybook
+            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
+            command: pnpm storybook lint
+          - service: web
+            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            command: pnpm web lint
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            command: pnpm worker lint
+
+    name: Lint ${{ matrix.service }}
+
+    steps:
+      - uses: actions/checkout@v6
+        if: ${{ matrix.enabled }}
+
+      - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.enabled }}
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Lint ${{ matrix.service }}
+        if: ${{ matrix.enabled }}
+        run: ${{ matrix.command }}
+
+  # Build jobs - run in parallel per service (with content-based caching)
+  build:
+    needs: [detect-changes, install, lint]
+    if: |
+      always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      (needs.lint.result == 'success' || needs.lint.result == 'skipped')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - service: admin
+            enabled: ${{ needs.detect-changes.outputs.admin == 'true' }}
+            build_command: pnpm admin build
+            app_command: pnpm admin build:app
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            build_command: pnpm agent build
+          - service: ai-bot
+            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            build_command: pnpm ai-bot build
+          - service: api
+            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            build_command: pnpm api build
+          - service: storybook
+            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
+            build_command: pnpm storybook typecheck
+            app_command: pnpm storybook build:app
+          - service: web
+            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            build_command: pnpm web build
+            app_command: pnpm web build:app-server
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            build_command: pnpm worker build
+
+    name: Build ${{ matrix.service }}
+
+    steps:
+      - uses: actions/checkout@v6
+        if: ${{ matrix.enabled }}
+
+      - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.enabled }}
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Build ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.build_command }}
+        uses: ./.github/actions/build-service
+        with:
+          service: ${{ matrix.service }}
+          build_command: ${{ matrix.build_command }}
+
+      - name: Build ${{ matrix.service }} app
+        if: ${{ matrix.enabled && matrix.app_command }}
+        env:
+          DOTENV_CONFIG_PATH: "./.env"
+        run: ${{ matrix.app_command }}
+
+  # Test jobs - run spec tests in parallel (no DB needed)
+  test:
+    needs: [detect-changes, install, build]
+    if: |
+      always() &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      (needs.build.result == 'success' || needs.build.result == 'skipped')
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - service: admin
+            enabled: ${{ needs.detect-changes.outputs.admin == 'true' }}
+            spec_command: pnpm admin test
+          - service: agent
+            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
+            spec_command: pnpm agent test
+          - service: ai-bot
+            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
+            spec_command: pnpm ai-bot test
+          - service: api
+            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
+            spec_command: pnpm api test:spec
+            dotenv_path: "./.env.test"
+          - service: packages-core
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm core test
+          - service: packages-io
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm io test
+          - service: packages-shared
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm shared test
+          - service: packages-test
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm test test
+          - service: packages-backend
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm backend test
+          - service: packages-ui
+            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
+            spec_command: pnpm ui test
+          - service: storybook
+            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
+            spec_command: pnpm storybook test
+          - service: web
+            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
+            spec_command: pnpm web test
+          - service: worker
+            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
+            spec_command: pnpm worker test
+            dotenv_path: "./.env.test"
+
+    name: Test ${{ matrix.service }}
+
+    steps:
+      - uses: actions/checkout@v6
+        if: ${{ matrix.enabled }}
+
+      - uses: ./.github/actions/setup-workspace
+        if: ${{ matrix.enabled }}
+        with:
+          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Build ${{ matrix.service }}
+        if: ${{ matrix.enabled && !startsWith(matrix.service, 'packages-') }}
+        uses: ./.github/actions/build-service
+        with:
+          service: ${{ matrix.service }}
+          build_command: pnpm ${{ matrix.service }} build
+
+      - name: Test ${{ matrix.service }}
+        if: ${{ matrix.enabled }}
+        uses: ./.github/actions/test-service
+        with:
+          service: ${{ matrix.service }}
+          spec_command: ${{ matrix.spec_command }}
+          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
+
+  # E2E tests - separate job with DB services (only for API)
+  test-e2e:
+    needs: [detect-changes, install, build]
+    if: |
+      always() &&
+      needs.detect-changes.outputs.api == 'true' &&
+      (needs.install.result == 'success' || needs.install.result == 'skipped') &&
+      (needs.build.result == 'success' || needs.build.result == 'skipped')
+    runs-on: ubuntu-latest
     services:
       redis:
         image: redis:7
@@ -127,114 +337,28 @@ jobs:
           --health-retries 5
         ports:
           - 8432:5432
-    
-    strategy:
-      fail-fast: true
-      max-parallel: 5
-      matrix:
-        include:
-          - service: admin
-            enabled: ${{ needs.detect-changes.outputs.admin == 'true' }}
-            lint_command: pnpm admin lint
-            build_command: pnpm admin build
-            app_command: pnpm admin build:app
-            has_app_build: true
-            spec_command: pnpm admin test
-          - service: agent
-            enabled: ${{ needs.detect-changes.outputs.agent == 'true' }}
-            lint_command: pnpm agent lint
-            build_command: pnpm agent build
-            spec_command: pnpm agent test
-          - service: ai-bot
-            enabled: ${{ needs.detect-changes.outputs.ai-bot == 'true' }}
-            lint_command: pnpm ai-bot lint
-            build_command: pnpm ai-bot build
-            spec_command: pnpm ai-bot test
-          - service: api
-            enabled: ${{ needs.detect-changes.outputs.api == 'true' }}
-            lint_command: pnpm api lint
-            build_command: pnpm api build
-            spec_command: pnpm api test:spec
-            e2e_command: pnpm api test:e2e
-            dotenv_path: "./.env.test"
-          - service: packages
-            enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
-            lint_command: |
-              pnpm core lint
-              pnpm io lint
-              pnpm shared lint
-              pnpm test lint
-              pnpm backend lint
-              pnpm ui lint
-            spec_command: |
-              pnpm core test
-              pnpm io test
-              pnpm shared test
-              pnpm test test
-              pnpm backend test
-              pnpm ui test
-            debug: "-@liexp*"
-          - service: storybook
-            enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
-            lint_command: pnpm storybook lint
-            build_command: pnpm storybook typecheck
-            app_command: pnpm storybook build:app
-            has_app_build: true
-            spec_command: pnpm storybook test
-          - service: web
-            enabled: ${{ needs.detect-changes.outputs.web == 'true' }}
-            lint_command: pnpm web lint
-            build_command: pnpm web build
-            app_command: pnpm web build:app-server
-            has_app_build: true
-            spec_command: pnpm web test
-          - service: worker
-            enabled: ${{ needs.detect-changes.outputs.worker == 'true' }}
-            lint_command: pnpm worker lint
-            build_command: pnpm worker build
-            spec_command: pnpm worker test
-            dotenv_path: "./.env.test"
 
-    name: CI ${{ matrix.service }}
-    
+    name: Test API (e2e)
+
     steps:
       - uses: actions/checkout@v6
-        if: ${{ matrix.enabled }}
 
       - uses: ./.github/actions/setup-workspace
-        if: ${{ matrix.enabled }}
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      # Lint step
-      - name: Lint ${{ matrix.service }}
-        if: ${{ matrix.enabled && matrix.lint_command }}
-        run: ${{ matrix.lint_command }}
-
-      # Build step with content-based caching
-      - name: Build ${{ matrix.service }}
-        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'packages' }}
+      - name: Build API
         uses: ./.github/actions/build-service
         with:
-          service: ${{ matrix.service }}
-          build_command: ${{ matrix.build_command }}
+          service: api
+          build_command: pnpm api build
 
-      - name: Build ${{ matrix.service }} app
-        if: ${{ matrix.enabled && matrix.has_app_build }}
-        env:
-          DOTENV_CONFIG_PATH: "./.env"
-        run: ${{ matrix.app_command }}
-
-      # Test step with optional spec and e2e commands
-      - name: Run tests for ${{ matrix.service }}
-        if: ${{ matrix.enabled && (matrix.spec_command || matrix.e2e_command) }}
+      - name: Test API (e2e)
         uses: ./.github/actions/test-service
         with:
-          service: ${{ matrix.service }}
-          spec_command: ${{ matrix.spec_command }}
-          e2e_command: ${{ matrix.e2e_command }}
-          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
-          debug: ${{ matrix.debug || '-@liexp*' }}
+          service: api
+          e2e_command: pnpm api test:e2e
+          dotenv_path: "./.env.test"
 
   # Knip report (for package or service changes)
   knip-report:
