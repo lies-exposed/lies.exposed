@@ -14,7 +14,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 | 2026-01-29 | Updated workflows to use content-based caching | `.github/workflows/pull-request.yml`, `.github/workflows/release-please.yml` |
 | 2026-01-29 | Removed build-api action (replaced by build-service) | `.github/actions/build-api/` (deleted) |
 | 2026-01-29 | New test-service action with spec/e2e support | `.github/actions/test-service/action.yml` (new) |
-| 2026-01-29 | Separate test-e2e job with DB services (API only) | `.github/workflows/pull-request.yml` |
+| 2026-01-29 | Conditional DB services in matrix (api/worker only) | `.github/workflows/pull-request.yml` |
 
 ## Current Structure Overview
 
@@ -41,7 +41,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 
 **Current Flow:**
 ```
-detect-changes → install → ci (8 services, max 5 parallel) + test-e2e (API only, with DB)
+detect-changes → install → ci (8 services, max 5 parallel, conditional DB for api/worker)
                        ↘ knip-report
 ```
 

@@ -100,13 +100,34 @@ jobs:
 
       - uses: ./.github/actions/build-packages
 
-  # CI job - lint, build, spec tests (no DB needed)
+  # CI job - lint, build, spec tests, and e2e tests (with conditional DB services)
   ci:
     needs: [detect-changes, install]
     if: |
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped')
     runs-on: ubuntu-latest
+
+    # Conditional services - only start when matrix.needs_db is true
+    services:
+      redis:
+        image: ${{ matrix.needs_db && 'redis:7' || '' }}
+        ports:
+          - 6379:6379
+      pg-db-test:
+        image: ${{ matrix.needs_db && 'postgres:17' || '' }}
+        env:
+          POSTGRES_USER: liexp
+          POSTGRES_PASSWORD: liexp-password
+          POSTGRES_DB: liexp_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 8432:5432
+
     strategy:
       fail-fast: false
       max-parallel: 5
@@ -133,7 +154,10 @@ jobs:
             lint_command: pnpm api lint
             build_command: pnpm api build
             spec_command: pnpm api test:spec
+            e2e_command: pnpm api test:e2e
+            migration_command: pnpm api migration:run
             dotenv_path: "./.env.test"
+            needs_db: true
           - service: packages
             enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
             lint_command: |
@@ -167,7 +191,9 @@ jobs:
             lint_command: pnpm worker lint
             build_command: pnpm worker build
             spec_command: pnpm worker test
+            e2e_command: pnpm worker test:e2e
             dotenv_path: "./.env.test"
+            needs_db: true
 
     name: CI ${{ matrix.service }}
 
@@ -197,7 +223,7 @@ jobs:
           DOTENV_CONFIG_PATH: "./.env"
         run: ${{ matrix.app_command }}
 
-      - name: Test ${{ matrix.service }}
+      - name: Test ${{ matrix.service }} (spec)
         if: ${{ matrix.enabled && matrix.spec_command }}
         uses: ./.github/actions/test-service
         with:
@@ -205,54 +231,19 @@ jobs:
           spec_command: ${{ matrix.spec_command }}
           dotenv_path: ${{ matrix.dotenv_path || '.env' }}
 
-  # E2E tests - separate job with DB services (only for API)
-  test-e2e:
-    needs: [detect-changes, install]
-    if: |
-      always() &&
-      needs.detect-changes.outputs.api == 'true' &&
-      (needs.install.result == 'success' || needs.install.result == 'skipped')
-    runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis:7
-        ports:
-          - 6379:6379
-      pg-db-test:
-        image: postgres:17
+      - name: Run migrations
+        if: ${{ matrix.enabled && matrix.migration_command }}
         env:
-          POSTGRES_USER: liexp
-          POSTGRES_PASSWORD: liexp-password
-          POSTGRES_DB: liexp_test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 8432:5432
+          DOTENV_CONFIG_PATH: ${{ matrix.dotenv_path || '.env' }}
+        run: ${{ matrix.migration_command }}
 
-    name: Test API (e2e)
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: ./.github/actions/setup-workspace
-        with:
-          hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Build API
-        uses: ./.github/actions/build-service
-        with:
-          service: api
-          build_command: pnpm api build
-
-      - name: Test API (e2e)
+      - name: Test ${{ matrix.service }} (e2e)
+        if: ${{ matrix.enabled && matrix.e2e_command }}
         uses: ./.github/actions/test-service
         with:
-          service: api
-          e2e_command: pnpm api test:e2e
-          dotenv_path: "./.env.test"
+          service: ${{ matrix.service }}
+          e2e_command: ${{ matrix.e2e_command }}
+          dotenv_path: ${{ matrix.dotenv_path || '.env' }}
 
   # Knip report (for package or service changes)
   knip-report:
