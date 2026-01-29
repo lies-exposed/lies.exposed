@@ -19,7 +19,7 @@ COPY ./services/web ./services/web
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN pnpm packages:build
+RUN pnpm packages build
 
 CMD ["pnpm", "docker:dev"]
 

@@ -28,7 +28,7 @@
     "lint:changed": "./scripts/lint-changed.sh",
     "corepack": "corepack",
     "corepack:up": "corepack use pnpm@latest-10 && npm -r -c exec 'corepack use pnpm@latest-10'",
-    "packages:build": "pnpm --filter '@liexp/*' -r run build",
+    "packages": "pnpm --filter '@liexp/*' --filter '!@liexp/storybook' -r",
     "services:clean": "pnpm -r --filter worker --filter ai-bot --filter api --filter web --filter admin --filter agent run clean",
     "post-deploy": "./deploy/post-deploy.sh",
     "shared": "pnpm --filter '@liexp/shared'",

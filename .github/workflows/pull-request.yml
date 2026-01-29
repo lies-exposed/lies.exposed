@@ -171,20 +171,8 @@ jobs:
             needs_db: true
           - service: packages
             enabled: ${{ needs.detect-changes.outputs.packages == 'true' }}
-            lint_command: |
-              pnpm core lint
-              pnpm io lint
-              pnpm shared lint
-              pnpm test lint
-              pnpm backend lint
-              pnpm ui lint
-            spec_command: |
-              pnpm core test
-              pnpm io test
-              pnpm shared test
-              pnpm test test
-              pnpm backend test
-              pnpm ui test
+            lint_command: pnpm packages lint
+            spec_command: pnpm packages test
           - service: storybook
             enabled: ${{ needs.detect-changes.outputs.storybook == 'true' }}
             lint_command: pnpm storybook lint

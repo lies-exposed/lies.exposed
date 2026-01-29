@@ -16,7 +16,7 @@ COPY services/worker services/worker
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN pnpm packages:build
+RUN pnpm packages build
 
 CMD ["pnpm", "worker", "dev"]
 
