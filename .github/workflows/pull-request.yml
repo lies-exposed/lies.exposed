@@ -212,12 +212,8 @@ jobs:
         run: ${{ matrix.lint_command }}
 
       # Build step with content-based caching
-      - name: Build API (with action)
-        if: ${{ matrix.enabled && matrix.service == 'api' }}
-        uses: ./.github/actions/build-api
-
       - name: Build ${{ matrix.service }}
-        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'api' && matrix.service != 'packages' }}
+        if: ${{ matrix.enabled && matrix.build_command && matrix.service != 'packages' }}
         uses: ./.github/actions/build-service
         with:
           service: ${{ matrix.service }}
