@@ -5,7 +5,6 @@ import { type AppTest, initAppTest, loadAppContext } from "./AppTest.js";
 
 // API-specific mocks - must be at top level for vitest hoisting
 vi.mock("page-metadata-parser");
-vi.mock("puppeteer-core", () => ({ KnownDevices: {} }));
 vi.mock("@aws-sdk/client-s3");
 vi.mock("@aws-sdk/s3-request-presigner");
 vi.mock("@aws-sdk/lib-storage");

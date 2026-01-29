@@ -96,7 +96,6 @@
       ],
       "ignore": [
         "ormconfig.js",
-        "test/__mocks__/**/*",
         "test/globalSetup.ts"
       ]
     },
