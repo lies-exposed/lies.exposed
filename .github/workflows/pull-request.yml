@@ -10,6 +10,7 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
+      # Per-service outputs
       admin: ${{ steps.filter.outputs.admin }}
       agent: ${{ steps.filter.outputs.agent }}
       ai-bot: ${{ steps.filter.outputs.ai-bot }}
@@ -20,6 +21,9 @@ jobs:
       worker: ${{ steps.filter.outputs.worker }}
       root: ${{ steps.filter.outputs.root }}
       needs-install: ${{ steps.filter.outputs.needs-install }}
+      # Aggregate outputs
+      any-service: ${{ steps.filter.outputs.any-service }}
+      any-code: ${{ steps.filter.outputs.any-code }}
     steps:
       - uses: actions/checkout@v6
 
@@ -85,6 +89,13 @@ jobs:
               - "knip.json"
               - "package.json"
               - "pnpm-lock.yaml"
+            # Aggregate filters
+            any-service:
+              - "services/**"
+            any-code:
+              - "packages/**"
+              - "services/**"
+              - ".github/workflows/**"
 
   # Install dependencies and build packages (shared cache for all jobs)
   install:
@@ -245,21 +256,13 @@ jobs:
           e2e_command: ${{ matrix.e2e_command }}
           dotenv_path: ${{ matrix.dotenv_path || '.env' }}
 
-  # Knip report (for package or service changes)
+  # Knip report (for any code changes)
   knip-report:
     needs: [detect-changes, install]
     if: |
       always() &&
       (needs.install.result == 'success' || needs.install.result == 'skipped') &&
-      (needs.detect-changes.outputs.packages == 'true' ||
-       needs.detect-changes.outputs.admin == 'true' ||
-       needs.detect-changes.outputs.agent == 'true' ||
-       needs.detect-changes.outputs.ai-bot == 'true' ||
-       needs.detect-changes.outputs.api == 'true' ||
-       needs.detect-changes.outputs.storybook == 'true' ||
-       needs.detect-changes.outputs.web == 'true' ||
-       needs.detect-changes.outputs.worker == 'true' ||
-       needs.detect-changes.outputs.root == 'true')
+      needs.detect-changes.outputs.any-code == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

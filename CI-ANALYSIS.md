@@ -15,6 +15,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 | 2026-01-29 | Removed build-api action (replaced by build-service) | `.github/actions/build-api/` (deleted) |
 | 2026-01-29 | New test-service action with spec/e2e support | `.github/actions/test-service/action.yml` (new) |
 | 2026-01-29 | Conditional DB services in matrix (api/worker only) | `.github/workflows/pull-request.yml` |
+| 2026-01-29 | Aggregate change detection outputs (any-service, any-code) | `.github/workflows/pull-request.yml` |
 
 ## Current Structure Overview
 
@@ -304,27 +305,27 @@ jobs:
 
 ---
 
-#### 7. Optimize Change Detection Output
+#### 7. ~~Optimize Change Detection Output~~ IMPLEMENTED
 
 **Problem:** Change detection outputs 9 separate flags checked individually.
 
 **Solution:** Add aggregate outputs for common patterns.
 
 ```yaml
-# In detect-changes job
-- id: filter
-  uses: dorny/paths-filter@v3
-  with:
-    filters: |
-      # ... existing filters ...
-      any-service:
-        - 'services/**'
-      any-package:
-        - 'packages/**'
-      needs-integration-tests:
-        - 'services/api/**'
-        - 'packages/@liexp/backend/**'
+# In detect-changes job outputs
+any-service: ${{ steps.filter.outputs.any-service }}
+any-code: ${{ steps.filter.outputs.any-code }}
+
+# In filters
+any-service:
+  - "services/**"
+any-code:
+  - "packages/**"
+  - "services/**"
+  - ".github/workflows/**"
 ```
+
+**Status:** Implemented on 2026-01-29. Simplified `knip-report` condition from 9 checks to 1.
 
 ---
 
@@ -512,10 +513,11 @@ jobs:
 | 1 | Enable Docker layer caching | Low | High | **DONE** |
 | 2 | Increase matrix parallelization | Low | Medium | **DONE** |
 | 3 | Fix content-based build caching | Low | High | **DONE** |
-| 4 | Separate API e2e tests with DB services | Medium | Medium | **DONE** |
-| 5 | Remove unused detect-changes action | Low | Low | Pending |
-| 6 | Turborepo (only if needed) | High | Medium | Optional |
-| 7 | Create reusable workflows | Medium | Medium | Optional |
+| 4 | Conditional DB services in matrix | Medium | Medium | **DONE** |
+| 5 | Optimize change detection outputs | Low | Low | **DONE** |
+| 6 | Remove unused detect-changes action | Low | Low | Pending |
+| 7 | Turborepo (only if needed) | High | Medium | Optional |
+| 8 | Create reusable workflows | Medium | Medium | Optional |
 
 ---
 
@@ -558,6 +560,40 @@ jobs:
 1. **Add workflow timing annotations** for performance tracking
 2. **Set up GitHub Actions insights** to identify slow jobs
 3. **Configure Slack/Discord notifications** for failed workflows
+
+---
+
+---
+
+## Approaches Tried That Didn't Work
+
+### Parallel Pipelines (lint → build → test as separate jobs)
+
+**What we tried:** Split the single `ci` matrix job into separate parallel stages:
+- `lint` job (13 parallel jobs - per package and service)
+- `build` job (7 parallel jobs - services only)
+- `test` job (13 parallel jobs)
+- `test-e2e` job (API only with DB)
+
+**Why it didn't work well:**
+
+| Issue | Impact |
+|-------|--------|
+| **Job startup overhead** | ~30-40s per job × 34 jobs vs 8 jobs = significant overhead |
+| **Sequential stages** | Lint must finish before build, build before test |
+| **Cache restoration** | 34 jobs restoring workspace vs 8 jobs |
+| **Single-service changes** | Slower for targeted changes (most common case) |
+
+**Comparison:**
+
+| Scenario | Single `ci` Job | Parallel Pipelines |
+|----------|-----------------|-------------------|
+| Change to one service | ~5-8 min (1 matrix job) | ~8-12 min (wait for all stages) |
+| Change to all packages | ~15-20 min | ~10-15 min (better parallelization) |
+
+**Conclusion:** The parallel pipeline approach is better for full-repo changes but worse for the more common single-service changes. The overhead of spinning up many jobs and waiting for stages to complete outweighs the parallelization benefits.
+
+**What we kept:** The `test-e2e` isolation concept evolved into conditional DB services within the matrix, which gives the best of both worlds - single job simplicity with DB isolation.
 
 ---
 
