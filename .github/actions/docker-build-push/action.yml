@@ -50,6 +50,6 @@ runs:
         tags: ${{ inputs.image_name }}
         build-args: ${{ inputs.build-args }}
         platforms: linux/amd64
-        no-cache: true
-        pull: true
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 

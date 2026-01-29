@@ -15,7 +15,7 @@ COPY services/ai-bot services/ai-bot
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-RUN pnpm packages:build
+RUN pnpm packages build
 
 WORKDIR /home/node/services/ai-bot
 

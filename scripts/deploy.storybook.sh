@@ -9,7 +9,7 @@ export VITE_NODE_ENV=production
 mv ./services/storybook/.env ./services/storybook/.env.dev
 cp ./services/storybook/.env.prod ./services/storybook/.env
 
-pnpm packages:build
+pnpm packages build
 
 pnpm storybook clean
 
