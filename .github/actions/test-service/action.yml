@@ -1,0 +1,48 @@
+name: "Test Service"
+description: "Run tests for a service with optional spec and e2e commands"
+
+inputs:
+  service:
+    required: true
+    description: "Service name (e.g., api, admin, web)"
+  spec_command:
+    required: false
+    description: "Command to run unit/spec tests"
+  e2e_command:
+    required: false
+    description: "Command to run e2e/integration tests (implies DB/Redis needed)"
+  dotenv_path:
+    required: false
+    default: ".env"
+    description: "Path to .env file for tests"
+  debug:
+    required: false
+    default: "-@liexp*"
+    description: "DEBUG environment variable value"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run spec tests for ${{ inputs.service }}
+      if: inputs.spec_command != ''
+      shell: bash
+      env:
+        DOTENV_CONFIG_PATH: ${{ inputs.dotenv_path }}
+        DEBUG: ${{ inputs.debug }}
+      run: ${{ inputs.spec_command }}
+
+    - name: Run e2e tests for ${{ inputs.service }}
+      if: inputs.e2e_command != ''
+      shell: bash
+      env:
+        DOTENV_CONFIG_PATH: ${{ inputs.dotenv_path }}
+        DEBUG: ${{ inputs.debug }}
+        # DB/Redis config for e2e tests
+        DB_HOST: localhost
+        DB_PORT: "8432"
+        DB_USER: liexp
+        DB_PASSWORD: liexp-password
+        DB_DATABASE: liexp_test
+        REDIS_HOST: localhost
+        REDIS_PORT: "6379"
+      run: ${{ inputs.e2e_command }}

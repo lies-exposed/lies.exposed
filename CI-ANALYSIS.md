@@ -13,6 +13,8 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 | 2026-01-29 | Updated setup-workspace (removed sha hash) | `.github/actions/setup-workspace/action.yml` |
 | 2026-01-29 | Updated workflows to use content-based caching | `.github/workflows/pull-request.yml`, `.github/workflows/release-please.yml` |
 | 2026-01-29 | Removed build-api action (replaced by build-service) | `.github/actions/build-api/` (deleted) |
+| 2026-01-29 | New test-service action with spec/e2e support | `.github/actions/test-service/action.yml` (new) |
+| 2026-01-29 | Updated workflow to use test-service with DB config | `.github/workflows/pull-request.yml` |
 
 ## Current Structure Overview
 
@@ -27,6 +29,7 @@ This document analyzes the GitHub Actions CI/CD configuration for the lies.expos
 │   ├── setup-workspace/       # Combined install + build packages
 │   ├── build-packages/        # Shared packages build with content-based caching
 │   ├── build-service/         # Generic service build with content-based caching
+│   ├── test-service/          # Generic test runner with spec/e2e and DB support
 │   ├── docker-build-push/     # Docker build and registry push
 │   └── detect-changes/        # Legacy change detection (unused)
 └── dependabot.yml             # Dependency update automation
