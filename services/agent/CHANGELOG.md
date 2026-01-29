@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.11...agent@0.1.12) (2026-01-28)
+
+
+### Miscellaneous
+
+* **shared:** merge task utils in fp utils ([#3127](https://github.com/lies-exposed/lies.exposed/issues/3127)) ([dd4f906](https://github.com/lies-exposed/lies.exposed/commit/dd4f90624ef87b5864bfb009cc356f8df683470a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.1.12
+    * @liexp/core bumped to 0.1.6
+    * @liexp/io bumped to 0.2.4
+    * @liexp/shared bumped to 0.2.4
+
 ## [0.1.11](https://github.com/lies-exposed/lies.exposed/compare/agent@0.1.10...agent@0.1.11) (2026-01-24)
 
 

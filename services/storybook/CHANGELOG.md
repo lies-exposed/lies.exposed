@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.1.13](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.12...@liexp/storybook@0.1.13) (2026-01-28)
+
+
+### Miscellaneous
+
+* **storybook:** keep track of .env.prod ([#3137](https://github.com/lies-exposed/lies.exposed/issues/3137)) ([05fc3d6](https://github.com/lies-exposed/lies.exposed/commit/05fc3d6ea7e257a874644dff1ce8484bc535a6a5))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.4
+    * @liexp/shared bumped to 0.2.4
+    * @liexp/test bumped to 0.1.12
+    * @liexp/ui bumped to 0.2.4
+
 ## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.11...@liexp/storybook@0.1.12) (2026-01-24)
 
 

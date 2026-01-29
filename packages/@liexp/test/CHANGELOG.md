@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.11...@liexp/test@0.1.12) (2026-01-28)
+
+
+### Miscellaneous
+
+* moved queue implementation from fs to pg ([#3136](https://github.com/lies-exposed/lies.exposed/issues/3136)) ([5d9efc8](https://github.com/lies-exposed/lies.exposed/commit/5d9efc865751e6468b0e883a87005029f4e32802))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.2.4
+
 ## [0.1.11](https://github.com/lies-exposed/lies.exposed/compare/@liexp/test@0.1.10...@liexp/test@0.1.11) (2026-01-24)
 
 

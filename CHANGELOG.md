@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.13](https://github.com/lies-exposed/lies.exposed/compare/0.1.12...0.1.13) (2026-01-28)
+
+
+### Miscellaneous
+
+* **shared:** merge task utils in fp utils ([#3127](https://github.com/lies-exposed/lies.exposed/issues/3127)) ([dd4f906](https://github.com/lies-exposed/lies.exposed/commit/dd4f90624ef87b5864bfb009cc356f8df683470a))
+* split initial docs into sub documents and sub sections ([#3130](https://github.com/lies-exposed/lies.exposed/issues/3130)) ([1609fc7](https://github.com/lies-exposed/lies.exposed/commit/1609fc728dd60cb72690d4151c12ce73b6085507))
+* **storybook:** keep track of .env.prod ([#3137](https://github.com/lies-exposed/lies.exposed/issues/3137)) ([05fc3d6](https://github.com/lies-exposed/lies.exposed/commit/05fc3d6ea7e257a874644dff1ce8484bc535a6a5))
+* **storybook:** sync build output on minio and serve via nginx ([#3131](https://github.com/lies-exposed/lies.exposed/issues/3131)) ([194ccda](https://github.com/lies-exposed/lies.exposed/commit/194ccda0f8f2d7d3408f9d1cdb46ced05babb98f))
+* **workspace:** deploy storybook only on release-please PR merge ([#3145](https://github.com/lies-exposed/lies.exposed/issues/3145)) ([2fccc38](https://github.com/lies-exposed/lies.exposed/commit/2fccc38ceb43d2d1581a53c357f342cb177e1228))
+* **workspace:** reduced k8s services resources ([#3126](https://github.com/lies-exposed/lies.exposed/issues/3126)) ([68fe9d7](https://github.com/lies-exposed/lies.exposed/commit/68fe9d706263710e5713538f5d03d676312293ab))
+* **workspace:** set correct component selector for db-dump and db-prune jobs ([#3132](https://github.com/lies-exposed/lies.exposed/issues/3132)) ([029d461](https://github.com/lies-exposed/lies.exposed/commit/029d46113660a533e0bc922ae83ca993fe396de6))
+
 ## [0.1.12](https://github.com/lies-exposed/lies.exposed/compare/0.1.11...0.1.12) (2026-01-24)
 
 
