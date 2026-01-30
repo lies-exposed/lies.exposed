@@ -3,7 +3,6 @@
   "packages": {
     ".": {
       "component": "lies.exposed",
-      "include-component-in-tag": false,
       "exclude-paths": [
         "packages",
         "services"
@@ -18,87 +17,101 @@
     },
     "packages/@liexp/backend": {
       "component": "@liexp/backend",
+      "skip-github-release": true,
       "include-scope": [
         "backend"
       ]
     },
     "packages/@liexp/core": {
       "component": "@liexp/core",
+      "skip-github-release": true,
       "include-scope": [
         "core"
       ]
     },
     "packages/@liexp/eslint-config": {
       "component": "@liexp/eslint-config",
+      "skip-github-release": true,
       "include-scope": [
         "eslint-config"
       ]
     },
     "packages/@liexp/io": {
       "component": "@liexp/io",
+      "skip-github-release": true,
       "include-scope": [
         "io"
       ]
     },
     "packages/@liexp/shared": {
       "component": "@liexp/shared",
+      "skip-github-release": true,
       "include-scope": [
         "shared"
       ]
     },
     "packages/@liexp/test": {
       "component": "@liexp/test",
+      "skip-github-release": true,
       "include-scope": [
         "test"
       ]
     },
     "packages/@liexp/ui": {
       "component": "@liexp/ui",
+      "skip-github-release": true,
       "include-scope": [
         "ui"
       ]
     },
     "services/admin": {
       "component": "admin",
+      "skip-github-release": true,
       "include-scope": [
         "admin"
       ]
     },
     "services/ai-bot": {
+      "component": "ai-bot",
+      "skip-github-release": true,
       "include-scope": [
         "ai-bot"
-      ],
-      "component": "ai-bot"
+      ]
     },
     "services/api": {
+      "component": "api",
+      "skip-github-release": true,
       "include-scope": [
         "api"
-      ],
-      "component": "api"
+      ]
     },
     "services/web": {
+      "component": "web",
+      "skip-github-release": true,
       "include-scope": [
         "web"
-      ],
-      "component": "web"
+      ]
     },
     "services/worker": {
+      "component": "worker",
+      "skip-github-release": true,
       "include-scope": [
         "worker"
-      ],
-      "component": "worker"
+      ]
     },
     "services/agent": {
+      "component": "agent",
+      "skip-github-release": true,
       "include-scope": [
         "agent"
-      ],
-      "component": "agent"
+      ]
     },
     "services/storybook": {
+      "component": "@liexp/storybook",
+      "skip-github-release": true,
       "include-scope": [
         "storybook"
-      ],
-      "component": "@liexp/storybook"
+      ]
     }
   },
   "bootstrap-sha": "77c2bfdc74c216006260f7e6347e7d8a84f4baaa",
