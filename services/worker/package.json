@@ -1,6 +1,6 @@
 {
   "name": "worker",
-  "version": "0.1.12",
+  "version": "0.2.5",
   "private": true,
   "license": "MIT",
   "author": "Andrea Ascari <dev.ascariandrea@gmail.com>",
