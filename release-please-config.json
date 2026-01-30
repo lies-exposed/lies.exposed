@@ -118,7 +118,7 @@
       "type": "linked-versions",
       "groupName": "monorepo",
       "components": [
-        "lies.exposed",
+        ".",
         "@liexp/backend",
         "@liexp/core",
         "@liexp/eslint-config",
