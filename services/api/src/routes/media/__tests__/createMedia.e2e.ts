@@ -38,9 +38,6 @@ describe("Create Media", () => {
     Test.mocks.axios.get.mockClear();
     Test.mocks.exifR.load.mockClear();
     Test.mocks.s3.client.send.mockClear();
-    Test.mocks.puppeteer.page.goto.mockClear();
-    Test.mocks.puppeteer.page.waitForSelector.mockClear();
-    Test.mocks.puppeteer.page.$eval.mockClear();
     Test.mocks.redis.publish.mockClear();
     mockClear(sharpInstanceMocks);
   });

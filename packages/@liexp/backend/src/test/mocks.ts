@@ -13,7 +13,6 @@ import { fsMock } from "./mocks/fs.mock.js";
 import { igProviderMock } from "./mocks/ig.mock.js";
 import NLPMock from "./mocks/nlp.mock.js";
 import { pdfJsMock } from "./mocks/pdfjs.mock.js";
-import puppeteerMock from "./mocks/puppeteer.mock.js";
 import { queueFSMock } from "./mocks/queue.mock.js";
 import { redisMock } from "./mocks/redis.mock.js";
 import { s3Mock } from "./mocks/s3.mock.js";
@@ -49,7 +48,6 @@ export interface DepsMocks {
     fetchHTML: typeof fetchHTML;
     fetchMetadata: typeof fetchMetadata;
   };
-  puppeteer: typeof puppeteerMock;
   exifR: typeof exifRMock;
   sharp: typeof sharpMock;
   queueFS: typeof queueFSMock;
@@ -78,7 +76,6 @@ export const mocks: DepsMocks = {
     fetchMetadata: fetchMetadata,
   },
   redis: redisMock,
-  puppeteer: puppeteerMock,
   ner: NLPMock,
   sharp: sharpMock,
   exifR: exifRMock,

@@ -2,6 +2,7 @@ import type { AddressInfo } from "net";
 import type { Server } from "node:http";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
+import puppeteerMock from "@liexp/backend/lib/test/mocks/puppeteer.mock.js";
 import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
@@ -69,9 +70,9 @@ export const loadAgentContext = async (
     jwt: GetJWTProvider({ secret: "test-secret", logger }),
     http: HTTPProvider(mocks.axios as any as AxiosInstance),
     puppeteer: GetPuppeteerProvider(
-      mocks.puppeteer,
+      puppeteerMock,
       { headless: "shell" },
-      mocks.puppeteer.devices,
+      puppeteerMock.devices,
     ),
     langchain: {} as any,
     agent: createMockAgentProvider() as any,

@@ -20,6 +20,7 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
+import puppeteerMock from "@liexp/backend/lib/test/mocks/puppeteer.mock.js";
 import { mocks, type DepsMocks } from "@liexp/backend/lib/test/mocks.js";
 import {
   getDataSource,
@@ -72,9 +73,9 @@ export const loadAppContext = async (
       redis,
       ffmpeg: GetFFMPEGProvider(mocks.ffmpeg),
       puppeteer: GetPuppeteerProvider(
-        mocks.puppeteer,
+        puppeteerMock,
         { headless: "shell" },
-        mocks.puppeteer.devices,
+        puppeteerMock.devices,
       ),
       tg: mocks.tg,
       s3: MakeSpaceProvider(mocks.s3),
