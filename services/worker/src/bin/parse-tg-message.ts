@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { parseTGMessageFlow } from "@liexp/backend/lib/flows/tg/parseMessages.flow.js";
+import { parseTGMessageFileFlow } from "@liexp/backend/lib/flows/tg/parseMessages.flow.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { separateTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type CommandFlow } from "./command.type.js";
@@ -41,7 +41,7 @@ export const parseTGMessage: CommandFlow = async (ctx, args): Promise<any> => {
 
   const result = await pipe(
     messageFile.map((f) =>
-      parseTGMessageFlow(path.resolve(messagesFolder, f), deleteFile)(ctx),
+      parseTGMessageFileFlow(path.resolve(messagesFolder, f), deleteFile)(ctx),
     ),
     separateTE,
     fp.T.map(({ left, right }) => {

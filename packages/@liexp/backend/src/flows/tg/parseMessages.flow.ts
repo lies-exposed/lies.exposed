@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type ConfigContext } from "../../context/config.context.js";
@@ -24,7 +23,7 @@ import {
   type EventResult,
 } from "./createFromTGMessage.flow.js";
 
-export const parseTGMessageFlow = <
+export const parseTGMessageFileFlow = <
   C extends TGBotProviderContext &
     LoggerContext &
     FSClientContext &
@@ -46,11 +45,7 @@ export const parseTGMessageFlow = <
   return pipe(
     fp.RTE.ask<C>(),
     LoggerService.RTE.debug(["Parsing file %s", filePath]),
-    fp.RTE.chainIOEitherK(() =>
-      fp.IOE.tryCatch(() => {
-        return fs.readFileSync(filePath, "utf-8");
-      }, toTGError),
-    ),
+    fp.RTE.chainTaskEitherK((ctx) => ctx.fs.getObject(filePath)),
     fp.RTE.chain((message) =>
       pipe(
         createFromTGMessage<C>(JSON.parse(message), {
@@ -64,11 +59,7 @@ export const parseTGMessageFlow = <
         return pipe(
           fp.RTE.ask<C>(),
           LoggerService.RTE.debug(["Deleting file %s", filePath]),
-          fp.RTE.chainIOEitherK((_r) =>
-            fp.IOE.tryCatch(() => {
-              fs.rmSync(filePath);
-            }, toTGError),
-          ),
+          fp.RTE.chainTaskEitherK((_r) => _r.fs.deleteObject(filePath)),
         );
       }
       return fp.RTE.right(undefined);
