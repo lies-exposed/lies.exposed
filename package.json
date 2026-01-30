@@ -1,6 +1,6 @@
 {
   "name": "lies.exposed",
-  "version": "0.1.13",
+  "version": "0.2.5",
   "private": true,
   "description": "lies.exposed project monorepo",
   "repository": "git@github.com:lies.exposed/lies-exposed.git",

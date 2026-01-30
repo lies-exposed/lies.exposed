@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/api@0.2.4...api@0.2.5) (2026-01-30)
+
+
+### Miscellaneous
+
+* **api:** removed puppeteer and puppeteer-extra deps and dead code ([#3149](https://github.com/lies-exposed/lies.exposed/issues/3149)) ([1a6ddab](https://github.com/lies-exposed/lies.exposed/commit/1a6ddabb6a28d42727b94954035f197b4f3646e5))
+* **workspace:** removed fs direct import in flows ([#3150](https://github.com/lies-exposed/lies.exposed/issues/3150)) ([0aa2bcf](https://github.com/lies-exposed/lies.exposed/commit/0aa2bcf479cbce4efe87912e93171b473166d84b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.2.5
+    * @liexp/core bumped to 0.2.5
+    * @liexp/io bumped to 0.2.5
+    * @liexp/shared bumped to 0.2.5
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.2.5
+    * @liexp/test bumped to 0.2.5
+
 ## [0.2.4](https://github.com/lies-exposed/lies.exposed/compare/api@0.2.3...api@0.2.4) (2026-01-28)
 
 
