@@ -1,3 +1,4 @@
+import * as path from "path";
 import { CreateEntityStatsPubSub } from "@liexp/backend/lib/pubsub/stats/createEntityStats.pubSub.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
@@ -5,7 +6,6 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { type Route } from "../route.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
-import * as path from "path";
 
 export const MakeGetStatsRoute: Route = (r, ctx) => {
   AddEndpoint(r)(Endpoints.Stats.List, ({ query: { id, type } }) => {
