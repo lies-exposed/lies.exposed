@@ -3,6 +3,7 @@ import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import { ImageType } from "@liexp/io/lib/http/Media/index.js";
+import { Link } from "@liexp/io/lib/http/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
@@ -87,6 +88,7 @@ export const fromURL =
         return {
           id: uuid(),
           title: link.title,
+          status: Link.DRAFT.literals[0],
           url: urll,
           description: link.description ?? link.title,
           publishDate,

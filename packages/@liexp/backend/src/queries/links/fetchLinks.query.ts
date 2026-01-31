@@ -17,6 +17,7 @@ import { addOrder } from "../../utils/orm.utils.js";
 export const getListQueryEmpty: GetListLinkQuery = {
   q: O.none(),
   ids: O.none(),
+  status: O.none(),
   _sort: O.none(),
   _order: O.none(),
   onlyDeleted: O.none(),
@@ -43,6 +44,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
     events,
     keywords,
     ids,
+    status,
     q: search,
     emptyEvents,
     eventsCount,
@@ -109,8 +111,36 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
           (q) => {
             let hasWhere = false;
 
+            if (O.isSome(ids) && ids.value.length > 0) {
+              if (hasWhere) {
+                q.andWhere("link.id IN (:...ids)", {
+                  ids: ids.value,
+                });
+              } else {
+                q.where("link.id IN (:...ids)", {
+                  ids: ids.value,
+                });
+              }
+              hasWhere = true;
+            }
+
+            if (O.isSome(status)) {
+              if (hasWhere) {
+                q.andWhere("link.status IN (:...status)", {
+                  status: status.value,
+                });
+              } else {
+                q.where("link.status IN (:...status)", {
+                  status: status.value,
+                });
+              }
+              hasWhere = true;
+            }
+
             if (O.isSome(search)) {
-              q.where(
+              const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
+
+              where(
                 "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
                 {
                   q: `%${search.value.toLowerCase()}%`,
@@ -153,19 +183,6 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
               } else {
                 q.where("link.url = :url", {
                   url: url.value,
-                });
-                hasWhere = true;
-              }
-            }
-
-            if (O.isSome(ids) && ids.value.length > 0) {
-              if (hasWhere) {
-                q.andWhere("link.id IN (:...ids)", {
-                  ids: ids.value,
-                });
-              } else {
-                q.where("link.id IN (:...ids)", {
-                  ids: ids.value,
                 });
                 hasWhere = true;
               }

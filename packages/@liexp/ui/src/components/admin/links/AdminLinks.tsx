@@ -1,3 +1,4 @@
+import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { Box, Card, CardContent, Icons } from "../../mui/index.js";
@@ -62,6 +63,14 @@ const LinkListAside: React.FC = () => {
           <FilterListItem label="No Events" value={{ emptyEvents: true }} />
         </FilterList>
         <FilterList label="Status" icon={<Icons.Assignment />}>
+          <FilterListItem
+            label="Draft"
+            value={{ status: [Link.DRAFT.literals[0]] }}
+          />
+          <FilterListItem
+            label="Approved"
+            value={{ status: [Link.APPROVED.literals[0]] }}
+          />
           <FilterListItem label="Deleted" value={{ onlyDeleted: true }} />
           <FilterListItem label="Unshared" value={{ onlyUnshared: true }} />
           <FilterListItem
