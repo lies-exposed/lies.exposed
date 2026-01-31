@@ -76,7 +76,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 data:
   config.yaml: |
-    tunnel: home-server-cluster
+    tunnel: lies-exposed-tunnel
     credentials-file: /etc/cloudflared/creds/credentials.json
     # metrics: 0.0.0.0:2000
     # no-autoupdate: true
