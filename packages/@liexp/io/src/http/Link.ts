@@ -12,12 +12,25 @@ import {
 export const LINKS = Schema.Literal("links");
 export type LINKS = typeof LINKS.Type;
 
+export const DRAFT = Schema.Literal("DRAFT");
+export type DRAFT = typeof DRAFT.Type;
+export const APPROVED = Schema.Literal("APPROVED");
+export type APPROVED = typeof APPROVED.Type;
+export const UNAPPROVED = Schema.Literal("UNAPPROVED");
+export type UNAPPROVED = typeof UNAPPROVED.Type;
+
+export const Status = Schema.Union(DRAFT, APPROVED, UNAPPROVED).annotations({
+  title: "LinkStatus",
+});
+export type Status = typeof Status.Type;
+
 export const GetListLinkQuery = Schema.Struct({
   ...GetListQueryDateRange.fields,
   ...GetListQueryKeywords.fields,
   ...GetListQueryEvents.fields,
   ...GetListQuery.fields,
   ids: OptionFromNullishToNull(Schema.Array(UUID)),
+  status: OptionFromNullishToNull(Schema.Array(Status)),
   provider: OptionFromNullishToNull(UUID),
   creator: OptionFromNullishToNull(UUID),
   url: OptionFromNullishToNull(URL),
@@ -33,6 +46,7 @@ export type GetListLinkQuery = typeof GetListLinkQuery.Type;
 
 export const CreateLink = Schema.Struct({
   url: URL,
+  status: Status,
   publishDate: Schema.Union(Schema.Date, Schema.Undefined).annotations({
     title: "PublishDate",
   }),
