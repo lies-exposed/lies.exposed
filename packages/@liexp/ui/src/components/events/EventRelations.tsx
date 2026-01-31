@@ -1,9 +1,9 @@
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { type Events } from "@liexp/io/lib/http/index.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
-import { Schema } from "effect";
+import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { skipQueryIfEmpty } from "../../utils/query.utils.js";
 import QueriesRenderer from "../QueriesRenderer.js";
 
 export const EventRelations: React.FC<{
@@ -14,73 +14,76 @@ export const EventRelations: React.FC<{
     },
   ) => React.ReactElement;
 }> = ({ event, children }) => {
-  const { actors, groups, media, links, groupsMembers } = getRelationIds(event);
+  const { actors, groups, keywords, media, links, areas, groupsMembers } =
+    getRelationIds(event);
 
   return (
     <QueriesRenderer
       queries={(Q) => ({
-        actors: Q.Actor.list.useQuery(
-          undefined,
-          {
-            ids: actors,
-            _end: actors.length.toString(),
-          },
-          true,
+        actors: pipe(
+          Q.Actor.list.useQuery(
+            undefined,
+            { ids: actors, _end: actors.length.toString() },
+            true,
+          ),
+          skipQueryIfEmpty(actors),
         ),
-        groups: Q.Group.list.useQuery(
-          undefined,
-          {
-            ids: groups,
-            _end: groups.length.toString(),
-          },
-          true,
+        groups: pipe(
+          Q.Group.list.useQuery(
+            undefined,
+            { ids: groups, _end: groups.length.toString() },
+            true,
+          ),
+          skipQueryIfEmpty(groups),
         ),
-        groupsMembers: Q.GroupMember.list.useQuery(
-          undefined,
-          {
-            ids: groupsMembers,
-            _end: groupsMembers.length.toString(),
-          },
-          true,
+        groupsMembers: pipe(
+          Q.GroupMember.list.useQuery(
+            undefined,
+            { ids: groupsMembers, _end: groupsMembers.length.toString() },
+            true,
+          ),
+          skipQueryIfEmpty(groupsMembers),
         ),
-        media: Q.Media.list.useQuery(
-          undefined,
-          {
-            ids: media,
-            _end: media.length.toString(),
-            _sort: "createdAt",
-            _order: "DESC",
-          },
-
-          true,
+        media: pipe(
+          Q.Media.list.useQuery(
+            undefined,
+            {
+              ids: media,
+              _end: media.length.toString(),
+              _sort: "createdAt",
+              _order: "DESC",
+            },
+            true,
+          ),
+          skipQueryIfEmpty(media),
         ),
-        links: Q.Link.list.useQuery(
-          undefined,
-          {
-            ids: links,
-            _end: links.length.toString(),
-            _sort: "createdAt",
-            _order: "DESC",
-          },
-          true,
+        links: pipe(
+          Q.Link.list.useQuery(
+            undefined,
+            {
+              ids: links,
+              _end: links.length.toString(),
+              _sort: "createdAt",
+              _order: "DESC",
+            },
+            true,
+          ),
+          skipQueryIfEmpty(links),
         ),
-        keywords: Q.Keyword.list.useQuery(
-          undefined,
-          {
-            ids: event.keywords,
-            _end: event.keywords.length.toString(),
-          },
-          true,
+        keywords: pipe(
+          Q.Keyword.list.useQuery(
+            undefined,
+            {
+              ids: keywords,
+              _end: keywords.length.toString(),
+            },
+            true,
+          ),
+          skipQueryIfEmpty(keywords),
         ),
-        areas: Q.Area.list.useQuery(
-          undefined,
-          {
-            ids: Schema.is(UUID)((event.payload as any).location)
-              ? [(event.payload as any).location]
-              : [],
-            _end: "10",
-          },
-          true,
+        areas: pipe(
+          Q.Area.list.useQuery(undefined, { ids: areas, _end: "10" }, true),
+          skipQueryIfEmpty(areas),
         ),
       })}
       render={({
