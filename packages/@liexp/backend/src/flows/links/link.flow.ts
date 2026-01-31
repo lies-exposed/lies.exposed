@@ -139,18 +139,22 @@ export const fetchAndSave = <
         where: { url: Equal(sanitizedURL) },
       }),
     ),
-    fp.RTE.chain((optLink) => (ctx) => {
+    fp.RTE.chain((optLink) => {
       if (fp.O.isSome(optLink)) {
-        ctx.logger.debug.log("Link found! %s", optLink.value.id);
-        return fp.TE.right(optLink.value);
+        return pipe(
+          fp.RTE.Do,
+          LoggerService.RTE.debug(["Link found! %s", optLink.value.id]),
+          fp.RTE.map(() => optLink.value),
+        );
       }
 
-      ctx.logger.debug.log("Link not found, fetching...");
       return pipe(
-        fromURL(u, url, undefined)(ctx),
-        fp.TE.mapLeft(ServerError.fromUnknown),
-        fp.TE.chain((l) => LinkRepository.save([l])(ctx)),
-        fp.TE.map((ll) => ll[0]),
+        fp.RTE.Do,
+        LoggerService.RTE.debug("Link not found, fetching..."),
+        fp.RTE.chain(() => fromURL(u, url, undefined)),
+        fp.RTE.mapLeft(ServerError.fromUnknown),
+        fp.RTE.chain((l) => LinkRepository.save<C>([l])),
+        fp.RTE.map((ll) => ll[0]),
       );
     }),
   );
