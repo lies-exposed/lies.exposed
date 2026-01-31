@@ -47,6 +47,9 @@ describe("link.flow", () => {
           url: url as string,
           image: null,
           keywords: ["test", "keyword"],
+          icon: "",
+          provider: undefined,
+          type: "article",
         }),
       );
 
@@ -252,12 +255,13 @@ describe("link.flow", () => {
           url: url as string,
           image: null,
           keywords: [],
+          icon: "",
+          provider: undefined,
+          type: "article",
         }),
       );
 
-      let savedLink: LinkEntity[] = [];
       mockTERightOnce(appTest.ctx.db.save, (_, links) => {
-        savedLink = links as LinkEntity[];
         return links;
       });
 
