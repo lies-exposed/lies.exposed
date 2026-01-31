@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...lies.exposed@0.2.6) (2026-01-31)
+
+
+### Miscellaneous
+
+* renamed cloudflared tunnel name to 'lies-exposed-tunnel' ([#3155](https://github.com/lies-exposed/lies.exposed/issues/3155)) ([f9d5f8a](https://github.com/lies-exposed/lies.exposed/commit/f9d5f8a19826273a91b943efd627d0b2ed89a817))
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.1.13...lies.exposed@0.2.5) (2026-01-30)
 
 

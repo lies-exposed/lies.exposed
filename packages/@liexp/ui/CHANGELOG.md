@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/ui@0.2.6) (2026-01-31)
+
+
+### Bug Fixes
+
+* **ui:** handle empty event relations in EventRelations component ([#3152](https://github.com/lies-exposed/lies.exposed/issues/3152)) ([95a7638](https://github.com/lies-exposed/lies.exposed/commit/95a7638c84a478d82a0b94d6532e4d3fc0b08d19))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.2.6
+    * @liexp/io bumped to 0.2.6
+    * @liexp/shared bumped to 0.2.6
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.2.6
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.4...@liexp/ui@0.2.5) (2026-01-30)
 
 
