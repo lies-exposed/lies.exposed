@@ -52,7 +52,6 @@ const EventPreview: React.FC<EventPreviewProps> = ({ event }) => {
       pipe(getRelationIds(result), E.right<ParseError, EventRelationIds>),
     ),
     E.fold(ValidationErrorsLayout, ({ result, relations }) => {
-      console.log(result, relations);
       return (
         <HelmetProvider>
           <ThemeProvider theme={ECOTheme}>
