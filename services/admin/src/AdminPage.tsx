@@ -18,6 +18,7 @@ import {
   UncategorizedEventIcon,
   UserIcon,
 } from "@liexp/ui/lib/components/Common/Icons/index.js";
+import { VersionDisplay } from "@liexp/ui/lib/components/VersionDisplay.js";
 import {
   Admin,
   CheckForApplicationUpdate,
@@ -38,6 +39,7 @@ import {
   QueueIcon,
   SettingsIcon,
 } from "@liexp/ui/lib/components/mui/icons.js";
+import { Box } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import * as React from "react";
@@ -378,6 +380,9 @@ const MyMenu: React.FC<MenuProps> = () => (
   <Menu>
     <Menu.DashboardItem />
     <Menu.ResourceItems />
+    <Box sx={{ mt: "auto", p: 2, borderTop: 1, borderColor: "divider" }}>
+      <VersionDisplay style={{ fontSize: 11 }} />
+    </Box>
   </Menu>
 );
 const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
