@@ -6,6 +6,7 @@ import {
   InstagramIcon,
   TelegramIcon,
 } from "./Common/Icons/index.js";
+import { VersionDisplay } from "./VersionDisplay.js";
 import {
   Box,
   Container,
@@ -128,6 +129,13 @@ export const Footer: React.FC<{
               >
                 Donate
               </Typography>
+            </Box>
+            <Box style={{ marginTop: theme.spacing(2) }}>
+              <VersionDisplay
+                style={{
+                  color: theme.palette.common.white,
+                }}
+              />
             </Box>
           </Grid>
 

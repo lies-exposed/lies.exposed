@@ -1,5 +1,11 @@
 import * as React from "react";
 
+export interface VersionInfo {
+  version: string;
+  commitHash: string;
+  githubUrl: string;
+}
+
 export interface Configuration {
   publicUrl: string;
   mode: string;
@@ -17,6 +23,7 @@ export interface Configuration {
       author: string;
     };
   };
+  version: VersionInfo;
 }
 
 export const defaultConfiguration: Configuration = {
@@ -39,6 +46,11 @@ export const defaultConfiguration: Configuration = {
         "A chronological exposure of lies perpetrated against humanity.",
       author: "lies.exposed",
     },
+  },
+  version: {
+    version: "0.0.0",
+    commitHash: "unknown",
+    githubUrl: "https://github.com/lies-exposed/lies-exposed",
   },
 };
 
