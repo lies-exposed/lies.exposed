@@ -36,7 +36,7 @@
     "dev": "node --watch build/run.js",
     "dev:alpha": "DOTENV_CONFIG_PATH=.env.prod pnpm dev",
     "docker:dev": "pnpm dev",
-    "lint": "eslint src",
+    "lint": "eslint --cache src",
     "migration:gen": "pnpm typeorm-ts migration:generate -d ./ormconfig.js",
     "migration:revert": "pnpm typeorm-ts migration:revert -d ./ormconfig.js",
     "migration:run": "pnpm typeorm-ts migration:run -d ./ormconfig.js",
@@ -54,7 +54,7 @@
     "watch:dev": "tsc -b --watch"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
     "@liexp/backend": "workspace:*",
