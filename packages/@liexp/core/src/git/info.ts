@@ -1,6 +1,6 @@
 import { execSync } from "child_process";
-import { pipe } from "fp-ts/lib/function.js";
 import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 
 const runCmd = (cmd: string) =>
   E.tryCatch(
