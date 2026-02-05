@@ -24,7 +24,7 @@
     "deploy:setup": "./deploy/setup.sh",
     "format": "pnpm -r run format",
     "lint": "pnpm -r run lint",
-    "lint:all": "eslint -c eslint.config.js",
+    "lint:all": "eslint --cache -c eslint.config.js",
     "lint:changed": "./scripts/lint-changed.sh",
     "corepack": "corepack",
     "corepack:up": "corepack use pnpm@latest-10 && npm -r -c exec 'corepack use pnpm@latest-10'",

@@ -15,12 +15,12 @@
     "build:app": "storybook build -o build",
     "clean": "rm -rf build && rm -rf node_modules/.cache/storybook",
     "dev": "storybook dev -p 6006 --host storybook.liexp.dev",
-    "lint": "eslint",
+    "lint": "eslint --cache",
     "sb": "storybook",
     "test": "echo 'No tests configured for storybook'"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",

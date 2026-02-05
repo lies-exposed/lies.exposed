@@ -119,7 +119,7 @@ for PACKAGE_DIR in "${!PACKAGE_FILES[@]}"; do
 
     # Run eslint from the package directory
     # shellcheck disable=SC2086
-    if ! (cd "$PACKAGE_DIR" && pnpm eslint $FIX_FLAG $FILES_TRIMMED); then
+    if ! (cd "$PACKAGE_DIR" && pnpm eslint --cache $FIX_FLAG $FILES_TRIMMED); then
       EXIT_STATUS=1
     fi
   fi

@@ -21,7 +21,7 @@
     "clean": "rm -rf build",
     "dev": "DOTENV_CONFIG_PATH=.env node --import tsx/esm -r dotenv/config --watch-path=./src ./src/server/server.tsx",
     "docker:dev": "tsx --tsconfig tsconfig.server.json -r dotenv/config --watch-path=./src ./src/server/server.tsx",
-    "lint": "eslint src",
+    "lint": "eslint --cache src",
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
     "test": "vitest",
@@ -31,7 +31,7 @@
     "watch:client": "DOTENV_CONFIG_PATH=.env.development vite dev"
   },
   "lint-staged": {
-    "src/**/*.(ts|tsx|js|jsx)": "eslint --fix"
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "browserslist": {
     "production": [
