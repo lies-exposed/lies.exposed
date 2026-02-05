@@ -32,6 +32,11 @@ RUN pnpm api --prod deploy --legacy /prod/api
 
 FROM node:24-alpine AS production
 
+ARG VERSION
+ARG COMMIT_HASH
+ENV VERSION=${VERSION}
+ENV COMMIT_HASH=${COMMIT_HASH}
+
 WORKDIR /prod/api
 
 COPY --from=pruned /prod/api .

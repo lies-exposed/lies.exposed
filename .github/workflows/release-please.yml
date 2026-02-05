@@ -159,3 +159,5 @@ jobs:
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
             VITE_VERSION=${{ steps.pkg-version.outputs.version }}
             VITE_COMMIT_HASH=${{ github.sha }}
+            VERSION=${{ steps.pkg-version.outputs.version }}
+            COMMIT_HASH=${{ github.sha }}
