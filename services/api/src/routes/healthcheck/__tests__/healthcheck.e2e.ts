@@ -8,10 +8,14 @@ describe("Healthcheck route", () => {
     Test = await GetAppTest();
   });
 
-  test("GET /v1/healthcheck should return 200 and OK status", async () => {
+  test("GET /v1/healthcheck should return 200 and OK status with version info", async () => {
     const res = await Test.req.get("/v1/healthcheck");
     expect(res.status).toEqual(200);
     expect(res.body).toHaveProperty("data");
-    expect(res.body.data).toMatchObject({ status: "OK" });
+    expect(res.body.data).toMatchObject({
+      status: "OK",
+      version: expect.any(String),
+      commitHash: expect.any(String),
+    });
   });
 });

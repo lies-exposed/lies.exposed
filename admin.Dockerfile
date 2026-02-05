@@ -23,6 +23,8 @@ CMD ["pnpm", "admin", "docker:dev"]
 FROM dev AS build
 
 ARG DOTENV_CONFIG_PATH=".env"
+ARG VITE_VERSION
+ARG VITE_COMMIT_HASH
 
 RUN pnpm admin build
 

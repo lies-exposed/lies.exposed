@@ -1,6 +1,12 @@
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
+import { getGitInfo } from "@liexp/core/lib/git/info.js";
 import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
+
+// Set version env vars if not already set
+const gitInfo = getGitInfo();
+process.env.VITE_VERSION ??= gitInfo.version;
+process.env.VITE_COMMIT_HASH ??= gitInfo.commitHash;
 
 export const AppEnv = defineEnv((Schema) => ({
   VITE_NODE_ENV: Schema.String,
@@ -8,6 +14,8 @@ export const AppEnv = defineEnv((Schema) => ({
   VITE_API_URL: Schema.String,
   VITE_ADMIN_URL: Schema.String,
   VITE_DEBUG: Schema.String,
+  VITE_VERSION: Schema.String,
+  VITE_COMMIT_HASH: Schema.String,
 }));
 
 export const port =

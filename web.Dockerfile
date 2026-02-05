@@ -26,6 +26,8 @@ CMD ["pnpm", "docker:dev"]
 FROM dev AS build
 
 ARG DOTENV_CONFIG_PATH=".env"
+ARG VITE_VERSION
+ARG VITE_COMMIT_HASH
 
 ENV VITE_NODE_ENV=production
 
