@@ -1,32 +1,41 @@
 import { execSync } from "child_process";
+import { pipe } from "fp-ts/lib/function.js";
+import * as E from "fp-ts/lib/Either.js";
 
-// Get version info from git at build time
-export const getGitInfo = (): { version: string; commitHash: string } => {
-  try {
-    const commitHash = execSync("git rev-parse HEAD", {
-      encoding: "utf-8",
-    }).trim();
-    // Try to get version from git describe, fallback to package.json version
-    let version: string;
-    try {
-      version = execSync("git describe --tags --abbrev=0", {
-        encoding: "utf-8",
-      }).trim();
-      // Remove 'lies.exposed@' prefix if present
-      version = version.replace(/^lies\.exposed@/, "");
-    } catch {
-      // No tags, try to read from package.json
-      try {
-        const pkg = JSON.parse(
-          execSync("cat package.json", { encoding: "utf-8" }),
-        );
-        version = pkg.version ?? "0.0.0";
-      } catch {
-        version = "0.0.0";
-      }
-    }
-    return { version, commitHash };
-  } catch {
-    return { version: "0.0.0", commitHash: "unknown" };
-  }
+const runCmd = (cmd: string) =>
+  E.tryCatch(
+    () => execSync(cmd, { encoding: "utf-8" }).toString().trim(),
+    (e) => e as Error,
+  );
+
+interface GitInfo {
+  version: string;
+  commitHash: string;
+}
+// Get version info from git at build time (fp-style)
+export const getGitInfo = (): GitInfo => {
+  const commitHash = pipe(
+    runCmd("git rev-parse HEAD"),
+    E.getOrElse(() => "unknown"),
+  );
+
+  const version = pipe(
+    runCmd("git describe --tags --abbrev=0"),
+    E.map((v) => v.replace(/^lies\.exposed@/, "")),
+    E.orElse(() =>
+      pipe(
+        runCmd("cat package.json"),
+        E.chain((raw) =>
+          E.tryCatch(
+            () => JSON.parse(raw),
+            (e) => e as Error,
+          ),
+        ),
+        E.map((pkg: any) => pkg?.version ?? "0.0.0"),
+      ),
+    ),
+    E.getOrElse(() => "0.0.0"),
+  );
+
+  return { version, commitHash };
 };
