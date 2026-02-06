@@ -27,12 +27,18 @@ import { toError } from "fp-ts/lib/Either";
 import type * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function";
 import * as React from "react";
+import { transformActorRelation } from "../AdminActorRelation";
 
 export const transformActor =
   (dataProvider: APIRESTClient) =>
   async (
     id: string,
-    { newMemberIn = [], newAvatarUpload, ...data }: RaRecord<UUID>,
+    {
+      newMemberIn = [],
+      newRelationsAsSource = [],
+      newAvatarUpload,
+      ...data
+    }: RaRecord<UUID>,
   ): Promise<RaRecord> => {
     if (data._from === "wikipedia") {
       return data;
@@ -103,6 +109,23 @@ export const transformActor =
           fp.TE.map((r) => r.data),
         );
       }),
+      fp.TE.chainFirst(() =>
+        pipe(
+          newRelationsAsSource.map((r: any) =>
+            fp.TE.tryCatch(() => {
+              console.log("r", r);
+              return dataProvider.create("actor-relations", {
+                data: transformActorRelation({
+                  ...r,
+                  actor: { id },
+                  relatedActor: { id: r.relatedActor },
+                }),
+              });
+            }, toError),
+          ),
+          fp.TE.sequenceArray,
+        ),
+      ),
       fp.TE.map(({ avatarMedia }) => ({
         ...data,
         body: data.body,
