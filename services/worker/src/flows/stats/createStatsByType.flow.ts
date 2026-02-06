@@ -244,6 +244,8 @@ export const createStatsByType =
                         ),
                         memberIn: [],
                         nationalities: [],
+                        relationsAsSource: [],
+                        relationsAsTarget: [],
                       })),
                     });
 

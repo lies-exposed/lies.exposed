@@ -36,7 +36,9 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
           em
             .createQueryBuilder(ActorEntity, "actors")
             .leftJoinAndSelect("actors.avatar", "avatar")
-            .loadAllRelationIds({ relations: ["memberIn"] }),
+            .loadAllRelationIds({
+              relations: ["memberIn", "relationsAsSource", "relationsAsTarget"],
+            }),
           (q) => {
             // Join through group_member table if filtering by memberIn
             if (O.isSome(memberIn) && memberIn.value.length > 0) {

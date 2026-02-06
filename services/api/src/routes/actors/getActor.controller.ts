@@ -16,7 +16,12 @@ export const MakeGetActorRoute: Route = (r, ctx) => {
         actor: ctx.db.findOneOrFail(ActorEntity, {
           where: { id: Equal(id) },
           loadRelationIds: {
-            relations: ["memberIn", "nationalities"],
+            relations: [
+              "memberIn",
+              "nationalities",
+              "relationsAsSource",
+              "relationsAsTarget",
+            ],
           },
         }),
         events: ctx.db.find(EventV2Entity, {

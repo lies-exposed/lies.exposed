@@ -1,5 +1,6 @@
 // can use ts paths now
 import * as Actor from "./Actor.js";
+import * as ActorRelation from "./ActorRelation.js";
 import * as Area from "./Area.js";
 import * as Common from "./Common/index.js";
 import * as Error from "./Error/index.js";
@@ -37,6 +38,7 @@ export {
   Graph,
   Group,
   GroupMember,
+  ActorRelation,
   Keyword,
   Link,
   Media,

@@ -71,6 +71,8 @@ describe("List Group Member", () => {
           events: _actorEvents,
           stories: _actorStories,
           nationalities: _nationalities,
+          relationsAsSource: _relationsAsSource,
+          relationsAsTarget: _relationsAsTarget,
           ...expectedActor
         },
         group: {

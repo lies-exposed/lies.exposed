@@ -70,10 +70,10 @@ export const AddActorBody = Schema.Struct({
   avatar: Schema.Union(UUID, CreateMedia, Schema.Undefined).annotations({
     description: "Avatar media UUID or media creation object",
   }),
-  bornOn: Schema.Union(Schema.Date, Schema.Undefined).annotations({
+  bornOn: Schema.Union(Schema.DateFromString, Schema.Undefined).annotations({
     description: "Birth date",
   }),
-  diedOn: Schema.Union(Schema.Date, Schema.Undefined).annotations({
+  diedOn: Schema.Union(Schema.DateFromString, Schema.Undefined).annotations({
     description: "Death date (if applicable)",
   }),
 }).annotations({
@@ -198,16 +198,6 @@ const actorFields = {
   }),
 };
 
-// Type interface for Actor (decoded/application type)
-export interface Actor extends Schema.Struct.Type<typeof actorFields> {
-  readonly memberIn: readonly (Schema.Schema.Type<typeof UUID> | GroupMember)[];
-  readonly excerpt: Schema.Schema.Type<typeof BlockNoteDocument> | null;
-  readonly body: Schema.Schema.Type<typeof BlockNoteDocument> | null;
-  readonly bornOn: Date | undefined;
-  readonly diedOn: Date | undefined;
-  readonly death: Schema.Schema.Type<typeof UUID> | undefined;
-}
-
 // Encoded interface for Actor (wire format)
 export interface ActorEncoded extends Schema.Struct.Encoded<
   typeof actorFields
@@ -216,6 +206,8 @@ export interface ActorEncoded extends Schema.Struct.Encoded<
     | Schema.Schema.Encoded<typeof UUID>
     | GroupMemberEncoded
   )[];
+  readonly relationsAsSource: readonly Schema.Schema.Encoded<typeof UUID>[];
+  readonly relationsAsTarget: readonly Schema.Schema.Encoded<typeof UUID>[];
   readonly excerpt: Schema.Schema.Encoded<typeof BlockNoteDocument> | null;
   readonly body: Schema.Schema.Encoded<typeof BlockNoteDocument> | null;
   readonly bornOn: string | undefined;
@@ -236,6 +228,12 @@ export const Actor = Schema.Struct({
       }),
     ),
   ),
+  relationsAsSource: Schema.Array(UUID).annotations({
+    description: "Array of actor relation UUIDs where this actor is the source",
+  }),
+  relationsAsTarget: Schema.Array(UUID).annotations({
+    description: "Array of actor relation UUIDs where this actor is the target",
+  }),
   excerpt: Schema.Union(BlockNoteDocument, Schema.Null).annotations({
     description: "Short description of the actor as BlockNote document",
   }),
@@ -255,3 +253,14 @@ export const Actor = Schema.Struct({
   title: "Actor",
   description: "Complete actor entity with all properties",
 });
+
+// Type interface for Actor (decoded/application type)
+// export interface Actor extends Schema.Struct.Type<typeof actorFields> {
+//   readonly memberIn: readonly (Schema.Schema.Type<typeof UUID> | GroupMember)[];
+//   readonly excerpt: Schema.Schema.Type<typeof BlockNoteDocument> | null;
+//   readonly body: Schema.Schema.Type<typeof BlockNoteDocument> | null;
+//   readonly bornOn: Date | undefined;
+//   readonly diedOn: Date | undefined;
+//   readonly death: Schema.Schema.Type<typeof UUID> | undefined;
+// }
+export type Actor = typeof Actor.Type;
