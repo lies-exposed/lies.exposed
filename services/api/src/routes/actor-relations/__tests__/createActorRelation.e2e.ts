@@ -95,6 +95,21 @@ describe("Create Actor Relation", () => {
   });
 
   test("Should return 400 when duplicate relation exists", async () => {
+    // First, create the relation within this test's transaction
+    const firstResponse = await Test.req
+      .post("/v1/actor-relations")
+      .set("Authorization", authorizationToken)
+      .send({
+        actor: actors[0].id,
+        relatedActor: actors[1].id,
+        type: ActorRelationType.members[0].literals[0],
+        startDate: new Date().toISOString(),
+        excerpt: toInitialValue("Original relation"),
+      });
+
+    expect(firstResponse.status).toEqual(201);
+
+    // Then, attempt to create the same relation again
     const response = await Test.req
       .post("/v1/actor-relations")
       .set("Authorization", authorizationToken)
