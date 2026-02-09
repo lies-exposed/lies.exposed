@@ -5,6 +5,7 @@ import * as OpenGraph from "./OpenGraph.endpoints.js";
 import * as Stats from "./Stats.endpoints.js";
 import * as User from "./User.endpoints.js";
 import * as Actor from "./actor.endpoints.js";
+import * as ActorRelation from "./actorRelation.endpoints.js";
 import * as Admins from "./admin.endpoints.js";
 import * as Area from "./area.endpoints.js";
 import * as BookEvent from "./events/book.endpoints.js";
@@ -34,6 +35,7 @@ interface Endpoints extends EndpointsMapType {
   Admin: typeof Admins.admin;
   User: typeof User.users;
   Actor: typeof Actor.actors;
+  ActorRelation: typeof ActorRelation.actorRelations;
   Area: typeof Area.areas;
   Group: typeof Group.groups;
   GroupMember: typeof GroupMember.groupsMembers;
@@ -72,6 +74,7 @@ const Endpoints: Endpoints = {
   Area: Area.areas,
   Group: Group.groups,
   GroupMember: GroupMember.groupsMembers,
+  ActorRelation: ActorRelation.actorRelations,
   Media: Media.media,
   Keyword: Keyword.keywords,
   Link: Link.links,

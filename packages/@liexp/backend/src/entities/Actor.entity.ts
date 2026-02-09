@@ -11,6 +11,7 @@ import {
   OneToOne,
   type Relation,
 } from "typeorm";
+import { ActorRelationEntity } from "./ActorRelation.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { GroupMemberEntity } from "./GroupMember.entity.js";
 import { MediaEntity } from "./Media.entity.js";
@@ -51,6 +52,18 @@ export class ActorEntity extends DeletableEntity {
     nullable: true,
   })
   memberIn: Relation<GroupMemberEntity[]>;
+
+  @OneToMany(() => ActorRelationEntity, (r) => r.actor, {
+    cascade: ["insert", "soft-remove", "remove"],
+    nullable: true,
+  })
+  relationsAsSource: Relation<ActorRelationEntity[]>;
+
+  @OneToMany(() => ActorRelationEntity, (r) => r.relatedActor, {
+    cascade: ["insert", "soft-remove", "remove"],
+    nullable: true,
+  })
+  relationsAsTarget: Relation<ActorRelationEntity[]>;
 
   @ManyToMany(() => EventV2Entity, (e) => e.actors, {
     cascade: false,

@@ -4,9 +4,11 @@ import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { OpenAISummarizeQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
-import { EntitreeGraph } from "@liexp/ui/lib/components/Common/Graph/Flow/EntitreeGraph/EntitreeGraph.js";
+import { ActorFamilyTree } from "@liexp/ui/lib/components/actors/ActorFamilyTree.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import { MergeActorButton } from "@liexp/ui/lib/components/admin/actors/MergeActorButton.js";
+import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
+import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
 import { EditForm } from "@liexp/ui/lib/components/admin/common/EditForm.js";
 import { LinkExistingEventsButton } from "@liexp/ui/lib/components/admin/common/LinkExistingEventsButton.js";
 import { ColorInput } from "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js";
@@ -27,6 +29,7 @@ import {
   Datagrid,
   DateField,
   DateInput,
+  FunctionField,
   ReferenceArrayField,
   SimpleFormIterator,
   TabbedForm,
@@ -41,6 +44,7 @@ import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { SelectActorRelationTypeInput } from "../AdminActorRelation.js";
 import { transformActor } from "./ActorCreate.js";
 
 const EditTitle: React.FC = () => {
@@ -56,6 +60,16 @@ const EditActions: React.FC = () => {
       {record ? <MergeActorButton /> : null}
     </>
   );
+};
+
+const FamilyTreeTab: React.FC = () => {
+  const record = useRecordContext<Actor>();
+
+  if (!record?.id) {
+    return null;
+  }
+
+  return <ActorFamilyTree actorId={record.id} />;
 };
 
 const ActorEdit: React.FC<EditProps> = (props) => {
@@ -92,8 +106,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                   pipe(
                     excerpt && isValidValue(excerpt)
                       ? getTextContents(excerpt)
-                      : "",
-                    (text) => (text !== "" ? text : fullName),
+                      : fullName,
                     (text) => ({ text }),
                   )
                 }
@@ -144,6 +157,73 @@ const ActorEdit: React.FC<EditProps> = (props) => {
             </Datagrid>
           </ReferenceArrayField>
         </TabbedForm.Tab>
+        <TabbedForm.Tab label="Relations">
+          <Grid container spacing={2} style={{ width: "100%" }}>
+            <Grid size={6}>
+              <ArrayInput
+                source="newRelationsAsSource"
+                defaultValue={[]}
+                fullWidth
+              >
+                <SimpleFormIterator fullWidth>
+                  <SelectActorRelationTypeInput source="type" required />
+                  <ReferenceActorInput
+                    source="relatedActor"
+                    label="Related Actor"
+                  />
+                  <DateInput source="startDate" />
+                  <DateInput source="endDate" />
+                  <BlockNoteInput onlyText={true} source="excerpt" />
+                </SimpleFormIterator>
+              </ArrayInput>
+
+              <ReferenceArrayField
+                source="relationsAsSource"
+                reference="actor-relations"
+                label="Relations (as source)"
+              >
+                <Datagrid rowClick="edit">
+                  <TextField source="id" />
+                  <TextField source="type" />
+                  <FunctionField
+                    render={() => {
+                      return (
+                        <Stack
+                          display={"flex"}
+                          flexDirection={"row"}
+                          alignItems={"center"}
+                          spacing={2}
+                        >
+                          <AvatarField source="relatedActor.avatar.location" />
+                          <TextField source="relatedActor.fullName" />
+                        </Stack>
+                      );
+                    }}
+                  />
+                  <DateField source="startDate" />
+                  <DateField source="endDate" defaultValue={undefined} />
+                </Datagrid>
+              </ReferenceArrayField>
+
+              <ReferenceArrayField
+                source="relationsAsTarget"
+                reference="actor-relations"
+                label="Relations (as target)"
+              >
+                <Datagrid rowClick="edit">
+                  <TextField source="id" />
+                  <TextField source="type" />
+                  <TextField source="actor.fullName" />
+                  <DateField source="startDate" />
+                  <DateField source="endDate" defaultValue={undefined} />
+                </Datagrid>
+              </ReferenceArrayField>
+            </Grid>
+            <Grid size={6} sx={{ minHeight: 600, position: "relative" }}>
+              <FamilyTreeTab />
+            </Grid>
+          </Grid>
+        </TabbedForm.Tab>
         <TabbedForm.Tab label="Events">
           <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
             <LinkExistingEventsButton entityType="actors" />
@@ -172,19 +252,14 @@ const ActorEdit: React.FC<EditProps> = (props) => {
           <ReferenceManyEventField source="id" target="actors[]" />
         </TabbedForm.Tab>
         <TabbedForm.Tab label="networks">
-          <LazyFormTabContent tab={5}>
+          <LazyFormTabContent tab={6}>
             <EventsNetworkGraphFormTab type="actors" />
           </LazyFormTabContent>
         </TabbedForm.Tab>
         <TabbedForm.Tab label="flows">
-          <LazyFormTabContent tab={6}>
+          <LazyFormTabContent tab={7}>
             <EventsFlowGraphFormTab type="actors" />
           </LazyFormTabContent>
-        </TabbedForm.Tab>
-        <TabbedForm.Tab label="Entitree">
-          <div style={{ height: 600, width: "100%" }}>
-            <EntitreeGraph />
-          </div>
         </TabbedForm.Tab>
       </TabbedForm>
     </EditForm>

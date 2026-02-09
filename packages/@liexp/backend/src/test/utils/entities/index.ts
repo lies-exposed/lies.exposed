@@ -26,6 +26,8 @@ export const toActorEntity = (actor: Actor): ActorEntity => {
     events: [],
     stories: [],
     nationalities: [],
+    relationsAsSource: [],
+    relationsAsTarget: [],
     eventCount: 0,
     deletedAt: null,
     bornOn: null,

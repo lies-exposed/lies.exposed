@@ -168,6 +168,24 @@ const GroupMemberList = React.lazy(() =>
   })),
 );
 
+const ActorRelationCreate = React.lazy(() =>
+  import("./pages/AdminActorRelation.js").then((m) => ({
+    default: m.ActorRelationCreate,
+  })),
+);
+
+const ActorRelationEdit = React.lazy(() =>
+  import("./pages/AdminActorRelation.js").then((m) => ({
+    default: m.ActorRelationEdit,
+  })),
+);
+
+const ActorRelationList = React.lazy(() =>
+  import("./pages/AdminActorRelation.js").then((m) => ({
+    default: m.ActorRelationList,
+  })),
+);
+
 const GroupCreate = React.lazy(() =>
   import("./pages/AdminGroups.js").then((m) => ({ default: m.GroupCreate })),
 );
@@ -458,6 +476,13 @@ const AdminPage: React.FC = () => {
         list={GroupMemberList}
         create={GroupMemberCreate}
         edit={GroupMemberEdit}
+        icon={GroupsIcon}
+      />
+      <Resource
+        name="actor-relations"
+        list={ActorRelationList}
+        create={ActorRelationCreate}
+        edit={ActorRelationEdit}
         icon={GroupsIcon}
       />
       <Resource

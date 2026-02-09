@@ -1,10 +1,12 @@
 import {
   ReactFlow,
+  ReactFlowProvider,
   addEdge,
   ConnectionLineType,
   Panel,
   useNodesState,
   useEdgesState,
+  useReactFlow,
 } from "@xyflow/react";
 import * as React from "react";
 import { CustomNode } from "./CustomNode.js";
@@ -16,53 +18,50 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-export const treeRootId = 1;
-export const initialTree = {
-  1: {
-    id: "1",
-    name: "root",
-    type: "input",
-    children: ["2", "3"],
-    siblings: ["8"],
-    spouses: ["10"],
-  },
-  2: { id: "2", name: "child2" },
-  3: {
-    id: "3",
-    name: "child3",
-    children: ["4", "5"],
-    siblings: ["9"],
-    spouses: ["6"],
-  },
-  4: { id: "4", name: "grandChild4" },
-  5: { id: "5", name: "grandChild5" },
-  6: { id: "6", name: "spouse of child 3", isSpouse: true },
-  8: {
-    id: "8",
-    name: "root sibling",
-    isSibling: true,
-  },
-  9: {
-    id: "9",
-    name: "child3 sibling",
-    isSibling: true,
-  },
-  10: {
-    id: "10",
-    name: "root spouse",
-    isSpouse: true,
-  },
+const legendItems = [
+  { color: "#555", label: "Parent / Child" },
+  { color: "#e91e63", label: "Spouse" },
+  { color: "#9c27b0", label: "Partner", dashed: true },
+  { color: "#4caf50", label: "Sibling" },
+] as const;
+
+const legendStyle: React.CSSProperties = {
+  display: "flex",
+  gap: 12,
+  fontSize: 11,
+  alignItems: "center",
+  background: "rgba(255,255,255,0.9)",
+  padding: "4px 8px",
+  borderRadius: 4,
+  border: "1px solid #eee",
 };
 
-const { nodes: layoutedNodes, edges: layoutedEdges } = layoutElements(
-  initialTree,
-  treeRootId,
-  "TB",
-);
+interface EntitreeGraphProps {
+  tree: any;
+  rootId: string;
+}
 
-export const EntitreeGraph = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({ tree, rootId }) => {
+  const { fitView } = useReactFlow();
+
+  const { nodes: initialLayoutedNodes, edges: initialLayoutedEdges } =
+    React.useMemo(() => layoutElements(tree, rootId, "TB"), [tree, rootId]);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialLayoutedNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialLayoutedEdges);
+
+  React.useEffect(() => {
+    const { nodes: newNodes, edges: newEdges } = layoutElements(
+      tree,
+      rootId,
+      "TB",
+    );
+    setNodes(newNodes);
+    setEdges(newEdges);
+    window.requestAnimationFrame(() => {
+      void fitView({ padding: 0.2 });
+    });
+  }, [tree, rootId]);
 
   const onConnect = React.useCallback(
     (params: any) =>
@@ -74,18 +73,22 @@ export const EntitreeGraph = () => {
       ),
     [],
   );
+
   const onLayout = React.useCallback(
     (direction: string) => {
       const { nodes: layoutedNodes, edges: layoutedEdges } = layoutElements(
-        initialTree,
-        treeRootId,
+        tree,
+        rootId,
         direction,
       );
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
+      window.requestAnimationFrame(() => {
+        void fitView({ padding: 0.2 });
+      });
     },
-    [nodes, edges],
+    [tree, rootId, fitView],
   );
 
   return (
@@ -98,11 +101,45 @@ export const EntitreeGraph = () => {
       connectionLineType={ConnectionLineType.SmoothStep}
       fitView
       nodeTypes={nodeTypes}
+      style={{ width: "100%", height: "100%" }}
     >
       <Panel position="top-right">
         <button onClick={() => onLayout("TB")}>vertical layout</button>
         <button onClick={() => onLayout("LR")}>horizontal layout</button>
       </Panel>
+      <Panel position="bottom-left">
+        <div style={legendStyle}>
+          {legendItems.map((item) => (
+            <span
+              key={item.label}
+              style={{ display: "flex", alignItems: "center", gap: 4 }}
+            >
+              <svg width="20" height="10">
+                <line
+                  x1="0"
+                  y1="5"
+                  x2="20"
+                  y2="5"
+                  stroke={item.color}
+                  strokeWidth="2"
+                  strokeDasharray={
+                    "dashed" in item && item.dashed ? "4 2" : undefined
+                  }
+                />
+              </svg>
+              {item.label}
+            </span>
+          ))}
+        </div>
+      </Panel>
     </ReactFlow>
+  );
+};
+
+export const EntitreeGraph: React.FC<EntitreeGraphProps> = (props) => {
+  return (
+    <ReactFlowProvider>
+      <EntitreeGraphInner {...props} />
+    </ReactFlowProvider>
   );
 };

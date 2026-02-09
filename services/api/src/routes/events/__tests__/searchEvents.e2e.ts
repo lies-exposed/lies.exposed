@@ -149,6 +149,8 @@ describe("Search Events", () => {
         death: _death,
         diedOn: _diedOn,
         bornOn: _bornOn,
+        relationsAsSource: _relationsAsSource,
+        relationsAsTarget: _relationsAsTarget,
         ...expectedActor
       } = firstActor;
 

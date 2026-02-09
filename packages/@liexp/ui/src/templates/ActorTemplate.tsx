@@ -15,6 +15,7 @@ import { ActorPageContent } from "../components/ActorPageContent.js";
 import { ActorHierarchyEdgeBundlingGraph } from "../components/Graph/ActorHierarchyEdgeBundlingGraph.js";
 import QueriesRenderer from "../components/QueriesRenderer.js";
 import SEO from "../components/SEO.js";
+import { ActorFamilyTree } from "../components/actors/ActorFamilyTree.js";
 import { Box, Grid } from "../components/mui/index.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { StatsPanelBox } from "../containers/StatsPanelBox.js";
@@ -103,6 +104,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 {
                   label: "Hierarchy",
                 },
+                {
+                  label: "Family Tree",
+                },
               ]}
               resource={{
                 name: ACTORS.literals[0],
@@ -137,12 +141,6 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                       groups={groups}
                       onGroupClick={onGroupClick}
                       onActorClick={onActorClick}
-                    />
-                    <ActorHierarchyEdgeBundlingGraph
-                      actor={actor.id}
-                      width={500}
-                      onNodeClick={(_n) => {}}
-                      onLinkClick={(_ll) => {}}
                     />
                   </Grid>
                   <Grid size={6}>
@@ -199,6 +197,14 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                   );
                 }}
               />
+              <ActorHierarchyEdgeBundlingGraph
+                actor={actor.id}
+                width={500}
+                onNodeClick={(_n) => {}}
+                onLinkClick={(_ll) => {}}
+              />
+
+              <ActorFamilyTree actorId={actor.id} />
             </SplitPageTemplate>
           </Box>
         );

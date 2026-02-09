@@ -6,6 +6,7 @@ import * as path from "path";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { DataSource, type DataSourceOptions, type EntityTarget } from "typeorm";
 import { ActorEntity } from "../entities/Actor.entity.js";
+import { ActorRelationEntity } from "../entities/ActorRelation.entity.js";
 import { AreaEntity } from "../entities/Area.entity.js";
 import { EventV2Entity } from "../entities/Event.v2.entity.js";
 import { EventSuggestionEntity } from "../entities/EventSuggestion.entity.js";
@@ -33,6 +34,7 @@ import { toDBError, type DBError } from "../providers/orm/database.provider.js";
 export const ALL_ENTITIES: EntityTarget<unknown>[] = [
   PageEntity,
   ActorEntity,
+  ActorRelationEntity,
   GroupEntity,
   GroupMemberEntity,
   StoryEntity,

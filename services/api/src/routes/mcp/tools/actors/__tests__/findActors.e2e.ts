@@ -27,6 +27,8 @@ describe("MCP FIND_ACTORS Tool", () => {
     testActors = fc.sample(ActorArb, 5).map((a) =>
       toActorEntity({
         ...a,
+        relationsAsSource: [],
+        relationsAsTarget: [],
         memberIn: [],
         nationalities: [],
         death: undefined,
