@@ -7,6 +7,8 @@ import * as dotenv from "dotenv";
 import { Schema } from "effect";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import type { BACKEND_ENV } from "../../io/ENV.js";
+import { getDataSource, getORMConfig } from "../../utils/data-source.js";
 
 const moduleLogger = logger.GetLogger("global-setup");
 
@@ -18,7 +20,7 @@ const moduleLogger = logger.GetLogger("global-setup");
  * @param envSchema - Effect Schema for environment validation
  * @param dotenvConfigPath - Path to .env file (default: ../../../.env.test)
  */
-export const createGlobalSetup = <A, I = any>(
+export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
   envSchema: Schema.Schema<A, I, never>,
   dotenvConfigPath?: string,
 ) => {
@@ -35,13 +37,19 @@ export const createGlobalSetup = <A, I = any>(
 
       loadENV(process.cwd(), configPath, true);
 
-      await pipe(
+      const env = await pipe(
         process.env,
         Schema.decodeUnknownEither(envSchema),
         TE.fromEither,
         throwTE,
       );
-
+      const dataSource = await pipe(getORMConfig(env), getDataSource, throwTE);
+      try {
+        await dataSource.initialize();
+        await dataSource.runMigrations();
+      } finally {
+        await dataSource.destroy();
+      }
       moduleLogger.info.log(
         "Global test setup completed - using transactional rollback for test isolation",
       );
