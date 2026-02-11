@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/storybook@0.3.0) (2026-02-11)
+
+
+### Features
+
+* create actor relation ([#3167](https://github.com/lies-exposed/lies.exposed/issues/3167)) ([f251e56](https://github.com/lies-exposed/lies.exposed/commit/f251e56a8b360dae003b88601f5bbe03cdf4216e))
+
+
+### Miscellaneous
+
+* bump storybook from 10.1.11 to 10.2.8 ([#3168](https://github.com/lies-exposed/lies.exposed/issues/3168)) ([8652d12](https://github.com/lies-exposed/lies.exposed/commit/8652d1219ce5877feb9a90bce51bdb2badc50620))
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.3.0
+    * @liexp/shared bumped to 0.3.0
+    * @liexp/test bumped to 0.3.0
+    * @liexp/ui bumped to 0.3.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.3.0
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/storybook@0.1.13...@liexp/storybook@0.2.5) (2026-01-30)
 
 

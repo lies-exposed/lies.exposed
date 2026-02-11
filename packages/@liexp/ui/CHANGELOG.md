@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/ui@0.3.0) (2026-02-11)
+
+
+### Features
+
+* create actor relation ([#3167](https://github.com/lies-exposed/lies.exposed/issues/3167)) ([f251e56](https://github.com/lies-exposed/lies.exposed/commit/f251e56a8b360dae003b88601f5bbe03cdf4216e))
+
+
+### Bug Fixes
+
+* **ui:** handle empty event relations in EventRelations component ([#3152](https://github.com/lies-exposed/lies.exposed/issues/3152)) ([95a7638](https://github.com/lies-exposed/lies.exposed/commit/95a7638c84a478d82a0b94d6532e4d3fc0b08d19))
+* **workspace:** expose current version info ([#3166](https://github.com/lies-exposed/lies.exposed/issues/3166)) ([a2230f7](https://github.com/lies-exposed/lies.exposed/commit/a2230f7c37f90f0ced8dc272ccb861cd749e08bf))
+
+
+### Miscellaneous
+
+* **workspace:** knip issues with vitest configs ([#3183](https://github.com/lies-exposed/lies.exposed/issues/3183)) ([01180b8](https://github.com/lies-exposed/lies.exposed/commit/01180b83ada8d50165fce59869fcef49a632aa48))
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.3.0
+    * @liexp/io bumped to 0.3.0
+    * @liexp/shared bumped to 0.3.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.3.0
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/ui@0.2.4...@liexp/ui@0.2.5) (2026-01-30)
 
 

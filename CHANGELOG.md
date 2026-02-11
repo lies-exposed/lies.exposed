@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...lies.exposed@0.3.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **workspace:** expose current version info ([#3166](https://github.com/lies-exposed/lies.exposed/issues/3166)) ([a2230f7](https://github.com/lies-exposed/lies.exposed/commit/a2230f7c37f90f0ced8dc272ccb861cd749e08bf))
+
+
+### Miscellaneous
+
+* bump storybook from 10.1.11 to 10.2.8 ([#3168](https://github.com/lies-exposed/lies.exposed/issues/3168)) ([8652d12](https://github.com/lies-exposed/lies.exposed/commit/8652d1219ce5877feb9a90bce51bdb2badc50620))
+* ignore 'lib' and 'build' folders recursively to unload TS LSP server ([#3184](https://github.com/lies-exposed/lies.exposed/issues/3184)) ([f88b5d0](https://github.com/lies-exposed/lies.exposed/commit/f88b5d0b560a23fab8adc076f9de32e0c35ac89c))
+* renamed cloudflared tunnel name to 'lies-exposed-tunnel' ([#3155](https://github.com/lies-exposed/lies.exposed/issues/3155)) ([f9d5f8a](https://github.com/lies-exposed/lies.exposed/commit/f9d5f8a19826273a91b943efd627d0b2ed89a817))
+* **workspace:** knip issues with vitest configs ([#3183](https://github.com/lies-exposed/lies.exposed/issues/3183)) ([01180b8](https://github.com/lies-exposed/lies.exposed/commit/01180b83ada8d50165fce59869fcef49a632aa48))
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.1.13...lies.exposed@0.2.5) (2026-01-30)
 
 
