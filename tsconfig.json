@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "module": "ES2022",
     "target": "es6",
     "moduleResolution": "node10",
@@ -17,14 +19,30 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["node_modules/@types", "node_modules/vitest/globals", "packages/@liexp/*/typings",],
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/vitest/globals",
+      "packages/@liexp/*/typings",
+    ],
     "baseUrl": ".",
     "paths": {
-      "@liexp/core/*": ["packages/@liexp/core/src/*"],
-      "@liexp/shared/*": ["packages/@liexp/shared/src/*"],
-      "@liexp/test/*": ["packages/@liexp/test/src/*"],
-      "@liexp/ui/*": ["packages/@liexp/ui/src/*"]
+      "@liexp/core/*": [
+        "packages/@liexp/core/src/*"
+      ],
+      "@liexp/shared/*": [
+        "packages/@liexp/shared/src/*"
+      ],
+      "@liexp/test/*": [
+        "packages/@liexp/test/src/*"
+      ],
+      "@liexp/ui/*": [
+        "packages/@liexp/ui/src/*"
+      ]
     }
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "**/lib",
+    "**/build"
+  ]
 }
