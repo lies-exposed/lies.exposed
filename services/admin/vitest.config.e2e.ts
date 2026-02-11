@@ -1,23 +1,17 @@
-import { defineProject } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
+import { extendBaseConfig } from "@liexp/backend/lib/test/vitest.base-config.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-export default defineProject({
-  plugins: [tsconfigPaths()],
+export default extendBaseConfig(import.meta.url, (toAlias) => ({
   test: {
-    name: 'e2e',
+    name: "e2e",
     globals: true,
     watch: false,
     environment: "node",
     testTimeout: 30000,
     hookTimeout: 30000,
-    setupFiles: ["./test/testSetup.ts"],
-    include: ["test/**/*.e2e.test.ts"],
+    setupFiles: [toAlias("test/testSetup.ts")],
+    include: [toAlias("test/**/*.e2e.test.ts")],
     exclude: ["node_modules/**", "build/**"],
-    root: __dirname,
+    root: toAlias("./"),
     env: {
       NODE_ENV: "test",
     },
@@ -27,4 +21,4 @@ export default defineProject({
   esbuild: {
     target: "node18",
   },
-});
+}));

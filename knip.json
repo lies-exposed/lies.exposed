@@ -95,8 +95,7 @@
         "!src/**/*.{spec,e2e}.ts"
       ],
       "ignore": [
-        "ormconfig.js",
-        "test/globalSetup.ts"
+        "ormconfig.js"
       ]
     },
     "services/worker": {
