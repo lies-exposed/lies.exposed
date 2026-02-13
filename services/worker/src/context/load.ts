@@ -14,7 +14,6 @@ import Ffmpeg from "fluent-ffmpeg";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Redis } from "ioredis";
-import MW from "nodemw";
 import metadataParser from "page-metadata-parser";
 import * as pdfJs from "pdfjs-dist/legacy/build/pdf.mjs";
 import sharp from "sharp";
@@ -55,26 +54,12 @@ export const loadImplementation = (
         },
       },
       wp: {
-        wiki: new MW({
-          protocol: "https",
-          server: "en.wikipedia.org",
-          path: "/w",
-          debug: true,
-          concurrency: 5,
-        }),
         http: axios.create({
           baseURL: "https://en.wikipedia.org/api/rest_v1",
           headers: { "User-Agent": "lies-exposed/0.3.0" },
         }),
       },
       rw: {
-        wiki: new MW({
-          protocol: "https",
-          server: "rationalwiki.org",
-          path: "/w",
-          debug: true,
-          concurrency: 5,
-        }),
         http: axios.create({
           baseURL: "https://rationalwiki.org/api/rest_v1",
           headers: { "User-Agent": "lies-exposed/0.3.0" },

@@ -2,11 +2,11 @@ import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
 import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
-import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Equal } from "typeorm";
 import prompts from "prompts";
+import { Equal } from "typeorm";
 import { fetchAndCreateActorFromWikipedia } from "../flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
 import { fetchAndCreateAreaFromWikipedia } from "../flows/area/fetchAndCreateAreaFromWikipedia.js";
 import { fetchAndCreateGroupFromWikipedia } from "../flows/group/fetchGroupFromWikipedia.js";
@@ -113,22 +113,12 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
       fetchAndCreateGroupFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
-    ctx.logger.info.log(
-      "Created %s '%s' (id: %s)",
-      type,
-      pageTitle,
-      result.id,
-    );
+    ctx.logger.info.log("Created %s '%s' (id: %s)", type, pageTitle, result.id);
   } else {
     const result = await pipe(
       fetchAndCreateActorFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
-    ctx.logger.info.log(
-      "Created %s '%s' (id: %s)",
-      type,
-      pageTitle,
-      result.id,
-    );
+    ctx.logger.info.log("Created %s '%s' (id: %s)", type, pageTitle, result.id);
   }
 };

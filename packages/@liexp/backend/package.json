@@ -43,7 +43,6 @@
     "ip-address": "^10.1.0",
     "jsonwebtoken": "^9.0.2",
     "linkedom": "^0.18.9",
-    "nodemw": "^0.25.0",
     "reflect-metadata": "^0.2.2",
     "sirv": "^3.0.1",
     "typeorm": "^0.3.28"
