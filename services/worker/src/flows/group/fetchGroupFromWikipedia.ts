@@ -1,4 +1,5 @@
 import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { fetchFromWikipedia } from "@liexp/backend/lib/flows/wikipedia/fetchFromWikipedia.js";
 import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
@@ -77,24 +78,42 @@ export const fetchAndCreateGroupFromWikipedia =
             if (fp.O.isSome(a)) {
               return fp.TE.right([a.value]);
             }
-            return ctx.db.save(GroupEntity, [
-              {
-                id: uuid(),
-                ...group,
-                members: [],
-                avatar: Schema.is(UUID)(group.avatar)
-                  ? { id: group.avatar }
-                  : group.avatar !== null
-                    ? {
-                        ...group.avatar,
-                        events: [],
-                        links: [],
-                        areas: [],
-                        keywords: [],
-                      }
-                    : null,
-              },
-            ]);
+
+            const avatarData = group.avatar;
+            if (!avatarData || Schema.is(UUID)(avatarData)) {
+              return ctx.db.save(GroupEntity, [
+                {
+                  id: uuid(),
+                  ...group,
+                  members: [],
+                  avatar: avatarData ? { id: avatarData } : null,
+                },
+              ]);
+            }
+
+            return pipe(
+              ctx.db.findOne(MediaEntity, {
+                where: { location: Equal(avatarData.location) },
+              }),
+              fp.TE.chain((existing) =>
+                ctx.db.save(GroupEntity, [
+                  {
+                    id: uuid(),
+                    ...group,
+                    members: [],
+                    avatar: fp.O.isSome(existing)
+                      ? { id: existing.value.id }
+                      : {
+                          ...avatarData,
+                          events: [],
+                          links: [],
+                          areas: [],
+                          keywords: [],
+                        },
+                  },
+                ]),
+              ),
+            );
           }),
           fp.TE.map((r) => r[0]),
         ),

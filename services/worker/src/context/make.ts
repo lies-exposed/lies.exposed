@@ -34,7 +34,6 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type Redis } from "ioredis";
 import TelegramBot from "node-telegram-bot-api";
-import type MW from "nodemw";
 import type * as pdfJS from "pdfjs-dist/legacy/build/pdf.mjs";
 import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
@@ -48,8 +47,8 @@ import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
 export interface ContextImplementation {
   redis: { client: typeof Redis };
-  wp: { wiki: MW; http: axios.AxiosInstance };
-  rw: { wiki: MW; http: axios.AxiosInstance };
+  wp: { http: axios.AxiosInstance };
+  rw: { http: axios.AxiosInstance };
   urlMetadata: MakeURLMetadataContext;
   pdf: { client: typeof pdfJS };
   http: { client: axios.AxiosInstance };
@@ -81,13 +80,11 @@ export const makeContext = (
 
   const wpProvider = WikipediaProvider({
     logger: GetLogger("wp"),
-    client: impl.wp.wiki,
     restClient: impl.wp.http,
   });
 
   const rationalWikiProvider = WikipediaProvider({
     logger: GetLogger("rw"),
-    client: impl.rw.wiki,
     restClient: impl.rw.http,
   });
 

@@ -1,4 +1,5 @@
 import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { toNotFoundError } from "@liexp/backend/lib/errors/NotFoundError.js";
 import {
   fetchFromWikipedia,
@@ -83,23 +84,45 @@ export const fetchAndCreateActorFromWikipedia =
             if (fp.O.isSome(a)) {
               return TE.right([a.value]);
             }
-            return ctx.db.save(ActorEntity, [
-              {
-                ...actor,
-                nationalities: [],
-                avatar: Schema.is(UUID)(actor.avatar)
-                  ? { id: actor.avatar }
-                  : {
-                      ...actor.avatar,
-                      events: [],
-                      links: [],
-                      areas: [],
-                      keywords: [],
-                    },
-                bornOn: actor.bornOn?.toISOString(),
-                diedOn: actor.diedOn?.toISOString(),
-              },
-            ]);
+
+            const avatarData = actor.avatar;
+            if (!avatarData || Schema.is(UUID)(avatarData)) {
+              return ctx.db.save(ActorEntity, [
+                {
+                  ...actor,
+                  nationalities: [],
+                  avatar: avatarData ? { id: avatarData } : null,
+                  bornOn: actor.bornOn?.toISOString(),
+                  diedOn: actor.diedOn?.toISOString(),
+                },
+              ]);
+            }
+
+            // Look up existing media by location to avoid unique constraint violation
+            return pipe(
+              ctx.db.findOne(MediaEntity, {
+                where: { location: Equal(avatarData.location) },
+              }),
+              TE.chain((existing) =>
+                ctx.db.save(ActorEntity, [
+                  {
+                    ...actor,
+                    nationalities: [],
+                    avatar: fp.O.isSome(existing)
+                      ? { id: existing.value.id }
+                      : {
+                          ...avatarData,
+                          events: [],
+                          links: [],
+                          areas: [],
+                          keywords: [],
+                        },
+                    bornOn: actor.bornOn?.toISOString(),
+                    diedOn: actor.diedOn?.toISOString(),
+                  },
+                ]),
+              ),
+            );
           }),
           TE.map((r) => r[0]),
         ),

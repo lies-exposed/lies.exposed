@@ -24,7 +24,6 @@ import * as axios from "axios";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Redis } from "ioredis";
-import MW from "nodemw";
 import * as metadataParser from "page-metadata-parser";
 import WinkFn from "wink-nlp";
 import { type TEControllerError } from "../types/TEControllerError.js";
@@ -54,29 +53,17 @@ export const makeContext =
 
     const wpProvider = WikipediaProvider({
       logger: serverLogger.extend("mw"),
-      client: new MW({
-        protocol: "https",
-        server: "en.wikipedia.org",
-        path: "/w",
-        debug: true,
-        concurrency: 5,
-      }),
       restClient: axios.default.create({
         baseURL: "https://en.wikipedia.org/api/rest_v1",
+        headers: { "User-Agent": "lies-exposed/0.3.0" },
       }),
     });
 
     const rationalWikiProvider = WikipediaProvider({
       logger: serverLogger.extend("mw"),
-      client: new MW({
-        protocol: "https",
-        server: "rationalwiki.org",
-        path: "/w",
-        debug: true,
-        concurrency: 5,
-      }),
       restClient: axios.default.create({
         baseURL: "https://rationalwiki.org/api/rest_v1",
+        headers: { "User-Agent": "lies-exposed/0.3.0" },
       }),
     });
 
