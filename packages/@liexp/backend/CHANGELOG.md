@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/backend@0.3.0) (2026-02-11)
+
+
+### Features
+
+* create actor relation ([#3167](https://github.com/lies-exposed/lies.exposed/issues/3167)) ([f251e56](https://github.com/lies-exposed/lies.exposed/commit/f251e56a8b360dae003b88601f5bbe03cdf4216e))
+
+
+### Miscellaneous
+
+* **backend:** added flow spec tests ([#3154](https://github.com/lies-exposed/lies.exposed/issues/3154)) ([bf69946](https://github.com/lies-exposed/lies.exposed/commit/bf699467455dd34bfe6614e5e57bbf5f3fc0c564))
+* **backend:** run database migrations on test global setup ([#3169](https://github.com/lies-exposed/lies.exposed/issues/3169)) ([d8d4e97](https://github.com/lies-exposed/lies.exposed/commit/d8d4e975e5161d6e0e53e17fcd8fffb7b769fd10))
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.3.0
+    * @liexp/io bumped to 0.3.0
+    * @liexp/shared bumped to 0.3.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.3.0
+    * @liexp/test bumped to 0.3.0
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/backend@0.1.12...@liexp/backend@0.2.5) (2026-01-30)
 
 

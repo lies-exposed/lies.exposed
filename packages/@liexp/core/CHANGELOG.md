@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/core@0.3.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **workspace:** expose current version info ([#3166](https://github.com/lies-exposed/lies.exposed/issues/3166)) ([a2230f7](https://github.com/lies-exposed/lies.exposed/commit/a2230f7c37f90f0ced8dc272ccb861cd749e08bf))
+
+
+### Miscellaneous
+
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.3.0
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/@liexp/core@0.1.6...@liexp/core@0.2.5) (2026-01-30)
 
 

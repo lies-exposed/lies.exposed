@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...web@0.3.0) (2026-02-11)
+
+
+### Bug Fixes
+
+* **workspace:** expose current version info ([#3166](https://github.com/lies-exposed/lies.exposed/issues/3166)) ([a2230f7](https://github.com/lies-exposed/lies.exposed/commit/a2230f7c37f90f0ced8dc272ccb861cd749e08bf))
+
+
+### Miscellaneous
+
+* **workspace:** knip issues with vitest configs ([#3183](https://github.com/lies-exposed/lies.exposed/issues/3183)) ([01180b8](https://github.com/lies-exposed/lies.exposed/commit/01180b83ada8d50165fce59869fcef49a632aa48))
+* **workspace:** use cache for eslint ([#3164](https://github.com/lies-exposed/lies.exposed/issues/3164)) ([1584975](https://github.com/lies-exposed/lies.exposed/commit/1584975500ad8e1e916419bcedb4e4629e7c8cc3))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.3.0
+    * @liexp/core bumped to 0.3.0
+    * @liexp/io bumped to 0.3.0
+    * @liexp/shared bumped to 0.3.0
+    * @liexp/ui bumped to 0.3.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.3.0
+    * @liexp/test bumped to 0.3.0
+
 ## [0.2.5](https://github.com/lies-exposed/lies.exposed/compare/web@0.1.13...web@0.2.5) (2026-01-30)
 
 
