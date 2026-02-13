@@ -46,7 +46,7 @@
     "@types/lodash": "^4.17.23",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
-    "axios": "^1.13.2",
+    "axios": "^1.13.5",
     "effect": "^3.19.14",
     "eslint": "^9.39.2",
     "fast-check": "^3.23.2",

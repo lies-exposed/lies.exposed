@@ -63,7 +63,7 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node-telegram-bot-api": "^0.64.13",
-    "axios": "^1.13.2",
+    "axios": "^1.13.5",
     "debug": "^4.4.0",
     "dotenv": "^17.2.3",
     "effect": "^3.19.14",
