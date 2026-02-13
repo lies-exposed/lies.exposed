@@ -29,8 +29,8 @@
     "pkg": "./scripts/pkg.sh"
   },
   "dependencies": {
-    "@aws-sdk/client-sso-oidc": "^3.974.0",
-    "@aws-sdk/client-sts": "^3.974.0",
+    "@aws-sdk/client-sso-oidc": "^3.987.0",
+    "@aws-sdk/client-sts": "^3.987.0",
     "@langchain/core": "^1.1.20",
     "@langchain/langgraph": "^1.1.4",
     "@langchain/mcp-adapters": "^1.1.2",
