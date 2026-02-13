@@ -64,6 +64,7 @@ export const loadImplementation = (
         }),
         http: axios.create({
           baseURL: "https://en.wikipedia.org/api/rest_v1",
+          headers: { "User-Agent": "lies-exposed/0.3.0" },
         }),
       },
       rw: {
@@ -76,6 +77,7 @@ export const loadImplementation = (
         }),
         http: axios.create({
           baseURL: "https://rationalwiki.org/api/rest_v1",
+          headers: { "User-Agent": "lies-exposed/0.3.0" },
         }),
       },
       http: {

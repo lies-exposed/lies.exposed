@@ -1,6 +1,11 @@
+import { ActorEntity } from "@liexp/backend/lib/entities/Actor.entity.js";
+import { AreaEntity } from "@liexp/backend/lib/entities/Area.entity.js";
+import { GroupEntity } from "@liexp/backend/lib/entities/Group.entity.js";
 import { type WikiProviders } from "@liexp/backend/lib/providers/wikipedia/types.js";
-import { pipe } from "@liexp/core/lib/fp/index.js";
+import { getUsernameFromDisplayName } from "@liexp/shared/lib/helpers/actor.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { Equal } from "typeorm";
 import prompts from "prompts";
 import { fetchAndCreateActorFromWikipedia } from "../flows/actor/fetchAndCreateActorFromWikipedia.flow.js";
 import { fetchAndCreateAreaFromWikipedia } from "../flows/area/fetchAndCreateAreaFromWikipedia.js";
@@ -37,6 +42,11 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
 
   ctx.logger.debug.log("Search results %O", wpResult);
 
+  if (wpResult.length === 0) {
+    ctx.logger.info.log("No results found for '%s' on wikipedia", search);
+    return;
+  }
+
   const choice = await prompts({
     message: "Select correct page",
     type: "select",
@@ -47,25 +57,78 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
     })),
   });
 
-  const pageTitle = choice.page;
+  if (!choice.page) {
+    ctx.logger.info.log("No page selected, exiting.");
+    return;
+  }
 
-  let result;
+  const pageTitle: string = choice.page;
+  const slug = getUsernameFromDisplayName(pageTitle);
+
+  // Check if the entity already exists before attempting creation
+  let existingId: string | null = null;
+  if (type === "actor") {
+    const r = await pipe(
+      ctx.db.findOne(ActorEntity, { where: { username: Equal(slug) } }),
+      throwTE,
+    );
+    existingId = fp.O.isSome(r) ? r.value.id : null;
+  } else if (type === "group") {
+    const r = await pipe(
+      ctx.db.findOne(GroupEntity, { where: { username: Equal(slug) } }),
+      throwTE,
+    );
+    existingId = fp.O.isSome(r) ? r.value.id : null;
+  } else {
+    const r = await pipe(
+      ctx.db.findOne(AreaEntity, { where: { label: Equal(pageTitle) } }),
+      throwTE,
+    );
+    existingId = fp.O.isSome(r) ? r.value.id : null;
+  }
+
+  if (existingId) {
+    ctx.logger.info.log(
+      "Already exists: %s '%s' (id: %s)",
+      type,
+      pageTitle,
+      existingId,
+    );
+    return;
+  }
+
   if (type === "area") {
-    result = await pipe(
+    const result = await pipe(
       fetchAndCreateAreaFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
-  } else if (type === "actor") {
-    result = await pipe(
-      fetchAndCreateActorFromWikipedia(pageTitle, provider)(ctx),
-      throwTE,
+    ctx.logger.info.log(
+      "Created %s '%s' (id: %s)",
+      type,
+      pageTitle,
+      result.area.id,
     );
   } else if (type === "group") {
-    result = await pipe(
+    const result = await pipe(
       fetchAndCreateGroupFromWikipedia(pageTitle, provider)(ctx),
       throwTE,
     );
+    ctx.logger.info.log(
+      "Created %s '%s' (id: %s)",
+      type,
+      pageTitle,
+      result.id,
+    );
+  } else {
+    const result = await pipe(
+      fetchAndCreateActorFromWikipedia(pageTitle, provider)(ctx),
+      throwTE,
+    );
+    ctx.logger.info.log(
+      "Created %s '%s' (id: %s)",
+      type,
+      pageTitle,
+      result.id,
+    );
   }
-
-  ctx.logger.debug.log("Created %s %O", type, result);
 };

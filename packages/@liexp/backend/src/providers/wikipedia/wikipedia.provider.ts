@@ -1,14 +1,11 @@
-import { pipe, fp } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
-import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import {
   type AxiosRequestConfig,
   type AxiosInstance,
   type AxiosResponse,
 } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import type Bot from "nodemw";
-import type { ArticleInfo, SearchResult } from "nodemw/lib/types.js";
 
 interface RESTArticleSummary {
   title: string;
@@ -48,6 +45,16 @@ export interface WikipediaProvider {
   articleFeaturedImage: (title: string) => TE.TaskEither<Error, any>;
 }
 
+interface WikiSearchResult {
+  pages: Array<{
+    id: number;
+    key: string;
+    title: string;
+    description: string | null;
+    thumbnail: { url: string } | null;
+  }>;
+}
+
 interface WikipediaProviderOpts {
   logger: Logger;
   client: Bot;
@@ -81,9 +88,35 @@ export const WikipediaProvider = ({
   return {
     bot: client,
     search: (text) => {
+      // Use the MediaWiki action API directly with a limited result count
+      // instead of client.search() which uses getAll() and fetches ALL results
+      const baseUrl = restClient.defaults.baseURL?.replace(
+        /\/api\/rest_v1$/,
+        "",
+      );
+
       return pipe(
-        TE.taskify(client.search.bind(client))(text),
-        TE.mapLeft(toMWError),
+        TE.tryCatch(
+          () =>
+            restClient.get<WikiSearchResult>(
+              `${baseUrl}/w/rest.php/v1/search/page`,
+              {
+                baseURL: "",
+                params: { q: text, limit: 10 },
+              },
+            ),
+          toMWError,
+        ),
+        TE.map(({ data: { pages } }) =>
+          pages.map(
+            (p): SearchResult => ({
+              ns: 0,
+              title: p.title,
+              pageid: p.id,
+              timestamp: new Date().toISOString(),
+            }),
+          ),
+        ),
       );
     },
     parse: (text, title) => {
