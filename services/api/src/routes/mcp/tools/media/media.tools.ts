@@ -140,8 +140,27 @@ Both do the same thing. Prefer createMedia for clarity.`,
     EDIT_MEDIA,
     {
       title: "Edit media",
-      description:
-        "Edit a media entity in the database with an existing URL (e.g., external image URL). The edited media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
+      description: `Update an existing media entity in the database. Only provide fields you want to 
+change; omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the media to update
+
+OPTIONAL (provide only fields to change):
+- location: URL of the media file (external URL or storage URL)
+- type: Type of media (Image, Video, PDF, Audio, etc.)
+- label: Title or label for the media
+- description: Detailed description of the media content
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Provided fields: Update with new values
+
+TIPS:
+- Use findMedia() to search for the media if unsure of ID
+- Only include fields you want to change
+- Media can be referenced by UUID in actors, groups, and events
+- Returns the updated media with full details`,
       annotations: { title: "Edit media" },
       inputSchema: effectToZodStruct(EditMediaInputSchema),
     },

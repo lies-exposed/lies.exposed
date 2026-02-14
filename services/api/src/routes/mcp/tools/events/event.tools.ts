@@ -410,8 +410,54 @@ IMPORTANT NOTES:
     EDIT_EVENT,
     {
       title: "Edit event",
-      description:
-        "Edit an existing event. Provide the event `id`, the event `type` (discriminator), base fields (date, draft, excerpt, body, media, links, keywords) and a type-specific `payload`. IMPORTANT: Use findActors/findGroups to resolve IDs for actors/groups and avoid creating new actors inside this tool. It's acceptable to leave actors/groups/keywords empty. Keep tool calls efficient to remain under the 25 recursion limit.",
+      description: `Update an existing event in the database. Only provide fields you want to change; 
+omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the event to update
+- type: The event type (Book, Quote, Death, Patent, etc.) - determines payload structure
+
+OPTIONAL (provide only fields to change):
+- date: Event date (YYYY-MM-DD format)
+- draft: Whether event is in draft state (true/false)
+- excerpt: Short description
+- body: Detailed description
+- media: Array of media UUIDs
+- links: Array of link UUIDs  
+- keywords: Array of keyword UUIDs
+- payload: Type-specific fields (structure varies by event type)
+
+EVENT TYPE-SPECIFIC PAYLOADS:
+
+Book Event payload:
+- title: Book title
+- pdfMediaId: UUID of PDF media
+- audioMediaId: UUID of audio media (optional)
+- authors: Array of author references [{type: "Actor"|"Group", id: "uuid"}, ...]
+- publisher: Publisher reference {type: "Actor"|"Group", id: "uuid"} or null
+
+Quote Event payload:
+- quote: The quoted text
+- subject: Topic or context (optional)
+- actor: UUID of actor who made the quote
+
+Death Event payload:
+- victim: UUID of deceased actor
+- location: UUID of location where death occurred (optional)
+- causes: Array of cause descriptions (optional)
+
+[Other event types follow similar patterns...]
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Provided fields: Update with new values
+- payload: Only valid fields for the specified event type are accepted
+
+TIPS:
+- Use findActors/findGroups to resolve IDs for actors/groups
+- Use getEvent() if unsure of event type
+- Only include fields you want to change
+- Returns the updated event with full details`,
       annotations: { title: "Edit event" },
       inputSchema: effectToZodStruct(EditEventInputSchema),
     },

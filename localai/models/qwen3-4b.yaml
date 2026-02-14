@@ -1,3 +1,9 @@
+backend: llama-cpp
+context_size: 32768
+gpu_layers: 12
+f16: true
+mmap: true
+name: qwen3-4b
 parameters:
     model: Qwen3-4B.Q4_K_M.gguf
     language: ""
@@ -24,13 +30,10 @@ parameters:
     negative_prompt_scale: 0
     clip_skip: 0
     tokenizer: ""
-name: qwen3-4b
-f16: true
 threads: 4
 debug: true
 roles: {}
 embeddings: false
-backend: llama-cpp
 known_usecases:
     - FLAG_ANY
     - FLAG_COMPLETION
@@ -120,8 +123,6 @@ prompt_cache_ro: false
 mirostat_eta: 0.1
 mirostat_tau: 5
 mirostat: 0
-gpu_layers: 256
-mmap: false
 mmlock: false
 low_vram: false
 reranking: false
@@ -135,7 +136,6 @@ cutstrings: []
 extract_regex: []
 trimspace: []
 trimsuffix: []
-context_size: 8192
 numa: false
 request_timeout: 300
 response_timeout: 300

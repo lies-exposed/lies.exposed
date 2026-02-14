@@ -143,8 +143,34 @@ NOTES:
     EDIT_GROUP,
     {
       title: "Edit group",
-      description:
-        "Edit an existing group (organization) in the database with the provided information. Only provided fields will be updated. Returns the updated group details in structured markdown format.",
+      description: `Update an existing group (organization) in the database. Only provide fields you want to 
+change; omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the group to update
+
+OPTIONAL (provide only fields to change):
+- name: Name of the group/organization
+- username: Unique identifier (lowercase, no spaces)
+- color: Hex color code for the group (without #)
+- kind: Organization type (Public or Private)
+- excerpt: Short description of the group
+- body: Detailed information or description
+- avatar: UUID of avatar image media
+- startDate: Start date (YYYY-MM-DD format)
+- endDate: End date (YYYY-MM-DD format)
+- members: Array of actor UUIDs who are members
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Empty arrays (members): Clear the array
+- Dates (startDate, endDate): Can be cleared by omitting
+
+TIPS:
+- Use findGroups() to search for the group if unsure of ID
+- For members: Use findActors() to get actor UUIDs
+- Only include fields you want to change
+- Returns the updated group with full details`,
       annotations: { title: "Edit group" },
       inputSchema: effectToZodStruct(EditInputSchema),
     },

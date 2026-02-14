@@ -134,8 +134,33 @@ NOTES:
     EDIT_ACTOR,
     {
       title: "Edit actor",
-      description:
-        "Update an existing actor with new information. IMPORTANT: Always search for the actor using findActors BEFORE editing to verify it exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the updated actor details in structured markdown format.",
+      description: `Update an existing actor in the database. Only provide fields you want to change; 
+omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the actor to update
+
+OPTIONAL (provide only fields to change):
+- username: Unique identifier (lowercase, no spaces)
+- fullName: Display name of the actor
+- color: Hex color code for the actor (without #)
+- excerpt: Short description of the actor
+- nationalities: Array of nationality UUIDs (use findNations to get UUIDs)
+- memberIn: Array of group UUIDs this actor is member of
+- body: Detailed biography or description
+- avatar: UUID of avatar image media
+- bornOn: Birth date (YYYY-MM-DD format)
+- diedOn: Death date (YYYY-MM-DD format)
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Empty arrays (nationalities, memberIn): Clear the array
+- Dates (bornOn, diedOn): Can be cleared by omitting
+
+TIPS:
+- Use findActors() to search for the actor if unsure of ID
+- Only include fields you want to change
+- Returns the updated actor with full details`,
       annotations: { title: "Edit actor" },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },

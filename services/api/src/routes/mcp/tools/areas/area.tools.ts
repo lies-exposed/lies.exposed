@@ -69,8 +69,28 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     EDIT_AREA,
     {
       title: "Edit area",
-      description:
-        "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.\\n\\nFIELD UPDATE BEHAVIOR:\\n- Omitted fields: Keep existing value\\n- null: Clear/remove the value\\n\\nUPDATABLE FIELDS:\\n- label: Area name\\n- body: Description\\n- draft: Mark as draft\\n- featuredImage: Image URL\\n- updateGeometry: Update GeoJSON boundaries",
+      description: `Update an existing geographic area in the database. Only provide fields you want to 
+change; omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the area to update
+
+OPTIONAL (provide only fields to change):
+- label: Area name (e.g., 'Italy', 'Europe')
+- body: Detailed description of the area
+- draft: Mark as draft (true/false)
+- featuredImage: Image URL for the area
+- updateGeometry: Geographic boundaries (GeoJSON format)
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Provided fields: Update with new values
+
+TIPS:
+- Use findAreas() to search for the area if unsure of ID
+- Only include fields you want to change
+- Geometry should be valid GeoJSON if provided
+- Returns the updated area with full details`,
       annotations: { title: "Edit area" },
       inputSchema: effectToZodStruct(EditAreaInputSchema),
     },

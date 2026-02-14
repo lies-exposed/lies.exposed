@@ -75,8 +75,28 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     EDIT_LINK,
     {
       title: "Edit link",
-      description:
-        "Edit an existing link in the database. Only provided fields will be updated. Returns the updated link details in structured markdown format.\\n\\nDESCRIPTION BEHAVIOR:\\n- Omitted fields: Keep existing value\\n- null: Clear/remove the value\\n- Empty array: Clear array\\n\\nUPDATABLE FIELDS:\\n- url: New URL\\n- title: New title\\n- description: New description\\n- publishDate: Update publish date (YYYY-MM-DD)\\n- provider: Update source domain\\n- image: Update featured image URL",
+      description: `Update an existing link in the database. Only provide fields you want to change; 
+omitted fields keep their existing values.
+
+REQUIRED:
+- id: The unique identifier of the link to update
+
+OPTIONAL (provide only fields to change):
+- url: HTTP/HTTPS URL
+- title: Title of the linked resource
+- description: Summary of link content
+- publishDate: Publication date (YYYY-MM-DD format)
+- provider: Source domain or platform name
+- image: Featured image URL
+
+UPDATE BEHAVIOR:
+- Omitted fields: Keep their current values
+- Provided fields: Update with new values
+
+TIPS:
+- Use findLinks() to search for the link if unsure of ID
+- Only include fields you want to change
+- Returns the updated link with full details`,
       annotations: { title: "Edit link" },
       inputSchema: effectToZodStruct(EditLinkInputSchema),
     },
