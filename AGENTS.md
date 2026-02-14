@@ -171,6 +171,28 @@ The platform is built using a monorepo architecture with shared packages:
 
 ## Development Guidelines
 
+### Spawning Subagents (Task Tool)
+
+Subagents launched via the `Task` tool do **not** inherit `CLAUDE.md` or `AGENTS.md` context. When spawning a subagent, **always include a basic-memory instruction** in the prompt so it can discover project conventions autonomously.
+
+**Required pattern:**
+```
+Task(prompt: "Before starting work, query the basic-memory MCP server:
+  - build_context('memory://getting-started/agent-quickstart') for project conventions and key patterns
+  - search_notes('<relevant-topic>') for topic-specific guidance (e.g. 'mcp', 'e2e-tests', 'fp-ts')
+
+Then proceed with: <actual task description>")
+```
+
+**What basic-memory provides to subagents:**
+- Architecture patterns (route handlers, flows, endpoint definitions)
+- Critical gotchas (Effect vs fp-ts Option, build order, OpenAI schema rules)
+- Test bootstrap patterns (`GetAppTest()`, `saveUser`, `loginUser`)
+- File location conventions (`src/` vs `lib/` vs `build/`)
+- Service-specific documentation (API, admin, web, worker, agent)
+
+**When to include it:** Any subagent that will read or write code in this repository.
+
 ### Development Best Practices and Priorities
 
 #### Common Pitfalls and Solutions

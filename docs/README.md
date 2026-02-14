@@ -6,6 +6,7 @@ Welcome to the lies.exposed platform documentation. This is a fact-checking and 
 
 ### Getting Started
 - [**Prerequisites & Setup**](./getting-started/README.md) - First-time setup, dependencies, Docker
+- [**Agent Quickstart**](./getting-started/agent-quickstart.md) - How AI agents should use this knowledge base
 
 ### Services
 - [**Services Overview**](./services/README.md) - Architecture and service interactions
