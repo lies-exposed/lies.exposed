@@ -69,24 +69,32 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         messages: [...prev.messages, userMessage],
       }));
 
-      try {
-        // Get auth token from localStorage
-        const authToken = getAuthFromLocalStorage();
-        const headers: HeadersInit = {
-          "Content-Type": "application/json",
-        };
+       try {
+         // Get auth token from localStorage
+         const authToken = getAuthFromLocalStorage();
+         const headers: HeadersInit = {
+           "Content-Type": "application/json",
+         };
 
-        // Add Authorization header if token exists
-        if (authToken) {
-          headers.Authorization = authToken;
-        }
+         // Add Authorization header if token exists
+         if (authToken) {
+           headers.Authorization = authToken;
+         }
 
-        const response = await fetch(proxyUrl, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(request),
-          signal: abortController.signal,
-        });
+          // Set up connection timeout (3 minutes per message)
+          const timeoutId = setTimeout(() => {
+            abortController.abort();
+          }, 180000);
+
+         const response = await fetch(proxyUrl, {
+           method: "POST",
+           headers,
+           body: JSON.stringify(request),
+           signal: abortController.signal,
+         });
+
+         // Clear timeout on successful connection
+         clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -258,36 +266,41 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           ...prev,
           isLoading: false,
         }));
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
-          // Request was cancelled
-          return;
-        }
+       } catch (error) {
+         if (error instanceof Error && error.name === "AbortError") {
+           // Request was cancelled or timed out
+           setState((prev) => ({
+             ...prev,
+             isLoading: false,
+             error: "Connection timeout - please try again",
+           }));
+           return;
+         }
 
-        // Filter out benign stream completion errors
-        const isBenignStreamError =
-          error instanceof TypeError &&
-          (error.message.includes("Error in input stream") ||
-            error.message.includes("The stream has already been consumed") ||
-            error.message.includes("network error"));
+         // Filter out benign stream completion errors
+         const isBenignStreamError =
+           error instanceof TypeError &&
+           (error.message.includes("Error in input stream") ||
+             error.message.includes("The stream has already been consumed") ||
+             error.message.includes("network error"));
 
-        if (!isBenignStreamError) {
-          // eslint-disable-next-line no-console
-          console.error("Streaming error:", error);
-          setState((prev) => ({
-            ...prev,
-            isLoading: false,
-            error:
-              error instanceof Error ? error.message : "Failed to send message",
-          }));
-        } else {
-          // For benign errors, just clear loading state
-          setState((prev) => ({
-            ...prev,
-            isLoading: false,
-          }));
-        }
-      }
+         if (!isBenignStreamError) {
+           // eslint-disable-next-line no-console
+           console.error("Streaming error:", error);
+           setState((prev) => ({
+             ...prev,
+             isLoading: false,
+             error:
+               error instanceof Error ? error.message : "Failed to send message",
+           }));
+         } else {
+           // For benign errors, just clear loading state
+           setState((prev) => ({
+             ...prev,
+             isLoading: false,
+           }));
+         }
+       }
     },
     [proxyUrl],
   );
