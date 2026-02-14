@@ -23,7 +23,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find links",
       description:
-        "Search for links by URL, title, or keywords. CRITICAL: Always search before creating links to avoid duplicates.\n\nSEARCH CRITERIA:\n- query: Search in title or URL (e.g., 'news example.com', 'covid vaccination')\n- sort: by createdAt (default), title, or url\n- order: ASC (ascending) or DESC (descending)\n\nEXAMPLES:\n1. Find by topic: query='covid vaccination'\n2. Find by domain: query='example.com'\n3. Find and sort by title: query='health', sort='title', order='ASC'\n\nReturns matching links with full details (URL, title, description, metadata).",
+        "Search for links by URL or title. Supports sorting by creation date, title, or URL.",
       annotations: { title: "Find links" },
       inputSchema: effectToZodStruct(FindLinksInputSchema),
     },
@@ -43,8 +43,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     GET_LINK,
     {
       title: "Get link",
-      description:
-        "Retrieve a link by its ID. Returns the link item in JSON format.",
+      description: "Retrieve a link by ID.",
       annotations: { title: "Get link" },
       inputSchema: effectToZodStruct(GetLinkInputSchema),
     },
@@ -56,7 +55,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create link",
       description:
-        "Create a new link in the database for storing web references for fact-checking.\\n\\nREQUIRED FIELDS:\\n- url: HTTP/HTTPS URL (must be valid URL format)\\n\\nOPTIONAL IN CONFIG:\\n- title: Override fetched page title\\n- description: Summary of link content\\n- publishDate: When article was published (ISO format: YYYY-MM-DD)\\n- provider: Source domain or platform name\\n- image: Featured image URL\\n\\nEXAMPLES:\\n1. MINIMAL: { url: 'https://news.example.com/article' }\\n   → Auto-fetches title and metadata\\n\\n2. FULL: { url: 'https://...', title: 'Custom Title', description: 'Summary', publishDate: '2026-02-14', provider: 'Example News', image: 'https://...' }\\n   → Creates link with all metadata specified\\n\\nTIPS:\\n- Always FIND_LINKS first to avoid duplicate references\\n- Valid URLs must start with http:// or https://\\n- System auto-fetches title/description if not provided\\n- Use to store references for actor/group/event creation",
+        "Create a new link from URL. Required: url (HTTP/HTTPS). Optional config fields: title, description, publishDate, provider, image.",
       annotations: { title: "Create link" },
       inputSchema: effectToZodStruct(CreateLinkInputSchema),
     },
@@ -75,28 +74,8 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     EDIT_LINK,
     {
       title: "Edit link",
-      description: `Update an existing link in the database. Only provide fields you want to change; 
-omitted fields keep their existing values.
-
-REQUIRED:
-- id: The unique identifier of the link to update
-
-OPTIONAL (provide only fields to change):
-- url: HTTP/HTTPS URL
-- title: Title of the linked resource
-- description: Summary of link content
-- publishDate: Publication date (YYYY-MM-DD format)
-- provider: Source domain or platform name
-- image: Featured image URL
-
-UPDATE BEHAVIOR:
-- Omitted fields: Keep their current values
-- Provided fields: Update with new values
-
-TIPS:
-- Use findLinks() to search for the link if unsure of ID
-- Only include fields you want to change
-- Returns the updated link with full details`,
+      description:
+        "Update a link. Only provide fields to change; omitted fields keep current values.",
       annotations: { title: "Edit link" },
       inputSchema: effectToZodStruct(EditLinkInputSchema),
     },

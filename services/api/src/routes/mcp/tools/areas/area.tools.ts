@@ -23,7 +23,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find areas",
       description:
-        "Search for geographic areas by name or description. CRITICAL: Always search before creating areas to avoid duplicates.\n\nSEARCH CRITERIA:\n- query: Search in area name or description (e.g., 'Europe', 'United States', 'North America')\n- withDeleted: Include deleted areas in results (optional)\n- sort: by createdAt (default) or label\n- order: ASC (ascending) or DESC (descending)\n- start/end: Pagination start and end indices\n\nEXAMPLES:\n1. Find continent: query='Europe'\n2. Find country: query='Italy'\n3. Find with pagination: query='*', start=0, end=20\n\nReturns matching geographic areas with full details (coordinates, geometry, metadata).",
+        "Search for geographic areas by name or description. Supports sorting and pagination.",
       annotations: { title: "Find areas" },
       inputSchema: effectToZodStruct(FindAreasInputSchema),
     },
@@ -58,7 +58,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create area",
       description:
-        "Create a new geographic area (country, region, continent) in the database with location data.\\n\\nREQUIRED FIELDS:\\n- label: Area name (e.g., 'Italy', 'Europe', 'North America')\\n\\nOPTIONAL IN CONFIG:\\n- body: Detailed description of the area\\n- draft: Mark as draft (true/false)\\n- featuredImage: Image URL for the area\\n- updateGeometry: Geographic boundaries (GeoJSON format)\\n\\nEXAMPLES:\\n1. MINIMAL: { label: 'Italy' }\\n   → Creates area with name only\\n\\n2. DETAILED: { label: 'Europe', body: 'European continent...', updateGeometry: {...GeoJSON...} }\\n   → Creates area with description and geographic boundaries\\n\\nTIPS:\\n- Always FIND_AREAS first to avoid duplicates\\n- Use consistent naming (e.g., 'United States' not 'USA')\\n- Geometry should be valid GeoJSON if provided\\n- Used for mapping events to geographic locations",
+        "Create a new geographic area. Search findAreas first to avoid duplicates. Optional config fields: body, draft, featuredImage, updateGeometry.",
       annotations: { title: "Create area" },
       inputSchema: effectToZodStruct(CreateAreaInputSchema),
     },
@@ -69,28 +69,8 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     EDIT_AREA,
     {
       title: "Edit area",
-      description: `Update an existing geographic area in the database. Only provide fields you want to 
-change; omitted fields keep their existing values.
-
-REQUIRED:
-- id: The unique identifier of the area to update
-
-OPTIONAL (provide only fields to change):
-- label: Area name (e.g., 'Italy', 'Europe')
-- body: Detailed description of the area
-- draft: Mark as draft (true/false)
-- featuredImage: Image URL for the area
-- updateGeometry: Geographic boundaries (GeoJSON format)
-
-UPDATE BEHAVIOR:
-- Omitted fields: Keep their current values
-- Provided fields: Update with new values
-
-TIPS:
-- Use findAreas() to search for the area if unsure of ID
-- Only include fields you want to change
-- Geometry should be valid GeoJSON if provided
-- Returns the updated area with full details`,
+      description:
+        "Update an area. Only provide fields to change; omitted fields keep current values. Geometry should be valid GeoJSON if provided.",
       annotations: { title: "Edit area" },
       inputSchema: effectToZodStruct(EditAreaInputSchema),
     },

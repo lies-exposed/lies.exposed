@@ -25,35 +25,8 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     FIND_ACTORS,
     {
       title: "Find actors",
-      description: `Search for persons in the database by name or group membership. ALWAYS search before creating.
-
-SEARCH STRATEGY - Always try multiple name variations to find duplicates:
-
-For "Donald Trump":
-- Search: "Donald Trump" (full name)
-- Search: "Trump" (last name only)
-- Search: "Donald" (first name only)
-- Search: "D. Trump" (initial)
-- Search: "The Donald" (alias if known)
-
-For "World leaders":
-- Search with full name first
-- Then shortened variations
-- Then nicknames (if known)
-- Check results across searches
-
-SEARCH CRITERIA:
-- fullName: Search by name (partial match supported)
-- memberIn: Filter by group UUIDs (actors in organizations)
-- withDeleted: Include deleted actors
-- sort: username, createdAt (default), updatedAt
-- order: ASC or DESC
-
-CRITICAL TIPS:
-- ALWAYS search multiple times before creating
-- Try acronyms, abbreviated names, nicknames
-- Returns full actor details (name, username, bio, dates, groups)
-- Duplicate entries fragment information`,
+      description:
+        "Search for persons by name or group membership. Supports partial name matching, group filtering, and sorting.",
       annotations: { title: "Find actors" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
@@ -76,54 +49,8 @@ CRITICAL TIPS:
     CREATE_ACTOR,
     {
       title: "Create actor",
-      description: `Create a new actor (person) in the database with simplified parameters.
-
-CRITICAL WORKFLOW - ALWAYS SEARCH FIRST:
-1. Use findActors to search with multiple name variations
-2. Only create if NO match found
-3. For nationalities: Search using findNations to get UUIDs
-
-REQUIRED FIELDS:
-- username: Unique identifier (lowercase, no spaces)
-- fullName: Display name
-
-OPTIONAL CONFIGURATION (in config):
-All optional fields use smart defaults if omitted:
-- color: Auto-generated random color if not specified
-- excerpt: Short description (null if not provided)
-- nationalityIds: Array of nationality UUIDs (empty if not provided)
-- body: Full biography (null if not provided)
-- avatar: Media UUID (null if not provided)
-- bornOn: Birth date YYYY-MM-DD (null if unknown)
-- diedOn: Death date YYYY-MM-DD (null if unknown)
-
-EXAMPLES:
-
-Example 1 - Minimal actor:
-{
-  "username": "john_smith",
-  "fullName": "John Smith"
-}
-→ Creates actor with random color, no other details
-
-Example 2 - Actor with details:
-{
-  "username": "jane_doe",
-  "fullName": "Jane Doe",
-  "config": {
-    "color": "FF10F0",
-    "excerpt": "American businesswoman",
-    "nationalityIds": ["usa-nation-uuid"],
-    "avatar": "media-uuid-123",
-    "bornOn": "1975-03-15"
-  }
-}
-
-NOTES:
-- ALWAYS search before creating to avoid duplicates
-- Only provide config fields you have values for
-- System generates random color automatically
-- Avatar media must already exist in database`,
+      description:
+        "Create a new actor. Use findActors to search first and avoid duplicates. Optional config fields: color, excerpt, nationalityIds, body, avatar, bornOn, diedOn.",
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
@@ -134,33 +61,8 @@ NOTES:
     EDIT_ACTOR,
     {
       title: "Edit actor",
-      description: `Update an existing actor in the database. Only provide fields you want to change; 
-omitted fields keep their existing values.
-
-REQUIRED:
-- id: The unique identifier of the actor to update
-
-OPTIONAL (provide only fields to change):
-- username: Unique identifier (lowercase, no spaces)
-- fullName: Display name of the actor
-- color: Hex color code for the actor (without #)
-- excerpt: Short description of the actor
-- nationalities: Array of nationality UUIDs (use findNations to get UUIDs)
-- memberIn: Array of group UUIDs this actor is member of
-- body: Detailed biography or description
-- avatar: UUID of avatar image media
-- bornOn: Birth date (YYYY-MM-DD format)
-- diedOn: Death date (YYYY-MM-DD format)
-
-UPDATE BEHAVIOR:
-- Omitted fields: Keep their current values
-- Empty arrays (nationalities, memberIn): Clear the array
-- Dates (bornOn, diedOn): Can be cleared by omitting
-
-TIPS:
-- Use findActors() to search for the actor if unsure of ID
-- Only include fields you want to change
-- Returns the updated actor with full details`,
+      description:
+        "Update an actor. Only provide fields to change; omitted fields keep current values. Empty arrays clear membership; dates can be cleared by omitting.",
       annotations: { title: "Edit actor" },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },

@@ -22,34 +22,8 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     FIND_GROUPS,
     {
       title: "Find groups",
-      description: `Search for groups (organizations) by name or other criteria. ALWAYS search before creating.
-
-SEARCH STRATEGY - Always try multiple name variations to find duplicates:
-
-For "World Health Organization":
-- Search: "World Health Organization" (full name)
-- Search: "WHO" (acronym)
-- Search: "World Health" (partial)
-- Search: "Health Organization" (partial)
-
-For "European Union":
-- Search: "European Union" (full name)
-- Search: "EU" (acronym)
-- Search: "E.U." (with periods)
-- Search: "European" (partial)
-
-SEARCH CRITERIA:
-- name: Search by group/organization name (partial match supported)
-- withDeleted: Include deleted groups
-- sort: name, createdAt (default)
-- order: ASC or DESC
-
-CRITICAL TIPS:
-- ALWAYS search multiple times before creating
-- Try acronyms, abbreviated forms, full names
-- Try partial name matches (could be listed as "Health Organization" instead of full name)
-- Returns full group details (name, type, description, members, dates)
-- Duplicate entries fragment organizational information`,
+      description:
+        "Search for organizations by name or criteria. Supports partial name matching, acronyms, and sorting.",
       annotations: { title: "Find groups" },
       inputSchema: effectToZodStruct(FindGroupsInputSchema),
     },
@@ -66,8 +40,7 @@ CRITICAL TIPS:
     GET_GROUP,
     {
       title: "Get group",
-      description:
-        "Retrieve detailed information about a specific group (organization) using its unique identifier. Returns the group details in structured markdown format.",
+      description: "Retrieve a group by ID.",
       inputSchema: effectToZodStruct(GetGroupInputSchema),
       annotations: { title: "Get group" },
     },
@@ -78,55 +51,8 @@ CRITICAL TIPS:
     CREATE_GROUP,
     {
       title: "Create group",
-      description: `Create a new group (organization) in the database with simplified parameters.
-
-CRITICAL WORKFLOW - ALWAYS SEARCH FIRST:
-1. Use findGroups to search with multiple name variations
-2. Only create if NO match found
-3. For members: Search using findActors to get member UUIDs
-
-REQUIRED FIELDS:
-- name: Organization name
-- username: Unique identifier (lowercase, no spaces)
-- kind: Organization type (Public or Private)
-
-OPTIONAL CONFIGURATION (in config):
-All optional fields use smart defaults if omitted:
-- color: Auto-generated random color if not specified
-- excerpt: Short description (null if not provided)
-- body: Full details (null if not provided)
-- avatar: Media UUID (null if not provided)
-- startDate: Start date YYYY-MM-DD (null if unknown)
-- endDate: End date YYYY-MM-DD (null if unknown)
-
-EXAMPLES:
-
-Example 1 - Minimal group:
-{
-  "name": "World Health Organization",
-  "username": "world_health_org",
-  "kind": "Public"
-}
-→ Creates organization with random color, no other details
-
-Example 2 - Group with details:
-{
-  "name": "ABC Company",
-  "username": "abc_company",
-  "kind": "Private",
-  "config": {
-    "color": "0077BE",
-    "excerpt": "Tech company founded in 2010",
-    "avatar": "media-uuid-123",
-    "startDate": "2010-05-20"
-  }
-}
-
-NOTES:
-- ALWAYS search before creating to avoid duplicates
-- Only provide config fields you have values for
-- System generates random color automatically
-- Avatar media must already exist in database`,
+      description:
+        "Create a new group. Use findGroups to search first and avoid duplicates. Optional config fields: color, excerpt, body, avatar, startDate, endDate.",
       annotations: { title: "Create group" },
       inputSchema: effectToZodStruct(CreateInputSchema),
     },
@@ -143,34 +69,8 @@ NOTES:
     EDIT_GROUP,
     {
       title: "Edit group",
-      description: `Update an existing group (organization) in the database. Only provide fields you want to 
-change; omitted fields keep their existing values.
-
-REQUIRED:
-- id: The unique identifier of the group to update
-
-OPTIONAL (provide only fields to change):
-- name: Name of the group/organization
-- username: Unique identifier (lowercase, no spaces)
-- color: Hex color code for the group (without #)
-- kind: Organization type (Public or Private)
-- excerpt: Short description of the group
-- body: Detailed information or description
-- avatar: UUID of avatar image media
-- startDate: Start date (YYYY-MM-DD format)
-- endDate: End date (YYYY-MM-DD format)
-- members: Array of actor UUIDs who are members
-
-UPDATE BEHAVIOR:
-- Omitted fields: Keep their current values
-- Empty arrays (members): Clear the array
-- Dates (startDate, endDate): Can be cleared by omitting
-
-TIPS:
-- Use findGroups() to search for the group if unsure of ID
-- For members: Use findActors() to get actor UUIDs
-- Only include fields you want to change
-- Returns the updated group with full details`,
+      description:
+        "Update a group. Only provide fields to change; omitted fields keep current values. Empty arrays clear membership; dates can be cleared by omitting.",
       annotations: { title: "Edit group" },
       inputSchema: effectToZodStruct(EditInputSchema),
     },
