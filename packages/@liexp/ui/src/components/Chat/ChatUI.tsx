@@ -119,6 +119,12 @@ export interface ChatUIProps {
     content: string;
     tool_calls?: ToolCall[];
     timestamp: string;
+    tokenUsage?: {
+      promptTokens: number;
+      completionTokens: number;
+      totalTokens: number;
+      isEstimated: boolean;
+    } | null;
   } | null;
 }
 

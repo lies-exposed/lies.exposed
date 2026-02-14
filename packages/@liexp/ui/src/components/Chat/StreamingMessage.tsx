@@ -3,6 +3,7 @@ import { MarkdownContent } from "../Common/Markdown/MarkdownContent.js";
 import { Box, Typography, Stack, Icons } from "../mui/index.js";
 import { MessageBubble } from "./MessageBubble.js";
 import { ToolMessage } from "./ToolMessage.js";
+import { styled } from "../../theme/index.js";
 
 interface ToolCall {
   id: string;
@@ -13,11 +14,33 @@ interface ToolCall {
   };
 }
 
+// Styled progress bar
+const TokenProgressBar = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: 4,
+  backgroundColor: theme.palette.grey[300],
+  borderRadius: 2,
+  overflow: "hidden",
+  marginTop: theme.spacing(0.5),
+}));
+
+const TokenProgressFill = styled(Box)(({ theme }) => ({
+  height: "100%",
+  backgroundColor: theme.palette.primary.main,
+  transition: "width 0.3s ease",
+}))
+
 interface StreamingMessageProps {
   streamingMessage: {
     content: string;
     tool_calls?: ToolCall[];
     timestamp: string;
+    tokenUsage?: {
+      promptTokens: number;
+      completionTokens: number;
+      totalTokens: number;
+      isEstimated: boolean;
+    } | null;
   };
   formatTime: (timestamp: string) => string;
 }
@@ -114,6 +137,66 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
                   : "Streaming..."}
               </Typography>
             </Box>
+
+            {/* Token usage progress indicator */}
+            {streamingMessage.tokenUsage && (
+              <Box sx={{ mt: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 0.5,
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontSize: "0.65rem",
+                      opacity: 0.7,
+                    }}
+                  >
+                    Tokens:{" "}
+                    {streamingMessage.tokenUsage.completionTokens.toLocaleString()}
+                    {streamingMessage.tokenUsage.isEstimated ? " (est.)" : ""}
+                  </Typography>
+                  {streamingMessage.tokenUsage.totalTokens > 0 && (
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        fontSize: "0.65rem",
+                        opacity: 0.7,
+                      }}
+                    >
+                      {Math.round(
+                        (streamingMessage.tokenUsage.completionTokens /
+                          Math.max(
+                            streamingMessage.tokenUsage.totalTokens,
+                            streamingMessage.tokenUsage.completionTokens,
+                          )) *
+                          100,
+                      )}
+                      %
+                    </Typography>
+                  )}
+                </Box>
+                <TokenProgressBar>
+                  <TokenProgressFill
+                    sx={{
+                      width:
+                        streamingMessage.tokenUsage.totalTokens > 0
+                          ? `${Math.min(
+                              (streamingMessage.tokenUsage.completionTokens /
+                                streamingMessage.tokenUsage.totalTokens) *
+                                100,
+                              100,
+                            )}%`
+                          : "0%",
+                    }}
+                  />
+                </TokenProgressBar>
+              </Box>
+            )}
           </MessageBubble>
         </Stack>
       )}

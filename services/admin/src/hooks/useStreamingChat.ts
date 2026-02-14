@@ -7,6 +7,17 @@ import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useCallback, useRef } from "react";
 import { flushSync } from "react-dom";
 
+// Simple token estimation: roughly 1 token ≈ 4 characters
+// This is a conservative estimate; actual tokens depend on the model's tokenizer
+const estimateTokens = (text: string): number => {
+  // Count words as a base estimate
+  const words = text.trim().split(/\s+/).length;
+  // Add characters for punctuation and special tokens
+  const chars = text.length;
+  // Combined estimate: average of word-based and char-based
+  return Math.ceil((words * 1.3 + chars / 4) / 2);
+};
+
 interface StreamingChatState {
   messages: ChatMessage[];
   isLoading: boolean;
@@ -15,6 +26,13 @@ interface StreamingChatState {
   streamingContent: string; // Accumulated content from content_delta events
   activeToolCalls: Map<string, { name: string; args?: string }>;
   completedToolCalls: { name: string; result: string }[];
+  // Token usage tracking
+  tokenUsage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    isEstimated: boolean; // True during streaming, false when finalized
+  } | null;
 }
 
 interface UseStreamingChatOptions {
@@ -32,6 +50,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     streamingContent: "",
     activeToolCalls: new Map(),
     completedToolCalls: [],
+    tokenUsage: null,
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -54,6 +73,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         streamingContent: "",
         activeToolCalls: new Map(),
         completedToolCalls: [],
+        tokenUsage: null,
       }));
 
       // Add user message immediately
@@ -69,32 +89,32 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         messages: [...prev.messages, userMessage],
       }));
 
-       try {
-         // Get auth token from localStorage
-         const authToken = getAuthFromLocalStorage();
-         const headers: HeadersInit = {
-           "Content-Type": "application/json",
-         };
+      try {
+        // Get auth token from localStorage
+        const authToken = getAuthFromLocalStorage();
+        const headers: HeadersInit = {
+          "Content-Type": "application/json",
+        };
 
-         // Add Authorization header if token exists
-         if (authToken) {
-           headers.Authorization = authToken;
-         }
+        // Add Authorization header if token exists
+        if (authToken) {
+          headers.Authorization = authToken;
+        }
 
-          // Set up connection timeout (3 minutes per message)
-          const timeoutId = setTimeout(() => {
-            abortController.abort();
-          }, 180000);
+        // Set up connection timeout (3 minutes per message)
+        const timeoutId = setTimeout(() => {
+          abortController.abort();
+        }, 180000);
 
-         const response = await fetch(proxyUrl, {
-           method: "POST",
-           headers,
-           body: JSON.stringify(request),
-           signal: abortController.signal,
-         });
+        const response = await fetch(proxyUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(request),
+          signal: abortController.signal,
+        });
 
-         // Clear timeout on successful connection
-         clearTimeout(timeoutId);
+        // Clear timeout on successful connection
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -156,6 +176,25 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                         case "content_delta":
                           if (event.content) {
                             newState.streamingContent += event.content;
+                            // Update estimated token usage during streaming
+                            const estimatedCompletionTokens = estimateTokens(
+                              newState.streamingContent,
+                            );
+                            if (!newState.tokenUsage) {
+                              newState.tokenUsage = {
+                                promptTokens: 0, // We don't know prompt tokens yet
+                                completionTokens: estimatedCompletionTokens,
+                                totalTokens: estimatedCompletionTokens,
+                                isEstimated: true,
+                              };
+                            } else {
+                              newState.tokenUsage.completionTokens =
+                                estimatedCompletionTokens;
+                              newState.tokenUsage.totalTokens =
+                                newState.tokenUsage.promptTokens +
+                                estimatedCompletionTokens;
+                              newState.tokenUsage.isEstimated = true;
+                            }
                           }
                           break;
 
@@ -233,6 +272,16 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                             newState.completedToolCalls = [];
                             newState.conversationId =
                               request.conversation_id ?? prev.conversationId;
+
+                            // Update token usage with actual values if provided
+                            if (event.usage) {
+                              newState.tokenUsage = {
+                                promptTokens: event.usage.prompt_tokens ?? 0,
+                                completionTokens: event.usage.completion_tokens ?? 0,
+                                totalTokens: event.usage.total_tokens ?? 0,
+                                isEstimated: false,
+                              };
+                            }
                           }
                           break;
 
@@ -266,41 +315,41 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           ...prev,
           isLoading: false,
         }));
-       } catch (error) {
-         if (error instanceof Error && error.name === "AbortError") {
-           // Request was cancelled or timed out
-           setState((prev) => ({
-             ...prev,
-             isLoading: false,
-             error: "Connection timeout - please try again",
-           }));
-           return;
-         }
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          // Request was cancelled or timed out
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error: "Connection timeout - please try again",
+          }));
+          return;
+        }
 
-         // Filter out benign stream completion errors
-         const isBenignStreamError =
-           error instanceof TypeError &&
-           (error.message.includes("Error in input stream") ||
-             error.message.includes("The stream has already been consumed") ||
-             error.message.includes("network error"));
+        // Filter out benign stream completion errors
+        const isBenignStreamError =
+          error instanceof TypeError &&
+          (error.message.includes("Error in input stream") ||
+            error.message.includes("The stream has already been consumed") ||
+            error.message.includes("network error"));
 
-         if (!isBenignStreamError) {
-           // eslint-disable-next-line no-console
-           console.error("Streaming error:", error);
-           setState((prev) => ({
-             ...prev,
-             isLoading: false,
-             error:
-               error instanceof Error ? error.message : "Failed to send message",
-           }));
-         } else {
-           // For benign errors, just clear loading state
-           setState((prev) => ({
-             ...prev,
-             isLoading: false,
-           }));
-         }
-       }
+        if (!isBenignStreamError) {
+          // eslint-disable-next-line no-console
+          console.error("Streaming error:", error);
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error:
+              error instanceof Error ? error.message : "Failed to send message",
+          }));
+        } else {
+          // For benign errors, just clear loading state
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+          }));
+        }
+      }
     },
     [proxyUrl],
   );
@@ -321,6 +370,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       streamingContent: "",
       activeToolCalls: new Map(),
       completedToolCalls: [],
+      tokenUsage: null,
     });
   }, []);
 

@@ -165,6 +165,14 @@ export const ChatStreamEvent = Schema.Struct({
   role: Schema.optional(ChatRole),
   // Error information
   error: Schema.optional(Schema.String),
+  // Token usage information (provided at message_end or estimated during streaming)
+  usage: Schema.optional(
+    Schema.Struct({
+      prompt_tokens: Schema.optional(Schema.Number),
+      completion_tokens: Schema.optional(Schema.Number),
+      total_tokens: Schema.optional(Schema.Number),
+    }),
+  ),
 }).annotations({
   title: "ChatStreamEvent",
   description: "Server-sent event for chat streaming",
