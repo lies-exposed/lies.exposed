@@ -431,6 +431,19 @@ export const registerAgentProxyRoutes = (
         // Make streaming request to agent service
         const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
 
+        // Set up abort controller with 3-minute timeout for streaming responses
+        const abortController = new AbortController();
+        const timeoutId = setTimeout(
+          () => {
+            logger.warn.log(
+              "Streaming request timeout after 3 minutes (correlation: %s)",
+              correlationId,
+            );
+            abortController.abort();
+          },
+          180000, // 3 minutes
+        );
+
         const response = await fetch(agentUrl, {
           method: "POST",
           headers: {
@@ -439,6 +452,7 @@ export const registerAgentProxyRoutes = (
             "x-correlation-id": correlationId,
           },
           body: JSON.stringify(req.body),
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -456,6 +470,7 @@ export const registerAgentProxyRoutes = (
             })}\n\n`,
           );
           res.end();
+          clearTimeout(timeoutId);
           return;
         }
 
@@ -472,6 +487,7 @@ export const registerAgentProxyRoutes = (
             })}\n\n`,
           );
           res.end();
+          clearTimeout(timeoutId);
           return;
         }
 
@@ -498,6 +514,7 @@ export const registerAgentProxyRoutes = (
                 "Streaming completed successfully (correlation: %s)",
                 correlationId,
               );
+              clearTimeout(timeoutId);
               if (!res.writableEnded) {
                 res.end();
               }
@@ -508,6 +525,7 @@ export const registerAgentProxyRoutes = (
                 err,
                 correlationId,
               );
+              clearTimeout(timeoutId);
               if (!res.writableEnded) {
                 res.end();
               }
