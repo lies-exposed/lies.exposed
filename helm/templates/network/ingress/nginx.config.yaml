@@ -7,7 +7,20 @@ data:
   # use-forwarded-headers: "true"
   # server-snippet: real_ip_header CF-Connecting-IP;
   # Still works without this line because it defaults to X-Forwarded-For, but I use it anyways
-#   forwarded-for-header: "CF-Connecting-IP"
+  #   forwarded-for-header: "CF-Connecting-IP"
+  
+  # Streaming endpoints need longer timeouts for LLM inference
+  # These timeouts apply to proxied requests (chat streaming, file uploads, etc.)
+  proxy-connect-timeout: "30"
+  proxy-send-timeout: "300"        # 5 minutes for sending request body
+  proxy-read-timeout: "300"        # 5 minutes for reading response
+  proxy-buffering: "off"            # Disable buffering for streaming responses
+  proxy-request-buffering: "off"    # Disable request buffering
+  
+  # WebSocket support for real-time communication
+  http-backend-kubeproxy-session-affinity: "ClientIP"
+  upstream-keepalive-timeout: "310"
+  
 kind: ConfigMap
 metadata:
   name: ingress-nginx-configuration

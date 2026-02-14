@@ -55,6 +55,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
 
   const abortControllerRef = useRef<AbortController | null>(null);
   const currentMessageIdRef = useRef<string | null>(null);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const sendMessage = useCallback(
     async (request: ChatRequest): Promise<void> => {
@@ -101,10 +102,12 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           headers.Authorization = authToken;
         }
 
-        // Set up connection timeout (3 minutes per message)
+        // Set up timeout for entire stream (3 minutes)
+        // This prevents the stream from hanging indefinitely
         const timeoutId = setTimeout(() => {
           abortController.abort();
         }, 180000);
+        timeoutIdRef.current = timeoutId;
 
         const response = await fetch(proxyUrl, {
           method: "POST",
@@ -113,14 +116,13 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           signal: abortController.signal,
         });
 
-        // Clear timeout on successful connection
-        clearTimeout(timeoutId);
-
         if (!response.ok) {
+          clearTimeout(timeoutId);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         if (!response.body) {
+          clearTimeout(timeoutId);
           throw new Error("No response body");
         }
 
@@ -309,6 +311,11 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           }
         } finally {
           reader.releaseLock();
+          // Always clear the timeout when stream ends
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+            timeoutIdRef.current = null;
+          }
         }
 
         setState((prev) => ({
@@ -316,12 +323,18 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           isLoading: false,
         }));
       } catch (error) {
+        // Clear timeout on error
+        if (timeoutIdRef.current) {
+          clearTimeout(timeoutIdRef.current);
+          timeoutIdRef.current = null;
+        }
+
         if (error instanceof Error && error.name === "AbortError") {
           // Request was cancelled or timed out
           setState((prev) => ({
             ...prev,
             isLoading: false,
-            error: "Connection timeout - please try again",
+            error: "Stream timeout (3 minutes) - please try again with a shorter request",
           }));
           return;
         }
