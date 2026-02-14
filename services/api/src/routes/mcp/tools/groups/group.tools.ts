@@ -22,26 +22,34 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     FIND_GROUPS,
     {
       title: "Find groups",
-      description: `Search for groups (organizations) using various criteria.
+      description: `Search for groups (organizations) by name or other criteria. ALWAYS search before creating.
 
-SEARCH STRATEGY - Always try multiple name variations:
+SEARCH STRATEGY - Always try multiple name variations to find duplicates:
 
 For "World Health Organization":
-- Search 1: "World Health Organization"
-- Search 2: "WHO"
-- Search 3: "Health Organization"
+- Search: "World Health Organization" (full name)
+- Search: "WHO" (acronym)
+- Search: "World Health" (partial)
+- Search: "Health Organization" (partial)
 
 For "European Union":
-- Search 1: "European Union"
-- Search 2: "EU"
-- Search 3: "E.U."
+- Search: "European Union" (full name)
+- Search: "EU" (acronym)
+- Search: "E.U." (with periods)
+- Search: "European" (partial)
 
-TIPS:
-- Use name parameter for organization names
-- Try acronyms and abbreviated forms
-- Try partial name matches
-- Returns results in structured markdown format
-- ALWAYS search before creating new group to avoid duplicates`,
+SEARCH CRITERIA:
+- name: Search by group/organization name (partial match supported)
+- withDeleted: Include deleted groups
+- sort: name, createdAt (default)
+- order: ASC or DESC
+
+CRITICAL TIPS:
+- ALWAYS search multiple times before creating
+- Try acronyms, abbreviated forms, full names
+- Try partial name matches (could be listed as "Health Organization" instead of full name)
+- Returns full group details (name, type, description, members, dates)
+- Duplicate entries fragment organizational information`,
       annotations: { title: "Find groups" },
       inputSchema: effectToZodStruct(FindGroupsInputSchema),
     },

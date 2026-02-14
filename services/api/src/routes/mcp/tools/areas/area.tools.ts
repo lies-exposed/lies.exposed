@@ -23,7 +23,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find area",
       description:
-        "Search for areas using various criteria like name or keywords. Returns the area in JSON format",
+        "Search for geographic areas by name or description. CRITICAL: Always search before creating areas to avoid duplicates.\n\nSEARCH CRITERIA:\n- query: Search in area name or description (e.g., 'Europe', 'United States', 'North America')\n- withDeleted: Include deleted areas in results (optional)\n- sort: by createdAt (default) or label\n- order: ASC (ascending) or DESC (descending)\n- start/end: Pagination start and end indices\n\nEXAMPLES:\n1. Find continent: query='Europe'\n2. Find country: query='Italy'\n3. Find with pagination: query='*', start=0, end=20\n\nReturns matching geographic areas with full details (coordinates, geometry, metadata).",
       annotations: { title: "Find areas" },
       inputSchema: effectToZodStruct(FindAreasInputSchema),
     },
@@ -58,7 +58,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create area",
       description:
-        "Create a new geographic area in the database with the provided information. Returns the created area details in structured markdown format.",
+        "Create a new geographic area (country, region, continent) in the database with location data.\\n\\nREQUIRED FIELDS:\\n- label: Area name (e.g., 'Italy', 'Europe', 'North America')\\n\\nOPTIONAL IN CONFIG:\\n- body: Detailed description of the area\\n- draft: Mark as draft (true/false)\\n- featuredImage: Image URL for the area\\n- updateGeometry: Geographic boundaries (GeoJSON format)\\n\\nEXAMPLES:\\n1. MINIMAL: { label: 'Italy' }\\n   → Creates area with name only\\n\\n2. DETAILED: { label: 'Europe', body: 'European continent...', updateGeometry: {...GeoJSON...} }\\n   → Creates area with description and geographic boundaries\\n\\nTIPS:\\n- Always FIND_AREAS first to avoid duplicates\\n- Use consistent naming (e.g., 'United States' not 'USA')\\n- Geometry should be valid GeoJSON if provided\\n- Used for mapping events to geographic locations",
       annotations: { title: "Create area" },
       inputSchema: effectToZodStruct(CreateAreaInputSchema),
     },
@@ -70,7 +70,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit area",
       description:
-        "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.",
+        "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.\\n\\nFIELD UPDATE BEHAVIOR:\\n- Omitted fields: Keep existing value\\n- null: Clear/remove the value\\n\\nUPDATABLE FIELDS:\\n- label: Area name\\n- body: Description\\n- draft: Mark as draft\\n- featuredImage: Image URL\\n- updateGeometry: Update GeoJSON boundaries",
       annotations: { title: "Edit area" },
       inputSchema: effectToZodStruct(EditAreaInputSchema),
     },

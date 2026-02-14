@@ -25,27 +25,35 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     FIND_ACTORS,
     {
       title: "Find actors",
-      description: `Search for persons in the database using various criteria.
+      description: `Search for persons in the database by name or group membership. ALWAYS search before creating.
 
-SEARCH STRATEGY - Always try multiple name variations:
+SEARCH STRATEGY - Always try multiple name variations to find duplicates:
 
 For "Donald Trump":
-- Search 1: "Donald Trump"
-- Search 2: "Trump"
-- Search 3: "D. Trump"
-- Search 4: "Donald J Trump"
+- Search: "Donald Trump" (full name)
+- Search: "Trump" (last name only)
+- Search: "Donald" (first name only)
+- Search: "D. Trump" (initial)
+- Search: "The Donald" (alias if known)
 
 For "World leaders":
 - Search with full name first
-- Then try shortened name
-- Then try nickname if known
+- Then shortened variations
+- Then nicknames (if known)
+- Check results across searches
 
-TIPS:
-- Use fullName parameter for exact or partial name matches
-- Use memberIn parameter to find actors in specific groups/organizations
-- Try multiple searches with name variations
-- Returns results in structured markdown format
-- ALWAYS search before creating new actor to avoid duplicates`,
+SEARCH CRITERIA:
+- fullName: Search by name (partial match supported)
+- memberIn: Filter by group UUIDs (actors in organizations)
+- withDeleted: Include deleted actors
+- sort: username, createdAt (default), updatedAt
+- order: ASC or DESC
+
+CRITICAL TIPS:
+- ALWAYS search multiple times before creating
+- Try acronyms, abbreviated names, nicknames
+- Returns full actor details (name, username, bio, dates, groups)
+- Duplicate entries fragment information`,
       annotations: { title: "Find actor" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },

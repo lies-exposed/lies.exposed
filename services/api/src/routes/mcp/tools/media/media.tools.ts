@@ -24,7 +24,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find media",
       description:
-        "Search for media using various criteria like title, location or keywords. Returns the media item in markdown format.",
+        "Search for media (images, videos, PDFs, audio) by title, location, type, or keywords. CRITICAL: Always search before creating media to avoid duplicates.\\n\\nSEARCH CRITERIA:\\n- query: Search in title or description (e.g., 'book cover', 'covid chart')\\n- location: Filter by media URL or location\\n- type: Filter by media type (image, video, pdf, audio, other)\\n- sort: createdAt (default) or title\\n- order: ASC or DESC\\n\\nEXAMPLES:\\n1. Find images: query='chart', type='image'\\n2. Find by title: query='book cover'\\n3. Find all PDFs: type='pdf'\\n\\nReturns media items with full details (type, URL, dimensions, metadata).",
       annotations: { title: "Find media" },
       inputSchema: effectToZodStruct(FindMediaInputSchema),
     },

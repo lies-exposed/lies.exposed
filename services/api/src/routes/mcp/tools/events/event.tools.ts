@@ -66,7 +66,7 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find events",
       description:
-        "Search for events using various criteria like title, keywords, actor and group ids. Use this tool to check if a similar event already exists before creating a new one. Returns the story in JSON format.",
+        "Search for events by title, keywords, actors, groups, or other criteria. CRITICAL: Always search before creating events to avoid duplicates and find related information.\\n\\nSEARCH CRITERIA:\\n- query: Search in title or description (e.g., 'covid vaccination', 'book release')\\n- actors: Filter by actor UUIDs (people involved)\\n- groups: Filter by group UUIDs (organizations involved)\\n- sort: createdAt (default), title, startDate\\n- order: ASC or DESC\\n\\nEXAMPLES:\\n1. Find by topic: query='covid vaccination'\\n2. Find events with specific actor: actors=['actor-uuid']\\n3. Find events by organization: groups=['org-uuid']\\n4. Find and sort by date: query='election', sort='startDate', order='DESC'\\n\\nRETURNS:\\n- Matching events with full details (type, dates, participants, links, keywords)\\n- Check similar events before creating new ones to maintain data integrity",
       annotations: { title: "Find events" },
       inputSchema: effectToZodStruct(FindEventsInputSchema),
     },
