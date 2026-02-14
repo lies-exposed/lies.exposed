@@ -70,58 +70,54 @@ TIPS:
     CREATE_GROUP,
     {
       title: "Create group",
-      description: `Create a new group (organization) in the database.
+      description: `Create a new group (organization) in the database with simplified parameters.
 
-CRITICAL WORKFLOW - ALWAYS DO THIS FIRST:
-1. Search using findGroups with multiple name variations:
-   - Full name: "World Health Organization"
-   - Acronym: "WHO"
-   - Short form: "W.H.O."
-   - Alternative: "Health Organization"
-2. Only create if NO match found in search results
-3. For members: Search using findActors to get member actor UUIDs
+CRITICAL WORKFLOW - ALWAYS SEARCH FIRST:
+1. Use findGroups to search with multiple name variations
+2. Only create if NO match found
+3. For members: Search using findActors to get member UUIDs
 
-PARAMETER GUIDELINES:
-- username: Unique identifier (no spaces, lowercase recommended)
-- name: Display name (e.g., "World Health Organization")
-- color: Hex color without # (e.g., "FF5733") - system generates random if needed
-- kind: Organization type (e.g., "NGO", "Government", "Company", "Academic")
-- avatar: Must be existing media UUID - omit if no media available
-- startDate/endDate: ISO format YYYY-MM-DD or omit if unknown
-- members: Array of actor UUIDs from findActors
+REQUIRED FIELDS:
+- name: Organization name
+- username: Unique identifier (lowercase, no spaces)
+- kind: Organization type (Public or Private)
 
-EXAMPLE - Complete group:
+OPTIONAL CONFIGURATION (in config):
+All optional fields use smart defaults if omitted:
+- color: Auto-generated random color if not specified
+- excerpt: Short description (null if not provided)
+- body: Full details (null if not provided)
+- avatar: Media UUID (null if not provided)
+- startDate: Start date YYYY-MM-DD (null if unknown)
+- endDate: End date YYYY-MM-DD (null if unknown)
+
+EXAMPLES:
+
+Example 1 - Minimal group:
 {
-  "username": "world_health_org",
   "name": "World Health Organization",
-  "color": "0077BE",
-  "kind": "International NGO",
-  "excerpt": "UN agency for public health",
-  "body": null,
-  "avatar": "media-uuid-1",
-  "startDate": "1948-04-07",
-  "endDate": null,
-  "members": ["actor-uuid-1", "actor-uuid-2"]
+  "username": "world_health_org",
+  "kind": "Public"
 }
+→ Creates organization with random color, no other details
 
-EXAMPLE - Minimal group:
+Example 2 - Group with details:
 {
-  "username": "company_abc",
   "name": "ABC Company",
-  "color": "FF5733",
-  "kind": "Company",
-  "excerpt": null,
-  "body": null,
-  "avatar": null,
-  "startDate": null,
-  "endDate": null,
-  "members": []
+  "username": "abc_company",
+  "kind": "Private",
+  "config": {
+    "color": "0077BE",
+    "excerpt": "Tech company founded in 2010",
+    "avatar": "media-uuid-123",
+    "startDate": "2010-05-20"
+  }
 }
 
 NOTES:
-- Always search BEFORE creating to avoid duplicates
-- Empty arrays/nulls are acceptable for optional fields
-- Use exact member UUIDs from search results
+- ALWAYS search before creating to avoid duplicates
+- Only provide config fields you have values for
+- System generates random color automatically
 - Avatar media must already exist in database`,
       annotations: { title: "Create group" },
       inputSchema: effectToZodStruct(CreateInputSchema),

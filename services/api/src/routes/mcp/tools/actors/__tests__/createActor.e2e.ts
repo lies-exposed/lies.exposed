@@ -7,7 +7,10 @@ import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../../../test/AppTest.js";
-import { createActorToolTask } from "../createActor.tool.js";
+import {
+  createActorToolTask,
+  type CreateActorInputSchema,
+} from "../createActor.tool.js";
 
 describe("MCP CREATE_ACTOR Tool", () => {
   let Test: AppTest;
@@ -22,16 +25,9 @@ describe("MCP CREATE_ACTOR Tool", () => {
   });
 
   test("Should create a new actor with required fields", async () => {
-    const newActorData = {
+    const newActorData: CreateActorInputSchema = {
       username: "test-actor-1",
       fullName: "Test Actor One",
-      color: "FF5733",
-      excerpt: "A test actor created via MCP tools",
-      nationalities: [],
-      body: undefined,
-      avatar: avatar.id,
-      bornOn: "1990-01-01",
-      diedOn: undefined,
     };
 
     const result = await pipe(
@@ -52,16 +48,18 @@ describe("MCP CREATE_ACTOR Tool", () => {
   });
 
   test("Should create actor with all optional fields", async () => {
-    const newActorData = {
+    const newActorData: CreateActorInputSchema = {
       username: "complete-test-actor",
       fullName: "Complete Test Actor",
-      color: "00FF00",
-      excerpt: "A complete test actor",
-      nationalities: [],
-      body: "This is a detailed biography of the test actor.",
-      avatar: avatar.id,
-      bornOn: "1985-05-15",
-      diedOn: "2020-12-31",
+      config: {
+        color: "00FF00",
+        excerpt: "A complete test actor",
+        nationalityIds: [],
+        body: "This is a detailed biography of the test actor.",
+        avatar: avatar.id,
+        bornOn: "1985-05-15",
+        diedOn: "2020-12-31",
+      },
     };
 
     const result = await pipe(
@@ -74,16 +72,12 @@ describe("MCP CREATE_ACTOR Tool", () => {
   });
 
   test("Should create actor without avatar", async () => {
-    const newActorData = {
+    const newActorData: CreateActorInputSchema = {
       username: "no-avatar-actor",
       fullName: "No Avatar Actor",
-      color: "0000FF",
-      excerpt: "Actor without avatar",
-      nationalities: [],
-      body: undefined,
-      avatar: undefined as any,
-      bornOn: undefined,
-      diedOn: undefined,
+      config: {
+        excerpt: "Actor without avatar",
+      },
     };
 
     const result = await pipe(
@@ -96,16 +90,14 @@ describe("MCP CREATE_ACTOR Tool", () => {
   });
 
   test("Should create actor without body content", async () => {
-    const newActorData = {
+    const newActorData: CreateActorInputSchema = {
       username: "minimal-actor",
       fullName: "Minimal Actor",
-      color: "FFFF00",
-      excerpt: "Minimal test actor",
-      nationalities: [],
-      body: undefined,
-      avatar: avatar.id,
-      bornOn: "1995-03-20",
-      diedOn: undefined,
+      config: {
+        excerpt: "Minimal test actor",
+        avatar: avatar.id,
+        bornOn: "1995-03-20",
+      },
     };
 
     const result = await pipe(
@@ -118,16 +110,13 @@ describe("MCP CREATE_ACTOR Tool", () => {
   });
 
   test("Should create actor without dates", async () => {
-    const newActorData = {
+    const newActorData: CreateActorInputSchema = {
       username: "no-dates-actor",
       fullName: "No Dates Actor",
-      color: "FF00FF",
-      excerpt: "Actor without birth or death dates",
-      nationalities: [],
-      body: undefined,
-      avatar: avatar.id,
-      bornOn: undefined,
-      diedOn: undefined,
+      config: {
+        excerpt: "Actor without birth or death dates",
+        avatar: avatar.id,
+      },
     };
 
     const result = await pipe(

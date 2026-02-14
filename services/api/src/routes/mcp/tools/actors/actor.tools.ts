@@ -68,72 +68,60 @@ TIPS:
     CREATE_ACTOR,
     {
       title: "Create actor",
-      description: `Create a new actor (person) in the database.
+      description: `Create a new actor (person) in the database with simplified parameters.
 
-CRITICAL WORKFLOW - ALWAYS DO THIS FIRST:
-1. Search using findActors with multiple name variations:
-   - Full name: "John Smith"
-   - Nickname: "Johnny Smith"
-   - Abbreviation: "J. Smith"
-   - Alternative spellings: "Jon Smith"
-2. Only create if NO match found in search results
-3. For nationalities: Use findNations and get the correct UUIDs
+CRITICAL WORKFLOW - ALWAYS SEARCH FIRST:
+1. Use findActors to search with multiple name variations
+2. Only create if NO match found
+3. For nationalities: Search using findNations to get UUIDs
 
-PARAMETER GUIDELINES:
-- username: Unique identifier (no spaces, lowercase recommended)
-- fullName: Display name (e.g., "John Smith")
-- color: Hex color without # (e.g., "FF5733") - system generates random if needed
-- avatar: Must be existing media UUID - omit if no media available
-- bornOn/diedOn: ISO format YYYY-MM-DD or omit if unknown
-- nationalities: Array of nationality UUIDs from findNations
+REQUIRED FIELDS:
+- username: Unique identifier (lowercase, no spaces)
+- fullName: Display name
 
-EXAMPLE - Minimal actor:
+OPTIONAL CONFIGURATION (in config):
+All optional fields use smart defaults if omitted:
+- color: Auto-generated random color if not specified
+- excerpt: Short description (null if not provided)
+- nationalityIds: Array of nationality UUIDs (empty if not provided)
+- body: Full biography (null if not provided)
+- avatar: Media UUID (null if not provided)
+- bornOn: Birth date YYYY-MM-DD (null if unknown)
+- diedOn: Death date YYYY-MM-DD (null if unknown)
+
+EXAMPLES:
+
+Example 1 - Minimal actor:
 {
   "username": "john_smith",
-  "fullName": "John Smith",
-  "color": "0084FF",
-  "nationalities": ["nation-uuid-1"],
-  "excerpt": "American businessman and entrepreneur",
-  "body": null,
-  "avatar": "media-uuid-1",
-  "bornOn": "1960-06-14",
-  "diedOn": null
+  "fullName": "John Smith"
 }
+→ Creates actor with random color, no other details
 
-EXAMPLE - Actor with minimal fields:
+Example 2 - Actor with details:
 {
   "username": "jane_doe",
   "fullName": "Jane Doe",
-  "color": "FF10F0",
-  "nationalities": [],
-  "excerpt": null,
-  "body": null,
-  "avatar": null,
-  "bornOn": null,
-  "diedOn": null
+  "config": {
+    "color": "FF10F0",
+    "excerpt": "American businesswoman",
+    "nationalityIds": ["usa-nation-uuid"],
+    "avatar": "media-uuid-123",
+    "bornOn": "1975-03-15"
+  }
 }
 
 NOTES:
-- Always search BEFORE creating to avoid duplicates
-- Empty arrays/nulls are acceptable for optional fields
-- Use exact nationality UUIDs from search results
+- ALWAYS search before creating to avoid duplicates
+- Only provide config fields you have values for
+- System generates random color automatically
 - Avatar media must already exist in database`,
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
     (input) =>
       pipe(
-        createActorToolTask({
-          username: input.username,
-          fullName: input.fullName,
-          color: input.color,
-          excerpt: input.excerpt,
-          nationalities: input.nationalities,
-          body: input.body,
-          avatar: input.avatar,
-          bornOn: input.bornOn,
-          diedOn: input.diedOn,
-        }),
+        createActorToolTask(input),
         throwRTE(ctx),
       ),
   );

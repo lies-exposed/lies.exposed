@@ -64,80 +64,96 @@ export const createUnifiedEventToolTask = ({
 
   // Transform payload based on event type
   if (payload.type === "Book") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const bookPayload = payload as any;
     // Book converts pdfMediaId/audioMediaId to media.pdf/media.audio structure
     processedPayload = {
-      title: payload.title,
+      title: bookPayload.title,
       media: {
-        pdf: payload.pdfMediaId,
-        audio: payload.audioMediaId ?? undefined,
+        pdf: bookPayload.pdfMediaId,
+        audio: bookPayload.audioMediaId ?? undefined,
       },
-      authors: payload.authors ?? [],
-      publisher: payload.publisher ?? undefined,
+      authors: bookPayload.authors ?? [],
+      publisher: bookPayload.publisher ?? undefined,
     };
   } else if (payload.type === "Uncategorized") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const uncatPayload = payload as any;
     // Wrap optional fields that require Option types
     processedPayload = {
-      ...payload,
-      location: O.fromNullable(payload.location),
-      endDate: O.fromNullable(payload.endDate),
+      ...uncatPayload,
+      location: O.fromNullable(uncatPayload.location),
+      endDate: O.fromNullable(uncatPayload.endDate),
     };
   } else if (payload.type === "Death") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const deathPayload = payload as any;
     // Wrap location as Option
     processedPayload = {
-      ...payload,
-      location: O.fromNullable(payload.location),
+      ...deathPayload,
+      location: O.fromNullable(deathPayload.location),
     };
   } else if (payload.type === "Documentary") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const docPayload = payload as any;
     // Documentary has media and complex authors/subjects structures
     processedPayload = {
-      title: payload.title,
-      media: payload.media,
-      website: payload.website ?? undefined,
+      title: docPayload.title,
+      media: docPayload.media,
+      website: docPayload.website ?? undefined,
       authors: {
-        actors: payload.authors?.actors ?? [],
-        groups: payload.authors?.groups ?? [],
+        actors: docPayload.authors?.actors ?? [],
+        groups: docPayload.authors?.groups ?? [],
       },
       subjects: {
-        actors: payload.subjects?.actors ?? [],
-        groups: payload.subjects?.groups ?? [],
+        actors: docPayload.subjects?.actors ?? [],
+        groups: docPayload.subjects?.groups ?? [],
       },
     };
   } else if (payload.type === "ScientificStudy") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const studyPayload = payload as any;
     // ScientificStudy expects url as a UUID
     processedPayload = {
-      title: payload.title,
-      authors: payload.authors ?? [],
-      publisher: payload.publisher ?? undefined,
-      url: payload.url, // Should be UUID
-      image: payload.image ?? undefined,
+      title: studyPayload.title,
+      authors: studyPayload.authors ?? [],
+      publisher: studyPayload.publisher ?? undefined,
+      url: studyPayload.url, // Should be UUID
+      image: studyPayload.image ?? undefined,
     };
   } else if (payload.type === "Patent") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const patentPayload = payload as any;
     // Patent expects owners with actors/groups structure
     processedPayload = {
-      title: payload.title,
+      title: patentPayload.title,
       owners: {
-        actors: payload.inventors ?? [],
+        actors: patentPayload.inventors ?? [],
         groups: [],
       },
-      source: payload.assignee ?? undefined,
+      source: patentPayload.assignee ?? undefined,
     };
   } else if (payload.type === "Quote") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const quotePayload = payload as any;
     // Quote passes through as-is
     processedPayload = {
-      details: payload.details,
-      subject: payload.subject ?? undefined,
+      details: quotePayload.details,
+      subject: quotePayload.subject ?? undefined,
     };
   } else if (payload.type === "Transaction") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const txnPayload = payload as any;
     // Transaction expects from/to as BySubjectId objects and total as number
     processedPayload = {
-      title: payload.title,
+      title: txnPayload.title,
       total:
-        typeof payload.amount === "string"
-          ? parseFloat(payload.amount)
-          : payload.amount,
-      currency: payload.currency,
-      from: payload.from ?? { type: "Actor" as const, id: "" },
-      to: payload.to ?? { type: "Actor" as const, id: "" },
+        typeof txnPayload.amount === "string"
+          ? parseFloat(txnPayload.amount)
+          : txnPayload.amount,
+      currency: txnPayload.currency,
+      from: txnPayload.from ?? { type: "Actor" as const, id: "" },
+      to: txnPayload.to ?? { type: "Actor" as const, id: "" },
     };
   }
 

@@ -172,7 +172,9 @@ IMPORTANT NOTES:
     CREATE_UNCATEGORIZED_EVENT,
     {
       title: "Create uncategorized event",
-      description: `Create a new uncategorized event - a general factual occurrence with associated actors, groups, media, and links.
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a new uncategorized event - a general factual occurrence with associated actors, groups, media, and links.
 
 WORKFLOW:
 1. Use findActors to search for and collect actor IDs (try multiple name variations)
@@ -220,7 +222,9 @@ EXAMPLE:
     CREATE_BOOK_EVENT,
     {
       title: "Create book event",
-      description: `Create a new book event in the database. Book events represent published books with authors, publishers, and associated media (PDF, audio).
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a new book event in the database. Book events represent published books with authors, publishers, and associated media (PDF, audio).
 
 WORKFLOW:
 1. Search for authors using findActors with author names
@@ -262,7 +266,9 @@ EXAMPLE minimal book event:
     CREATE_QUOTE_EVENT,
     {
       title: "Create quote event",
-      description: `Create a quote event representing statements or quotes made by actors.
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a quote event representing statements or quotes made by actors.
 
 WORKFLOW:
 1. Search for the quote author using findActors
@@ -298,7 +304,9 @@ NOTES:
     CREATE_PATENT_EVENT,
     {
       title: "Create patent event",
-      description: `Create a patent event representing registered patents with owners (actors and/or groups).
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a patent event representing registered patents with owners (actors and/or groups).
 
 WORKFLOW:
 1. Search for patent owners using findActors and findGroups
@@ -343,7 +351,9 @@ NOTES:
     CREATE_SCIENTIFIC_STUDY_EVENT,
     {
       title: "Create scientific study event",
-      description: `Create a scientific study event representing published research papers, clinical trials, or academic papers.
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a scientific study event representing published research papers, clinical trials, or academic papers.
 
 CRITICAL WORKFLOW - ALWAYS FOLLOW THIS PATTERN:
 1. Search for each author: findActors with author names (try variations)
@@ -436,7 +446,9 @@ IMPORTANT NOTES:
     CREATE_DEATH_EVENT,
     {
       title: "Create death event",
-      description: `Create a death event representing the death of an actor at a specific location and date.
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a death event representing the death of an actor at a specific location and date.
 
 WORKFLOW:
 1. Search for the deceased actor using findActors
@@ -472,7 +484,9 @@ NOTES:
     CREATE_DOCUMENTARY_EVENT,
     {
       title: "Create documentary event",
-      description: `Create a documentary event representing documentary films or video productions.
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a documentary event representing documentary films or video productions.
 
 WORKFLOW:
 1. Search for directors/creators using findActors
@@ -520,7 +534,9 @@ NOTES:
     CREATE_TRANSACTION_EVENT,
     {
       title: "Create transaction event",
-      description: `Create a transaction event representing financial transactions between entities (actors or groups).
+      description: `⚠️ DEPRECATED: Use createEvent (unified) tool instead for consistency.
+
+Create a transaction event representing financial transactions between entities (actors or groups).
 
 WORKFLOW:
 1. Search for 'from' entity (payer) using findActors/findGroups

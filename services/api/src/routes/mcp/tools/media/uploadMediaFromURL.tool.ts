@@ -1,3 +1,14 @@
+/**
+ * ⚠️ DEPRECATED: Use createMedia with autoUpload: true instead
+ * 
+ * This tool is kept for backward compatibility but should not be used for new implementations.
+ * The functionality has been consolidated into createMedia tool.
+ * 
+ * MIGRATION:
+ * Old: uploadMediaFromURL({ url, type, label, description })
+ * New: createMedia({ location: url, type, label, description, autoUpload: true })
+ */
+
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
@@ -29,6 +40,9 @@ export const UploadMediaFromURLInputSchema = Schema.Struct({
 export type UploadMediaFromURLInputSchema =
   typeof UploadMediaFromURLInputSchema.Type;
 
+/**
+ * @deprecated Use createMedia with autoUpload: true instead
+ */
 export const uploadMediaFromURLToolTask = ({
   url,
   type,

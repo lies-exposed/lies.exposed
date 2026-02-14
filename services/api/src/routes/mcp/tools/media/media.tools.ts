@@ -17,10 +17,6 @@ import {
 import { EditMediaInputSchema, editMediaToolTask } from "./editMedia.tool.js";
 import { FindMediaInputSchema, findMediaToolTask } from "./findMedia.tool.js";
 import { GetMediaInputSchema, getMediaToolTask } from "./getMedia.tool.js";
-import {
-  UploadMediaFromURLInputSchema,
-  uploadMediaFromURLToolTask,
-} from "./uploadMediaFromURL.tool.js";
 
 export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
@@ -58,36 +54,54 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    UPLOAD_MEDIA_FROM_URL,
+    CREATE_MEDIA,
     {
-      title: "Upload media from URL",
-      description: `Download and upload an image or media file from a URL. The uploaded media gets a UUID that can be used in createActor, createGroup, or event creation tools.
+      title: "Create media",
+      description: `Create a media entity in the system. Use this tool to register any media (image, video, PDF, audio, etc.) that can be referenced by UUID in actors, groups, and event creation.
+
+TWO MODES:
+
+1. EXTERNAL URL (autoUpload: false, default):
+   Use for URLs that are already hosted externally (e.g., external image URLs).
+   The system stores a reference to the external URL.
+
+2. UPLOAD & STORE (autoUpload: true):
+   The system downloads the file from the URL and uploads it to internal storage.
+   Use this for files you want stored in the system (e.g., book covers, PDFs).
 
 WORKFLOW:
-1. Have a URL to an image/video/media file
-2. Use this tool to download and upload to storage
-3. Get back a UUID
-4. Use that UUID in other tools (e.g., pdfMediaId in createBookEvent)
+1. Have a URL to media (external or local)
+2. Call createMedia with the URL and autoUpload flag
+3. Receive back a UUID
+4. Use UUID in other tools (e.g., pdfMediaId in createBookEvent, avatar in createActor)
 
-EXAMPLE:
+EXAMPLE - External URL:
 {
-  "url": "https://example.com/image.jpg",
-  "label": "Book Cover Image",
-  "description": "Cover of the economics textbook",
-  "type": "image"
+  "location": "https://example.com/image.jpg",
+  "label": "Book Cover",
+  "type": "image",
+  "description": "Cover of the economics textbook"
+}
+
+EXAMPLE - Upload to storage:
+{
+  "location": "https://cdn.example.com/book.pdf",
+  "label": "Economics Textbook",
+  "type": "pdf",
+  "description": "Primary economics textbook",
+  "autoUpload": true
 }
 
 NOTES:
-- Automatically handles download, validation, and storage
-- Returns media UUID for use in other tools
 - Use findMedia first to check if similar media already exists
-- Supported types: image, video, pdf, audio, document`,
-      annotations: { title: "Upload media from URL" },
-      inputSchema: effectToZodStruct(UploadMediaFromURLInputSchema),
+- Supported types: image, video, pdf, audio, document
+- autoUpload defaults to false (external reference only)`,
+      annotations: { title: "Create media" },
+      inputSchema: effectToZodStruct(CreateMediaInputSchema),
     },
     (input) =>
       pipe(
-        uploadMediaFromURLToolTask({
+        createMediaToolTask({
           ...input,
           description: input.description ?? undefined,
         }),
@@ -96,18 +110,26 @@ NOTES:
   );
 
   server.registerTool(
-    CREATE_MEDIA,
+    UPLOAD_MEDIA_FROM_URL,
     {
-      title: "Create media",
-      description:
-        "Create a media entity in the database with an existing URL (e.g., external image URL). The created media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
-      annotations: { title: "Create media" },
+      title: "⚠️ DEPRECATED - Upload media from URL",
+      description: `⚠️ DEPRECATED: Use createMedia with autoUpload: true instead.
+
+This tool is kept for backward compatibility but should not be used for new implementations.
+
+MIGRATION:
+Old: uploadMediaFromURL({ url, type, label, description })
+New: createMedia({ location: url, type, label, description, autoUpload: true })
+
+Both do the same thing. Prefer createMedia for clarity.`,
+      annotations: { title: "Upload media from URL (deprecated)" },
       inputSchema: effectToZodStruct(CreateMediaInputSchema),
     },
     (input) =>
       pipe(
         createMediaToolTask({
           ...input,
+          autoUpload: true, // Deprecated tool always uploads
           description: input.description ?? undefined,
         }),
         throwRTE(ctx),
