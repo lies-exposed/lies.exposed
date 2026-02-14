@@ -5,6 +5,7 @@ import {
   CREATE_PATENT_EVENT,
   CREATE_QUOTE_EVENT,
   CREATE_SCIENTIFIC_STUDY_EVENT,
+  CREATE_EVENT,
   EDIT_EVENT,
   CREATE_TRANSACTION_EVENT,
   CREATE_UNCATEGORIZED_EVENT,
@@ -48,6 +49,10 @@ import {
   CreateUncategorizedEventInputSchema,
   createUncategorizedEventToolTask,
 } from "./createUncategorizedEvent.tool.js";
+import {
+  CreateUnifiedEventInputSchema,
+  createUnifiedEventToolTask,
+} from "./createUnifiedEvent.tool.js";
 import { EditEventInputSchema, editEventToolTask } from "./editEvent.tool.js";
 import {
   FindEventsInputSchema,
@@ -77,6 +82,90 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: effectToZodStruct(GetEventInputSchema),
     },
     flow(getEventToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    CREATE_EVENT,
+    {
+      title: "Create event (unified)",
+      description: `RECOMMENDED: Create any event type using a single unified tool with type discrimination.
+
+This unified tool consolidates 8 specialized event creation tools into one consistent interface.
+Use this tool instead of createBookEvent, createQuoteEvent, etc. for consistency and clarity.
+
+WORKFLOW:
+1. Search for actors and groups using findActors/findGroups FIRST
+2. Select the event type (Book, Quote, Death, Patent, etc.)
+3. Provide type-specific payload fields + base event fields
+4. Use found IDs from search results only
+
+SUPPORTED EVENT TYPES:
+- Book: For published books with authors/publishers
+- Death: For death events with victim actor
+- Patent: For patents with owners
+- ScientificStudy: For research papers/academic studies
+- Uncategorized: For general events with actors/groups
+- Documentary: For films/videos with directors
+- Transaction: For financial transactions
+- Quote: For quotes/statements by actors
+
+EXAMPLE - Create a Book Event:
+{
+  "type": "Book",
+  "date": "2024-01-15",
+  "draft": false,
+  "payload": {
+    "type": "Book",
+    "title": "The Great Book",
+    "pdfMediaId": "media-uuid",
+    "audioMediaId": null,
+    "authors": [{"type": "Actor", "id": "author-uuid"}],
+    "publisher": {"type": "Group", "id": "publisher-uuid"}
+  },
+  "excerpt": "A fascinating book",
+  "body": null,
+  "media": ["media-uuid"],
+  "links": [],
+  "keywords": []
+}
+
+EXAMPLE - Create a Quote Event:
+{
+  "type": "Quote",
+  "date": "2024-02-15",
+  "draft": false,
+  "payload": {
+    "type": "Quote",
+    "quote": "We must act on climate change",
+    "actor": "actor-uuid",
+    "subject": null,
+    "details": "Said during press conference"
+  },
+  "excerpt": "Climate statement",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+KEY ADVANTAGES:
+- Single tool signature for all event types
+- Type-safe discriminated union
+- Consistent error messages
+- Same pattern as editEvent tool
+- Reduces LLM confusion from 8 different tools
+- Stay under 25 recursion limit with unified workflow
+
+IMPORTANT NOTES:
+- payload.type must match the top-level type field
+- Search for entities BEFORE creating
+- Only use IDs from search results
+- Empty arrays acceptable for optional fields
+- Use null for optional singular values (not undefined)`,
+      annotations: { title: "Create event (unified)" },
+      inputSchema: effectToZodStruct(CreateUnifiedEventInputSchema),
+    },
+    flow(createUnifiedEventToolTask, throwRTE(ctx)),
   );
 
   server.registerTool(
