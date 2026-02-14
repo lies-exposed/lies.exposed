@@ -21,7 +21,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
     FIND_AREAS,
     {
-      title: "Find area",
+      title: "Find areas",
       description:
         "Search for geographic areas by name or description. CRITICAL: Always search before creating areas to avoid duplicates.\n\nSEARCH CRITERIA:\n- query: Search in area name or description (e.g., 'Europe', 'United States', 'North America')\n- withDeleted: Include deleted areas in results (optional)\n- sort: by createdAt (default) or label\n- order: ASC (ascending) or DESC (descending)\n- start/end: Pagination start and end indices\n\nEXAMPLES:\n1. Find continent: query='Europe'\n2. Find country: query='Italy'\n3. Find with pagination: query='*', start=0, end=20\n\nReturns matching geographic areas with full details (coordinates, geometry, metadata).",
       annotations: { title: "Find areas" },

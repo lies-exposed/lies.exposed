@@ -54,7 +54,7 @@ CRITICAL TIPS:
 - Try acronyms, abbreviated names, nicknames
 - Returns full actor details (name, username, bio, dates, groups)
 - Duplicate entries fragment information`,
-      annotations: { title: "Find actor" },
+      annotations: { title: "Find actors" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
     (input) => pipe(findActorsToolTask(input), throwRTE(ctx)),
@@ -127,11 +127,7 @@ NOTES:
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
-    (input) =>
-      pipe(
-        createActorToolTask(input),
-        throwRTE(ctx),
-      ),
+    (input) => pipe(createActorToolTask(input), throwRTE(ctx)),
   );
 
   server.registerTool(
