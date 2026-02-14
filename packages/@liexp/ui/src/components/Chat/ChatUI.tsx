@@ -125,6 +125,7 @@ export interface ChatUIProps {
       totalTokens: number;
       isEstimated: boolean;
     } | null;
+    thinkingContent?: string;
   } | null;
 }
 

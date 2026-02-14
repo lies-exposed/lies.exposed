@@ -24,6 +24,7 @@ interface StreamingChatState {
   error: string | null;
   conversationId: string | null;
   streamingContent: string; // Accumulated content from content_delta events
+  thinkingContent: string; // Accumulated thinking content from thinking events
   activeToolCalls: Map<string, { name: string; args?: string }>;
   completedToolCalls: { name: string; result: string }[];
   // Token usage tracking
@@ -48,6 +49,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     error: null,
     conversationId: null,
     streamingContent: "",
+    thinkingContent: "",
     activeToolCalls: new Map(),
     completedToolCalls: [],
     tokenUsage: null,
@@ -72,6 +74,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         isLoading: true,
         error: null,
         streamingContent: "",
+        thinkingContent: "",
         activeToolCalls: new Map(),
         completedToolCalls: [],
         tokenUsage: null,
@@ -177,25 +180,32 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
 
                         case "content_delta":
                           if (event.content) {
-                            newState.streamingContent += event.content;
-                            // Update estimated token usage during streaming
-                            const estimatedCompletionTokens = estimateTokens(
-                              newState.streamingContent,
-                            );
-                            if (!newState.tokenUsage) {
-                              newState.tokenUsage = {
-                                promptTokens: 0, // We don't know prompt tokens yet
-                                completionTokens: estimatedCompletionTokens,
-                                totalTokens: estimatedCompletionTokens,
-                                isEstimated: true,
-                              };
+                            // Check if this is thinking content or regular content
+                            if (event.thinking) {
+                              // Accumulate thinking content separately
+                              newState.thinkingContent += event.content;
                             } else {
-                              newState.tokenUsage.completionTokens =
-                                estimatedCompletionTokens;
-                              newState.tokenUsage.totalTokens =
-                                newState.tokenUsage.promptTokens +
-                                estimatedCompletionTokens;
-                              newState.tokenUsage.isEstimated = true;
+                              // Regular content delta
+                              newState.streamingContent += event.content;
+                              // Update estimated token usage during streaming
+                              const estimatedCompletionTokens = estimateTokens(
+                                newState.streamingContent,
+                              );
+                              if (!newState.tokenUsage) {
+                                newState.tokenUsage = {
+                                  promptTokens: 0, // We don't know prompt tokens yet
+                                  completionTokens: estimatedCompletionTokens,
+                                  totalTokens: estimatedCompletionTokens,
+                                  isEstimated: true,
+                                };
+                              } else {
+                                newState.tokenUsage.completionTokens =
+                                  estimatedCompletionTokens;
+                                newState.tokenUsage.totalTokens =
+                                  newState.tokenUsage.promptTokens +
+                                  estimatedCompletionTokens;
+                                newState.tokenUsage.isEstimated = true;
+                              }
                             }
                           }
                           break;
@@ -381,6 +391,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       error: null,
       conversationId: null,
       streamingContent: "",
+      thinkingContent: "",
       activeToolCalls: new Map(),
       completedToolCalls: [],
       tokenUsage: null,

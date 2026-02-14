@@ -173,6 +173,8 @@ export const ChatStreamEvent = Schema.Struct({
       total_tokens: Schema.optional(Schema.Number),
     }),
   ),
+  // Thinking/debug content from LLM (e.g., OpenAI extended thinking)
+  thinking: Schema.optional(Schema.Boolean),
 }).annotations({
   title: "ChatStreamEvent",
   description: "Server-sent event for chat streaming",

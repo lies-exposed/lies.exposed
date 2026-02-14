@@ -237,6 +237,36 @@ export const sendChatMessageStream = (payload: {
               }
             }
           }
+        } else if (streamMode === "debug") {
+          // Handle debug/think messages from LLM (e.g., OpenAI's extended thinking)
+          if (
+            "type" in chunk &&
+            chunk.type === "checkpoint" &&
+            "values" in chunk
+          ) {
+            const values = chunk.values as {
+              messages?: AIMessage[];
+            };
+            if (values.messages && Array.isArray(values.messages)) {
+              for (const msg of values.messages) {
+                // Check for thinking/debug content in additional kwargs
+                const additionalKwargs = msg.additional_kwargs || {};
+                if ("thinking" in additionalKwargs) {
+                  const thinkContent = additionalKwargs.thinking;
+                  if (typeof thinkContent === "string" && thinkContent) {
+                    yield {
+                      type: "content_delta",
+                      timestamp: new Date().toISOString(),
+                      content: thinkContent,
+                      message_id: messageId,
+                      // Mark as thinking content
+                      thinking: true,
+                    } satisfies ChatStreamEvent;
+                  }
+                }
+              }
+            }
+          }
         }
       }
 
