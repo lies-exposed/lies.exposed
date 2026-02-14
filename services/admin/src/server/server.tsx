@@ -82,6 +82,11 @@ export const run = async (base: string): Promise<void> => {
     );
   });
 
+  // Set socket timeout for streaming responses
+  // Default is 0 (no timeout), set to 4 minutes to allow up to 3 minutes of streaming
+  // Plus buffer for request/response overhead
+  server.setTimeout(240000); // 4 minutes
+
   server.on("error", (e) => {
     logger.error.log("Server error: %O", e);
     process.exit(1);
