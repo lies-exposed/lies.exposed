@@ -61,7 +61,27 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     UPLOAD_MEDIA_FROM_URL,
     {
       title: "Upload media from URL",
-      description: `Download an image or media file from a URL and upload it to storage. Returns the uploaded media entity with UUID that can be used when creating actors, groups, or events. You should check if the media location already exists with ${FIND_MEDIA} tool to avoid duplicates.`,
+      description: `Download and upload an image or media file from a URL. The uploaded media gets a UUID that can be used in createActor, createGroup, or event creation tools.
+
+WORKFLOW:
+1. Have a URL to an image/video/media file
+2. Use this tool to download and upload to storage
+3. Get back a UUID
+4. Use that UUID in other tools (e.g., pdfMediaId in createBookEvent)
+
+EXAMPLE:
+{
+  "url": "https://example.com/image.jpg",
+  "label": "Book Cover Image",
+  "description": "Cover of the economics textbook",
+  "type": "image"
+}
+
+NOTES:
+- Automatically handles download, validation, and storage
+- Returns media UUID for use in other tools
+- Use findMedia first to check if similar media already exists
+- Supported types: image, video, pdf, audio, document`,
       annotations: { title: "Upload media from URL" },
       inputSchema: effectToZodStruct(UploadMediaFromURLInputSchema),
     },

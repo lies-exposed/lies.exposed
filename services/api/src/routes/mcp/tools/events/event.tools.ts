@@ -83,8 +83,36 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_UNCATEGORIZED_EVENT,
     {
       title: "Create uncategorized event",
-      description:
-        "Create a new uncategorized event in the database. Uncategorized events are general factual occurrences with associated actors, groups, media, and links. IMPORTANT: Before creating, use findActors and findGroups to search for existing entities and get their IDs. Only use IDs from search results - do NOT create new actors/groups just for this event. It's OK to create events with empty arrays for actors, groups, or keywords if no existing matches are found. Be efficient to stay under the 25 recursion limit - search once and reuse results. Returns the created event details in structured markdown format.",
+      description: `Create a new uncategorized event - a general factual occurrence with associated actors, groups, media, and links.
+
+WORKFLOW:
+1. Use findActors to search for and collect actor IDs (try multiple name variations)
+2. Use findGroups to search for and collect group/organization IDs
+3. Use findMedia to find or uploadMediaFromURL for media files
+4. Create the event with collected IDs, leaving empty arrays for entities not found
+
+IMPORTANT: 
+- Search BEFORE creating - avoid duplicates by checking findEvents first
+- Only use existing IDs from search results - do NOT create new actors/groups
+- Empty arrays are acceptable if no matches found
+- Be efficient: search once, reuse results to stay under 25 recursion limit
+
+EXAMPLE:
+{
+  "date": "2024-01-15",
+  "draft": false,
+  "title": "Major Political Meeting",
+  "actors": ["actor-uuid-1", "actor-uuid-2"],
+  "groups": ["group-uuid-1"],
+  "groupsMembers": [],
+  "location": "area-uuid-1",
+  "endDate": "2024-01-16",
+  "excerpt": "A significant political event",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}`,
       annotations: { title: "Create uncategorized event" },
       inputSchema: effectToZodStruct(CreateUncategorizedEventInputSchema),
     },
@@ -103,8 +131,38 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_BOOK_EVENT,
     {
       title: "Create book event",
-      description:
-        "Create a new book event in the database. Book events represent published books with authors, publishers, and associated media (PDF, audio). IMPORTANT: Search for existing authors (findActors) and publisher (findGroups) first, and only use IDs from search results. Empty arrays for authors/publisher are acceptable. Be efficient to stay under the 25 recursion limit. Returns the created book event details in structured markdown format.",
+      description: `Create a new book event in the database. Book events represent published books with authors, publishers, and associated media (PDF, audio).
+
+WORKFLOW:
+1. Search for authors using findActors with author names
+2. Search for publisher using findGroups with organization name
+3. Upload or find PDF/audio media using uploadMediaFromURL or findMedia
+4. Create the event with found IDs only
+
+IMPORTANT NOTES:
+- ONLY use existing IDs from search results - do NOT create new actors/groups inside this tool
+- Empty arrays for authors are acceptable if none found
+- Set publisher to null if no publisher found
+- Be efficient with tool calls to stay under 25 recursion limit
+
+EXAMPLE minimal book event:
+{
+  "date": "2024-01-15",
+  "draft": false,
+  "title": "The Great Book",
+  "pdfMediaId": "media-uuid-1",
+  "audioMediaId": null,
+  "authors": [
+    {"type": "Actor", "id": "actor-uuid-1"},
+    {"type": "Actor", "id": "actor-uuid-2"}
+  ],
+  "publisher": {"type": "Group", "id": "group-uuid-1"},
+  "excerpt": "A fascinating exploration of...",
+  "body": null,
+  "media": ["media-uuid-1"],
+  "links": [],
+  "keywords": []
+}`,
       annotations: { title: "Create book event" },
       inputSchema: effectToZodStruct(CreateBookEventInputSchema),
     },
@@ -115,8 +173,32 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_QUOTE_EVENT,
     {
       title: "Create quote event",
-      description:
-        "Create a new quote event in the database. Quote events represent statements or quotes made by actors, with optional subject and contextual details. IMPORTANT: Search for the quote author using findActors first, and use existing IDs only. Be efficient with tool calls to stay under the 25 recursion limit. Returns the created quote event details in structured markdown format.",
+      description: `Create a quote event representing statements or quotes made by actors.
+
+WORKFLOW:
+1. Search for the quote author using findActors
+2. Search for the quote subject (if applicable) using findActors or findGroups
+3. Create event with found IDs
+
+EXAMPLE:
+{
+  "date": "2024-01-15",
+  "draft": false,
+  "quote": "We must act on climate change.",
+  "actor": "actor-uuid-1",
+  "subject": {"type": "Group", "id": "group-uuid-1"},
+  "details": "Said during a press conference",
+  "excerpt": "Climate change statement",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+NOTES:
+- actor: UUID of person who made the quote
+- subject: Optional - what the quote is about (Actor or Group)
+- Empty arrays OK for media, links, keywords`,
       annotations: { title: "Create quote event" },
       inputSchema: effectToZodStruct(CreateQuoteEventInputSchema),
     },
@@ -127,8 +209,41 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_PATENT_EVENT,
     {
       title: "Create patent event",
-      description:
-        "Create a new patent event in the database. Patent events represent registered patents with their owners (actors and/or groups) and source documentation. IMPORTANT: Search for patent owners using findActors/findGroups first, use existing IDs only. Empty arrays for owners are acceptable. Stay efficient to remain under the 25 recursion limit. Returns the created patent event details in structured markdown format.",
+      description: `Create a patent event representing registered patents with owners (actors and/or groups).
+
+WORKFLOW:
+1. Search for patent owners using findActors and findGroups
+2. Collect owner UUIDs from search results
+3. Create patent event with found IDs
+
+NESTED OWNER FORMAT:
+Each owner must have:
+{
+  "type": "Actor" or "Group",
+  "id": "uuid"
+}
+
+EXAMPLE:
+{
+  "date": "2024-03-20",
+  "draft": false,
+  "title": "Novel Medical Device Patent",
+  "owners": [
+    {"type": "Actor", "id": "inventor-uuid"},
+    {"type": "Group", "id": "company-uuid"}
+  ],
+  "source": "Patent office filing number XYZ123",
+  "excerpt": "A revolutionary patent for...",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+NOTES:
+- Empty owners array is acceptable if none found
+- source: Patent filing reference information
+- Be efficient with searches to stay under 25 recursion limit`,
       annotations: { title: "Create patent event" },
       inputSchema: effectToZodStruct(CreatePatentEventInputSchema),
     },
@@ -139,8 +254,45 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_SCIENTIFIC_STUDY_EVENT,
     {
       title: "Create scientific study event",
-      description:
-        "Create a new scientific study event in the database. Scientific study events represent published research papers, clinical trials, or academic studies. CRITICAL: Do NOT create new actors for study authors or groups for publishers - ONLY use existing entity IDs. Workflow: 1) Search for authors using findActors, 2) Search for publisher using findGroups, 3) Use ONLY the IDs found in search results, 4) If authors/publisher not found, leave those fields empty (empty array for authors, null for publisher). It's perfectly OK to create a scientific study event with empty authors/publisher arrays. This keeps you under the 25 recursion limit. Returns the created event details in structured markdown format.",
+      description: `Create a scientific study event representing published research papers, clinical trials, or academic papers.
+
+CRITICAL WORKFLOW - ALWAYS FOLLOW THIS PATTERN:
+1. Search for each author: findActors with author names (try variations)
+2. Search for publisher: findGroups with organization name
+3. Upload or find research image: uploadMediaFromURL with study image URL
+4. Create event with found IDs ONLY - do NOT create new actors/groups
+
+NESTED OBJECT FORMAT - Each author must have this structure:
+{
+  "type": "Actor" or "Group",  <- Literal value, must match exactly
+  "id": "uuid-string"          <- UUID of the actor or group found in search
+}
+
+EXAMPLE - Proper nested structure:
+{
+  "date": "2024-06-15",
+  "draft": false,
+  "title": "COVID-19 Vaccine Efficacy Study",
+  "url": "https://example.com/study",
+  "image": "media-uuid-1",
+  "authors": [
+    {"type": "Actor", "id": "actor-uuid-1"},
+    {"type": "Actor", "id": "actor-uuid-2"}
+  ],
+  "publisher": {"type": "Group", "id": "group-uuid-1"},
+  "excerpt": "A comprehensive study of...",
+  "body": null,
+  "media": ["media-uuid-1"],
+  "links": [],
+  "keywords": []
+}
+
+IMPORTANT NOTES:
+- Empty author array is OK if no authors found in search
+- Set publisher to null if no publisher found
+- Do NOT try to create actors/groups as nested objects
+- Be efficient with tool calls - stay under 25 recursion limit
+- Only use IDs from search results, NEVER guess UUIDs`,
       annotations: { title: "Create scientific study event" },
       inputSchema: effectToZodStruct(CreateScientificStudyEventInputSchema),
     },
@@ -195,8 +347,32 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_DEATH_EVENT,
     {
       title: "Create death event",
-      description:
-        "Create a new death event in the database. Death events represent the death of an actor (person) at a specific location and date. IMPORTANT: Search for the victim actor using findActors first and use existing ID only. Search for the location if applicable. Be efficient to stay under the 25 recursion limit. Returns the created death event details in structured markdown format.",
+      description: `Create a death event representing the death of an actor at a specific location and date.
+
+WORKFLOW:
+1. Search for the deceased actor using findActors
+2. Search for the location (if known) using findAreas
+3. Create death event with found IDs
+
+EXAMPLE:
+{
+  "date": "2024-01-25",
+  "draft": false,
+  "victim": "actor-uuid-1",
+  "location": "area-uuid-1",
+  "causes": ["cause-uuid-1"],
+  "excerpt": "Notable person passed away",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+NOTES:
+- victim: Required UUID of the actor who passed away
+- location: Optional area UUID where death occurred
+- causes: Optional array of cause UUIDs (e.g., illness, accident)
+- Search for victim BEFORE creating event`,
       annotations: { title: "Create death event" },
       inputSchema: effectToZodStruct(CreateDeathEventInputSchema),
     },
@@ -207,8 +383,44 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_DOCUMENTARY_EVENT,
     {
       title: "Create documentary event",
-      description:
-        "Create a new documentary event in the database. Documentary events represent documentary films or video productions with authors (directors/creators) and subjects. IMPORTANT: Search for existing actors and groups for authors and subjects using findActors/findGroups before creating. Use only existing IDs. Empty arrays are acceptable. Be efficient to stay under the 25 recursion limit. Returns the created documentary event details in structured markdown format.",
+      description: `Create a documentary event representing documentary films or video productions.
+
+WORKFLOW:
+1. Search for directors/creators using findActors
+2. Search for production companies using findGroups
+3. Search for documentary subjects/topics using findActors/findGroups
+4. Create event with found IDs
+
+NESTED AUTHOR FORMAT:
+{
+  "type": "Actor" or "Group",
+  "id": "uuid"
+}
+
+EXAMPLE:
+{
+  "date": "2023-11-10",
+  "draft": false,
+  "title": "The Documentary Title",
+  "website": "https://example.com/documentary",
+  "authors": [
+    {"type": "Actor", "id": "director-uuid"}
+  ],
+  "subjects": [
+    {"type": "Group", "id": "organization-uuid"}
+  ],
+  "excerpt": "A documentary about...",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+NOTES:
+- authors: Directors/creators of the documentary
+- subjects: What the documentary is about
+- Empty arrays acceptable if entities not found in search
+- Only use IDs from search results`,
       annotations: { title: "Create documentary event" },
       inputSchema: effectToZodStruct(CreateDocumentaryEventInputSchema),
     },
@@ -219,8 +431,43 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_TRANSACTION_EVENT,
     {
       title: "Create transaction event",
-      description:
-        "Create a new transaction event in the database. Transaction events represent financial transactions between entities (actors or groups) with amounts and currencies. IMPORTANT: Verify that 'from' and 'to' entities exist using findActors/findGroups before creating. Use existing IDs only. Returns the created transaction event details in structured markdown format.",
+      description: `Create a transaction event representing financial transactions between entities (actors or groups).
+
+WORKFLOW:
+1. Search for 'from' entity (payer) using findActors/findGroups
+2. Search for 'to' entity (recipient) using findActors/findGroups
+3. Verify both entities exist before creating
+4. Create transaction event with found IDs
+
+NESTED ENTITY FORMAT:
+{
+  "type": "Actor" or "Group",
+  "id": "uuid"
+}
+
+EXAMPLE:
+{
+  "date": "2024-02-15",
+  "draft": false,
+  "title": "Payment from Company A to Company B",
+  "total": 1500000,
+  "currency": "USD",
+  "from": {"type": "Group", "id": "company-a-uuid"},
+  "to": {"type": "Group", "id": "company-b-uuid"},
+  "excerpt": "Major financial transaction",
+  "body": null,
+  "media": [],
+  "links": [],
+  "keywords": []
+}
+
+NOTES:
+- total: Transaction amount (numeric)
+- currency: ISO currency code (USD, EUR, GBP, etc.)
+- from: Who paid/sent (Actor or Group)
+- to: Who received (Actor or Group)
+- Verify both entities exist before creating
+- Use only IDs from search results`,
       annotations: { title: "Create transaction event" },
       inputSchema: effectToZodStruct(CreateTransactionEventInputSchema),
     },

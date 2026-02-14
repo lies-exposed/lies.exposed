@@ -25,8 +25,27 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     FIND_ACTORS,
     {
       title: "Find actors",
-      description:
-        "Search for persons in DB using various criteria like full name, username, or associated keywords. ALWAYS use this tool BEFORE creating a new actor to check if the person already exists. Try multiple search variations (full name, abbreviations, alternative spellings). Returns the actor details in structured markdown format that is optimized for LLM understanding.",
+      description: `Search for persons in the database using various criteria.
+
+SEARCH STRATEGY - Always try multiple name variations:
+
+For "Donald Trump":
+- Search 1: "Donald Trump"
+- Search 2: "Trump"
+- Search 3: "D. Trump"
+- Search 4: "Donald J Trump"
+
+For "World leaders":
+- Search with full name first
+- Then try shortened name
+- Then try nickname if known
+
+TIPS:
+- Use fullName parameter for exact or partial name matches
+- Use memberIn parameter to find actors in specific groups/organizations
+- Try multiple searches with name variations
+- Returns results in structured markdown format
+- ALWAYS search before creating new actor to avoid duplicates`,
       annotations: { title: "Find actor" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
@@ -49,8 +68,56 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     CREATE_ACTOR,
     {
       title: "Create actor",
-      description:
-        "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the created actor details in structured markdown format. Requires the 'avatar' to be an already existing media in DB.",
+      description: `Create a new actor (person) in the database.
+
+CRITICAL WORKFLOW - ALWAYS DO THIS FIRST:
+1. Search using findActors with multiple name variations:
+   - Full name: "John Smith"
+   - Nickname: "Johnny Smith"
+   - Abbreviation: "J. Smith"
+   - Alternative spellings: "Jon Smith"
+2. Only create if NO match found in search results
+3. For nationalities: Use findNations and get the correct UUIDs
+
+PARAMETER GUIDELINES:
+- username: Unique identifier (no spaces, lowercase recommended)
+- fullName: Display name (e.g., "John Smith")
+- color: Hex color without # (e.g., "FF5733") - system generates random if needed
+- avatar: Must be existing media UUID - omit if no media available
+- bornOn/diedOn: ISO format YYYY-MM-DD or omit if unknown
+- nationalities: Array of nationality UUIDs from findNations
+
+EXAMPLE - Minimal actor:
+{
+  "username": "john_smith",
+  "fullName": "John Smith",
+  "color": "0084FF",
+  "nationalities": ["nation-uuid-1"],
+  "excerpt": "American businessman and entrepreneur",
+  "body": null,
+  "avatar": "media-uuid-1",
+  "bornOn": "1960-06-14",
+  "diedOn": null
+}
+
+EXAMPLE - Actor with minimal fields:
+{
+  "username": "jane_doe",
+  "fullName": "Jane Doe",
+  "color": "FF10F0",
+  "nationalities": [],
+  "excerpt": null,
+  "body": null,
+  "avatar": null,
+  "bornOn": null,
+  "diedOn": null
+}
+
+NOTES:
+- Always search BEFORE creating to avoid duplicates
+- Empty arrays/nulls are acceptable for optional fields
+- Use exact nationality UUIDs from search results
+- Avatar media must already exist in database`,
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
