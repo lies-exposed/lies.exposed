@@ -59,6 +59,12 @@ export const AdminProxyENV = Schema.Struct({
   // Rate limiting
   RATE_LIMIT_WINDOW_MS: Schema.NumberFromString,
   RATE_LIMIT_MAX_REQUESTS: Schema.NumberFromString,
+
+  // AI Provider API Keys (optional - if not set, provider is unavailable)
+  OPENAI_API_KEY: Schema.optional(Schema.String),
+  OPENAI_BASE_URL: Schema.optional(Schema.String),
+  ANTHROPIC_API_KEY: Schema.optional(Schema.String),
+  XAI_API_KEY: Schema.optional(Schema.String),
 }).annotations({
   title: "AdminProxyENV",
   description: "Environment variables for admin proxy server",
