@@ -1,5 +1,57 @@
 import { Schema } from "effect";
 
+// AI Provider types
+export const AIProvider = Schema.Literal(
+  "openai",
+  "anthropic",
+  "xai",
+).annotations({
+  title: "AIProvider",
+  description: "Supported AI provider",
+});
+
+export type AIProvider = typeof AIProvider.Type;
+
+// Available model names per provider
+export const AvailableModels = Schema.Union(
+  // OpenAI models
+  Schema.Literal("gpt-4"),
+  Schema.Literal("gpt-4o"),
+  // Local AI models
+  Schema.Literal("qwen3-4b"),
+  Schema.Literal("qwen3-embedding-4b"),
+  // XAI models
+  Schema.Literal("grok-4-fast"),
+  // Anthropic Claude models
+  Schema.Literal("claude-sonnet-4-20250514"),
+  Schema.Literal("claude-3-7-sonnet-latest"),
+  Schema.Literal("claude-3-5-haiku-latest"),
+).annotations({
+  title: "AvailableModels",
+  description: "Available model identifiers",
+});
+
+export type AvailableModels = typeof AvailableModels.Type;
+
+// AI Configuration override for per-request provider selection
+export const AIConfig = Schema.Struct({
+  provider: AIProvider,
+  model: Schema.optional(AvailableModels),
+  options: Schema.optional(
+    Schema.Struct({
+      temperature: Schema.optional(Schema.Number),
+      maxTokens: Schema.optional(Schema.Number),
+      topP: Schema.optional(Schema.Number),
+      frequencyPenalty: Schema.optional(Schema.Number),
+    }),
+  ),
+}).annotations({
+  title: "AIConfig",
+  description: "AI provider configuration override for per-request customization",
+});
+
+export type AIConfig = typeof AIConfig.Type;
+
 // Chat message types
 export const ChatRole = Schema.Literal(
   "user",
@@ -88,9 +140,11 @@ export const ChatRequest = Schema.Struct({
   conversation_id: Schema.NullOr(Schema.String),
   model: Schema.optional(Schema.String),
   resource_context: Schema.optional(ResourceContext),
+  // AI provider configuration override
+  aiConfig: Schema.optional(AIConfig),
 }).annotations({
   title: "ChatRequest",
-  description: "Request to send a chat message",
+  description: "Request to send a chat message with optional AI provider configuration",
 });
 
 export type ChatRequest = typeof ChatRequest.Type;
@@ -98,9 +152,16 @@ export type ChatRequest = typeof ChatRequest.Type;
 export const ChatResponse = Schema.Struct({
   message: ChatMessage,
   conversationId: Schema.String,
+  // Provider information about which provider was used
+  usedProvider: Schema.optional(
+    Schema.Struct({
+      provider: AIProvider,
+      model: AvailableModels,
+    }),
+  ),
 }).annotations({
   title: "ChatResponse",
-  description: "Response from chat service",
+  description: "Response from chat service with provider information",
 });
 
 export type ChatResponse = typeof ChatResponse.Type;
@@ -175,6 +236,13 @@ export const ChatStreamEvent = Schema.Struct({
   ),
   // Thinking/debug content from LLM (e.g., OpenAI extended thinking)
   thinking: Schema.optional(Schema.Boolean),
+  // Provider information (sent at stream start)
+  usedProvider: Schema.optional(
+    Schema.Struct({
+      provider: AIProvider,
+      model: AvailableModels,
+    }),
+  ),
 }).annotations({
   title: "ChatStreamEvent",
   description: "Server-sent event for chat streaming",
