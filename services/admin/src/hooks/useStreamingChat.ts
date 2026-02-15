@@ -7,14 +7,33 @@ import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useCallback, useRef } from "react";
 import { flushSync } from "react-dom";
 
+// Simple token estimation: roughly 1 token ≈ 4 characters
+// This is a conservative estimate; actual tokens depend on the model's tokenizer
+const estimateTokens = (text: string): number => {
+  // Count words as a base estimate
+  const words = text.trim().split(/\s+/).length;
+  // Add characters for punctuation and special tokens
+  const chars = text.length;
+  // Combined estimate: average of word-based and char-based
+  return Math.ceil((words * 1.3 + chars / 4) / 2);
+};
+
 interface StreamingChatState {
   messages: ChatMessage[];
   isLoading: boolean;
   error: string | null;
   conversationId: string | null;
   streamingContent: string; // Accumulated content from content_delta events
+  thinkingContent: string; // Accumulated thinking content from thinking events
   activeToolCalls: Map<string, { name: string; args?: string }>;
   completedToolCalls: { name: string; result: string }[];
+  // Token usage tracking
+  tokenUsage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    isEstimated: boolean; // True during streaming, false when finalized
+  } | null;
 }
 
 interface UseStreamingChatOptions {
@@ -30,12 +49,15 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     error: null,
     conversationId: null,
     streamingContent: "",
+    thinkingContent: "",
     activeToolCalls: new Map(),
     completedToolCalls: [],
+    tokenUsage: null,
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
   const currentMessageIdRef = useRef<string | null>(null);
+  const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const sendMessage = useCallback(
     async (request: ChatRequest): Promise<void> => {
@@ -52,8 +74,10 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         isLoading: true,
         error: null,
         streamingContent: "",
+        thinkingContent: "",
         activeToolCalls: new Map(),
         completedToolCalls: [],
+        tokenUsage: null,
       }));
 
       // Add user message immediately
@@ -81,6 +105,13 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           headers.Authorization = authToken;
         }
 
+        // Set up timeout for entire stream (3 minutes)
+        // This prevents the stream from hanging indefinitely
+        const timeoutId = setTimeout(() => {
+          abortController.abort();
+        }, 180000);
+        timeoutIdRef.current = timeoutId;
+
         const response = await fetch(proxyUrl, {
           method: "POST",
           headers,
@@ -89,10 +120,12 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         });
 
         if (!response.ok) {
+          clearTimeout(timeoutId);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         if (!response.body) {
+          clearTimeout(timeoutId);
           throw new Error("No response body");
         }
 
@@ -147,7 +180,33 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
 
                         case "content_delta":
                           if (event.content) {
-                            newState.streamingContent += event.content;
+                            // Check if this is thinking content or regular content
+                            if (event.thinking) {
+                              // Accumulate thinking content separately
+                              newState.thinkingContent += event.content;
+                            } else {
+                              // Regular content delta
+                              newState.streamingContent += event.content;
+                              // Update estimated token usage during streaming
+                              const estimatedCompletionTokens = estimateTokens(
+                                newState.streamingContent,
+                              );
+                              if (!newState.tokenUsage) {
+                                newState.tokenUsage = {
+                                  promptTokens: 0, // We don't know prompt tokens yet
+                                  completionTokens: estimatedCompletionTokens,
+                                  totalTokens: estimatedCompletionTokens,
+                                  isEstimated: true,
+                                };
+                              } else {
+                                newState.tokenUsage.completionTokens =
+                                  estimatedCompletionTokens;
+                                newState.tokenUsage.totalTokens =
+                                  newState.tokenUsage.promptTokens +
+                                  estimatedCompletionTokens;
+                                newState.tokenUsage.isEstimated = true;
+                              }
+                            }
                           }
                           break;
 
@@ -225,6 +284,17 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                             newState.completedToolCalls = [];
                             newState.conversationId =
                               request.conversation_id ?? prev.conversationId;
+
+                            // Update token usage with actual values if provided
+                            if (event.usage) {
+                              newState.tokenUsage = {
+                                promptTokens: event.usage.prompt_tokens ?? 0,
+                                completionTokens:
+                                  event.usage.completion_tokens ?? 0,
+                                totalTokens: event.usage.total_tokens ?? 0,
+                                isEstimated: false,
+                              };
+                            }
                           }
                           break;
 
@@ -252,6 +322,11 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           }
         } finally {
           reader.releaseLock();
+          // Always clear the timeout when stream ends
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+            timeoutIdRef.current = null;
+          }
         }
 
         setState((prev) => ({
@@ -259,8 +334,20 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           isLoading: false,
         }));
       } catch (error) {
+        // Clear timeout on error
+        if (timeoutIdRef.current) {
+          clearTimeout(timeoutIdRef.current);
+          timeoutIdRef.current = null;
+        }
+
         if (error instanceof Error && error.name === "AbortError") {
-          // Request was cancelled
+          // Request was cancelled or timed out
+          setState((prev) => ({
+            ...prev,
+            isLoading: false,
+            error:
+              "Stream timeout (3 minutes) - please try again with a shorter request",
+          }));
           return;
         }
 
@@ -306,8 +393,10 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       error: null,
       conversationId: null,
       streamingContent: "",
+      thinkingContent: "",
       activeToolCalls: new Map(),
       completedToolCalls: [],
+      tokenUsage: null,
     });
   }, []);
 

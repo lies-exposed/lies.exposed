@@ -7,7 +7,10 @@ import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
 import { beforeAll, describe, expect, test } from "vitest";
 import { type AppTest, GetAppTest } from "../../../../../../test/AppTest.js";
-import { createGroupToolTask } from "../createGroup.tool.js";
+import {
+  createGroupToolTask,
+  type CreateInputSchema,
+} from "../createGroup.tool.js";
 
 describe("MCP CREATE_GROUP Tool", () => {
   let Test: AppTest;
@@ -21,16 +24,10 @@ describe("MCP CREATE_GROUP Tool", () => {
   });
 
   test("Should create a new group with required fields", async () => {
-    const newGroupData = {
+    const newGroupData: CreateInputSchema = {
       name: "Test MCP Group",
       username: "test-mcp-group",
-      color: "FF5733",
-      kind: "Public" as const,
-      excerpt: "A test group created via MCP tools",
-      body: undefined,
-      avatar: avatar.id,
-      startDate: new Date().toISOString(),
-      endDate: undefined,
+      kind: "Public",
     };
 
     const result = await pipe(
@@ -51,16 +48,18 @@ describe("MCP CREATE_GROUP Tool", () => {
   });
 
   test("Should create group with optional fields", async () => {
-    const newGroupData = {
+    const newGroupData: CreateInputSchema = {
       name: "Complete Test Group",
       username: "complete-test-group",
-      color: "00FF00",
-      kind: "Private" as const,
-      excerpt: "A complete test group",
-      body: "This is a detailed description of the test group.",
-      startDate: "2020-01-01",
-      endDate: "2023-12-31",
-      avatar: undefined,
+      kind: "Private",
+      config: {
+        color: "00FF00",
+        excerpt: "A complete test group",
+        body: "This is a detailed description of the test group.",
+        startDate: "2020-01-01",
+        endDate: "2023-12-31",
+        avatar: avatar.id,
+      },
     };
 
     const result = await pipe(

@@ -26,8 +26,8 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find actors",
       description:
-        "Search for persons in DB using various criteria like full name, username, or associated keywords. ALWAYS use this tool BEFORE creating a new actor to check if the person already exists. Try multiple search variations (full name, abbreviations, alternative spellings). Returns the actor details in structured markdown format that is optimized for LLM understanding.",
-      annotations: { title: "Find actor" },
+        "Search for persons by name or group membership. Supports partial name matching, group filtering, and sorting.",
+      annotations: { title: "Find actors" },
       inputSchema: effectToZodStruct(FindActorsInputSchema),
     },
     (input) => pipe(findActorsToolTask(input), throwRTE(ctx)),
@@ -50,25 +50,11 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create actor",
       description:
-        "Create a new actor (person) in the database with the provided information. IMPORTANT: Always search for existing actors using findActors with multiple name variations (full name, abbreviations, alternative spellings) BEFORE creating a new actor to avoid duplicates. Only create if no match exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the created actor details in structured markdown format. Requires the 'avatar' to be an already existing media in DB.",
+        "Create a new actor. Use findActors to search first and avoid duplicates. Optional config fields: color, excerpt, nationalityIds, body, avatar, bornOn, diedOn.",
       annotations: { title: "Create actor" },
       inputSchema: effectToZodStruct(CreateActorInputSchema),
     },
-    (input) =>
-      pipe(
-        createActorToolTask({
-          username: input.username,
-          fullName: input.fullName,
-          color: input.color,
-          excerpt: input.excerpt,
-          nationalities: input.nationalities,
-          body: input.body,
-          avatar: input.avatar,
-          bornOn: input.bornOn,
-          diedOn: input.diedOn,
-        }),
-        throwRTE(ctx),
-      ),
+    (input) => pipe(createActorToolTask(input), throwRTE(ctx)),
   );
 
   server.registerTool(
@@ -76,7 +62,7 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit actor",
       description:
-        "Update an existing actor with new information. IMPORTANT: Always search for the actor using findActors BEFORE editing to verify it exists. For nationalities, use findNations tool to get the correct nationality UUIDs. Returns the updated actor details in structured markdown format.",
+        "Update an actor. Only provide fields to change; omitted fields keep current values. Empty arrays clear membership; dates can be cleared by omitting.",
       annotations: { title: "Edit actor" },
       inputSchema: effectToZodStruct(EditActorInputSchema),
     },

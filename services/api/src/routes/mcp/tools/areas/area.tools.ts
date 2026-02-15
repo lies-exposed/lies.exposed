@@ -21,9 +21,9 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
     FIND_AREAS,
     {
-      title: "Find area",
+      title: "Find areas",
       description:
-        "Search for areas using various criteria like name or keywords. Returns the area in JSON format",
+        "Search for geographic areas by name or description. Supports sorting and pagination.",
       annotations: { title: "Find areas" },
       inputSchema: effectToZodStruct(FindAreasInputSchema),
     },
@@ -58,7 +58,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create area",
       description:
-        "Create a new geographic area in the database with the provided information. Returns the created area details in structured markdown format.",
+        "Create a new geographic area. Search findAreas first to avoid duplicates. Optional config fields: body, draft, featuredImage, updateGeometry.",
       annotations: { title: "Create area" },
       inputSchema: effectToZodStruct(CreateAreaInputSchema),
     },
@@ -70,7 +70,7 @@ export const registerAreaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit area",
       description:
-        "Edit an existing geographic area in the database. Only provided fields will be updated. Returns the updated area details in structured markdown format.",
+        "Update an area. Only provide fields to change; omitted fields keep current values. Geometry should be valid GeoJSON if provided.",
       annotations: { title: "Edit area" },
       inputSchema: effectToZodStruct(EditAreaInputSchema),
     },

@@ -116,10 +116,6 @@
                     "url": "https://api.githubcopilot.com/mcp/",
                     "type": "http"
                 },
-                "api-liexp-dev": {
-                    "url": "http://api.liexp.dev/mcp",
-                    "type": "http"
-                },
                 "basic-memory": {
                     "type": "stdio",
                     "command": "uvx",

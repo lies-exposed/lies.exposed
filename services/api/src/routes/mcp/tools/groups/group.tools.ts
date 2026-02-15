@@ -23,7 +23,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find groups",
       description:
-        "Search for groups (organizations) using various criteria like name or keywords. ALWAYS use this tool BEFORE creating a new group to check if the organization already exists. Try multiple search variations (full name, abbreviations, acronyms). Returns the groups in JSON format.",
+        "Search for organizations by name or criteria. Supports partial name matching, acronyms, and sorting.",
       annotations: { title: "Find groups" },
       inputSchema: effectToZodStruct(FindGroupsInputSchema),
     },
@@ -40,8 +40,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     GET_GROUP,
     {
       title: "Get group",
-      description:
-        "Retrieve detailed information about a specific group (organization) using its unique identifier. Returns the group details in structured markdown format.",
+      description: "Retrieve a group by ID.",
       inputSchema: effectToZodStruct(GetGroupInputSchema),
       annotations: { title: "Get group" },
     },
@@ -53,7 +52,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create group",
       description:
-        "Create a new group (organization) in the database with the provided information. IMPORTANT: Always search for existing groups using findGroups with multiple name variations (full name, abbreviations, acronyms like 'WHO' for 'World Health Organization') BEFORE creating a new group to avoid duplicates. Only create if no match exists. Returns the created group details in structured markdown format.",
+        "Create a new group. Use findGroups to search first and avoid duplicates. Optional config fields: color, excerpt, body, avatar, startDate, endDate.",
       annotations: { title: "Create group" },
       inputSchema: effectToZodStruct(CreateInputSchema),
     },
@@ -71,7 +70,7 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit group",
       description:
-        "Edit an existing group (organization) in the database with the provided information. Only provided fields will be updated. Returns the updated group details in structured markdown format.",
+        "Update a group. Only provide fields to change; omitted fields keep current values. Empty arrays clear membership; dates can be cleared by omitting.",
       annotations: { title: "Edit group" },
       inputSchema: effectToZodStruct(EditInputSchema),
     },

@@ -1,7 +1,6 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -83,34 +82,6 @@ export const baseEditEventSchema = Schema.Struct({
     description:
       "Array of keyword UUIDs to associate with the event or undefined to keep current",
   }),
-});
-
-/**
- * Base fields for create event input
- */
-interface BaseCreateEventInput {
-  date: string;
-  draft: boolean;
-  excerpt: string | null;
-  body: string | null;
-  media: readonly string[];
-  links: readonly string[];
-  keywords: readonly string[];
-}
-
-/**
- * Transforms base create event input fields to the format expected by the event body
- */
-export const transformBaseCreateEventFields = (
-  input: BaseCreateEventInput,
-) => ({
-  date: new Date(input.date),
-  draft: input.draft,
-  excerpt: input.excerpt ? toInitialValue(input.excerpt) : undefined,
-  body: input.body ? toInitialValue(input.body) : undefined,
-  media: (input.media ?? []) as any,
-  links: (input.links ?? []) as any,
-  keywords: (input.keywords ?? []) as any,
 });
 
 /**

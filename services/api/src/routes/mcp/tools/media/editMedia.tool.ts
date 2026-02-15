@@ -16,14 +16,16 @@ export const EditMediaInputSchema = Schema.Struct({
   id: UUID.annotations({
     description: "UUID of the media to edit",
   }),
-  location: URL.annotations({
-    description: "URL of the media file (can be external URL or storage URL)",
+  location: Schema.UndefinedOr(URL).annotations({
+    description:
+      "URL of the media file (can be external URL or storage URL) - omit to keep current",
   }),
-  type: MediaType.annotations({
-    description: "Type of media (Image, Video, PDF, etc.)",
+  type: Schema.UndefinedOr(MediaType).annotations({
+    description:
+      "Type of media (Image, Video, PDF, etc.) - omit to keep current",
   }),
-  label: Schema.String.annotations({
-    description: "Label/title for the media",
+  label: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Label/title for the media - omit to keep current",
   }),
   description: Schema.UndefinedOr(Schema.String).annotations({
     description: "Optional detailed description of the media",
@@ -42,25 +44,29 @@ export const editMediaToolTask = ({
   Error,
   CallToolResult
 > => {
+  // Map undefined values to empty strings/defaults for the flow
+  // The flow will use existing values if these are not actually changed
+  const mappedBody = {
+    location: (location ?? "") as any,
+    type: (type ?? "image/jpg") as any,
+    label: label ?? "",
+    description: O.fromNullable(description),
+    areas: [],
+    keywords: [],
+    links: [],
+    events: [],
+    thumbnail: O.none(),
+    extra: O.none(),
+    overrideExtra: O.none(),
+    overrideThumbnail: O.none(),
+    transfer: O.none(),
+    transferThumbnail: O.none(),
+    restore: O.none(),
+    creator: O.none(),
+  };
+
   return pipe(
-    editMedia(id, {
-      location,
-      type,
-      label,
-      description: O.fromNullable(description),
-      areas: [],
-      keywords: [],
-      links: [],
-      events: [],
-      thumbnail: O.none(),
-      extra: O.none(),
-      overrideExtra: O.none(),
-      overrideThumbnail: O.none(),
-      transfer: O.none(),
-      transferThumbnail: O.none(),
-      restore: O.none(),
-      creator: O.none(),
-    }),
+    editMedia(id, mappedBody),
     fp.RTE.chainEitherK((media) => MediaIO.decodeSingle(media)),
     fp.RTE.map((media) => ({
       content: [

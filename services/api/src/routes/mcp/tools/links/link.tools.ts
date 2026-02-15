@@ -23,7 +23,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find links",
       description:
-        "Search for links using various criteria like title or keywords. Returns the link item in JSON format",
+        "Search for links by URL or title. Supports sorting by creation date, title, or URL.",
       annotations: { title: "Find links" },
       inputSchema: effectToZodStruct(FindLinksInputSchema),
     },
@@ -43,8 +43,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     GET_LINK,
     {
       title: "Get link",
-      description:
-        "Retrieve a link by its ID. Returns the link item in JSON format.",
+      description: "Retrieve a link by ID.",
       annotations: { title: "Get link" },
       inputSchema: effectToZodStruct(GetLinkInputSchema),
     },
@@ -56,7 +55,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Create link",
       description:
-        "Create a new link in the database with the provided URL and metadata. Returns the created link details in structured markdown format.",
+        "Create a new link from URL. Required: url (HTTP/HTTPS). Optional config fields: title, description, publishDate, provider, image.",
       annotations: { title: "Create link" },
       inputSchema: effectToZodStruct(CreateLinkInputSchema),
     },
@@ -76,7 +75,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit link",
       description:
-        "Edit an existing link in the database. Only provided fields will be updated. Returns the updated link details in structured markdown format.",
+        "Update a link. Only provide fields to change; omitted fields keep current values.",
       annotations: { title: "Edit link" },
       inputSchema: effectToZodStruct(EditLinkInputSchema),
     },

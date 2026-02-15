@@ -19,7 +19,7 @@ export const registerNationTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find nations",
       description:
-        "Search for nations/nationalities/countries using various criteria like name or ISO code. ALWAYS use this tool to find nationality IDs before using them in actor operations. Returns nation details in structured markdown format. Common searches: 'United States', 'Italy', 'France', 'Germany', 'China', 'Russia', etc.",
+        "Search for nations by name or ISO code. Returns nationality UUIDs for use in actor creation.",
       annotations: { title: "Find nations" },
       inputSchema: effectToZodStruct(FindNationsInputSchema),
     },
@@ -37,8 +37,7 @@ export const registerNationTools = (server: McpServer, ctx: ServerContext) => {
     GET_NATION,
     {
       title: "Get nation",
-      description:
-        "Retrieve a nation/nationality/country by its ID. Returns the nation details in structured markdown format.",
+      description: "Retrieve a nation by ID.",
       annotations: { title: "Get nation" },
       inputSchema: effectToZodStruct(GetNationInputSchema),
     },

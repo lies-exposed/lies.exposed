@@ -26,7 +26,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     error,
     conversationId,
     streamingContent,
+    thinkingContent,
     activeToolCalls,
+    tokenUsage,
     sendMessage,
   } = useStreamingChat();
 
@@ -153,8 +155,10 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       content: streamingContent,
       tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
       timestamp: new Date().toISOString(),
+      tokenUsage: tokenUsage,
+      thinkingContent: thinkingContent || undefined,
     };
-  }, [streamingContent, activeToolCalls]);
+  }, [streamingContent, activeToolCalls, tokenUsage, thinkingContent]);
 
   return (
     <ChatUI

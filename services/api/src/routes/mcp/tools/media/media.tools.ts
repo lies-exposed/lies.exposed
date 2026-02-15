@@ -3,7 +3,6 @@ import {
   EDIT_MEDIA,
   FIND_MEDIA,
   GET_MEDIA,
-  UPLOAD_MEDIA_FROM_URL,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
@@ -17,10 +16,6 @@ import {
 import { EditMediaInputSchema, editMediaToolTask } from "./editMedia.tool.js";
 import { FindMediaInputSchema, findMediaToolTask } from "./findMedia.tool.js";
 import { GetMediaInputSchema, getMediaToolTask } from "./getMedia.tool.js";
-import {
-  UploadMediaFromURLInputSchema,
-  uploadMediaFromURLToolTask,
-} from "./uploadMediaFromURL.tool.js";
 
 export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
   server.registerTool(
@@ -28,7 +23,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Find media",
       description:
-        "Search for media using various criteria like title, location or keywords. Returns the media item in markdown format.",
+        "Search for media by title, location, or type. Supports filtering by image, video, pdf, audio types.",
       annotations: { title: "Find media" },
       inputSchema: effectToZodStruct(FindMediaInputSchema),
     },
@@ -49,8 +44,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     GET_MEDIA,
     {
       title: "Get media",
-      description:
-        "Get media by id. Returns the media item in markdown format.",
+      description: "Retrieve media by ID.",
       annotations: { title: "Get media" },
       inputSchema: effectToZodStruct(GetMediaInputSchema),
     },
@@ -58,29 +52,11 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
   );
 
   server.registerTool(
-    UPLOAD_MEDIA_FROM_URL,
-    {
-      title: "Upload media from URL",
-      description: `Download an image or media file from a URL and upload it to storage. Returns the uploaded media entity with UUID that can be used when creating actors, groups, or events. You should check if the media location already exists with ${FIND_MEDIA} tool to avoid duplicates.`,
-      annotations: { title: "Upload media from URL" },
-      inputSchema: effectToZodStruct(UploadMediaFromURLInputSchema),
-    },
-    (input) =>
-      pipe(
-        uploadMediaFromURLToolTask({
-          ...input,
-          description: input.description ?? undefined,
-        }),
-        throwRTE(ctx),
-      ),
-  );
-
-  server.registerTool(
     CREATE_MEDIA,
     {
       title: "Create media",
       description:
-        "Create a media entity in the database with an existing URL (e.g., external image URL). The created media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
+        "Create media entity for images, videos, PDFs, or audio. With autoUpload=false: stores external URL reference. With autoUpload=true: downloads and stores internally. Returns UUID for reference in actors/groups/events.",
       annotations: { title: "Create media" },
       inputSchema: effectToZodStruct(CreateMediaInputSchema),
     },
@@ -99,7 +75,7 @@ export const registerMediaTools = (server: McpServer, ctx: ServerContext) => {
     {
       title: "Edit media",
       description:
-        "Edit a media entity in the database with an existing URL (e.g., external image URL). The edited media can be referenced by its UUID when creating actors, groups, or events. Use uploadMediaFromURL if you need to download and upload the file to storage first.",
+        "Update media. Only provide fields to change; omitted fields keep current values.",
       annotations: { title: "Edit media" },
       inputSchema: effectToZodStruct(EditMediaInputSchema),
     },
