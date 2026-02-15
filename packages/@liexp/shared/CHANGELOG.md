@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...@liexp/shared@0.4.0) (2026-02-15)
+
+
+### Bug Fixes
+
+* propertyindexsignature type conversion ([#3191](https://github.com/lies-exposed/lies.exposed/issues/3191)) ([9475d30](https://github.com/lies-exposed/lies.exposed/commit/9475d30312e4940235fc6edce7eb167d41d4006d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.0
+    * @liexp/io bumped to 0.4.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.0
+    * @liexp/test bumped to 0.4.0
+
 ## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/shared@0.3.0) (2026-02-11)
 
 

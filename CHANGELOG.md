@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...lies.exposed@0.4.0) (2026-02-15)
+
+
+### Bug Fixes
+
+* mcp tools ([#3188](https://github.com/lies-exposed/lies.exposed/issues/3188)) ([3b9a8ce](https://github.com/lies-exposed/lies.exposed/commit/3b9a8ceefe7ee7510820d039a3fea4de29f58cbd))
+* optimize ESLint cache to improve CI performance ([#3190](https://github.com/lies-exposed/lies.exposed/issues/3190)) ([fa2b3f7](https://github.com/lies-exposed/lies.exposed/commit/fa2b3f702d0b185e622992b1aa8855d409337f1e))
+* **worker:** increase worker pod memory limits for Puppeteer operations ([#3185](https://github.com/lies-exposed/lies.exposed/issues/3185)) ([a70f109](https://github.com/lies-exposed/lies.exposed/commit/a70f109782f2250e48961de3ba0487f8104f7f38))
+* **worker:** wikipedia api ([#3187](https://github.com/lies-exposed/lies.exposed/issues/3187)) ([f463543](https://github.com/lies-exposed/lies.exposed/commit/f463543e9406640d8f04d8acdf17836068263872))
+
+
+### Miscellaneous
+
+* updated localai models and use GPU Intel v3 image ([#3196](https://github.com/lies-exposed/lies.exposed/issues/3196)) ([46a3dd6](https://github.com/lies-exposed/lies.exposed/commit/46a3dd686187c0f158436bf3fce971179b58dff8))
+
 ## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...lies.exposed@0.3.0) (2026-02-11)
 
 

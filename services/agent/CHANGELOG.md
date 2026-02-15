@@ -1,5 +1,34 @@
 # Changelog
 
+## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...agent@0.4.0) (2026-02-15)
+
+
+### Features
+
+* **agent:** retry MCP initializeConnections on startup failure ([#3189](https://github.com/lies-exposed/lies.exposed/issues/3189)) ([23e1510](https://github.com/lies-exposed/lies.exposed/commit/23e151065c2b51034ea4d9df3bca058685ca09af))
+
+
+### Bug Fixes
+
+* mcp tools ([#3188](https://github.com/lies-exposed/lies.exposed/issues/3188)) ([3b9a8ce](https://github.com/lies-exposed/lies.exposed/commit/3b9a8ceefe7ee7510820d039a3fea4de29f58cbd))
+
+
+### Miscellaneous
+
+* increase agent chat timeout to 3min ([#3195](https://github.com/lies-exposed/lies.exposed/issues/3195)) ([0bf8c1a](https://github.com/lies-exposed/lies.exposed/commit/0bf8c1ade90c17654a9d4d8fd0229439287102f2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.0
+    * @liexp/core bumped to 0.4.0
+    * @liexp/io bumped to 0.4.0
+    * @liexp/shared bumped to 0.4.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.0
+
 ## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...agent@0.3.0) (2026-02-11)
 
 

@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...@liexp/ui@0.4.0) (2026-02-15)
+
+
+### Bug Fixes
+
+* **admin:** unauthorized errors redirect ([#3193](https://github.com/lies-exposed/lies.exposed/issues/3193)) ([6aaffc6](https://github.com/lies-exposed/lies.exposed/commit/6aaffc6b17aba36c99a825c0ee0741caaf7d08a1))
+* mcp tools ([#3188](https://github.com/lies-exposed/lies.exposed/issues/3188)) ([3b9a8ce](https://github.com/lies-exposed/lies.exposed/commit/3b9a8ceefe7ee7510820d039a3fea4de29f58cbd))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.0
+    * @liexp/io bumped to 0.4.0
+    * @liexp/shared bumped to 0.4.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.0
+
 ## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...@liexp/ui@0.3.0) (2026-02-11)
 
 

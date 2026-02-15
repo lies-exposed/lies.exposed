@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...ai-bot@0.4.0) (2026-02-15)
+
+
+### Miscellaneous
+
+* **ai-bot:** Synchronize monorepo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.0
+    * @liexp/core bumped to 0.4.0
+    * @liexp/io bumped to 0.4.0
+    * @liexp/shared bumped to 0.4.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.0
+
 ## [0.3.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.2.5...ai-bot@0.3.0) (2026-02-11)
 
 
