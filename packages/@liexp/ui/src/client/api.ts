@@ -26,29 +26,41 @@ export const GetAuthProvider = (
     localStorage.removeItem("user");
   };
 
-  const checkError = async (e: AxiosError | APIError): Promise<void> => {
+  const handleUnauthorized = (): void => {
+    clearLocalStorage();
+    // Redirect to login page
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  };
+
+  const checkError = async (error: AxiosError | APIError): Promise<void> => {
     // eslint-disable-next-line no-console
-    console.log("Checking error", e);
-    const isAPIError = Schema.is(APIError)(e);
-    const errorData = isAPIError ? e : e.response?.data;
-    const error = new Error(e.name);
-    error.cause = JSON.stringify(errorData);
+    console.log("Checking error", error);
+    const isAPIError = Schema.is(APIError)(error);
+    const errorData = isAPIError ? error : error.response?.data;
+    const err = new Error(error.name);
+    err.cause = JSON.stringify(errorData);
 
-    const is401 = isAPIError ? e.status === 401 : e.response?.status === 401;
+    const is401 = isAPIError ? error.status === 401 : error.response?.status === 401;
     if (is401) {
-      // If the error is an APIError, we can handle it accordingly
-
-      clearLocalStorage();
-
-      throw error;
+      // Clear authentication on 401 Unauthorized
+      handleUnauthorized();
+      // Reject the promise so react-admin knows about the error
+      throw new Error("Unauthorized - Session expired");
     }
 
+    // Don't suppress errors - let react-admin handle other errors
+    // but don't trigger logout for non-401 errors
     return Promise.resolve();
   };
 
   const logout = async (p: { redirectTo?: string }): Promise<void> => {
     clearLocalStorage();
-    await Promise.resolve({ redirectTo: p.redirectTo ?? "/login" });
+    const redirectTo = p.redirectTo ?? "/login";
+    if (typeof window !== "undefined") {
+      window.location.href = redirectTo;
+    }
   };
 
   return {

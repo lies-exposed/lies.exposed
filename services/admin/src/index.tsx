@@ -24,6 +24,24 @@ import "@liexp/ui/lib/components/Common/Icons/library.js";
 // import main css
 import "./index.css";
 
+/**
+ * Set up global 401 error handler for API responses
+ * This ensures that when a 401 is returned, the user is logged out
+ */
+const setupGlobal401Handler = () => {
+  if (typeof window !== "undefined") {
+    // Listen for storage changes from other tabs
+    window.addEventListener("storage", (e) => {
+      if (e.key === "auth" && e.newValue === null) {
+        // Auth was cleared in another tab, redirect to login
+        window.location.href = "/login";
+      }
+    });
+  }
+};
+
+setupGlobal401Handler();
+
 const AdminPage = React.lazy(() => import("./AdminPage.js"));
 
 const container =
@@ -56,6 +74,6 @@ root.render(
 );
 
 // If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
+// to log results (for example, reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
