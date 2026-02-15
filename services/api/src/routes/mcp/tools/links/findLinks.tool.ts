@@ -19,7 +19,7 @@ export const FindLinksInputSchema = Schema.Struct({
     description:
       "Search query string to filter links by title or URL (optional)",
   }),
-  ids: Schema.Array(Schema.UUID).annotations({
+  ids: Schema.UndefinedOr(Schema.Array(Schema.UUID)).annotations({
     description: "Array of link UUIDs to filter by",
   }),
   sort: Schema.Union(

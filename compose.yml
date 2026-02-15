@@ -239,9 +239,10 @@ services:
       - api.liexp.dev
 
   localai.liexp.dev:
+    # CPU-only (no GPU acceleration):
     # image: localai/localai:master-aio-cpu
-    # For Intel GPUs decomment the following:
-    image: localai/localai:master-aio-gpu-intel
+    # Intel GPU (SYCL-enabled llama-cpp + diffusers):
+    image: localai/localai:master-gpu-intel
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/readyz"]
       interval: 1m
@@ -250,7 +251,7 @@ services:
     tty: true
     environment:
       DEBUG: true
-      # REBUILD: true
+      REBUILD: true
       VIRTUAL_HOST: localai.liexp.dev
       VIRTUAL_PORT: 80
       LOCALAI_ADDRESS: ":80"
@@ -261,11 +262,13 @@ services:
       NEOReadDebugKeys: 1
       ClDeviceGlobalMemCacheType: 1
     env_file:
-      - ./services/ai-bot/.env
-      - ./services/ai-bot/.env.local
+      - ./services/agent/.env
+      - ./services/agent/.env.local
     volumes:
       - ./localai/models:/models:cached
-      - ./localai/backends:/backends:cached
+      # Don't mount local backends - let the image use its own SYCL-compiled backends
+      # - ./localai/backends:/backends:cached
+      - localai-backends:/backends
     devices:
       # Intel GPU device access - required for hardware acceleration
       - /dev/dri/card1:/dev/dri/card1
@@ -287,6 +290,7 @@ volumes:
   agent-node-modules: {}
   space-data: {}
   redis-data: {}
+  localai-backends: {}
 
 networks:
   reverseproxy:
