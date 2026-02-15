@@ -2,6 +2,7 @@ import type {
   ChatMessage,
   ChatRequest,
   ChatStreamEvent,
+  AIConfig,
 } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useCallback, useRef } from "react";
@@ -34,6 +35,13 @@ interface StreamingChatState {
     totalTokens: number;
     isEstimated: boolean; // True during streaming, false when finalized
   } | null;
+  // AI provider configuration
+  aiConfig: AIConfig | null;
+  // Last used provider info from response
+  usedProvider: {
+    provider: string;
+    model: string;
+  } | null;
 }
 
 interface UseStreamingChatOptions {
@@ -53,6 +61,8 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     activeToolCalls: new Map(),
     completedToolCalls: [],
     tokenUsage: null,
+    aiConfig: null,
+    usedProvider: null,
   });
 
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -60,7 +70,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   const timeoutIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const sendMessage = useCallback(
-    async (request: ChatRequest): Promise<void> => {
+    async (request: ChatRequest, aiConfig?: AIConfig): Promise<void> => {
       // Cancel any ongoing stream
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -78,6 +88,8 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         activeToolCalls: new Map(),
         completedToolCalls: [],
         tokenUsage: null,
+        aiConfig: aiConfig || null,
+        usedProvider: null,
       }));
 
       // Add user message immediately
@@ -121,7 +133,10 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         const response = await fetch(proxyUrl, {
           method: "POST",
           headers,
-          body: JSON.stringify(request),
+          body: JSON.stringify({
+            ...request,
+            ...(aiConfig && { aiConfig }),
+          }),
           signal: abortController.signal,
         });
 
@@ -186,12 +201,16 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                     setState((prev) => {
                       const newState = { ...prev };
 
-                      switch (event.type) {
-                        case "message_start":
-                          currentMessageIdRef.current =
-                            event.message_id ?? null;
-                          newState.streamingContent = "";
-                          break;
+                       switch (event.type) {
+                         case "message_start":
+                           currentMessageIdRef.current =
+                             event.message_id ?? null;
+                           newState.streamingContent = "";
+                           // Capture provider info if available
+                           if (event.usedProvider) {
+                             newState.usedProvider = event.usedProvider;
+                           }
+                           break;
 
                         case "content_delta":
                           if (event.content) {
@@ -412,6 +431,8 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       activeToolCalls: new Map(),
       completedToolCalls: [],
       tokenUsage: null,
+      aiConfig: null,
+      usedProvider: null,
     });
   }, []);
 

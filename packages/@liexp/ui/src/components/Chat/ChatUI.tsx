@@ -11,6 +11,7 @@ import { LoadingMessage } from "./LoadingMessage.js";
 import { StreamingMessage } from "./StreamingMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
+import { ProviderSelector } from "./ProviderSelector.js";
 
 // Styled components
 const FloatingButton = styled(Paper)(({ theme }) => ({
@@ -127,6 +128,18 @@ export interface ChatUIProps {
     } | null;
     thinkingContent?: string;
   } | null;
+  /** Provider selector configuration */
+  providerSelector?: {
+    selectedProvider: string | null;
+    onProviderChange: (provider: string) => void;
+    selectedModel: string | null;
+    onModelChange: (model: string) => void;
+  };
+  /** Last used provider information */
+  usedProvider?: {
+    provider: string;
+    model: string;
+  } | null;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -164,6 +177,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onToggleContext,
   contextLabel,
   streamingMessage,
+  providerSelector,
+  usedProvider,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -283,6 +298,24 @@ export const ChatUI: React.FC<ChatUIProps> = ({
             </MessagesContainer>
 
             {error && <ErrorDisplay error={error} onRetry={onRetry} />}
+
+            {providerSelector && (
+              <Box sx={{ px: 1, py: 1, borderTop: "1px solid", borderTopColor: "divider" }}>
+                <ProviderSelector
+                  selectedProvider={providerSelector.selectedProvider as any}
+                  selectedModel={providerSelector.selectedModel}
+                  onProviderChange={providerSelector.onProviderChange}
+                  onModelChange={providerSelector.onModelChange}
+                  compact={true}
+                  showDescription={false}
+                />
+                {usedProvider && (
+                  <Box sx={{ fontSize: "0.75rem", color: "text.secondary", mt: 0.5 }}>
+                    Using: {usedProvider.provider} ({usedProvider.model})
+                  </Box>
+                )}
+              </Box>
+            )}
 
             <ChatInput
               inputValue={inputValue}

@@ -1,4 +1,5 @@
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
+import { type AIProvider } from "@liexp/ui/lib/components/Chat/ProviderSelector.js";
 import {
   useRecordContext,
   useResourceContext,
@@ -16,6 +17,10 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
+  const [selectedProvider, setSelectedProvider] = useState<AIProvider | null>(
+    null,
+  );
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
 
   const location = useLocation();
 
@@ -29,6 +34,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     thinkingContent,
     activeToolCalls,
     tokenUsage,
+    usedProvider,
     sendMessage,
   } = useStreamingChat();
 
@@ -123,8 +129,16 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       resource_context: isContextEnabled ? context : undefined,
     };
 
+    // Create aiConfig if provider is selected
+    const aiConfig = selectedProvider
+      ? {
+          provider: selectedProvider,
+          ...(selectedModel && { model: selectedModel as any }),
+        }
+      : undefined;
+
     setInputValue("");
-    await sendMessage(request);
+    await sendMessage(request, aiConfig);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -181,6 +195,13 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       onToggleContext={handleToggleContext}
       contextLabel={contextLabel}
       streamingMessage={streamingMessage}
+      providerSelector={{
+        selectedProvider,
+        onProviderChange: (provider: string) => setSelectedProvider(provider as AIProvider),
+        selectedModel,
+        onModelChange: setSelectedModel,
+      }}
+      usedProvider={usedProvider}
     />
   );
 };
