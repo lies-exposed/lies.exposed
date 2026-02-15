@@ -5,11 +5,8 @@
 ![GitHub issues](https://img.shields.io/github/issues/lies-exposed/lies.exposed)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/lies-exposed/lies.exposed)
 
-![GitHub Workflow API Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/api-pull-request.yml?label=PR%20-%20API)
-![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/web-pull-request.yml?label=PR%20-%20Web)
-![GitHub Workflow Web Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/admin-pull-request.yml?label=PR%20-%20Admin%20Web)
-
-![GitHub Workflow Deploy Alpha Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/deploy-alpha.yml?branch=main&label=Deploy)
+![GitHub Workflow Pull Request Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/pull-request.yml?label=Pull%20Request)
+![GitHub Workflow Release Please Status](https://img.shields.io/github/actions/workflow/status/lies-exposed/lies.exposed/release-please.yml?branch=main&label=Release)
 
 ---
 
@@ -22,7 +19,7 @@ The project is built using `pnpm workspaces` and divided in `packages` and `serv
 Packages contains all the common code used in `services`.
 
 - [@liexp/core](./packages/@liexp/core/README.md) contains all the core modules
-- [@liexp/shared](./packages/@liexp/shared./README.md) contains domain specific definitions for `models` and `endpoints`
+- [@liexp/shared](./packages/@liexp/shared/README.md) contains domain specific definitions for `models` and `endpoints`
 - [@liexp/test](./packages/@liexp/test/README.md) contains some test utils
 - [@liexp/ui](./packages/@liexp/ui/README.md) contains all `ui` components
 
