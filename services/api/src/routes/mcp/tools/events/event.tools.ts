@@ -56,8 +56,6 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
     flow(createUnifiedEventToolTask, throwRTE(ctx)),
   );
 
-
-
   server.registerTool(
     EDIT_EVENT,
     {
