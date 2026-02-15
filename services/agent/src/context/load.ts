@@ -77,10 +77,7 @@ export const makeAgentContext = (
         maxDelayMs: number,
         attemptNumber: number,
       ): number =>
-        Math.min(
-          maxDelayMs,
-          baseDelayMs * Math.pow(2, attemptNumber - 1),
-        );
+        Math.min(maxDelayMs, baseDelayMs * Math.pow(2, attemptNumber - 1));
 
       /**
        * Retry MCP connection using fp-ts TaskEither pattern with exponential backoff.
@@ -90,15 +87,16 @@ export const makeAgentContext = (
        */
       const retryConnect = (
         mcpClient: MultiServerMCPClient,
-        attempt: number = 1,
-        maxAttempts: number = 10,
-        baseDelayMs: number = 1000,
-        maxDelayMs: number = 20_000,
+        attempt = 1,
+        maxAttempts = 10,
+        baseDelayMs = 1000,
+        maxDelayMs = 20_000,
       ): TE.TaskEither<Error, void> =>
         pipe(
           TE.tryCatch(
             () => mcpClient.initializeConnections(),
-            (error) => error instanceof Error ? error : new Error(String(error)),
+            (error) =>
+              error instanceof Error ? error : new Error(String(error)),
           ),
           TE.fold(
             (error) => {
@@ -109,7 +107,11 @@ export const makeAgentContext = (
                 return TE.left(error);
               }
 
-              const delayMs = exponentialBackoff(baseDelayMs, maxDelayMs, attempt);
+              const delayMs = exponentialBackoff(
+                baseDelayMs,
+                maxDelayMs,
+                attempt,
+              );
               if (error instanceof Error) {
                 agentLogger.warn.log(
                   `MCP connection attempt ${attempt}/${maxAttempts} failed: ${error.message}. Retrying in ${delayMs / 1000}s...`,
@@ -124,11 +126,20 @@ export const makeAgentContext = (
 
               return pipe(
                 TE.tryCatch(
-                  () => new Promise<void>((resolve) => setTimeout(resolve, delayMs)),
-                  (e) => e instanceof Error ? e : new Error(String(e)),
+                  () =>
+                    new Promise<void>((resolve) =>
+                      setTimeout(resolve, delayMs),
+                    ),
+                  (e) => (e instanceof Error ? e : new Error(String(e))),
                 ),
                 TE.chain(() =>
-                  retryConnect(mcpClient, attempt + 1, maxAttempts, baseDelayMs, maxDelayMs),
+                  retryConnect(
+                    mcpClient,
+                    attempt + 1,
+                    maxAttempts,
+                    baseDelayMs,
+                    maxDelayMs,
+                  ),
                 ),
               );
             },
@@ -137,46 +148,36 @@ export const makeAgentContext = (
         );
 
       // Initialize real MCP client to connect to API service
+      const createMcpClient = (): MultiServerMCPClient => {
+        const mcpBaseUrl = env.API_BASE_URL ?? "http://api.liexp.dev/mcp";
+        agentLogger.debug.log("Connecting to MCP at:", mcpBaseUrl);
+        agentLogger.debug.log(
+          "Using API token:",
+          env.API_TOKEN ? "***provided***" : "MISSING",
+        );
+
+        return new MultiServerMCPClient({
+          api: {
+            transport: "http",
+            url: mcpBaseUrl,
+            headers: {
+              Authorization: `Bearer ${env.API_TOKEN}`,
+            },
+            // Enable automatic reconnection when API restarts or session expires.
+            // This handles runtime disconnections (e.g., API restarts, session expiry).
+            // For initial startup failures, the retryConnect function below provides
+            // exponential backoff with more attempts.
+            reconnect: {
+              enabled: true,
+              maxAttempts: 5,
+              delayMs: 10_000,
+            },
+          },
+        });
+      };
+
       return pipe(
-        TE.tryCatch(
-          async () => {
-            const mcpBaseUrl = env.API_BASE_URL ?? "http://api.liexp.dev/mcp";
-            agentLogger.debug.log("Connecting to MCP at:", mcpBaseUrl);
-            agentLogger.debug.log(
-              "Using API token:",
-              env.API_TOKEN ? "***provided***" : "MISSING",
-            );
-
-            const mcpClient = new MultiServerMCPClient({
-              api: {
-                transport: "http",
-                url: mcpBaseUrl,
-                headers: {
-                  Authorization: `Bearer ${env.API_TOKEN}`,
-                },
-                // Enable automatic reconnection when API restarts or session expires.
-                // This handles runtime disconnections (e.g., API restarts, session expiry).
-                // For initial startup failures, the retryConnect function below provides
-                // exponential backoff with more attempts.
-                reconnect: {
-                  enabled: true,
-                  maxAttempts: 5,
-                  delayMs: 10_000,
-                },
-              },
-            });
-
-            return mcpClient;
-          },
-          (error) => {
-            agentLogger.error.log("Failed to create MCP client:", error);
-            return ServerError.fromUnknown({
-              details: `MCP client creation failed: ${error}`,
-              status: 500,
-              stack: error instanceof Error ? error.stack : undefined,
-            });
-          },
-        ),
+        TE.right(createMcpClient()),
         TE.chain((mcpClient) =>
           pipe(
             retryConnect(mcpClient),
@@ -185,7 +186,10 @@ export const makeAgentContext = (
               return mcpClient;
             }),
             TE.mapLeft((error) => {
-              agentLogger.error.log("Failed to initialize MCP connections:", error);
+              agentLogger.error.log(
+                "Failed to initialize MCP connections:",
+                error,
+              );
               return ServerError.fromUnknown({
                 details: `MCP connection initialization failed: ${error}`,
                 status: 500,
