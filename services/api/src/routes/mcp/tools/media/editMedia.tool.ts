@@ -17,10 +17,12 @@ export const EditMediaInputSchema = Schema.Struct({
     description: "UUID of the media to edit",
   }),
   location: Schema.UndefinedOr(URL).annotations({
-    description: "URL of the media file (can be external URL or storage URL) - omit to keep current",
+    description:
+      "URL of the media file (can be external URL or storage URL) - omit to keep current",
   }),
   type: Schema.UndefinedOr(MediaType).annotations({
-    description: "Type of media (Image, Video, PDF, etc.) - omit to keep current",
+    description:
+      "Type of media (Image, Video, PDF, etc.) - omit to keep current",
   }),
   label: Schema.UndefinedOr(Schema.String).annotations({
     description: "Label/title for the media - omit to keep current",

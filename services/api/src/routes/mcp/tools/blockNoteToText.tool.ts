@@ -20,8 +20,7 @@ export const registerBlockNoteTools = (server: McpServer) => {
     BLOCK_NOTE_TO_TEXT,
     {
       title: "Convert BlockNote to text",
-      description:
-        "Convert BlockNote JSON to plain text.",
+      description: "Convert BlockNote JSON to plain text.",
       annotations: { title: "Convert BlockNote to text" },
       inputSchema: inputSchema,
     },

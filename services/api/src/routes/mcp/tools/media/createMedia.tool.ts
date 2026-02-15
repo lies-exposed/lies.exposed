@@ -14,11 +14,11 @@ import { formatMediaToMarkdown } from "../formatters/mediaToMarkdown.formatter.j
 
 /**
  * Unified media creation schema.
- * 
+ *
  * Can be used for both external URL references and uploading media to storage:
  * - autoUpload: false (default) - creates external URL reference
  * - autoUpload: true - downloads and uploads to storage
- * 
+ *
  * Backward compatible: existing calls without autoUpload parameter work as before (external reference)
  */
 export const CreateMediaInputSchema = Schema.Struct({

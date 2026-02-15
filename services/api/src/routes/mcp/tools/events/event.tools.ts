@@ -92,4 +92,3 @@ export const registerEventTools = (server: McpServer, ctx: ServerContext) => {
       ),
   );
 };
-

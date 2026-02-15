@@ -72,7 +72,7 @@ export const createGroupToolTask = ({
   CallToolResult
 > => {
   // Extract config values with sensible defaults
-  const safeConfig = (config ?? {});
+  const safeConfig = config ?? {};
   const getColor = (): string => {
     if (safeConfig?.color) return safeConfig.color;
     // Generate random color in hex format

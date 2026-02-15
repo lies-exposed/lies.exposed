@@ -289,7 +289,8 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                             if (event.usage) {
                               newState.tokenUsage = {
                                 promptTokens: event.usage.prompt_tokens ?? 0,
-                                completionTokens: event.usage.completion_tokens ?? 0,
+                                completionTokens:
+                                  event.usage.completion_tokens ?? 0,
                                 totalTokens: event.usage.total_tokens ?? 0,
                                 isEstimated: false,
                               };
@@ -344,7 +345,8 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           setState((prev) => ({
             ...prev,
             isLoading: false,
-            error: "Stream timeout (3 minutes) - please try again with a shorter request",
+            error:
+              "Stream timeout (3 minutes) - please try again with a shorter request",
           }));
           return;
         }

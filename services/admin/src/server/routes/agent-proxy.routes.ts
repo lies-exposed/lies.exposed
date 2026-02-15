@@ -494,7 +494,7 @@ export const registerAgentProxyRoutes = (
         // Pipe the response body directly to the client response using Web Streams API
         // Add keepalive by writing a comment every 30 seconds to prevent socket timeout
         let keepaliveInterval: NodeJS.Timeout | null = null;
-        
+
         try {
           // Start a keepalive timer to prevent socket timeout during long streams
           keepaliveInterval = setInterval(() => {

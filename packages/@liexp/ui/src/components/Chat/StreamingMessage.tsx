@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { styled } from "../../theme/index.js";
 import { MarkdownContent } from "../Common/Markdown/MarkdownContent.js";
 import { Box, Typography, Stack, Icons } from "../mui/index.js";
 import { MessageBubble } from "./MessageBubble.js";
 import { ToolMessage } from "./ToolMessage.js";
-import { styled } from "../../theme/index.js";
 
 interface ToolCall {
   id: string;
@@ -32,7 +32,10 @@ const TokenProgressFill = styled(Box)(({ theme }) => ({
 
 // Styled thinking content container
 const ThinkingContent = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? theme.palette.grey[800] : theme.palette.grey[100],
+  backgroundColor:
+    theme.palette.mode === "dark"
+      ? theme.palette.grey[800]
+      : theme.palette.grey[100],
   border: `1px dashed ${theme.palette.mode === "dark" ? theme.palette.grey[700] : theme.palette.grey[300]}`,
   borderRadius: theme.spacing(1),
   padding: theme.spacing(1),
@@ -40,7 +43,10 @@ const ThinkingContent = styled(Box)(({ theme }) => ({
   fontSize: "0.875rem",
   fontStyle: "italic",
   opacity: 0.8,
-  color: theme.palette.mode === "dark" ? theme.palette.grey[300] : theme.palette.grey[700],
+  color:
+    theme.palette.mode === "dark"
+      ? theme.palette.grey[300]
+      : theme.palette.grey[700],
 }));
 
 interface StreamingMessageProps {
