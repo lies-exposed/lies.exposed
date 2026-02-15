@@ -39,7 +39,7 @@ export const sendChatMessage =
         {
           configurable: { thread_id: conversationId },
           // Set recursion limit to prevent infinite loops in agent tool calling chains
-          recursionLimit: 50,
+          recursionLimit: 10,
         },
       ),
       TE.mapLeft((error) => ServerError.fromUnknown(error)),
@@ -125,6 +125,27 @@ export const deleteChatConversation =
   };
 
 /**
+ * Check if a string ends with a partial match of "<think>" tag.
+ * Returns the length of the partial match (0 if none).
+ */
+const THINK_OPEN_TAG = "<think>";
+function getPartialTagMatch(text: string): number {
+  for (let i = 1; i < THINK_OPEN_TAG.length; i++) {
+    if (text.endsWith(THINK_OPEN_TAG.slice(0, i))) {
+      return i;
+    }
+  }
+  return 0;
+}
+
+/**
+ * Strip <think>...</think> blocks from text (for final stored content).
+ */
+function stripThinkTags(text: string): string {
+  return text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+}
+
+/**
  * Stream chat messages with tool calls and responses
  * Returns an async generator that yields ChatStreamEvents
  */
@@ -161,12 +182,17 @@ export const sendChatMessageStream = (payload: {
         {
           streamMode: ["messages", "updates", "debug"],
           configurable: { thread_id: conversationId },
-          recursionLimit: 50,
+          recursionLimit: 10,
         },
       );
 
       let contentAccumulator = "";
       const processedToolCalls = new Set<string>();
+
+      // Track <think> tag state for Qwen3 models that emit thinking
+      // content inline as <think>...</think> in delta.content
+      let insideThinkBlock = false;
+      let thinkBuffer = "";
 
       for await (const [streamMode, chunk] of streamResult) {
         ctx.logger.debug.log("Stream chunk [%s]: %O", streamMode, chunk);
@@ -201,17 +227,91 @@ export const sendChatMessageStream = (payload: {
               }
             }
 
-            // Handle content deltas
+            // Handle content deltas — parse <think> tags for Qwen3/LocalAI
             if (typeof msg.content === "string" && msg.content) {
               const newContent = msg.content.slice(contentAccumulator.length);
               if (newContent) {
                 contentAccumulator = msg.content;
-                yield {
-                  type: "content_delta",
-                  timestamp: new Date().toISOString(),
-                  content: newContent,
-                  message_id: messageId,
-                } satisfies ChatStreamEvent;
+
+                // Process the new content, splitting on <think>/</think> boundaries
+                // Prepend any buffered partial tag from the previous chunk
+                let remaining = thinkBuffer + newContent;
+                thinkBuffer = "";
+                while (remaining.length > 0) {
+                  if (insideThinkBlock) {
+                    // Look for closing </think> tag
+                    const closeIdx = remaining.indexOf("</think>");
+                    if (closeIdx !== -1) {
+                      // Emit thinking content before the closing tag
+                      const thinkContent = remaining.slice(0, closeIdx);
+                      insideThinkBlock = false;
+                      if (thinkContent) {
+                        yield {
+                          type: "content_delta",
+                          timestamp: new Date().toISOString(),
+                          content: thinkContent,
+                          message_id: messageId,
+                          thinking: true,
+                        } satisfies ChatStreamEvent;
+                      }
+                      remaining = remaining.slice(closeIdx + "</think>".length);
+                    } else {
+                      // Still inside think block, buffer the content
+                      thinkBuffer += remaining;
+                      remaining = "";
+                    }
+                  } else {
+                    // Look for opening <think> tag
+                    const openIdx = remaining.indexOf("<think>");
+                    if (openIdx !== -1) {
+                      // Emit regular content before the opening tag
+                      const regularContent = remaining.slice(0, openIdx);
+                      if (regularContent) {
+                        yield {
+                          type: "content_delta",
+                          timestamp: new Date().toISOString(),
+                          content: regularContent,
+                          message_id: messageId,
+                        } satisfies ChatStreamEvent;
+                      }
+                      insideThinkBlock = true;
+                      thinkBuffer = "";
+                      remaining = remaining.slice(openIdx + "<think>".length);
+                    } else {
+                      // No think tag — check if we might have a partial tag at the end
+                      // e.g. remaining ends with "<", "<t", "<th", etc.
+                      const partialMatch = getPartialTagMatch(remaining);
+                      if (partialMatch > 0) {
+                        // Emit everything except the potential partial tag
+                        const safeContent = remaining.slice(
+                          0,
+                          remaining.length - partialMatch,
+                        );
+                        if (safeContent) {
+                          yield {
+                            type: "content_delta",
+                            timestamp: new Date().toISOString(),
+                            content: safeContent,
+                            message_id: messageId,
+                          } satisfies ChatStreamEvent;
+                        }
+                        // Buffer the partial tag for the next chunk
+                        thinkBuffer = remaining.slice(
+                          remaining.length - partialMatch,
+                        );
+                      } else {
+                        // Regular content, no think tags
+                        yield {
+                          type: "content_delta",
+                          timestamp: new Date().toISOString(),
+                          content: remaining,
+                          message_id: messageId,
+                        } satisfies ChatStreamEvent;
+                      }
+                      remaining = "";
+                    }
+                  }
+                }
               }
             }
           }
@@ -278,9 +378,13 @@ export const sendChatMessageStream = (payload: {
         timestamp: new Date().toISOString(),
       };
 
+      // Strip any <think> tags from the final stored content
+      const finalContent =
+        stripThinkTags(contentAccumulator) || "No response generated";
+
       const assistantMessage: ChatMessage = {
         id: messageId,
-        content: contentAccumulator || "No response generated",
+        content: finalContent,
         role: "assistant",
         timestamp: new Date().toISOString(),
       };
@@ -297,7 +401,7 @@ export const sendChatMessageStream = (payload: {
         type: "message_end",
         timestamp: new Date().toISOString(),
         message_id: messageId,
-        content: contentAccumulator,
+        content: finalContent,
       } satisfies ChatStreamEvent;
     } catch (error) {
       ctx.logger.error.log("Stream error: %O", error);

@@ -134,9 +134,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     }
   };
 
-  // Create streaming message object if there's content
+  // Create streaming message object if there's content or thinking
   const streamingMessage = useMemo(() => {
-    if (!streamingContent) return null;
+    if (!streamingContent && !thinkingContent) return null;
 
     // Convert activeToolCalls Map to array of ToolCall objects
     const toolCalls = Array.from(activeToolCalls.entries()).map(
