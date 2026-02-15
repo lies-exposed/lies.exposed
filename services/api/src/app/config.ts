@@ -25,7 +25,8 @@ export const Config = (env: ENV, cwd: string): AppConfig => {
 
   return {
     cors: {
-      origin: env.NODE_ENV === "production" ? true : "*",
+      origin: true,
+      credentials: true,
     },
     events: EventsConfig,
     media: {
