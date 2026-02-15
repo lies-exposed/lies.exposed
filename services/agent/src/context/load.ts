@@ -67,6 +67,75 @@ export const makeAgentContext = (
       const braveProvider = GetBraveProvider(braveSearch);
 
       agentLogger.debug.log("Initializing Agent provider...");
+
+      /**
+       * Exponential backoff function: starts at baseDelayMs and doubles with each retry
+       * to a maximum of maxDelayMs
+       */
+      const exponentialBackoff = (
+        baseDelayMs: number,
+        maxDelayMs: number,
+        attemptNumber: number,
+      ): number =>
+        Math.min(
+          maxDelayMs,
+          baseDelayMs * Math.pow(2, attemptNumber - 1),
+        );
+
+      /**
+       * Retry MCP connection using fp-ts TaskEither pattern with exponential backoff.
+       * Retries only the initializeConnections() call, keeping the client instance alive.
+       * The MultiServerMCPClient handles runtime reconnections separately (maxAttempts: 5,
+       * delayMs: 10s). This retryConnect handles initial startup failures.
+       */
+      const retryConnect = (
+        mcpClient: MultiServerMCPClient,
+        attempt: number = 1,
+        maxAttempts: number = 10,
+        baseDelayMs: number = 1000,
+        maxDelayMs: number = 20_000,
+      ): TE.TaskEither<Error, void> =>
+        pipe(
+          TE.tryCatch(
+            () => mcpClient.initializeConnections(),
+            (error) => error instanceof Error ? error : new Error(String(error)),
+          ),
+          TE.fold(
+            (error) => {
+              if (attempt >= maxAttempts) {
+                agentLogger.error.log(
+                  `MCP connection failed after ${maxAttempts} attempts. Giving up.`,
+                );
+                return TE.left(error);
+              }
+
+              const delayMs = exponentialBackoff(baseDelayMs, maxDelayMs, attempt);
+              if (error instanceof Error) {
+                agentLogger.warn.log(
+                  `MCP connection attempt ${attempt}/${maxAttempts} failed: ${error.message}. Retrying in ${delayMs / 1000}s...`,
+                  { stack: error.stack },
+                );
+              } else {
+                agentLogger.warn.log(
+                  `MCP connection attempt ${attempt}/${maxAttempts} failed. Retrying in ${delayMs / 1000}s...`,
+                  { error },
+                );
+              }
+
+              return pipe(
+                TE.tryCatch(
+                  () => new Promise<void>((resolve) => setTimeout(resolve, delayMs)),
+                  (e) => e instanceof Error ? e : new Error(String(e)),
+                ),
+                TE.chain(() =>
+                  retryConnect(mcpClient, attempt + 1, maxAttempts, baseDelayMs, maxDelayMs),
+                ),
+              );
+            },
+            () => TE.right(undefined),
+          ),
+        );
+
       // Initialize real MCP client to connect to API service
       return pipe(
         TE.tryCatch(
@@ -85,7 +154,10 @@ export const makeAgentContext = (
                 headers: {
                   Authorization: `Bearer ${env.API_TOKEN}`,
                 },
-                // Enable automatic reconnection when API restarts or session expires
+                // Enable automatic reconnection when API restarts or session expires.
+                // This handles runtime disconnections (e.g., API restarts, session expiry).
+                // For initial startup failures, the retryConnect function below provides
+                // exponential backoff with more attempts.
                 reconnect: {
                   enabled: true,
                   maxAttempts: 5,
@@ -94,19 +166,33 @@ export const makeAgentContext = (
               },
             });
 
-            await mcpClient.initializeConnections();
-
-            // Wrap the client to make it compatible
-            return Promise.resolve(mcpClient);
+            return mcpClient;
           },
           (error) => {
-            agentLogger.error.log("Failed to initialize MCP client:", error);
+            agentLogger.error.log("Failed to create MCP client:", error);
             return ServerError.fromUnknown({
-              details: `MCP client initialization failed: ${error}`,
+              details: `MCP client creation failed: ${error}`,
               status: 500,
               stack: error instanceof Error ? error.stack : undefined,
             });
           },
+        ),
+        TE.chain((mcpClient) =>
+          pipe(
+            retryConnect(mcpClient),
+            TE.map(() => {
+              agentLogger.info.log("MCP client connected successfully");
+              return mcpClient;
+            }),
+            TE.mapLeft((error) => {
+              agentLogger.error.log("Failed to initialize MCP connections:", error);
+              return ServerError.fromUnknown({
+                details: `MCP connection initialization failed: ${error}`,
+                status: 500,
+                stack: error instanceof Error ? error.stack : undefined,
+              });
+            }),
+          ),
         ),
         TE.chain((mcpClient) =>
           GetAgentProvider({ mcpClient })({
