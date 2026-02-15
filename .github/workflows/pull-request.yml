@@ -213,9 +213,8 @@ jobs:
             packages/*/.eslintcache
             packages/@liexp/*/.eslintcache
             services/*/.eslintcache
-          key: eslint-${{ matrix.service }}-${{ hashFiles('**/eslint.config.js', '**/.eslintrc*') }}-${{ github.sha }}
+          key: eslint-${{ matrix.service }}-${{ hashFiles('**/eslint.config.js', '**/.eslintrc*') }}
           restore-keys: |
-            eslint-${{ matrix.service }}-${{ hashFiles('**/eslint.config.js', '**/.eslintrc*') }}-
             eslint-${{ matrix.service }}-
 
       - name: Lint ${{ matrix.service }}
