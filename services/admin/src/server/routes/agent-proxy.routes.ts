@@ -431,17 +431,18 @@ export const registerAgentProxyRoutes = (
         // Make streaming request to agent service
         const agentUrl = `${env.AGENT_API_URL}/chat/message/stream`;
 
-        // Set up abort controller with 3-minute timeout for streaming responses
+        // Set up abort controller with 5-minute timeout for streaming responses.
+        // LocalAI on CPU can take several minutes for prompt processing alone.
         const abortController = new AbortController();
         const timeoutId = setTimeout(
           () => {
             logger.warn.log(
-              "Streaming request timeout after 3 minutes (correlation: %s)",
+              "Streaming request timeout after 5 minutes (correlation: %s)",
               correlationId,
             );
             abortController.abort();
           },
-          180000, // 3 minutes
+          300000, // 5 minutes
         );
 
         const response = await fetch(agentUrl, {
@@ -491,72 +492,77 @@ export const registerAgentProxyRoutes = (
           return;
         }
 
-        // Pipe the response body directly to the client response using Web Streams API
-        // Add keepalive by writing a comment every 30 seconds to prevent socket timeout
+        // Flush headers immediately to establish the SSE connection
+        res.flushHeaders();
+
+        // Read from agent stream using getReader() for explicit flow control,
+        // allowing keepalive writes to interleave properly
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
         let keepaliveInterval: NodeJS.Timeout | null = null;
+        let streamDone = false;
+
+        // Helper to write and flush — ensures data reaches the client immediately
+        const writeAndFlush = (data: string | Uint8Array): boolean => {
+          if (res.writableEnded) return false;
+          res.write(data);
+          // flush() is added by compression middleware to force-flush buffered data
+          if (typeof (res as any).flush === "function") {
+            (res as any).flush();
+          }
+          return true;
+        };
 
         try {
-          // Start a keepalive timer to prevent socket timeout during long streams
+          // Keepalive timer to prevent socket/proxy timeouts during long waits
           keepaliveInterval = setInterval(() => {
-            if (!res.writableEnded) {
-              res.write(": keepalive\n\n");
+            if (!streamDone && !res.writableEnded) {
+              writeAndFlush(": keepalive\n\n");
               logger.debug.log(
                 "Sent keepalive comment to client (correlation: %s)",
                 correlationId,
               );
             }
-          }, 30000); // Send keepalive every 30 seconds
+          }, 15000); // Every 15 seconds (well within typical 60s proxy timeouts)
 
-          await response.body.pipeTo(
-            new WritableStream({
-              write(chunk) {
-                if (!res.writableEnded) {
-                  res.write(chunk);
+          // Read loop — pull chunks from agent and forward to client
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) {
+              logger.info.log(
+                "Streaming completed successfully (correlation: %s)",
+                correlationId,
+              );
+              break;
+            }
 
-                  // Log chunks for debugging
-                  const chunkStr = new TextDecoder().decode(chunk);
-                  if (chunkStr.includes("data: ")) {
-                    logger.debug.log(
-                      "Forwarded SSE event (correlation: %s): %s",
-                      correlationId,
-                      chunkStr.substring(0, 200),
-                    );
-                  }
-                }
-              },
-              close() {
-                logger.info.log(
-                  "Streaming completed successfully (correlation: %s)",
-                  correlationId,
-                );
-                if (keepaliveInterval) {
-                  clearInterval(keepaliveInterval);
-                }
-                clearTimeout(timeoutId);
-                if (!res.writableEnded) {
-                  res.end();
-                }
-              },
-              abort(err) {
-                logger.error.log(
-                  "Stream aborted: %O (correlation: %s)",
-                  err,
-                  correlationId,
-                );
-                if (keepaliveInterval) {
-                  clearInterval(keepaliveInterval);
-                }
-                clearTimeout(timeoutId);
-                if (!res.writableEnded) {
-                  res.end();
-                }
-              },
-            }),
-          );
+            if (!writeAndFlush(value)) {
+              logger.warn.log(
+                "Client disconnected during streaming (correlation: %s)",
+                correlationId,
+              );
+              break;
+            }
+
+            // Log forwarded events for debugging
+            const chunkStr = decoder.decode(value, { stream: true });
+            if (chunkStr.includes("data: ")) {
+              logger.debug.log(
+                "Forwarded SSE event (correlation: %s): %s",
+                correlationId,
+                chunkStr.substring(0, 200),
+              );
+            }
+          }
         } finally {
-          // Ensure keepalive is cleared even if an error occurs
+          streamDone = true;
           if (keepaliveInterval) {
             clearInterval(keepaliveInterval);
+          }
+          clearTimeout(timeoutId);
+          reader.releaseLock();
+          if (!res.writableEnded) {
+            res.end();
           }
         }
       } catch (error) {

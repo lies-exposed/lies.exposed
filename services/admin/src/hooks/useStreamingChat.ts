@@ -105,12 +105,18 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
           headers.Authorization = authToken;
         }
 
-        // Set up timeout for entire stream (3 minutes)
-        // This prevents the stream from hanging indefinitely
-        const timeoutId = setTimeout(() => {
-          abortController.abort();
-        }, 180000);
-        timeoutIdRef.current = timeoutId;
+        // Activity-based timeout: abort if no data received for 60 seconds.
+        // Keepalive comments from the proxy reset this timer, so the stream
+        // stays alive as long as the proxy is sending data.
+        const resetActivityTimeout = () => {
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+          }
+          timeoutIdRef.current = setTimeout(() => {
+            abortController.abort();
+          }, 60000); // 60 seconds of inactivity
+        };
+        resetActivityTimeout();
 
         const response = await fetch(proxyUrl, {
           method: "POST",
@@ -120,12 +126,18 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         });
 
         if (!response.ok) {
-          clearTimeout(timeoutId);
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+            timeoutIdRef.current = null;
+          }
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         if (!response.body) {
-          clearTimeout(timeoutId);
+          if (timeoutIdRef.current) {
+            clearTimeout(timeoutIdRef.current);
+            timeoutIdRef.current = null;
+          }
           throw new Error("No response body");
         }
 
@@ -143,6 +155,9 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
               streamComplete = true;
               break;
             }
+
+            // Reset activity timeout on each received chunk (including keepalives)
+            resetActivityTimeout();
 
             buffer += decoder.decode(value, { stream: true });
 
@@ -346,7 +361,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
             ...prev,
             isLoading: false,
             error:
-              "Stream timeout (3 minutes) - please try again with a shorter request",
+              "Stream timeout (no data received for 60s) - the agent may be unresponsive",
           }));
           return;
         }
