@@ -26,29 +26,25 @@ export const GetAuthProvider = (
     localStorage.removeItem("user");
   };
 
-  const checkError = async (e: AxiosError | APIError): Promise<void> => {
-    // eslint-disable-next-line no-console
-    console.log("Checking error", e);
-    const isAPIError = Schema.is(APIError)(e);
-    const errorData = isAPIError ? e : e.response?.data;
-    const error = new Error(e.name);
-    error.cause = JSON.stringify(errorData);
+  const checkError = async (error: AxiosError | APIError): Promise<void> => {
+    const isAPIError = Schema.is(APIError)(error);
+    const is401 = isAPIError
+      ? error.status === 401
+      : error.response?.status === 401;
 
-    const is401 = isAPIError ? e.status === 401 : e.response?.status === 401;
     if (is401) {
-      // If the error is an APIError, we can handle it accordingly
-
       clearLocalStorage();
-
-      throw error;
+      // Reject so react-admin triggers its logout/redirect flow
+      throw new Error("Unauthorized");
     }
 
-    return Promise.resolve();
+    return Promise.resolve(undefined);
   };
 
-  const logout = async (p: { redirectTo?: string }): Promise<void> => {
+  const logout = async (_p: { redirectTo?: string }): Promise<void> => {
     clearLocalStorage();
-    await Promise.resolve({ redirectTo: p.redirectTo ?? "/login" });
+    // react-admin handles the redirect via its router
+    return Promise.resolve(undefined);
   };
 
   return {
