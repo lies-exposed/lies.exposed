@@ -205,19 +205,6 @@ jobs:
         with:
           hash: ${{ hashFiles('**/pnpm-lock.yaml') }}
 
-      - name: Cache ESLint
-        if: ${{ matrix.enabled && matrix.lint_command }}
-        uses: actions/cache@v5
-        with:
-          path: |
-            packages/*/.eslintcache
-            packages/@liexp/*/.eslintcache
-            services/*/.eslintcache
-          key: eslint-${{ matrix.service }}-${{ hashFiles('**/eslint.config.js', '**/.eslintrc*') }}-${{ github.sha }}
-          restore-keys: |
-            eslint-${{ matrix.service }}-${{ hashFiles('**/eslint.config.js', '**/.eslintrc*') }}-
-            eslint-${{ matrix.service }}-
-
       - name: Lint ${{ matrix.service }}
         if: ${{ matrix.enabled && matrix.lint_command }}
         run: ${{ matrix.lint_command }}
