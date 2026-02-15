@@ -8,6 +8,7 @@ import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
+import { setupAxiosInterceptors } from "./setupAxiosInterceptors.js";
 import { configuration } from "./configuration/index.js";
 import reportWebVitals from "./reportWebVitals.js";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -23,6 +24,9 @@ import "@liexp/ui/lib/components/Common/Icons/library.js";
 
 // import main css
 import "./index.css";
+
+// Setup global axios interceptors for 401 error handling
+setupAxiosInterceptors();
 
 /**
  * Set up global 401 error handler for API responses
