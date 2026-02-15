@@ -101,6 +101,20 @@ export const effectToZod = <A>(schema: Schema.Schema<A>): z.ZodType<A> => {
   const ast = schema.ast;
 
   const convert = (ast: AnySchema): z.ZodType => {
+    // Handle PropertySignatureDeclaration produced by Schema.optional()
+    // This AST node has _tag but it's not part of the standard AST union
+    if (
+      "_tag" in ast &&
+      (ast as { _tag: string })._tag === "PropertySignatureDeclaration"
+    ) {
+      const psd = ast as unknown as {
+        type: SchemaAST.AST;
+        isOptional: boolean;
+      };
+      const inner = convert(psd.type);
+      return psd.isOptional ? inner.optional() : inner;
+    }
+
     if ("_tag" in ast) {
       const baseSchema = (() => {
         switch (ast._tag) {
