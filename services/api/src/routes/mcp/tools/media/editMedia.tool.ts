@@ -47,9 +47,9 @@ export const editMediaToolTask = ({
   // Map undefined values to empty strings/defaults for the flow
   // The flow will use existing values if these are not actually changed
   const mappedBody = {
-    location: (location || "") as any,
-    type: (type || "image/jpg") as any,
-    label: label || "",
+    location: (location ?? "") as any,
+    type: (type ?? "image/jpg") as any,
+    label: label ?? "",
     description: O.fromNullable(description),
     areas: [],
     keywords: [],
