@@ -88,7 +88,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         activeToolCalls: new Map(),
         completedToolCalls: [],
         tokenUsage: null,
-        aiConfig: aiConfig || null,
+        aiConfig: aiConfig ?? null,
         usedProvider: null,
       }));
 
@@ -201,16 +201,16 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                     setState((prev) => {
                       const newState = { ...prev };
 
-                       switch (event.type) {
-                         case "message_start":
-                           currentMessageIdRef.current =
-                             event.message_id ?? null;
-                           newState.streamingContent = "";
-                           // Capture provider info if available
-                           if (event.usedProvider) {
-                             newState.usedProvider = event.usedProvider;
-                           }
-                           break;
+                      switch (event.type) {
+                        case "message_start":
+                          currentMessageIdRef.current =
+                            event.message_id ?? null;
+                          newState.streamingContent = "";
+                          // Capture provider info if available
+                          if (event.usedProvider) {
+                            newState.usedProvider = event.usedProvider;
+                          }
+                          break;
 
                         case "content_delta":
                           if (event.content) {

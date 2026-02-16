@@ -7,7 +7,10 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyENV } from "../io/ENV.js";
-import { GetAIProviderRegistry, type AIProviderRegistry } from "../providers/aiProvider.registry.js";
+import {
+  GetAIProviderRegistry,
+  type AIProviderRegistry,
+} from "../providers/aiProvider.registry.js";
 
 type TEControllerError<A> = TaskEither<ServerError, A>;
 

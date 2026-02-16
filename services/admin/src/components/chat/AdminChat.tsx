@@ -1,3 +1,4 @@
+import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
 import { type AIProvider } from "@liexp/ui/lib/components/Chat/ProviderSelector.js";
 import {
@@ -197,9 +198,11 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       streamingMessage={streamingMessage}
       providerSelector={{
         selectedProvider,
-        onProviderChange: (provider: string) => setSelectedProvider(provider as AIProvider),
+        onProviderChange: (provider: string) =>
+          setSelectedProvider(provider as AIProvider),
         selectedModel,
         onModelChange: setSelectedModel,
+        getAuthToken: getAuthFromLocalStorage,
       }}
       usedProvider={usedProvider}
     />

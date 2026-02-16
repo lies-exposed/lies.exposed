@@ -15,7 +15,6 @@ export type AIProvider = typeof AIProvider.Type;
 // Available model names per provider
 export const AvailableModels = Schema.Union(
   // OpenAI models
-  Schema.Literal("gpt-4"),
   Schema.Literal("gpt-4o"),
   // Local AI models
   Schema.Literal("qwen3-4b"),
@@ -47,7 +46,8 @@ export const AIConfig = Schema.Struct({
   ),
 }).annotations({
   title: "AIConfig",
-  description: "AI provider configuration override for per-request customization",
+  description:
+    "AI provider configuration override for per-request customization",
 });
 
 export type AIConfig = typeof AIConfig.Type;
@@ -144,7 +144,8 @@ export const ChatRequest = Schema.Struct({
   aiConfig: Schema.optional(AIConfig),
 }).annotations({
   title: "ChatRequest",
-  description: "Request to send a chat message with optional AI provider configuration",
+  description:
+    "Request to send a chat message with optional AI provider configuration",
 });
 
 export type ChatRequest = typeof ChatRequest.Type;

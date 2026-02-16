@@ -7,29 +7,24 @@
 
 import { readFileSync } from "fs";
 import path from "path";
+import { type StructuredToolInterface } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
-import { fp } from "@liexp/core/lib/fp/index.js";
-import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import {
-  createAgent as createReactAgent,
-  type AIMessage,
-  type ReactAgent,
-  type StructuredTool,
-} from "langchain";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import type { AIConfig } from "@liexp/io/lib/http/Chat.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { createAgent as createReactAgent, type ReactAgent } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
-import { GetLangchainProvider, type AIProvider, type AvailableModels } from "./langchain.provider.js";
-import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import {
-  ToolRegistry,
-  createCallToolTool,
-  createListToolsTool,
-} from "./tools/toolRegistry.tools.js";
+  GetLangchainProvider,
+  type AIProvider,
+  type AvailableModels,
+} from "./langchain.provider.js";
+import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
 export type Agent = ReactAgent;
@@ -64,21 +59,27 @@ interface MergedProviderConfig {
  * @returns Merged configuration
  */
 export const mergeProviderConfig = (
-  defaultOptions: any,
+  defaultOptions: LangchainContext["langchain"]["options"],
   override?: ProviderConfigOverride,
 ): MergedProviderConfig => {
+  const chatOptions = defaultOptions.options?.chat as
+    | Record<string, unknown>
+    | undefined;
+
   if (!override) {
     return {
       provider: defaultOptions.provider,
       model: defaultOptions.models?.chat ?? "gpt-4o",
-      options: defaultOptions.options?.chat,
+      options: chatOptions,
     };
   }
 
   return {
     provider: override.provider ?? defaultOptions.provider,
     model: override.model ?? defaultOptions.models?.chat ?? "gpt-4o",
-    options: override.options ? { ...defaultOptions.options?.chat, ...override.options } : defaultOptions.options?.chat,
+    options: override.options
+      ? { ...chatOptions, ...override.options }
+      : chatOptions,
   };
 };
 
@@ -103,18 +104,17 @@ const toAgentError = (e: unknown) => {
 
 interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
-  toolRegistry?: ToolRegistry;
 }
 
 /**
  * Create an agent with a specific Langchain provider
  * Used internally by the factory to construct agents
  */
-const createAgentWithProvider = async (
-  chat: any,
-  tools: StructuredTool[],
-  logger: any,
-): Promise<Agent> => {
+const createAgentWithProvider = (
+  chat: LangchainContext["langchain"]["chat"],
+  tools: StructuredToolInterface[],
+  logger: LoggerContext["logger"],
+): Agent => {
   const agentCheckpointer = new MemorySaver();
 
   const agent = createReactAgent({
@@ -130,7 +130,7 @@ const createAgentWithProvider = async (
 
   logger.debug.log(
     `Agent created with chat model: %O`,
-    chat.modelName || chat.model || "unknown",
+    (chat as unknown as { model?: string }).model ?? "unknown",
   );
 
   return agent;
@@ -139,8 +139,7 @@ const createAgentWithProvider = async (
 /**
  * Agent Factory: Creates agents on-demand with optional provider overrides
  *
- * Maintains a pool of ToolRegistry and tools to avoid re-fetching from MCP
- * on every agent creation.
+ * Caches MCP tools to avoid re-fetching on every agent creation.
  */
 export const GetAgentFactory =
   (opts: AgentFactoryOptions) =>
@@ -154,18 +153,21 @@ export const GetAgentFactory =
   ): ((
     override?: ProviderConfigOverride,
   ) => TaskEither<ServerError, Agent>) => {
-    // Cache for tools and registry (created on first use)
-    let cachedTools: StructuredTool[] | null = null;
-    let cachedRegistry: ToolRegistry | null = null;
-    let initializeToolsTask:
-      | TaskEither<ServerError, StructuredTool[]>
-      | null = null;
+    // Cache for tools (created on first use)
+    let cachedTools: StructuredToolInterface[] | null = null;
+    let initializeToolsTask: TaskEither<
+      ServerError,
+      StructuredToolInterface[]
+    > | null = null;
 
     /**
      * Initialize tools once and cache them
      * Falls back to empty tools array if MCP client is not available
      */
-    const getOrInitializeTools = (): TaskEither<ServerError, StructuredTool[]> => {
+    const getOrInitializeTools = (): TaskEither<
+      ServerError,
+      StructuredToolInterface[]
+    > => {
       if (cachedTools) {
         return fp.TE.right(cachedTools);
       }
@@ -178,29 +180,26 @@ export const GetAgentFactory =
         ctx.logger.debug.log("Initializing tools from MCP client...");
 
         // Get tools from MCP servers
-        let mcpTools: any[] = [];
+        let mcpTools: StructuredToolInterface[] = [];
         if (opts.mcpClient) {
           mcpTools = await opts.mcpClient.getTools();
-          ctx.logger.info.log(
-            `Loaded ${mcpTools.length} MCP tools`,
-          );
+          ctx.logger.info.log(`Loaded ${mcpTools.length} MCP tools`);
         } else {
           ctx.logger.warn.log("MCP client not available, tools will be empty");
         }
 
-        // Cache the registry and tools
-        cachedRegistry = new ToolRegistry(mcpTools);
-
         cachedTools = [
-          createListToolsTool(cachedRegistry, ctx),
-          createCallToolTool(cachedRegistry, ctx),
+          ...mcpTools,
           createWebScrapingTool(ctx),
           createSearchWebTool(ctx),
         ];
 
         ctx.logger.debug.log(
           `Tools ready (${cachedTools.length}): %O`,
-          cachedTools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
+          cachedTools.reduce(
+            (acc, t) => ({ ...acc, [t.name]: t.description }),
+            {},
+          ),
         );
 
         return cachedTools;
@@ -213,50 +212,50 @@ export const GetAgentFactory =
      * Create an agent with optional provider override
      */
     return (override?: ProviderConfigOverride) => {
-      return fp.TE.chain(
+      return pipe(
         getOrInitializeTools(),
-        (tools) =>
-          fp.TE.tryCatch(async () => {
-            // Merge config: use override if provided, otherwise use default
-            const mergedConfig = mergeProviderConfig(
-              ctx.langchain.options,
-              override,
-            );
+        fp.TE.chain((tools) =>
+          fp.TE.fromEither(
+            fp.E.tryCatch(() => {
+              // Merge config: use override if provided, otherwise use default
+              const mergedConfig = mergeProviderConfig(
+                ctx.langchain.options,
+                override,
+              );
 
-            ctx.logger.info.log(
-              "Creating agent with provider config: %O",
-              {
+              ctx.logger.info.log("Creating agent with provider config: %O", {
                 provider: mergedConfig.provider,
                 model: mergedConfig.model,
-              },
-            );
+              });
 
-            // Create a temporary Langchain provider with merged config
-            // This allows us to switch providers on a per-request basis
-            const tempLangchainProvider = GetLangchainProvider({
-              baseURL: ctx.langchain.options.baseURL,
-              apiKey: ctx.langchain.options.apiKey,
-              maxRetries: ctx.langchain.options.maxRetries,
-              provider: mergedConfig.provider,
-              models: {
-                chat: mergedConfig.model,
-                embeddings: ctx.langchain.options.models?.embeddings,
-              },
-              options: {
-                chat: mergedConfig.options ?? {},
-                embeddings: ctx.langchain.options.options?.embeddings ?? {},
-              },
-            });
+              // Create a temporary Langchain provider with merged config
+              // This allows us to switch providers on a per-request basis
+              // Type assertion needed because provider is dynamic at runtime
+              const tempLangchainProvider = GetLangchainProvider({
+                baseURL: ctx.langchain.options.baseURL,
+                apiKey: ctx.langchain.options.apiKey,
+                maxRetries: ctx.langchain.options.maxRetries,
+                provider: mergedConfig.provider,
+                models: {
+                  chat: mergedConfig.model,
+                  embeddings: ctx.langchain.options.models?.embeddings,
+                },
+                options: {
+                  chat: (mergedConfig.options ?? {}) as never,
+                  embeddings: (ctx.langchain.options.options?.embeddings ??
+                    {}) as never,
+                },
+              });
 
-            // Create agent with the custom chat model
-            const agent = await createAgentWithProvider(
-              tempLangchainProvider.chat,
-              tools,
-              ctx.logger,
-            );
-
-            return agent;
-          }, toAgentError),
+              // Create agent with the custom chat model
+              return createAgentWithProvider(
+                tempLangchainProvider.chat,
+                tools,
+                ctx.logger,
+              );
+            }, toAgentError),
+          ),
+        ),
       );
     };
   };

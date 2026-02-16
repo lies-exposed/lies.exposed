@@ -5,10 +5,13 @@
  * Provides information about available providers and their capabilities
  */
 
-import { type AIProvider, type AvailableModels } from "@liexp/io/lib/http/Chat.js";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
+import {
+  type AIProvider,
+  type AvailableModels,
+} from "@liexp/io/lib/http/Chat.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyENV } from "../io/ENV.js";
 
@@ -52,7 +55,9 @@ export interface AIProviderRegistry {
   isAvailable: (provider: AIProvider) => boolean;
 
   // Get default model for provider
-  getDefaultModel: (provider: AIProvider) => TE.TaskEither<ServerError, AvailableModels>;
+  getDefaultModel: (
+    provider: AIProvider,
+  ) => TE.TaskEither<ServerError, AvailableModels>;
 
   // Validate model is supported by provider
   validateModel: (
@@ -68,17 +73,20 @@ export const GetAIProviderRegistry = (
   env: AdminProxyENV,
   logger: Logger,
 ): AIProviderRegistry => {
-  // Define available providers with their metadata
+  // Define available providers with their metadata.
+  // The admin proxy forwards requests to the agent service which holds the actual
+  // API keys, so availability here reflects whether the provider is supported
+  // rather than whether the admin proxy has the keys.
   const providers = new Map<AIProvider, ProviderInfo>([
     [
       "openai",
       {
         name: "OpenAI",
-        description: "OpenAI GPT-4 and GPT-4o models",
-        available: !!env.OPENAI_API_KEY,
-        models: ["gpt-4", "gpt-4o"] as AvailableModels[],
+        description: "OpenAI GPT-4o models (via agent service or LocalAI)",
+        available: true,
+        models: ["gpt-4o", "qwen3-4b"] as AvailableModels[],
         defaultModel: "gpt-4o",
-        baseURL: env.OPENAI_BASE_URL || "https://api.openai.com/v1",
+        baseURL: env.OPENAI_BASE_URL ?? "https://api.openai.com/v1",
         requiresApiKey: true,
       },
     ],
@@ -87,7 +95,7 @@ export const GetAIProviderRegistry = (
       {
         name: "Anthropic Claude",
         description: "Anthropic Claude 3 family of models",
-        available: !!env.ANTHROPIC_API_KEY,
+        available: true,
         models: [
           "claude-sonnet-4-20250514",
           "claude-3-7-sonnet-latest",
@@ -103,7 +111,7 @@ export const GetAIProviderRegistry = (
       {
         name: "XAI Grok",
         description: "X.AI Grok models",
-        available: !!env.XAI_API_KEY,
+        available: true,
         models: ["grok-4-fast"] as AvailableModels[],
         defaultModel: "grok-4-fast",
         baseURL: "https://api.x.ai/v1",
@@ -133,20 +141,6 @@ export const GetAIProviderRegistry = (
         }
 
         const info = providers.get(config.provider)!;
-        if (!info.available) {
-          logger.warn.log(
-            `Provider ${config.provider} not available (missing API key)`,
-          );
-          return TE.left(
-            new ServerError(
-              `Provider ${config.provider} is not available. Missing API key.`,
-              {
-                kind: "ServerError",
-                status: "400",
-              },
-            ),
-          );
-        }
 
         // Validate model if specified
         if (config.model && !info.models.includes(config.model)) {

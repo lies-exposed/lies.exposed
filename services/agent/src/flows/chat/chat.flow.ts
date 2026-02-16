@@ -1,4 +1,5 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { aiConfigToProviderOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type ChatResponse,
@@ -8,7 +9,6 @@ import {
   type AIConfig,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { aiConfigToProviderOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";
@@ -20,20 +20,19 @@ const conversations = new Map<string, ChatMessage[]>();
  * Get or create an agent with optional provider override
  * If no override provided, uses the default agent from context
  */
-const getOrCreateAgent = (aiConfig?: AIConfig) =>
-  (ctx: AgentContext) => {
-    if (!aiConfig) {
-      // Use the default agent (bootstrapped at startup)
-      return TE.right(ctx.agent.agent);
-    }
+const getOrCreateAgent = (aiConfig?: AIConfig) => (ctx: AgentContext) => {
+  if (!aiConfig) {
+    // Use the default agent (bootstrapped at startup)
+    return TE.right(ctx.agent.agent);
+  }
 
-    // Create new agent with specified provider config
-    const override = aiConfigToProviderOverride(aiConfig);
-    return pipe(
-      ctx.agentFactory(override),
-      TE.mapLeft((error) => ServerError.fromUnknown(error)),
-    );
-  };
+  // Create new agent with specified provider config
+  const override = aiConfigToProviderOverride(aiConfig);
+  return pipe(
+    ctx.agentFactory(override),
+    TE.mapLeft((error) => ServerError.fromUnknown(error)),
+  );
+};
 
 export const sendChatMessage =
   (payload: {
@@ -73,7 +72,8 @@ export const sendChatMessage =
       ),
       TE.map((result) => {
         // Extract the message content from the agent result
-        const lastMessage = result.messages[result.messages.length - 1];
+        const { messages } = result as { messages: AIMessage[] };
+        const lastMessage = messages[messages.length - 1];
         const content =
           typeof lastMessage?.content === "string"
             ? lastMessage.content
@@ -202,10 +202,9 @@ export const sendChatMessageStream = (payload: {
 
     try {
       // Get or create agent with optional provider override
-      const agentTask = getOrCreateAgent(payload.aiConfig)(ctx);
-      let agent: any;
-      
-      if (agentTask._tag === "Left") {
+      const agentResult = await getOrCreateAgent(payload.aiConfig)(ctx)();
+
+      if (agentResult._tag === "Left") {
         // Error case
         yield {
           type: "error",
@@ -213,9 +212,9 @@ export const sendChatMessageStream = (payload: {
           error: "Failed to create agent with requested provider",
         } satisfies ChatStreamEvent;
         return;
-      } else {
-        agent = agentTask.right;
       }
+
+      const agent = agentResult.right;
 
       // Signal message start with provider info
       yield {
@@ -232,7 +231,7 @@ export const sendChatMessageStream = (payload: {
       } satisfies ChatStreamEvent;
 
       // Stream the agent's response
-      const streamResult = await agent.agent.stream(
+      const streamResult = await agent.stream(
         {
           messages: [enhancedMessage],
         },

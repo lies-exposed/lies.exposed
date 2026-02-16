@@ -1,7 +1,7 @@
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
-import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
+import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
@@ -209,10 +209,10 @@ export const makeAgentContext = (
         ),
         TE.map((agentProvider) => {
           agentLogger.info.log("Agent provider initialized successfully");
-          
+
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
-            mcpClient: (agentProvider as any).mcpClient || null,
+            mcpClient: (agentProvider as any).mcpClient ?? null,
           })({
             langchain,
             logger: agentLogger,

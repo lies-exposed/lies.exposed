@@ -3,8 +3,8 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { makeRateLimiter } from "@liexp/backend/lib/express/middleware/rateLimit.factory.js";
 import { generateCorrelationId } from "@liexp/backend/lib/utils/correlation.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { type AIProvider } from "@liexp/io/lib/http/Chat.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import {
   type NextFunction,
   type Request,
@@ -110,13 +110,13 @@ export const registerAgentProxyRoutes = (
         }),
       );
 
-      validateAndProxy().then(
-        (result) => {
+      validateAndProxy()
+        .then((result) => {
           if (result._tag === "Left") {
             const error = result.left as any;
 
             // Handle validation errors
-            if (error.message && error.message.includes("Provider")) {
+            if (error.message?.includes("Provider")) {
               logger.warn.log(
                 "Provider validation failed: %s (correlation: %s)",
                 error.message,
@@ -170,15 +170,15 @@ export const registerAgentProxyRoutes = (
           );
 
           res.status(200).json(response);
-        },
-      ).catch((e) => {
-        logger.error.log(
-          "Unexpected error in proxy handler: %O (correlation: %s)",
-          e,
-          correlationId,
-        );
-        next(e);
-      });
+        })
+        .catch((e) => {
+          logger.error.log(
+            "Unexpected error in proxy handler: %O (correlation: %s)",
+            e,
+            correlationId,
+          );
+          next(e);
+        });
     },
   );
 
@@ -671,7 +671,7 @@ export const registerAgentProxyRoutes = (
   router.get(
     "/providers",
     authenticationHandler([AdminRead.literals[0]])(ctx),
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const correlationId = generateCorrelationId();
 
       logger.info.log(
@@ -729,7 +729,7 @@ export const registerAgentProxyRoutes = (
   router.get(
     "/providers/:provider",
     authenticationHandler([AdminRead.literals[0]])(ctx),
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, _next: NextFunction) => {
       const { provider } = req.params;
       const correlationId = generateCorrelationId();
 

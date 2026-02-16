@@ -8,10 +8,10 @@ import { ChatInput } from "./ChatInput.js";
 import { ContentMessage } from "./ContentMessage.js";
 import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
+import { ProviderSelector } from "./ProviderSelector.js";
 import { StreamingMessage } from "./StreamingMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
-import { ProviderSelector } from "./ProviderSelector.js";
 
 // Styled components
 const FloatingButton = styled(Paper)(({ theme }) => ({
@@ -134,6 +134,7 @@ export interface ChatUIProps {
     onProviderChange: (provider: string) => void;
     selectedModel: string | null;
     onModelChange: (model: string) => void;
+    getAuthToken?: () => string | null;
   };
   /** Last used provider information */
   usedProvider?: {
@@ -299,24 +300,6 @@ export const ChatUI: React.FC<ChatUIProps> = ({
 
             {error && <ErrorDisplay error={error} onRetry={onRetry} />}
 
-            {providerSelector && (
-              <Box sx={{ px: 1, py: 1, borderTop: "1px solid", borderTopColor: "divider" }}>
-                <ProviderSelector
-                  selectedProvider={providerSelector.selectedProvider as any}
-                  selectedModel={providerSelector.selectedModel}
-                  onProviderChange={providerSelector.onProviderChange}
-                  onModelChange={providerSelector.onModelChange}
-                  compact={true}
-                  showDescription={false}
-                />
-                {usedProvider && (
-                  <Box sx={{ fontSize: "0.75rem", color: "text.secondary", mt: 0.5 }}>
-                    Using: {usedProvider.provider} ({usedProvider.model})
-                  </Box>
-                )}
-              </Box>
-            )}
-
             <ChatInput
               inputValue={inputValue}
               inputPlaceholder={inputPlaceholder}
@@ -328,6 +311,19 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onSendMessage={onSendMessage}
               onToggleContext={onToggleContext}
             />
+
+            {providerSelector && (
+              <Box sx={{ px: 1.5, pb: 0.75 }}>
+                <ProviderSelector
+                  selectedProvider={providerSelector.selectedProvider as any}
+                  selectedModel={providerSelector.selectedModel}
+                  onProviderChange={providerSelector.onProviderChange}
+                  onModelChange={providerSelector.onModelChange}
+                  getAuthToken={providerSelector.getAuthToken}
+                  usedProvider={usedProvider}
+                />
+              </Box>
+            )}
           </ChatModal>,
           document.body,
         )}

@@ -47,6 +47,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@tanstack/react-query": "^5.90.2",
+    "@testing-library/react": "^16.3.1",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "cors": "^2.8.5",

@@ -7,6 +7,7 @@ import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type AxiosInstance } from "axios";
+import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
@@ -75,6 +76,8 @@ export const loadAgentContext = async (
       puppeteerMock.devices,
     ),
     langchain: {} as any,
+    agentFactory: ((_override?: ProviderConfigOverride) =>
+      TE.right(createMockAgentProvider().agent)) as any,
     agent: createMockAgentProvider() as any,
   };
 

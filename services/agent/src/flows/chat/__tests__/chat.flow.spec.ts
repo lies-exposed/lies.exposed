@@ -33,6 +33,28 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
     http: {} as any,
     puppeteer: {} as any,
     langchain: {} as any,
+    agentFactory: vi.fn().mockReturnValue(
+      TE.right({
+        invoke: vi.fn().mockResolvedValue({
+          messages: [
+            {
+              id: "msg-123",
+              content: "This is a test response",
+            },
+          ],
+        }),
+        stream: vi.fn().mockImplementation(function* () {
+          yield [
+            "messages",
+            [
+              {
+                content: "Test streaming response",
+              },
+            ],
+          ];
+        }),
+      }),
+    ),
     agent: {
       invoke: vi.fn().mockReturnValue(
         TE.right({
@@ -45,6 +67,14 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
         }),
       ),
       agent: {
+        invoke: vi.fn().mockResolvedValue({
+          messages: [
+            {
+              id: "msg-123",
+              content: "This is a test response",
+            },
+          ],
+        }),
         stream: vi.fn().mockImplementation(function* () {
           yield [
             "messages",

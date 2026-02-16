@@ -1,19 +1,18 @@
+import type { AIConfig, ChatRequest } from "@liexp/io/lib/http/Chat.js";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { describe, expect, it, beforeEach, vi, afterEach } from "vitest";
-import type { AIConfig, ChatRequest } from "@liexp/io/lib/http/Chat.js";
 import { useStreamingChat } from "./useStreamingChat.js";
 
+const mockFetch: ReturnType<typeof vi.fn> = vi.fn();
+
+vi.mock("fetch", () => mockFetch);
 // Mock getAuthFromLocalStorage
 vi.mock("@liexp/ui/lib/client/api.js", () => ({
   getAuthFromLocalStorage: vi.fn(() => "mock-token"),
 }));
 
 describe("useStreamingChat", () => {
-  let mockFetch: ReturnType<typeof vi.fn>;
-
   beforeEach(() => {
-    mockFetch = vi.fn();
-    global.fetch = mockFetch;
     vi.clearAllMocks();
   });
 
@@ -50,7 +49,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -81,7 +81,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -108,7 +109,7 @@ describe("useStreamingChat", () => {
       const fetchCall = mockFetch.mock.calls[0];
       expect(fetchCall[0]).toBe("/api/proxy/agent/chat/message/stream");
       expect(fetchCall[1].method).toBe("POST");
-      
+
       const body = JSON.parse(fetchCall[1].body);
       expect(body.aiConfig).toEqual(aiConfig);
       expect(body.message).toBe("Hello");
@@ -120,7 +121,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -161,12 +163,12 @@ describe("useStreamingChat", () => {
               if (readIndex < streamData.length) {
                 const data = streamData[readIndex];
                 readIndex++;
-                return {
+                return Promise.resolve({
                   done: false,
                   value: new TextEncoder().encode(data),
-                };
+                });
               }
-              return { done: true, value: undefined };
+              return Promise.resolve({ done: true, value: undefined });
             }),
             releaseLock: vi.fn(),
           }),
@@ -208,12 +210,12 @@ describe("useStreamingChat", () => {
               if (readIndex < streamData.length) {
                 const data = streamData[readIndex];
                 readIndex++;
-                return {
+                return Promise.resolve({
                   done: false,
                   value: new TextEncoder().encode(data),
-                };
+                });
               }
-              return { done: true, value: undefined };
+              return Promise.resolve({ done: true, value: undefined });
             }),
             releaseLock: vi.fn(),
           }),
@@ -249,7 +251,8 @@ describe("useStreamingChat", () => {
           ok: true,
           body: {
             getReader: () => ({
-              read: vi.fn()
+              read: vi
+                .fn()
                 .mockResolvedValueOnce({ done: true, value: undefined }),
               releaseLock: vi.fn(),
             }),
@@ -279,7 +282,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -305,7 +309,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -318,15 +323,16 @@ describe("useStreamingChat", () => {
       await act(async () => {
         await result.current.sendMessage(
           { message: "First", conversation_id: null },
-          { provider: "openai", model: "gpt-4" }
+          { provider: "openai", model: "gpt-4o" },
         );
       });
 
       // Send second message without config
       await act(async () => {
-        await result.current.sendMessage(
-          { message: "Second", conversation_id: null }
-        );
+        await result.current.sendMessage({
+          message: "Second",
+          conversation_id: null,
+        });
       });
 
       // aiConfig should be cleared for new message
@@ -377,7 +383,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
@@ -390,7 +397,7 @@ describe("useStreamingChat", () => {
       await act(async () => {
         await result.current.sendMessage(
           { message: "Hello", conversation_id: "conv-1" },
-          { provider: "openai", model: "gpt-4o" }
+          { provider: "openai", model: "gpt-4o" },
         );
       });
 
@@ -413,7 +420,8 @@ describe("useStreamingChat", () => {
         ok: true,
         body: {
           getReader: () => ({
-            read: vi.fn()
+            read: vi
+              .fn()
               .mockResolvedValueOnce({ done: true, value: undefined }),
             releaseLock: vi.fn(),
           }),
