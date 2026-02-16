@@ -8,11 +8,19 @@ import { UUID } from "./Common/UUID.js";
 import { GetListQuery } from "./Query/GetListQuery.js";
 
 export const ActorRelationType = Schema.Union(
-  Schema.Literal("PARENT_CHILD"),
-  Schema.Literal("SPOUSE"),
-  Schema.Literal("PARTNER"),
+  Schema.Literal("PARENT_CHILD").annotations({
+    description:
+      "Parent-child family relationship (biological, adoptive, or step-relation)",
+  }),
+  Schema.Literal("SPOUSE").annotations({
+    description: "Married spouse relationship",
+  }),
+  Schema.Literal("PARTNER").annotations({
+    description: "Unmarried partner relationship (romantic or business)",
+  }),
 ).annotations({
-  description: "Type of the actor relation",
+  description:
+    "Type of relationship between two actors: PARENT_CHILD (family hierarchy), SPOUSE (marriage), or PARTNER (unmarried partnership)",
 });
 export type ActorRelationType = typeof ActorRelationType.Type;
 

@@ -42,16 +42,25 @@ export const transformActorRelation = ({
   };
 };
 
+const ACTOR_RELATION_TYPE_LABELS: Record<string, string> = {
+  PARENT_CHILD: "Parent - Child (family hierarchy)",
+  SPOUSE: "Spouse (married partner)",
+  PARTNER: "Partner (unmarried or business)",
+};
+
 export const SelectActorRelationTypeInput: React.FC<SelectInputProps> = (
   props,
 ) => {
   return (
     <SelectInput
       {...props}
-      choices={ActorRelationType.members.map((m) => ({
-        id: m.literals[0],
-        name: m.literals[0],
-      }))}
+      choices={ActorRelationType.members.map((m) => {
+        const value = m.literals[0] as string;
+        return {
+          id: value,
+          name: ACTOR_RELATION_TYPE_LABELS[value] || value,
+        };
+      })}
     />
   );
 };
@@ -62,6 +71,13 @@ const filters = [
   <SelectActorRelationTypeInput key="type" />,
 ];
 
+const ActorRelationTypeCell: React.FC<{ record?: RaRecord }> = ({ record }) => {
+  if (!record) return null;
+  const label =
+    ACTOR_RELATION_TYPE_LABELS[record.type] ?? record.type ?? "Unknown";
+  return <span title={label}>{label}</span>;
+};
+
 export const ActorRelationList: React.FC<ListProps> = (props) => (
   <List {...props} resource="actor-relations" filters={filters}>
     <Datagrid rowClick="edit">
@@ -70,7 +86,7 @@ export const ActorRelationList: React.FC<ListProps> = (props) => (
         source="actor.avatar"
       />
       <TextField source="actor.fullName" label="Actor" />
-      <TextField source="type" label="Relation Type" />
+      <ActorRelationTypeCell />
       <AvatarField
         label="resources.actors.fields.avatar"
         source="relatedActor.avatar"
