@@ -55,6 +55,9 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
         }),
       }),
     ),
+    fs: {
+      getObject: vi.fn().mockReturnValue(TE.right("# Mock AGENTS.md")),
+    } as any,
     agent: {
       invoke: vi.fn().mockReturnValue(
         TE.right({

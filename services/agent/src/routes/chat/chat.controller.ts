@@ -153,7 +153,11 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
  */
 const PROVIDER_MODELS: Record<
   AIProvider,
-  { description: string; models: AvailableModels[]; defaultModel: AvailableModels }
+  {
+    description: string;
+    models: AvailableModels[];
+    defaultModel: AvailableModels;
+  }
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
@@ -192,7 +196,7 @@ export const MakeListProvidersRoute: Route = (r, ctx) => {
         // If this is the configured default provider, use the agent's configured model
         defaultModel:
           name === defaultProvider
-            ? ctx.langchain.options.models?.chat ?? meta.defaultModel
+            ? (ctx.langchain.options.models?.chat ?? meta.defaultModel)
             : meta.defaultModel,
       };
     });

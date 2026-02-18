@@ -118,7 +118,7 @@ export const sendChatMessage =
 export const getChatConversation =
   (conversationId: string) =>
   (_ctx: AgentContext): TE.TaskEither<Error, ChatMessage[]> => {
-    return pipe(TE.right(conversations.get(conversationId) ?? []));
+    return TE.right(conversations.get(conversationId) ?? []);
   };
 
 export const listChatConversations =
@@ -137,25 +137,22 @@ export const listChatConversations =
       }[];
     }
   > => {
-    return pipe(
-      TE.right({
-        total: conversations.size,
-        data: Array.from(conversations.entries()).map(([id, messages]) => ({
-          id,
-          messages,
-          created_at: messages[0]?.timestamp ?? new Date().toISOString(),
-          updated_at:
-            messages[messages.length - 1]?.timestamp ??
-            new Date().toISOString(),
-        })),
-      }),
-    );
+    return TE.right({
+      total: conversations.size,
+      data: Array.from(conversations.entries()).map(([id, messages]) => ({
+        id,
+        messages,
+        created_at: messages[0]?.timestamp ?? new Date().toISOString(),
+        updated_at:
+          messages[messages.length - 1]?.timestamp ?? new Date().toISOString(),
+      })),
+    });
   };
 
 export const deleteChatConversation =
   (conversationId: string) =>
   (_ctx: AgentContext): TE.TaskEither<Error, boolean> => {
-    return pipe(TE.right(conversations.delete(conversationId)));
+    return TE.right(conversations.delete(conversationId));
   };
 
 /**

@@ -5,7 +5,6 @@
  * server restart when switching between AI providers (OpenAI, Anthropic, XAI).
  */
 
-import { readFileSync } from "fs";
 import path from "path";
 import { type StructuredToolInterface } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
@@ -15,6 +14,7 @@ import type { AIConfig } from "@liexp/io/lib/http/Chat.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { createAgent as createReactAgent, type ReactAgent } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
+import { type FSClientContext } from "../../context/fs.context.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
@@ -111,6 +111,7 @@ interface AgentFactoryOptions {
  * Used internally by the factory to construct agents
  */
 const createAgentWithProvider = (
+  systemPrompt: string,
   chat: LangchainContext["langchain"]["chat"],
   tools: StructuredToolInterface[],
   logger: LoggerContext["logger"],
@@ -121,15 +122,12 @@ const createAgentWithProvider = (
     model: chat,
     tools,
     checkpointer: agentCheckpointer,
-    systemPrompt: readFileSync(
-      path.resolve(process.cwd(), "AGENTS.md"),
-      "utf-8",
-    ),
+    systemPrompt,
     description: "A React agent for handling user queries",
   });
 
   logger.debug.log(
-    `Agent created with chat model: %O`,
+    "Agent created with chat model: %O",
     (chat as unknown as { model?: string }).model ?? "unknown",
   );
 
@@ -147,18 +145,20 @@ export const GetAgentFactory =
     C extends LangchainContext &
       LoggerContext &
       PuppeteerProviderContext &
-      BraveProviderContext,
+      BraveProviderContext &
+      FSClientContext,
   >(
     ctx: C,
   ): ((
     override?: ProviderConfigOverride,
   ) => TaskEither<ServerError, Agent>) => {
-    // Cache for tools (created on first use)
+    // Cache for tools and system prompt (created on first use)
     let cachedTools: StructuredToolInterface[] | null = null;
     let initializeToolsTask: TaskEither<
       ServerError,
       StructuredToolInterface[]
     > | null = null;
+    let cachedSystemPrompt: string | null = null;
 
     /**
      * Initialize tools once and cache them
@@ -176,45 +176,76 @@ export const GetAgentFactory =
         return initializeToolsTask;
       }
 
-      initializeToolsTask = fp.TE.tryCatch(async () => {
-        ctx.logger.debug.log("Initializing tools from MCP client...");
+      const task: TaskEither<ServerError, StructuredToolInterface[]> = pipe(
+        fp.TE.tryCatch(async () => {
+          ctx.logger.debug.log("Initializing tools from MCP client...");
 
-        // Get tools from MCP servers
-        let mcpTools: StructuredToolInterface[] = [];
-        if (opts.mcpClient) {
-          mcpTools = await opts.mcpClient.getTools();
-          ctx.logger.info.log(`Loaded ${mcpTools.length} MCP tools`);
-        } else {
-          ctx.logger.warn.log("MCP client not available, tools will be empty");
-        }
+          // Get tools from MCP servers
+          let mcpTools: StructuredToolInterface[] = [];
+          if (opts.mcpClient) {
+            mcpTools = await opts.mcpClient.getTools();
+            ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+          } else {
+            ctx.logger.warn.log(
+              "MCP client not available, tools will be empty",
+            );
+          }
 
-        cachedTools = [
-          ...mcpTools,
-          createWebScrapingTool(ctx),
-          createSearchWebTool(ctx),
-        ];
+          cachedTools = [
+            ...mcpTools,
+            createWebScrapingTool(ctx),
+            createSearchWebTool(ctx),
+          ];
 
-        ctx.logger.debug.log(
-          `Tools ready (${cachedTools.length}): %O`,
-          cachedTools.reduce(
-            (acc, t) => ({ ...acc, [t.name]: t.description }),
-            {},
-          ),
-        );
+          ctx.logger.debug.log(
+            "Tools ready (%d): %O",
+            cachedTools.length,
+            cachedTools.reduce(
+              (acc, t) => ({ ...acc, [t.name]: t.description }),
+              {},
+            ),
+          );
 
-        return cachedTools;
-      }, toAgentError);
+          return cachedTools;
+        }, toAgentError),
+        // On failure, clear the cached task so the next call retries
+        fp.TE.orElse((error) => {
+          initializeToolsTask = null;
+          return fp.TE.left(error);
+        }),
+      );
 
-      return initializeToolsTask;
+      initializeToolsTask = task;
+      return task;
+    };
+
+    /**
+     * Read AGENTS.md once and cache it as the agent system prompt
+     */
+    const getOrReadSystemPrompt = (): TaskEither<ServerError, string> => {
+      if (cachedSystemPrompt) {
+        return fp.TE.right(cachedSystemPrompt);
+      }
+      return pipe(
+        ctx.fs.getObject(path.resolve(process.cwd(), "AGENTS.md")),
+        fp.TE.mapLeft(ServerError.fromUnknown),
+        fp.TE.tap((prompt) =>
+          fp.TE.fromIO(() => {
+            cachedSystemPrompt = prompt;
+          }),
+        ),
+      );
     };
 
     /**
      * Create an agent with optional provider override
      */
-    return (override?: ProviderConfigOverride) => {
-      return pipe(
-        getOrInitializeTools(),
-        fp.TE.chain((tools) =>
+    return (override?: ProviderConfigOverride) =>
+      pipe(
+        fp.TE.Do,
+        fp.TE.bind("tools", getOrInitializeTools),
+        fp.TE.bind("systemPrompt", getOrReadSystemPrompt),
+        fp.TE.chain(({ tools, systemPrompt }) =>
           fp.TE.fromEither(
             fp.E.tryCatch(() => {
               // Merge config: use override if provided, otherwise use default
@@ -247,8 +278,8 @@ export const GetAgentFactory =
                 },
               });
 
-              // Create agent with the custom chat model
               return createAgentWithProvider(
+                systemPrompt,
                 tempLangchainProvider.chat,
                 tools,
                 ctx.logger,
@@ -257,5 +288,4 @@ export const GetAgentFactory =
           ),
         ),
       );
-    };
   };

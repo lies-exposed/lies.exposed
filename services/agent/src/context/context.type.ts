@@ -1,3 +1,4 @@
+import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import { type JWTProviderContext } from "@liexp/backend/lib/context/jwt.context.js";
 import { type LangchainContext } from "@liexp/backend/lib/context/langchain.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
@@ -37,5 +38,6 @@ export type AgentContext = ENVContext &
   HTTPProviderContext &
   LangchainContext &
   PuppeteerProviderContext &
+  FSClientContext &
   AgentFactoryContext &
   AgentProviderContext;

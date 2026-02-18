@@ -76,6 +76,9 @@ export const loadAgentContext = async (
       puppeteerMock.devices,
     ),
     langchain: {} as any,
+    fs: {
+      getObject: (_path: string) => TE.right("# Mock AGENTS.md"),
+    } as any,
     agentFactory: ((_override?: ProviderConfigOverride) =>
       TE.right(createMockAgentProvider().agent)) as any,
     agent: createMockAgentProvider() as any,

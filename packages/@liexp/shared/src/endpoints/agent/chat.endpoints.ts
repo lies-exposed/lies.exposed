@@ -75,7 +75,7 @@ export const SendMessageStream = Endpoint({
 export const ListProviders = Endpoint({
   Method: "GET",
   getPath: () => "/providers",
-  Input: {},
+  Input: undefined,
   Output: Output(ProvidersResponse).annotations({
     title: "ProvidersResponse",
   }),
