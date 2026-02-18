@@ -1,4 +1,5 @@
 import { type Actor } from "@liexp/io/lib/http/Actor.js";
+import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
 import * as React from "react";
 import {
   Button,
@@ -73,8 +74,8 @@ export const MergeActorButton: React.FC = () => {
       refresh();
       // Redirect to the target actor
       window.location.href = `/#/actors/${targetActorId}`;
-    } catch (error: any) {
-      notify(`Error merging actor: ${error.message}`, { type: "error" });
+    } catch (error: unknown) {
+      notify(`Error merging actor: ${toAPIError(error).message}`, { type: "error" });
     } finally {
       setLoading(false);
     }
