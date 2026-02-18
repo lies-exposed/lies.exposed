@@ -75,7 +75,9 @@ export const MergeActorButton: React.FC = () => {
       // Redirect to the target actor
       window.location.href = `/#/actors/${targetActorId}`;
     } catch (error: unknown) {
-      notify(`Error merging actor: ${toAPIError(error).message}`, { type: "error" });
+      notify(`Error merging actor: ${toAPIError(error).message}`, {
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }

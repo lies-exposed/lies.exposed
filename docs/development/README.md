@@ -5,6 +5,7 @@ This guide covers development best practices, code quality standards, and workfl
 ## Contents
 
 - [Code Quality](./code-quality.md) - Commit messages, code style, import organization
+- [Error Handling](./error-handling.md) - IOError / APIError pipeline, backend middleware, frontend patterns
 - [Functional Programming](./functional-programming.md) - fp-ts and Effect patterns
 - [CI/CD Workflows](./ci-workflows.md) - GitHub Actions, caching, adding services
 - [Kubernetes Access](./kubernetes.md) - Remote cluster access and debugging
@@ -28,9 +29,12 @@ When implementing features, follow this priority:
 
 ### Error Handling
 
-- Properly handle errors using Effect/fp-ts patterns
-- Use TaskEither for async operations
-- Map errors to appropriate types
+See [Error Handling](./error-handling.md) for the full reference.
+
+- All internal errors extend `IOError` from `@ts-endpoint/core`
+- Express middleware uses `errorHandler(ctx)` from `@liexp/backend`
+- Frontend uses `toAPIError(error).message` in catch blocks — never raw `error.message`
+- React components use `<ErrorBox error={error} />` or `<ErrorBoundary FallbackComponent={ErrorBox}>`
 
 ### Type Definitions
 

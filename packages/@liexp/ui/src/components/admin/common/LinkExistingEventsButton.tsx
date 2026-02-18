@@ -103,7 +103,9 @@ export const LinkExistingEventsButton: React.FC<
       refresh();
       handleClose();
     } catch (error: unknown) {
-      notify(`Error linking events: ${toAPIError(error).message}`, { type: "error" });
+      notify(`Error linking events: ${toAPIError(error).message}`, {
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
