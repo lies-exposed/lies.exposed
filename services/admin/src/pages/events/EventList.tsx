@@ -340,7 +340,7 @@ const EventList: React.FC = () => (
       <FunctionField
         label="type"
         render={(r) => {
-          const title = r.payload.title ?? r.payload.quote ?? r.payload.details;
+          const title = r?.payload?.title ?? r?.payload?.quote ?? r?.payload?.details;
           return (
             <Box>
               <Stack direction="row" spacing={1} alignItems="center">

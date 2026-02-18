@@ -17,13 +17,14 @@ export interface ProviderInfo {
   available: boolean;
   models: string[];
   defaultModel: string;
-  baseURL: string;
-  requiresApiKey: boolean;
 }
 
-interface ProviderDetails {
-  provider: AIProvider;
-  info: ProviderInfo;
+// Map provider name to provider type
+function getProviderType(name: string): AIProvider {
+  if (name === "openai" || name === "anthropic" || name === "xai") {
+    return name as AIProvider;
+  }
+  return "openai"; // fallback
 }
 
 interface ProviderSelectorProps {
@@ -151,7 +152,7 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
   getAuthToken,
   usedProvider,
 }) => {
-  const [providers, setProviders] = useState<ProviderDetails[]>([]);
+  const [providers, setProviders] = useState<ProviderInfo[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [modelAnchor, setModelAnchor] = useState<HTMLElement | null>(null);
@@ -182,15 +183,21 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
         if (!response.ok) {
           throw new Error(`Failed to fetch providers: ${response.status}`);
         }
-        const data = await response.json();
+        const rawData = await response.json();
         if (cancelled) return;
+
+        // Handle both response formats:
+        // 1. Direct format: { providers: [...] }
+        // 2. Wrapped format: { body: { data: { providers: [...] } } }
+        // 3. Data wrapper format: { data: { providers: [...] } }
+        const data = rawData.body?.data ?? rawData.data ?? rawData;
         setProviders(data.providers ?? []);
 
         // Auto-select first available provider if none selected
         if (!selectedProviderRef.current && data.providers?.length > 0) {
-          const firstProvider = data.providers[0].provider as AIProvider;
+          const firstProvider = getProviderType(data.providers[0].name);
           onProviderChangeRef.current(firstProvider);
-          onModelChangeRef.current(data.providers[0].info.defaultModel);
+          onModelChangeRef.current(data.providers[0].defaultModel);
         }
       } catch (err) {
         if (cancelled) return;
@@ -212,7 +219,7 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
   }, [providersUrl, getAuthToken]);
 
   const currentProvider = providers.find(
-    (p) => p.provider === selectedProvider,
+    (p) => getProviderType(p.name) === selectedProvider,
   );
 
   if (isLoading) {
@@ -255,14 +262,15 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
     return null;
   }
 
-  const activeModel =
-    selectedModel ?? currentProvider?.info.defaultModel ?? null;
+  const activeModel = selectedModel ?? currentProvider?.defaultModel ?? null;
 
   const handleProviderClick = (provider: AIProvider) => {
     onProviderChange(provider);
-    const providerInfo = providers.find((p) => p.provider === provider);
+    const providerInfo = providers.find(
+      (p) => getProviderType(p.name) === provider,
+    );
     if (providerInfo) {
-      onModelChange(providerInfo.info.defaultModel);
+      onModelChange(providerInfo.defaultModel);
     }
   };
 
@@ -287,18 +295,18 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
     >
       {providers.map((p) => (
         <ProviderChip
-          key={p.provider}
-          selected={selectedProvider === p.provider}
-          disabled={!p.info.available}
+          key={p.name}
+          selected={selectedProvider === getProviderType(p.name)}
+          disabled={!p.available}
           onClick={() => {
-            if (p.info.available) handleProviderClick(p.provider);
+            if (p.available) handleProviderClick(getProviderType(p.name));
           }}
-          title={p.info.description}
+          title={p.description}
         >
-          <ProviderIcon provider={p.provider}>
-            {PROVIDER_ICONS[p.provider]}
+          <ProviderIcon provider={getProviderType(p.name)}>
+            {PROVIDER_ICONS[getProviderType(p.name)]}
           </ProviderIcon>
-          {p.info.name}
+          {p.name}
         </ProviderChip>
       ))}
 
@@ -339,7 +347,7 @@ export const ProviderSelector: React.FC<ProviderSelectorProps> = ({
             }}
           >
             <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25 }}>
-              {currentProvider.info.models.map((model) => (
+              {currentProvider.models.map((model: string) => (
                 <ModelChip
                   key={model}
                   selected={model === activeModel}

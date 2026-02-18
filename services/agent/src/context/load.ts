@@ -30,7 +30,7 @@ export const makeAgentContext = (
     TE.fromEither,
     TE.chain((env) => {
       const agentLogger = logger.GetLogger(namespace);
-      agentLogger.debug.log("Environment loaded:", env.LOCALAI_BASE_URL);
+      agentLogger.debug.log("Environment loaded");
       agentLogger.debug.log("API_BASE_URL:", env.API_BASE_URL);
 
       const http = HTTPProvider(axios.create({}));
@@ -42,16 +42,78 @@ export const makeAgentContext = (
         logger: agentLogger,
       });
 
-      // Initialize Langchain provider for LocalAI
+      // Determine which providers are available based on API keys
+      const availableProviders = {
+        openai: !!env.OPENAI_API_KEY,
+        anthropic: !!env.ANTHROPIC_API_KEY,
+        xai: !!env.XAI_API_KEY,
+      };
+
+      // Get the first available provider, or throw error if none are configured
+      const getDefaultProvider = (): "openai" | "anthropic" | "xai" => {
+        if (availableProviders.xai) return "xai";
+        if (availableProviders.openai) return "openai";
+        if (availableProviders.anthropic) return "anthropic";
+        throw new Error(
+          "No AI provider API keys configured. Set at least one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, or XAI_API_KEY",
+        );
+      };
+
+      const defaultProvider = getDefaultProvider();
+
+      // Initialize Langchain provider with the default available provider
+      // Provider can be overridden per-message via aiConfig in chat flow
+      const getLangchainConfig = () => {
+        const provider = defaultProvider;
+        agentLogger.debug.log(`Initializing Langchain with default provider: ${provider}`);
+        
+        switch (provider) {
+          case "openai":
+            return {
+              baseURL: env.OPENAI_BASE_URL,
+              apiKey: env.OPENAI_API_KEY!,
+              maxRetries: env.LOCALAI_MAX_RETRIES,
+              provider: "openai" as const,
+              models: {
+                chat: "gpt-4o" as const,
+                embeddings: "gpt-4o" as const,
+              },
+            };
+          case "anthropic":
+            return {
+              baseURL: undefined as any,
+              apiKey: env.ANTHROPIC_API_KEY!,
+              maxRetries: env.LOCALAI_MAX_RETRIES,
+              provider: "anthropic" as const,
+              models: {
+                chat: "claude-sonnet-4-20250514" as const,
+                embeddings: "claude-sonnet-4-20250514" as const,
+              },
+            };
+          case "xai":
+            return {
+              baseURL: "https://api.x.ai/v1",
+              apiKey: env.XAI_API_KEY!,
+              maxRetries: env.LOCALAI_MAX_RETRIES,
+              provider: "xai" as const,
+              models: {
+                chat: "grok-4-fast" as const,
+                embeddings: "grok-4-fast" as const,
+              },
+            };
+          default:
+            const exhaustiveCheck: never = provider;
+            throw new Error(`Unsupported AI provider: ${exhaustiveCheck}`);
+        }
+      };
+
+      const langchainConfig = getLangchainConfig();
       const langchain = GetLangchainProvider({
-        baseURL: env.LOCALAI_BASE_URL,
-        apiKey: env.LOCALAI_API_KEY,
-        maxRetries: env.LOCALAI_MAX_RETRIES,
-        provider: env.AI_PROVIDER,
-        models: {
-          chat: env.LOCALAI_MODEL,
-          embeddings: env.LOCALAI_MODEL,
-        },
+        baseURL: langchainConfig.baseURL,
+        apiKey: langchainConfig.apiKey,
+        maxRetries: langchainConfig.maxRetries,
+        provider: langchainConfig.provider,
+        models: langchainConfig.models,
         options: {
           chat: {},
           embeddings: {},

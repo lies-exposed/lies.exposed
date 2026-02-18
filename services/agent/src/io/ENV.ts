@@ -1,4 +1,3 @@
-import { AvailableModels } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { Schema } from "effect";
 
 const ENV = Schema.Struct({
@@ -8,18 +7,12 @@ const ENV = Schema.Struct({
   SERVER_PORT: Schema.NumberFromString,
   // JWT configuration for M2M authentication
   JWT_SECRET: Schema.String,
-  // LocalAI configuration
-  LOCALAI_BASE_URL: Schema.String,
-  LOCALAI_MODEL: AvailableModels,
-  LOCALAI_API_KEY: Schema.String,
+  // AI Provider API Keys - all optional, enabled based on which keys are configured
+  OPENAI_BASE_URL: Schema.optional(Schema.String),
+  OPENAI_API_KEY: Schema.optional(Schema.String),
+  XAI_API_KEY: Schema.optional(Schema.String),
+  ANTHROPIC_API_KEY: Schema.optional(Schema.String),
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
-  // TODO: extract this to a proper schema
-  AI_PROVIDER: Schema.Union(
-    Schema.Literal("openai"),
-    Schema.Literal("xai"),
-    Schema.Literal("anthropic"),
-  ),
-  // API service configuration
   API_BASE_URL: Schema.optional(Schema.String),
   API_TOKEN: Schema.String,
 

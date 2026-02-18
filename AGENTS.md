@@ -270,6 +270,11 @@ Before starting any implementation work:
   - Order imports: external → internal → types
 - **Error Handling**: Properly handle errors using Effect/fp-ts patterns
 - **Type Definitions**: Define and export necessary types
+- **Nullish Coalescing**: Prefer the nullish coalescing operator (`??`) over logical OR (`||`)
+  - ✅ Use `??` for default values: `value ?? defaultValue`
+  - ❌ Avoid `||` which treats falsy values (0, empty string, false) as missing
+  - Example: `count ?? 0` is safer than `count || 0` (preserves 0, empty string, false)
+  - This aligns with the `@typescript-eslint/prefer-nullish-coalescing` rule
 
 ### Functional Programming with fp-ts and Effect
 

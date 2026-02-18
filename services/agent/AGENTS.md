@@ -38,6 +38,13 @@ Before creating any new entity (actor, group, event, link, etc.):
 - **Avoid redundant searches**: Reuse actor/group IDs from search results
 - **No creating during edits**: Always resolve IDs with find tools first
 
+## Queue Job Processing
+
+When you receive a rendered prompt for a queue job, that prompt is the complete contract for the task:
+- **Follow the output schema exactly** as described in the prompt — field names, types, and format
+- **Do not add extra fields** or restructure the response unless explicitly asked
+- The prompt already encodes which resource type is being processed and what shape is expected
+
 ## Response Guidelines
 
 - **Clear and Concise**: Provide information in accessible format
