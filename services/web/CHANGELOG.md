@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...web@0.4.1) (2026-02-18)
+
+
+### Miscellaneous
+
+* **workspace:** enable PWA installation for web and admin services ([#3200](https://github.com/lies-exposed/lies.exposed/issues/3200)) ([830cb5e](https://github.com/lies-exposed/lies.exposed/commit/830cb5e31865964a937f1a632e5250e9c64796e2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.1
+    * @liexp/core bumped to 0.4.1
+    * @liexp/io bumped to 0.4.1
+    * @liexp/shared bumped to 0.4.1
+    * @liexp/ui bumped to 0.4.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.1
+    * @liexp/test bumped to 0.4.1
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...web@0.4.0) (2026-02-15)
 
 

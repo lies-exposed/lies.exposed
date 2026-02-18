@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...admin@0.4.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* **admin:** added descriptive labels for actor relation type values ([#3198](https://github.com/lies-exposed/lies.exposed/issues/3198)) ([a31d9fa](https://github.com/lies-exposed/lies.exposed/commit/a31d9fa438bae3fe0f3db03134f42a93a9f5fe4e))
+* **agent:** multiprovider AI agent configuration ([#3206](https://github.com/lies-exposed/lies.exposed/issues/3206)) ([06920b4](https://github.com/lies-exposed/lies.exposed/commit/06920b4bf246b7c22f5c5acc9f9cd8b4909a1e13))
+* chat providers and prompts ([#3208](https://github.com/lies-exposed/lies.exposed/issues/3208)) ([db9dbde](https://github.com/lies-exposed/lies.exposed/commit/db9dbdee889a3de0f8a358cb42d3090a305de07b))
+
+
+### Miscellaneous
+
+* **workspace:** enable PWA installation for web and admin services ([#3200](https://github.com/lies-exposed/lies.exposed/issues/3200)) ([830cb5e](https://github.com/lies-exposed/lies.exposed/commit/830cb5e31865964a937f1a632e5250e9c64796e2))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.1
+    * @liexp/core bumped to 0.4.1
+    * @liexp/io bumped to 0.4.1
+    * @liexp/shared bumped to 0.4.1
+    * @liexp/ui bumped to 0.4.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.1
+    * @liexp/test bumped to 0.4.1
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...admin@0.4.0) (2026-02-15)
 
 

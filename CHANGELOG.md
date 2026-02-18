@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...lies.exposed@0.4.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* **agent:** multiprovider AI agent configuration ([#3206](https://github.com/lies-exposed/lies.exposed/issues/3206)) ([06920b4](https://github.com/lies-exposed/lies.exposed/commit/06920b4bf246b7c22f5c5acc9f9cd8b4909a1e13))
+* chat providers and prompts ([#3208](https://github.com/lies-exposed/lies.exposed/issues/3208)) ([db9dbde](https://github.com/lies-exposed/lies.exposed/commit/db9dbdee889a3de0f8a358cb42d3090a305de07b))
+* update README badges to match actual workflow names and fix broken link ([#3197](https://github.com/lies-exposed/lies.exposed/issues/3197)) ([1d73a79](https://github.com/lies-exposed/lies.exposed/commit/1d73a7902b873a5320eb055fa18c38cafcba5ec9))
+
+
+### Miscellaneous
+
+* errors refactor ([#3207](https://github.com/lies-exposed/lies.exposed/issues/3207)) ([ed74cee](https://github.com/lies-exposed/lies.exposed/commit/ed74ceea7c12764221f40d6f30f76c3a55e20373))
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...lies.exposed@0.4.0) (2026-02-15)
 
 
