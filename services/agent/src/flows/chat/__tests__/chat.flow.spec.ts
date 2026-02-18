@@ -148,7 +148,7 @@ describe("chat.flow", () => {
 
       await pipe(sendChatMessage(payload)(ctx))();
 
-      expect(ctx.agent.invoke).toHaveBeenCalledWith(
+      expect((ctx.agent.agent as any).invoke).toHaveBeenCalledWith(
         expect.objectContaining({
           messages: expect.arrayContaining([
             expect.stringContaining("Help me edit this"),

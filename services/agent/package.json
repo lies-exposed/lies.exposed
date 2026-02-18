@@ -29,7 +29,7 @@
     "start": "node build/run.js",
     "test": "vitest",
     "test:spec": "vitest --project spec",
-    "test:e2e": "vitest --project e2e",
+    "test:e2e": "vitest --project agent-e2e",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
