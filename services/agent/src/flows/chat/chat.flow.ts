@@ -63,8 +63,7 @@ export const sendChatMessage =
               },
               {
                 configurable: { thread_id: conversationId },
-                // Set recursion limit to prevent infinite loops in agent tool calling chains
-                recursionLimit: 10,
+                recursionLimit: 25,
               },
             ),
           (error) => ServerError.fromUnknown(error),
@@ -235,7 +234,7 @@ export const sendChatMessageStream = (payload: {
         {
           streamMode: ["messages", "updates", "debug"],
           configurable: { thread_id: conversationId },
-          recursionLimit: 10,
+          recursionLimit: 25,
         },
       );
 

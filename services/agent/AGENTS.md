@@ -24,6 +24,12 @@ Before creating any new entity (actor, group, event, link, etc.):
 3. If not found: Create new entity
 ```
 
+**Tool argument rules:**
+- `findActors`, `findGroups`, `findEvents`, etc. accept **string** parameters — never pass arrays
+  - ✅ `findActors({ fullName: "Mario Rossi" })`
+  - ❌ `findActors({ fullName: ["Mario Rossi"] })` — will fail validation
+- When looking up a resource by ID, use the corresponding get tool (e.g., `getGroup`, `getActor`) with the UUID as a string
+
 ## Tool Usage Guidelines
 
 ### Tool Priority: MCP vs Web
