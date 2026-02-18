@@ -5,57 +5,38 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 import { CssBaseline } from "../mui/index.js";
-import {
-  ProviderSelector,
-  type ProviderInfo,
-  type AIProvider,
-} from "./ProviderSelector.js";
+import { ProviderSelector, type ProviderInfo } from "./ProviderSelector.js";
 
 // Create a test theme
 const testTheme = createTheme();
 
-// Mock provider data
+// Mock provider data - matches the ProviderInfo interface expected by the component
 const mockProviders = [
   {
-    provider: "openai" as AIProvider,
-    info: {
-      name: "OpenAI",
-      description: "GPT-4 and GPT-4o models from OpenAI",
-      available: true,
-      models: ["gpt-4", "gpt-4o"],
-      defaultModel: "gpt-4",
-      baseURL: "https://api.openai.com/v1",
-      requiresApiKey: true,
-    } as ProviderInfo,
-  },
+    name: "openai",
+    description: "GPT-4 and GPT-4o models from OpenAI",
+    available: true,
+    models: ["gpt-4", "gpt-4o"],
+    defaultModel: "gpt-4",
+  } as ProviderInfo,
   {
-    provider: "anthropic" as AIProvider,
-    info: {
-      name: "Anthropic",
-      description: "Claude models from Anthropic",
-      available: true,
-      models: [
-        "claude-sonnet-4-20250514",
-        "claude-3-7-sonnet-latest",
-        "claude-3-5-haiku-latest",
-      ],
-      defaultModel: "claude-sonnet-4-20250514",
-      baseURL: "https://api.anthropic.com",
-      requiresApiKey: true,
-    } as ProviderInfo,
-  },
+    name: "anthropic",
+    description: "Claude models from Anthropic",
+    available: true,
+    models: [
+      "claude-sonnet-4-20250514",
+      "claude-3-7-sonnet-latest",
+      "claude-3-5-haiku-latest",
+    ],
+    defaultModel: "claude-sonnet-4-20250514",
+  } as ProviderInfo,
   {
-    provider: "xai" as AIProvider,
-    info: {
-      name: "XAI Grok",
-      description: "Grok model from XAI",
-      available: false,
-      models: ["grok-4-fast"],
-      defaultModel: "grok-4-fast",
-      baseURL: "https://api.x.ai",
-      requiresApiKey: true,
-    } as ProviderInfo,
-  },
+    name: "xai",
+    description: "Grok model from XAI",
+    available: false,
+    models: ["grok-4-fast"],
+    defaultModel: "grok-4-fast",
+  } as ProviderInfo,
 ];
 
 const Wrapper: React.FC<React.PropsWithChildren> = ({ children }) => (
@@ -214,9 +195,9 @@ describe("ProviderSelector", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("OpenAI")).toBeInTheDocument();
-        expect(screen.getByText("Anthropic")).toBeInTheDocument();
-        expect(screen.getByText("XAI Grok")).toBeInTheDocument();
+        expect(screen.getByText("openai")).toBeInTheDocument();
+        expect(screen.getByText("anthropic")).toBeInTheDocument();
+        expect(screen.getByText("xai")).toBeInTheDocument();
       });
     });
 
@@ -235,13 +216,13 @@ describe("ProviderSelector", () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText("Anthropic")).toBeInTheDocument();
+        expect(screen.getByText("anthropic")).toBeInTheDocument();
       });
 
       onProviderChange.mockClear();
       onModelChange.mockClear();
 
-      await user.click(screen.getByText("Anthropic"));
+      await user.click(screen.getByText("anthropic"));
 
       expect(onProviderChange).toHaveBeenCalledWith("anthropic");
       expect(onModelChange).toHaveBeenCalledWith("claude-sonnet-4-20250514");

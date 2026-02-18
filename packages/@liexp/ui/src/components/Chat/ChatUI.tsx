@@ -36,24 +36,24 @@ const FloatingButton = styled(Paper)(({ theme }) => ({
   transition: "all 0.2s ease-in-out",
 }));
 
-const ChatModal = styled(Paper)<{ isFullSize: boolean }>(
-  ({ theme, isFullSize }) => ({
-    position: "fixed",
-    bottom: isFullSize ? 0 : theme.spacing(3),
-    right: isFullSize ? 0 : theme.spacing(3),
-    top: isFullSize ? 0 : "auto",
-    left: isFullSize ? 0 : "auto",
-    width: isFullSize ? "100vw" : 400,
-    height: isFullSize ? "100vh" : 500,
-    zIndex: 1300,
-    borderRadius: isFullSize ? 0 : theme.spacing(2),
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: theme.shadows[8],
-    overflow: "hidden",
-    transition: "all 0.3s ease-in-out",
-  }),
-);
+const ChatModal = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "isFullSize",
+})<{ isFullSize: boolean }>(({ theme, isFullSize }) => ({
+  position: "fixed",
+  bottom: isFullSize ? 0 : theme.spacing(3),
+  right: isFullSize ? 0 : theme.spacing(3),
+  top: isFullSize ? 0 : "auto",
+  left: isFullSize ? 0 : "auto",
+  width: isFullSize ? "100vw" : 400,
+  height: isFullSize ? "100vh" : 500,
+  zIndex: 1300,
+  borderRadius: isFullSize ? 0 : theme.spacing(2),
+  display: "flex",
+  flexDirection: "column",
+  boxShadow: theme.shadows[8],
+  overflow: "hidden",
+  transition: "all 0.3s ease-in-out",
+}));
 
 const MessagesContainer = styled(Box)(({ theme }) => ({
   flex: 1,

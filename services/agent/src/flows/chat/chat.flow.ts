@@ -63,8 +63,7 @@ export const sendChatMessage =
               },
               {
                 configurable: { thread_id: conversationId },
-                // Set recursion limit to prevent infinite loops in agent tool calling chains
-                recursionLimit: 10,
+                recursionLimit: 25,
               },
             ),
           (error) => ServerError.fromUnknown(error),
@@ -235,7 +234,7 @@ export const sendChatMessageStream = (payload: {
         {
           streamMode: ["messages", "updates", "debug"],
           configurable: { thread_id: conversationId },
-          recursionLimit: 10,
+          recursionLimit: 25,
         },
       );
 
@@ -281,10 +280,11 @@ export const sendChatMessageStream = (payload: {
             }
 
             // Handle content deltas — parse <think> tags for Qwen3/LocalAI
+            // msg.content in LangGraph messages mode is a delta, not the full accumulated text
             if (typeof msg.content === "string" && msg.content) {
-              const newContent = msg.content.slice(contentAccumulator.length);
+              const newContent = msg.content;
               if (newContent) {
-                contentAccumulator = msg.content;
+                contentAccumulator += newContent;
 
                 // Process the new content, splitting on <think>/</think> boundaries
                 // Prepend any buffered partial tag from the previous chunk

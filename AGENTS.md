@@ -193,6 +193,17 @@ Then proceed with: <actual task description>")
 
 **When to include it:** Any subagent that will read or write code in this repository.
 
+### Using Playwright MCP for Browser Automation
+
+The repository includes a Playwright MCP server running in Docker for UI testing and debugging.
+
+**Quick Start:**
+```bash
+docker compose up playwright-mcp.liexp.dev
+```
+
+For detailed usage, see `docs/playwright-mcp.md`.
+
 ### Development Best Practices and Priorities
 
 #### Common Pitfalls and Solutions
@@ -270,6 +281,11 @@ Before starting any implementation work:
   - Order imports: external → internal → types
 - **Error Handling**: Properly handle errors using Effect/fp-ts patterns
 - **Type Definitions**: Define and export necessary types
+- **Nullish Coalescing**: Prefer the nullish coalescing operator (`??`) over logical OR (`||`)
+  - ✅ Use `??` for default values: `value ?? defaultValue`
+  - ❌ Avoid `||` which treats falsy values (0, empty string, false) as missing
+  - Example: `count ?? 0` is safer than `count || 0` (preserves 0, empty string, false)
+  - This aligns with the `@typescript-eslint/prefer-nullish-coalescing` rule
 
 ### Functional Programming with fp-ts and Effect
 

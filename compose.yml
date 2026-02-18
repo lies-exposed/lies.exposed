@@ -280,6 +280,20 @@ services:
     # Increase memory limit for GPU workloads
     mem_limit: 16G
 
+  playwright-mcp.liexp.dev:
+    image: mcr.microsoft.com/playwright:v1.58.2-noble
+    command: npx @playwright/mcp
+    environment:
+      # Enable browser automation tools
+      BROWSER: chromium
+      HEADLESS: "true"
+    networks:
+      - reverseproxy
+    stdin_open: true
+    tty: true
+    # Playwright MCP uses stdio for communication, not HTTP
+    # It will be accessed via MCP protocol, not directly as a web service
+
 volumes:
   db-data: {}
   api-node-modules: {}

@@ -16,17 +16,22 @@ ${vars.text}
 const CREATE_EVENT_PROMPT: PromptFn<{
   jsonSchema: string;
   type: EventType;
-}> = () => `
+}> = ({ vars }) => `
 You are an expert in extracting structured JSON from text. The info extracted from the texts serves to define an 'event' JSON object.
 The texts provided used as sources can be either excerpt of web pages, articles or scientific papers.
 
-Your job is to extract the needed info from text in the shape of an 'event' JSON object like
+Your job is to extract the needed info from the text and return a JSON object with AT LEAST these fields:
 
 {{
   title: "The title of the event",
   excerpt: "A short description of the event (100 words max)",
-  date: "An array composed of 1 or 2 JSON valid date strings in ISO format (YYYY-MM-DD). The first element indicates the start date, while the second (optional) is the end date of the event. ALWAYS include at least one date.",
+  date: "Array of 1 or 2 ISO date strings (YYYY-MM-DD). Index 0 = start date (required), index 1 = end date (optional).",
+  actors: "Array of actor UUIDs or names found in the text. Use [] if none.",
+  groups: "Array of group/organization UUIDs or names found in the text. Use [] if none.",
+  keywords: "Array of relevant keyword strings. Use [] if none.",
 }}
+
+${vars.jsonSchema ? `The output must conform to this schema:\n${vars.jsonSchema}` : ""}
 
 IMPORTANT:
 - You MUST always extract or infer at least one date for the event
@@ -38,7 +43,7 @@ IMPORTANT:
 `;
 
 /**
- * Prompt for creating an event from text.
+ * Prompt for creating an event from a URL or document context.
  *
  */
 export const CREATE_EVENT_FROM_URL_PROMPT: PromptFn<{

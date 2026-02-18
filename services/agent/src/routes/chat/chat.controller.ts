@@ -182,22 +182,19 @@ const PROVIDER_MODELS: Record<
 
 export const MakeListProvidersRoute: Route = (r, ctx) => {
   AddEndpoint(r)(AgentEndpoints.Chat.Custom.ListProviders, () => {
-    const defaultProvider = ctx.env.AI_PROVIDER;
-
     const providers: ProviderInfo[] = (
       Object.keys(PROVIDER_MODELS) as AIProvider[]
     ).map((name) => {
       const meta = PROVIDER_MODELS[name];
+      // Check if provider has API key configured
+      const hasApiKey = checkProviderApiKey(name, ctx.env);
       return {
         name,
         description: meta.description,
-        available: true,
+        available: hasApiKey,
         models: meta.models,
-        // If this is the configured default provider, use the agent's configured model
-        defaultModel:
-          name === defaultProvider
-            ? (ctx.langchain.options.models?.chat ?? meta.defaultModel)
-            : meta.defaultModel,
+        // Use the provider's default model
+        defaultModel: meta.defaultModel,
       };
     });
 
@@ -213,3 +210,22 @@ export const MakeListProvidersRoute: Route = (r, ctx) => {
     });
   });
 };
+
+/**
+ * Check if a provider has the required API key configured
+ */
+function checkProviderApiKey(
+  provider: AIProvider,
+  env: Record<string, string | number | boolean | undefined>,
+): boolean {
+  switch (provider) {
+    case "openai":
+      return !!env.OPENAI_API_KEY;
+    case "anthropic":
+      return !!env.ANTHROPIC_API_KEY;
+    case "xai":
+      return !!env.XAI_API_KEY;
+    default:
+      return false;
+  }
+}
