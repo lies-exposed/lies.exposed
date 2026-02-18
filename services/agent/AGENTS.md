@@ -26,10 +26,24 @@ Before creating any new entity (actor, group, event, link, etc.):
 
 ## Tool Usage Guidelines
 
+### Tool Priority: MCP vs Web
+
+**Always use MCP tools first** for anything related to the lies.exposed platform:
+- A UUID in the user's message or context → call the appropriate MCP tool (`getActor`, `getGroup`, `getEvent`, `getLink`, etc.) to retrieve the resource
+- Never search the web for a platform UUID or internal resource ID
+- Web search (`searchWeb`) and web scraping are for gathering **external** information (Wikipedia, news articles, etc.) — not for looking up platform data
+
+**Decision rule:**
+```
+Does the task involve a lies.exposed resource (actor, group, event, link, media)?
+  YES → Use MCP tools (find/get/create/edit)
+  NO  → Use web search / scraping for external sources
+```
+
 ### When Using Edit Tools
 - **Omitted fields**: Keep current values unchanged
 - **Fields set to null**: Clear/reset the value in the database
-- **Arrays** (actors, groups, keywords): 
+- **Arrays** (actors, groups, keywords):
   - Omitting keeps the current list
   - Passing `null` clears the list
   - Passing `[]` sets to empty
