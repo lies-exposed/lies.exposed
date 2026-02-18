@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...@liexp/test@0.4.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* chat providers and prompts ([#3208](https://github.com/lies-exposed/lies.exposed/issues/3208)) ([db9dbde](https://github.com/lies-exposed/lies.exposed/commit/db9dbdee889a3de0f8a358cb42d3090a305de07b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.4.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.1
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...@liexp/test@0.4.0) (2026-02-15)
 
 

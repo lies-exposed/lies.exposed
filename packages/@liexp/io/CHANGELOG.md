@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...@liexp/io@0.4.1) (2026-02-18)
+
+
+### Bug Fixes
+
+* **admin:** added descriptive labels for actor relation type values ([#3198](https://github.com/lies-exposed/lies.exposed/issues/3198)) ([a31d9fa](https://github.com/lies-exposed/lies.exposed/commit/a31d9fa438bae3fe0f3db03134f42a93a9f5fe4e))
+* **agent:** multiprovider AI agent configuration ([#3206](https://github.com/lies-exposed/lies.exposed/issues/3206)) ([06920b4](https://github.com/lies-exposed/lies.exposed/commit/06920b4bf246b7c22f5c5acc9f9cd8b4909a1e13))
+
+
+### Miscellaneous
+
+* errors refactor ([#3207](https://github.com/lies-exposed/lies.exposed/issues/3207)) ([ed74cee](https://github.com/lies-exposed/lies.exposed/commit/ed74ceea7c12764221f40d6f30f76c3a55e20373))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.1
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...@liexp/io@0.4.0) (2026-02-15)
 
 

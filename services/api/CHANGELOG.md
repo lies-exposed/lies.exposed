@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...api@0.4.1) (2026-02-18)
+
+
+### Miscellaneous
+
+* errors refactor ([#3207](https://github.com/lies-exposed/lies.exposed/issues/3207)) ([ed74cee](https://github.com/lies-exposed/lies.exposed/commit/ed74ceea7c12764221f40d6f30f76c3a55e20373))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.1
+    * @liexp/core bumped to 0.4.1
+    * @liexp/io bumped to 0.4.1
+    * @liexp/shared bumped to 0.4.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.1
+    * @liexp/test bumped to 0.4.1
+
 ## [0.4.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.3.0...api@0.4.0) (2026-02-15)
 
 
