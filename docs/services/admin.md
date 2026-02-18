@@ -105,6 +105,11 @@ The admin includes an AI chat assistant (`components/chat/AdminChat.tsx`):
 - Context-aware assistance (current resource/record)
 - Tool call visualization
 - M2M authentication via proxy
+- **Multi-provider selection**: Users can switch between OpenAI, Anthropic, and XAI providers and models directly from the chat UI without restarting any service
+
+### Provider Selection
+
+The chat UI includes a chip-based provider selector below the input area. Providers and their available models are fetched from `GET /api/proxy/agent/providers`. The admin proxy validates the selected provider/model before forwarding to the agent service. The `usedProvider` field in streaming responses confirms which provider actually handled the request.
 
 ## Agent Proxy Server
 
@@ -117,6 +122,7 @@ POST   /api/proxy/agent/chat/message/stream # Streaming chat (SSE)
 GET    /api/proxy/agent/chat/conversations  # List conversations
 GET    /api/proxy/agent/chat/conversations/:id
 DELETE /api/proxy/agent/chat/conversations/:id
+GET    /api/proxy/agent/providers           # List available AI providers and models
 GET    /api/proxy/agent/health              # Health check
 ```
 

@@ -1,8 +1,11 @@
+import * as fs from "fs";
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetAgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
 import { GetLangchainProvider } from "@liexp/backend/lib/providers/ai/langchain.provider.js";
 import { GetBraveProvider } from "@liexp/backend/lib/providers/brave.provider.js";
+import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
@@ -66,7 +69,7 @@ export const makeAgentContext = (
       const braveSearch = new BraveSearch(env.BRAVE_API_KEY);
       const braveProvider = GetBraveProvider(braveSearch);
 
-      agentLogger.debug.log("Initializing Agent provider...");
+      agentLogger.debug.log("Initializing Agent provider and factory...");
 
       /**
        * Exponential backoff function: starts at baseDelayMs and doubles with each retry
@@ -208,6 +211,20 @@ export const makeAgentContext = (
         ),
         TE.map((agentProvider) => {
           agentLogger.info.log("Agent provider initialized successfully");
+
+          const fsClient = GetFSClient({ client: fs });
+
+          // Create the agent factory for on-demand agent creation
+          const agentFactory = GetAgentFactory({
+            mcpClient: (agentProvider as any).mcpClient ?? null,
+          })({
+            langchain,
+            logger: agentLogger,
+            puppeteer: puppeteerProvider,
+            brave: braveProvider,
+            fs: fsClient,
+          });
+
           return {
             env,
             logger: agentLogger,
@@ -216,7 +233,9 @@ export const makeAgentContext = (
             langchain,
             puppeteer: puppeteerProvider,
             brave: braveProvider,
+            fs: fsClient,
             agent: agentProvider,
+            agentFactory,
           };
         }),
       );

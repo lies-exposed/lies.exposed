@@ -33,6 +33,31 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
     http: {} as any,
     puppeteer: {} as any,
     langchain: {} as any,
+    agentFactory: vi.fn().mockReturnValue(
+      TE.right({
+        invoke: vi.fn().mockResolvedValue({
+          messages: [
+            {
+              id: "msg-123",
+              content: "This is a test response",
+            },
+          ],
+        }),
+        stream: vi.fn().mockImplementation(function* () {
+          yield [
+            "messages",
+            [
+              {
+                content: "Test streaming response",
+              },
+            ],
+          ];
+        }),
+      }),
+    ),
+    fs: {
+      getObject: vi.fn().mockReturnValue(TE.right("# Mock AGENTS.md")),
+    } as any,
     agent: {
       invoke: vi.fn().mockReturnValue(
         TE.right({
@@ -45,6 +70,14 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
         }),
       ),
       agent: {
+        invoke: vi.fn().mockResolvedValue({
+          messages: [
+            {
+              id: "msg-123",
+              content: "This is a test response",
+            },
+          ],
+        }),
         stream: vi.fn().mockImplementation(function* () {
           yield [
             "messages",
@@ -115,7 +148,7 @@ describe("chat.flow", () => {
 
       await pipe(sendChatMessage(payload)(ctx))();
 
-      expect(ctx.agent.invoke).toHaveBeenCalledWith(
+      expect((ctx.agent.agent as any).invoke).toHaveBeenCalledWith(
         expect.objectContaining({
           messages: expect.arrayContaining([
             expect.stringContaining("Help me edit this"),

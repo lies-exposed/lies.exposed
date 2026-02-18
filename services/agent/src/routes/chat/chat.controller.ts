@@ -2,6 +2,11 @@ import { Readable } from "node:stream";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import {
+  type AIProvider,
+  type AvailableModels,
+  type ProviderInfo,
+} from "@liexp/io/lib/http/Chat.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
@@ -140,4 +145,71 @@ export const MakeSendChatMessageStreamRoute: Route = (r, ctx) => {
       }, ServerError.fromUnknown);
     },
   );
+};
+
+/**
+ * Provider-to-models mapping — single source of truth for provider discovery.
+ * The agent knows which providers exist and what models they support.
+ */
+const PROVIDER_MODELS: Record<
+  AIProvider,
+  {
+    description: string;
+    models: AvailableModels[];
+    defaultModel: AvailableModels;
+  }
+> = {
+  openai: {
+    description: "OpenAI GPT models (or LocalAI-compatible)",
+    models: ["gpt-4o", "qwen3-4b"],
+    defaultModel: "gpt-4o",
+  },
+  anthropic: {
+    description: "Anthropic Claude models",
+    models: [
+      "claude-sonnet-4-20250514",
+      "claude-3-7-sonnet-latest",
+      "claude-3-5-haiku-latest",
+    ],
+    defaultModel: "claude-sonnet-4-20250514",
+  },
+  xai: {
+    description: "X.AI Grok models",
+    models: ["grok-4-fast"],
+    defaultModel: "grok-4-fast",
+  },
+};
+
+export const MakeListProvidersRoute: Route = (r, ctx) => {
+  AddEndpoint(r)(AgentEndpoints.Chat.Custom.ListProviders, () => {
+    const defaultProvider = ctx.env.AI_PROVIDER;
+
+    const providers: ProviderInfo[] = (
+      Object.keys(PROVIDER_MODELS) as AIProvider[]
+    ).map((name) => {
+      const meta = PROVIDER_MODELS[name];
+      return {
+        name,
+        description: meta.description,
+        available: true,
+        models: meta.models,
+        // If this is the configured default provider, use the agent's configured model
+        defaultModel:
+          name === defaultProvider
+            ? (ctx.langchain.options.models?.chat ?? meta.defaultModel)
+            : meta.defaultModel,
+      };
+    });
+
+    return TE.right({
+      body: {
+        data: {
+          providers,
+          count: providers.length,
+          timestamp: new Date().toISOString(),
+        },
+      },
+      statusCode: 200 as const,
+    });
+  });
 };

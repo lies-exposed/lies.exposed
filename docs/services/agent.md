@@ -81,15 +81,37 @@ The chat flow (`chat.flow.ts`) handles:
 3. **Tool Execution**: Executes MCP tools when needed
 4. **Response Streaming**: Yields SSE events for real-time UI updates
 
+### Multi-Provider Support
+
+The agent supports dynamic provider switching per request via the `aiConfig` field in chat requests. When `aiConfig` is provided, the agent factory creates a new agent instance with the requested provider/model. When omitted, the default agent (bootstrapped at startup) is used.
+
+**Supported providers**: `openai`, `anthropic`, `xai`
+
+```typescript
+// Request with provider override
+{
+  "message": "Hello",
+  "aiConfig": {
+    "provider": "anthropic",
+    "model": "claude-sonnet-4-20250514"
+  }
+}
+```
+
+**Architecture**:
+- `agent.factory.ts` (in `@liexp/backend`) provides `CreateAgentFactory` which returns a function accepting optional `ProviderConfigOverride`
+- `chat.flow.ts` calls `getOrCreateAgent(aiConfig)` which either returns the default agent or creates one on demand
+- The response includes `usedProvider` with the actual provider/model used
+
 ### Streaming Events
 
 ```typescript
 type ChatStreamEvent =
-  | { type: "message_start"; message_id: string; role: string }
-  | { type: "content_delta"; content: string; message_id: string }
+  | { type: "message_start"; message_id: string; role: string; usedProvider?: { provider: string; model: string } }
+  | { type: "content_delta"; content: string; message_id: string; thinking?: boolean }
   | { type: "tool_call_start"; tool_call: { id: string; name: string; arguments: string } }
   | { type: "tool_call_end"; tool_call: { id: string; name: string; result: string } }
-  | { type: "message_end"; message_id: string; content: string }
+  | { type: "message_end"; message_id: string; content: string; usedProvider?: { provider: string; model: string } }
   | { type: "error"; error: string }
 ```
 

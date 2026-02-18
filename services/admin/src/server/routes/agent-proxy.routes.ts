@@ -58,25 +58,18 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Proxying chat request (correlation: %s, user: %s, ip: %s)",
+        "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
+        req.body.aiConfig?.provider ?? "default",
       );
 
-      // Get M2M token
-      const getTokenIO = m2m.getToken();
-
+      // Pass request through to agent — let it handle validation
       pipe(
-        TE.fromIO(getTokenIO),
-        TE.chain(() => {
-          logger.debug.log(
-            "Calling agent service with M2M token (correlation: %s)",
-            correlationId,
-          );
-
-          // Call agent service (validation handled by agent)
-          return pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
             agent.Chat.Create({
               Body: req.body,
             }),
@@ -88,11 +81,26 @@ export const registerAgentProxyRoutes = (
               );
               return error;
             }),
-          );
-        }),
+          ),
+        ),
         TE.fold(
           (error: unknown) => () => {
-            const err = error as { response?: { status?: number } };
+            const err = error as any;
+
+            // Handle validation errors
+            if (err.message?.includes("Provider")) {
+              logger.warn.log(
+                "Provider validation failed: %s (correlation: %s)",
+                err.message,
+                correlationId,
+              );
+              res.status(400).json({
+                error: "Invalid provider configuration",
+                message: err.message,
+              });
+              return Promise.resolve();
+            }
+
             // Map errors to user-friendly messages
             if (err?.response?.status === 401) {
               res.status(500).json({
@@ -123,15 +131,14 @@ export const registerAgentProxyRoutes = (
               error: "Internal server error",
               message: "Failed to process chat request",
             });
-
             return Promise.resolve();
           },
           (response) => () => {
             logger.info.log(
-              "Chat request successful (correlation: %s)",
+              "Chat request successful (correlation: %s, used provider: %s)",
               correlationId,
+              (response as any)?.usedProvider?.provider ?? "default",
             );
-
             res.status(200).json(response);
             return Promise.resolve();
           },
@@ -169,12 +176,10 @@ export const registerAgentProxyRoutes = (
         req.ip,
       );
 
-      const getTokenIO = m2m.getToken();
-
       pipe(
-        TE.fromIO(getTokenIO),
-        TE.chain(() => {
-          return pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
             agent.Chat.List({
               Query: {
                 limit: req.query.limit as string | undefined,
@@ -189,8 +194,8 @@ export const registerAgentProxyRoutes = (
               );
               return error;
             }),
-          );
-        }),
+          ),
+        ),
         TE.fold(
           (_error: unknown) => () => {
             res.status(500).json({
@@ -243,12 +248,10 @@ export const registerAgentProxyRoutes = (
         id,
       );
 
-      const getTokenIO = m2m.getToken();
-
       pipe(
-        TE.fromIO(getTokenIO),
-        TE.chain(() => {
-          return pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
             agent.Chat.Get({
               Params: { id },
             }),
@@ -260,8 +263,8 @@ export const registerAgentProxyRoutes = (
               );
               return error;
             }),
-          );
-        }),
+          ),
+        ),
         TE.fold(
           (error: unknown) => () => {
             const err = error as { response?: { status?: number } };
@@ -322,12 +325,10 @@ export const registerAgentProxyRoutes = (
         id,
       );
 
-      const getTokenIO = m2m.getToken();
-
       pipe(
-        TE.fromIO(getTokenIO),
-        TE.chain(() => {
-          return pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
             agent.Chat.Delete({
               Params: { id },
             }),
@@ -339,8 +340,8 @@ export const registerAgentProxyRoutes = (
               );
               return error;
             }),
-          );
-        }),
+          ),
+        ),
         TE.fold(
           (error: unknown) => () => {
             const err = error as { response?: { status?: number } };
@@ -396,10 +397,11 @@ export const registerAgentProxyRoutes = (
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Proxying streaming chat request (correlation: %s, user: %s, ip: %s)",
+        "Proxying streaming chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
+        req.body.aiConfig?.provider ?? "default",
       );
 
       try {
@@ -424,8 +426,9 @@ export const registerAgentProxyRoutes = (
         });
 
         logger.debug.log(
-          "Calling agent streaming endpoint with M2M token (correlation: %s)",
+          "Calling agent streaming endpoint with M2M token (correlation: %s, provider: %s)",
           correlationId,
+          req.body.aiConfig?.provider ?? "default",
         );
 
         // Make streaming request to agent service
@@ -592,6 +595,28 @@ export const registerAgentProxyRoutes = (
     },
   );
 
+  /**
+   * Reject unsupported HTTP methods for /chat/message
+   * POST only is supported
+   */
+  router.all("/chat/message", (_req: Request, res: Response) => {
+    res.status(405).json({
+      error: "Method not allowed",
+      message: "POST requests only",
+    });
+  });
+
+  /**
+   * Reject unsupported HTTP methods for /chat/message/stream
+   * POST only is supported
+   */
+  router.all("/chat/message/stream", (_req: Request, res: Response) => {
+    res.status(405).json({
+      error: "Method not allowed",
+      message: "POST requests only",
+    });
+  });
+
   // Health check for proxy
   router.get("/health", (_req, res) => {
     res.status(200).json({
@@ -600,4 +625,66 @@ export const registerAgentProxyRoutes = (
       timestamp: new Date().toISOString(),
     });
   });
+
+  /**
+   * GET /api/proxy/agent/providers
+   *
+   * Proxy provider listing to agent service.
+   * The agent is the source of truth for available providers/models.
+   * - Requires authentication (AdminRead permission)
+   */
+  router.get(
+    "/providers",
+    authenticationHandler([AdminRead.literals[0]])(ctx),
+    (req: Request, res: Response, next: NextFunction) => {
+      const correlationId = generateCorrelationId();
+
+      logger.info.log(
+        "Proxying providers list request (correlation: %s, user: %s)",
+        correlationId,
+        req.user?.id ?? "unknown",
+      );
+
+      pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
+            agent.Chat.Custom.ListProviders(),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error fetching providers: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          ),
+        ),
+        TE.fold(
+          (_error: unknown) => () => {
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to fetch providers from agent",
+            });
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "Providers list successful (correlation: %s)",
+              correlationId,
+            );
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
+        logger.error.log(
+          "Unexpected error in providers proxy: %O (correlation: %s)",
+          e,
+          correlationId,
+        );
+        next(e);
+      });
+    },
+  );
 };

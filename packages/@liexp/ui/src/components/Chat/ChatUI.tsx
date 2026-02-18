@@ -8,6 +8,7 @@ import { ChatInput } from "./ChatInput.js";
 import { ContentMessage } from "./ContentMessage.js";
 import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
+import { ProviderSelector } from "./ProviderSelector.js";
 import { StreamingMessage } from "./StreamingMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
@@ -127,6 +128,19 @@ export interface ChatUIProps {
     } | null;
     thinkingContent?: string;
   } | null;
+  /** Provider selector configuration */
+  providerSelector?: {
+    selectedProvider: string | null;
+    onProviderChange: (provider: string) => void;
+    selectedModel: string | null;
+    onModelChange: (model: string) => void;
+    getAuthToken?: () => string | null;
+  };
+  /** Last used provider information */
+  usedProvider?: {
+    provider: string;
+    model: string;
+  } | null;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -164,6 +178,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onToggleContext,
   contextLabel,
   streamingMessage,
+  providerSelector,
+  usedProvider,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
@@ -295,6 +311,19 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onSendMessage={onSendMessage}
               onToggleContext={onToggleContext}
             />
+
+            {providerSelector && (
+              <Box sx={{ px: 1.5, pb: 0.75 }}>
+                <ProviderSelector
+                  selectedProvider={providerSelector.selectedProvider as any}
+                  selectedModel={providerSelector.selectedModel}
+                  onProviderChange={providerSelector.onProviderChange}
+                  onModelChange={providerSelector.onModelChange}
+                  getAuthToken={providerSelector.getAuthToken}
+                  usedProvider={usedProvider}
+                />
+              </Box>
+            )}
           </ChatModal>,
           document.body,
         )}

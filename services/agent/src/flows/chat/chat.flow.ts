@@ -1,10 +1,12 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
+import { aiConfigToProviderOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type ChatResponse,
   type ChatMessage,
   type ResourceContext,
   type ChatStreamEvent,
+  type AIConfig,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -14,11 +16,30 @@ import { type AgentContext } from "../../context/context.type.js";
 // In-memory storage for conversations (in production, use a database)
 const conversations = new Map<string, ChatMessage[]>();
 
+/**
+ * Get or create an agent with optional provider override
+ * If no override provided, uses the default agent from context
+ */
+const getOrCreateAgent = (aiConfig?: AIConfig) => (ctx: AgentContext) => {
+  if (!aiConfig) {
+    // Use the default agent (bootstrapped at startup)
+    return TE.right(ctx.agent.agent);
+  }
+
+  // Create new agent with specified provider config
+  const override = aiConfigToProviderOverride(aiConfig);
+  return pipe(
+    ctx.agentFactory(override),
+    TE.mapLeft((error) => ServerError.fromUnknown(error)),
+  );
+};
+
 export const sendChatMessage =
   (payload: {
     message: string;
     conversation_id: string | null;
     resource_context?: ResourceContext;
+    aiConfig?: AIConfig;
   }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
     // Use existing conversation_id or generate a new one
@@ -32,20 +53,27 @@ export const sendChatMessage =
       : payload.message;
 
     return pipe(
-      ctx.agent.invoke(
-        {
-          messages: [enhancedMessage],
-        },
-        {
-          configurable: { thread_id: conversationId },
-          // Set recursion limit to prevent infinite loops in agent tool calling chains
-          recursionLimit: 10,
-        },
+      getOrCreateAgent(payload.aiConfig)(ctx),
+      TE.chain((agent) =>
+        TE.tryCatch(
+          () =>
+            agent.invoke(
+              {
+                messages: [enhancedMessage],
+              },
+              {
+                configurable: { thread_id: conversationId },
+                // Set recursion limit to prevent infinite loops in agent tool calling chains
+                recursionLimit: 10,
+              },
+            ),
+          (error) => ServerError.fromUnknown(error),
+        ),
       ),
-      TE.mapLeft((error) => ServerError.fromUnknown(error)),
       TE.map((result) => {
         // Extract the message content from the agent result
-        const lastMessage = result.messages[result.messages.length - 1];
+        const { messages } = result as { messages: AIMessage[] };
+        const lastMessage = messages[messages.length - 1];
         const content =
           typeof lastMessage?.content === "string"
             ? lastMessage.content
@@ -76,6 +104,12 @@ export const sendChatMessage =
         return {
           message: assistantMessage,
           conversationId,
+          usedProvider: payload.aiConfig
+            ? {
+                provider: payload.aiConfig.provider,
+                model: payload.aiConfig.model ?? "gpt-4o",
+              }
+            : undefined,
         };
       }),
     );
@@ -84,7 +118,7 @@ export const sendChatMessage =
 export const getChatConversation =
   (conversationId: string) =>
   (_ctx: AgentContext): TE.TaskEither<Error, ChatMessage[]> => {
-    return pipe(TE.right(conversations.get(conversationId) ?? []));
+    return TE.right(conversations.get(conversationId) ?? []);
   };
 
 export const listChatConversations =
@@ -103,25 +137,22 @@ export const listChatConversations =
       }[];
     }
   > => {
-    return pipe(
-      TE.right({
-        total: conversations.size,
-        data: Array.from(conversations.entries()).map(([id, messages]) => ({
-          id,
-          messages,
-          created_at: messages[0]?.timestamp ?? new Date().toISOString(),
-          updated_at:
-            messages[messages.length - 1]?.timestamp ??
-            new Date().toISOString(),
-        })),
-      }),
-    );
+    return TE.right({
+      total: conversations.size,
+      data: Array.from(conversations.entries()).map(([id, messages]) => ({
+        id,
+        messages,
+        created_at: messages[0]?.timestamp ?? new Date().toISOString(),
+        updated_at:
+          messages[messages.length - 1]?.timestamp ?? new Date().toISOString(),
+      })),
+    });
   };
 
 export const deleteChatConversation =
   (conversationId: string) =>
   (_ctx: AgentContext): TE.TaskEither<Error, boolean> => {
-    return pipe(TE.right(conversations.delete(conversationId)));
+    return TE.right(conversations.delete(conversationId));
   };
 
 /**
@@ -153,6 +184,7 @@ export const sendChatMessageStream = (payload: {
   message: string;
   conversation_id: string | null;
   resource_context?: ResourceContext;
+  aiConfig?: AIConfig;
 }) => {
   return async function* (ctx: AgentContext): AsyncGenerator<ChatStreamEvent> {
     const conversationId = payload.conversation_id ?? uuid();
@@ -166,16 +198,37 @@ export const sendChatMessageStream = (payload: {
       : payload.message;
 
     try {
-      // Signal message start
+      // Get or create agent with optional provider override
+      const agentResult = await getOrCreateAgent(payload.aiConfig)(ctx)();
+
+      if (agentResult._tag === "Left") {
+        // Error case
+        yield {
+          type: "error",
+          timestamp: new Date().toISOString(),
+          error: "Failed to create agent with requested provider",
+        } satisfies ChatStreamEvent;
+        return;
+      }
+
+      const agent = agentResult.right;
+
+      // Signal message start with provider info
       yield {
         type: "message_start",
         timestamp: new Date().toISOString(),
         message_id: messageId,
         role: "assistant",
+        usedProvider: payload.aiConfig
+          ? {
+              provider: payload.aiConfig.provider,
+              model: payload.aiConfig.model ?? "gpt-4o",
+            }
+          : undefined,
       } satisfies ChatStreamEvent;
 
       // Stream the agent's response
-      const streamResult = await ctx.agent.agent.stream(
+      const streamResult = await agent.stream(
         {
           messages: [enhancedMessage],
         },
@@ -402,6 +455,12 @@ export const sendChatMessageStream = (payload: {
         timestamp: new Date().toISOString(),
         message_id: messageId,
         content: finalContent,
+        usedProvider: payload.aiConfig
+          ? {
+              provider: payload.aiConfig.provider,
+              model: payload.aiConfig.model ?? "gpt-4o",
+            }
+          : undefined,
       } satisfies ChatStreamEvent;
     } catch (error) {
       ctx.logger.error.log("Stream error: %O", error);

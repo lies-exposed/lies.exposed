@@ -7,6 +7,7 @@ import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type AxiosInstance } from "axios";
+import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
@@ -24,7 +25,7 @@ export interface AgentAppTest {
  */
 const createMockAgentProvider = () => ({
   invoke: () =>
-    TE.right({
+    Promise.resolve({
       messages: [
         {
           id: "test-msg-id",
@@ -33,6 +34,15 @@ const createMockAgentProvider = () => ({
       ],
     }),
   agent: {
+    invoke: () =>
+      Promise.resolve({
+        messages: [
+          {
+            id: "test-msg-id",
+            content: "This is a test response from the agent",
+          },
+        ],
+      }),
     stream: function* () {
       yield [
         "messages",
@@ -75,6 +85,11 @@ export const loadAgentContext = async (
       puppeteerMock.devices,
     ),
     langchain: {} as any,
+    fs: {
+      getObject: (_path: string) => TE.right("# Mock AGENTS.md"),
+    } as any,
+    agentFactory: ((_override?: ProviderConfigOverride) =>
+      TE.right(createMockAgentProvider().agent)) as any,
     agent: createMockAgentProvider() as any,
   };
 
