@@ -1,6 +1,7 @@
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import * as io from "@liexp/io/lib/index.js";
+import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { MenuItem, Select, Stack, Typography } from "../../mui/index.js";
@@ -66,8 +67,8 @@ export const CreateEventFromLinksButton: React.FC = () => {
             setQueue(queue.data);
           });
       })
-      .catch((error) => {
-        notify(`Failed to create queue job: ${error.message}`, {
+      .catch((error: unknown) => {
+        notify(`Failed to create queue job: ${toAPIError(error).message}`, {
           type: "error",
         });
       });

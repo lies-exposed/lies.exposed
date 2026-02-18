@@ -1,6 +1,5 @@
 import { type FSError } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { type PuppeteerError } from "@liexp/backend/lib/providers/puppeteer.provider.js";
-import { fp } from "@liexp/core/lib/fp/index.js";
 import { APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import { type DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
@@ -8,7 +7,6 @@ import { type PDFError } from "@liexp/shared/lib/providers/pdf/pdf.provider.js";
 import { decodeIOErrorDetails } from "@liexp/shared/lib/utils/APIError.utils.js";
 import { IOError } from "@ts-endpoint/core";
 import { Schema } from "effect";
-import { pipe } from "fp-ts/lib/function.js";
 
 export type AIBotError =
   | DecodeError
@@ -19,16 +17,18 @@ export type AIBotError =
   | IOError;
 
 export const toAIBotError = (e: unknown): AIBotError => {
-  const isIOErrorSchema = pipe(
-    e,
-    Schema.decodeUnknownEither(IOErrorSchema),
-    fp.E.isRight,
-  );
+  // Check instanceof first — faster and more reliable than schema decode.
+  if (e instanceof IOError) {
+    return e;
+  }
 
-  if (isIOErrorSchema) {
+  // Fallback for cross-module-boundary cases where instanceof fails.
+  if (Schema.is(IOErrorSchema)(e)) {
     return e as IOError;
   }
 
+  // APIError is a plain schema-validated object (e.g. HTTP response from the API
+  // service) — it is not an IOError subclass, so check it separately.
   if (Schema.is(APIError)(e)) {
     return e;
   }
@@ -37,23 +37,18 @@ export const toAIBotError = (e: unknown): AIBotError => {
     return new IOError(`${e.name}: ${e.message}`, {
       kind: "ServerError",
       meta: [e.stack ?? ""],
-      status: e.name,
+      status: "500",
     });
   }
 
   return new IOError("Unknown error", {
     kind: "ServerError",
     meta: [JSON.stringify(e)],
-    status: "Unknown Error",
+    status: "500",
   });
 };
 
 export const report = (err: AIBotError): string => {
-  // console.log("Name", err.name);
-  // console.log("Status", err.status);
-  // console.log("Kind", err.details.kind);
-  // console.log("Cause", err.cause);
-
   const parsedError = !err.details
     ? []
     : Schema.is(Schema.Array(Schema.String))(err.details)

@@ -108,6 +108,9 @@ importers:
       express:
         specifier: ^5.1.0
         version: 5.2.1
+      express-jwt:
+        specifier: ^8.5.1
+        version: 8.5.1
       fluent-ffmpeg:
         specifier: ^2.1.2
         version: 2.1.3

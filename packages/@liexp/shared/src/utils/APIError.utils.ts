@@ -4,94 +4,83 @@ import {
   type APIStatusCode,
 } from "@liexp/io/lib/http/Error/APIError.js";
 import { IOErrorSchema } from "@liexp/io/lib/http/Error/IOError.js";
-import { IOError, type IOErrorDetails } from "@ts-endpoint/core";
+import {
+  IOError,
+  type IOErrorDetails,
+  type CommunicationError,
+  type DecodingError,
+  type KnownError,
+} from "@ts-endpoint/core";
 import { Schema } from "effect/index";
 import { pipe } from "fp-ts/lib/function.js";
 
-export const decodeIOErrorDetails = (
+type ErrorKind = DecodingError | CommunicationError | KnownError;
+
+const serializeMeta = (v: unknown): string =>
+  typeof v === "string" ? v : JSON.stringify(v);
+
+/**
+ * Converts IOErrorDetails to a string array, or undefined when there are no
+ * meaningful details to surface.
+ *
+ * - DecodingError: uses String() to preserve Effect ParseError formatting.
+ * - ClientError / ServerError / NetworkError / KnownError: serialises meta
+ *   values with JSON.stringify so structured objects are not lost as
+ *   "[object Object]".
+ */
+const detailsToStrings = (
   details: IOErrorDetails<any>,
-): string[] => {
-  return details.kind === "ServerError"
-    ? (details.meta as string[])
-    : details.kind === "DecodingError"
-      ? details.errors.map((e) => String(e))
-      : [];
+): string[] | undefined => {
+  if (details.kind === "DecodingError") {
+    return details.errors.length > 0 ? details.errors.map(String) : undefined;
+  }
+
+  // CommunicationError (ClientError / ServerError / NetworkError) and KnownError
+  const meta = (details as { meta?: unknown }).meta;
+  if (meta === undefined || meta === null) return undefined;
+  return Array.isArray(meta)
+    ? meta.map(serializeMeta).filter(Boolean)
+    : [serializeMeta(meta)];
 };
 
 /**
- * Maps IOError status to valid APIStatusCode.
- * Handles special cases like DecodingError (600 -> 400).
+ * Maps an IOError's numeric status and kind to a valid APIStatusCode.
+ * DecodingError uses the internal sentinel 600 — that is mapped to 400.
  */
 const mapStatusToAPIStatusCode = (
   status: number,
-  kind: string,
+  kind: ErrorKind,
 ): APIStatusCode => {
-  // DecodingError uses internal status 600, map to 400 Bad Request
-  if (kind === "DecodingError") {
-    return 400;
-  }
-  // Valid status codes pass through (regardless of kind)
-  if ([200, 201, 400, 401, 404, 500].includes(status)) {
+  if (kind === "DecodingError") return 400;
+  if (([200, 201, 400, 401, 403, 404, 500] as number[]).includes(status)) {
     return status as APIStatusCode;
   }
-  // NetworkError without valid status maps to 500
-  if (kind === "NetworkError") {
-    return 500;
-  }
-  // Fallback to 500 for unknown status
   return 500;
-};
-
-/**
- * Extracts details array from IOError based on its kind.
- */
-const extractDetails = (e: IOError): string[] | undefined => {
-  const { details } = e;
-
-  if (details.kind === "DecodingError") {
-    if (!details.errors) return undefined;
-    return Array.isArray(details.errors)
-      ? details.errors.map(String)
-      : [String(details.errors)];
-  }
-
-  // ClientError, ServerError, NetworkError, KnownError
-  if (details.meta === undefined) return undefined;
-  return Array.isArray(details.meta)
-    ? details.meta.map(String).filter(Boolean)
-    : [reportIOErrorDetails(details)];
 };
 
 export const fromIOError = (e: IOError): APIError => {
   return {
-    status: mapStatusToAPIStatusCode(e.status, e.details.kind),
+    status: mapStatusToAPIStatusCode(e.status, e.details.kind as ErrorKind),
     name: "APIError",
     message: e.message,
-    details: extractDetails(e),
+    details: detailsToStrings(e.details),
   };
 };
 
 /**
- * Converts any error to an APIError for HTTP response.
- * Uses schema validation for IOError detection (more robust than instanceof).
+ * Converts any unknown error to an APIError for HTTP response.
+ * Handles IOError instances, IOError-shaped plain objects (cross-module boundary
+ * fallback), generic Errors, and unknown values.
  */
 export const toAPIError = (e: unknown): APIError => {
-  // Already an APIError
-  if (Schema.is(APIError)(e)) {
-    return e;
-  }
+  if (Schema.is(APIError)(e)) return e;
 
-  // Handle IOError and all subclasses via instanceof (works when same module)
-  if (e instanceof IOError) {
-    return fromIOError(e);
-  }
+  if (e instanceof IOError) return fromIOError(e);
 
-  // Handle IOError-like objects via schema validation (works across module boundaries)
-  if (Schema.is(IOErrorSchema)(e)) {
-    return fromIOError(e as IOError);
-  }
+  // Fallback for cross-module boundary: instanceof may fail when the same
+  // package is loaded twice; schema validation catches those cases.
+  if (Schema.is(IOErrorSchema)(e)) return fromIOError(e as IOError);
 
-  // Handle generic Error instances
   if (e instanceof Error) {
     return {
       message: e.message,
@@ -101,7 +90,6 @@ export const toAPIError = (e: unknown): APIError => {
     };
   }
 
-  // Try to decode as APIError or fall back to unknown error
   return pipe(
     e,
     Schema.decodeUnknownEither(APIError),
@@ -116,12 +104,20 @@ export const toAPIError = (e: unknown): APIError => {
   );
 };
 
+/**
+ * Formats IOErrorDetails as a single newline-separated string for logging.
+ */
 export const reportIOErrorDetails = (details: IOErrorDetails<any>): string => {
-  const parsedError = !details
-    ? []
-    : Schema.is(Schema.Array(Schema.String))(details)
-      ? (details as unknown as string[])
-      : decodeIOErrorDetails(details);
+  if (!details) return "";
+  return (detailsToStrings(details) ?? []).join("\n");
+};
 
-  return parsedError.join("\n");
+/**
+ * Decodes IOErrorDetails to a string array.
+ * Handles all error kinds: DecodingError, ClientError, ServerError, NetworkError.
+ */
+export const decodeIOErrorDetails = (
+  details: IOErrorDetails<any>,
+): string[] => {
+  return detailsToStrings(details) ?? [];
 };
