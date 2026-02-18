@@ -5,10 +5,7 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import { describe, expect, it, beforeEach, vi } from "vitest";
 import { CssBaseline } from "../mui/index.js";
-import {
-  ProviderSelector,
-  type ProviderInfo,
-} from "./ProviderSelector.js";
+import { ProviderSelector, type ProviderInfo } from "./ProviderSelector.js";
 
 // Create a test theme
 const testTheme = createTheme();
