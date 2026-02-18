@@ -25,7 +25,7 @@ export interface AgentAppTest {
  */
 const createMockAgentProvider = () => ({
   invoke: () =>
-    TE.right({
+    Promise.resolve({
       messages: [
         {
           id: "test-msg-id",
@@ -34,6 +34,15 @@ const createMockAgentProvider = () => ({
       ],
     }),
   agent: {
+    invoke: () =>
+      Promise.resolve({
+        messages: [
+          {
+            id: "test-msg-id",
+            content: "This is a test response from the agent",
+          },
+        ],
+      }),
     stream: function* () {
       yield [
         "messages",

@@ -27,9 +27,9 @@
     "docker:dev": "node --watch build/run.js",
     "lint": "eslint --cache src",
     "start": "node build/run.js",
-    "test": "pnpm test:spec && pnpm test:e2e",
-    "test:spec": "vitest run -c vitest.config.spec.ts",
-    "test:e2e": "vitest run -c vitest.config.ts",
+    "test": "vitest",
+    "test:spec": "vitest --project spec",
+    "test:e2e": "vitest --project e2e",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
