@@ -193,6 +193,17 @@ Then proceed with: <actual task description>")
 
 **When to include it:** Any subagent that will read or write code in this repository.
 
+### Using Playwright MCP for Browser Automation
+
+The repository includes a Playwright MCP server running in Docker for UI testing and debugging.
+
+**Quick Start:**
+```bash
+docker compose up playwright-mcp.liexp.dev
+```
+
+For detailed usage, see `docs/playwright-mcp.md`.
+
 ### Development Best Practices and Priorities
 
 #### Common Pitfalls and Solutions

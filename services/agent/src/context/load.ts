@@ -264,21 +264,24 @@ export const makeAgentContext = (
           ),
         ),
         TE.chain((mcpClient) =>
-          GetAgentProvider({ mcpClient })({
-            langchain,
-            logger: agentLogger,
-            puppeteer: puppeteerProvider,
-            brave: braveProvider,
-          }),
+          pipe(
+            GetAgentProvider({ mcpClient })({
+              langchain,
+              logger: agentLogger,
+              puppeteer: puppeteerProvider,
+              brave: braveProvider,
+            }),
+            TE.map((agentProvider) => ({ agentProvider, mcpClient })),
+          ),
         ),
-        TE.map((agentProvider) => {
+        TE.map(({ agentProvider, mcpClient }) => {
           agentLogger.info.log("Agent provider initialized successfully");
 
           const fsClient = GetFSClient({ client: fs });
 
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
-            mcpClient: (agentProvider as any).mcpClient ?? null,
+            mcpClient,
           })({
             langchain,
             logger: agentLogger,
