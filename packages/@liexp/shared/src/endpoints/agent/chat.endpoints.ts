@@ -3,6 +3,7 @@ import {
   ChatRequest,
   ChatResponse,
   ChatStreamEvent,
+  ProvidersResponse,
 } from "@liexp/io/lib/http/Chat.js";
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { Endpoint, ResourceEndpoints, StreamOutput } from "@ts-endpoint/core";
@@ -71,6 +72,15 @@ export const SendMessageStream = Endpoint({
   Output: StreamOutput(ChatStreamEvent),
 });
 
+export const ListProviders = Endpoint({
+  Method: "GET",
+  getPath: () => "/providers",
+  Input: {},
+  Output: Output(ProvidersResponse).annotations({
+    title: "ProvidersResponse",
+  }),
+});
+
 export const chat = ResourceEndpoints({
   Get: GetConversation,
   List: ListConversations,
@@ -79,5 +89,6 @@ export const chat = ResourceEndpoints({
   Delete: DeleteConversation,
   Custom: {
     Stream: SendMessageStream,
+    ListProviders,
   },
 });

@@ -7,10 +7,6 @@ import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type AdminProxyENV } from "../io/ENV.js";
-import {
-  GetAIProviderRegistry,
-  type AIProviderRegistry,
-} from "../providers/aiProvider.registry.js";
 
 type TEControllerError<A> = TaskEither<ServerError, A>;
 
@@ -20,8 +16,6 @@ export interface AdminProxyContext {
   m2m: ReturnType<typeof makeM2MTokenProvider>;
   agent: ReturnType<typeof makeAgentClient>;
   env: AdminProxyENV;
-  // AI provider registry for validation and metadata
-  aiRegistry: AIProviderRegistry;
 }
 
 /**
@@ -32,7 +26,6 @@ export interface AdminProxyContext {
  * - JWT provider with shared secret
  * - M2M token provider for ServiceClient auth
  * - Agent HTTP client with M2M auth
- * - AI provider registry for provider validation and configuration
  */
 export const makeAdminProxyContext = (
   env: AdminProxyENV,
@@ -92,7 +85,6 @@ export const makeAdminProxyContext = (
       m2m,
       agent,
       env,
-      aiRegistry: GetAIProviderRegistry(env, logger),
     })),
   );
 };

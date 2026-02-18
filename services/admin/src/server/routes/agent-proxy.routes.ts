@@ -3,7 +3,6 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { makeRateLimiter } from "@liexp/backend/lib/express/middleware/rateLimit.factory.js";
 import { generateCorrelationId } from "@liexp/backend/lib/utils/correlation.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type AIProvider } from "@liexp/io/lib/http/Chat.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import {
   type NextFunction,
@@ -18,7 +17,7 @@ export const registerAgentProxyRoutes = (
   router: Router,
   ctx: AdminProxyContext,
 ): void => {
-  const { logger, m2m, agent, env, aiRegistry } = ctx;
+  const { logger, m2m, agent, env } = ctx;
 
   // Rate limiter (per authenticated user)
   const chatRateLimiter = makeRateLimiter({
@@ -57,46 +56,22 @@ export const registerAgentProxyRoutes = (
     auditMiddleware,
     (req: Request, res: Response, next: NextFunction) => {
       const correlationId = generateCorrelationId();
-      const aiConfig = req.body.aiConfig as any;
 
       logger.info.log(
         "Proxying chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
-        aiConfig?.provider ?? "default",
+        req.body.aiConfig?.provider ?? "default",
       );
 
-      // Prepare validation
-      const validateAndProxy = pipe(
+      // Pass request through to agent — let it handle validation
+      const proxyToAgent = pipe(
         TE.fromIO(() => m2m.getToken()),
-        TE.chain(() => {
-          // Validate aiConfig if provided
-          if (aiConfig) {
-            return aiRegistry.validate({
-              provider: aiConfig.provider,
-              model: aiConfig.model,
-            });
-          }
-          return TE.right(undefined);
-        }),
-        TE.chain((validatedConfig) => {
-          logger.debug.log(
-            "Calling agent service with M2M token (correlation: %s, validated config: %O)",
-            correlationId,
-            validatedConfig,
-          );
-
-          // Prepare request body with validated config
-          const requestBody = {
-            ...req.body,
-            ...(validatedConfig && { aiConfig: validatedConfig }),
-          };
-
-          // Call agent service
-          return pipe(
+        TE.chain(() =>
+          pipe(
             agent.Chat.Create({
-              Body: requestBody,
+              Body: req.body,
             }),
             TE.mapLeft((error) => {
               logger.error.log(
@@ -106,11 +81,11 @@ export const registerAgentProxyRoutes = (
               );
               return error;
             }),
-          );
-        }),
+          ),
+        ),
       );
 
-      validateAndProxy()
+      proxyToAgent()
         .then((result) => {
           if (result._tag === "Left") {
             const error = result.left as any;
@@ -429,39 +404,16 @@ export const registerAgentProxyRoutes = (
     auditMiddleware,
     async (req: Request, res: Response) => {
       const correlationId = generateCorrelationId();
-      const aiConfig = req.body.aiConfig as any;
 
       logger.info.log(
         "Proxying streaming chat request (correlation: %s, user: %s, ip: %s, provider: %s)",
         correlationId,
         req.user?.id ?? "unknown",
         req.ip,
-        aiConfig?.provider ?? "default",
+        req.body.aiConfig?.provider ?? "default",
       );
 
       try {
-        // Validate aiConfig if provided
-        if (aiConfig) {
-          const validationResult = await aiRegistry.validate({
-            provider: aiConfig.provider,
-            model: aiConfig.model,
-          })();
-
-          if (validationResult._tag === "Left") {
-            const error = validationResult.left as any;
-            logger.warn.log(
-              "Provider validation failed during streaming: %O (correlation: %s)",
-              error.message,
-              correlationId,
-            );
-            res.status(400).json({
-              error: "Invalid provider configuration",
-              message: error.message,
-            });
-            return;
-          }
-        }
-
         // Get M2M token
         const token = m2m.getToken()();
 
@@ -664,119 +616,62 @@ export const registerAgentProxyRoutes = (
   /**
    * GET /api/proxy/agent/providers
    *
-   * List available AI providers with their metadata
+   * Proxy provider listing to agent service.
+   * The agent is the source of truth for available providers/models.
    * - Requires authentication (AdminRead permission)
-   * - Returns list of providers, models, and availability status
    */
   router.get(
     "/providers",
     authenticationHandler([AdminRead.literals[0]])(ctx),
-    async (req: Request, res: Response, _next: NextFunction) => {
+    (req: Request, res: Response, next: NextFunction) => {
       const correlationId = generateCorrelationId();
 
       logger.info.log(
-        "Fetching available providers (correlation: %s, user: %s)",
+        "Proxying providers list request (correlation: %s, user: %s)",
         correlationId,
         req.user?.id ?? "unknown",
       );
 
-      try {
-        const availableProviders = aiRegistry.listAvailable();
-        const providerInfos: any[] = [];
-
-        for (const provider of availableProviders) {
-          const infoResult = await aiRegistry.getInfo(provider)();
-          if (infoResult._tag === "Right") {
-            providerInfos.push({
-              provider,
-              info: infoResult.right,
+      pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
+            agent.Chat.Custom.ListProviders({}),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error fetching providers: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          ),
+        ),
+        TE.fold(
+          (_error: unknown) => () => {
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to fetch providers from agent",
             });
-          }
-        }
-
-        logger.info.log(
-          "Successfully retrieved %d available providers (correlation: %s)",
-          providerInfos.length,
-          correlationId,
-        );
-
-        res.status(200).json({
-          providers: providerInfos,
-          count: providerInfos.length,
-          timestamp: new Date().toISOString(),
-        });
-      } catch (error) {
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "Providers list successful (correlation: %s)",
+              correlationId,
+            );
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
         logger.error.log(
-          "Error fetching providers: %O (correlation: %s)",
-          error,
+          "Unexpected error in providers proxy: %O (correlation: %s)",
+          e,
           correlationId,
         );
-        res.status(500).json({
-          error: "Internal server error",
-          message: "Failed to fetch providers",
-        });
-      }
-    },
-  );
-
-  /**
-   * GET /api/proxy/agent/providers/:provider
-   *
-   * Get detailed information about a specific provider
-   * - Requires authentication (AdminRead permission)
-   * - Returns provider metadata, models, and availability status
-   */
-  router.get(
-    "/providers/:provider",
-    authenticationHandler([AdminRead.literals[0]])(ctx),
-    async (req: Request, res: Response, _next: NextFunction) => {
-      const { provider } = req.params;
-      const correlationId = generateCorrelationId();
-
-      logger.info.log(
-        "Fetching provider info (correlation: %s, provider: %s, user: %s)",
-        correlationId,
-        provider,
-        req.user?.id ?? "unknown",
-      );
-
-      try {
-        const infoResult = await aiRegistry.getInfo(provider as AIProvider)();
-        if (infoResult._tag === "Left") {
-          logger.warn.log(
-            "Provider not found: %s (correlation: %s)",
-            provider,
-            correlationId,
-          );
-          res.status(404).json({
-            error: "Provider not found",
-            message: `Provider "${provider}" does not exist`,
-          });
-          return;
-        }
-
-        logger.info.log(
-          "Successfully retrieved provider info (correlation: %s, provider: %s)",
-          correlationId,
-          provider,
-        );
-
-        res.status(200).json({
-          provider,
-          info: infoResult.right,
-          timestamp: new Date().toISOString(),
-        });
-      } catch (error) {
-        logger.error.log(
-          "Error fetching provider info: %O (correlation: %s)",
-          error,
-          correlationId,
-        );
-        res.status(500).json({
-          error: "Internal server error",
-          message: "Failed to fetch provider info",
-        });
-      }
+        next(e);
+      });
     },
   );
 };

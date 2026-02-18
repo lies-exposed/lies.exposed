@@ -250,3 +250,29 @@ export const ChatStreamEvent = Schema.Struct({
 });
 
 export type ChatStreamEvent = typeof ChatStreamEvent.Type;
+
+// Provider information schema
+export const ProviderInfo = Schema.Struct({
+  name: AIProvider,
+  description: Schema.String,
+  available: Schema.Boolean,
+  models: Schema.Array(AvailableModels),
+  defaultModel: AvailableModels,
+}).annotations({
+  title: "ProviderInfo",
+  description: "Information about an AI provider and its available models",
+});
+
+export type ProviderInfo = typeof ProviderInfo.Type;
+
+// Provider list response
+export const ProvidersResponse = Schema.Struct({
+  providers: Schema.Array(ProviderInfo),
+  count: Schema.Number,
+  timestamp: Schema.String,
+}).annotations({
+  title: "ProvidersResponse",
+  description: "Response containing available AI providers",
+});
+
+export type ProvidersResponse = typeof ProvidersResponse.Type;
