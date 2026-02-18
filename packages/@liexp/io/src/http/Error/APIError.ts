@@ -6,6 +6,7 @@ export const APIStatusCode = Schema.Union(
   Schema.Literal(201),
   Schema.Literal(400),
   Schema.Literal(401),
+  Schema.Literal(403),
   Schema.Literal(404),
   Schema.Literal(500),
 ).annotations({
