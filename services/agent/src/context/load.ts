@@ -65,8 +65,10 @@ export const makeAgentContext = (
       // Provider can be overridden per-message via aiConfig in chat flow
       const getLangchainConfig = () => {
         const provider = defaultProvider;
-        agentLogger.debug.log(`Initializing Langchain with default provider: ${provider}`);
-        
+        agentLogger.debug.log(
+          `Initializing Langchain with default provider: ${provider}`,
+        );
+
         switch (provider) {
           case "openai":
             return {
@@ -101,9 +103,10 @@ export const makeAgentContext = (
                 embeddings: "grok-4-fast" as const,
               },
             };
-          default:
+          default: {
             const exhaustiveCheck: never = provider;
             throw new Error(`Unsupported AI provider: ${exhaustiveCheck}`);
+          }
         }
       };
 
