@@ -1,11 +1,9 @@
 import { type Color } from "@liexp/io/lib/http/Common/Color.js";
 
 export const generateRandomColor = (): Color => {
-  const c = Math.floor(Math.random() * 16777215).toString(16);
-  if (c.length === 5) {
-    return c.concat("1") as Color;
-  }
-  return c as Color;
+  return Math.floor(Math.random() * 16777215)
+    .toString(16)
+    .padStart(6, "0") as Color;
 };
 
 export const toColor = (s: string): Color =>
