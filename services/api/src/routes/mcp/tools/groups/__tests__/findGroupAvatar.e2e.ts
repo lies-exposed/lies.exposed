@@ -14,8 +14,8 @@ describe("MCP FIND_GROUP_AVATAR Tool", () => {
 
   test("Should return error when group not found on Wikipedia", async () => {
     // Mock Wikipedia search to return a function that resolves with an error
-    Test.mocks.wiki.search.mockReturnValueOnce(async () =>
-      E.left(new Error("Not found")),
+    Test.mocks.wiki.search.mockReturnValueOnce(() =>
+      Promise.resolve(E.left(new Error("Not found"))),
     );
 
     const result = await pipe(
@@ -32,8 +32,8 @@ describe("MCP FIND_GROUP_AVATAR Tool", () => {
 
   test("Should handle Wikipedia search errors gracefully", async () => {
     // Mock Wikipedia search to return a function that resolves with an error
-    Test.mocks.wiki.search.mockReturnValueOnce(async () =>
-      E.left(new Error("API Error")),
+    Test.mocks.wiki.search.mockReturnValueOnce(() =>
+      Promise.resolve(E.left(new Error("API Error"))),
     );
 
     const result = await pipe(
@@ -49,17 +49,19 @@ describe("MCP FIND_GROUP_AVATAR Tool", () => {
 
   test("Should return error when no image found on Wikipedia", async () => {
     // Mock Wikipedia search to return a function that resolves with success
-    Test.mocks.wiki.search.mockReturnValueOnce(async () =>
-      E.right([{ title: "Test Group", pageid: 123 }]),
+    Test.mocks.wiki.search.mockReturnValueOnce(() =>
+      Promise.resolve(E.right([{ title: "Test Group", pageid: 123 }])),
     );
     // Mock article summary without an image
-    Test.mocks.wiki.articleSummary.mockReturnValueOnce(async () =>
-      E.right({
-        title: "Test Group",
-        intro: "A test group",
-        thumbnail: undefined,
-        originalimage: undefined,
-      }),
+    Test.mocks.wiki.articleSummary.mockReturnValueOnce(() =>
+      Promise.resolve(
+        E.right({
+          title: "Test Group",
+          intro: "A test group",
+          thumbnail: undefined,
+          originalimage: undefined,
+        }),
+      ),
     );
 
     const result = await pipe(
@@ -76,25 +78,27 @@ describe("MCP FIND_GROUP_AVATAR Tool", () => {
 
   test("Should respect preferHighRes option", async () => {
     // Mock Wikipedia search
-    Test.mocks.wiki.search.mockReturnValueOnce(async () =>
-      E.right([{ title: "United Nations", pageid: 123 }]),
+    Test.mocks.wiki.search.mockReturnValueOnce(() =>
+      Promise.resolve(E.right([{ title: "United Nations", pageid: 123 }])),
     );
     // Mock article summary with both high-res and thumbnail
-    Test.mocks.wiki.articleSummary.mockReturnValueOnce(async () =>
-      E.right({
-        title: "United Nations",
-        intro: "International organization",
-        thumbnail: {
-          source: "https://example.com/thumb.jpg",
-          width: 100,
-          height: 100,
-        },
-        originalimage: {
-          source: "https://example.com/orig.jpg",
-          width: 1000,
-          height: 1000,
-        },
-      }),
+    Test.mocks.wiki.articleSummary.mockReturnValueOnce(() =>
+      Promise.resolve(
+        E.right({
+          title: "United Nations",
+          intro: "International organization",
+          thumbnail: {
+            source: "https://example.com/thumb.jpg",
+            width: 100,
+            height: 100,
+          },
+          originalimage: {
+            source: "https://example.com/orig.jpg",
+            width: 1000,
+            height: 1000,
+          },
+        }),
+      ),
     );
 
     // Test with preferHighRes = true (should prefer originalimage)
@@ -115,21 +119,23 @@ describe("MCP FIND_GROUP_AVATAR Tool", () => {
     Test.mocks.wiki.articleSummary.mockClear();
 
     // Mock Wikipedia search again for low-res test
-    Test.mocks.wiki.search.mockReturnValueOnce(async () =>
-      E.right([{ title: "United Nations", pageid: 123 }]),
+    Test.mocks.wiki.search.mockReturnValueOnce(() =>
+      Promise.resolve(E.right([{ title: "United Nations", pageid: 123 }])),
     );
     // Mock article summary with only thumbnail
-    Test.mocks.wiki.articleSummary.mockReturnValueOnce(async () =>
-      E.right({
-        title: "United Nations",
-        intro: "International organization",
-        thumbnail: {
-          source: "https://example.com/thumb.jpg",
-          width: 100,
-          height: 100,
-        },
-        originalimage: undefined,
-      }),
+    Test.mocks.wiki.articleSummary.mockReturnValueOnce(() =>
+      Promise.resolve(
+        E.right({
+          title: "United Nations",
+          intro: "International organization",
+          thumbnail: {
+            source: "https://example.com/thumb.jpg",
+            width: 100,
+            height: 100,
+          },
+          originalimage: undefined,
+        }),
+      ),
     );
 
     // Test with preferHighRes = false (should fallback to thumbnail)
