@@ -9,11 +9,13 @@ import { Box, Typography } from "../mui/index.js";
 export interface ActorFamilyTreeProps {
   actorId: UUID;
   height?: number;
+  onActorClick?: (id: string) => void;
 }
 
 export const ActorFamilyTree: React.FC<ActorFamilyTreeProps> = ({
   actorId,
   height = 600,
+  onActorClick,
 }) => {
   const Queries = useEndpointQueries();
   const { data, isLoading, error } = Queries.ActorRelation.Custom.Tree.useQuery(
@@ -55,7 +57,11 @@ export const ActorFamilyTree: React.FC<ActorFamilyTreeProps> = ({
         overflow: "hidden",
       }}
     >
-      <EntitreeGraph tree={entitreeMap} rootId={actorId} />
+      <EntitreeGraph
+        tree={entitreeMap}
+        rootId={actorId}
+        onActorClick={onActorClick}
+      />
     </Box>
   );
 };

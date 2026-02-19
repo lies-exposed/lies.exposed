@@ -36,12 +36,27 @@ const legendStyle: React.CSSProperties = {
   border: "1px solid #eee",
 };
 
+const emptyStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  height: "100%",
+  color: "#999",
+  fontSize: 13,
+};
+
 interface EntitreeGraphProps {
   tree: any;
   rootId: string;
+  onActorClick?: (id: string) => void;
 }
 
-const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({ tree, rootId }) => {
+const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({
+  tree,
+  rootId,
+  onActorClick,
+}) => {
   const { fitView } = useReactFlow();
 
   const { nodes: initialLayoutedNodes, edges: initialLayoutedEdges } =
@@ -91,6 +106,15 @@ const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({ tree, rootId }) => {
     [tree, rootId, fitView],
   );
 
+  if (nodes.length === 0) {
+    return (
+      <div style={emptyStyle}>
+        No graph data — the family tree may be empty or contain invalid
+        relations.
+      </div>
+    );
+  }
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -98,10 +122,17 @@ const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({ tree, rootId }) => {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onNodeClick={
+        onActorClick ? (_, node) => onActorClick(node.id) : undefined
+      }
       connectionLineType={ConnectionLineType.SmoothStep}
       fitView
       nodeTypes={nodeTypes}
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        cursor: onActorClick ? "pointer" : undefined,
+      }}
     >
       <Panel position="top-right">
         <button onClick={() => onLayout("TB")}>vertical layout</button>

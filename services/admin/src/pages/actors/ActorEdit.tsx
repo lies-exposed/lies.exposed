@@ -44,6 +44,7 @@ import { type Option } from "effect/Option";
 import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
+import { useNavigate } from "react-router";
 import { SelectActorRelationTypeInput } from "../AdminActorRelation.js";
 import { transformActor } from "./ActorCreate.js";
 
@@ -64,12 +65,18 @@ const EditActions: React.FC = () => {
 
 const FamilyTreeTab: React.FC = () => {
   const record = useRecordContext<Actor>();
+  const navigate = useNavigate();
 
   if (!record?.id) {
     return null;
   }
 
-  return <ActorFamilyTree actorId={record.id} />;
+  return (
+    <ActorFamilyTree
+      actorId={record.id}
+      onActorClick={(id) => void navigate(`/actors/${id}`)}
+    />
+  );
 };
 
 const ActorEdit: React.FC<EditProps> = (props) => {
