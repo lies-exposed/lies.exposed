@@ -17,6 +17,7 @@ export interface ActorTreeNode {
   bornOn: string | null;
   diedOn: string | null;
   children: string[];
+  parents: string[];
   spouses: string[];
   partners: string[];
   siblings: string[];
@@ -34,6 +35,7 @@ export interface EntitreeNode {
   bornOn?: string | null;
   diedOn?: string | null;
   children: string[];
+  parents: string[];
   spouses: string[];
   siblings: string[];
   /** IDs that are partners (subset of siblings, used for styling) */
@@ -56,6 +58,7 @@ export const toEntitreeMap = (treeData: ActorTreeMap): EntitreeMap => {
         bornOn: node.bornOn,
         diedOn: node.diedOn,
         children: node.children ?? [],
+        parents: node.parents ?? [],
         // Keep only actual spouses on the right (nextAfter)
         spouses: node.spouses ?? [],
         // Merge partners into siblings for left-side layout (nextBefore)

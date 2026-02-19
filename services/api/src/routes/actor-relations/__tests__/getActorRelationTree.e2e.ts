@@ -116,6 +116,9 @@ describe("Get Actor Relation Tree", () => {
     // Check children
     expect(tree[rootActor.id].children).toContain(actors[3].id);
 
+    // Check parents — actors[0] is the grandparent (parent of actors[1])
+    expect(tree[rootActor.id].parents).toContain(actors[0].id);
+
     // Check spouses
     expect(tree[rootActor.id].spouses).toContain(actors[2].id);
 
