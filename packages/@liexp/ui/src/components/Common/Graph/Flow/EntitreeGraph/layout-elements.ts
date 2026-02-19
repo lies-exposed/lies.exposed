@@ -60,16 +60,25 @@ export const layoutElements = (
 ): { nodes: Node[]; edges: Edge[] } => {
   const isTreeHorizontal = direction === "LR";
 
-  const { nodes: entitreeNodes, rels: entitreeEdges } = layoutFromMap<any>(
-    rootId,
-    tree,
-    {
+  let entitreeNodes: any[];
+  let entitreeEdges: any[];
+  try {
+    const result = layoutFromMap<any>(rootId, tree, {
       ...entitreeSettings,
       orientation: isTreeHorizontal
         ? Orientation.Horizontal
         : Orientation.Vertical,
-    },
-  );
+    });
+    entitreeNodes = result.nodes;
+    entitreeEdges = result.rels;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(
+      "[EntitreeGraph] layoutFromMap failed (likely circular relation data):",
+      e,
+    );
+    return { nodes: [], edges: [] };
+  }
 
   const nodes: Node[] = [];
   const edges: Edge[] = [];

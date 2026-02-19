@@ -40,8 +40,8 @@ const Edit = Endpoint({
   Input: {
     Params: Schema.Struct({ id: UUID }),
     Body: nonEmptyRecordFromType({
-      actor: OptionFromNullishToNull(Schema.String),
-      relatedActor: OptionFromNullishToNull(Schema.String),
+      actor: OptionFromNullishToNull(UUID),
+      relatedActor: OptionFromNullishToNull(UUID),
       type: OptionFromNullishToNull(IO.ActorRelation.ActorRelationType),
       startDate: OptionFromNullishToNull(Schema.Date),
       endDate: OptionFromNullishToNull(Schema.Date),

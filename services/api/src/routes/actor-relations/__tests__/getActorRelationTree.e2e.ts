@@ -160,4 +160,51 @@ describe("Get Actor Relation Tree", () => {
     expect(tree[lonelyActor.id].spouses).toEqual([]);
     expect(tree[lonelyActor.id].siblings).toEqual([]);
   });
+
+  test("Should return a cycle-free tree when cyclic PARENT_CHILD relations exist in DB", async () => {
+    const [cycleA, cycleB] = tests.fc.sample(ActorArb, 2).map(toActorEntity);
+    await throwTE(Test.ctx.db.save(ActorEntity, [cycleA, cycleB]));
+
+    // Insert the cycle directly into the DB (bypassing API validation)
+    await throwTE(
+      Test.ctx.db.save(ActorRelationEntity, [
+        {
+          id: tests.fc.sample(UUIDArb, 1)[0],
+          actor: cycleA,
+          relatedActor: cycleB,
+          type: ActorRelationType.members[0].literals[0],
+          startDate: new Date(),
+          endDate: null,
+          excerpt: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+        {
+          id: tests.fc.sample(UUIDArb, 1)[0],
+          actor: cycleB,
+          relatedActor: cycleA,
+          type: ActorRelationType.members[0].literals[0],
+          startDate: new Date(),
+          endDate: null,
+          excerpt: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+      ]),
+    );
+
+    const response = await Test.req
+      .get(`/v1/actor-relations/tree/${cycleA.id}`)
+      .set("Authorization", authorizationToken);
+
+    expect(response.status).toEqual(200);
+
+    const tree = response.body.data;
+    // cycleA is the root: it sees cycleB as a child
+    expect(tree[cycleA.id].children).toContain(cycleB.id);
+    // cycleB must NOT list cycleA as its child (back-edge stripped)
+    expect(tree[cycleB.id].children).not.toContain(cycleA.id);
+  });
 });

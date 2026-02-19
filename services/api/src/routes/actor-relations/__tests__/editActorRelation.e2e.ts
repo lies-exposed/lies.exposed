@@ -122,4 +122,55 @@ describe("Edit Actor Relation", () => {
     expect(response.status).toEqual(200);
     expect(response.body.data.excerpt).toBeTruthy();
   });
+
+  test("Should return 400 when edit would create a PARENT_CHILD cycle", async () => {
+    const [a, b, c] = tests.fc.sample(ActorArb, 3).map(toActorEntity);
+    await throwTE(Test.ctx.db.save(ActorEntity, [a, b, c]));
+
+    // Existing: A → B (A is parent of B)
+    const existingId = tests.fc.sample(UUIDArb, 1)[0];
+    await throwTE(
+      Test.ctx.db.save(ActorRelationEntity, [
+        {
+          id: existingId,
+          actor: a,
+          relatedActor: b,
+          type: ActorRelationType.members[0].literals[0],
+          startDate: new Date(),
+          endDate: null,
+          excerpt: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+      ]),
+    );
+
+    // A separate relation C → A that we will edit into B → A
+    const editableId = tests.fc.sample(UUIDArb, 1)[0];
+    await throwTE(
+      Test.ctx.db.save(ActorRelationEntity, [
+        {
+          id: editableId,
+          actor: c,
+          relatedActor: a,
+          type: ActorRelationType.members[0].literals[0],
+          startDate: new Date(),
+          endDate: null,
+          excerpt: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+        },
+      ]),
+    );
+
+    // Edit C → A to become B → A (would create cycle: A→B and B→A)
+    const response = await Test.req
+      .put(`/v1/actor-relations/${editableId}`)
+      .set("Authorization", authorizationToken)
+      .send({ actor: b.id, relatedActor: a.id });
+
+    expect(response.status).toEqual(400);
+  });
 });

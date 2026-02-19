@@ -139,9 +139,13 @@ export const buildActorRelationTree = <
                   : null,
               bornOn: (actor.bornOn as any) ?? null,
               diedOn: (actor.diedOn as any) ?? null,
-              children,
-              spouses,
-              partners,
+              // Filter out ancestor IDs to prevent cycles in the returned flat
+              // map. entitree-flex's drillChildren has no cycle detection, so
+              // a back-edge (B.children includes A when A is B's ancestor) would
+              // cause infinite recursion in the frontend layout algorithm.
+              children: children.filter((id) => !visited.has(id)),
+              spouses: spouses.filter((id) => !visited.has(id)),
+              partners: partners.filter((id) => !visited.has(id)),
               siblings,
             };
 

@@ -113,7 +113,6 @@ export const transformActor =
         pipe(
           newRelationsAsSource.map((r: any) =>
             fp.TE.tryCatch(() => {
-              console.log("r", r);
               return dataProvider.create("actor-relations", {
                 data: transformActorRelation({
                   ...r,
