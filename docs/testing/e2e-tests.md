@@ -255,6 +255,28 @@ it("should enforce permission requirements", async () => {
 - Mock the HTTP layer in E2E tests
 - Test implementation details instead of API behavior
 
+## Test Infrastructure
+
+API e2e tests run against **PGlite** — an in-memory PostgreSQL WASM instance. No Docker or external database is required.
+
+### Isolation model
+
+Test isolation uses transaction rollback, not table truncation:
+
+| Hook | Runs inside transaction? | Data persists after file? |
+|------|--------------------------|---------------------------|
+| `beforeAll` | No | Yes — committed to the worker's PGlite instance |
+| `beforeEach` | Starts one | — |
+| `afterEach` | Rolls it back | No |
+
+**Rule of thumb**: data you save in `beforeAll` (e.g. a fixture avatar) is visible to all tests in the file. Data created inside a test is rolled back automatically after `afterEach` (~1-5 ms).
+
+### PGlite gotchas
+
+- **`varchar` columns require a string.** Passing `[]` (an array) for a `varchar` column (`StoryEntity.body`) fails with "Invalid input for string type". Use `""` or `null` instead.
+- **`Color` schema requires exactly 6 hex chars, no `#`.** Use `generateRandomColor()` from `@liexp/shared/lib/utils/colors.js` — never inline `#${Math.random()...}`.
+- **`unaccent` extension** is loaded automatically by `pglite-datasource.ts`; no migration needed in tests.
+
 ## Running API E2E Tests
 
 ```bash
