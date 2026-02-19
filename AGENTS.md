@@ -506,6 +506,71 @@ helm/
 5. **Fact Scoring**: Claims are evaluated for veracity
 6. **Publication**: Structured events are created in the system
 
+### Actor & Group Creation with Avatars
+
+When creating actors or groups, the agent can automatically find and download avatars from Wikipedia. This workflow ensures complete entity profiles.
+
+#### For Creating Actors with Avatars:
+1. **Find Avatar**: Call `findActorAvatar` with the actor's full name
+   - Returns media ID and avatar URL from Wikipedia
+   - Automatically downloads and uploads the image to storage
+2. **Create Actor**: Call `createActor` with the actor's information
+   - Use the media ID from step 1 in `config.avatar` parameter
+   - This ensures the actor has a profile image
+
+**Example Workflow:**
+```
+Agent: findActorAvatar(fullName: "Barack Obama")
+Returns: { media_id: "uuid123", content: [...markdown...] }
+
+Agent: createActor({
+  name: "Barack Obama",
+  config: { avatar: "uuid123" }  // Use the media ID
+})
+Returns: Created actor with avatar
+```
+
+#### For Creating Groups with Avatars:
+1. **Find Avatar**: Call `findGroupAvatar` with the group/organization name
+   - Returns media ID and avatar URL from Wikipedia
+   - Automatically downloads and uploads the image to storage
+2. **Create Group**: Call `createGroup` with the group's information
+   - Use the media ID from step 1 in `config.avatar` parameter
+   - This ensures the group has a profile image/logo
+
+**Example Workflow:**
+```
+Agent: findGroupAvatar(name: "United Nations")
+Returns: { media_id: "uuid456", content: [...markdown...] }
+
+Agent: createGroup({
+  name: "United Nations",
+  config: { avatar: "uuid456" }  // Use the media ID
+})
+Returns: Created group with avatar
+```
+
+#### Tool Details
+
+**`findActorAvatar` Tool:**
+- **Input**: `fullName` (required), `preferHighRes` (optional, default: true)
+- **Output**: Media ID and markdown-formatted information
+- **Use When**: Creating actors and wanting their Wikipedia profile image
+- **Error Handling**: Returns descriptive errors if actor not found or no image available
+
+**`findGroupAvatar` Tool:**
+- **Input**: `name` (required), `preferHighRes` (optional, default: true)
+- **Output**: Media ID and markdown-formatted information
+- **Use When**: Creating groups/organizations and wanting their Wikipedia logo/image
+- **Error Handling**: Returns descriptive errors if group not found or no image available
+
+#### Important Notes
+- Both tools search Wikipedia by name and extract profile images
+- High-resolution images are preferred by default (`preferHighRes: true`)
+- If high-res unavailable, the tool automatically falls back to thumbnails
+- The returned media ID can be used immediately with `createActor` or `createGroup`
+- Always call the avatar tool before creating the entity to ensure the media is uploaded first
+
 ### OpenAI Structured Output Requirements
 
 **CRITICAL**: When using OpenAI's structured output feature with Zod schemas, all properties must be required. OpenAI does not support optional properties in structured output schemas.

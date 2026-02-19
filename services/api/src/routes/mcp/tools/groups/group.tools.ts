@@ -3,6 +3,7 @@ import {
   EDIT_GROUP,
   FIND_GROUPS,
   GET_GROUP,
+  FIND_GROUP_AVATAR,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { effectToZodStruct } from "@liexp/shared/lib/utils/schema.utils.js";
@@ -11,6 +12,10 @@ import { flow, pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../../context/context.type.js";
 import { createGroupToolTask, CreateInputSchema } from "./createGroup.tool.js";
 import { editGroupToolTask, EditInputSchema } from "./editGroup.tool.js";
+import {
+  FindGroupAvatarInputSchema,
+  findGroupAvatarToolTask,
+} from "./findGroupAvatar.tool.js";
 import {
   FindGroupsInputSchema,
   findGroupsToolTask,
@@ -88,6 +93,24 @@ export const registerGroupTools = (server: McpServer, ctx: ServerContext) => {
           startDate: input.startDate,
           endDate: input.endDate,
           members: input.members,
+        }),
+        throwRTE(ctx),
+      ),
+  );
+
+  server.registerTool(
+    FIND_GROUP_AVATAR,
+    {
+      title: "Find group avatar",
+      description:
+        "Search Wikipedia for a group/organization and retrieve its profile image. Returns media ID for use with createGroup.",
+      annotations: { title: "Find group avatar" },
+      inputSchema: effectToZodStruct(FindGroupAvatarInputSchema),
+    },
+    (input) =>
+      pipe(
+        findGroupAvatarToolTask({
+          ...input,
         }),
         throwRTE(ctx),
       ),

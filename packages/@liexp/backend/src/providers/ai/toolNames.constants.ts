@@ -12,12 +12,14 @@ export const FIND_ACTORS = "findActors";
 export const GET_ACTOR = "getActor";
 export const CREATE_ACTOR = "createActor";
 export const EDIT_ACTOR = "editActor";
+export const FIND_ACTOR_AVATAR = "findActorAvatar";
 
 // Group tools
 export const FIND_GROUPS = "findGroups";
 export const GET_GROUP = "getGroup";
 export const CREATE_GROUP = "createGroup";
 export const EDIT_GROUP = "editGroup";
+export const FIND_GROUP_AVATAR = "findGroupAvatar";
 
 // Media tools
 export const FIND_MEDIA = "findMedia";

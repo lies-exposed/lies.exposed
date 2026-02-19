@@ -2,6 +2,7 @@ import {
   CREATE_ACTOR,
   EDIT_ACTOR,
   FIND_ACTORS,
+  FIND_ACTOR_AVATAR,
   GET_ACTOR,
 } from "@liexp/backend/lib/providers/ai/toolNames.constants.js";
 import { throwRTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -14,6 +15,10 @@ import {
   createActorToolTask,
 } from "./createActor.tool.js";
 import { EditActorInputSchema, editActorToolTask } from "./editActor.tool.js";
+import {
+  FindActorAvatarInputSchema,
+  findActorAvatarToolTask,
+} from "./findActorAvatar.tool.js";
 import {
   FindActorsInputSchema,
   findActorsToolTask,
@@ -43,6 +48,18 @@ export const registerActorTools = (server: McpServer, ctx: ServerContext) => {
       inputSchema: effectToZodStruct(GetActorInputSchema),
     },
     flow(getActorToolTask, throwRTE(ctx)),
+  );
+
+  server.registerTool(
+    FIND_ACTOR_AVATAR,
+    {
+      title: "Find actor avatar",
+      description:
+        "Search Wikipedia for an actor by name, retrieve their profile image, and upload it to storage. Returns the media ID for use with createActor.",
+      annotations: { title: "Find actor avatar" },
+      inputSchema: effectToZodStruct(FindActorAvatarInputSchema),
+    },
+    (input) => pipe(findActorAvatarToolTask(input), throwRTE(ctx)),
   );
 
   server.registerTool(
