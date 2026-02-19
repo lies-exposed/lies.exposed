@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...@liexp/storybook@0.4.2) (2026-02-19)
+
+
+### Miscellaneous
+
+* **@liexp/storybook:** Synchronize monorepo versions
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.4.2
+    * @liexp/shared bumped to 0.4.2
+    * @liexp/test bumped to 0.4.2
+    * @liexp/ui bumped to 0.4.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.2
+
 ## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...@liexp/storybook@0.4.1) (2026-02-18)
 
 
