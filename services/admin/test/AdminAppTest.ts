@@ -8,10 +8,11 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import { AdminProxyENV, type AdminProxyENV as AdminProxyENVType } from "../src/server/io/ENV.js";
-import { URL } from '@liexp/io/lib/http/Common/URL.js'
-import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
-import { createApp } from '../src/server/createApp.js'
+import {
+  AdminProxyENV,
+  type AdminProxyENV as AdminProxyENVType,
+} from "../src/server/io/ENV.js";
+import { createApp } from "../src/server/createApp.js";
 import { Schema } from "effect";
 
 // Get service root directory (resolves to services/admin/)
@@ -29,30 +30,33 @@ let adminAppTest: AdminAppTest | undefined = undefined;
 let mswServer: ReturnType<typeof setupServer> | undefined = undefined;
 
 // MSW API Handlers for agent service mock
-const createAgentApiHandlers = () => [
+const createAgentApiHandlers = (env: AdminProxyENVType) => [
   // Agent chat message mock
-  http.post("http://localhost.local:3000/api/v1/chat/message", async ({ request }) => {
-    const body = await request.json();
-    return HttpResponse.json({
-      data: {
-        id: fc.sample(fc.uuid(), 1)[0],
-        message: `Mock response to: ${(body as any)?.content || "unknown"}`,
-        timestamp: new Date().toISOString(),
-        modelUsed: "mock-model",
-        tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],
-      },
-    });
-  }),
+  http.post(
+    `${env.AGENT_API_URL}/chat/message`,
+    async ({ request }) => {
+      const body = await request.json();
+      return HttpResponse.json({
+        data: {
+          id: fc.sample(fc.uuid(), 1)[0],
+          message: `Mock response to: ${(body as any)?.content || "unknown"}`,
+          timestamp: new Date().toISOString(),
+          modelUsed: "mock-model",
+          tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],
+        },
+      });
+    },
+  ),
 
   // Catch-all for other agent API calls
-  http.get("http://localhost.local:3000/api/*", () => {
+  http.get(`${env.AGENT_API_URL.replace(/\/api\/v\d+$/, "")}/api/*`, () => {
     return HttpResponse.json({
       data: null,
       message: "Mock agent endpoint",
     });
   }),
 
-  http.post("http://localhost.local:3000/api/*", () => {
+  http.post(`${env.AGENT_API_URL.replace(/\/api\/v\d+$/, "")}/api/*`, () => {
     return HttpResponse.json({
       data: null,
       message: "Mock agent endpoint",
@@ -67,19 +71,7 @@ export const createAdminServerTest = async (
 
   logger.info.log("Creating admin server test (production: %s)", isProduction);
 
-  // Set up MSW server for mocking agent service
-  if (!mswServer) {
-    mswServer = setupServer(...createAgentApiHandlers());
-
-    // Start MSW server
-    mswServer.listen({
-      onUnhandledRequest: "warn", // Allow non-mocked requests to pass through
-    });
-
-    logger.info.log("MSW server started for agent API mocking");
-  }
-
-  // Load and validate environment from process.env
+  // Load and validate environment from process.env first
   const envResult = Schema.decodeUnknownEither(AdminProxyENV)({
     ...process.env,
     // Override/ensure test-specific values
@@ -99,10 +91,24 @@ export const createAdminServerTest = async (
   });
 
   if (envResult._tag === "Left") {
-    throw new Error(`Failed to validate admin environment: ${JSON.stringify(envResult.left)}`);
+    throw new Error(
+      `Failed to validate admin environment: ${JSON.stringify(envResult.left)}`,
+    );
   }
 
   const validatedEnv = envResult.right;
+
+  // Set up MSW server for mocking agent service (after env is validated)
+  if (!mswServer) {
+    mswServer = setupServer(...createAgentApiHandlers(validatedEnv));
+
+    // Start MSW server
+    mswServer.listen({
+      onUnhandledRequest: "warn", // Allow non-mocked requests to pass through
+    });
+
+    logger.info.log("MSW server started for agent API mocking");
+  }
 
   // Ensure test files exist for production mode
   if (isProduction) {
@@ -136,7 +142,7 @@ export const createAdminServerTest = async (
   if (!fs.existsSync(serverEntry)) {
     throw new Error(
       `Server entry source file not found at ${serverEntry}. ` +
-      `Make sure the TypeScript source file exists.`,
+        `Make sure the TypeScript source file exists.`,
     );
   }
 
@@ -179,3 +185,4 @@ export const closeAdminAppTest = async (): Promise<void> => {
 
   return Promise.resolve();
 };
+

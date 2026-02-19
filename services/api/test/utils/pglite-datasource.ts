@@ -2,11 +2,12 @@ import { PGliteDriver } from "typeorm-pglite";
 import { DataSource, type DataSourceOptions, type QueryRunner } from "typeorm";
 import { type PGliteOptions } from "@electric-sql/pglite";
 import { uuid_ossp } from "@electric-sql/pglite/contrib/uuid_ossp";
+import { unaccent } from "@electric-sql/pglite/contrib/unaccent";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { toDBError, type DBError, type DatabaseClient } from "@liexp/backend/lib/providers/orm/database.provider.js";
 import { GetDatabaseClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
-import { throwTE } from "@liexp/shared/lib/utils/task.utils.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { createORMConfig } from "@liexp/backend/lib/utils/data-source.js";
 
 // Per-worker cache for PGlite datasource (each worker reuses its instance across tests)
@@ -33,6 +34,7 @@ const getPGliteOptions = (workerId: string): PGliteOptions => {
     dataDir: `memory://test-worker-${workerId}`,
     extensions: {
       uuid_ossp,
+      unaccent,
     },
   };
 };
@@ -212,7 +214,11 @@ export const getInitializedPGliteDataSource = (
       // Initialize TypeORM - PGliteDriver will create the PGlite instance with uuid_ossp extension
       // This will run synchronize on first call for this worker
       await dataSource.initialize();
-      
+
+      // Create extensions that are registered via PGliteOptions.extensions but not
+      // auto-created by synchronize (migrations normally handle this for real Postgres).
+      await dataSource.query(`CREATE EXTENSION IF NOT EXISTS unaccent`);
+
       // Mark schema as initialized and cache the datasource for this worker
       workerSchemaInitialized.set(workerId, true);
       workerDataSources.set(workerId, dataSource);
