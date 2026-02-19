@@ -8,10 +8,11 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import { type AdminProxyENV } from "../src/server/io/ENV.js";
+import { AdminProxyENV, type AdminProxyENV as AdminProxyENVType } from "../src/server/io/ENV.js";
 import { URL } from '@liexp/io/lib/http/Common/URL.js'
 import { AuthPermission } from "@liexp/shared/io/http/auth/permissions/index.js";
 import { createApp } from '../src/server/createApp.js'
+import { Schema } from "effect";
 
 // Get service root directory (resolves to services/admin/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -21,7 +22,7 @@ export interface AdminAppTest {
   app: e.Express;
   req: TestAgent<supertest.Test>;
   logger: Logger;
-  env: AdminProxyENV;
+  env: AdminProxyENVType;
 }
 
 let adminAppTest: AdminAppTest | undefined = undefined;
@@ -30,7 +31,7 @@ let mswServer: ReturnType<typeof setupServer> | undefined = undefined;
 // MSW API Handlers for agent service mock
 const createAgentApiHandlers = () => [
   // Agent chat message mock
-  http.post("http://mock-agent/api/v1/chat/message", async ({ request }) => {
+  http.post("http://localhost.local:3000/api/v1/chat/message", async ({ request }) => {
     const body = await request.json();
     return HttpResponse.json({
       data: {
@@ -44,14 +45,14 @@ const createAgentApiHandlers = () => [
   }),
 
   // Catch-all for other agent API calls
-  http.get("http://mock-agent/api/*", () => {
+  http.get("http://localhost.local:3000/api/*", () => {
     return HttpResponse.json({
       data: null,
       message: "Mock agent endpoint",
     });
   }),
 
-  http.post("http://mock-agent/api/*", () => {
+  http.post("http://localhost.local:3000/api/*", () => {
     return HttpResponse.json({
       data: null,
       message: "Mock agent endpoint",
@@ -78,21 +79,30 @@ export const createAdminServerTest = async (
     logger.info.log("MSW server started for agent API mocking");
   }
 
-  // Create mock environment
-  const mockEnv: AdminProxyENV = {
+  // Load and validate environment from process.env
+  const envResult = Schema.decodeUnknownEither(AdminProxyENV)({
+    ...process.env,
+    // Override/ensure test-specific values
     NODE_ENV: isProduction ? "production" : "development",
     DEBUG: "@liexp:*,-@liexp:debug",
+    VIRTUAL_HOST: "127.0.0.1",
     VITE_PUBLIC_URL: "http://admin.liexp.test",
-    SERVER_PORT: 0, // Use random port for tests
     SERVER_HOST: "127.0.0.1",
     JWT_SECRET: "test-jwt-secret-for-admin-tests",
-    AGENT_API_URL: "http://mock-agent/api/v1" as unknown as URL,
-    SERVICE_CLIENT_ID: fc.sample(fc.uuid(), 1)[0] as any,
-    SERVICE_CLIENT_USER_ID: fc.sample(fc.uuid(), 1)[0] as any,
-    SERVICE_CLIENT_PERMISSIONS: ["admin:read", "admin:create"] as AuthPermission[],
-    RATE_LIMIT_WINDOW_MS: 60000,
-    RATE_LIMIT_MAX_REQUESTS: 100,
-  };
+    AGENT_API_URL: "http://localhost.local:3000/api/v1",
+    SERVER_PORT: "0", // Use random port for tests
+    SERVICE_CLIENT_ID: fc.sample(fc.uuid(), 1)[0],
+    SERVICE_CLIENT_USER_ID: fc.sample(fc.uuid(), 1)[0],
+    SERVICE_CLIENT_PERMISSIONS: ["admin:read", "admin:create"].join(","),
+    RATE_LIMIT_WINDOW_MS: "60000",
+    RATE_LIMIT_MAX_REQUESTS: "100",
+  });
+
+  if (envResult._tag === "Left") {
+    throw new Error(`Failed to validate admin environment: ${JSON.stringify(envResult.left)}`);
+  }
+
+  const validatedEnv = envResult.right;
 
   // Ensure test files exist for production mode
   if (isProduction) {
@@ -133,26 +143,17 @@ export const createAdminServerTest = async (
   // Note: Development mode uses the existing index.html file
   // No need to create a mock file since it already exists
 
-  // Mock JWT verification for testing
-  const originalVerifyJWT = process.env.NODE_ENV;
-  process.env.NODE_ENV = isProduction ? "production" : "development";
-
   const app = await createApp({
-    env: mockEnv,
+    env: validatedEnv,
     serviceRoot: SERVICE_ROOT,
     isProduction,
   });
-
-  // Restore environment
-  if (originalVerifyJWT !== undefined) {
-    process.env.NODE_ENV = originalVerifyJWT;
-  }
 
   const adminTest: AdminAppTest = {
     app,
     req: supertest(app),
     logger,
-    env: mockEnv,
+    env: validatedEnv,
   };
 
   return adminTest;
