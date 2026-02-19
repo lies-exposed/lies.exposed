@@ -94,11 +94,16 @@ export const GetLangchainProvider = <P extends AIProvider>(
     opts.models?.chat ??
     (opts.provider === "anthropic" ? "claude-sonnet-4-20250514" : "gpt-4o");
 
-  const options = {
+  const logOptions = {
     ...opts,
+    apiKey: opts.apiKey.substring(0, 3).concat(
+      Array.from({ length: 16 })
+        .flatMap(() => "*")
+        .join(""),
+    ),
   };
 
-  langchainLogger.debug.log("Initializing Langchain provider...", opts);
+  langchainLogger.debug.log("Initializing Langchain provider...", logOptions);
 
   const makeChat = <P extends AIProvider>(
     provider: P,
@@ -168,7 +173,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
     });
   };
 
-  const chat = makeChat(options.provider, defaultChatModel);
+  const chat = makeChat(opts.provider, defaultChatModel);
 
   const embeddingsModel = opts.models?.embeddings ?? "text-embedding-ada-002";
 
@@ -181,7 +186,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
   );
 
   return {
-    options,
+    options: opts,
     chat,
     embeddings,
     queryDocument: async (content, question, opts) => {
@@ -196,7 +201,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
         chatModel,
       );
 
-      const chat = makeChat(options.provider, chatModel);
+      const chat = makeChat(logOptions.provider, chatModel);
 
       const stream = await chat.stream(question);
 
