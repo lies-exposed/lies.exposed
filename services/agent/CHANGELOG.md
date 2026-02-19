@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...agent@0.4.2) (2026-02-19)
+
+
+### Bug Fixes
+
+* **api:** actor tools schema 'memberId' and 'nationalities' possibly undefined ([#3209](https://github.com/lies-exposed/lies.exposed/issues/3209)) ([03dd92a](https://github.com/lies-exposed/lies.exposed/commit/03dd92ae28f31a17248feba550ca6365eae68083))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.2
+    * @liexp/core bumped to 0.4.2
+    * @liexp/io bumped to 0.4.2
+    * @liexp/shared bumped to 0.4.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.2
+
 ## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...agent@0.4.1) (2026-02-18)
 
 

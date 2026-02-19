@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...admin@0.4.2) (2026-02-19)
+
+
+### Bug Fixes
+
+* **api:** prevent circular PARENT_CHILD relations crashing admin UI ([#3211](https://github.com/lies-exposed/lies.exposed/issues/3211)) ([7cad842](https://github.com/lies-exposed/lies.exposed/commit/7cad842a7d4c3560cdbb5427a9da261292dd320c))
+* **ui:** improve actor family tree graph ([#3212](https://github.com/lies-exposed/lies.exposed/issues/3212)) ([513fc06](https://github.com/lies-exposed/lies.exposed/commit/513fc06dc3faa4a2ba7d00ff9a4be0b6f0bfd595))
+
+
+### Miscellaneous
+
+* typeorm pglite transaction isolation for e2e tests ([#2995](https://github.com/lies-exposed/lies.exposed/issues/2995)) ([0d4b307](https://github.com/lies-exposed/lies.exposed/commit/0d4b307089f1cc11b7741b2d4b4b5e8325d69119))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.2
+    * @liexp/core bumped to 0.4.2
+    * @liexp/io bumped to 0.4.2
+    * @liexp/shared bumped to 0.4.2
+    * @liexp/ui bumped to 0.4.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.2
+    * @liexp/test bumped to 0.4.2
+
 ## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...admin@0.4.1) (2026-02-18)
 
 

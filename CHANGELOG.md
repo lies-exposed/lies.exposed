@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...lies.exposed@0.4.2) (2026-02-19)
+
+
+### Bug Fixes
+
+* **api:** actor and group avatar find tools ([#3213](https://github.com/lies-exposed/lies.exposed/issues/3213)) ([0f87695](https://github.com/lies-exposed/lies.exposed/commit/0f87695676d0beabbc2ed843e2515361b10155a2))
+
+
+### Miscellaneous
+
+* typeorm pglite transaction isolation for e2e tests ([#2995](https://github.com/lies-exposed/lies.exposed/issues/2995)) ([0d4b307](https://github.com/lies-exposed/lies.exposed/commit/0d4b307089f1cc11b7741b2d4b4b5e8325d69119))
+
 ## [0.4.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.0...lies.exposed@0.4.1) (2026-02-18)
 
 
