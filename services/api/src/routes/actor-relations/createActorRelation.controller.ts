@@ -82,6 +82,30 @@ export const MakeCreateActorRelationRoute: Route = (
             ),
           ),
         ),
+        TE.chain(() =>
+          body.type === "PARENT_CHILD"
+            ? pipe(
+                db.findOne(ActorRelationEntity, {
+                  where: {
+                    actor: { id: body.relatedActor },
+                    type: body.type,
+                    relatedActor: { id: body.actor },
+                  },
+                }),
+                TE.chain(
+                  fp.O.fold(
+                    () => TE.right(undefined),
+                    () =>
+                      TE.left(
+                        toBadRequestError(
+                          `Creating this relation would form a cycle: actor ${body.relatedActor} is already a parent of ${body.actor}`,
+                        ),
+                      ),
+                  ),
+                ),
+              )
+            : TE.right(undefined),
+        ),
         TE.chain(() => db.save(ActorRelationEntity, [saveData])),
         TE.chain(([relation]) =>
           db.findOneOrFail(ActorRelationEntity, {

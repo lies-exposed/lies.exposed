@@ -172,4 +172,32 @@ describe("Create Actor Relation", () => {
       },
     });
   });
+
+  test("Should return 400 when PARENT_CHILD relation would form a cycle", async () => {
+    const [a, b] = tests.fc.sample(ActorArb, 2).map(toActorEntity);
+    await throwTE(Test.ctx.db.save(ActorEntity, [a, b]));
+
+    // Create A → B (A is parent of B)
+    const first = await Test.req
+      .post("/v1/actor-relations")
+      .set("Authorization", authorizationToken)
+      .send({
+        actor: a.id,
+        relatedActor: b.id,
+        type: ActorRelationType.members[0].literals[0],
+      });
+    expect(first.status).toEqual(201);
+
+    // Try to create B → A (B is parent of A) — this would form a cycle
+    const response = await Test.req
+      .post("/v1/actor-relations")
+      .set("Authorization", authorizationToken)
+      .send({
+        actor: b.id,
+        relatedActor: a.id,
+        type: ActorRelationType.members[0].literals[0],
+      });
+
+    expect(response.status).toEqual(400);
+  });
 });
