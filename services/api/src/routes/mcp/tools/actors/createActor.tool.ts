@@ -6,6 +6,7 @@ import {
   toParagraph,
   toInitialValue,
 } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -72,8 +73,7 @@ export const createActorToolTask = ({
   const safeConfig = config ?? {};
   const getColor = (): string => {
     if (safeConfig?.color) return safeConfig.color;
-    // Generate random color in hex format
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    return generateRandomColor();
   };
 
   // Helper to ensure we have a valid BlockNoteDocument
