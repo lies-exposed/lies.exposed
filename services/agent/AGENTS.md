@@ -49,10 +49,11 @@ Does the task involve a lies.exposed resource (actor, group, event, link, media)
 ### When Using Edit Tools
 - **Omitted fields**: Keep current values unchanged
 - **Fields set to null**: Clear/reset the value in the database
-- **Arrays** (actors, groups, keywords):
-  - Omitting keeps the current list
-  - Passing `null` clears the list
-  - Passing `[]` sets to empty
+- **Arrays** (nationalities, memberIn, groups, keywords, etc.):
+  - Omitting or passing `undefined` keeps the current list
+  - Passing `[]` (empty array) clears the list and sets it to empty
+  - Passing a populated array updates the list with those values
+  - **Never pass `null` or `"null"` strings in arrays** — use `undefined` to keep current
 
 ### Efficiency
 - **Recursion limit**: 25 tool calls maximum per request

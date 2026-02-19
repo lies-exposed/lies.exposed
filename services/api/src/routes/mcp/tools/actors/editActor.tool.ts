@@ -29,8 +29,8 @@ export const EditActorInputSchema = Schema.Struct({
     description:
       "Short description of the actor as plain text or null to keep current",
   }),
-  nationalities: Schema.Array(UUID).annotations({
-    description: "Array of nationality UUIDs or null to keep current",
+  nationalities: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Array of nationality UUIDs or undefined to keep current",
   }),
   body: Schema.UndefinedOr(Schema.String).annotations({
     description: "Full body content as plain text or null to keep current",
@@ -46,9 +46,9 @@ export const EditActorInputSchema = Schema.Struct({
     description:
       "Death date in ISO format (YYYY-MM-DD) or undefined to keep current",
   }),
-  memberIn: Schema.Array(Schema.Union(UUID)).annotations({
+  memberIn: Schema.UndefinedOr(Schema.Array(Schema.Union(UUID))).annotations({
     description:
-      "Array of group memberships (as UUIDs or detailed objects) or null to keep current",
+      "Array of group memberships (as UUIDs or detailed objects) or undefined to keep current",
   }),
 });
 export type EditActorInputSchema = typeof EditActorInputSchema.Type;
@@ -82,6 +82,7 @@ export const editActorToolTask = ({
       ),
       nationalities: pipe(
         O.fromNullable(nationalities),
+        O.filter((n) => n !== undefined),
         O.map((n) => [...n]),
       ),
       body: pipe(
@@ -93,7 +94,7 @@ export const editActorToolTask = ({
       diedOn: O.fromNullable(diedOn),
       memberIn: pipe(
         O.fromNullable(memberIn),
-        O.filter((members) => members.length > 0),
+        O.filter((members) => members !== undefined && members.length > 0),
       ),
     }),
     LoggerService.RTE.debug("Updated actor %O"),
