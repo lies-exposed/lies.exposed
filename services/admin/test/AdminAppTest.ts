@@ -8,10 +8,7 @@ import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
-import {
-  AdminProxyENV,
-  type AdminProxyENV as AdminProxyENVType,
-} from "../src/server/io/ENV.js";
+import { AdminProxyENV } from "../src/server/io/ENV.js";
 import { createApp } from "../src/server/createApp.js";
 import { Schema } from "effect";
 
@@ -23,30 +20,27 @@ export interface AdminAppTest {
   app: e.Express;
   req: TestAgent<supertest.Test>;
   logger: Logger;
-  env: AdminProxyENVType;
+  env: AdminProxyENV;
 }
 
 let adminAppTest: AdminAppTest | undefined = undefined;
 let mswServer: ReturnType<typeof setupServer> | undefined = undefined;
 
 // MSW API Handlers for agent service mock
-const createAgentApiHandlers = (env: AdminProxyENVType) => [
+const createAgentApiHandlers = (env: AdminProxyENV) => [
   // Agent chat message mock
-  http.post(
-    `${env.AGENT_API_URL}/chat/message`,
-    async ({ request }) => {
-      const body = await request.json();
-      return HttpResponse.json({
-        data: {
-          id: fc.sample(fc.uuid(), 1)[0],
-          message: `Mock response to: ${(body as any)?.content || "unknown"}`,
-          timestamp: new Date().toISOString(),
-          modelUsed: "mock-model",
-          tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],
-        },
-      });
-    },
-  ),
+  http.post(`${env.AGENT_API_URL}/chat/message`, async ({ request }) => {
+    const body = await request.json();
+    return HttpResponse.json({
+      data: {
+        id: fc.sample(fc.uuid(), 1)[0],
+        message: `Mock response to: ${(body as any)?.content || "unknown"}`,
+        timestamp: new Date().toISOString(),
+        modelUsed: "mock-model",
+        tokensUsed: fc.sample(fc.integer({ min: 10, max: 100 }), 1)[0],
+      },
+    });
+  }),
 
   // Catch-all for other agent API calls
   http.get(`${env.AGENT_API_URL.replace(/\/api\/v\d+$/, "")}/api/*`, () => {
@@ -185,4 +179,3 @@ export const closeAdminAppTest = async (): Promise<void> => {
 
   return Promise.resolve();
 };
-
