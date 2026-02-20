@@ -1,11 +1,11 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as SocialPost from "@liexp/io/lib/http/SocialPost.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { URLArb } from "./URL.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
 export const CreateSocialPostArb = Arbitrary.make(
-  http.SocialPost.CreateSocialPost.omit("url", "actors", "groups", "keywords"),
+  SocialPost.CreateSocialPost.omit("url", "actors", "groups", "keywords"),
 ).map((post) => ({
   ...post,
   url: fc.sample(URLArb, 1)[0],
@@ -16,7 +16,7 @@ export const CreateSocialPostArb = Arbitrary.make(
 }));
 
 export const SocialPostArb = Arbitrary.make(
-  http.SocialPost.SocialPost.omit("id", "url"),
+  SocialPost.SocialPost.omit("id", "url"),
 ).map((p) => ({
   ...p,
   id: fc.sample(UUIDArb, 1)[0],

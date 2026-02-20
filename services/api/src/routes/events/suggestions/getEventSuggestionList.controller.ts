@@ -2,8 +2,8 @@ import { RequestDecoder } from "@liexp/backend/lib/express/decoders/request.deco
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { foldOptionals } from "@liexp/backend/lib/utils/foldOptionals.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import type * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EventSuggestionRead } from "@liexp/io/lib/http/auth/permissions/index.js";
-import { type EventSuggestion } from "@liexp/io/lib/http/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
 import * as A from "fp-ts/lib/Array.js";

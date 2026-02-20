@@ -1,4 +1,4 @@
-import { type Group } from "@liexp/io/lib/http/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
 import { eqString } from "fp-ts/lib/Eq.js";
 
 export const getGroups =

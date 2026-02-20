@@ -1,6 +1,6 @@
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { Events } from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

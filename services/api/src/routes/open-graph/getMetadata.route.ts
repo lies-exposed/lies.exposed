@@ -3,7 +3,7 @@ import { type MediaEntity } from "@liexp/backend/lib/entities/Media.entity.js";
 import { readExtractedEntities } from "@liexp/backend/lib/flows/admin/nlp/extractEntitiesFromAny.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
-import { type Link } from "@liexp/io/lib/http/index.js";
+import type * as Link from "@liexp/io/lib/http/Link.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";

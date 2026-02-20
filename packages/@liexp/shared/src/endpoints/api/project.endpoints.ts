@@ -3,8 +3,8 @@ import { CreateAreaBody } from "@liexp/io/lib/http/Area.js";
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Project from "@liexp/io/lib/http/Project.js";
 import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
-import { Project } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

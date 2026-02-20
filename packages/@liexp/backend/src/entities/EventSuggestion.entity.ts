@@ -1,5 +1,5 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import {
   Column,
   CreateDateColumn,
@@ -23,15 +23,15 @@ export class EventSuggestionEntity extends DeletableEntity {
   id: UUID;
 
   @Column({ type: "json", nullable: true })
-  payload: http.EventSuggestion.CreateEventSuggestion;
+  payload: EventSuggestion.CreateEventSuggestion;
 
   @Column({
     type: "enum",
-    enum: http.EventSuggestion.EventSuggestionStatus.members.map(
+    enum: EventSuggestion.EventSuggestionStatus.members.map(
       (t) => t.literals[0],
     ),
   })
-  status: http.EventSuggestion.EventSuggestionStatus;
+  status: EventSuggestion.EventSuggestionStatus;
 
   @ManyToOne(() => UserEntity, (u) => u.eventSuggestions, {
     cascade: false,

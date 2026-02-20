@@ -1,4 +1,4 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Actor from "@liexp/io/lib/http/Actor.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
@@ -7,9 +7,9 @@ import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const ActorArb: fc.Arbitrary<http.Actor.Actor> = Arbitrary.make(
+export const ActorArb: fc.Arbitrary<Actor.Actor> = Arbitrary.make(
   Schema.Struct(
-    http.Actor.Actor.omit(
+    Actor.Actor.omit(
       "id",
       "color",
       "excerpt",

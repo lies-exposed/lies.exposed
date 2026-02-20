@@ -1,13 +1,11 @@
+import type * as Actor from "@liexp/io/lib/http/Actor.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import {
-  type Events,
-  type Actor,
-  type Group,
-  type Media,
-  type Link,
-  type Keyword,
-} from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
+import type * as Keyword from "@liexp/io/lib/http/Keyword.js";
+import type * as Link from "@liexp/io/lib/http/Link.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import { describe, expect, it } from "vitest";
 import { getSearchEventRelations } from "../getSearchEventRelations.js";
 

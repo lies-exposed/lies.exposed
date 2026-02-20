@@ -1,15 +1,24 @@
+import * as Actor from "@liexp/io/lib/http/Actor.js";
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
-import { Output } from "@liexp/io/lib/http/Common/Output.js";
+import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EventType } from "@liexp/io/lib/http/Events/EventType.js";
 import { SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
+import * as Group from "@liexp/io/lib/http/Group.js";
+import * as GroupMember from "@liexp/io/lib/http/GroupMember.js";
+import * as Keyword from "@liexp/io/lib/http/Keyword.js";
+import * as Link from "@liexp/io/lib/http/Link.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { PaginationQuery } from "@liexp/io/lib/http/Query/PaginationQuery.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import { SortQuery } from "@liexp/io/lib/http/Query/SortQuery.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 
-const SingleEventOutput = http.Common.Output(http.Events.Event).annotations({
+const SingleEventOutput = Output(Events.Event).annotations({
   title: "Event",
 });
 export const ListEventOutput = Schema.Struct({
@@ -18,22 +27,22 @@ export const ListEventOutput = Schema.Struct({
       Schema.Struct({
         score: Schema.Union(Schema.Number, Schema.Undefined),
       }),
-      http.Events.Event,
+      Events.Event,
     ).annotations({
       title: "EventWithScore",
     }),
   ),
   total: Schema.Number,
-  totals: http.Events.SearchEvent.EventTotals.EventTotals,
+  totals: Events.SearchEvent.EventTotals.EventTotals,
   firstDate: Schema.Union(Schema.String, Schema.Undefined),
   lastDate: Schema.Union(Schema.String, Schema.Undefined),
   // Optional relations - populated when `relations` query param is provided
-  actors: Schema.optional(Schema.Array(http.Actor.Actor)),
-  groups: Schema.optional(Schema.Array(http.Group.Group)),
-  keywords: Schema.optional(Schema.Array(http.Keyword.Keyword)),
-  media: Schema.optional(Schema.Array(http.Media.Media)),
-  links: Schema.optional(Schema.Array(http.Link.Link)),
-  groupsMembers: Schema.optional(Schema.Array(http.GroupMember.GroupMember)),
+  actors: Schema.optional(Schema.Array(Actor.Actor)),
+  groups: Schema.optional(Schema.Array(Group.Group)),
+  keywords: Schema.optional(Schema.Array(Keyword.Keyword)),
+  media: Schema.optional(Schema.Array(Media.Media)),
+  links: Schema.optional(Schema.Array(Link.Link)),
+  groupsMembers: Schema.optional(Schema.Array(GroupMember.GroupMember)),
 }).annotations({
   title: "Events",
 });
@@ -52,10 +61,10 @@ export const Create = Endpoint({
   Method: "POST",
   getPath: () => "/events",
   Input: {
-    Body: http.Events.CreateEventBody,
+    Body: Events.CreateEventBody,
   },
   Output: Output(
-    Schema.Union(http.Events.Event, Schema.Struct({ success: Schema.Boolean })),
+    Schema.Union(Events.Event, Schema.Struct({ success: Schema.Boolean })),
   ),
 });
 
@@ -63,10 +72,10 @@ export const CreateSuggestion = Endpoint({
   Method: "POST",
   getPath: () => `/events/suggestions`,
   Input: {
-    Body: http.EventSuggestion.CreateEventSuggestion,
+    Body: EventSuggestion.CreateEventSuggestion,
   },
   Output: Schema.Struct({
-    data: http.EventSuggestion.EventSuggestion,
+    data: EventSuggestion.EventSuggestion,
   }).annotations({
     title: "CreateSuggestionOutput",
   }),
@@ -77,7 +86,7 @@ export const EditSuggestion = Endpoint({
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: {
     Params: Schema.Struct({ id: UUID }),
-    Body: http.EventSuggestion.EventSuggestion,
+    Body: EventSuggestion.EventSuggestion,
   },
   Output: Schema.Struct({
     data: Schema.Any,
@@ -124,11 +133,11 @@ export const GetFromLink = Endpoint({
   Method: "GET",
   getPath: () => `/events-from-link`,
   Input: {
-    Query: Schema.Struct({ url: http.Common.URL, ...PaginationQuery.fields }),
+    Query: Schema.Struct({ url: URL, ...PaginationQuery.fields }),
   },
   Output: Schema.Struct({
     ...ListEventOutput.fields,
-    suggestions: Schema.Array(http.EventSuggestion.CreateEventSuggestion),
+    suggestions: Schema.Array(EventSuggestion.CreateEventSuggestion),
   }).annotations({ title: "GetEventsFromLinkOutput" }),
 });
 
@@ -136,8 +145,8 @@ export const GetSuggestion = Endpoint({
   Method: "GET",
   getPath: ({ id }) => `/events/suggestions/${id}`,
   Input: { Params: Schema.Struct({ id: UUID }) },
-  Output: http.Common.ListOutput(
-    http.EventSuggestion.EventSuggestion,
+  Output: ListOutput(
+    EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput",
   ),
 });
@@ -147,17 +156,15 @@ export const GetSuggestions = Endpoint({
   getPath: () => `/events/suggestions`,
   Input: {
     Query: Schema.Struct({
-      ...http.Query.SortQuery.fields,
-      ...http.Query.PaginationQuery.fields,
-      status: OptionFromNullishToNull(
-        http.EventSuggestion.EventSuggestionStatus,
-      ),
+      ...SortQuery.fields,
+      ...PaginationQuery.fields,
+      status: OptionFromNullishToNull(EventSuggestion.EventSuggestionStatus),
       links: OptionFromNullishToNull(Schema.Array(UUID)),
       creator: OptionFromNullishToNull(UUID),
     }),
   },
-  Output: http.Common.ListOutput(
-    http.EventSuggestion.EventSuggestion,
+  Output: ListOutput(
+    EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput",
   ),
 });
@@ -174,8 +181,8 @@ export const SearchEventsFromProvider = Endpoint({
       date: OptionFromNullishToNull(Schema.String),
     }),
   },
-  Output: http.Common.ListOutput(
-    http.EventSuggestion.EventSuggestion,
+  Output: ListOutput(
+    EventSuggestion.EventSuggestion,
     "EventSuggestionListOutput",
   ),
 });
@@ -186,17 +193,17 @@ const SearchEvents = Endpoint({
   Input: {
     Query: GetSearchEventsQuery,
   },
-  Output: http.Common.Output(
+  Output: Output(
     Schema.Struct({
       events: Schema.Array(SearchEvent),
       total: Schema.Number,
-      totals: http.Events.SearchEvent.EventTotals.EventTotals,
-      actors: Schema.Array(http.Actor.Actor),
-      groups: Schema.Array(http.Group.Group),
-      groupsMembers: Schema.Array(http.GroupMember.GroupMember),
-      media: Schema.Array(http.Media.Media),
-      keywords: Schema.Array(http.Keyword.Keyword),
-      links: Schema.Array(http.Link.Link),
+      totals: Events.SearchEvent.EventTotals.EventTotals,
+      actors: Schema.Array(Actor.Actor),
+      groups: Schema.Array(Group.Group),
+      groupsMembers: Schema.Array(GroupMember.GroupMember),
+      media: Schema.Array(Media.Media),
+      keywords: Schema.Array(Keyword.Keyword),
+      links: Schema.Array(Link.Link),
       firstDate: Schema.Union(Schema.String, Schema.Undefined),
       lastDate: Schema.Union(Schema.String, Schema.Undefined),
     }).annotations({
@@ -212,7 +219,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/events/${id}`,
   Input: {
     Params: Schema.Struct({ id: UUID }),
-    Body: http.Events.EditEventBody,
+    Body: Events.EditEventBody,
   },
   Output: SingleEventOutput,
 });

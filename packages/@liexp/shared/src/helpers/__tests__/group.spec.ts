@@ -1,4 +1,4 @@
-import { type Group } from "@liexp/io/lib/http/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
 import fc from "fast-check";
 import { describe, expect, test } from "vitest";

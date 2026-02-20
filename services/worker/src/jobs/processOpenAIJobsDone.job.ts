@@ -21,11 +21,11 @@ import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
   DoneStatus,
   OpenAIUpdateEntitiesFromURLType,
 } from "@liexp/io/lib/http/Queue/index.js";
-import { type Queue } from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
 import { Equal, In, type FindOptionsWhere } from "typeorm";

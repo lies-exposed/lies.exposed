@@ -1,7 +1,6 @@
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { CreateMedia, EditMediaBody } from "@liexp/io/lib/http/Media/index.js";
-import { Media } from "@liexp/io/lib/http/index.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 
@@ -33,7 +32,7 @@ export const Create = Endpoint({
   getPath: () => "/media",
   Input: {
     Query: undefined,
-    Body: CreateMedia,
+    Body: Media.CreateMedia,
   },
   Output: SingleMediaOutput,
 });
@@ -43,7 +42,7 @@ export const Edit = Endpoint({
   getPath: ({ id }) => `/media/${id}`,
   Input: {
     Params: Schema.Struct({ id: UUID }),
-    Body: EditMediaBody,
+    Body: Media.EditMediaBody,
   },
   Output: SingleMediaOutput,
 });

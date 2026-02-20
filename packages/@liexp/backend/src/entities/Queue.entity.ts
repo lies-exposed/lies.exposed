@@ -1,9 +1,4 @@
-import {
-  QueueResourceNames,
-  QueueTypes,
-  Status,
-} from "@liexp/io/lib/http/Queue/index.js";
-import { Queue } from "@liexp/io/lib/http/index.js";
+import * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import { Column, Entity } from "typeorm";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 
@@ -13,24 +8,24 @@ export const QUEUE_ENTITY_NAME = "queue";
 export class QueueEntity extends DeletableEntity {
   @Column({
     type: "enum",
-    enum: QueueTypes.members.map((t) => t.literals[0]),
-    default: QueueTypes.members[0].literals[0],
+    enum: Queue.QueueTypes.members.map((t) => t.literals[0]),
+    default: Queue.QueueTypes.members[0].literals[0],
   })
-  type: QueueTypes;
+  type: Queue.QueueTypes;
 
   @Column({
     type: "enum",
-    enum: QueueResourceNames.members.map((t) => t.literals[0]),
-    default: QueueResourceNames.members[0].literals[0],
+    enum: Queue.QueueResourceNames.members.map((t) => t.literals[0]),
+    default: Queue.QueueResourceNames.members[0].literals[0],
   })
-  resource: QueueResourceNames;
+  resource: Queue.QueueResourceNames;
 
   @Column({
     type: "enum",
-    enum: Status.members.map((t) => t.literals[0]),
-    default: Status.members[0].literals[0],
+    enum: Queue.Status.members.map((t) => t.literals[0]),
+    default: Queue.Status.members[0].literals[0],
   })
-  status: Status;
+  status: Queue.Status;
 
   @Column({ type: "varchar", nullable: true })
   prompt: string | null;

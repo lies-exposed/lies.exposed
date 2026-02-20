@@ -1,7 +1,7 @@
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Page from "@liexp/io/lib/http/Page.js";
 import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
-import { Page } from "@liexp/io/lib/http/index.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

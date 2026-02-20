@@ -1,6 +1,7 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import { type Events, type Media } from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import { describe, expect, it } from "vitest";
 import { toEventNetworkDatum } from "../eventNetworkDatum.helper.js";
 

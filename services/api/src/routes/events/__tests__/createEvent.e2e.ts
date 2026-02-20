@@ -9,7 +9,7 @@ import {
 } from "@liexp/backend/lib/test/utils/user.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
 import { GroupArb } from "@liexp/test/lib/arbitrary/Group.arbitrary.js";
@@ -96,7 +96,7 @@ describe("Create Event", () => {
 
     const body = response.body.data;
     const decodedBody = Schema.decodeUnknownEither(
-      http.Events.Uncategorized.Uncategorized,
+      Events.Uncategorized.Uncategorized,
     )(body);
 
     expect(response.status).toEqual(201);
@@ -123,7 +123,7 @@ describe("Create Event", () => {
 
     const body = response.body.data;
     const decodedBody = Schema.decodeUnknownEither(
-      http.Events.Uncategorized.Uncategorized,
+      Events.Uncategorized.Uncategorized,
     )(body);
 
     expect(response.status).toEqual(201);
@@ -229,9 +229,7 @@ describe("Create Event", () => {
       .send(eventData);
 
     const body = response.body.data;
-    const decodedBody = Schema.decodeUnknownEither(http.Events.Quote.Quote)(
-      body,
-    );
+    const decodedBody = Schema.decodeUnknownEither(Events.Quote.Quote)(body);
 
     expect(response.status).toEqual(201);
 

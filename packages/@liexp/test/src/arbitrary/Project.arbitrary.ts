@@ -1,4 +1,4 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Project from "@liexp/io/lib/http/Project.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { AreaArb } from "./Area.arbitrary.js";
@@ -16,9 +16,9 @@ const {
   id: _id,
   color: _color,
   ...projectProps
-} = http.Project.Project.fields;
+} = Project.Project.fields;
 
-export const ProjectArb: fc.Arbitrary<http.Project.Project> = Arbitrary.make(
+export const ProjectArb: fc.Arbitrary<Project.Project> = Arbitrary.make(
   Schema.Struct({ ...projectProps }),
 ).map((p) => ({
   ...p,

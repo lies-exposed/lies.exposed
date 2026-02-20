@@ -1,8 +1,6 @@
-import {
-  type Actor,
-  type Common,
-  type Group,
-} from "@liexp/io/lib/http/index.js";
+import type * as Actor from "@liexp/io/lib/http/Actor.js";
+import type * as Common from "@liexp/io/lib/http/Common/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
 import * as S from "fp-ts/lib/string.js";
 import kebabCase from "lodash/kebabCase.js";
 

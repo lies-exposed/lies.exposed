@@ -1,7 +1,6 @@
 import { type PutObjectCommandInput } from "@aws-sdk/client-s3";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import { ImageType } from "@liexp/io/lib/http/Media/index.js";
-import { Media } from "@liexp/io/lib/http/index.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { getMediaThumbKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
@@ -90,7 +89,7 @@ export const extractThumbnail = <
       return resizedThumbnail.map((Body, index) => ({
         Key: getMediaThumbKey(
           media.id,
-          ImageType.members[2].literals[0],
+          Media.ImageType.members[2].literals[0],
           index + 1,
         ),
         Body,

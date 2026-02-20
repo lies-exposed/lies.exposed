@@ -3,7 +3,7 @@ import { EventSuggestionEntity } from "@liexp/backend/lib/entities/EventSuggesti
 import { fetchRelationIds } from "@liexp/backend/lib/queries/events/fetchEventRelations.query.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { EventSuggestion } from "@liexp/io/lib/http/index.js";
+import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
 import * as TE from "fp-ts/lib/TaskEither.js";

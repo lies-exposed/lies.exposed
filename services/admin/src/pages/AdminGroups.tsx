@@ -1,7 +1,7 @@
 import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { type Group } from "@liexp/io/lib/http/Group.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import { OpenAISummarizeQueueType } from "@liexp/io/lib/http/Queue/index.js";
-import { type Media } from "@liexp/io/lib/http/index.js";
 import * as io from "@liexp/io/lib/index.js";
 import { getTextContents } from "@liexp/shared/lib/providers/blocknote/getTextContents.js";
 import { parseDate } from "@liexp/shared/lib/utils/date.utils.js";

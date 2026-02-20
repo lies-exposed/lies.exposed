@@ -1,4 +1,4 @@
-import { type Area } from "@liexp/io/lib/http/index.js";
+import type * as Area from "@liexp/io/lib/http/Area.js";
 import {
   AutocompleteAreaInput,
   type AutocompleteAreaInputProps,

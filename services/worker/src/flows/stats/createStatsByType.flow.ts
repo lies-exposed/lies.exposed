@@ -17,7 +17,8 @@ import {
   EventType,
   type SearchEvent,
 } from "@liexp/io/lib/http/Events/index.js";
-import { type GroupMember, type Media } from "@liexp/io/lib/http/index.js";
+import type * as GroupMember from "@liexp/io/lib/http/GroupMember.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import {
   getNewRelationIds,
   EventsMapper,

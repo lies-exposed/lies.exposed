@@ -2,16 +2,14 @@ import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEventsV2.query.js";
 import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import type * as Actor from "@liexp/io/lib/http/Actor.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
-import {
-  type Actor,
-  type Events,
-  type Group,
-  type GroupMember,
-  type Keyword,
-  type Link,
-  type Media,
-} from "@liexp/io/lib/http/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
+import type * as GroupMember from "@liexp/io/lib/http/GroupMember.js";
+import type * as Keyword from "@liexp/io/lib/http/Keyword.js";
+import type * as Link from "@liexp/io/lib/http/Link.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";

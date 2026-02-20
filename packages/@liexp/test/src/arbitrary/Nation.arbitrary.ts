@@ -1,17 +1,12 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Nation from "@liexp/io/lib/http/Nation.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const NationArb: fc.Arbitrary<http.Nation.Nation> = Arbitrary.make(
+export const NationArb: fc.Arbitrary<Nation.Nation> = Arbitrary.make(
   Schema.Struct(
-    http.Nation.Nation.omit(
-      "id",
-      "actors",
-      "createdAt",
-      "updatedAt",
-      "deletedAt",
-    ).fields,
+    Nation.Nation.omit("id", "actors", "createdAt", "updatedAt", "deletedAt")
+      .fields,
   ),
 ).map((p) => ({
   ...p,

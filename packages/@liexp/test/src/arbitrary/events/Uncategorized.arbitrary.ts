@@ -1,5 +1,6 @@
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb } from "../Date.arbitrary.js";
@@ -13,7 +14,7 @@ interface CreateEventBodyArbOpts {
   keywordIds?: boolean;
 }
 
-const createEventProps = http.Events.CreateEventPlainBody.members[4].omit(
+const createEventProps = Events.CreateEventPlainBody.members[4].omit(
   "excerpt",
   "body",
   "date",
@@ -27,7 +28,7 @@ export const CreateEventBodyArb = ({
   linksIds = false,
   mediaIds: _mediaIds = false,
   keywordIds: _keywordIds = false,
-}: CreateEventBodyArbOpts = {}): fc.Arbitrary<http.Events.Uncategorized.CreateEventBody> =>
+}: CreateEventBodyArbOpts = {}): fc.Arbitrary<Events.Uncategorized.CreateEventBody> =>
   Arbitrary.make(createEventProps).map(
     (b) =>
       ({
@@ -54,7 +55,7 @@ export const CreateEventBodyArb = ({
               thumbnail: fc.option(URLArb, { nil: undefined }),
               extra: fc.constant(undefined),
               type: fc.constantFrom(
-                ...http.Media.MediaType.members.map((m) => m.literals[0]),
+                ...Media.MediaType.members.map((m) => m.literals[0]),
               ),
               events: fc.constant([]),
               links: fc.constant([]),
@@ -91,10 +92,10 @@ export const CreateEventBodyArb = ({
         ),
         keywords: fc.sample(UUIDArb, 5),
         date: fc.sample(DateArb, 1)[0],
-      }) as unknown as http.Events.Uncategorized.CreateEventBody,
+      }) as unknown as Events.Uncategorized.CreateEventBody,
   );
 
-const uncategorizedProps = http.Events.Uncategorized.Uncategorized.omit(
+const uncategorizedProps = Events.Uncategorized.Uncategorized.omit(
   "id",
   "date",
   "excerpt",
@@ -109,7 +110,7 @@ const uncategorizedProps = http.Events.Uncategorized.Uncategorized.omit(
   "deletedAt",
 );
 
-export const UncategorizedArb: fc.Arbitrary<http.Events.Uncategorized.Uncategorized> =
+export const UncategorizedArb: fc.Arbitrary<Events.Uncategorized.Uncategorized> =
   Arbitrary.make(uncategorizedProps).map((u) => ({
     ...u,
     id: fc.sample(UUIDArb, 1)[0],

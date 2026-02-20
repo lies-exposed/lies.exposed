@@ -1,5 +1,7 @@
-import { ActorRelationType } from "@liexp/io/lib/http/ActorRelation.js";
-import type * as http from "@liexp/io/lib/http/index.js";
+import {
+  ActorRelationType,
+  type ActorRelation,
+} from "@liexp/io/lib/http/ActorRelation.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
@@ -100,9 +102,7 @@ export const ActorRelationList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<{ record?: http.ActorRelation.ActorRelation }> = ({
-  record,
-}) => {
+const EditTitle: React.FC<{ record?: ActorRelation }> = ({ record }) => {
   return (
     <span>
       {record?.actor.fullName} → {record?.relatedActor.fullName}
@@ -111,7 +111,7 @@ const EditTitle: React.FC<{ record?: http.ActorRelation.ActorRelation }> = ({
 };
 
 export const ActorRelationEdit: React.FC = () => {
-  const record = useRecordContext<http.ActorRelation.ActorRelation>();
+  const record = useRecordContext<ActorRelation>();
   return (
     <Edit
       title={<EditTitle record={record} />}

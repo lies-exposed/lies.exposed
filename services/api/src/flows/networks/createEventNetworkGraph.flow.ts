@@ -12,27 +12,22 @@ import { infiniteSearchEventQuery } from "@liexp/backend/lib/queries/events/sear
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import * as Actor from "@liexp/io/lib/http/Actor.js";
 import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import {
   EventTotalsMonoid,
   type EventTotals,
 } from "@liexp/io/lib/http/Events/EventTotals.js";
 import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
-import { GROUPS } from "@liexp/io/lib/http/Group.js";
-import { KEYWORDS } from "@liexp/io/lib/http/Keyword.js";
+import * as Group from "@liexp/io/lib/http/Group.js";
+import * as Keyword from "@liexp/io/lib/http/Keyword.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import {
   type EventNetworkDatum,
   type NetworkGraphOutput,
   type NetworkGroupBy,
   type NetworkLink,
 } from "@liexp/io/lib/http/Network/Network.js";
-import {
-  type Actor,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/io/lib/http/index.js";
 import { getColorByEventType } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toEventNetworkDatum } from "@liexp/shared/lib/helpers/event/eventNetworkDatum.helper.js";
 import {
@@ -483,7 +478,7 @@ export const createEventNetworkGraph =
                   });
                   const update: any = {};
                   ctx.logger.debug.log("Source key %s", k);
-                  if (key === ACTORS.literals[0]) {
+                  if (key === Actor.ACTORS.literals[0]) {
                     update.actorLinks = [
                       {
                         source: k,
@@ -508,7 +503,7 @@ export const createEventNetworkGraph =
                     update.actorLinks.push(...tuples[1].actorLinks);
                   }
 
-                  if (key === GROUPS.literals[0]) {
+                  if (key === Group.GROUPS.literals[0]) {
                     update.groupLinks = [
                       {
                         source: k.toString(),
@@ -532,7 +527,7 @@ export const createEventNetworkGraph =
                     update.groupLinks.push(...tuples[1].groupLinks);
                   }
 
-                  if (key === KEYWORDS.literals[0]) {
+                  if (key === Keyword.KEYWORDS.literals[0]) {
                     update.keywordLinks = [
                       {
                         source: k.toString(),
@@ -578,15 +573,15 @@ export const createEventNetworkGraph =
           sequenceS(TE.ApplicativePar)({
             keywords: getGraph(
               keywords.map((k) => k.id),
-              KEYWORDS.literals[0],
+              Keyword.KEYWORDS.literals[0],
             ),
             actors: getGraph(
               actors.map((a) => a.id),
-              ACTORS.literals[0],
+              Actor.ACTORS.literals[0],
             ),
             groups: getGraph(
               groups.map((g) => g.id),
-              GROUPS.literals[0],
+              Group.GROUPS.literals[0],
             ),
           }),
           TE.map(({ keywords, groups, actors }) =>
