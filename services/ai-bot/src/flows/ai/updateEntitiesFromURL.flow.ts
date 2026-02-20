@@ -67,7 +67,7 @@ type ExtractedEntitiesSchema = typeof ExtractedEntitiesSchema.Type;
 
 // --- Result type ---
 
-export interface UpdateEntitiesFromURLResult {
+interface UpdateEntitiesFromURLResult {
   updatedActors: string[];
   updatedGroups: string[];
   unmatchedActors: string[];
