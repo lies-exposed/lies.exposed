@@ -2,7 +2,7 @@ import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
 import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import * as IO from "@liexp/io/lib/http/index.js";
+import * as ActorRelation from "@liexp/io/lib/http/ActorRelation.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 
@@ -10,9 +10,9 @@ const List = Endpoint({
   Method: "GET",
   getPath: () => "/actor-relations",
   Input: {
-    Query: IO.ActorRelation.GetListActorRelationQuery,
+    Query: ActorRelation.GetListActorRelationQuery,
   },
-  Output: IO.ActorRelation.ListActorRelationOutput,
+  Output: ActorRelation.ListActorRelationOutput,
 });
 
 const Create = Endpoint({
@@ -20,9 +20,9 @@ const Create = Endpoint({
   getPath: () => "/actor-relations",
   Input: {
     Query: undefined,
-    Body: IO.ActorRelation.CreateActorRelation,
+    Body: ActorRelation.CreateActorRelation,
   },
-  Output: IO.ActorRelation.SingleActorRelationOutput,
+  Output: ActorRelation.SingleActorRelationOutput,
 });
 
 const Get = Endpoint({
@@ -31,7 +31,7 @@ const Get = Endpoint({
   Input: {
     Params: Schema.Struct({ id: UUID }),
   },
-  Output: IO.ActorRelation.SingleActorRelationOutput,
+  Output: ActorRelation.SingleActorRelationOutput,
 });
 
 const Edit = Endpoint({
@@ -42,13 +42,13 @@ const Edit = Endpoint({
     Body: nonEmptyRecordFromType({
       actor: OptionFromNullishToNull(UUID),
       relatedActor: OptionFromNullishToNull(UUID),
-      type: OptionFromNullishToNull(IO.ActorRelation.ActorRelationType),
+      type: OptionFromNullishToNull(ActorRelation.ActorRelationType),
       startDate: OptionFromNullishToNull(Schema.Date),
       endDate: OptionFromNullishToNull(Schema.Date),
       excerpt: OptionFromNullishToNull(BlockNoteDocument),
     }),
   },
-  Output: IO.ActorRelation.SingleActorRelationOutput,
+  Output: ActorRelation.SingleActorRelationOutput,
 });
 
 const Delete = Endpoint({
@@ -57,7 +57,7 @@ const Delete = Endpoint({
   Input: {
     Params: Schema.Struct({ id: UUID }),
   },
-  Output: IO.ActorRelation.SingleActorRelationOutput,
+  Output: ActorRelation.SingleActorRelationOutput,
 });
 
 const ActorRelationTree = Endpoint({

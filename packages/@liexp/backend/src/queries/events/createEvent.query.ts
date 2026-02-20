@@ -1,7 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import type * as http from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DeepPartial } from "typeorm";
@@ -15,7 +15,7 @@ import { fetchRelationIds } from "./fetchEventRelations.query.js";
 export const createEventQuery = <
   C extends DatabaseContext & URLMetadataContext & LoggerContext,
 >(
-  input: http.Events.CreateEventPlainBody,
+  input: Events.CreateEventPlainBody,
 ): ReaderTaskEither<C, DBError, DeepPartial<EventV2Entity>> => {
   return pipe(
     fetchRelationIds({

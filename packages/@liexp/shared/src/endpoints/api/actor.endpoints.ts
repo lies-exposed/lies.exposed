@@ -3,7 +3,7 @@ import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.j
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
-import { Actor } from "@liexp/io/lib/http/index.js";
+import * as Actor from "@liexp/io/lib/http/Actor.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

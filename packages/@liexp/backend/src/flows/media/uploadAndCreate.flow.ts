@@ -1,11 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import {
-  IframeVideoType,
-  type MediaType,
-} from "@liexp/io/lib/http/Media/index.js";
-import { type Media } from "@liexp/io/lib/http/index.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { getMediaKey } from "@liexp/shared/lib/utils/media.utils.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -36,7 +32,7 @@ export type CreateAndUploadFlowContext = SpaceContext &
 
 export const uploadAndCreate = <C extends CreateAndUploadFlowContext>(
   createMediaData: Media.CreateMedia,
-  { Body, ContentType }: { Body: any; ContentType?: MediaType },
+  { Body, ContentType }: { Body: any; ContentType?: Media.MediaType },
   id: UUID | undefined,
   extractThumb: boolean,
 ): ReaderTaskEither<C, ServerError, MediaEntity> => {
@@ -48,7 +44,7 @@ export const uploadAndCreate = <C extends CreateAndUploadFlowContext>(
     fp.RTE.bind("location", ({ mediaId }) => {
       // ctx.logger.debug.log("Create media and upload %s", createMediaData);
 
-      if (Schema.is(IframeVideoType)(createMediaData.type)) {
+      if (Schema.is(Media.IframeVideoType)(createMediaData.type)) {
         return fp.RTE.right(createMediaData.location);
       }
 

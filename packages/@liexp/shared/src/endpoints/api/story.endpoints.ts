@@ -3,7 +3,7 @@ import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNul
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
-import { Story } from "@liexp/io/lib/http/index.js";
+import * as Story from "@liexp/io/lib/http/Story.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

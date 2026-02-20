@@ -5,7 +5,7 @@ import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { EventMap } from "@liexp/io/lib/http/Events/index.js";
 import { type Link } from "@liexp/io/lib/http/Link.js";
 import { type CreateEventFromLinksTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
-import { type Events } from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import {
   buildEvent,
   type EventCommonProps,

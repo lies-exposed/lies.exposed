@@ -1,6 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import type * as http from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
@@ -13,11 +13,11 @@ import { optionalsToUndefined } from "../../utils/foldOptionals.utils.js";
 import { fetchRelationIds } from "./fetchEventRelations.query.js";
 
 interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
-  type: http.Events.EventType;
+  type: Events.EventType;
 }
 
 export const editEventQuery =
-  (storedEvent: EventV2Entity, input: http.Events.EditEventBody) =>
+  (storedEvent: EventV2Entity, input: Events.EditEventBody) =>
   <C extends LoggerContext & DatabaseContext & URLMetadataContext>(
     ctx: C,
   ): TE.TaskEither<DBError, EditEventEntity> => {

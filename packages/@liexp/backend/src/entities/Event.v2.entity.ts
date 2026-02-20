@@ -5,7 +5,7 @@ import {
   UNCATEGORIZED,
 } from "@liexp/io/lib/http/Events/EventType.js";
 import { type ScientificStudyPayload } from "@liexp/io/lib/http/Events/ScientificStudy.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import {
   Column,
   Entity,
@@ -42,15 +42,15 @@ export class EventV2Entity extends DeletableEntity {
 
   @Column({
     type: "enum",
-    enum: http.Events.Event.members.map(
+    enum: Events.Event.members.map(
       (eventC) => eventC.fields.type.literals[0],
     ),
     default: UNCATEGORIZED.literals[0],
   })
-  type: http.Events.Event["type"];
+  type: Events.Event["type"];
 
   @Column({ type: "json", nullable: true })
-  payload: http.Events.Event["payload"];
+  payload: Events.Event["payload"];
 
   @ManyToMany(() => LinkEntity, (a) => a.events, {
     cascade: ["insert"],

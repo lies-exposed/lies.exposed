@@ -4,7 +4,7 @@ import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNul
 import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { GetListQuery } from "@liexp/io/lib/http/Query/index.js";
-import { Project } from "@liexp/io/lib/http/index.js";
+import * as Project from "@liexp/io/lib/http/Project.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

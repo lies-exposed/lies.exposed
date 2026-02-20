@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type Queue } from "@liexp/io/lib/http/index.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { type DeleteResult, Equal } from "typeorm";
 import { type DatabaseContext } from "../context/db.context.js";
