@@ -193,16 +193,13 @@ Then proceed with: <actual task description>")
 
 **When to include it:** Any subagent that will read or write code in this repository.
 
+### Subagents Using Playwright MCP
+
+When spawning subagents that need to perform UI testing or browser automation, include the Playwright MCP setup in the subagent prompt. The agent will automatically use internal Docker service URLs (e.g., `http://admin.liexp.dev`) rather than localhost. For full details on available tools, workflows, and troubleshooting, subagents should reference `docs/playwright-mcp-agent-guide.md`.
+
 ### Using Playwright MCP for Browser Automation
 
-The repository includes a Playwright MCP server running in Docker for UI testing and debugging.
-
-**Quick Start:**
-```bash
-docker compose up playwright-mcp.liexp.dev
-```
-
-For detailed usage, see `docs/playwright-mcp.md`.
+The repository includes a Playwright MCP server running in Docker for UI testing and debugging. For comprehensive usage including test credentials, Docker network configuration, available tools, and troubleshooting, see `docs/playwright-mcp-agent-guide.md`.
 
 ### Development Best Practices and Priorities
 
