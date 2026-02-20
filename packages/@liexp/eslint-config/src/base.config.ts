@@ -79,6 +79,23 @@ const config = defineConfig(
             "@liexp/ui/src/*",
             "@liexp/backend/src/*",
           ],
+          // Ban the @liexp/io barrel re-export. When a file mixes this path with a
+          // direct sub-path import (e.g. '@liexp/io/lib/http/Queue/index.js') TypeScript
+          // sees two different module instances of the same type and emits
+          // "Two different types with this name exist, but they are unrelated."
+          // Use the direct sub-path everywhere instead:
+          //   import * as Queue from "@liexp/io/lib/http/Queue/index.js"
+          //   import { UUID }   from "@liexp/io/lib/http/Common/UUID.js"
+          paths: [
+            {
+              name: "@liexp/io/lib/http/index.js",
+              message:
+                "Import directly from the sub-module path instead " +
+                "(e.g. '@liexp/io/lib/http/Queue/index.js', '@liexp/io/lib/http/Actor.js'). " +
+                "Importing via this barrel re-export creates duplicate TypeScript module " +
+                "instances when any direct sub-path import also exists in the same program.",
+            },
+          ],
         },
       ],
 
