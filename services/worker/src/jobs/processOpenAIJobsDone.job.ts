@@ -21,7 +21,10 @@ import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
-import { DoneStatus } from "@liexp/io/lib/http/Queue/index.js";
+import {
+  DoneStatus,
+  OpenAIUpdateEntitiesFromURLType,
+} from "@liexp/io/lib/http/Queue/index.js";
 import { type Queue } from "@liexp/io/lib/http/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { Schema } from "effect";
@@ -99,6 +102,14 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
   return pipe(
     fp.RTE.right(job),
     fp.RTE.chain((job) => {
+      // updateEntitiesFromURLFlow handles all DB updates directly in the flow,
+      // so no additional processing is needed here.
+      if (
+        Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)
+      ) {
+        return fp.RTE.of(job);
+      }
+
       if (Schema.is(MEDIA)(job.resource)) {
         return pipe(
           MediaRepository.save([{ id: job.id, description: job.result }]),
