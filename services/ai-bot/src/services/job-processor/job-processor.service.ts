@@ -1,6 +1,6 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import * as Queue from "@liexp/io/lib/http/Queue/index.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import { type ClientContextRTE } from "../../types.js";
 import { type AIBotError, toAIBotError } from "#common/error/index.js";
 

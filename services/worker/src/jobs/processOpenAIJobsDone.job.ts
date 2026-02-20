@@ -104,9 +104,7 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
     fp.RTE.chain((job) => {
       // updateEntitiesFromURLFlow handles all DB updates directly in the flow,
       // so no additional processing is needed here.
-      if (
-        Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)
-      ) {
+      if (Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)) {
         return fp.RTE.of(job);
       }
 
