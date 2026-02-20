@@ -6,6 +6,10 @@ import { PaginationQuery } from "../Query/PaginationQuery.js";
 import { SortQuery } from "../Query/SortQuery.js";
 import { ResourcesNames } from "../ResourcesNames.js";
 import {
+  OpenAIUpdateEntitiesFromURLType,
+  UpdateEntitiesFromURLQueueData,
+} from "./UpdateEntitiesFromURLQueue.js";
+import {
   CreateEventFromLinksQueueData,
   OpenAICreateEventFromLinksType,
 } from "./event/CreateEventFromLinksQueue.js";
@@ -23,6 +27,11 @@ import {
 } from "./event/UpdateEventQueue.js";
 import { EventQueue } from "./event/index.js";
 
+export {
+  OpenAIUpdateEntitiesFromURLType,
+  UpdateEntitiesFromURLQueueData,
+} from "./UpdateEntitiesFromURLQueue.js";
+
 export const QueueResourceNames = ResourcesNames;
 export type QueueResourceNames = typeof QueueResourceNames.Type;
 
@@ -39,6 +48,7 @@ export const QueueTypes = Schema.Union(
   OpenAICreateEventFromTextType,
   OpenAICreateEventFromLinksType,
   OpenAIUpdateEventQueueType,
+  OpenAIUpdateEntitiesFromURLType,
 ).annotations({
   title: "QueueTypes",
 });
@@ -133,6 +143,7 @@ const CreateQueueData = Schema.Union(
   CreateEventFromURLQueueData,
   CreateEventFromLinksQueueData,
   UpdateEventQueueData,
+  UpdateEntitiesFromURLQueueData,
 ).annotations({
   title: "CreateQueueData",
 });
@@ -148,10 +159,19 @@ export const CreateQueue = Schema.Struct({
 
 export type CreateQueue = typeof CreateQueue.Type;
 
+export const UpdateEntitiesFromURLTypeData = Schema.Struct({
+  type: OpenAIUpdateEntitiesFromURLType,
+  data: UpdateEntitiesFromURLQueueData,
+}).annotations({ title: "UpdateEntitiesFromURLTypeData" });
+
+export type UpdateEntitiesFromURLTypeData =
+  typeof UpdateEntitiesFromURLTypeData.Type;
+
 const CreateQueueTypeData = Schema.Union(
   ...EventQueue.members,
   CreateQueueEmbeddingTypeData,
   CreateQueueTextTypeData,
+  UpdateEntitiesFromURLTypeData,
 );
 
 export const Queue = Schema.extend(
