@@ -1,4 +1,4 @@
-import type * as http from "@liexp/io/lib/http/index.js";
+import type * as GroupMember from "@liexp/io/lib/http/GroupMember.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";
 import ReferenceActorInput from "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js";
 import { AvatarField } from "@liexp/ui/lib/components/admin/common/AvatarField.js";
@@ -60,14 +60,14 @@ export const GroupMemberList: React.FC<ListProps> = (props) => (
   </List>
 );
 
-const EditTitle: React.FC<{ record?: http.GroupMember.GroupMember }> = ({
+const EditTitle: React.FC<{ record?: GroupMember.GroupMember }> = ({
   record,
 }) => {
   return <span>Actor {record?.actor.fullName}</span>;
 };
 
 export const GroupMemberEdit: React.FC = () => {
-  const record = useRecordContext<http.GroupMember.GroupMember>();
+  const record = useRecordContext<GroupMember.GroupMember>();
   return (
     <Edit
       title={<EditTitle record={record} />}

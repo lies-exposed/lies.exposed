@@ -6,8 +6,8 @@ import {
   TRANSACTION,
   QUOTE,
 } from "@liexp/io/lib/http/Events/EventType.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
-import { type Events } from "@liexp/io/lib/http/index.js";
 import { Arbitrary, Schema } from "effect";
 import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";

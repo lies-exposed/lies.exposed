@@ -1,4 +1,4 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Area from "@liexp/io/lib/http/Area.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
@@ -17,7 +17,7 @@ const {
   socialPosts: _socialPosts,
   featuredImage: _featuredImage,
   ...areaProps
-} = http.Area.Area.fields;
+} = Area.Area.fields;
 
 export const AreaArb = Arbitrary.make(Schema.Struct(areaProps)).map((p) => ({
   ...p,

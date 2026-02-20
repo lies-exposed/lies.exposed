@@ -1,6 +1,6 @@
 import { OpenAICreateEventFromTextType } from "@liexp/io/lib/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
-import { Queue } from "@liexp/io/lib/http/index.js";
+import * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import JSONInput from "@liexp/ui/lib/components/Common/JSON/JSONInput.js";
 import { Loader } from "@liexp/ui/lib/components/Common/Loader.js";
 import BlockNoteInput from "@liexp/ui/lib/components/admin/BlockNoteInput.js";

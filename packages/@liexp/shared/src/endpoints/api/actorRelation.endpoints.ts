@@ -1,8 +1,8 @@
 import { nonEmptyRecordFromType } from "@liexp/io/lib/Common/NonEmptyRecord.js";
+import * as ActorRelation from "@liexp/io/lib/http/ActorRelation.js";
 import { BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { OptionFromNullishToNull } from "@liexp/io/lib/http/Common/OptionFromNullishToNull.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import * as ActorRelation from "@liexp/io/lib/http/ActorRelation.js";
 import { Endpoint, ResourceEndpoints } from "@ts-endpoint/core";
 import { Schema } from "effect";
 

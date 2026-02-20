@@ -1,11 +1,11 @@
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Media from "@liexp/io/lib/http/Media/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { URLArb } from "./URL.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-const mediaProps = http.Media.Media.omit(
+const mediaProps = Media.Media.omit(
   "id",
   "type",
   "location",
@@ -28,7 +28,7 @@ export const placeKitten = (): URL => {
   return `https://placekitten.com/${width}/${height}` as URL;
 };
 
-export const MediaArb: fc.Arbitrary<http.Media.Media> = Arbitrary.make(
+export const MediaArb: fc.Arbitrary<Media.Media> = Arbitrary.make(
   mediaProps,
 ).chain((props) =>
   fc
@@ -44,7 +44,7 @@ export const MediaArb: fc.Arbitrary<http.Media.Media> = Arbitrary.make(
         keywords: [],
         featuredInStories: [],
         areas: [],
-        type: http.Media.PngType.literals[0],
+        type: Media.PngType.literals[0],
         creator: undefined,
         extra: undefined,
         socialPosts: undefined,

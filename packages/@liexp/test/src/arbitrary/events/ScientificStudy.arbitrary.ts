@@ -1,4 +1,4 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import { Arbitrary } from "effect";
 import fc from "fast-check";
 import { DateArb, MAX_DATE, MIN_DATE } from "../Date.arbitrary.js";
@@ -6,7 +6,7 @@ import { BlockNoteDocumentArb } from "../common/BlockNoteDocument.arbitrary.js";
 import { UUIDArb } from "../common/UUID.arbitrary.js";
 
 const createScientificStudyProps =
-  http.Events.ScientificStudy.CreateScientificStudyBody.omit(
+  Events.ScientificStudy.CreateScientificStudyBody.omit(
     "excerpt",
     "body",
     "date",
@@ -17,7 +17,7 @@ const createScientificStudyProps =
     "keywords",
   );
 
-export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.CreateScientificStudyBody> =
+export const CreateScientificStudyArb: fc.Arbitrary<Events.ScientificStudy.CreateScientificStudyBody> =
   Arbitrary.make(createScientificStudyProps).map((body) => ({
     ...body,
     draft: false,
@@ -36,7 +36,7 @@ export const CreateScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.
     keywords: [],
   }));
 
-const scientificStudyProps = http.Events.ScientificStudy.ScientificStudy.omit(
+const scientificStudyProps = Events.ScientificStudy.ScientificStudy.omit(
   "id",
   "excerpt",
   "body",
@@ -51,7 +51,7 @@ const scientificStudyProps = http.Events.ScientificStudy.ScientificStudy.omit(
   "deletedAt",
 );
 
-export const ScientificStudyArb: fc.Arbitrary<http.Events.ScientificStudy.ScientificStudy> =
+export const ScientificStudyArb: fc.Arbitrary<Events.ScientificStudy.ScientificStudy> =
   Arbitrary.make(scientificStudyProps).map((body) => ({
     ...body,
     id: fc.sample(UUIDArb, 1)[0],

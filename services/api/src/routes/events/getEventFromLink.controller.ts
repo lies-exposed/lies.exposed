@@ -6,8 +6,8 @@ import { searchEventV2Query } from "@liexp/backend/lib/queries/events/searchEven
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import { EventSuggestion } from "@liexp/io/lib/http/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { addWeeks, subWeeks } from "date-fns";

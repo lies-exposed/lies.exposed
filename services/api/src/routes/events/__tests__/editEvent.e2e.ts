@@ -11,7 +11,8 @@ import {
   saveUser,
   type UserTest,
 } from "@liexp/backend/lib/test/utils/user.utils.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
+import * as Auth from "@liexp/io/lib/http/auth/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ActorArb } from "@liexp/test/lib/arbitrary/Actor.arbitrary.js";
@@ -88,7 +89,7 @@ describe("Edit Event", () => {
     delete event.deletedAt;
 
     adminUser = await saveUser(appTest.ctx, [
-      http.Auth.Permissions.AdminDelete.literals[0],
+      Auth.Permissions.AdminDelete.literals[0],
     ]);
 
     supporterUser = await saveUser(appTest.ctx, []);
@@ -143,7 +144,7 @@ describe("Edit Event", () => {
     expect(response.status).toEqual(200);
 
     expect(
-      Schema.decodeUnknownEither(http.Events.Uncategorized.Uncategorized)(
+      Schema.decodeUnknownEither(Events.Uncategorized.Uncategorized)(
         response.body.data,
       )._tag,
     ).toEqual("Right");
@@ -189,7 +190,7 @@ describe("Edit Event", () => {
     const body = response.body.data;
 
     expect(
-      Schema.decodeUnknownEither(http.Events.Uncategorized.Uncategorized)(
+      Schema.decodeUnknownEither(Events.Uncategorized.Uncategorized)(
         response.body.data,
       )._tag,
     ).toEqual("Right");

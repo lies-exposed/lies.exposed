@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import type * as Area from "@liexp/io/lib/http/Area.js";
 import { type BySubject } from "@liexp/io/lib/http/Common/index.js";
 import { type EventTotals } from "@liexp/io/lib/http/Events/EventTotals.js";
 import {
@@ -17,7 +18,6 @@ import { type SearchDocumentaryEvent } from "@liexp/io/lib/http/Events/SearchEve
 import { type SearchQuoteEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchQuoteEvent.js";
 import { type SearchTransactionEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchTransactionEvent.js";
 import { type EventRelations } from "@liexp/io/lib/http/Events/index.js";
-import type * as Area from "@liexp/io/lib/http/Area.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import { BySubjectUtils } from "@liexp/io/lib/utils/BySubjectUtils.js";

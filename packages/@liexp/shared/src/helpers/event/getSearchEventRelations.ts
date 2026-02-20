@@ -1,6 +1,6 @@
+import type * as Actor from "@liexp/io/lib/http/Actor.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
-import type * as Actor from "@liexp/io/lib/http/Actor.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import type * as Group from "@liexp/io/lib/http/Group.js";
 

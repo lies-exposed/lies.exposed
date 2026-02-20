@@ -21,7 +21,7 @@ import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
-import * as Queue from "@liexp/io/lib/http/Queue/index.js";
+import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
   DoneStatus,
   OpenAIUpdateEntitiesFromURLType,

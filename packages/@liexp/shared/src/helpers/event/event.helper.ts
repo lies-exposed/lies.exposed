@@ -1,5 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import type * as Common from "@liexp/io/lib/http/Common/index.js";
 import {
   DEATH,
   EVENT_TYPES,
@@ -7,7 +8,6 @@ import {
   TRANSACTION,
 } from "@liexp/io/lib/http/Events/EventType.js";
 import { type EventRelationIds } from "@liexp/io/lib/http/Events/index.js";
-import type * as Common from "@liexp/io/lib/http/Common/index.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import type * as Network from "@liexp/io/lib/http/Network/Network.js";
 import { makeBySubjectId } from "@liexp/io/lib/utils/BySubjectUtils.js";

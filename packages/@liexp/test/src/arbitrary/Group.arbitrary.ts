@@ -1,4 +1,4 @@
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Group from "@liexp/io/lib/http/Group.js";
 import { Arbitrary, Schema } from "effect";
 import fc from "fast-check";
 import { HumanReadableStringArb } from "./HumanReadableString.arbitrary.js";
@@ -7,9 +7,9 @@ import { BlockNoteDocumentArb } from "./common/BlockNoteDocument.arbitrary.js";
 import { ColorArb } from "./common/Color.arbitrary.js";
 import { UUIDArb } from "./common/UUID.arbitrary.js";
 
-export const GroupArb: fc.Arbitrary<http.Group.Group> = Arbitrary.make(
+export const GroupArb: fc.Arbitrary<Group.Group> = Arbitrary.make(
   Schema.Struct(
-    http.Group.Group.omit(
+    Group.Group.omit(
       "id",
       "body",
       "members",

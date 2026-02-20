@@ -3,7 +3,7 @@ import * as passwordUtils from "@liexp/backend/lib/utils/password.utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { UserStatusPending } from "@liexp/io/lib/http/User.js";
-import * as http from "@liexp/io/lib/http/index.js";
+import * as Auth from "@liexp/io/lib/http/auth/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { UserIO } from "./user.io.js";
@@ -23,8 +23,8 @@ export const MakeSignUpUserRoute: Route = (r, ctx) => {
               id: uuid(),
               ...userData,
               permissions: [
-                http.Auth.Permissions.EventSuggestionCreate.literals[0],
-                http.Auth.Permissions.EventSuggestionEdit.literals[0],
+                Auth.Permissions.EventSuggestionCreate.literals[0],
+                Auth.Permissions.EventSuggestionEdit.literals[0],
               ],
               status: UserStatusPending.literals[0],
               passwordHash: pw,

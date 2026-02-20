@@ -4,10 +4,10 @@ import { ListOutput, Output } from "@liexp/io/lib/http/Common/Output.js";
 import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
-import * as Events from "@liexp/io/lib/http/Events/index.js";
 import { EventType } from "@liexp/io/lib/http/Events/EventType.js";
 import { SearchEvent } from "@liexp/io/lib/http/Events/SearchEvents/SearchEvent.js";
 import { GetSearchEventsQuery } from "@liexp/io/lib/http/Events/SearchEvents/SearchEventsQuery.js";
+import * as Events from "@liexp/io/lib/http/Events/index.js";
 import * as Group from "@liexp/io/lib/http/Group.js";
 import * as GroupMember from "@liexp/io/lib/http/GroupMember.js";
 import * as Keyword from "@liexp/io/lib/http/Keyword.js";
@@ -158,9 +158,7 @@ export const GetSuggestions = Endpoint({
     Query: Schema.Struct({
       ...SortQuery.fields,
       ...PaginationQuery.fields,
-      status: OptionFromNullishToNull(
-        EventSuggestion.EventSuggestionStatus,
-      ),
+      status: OptionFromNullishToNull(EventSuggestion.EventSuggestionStatus),
       links: OptionFromNullishToNull(Schema.Array(UUID)),
       creator: OptionFromNullishToNull(UUID),
     }),

@@ -9,8 +9,7 @@ import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { fetchRelations } from "@liexp/backend/lib/queries/common/fetchRelations.query.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
-import { type EventRelations } from "@liexp/io/lib/http/Events/index.js";
-import { type Events } from "@liexp/io/lib/http/index.js";
+import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -30,7 +29,7 @@ export const fetchEventsRelations =
     events: readonly Events.Event[],
     isAdmin: boolean,
     options: FetchEventsRelationsOptions = {},
-  ): TEReader<EventRelations, C> =>
+  ): TEReader<Events.EventRelations, C> =>
   (ctx) => {
     const { relations: relationsFilter } = options;
     const shouldFetch = (type: RelationType): boolean =>

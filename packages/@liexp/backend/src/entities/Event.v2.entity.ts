@@ -42,9 +42,7 @@ export class EventV2Entity extends DeletableEntity {
 
   @Column({
     type: "enum",
-    enum: Events.Event.members.map(
-      (eventC) => eventC.fields.type.literals[0],
-    ),
+    enum: Events.Event.members.map((eventC) => eventC.fields.type.literals[0]),
     default: UNCATEGORIZED.literals[0],
   })
   type: Events.Event["type"];

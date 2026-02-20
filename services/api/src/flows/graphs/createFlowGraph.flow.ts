@@ -3,8 +3,13 @@ import { getOlderThanOr } from "@liexp/backend/lib/flows/fs/getOlderThanOr.flow.
 import { EventV2IO } from "@liexp/backend/lib/io/event/eventV2.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
+import type * as Actor from "@liexp/io/lib/http/Actor.js";
 import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import { EventTotalsMonoid } from "@liexp/io/lib/http/Events/EventTotals.js";
+import { type Events } from "@liexp/io/lib/http/Events/index.js";
+import type * as Group from "@liexp/io/lib/http/Group.js";
+import type * as Keyword from "@liexp/io/lib/http/Keyword.js";
+import type * as Media from "@liexp/io/lib/http/Media/index.js";
 import {
   type GetNetworkQuery,
   type NetworkLink,
@@ -13,13 +18,6 @@ import {
   type FlowGraphOutput,
   type FlowGraphType,
 } from "@liexp/io/lib/http/graphs/FlowGraph.js";
-import {
-  type Actor,
-  type Events,
-  type Group,
-  type Keyword,
-  type Media,
-} from "@liexp/io/lib/http/index.js";
 import { getTotals } from "@liexp/shared/lib/helpers/event/events-mapper.helper.js";
 import { getRelationIds } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { toColor } from "@liexp/shared/lib/utils/colors.js";
