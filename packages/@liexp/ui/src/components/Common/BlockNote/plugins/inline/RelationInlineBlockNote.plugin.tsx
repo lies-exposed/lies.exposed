@@ -96,6 +96,7 @@ export const RelationInlineContentComponent: React.FC<{
     if (editor.isEditable) {
       elements.editIcon = (
         <IconButton
+          color="inherit"
           onClick={() => {
             setRelationProps({
               relation: undefined,
@@ -109,7 +110,7 @@ export const RelationInlineContentComponent: React.FC<{
 
       elements.closeButton = (
         <span>
-          <IconButton onClick={removeItem}>
+          <IconButton color="inherit" onClick={removeItem}>
             <Icons.Close
               style={{
                 fontSize: 9,

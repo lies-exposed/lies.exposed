@@ -49,25 +49,74 @@ const colors = {
   deletedBackgroundColor,
 };
 
-const themeOptions: ThemeOptions = {
-  palette: {
-    common: {
-      white: "#EEE",
-      black: "#111",
-    },
-    primary: {
-      main: primary,
-      light: primaryLight,
-      dark: primaryDark,
-      contrastText: "#fff",
-    },
-    secondary: {
-      main: secondary,
-      light: secondaryLight,
-      dark: secondaryDark,
-      contrastText: "#FFF",
-    },
+// Dark theme colors for dark mode
+const darkPrimary = "#FF7976";
+const darkPrimaryLight = lighten(darkPrimary, 0.3);
+const darkPrimaryDark = darken(darkPrimary, 0.3);
+
+const darkSecondary = "#4DD3CF";
+const darkSecondaryLight = lighten(darkSecondary, 0.3);
+const darkSecondaryDark = darken(darkSecondary, 0.3);
+
+const createLightPalette = () => ({
+  common: {
+    white: "#EEE",
+    black: "#111",
   },
+  primary: {
+    main: primary,
+    light: primaryLight,
+    dark: primaryDark,
+    contrastText: "#fff",
+  },
+  secondary: {
+    main: secondary,
+    light: secondaryLight,
+    dark: secondaryDark,
+    contrastText: "#FFF",
+  },
+  background: {
+    default: "#fafafa",
+    paper: "#fff",
+  },
+  text: {
+    primary: "rgba(0, 0, 0, 0.87)",
+    secondary: "rgba(0, 0, 0, 0.6)",
+  },
+});
+
+const createDarkPalette = () => ({
+  common: {
+    white: "#fff",
+    black: "#E8E8E8", // Light gray for visibility on dark backgrounds
+  },
+  primary: {
+    main: darkPrimary,
+    light: darkPrimaryLight,
+    dark: darkPrimaryDark,
+    contrastText: "#000", // Dark text on light primary backgrounds
+  },
+  secondary: {
+    main: darkSecondary,
+    light: darkSecondaryLight,
+    dark: darkSecondaryDark,
+    contrastText: "#000", // Dark text on light secondary backgrounds
+  },
+  background: {
+    default: "#121212",
+    paper: "#1e1e1e",
+  },
+  text: {
+    primary: "#fff",
+    secondary: "rgba(255, 255, 255, 0.7)",
+  },
+});
+
+const lightPalette = createLightPalette();
+const darkPalette = createDarkPalette();
+
+const themeOptions: ThemeOptions = {
+  palette: lightPalette,
   typography: () => ({
     fontWeightRegular: 400,
     fontWeightBold: 600,
@@ -130,6 +179,126 @@ const themeOptions: ThemeOptions = {
         color: "primary",
       },
     },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          // Ensure minimum touch target size of 44px per WCAG mobile guidelines
+          "@media (max-width: 600px)": {
+            minWidth: "44px",
+            minHeight: "44px",
+            padding: "10px",
+          },
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          flexDirection: "row",
+          alignItems: "center",
+          gap: "8px",
+          "@media (max-width: 599px)": {
+            minHeight: 56,
+            height: 56,
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          // Ensure form inputs have proper touch target size on mobile
+          "@media (max-width: 600px)": {
+            "& .MuiInputBase-root": {
+              minHeight: "44px",
+              fontSize: "16px", // Prevents mobile zoom on focus
+            },
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          // Proper sizing for input fields on mobile
+          "@media (max-width: 600px)": {
+            minHeight: "44px",
+            fontSize: "16px", // Prevents iOS auto-zoom on input focus
+            padding: "8px 12px",
+          },
+        },
+        input: {
+          "@media (max-width: 600px)": {
+            padding: "12px",
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          "@media (max-width: 600px)": {
+            fontSize: "0.95rem",
+            marginBottom: "4px",
+          },
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          "@media (max-width: 600px)": {
+            marginBottom: "16px",
+            width: "100%",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          "@media (max-width: 600px)": {
+            minHeight: "44px",
+            minWidth: "44px",
+            fontSize: "1rem",
+            padding: "10px 16px",
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      defaultProps: {
+        variant: "scrollable",
+        scrollButtons: "auto",
+      },
+      styleOverrides: {
+        root: {
+          "@media (max-width: 600px)": {
+            minHeight: "48px",
+          },
+        },
+        scrollButtons: {
+          "@media (max-width: 600px)": {
+            minWidth: "44px",
+            width: "44px",
+          },
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          "@media (max-width: 600px)": {
+            minHeight: "48px",
+            fontSize: "0.875rem",
+            padding: "8px 12px",
+            minWidth: "auto",
+            // Prevent tab text from wrapping
+            whiteSpace: "nowrap",
+          },
+        },
+      },
+    },
   },
 };
 
@@ -141,16 +310,30 @@ const themeOptions: ThemeOptions = {
   },
 };
 
-const ECOTheme = createTheme(themeOptions);
+const createECOTheme = (palette: ReturnType<typeof createLightPalette>) => {
+  return createTheme({
+    ...themeOptions,
+    palette,
+  });
+};
+
+const ECOTheme = createECOTheme(lightPalette);
+const ECOThemeDark = createECOTheme(darkPalette);
 
 type ECOTheme = typeof ECOTheme;
 
 export {
   ECOTheme,
+  ECOThemeDark,
   colors,
   useTheme,
   styled,
   themeOptions,
   type ThemeOptions,
   ThemeProvider,
+  createLightPalette,
+  createDarkPalette,
+  lightPalette,
+  darkPalette,
+  createECOTheme,
 };

@@ -3,6 +3,7 @@ import { styled } from "../../theme/index.js";
 import DonateButton from "../Common/Button/DonateButton.js";
 import SuggestLinkButton from "../Common/Button/SuggestLinkButton.js";
 import { TelegramIcon } from "../Common/Icons/index.js";
+import { ThemeSwitcher } from "../Common/ThemeSwitcher.js";
 import GithubButton from "../GithubButton.js";
 import { AppBar, Box, Link, Toolbar, Typography } from "../mui/index.js";
 import { HeaderMenu } from "./HeaderMenu/HeaderMenu.js";
@@ -32,12 +33,27 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     flexGrow: 0,
     maxHeight: 64,
+    [`${theme.breakpoints.down("sm")}`]: {
+      maxHeight: 48,
+    },
+  },
+  "& .MuiToolbar-root": {
+    height: 64,
+    minHeight: 64,
+    padding: "8px 16px",
+    overflow: "hidden",
+    [`${theme.breakpoints.down("sm")}`]: {
+      height: 48,
+      minHeight: 48,
+      padding: "6px 8px",
+    },
   },
   [`& .${classes.logo}`]: {
     padding: 10,
     height: 64,
     [`${theme.breakpoints.down("sm")}`]: {
       height: 48,
+      padding: 6,
     },
   },
   [`& .${classes.title}`]: {
@@ -46,8 +62,10 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     color: theme.palette.common.white,
     fontWeight: theme.typography.fontWeightBold,
     cursor: "pointer",
+    fontSize: 18,
     [`${theme.breakpoints.down("sm")}`]: {
-      fontSize: 12,
+      fontSize: 15,
+      marginRight: theme.spacing(1),
     },
   },
 
@@ -60,9 +78,9 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   },
   [`& .${classes.menuLeft}`]: {
     display: "flex",
-    alignContent: "flex-start",
     alignItems: "center",
     flexGrow: 1,
+    gap: theme.spacing(1),
     [`${theme.breakpoints.down("sm")}`]: {
       display: "none",
       flexGrow: 1,
@@ -70,9 +88,13 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   },
   [`& .${classes.menuRight}`]: {
     display: "flex",
-    alignContent: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-end",
     flexGrow: 1,
+    gap: theme.spacing(0.5),
+    [`${theme.breakpoints.down("sm")}`]: {
+      gap: theme.spacing(0.25),
+    },
   },
   [`& .${classes.menuItem}`]: {
     color: theme.palette.common.white,
@@ -81,6 +103,11 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     fontSize: 16,
     textTransform: "none",
     cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    [`${theme.breakpoints.down("sm")}`]: {
+      fontSize: 12,
+    },
     "&.selected": {
       color: theme.palette.common.white,
       borderRadius: "0",
@@ -162,6 +189,34 @@ const Header: React.FC<HeaderProps> = ({
             menu={menu}
             onMenuItemClick={onMenuItemClick}
             currentPath={pathname}
+            drawerFooter={
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 8,
+                  alignItems: "center",
+                  height: 40,
+                }}
+              >
+                <ThemeSwitcher size="medium" showTooltip={false} />
+                <GithubButton {...github} showStarCount={false} />
+                <Link
+                  href={telegram.href}
+                  target="_blank"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    height: 40,
+                    color: "inherit",
+                    cursor: "pointer",
+                  }}
+                >
+                  <TelegramIcon size="lg" color="currentColor" />
+                </Link>
+                <DonateButton />
+              </Box>
+            }
           />
         </Box>
       </Toolbar>

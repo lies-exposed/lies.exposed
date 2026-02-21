@@ -146,6 +146,7 @@ export const MediaBlockPluginControl: React.FC<{
 
         <Grid>
           <IconButton
+            color="inherit"
             size="small"
             disabled={s.media.length < 1}
             onClick={() => {
@@ -158,6 +159,7 @@ export const MediaBlockPluginControl: React.FC<{
             <Icons.AddCircle />
           </IconButton>
           <IconButton
+            color="inherit"
             onClick={() => {
               remove?.();
             }}

@@ -6,6 +6,7 @@ import {
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import * as React from "react";
+import { useThemeMode } from "../../../context/ThemeContext.js";
 import { styled } from "../../../theme/index.js";
 
 const PREFIX = "EventTypeColor";
@@ -31,6 +32,9 @@ export const EventTypeColor = {
   [EVENT_TYPES.QUOTE]: "#451ade",
 };
 
+// Dark mode friendly version of death color
+const DEATH_COLOR_DARK = "#E8E8E8";
+
 export const EventTypeIconClass = {
   [EVENT_TYPES.BOOK]: "book" as IconName,
   [EVENT_TYPES.DEATH]: "skull-crossbones" as IconName,
@@ -52,7 +56,13 @@ export const EventIcon: React.FC<EventIconProps> = ({
   height = 18,
   ..._props
 }) => {
+  const { resolvedMode } = useThemeMode();
   const props = { ..._props, width, height };
+
+  // Use light color for death icon in dark mode
+  const deathColor =
+    resolvedMode === "dark" ? DEATH_COLOR_DARK : EventTypeColor.Death;
+
   switch (type) {
     case EVENT_TYPES.BOOK:
       return (
@@ -87,7 +97,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Death}
-          style={{ ...props.style, color: EventTypeColor.Death }}
+          style={{ ...props.style, color: deathColor }}
         />
       );
     case EVENT_TYPES.PATENT:

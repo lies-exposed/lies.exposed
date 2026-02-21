@@ -9,11 +9,13 @@ interface GithubButtonProps {
   user: string;
   repo: string;
   className?: string;
+  showStarCount?: boolean;
 }
 const GithubButton: React.FC<GithubButtonProps> = ({
   user,
   repo,
   className,
+  showStarCount = true,
 }) => {
   const conf = useConfiguration();
   return (
@@ -25,6 +27,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({
         render={({ github }) => {
           return (
             <IconButton
+              color="inherit"
               className={className}
               onClick={() => {
                 window.open(`https://github.com/${user}/${repo}`, "_blank");
@@ -32,12 +35,16 @@ const GithubButton: React.FC<GithubButtonProps> = ({
               style={{
                 color: "white",
               }}
-              size="large"
+              size="medium"
             >
-              <GithubIcon style={{ color: "white", marginRight: 10 }} />
-              <Typography variant="subtitle1" display="inline">
-                {github.stargazers_count}
-              </Typography>
+              <GithubIcon
+                style={{ color: "white", marginRight: showStarCount ? 10 : 0 }}
+              />
+              {showStarCount && (
+                <Typography variant="subtitle1" display="inline">
+                  {github.stargazers_count}
+                </Typography>
+              )}
             </IconButton>
           );
         }}

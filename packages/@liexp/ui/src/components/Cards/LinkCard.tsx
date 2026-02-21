@@ -94,6 +94,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
           </CardContent>
           <CardActions disableSpacing>
             <IconButton
+              color="inherit"
               aria-label="Open link in a new tab"
               onClick={() => {
                 window.open(link.url, "_blank");

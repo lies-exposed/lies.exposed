@@ -11,7 +11,7 @@ const KeywordsPage: React.FC = () => {
     <MainContent>
       {/* <PageContent path="keywords" /> */}
 
-      <Box margin={10}>
+      <Box sx={{ mx: { xs: 1, sm: 2, md: 10 }, my: { xs: 2, md: 10 } }}>
         <AutocompleteKeywordInput
           selectedItems={[]}
           onChange={(k) => {

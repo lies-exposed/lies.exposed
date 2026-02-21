@@ -33,7 +33,7 @@ export const PaneContextMenu: React.FC<PaneContextMenuProps> = ({
     <ContextMenu {...contextMenuProps}>
       <Stack>
         <Stack direction="column">
-          <IconButton size="small" onClick={addGroupNode}>
+          <IconButton color="inherit" size="small" onClick={addGroupNode}>
             <Icons.AddCircle />
             Add Group
           </IconButton>

@@ -8,8 +8,12 @@ import {
 } from "@liexp/ui/lib/components/mui/index.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
+import {
+  ThemeContextProvider,
+  useThemeMode,
+} from "@liexp/ui/lib/context/ThemeContext.js";
 import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
-import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
+import { ECOTheme, ECOThemeDark } from "@liexp/ui/lib/theme/index.js";
 import {
   HydrationBoundary,
   QueryClient,
@@ -34,6 +38,18 @@ dom.watch();
 // create emotion cache
 const cache = createEmotionCache();
 
+function ThemedApp(): React.ReactElement {
+  const { resolvedMode } = useThemeMode();
+  const theme = resolvedMode === "dark" ? ECOThemeDark : ECOTheme;
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
+      <App pathname={window.location.pathname} />
+    </ThemeProvider>
+  );
+}
+
 function Main(): React.ReactElement {
   React.useEffect(() => {
     const jssStyles = document.querySelector("#jss-server-side");
@@ -41,13 +57,6 @@ function Main(): React.ReactElement {
       jssStyles.parentElement?.removeChild(jssStyles);
     }
   }, []);
-
-  const location = React.useMemo(() => {
-    if (typeof window === "object") {
-      return window.location;
-    }
-    return { pathname: "/" };
-  }, [typeof window]);
 
   const [conf] = React.useState(configuration);
 
@@ -81,14 +90,13 @@ function Main(): React.ReactElement {
         <DataProviderContext.Provider value={apiProvider}>
           <HelmetProvider>
             <CacheProvider value={cache}>
-              <ThemeProvider theme={ECOTheme}>
+              <ThemeContextProvider>
                 <QueryClientProvider client={queryClient}>
                   <HydrationBoundary state={dehydratedState}>
-                    <CssBaseline enableColorScheme />
-                    <App pathname={location.pathname} />
+                    <ThemedApp />
                   </HydrationBoundary>
                 </QueryClientProvider>
-              </ThemeProvider>
+              </ThemeContextProvider>
             </CacheProvider>
           </HelmetProvider>
         </DataProviderContext.Provider>

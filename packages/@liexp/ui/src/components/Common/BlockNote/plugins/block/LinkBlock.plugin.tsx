@@ -115,6 +115,7 @@ export const LinkBlockPluginControl: React.FC<{
         </Grid>
         <Grid size={{ xs: 6, sm: 12, md: 12 }}>
           <IconButton
+            color="inherit"
             size="small"
             disabled={s.links.length < 1}
             onClick={() => {
@@ -127,6 +128,7 @@ export const LinkBlockPluginControl: React.FC<{
             <Icons.AddCircle />
           </IconButton>
           <IconButton
+            color="inherit"
             onClick={() => {
               remove?.();
             }}

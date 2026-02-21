@@ -1,250 +1,194 @@
-import { clsx } from "clsx";
 import * as React from "react";
-import { styled, useTheme } from "../../../theme/index.js";
+import { useTheme } from "../../../theme/index.js";
 import {
   Box,
-  Button,
+  Collapse,
+  Divider,
+  Drawer,
   Icons,
   IconButton,
-  Menu,
-  MenuItem,
-  Stack,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
 } from "../../mui/index.js";
 import { type HeaderMenuItem, type HeaderMenuSubItem } from "./types.js";
-
-interface HeaderMenuItemProps {
-  item: HeaderMenuItem;
-  selectedItem: HeaderMenuItem | null;
-  open: boolean;
-  currentView: string;
-  onClick: (
-    ref: React.RefObject<HTMLButtonElement | null> | null,
-    i: HeaderMenuItem | HeaderMenuSubItem,
-  ) => void;
-}
-
-const MENU_ITEM_CLASS_PREFIX = "HeaderMenu";
-const menuItemClasses = {
-  root: `${MENU_ITEM_CLASS_PREFIX}-root`,
-  menuItem: `${MENU_ITEM_CLASS_PREFIX}-menuItem`,
-  menuItemLink: `${MENU_ITEM_CLASS_PREFIX}-menuItemLink`,
-  menuSubItems: `${MENU_ITEM_CLASS_PREFIX}-menuSubItems`,
-};
-
-const HeaderMenuItemBox = styled(Box)(({ theme }) => ({
-  [`&.${menuItemClasses.root}`]: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-end",
-  },
-  [`& .${menuItemClasses.menuItemLink}`]: {
-    color: theme.palette.text.primary,
-    ...theme.typography.subtitle1,
-    fontSize: 14,
-    margin: 0,
-  },
-  [`& .${menuItemClasses.menuSubItems}`]: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-  },
-}));
-
-const HeaderMenuItemFC: React.FC<HeaderMenuItemProps> = ({
-  item: m,
-  selectedItem,
-  open,
-  currentView,
-  onClick,
-}) => {
-  const buttonRef =
-    m.subItems.length > 0 ? React.useRef<HTMLButtonElement>(null) : null;
-
-  const selected =
-    m.view === currentView || m.subItems.some((i) => i.view === currentView);
-
-  const showSubMenu = selectedItem?.view === m.view;
-
-  return (
-    <HeaderMenuItemBox className={menuItemClasses.root}>
-      <Button
-        key={m.view}
-        className={clsx(menuItemClasses.menuItem, {
-          selected,
-        })}
-        ref={buttonRef}
-        aria-controls={open ? "menu-list-grow" : undefined}
-        aria-haspopup="true"
-        onClick={() => {
-          if (buttonRef) {
-            onClick(buttonRef, m);
-          }
-        }}
-      >
-        {m.label}
-      </Button>
-      {showSubMenu && (
-        <Stack flexDirection={"row"} className={menuItemClasses.menuSubItems}>
-          {m.subItems.map((i) => {
-            return (
-              <MenuItem
-                key={i.view}
-                onClick={() => {
-                  onClick(null, i);
-                }}
-              >
-                {i.label}
-              </MenuItem>
-            );
-          })}
-        </Stack>
-      )}
-    </HeaderMenuItemBox>
-  );
-};
 
 export interface HeaderMenuProps {
   currentPath: string;
   menu: HeaderMenuItem[];
   onMenuItemClick: (m: HeaderMenuSubItem) => void;
+  /** Optional content rendered at the bottom of the drawer (e.g. donate/social) */
+  drawerFooter?: React.ReactNode;
 }
-
-const MENU_CLASS_PREFIX = "HeaderMenu";
-const menuClasses = {
-  root: `${MENU_CLASS_PREFIX}-root`,
-  mobileMenu: `${MENU_CLASS_PREFIX}-mobileMenu`,
-  mobileMenuIcon: `${MENU_CLASS_PREFIX}-mobileMenuIcon`,
-  menuItemLink: `${MENU_CLASS_PREFIX}-menuItemLink`,
-};
-
-const HeaderMenuMobileDiv = styled("div")(() => ({
-  [`&.${menuClasses.root}`]: {
-    display: "flex",
-    flexGrow: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  [`& .${menuClasses.mobileMenu}`]: {
-    display: "flex",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
-    maxWidth: 350,
-    padding: 20,
-  },
-  [`& .${menuClasses.mobileMenuIcon}`]: {
-    margin: 0,
-  },
-}));
 
 export const HeaderMenuMobile: React.FC<HeaderMenuProps> = ({
   menu,
   onMenuItemClick,
   currentPath,
+  drawerFooter,
 }) => {
   const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [expandedItem, setExpandedItem] = React.useState<string | null>(null);
 
-  const [anchorRef, setAnchorRef] = React.useState<
-    React.RefObject<HTMLButtonElement | null>
-  >(React.createRef<HTMLButtonElement>());
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const [selectedMenuItem, setSelectedMenuItem] =
-    React.useState<HeaderMenuItem | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>): void => {
-    setAnchorEl(event.currentTarget);
+  const handleOpen = (): void => {
+    setOpen(true);
   };
 
-  const handleToggle = (
-    ref: React.RefObject<HTMLButtonElement | null> | null,
-    m: HeaderMenuItem | HeaderMenuSubItem,
-  ): void => {
-    const item = m;
+  const handleClose = (): void => {
+    setOpen(false);
+    setExpandedItem(null);
+  };
 
-    if ("subItems" in item) {
-      if (ref) {
-        setAnchorRef(ref);
-      }
-      setSelectedMenuItem(item);
+  const handleItemClick = (item: HeaderMenuItem): void => {
+    if (item.subItems.length > 0) {
+      setExpandedItem(expandedItem === item.view ? null : item.view);
     } else {
       onMenuItemClick(item);
-      setSelectedMenuItem(null);
-      setAnchorEl(null);
+      handleClose();
     }
   };
 
-  const handleClose = (event: React.MouseEvent | React.TouchEvent): void => {
-    if (anchorRef?.current?.contains(event.target as HTMLElement)) {
-      return;
-    }
-
-    setAnchorEl(null);
+  const handleSubItemClick = (sub: HeaderMenuSubItem): void => {
+    onMenuItemClick(sub);
+    handleClose();
   };
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect((): void => {
-    if (prevOpen.current && !open && anchorRef) {
-      anchorRef.current?.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
+  const isSelected = (item: HeaderMenuItem): boolean =>
+    item.view === currentPath ||
+    item.subItems.some((s) => s.view === currentPath);
 
   return (
-    <HeaderMenuMobileDiv className={menuClasses.root}>
-      <Box>
-        <IconButton
-          aria-label="more"
-          id="mobile-menu-icon-button"
-          className={clsx(menuClasses.mobileMenuIcon)}
-          aria-controls={open ? "mobile-menu" : undefined}
-          aria-expanded={open ? "true" : undefined}
-          aria-haspopup="true"
-          onClick={handleClick}
-        >
-          <Icons.MoreVert
-            style={{
-              color: theme.palette.common.white,
-            }}
-          />
-        </IconButton>
-        <Menu
-          id="mobile-menu"
-          MenuListProps={{
-            "aria-labelledby": "mobile-menu-icon-button",
-          }}
-          className={menuClasses.mobileMenu}
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          slotProps={{
-            paper: {
-              style: {
-                maxHeight: 48 * 6,
-                width: "30ch",
-              },
+    <>
+      <IconButton
+        aria-label="open navigation menu"
+        onClick={handleOpen}
+        size="large"
+        edge="end"
+        sx={{ color: theme.palette.common.white }}
+      >
+        <Icons.MenuIcon />
+      </IconButton>
+
+      <Drawer
+        anchor="right"
+        open={open}
+        onClose={handleClose}
+        slotProps={{
+          paper: {
+            sx: {
+              width: "min(82vw, 300px)",
+              display: "flex",
+              flexDirection: "column",
+              top: 48,
+              height: "calc(100vh - 48px)",
             },
-          }}
-        >
-          {menu.map((m) => {
+          },
+        }}
+      >
+        {/* Nav items */}
+        <List sx={{ flexGrow: 1, pt: 0 }}>
+          {menu.map((item) => {
+            const selected = isSelected(item);
+            const expanded = expandedItem === item.view;
+
             return (
-              <HeaderMenuItemFC
-                key={m.view}
-                item={m}
-                selectedItem={selectedMenuItem}
-                currentView={currentPath}
-                open={open}
-                onClick={handleToggle}
-              />
+              <React.Fragment key={item.view}>
+                <ListItemButton
+                  selected={selected}
+                  onClick={() => {
+                    handleItemClick(item);
+                  }}
+                  sx={{
+                    minHeight: 52,
+                    borderLeft: selected
+                      ? `3px solid ${theme.palette.secondary.main}`
+                      : "3px solid transparent",
+                    pl: selected ? "13px" : 2,
+                  }}
+                >
+                  <ListItemText
+                    primary={item.label}
+                    slotProps={{
+                      primary: {
+                        sx: {
+                          fontWeight: selected
+                            ? theme.typography.fontWeightBold
+                            : theme.typography.fontWeightRegular,
+                          fontSize: "0.9375rem",
+                        },
+                      },
+                    }}
+                  />
+                  {item.subItems.length > 0 && (
+                    <ListItemIcon sx={{ minWidth: 0 }}>
+                      <Icons.ExpandMore
+                        sx={{
+                          transition: "transform 0.2s",
+                          transform: expanded
+                            ? "rotate(180deg)"
+                            : "rotate(0deg)",
+                          fontSize: "1.25rem",
+                          color: theme.palette.text.secondary,
+                        }}
+                      />
+                    </ListItemIcon>
+                  )}
+                </ListItemButton>
+
+                {item.subItems.length > 0 && (
+                  <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <List disablePadding>
+                      {item.subItems.map((sub) => {
+                        const subSelected = sub.view === currentPath;
+                        return (
+                          <ListItemButton
+                            key={sub.view}
+                            selected={subSelected}
+                            onClick={() => {
+                              handleSubItemClick(sub);
+                            }}
+                            sx={{
+                              minHeight: 44,
+                              pl: 4,
+                              borderLeft: subSelected
+                                ? `3px solid ${theme.palette.secondary.main}`
+                                : "3px solid transparent",
+                            }}
+                          >
+                            <ListItemText
+                              primary={sub.label}
+                              slotProps={{
+                                primary: {
+                                  sx: {
+                                    fontSize: "0.875rem",
+                                    color: subSelected
+                                      ? theme.palette.primary.main
+                                      : theme.palette.text.secondary,
+                                  },
+                                },
+                              }}
+                            />
+                          </ListItemButton>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                )}
+              </React.Fragment>
             );
           })}
-        </Menu>
-      </Box>
-    </HeaderMenuMobileDiv>
+        </List>
+
+        {/* Drawer footer: social links / donate */}
+        {drawerFooter != null && (
+          <>
+            <Divider />
+            <Box sx={{ px: 2, py: 2 }}>{drawerFooter}</Box>
+          </>
+        )}
+      </Drawer>
+    </>
   );
 };

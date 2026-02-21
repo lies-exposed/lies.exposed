@@ -3,7 +3,8 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
-import { Button, Stack } from "../../mui/index.js";
+import { ThemeSwitcher } from "../../Common/ThemeSwitcher.js";
+import { Button, IconButton, Icons, Stack } from "../../mui/index.js";
 import { PopperMenu } from "./PopperMenu.js";
 import { type HeaderMenuItem } from "./types.js";
 
@@ -93,6 +94,10 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
   const [selectedMenuItem, setSelectedMenuItem] =
     React.useState<HeaderMenuItem | null>(null);
 
+  const [secondaryMenuAnchor, setSecondaryMenuAnchor] =
+    React.useState<null | HTMLElement>(null);
+  const secondaryMenuOpen = Boolean(secondaryMenuAnchor);
+
   const handleToggle = (
     ref: React.RefObject<HTMLButtonElement | null> | null,
     m: HeaderMenuItem,
@@ -111,6 +116,16 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
     }
 
     setAnchorEl(null);
+  };
+
+  const handleSecondaryMenuOpen = (
+    event: React.MouseEvent<HTMLButtonElement>,
+  ): void => {
+    setSecondaryMenuAnchor(event.currentTarget);
+  };
+
+  const handleSecondaryMenuClose = (): void => {
+    setSecondaryMenuAnchor(null);
   };
 
   function handleListKeyDown(
@@ -156,7 +171,49 @@ export const HeaderMenuDesktop: React.FC<HeaderMenuProps> = ({
         justifyContent="center"
       >
         {menuItems}
+        <IconButton
+          aria-label="open menu"
+          aria-controls={secondaryMenuOpen ? "secondary-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={secondaryMenuOpen ? "true" : undefined}
+          onClick={handleSecondaryMenuOpen}
+          size="large"
+          sx={{ color: "white" }}
+        >
+          <Icons.MoreVert />
+        </IconButton>
       </Stack>
+      {secondaryMenuOpen && (
+        <div
+          id="secondary-menu"
+          onMouseLeave={handleSecondaryMenuClose}
+          style={{
+            position: "absolute",
+            top: "100%",
+            right: 0,
+            zIndex: 1000,
+            backgroundColor: "white",
+            borderRadius: "4px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+            padding: "8px 0",
+            minWidth: "160px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "8px 16px",
+              cursor: "pointer",
+            }}
+            onClick={handleSecondaryMenuClose}
+          >
+            <ThemeSwitcher size="small" showTooltip={false} />
+            <span style={{ color: "#000" }}>Theme</span>
+          </div>
+        </div>
+      )}
       {pipe(
         O.fromNullable(selectedMenuItem),
         O.map((m): React.ReactElement | null => (

@@ -23,7 +23,14 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
   webLogger.debug.log(`App rendered ${pathname}`);
 
   return (
-    <div style={{ height: "100%", display: "flex" }}>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        overflowX: "hidden",
+        width: "100%",
+      }}
+    >
       <ErrorBoundary FallbackComponent={ErrorBox}>
         <SEO title="lies exposed" urlPath={pathname} />
         <AppHeader />

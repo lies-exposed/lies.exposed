@@ -64,10 +64,10 @@ export const NodeContextMenu: React.FC<NodeContextMenuProps> = ({
       <Stack>
         {contextMenuContent}
         <Stack direction="row">
-          <IconButton size="small" onClick={duplicateNode}>
+          <IconButton color="inherit" size="small" onClick={duplicateNode}>
             <Icons.Copy />
           </IconButton>
-          <IconButton size="small" onClick={deleteNode}>
+          <IconButton color="inherit" size="small" onClick={deleteNode}>
             <Icons.Cancel />
           </IconButton>
         </Stack>

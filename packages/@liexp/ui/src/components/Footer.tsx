@@ -94,53 +94,9 @@ export const Footer: React.FC<{
       }}
     >
       <Container>
-        <Grid container>
-          <Grid size={{ sm: 4, md: 4 }}>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              {logoSrc ? (
-                <img style={{ height: 64, padding: 10 }} src={logoSrc} />
-              ) : null}
-              <Typography className={classes.title} variant="h6">
-                {title}
-              </Typography>
-            </Box>
-
-            <Box
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "row",
-              }}
-            >
-              <DonateButton />
-              <Typography
-                display="inline"
-                variant="subtitle2"
-                style={{
-                  color: "white",
-                  fontWeight: 600,
-                }}
-              >
-                Donate
-              </Typography>
-            </Box>
-            <Box style={{ marginTop: theme.spacing(2) }}>
-              <VersionDisplay
-                style={{
-                  color: theme.palette.common.white,
-                }}
-              />
-            </Box>
-          </Grid>
-
-          <Grid size={{ md: 4, sm: 0 }} />
-          <Grid className={classes.rightColumn} size={{ sm: 4, md: 2 }}>
+        <Grid container spacing={2}>
+          {/* Top row: navigation columns */}
+          <Grid className={classes.rightColumn} size={{ xs: 6, sm: 4, md: 2 }}>
             <Typography
               variant="h6"
               style={{
@@ -174,7 +130,7 @@ export const Footer: React.FC<{
               </MenuItem>
             </MenuList>
           </Grid>
-          <Grid className={classes.rightColumn} size={{ sm: 4, md: 2 }}>
+          <Grid className={classes.rightColumn} size={{ xs: 6, sm: 4, md: 2 }}>
             <Typography
               variant="h6"
               style={{
@@ -260,6 +216,61 @@ export const Footer: React.FC<{
                 </Link>
               </MenuItem>
             </MenuList>
+          </Grid>
+
+          {/* Bottom row: identity + donate CTA */}
+          <Grid
+            size={{ xs: 12 }}
+            style={{
+              borderTop: `1px solid ${theme.palette.common.white}20`,
+              marginTop: theme.spacing(2),
+              paddingTop: theme.spacing(2),
+              display: "flex",
+              flexDirection: "column",
+              gap: theme.spacing(1.5),
+            }}
+          >
+            {/* Identity line: logo + title + version pushed to the right */}
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              {logoSrc ? (
+                <img style={{ height: 40, padding: 6 }} src={logoSrc} />
+              ) : null}
+              <Typography className={classes.title} variant="h6">
+                {title}
+              </Typography>
+              <VersionDisplay
+                style={{
+                  color: theme.palette.common.white,
+                  marginLeft: "auto",
+                }}
+              />
+            </Box>
+            {/* Donate CTA */}
+            <Box
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+              }}
+            >
+              <DonateButton />
+              <Typography
+                display="inline"
+                variant="subtitle2"
+                style={{
+                  color: "white",
+                  fontWeight: 600,
+                }}
+              >
+                Donate
+              </Typography>
+            </Box>
           </Grid>
         </Grid>
       </Container>

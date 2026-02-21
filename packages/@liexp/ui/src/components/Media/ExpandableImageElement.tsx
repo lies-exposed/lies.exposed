@@ -146,6 +146,7 @@ const ExpandableImageElement: React.FC<ExpandableImageElementProps> = ({
       />
       {!disableZoom ? (
         <IconButton
+          color="inherit"
           className={boxClasses.expandIcon}
           aria-label="expand"
           onClick={(_e) => {

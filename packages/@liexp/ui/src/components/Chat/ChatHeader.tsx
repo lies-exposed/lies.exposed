@@ -31,6 +31,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
         <Box sx={{ display: "flex", gap: 0.5 }}>
           {onToggleFullSize && (
             <IconButton
+              color="inherit"
               onClick={onToggleFullSize}
               title={isFullSize ? "Minimize" : "Maximize"}
             >
@@ -41,7 +42,7 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
               )}
             </IconButton>
           )}
-          <IconButton onClick={onToggle} title="Close">
+          <IconButton color="inherit" onClick={onToggle} title="Close">
             <Icons.Close />
           </IconButton>
         </Box>

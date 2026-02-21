@@ -38,6 +38,14 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     flexDirection: "row",
     height: "100%",
     width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
+    },
     [theme.breakpoints.down("md")]: {
       flexDirection: "row",
     },
@@ -78,6 +86,8 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
       textAlign: "left",
       marginBottom: 0,
       flexGrow: 1,
+      minWidth: 0,
+      overflow: "hidden",
     },
   },
   [`.${classes.editButtonBox}`]: {
@@ -186,7 +196,11 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
   const asideNode = React.useMemo((): React.ReactNode => {
     if (isAsideSubject(aside)) {
       return (
-        <Stack alignItems={"flex-end"} justifyContent={"start"}>
+        <Stack
+          alignItems={"flex-end"}
+          justifyContent={"start"}
+          sx={{ width: "100%" }}
+        >
           {pipe(
             fp.O.fromNullable(aside.avatar?.thumbnail),
             fp.O.fold(
@@ -204,7 +218,15 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
             ),
           )}
           <Box key="aside-name" className={classes.name}>
-            <Typography component="h1" variant="h4">
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                fontSize: { xs: "1.5rem", md: "2.125rem" },
+              }}
+            >
               {aside.name}
             </Typography>
           </Box>

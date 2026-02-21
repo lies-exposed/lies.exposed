@@ -11,7 +11,7 @@ import { type QueryProviderCustomQueries } from "@liexp/shared/lib/providers/End
 import { type Configuration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
 import { type AsyncDataRoute } from "@liexp/ui/lib/react/types.js";
-import { ECOTheme } from "@liexp/ui/lib/theme/index.js";
+import { ECOThemeDark } from "@liexp/ui/lib/theme/index.js";
 import { QueryClient, dehydrate } from "@tanstack/react-query";
 import { type APIRESTClient } from "@ts-endpoint/react-admin";
 import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
@@ -23,7 +23,7 @@ config.autoAddCss = false;
  * Extended server renderer props with API provider
  */
 interface AppServerRendererProps extends ServerRendererProps<
-  typeof ECOTheme,
+  typeof ECOThemeDark,
   ReturnType<typeof createEmotionCache>
 > {
   apiProvider: APIRESTClient;
@@ -99,7 +99,7 @@ export const requestHandler = (
     return {
       render: (
         props: ServerRendererProps<
-          typeof ECOTheme,
+          typeof ECOThemeDark,
           ReturnType<typeof createEmotionCache>
         >,
         options: Parameters<ServerRenderer>[1],
@@ -150,7 +150,7 @@ export const requestHandler = (
         renderStylesToNodeStream: emotionServer.renderStylesToNodeStream,
       };
     },
-    theme: ECOTheme,
+    theme: ECOThemeDark,
     getAdditionalCss: () => dom.css(),
   });
 };
