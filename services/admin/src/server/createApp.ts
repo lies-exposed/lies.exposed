@@ -111,16 +111,16 @@ export const createApp = async (
         env.NODE_ENV === "test"
           ? path.resolve(serviceRoot, "node_modules/.vite-test")
           : undefined,
-      // HMR configuration: enable in development with correct port (24679 to avoid conflicts)
-      // Disabled in production since there's no hot reloading needed
-      // Note: Don't set `host` - server binds to serverOptions.host (0.0.0.0),
-      // and client auto-detects from page URL (admin.liexp.dev)
+      // HMR: browser connects via nginx on port 443; WebSocket is attached
+      // to the shared HTTP server so no extra port is exposed.
+      // Disabled in production since there's no hot reloading needed.
       hmr:
         env.NODE_ENV === "production"
           ? false
           : {
-              port: 24679,
-              clientPort: 24679,
+              host: env.VIRTUAL_HOST,
+              clientPort: 443,
+              server: config.httpServer,
             },
     },
     staticConfig: {

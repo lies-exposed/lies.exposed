@@ -15,6 +15,7 @@
  * and pass it to Vite so it can attach its WebSocket server for HMR.
  */
 
+import * as http from "http";
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
@@ -46,17 +47,11 @@ export const run = async (base: string): Promise<void> => {
   // ============================================================
   // Create HTTP Server First (for HMR WebSocket attachment)
   // ============================================================
-  // In development, we need to create the HTTP server before the Express app
-  // so that Vite can attach its HMR WebSocket server to it.
-  // In production, this step is still valid but HMR is not used.
-
-  // let httpServer: http.Server | undefined;
-
-  if (!isProduction) {
-    // // Create HTTP server first for HMR WebSocket attachment
-    // httpServer = http.createServer();
-    // logger.info.log("✓ HTTP server created for HMR WebSocket attachment");
-  }
+  // Vite runs in middlewareMode, so it can't own the HTTP server.
+  // We create the HTTP server first and pass it to Vite via hmr.server
+  // so it can attach its WebSocket server to the same port (no extra port needed).
+  const httpServer = http.createServer();
+  logger.info.log("✓ HTTP server created for HMR WebSocket attachment");
 
   // ============================================================
   // Create Express App with Vite
@@ -66,15 +61,16 @@ export const run = async (base: string): Promise<void> => {
     env,
     serviceRoot: process.cwd(),
     isProduction,
-    // httpServer,
+    httpServer,
   });
 
   // ============================================================
   // Start Server
   // ============================================================
 
-  // Production: Use Express's built-in server
-  const server = app.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
+  // Use the shared HTTP server so Vite HMR WebSocket and Express share one port
+  httpServer.on("request", app);
+  const server = httpServer.listen(env.SERVER_PORT, env.SERVER_HOST, () => {
     logger.info.log(
       "✓ Server listening on http://%s:%d",
       env.SERVER_HOST,

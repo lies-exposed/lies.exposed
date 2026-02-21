@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import type http from "http";
 import * as path from "path";
 import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
@@ -15,6 +16,8 @@ export interface WebAppConfig {
   isProduction?: boolean;
   ssrApiUrl?: string;
   apiUrl?: string;
+  /** HTTP server for HMR WebSocket attachment (required for full HMR in dev) */
+  httpServer?: http.Server;
 }
 
 export const createApp = async (config: WebAppConfig) => {
@@ -69,6 +72,16 @@ export const createApp = async (config: WebAppConfig) => {
           process.env.NODE_ENV === "test"
             ? path.resolve(serviceRoot, "node_modules/.vite-test")
             : undefined,
+        // HMR: browser connects via nginx on port 443; WebSocket is attached
+        // to the shared HTTP server so no extra port is exposed.
+        // Disabled in production since there's no hot reloading needed.
+        hmr: isProduction
+          ? false
+          : {
+              host: process.env.VIRTUAL_HOST,
+              clientPort: 443,
+              server: config.httpServer,
+            },
       },
       staticConfig: {
         buildPath: outputDir,
