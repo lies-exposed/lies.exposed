@@ -6,9 +6,7 @@ import {
 } from "@liexp/ui/lib/components/mui/index.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
-import {
-  ThemeContextProvider,
-} from "@liexp/ui/lib/context/ThemeContext.js";
+import { ThemeContextProvider } from "@liexp/ui/lib/context/ThemeContext.js";
 import {
   HydrationBoundary,
   QueryClientProvider,
