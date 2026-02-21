@@ -38,6 +38,7 @@ import {
   type EditProps,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { LazyFormTabContent } from "@liexp/ui/lib/components/admin/tabs/LazyFormTabContent.js";
+import { EditToolbar } from "@liexp/ui/lib/components/admin/toolbar/index.js";
 import { Grid, Stack } from "@liexp/ui/lib/components/mui/index.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { type Option } from "effect/Option";
@@ -90,16 +91,16 @@ const ActorEdit: React.FC<EditProps> = (props) => {
       preview={<ActorPreview />}
       transform={(a) => transformActor(dataProvider)(a.id, a)}
     >
-      <TabbedForm>
+      <TabbedForm toolbar={<EditToolbar />}>
         <TabbedForm.Tab label="generals">
           <Grid container size={12}>
-            <Grid size={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
               <TextWithSlugInput source="fullName" slugSource="username" />
               <Grid container>
-                <Grid size={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <DateInput source="bornOn" />
                 </Grid>
-                <Grid size={6} textAlign="end">
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <DateInput source="diedOn" />
                 </Grid>
               </Grid>
@@ -119,7 +120,10 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                 }
               />
             </Grid>
-            <Grid size={4} textAlign={"end"}>
+            <Grid
+              size={{ xs: 12, md: 4 }}
+              sx={{ textAlign: { xs: "left", md: "end" } }}
+            >
               <MediaField
                 source="avatar.thumbnail"
                 type="image/jpeg"
@@ -166,7 +170,7 @@ const ActorEdit: React.FC<EditProps> = (props) => {
         </TabbedForm.Tab>
         <TabbedForm.Tab label="Relations">
           <Grid container spacing={2} style={{ width: "100%" }}>
-            <Grid size={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <ArrayInput
                 source="newRelationsAsSource"
                 defaultValue={[]}
@@ -226,7 +230,10 @@ const ActorEdit: React.FC<EditProps> = (props) => {
                 </Datagrid>
               </ReferenceArrayField>
             </Grid>
-            <Grid size={6} sx={{ minHeight: 600, position: "relative" }}>
+            <Grid
+              size={{ xs: 12, md: 6 }}
+              sx={{ minHeight: { xs: 300, md: 600 }, position: "relative" }}
+            >
               <FamilyTreeTab />
             </Grid>
           </Grid>

@@ -40,12 +40,13 @@ import {
   SettingsIcon,
 } from "@liexp/ui/lib/components/mui/icons.js";
 import { Box } from "@liexp/ui/lib/components/mui/index.js";
+import { useThemeMode } from "@liexp/ui/lib/context/ThemeContext.js";
 import { useDataProvider } from "@liexp/ui/lib/hooks/useDataProvider.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import * as React from "react";
 import { Route } from "react-router";
 import { AdminChat } from "./components/chat/AdminChat.js";
-import { adminThemeOptions } from "./theme.js";
+import { createAdminThemeOptions } from "./theme.js";
 
 // Lazy loading helper removed - components now use direct React.lazy or individual files
 
@@ -412,15 +413,18 @@ const MyLayout: React.FC<LayoutProps> = ({ children, ...props }) => (
 );
 
 const AdminPage: React.FC = () => {
+  const { resolvedMode } = useThemeMode();
   const dataProvider = useDataProvider();
   const authProvider = GetAuthProvider(dataProvider);
+  const theme = createAdminThemeOptions(resolvedMode);
+
   return (
     <Admin
       dataProvider={dataProvider}
       authProvider={authProvider}
       i18nProvider={i18nProvider}
       loginPage={Login}
-      theme={adminThemeOptions}
+      theme={theme}
       layout={MyLayout}
     >
       <Resource

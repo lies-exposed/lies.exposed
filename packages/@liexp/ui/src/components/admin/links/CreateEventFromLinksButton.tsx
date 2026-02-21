@@ -85,15 +85,34 @@ export const CreateEventFromLinksButton: React.FC = () => {
   ) : null;
 
   return (
-    <Stack spacing={1}>
-      <Stack direction="row" spacing={2} alignItems="center">
+    <Stack
+      spacing={1}
+      sx={{
+        width: { xs: "100%", sm: "auto" },
+      }}
+    >
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={{ xs: 1, sm: 2 }}
+        alignItems={{ xs: "stretch", sm: "center" }}
+        sx={{
+          "@media (max-width: 600px)": {
+            width: "100%",
+          },
+        }}
+      >
         <Select
           size="small"
           value={eventType}
           onChange={(e) => {
             setEventType(e.target.value);
           }}
-          sx={{ minWidth: 150 }}
+          sx={{
+            minWidth: { xs: "100%", sm: 150 },
+            "@media (max-width: 600px)": {
+              width: "100%",
+            },
+          }}
         >
           {io.http.Events.EventType.members.map((t) => (
             <MenuItem key={t.literals[0]} value={t.literals[0]}>
@@ -108,7 +127,12 @@ export const CreateEventFromLinksButton: React.FC = () => {
         />
       </Stack>
       {queue && jobId ? (
-        <Typography variant="body2">
+        <Typography
+          variant="body2"
+          sx={{
+            fontSize: { xs: "0.8rem", sm: "0.875rem" },
+          }}
+        >
           Queue job created with status {queueStatus}.{" "}
           <RALink to={`/queues/${QUEUE_TYPE}/events/${jobId}`}>
             Check the job

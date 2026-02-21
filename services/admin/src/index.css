@@ -1,2 +1,491 @@
 @import "@liexp/ui/assets/main.css";
 @import "@liexp/ui/assets/blocknote.css";
+
+/* Mobile Responsive Utilities */
+
+/* Ensure viewport is set correctly for mobile devices */
+html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+}
+
+/* Prevent pull-to-refresh on mobile when scrolling down */
+body {
+  overscroll-behavior: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* Mobile-first responsive container */
+.admin-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+
+/* Touch-friendly spacing for mobile */
+@media (max-width: 600px) {
+  .admin-container {
+    padding: 0 12px;
+  }
+
+  /* Increase touch target sizes */
+  button,
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Ensure form inputs are touch-friendly */
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    font-size: 16px; /* Prevent zoom on iOS */
+    padding: 10px 12px;
+  }
+
+  /* Responsive table overflow handling */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Stack form fields vertically on mobile */
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .form-row > * {
+    width: 100%;
+  }
+
+  /* Hide non-essential columns on mobile tables */
+  .table-col-hidden-mobile {
+    display: none;
+  }
+
+  /* Responsive card layout */
+  .card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Mobile-friendly TabbedForm styling */
+  .MuiTabs-root {
+    margin: -12px -12px 0 -12px;
+  }
+
+  .MuiTab-root {
+    min-height: 48px !important;
+    min-width: 44px !important;
+    padding: 8px 12px !important;
+    font-size: 0.875rem !important;
+    text-transform: none;
+  }
+
+  .MuiTabPanel-root {
+    padding: 12px 0 !important;
+  }
+
+  /* Ensure tabs scroll horizontally on mobile */
+  .MuiTabs-scroller {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .MuiTabs-scrollButtons {
+    display: flex;
+  }
+
+  /* Form layout improvements */
+  .RaCreate-root,
+  .RaEdit-root {
+    padding: 0;
+  }
+
+  /* Grid spacing */
+  .MuiGrid-root {
+    width: 100%;
+  }
+
+  /* Stack improvements */
+  .MuiStack-root {
+    gap: 12px;
+  }
+}
+
+/* Tablet screens */
+@media (min-width: 601px) and (max-width: 960px) {
+  .admin-container {
+    padding: 0 16px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .form-row > * {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 200px;
+  }
+
+  .table-col-hidden-mobile {
+    display: table-cell;
+  }
+
+  /* Tablet tab styling */
+  .MuiTab-root {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+  }
+
+  .MuiTabPanel-root {
+    padding: 16px !important;
+  }
+}
+
+/* Desktop screens */
+@media (min-width: 961px) {
+  .admin-container {
+    padding: 0 24px;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: nowrap;
+  }
+
+  .form-row > * {
+    flex: 1;
+  }
+
+  .table-col-hidden-mobile {
+    display: table-cell;
+  }
+
+  /* Desktop tab styling */
+  .MuiTab-root {
+    min-height: 48px !important;
+    padding: 12px 20px !important;
+  }
+
+  .MuiTabPanel-root {
+    padding: 20px !important;
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+  }
+
+  h3 {
+    font-size: 1.125rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  p {
+    font-size: 0.875rem;
+  }
+
+  small {
+    font-size: 0.75rem;
+  }
+}
+
+/* Accessibility: Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Improve contrast for light mode */
+@media (prefers-color-scheme: light) {
+  body {
+    color: #312e81; /* Slate-900 for better contrast */
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: #ffffff;
+    color: #312e81;
+    border-color: #d1d5db;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b7280;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  input,
+  textarea,
+  select {
+    background-color: #1e293b;
+    color: #f1f5f9;
+    border-color: #475569;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #94a3b8;
+  }
+}
+
+/* Mobile-friendly focus states for keyboard navigation */
+@media (prefers-reduced-motion: no-preference) {
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+    transition: outline-offset 150ms ease-in-out;
+  }
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 600px) {
+  .ra-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ra-show {
+    display: block !important;
+  }
+
+  .ra-field-source {
+    margin-bottom: 12px;
+  }
+
+  /* Ensure forms take full width */
+  .RaSimpleForm-root,
+  .RaTabbedForm-root {
+    width: 100%;
+  }
+
+  /* Form input full width */
+  .MuiFormControl-root {
+    width: 100%;
+  }
+}
+
+/* Ensure proper spacing on mobile forms */
+@media (max-width: 600px) {
+  .ra-input-root {
+    margin-bottom: 12px;
+  }
+
+  .RaShow-root {
+    padding: 12px;
+  }
+
+  .RaCreate-root,
+  .RaEdit-root {
+    padding: 12px;
+  }
+
+  /* Block note input adjustments */
+  .BlockNoteInput-root {
+    margin-bottom: 12px;
+  }
+
+  /* Array input adjustments */
+  .MuiArrayInput-root {
+    margin-bottom: 12px;
+  }
+
+  .MuiSimpleFormIterator-root {
+    gap: 12px;
+  }
+}
+
+/* DataGrid / Datagrid styling - ensure content doesn't overflow */
+.MuiDataGrid-cell {
+  overflow: visible !important;
+}
+
+/* DataGrid header - responsive text sizing and spacing */
+.MuiDataGrid-columnHeader {
+  background-color: #f5f5f5;
+}
+
+/* DataGrid / Datagrid mobile adjustments */
+@media (max-width: 600px) {
+  .MuiDataGrid-root {
+    font-size: 0.75rem;
+  }
+
+  .MuiDataGrid-cell {
+    padding: 8px 4px;
+  }
+
+  .MuiDataGrid-columnHeader {
+    padding: 8px 4px;
+    font-size: 0.7rem;
+  }
+
+  /* Column header text - truncate and reduce size on mobile */
+  .MuiDataGrid-columnHeaderTitle {
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
+  /* Hide less important columns on mobile */
+  .MuiDataGrid-columnHeader:nth-child(n+4),
+  .MuiDataGrid-cell:nth-child(n+4) {
+    display: none;
+  }
+
+  /* Ensure DataGrid cells display content properly without overflow */
+  .MuiDataGrid-cell {
+    overflow: visible !important;
+  }
+
+  .MuiDataGrid-cell > * {
+    width: 100%;
+  }
+
+  /* Row spacing - reduce height on mobile */
+  .MuiDataGrid-row {
+    max-height: fit-content;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 601px) and (max-width: 960px) {
+  .MuiDataGrid-columnHeader {
+    padding: 12px 8px;
+  }
+
+  .MuiDataGrid-cell {
+    padding: 12px 8px;
+  }
+
+  .MuiDataGrid-columnHeaderTitle {
+    font-size: 0.8rem;
+  }
+}
+
+/* Pagination controls - mobile optimization */
+.MuiTablePagination-root {
+  font-size: 0.875rem;
+}
+
+@media (max-width: 600px) {
+  .MuiTablePagination-root {
+    padding: 16px 8px;
+  }
+
+  .MuiTablePagination-toolbar {
+    padding: 12px 8px;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: auto;
+    justify-content: space-between;
+  }
+
+  .MuiTablePagination-selectLabel,
+  .MuiTablePagination-displayedRows {
+    margin: 0;
+    font-size: 0.75rem;
+  }
+
+  .MuiTablePagination-actions {
+    margin-left: auto;
+  }
+
+  /* Make pagination buttons larger touch targets */
+  .MuiIconButton-root {
+    padding: 12px;
+  }
+
+  .MuiIconButton-sizeSmall {
+    padding: 8px;
+  }
+}
+
+/* Modal and Dialog adjustments for mobile */
+@media (max-width: 600px) {
+  .MuiDialog-paper {
+    width: calc(100% - 32px);
+    margin: 16px;
+    max-height: calc(100vh - 32px);
+    border-radius: 8px;
+  }
+
+  .MuiModal-root {
+    padding: 16px;
+  }
+
+  /* Dialog content - better scrolling on mobile */
+  .MuiDialogContent-root {
+    padding: 16px 12px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+
+  .MuiDialogTitle-root {
+    padding: 16px 12px;
+    font-size: 1.1rem;
+  }
+
+  .MuiDialogActions-root {
+    padding: 12px;
+    gap: 8px;
+  }
+}

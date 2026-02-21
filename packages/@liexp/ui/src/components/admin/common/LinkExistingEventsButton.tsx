@@ -160,6 +160,7 @@ export const LinkExistingEventsButton: React.FC<
                     key={event.id}
                     secondaryAction={
                       <IconButton
+                        color="inherit"
                         edge="end"
                         onClick={() => handleRemoveSelected(event.id)}
                         size="small"

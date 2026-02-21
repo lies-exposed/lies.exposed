@@ -49,6 +49,10 @@ const LinkListAside: React.FC = () => {
         width: 300,
         display: "flex",
         flex: "1 0 auto",
+        // Hide filter sidebar on mobile to maximize content space
+        "@media (max-width: 960px)": {
+          display: "none",
+        },
       }}
     >
       <CardContent>
@@ -72,7 +76,12 @@ const LinkListAside: React.FC = () => {
 
 export const LinkListActions: React.FC = () => {
   return (
-    <Box display="flex" flexDirection="row">
+    <Box
+      display="flex"
+      flexDirection={{ xs: "column", sm: "row" }}
+      gap={{ xs: 1, sm: 0 }}
+      width={{ xs: "100%", sm: "auto" }}
+    >
       <CreateButton />
       <SearchLinksButton />
     </Box>
@@ -80,10 +89,15 @@ export const LinkListActions: React.FC = () => {
 };
 
 const LinkBulkActionButtons: React.FC = () => (
-  <>
+  <Box
+    display="flex"
+    flexDirection={{ xs: "column", sm: "row" }}
+    gap={1}
+    width={{ xs: "100%", sm: "auto" }}
+  >
     <CreateEventFromLinksButton />
     <BulkDeleteButton />
-  </>
+  </Box>
 );
 
 export const LinkList: React.FC<ListProps> = (props) => {
@@ -111,6 +125,13 @@ export const LinkList: React.FC<ListProps> = (props) => {
       }}
       actions={<LinkListActions />}
       aside={<LinkListAside />}
+      sx={{
+        "& .RaList-content": {
+          "@media (max-width: 960px)": {
+            width: "100%",
+          },
+        },
+      }}
     >
       <LinkDataGrid bulkActionButtons={<LinkBulkActionButtons />} />
     </List>

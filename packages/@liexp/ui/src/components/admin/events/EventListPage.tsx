@@ -22,8 +22,16 @@ import {
   TextInput,
   type RaRecord,
 } from "react-admin";
+import { useTheme } from "../../../theme/index.js";
 import { EventIcon } from "../../Common/Icons/EventIcon.js";
-import { Box, Icons, Typography } from "../../mui/index.js";
+import {
+  Box,
+  Card,
+  CardContent,
+  Icons,
+  Typography,
+  useMuiMediaQuery,
+} from "../../mui/index.js";
 import ReferenceArrayActorInput from "../actors/ReferenceArrayActorInput.js";
 import ReferenceArrayGroupMemberInput from "../common/ReferenceArrayGroupMemberInput.js";
 import ReferenceArrayGroupInput from "../groups/ReferenceArrayGroupInput.js";
@@ -65,7 +73,33 @@ const eventsFilter = [
   <DateInput key="endDate" source="endDate" />,
 ];
 
+const EventListAside: React.FC = () => {
+  return (
+    <Card
+      sx={{
+        order: -1,
+        mr: 2,
+        mt: 0,
+        width: 300,
+        display: "flex",
+        flex: "1 0 auto",
+        // Hide filter sidebar on mobile to maximize content space
+        "@media (max-width: 960px)": {
+          display: "none",
+        },
+      }}
+    >
+      <CardContent>
+        <Typography variant="h6">Filters</Typography>
+      </CardContent>
+    </Card>
+  );
+};
+
 export const EventDataGrid: React.FC = () => {
+  const theme = useTheme();
+  const isMobile = useMuiMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Datagrid
       rowClick={(_props, _id, record) => {
@@ -77,26 +111,69 @@ export const EventDataGrid: React.FC = () => {
         }
         return `/events/${record.id}`;
       }}
+      sx={{
+        "@media (max-width: 600px)": {
+          "& .MuiDataGrid-cell": {
+            padding: "8px 4px",
+            minHeight: "80px",
+            whiteSpace: "normal",
+            wordBreak: "break-word",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            fontSize: "0.7rem",
+            padding: "8px 4px",
+          },
+        },
+        "@media (min-width: 601px) and (max-width: 960px)": {
+          "& .MuiDataGrid-cell": {
+            padding: "8px 12px",
+            minHeight: "80px",
+          },
+          "& .MuiDataGrid-columnHeader": {
+            padding: "12px 8px",
+          },
+        },
+      }}
     >
-      <BooleanField source="draft" />
+      <BooleanField
+        source="draft"
+        sx={{ display: { xs: "none", sm: "table-cell" } }}
+      />
       <FunctionField
         label="type"
         render={(r) => {
           return (
-            <Box>
-              <EventIcon color="primary" type={r.type} />{" "}
-              {[
-                EVENT_TYPES.UNCATEGORIZED,
-                EVENT_TYPES.SCIENTIFIC_STUDY,
-                EVENT_TYPES.BOOK,
-              ].includes(r.type) ? (
-                <Typography>{r.payload.title}</Typography>
-              ) : null}
-              {r.type === EVENT_TYPES.DEATH && (
-                <ReferenceField source="payload.victim" reference="actors">
-                  <TextField source="username" />
-                </ReferenceField>
-              )}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-start",
+                gap: { xs: 1, sm: 2 },
+                minWidth: 0,
+              }}
+            >
+              <EventIcon color="primary" type={r.type} />
+              <Box
+                sx={{
+                  minWidth: isMobile ? "120px" : "0px",
+                  overflow: "hidden",
+                }}
+              >
+                {[
+                  EVENT_TYPES.UNCATEGORIZED,
+                  EVENT_TYPES.SCIENTIFIC_STUDY,
+                  EVENT_TYPES.BOOK,
+                ].includes(r.type) ? (
+                  <Typography sx={{ fontSize: isMobile ? "0.875rem" : "1rem" }}>
+                    {r.payload.title}
+                  </Typography>
+                ) : null}
+                {r.type === EVENT_TYPES.DEATH && (
+                  <ReferenceField source="payload.victim" reference="actors">
+                    <TextField source="username" />
+                  </ReferenceField>
+                )}
+              </Box>
             </Box>
           );
         }}
@@ -104,13 +181,35 @@ export const EventDataGrid: React.FC = () => {
       <FunctionField
         label="excerpt"
         render={(r) => {
-          return !R.isEmpty(r.excerpt)
-            ? getTextContentsCapped(r.excerpt, 60)
-            : "";
+          return !R.isEmpty(r.excerpt) ? (
+            <Typography
+              sx={{
+                fontSize: isMobile ? "0.75rem" : "0.875rem",
+                display: "-webkit-box",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                WebkitLineClamp: isMobile ? 1 : 2,
+                WebkitBoxOrient: "vertical",
+                minWidth: "200px",
+              }}
+            >
+              {getTextContentsCapped(r.excerpt, 60)}
+            </Typography>
+          ) : (
+            ""
+          );
         }}
       />
-      <FunctionField source="links" render={(r) => r.links?.length ?? 0} />
-      <FunctionField source="media" render={(r) => r.media?.length ?? 0} />
+      <FunctionField
+        source="links"
+        render={(r) => r.links?.length ?? 0}
+        sx={{ minWidth: "80px", display: { xs: "none", md: "table-cell" } }}
+      />
+      <FunctionField
+        source="media"
+        render={(r) => r.media?.length ?? 0}
+        sx={{ minWidth: "80px", display: { xs: "none", md: "table-cell" } }}
+      />
       <FunctionField<RaRecord<string>>
         label="actors"
         source="payload"
@@ -125,6 +224,7 @@ export const EventDataGrid: React.FC = () => {
 
           return 1;
         }}
+        sx={{ minWidth: "80px" }}
       />
 
       <FunctionField<RaRecord<string>>
@@ -141,6 +241,7 @@ export const EventDataGrid: React.FC = () => {
 
           return 0;
         }}
+        sx={{ minWidth: "80px" }}
       />
       <FunctionField<RaRecord<string>>
         label="groupsMembers"
@@ -156,25 +257,31 @@ export const EventDataGrid: React.FC = () => {
 
           return 1;
         }}
+        sx={{ minWidth: "100px", display: { xs: "none", lg: "table-cell" } }}
       />
       <FunctionField<RaRecord<string>>
         label="Location"
         source="payload.location.coordinates"
         render={(r) => (r?.location?.coordinates ? <Icons.PinDrop /> : "-")}
+        sx={{ minWidth: "80px", display: { xs: "none", lg: "table-cell" } }}
       />
 
-      <DateField source="date" />
+      <DateField
+        source="date"
+        sx={{ minWidth: "120px", display: { xs: "none", sm: "table-cell" } }}
+      />
       <FunctionField<RaRecord<string>>
         label="Dates"
         render={() => {
           return (
-            <Box>
+            <Box sx={{ minWidth: "200px" }}>
               <DateField source="updatedAt" />
               <DateField source="createdAt" />
               <DateField source="deletedAt" />
             </Box>
           );
         }}
+        sx={{ display: { xs: "none", lg: "table-cell" } }}
       />
     </Datagrid>
   );
@@ -190,6 +297,14 @@ export const EventListPage: React.FC = () => {
       }}
       filters={eventsFilter}
       perPage={25}
+      aside={<EventListAside />}
+      sx={{
+        "& .RaList-content": {
+          "@media (max-width: 960px)": {
+            width: "100%",
+          },
+        },
+      }}
     >
       <EventDataGrid />
     </List>
