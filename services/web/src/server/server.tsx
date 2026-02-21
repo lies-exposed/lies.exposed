@@ -29,7 +29,8 @@ const run = async (base: string): Promise<void> => {
   });
 
   // Use the shared HTTP server so Vite HMR WebSocket and Express share one port
-  httpServer.on("request", app);
+  // Express apps are valid http.RequestListener at runtime; cast required due to type mismatch
+  httpServer.on("request", app as unknown as http.RequestListener);
   httpServer.on("error", (e) => {
     webSrvLog.error.log("app error", e);
   });
