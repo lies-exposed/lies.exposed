@@ -177,7 +177,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             undefined,
             {
               ids: params.actors ?? [],
-              _end: params.actors?.length.toString(),
+              _end: (params.actors?.length ?? 0).toString(),
             },
             true,
           ),
@@ -185,18 +185,16 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
             undefined,
             {
               ids: params.groups ?? [],
-              _end: params.groups?.length.toString(),
+              _end: (params.groups?.length ?? 0).toString(),
             },
-
             true,
           ),
           filterGroupsMembers: Queries.GroupMember.list.useQuery(
             undefined,
             {
               ids: params.groupsMembers ?? [],
-              _end: params.groupsMembers?.length.toString(),
+              _end: (params.groupsMembers?.length ?? 0).toString(),
             },
-
             true,
           ),
           filterKeywords: Queries.Keyword.list.useQuery(
@@ -205,7 +203,7 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
               ids: params.keywords ?? [],
               _sort: "updatedAt",
               _order: "DESC",
-              _end: params.keywords?.length.toString(),
+              _end: (params.keywords?.length ?? 0).toString(),
             },
             true,
           ),
@@ -256,10 +254,14 @@ const ExploreTemplate: React.FC<ExploreTemplateProps> = ({
                         ...i,
                         selected: true,
                       }))}
-                      groupsMembers={filterGroupsMembers.data.map((i) => ({
-                        ...i,
-                        selected: true,
-                      }))}
+                      groupsMembers={
+                        (params.groupsMembers?.length ?? 0) > 0
+                          ? filterGroupsMembers.data.map((i) => ({
+                              ...i,
+                              selected: true,
+                            }))
+                          : []
+                      }
                       keywords={filterKeywords.data.map((i) => ({
                         ...i,
                         selected: true,

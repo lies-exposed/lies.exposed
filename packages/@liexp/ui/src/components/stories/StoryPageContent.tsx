@@ -52,7 +52,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
   return (
     <Grid container style={{ marginBottom: 100 }}>
       <Grid
-        size={{ md: 12 }}
+        size={{ xs: 12 }}
         style={{
           backgroundImage: featuredImage
             ? `url(${featuredImage.location})`
@@ -79,7 +79,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
         </MainContent>
       </Grid>
       <Grid container>
-        <Grid size={{ md: 3, lg: 3, xl: 4 }}>
+        <Grid size={{ xs: 12, md: 3, lg: 3, xl: 4 }}>
           {isValidValue(body) ? (
             <TOCPlugin
               value={body}
@@ -92,7 +92,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
             />
           ) : null}
         </Grid>
-        <Grid size={{ md: 8, lg: 6, xl: 6 }}>
+        <Grid size={{ xs: 12, md: 8, lg: 6, xl: 6 }}>
           <MainContent style={{ marginBottom: 40 }}>
             <div style={{ textAlign: "right", padding: 10 }}>
               <EditButton
@@ -114,7 +114,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
             {isValidValue(body) ? <BNEditor readOnly content={body} /> : null}
           </MainContent>
         </Grid>
-        <Grid size={{ md: 3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <InlineRelationsPlugin
             relations={{
               actors,

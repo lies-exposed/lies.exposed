@@ -56,7 +56,11 @@ const ErrorBoxDetails: React.FC<{ error: APIError | CoreError }> = ({
   return (
     details && (
       <Accordion>
-        <AccordionDetails>{details}</AccordionDetails>
+        <AccordionDetails
+          style={{ wordBreak: "break-all", overflowWrap: "anywhere" }}
+        >
+          {details}
+        </AccordionDetails>
       </Accordion>
     )
   );
@@ -92,7 +96,7 @@ export const ErrorBox = ({
   }, [e]);
 
   return (
-    <Card style={style}>
+    <Card style={{ maxWidth: "100%", overflow: "hidden", ...style }}>
       <CardHeader
         title={
           <Stack direction="column" alignItems="flex-start" spacing={1}>

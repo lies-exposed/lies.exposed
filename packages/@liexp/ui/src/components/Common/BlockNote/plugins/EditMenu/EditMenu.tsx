@@ -40,6 +40,7 @@ export const EditMenu: React.FC<
         >
           <Stack direction="column">
             <IconButton
+              color="inherit"
               onClick={() => {
                 onClick();
               }}

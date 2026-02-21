@@ -111,6 +111,7 @@ export const EventBlockPluginControl: React.FC<{
       </Box>
 
       <IconButton
+        color="inherit"
         size="small"
         onClick={() => {
           remove?.();

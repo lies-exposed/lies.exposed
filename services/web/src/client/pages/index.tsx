@@ -22,7 +22,10 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
       style={{ width: "100%", justifyContent: "center" }}
       spacing={2}
     >
-      <Grid size={{ lg: 10, md: 12, xs: 12 }}>
+      <Grid
+        size={{ lg: 10, md: 12, xs: 12 }}
+        sx={{ px: { xs: 2, sm: 3, md: 2 } }}
+      >
         <SEO title="lies.exposed" urlPath="/" />
         <PageContentBox path="index" />
         <KeywordsDistributionGraph
@@ -35,11 +38,16 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
         <Box style={{ marginBottom: 50 }} />
 
         <Grid container style={{ marginTop: 38, marginBottom: 38 }}>
-          <Grid size={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <ActorsBox
               discrete={false}
               prefix="last-20-updated-actors"
-              style={{ width: "100%", display: "flex" }}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
               params={{
                 _sort: "updatedAt",
                 _order: "DESC",
@@ -49,11 +57,16 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
               }}
             />
           </Grid>
-          <Grid size={6}>
+          <Grid size={{ xs: 12, sm: 6 }}>
             <GroupsBox
               discrete={false}
               prefix="last-20-updated-actors"
-              style={{ width: "100%", display: "flex" }}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+              }}
               params={{
                 _sort: "updatedAt",
                 _order: "DESC",
@@ -79,7 +92,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 onEventClick={(e) => {
                   navigateTo.events({ id: e.id });
                 }}
-                columns={{ md: 4 }}
+                columns={{ xs: 12, sm: 6, md: 4 }}
               />
             </Box>
           </Grid>
@@ -98,11 +111,14 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                   navigateTo.events({ id: e.id });
                 }}
                 card={BookCard}
-                columns={{ sm: 12, md: 4, lg: 2 }}
+                columns={{ xs: 12, sm: 6, md: 4, lg: 2 }}
               />
             </Box>
           </Grid>
-          <Grid container style={{ marginBottom: 150, width: "100%" }}>
+          <Grid
+            container
+            style={{ marginBottom: 150, width: "100%", overflowX: "hidden" }}
+          >
             <Grid size={12}>
               <Typography variant="h5">Last Created Media</Typography>
             </Grid>
@@ -111,7 +127,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 disableZoom
                 filter={{ _sort: "createdAt", _order: "DESC" }}
                 limit={20}
-                style={{ height: 1200, width: "100%" }}
+                columns={2}
+                style={{ height: 1200, width: "100%", maxWidth: "100%" }}
                 onClick={(m) => {
                   navigateTo.media({ id: m.id });
                 }}

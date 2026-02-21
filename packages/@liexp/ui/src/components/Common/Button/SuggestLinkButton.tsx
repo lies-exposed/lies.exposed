@@ -19,6 +19,7 @@ const SuggestLinkButton: React.FC<SuggestLinkButtonProps> = ({
   return (
     <Box style={{ margin: 5 }}>
       <IconButton
+        color="inherit"
         size="small"
         className={className}
         onClick={() => {

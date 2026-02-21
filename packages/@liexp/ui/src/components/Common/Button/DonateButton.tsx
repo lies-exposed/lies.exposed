@@ -18,16 +18,16 @@ const DonateButton: React.FC<{ className?: string }> = ({ className }) => {
       <input type="hidden" name="item_number" value="lies.exposed support" />
       <input type="hidden" name="amount" value="5.00" />
       <IconButton
+        color="inherit"
         type="submit"
         disableFocusRipple={true}
         disableRipple={true}
         focusRipple={false}
-        style={{ padding: 0, marginRight: 10, fontSize: undefined }}
-        size="large"
+        size="medium"
       >
         <FontAwesomeIcon
           icon={"circle-dollar-to-slot"}
-          style={{ color: "white", width: 20, height: 20 }}
+          style={{ color: "white" }}
         />
       </IconButton>
     </form>

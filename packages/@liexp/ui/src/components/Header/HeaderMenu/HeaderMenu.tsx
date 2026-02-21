@@ -9,6 +9,7 @@ export interface HeaderMenuProps {
   currentPath: string;
   menu: HeaderMenuItem[];
   onMenuItemClick: (m: HeaderMenuSubItem) => void;
+  drawerFooter?: React.ReactNode;
 }
 
 const CLASS_PREFIX = "HeaderMenu";
@@ -35,19 +36,21 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
   menu,
   onMenuItemClick,
   currentPath,
+  drawerFooter,
 }) => {
   const theme = useTheme();
 
-  const isDownMD = useMuiMediaQuery(theme.breakpoints.down("md"));
+  const isDownSM = useMuiMediaQuery(theme.breakpoints.down("sm"));
 
   const responsiveMenu = React.useMemo(() => {
     // return mobile menu with button icon
-    if (isDownMD) {
+    if (isDownSM) {
       return (
         <HeaderMenuMobile
           currentPath={currentPath}
           menu={menu}
           onMenuItemClick={onMenuItemClick}
+          drawerFooter={drawerFooter}
         />
       );
     }
@@ -59,7 +62,7 @@ export const HeaderMenu: React.FC<HeaderMenuProps> = ({
         onMenuItemClick={onMenuItemClick}
       />
     );
-  }, [isDownMD, currentPath]);
+  }, [isDownSM, currentPath, drawerFooter]);
 
   return (
     <HeaderMenuDiv className={classes.root}>{responsiveMenu}</HeaderMenuDiv>

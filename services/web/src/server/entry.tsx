@@ -7,6 +7,9 @@ import {
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import {
+  ThemeContextProvider,
+} from "@liexp/ui/lib/context/ThemeContext.js";
+import {
   HydrationBoundary,
   QueryClientProvider,
   type DehydratedState,
@@ -46,12 +49,14 @@ const render: AppServerRenderer = (
             <QueryClientProvider client={typedQueryClient}>
               <HydrationBoundary state={typedDehydratedState}>
                 <CacheProvider value={cache}>
-                  <ThemeProvider theme={theme}>
-                    <CssBaseline enableColorScheme />
-                    <React.Suspense>
-                      <App pathname={url} />
-                    </React.Suspense>
-                  </ThemeProvider>
+                  <ThemeContextProvider>
+                    <ThemeProvider theme={theme}>
+                      <CssBaseline enableColorScheme />
+                      <React.Suspense>
+                        <App pathname={url} />
+                      </React.Suspense>
+                    </ThemeProvider>
+                  </ThemeContextProvider>
                 </CacheProvider>
               </HydrationBoundary>
             </QueryClientProvider>

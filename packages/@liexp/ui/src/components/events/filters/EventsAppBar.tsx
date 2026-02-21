@@ -302,6 +302,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
           onQueryClear();
         }}
         size="large"
+        color="inherit"
       >
         <Icons.HighlightOff />
       </IconButton>
@@ -325,6 +326,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
             });
           }}
           size="large"
+          color="inherit"
         >
           {query._order === "DESC" ? <Icons.ArrowUp /> : <Icons.ArrowDown />}
         </IconButton>
@@ -516,7 +518,7 @@ const EventsAppBar: React.FC<EventsAppBarProps> = ({
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
-              background: "white",
+              background: "transparent",
             }}
           >
             <Grid container spacing={2}>

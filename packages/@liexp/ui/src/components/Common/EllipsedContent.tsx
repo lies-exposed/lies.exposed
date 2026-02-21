@@ -17,7 +17,7 @@ const EllipsesContent: React.FC<EllipsesContentProps> = ({
   ...props
 }) => {
   return (
-    <Typography variant={variant}>
+    <Typography variant={variant} component="div">
       <EllipsisComponent ellipsis={ellipsis} text={text} {...props} />
     </Typography>
   );

@@ -184,6 +184,7 @@ const SearchFiltersBar: React.FC<SearchFiltersBarProps> = ({
 
   const clearButton = hasActiveFilters ? (
     <IconButton
+      color="inherit"
       style={{
         padding: 0,
       }}
