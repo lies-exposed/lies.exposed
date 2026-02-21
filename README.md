@@ -54,6 +54,34 @@ docker compose up api web admin data # starts api, web, admin and data services
 
 **N.B.: you need to run `pnpm api watch` in another shell to make the api container to trigger restart event**
 
+### Local HTTPS Development
+
+Services run behind an nginx reverse proxy on `*.liexp.dev`. To avoid browser
+SSL warnings you need a locally-trusted self-signed wildcard certificate.
+
+**Prerequisites:** `openssl` and (Linux only) `certutil` from `nss-tools` /
+`libnss3-tools`.
+
+```sh
+# Generate certificate and trust it in Chrome, Firefox, and system CA store
+./scripts/dev-ssl-certificate.sh
+```
+
+The script:
+- Generates `_data/certs/liexp.dev.crt` and `_data/certs/liexp.dev.key`
+- **macOS**: adds the cert to the system Keychain (trusted by Chrome/Safari)
+- **Linux**: adds the cert to `~/.pki/nssdb` (Chrome), all Firefox profiles, and
+  the system CA store via `update-ca-trust` / `update-ca-certificates`
+
+After running, reload nginx so it picks up the new certificate:
+
+```sh
+docker compose -f compose.reverse-proxy.yml up -d reverseproxy.dev
+```
+
+> **Note (Linux/Chrome):** restart Chrome after running the script for the
+> change to take effect.
+
 ### Build
 
 ```sh
