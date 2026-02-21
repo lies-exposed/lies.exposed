@@ -1,10 +1,47 @@
 import {
   themeOptions,
-  lightPalette,
-  darkPalette,
   type ThemeOptions,
 } from "@liexp/ui/lib/theme/index.js";
 import { createTheme } from "@mui/material/styles";
+import { darken, lighten } from "@mui/system";
+
+const primary = "#FF5E5B";
+const primaryLight = lighten(primary, 0.5);
+const primaryDark = darken(primary, 0.5);
+
+const secondary = "#17B9B6";
+const secondaryLight = lighten(secondary, 0.5);
+const secondaryDark = darken(primary, 0.5);
+
+const lightPalette = {
+  primary: {
+    main: primary,
+    light: primaryLight,
+    dark: primaryDark,
+    contrastText: "#fff",
+  },
+  secondary: {
+    main: secondary,
+    light: secondaryLight,
+    dark: secondaryDark,
+    contrastText: "#FFF",
+  },
+};
+
+const darkPalette = {
+  primary: {
+    main: primary,
+    light: primaryLight,
+    dark: primaryDark,
+    contrastText: "#fff",
+  },
+  secondary: {
+    main: secondary,
+    light: secondaryLight,
+    dark: secondaryDark,
+    contrastText: "#FFF",
+  },
+};
 
 const createBaseAdminTheme = (palette: typeof lightPalette): ThemeOptions => ({
   ...themeOptions,
