@@ -336,4 +336,8 @@ export {
   lightPalette,
   darkPalette,
   createECOTheme,
+  createTheme,
+  darken,
+  lighten,
+  alpha,
 };

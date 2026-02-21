@@ -1,9 +1,10 @@
 import {
   themeOptions,
+  createTheme,
+  darken,
+  lighten,
   type ThemeOptions,
 } from "@liexp/ui/lib/theme/index.js";
-import { createTheme } from "@mui/material/styles";
-import { darken, lighten } from "@mui/system";
 
 const primary = "#FF5E5B";
 const primaryLight = lighten(primary, 0.5);
@@ -204,8 +205,6 @@ const createBaseAdminTheme = (palette: typeof lightPalette): ThemeOptions => ({
   },
 });
 
-const lightAdminThemeOptions = createBaseAdminTheme(lightPalette);
-
 const createAdminThemeOptions = (
   mode: "light" | "dark" = "light",
 ): ReturnType<typeof createTheme> => {
@@ -214,4 +213,4 @@ const createAdminThemeOptions = (
   return createTheme(baseOptions);
 };
 
-export { createAdminThemeOptions, lightAdminThemeOptions };
+export { createAdminThemeOptions };
