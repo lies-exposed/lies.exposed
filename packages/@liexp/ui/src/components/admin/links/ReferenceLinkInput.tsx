@@ -10,7 +10,8 @@ import {
   Button,
   useRedirect,
 } from "react-admin";
-import { Box, Stack, Typography } from "../../mui/index.js";
+import { useTheme } from "../../../theme/index.js";
+import { Box, Stack, Typography, useMuiMediaQuery } from "../../mui/index.js";
 
 export const matchLinkSuggestions = (
   filterValue: string,
@@ -23,11 +24,21 @@ export const matchLinkSuggestions = (
 
 export const LinkAutocompleteOptionText: React.FC = () => {
   const record = useRecordContext<Link.Link>();
+  const theme = useTheme();
+  const isMobile = useMuiMediaQuery(theme.breakpoints.down("sm"));
+
+  const imageSize = isMobile ? 60 : 100;
+
   return record?.id ? (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", gap: 10 }}>
       <img
         src={record.image?.thumbnail}
-        style={{ marginRight: 10, width: 100, height: 100 }}
+        style={{
+          marginRight: 10,
+          width: imageSize,
+          height: imageSize,
+          objectFit: "cover",
+        }}
       />
       <Typography>{record.title}</Typography>
     </div>

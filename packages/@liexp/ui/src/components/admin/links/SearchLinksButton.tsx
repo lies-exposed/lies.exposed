@@ -110,12 +110,39 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
           setOpen(false);
         }}
         fullWidth
+        maxWidth="sm"
+        sx={{
+          "& .MuiDialog-paper": {
+            "@media (max-width: 600px)": {
+              width: "calc(100% - 32px)",
+              margin: "16px",
+              borderRadius: "8px",
+            },
+          },
+        }}
       >
-        <DialogTitle>Search in providers</DialogTitle>
+        <DialogTitle sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem" } }}>
+          Search in providers
+        </DialogTitle>
         <DialogContent
-          style={{ display: "flex", flexDirection: "column", minHeight: 300 }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: { xs: 250, sm: 300 },
+            "@media (max-width: 600px)": {
+              padding: "16px 12px",
+            },
+          }}
         >
-          <FormGroup row>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: 2,
+              mb: 2,
+              flexWrap: "wrap",
+            }}
+          >
             <TextField
               label="Query"
               id="q"
@@ -124,9 +151,10 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               onChange={(e) => {
                 setQ(e.target.value);
               }}
+              sx={{ flex: { xs: "1 1 100%", sm: "1 1 auto" } }}
             />
             <TextField
-              label="Query"
+              label="Date"
               id="date"
               type="date"
               name="date"
@@ -134,6 +162,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               onChange={(e) => {
                 setDate(e.target.value);
               }}
+              sx={{ flex: { xs: "1 1 100%", sm: "1 1 auto" } }}
             />
 
             <TextField
@@ -144,19 +173,29 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
               onChange={(e) => {
                 setP(+e.target.value);
               }}
+              sx={{ flex: { xs: "1 1 100%", sm: "1 1 auto" } }}
             />
 
             <TextField
               id="keywords"
-              label="keywords"
+              label="Keywords"
               value={keywords}
               onChange={(e) => {
                 setKeywords(e.target.value);
               }}
+              sx={{ flex: { xs: "1 1 100%", sm: "1 1 auto" } }}
             />
-          </FormGroup>
+          </Box>
 
-          <FormGroup style={{ overflow: "scroll", maxHeight: 400 }}>
+          <FormGroup
+            sx={{
+              overflow: "auto",
+              maxHeight: { xs: "50vh", sm: 400 },
+              "@media (max-width: 600px)": {
+                maxHeight: "45vh",
+              },
+            }}
+          >
             {Object.keys(defaultSites).map((p) => {
               return (
                 <FormControlLabel
@@ -181,7 +220,18 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
 
           <LinkEntityList links={links} onItemClick={handleLinkClick} />
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            padding: { xs: "12px", sm: "16px" },
+            gap: { xs: "8px", sm: "12px" },
+            flexWrap: { xs: "wrap", sm: "nowrap" },
+            "@media (max-width: 600px)": {
+              "& .MuiButton-root": {
+                flex: "1 1 calc(50% - 4px)",
+              },
+            },
+          }}
+        >
           <Button
             label="Cancel"
             onClick={() => {

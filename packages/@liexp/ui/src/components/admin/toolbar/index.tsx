@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Stack } from "../../mui/index.js";
+import { useTheme } from "../../../theme/index.js";
+import { Stack, useMuiMediaQuery } from "../../mui/index.js";
 import {
   DeleteWithConfirmButton,
   DeleteButton,
@@ -9,12 +10,19 @@ import {
 
 export const EditToolbar: React.FC = () => {
   const record = useRecordContext();
+  const theme = useTheme();
+  const isMobile = useMuiMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Stack
-      direction="row"
+      direction={isMobile ? "column" : "row"}
       justifyContent="space-between"
-      spacing={2}
-      padding={2}
+      spacing={isMobile ? 1 : 2}
+      padding={isMobile ? 1 : 2}
+      sx={{
+        width: "100%",
+        flexWrap: "wrap",
+      }}
     >
       <SaveButton />
       {record?.id ? (
