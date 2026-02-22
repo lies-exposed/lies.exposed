@@ -185,6 +185,9 @@ export const Queue = Schema.extend(
       Schema.Record({ key: Schema.String, value: Schema.Any }),
       Schema.Null,
     ),
+    createdAt: Schema.optional(Schema.Date),
+    updatedAt: Schema.optional(Schema.Date),
+    deletedAt: Schema.optional(Schema.NullOr(Schema.Date)),
   }),
   CreateQueueTypeData,
 ).annotations({ title: "Queue" });

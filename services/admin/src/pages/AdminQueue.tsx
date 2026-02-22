@@ -155,7 +155,12 @@ const getBorderStyleFromStatus = (status: string) => {
 
 export const QueueList: React.FC<ListProps> = (props) => {
   return (
-    <List {...props} resource="queues" filters={filters}>
+    <List
+      {...props}
+      resource="queues"
+      filters={filters}
+      sort={{ field: "createdAt", order: "DESC" }}
+    >
       <Datagrid
         rowClick={(id, resource, record) => {
           return `/${resource}/${record.type}/${record.resource}/${id}`;

@@ -10,7 +10,9 @@ import { QueueRepository } from "../services/entity-repository.service.js";
 import { type DBError } from "./orm/database.provider.js";
 
 interface QueueProvider<J extends Queue.Queue, C extends DatabaseContext> {
-  addJob: (job: J) => ReaderTaskEither<C, ServerError, J>;
+  addJob: (
+    job: Omit<J, "createdAt" | "updatedAt" | "deletedAt">,
+  ) => ReaderTaskEither<C, ServerError, J>;
   getJob: (
     resource: Queue.QueueResourceNames,
     id: UUID,
@@ -47,9 +49,18 @@ const GetQueueJobProvider = <J extends Queue.Queue, C extends DatabaseContext>(
     };
   };
 
-  const addJob = (job: J): ReaderTaskEither<C, ServerError, J> => {
+  const addJob = (
+    job: Omit<J, "createdAt" | "updatedAt" | "deletedAt">,
+  ): ReaderTaskEither<C, ServerError, J> => {
     return pipe(
-      QueueRepository.save([job]),
+      QueueRepository.save([
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          deletedAt: null,
+          ...job,
+        },
+      ]),
       fp.RTE.chainEitherK((ee) => QueueIO.decodeSingle(ee[0])),
       fp.RTE.mapLeft(ServerError.fromUnknown),
       fp.RTE.map((job) => job as J),
