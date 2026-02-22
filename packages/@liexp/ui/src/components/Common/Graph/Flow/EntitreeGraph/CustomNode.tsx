@@ -1,39 +1,40 @@
 import { Handle, Position } from "@xyflow/react";
 import React, { memo } from "react";
+import { useTheme } from "../../../../../theme/index.js";
+import {
+  getRelationshipColor,
+  SPACING_BASE,
+  PADDING_COMPACT,
+  PADDING_BADGE,
+  NODE_MIN_HEIGHT,
+  NODE_MIN_WIDTH,
+  NODE_MAX_WIDTH,
+  AVATAR_SIZE,
+  BADGE_BORDER_RADIUS,
+  NODE_BORDER_RADIUS,
+  FONT_SIZE_BADGE,
+  FONT_SIZE_NODE,
+} from "../../../../../theme/styleUtils.js";
 
 const { Top, Bottom, Left, Right } = Position;
 
-const borderColors = {
-  root: "#1976d2",
-  spouse: "#e91e63",
-  partner: "#9c27b0",
-  sibling: "#4caf50",
-  default: "#ccc",
-};
-
-const badgeColors: Record<string, string> = {
-  spouse: "#e91e63",
-  partner: "#9c27b0",
-  sibling: "#4caf50",
-};
-
 const nodeStyle: React.CSSProperties = {
-  minHeight: 34,
-  minWidth: 130,
-  maxWidth: 150,
+  minHeight: NODE_MIN_HEIGHT,
+  minWidth: NODE_MIN_WIDTH,
+  maxWidth: NODE_MAX_WIDTH,
   display: "flex",
   alignItems: "center",
-  gap: 6,
-  padding: "3px 6px",
-  borderRadius: 6,
+  gap: parseFloat(SPACING_BASE),
+  padding: PADDING_COMPACT,
+  borderRadius: NODE_BORDER_RADIUS,
   backgroundColor: "#fff",
   boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
   position: "relative",
 };
 
 const avatarStyle: React.CSSProperties = {
-  width: 26,
-  height: 26,
+  width: AVATAR_SIZE,
+  height: AVATAR_SIZE,
   borderRadius: "50%",
   objectFit: "cover",
   flexShrink: 0,
@@ -50,7 +51,7 @@ const avatarPlaceholderStyle: React.CSSProperties = {
 };
 
 const nameStyle: React.CSSProperties = {
-  fontSize: 11,
+  fontSize: FONT_SIZE_NODE,
   fontWeight: 500,
   lineHeight: 1.2,
   overflow: "hidden",
@@ -62,11 +63,11 @@ const badgeStyle: React.CSSProperties = {
   position: "absolute",
   top: -7,
   right: 3,
-  fontSize: 8,
+  fontSize: FONT_SIZE_BADGE,
   fontWeight: 600,
   color: "#fff",
-  padding: "1px 4px",
-  borderRadius: 3,
+  padding: PADDING_BADGE,
+  borderRadius: BADGE_BORDER_RADIUS,
   textTransform: "uppercase",
   letterSpacing: 0.4,
 };
@@ -82,9 +83,22 @@ const getNodeRole = (data: any): NodeRole => {
 };
 
 export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
+  const theme = useTheme();
   const { isSpouse, isSibling, fullName, avatar, direction } = data;
 
   const isTreeHorizontal = direction === "LR";
+
+  // Get theme-based border colors
+  const role = getNodeRole(data);
+  let borderColor: string;
+  if (role === "root") {
+    borderColor = theme.palette.primary.main;
+  } else if (role === "default") {
+    borderColor = theme.palette.grey[300];
+  } else {
+    // For spouse, partner, sibling - use relationship colors
+    borderColor = getRelationshipColor(theme, role as any);
+  }
 
   const getTargetPosition = () => {
     if (isSpouse) {
@@ -110,9 +124,9 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
         .toUpperCase()
     : "?";
 
-  const role = getNodeRole(data);
-  const borderColor = borderColors[role];
   const badgeLabel = role !== "root" && role !== "default" ? role : null;
+  // Get badge color (same as border color for consistency)
+  const badgeColor = borderColor;
 
   return (
     <div className="nodrag">
@@ -158,7 +172,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
           <span
             style={{
               ...badgeStyle,
-              backgroundColor: badgeColors[badgeLabel] ?? borderColor,
+              backgroundColor: badgeColor,
             }}
           >
             {badgeLabel}

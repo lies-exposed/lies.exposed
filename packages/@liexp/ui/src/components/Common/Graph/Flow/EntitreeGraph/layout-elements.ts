@@ -1,5 +1,7 @@
 import { type Edge, type Node, Position } from "@xyflow/react";
 import { layoutFromMap } from "entitree-flex";
+import { type Theme } from "../../../../../theme/index.js";
+import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 
 const nodeWidth = 150;
 const nodeHeight = 40;
@@ -30,15 +32,12 @@ const entitreeSettings = {
 
 export type RelationType = "parent_child" | "spouse" | "partner" | "sibling";
 
-const edgeColors: Record<RelationType, string> = {
-  parent_child: "#555",
-  spouse: "#e91e63",
-  partner: "#9c27b0",
-  sibling: "#4caf50",
-};
-
 const { Top, Bottom, Left, Right } = Position;
 
+/**
+ * Resolve relationship type between two nodes.
+ * Used to determine edge styling and node positioning.
+ */
 const resolveRelationType = (
   sourceNode: any,
   targetId: string,
@@ -57,6 +56,7 @@ export const layoutElements = (
   tree: any,
   rootId: string | number,
   direction = "TB",
+  theme?: Theme,
 ): { nodes: Node[]; edges: Edge[] } => {
   const isTreeHorizontal = direction === "LR";
 
@@ -141,7 +141,7 @@ export const layoutElements = (
       sourceHandle,
       targetHandle,
       style: {
-        stroke: edgeColors[relationType],
+        stroke: theme ? getRelationshipColor(theme, relationType) : "#555",
         strokeWidth: relationType === "parent_child" ? 2 : 1.5,
         strokeDasharray: relationType === "partner" ? "6 3" : undefined,
       },

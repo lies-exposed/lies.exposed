@@ -4,7 +4,9 @@ import {
   createTheme,
   styled,
   ThemeProvider,
+  type Theme,
   type ThemeOptions,
+  type SxProps,
   useTheme,
 } from "@mui/material/styles";
 import { darken, lighten, alpha } from "@mui/system";
@@ -33,6 +35,25 @@ const lightYellow = yellow[200];
 const lightBlue = _lightBlue.A100;
 
 const deletedBackgroundColor = alpha("#FF0000", 0.3);
+
+// Event type colors - used for visual distinction of event categories
+const eventTypeBook = "#B5F425";
+const eventTypeUncategorized = "#EC3535";
+const eventTypeDeath = "#111111";
+const eventTypeScientificStudy = "#2596be";
+const eventTypePatent = "#BE259E";
+const eventTypeDocumentary = "#2538BE";
+const eventTypeTransaction = "#2DBE25";
+const eventTypeQuote = "#451ade";
+
+// Dark mode friendly versions
+const eventTypeDeathDark = "#E8E8E8";
+
+// Relationship colors for graph visualizations
+const relationshipParentChild = "#555";
+const relationshipSpouse = "#e91e63";
+const relationshipPartner = "#9c27b0";
+const relationshipSibling = "#4caf50";
 
 const colors = {
   primary,
@@ -83,6 +104,22 @@ const createLightPalette = () => ({
     primary: "rgba(0, 0, 0, 0.87)",
     secondary: "rgba(0, 0, 0, 0.6)",
   },
+  eventType: {
+    book: eventTypeBook,
+    uncategorized: eventTypeUncategorized,
+    death: eventTypeDeath,
+    scientific_study: eventTypeScientificStudy,
+    patent: eventTypePatent,
+    documentary: eventTypeDocumentary,
+    transaction: eventTypeTransaction,
+    quote: eventTypeQuote,
+  },
+  relationship: {
+    parent_child: relationshipParentChild,
+    spouse: relationshipSpouse,
+    partner: relationshipPartner,
+    sibling: relationshipSibling,
+  },
 });
 
 const createDarkPalette = () => ({
@@ -109,6 +146,22 @@ const createDarkPalette = () => ({
   text: {
     primary: "#fff",
     secondary: "rgba(255, 255, 255, 0.7)",
+  },
+  eventType: {
+    book: eventTypeBook,
+    uncategorized: eventTypeUncategorized,
+    death: eventTypeDeathDark, // Use dark-friendly version
+    scientific_study: eventTypeScientificStudy,
+    patent: eventTypePatent,
+    documentary: eventTypeDocumentary,
+    transaction: eventTypeTransaction,
+    quote: eventTypeQuote,
+  },
+  relationship: {
+    parent_child: relationshipParentChild,
+    spouse: relationshipSpouse,
+    partner: relationshipPartner,
+    sibling: relationshipSibling,
   },
 });
 
@@ -330,6 +383,8 @@ export {
   styled,
   themeOptions,
   type ThemeOptions,
+  type Theme,
+  type SxProps,
   ThemeProvider,
   createLightPalette,
   createDarkPalette,
@@ -341,3 +396,6 @@ export {
   lighten,
   alpha,
 };
+
+// Note: styleUtils is intentionally NOT re-exported here to avoid circular dependencies
+// Components should import utility functions directly from styleUtils.js if needed

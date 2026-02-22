@@ -6,8 +6,8 @@ import {
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import * as React from "react";
-import { useThemeMode } from "../../../context/ThemeContext.js";
-import { styled } from "../../../theme/index.js";
+import { type Theme } from "../../../theme/index.js";
+import { styled, useTheme } from "../../../theme/index.js";
 
 const PREFIX = "EventTypeColor";
 
@@ -21,6 +21,29 @@ const Root = styled("text")(() => ({
   },
 }));
 
+/**
+ * Get event type color from theme palette.
+ * Exported for use in other components (e.g., graphs, visualizations)
+ */
+export const getEventTypeColor = (theme: Theme, eventType: string): string => {
+  const eventTypePalette = (theme.palette as any).eventType;
+  const colorMap = {
+    [EVENT_TYPES.BOOK]: eventTypePalette.book,
+    [EVENT_TYPES.UNCATEGORIZED]: eventTypePalette.uncategorized,
+    [EVENT_TYPES.DEATH]: eventTypePalette.death,
+    [EVENT_TYPES.SCIENTIFIC_STUDY]: eventTypePalette.scientific_study,
+    [EVENT_TYPES.PATENT]: eventTypePalette.patent,
+    [EVENT_TYPES.DOCUMENTARY]: eventTypePalette.documentary,
+    [EVENT_TYPES.TRANSACTION]: eventTypePalette.transaction,
+    [EVENT_TYPES.QUOTE]: eventTypePalette.quote,
+  };
+  return (
+    colorMap[eventType as keyof typeof colorMap] ??
+    colorMap[EVENT_TYPES.UNCATEGORIZED]
+  );
+};
+
+// Legacy export for backwards compatibility - maps to theme colors
 export const EventTypeColor = {
   [EVENT_TYPES.BOOK]: "#B5F425",
   [EVENT_TYPES.UNCATEGORIZED]: "#EC3535",
@@ -31,9 +54,6 @@ export const EventTypeColor = {
   [EVENT_TYPES.TRANSACTION]: "#2DBE25",
   [EVENT_TYPES.QUOTE]: "#451ade",
 };
-
-// Dark mode friendly version of death color
-const DEATH_COLOR_DARK = "#E8E8E8";
 
 export const EventTypeIconClass = {
   [EVENT_TYPES.BOOK]: "book" as IconName,
@@ -56,12 +76,9 @@ export const EventIcon: React.FC<EventIconProps> = ({
   height = 18,
   ..._props
 }) => {
-  const { resolvedMode } = useThemeMode();
+  const theme = useTheme();
   const props = { ..._props, width, height };
-
-  // Use light color for death icon in dark mode
-  const deathColor =
-    resolvedMode === "dark" ? DEATH_COLOR_DARK : EventTypeColor.Death;
+  const iconColor = getEventTypeColor(theme, type);
 
   switch (type) {
     case EVENT_TYPES.BOOK:
@@ -70,7 +87,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Book}
-          style={{ ...props.style, color: EventTypeColor.Book }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.QUOTE:
@@ -79,7 +96,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Quote}
-          style={{ ...props.style, color: EventTypeColor.Quote }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.SCIENTIFIC_STUDY:
@@ -88,7 +105,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.ScientificStudy}
-          style={{ ...props.style, color: EventTypeColor.ScientificStudy }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.DEATH:
@@ -97,7 +114,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Death}
-          style={{ ...props.style, color: deathColor }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.PATENT:
@@ -106,7 +123,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Patent}
-          style={{ ...props.style, color: EventTypeColor.Patent }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.DOCUMENTARY:
@@ -115,7 +132,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Documentary}
-          style={{ ...props.style, color: EventTypeColor.Documentary }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     case EVENT_TYPES.TRANSACTION:
@@ -124,7 +141,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           {...props}
           mask={undefined}
           icon={EventTypeIconClass.Transaction}
-          style={{ ...props.style, color: EventTypeColor.Transaction }}
+          style={{ ...props.style, color: iconColor }}
         />
       );
     default:
@@ -135,7 +152,7 @@ export const EventIcon: React.FC<EventIconProps> = ({
           icon={EventTypeIconClass.Uncategorized}
           style={{
             ...props.style,
-            color: EventTypeColor.Uncategorized,
+            color: iconColor,
           }}
         />
       );

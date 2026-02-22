@@ -4,6 +4,7 @@ import * as io from "@liexp/io/lib/index.js";
 import { toAPIError } from "@liexp/shared/lib/utils/APIError.utils.js";
 import * as React from "react";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
+import { useTheme } from "../../../theme/index.js";
 import { MenuItem, Select, Stack, Typography } from "../../mui/index.js";
 import { OpenAIButton } from "../media/OpenAIButton.js";
 import {
@@ -16,6 +17,7 @@ import {
 const QUEUE_TYPE = "openai-create-event-from-links";
 
 export const CreateEventFromLinksButton: React.FC = () => {
+  const theme = useTheme();
   const { selectedIds } = useListContext();
   const api = useDataProvider();
   const refresh = useRefresh();
@@ -96,7 +98,7 @@ export const CreateEventFromLinksButton: React.FC = () => {
         spacing={{ xs: 1, sm: 2 }}
         alignItems={{ xs: "stretch", sm: "center" }}
         sx={{
-          "@media (max-width: 600px)": {
+          [theme.breakpoints.down("sm")]: {
             width: "100%",
           },
         }}
@@ -109,7 +111,7 @@ export const CreateEventFromLinksButton: React.FC = () => {
           }}
           sx={{
             minWidth: { xs: "100%", sm: 150 },
-            "@media (max-width: 600px)": {
+            [theme.breakpoints.down("sm")]: {
               width: "100%",
             },
           }}

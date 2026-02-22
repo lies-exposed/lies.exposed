@@ -1,5 +1,6 @@
 import * as React from "react";
 import { styled } from "../../theme/index.js";
+import { SPACING_3XL } from "../../theme/styleUtils.js";
 
 const PREFIX = "Counter";
 
@@ -10,7 +11,7 @@ const classes = {
 
 const Root = styled("div")(({ theme }) => ({
   [`& .${classes.root}`]: {
-    margin: "20px 0",
+    margin: `${SPACING_3XL} 0`,
   },
 
   [`& .${classes.counter}`]: {

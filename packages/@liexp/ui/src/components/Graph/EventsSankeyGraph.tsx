@@ -37,6 +37,10 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as React from "react";
+import {
+  SANKEY_GRAPH_MAX_HEIGHT,
+  SANKEY_GRAPH_MARGIN,
+} from "../../theme/styleUtils.js";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
 import SankeyGraph from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
@@ -82,8 +86,11 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
             ...props,
             groupBy,
             width,
-            height: height > 800 ? 800 : height,
-            margin: { vertical: 40, horizontal: 40 },
+            height:
+              height > SANKEY_GRAPH_MAX_HEIGHT
+                ? SANKEY_GRAPH_MAX_HEIGHT
+                : height,
+            margin: SANKEY_GRAPH_MARGIN,
           });
 
           return (

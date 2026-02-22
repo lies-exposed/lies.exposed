@@ -9,6 +9,11 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import * as React from "react";
+import { useTheme } from "../../../../../theme/index.js";
+import {
+  getRelationshipColor,
+  PADDING_SM,
+} from "../../../../../theme/styleUtils.js";
 import { CustomNode } from "./CustomNode.js";
 import { layoutElements } from "./layout-elements.js";
 
@@ -18,20 +23,13 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-const legendItems = [
-  { color: "#555", label: "Parent / Child" },
-  { color: "#e91e63", label: "Spouse" },
-  { color: "#9c27b0", label: "Partner", dashed: true },
-  { color: "#4caf50", label: "Sibling" },
-] as const;
-
 const legendStyle: React.CSSProperties = {
   display: "flex",
   gap: 12,
   fontSize: 11,
   alignItems: "center",
   background: "rgba(255,255,255,0.9)",
-  padding: "4px 8px",
+  padding: PADDING_SM,
   borderRadius: 4,
   border: "1px solid #eee",
 };
@@ -57,7 +55,23 @@ const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({
   rootId,
   onActorClick,
 }) => {
+  const theme = useTheme();
   const { fitView } = useReactFlow();
+
+  // Create legend items with theme-based colors
+  const legendItems = React.useMemo(
+    () => [
+      { color: theme.palette.grey[600], label: "Parent / Child" },
+      { color: getRelationshipColor(theme, "spouse"), label: "Spouse" },
+      {
+        color: getRelationshipColor(theme, "partner"),
+        label: "Partner",
+        dashed: true,
+      },
+      { color: getRelationshipColor(theme, "sibling"), label: "Sibling" },
+    ],
+    [theme],
+  );
 
   const { nodes: initialLayoutedNodes, edges: initialLayoutedEdges } =
     React.useMemo(() => layoutElements(tree, rootId, "TB"), [tree, rootId]);

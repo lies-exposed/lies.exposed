@@ -14,6 +14,19 @@ import {
   Stack,
   Typography,
 } from "../../mui/index.js";
+import {
+  cardActionAreaSx,
+  authorsColumnSx,
+  cardContentSx,
+  cardHeaderTitleSx,
+  cardSx,
+  contentStackSx,
+  dateColumnSx,
+  excerptContainerSx,
+  headerRowSx,
+  innerContentStackSx,
+  mediaImageSx,
+} from "./BookCard.styles.js";
 import { type EventCardProps } from "./EventCard.js";
 
 type BookCardProps = EventCardProps<SearchBookEvent>;
@@ -29,24 +42,13 @@ export const BookCard: React.FC<BookCardProps> = ({
   const media = event.media?.[0]?.thumbnail;
 
   return (
-    <Card {...rest}>
+    <Card {...rest} sx={cardSx}>
       <CardActionArea
         onClick={() => onEventClick?.(event)}
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-        }}
+        sx={cardActionAreaSx}
       >
-        {media && (
-          <CardMedia
-            component="img"
-            image={media}
-            style={{ height: "100%", maxHeight: 200 }}
-          />
-        )}
-        <Stack direction="column" style={{ flexGrow: 2 }}>
+        {media && <CardMedia component="img" image={media} sx={mediaImageSx} />}
+        <Stack sx={contentStackSx}>
           <CardHeader
             title={
               <EllipsesContent
@@ -56,37 +58,16 @@ export const BookCard: React.FC<BookCardProps> = ({
               />
             }
             slotProps={{
-              title: { style: { fontSize: "1rem", marginBottom: 0 } },
+              title: { sx: cardHeaderTitleSx },
             }}
           />
-          <CardContent
-            style={{
-              paddingTop: 0,
-              paddingBottom: 0,
-              display: "flex",
-              flexGrow: 2,
-              width: "100%",
-            }}
-          >
-            <Stack
-              alignItems="center"
-              direction={"column"}
-              justifyItems={"center"}
-              spacing={1}
-              width={"100%"}
-            >
-              <Stack
-                direction={"row"}
-                spacing={1}
-                alignItems={"center"}
-                justifyItems={"space-between"}
-                justifyContent={"space-between"}
-                width={"100%"}
-              >
-                <Stack flex={1}>
+          <CardContent sx={cardContentSx}>
+            <Stack sx={innerContentStackSx} spacing={1}>
+              <Stack sx={headerRowSx}>
+                <Stack sx={dateColumnSx}>
                   <Typography>{formatDate(event.date)}</Typography>
                 </Stack>
-                <Stack direction={"row"} justifyContent={"flex-end"} flex={1}>
+                <Stack sx={authorsColumnSx}>
                   <SubjectList
                     subjects={event.payload.authors.map((a) => ({
                       ...a,
@@ -98,7 +79,7 @@ export const BookCard: React.FC<BookCardProps> = ({
               </Stack>
 
               {isValidValue(event.excerpt) ? (
-                <Stack>
+                <Stack sx={excerptContainerSx}>
                   <EllipsesContent
                     text={getTextContents(event.excerpt)}
                     maxLine={3}

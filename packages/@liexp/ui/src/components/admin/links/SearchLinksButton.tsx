@@ -2,6 +2,7 @@ import { formatDate, parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { defaultSites } from "@liexp/shared/lib/utils/defaultSites.js";
 import * as React from "react";
 import { Button, useDataProvider, useRefresh } from "react-admin";
+import { useTheme } from "../../../theme/index.js";
 import { type Link } from "../../Cards/LinkCard.js";
 import { LinksList as LinkEntityList } from "../../lists/LinkList.js";
 import {
@@ -25,6 +26,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
   query,
   date: _date,
 }) => {
+  const theme = useTheme();
   const refresh = useRefresh();
   const apiProvider = useDataProvider();
   const [open, setOpen] = React.useState(false);
@@ -113,7 +115,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         maxWidth="sm"
         sx={{
           "& .MuiDialog-paper": {
-            "@media (max-width: 600px)": {
+            [theme.breakpoints.down("sm")]: {
               width: "calc(100% - 32px)",
               margin: "16px",
               borderRadius: "8px",
@@ -129,7 +131,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             display: "flex",
             flexDirection: "column",
             minHeight: { xs: 250, sm: 300 },
-            "@media (max-width: 600px)": {
+            [theme.breakpoints.down("sm")]: {
               padding: "16px 12px",
             },
           }}
@@ -191,7 +193,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             sx={{
               overflow: "auto",
               maxHeight: { xs: "50vh", sm: 400 },
-              "@media (max-width: 600px)": {
+              [theme.breakpoints.down("sm")]: {
                 maxHeight: "45vh",
               },
             }}
@@ -225,7 +227,7 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             padding: { xs: "12px", sm: "16px" },
             gap: { xs: "8px", sm: "12px" },
             flexWrap: { xs: "wrap", sm: "nowrap" },
-            "@media (max-width: 600px)": {
+            [theme.breakpoints.down("sm")]: {
               "& .MuiButton-root": {
                 flex: "1 1 calc(50% - 4px)",
               },

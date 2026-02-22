@@ -17,6 +17,7 @@ import {
   CardMedia,
   type CardProps,
 } from "../../mui/index.js";
+import * as styles from "./EventSlimCard.styles.js";
 
 export interface EventSlimCardProps extends CardProps {
   event: Events.Event;
@@ -65,30 +66,22 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
 
   const isVertical = layout === "vertical";
   return (
-    <Card onClick={handleClick} {...props}>
+    <Card sx={styles.cardSx} onClick={handleClick} {...props}>
       <CardActionArea>
-        <Stack
-          direction={isVertical ? "column" : "row"}
-          alignItems={"flex-start"}
-          width={"100%"}
-        >
+        <Stack sx={styles.getStackSx(isVertical)}>
           {showMedia ? (
-            <Stack
-              display="flex"
-              width={isVertical ? "100%" : "150px"}
-              direction={"row"}
-            >
+            <Stack sx={styles.getMediaWrapperSx(isVertical)}>
               <CardMedia
                 component="img"
                 image={displayImage}
-                style={{
-                  height: props.style?.maxHeight ?? 150,
-                  width: isVertical ? "100%" : 150,
-                }}
+                sx={styles.getMediaImageSx(
+                  isVertical,
+                  props.style?.maxHeight as number,
+                )}
               />
             </Stack>
           ) : null}
-          <Stack direction={"column"}>
+          <Stack sx={styles.headerStackSx}>
             <CardHeader
               avatar={<EventIcon size="2x" type={event.type} />}
               title={title}
@@ -97,12 +90,7 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
             {showExcerpt ? (
               <CardContent>
                 {isValidValue(event.excerpt) ? (
-                  <Box
-                    style={{
-                      maxHeight: 100,
-                      overflow: "hidden",
-                    }}
-                  >
+                  <Box sx={styles.excerptContainerSx}>
                     <BNEditor content={event.excerpt} readOnly />
                   </Box>
                 ) : null}

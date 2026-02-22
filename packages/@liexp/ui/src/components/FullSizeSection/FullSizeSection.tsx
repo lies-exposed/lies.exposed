@@ -1,6 +1,7 @@
 import { isServer } from "@liexp/shared/lib/utils/isServer.js";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
+import { SPACING_4XL } from "../../theme/styleUtils.js";
 import { MainContent } from "../MainContent.js";
 
 interface Viewport {
@@ -81,8 +82,8 @@ export const FullSizeSection: React.FC<
               ? "rgba(255, 255, 255, 0.8)"
               : "trasparent",
           width: "100%",
-          paddingLeft: "30px",
-          paddingRight: "30px",
+          paddingLeft: SPACING_4XL,
+          paddingRight: SPACING_4XL,
         }}
       >
         {children}

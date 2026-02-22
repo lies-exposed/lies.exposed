@@ -22,6 +22,7 @@ import {
   CardMedia,
   type CardProps,
 } from "../../mui/index.js";
+import * as styles from "./EventCard.styles.js";
 
 export interface EventCardProps<
   E extends SearchEvent.SearchEvent,
@@ -64,30 +65,18 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
   };
   const isVertical = layout === "vertical";
   return (
-    <Card {...props}>
-      <CardActionArea
-        style={{ height: "100%", display: "flex", alignItems: "flex-start" }}
-        onClick={handleClick}
-      >
-        <Stack
-          direction={isVertical ? "column" : "row"}
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-          width={"100%"}
-        >
+    <Card sx={styles.cardSx} {...props}>
+      <CardActionArea sx={styles.cardActionAreaSx} onClick={handleClick}>
+        <Stack sx={styles.getCardContainerSx(isVertical)}>
           {showMedia ? (
-            <Stack
-              display="flex"
-              width={isVertical ? "100%" : "150px"}
-              direction={"row"}
-            >
+            <Stack sx={styles.getMediaWrapperSx(isVertical)}>
               <CardMedia
                 component="img"
                 image={image}
-                style={{
-                  height: props.style?.maxHeight ?? 150,
-                  width: isVertical ? "100%" : 150,
-                }}
+                sx={styles.getMediaImageSx(
+                  isVertical,
+                  props.style?.maxHeight as number,
+                )}
                 onError={(e) => {
                   if (defaultImage && e.currentTarget.src !== defaultImage) {
                     e.currentTarget.src = defaultImage;
@@ -96,7 +85,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
               />
             </Stack>
           ) : null}
-          <Stack direction={"column"} flexGrow={2}>
+          <Stack sx={styles.contentWrapperSx}>
             <CardHeader
               avatar={<EventIcon size="2x" type={event.type} />}
               title={title}
@@ -105,12 +94,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
 
             <CardContent>
               {isValidValue(event.excerpt) ? (
-                <Box
-                  style={{
-                    maxHeight: 100,
-                    overflow: "hidden",
-                  }}
-                >
+                <Box sx={styles.excerptContainerSx}>
                   <EllipsesContent
                     text={getTextContents(event.excerpt)}
                     maxLine={3}
@@ -119,12 +103,7 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
               ) : null}
 
               {showRelations ? (
-                <Box
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                  }}
-                >
+                <Box sx={styles.relationsContainerSx}>
                   <ActorList
                     style={{
                       display: "flex",

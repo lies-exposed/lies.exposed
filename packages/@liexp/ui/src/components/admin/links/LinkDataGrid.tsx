@@ -41,7 +41,7 @@ export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
       {...props}
       sx={{
         // Mobile-responsive styles
-        "@media (max-width: 600px)": {
+        [theme.breakpoints.down("sm")]: {
           "& .MuiDataGrid-root": {
             fontSize: "0.75rem",
           },
@@ -59,7 +59,7 @@ export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
             maxHeight: "none", // Allow rows to expand as needed
           },
         },
-        "@media (min-width: 601px) and (max-width: 960px)": {
+        [theme.breakpoints.between("sm", "md")]: {
           "& .MuiDataGrid-cell": {
             padding: "8px 12px",
             minHeight: "120px",
