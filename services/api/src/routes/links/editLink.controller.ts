@@ -7,7 +7,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import { APPROVED, LINKS, type LinkMedia } from "@liexp/io/lib/http/Link.js";

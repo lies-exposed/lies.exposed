@@ -46,6 +46,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [],
         sort: undefined,
         order: undefined,
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -61,6 +62,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [],
         sort: undefined,
         order: undefined,
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -82,6 +84,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [link.id],
         sort: undefined,
         order: undefined,
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -97,6 +100,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [],
         sort: "title",
         order: "ASC",
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -112,6 +116,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [],
         sort: "url",
         order: "DESC",
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -127,6 +132,7 @@ describe("MCP FIND_LINKS Tool", () => {
         ids: [],
         sort: "createdAt",
         order: "DESC",
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );

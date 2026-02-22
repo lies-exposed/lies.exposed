@@ -44,6 +44,7 @@ describe("MCP EDIT_LINK Tool", () => {
       links: [],
       media: [],
       keywords: [],
+        status: undefined,
       socialPosts: [],
       actors: [],
       stories: [],
@@ -74,6 +75,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -102,6 +104,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -122,6 +125,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -142,6 +146,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -162,6 +167,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -182,6 +188,7 @@ describe("MCP EDIT_LINK Tool", () => {
         provider: undefined,
         events: [],
         keywords: [],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
@@ -196,6 +203,7 @@ describe("MCP EDIT_LINK Tool", () => {
         id: linkToEdit.id,
         events: [testEvent.id],
         keywords: [testKeyword.id],
+        status: undefined,
         url: undefined,
         title: undefined,
         description: undefined,
@@ -222,6 +230,7 @@ describe("MCP EDIT_LINK Tool", () => {
         image: testMedia.id,
         events: [testEvent.id],
         keywords: [testKeyword.id],
+        status: undefined,
       }),
       throwRTE(Test.ctx),
     );
