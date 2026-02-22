@@ -43,9 +43,16 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
           />
         </Box>
 
-        <Box style={{ marginBottom: 50 }} />
+        <Box sx={{ marginBottom: { xs: 3, md: 6 } }} />
 
-        <Grid container style={{ marginTop: 38, marginBottom: 38 }}>
+        <Grid
+          container
+          spacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{
+            marginTop: { xs: 2, sm: 3, md: 4 },
+            marginBottom: { xs: 2, sm: 3, md: 4 },
+          }}
+        >
           <Grid size={{ xs: 12, sm: 6 }}>
             <ActorsBox
               discrete={false}
