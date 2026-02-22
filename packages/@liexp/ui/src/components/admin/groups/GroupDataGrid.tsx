@@ -20,7 +20,7 @@ export const GroupDataGrid: React.FC = () => {
       rowClick="edit"
       rowSx={(r) => getBorderLeftStyle(toColorHash(r.color))}
       sx={{
-        "@media (max-width: 600px)": {
+        [theme.breakpoints.down("sm")]: {
           "& .MuiDataGrid-cell": {
             padding: "8px 4px",
             minHeight: "100px",

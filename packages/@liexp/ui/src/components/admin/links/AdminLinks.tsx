@@ -1,6 +1,7 @@
 import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
+import { useTheme } from "../../../theme/index.js";
 import { Box, Card, CardContent, Icons } from "../../mui/index.js";
 import URLMetadataInput from "../common/URLMetadataInput.js";
 import ReferenceArrayEventInput from "../events/ReferenceArrayEventInput.js";
@@ -41,6 +42,7 @@ const linksFilter = [
 ];
 
 const LinkListAside: React.FC = () => {
+  const theme = useTheme();
   return (
     <Card
       sx={{
@@ -51,7 +53,7 @@ const LinkListAside: React.FC = () => {
         display: "flex",
         flex: "1 0 auto",
         // Hide filter sidebar on mobile to maximize content space
-        "@media (max-width: 960px)": {
+        [theme.breakpoints.down("md")]: {
           display: "none",
         },
       }}
@@ -110,6 +112,7 @@ const LinkBulkActionButtons: React.FC = () => (
 );
 
 export const LinkList: React.FC<ListProps> = (props) => {
+  const theme = useTheme();
   const { data, isLoading } = useGetIdentity();
 
   const { permissions, isLoading: isPermsLoading } = usePermissions();
@@ -136,7 +139,7 @@ export const LinkList: React.FC<ListProps> = (props) => {
       aside={<LinkListAside />}
       sx={{
         "& .RaList-content": {
-          "@media (max-width: 960px)": {
+          [theme.breakpoints.down("md")]: {
             width: "100%",
           },
         },

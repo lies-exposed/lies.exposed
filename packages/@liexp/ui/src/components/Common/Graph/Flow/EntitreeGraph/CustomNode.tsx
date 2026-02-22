@@ -1,21 +1,9 @@
 import { Handle, Position } from "@xyflow/react";
 import React, { memo } from "react";
+import { useTheme } from "../../../../../theme/index.js";
+import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 
 const { Top, Bottom, Left, Right } = Position;
-
-const borderColors = {
-  root: "#1976d2",
-  spouse: "#e91e63",
-  partner: "#9c27b0",
-  sibling: "#4caf50",
-  default: "#ccc",
-};
-
-const badgeColors: Record<string, string> = {
-  spouse: "#e91e63",
-  partner: "#9c27b0",
-  sibling: "#4caf50",
-};
 
 const nodeStyle: React.CSSProperties = {
   minHeight: 34,
@@ -82,9 +70,22 @@ const getNodeRole = (data: any): NodeRole => {
 };
 
 export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
+  const theme = useTheme();
   const { isSpouse, isSibling, fullName, avatar, direction } = data;
 
   const isTreeHorizontal = direction === "LR";
+  
+  // Get theme-based border colors
+  const role = getNodeRole(data);
+  let borderColor: string;
+  if (role === "root") {
+    borderColor = theme.palette.primary.main;
+  } else if (role === "default") {
+    borderColor = theme.palette.grey[300];
+  } else {
+    // For spouse, partner, sibling - use relationship colors
+    borderColor = getRelationshipColor(theme, role as any);
+  }
 
   const getTargetPosition = () => {
     if (isSpouse) {
@@ -110,9 +111,9 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
         .toUpperCase()
     : "?";
 
-  const role = getNodeRole(data);
-  const borderColor = borderColors[role];
   const badgeLabel = role !== "root" && role !== "default" ? role : null;
+  // Get badge color (same as border color for consistency)
+  const badgeColor = borderColor;
 
   return (
     <div className="nodrag">
@@ -158,7 +159,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
           <span
             style={{
               ...badgeStyle,
-              backgroundColor: badgeColors[badgeLabel] ?? borderColor,
+              backgroundColor: badgeColor,
             }}
           >
             {badgeLabel}

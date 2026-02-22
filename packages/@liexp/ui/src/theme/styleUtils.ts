@@ -392,9 +392,27 @@ export const responsiveImage: SxProps<Theme> = {
 export const primaryColor = (theme: Theme): string => theme.palette.primary.main;
 
 /**
- * @deprecated Use theme.spacing(n) instead
- */
+  * @deprecated Use theme.spacing(n) instead
+  */
 export const defaultSpacing = (theme: Theme): string => theme.spacing(2);
+
+/**
+ * Get relationship color from theme palette.
+ * Used for EntitreeGraph and relationship visualizations.
+ */
+export const getRelationshipColor = (
+  theme: Theme,
+  relationType: 'parent_child' | 'spouse' | 'partner' | 'sibling',
+): string => {
+  const relationshipPalette = (theme.palette as any).relationship;
+  const colorMap = {
+    parent_child: relationshipPalette.parent_child,
+    spouse: relationshipPalette.spouse,
+    partner: relationshipPalette.partner,
+    sibling: relationshipPalette.sibling,
+  };
+  return colorMap[relationType] || relationshipPalette.parent_child;
+};
 
 // Export all as namespace for convenience
 export const styles = {

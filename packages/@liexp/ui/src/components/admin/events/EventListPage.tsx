@@ -74,6 +74,7 @@ const eventsFilter = [
 ];
 
 const EventListAside: React.FC = () => {
+  const theme = useTheme();
   return (
     <Card
       sx={{
@@ -84,7 +85,7 @@ const EventListAside: React.FC = () => {
         display: "flex",
         flex: "1 0 auto",
         // Hide filter sidebar on mobile to maximize content space
-        "@media (max-width: 960px)": {
+        [theme.breakpoints.down("md")]: {
           display: "none",
         },
       }}
@@ -112,7 +113,7 @@ export const EventDataGrid: React.FC = () => {
         return `/events/${record.id}`;
       }}
       sx={{
-        "@media (max-width: 600px)": {
+        [theme.breakpoints.down("sm")]: {
           "& .MuiDataGrid-cell": {
             padding: "8px 4px",
             minHeight: "80px",
@@ -124,7 +125,7 @@ export const EventDataGrid: React.FC = () => {
             padding: "8px 4px",
           },
         },
-        "@media (min-width: 601px) and (max-width: 960px)": {
+        [theme.breakpoints.between("sm", "md")]: {
           "& .MuiDataGrid-cell": {
             padding: "8px 12px",
             minHeight: "80px",
@@ -288,6 +289,7 @@ export const EventDataGrid: React.FC = () => {
 };
 
 export const EventListPage: React.FC = () => {
+  const theme = useTheme();
   return (
     <List
       resource={RESOURCE}
@@ -300,7 +302,7 @@ export const EventListPage: React.FC = () => {
       aside={<EventListAside />}
       sx={{
         "& .RaList-content": {
-          "@media (max-width: 960px)": {
+          [theme.breakpoints.down("md")]: {
             width: "100%",
           },
         },
