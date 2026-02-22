@@ -37,7 +37,7 @@ export class FixEventPayloadURLs1771771505266 implements MigrationInterface {
       SET payload = jsonb_set(payload::jsonb, '{url}', to_jsonb(l.id::text))::json
       FROM link l
       WHERE e.type = 'ScientificStudy'
-        AND l.url = e.payload->>'url'
+        AND l.url = RTRIM(e.payload->>'url', '?')
         AND e.payload->>'url' IS NOT NULL
         AND NOT (e.payload->>'url' ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     `);
@@ -46,14 +46,16 @@ export class FixEventPayloadURLs1771771505266 implements MigrationInterface {
     //        We use INSERT … ON CONFLICT DO NOTHING as a safeguard and JOIN back
     //        to resolve the id regardless of whether we just inserted or it
     //        already existed from a previous partial run.
+    //        RTRIM strips any trailing '?' from URLs like 'https://…/nm.3985?'
+    //        so the INSERT matches the clean URL the Link was created with.
     await queryRunner.query(`
       INSERT INTO link (url, title, status)
       SELECT
-        e.payload->>'url',
-        COALESCE(e.payload->>'title', e.payload->>'url'),
+        RTRIM(e.payload->>'url', '?'),
+        COALESCE(e.payload->>'title', RTRIM(e.payload->>'url', '?')),
         'APPROVED'
       FROM event_v2 e
-      LEFT JOIN link l ON l.url = e.payload->>'url'
+      LEFT JOIN link l ON l.url = RTRIM(e.payload->>'url', '?')
       WHERE e.type = 'ScientificStudy'
         AND e.payload->>'url' IS NOT NULL
         AND NOT (e.payload->>'url' ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
@@ -66,7 +68,7 @@ export class FixEventPayloadURLs1771771505266 implements MigrationInterface {
       SET payload = jsonb_set(payload::jsonb, '{url}', to_jsonb(l.id::text))::json
       FROM link l
       WHERE e.type = 'ScientificStudy'
-        AND l.url = e.payload->>'url'
+        AND l.url = RTRIM(e.payload->>'url', '?')
         AND e.payload->>'url' IS NOT NULL
         AND NOT (e.payload->>'url' ~ '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$')
     `);
