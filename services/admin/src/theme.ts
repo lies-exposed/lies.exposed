@@ -237,8 +237,6 @@ const createBaseAdminTheme = (
   },
 });
 
-const lightAdminThemeOptions = createBaseAdminTheme(lightPalette, false);
-
 const createAdminThemeOptions = (
   mode: "light" | "dark" = "light",
 ): ReturnType<typeof createTheme> => {
