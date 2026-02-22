@@ -246,4 +246,4 @@ const createAdminThemeOptions = (
   return createTheme(baseOptions);
 };
 
-export { createAdminThemeOptions,  };
+export { createAdminThemeOptions };
