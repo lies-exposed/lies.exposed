@@ -3,18 +3,26 @@ import {
   defaultConfiguration,
 } from "@liexp/ui/lib/context/ConfigurationContext.js";
 
-// Get API URL with current page's protocol to avoid mixed content issues
+// Get API URL with current page's protocol to avoid mixed content issues in production
 const getApiUrl = (): string => {
   const configUrl = import.meta.env.VITE_API_URL;
   if (typeof window === "undefined") {
     // SSR - use environment variable as-is
     return configUrl;
   }
-  // Client-side: use same protocol as current page
-  const protocol = window.location.protocol;
-  // Extract host from config URL (e.g., "api.liexp.dev/v1" from "http://api.liexp.dev/v1")
-  const urlObj = new URL(configUrl, "http://example.com");
-  return `${protocol}//${urlObj.host}${urlObj.pathname}`;
+  
+  const pageProtocol = window.location.protocol;
+  const configProtocol = new URL(configUrl, "http://example.com").protocol;
+  
+  // Only switch protocol if page is HTTPS but config is HTTP (mixed content issue)
+  if (pageProtocol === "https:" && configProtocol === "http:") {
+    // Extract host from config URL
+    const urlObj = new URL(configUrl, "http://example.com");
+    return `https://${urlObj.host}${urlObj.pathname}`;
+  }
+  
+  // Otherwise use config as-is
+  return configUrl;
 };
 
 export const configuration: Configuration = {
