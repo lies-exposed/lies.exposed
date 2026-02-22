@@ -20,16 +20,17 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
         ),
         fp.RTE.bind("job", ({ queue, prevJob }) => {
           // Construct the job without timestamps - these will be set by addJob
-          const jobData: Omit<Queue, "createdAt" | "updatedAt" | "deletedAt"> = {
-            ...(userData as Omit<Queue, "createdAt" | "updatedAt" | "deletedAt">),
-            id: prevJob.id,
-            resource: prevJob.resource,
-            type: prevJob.type,
-          };
-          return pipe(
-            fp.RTE.right(jobData),
-            fp.RTE.chain(queue.addJob),
-          );
+          const jobData: Omit<Queue, "createdAt" | "updatedAt" | "deletedAt"> =
+            {
+              ...(userData as Omit<
+                Queue,
+                "createdAt" | "updatedAt" | "deletedAt"
+              >),
+              id: prevJob.id,
+              resource: prevJob.resource,
+              type: prevJob.type,
+            };
+          return pipe(fp.RTE.right(jobData), fp.RTE.chain(queue.addJob));
         }),
         fp.RTE.map(({ job: data }) => ({
           body: { data },
