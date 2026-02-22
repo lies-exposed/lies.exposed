@@ -48,7 +48,13 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
               placement === "bottom" ? "center top" : "center bottom",
           }}
         >
-          <Paper>
+          <Paper
+            sx={{
+              backgroundColor: "#fff",
+              color: "#000",
+              minWidth: "200px",
+            }}
+          >
             <ClickAwayListener
               onClickAway={(e) => {
                 onClose(e);
@@ -66,6 +72,13 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
                     onClick={(e) => {
                       onClose(e.nativeEvent);
                       onMenuItemClick({ subItems: [], ...item });
+                    }}
+                    sx={{
+                      color: "#000",
+                      backgroundColor: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#f5f5f5",
+                      },
                     }}
                   >
                     <Typography variant="h6" className={classes.menuItemLink}>
