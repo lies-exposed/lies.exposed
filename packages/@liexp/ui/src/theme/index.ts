@@ -441,4 +441,5 @@ export {
   alpha,
 };
 
-export * from "./styleUtils.js";
+// Note: styleUtils is intentionally NOT re-exported here to avoid circular dependencies
+// Components should import utility functions directly from styleUtils.js if needed

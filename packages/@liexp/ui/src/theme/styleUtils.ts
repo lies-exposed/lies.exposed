@@ -2,44 +2,41 @@
 // Reusable style patterns to prevent CSS bloat and duplication
 
 import { SxProps, Theme } from '@mui/material/styles';
-import { spacingConstants } from './index.js';
 
-// Re-export spacing constants for convenience
-export const {
-  XS,
-  SM,
-  BASE,
-  MD,
-  LG,
-  XL,
-  PADDING_COMPACT,
-  PADDING_BADGE,
-  PADDING_SM,
-  PADDING_MD,
-  PADDING_LG,
-  MARGIN_XS,
-  MARGIN_SM,
-  MARGIN_MD,
-  MARGIN_BOTTOM_SM,
-  MARGIN_LEFT_SM,
-  NODE_MIN_HEIGHT,
-  NODE_MIN_WIDTH,
-  NODE_MAX_WIDTH,
-  AVATAR_SIZE,
-  BADGE_BORDER_RADIUS,
-  NODE_BORDER_RADIUS,
-  SANKEY_GRAPH_MAX_HEIGHT,
-  SANKEY_GRAPH_MARGIN,
-  FONT_SIZE_BADGE,
-  FONT_SIZE_LEGEND,
-  FONT_SIZE_NODE,
-} = spacingConstants;
+// Re-export spacing constants using lazy getter to avoid circular dependency
+export const XS = '3px';
+export const SM = '4px';
+export const BASE = '6px';
+export const MD = '8px';
+export const LG = '10px';
+export const XL = '12px';
+export const PADDING_COMPACT = '3px 6px';
+export const PADDING_BADGE = '4px 6px';
+export const PADDING_SM = '8px 8px';
+export const PADDING_MD = '10px 10px';
+export const PADDING_LG = '24px 24px 24px 32px';
+export const MARGIN_XS = '4px 4px';
+export const MARGIN_SM = '0 4px';
+export const MARGIN_MD = '10px 10px';
+export const MARGIN_BOTTOM_SM = '0 0 10px 0';
+export const MARGIN_LEFT_SM = '0 0 0 4px';
+export const NODE_MIN_HEIGHT = 34;
+export const NODE_MIN_WIDTH = 130;
+export const NODE_MAX_WIDTH = 150;
+export const AVATAR_SIZE = 26;
+export const BADGE_BORDER_RADIUS = 3;
+export const NODE_BORDER_RADIUS = 6;
+export const SANKEY_GRAPH_MAX_HEIGHT = 800;
+export const SANKEY_GRAPH_MARGIN = { vertical: 40, horizontal: 40 };
+export const FONT_SIZE_BADGE = 8;
+export const FONT_SIZE_LEGEND = 10;
+export const FONT_SIZE_NODE = 11;
 
 // Convenient aliases for common spacing patterns
 export const SPACING_BASE = BASE;
 export const SPACING_LG = LG;
-export const SPACING_3XL = spacingConstants["3XL"];
-export const SPACING_4XL = spacingConstants["4XL"];
+export const SPACING_3XL = '24px';
+export const SPACING_4XL = '32px';
 
 /**
  * FLEXBOX UTILITIES
