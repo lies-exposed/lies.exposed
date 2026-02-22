@@ -87,16 +87,14 @@ export const parseURLs =
                     ? TE.right(link)
                     : pipe(
                         takeLinkScreenshot(link)(ctx),
-                        TE.orElse(
-                          (e): TE.TaskEither<DBError, LinkEntity> => {
-                            ctx.logger.warn.log(
-                              "Failed to take screenshot for link %s, continuing anyway: %O",
-                              link.id,
-                              e,
-                            );
-                            return TE.right(link);
-                          },
-                        ),
+                        TE.orElse((e): TE.TaskEither<DBError, LinkEntity> => {
+                          ctx.logger.warn.log(
+                            "Failed to take screenshot for link %s, continuing anyway: %O",
+                            link.id,
+                            e,
+                          );
+                          return TE.right(link);
+                        }),
                       ),
                 ),
               ),
