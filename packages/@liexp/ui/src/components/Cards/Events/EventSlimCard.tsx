@@ -74,7 +74,10 @@ const EventSlimCard: React.FC<EventSlimCardProps> = ({
               <CardMedia
                 component="img"
                 image={displayImage}
-                sx={styles.getMediaImageSx(isVertical, props.style?.maxHeight as number)}
+                sx={styles.getMediaImageSx(
+                  isVertical,
+                  props.style?.maxHeight as number,
+                )}
               />
             </Stack>
           ) : null}

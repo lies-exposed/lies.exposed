@@ -126,15 +126,15 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
         <DialogTitle sx={{ fontSize: { xs: "1.1rem", sm: "1.25rem" } }}>
           Search in providers
         </DialogTitle>
-         <DialogContent
-           sx={{
-             display: "flex",
-             flexDirection: "column",
-             minHeight: { xs: 250, sm: 300 },
-             [theme.breakpoints.down("sm")]: {
-               padding: "16px 12px",
-             },
-           }}
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: { xs: 250, sm: 300 },
+            [theme.breakpoints.down("sm")]: {
+              padding: "16px 12px",
+            },
+          }}
         >
           <Box
             sx={{
@@ -189,14 +189,14 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
             />
           </Box>
 
-           <FormGroup
-             sx={{
-               overflow: "auto",
-               maxHeight: { xs: "50vh", sm: 400 },
-               [theme.breakpoints.down("sm")]: {
-                 maxHeight: "45vh",
-               },
-             }}
+          <FormGroup
+            sx={{
+              overflow: "auto",
+              maxHeight: { xs: "50vh", sm: 400 },
+              [theme.breakpoints.down("sm")]: {
+                maxHeight: "45vh",
+              },
+            }}
           >
             {Object.keys(defaultSites).map((p) => {
               return (
@@ -222,17 +222,17 @@ export const SearchLinksButton: React.FC<SearchLinksButtonProps> = ({
 
           <LinkEntityList links={links} onItemClick={handleLinkClick} />
         </DialogContent>
-         <DialogActions
-           sx={{
-             padding: { xs: "12px", sm: "16px" },
-             gap: { xs: "8px", sm: "12px" },
-             flexWrap: { xs: "wrap", sm: "nowrap" },
-             [theme.breakpoints.down("sm")]: {
-               "& .MuiButton-root": {
-                 flex: "1 1 calc(50% - 4px)",
-               },
-             },
-           }}
+        <DialogActions
+          sx={{
+            padding: { xs: "12px", sm: "16px" },
+            gap: { xs: "8px", sm: "12px" },
+            flexWrap: { xs: "wrap", sm: "nowrap" },
+            [theme.breakpoints.down("sm")]: {
+              "& .MuiButton-root": {
+                flex: "1 1 calc(50% - 4px)",
+              },
+            },
+          }}
         >
           <Button
             label="Cancel"

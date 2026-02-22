@@ -1,8 +1,8 @@
 import { Handle, Position } from "@xyflow/react";
 import React, { memo } from "react";
 import { useTheme } from "../../../../../theme/index.js";
-import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 import {
+  getRelationshipColor,
   SPACING_BASE,
   PADDING_COMPACT,
   PADDING_BADGE,
@@ -87,7 +87,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
   const { isSpouse, isSibling, fullName, avatar, direction } = data;
 
   const isTreeHorizontal = direction === "LR";
-  
+
   // Get theme-based border colors
   const role = getNodeRole(data);
   let borderColor: string;

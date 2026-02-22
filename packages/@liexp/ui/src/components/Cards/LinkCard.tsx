@@ -29,7 +29,7 @@ export interface LinkCardProps {
 const LinkCard: React.FC<LinkCardProps> = ({
   link,
   variant = "vertical",
-  style,
+  style: _style,
   onClick,
 }) => {
   const title = link.title ?? "untitled";

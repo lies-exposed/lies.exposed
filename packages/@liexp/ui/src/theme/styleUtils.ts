@@ -1,25 +1,25 @@
 // @liexp/ui/src/theme/styleUtils.ts
 // Reusable style patterns to prevent CSS bloat and duplication
 
-import { SxProps, Theme } from '@mui/material/styles';
+import { type SxProps, type Theme } from "./index.js";
 
 // Spacing constants exported with semantic names to avoid duplication
-export const SPACING_XS = '3px';
-export const SPACING_SM = '4px';
-export const SPACING_BASE = '6px';
-export const SPACING_MD = '8px';
-export const SPACING_LG = '10px';
-export const SPACING_XL = '12px';
-export const PADDING_COMPACT = '3px 6px';
-export const PADDING_BADGE = '4px 6px';
-export const PADDING_SM = '8px 8px';
-export const PADDING_MD = '10px 10px';
-export const PADDING_LG = '24px 24px 24px 32px';
-export const MARGIN_XS = '4px 4px';
-export const MARGIN_SM = '0 4px';
-export const MARGIN_MD = '10px 10px';
-export const MARGIN_BOTTOM_SM = '0 0 10px 0';
-export const MARGIN_LEFT_SM = '0 0 0 4px';
+export const SPACING_XS = "3px";
+export const SPACING_SM = "4px";
+export const SPACING_BASE = "6px";
+export const SPACING_MD = "8px";
+export const SPACING_LG = "10px";
+export const SPACING_XL = "12px";
+export const PADDING_COMPACT = "3px 6px";
+export const PADDING_BADGE = "4px 6px";
+export const PADDING_SM = "8px 8px";
+export const PADDING_MD = "10px 10px";
+export const PADDING_LG = "24px 24px 24px 32px";
+export const MARGIN_XS = "4px 4px";
+export const MARGIN_SM = "0 4px";
+export const MARGIN_MD = "10px 10px";
+export const MARGIN_BOTTOM_SM = "0 0 10px 0";
+export const MARGIN_LEFT_SM = "0 0 0 4px";
 export const NODE_MIN_HEIGHT = 34;
 export const NODE_MIN_WIDTH = 130;
 export const NODE_MAX_WIDTH = 150;
@@ -33,8 +33,8 @@ export const FONT_SIZE_LEGEND = 10;
 export const FONT_SIZE_NODE = 11;
 
 // Additional aliases for specific use cases
-export const SPACING_3XL = '24px';
-export const SPACING_4XL = '32px';
+export const SPACING_3XL = "24px";
+export const SPACING_4XL = "32px";
 
 /**
  * FLEXBOX UTILITIES
@@ -42,33 +42,33 @@ export const SPACING_4XL = '32px';
  */
 
 export const flexCenter: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 export const flexBetween: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
 };
 
 export const flexStart: SxProps<Theme> = {
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'flex-start',
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
 };
 
 export const flexColumn: SxProps<Theme> = {
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
 };
 
 export const flexColumnCenter: SxProps<Theme> = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
 };
 
 /**
@@ -77,9 +77,9 @@ export const flexColumnCenter: SxProps<Theme> = {
  */
 
 export const ellipsisText: SxProps<Theme> = {
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
 };
 
 /**
@@ -87,11 +87,11 @@ export const ellipsisText: SxProps<Theme> = {
  * @param lines - Number of lines to show (default 2)
  * @returns SxProps for line clamping
  */
-export const truncateLines = (lines: number = 2): SxProps<Theme> => ({
-  display: '-webkit-box',
+export const truncateLines = (lines = 2): SxProps<Theme> => ({
+  display: "-webkit-box",
   WebkitLineClamp: lines,
-  WebkitBoxOrient: 'vertical',
-  overflow: 'hidden',
+  WebkitBoxOrient: "vertical",
+  overflow: "hidden",
 });
 
 /**
@@ -117,13 +117,13 @@ export const captionText: SxProps<Theme> = (theme: Theme) => ({
 
 export const baseCard: SxProps<Theme> = {
   borderRadius: 1,
-  transition: 'all 200ms ease-in-out',
+  transition: "all 200ms ease-in-out",
 };
 
 export const elevatedCard: SxProps<Theme> = {
   ...baseCard,
   boxShadow: 1,
-  '&:hover': {
+  "&:hover": {
     boxShadow: 4,
   },
 };
@@ -131,7 +131,7 @@ export const elevatedCard: SxProps<Theme> = {
 export const outlinedCard: SxProps<Theme> = (theme: Theme) => ({
   ...baseCard,
   border: `1px solid ${theme.palette.divider}`,
-  '&:hover': {
+  "&:hover": {
     borderColor: theme.palette.primary.main,
     boxShadow: 2,
   },
@@ -143,28 +143,28 @@ export const outlinedCard: SxProps<Theme> = (theme: Theme) => ({
  */
 
 export const aspectVideo: SxProps<Theme> = {
-  position: 'relative',
-  width: '100%',
-  paddingBottom: '56.25%', // 16:9
-  overflow: 'hidden',
+  position: "relative",
+  width: "100%",
+  paddingBottom: "56.25%", // 16:9
+  overflow: "hidden",
   borderRadius: 1,
 };
 
 export const aspectSquare: SxProps<Theme> = {
-  position: 'relative',
-  width: '100%',
-  paddingBottom: '100%',
-  overflow: 'hidden',
+  position: "relative",
+  width: "100%",
+  paddingBottom: "100%",
+  overflow: "hidden",
   borderRadius: 1,
 };
 
 export const coverImage: SxProps<Theme> = {
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
 };
 
 /**
@@ -175,19 +175,19 @@ export const coverImage: SxProps<Theme> = {
 export const touchFriendlyButton: SxProps<Theme> = {
   minHeight: 44,
   minWidth: 44,
-  padding: '10px 16px',
+  padding: "10px 16px",
 };
 
 export const fullWidthButton: SxProps<Theme> = {
   ...touchFriendlyButton,
-  width: '100%',
+  width: "100%",
 };
 
 export const smallButton: SxProps<Theme> = {
   minHeight: 32,
   minWidth: 32,
-  padding: '4px 8px',
-  fontSize: '0.75rem',
+  padding: "4px 8px",
+  fontSize: "0.75rem",
 };
 
 /**
@@ -196,9 +196,9 @@ export const smallButton: SxProps<Theme> = {
  */
 
 export const focusStyle = (theme: Theme): SxProps<Theme> => ({
-  '&:focus-visible': {
+  "&:focus-visible": {
     outline: `2px solid ${theme.palette.primary.main}`,
-    outlineOffset: '2px',
+    outlineOffset: "2px",
   },
 });
 
@@ -208,7 +208,7 @@ export const focusStyle = (theme: Theme): SxProps<Theme> => ({
  */
 
 export const inputFocusStyle = (theme: Theme): SxProps<Theme> => ({
-  '&:focus': {
+  "&:focus": {
     borderColor: theme.palette.primary.main,
     boxShadow: `0 0 0 2px ${theme.palette.primary.main}20`,
   },
@@ -220,21 +220,21 @@ export const inputFocusStyle = (theme: Theme): SxProps<Theme> => ({
  */
 
 export const darkOverlay: SxProps<Theme> = {
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  backgroundColor: "rgba(0, 0, 0, 0.4)",
 };
 
 export const gradientOverlay: SxProps<Theme> = {
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
   bottom: 0,
-  background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%)',
+  background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%)",
 };
 
 /**
@@ -250,12 +250,14 @@ export const createResponsiveStyle = (
 ): SxProps<Theme> => {
   return {
     ...mobile,
-    ...(tablet && theme && {
-      [theme.breakpoints.up('md')]: tablet,
-    }),
-    ...(desktop && theme && {
-      [theme.breakpoints.up('lg')]: desktop,
-    }),
+    ...(tablet &&
+      theme && {
+        [theme.breakpoints.up("md")]: tablet,
+      }),
+    ...(desktop &&
+      theme && {
+        [theme.breakpoints.up("lg")]: desktop,
+      }),
   };
 };
 
@@ -277,20 +279,22 @@ export const spacingY = (theme: Theme, multiplier: number): string => {
  * Common transition patterns
  */
 
-export const smoothTransition = (properties: string[] = ['all']): SxProps<Theme> => ({
-  transition: `${properties.join(', ')} 200ms ease-in-out`,
+export const smoothTransition = (
+  properties: string[] = ["all"],
+): SxProps<Theme> => ({
+  transition: `${properties.join(", ")} 200ms ease-in-out`,
 });
 
-export const hoverScale = (scale: number = 1.05): SxProps<Theme> => ({
-  ...smoothTransition(['transform']),
-  '&:hover': {
+export const hoverScale = (scale = 1.05): SxProps<Theme> => ({
+  ...smoothTransition(["transform"]),
+  "&:hover": {
     transform: `scale(${scale})`,
   },
 });
 
 export const hoverShadow: SxProps<Theme> = {
-  ...smoothTransition(['box-shadow']),
-  '&:hover': {
+  ...smoothTransition(["box-shadow"]),
+  "&:hover": {
     boxShadow: 4,
   },
 };
@@ -301,26 +305,26 @@ export const hoverShadow: SxProps<Theme> = {
  */
 
 export const hideScrollbar: SxProps<Theme> = {
-  scrollbarWidth: 'none',
-  msOverflowStyle: 'none',
-  '&::-webkit-scrollbar': {
-    display: 'none',
+  scrollbarWidth: "none",
+  msOverflowStyle: "none",
+  "&::-webkit-scrollbar": {
+    display: "none",
   },
 };
 
 export const customScrollbar: SxProps<Theme> = (theme: Theme) => ({
-  scrollbarWidth: 'thin',
+  scrollbarWidth: "thin",
   scrollbarColor: `${theme.palette.action.hover} transparent`,
-  '&::-webkit-scrollbar': {
-    width: '6px',
-    height: '6px',
+  "&::-webkit-scrollbar": {
+    width: "6px",
+    height: "6px",
   },
-  '&::-webkit-scrollbar-track': {
-    background: 'transparent',
+  "&::-webkit-scrollbar-track": {
+    background: "transparent",
   },
-  '&::-webkit-scrollbar-thumb': {
+  "&::-webkit-scrollbar-thumb": {
     background: theme.palette.action.hover,
-    borderRadius: '3px',
+    borderRadius: "3px",
   },
 });
 
@@ -330,26 +334,26 @@ export const customScrollbar: SxProps<Theme> = (theme: Theme) => ({
  */
 
 export const fullWidth: SxProps<Theme> = {
-  width: '100%',
+  width: "100%",
 };
 
 export const fullHeight: SxProps<Theme> = {
-  height: '100%',
+  height: "100%",
 };
 
 export const fullScreen: SxProps<Theme> = {
-  width: '100%',
-  height: '100%',
+  width: "100%",
+  height: "100%",
 };
 
 export const containerMax: SxProps<Theme> = {
-  maxWidth: '100%',
-  width: '100%',
-  margin: '0 auto',
+  maxWidth: "100%",
+  width: "100%",
+  margin: "0 auto",
 };
 
 export const absoluteFill: SxProps<Theme> = {
-  position: 'absolute',
+  position: "absolute",
   top: 0,
   left: 0,
   right: 0,
@@ -362,16 +366,16 @@ export const absoluteFill: SxProps<Theme> = {
  */
 
 export const mobileOnly: SxProps<Theme> = (theme: Theme) => ({
-  display: 'block',
-  [theme.breakpoints.up('sm')]: {
-    display: 'none',
+  display: "block",
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
   },
 });
 
 export const desktopOnly: SxProps<Theme> = (theme: Theme) => ({
-  display: 'none',
-  [theme.breakpoints.up('sm')]: {
-    display: 'block',
+  display: "none",
+  [theme.breakpoints.up("sm")]: {
+    display: "block",
   },
 });
 
@@ -380,14 +384,14 @@ export const desktopOnly: SxProps<Theme> = (theme: Theme) => ({
  * Common grid patterns
  */
 
-export const gridAutoFit = (minWidth: string = '200px'): SxProps<Theme> => ({
-  display: 'grid',
+export const gridAutoFit = (minWidth = "200px"): SxProps<Theme> => ({
+  display: "grid",
   gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}, 1fr))`,
   gap: 2,
 });
 
-export const gridAutoFill = (minWidth: string = '200px'): SxProps<Theme> => ({
-  display: 'grid',
+export const gridAutoFill = (minWidth = "200px"): SxProps<Theme> => ({
+  display: "grid",
   gridTemplateColumns: `repeat(auto-fill, minmax(${minWidth}, 1fr))`,
   gap: 2,
 });
@@ -400,7 +404,7 @@ export const gridAutoFill = (minWidth: string = '200px'): SxProps<Theme> => ({
 export const cardWithHover: SxProps<Theme> = {
   ...baseCard,
   ...elevatedCard,
-  cursor: 'pointer',
+  cursor: "pointer",
 };
 
 export const flexCenterContainer: SxProps<Theme> = {
@@ -410,8 +414,8 @@ export const flexCenterContainer: SxProps<Theme> = {
 
 export const responsiveImage: SxProps<Theme> = {
   ...fullWidth,
-  height: 'auto',
-  display: 'block',
+  height: "auto",
+  display: "block",
 };
 
 /**
@@ -422,11 +426,12 @@ export const responsiveImage: SxProps<Theme> = {
 /**
  * @deprecated Use theme.palette.primary.main instead
  */
-export const primaryColor = (theme: Theme): string => theme.palette.primary.main;
+export const primaryColor = (theme: Theme): string =>
+  theme.palette.primary.main;
 
 /**
-  * @deprecated Use theme.spacing(n) instead
-  */
+ * @deprecated Use theme.spacing(n) instead
+ */
 export const defaultSpacing = (theme: Theme): string => theme.spacing(2);
 
 /**
@@ -435,7 +440,7 @@ export const defaultSpacing = (theme: Theme): string => theme.spacing(2);
  */
 export const getRelationshipColor = (
   theme: Theme,
-  relationType: 'parent_child' | 'spouse' | 'partner' | 'sibling',
+  relationType: "parent_child" | "spouse" | "partner" | "sibling",
 ): string => {
   const relationshipPalette = (theme.palette as any).relationship;
   const colorMap = {
@@ -444,5 +449,5 @@ export const getRelationshipColor = (
     partner: relationshipPalette.partner,
     sibling: relationshipPalette.sibling,
   };
-  return colorMap[relationType] || relationshipPalette.parent_child;
+  return colorMap[relationType] ?? relationshipPalette.parent_child;
 };

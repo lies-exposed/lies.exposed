@@ -14,7 +14,6 @@ import {
   Stack,
   Typography,
 } from "../../mui/index.js";
-import { type EventCardProps } from "./EventCard.js";
 import {
   cardActionAreaSx,
   authorsColumnSx,
@@ -28,6 +27,7 @@ import {
   innerContentStackSx,
   mediaImageSx,
 } from "./BookCard.styles.js";
+import { type EventCardProps } from "./EventCard.js";
 
 type BookCardProps = EventCardProps<SearchBookEvent>;
 
@@ -47,13 +47,7 @@ export const BookCard: React.FC<BookCardProps> = ({
         onClick={() => onEventClick?.(event)}
         sx={cardActionAreaSx}
       >
-        {media && (
-          <CardMedia
-            component="img"
-            image={media}
-            sx={mediaImageSx}
-          />
-        )}
+        {media && <CardMedia component="img" image={media} sx={mediaImageSx} />}
         <Stack sx={contentStackSx}>
           <CardHeader
             title={

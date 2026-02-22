@@ -37,13 +37,13 @@ import * as O from "fp-ts/lib/Option.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as S from "fp-ts/lib/string.js";
 import * as React from "react";
-import { type NetworkScale } from "../Common/Graph/Network/Network.js";
-import SankeyGraph from "../Common/Graph/SankeyGraph.js";
-import { Box, Grid } from "../mui/index.js";
 import {
   SANKEY_GRAPH_MAX_HEIGHT,
   SANKEY_GRAPH_MARGIN,
 } from "../../theme/styleUtils.js";
+import { type NetworkScale } from "../Common/Graph/Network/Network.js";
+import SankeyGraph from "../Common/Graph/SankeyGraph.js";
+import { Box, Grid } from "../mui/index.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
 
@@ -82,13 +82,16 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
     <Box display="flex" flexDirection="column" width="100%">
       <ParentSize style={{ minHeight: 400 }}>
         {({ width, height }) => {
-           const networkProps = createEventNetworkGraphProps({
-             ...props,
-             groupBy,
-             width,
-             height: height > SANKEY_GRAPH_MAX_HEIGHT ? SANKEY_GRAPH_MAX_HEIGHT : height,
-             margin: SANKEY_GRAPH_MARGIN,
-           });
+          const networkProps = createEventNetworkGraphProps({
+            ...props,
+            groupBy,
+            width,
+            height:
+              height > SANKEY_GRAPH_MAX_HEIGHT
+                ? SANKEY_GRAPH_MAX_HEIGHT
+                : height,
+            margin: SANKEY_GRAPH_MARGIN,
+          });
 
           return (
             <Grid

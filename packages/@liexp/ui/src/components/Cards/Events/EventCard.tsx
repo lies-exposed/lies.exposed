@@ -73,7 +73,10 @@ const EventCard = <E extends SearchEvent.SearchEvent>({
               <CardMedia
                 component="img"
                 image={image}
-                sx={styles.getMediaImageSx(isVertical, props.style?.maxHeight as number)}
+                sx={styles.getMediaImageSx(
+                  isVertical,
+                  props.style?.maxHeight as number,
+                )}
                 onError={(e) => {
                   if (defaultImage && e.currentTarget.src !== defaultImage) {
                     e.currentTarget.src = defaultImage;

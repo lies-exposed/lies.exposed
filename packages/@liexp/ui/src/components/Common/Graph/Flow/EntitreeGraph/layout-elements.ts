@@ -1,6 +1,6 @@
 import { type Edge, type Node, Position } from "@xyflow/react";
 import { layoutFromMap } from "entitree-flex";
-import { type Theme } from "@mui/material/styles";
+import { type Theme } from "../../../../../theme/index.js";
 import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
 
 const nodeWidth = 150;

@@ -3,10 +3,10 @@ import {
   FontAwesomeIcon,
   type FontAwesomeIconProps,
 } from "@fortawesome/react-fontawesome";
-import { type Theme } from "@mui/material/styles";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import * as React from "react";
+import { type Theme } from "../../../theme/index.js";
 import { styled, useTheme } from "../../../theme/index.js";
 
 const PREFIX = "EventTypeColor";
@@ -25,10 +25,7 @@ const Root = styled("text")(() => ({
  * Get event type color from theme palette.
  * Exported for use in other components (e.g., graphs, visualizations)
  */
-export const getEventTypeColor = (
-  theme: Theme,
-  eventType: string,
-): string => {
+export const getEventTypeColor = (theme: Theme, eventType: string): string => {
   const eventTypePalette = (theme.palette as any).eventType;
   const colorMap = {
     [EVENT_TYPES.BOOK]: eventTypePalette.book,
@@ -40,7 +37,10 @@ export const getEventTypeColor = (
     [EVENT_TYPES.TRANSACTION]: eventTypePalette.transaction,
     [EVENT_TYPES.QUOTE]: eventTypePalette.quote,
   };
-  return colorMap[eventType as keyof typeof colorMap] || colorMap[EVENT_TYPES.UNCATEGORIZED];
+  return (
+    colorMap[eventType as keyof typeof colorMap] ??
+    colorMap[EVENT_TYPES.UNCATEGORIZED]
+  );
 };
 
 // Legacy export for backwards compatibility - maps to theme colors

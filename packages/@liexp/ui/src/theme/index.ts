@@ -4,7 +4,9 @@ import {
   createTheme,
   styled,
   ThemeProvider,
+  type Theme,
   type ThemeOptions,
+  type SxProps,
   useTheme,
 } from "@mui/material/styles";
 import { darken, lighten, alpha } from "@mui/system";
@@ -381,6 +383,8 @@ export {
   styled,
   themeOptions,
   type ThemeOptions,
+  type Theme,
+  type SxProps,
   ThemeProvider,
   createLightPalette,
   createDarkPalette,

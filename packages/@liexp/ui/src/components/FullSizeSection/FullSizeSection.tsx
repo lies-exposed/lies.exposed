@@ -1,8 +1,8 @@
 import { isServer } from "@liexp/shared/lib/utils/isServer.js";
 import * as React from "react";
 import { throttle } from "throttle-debounce";
-import { MainContent } from "../MainContent.js";
 import { SPACING_4XL } from "../../theme/styleUtils.js";
+import { MainContent } from "../MainContent.js";
 
 interface Viewport {
   width: number | string;
