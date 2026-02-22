@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
+import { describe, it, expect } from "vitest";
 
 /**
  * Unit Tests for Mobile Responsive Styles
@@ -14,12 +14,30 @@ describe("Responsive Style Definitions", () => {
   const projectRoot = path.join(__dirname, "../../../../../..");
 
   const testFiles = {
-    indexPage: path.join(projectRoot, "services/web/src/client/pages/index.tsx"),
-    mediaTemplate: path.join(projectRoot, "packages/@liexp/ui/src/templates/MediaTemplateUI.tsx"),
-    splitPageTemplate: path.join(projectRoot, "packages/@liexp/ui/src/templates/SplitPageTemplate.tsx"),
-    eventTemplate: path.join(projectRoot, "packages/@liexp/ui/src/templates/EventTemplate.tsx"),
-    headerComponent: path.join(projectRoot, "packages/@liexp/ui/src/components/Header/Header.tsx"),
-    pageTemplate: path.join(projectRoot, "services/web/src/client/templates/PageTemplate.tsx"),
+    indexPage: path.join(
+      projectRoot,
+      "services/web/src/client/pages/index.tsx",
+    ),
+    mediaTemplate: path.join(
+      projectRoot,
+      "packages/@liexp/ui/src/templates/MediaTemplateUI.tsx",
+    ),
+    splitPageTemplate: path.join(
+      projectRoot,
+      "packages/@liexp/ui/src/templates/SplitPageTemplate.tsx",
+    ),
+    eventTemplate: path.join(
+      projectRoot,
+      "packages/@liexp/ui/src/templates/EventTemplate.tsx",
+    ),
+    headerComponent: path.join(
+      projectRoot,
+      "packages/@liexp/ui/src/components/Header/Header.tsx",
+    ),
+    pageTemplate: path.join(
+      projectRoot,
+      "services/web/src/client/templates/PageTemplate.tsx",
+    ),
   };
 
   it("should have responsive marginBottom in index.tsx", () => {
@@ -27,7 +45,9 @@ describe("Responsive Style Definitions", () => {
 
     // Check for responsive margin definitions
     expect(content).toContain("marginBottom: { xs: 4, sm: 6, md: 8 }");
-    expect(content).toMatch(/sx=\{\{[\s\S]*marginBottom[\s\S]*xs[\s\S]*4[\s\S]*sm[\s\S]*6[\s\S]*md[\s\S]*8/);
+    expect(content).toMatch(
+      /sx=\{\{[\s\S]*marginBottom[\s\S]*xs[\s\S]*4[\s\S]*sm[\s\S]*6[\s\S]*md[\s\S]*8/,
+    );
   });
 
   it("should have responsive padding in templates", () => {
@@ -78,8 +98,14 @@ describe("Responsive Style Definitions", () => {
   });
 
   it("should use theme.spacing or sx with numeric spacing", () => {
-    const splitPageContent = fs.readFileSync(testFiles.splitPageTemplate, "utf-8");
-    const mediaTemplateContent = fs.readFileSync(testFiles.mediaTemplate, "utf-8");
+    const splitPageContent = fs.readFileSync(
+      testFiles.splitPageTemplate,
+      "utf-8",
+    );
+    const mediaTemplateContent = fs.readFileSync(
+      testFiles.mediaTemplate,
+      "utf-8",
+    );
 
     // SplitPageTemplate uses theme.spacing()
     expect(splitPageContent).toContain("theme.spacing(");
@@ -88,8 +114,11 @@ describe("Responsive Style Definitions", () => {
     expect(mediaTemplateContent).toContain("sx={{");
 
     // Hard-coded pixels (3+ digits) in padding/margin should be gone
-    const splitPagePaddingMatches = splitPageContent.match(/padding:\s*\d{3,}/g);
-    expect(splitPagePaddingMatches === null || splitPagePaddingMatches.length === 0).toBe(true);
+    const splitPagePaddingMatches =
+      splitPageContent.match(/padding:\s*\d{3,}/g);
+    expect(
+      splitPagePaddingMatches === null || splitPagePaddingMatches.length === 0,
+    ).toBe(true);
   });
 
   it("should have header menu text truncation styles", () => {
