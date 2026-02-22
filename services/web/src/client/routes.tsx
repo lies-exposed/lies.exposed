@@ -366,7 +366,7 @@ export const routes: ServerRoute[] = [
   },
   // keywords
   {
-    path: "/keywords/:keywordId",
+     path: "/keywords/:keywordId",
     route: () => {
       const params = useParams<{ keywordId: UUID }>();
       if (params.keywordId) {
@@ -377,6 +377,10 @@ export const routes: ServerRoute[] = [
     queries: (Q, conf) => async (params: any) => {
       return Promise.resolve([
         ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Keyword.get.getKey({ id: params.keywordId }),
+          queryFn: Q.Keyword.get.fetch,
+        } as AsyncDataRouteQuery<any, any, any>,
         {
           queryKey: Q.Stats.list.getKey(
             undefined,

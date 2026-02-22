@@ -55,11 +55,14 @@ export const getServer = ({
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
     ssrLog.debug.log("req.params %O", req.params);
 
+    // Strip query string from URL for route matching
+    const pathOnly = req.baseUrl.split("?")[0];
+
     const route =
       routes.find((r) => {
         ssrLog.debug.log("r.path %s", r.path);
         try {
-          return pathToRegexp.match(r.path)(req.baseUrl);
+          return pathToRegexp.match(r.path)(pathOnly);
         } catch (e) {
           ssrLog.debug.log(
             "Failed to transform route path %s to regexp: %O",
