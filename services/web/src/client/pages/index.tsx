@@ -95,7 +95,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
 
              <Grid container>
              <Grid size={12}>
-               <Box style={{ marginBottom: 150 }}>
+               <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
                  <EventsBox
                    title="Last updated events"
                    query={{
@@ -112,7 +112,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                </Box>
              </Grid>
              <Grid size={12}>
-               <Box style={{ marginBottom: 150 }}>
+               <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
                  <EventsBox
                    title="Last books"
                    query={{
@@ -132,7 +132,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
              </Grid>
              <Grid
                container
-               style={{ marginBottom: 150, width: "100%", overflowX: "hidden" }}
+               sx={{ marginBottom: { xs: 4, sm: 6, md: 8 }, width: "100%", overflowX: "hidden" }}
              >
                <Grid size={12}>
                  <Typography variant="h5">Last Created Media</Typography>

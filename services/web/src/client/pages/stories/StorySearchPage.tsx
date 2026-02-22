@@ -22,7 +22,7 @@ const BlogPage: React.FC<RouteComponentProps> = () => {
           sort: { field: "id", order: "DESC" },
           filter: { draft: false },
         }}
-        style={{ marginBottom: 100 }}
+        style={{ marginBottom: 96 }}
         onItemClick={(a) => {
           navigateTo.stories({ path: a.path });
         }}

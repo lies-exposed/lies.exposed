@@ -93,9 +93,9 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   [`.${classes.editButtonBox}`]: {
     display: "flex",
     textAlign: "right",
-    padding: 10,
+    padding: theme.spacing(1.25),
     [theme.breakpoints.down("md")]: {
-      padding: 20,
+      padding: theme.spacing(2.5),
       alignSelf: "center",
     },
   },
