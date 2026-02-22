@@ -12,13 +12,16 @@ const getApiUrl = (): string => {
   }
   
   const pageProtocol = window.location.protocol;
-  const configProtocol = new URL(configUrl, "http://example.com").protocol;
   
   // Only switch protocol if page is HTTPS but config is HTTP (mixed content issue)
-  if (pageProtocol === "https:" && configProtocol === "http:") {
-    // Extract host from config URL
-    const urlObj = new URL(configUrl, "http://example.com");
-    return `https://${urlObj.host}${urlObj.pathname}`;
+  if (pageProtocol === "https:" && configUrl.startsWith("http://")) {
+    // Extract host and path from config URL using regex
+    const match = configUrl.match(/^https?:\/\/([^/]+)(\/.*)?$/);
+    if (match) {
+      const host = match[1];
+      const path = match[2] || "";
+      return `https://${host}${path}`;
+    }
   }
   
   // Otherwise use config as-is
