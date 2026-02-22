@@ -1,7 +1,6 @@
 import { OpenAICreateEventFromLinksType } from "@liexp/io/lib/http/Queue/event/CreateEventFromLinksQueue.js";
 import { OpenAICreateEventFromTextType } from "@liexp/io/lib/http/Queue/event/CreateEventFromTextQueueData.js";
 import { OpenAICreateEventFromURLType } from "@liexp/io/lib/http/Queue/event/CreateEventFromURLQueue.js";
-import { UpdateEntitiesFromLinkType } from "@liexp/io/lib/http/Queue/event/UpdateEntitiesFromLinkQueue.js";
 import { OpenAIUpdateEventQueueType } from "@liexp/io/lib/http/Queue/event/UpdateEventQueue.js";
 import {
   OpenAIEmbeddingQueueType,
@@ -13,7 +12,6 @@ import { createEventFromLinksFlow } from "./event/createEventFromLinks.flow.js";
 import { createEventFromTextFlow } from "./event/createEventFromText.flow.js";
 import { createEventFromURLFlow } from "./event/createEventFromURL.flow.js";
 import { updateEventFlow } from "./event/updateEvent.flow.js";
-import { updateEntitiesFromLinkFlow } from "./link/updateEntitiesFromLink.flow.js";
 import { summarizeTextFlow } from "./summarizeTexFlow.js";
 import { updateEntitiesFromURLFlow } from "./updateEntitiesFromURL.flow.js";
 import { GetJobProcessor } from "#services/job-processor/job-processor.service.js";
@@ -25,5 +23,5 @@ export const JobProcessor = GetJobProcessor({
   [OpenAICreateEventFromTextType.literals[0]]: createEventFromTextFlow,
   [OpenAICreateEventFromLinksType.literals[0]]: createEventFromLinksFlow,
   [OpenAIUpdateEventQueueType.literals[0]]: updateEventFlow,
-  [UpdateEntitiesFromLinkType.literals[0]]: updateEntitiesFromLinkFlow,
+  [OpenAIUpdateEntitiesFromURLType.literals[0]]: updateEntitiesFromURLFlow,
 });

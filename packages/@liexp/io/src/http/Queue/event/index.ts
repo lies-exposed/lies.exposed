@@ -15,10 +15,6 @@ import {
   OpenAIUpdateEventQueueType,
   UpdateEventQueueData,
 } from "./UpdateEventQueue.js";
-import {
-  UpdateEntitiesFromLinkQueueData,
-  UpdateEntitiesFromLinkType,
-} from "./UpdateEntitiesFromLinkQueue.js";
 
 export const CreateEventFromURLTypeData = Schema.Struct({
   type: OpenAICreateEventFromURLType,
@@ -50,20 +46,11 @@ export const CreateEventFromLinksTypeData = Schema.Struct({
 export type CreateEventFromLinksTypeData =
   typeof CreateEventFromLinksTypeData.Type;
 
-export const UpdateEntitiesFromLinkTypeData = Schema.Struct({
-  type: UpdateEntitiesFromLinkType,
-  data: UpdateEntitiesFromLinkQueueData,
-}).annotations({ title: "UpdateEntitiesFromLinkTypeData" });
-
-export type UpdateEntitiesFromLinkTypeData =
-  typeof UpdateEntitiesFromLinkTypeData.Type;
-
 export const EventQueue = Schema.Union(
   CreateEventFromTextTypeData,
   CreateEventFromURLTypeData,
   CreateEventFromLinksTypeData,
   UpdateEventTypeData,
-  UpdateEntitiesFromLinkTypeData,
 ).annotations({
   identifier: "EventQueue",
 });

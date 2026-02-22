@@ -25,10 +25,6 @@ import {
   OpenAIUpdateEventQueueType,
   UpdateEventQueueData,
 } from "./event/UpdateEventQueue.js";
-import {
-  UpdateEntitiesFromLinkQueueData,
-  UpdateEntitiesFromLinkType,
-} from "./event/UpdateEntitiesFromLinkQueue.js";
 import { EventQueue } from "./event/index.js";
 
 export {
@@ -52,7 +48,7 @@ export const QueueTypes = Schema.Union(
   OpenAICreateEventFromTextType,
   OpenAICreateEventFromLinksType,
   OpenAIUpdateEventQueueType,
-  UpdateEntitiesFromLinkType,
+  OpenAIUpdateEntitiesFromURLType,
 ).annotations({
   title: "QueueTypes",
 });
@@ -147,7 +143,7 @@ const CreateQueueData = Schema.Union(
   CreateEventFromURLQueueData,
   CreateEventFromLinksQueueData,
   UpdateEventQueueData,
-  UpdateEntitiesFromLinkQueueData,
+  UpdateEntitiesFromURLQueueData,
 ).annotations({
   title: "CreateQueueData",
 });

@@ -11,9 +11,11 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
 import { APPROVED, LINKS, type LinkMedia } from "@liexp/io/lib/http/Link.js";
-import { UpdateEntitiesFromLinkType } from "@liexp/io/lib/http/Queue/event/UpdateEntitiesFromLinkQueue.js";
-import { PendingStatus } from "@liexp/io/lib/http/Queue/index.js";
-import { type Queue } from "@liexp/io/lib/http/index.js";
+import {
+  OpenAIUpdateEntitiesFromURLType,
+  PendingStatus,
+  type Queue,
+} from "@liexp/io/lib/http/Queue/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
@@ -186,7 +188,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                 const job: Queue = {
                   id: uuid(),
                   resource: LINKS.literals[0],
-                  type: UpdateEntitiesFromLinkType.literals[0],
+                  type: OpenAIUpdateEntitiesFromURLType.literals[0],
                   prompt: null,
                   data: { linkId: id },
                   error: null,
@@ -195,7 +197,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                 } as Queue;
                 return pipe(
                   GetQueueProvider.queue<Queue, typeof ctx>(
-                    UpdateEntitiesFromLinkType.literals[0],
+                    OpenAIUpdateEntitiesFromURLType.literals[0],
                   ).addJob(job)(ctx),
                   TE.mapLeft(toControllerError),
                   TE.map(() => finalLink),
