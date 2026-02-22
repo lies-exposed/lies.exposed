@@ -340,4 +340,6 @@ export {
   darken,
   lighten,
   alpha,
-};
+} from "./index.js";
+
+export * from "./styleUtils.js";
