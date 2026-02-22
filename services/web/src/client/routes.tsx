@@ -119,6 +119,59 @@ const linksRoute: ServerRoute = {
 };
 
 export const routes: ServerRoute[] = [
+  // stories (most specific - multi-segment paths)
+  {
+    path: "/stories/create/",
+    route: () => {
+      return <CreateStoryPage />;
+    },
+    queries: (Q, conf) => async () =>
+      Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]),
+  },
+  {
+    path: "/stories/:storyId/edit",
+    route: () => {
+      const params = useParams<{ storyId: string }>();
+      if (params.storyId) {
+        return <EditStoryPage id={params.storyId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries: (Q, conf) => async () => {
+      return Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]);
+    },
+  },
+  // Routes with single parameters (specific routes with :paramId)
+  {
+    path: "/scientific-studies/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/deaths/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/quotes/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/patents/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/documentaries/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
+  {
+    path: "/transactions/:id",
+    route: RedirectToEventsRoute,
+    redirect: "/events/:id",
+  },
   // group page
   {
     path: "/groups/:groupId",
@@ -156,30 +209,6 @@ export const routes: ServerRoute[] = [
             queryFn: Q.Stats.list.fetch,
           },
         ] as AsyncDataRouteQuery<any, any, any>[]),
-  },
-  // groups
-  {
-    path: "/groups",
-    route: () => <GroupsPage />,
-    queries: (Q, conf) => async () =>
-      Promise.resolve([
-        ...commonQueries.flatMap((c) => c(Q, conf)),
-        {
-          queryKey: Q.Page.Custom.GetPageContentByPath.getKey("groups"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
-        },
-        {
-          queryKey: Q.Group.list.getKey(
-            undefined,
-            {
-              _sort: "id",
-              _order: "ASC",
-            },
-            // false,
-          ),
-          queryFn: Q.Group.list.fetch,
-        },
-      ]),
   },
   // actors page
   {
@@ -221,23 +250,6 @@ export const routes: ServerRoute[] = [
             queryFn: Q.Stats.list.fetch,
           } as AsyncDataRouteQuery<any, any, any>,
         ]),
-  },
-  // actors
-  {
-    path: "/actors",
-    route: () => <ActorsPage />,
-    queries: (Q, conf) => async () =>
-      Promise.resolve([
-        ...commonQueries.flatMap((c) => c(Q, conf)),
-        {
-          queryKey: Q.Page.Custom.GetPageContentByPath.getKey("actors"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
-        },
-        {
-          queryKey: Q.Actor.list.getKey(undefined),
-          queryFn: Q.Actor.list.fetch,
-        },
-      ] as AsyncDataRouteQuery<any, any, any>[]),
   },
   // event page
   {
@@ -352,6 +364,180 @@ export const routes: ServerRoute[] = [
         ];
       },
   },
+  // keywords
+  {
+    path: "/keywords/:keywordId",
+    route: () => {
+      const params = useParams<{ keywordId: UUID }>();
+      if (params.keywordId) {
+        return <KeywordTemplate keywordId={params.keywordId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries: (Q, conf) => async (params: any) => {
+      return Promise.resolve([
+        ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Keyword.get.getKey({ id: params.keywordId }),
+          queryFn: Q.Keyword.get.fetch,
+        } as AsyncDataRouteQuery<any, any, any>,
+        {
+          queryKey: Q.Stats.list.getKey(
+            undefined,
+            {
+              id: params.keywordId,
+              type: StatsType.members[0].literals[0],
+            },
+            // true,
+          ),
+          queryFn: Q.Stats.list.fetch,
+        },
+      ]);
+    },
+  },
+  // areas
+  {
+    path: "/areas/:areaId",
+    route: () => {
+      const params = useParams<{ areaId: UUID }>();
+      if (params.areaId) {
+        return <AreaTemplate areaId={params.areaId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries:
+      (Q, conf) =>
+      async ({ areaId }: any) =>
+        Promise.resolve([
+          ...commonQueries.flatMap((c) => c(Q, conf)),
+          {
+            queryKey: Q.Area.get.getKey({ id: areaId }),
+            queryFn: Q.Area.get.fetch,
+          } as AsyncDataRouteQuery<any, any, any>,
+        ]),
+  },
+  // media
+  {
+    path: "/media/:mediaId",
+    route: () => {
+      const params = useParams<{ mediaId: UUID }>();
+      if (params.mediaId) {
+        return <MediaTemplate mediaId={params.mediaId} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries:
+      (Q, conf) =>
+      async ({ mediaId }: any) =>
+        Promise.resolve([
+          ...commonQueries.flatMap((c) => c(Q, conf)),
+          {
+            queryKey: Q.Media.get.getKey({ id: mediaId }),
+            queryFn: Q.Media.get.fetch,
+          } as AsyncDataRouteQuery<any, any, any>,
+        ]),
+  },
+  // links
+  linkRoute,
+  {
+    path: "/stories/:storyPath",
+    route: () => {
+      const params = useParams<{ storyPath: string }>();
+      if (params.storyPath) {
+        return <StoryTemplate storyPath={params.storyPath} />;
+      }
+      return <NotFoundPage />;
+    },
+    queries:
+      (Q, conf) =>
+      async ({ storyPath }: any) => {
+        const storyParams = { path: storyPath };
+        const storyKey = Q.Story.list.getKey(undefined, storyParams);
+        const story = await Q.Story.list
+          .fetch(undefined, storyParams)
+          .then((r) => r.data[0]);
+
+        const mostRecentStoriesParams = {
+          exclude: [story.id],
+          _end: "3",
+          _sort: "updatedAt",
+          _order: "DESC" as const,
+        };
+        const mostRecentStoriesKey = Q.Story.list.getKey(
+          undefined,
+          mostRecentStoriesParams,
+        );
+
+        const storyRelatedKeywordsParams = {
+          ids: story.keywords,
+          _end: story.keywords.length.toString(),
+          _sort: "updatedAt",
+          _order: "DESC" as const,
+        };
+        const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
+          undefined,
+          storyRelatedKeywordsParams,
+        );
+
+        return [
+          ...commonQueries.flatMap((c) => c(Q, conf)),
+          {
+            queryKey: storyKey,
+            queryFn: () => Promise.resolve(story),
+          },
+          {
+            queryKey: mostRecentStoriesKey,
+            queryFn: Q.Story.list.fetch,
+          },
+          {
+            queryKey: storyRelatedKeywordsKey,
+            queryFn: Q.Keyword.list.fetch,
+          },
+        ];
+      },
+  },
+  // Routes without parameters (less specific)
+  // groups
+  {
+    path: "/groups",
+    route: () => <GroupsPage />,
+    queries: (Q, conf) => async () =>
+      Promise.resolve([
+        ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Page.Custom.GetPageContentByPath.getKey("groups"),
+          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        },
+        {
+          queryKey: Q.Group.list.getKey(
+            undefined,
+            {
+              _sort: "id",
+              _order: "ASC",
+            },
+            // false,
+          ),
+          queryFn: Q.Group.list.fetch,
+        },
+      ]),
+  },
+  // actors
+  {
+    path: "/actors",
+    route: () => <ActorsPage />,
+    queries: (Q, conf) => async () =>
+      Promise.resolve([
+        ...commonQueries.flatMap((c) => c(Q, conf)),
+        {
+          queryKey: Q.Page.Custom.GetPageContentByPath.getKey("actors"),
+          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+        },
+        {
+          queryKey: Q.Actor.list.getKey(undefined),
+          queryFn: Q.Actor.list.fetch,
+        },
+      ] as AsyncDataRouteQuery<any, any, any>[]),
+  },
   // events
   {
     path: "/events",
@@ -465,63 +651,7 @@ export const routes: ServerRoute[] = [
         },
       ]),
   },
-  {
-    path: "/scientific-studies/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
-  {
-    path: "/deaths/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
-  {
-    path: "/quotes/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
-  {
-    path: "/patents/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
-  {
-    path: "/documentaries/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
-  {
-    path: "/transactions/:id",
-    route: RedirectToEventsRoute,
-    redirect: "/events/:id",
-  },
   // keywords
-  {
-    path: "/keywords/:keywordId",
-    route: () => {
-      const params = useParams<{ keywordId: UUID }>();
-      if (params.keywordId) {
-        return <KeywordTemplate keywordId={params.keywordId} />;
-      }
-      return <NotFoundPage />;
-    },
-    queries: (Q, conf) => async (params: any) => {
-      return Promise.resolve([
-        ...commonQueries.flatMap((c) => c(Q, conf)),
-        {
-          queryKey: Q.Stats.list.getKey(
-            undefined,
-            {
-              id: params.keywordId,
-              type: StatsType.members[0].literals[0],
-            },
-            // true,
-          ),
-          queryFn: Q.Stats.list.fetch,
-        },
-      ]);
-    },
-  },
   {
     path: "/keywords",
     route: () => <KeywordsPage />,
@@ -529,26 +659,6 @@ export const routes: ServerRoute[] = [
       Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]),
   },
   // areas
-  {
-    path: "/areas/:areaId",
-    route: () => {
-      const params = useParams<{ areaId: UUID }>();
-      if (params.areaId) {
-        return <AreaTemplate areaId={params.areaId} />;
-      }
-      return <NotFoundPage />;
-    },
-    queries:
-      (Q, conf) =>
-      async ({ areaId }: any) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Area.get.getKey({ id: areaId }),
-            queryFn: Q.Area.get.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-        ]),
-  },
   {
     path: "/areas",
     route: () => <AreasPage />,
@@ -567,26 +677,6 @@ export const routes: ServerRoute[] = [
   },
   // media
   {
-    path: "/media/:mediaId",
-    route: () => {
-      const params = useParams<{ mediaId: UUID }>();
-      if (params.mediaId) {
-        return <MediaTemplate mediaId={params.mediaId} />;
-      }
-      return <NotFoundPage />;
-    },
-    queries:
-      (Q, conf) =>
-      async ({ mediaId }: any) =>
-        Promise.resolve([
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: Q.Media.get.getKey({ id: mediaId }),
-            queryFn: Q.Media.get.fetch,
-          } as AsyncDataRouteQuery<any, any, any>,
-        ]),
-  },
-  {
     path: "/media",
     route: () => <MediaPage />,
     queries: (Q, conf) => async () =>
@@ -603,87 +693,8 @@ export const routes: ServerRoute[] = [
       ]),
   },
   // links
-  linkRoute,
   linksRoute,
   // stories
-  {
-    path: "/stories/create/",
-    route: () => {
-      return <CreateStoryPage />;
-    },
-    queries: (Q, conf) => async () =>
-      Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]),
-  },
-  {
-    path: "/stories/:storyId/edit",
-    route: () => {
-      const params = useParams<{ storyId: string }>();
-      if (params.storyId) {
-        return <EditStoryPage id={params.storyId} />;
-      }
-      return <NotFoundPage />;
-    },
-    queries: (Q, conf) => async () => {
-      return Promise.resolve([...commonQueries.flatMap((c) => c(Q, conf))]);
-    },
-  },
-  {
-    path: "/stories/:storyPath",
-    route: () => {
-      const params = useParams<{ storyPath: string }>();
-      if (params.storyPath) {
-        return <StoryTemplate storyPath={params.storyPath} />;
-      }
-      return <NotFoundPage />;
-    },
-    queries:
-      (Q, conf) =>
-      async ({ storyPath }: any) => {
-        const storyParams = { path: storyPath };
-        const storyKey = Q.Story.list.getKey(undefined, storyParams);
-        const story = await Q.Story.list
-          .fetch(undefined, storyParams)
-          .then((r) => r.data[0]);
-
-        const mostRecentStoriesParams = {
-          exclude: [story.id],
-          _end: "3",
-          _sort: "updatedAt",
-          _order: "DESC" as const,
-        };
-        const mostRecentStoriesKey = Q.Story.list.getKey(
-          undefined,
-          mostRecentStoriesParams,
-        );
-
-        const storyRelatedKeywordsParams = {
-          ids: story.keywords,
-          _end: story.keywords.length.toString(),
-          _sort: "updatedAt",
-          _order: "DESC" as const,
-        };
-        const storyRelatedKeywordsKey = Q.Keyword.list.getKey(
-          undefined,
-          storyRelatedKeywordsParams,
-        );
-
-        return [
-          ...commonQueries.flatMap((c) => c(Q, conf)),
-          {
-            queryKey: storyKey,
-            queryFn: () => Promise.resolve(story),
-          },
-          {
-            queryKey: mostRecentStoriesKey,
-            queryFn: Q.Story.list.fetch,
-          },
-          {
-            queryKey: storyRelatedKeywordsKey,
-            queryFn: Q.Keyword.list.fetch,
-          },
-        ];
-      },
-  },
   {
     path: "/stories",
     route: () => <BlogPage />,
@@ -724,6 +735,12 @@ export const routes: ServerRoute[] = [
     queries: () => async () => Promise.resolve([]),
   },
   {
+    path: "/healthcheck",
+    route: () => <div>OK</div>,
+    queries: () => async () => Promise.resolve([]),
+  },
+  // Catch-all route (least specific - must be second to last)
+  {
     path: "/:customPath",
     route: () => {
       // const params = useParams<{ customPath: string }>();
@@ -736,11 +753,7 @@ export const routes: ServerRoute[] = [
     },
     queries: () => async () => Promise.resolve([]),
   },
-  {
-    path: "/healthcheck",
-    route: () => <div>OK</div>,
-    queries: () => async () => Promise.resolve([]),
-  },
+  // Root route (must be last as fallback)
   {
     path: "/",
     route: () => <IndexPage />,

@@ -25,6 +25,25 @@ export const port =
 
 // https://vitejs.dev/config/
 
+// Determine HMR configuration based on environment
+const getHmrConfig = () => {
+  const isDev = process.env.VITE_NODE_ENV === "development";
+  const publicUrl = process.env.VITE_PUBLIC_URL || "http://liexp.dev";
+
+  if (!isDev) {
+    // Production: disable HMR
+    return false;
+  }
+
+  // Development: enable HMR with proper protocol
+  const isHttps = publicUrl.startsWith("https://");
+  return {
+    protocol: isHttps ? "wss" : "ws",
+    host: new URL(publicUrl).hostname,
+    port: isHttps ? 443 : 80,
+  };
+};
+
 const config = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
@@ -38,7 +57,7 @@ const config = defineViteConfig({
       process.env.VITE_NODE_ENV === "development"
         ? ["liexp.dev"]
         : ["www.lies.exposed", "lies.exposed"],
-    hmr: true,
+    hmr: getHmrConfig(),
   },
   target: "custom",
   entry: "src/client/index.tsx",

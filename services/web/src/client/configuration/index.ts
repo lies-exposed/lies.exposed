@@ -3,6 +3,31 @@ import {
   defaultConfiguration,
 } from "@liexp/ui/lib/context/ConfigurationContext.js";
 
+// Get API URL with current page's protocol to avoid mixed content issues in production
+const getApiUrl = (): string => {
+  const configUrl = import.meta.env.VITE_API_URL;
+  if (typeof window === "undefined") {
+    // SSR - use environment variable as-is
+    return configUrl;
+  }
+
+  const pageProtocol = window.location.protocol;
+
+  // Only switch protocol if page is HTTPS but config is HTTP (mixed content issue)
+  if (pageProtocol === "https:" && configUrl.startsWith("http://")) {
+    // Extract host and path from config URL using regex
+    const match = configUrl.match(/^https?:\/\/([^/]+)(\/.*)?$/);
+    if (match) {
+      const host = match[1];
+      const path = match[2] ?? "";
+      return `https://${host}${path}`;
+    }
+  }
+
+  // Otherwise use config as-is
+  return configUrl;
+};
+
 export const configuration: Configuration = {
   ...defaultConfiguration,
   mode: import.meta.env.MODE,
@@ -18,7 +43,7 @@ export const configuration: Configuration = {
       url: import.meta.env.VITE_ADMIN_URL,
     },
     api: {
-      url: import.meta.env.VITE_API_URL,
+      url: getApiUrl(),
     },
   },
   version: {

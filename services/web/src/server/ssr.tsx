@@ -51,15 +51,22 @@ export const getServer = ({
     res.status(200).send({ data: { status: "OK" } });
   });
 
-  app.use("*all", (req, res, next) => {
+  app.all(/./, (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
     ssrLog.debug.log("req.params %O", req.params);
 
+    // Strip query string from URL for route matching
+    const pathOnly = req.baseUrl.split("?")[0];
+
+    let matchResult: { params: Record<string, string> } | false | null = null;
     const route =
       routes.find((r) => {
         ssrLog.debug.log("r.path %s", r.path);
         try {
-          return pathToRegexp.match(r.path)(req.baseUrl);
+          matchResult = pathToRegexp.match(r.path)(pathOnly) as
+            | { params: Record<string, string> }
+            | false;
+          return matchResult;
         } catch (e) {
           ssrLog.debug.log(
             "Failed to transform route path %s to regexp: %O",
@@ -76,7 +83,13 @@ export const getServer = ({
       return;
     }
 
+    // Extract and assign params from the route match result
+    if (matchResult && typeof matchResult === "object") {
+      req.params = (matchResult as { params: Record<string, string> }).params;
+    }
+
     ssrLog.info.log("req.originalUrl %s (%s)", req.originalUrl, route.path);
+    ssrLog.debug.log("Extracted params: %O", req.params);
 
     const queries = [route].flatMap((route) => {
       ssrLog.info.log("route %O", route);

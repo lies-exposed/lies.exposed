@@ -129,7 +129,7 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
               />
 
               <EventNetworkGraphBoxWithFilters
-                type={KEYWORDS.Type}
+                type={KEYWORDS.literals[0]}
                 query={{
                   ids: [keyword.id],
                   startDate: formatDate(subYears(new Date(), 2)),

@@ -8,13 +8,18 @@
       "type": "http"
     },
     "api-liexp-dev": {
-      "url": "http://api.liexp.dev/mcp",
+      "url": "https://api.liexp.dev/mcp",
       "type": "http"
     },
     "basic-memory": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["basic-memory", "mcp", "--project", "lies-exposed"]
+      "args": [
+        "basic-memory",
+        "mcp",
+        "--project",
+        "lies-exposed"
+      ]
     }
   }
 }
