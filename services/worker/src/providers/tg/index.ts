@@ -62,6 +62,11 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
       )
       .catch((e) => {
         tgLogger.error.log("Error %O", e);
+        void ctx.tg.api.sendMessage(
+          msg.chat.id,
+          "Sorry, something went wrong while processing your message. Please try again later.",
+          { reply_to_message_id: msg.message_id },
+        );
       });
   });
 };
