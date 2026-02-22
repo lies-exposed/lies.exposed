@@ -69,18 +69,19 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         },
       ]}
     >
-      <Box style={{ padding: 10 }}>
-        <MediaElement
-          media={m}
-          enableDescription={false}
-          style={{ marginBottom: 80 }}
-          itemStyle={{ maxHeight: 600, minHeight: 300, maxWidth: "100%" }}
-        />
-        <Box style={{ marginBottom: 100 }}>
+      <Box sx={{ padding: 1.25 }}>
+        <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
+          <MediaElement
+            media={m}
+            enableDescription={false}
+            itemStyle={{ maxHeight: 600, minHeight: 300, maxWidth: "100%" }}
+          />
+        </Box>
+        <Box sx={{ marginBottom: 6 }}>
           <Typography variant="h3" component="h1">
             {m.label ?? null}
           </Typography>
-          <Typography style={{ marginBottom: 20 }}>{m.description}</Typography>
+          <Typography sx={{ marginBottom: 2.5 }}>{m.description}</Typography>
         </Box>
         <MediaBox
           filter={{ keywords: m.keywords }}

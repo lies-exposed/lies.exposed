@@ -3,7 +3,12 @@ import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { type ActorItem } from "@liexp/ui/lib/components/lists/ActorList.js";
-import { Box, Grid, Typography } from "@liexp/ui/lib/components/mui/index.js";
+import {
+  Box,
+  Grid,
+  Typography,
+  useMuiMediaQuery,
+} from "@liexp/ui/lib/components/mui/index.js";
 import ActorsBox from "@liexp/ui/lib/containers/ActorsBox.js";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox.js";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox.js";
@@ -15,6 +20,12 @@ import { useNavigateToResource } from "../utils/location.utils.js";
 
 const IndexPage: React.FC<RouteComponentProps> = () => {
   const navigateTo = useNavigateToResource();
+  const isSM = useMuiMediaQuery("min-width: 600px");
+  const isMD = useMuiMediaQuery("min-width: 960px");
+
+  // Responsive values for MediaBox
+  const mediaBoxColumns = isMD ? 2 : isSM ? 2 : 1;
+  const mediaBoxHeight = isMD ? 1200 : isSM ? 900 : 600;
 
   return (
     <Grid
@@ -28,16 +39,31 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
       >
         <SEO title="lies.exposed" urlPath="/" />
         <PageContentBox path="index" />
-        <KeywordsDistributionGraph
-          count={40}
-          onClick={(k) => {
-            navigateTo.keywords({ id: k.id });
+        <Box
+          sx={{
+            height: { xs: 300, sm: 400, md: 500 },
+            width: "100%",
+            marginBottom: 3,
           }}
-        />
+        >
+          <KeywordsDistributionGraph
+            count={40}
+            onClick={(k) => {
+              navigateTo.keywords({ id: k.id });
+            }}
+          />
+        </Box>
 
-        <Box style={{ marginBottom: 50 }} />
+        <Box sx={{ marginBottom: { xs: 3, md: 6 } }} />
 
-        <Grid container style={{ marginTop: 38, marginBottom: 38 }}>
+        <Grid
+          container
+          spacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{
+            marginTop: { xs: 2, sm: 3, md: 4 },
+            marginBottom: { xs: 2, sm: 3, md: 4 },
+          }}
+        >
           <Grid size={{ xs: 12, sm: 6 }}>
             <ActorsBox
               discrete={false}
@@ -80,7 +106,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
 
         <Grid container>
           <Grid size={12}>
-            <Box style={{ marginBottom: 150 }}>
+            <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
               <EventsBox
                 title="Last updated events"
                 query={{
@@ -97,7 +123,7 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
             </Box>
           </Grid>
           <Grid size={12}>
-            <Box style={{ marginBottom: 150 }}>
+            <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
               <EventsBox
                 title="Last books"
                 query={{
@@ -117,7 +143,11 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
           </Grid>
           <Grid
             container
-            style={{ marginBottom: 150, width: "100%", overflowX: "hidden" }}
+            sx={{
+              marginBottom: { xs: 4, sm: 6, md: 8 },
+              width: "100%",
+              overflowX: "hidden",
+            }}
           >
             <Grid size={12}>
               <Typography variant="h5">Last Created Media</Typography>
@@ -127,8 +157,12 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
                 disableZoom
                 filter={{ _sort: "createdAt", _order: "DESC" }}
                 limit={20}
-                columns={2}
-                style={{ height: 1200, width: "100%", maxWidth: "100%" }}
+                columns={mediaBoxColumns}
+                style={{
+                  height: mediaBoxHeight,
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
                 onClick={(m) => {
                   navigateTo.media({ id: m.id });
                 }}

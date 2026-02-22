@@ -19,9 +19,35 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
           <Box>
             <SEO title={m.title} image={""} urlPath={m.path} />
             {isValidValue(m.body2) ? (
-              <Container style={{ display: "flex" }}>
-                <TOCPlugin value={m.body2} />
-                <MainContent>
+              <Container
+                maxWidth="lg"
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", md: "row" },
+                  gap: { xs: 2, md: 4 },
+                  paddingTop: { xs: 2, md: 4 },
+                  paddingBottom: { xs: 2, md: 4 },
+                }}
+              >
+                <Box
+                  sx={{
+                    display: { xs: "none", md: "block" },
+                    width: { md: "20%", lg: "25%" },
+                    minWidth: "200px",
+                    position: { md: "sticky" },
+                    top: { md: "80px" },
+                    height: { md: "fit-content" },
+                    overflowY: { md: "auto" },
+                  }}
+                >
+                  <TOCPlugin value={m.body2} />
+                </Box>
+                <MainContent
+                  style={{
+                    flex: 1,
+                    minWidth: 0,
+                  }}
+                >
                   <BNEditor content={m.body2} readOnly />
                 </MainContent>
               </Container>

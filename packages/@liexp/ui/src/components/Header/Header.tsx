@@ -107,6 +107,10 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
     alignItems: "center",
     [`${theme.breakpoints.down("sm")}`]: {
       fontSize: 12,
+      maxWidth: "60px",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
     },
     "&.selected": {
       color: theme.palette.common.white,

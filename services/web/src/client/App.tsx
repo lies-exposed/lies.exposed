@@ -59,8 +59,10 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
                       <Footer
                         logoSrc={logo192}
                         style={{
-                          paddingLeft:
-                            pathname === "/events" && !isDownSM ? 240 : 0,
+                          paddingLeft: isDownSM ? 0 : 16,
+                          paddingRight: isDownSM ? 0 : 16,
+                          paddingTop: theme.spacing(2),
+                          paddingBottom: theme.spacing(2),
                         }}
                       />
                     </Grid>
