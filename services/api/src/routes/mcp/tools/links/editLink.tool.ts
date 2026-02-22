@@ -5,6 +5,7 @@ import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { Status } from "@liexp/io/lib/http/Link.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
@@ -41,6 +42,10 @@ export const EditLinkInputSchema = Schema.Struct({
   keywords: Schema.Array(UUID).annotations({
     description: "Array of keyword UUIDs to associate with this link",
   }),
+  status: Schema.UndefinedOr(Status).annotations({
+    description:
+      'Link approval status: "DRAFT", "APPROVED", or "UNAPPROVED". Undefined keeps the current value.',
+  }),
 });
 export type EditLinkInputSchema = typeof EditLinkInputSchema.Type;
 
@@ -54,6 +59,7 @@ export const editLinkToolTask = ({
   image,
   events,
   keywords,
+  status,
 }: EditLinkInputSchema): ReaderTaskEither<
   ServerContext,
   Error,
@@ -69,6 +75,7 @@ export const editLinkToolTask = ({
         ...(publishDate ? { publishDate: new Date(publishDate) } : {}),
         ...(provider ? { provider: provider as any } : {}),
         ...(image ? { image: image as any } : {}),
+        ...(status ? { status: status as any } : {}),
         events: events.map((e) => ({ id: e })) as EventV2Entity[],
         keywords: keywords.map((k) => ({ id: k })) as KeywordEntity[],
       };

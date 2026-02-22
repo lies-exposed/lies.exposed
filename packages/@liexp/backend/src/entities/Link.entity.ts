@@ -1,4 +1,5 @@
 import { type URL, type UUID } from "@liexp/io/lib/http/Common/index.js";
+import * as Link from "@liexp/io/lib/http/Link.js";
 import {
   Column,
   Entity,
@@ -20,6 +21,14 @@ export const LINK_ENTITY_NAME = "link";
 @Entity(LINK_ENTITY_NAME)
 @Index(["url"], { unique: true })
 export class LinkEntity extends DeletableEntity {
+  @Column({
+    type: "enum",
+    enum: Link.Status.members.map((m) => m.literals[0]),
+    nullable: false,
+    default: Link.DRAFT.literals[0],
+  })
+  status: Link.Status;
+
   @Column({ type: "varchar", nullable: false, unique: true })
   url: URL;
 

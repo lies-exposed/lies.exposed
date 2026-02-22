@@ -1,8 +1,6 @@
 import { randomUUID } from "crypto";
 import { EventV2Entity } from "@liexp/backend/lib/entities/Event.v2.entity.js";
-import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { throwRTE, throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { UserArb } from "@liexp/test/lib/arbitrary/User.arbitrary.js";
 import { getEventArbitrary } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import fc from "fast-check";
 import { pipe } from "fp-ts/lib/function.js";
@@ -12,27 +10,11 @@ import { createLinkToolTask } from "../createLink.tool.js";
 
 describe("MCP CREATE_LINK Tool", () => {
   let Test: AppTest;
-  let testUser: UserEntity;
   let testEvent: EventV2Entity;
   const testSuiteId = randomUUID();
 
   beforeAll(async () => {
     Test = await GetAppTest();
-
-    const users = fc.sample(UserArb, 1).map(
-      (u): UserEntity => ({
-        ...u,
-        permissions: [],
-        passwordHash: "testpasswordhash",
-        links: [],
-        media: [],
-        stories: [],
-        graphs: [],
-        eventSuggestions: [],
-        deletedAt: null,
-      }),
-    );
-    testUser = users[0];
 
     const events = fc
       .sample(getEventArbitrary("Uncategorized"), 1)
@@ -50,7 +32,6 @@ describe("MCP CREATE_LINK Tool", () => {
       }));
     testEvent = events[0];
 
-    await throwTE(Test.ctx.db.save(UserEntity, users));
     await throwTE(Test.ctx.db.save(EventV2Entity, events));
   });
 
@@ -61,7 +42,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: undefined,
       description: undefined,
       events: [],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(
@@ -87,7 +68,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: "2024-01-15",
       description: undefined,
       events: [],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(
@@ -106,7 +87,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: undefined,
       description: "This is a detailed description of the link",
       events: [],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(
@@ -125,7 +106,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: undefined,
       description: undefined,
       events: [testEvent.id],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(
@@ -144,7 +125,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: "2024-03-20",
       description: "A complete link with all fields filled",
       events: [testEvent.id],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(
@@ -163,7 +144,7 @@ describe("MCP CREATE_LINK Tool", () => {
       publishDate: undefined,
       description: undefined,
       events: [],
-      creatorId: testUser.id,
+      status: undefined,
     };
 
     const result = await pipe(

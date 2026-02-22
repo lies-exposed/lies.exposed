@@ -6,9 +6,16 @@ import { UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
+import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
-import { type LinkMedia } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, LINKS, type LinkMedia } from "@liexp/io/lib/http/Link.js";
+import {
+  OpenAIUpdateEntitiesFromURLType,
+  PendingStatus,
+  type Queue,
+} from "@liexp/io/lib/http/Queue/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
@@ -93,13 +100,15 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           user.id = u.id;
           return { linkUpdate, user };
         }),
-        TE.chain(({ linkUpdate, user }) =>
-          pipe(
+        TE.chain(({ linkUpdate, user }) => {
+          let previousStatus: string | undefined;
+          return pipe(
             ctx.db.findOneOrFail(LinkEntity, {
               where: { id: Equal(id) },
               relations: ["image"],
             }),
             TE.chain((l): TEControllerError<LinkEntity> => {
+              previousStatus = l.status;
               return pipe(
                 overrideThumbnail,
                 O.map((t) => {
@@ -170,8 +179,34 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                 loadRelationIds: { relations: ["events", "keywords"] },
               }),
             ),
-          ),
-        ),
+            TE.chain((finalLink) => {
+              const newStatus = (linkUpdate as any).status;
+              if (
+                previousStatus !== APPROVED.literals[0] &&
+                newStatus === APPROVED.literals[0]
+              ) {
+                const job: Queue = {
+                  id: uuid(),
+                  resource: LINKS.literals[0],
+                  type: OpenAIUpdateEntitiesFromURLType.literals[0],
+                  prompt: null,
+                  data: { linkId: id },
+                  error: null,
+                  status: PendingStatus.literals[0],
+                  result: null,
+                } as Queue;
+                return pipe(
+                  GetQueueProvider.queue<Queue, typeof ctx>(
+                    OpenAIUpdateEntitiesFromURLType.literals[0],
+                  ).addJob(job)(ctx),
+                  TE.mapLeft(toControllerError),
+                  TE.map(() => finalLink),
+                );
+              }
+              return TE.right(finalLink);
+            }),
+          );
+        }),
         TE.chainEitherK((l) => LinkIO.decodeSingle(l)),
         TE.map((data) => ({
           body: { data },

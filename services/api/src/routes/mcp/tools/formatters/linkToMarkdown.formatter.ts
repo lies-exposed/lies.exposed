@@ -19,6 +19,7 @@ export const formatLinkToMarkdown = (link: Link): string => {
   lines.push(`- **Title**: ${link.title}`);
   lines.push(`- **ID**: ${link.id}`);
   lines.push(`- **URL**: ${link.url}`);
+  lines.push(`- **Status**: ${link.status}`);
   lines.push(`- **Provider**: ${link.provider}`);
   lines.push("");
 

@@ -17,9 +17,10 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
-import { LINKS } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, LINKS } from "@liexp/io/lib/http/Link.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
@@ -102,10 +103,33 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
   return pipe(
     fp.RTE.right(job),
     fp.RTE.chain((job) => {
-      // updateEntitiesFromURLFlow handles all DB updates directly in the flow,
-      // so no additional processing is needed here.
       if (Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)) {
-        return fp.RTE.of(job);
+        const linkId = (job.data as { linkId?: string }).linkId as
+          | UUID
+          | undefined;
+        if (!linkId) return fp.RTE.of(job);
+        return pipe(
+          LinkRepository.findOneOrFail({
+            where: { id: Equal(linkId) },
+            loadRelationIds: { relations: ["events"] },
+          }),
+          fp.RTE.chain((link) => {
+            const draftStatus = link.status !== APPROVED.literals[0];
+            const eventIds = link.events as any[] as string[];
+            if (eventIds.length === 0) return fp.RTE.right(job);
+            return pipe(
+              EventRepository.find({ where: { id: In(eventIds) } }),
+              fp.RTE.chain((events) =>
+                events.length > 0
+                  ? EventRepository.save(
+                      events.map((e) => ({ ...e, draft: draftStatus })),
+                    )
+                  : fp.RTE.right([]),
+              ),
+              fp.RTE.map(() => job),
+            );
+          }),
+        );
       }
 
       if (Schema.is(MEDIA)(job.resource)) {

@@ -1,5 +1,5 @@
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import type { Link } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, type Link } from "@liexp/io/lib/http/Link.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import * as io from "@liexp/io/lib/index.js";
 import * as React from "react";
@@ -68,6 +68,12 @@ export const CreateEventFromURLQueueButton: React.FC = () => {
   return (
     <Stack spacing={2}>
       <Typography variant="subtitle2">Create Event via AI Queue</Typography>
+      {record.status !== APPROVED.literals[0] ? (
+        <Typography variant="body2" color="warning.main">
+          This link has status <strong>{record.status}</strong>. The created
+          event will be saved as a draft.
+        </Typography>
+      ) : null}
       <Stack direction="row" spacing={2} alignItems="center">
         <Select
           size="small"

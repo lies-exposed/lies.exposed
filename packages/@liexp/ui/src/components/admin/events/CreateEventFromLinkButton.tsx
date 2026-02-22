@@ -3,7 +3,7 @@ import {
   type CreateEventPlainBody,
   type EventType,
 } from "@liexp/io/lib/http/Events/index.js";
-import { type Link } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, type Link } from "@liexp/io/lib/http/Link.js";
 import type * as io from "@liexp/io/lib/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -186,7 +186,7 @@ export const CreateEventFromLinkButton: React.FC = () => {
                 date: new Date(record.publishDate ?? new Date()),
                 excerpt: record.description ?? "",
                 body: undefined,
-                draft: true,
+                draft: record.status !== APPROVED.literals[0],
                 links: [record.id],
                 media: record.image?.id ? [record.image.id] : [],
                 keywords: record.keywords ?? [],

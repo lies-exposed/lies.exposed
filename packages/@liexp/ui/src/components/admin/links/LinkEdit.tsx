@@ -1,6 +1,6 @@
-import { type Link } from "@liexp/io/lib/http/Link.js";
 import { ImageType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
+import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { Grid, Stack, Toolbar } from "../../mui/index.js";
@@ -23,6 +23,7 @@ import {
   DateInput,
   LoadingPage,
   ReferenceManyField,
+  SelectInput,
   TabbedForm,
   TextField,
   TextInput,
@@ -38,8 +39,20 @@ import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
 import { transformLink } from "./transformLink.js";
 
+const LinkStatusInput: React.FC = () => {
+  return (
+    <SelectInput
+      source="status"
+      choices={Link.Status.members.map((l) => ({
+        id: l.literals[0],
+        name: l.literals[0],
+      }))}
+    />
+  );
+};
+
 export const LinkEdit: React.FC = () => {
-  const record = useRecordContext<Link>();
+  const record = useRecordContext<Link.Link>();
   const { permissions, isLoading: isLoadingPermissions } = usePermissions();
   if (isLoadingPermissions) {
     return <LoadingPage />;
@@ -66,6 +79,7 @@ export const LinkEdit: React.FC = () => {
           <Grid container spacing={2}>
             <Grid size={{ md: 6 }}>
               <TextInput source="title" fullWidth />
+              <LinkStatusInput />
               <URLMetadataInput source="url" type="Link" />
               <DateInput source="publishDate" />
               <MediaField
@@ -82,7 +96,7 @@ export const LinkEdit: React.FC = () => {
                 <TakeLinkScreenshot />
               </Stack>
               <Stack>
-                <OpenAIEmbeddingJobButton<Link>
+                <OpenAIEmbeddingJobButton<Link.Link>
                   resource="links"
                   type={OpenAIEmbeddingQueueType.Type}
                   label="Extract Title & Description"

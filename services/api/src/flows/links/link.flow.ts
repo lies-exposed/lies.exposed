@@ -7,7 +7,6 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import * as O from "fp-ts/lib/Option.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type TEReader } from "../flow.types.js";
 import { type ServerContext } from "#context/context.type.js";
@@ -25,18 +24,22 @@ export const fetchAndSave = (u: UserEntity, url: URL): TEReader<LinkEntity> => {
         where: { url: Equal(sanitizedURL) },
       }),
     ),
-    fp.RTE.chain((optLink) => (ctx) => {
+    fp.RTE.chain((optLink) => {
       if (O.isSome(optLink)) {
-        ctx.logger.debug.log("Link found! %s", optLink.value.id);
-        return TE.right(optLink.value);
+        return pipe(
+          fp.RTE.Do,
+          LoggerService.RTE.debug(["Link found! %s", optLink.value.id]),
+          fp.RTE.map(() => optLink.value),
+        );
       }
 
-      ctx.logger.debug.log("Link not found, fetching...");
       return pipe(
-        fromURL(u, url, undefined)(ctx),
-        TE.mapLeft(toControllerError),
-        TE.chain((l) => LinkRepository.save([l])(ctx)),
-        TE.map((ll) => ll[0]),
+        fp.RTE.Do,
+        LoggerService.RTE.debug("Link not found, fetching..."),
+        fp.RTE.chain(() => fromURL(u, url, undefined)),
+        fp.RTE.mapLeft(toControllerError),
+        fp.RTE.chain((l) => LinkRepository.save<ServerContext>([l])),
+        fp.RTE.map((ll) => ll[0]),
       );
     }),
   );
