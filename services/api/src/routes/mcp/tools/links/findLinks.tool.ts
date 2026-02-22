@@ -6,7 +6,7 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { APPROVED, type Status } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, Status } from "@liexp/io/lib/http/Link.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import * as O from "effect/Option";
@@ -23,15 +23,7 @@ export const FindLinksInputSchema = Schema.Struct({
   ids: Schema.UndefinedOr(Schema.Array(Schema.UUID)).annotations({
     description: "Array of link UUIDs to filter by",
   }),
-  status: Schema.UndefinedOr(
-    Schema.Array(
-      Schema.Union(
-        Schema.Literal("DRAFT"),
-        Schema.Literal("APPROVED"),
-        Schema.Literal("UNAPPROVED"),
-      ),
-    ),
-  ).annotations({
+  status: Schema.UndefinedOr(Schema.Array(Status)).annotations({
     description:
       'Filter by link status. Defaults to ["APPROVED"] to only return approved links.',
   }),
