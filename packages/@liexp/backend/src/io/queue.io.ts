@@ -11,13 +11,17 @@ export const toQueueIO = (
   unknownQueue: QueueEntity | Record<string, unknown>,
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
   const q = unknownQueue as any;
-  
-  // Convert ISO string dates to Date objects
+
+  // Convert Date objects to ISO strings for schema validation
   const queue = {
     ...q,
-    createdAt: typeof q.createdAt === "string" ? new Date(q.createdAt) : q.createdAt,
-    updatedAt: typeof q.updatedAt === "string" ? new Date(q.updatedAt) : q.updatedAt,
-    deletedAt: q.deletedAt ? (typeof q.deletedAt === "string" ? new Date(q.deletedAt) : q.deletedAt) : null,
+    createdAt: q.createdAt instanceof Date ? q.createdAt.toISOString() : q.createdAt,
+    updatedAt: q.updatedAt instanceof Date ? q.updatedAt.toISOString() : q.updatedAt,
+    deletedAt: q.deletedAt
+      ? q.deletedAt instanceof Date
+        ? q.deletedAt.toISOString()
+        : q.deletedAt
+      : undefined,
   };
 
   return pipe(
