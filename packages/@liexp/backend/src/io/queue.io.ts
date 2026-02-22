@@ -16,6 +16,9 @@ export const toQueueIO = (
       result: unknownQueue?.result ?? null,
       prompt: unknownQueue?.prompt ?? null,
       error: unknownQueue?.error ?? null,
+      createdAt: unknownQueue.createdAt,
+      updatedAt: unknownQueue.updatedAt,
+      deletedAt: unknownQueue.deletedAt,
     },
     (q) =>
       pipe(

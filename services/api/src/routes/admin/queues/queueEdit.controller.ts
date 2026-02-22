@@ -9,7 +9,7 @@ import { type Route } from "#routes/route.types.js";
 export const MakeQueueEditRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Queues.Edit,
-    ({ params: { id, resource, type }, body: { ...userData } }) => {
+    ({ params: { id, resource, type }, body: userData }) => {
       ctx.logger.debug.log("Edit queue %s  with %O", id, userData);
       return pipe(
         fp.RTE.Do,
@@ -18,12 +18,19 @@ export const MakeQueueEditRoute: Route = (r, ctx) => {
         fp.RTE.bind("deletePrevJob", ({ queue, prevJob }) =>
           queue.deleteJob(prevJob.resource, prevJob.id),
         ),
-        fp.RTE.bind("job", ({ queue, prevJob }) =>
-          pipe(
-            fp.RTE.right({ ...prevJob, ...userData, resource } as Queue),
-            fp.RTE.chainFirst(queue.addJob),
-          ),
-        ),
+        fp.RTE.bind("job", ({ queue, prevJob }) => {
+          // Construct the job without timestamps - these will be set by addJob
+          const jobData: Omit<Queue, "createdAt" | "updatedAt" | "deletedAt"> = {
+            ...(userData as Omit<Queue, "createdAt" | "updatedAt" | "deletedAt">),
+            id: prevJob.id,
+            resource: prevJob.resource,
+            type: prevJob.type,
+          };
+          return pipe(
+            fp.RTE.right(jobData),
+            fp.RTE.chain(queue.addJob),
+          );
+        }),
         fp.RTE.map(({ job: data }) => ({
           body: { data },
           statusCode: 200,

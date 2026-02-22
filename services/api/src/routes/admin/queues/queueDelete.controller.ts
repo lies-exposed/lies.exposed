@@ -9,7 +9,7 @@ export const MakeQueueDeleteRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:delete"])(ctx))(
     Endpoints.Queues.Delete,
     ({ params: { id, resource, type } }) => {
-      ctx.logger.debug.log("Delete user %s ", id);
+      ctx.logger.debug.log("Delete queue %s ", id);
       return pipe(
         GetQueueProvider.queue(type).getJob(resource, id),
         fp.RTE.chainFirst(() =>
