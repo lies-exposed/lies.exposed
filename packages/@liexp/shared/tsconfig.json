@@ -18,6 +18,7 @@
     "tsBuildInfoFile": "lib/.tsbuildinfo"
   },
   "references": [
+    { "path": "../eslint-config" },
     {
       "path": "../core"
     },

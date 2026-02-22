@@ -19,6 +19,7 @@
   "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules", "build"],
   "references": [
+    { "path": "../../packages/@liexp/eslint-config" },
     { "path": "../../packages/@liexp/core" },
     { "path": "../../packages/@liexp/io" },
     { "path": "../../packages/@liexp/shared" }

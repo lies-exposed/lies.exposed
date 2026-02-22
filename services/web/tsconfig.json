@@ -28,6 +28,7 @@
   },
   "include": ["./src", "./test", "./typings", "eslint.config.js", "vite.config.ts"],
   "references": [
+    { "path": "../../packages/@liexp/eslint-config" },
     {
       "path": "../../packages/@liexp/core"
     },

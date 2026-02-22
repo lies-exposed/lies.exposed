@@ -36,6 +36,7 @@
   ],
   "exclude": ["**/build", "**/lib"],
   "references": [
+    { "path": "../../packages/@liexp/eslint-config" },
     { "path": "../../packages/@liexp/core" },
     { "path": "../../packages/@liexp/io" },
     { "path": "../../packages/@liexp/shared" },
