@@ -254,9 +254,7 @@ export const EventTemplateUI: React.FC<EventTemplateProps> = ({
                         size={{ lg: 12, md: 12, sm: 3 }}
                         style={{ width: "100%" }}
                       >
-                        <Box
-                          sx={{ width: "100%", height: "100%", padding: 2 }}
-                        >
+                        <Box sx={{ width: "100%", height: "100%", padding: 2 }}>
                           <AreasMap
                             areas={areas}
                             height={200}

@@ -49,10 +49,13 @@ const ActorsPage: React.FC<RouteComponentProps> = (_props) => {
                   navigateTo.actors({ id: a.id });
                 }}
               />
-               </>
-             <Grid container sx={{ height: { xs: 300, sm: 400, md: 600 }, width: "100%" }}>
-               <Grid size={{ xs: 12 }} style={{ height: "100%" }}>
-                 <ActorEventNetworkGraphBox
+            </>
+            <Grid
+              container
+              sx={{ height: { xs: 300, sm: 400, md: 600 }, width: "100%" }}
+            >
+              <Grid size={{ xs: 12 }} style={{ height: "100%" }}>
+                <ActorEventNetworkGraphBox
                   params={
                     {
                       // _sort: "updatedAt",

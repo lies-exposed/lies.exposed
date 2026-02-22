@@ -3,7 +3,12 @@ import { BookCard } from "@liexp/ui/lib/components/Cards/Events/BookCard.js";
 import KeywordsDistributionGraph from "@liexp/ui/lib/components/Graph/KeywordDistributionGraph.js";
 import SEO from "@liexp/ui/lib/components/SEO.js";
 import { type ActorItem } from "@liexp/ui/lib/components/lists/ActorList.js";
-import { Box, Grid, Typography, useMuiMediaQuery } from "@liexp/ui/lib/components/mui/index.js";
+import {
+  Box,
+  Grid,
+  Typography,
+  useMuiMediaQuery,
+} from "@liexp/ui/lib/components/mui/index.js";
 import ActorsBox from "@liexp/ui/lib/containers/ActorsBox.js";
 import EventsBox from "@liexp/ui/lib/containers/EventsBox.js";
 import { GroupsBox } from "@liexp/ui/lib/containers/GroupsBox.js";
@@ -34,7 +39,13 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
       >
         <SEO title="lies.exposed" urlPath="/" />
         <PageContentBox path="index" />
-        <Box sx={{ height: { xs: 300, sm: 400, md: 500 }, width: "100%", marginBottom: 3 }}>
+        <Box
+          sx={{
+            height: { xs: 300, sm: 400, md: 500 },
+            width: "100%",
+            marginBottom: 3,
+          }}
+        >
           <KeywordsDistributionGraph
             count={40}
             onClick={(k) => {
@@ -93,64 +104,72 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
           </Grid>
         </Grid>
 
-             <Grid container>
-             <Grid size={12}>
-               <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
-                 <EventsBox
-                   title="Last updated events"
-                   query={{
-                     _sort: "updatedAt",
-                     _order: "DESC",
-                     _start: 0,
-                     _end: 6,
-                   }}
-                   onEventClick={(e) => {
-                     navigateTo.events({ id: e.id });
-                   }}
-                   columns={{ xs: 12, sm: 6, md: 4 }}
-                 />
-               </Box>
-             </Grid>
-             <Grid size={12}>
-               <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
-                 <EventsBox
-                   title="Last books"
-                   query={{
-                     _sort: "updatedAt",
-                     _order: "DESC",
-                     _start: 0,
-                     _end: 6,
-                     eventType: [BOOK.literals[0]],
-                   }}
-                   onEventClick={(e) => {
-                     navigateTo.events({ id: e.id });
-                   }}
-                   card={BookCard}
-                   columns={{ xs: 12, sm: 6, md: 4, lg: 2 }}
-                 />
-               </Box>
-             </Grid>
-             <Grid
-               container
-               sx={{ marginBottom: { xs: 4, sm: 6, md: 8 }, width: "100%", overflowX: "hidden" }}
-             >
-               <Grid size={12}>
-                 <Typography variant="h5">Last Created Media</Typography>
-               </Grid>
-               <Grid size={12}>
-                 <MediaBox
-                   disableZoom
-                   filter={{ _sort: "createdAt", _order: "DESC" }}
-                   limit={20}
-                   columns={mediaBoxColumns}
-                   style={{ height: mediaBoxHeight, width: "100%", maxWidth: "100%" }}
-                   onClick={(m) => {
-                     navigateTo.media({ id: m.id });
-                   }}
-                 />
-               </Grid>
-             </Grid>
-           </Grid>
+        <Grid container>
+          <Grid size={12}>
+            <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
+              <EventsBox
+                title="Last updated events"
+                query={{
+                  _sort: "updatedAt",
+                  _order: "DESC",
+                  _start: 0,
+                  _end: 6,
+                }}
+                onEventClick={(e) => {
+                  navigateTo.events({ id: e.id });
+                }}
+                columns={{ xs: 12, sm: 6, md: 4 }}
+              />
+            </Box>
+          </Grid>
+          <Grid size={12}>
+            <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
+              <EventsBox
+                title="Last books"
+                query={{
+                  _sort: "updatedAt",
+                  _order: "DESC",
+                  _start: 0,
+                  _end: 6,
+                  eventType: [BOOK.literals[0]],
+                }}
+                onEventClick={(e) => {
+                  navigateTo.events({ id: e.id });
+                }}
+                card={BookCard}
+                columns={{ xs: 12, sm: 6, md: 4, lg: 2 }}
+              />
+            </Box>
+          </Grid>
+          <Grid
+            container
+            sx={{
+              marginBottom: { xs: 4, sm: 6, md: 8 },
+              width: "100%",
+              overflowX: "hidden",
+            }}
+          >
+            <Grid size={12}>
+              <Typography variant="h5">Last Created Media</Typography>
+            </Grid>
+            <Grid size={12}>
+              <MediaBox
+                disableZoom
+                filter={{ _sort: "createdAt", _order: "DESC" }}
+                limit={20}
+                columns={mediaBoxColumns}
+                style={{
+                  height: mediaBoxHeight,
+                  width: "100%",
+                  maxWidth: "100%",
+                }}
+                onClick={(m) => {
+                  navigateTo.media({ id: m.id });
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
