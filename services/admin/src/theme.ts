@@ -6,13 +6,25 @@ import {
   type ThemeOptions,
 } from "@liexp/ui/lib/theme/index.js";
 
-const primary = "#FF5E5B";
+// Admin theme uses inverted colors from web UI theme
+// Web primary (#FF5E5B) becomes admin secondary
+// Web secondary (#17B9B6) becomes admin primary
+const primary = "#17B9B6";
 const primaryLight = lighten(primary, 0.5);
 const primaryDark = darken(primary, 0.5);
 
-const secondary = "#17B9B6";
+const secondary = "#FF5E5B";
 const secondaryLight = lighten(secondary, 0.5);
-const secondaryDark = darken(primary, 0.5);
+const secondaryDark = darken(secondary, 0.5);
+
+// Dark theme variants
+const darkPrimary = "#4DD3CF";
+const darkPrimaryLight = lighten(darkPrimary, 0.3);
+const darkPrimaryDark = darken(darkPrimary, 0.3);
+
+const darkSecondary = "#FF7976";
+const darkSecondaryLight = lighten(darkSecondary, 0.3);
+const darkSecondaryDark = darken(darkSecondary, 0.3);
 
 const lightPalette = {
   primary: {
@@ -31,20 +43,31 @@ const lightPalette = {
 
 const darkPalette = {
   primary: {
-    main: primary,
-    light: primaryLight,
-    dark: primaryDark,
-    contrastText: "#fff",
+    main: darkPrimary,
+    light: darkPrimaryLight,
+    dark: darkPrimaryDark,
+    contrastText: "#000",
   },
   secondary: {
-    main: secondary,
-    light: secondaryLight,
-    dark: secondaryDark,
-    contrastText: "#FFF",
+    main: darkSecondary,
+    light: darkSecondaryLight,
+    dark: darkSecondaryDark,
+    contrastText: "#000",
+  },
+  background: {
+    default: "#121212",
+    paper: "#1e1e1e",
+  },
+  text: {
+    primary: "#fff",
+    secondary: "rgba(255, 255, 255, 0.7)",
   },
 };
 
-const createBaseAdminTheme = (palette: typeof lightPalette): ThemeOptions => ({
+const createBaseAdminTheme = (
+  palette: typeof lightPalette | typeof darkPalette,
+  isDark = false,
+): ThemeOptions => ({
   ...themeOptions,
   palette,
   components: {
@@ -53,6 +76,15 @@ const createBaseAdminTheme = (palette: typeof lightPalette): ThemeOptions => ({
       styleOverrides: {
         root: {
           backgroundColor: palette.primary.main,
+        },
+      },
+    },
+    // Icon colors in sidebar for dark mode
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: isDark ? palette.primary.main : undefined,
+          minWidth: 40,
         },
       },
     },
@@ -205,12 +237,15 @@ const createBaseAdminTheme = (palette: typeof lightPalette): ThemeOptions => ({
   },
 });
 
+const lightAdminThemeOptions = createBaseAdminTheme(lightPalette, false);
+
 const createAdminThemeOptions = (
   mode: "light" | "dark" = "light",
 ): ReturnType<typeof createTheme> => {
   const palette = mode === "dark" ? darkPalette : lightPalette;
-  const baseOptions = createBaseAdminTheme(palette);
+  const isDark = mode === "dark";
+  const baseOptions = createBaseAdminTheme(palette, isDark);
   return createTheme(baseOptions);
 };
 
-export { createAdminThemeOptions };
+export { createAdminThemeOptions,  };

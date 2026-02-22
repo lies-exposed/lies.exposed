@@ -81,5 +81,8 @@ localai/models/.*.yaml
 .aider.*
 .aider*
 
+# Playwright MCP screenshots / logs
+.playwright-mcp
+
 # Service data
 services/data
