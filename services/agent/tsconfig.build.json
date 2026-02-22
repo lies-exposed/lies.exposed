@@ -3,6 +3,8 @@
   "compilerOptions": {
     "rootDir": "./src",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
+    "declaration": false,
+    "declarationMap": false,
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/*.e2e.ts", "**/*.spec.ts"]
