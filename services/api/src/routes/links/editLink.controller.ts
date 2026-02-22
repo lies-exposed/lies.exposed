@@ -7,6 +7,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { fromURL } from "@liexp/backend/lib/flows/links/link.flow.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
+import { LinkPubSub } from "@liexp/backend/lib/pubsub/links/index.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { UUID } from "@liexp/io/lib/http/Common/index.js";
@@ -199,6 +200,13 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                   GetQueueProvider.queue<Queue, typeof ctx>(
                     OpenAIUpdateEntitiesFromURLType.literals[0],
                   ).addJob(job)(ctx),
+                  TE.chainFirst(() =>
+                    LinkPubSub.UpdateEntitiesFromURL.publish({
+                      id: job.id,
+                      type: job.type,
+                      resource: job.resource,
+                    })(ctx),
+                  ),
                   TE.mapLeft(toControllerError),
                   TE.map(() => finalLink),
                 );
