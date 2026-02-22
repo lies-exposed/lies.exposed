@@ -10,20 +10,20 @@ const getApiUrl = (): string => {
     // SSR - use environment variable as-is
     return configUrl;
   }
-  
+
   const pageProtocol = window.location.protocol;
-  
+
   // Only switch protocol if page is HTTPS but config is HTTP (mixed content issue)
   if (pageProtocol === "https:" && configUrl.startsWith("http://")) {
     // Extract host and path from config URL using regex
     const match = configUrl.match(/^https?:\/\/([^/]+)(\/.*)?$/);
     if (match) {
       const host = match[1];
-      const path = match[2] || "";
+      const path = match[2] ?? "";
       return `https://${host}${path}`;
     }
   }
-  
+
   // Otherwise use config as-is
   return configUrl;
 };
