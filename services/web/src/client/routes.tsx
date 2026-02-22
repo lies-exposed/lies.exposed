@@ -366,7 +366,7 @@ export const routes: ServerRoute[] = [
   },
   // keywords
   {
-     path: "/keywords/:keywordId",
+    path: "/keywords/:keywordId",
     route: () => {
       const params = useParams<{ keywordId: UUID }>();
       if (params.keywordId) {

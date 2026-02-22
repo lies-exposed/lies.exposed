@@ -58,13 +58,14 @@ export const getServer = ({
     // Strip query string from URL for route matching
     const pathOnly = req.baseUrl.split("?")[0];
 
-    let matchResult: ReturnType<ReturnType<typeof pathToRegexp.match>> | null =
-      null;
+    let matchResult: { params: Record<string, string> } | false | null = null;
     const route =
       routes.find((r) => {
         ssrLog.debug.log("r.path %s", r.path);
         try {
-          matchResult = pathToRegexp.match(r.path)(pathOnly);
+          matchResult = pathToRegexp.match(r.path)(pathOnly) as
+            | { params: Record<string, string> }
+            | false;
           return matchResult;
         } catch (e) {
           ssrLog.debug.log(
@@ -83,8 +84,8 @@ export const getServer = ({
     }
 
     // Extract and assign params from the route match result
-    if (matchResult && "params" in matchResult) {
-      req.params = matchResult.params;
+    if (matchResult && typeof matchResult === "object") {
+      req.params = (matchResult as { params: Record<string, string> }).params;
     }
 
     ssrLog.info.log("req.originalUrl %s (%s)", req.originalUrl, route.path);
