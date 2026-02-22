@@ -6,7 +6,8 @@
     "rootDir": "./src",
     "jsx": "react-jsx",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
-    "declaration": true,
+    "declaration": false,
+    "declarationMap": false,
     "types": ["express", "page-metadata-parser"],
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
