@@ -83,7 +83,7 @@ export class FixEventPayloadURLs1771771505266 implements MigrationInterface {
     `);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {
+  public async down(_queryRunner: QueryRunner): Promise<void> {
     // Restoring the original bad data is intentionally a no-op:
     // this migration only removes invalid values, there is nothing safe to put back.
   }
