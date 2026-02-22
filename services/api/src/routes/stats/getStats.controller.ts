@@ -27,7 +27,7 @@ export const MakeGetStatsRoute: Route = (r, ctx) => {
         return pipe(
           CreateEntityStatsPubSub.publish({ type, id })(ctx),
           TE.mapLeft(toControllerError),
-          TE.map(() => ({})),
+          TE.map(() => ({ actors: {}, groups: {}, keywords: {} })),
         );
       }),
       TE.map((data) => ({

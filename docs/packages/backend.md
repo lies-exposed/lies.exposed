@@ -54,6 +54,66 @@ Provides shared backend utilities, database entities, context definitions, provi
 | `ImgProcClient` | Image processing (Sharp) |
 | `QueueProvider` | File-based job queue |
 
+### Redis Pub/Sub (`/src/providers/redis/`)
+
+The `RedisPubSub` factory creates typed pub/sub channels used to trigger worker actions from the API:
+
+```typescript
+// Define a channel (packages/@liexp/backend/src/providers/redis/RedisPubSub.ts)
+export const RedisPubSub = <P>(
+  channel: string,
+  decoder: (input: unknown) => Either<ParseError, P>,
+) => ({ channel, publish, subscribe });
+```
+
+#### Naming convention
+
+Channels follow `<resource>:<action>` (e.g. `link:search`, `link:take-screenshot`).
+
+#### Channel registry (`/src/pubsub/`)
+
+All pub/sub channel definitions are co-located under `/src/pubsub/<resource>/`:
+
+```
+packages/@liexp/backend/src/pubsub/
+└── links/
+    ├── index.ts                          # Exports LinkPubSub object
+    ├── searchLinks.pubSub.ts             # link:search
+    ├── takeLinkScreenshot.pubSub.ts      # link:take-screenshot
+    └── updateEntitiesFromURL.pubSub.ts   # link:update-entities-from-url
+```
+
+The `index.ts` barrel re-exports all channels under a named object:
+
+```typescript
+// packages/@liexp/backend/src/pubsub/links/index.ts
+const LinkPubSub = {
+  SearchLinks: SearchLinksPubSub,
+  TakeLinkScreenshot: TakeLinkScreenshotPubSub,
+  UpdateEntitiesFromURL: UpdateEntitiesFromURLPubSub,
+};
+```
+
+#### Adding a new channel
+
+1. Create `packages/@liexp/backend/src/pubsub/<resource>/<name>.pubSub.ts`:
+
+```typescript
+import { RedisPubSub } from "../../providers/redis/RedisPubSub.js";
+import { Schema } from "effect/index";
+
+export const MyActionPubSub = RedisPubSub(
+  "<resource>:<action>",
+  Schema.decodeUnknownEither(
+    Schema.Struct({ id: UUID, /* payload fields */ }),
+  ),
+);
+```
+
+2. Export it from the resource `index.ts`.
+3. Create the corresponding worker subscriber (see [Worker Service](../services/worker.md#adding-a-subscriber)).
+4. Publish from the API after the triggering operation (using `TE.chainFirst`).
+
 ### Express Middleware (`/src/express/`)
 
 - `authenticationHandler` - JWT/permission validation
