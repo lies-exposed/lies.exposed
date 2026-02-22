@@ -20,6 +20,7 @@
   "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"],
   "references": [
+    { "path": "../eslint-config" },
     {
       "path": "../core"
     },

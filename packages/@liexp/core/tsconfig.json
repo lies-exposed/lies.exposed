@@ -19,5 +19,8 @@
     "typeRoots": ["../../../node_modules/@types"]
   },
   "include": ["./src", "./typings"],
-  "exclude": ["node_modules", "lib"]
+  "exclude": ["node_modules", "lib"],
+  "references": [
+    { "path": "../eslint-config" }
+  ]
 }

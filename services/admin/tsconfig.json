@@ -45,5 +45,8 @@
   "exclude": [
     "node_modules",
     "build"
+  ],
+  "references": [
+    { "path": "../../packages/@liexp/eslint-config" }
   ]
 }

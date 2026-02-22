@@ -69,6 +69,7 @@
     "**/lib"
   ],
   "references": [
+    { "path": "../../packages/@liexp/eslint-config" },
     {
       "path": "../../packages/@liexp/core"
     },
