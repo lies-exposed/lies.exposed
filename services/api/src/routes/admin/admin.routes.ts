@@ -7,6 +7,7 @@ import {
   MakeAdminTriggerExtractEntitiesWithNLPRoute,
   MakeAdminGetExtractEntitiesWithNLPRoute,
 } from "./nlp/extractEntitiesWithNLP.controller.js";
+import { MakeAdminGetQueueStatsRoute } from "./queues/getQueueStats.controller.js";
 import { MakeQueueRoutes } from "./queues/queues.routes.js";
 import { type ServerContext } from "#context/context.type.js";
 
@@ -15,6 +16,7 @@ export const MakeAdminRoutes = (router: Router, ctx: ServerContext): void => {
   MakeAdminSearchAreaCoordinatesRoute(router, ctx);
   MakeAdminGetLinkStatsRoute(router, ctx);
   MakeAdminGetMediaStatsRoute(router, ctx);
+  MakeAdminGetQueueStatsRoute(router, ctx);
   MakeAdminTriggerExtractEntitiesWithNLPRoute(router, ctx);
   MakeAdminGetExtractEntitiesWithNLPRoute(router, ctx);
   // queues

@@ -7,6 +7,7 @@ import {
   MediaIcon,
 } from "@liexp/ui/lib/components/Common/Icons/index.js";
 import QueriesRenderer from "@liexp/ui/lib/components/QueriesRenderer.js";
+import { QueueIcon } from "@liexp/ui/lib/components/mui/icons.js";
 import {
   Box,
   Card,
@@ -29,7 +30,7 @@ export const AdminStats: React.FC = () => {
         `/${resource}?filter=${JSON.stringify({ emptyThumbnail: true })}`,
       );
     },
-    [],
+    [navigate],
   );
 
   const onNeedRegenerateThumbnailClick = React.useCallback(
@@ -40,7 +41,7 @@ export const AdminStats: React.FC = () => {
         })}`,
       );
     },
-    [],
+    [navigate],
   );
 
   const onNoPublishDateClick = React.useCallback(
@@ -49,38 +50,65 @@ export const AdminStats: React.FC = () => {
         `/${resource}?filter=${JSON.stringify({ noPublishDate: true })}`,
       );
     },
-    [],
+    [navigate],
+  );
+
+  const onQueueStatusClick = React.useCallback(
+    (status: "failed" | "pending" | "processing") => () => {
+      void navigate(`/queues?filter=${JSON.stringify({ status: [status] })}`);
+    },
+    [navigate],
   );
 
   return (
-    <Grid container spacing={2}>
-      <Grid size={{ md: 4, sm: 6 }}>
+    <Grid container spacing={3}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
         <QueriesRenderer
           queries={(Q) => ({
             media: Q.Admin.Custom.GetMediaStats.useQuery(undefined),
+          })}
+          render={({ media }) => (
+            <MediaStatsCard
+              onNoThumbnailsClick={onNoThumbnailsClick("media")}
+              onRegenerateThumbnailClick={onNeedRegenerateThumbnailClick(
+                "media",
+              )}
+              data={media.data}
+              total={media.total}
+              totals={media.totals}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+        <QueriesRenderer
+          queries={(Q) => ({
             links: Q.Admin.Custom.GetLinkStats.useQuery(undefined),
           })}
-          render={({ media, links }) => {
-            return (
-              <Stack>
-                <MediaStatsCard
-                  onNoThumbnailsClick={onNoThumbnailsClick("media")}
-                  onRegenerateThumbnailClick={onNeedRegenerateThumbnailClick(
-                    "media",
-                  )}
-                  data={media.data}
-                  total={media.total}
-                  totals={media.totals}
-                />
-                <LinksStatsCard
-                  onNoThumbnailsClick={onNoThumbnailsClick("links")}
-                  onNoPublishDateClick={onNoPublishDateClick("links")}
-                  total={links.total}
-                  totals={links.totals}
-                />
-              </Stack>
-            );
-          }}
+          render={({ links }) => (
+            <LinksStatsCard
+              onNoThumbnailsClick={onNoThumbnailsClick("links")}
+              onNoPublishDateClick={onNoPublishDateClick("links")}
+              total={links.total}
+              totals={links.totals}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+        <QueriesRenderer
+          queries={(Q) => ({
+            queues: Q.Admin.Custom.GetQueueStats.useQuery(undefined),
+          })}
+          render={({ queues }) => (
+            <QueueStatsCard
+              onFailedClick={onQueueStatusClick("failed")}
+              onIncompleteClick={onQueueStatusClick("pending")}
+              stats={queues}
+            />
+          )}
         />
       </Grid>
     </Grid>
@@ -237,6 +265,67 @@ const LinksStatsCard: React.FC<{
         >
           <Typography>No Publish Date:</Typography>
           <Typography variant="h6">{totals.noPublishDate}</Typography>
+        </Stack>
+      </CardContent>
+    </Card>
+  );
+};
+
+const QueueStatsCard: React.FC<{
+  onFailedClick: () => void;
+  onIncompleteClick: () => void;
+  stats: {
+    failed: number;
+    pending: number;
+    processing: number;
+    completed: number;
+    total: number;
+  };
+}> = ({ stats, onFailedClick, onIncompleteClick }) => {
+  const incompleteCount = (stats.pending ?? 0) + (stats.processing ?? 0);
+  return (
+    <Card>
+      <CardContent>
+        <Stack
+          alignContent={"center"}
+          alignItems={"center"}
+          direction="row"
+          spacing={2}
+        >
+          <QueueIcon />
+          <Typography variant="h5">Queues ({stats.total})</Typography>
+        </Stack>
+
+        <Stack
+          alignContent={"center"}
+          alignItems={"center"}
+          direction="row"
+          spacing={2}
+          onClick={onFailedClick}
+        >
+          <Typography>Failed:</Typography>
+          <Typography variant="h6">{stats.failed}</Typography>
+        </Stack>
+
+        <Stack
+          alignContent={"center"}
+          alignItems={"center"}
+          direction="row"
+          spacing={2}
+          onClick={onIncompleteClick}
+        >
+          <Typography>Incomplete (Pending + Processing):</Typography>
+          <Typography variant="h6">{incompleteCount}</Typography>
+        </Stack>
+
+        <Stack
+          alignContent={"center"}
+          alignItems={"center"}
+          direction="row"
+          spacing={2}
+        >
+          <Typography>Completed:</Typography>
+          <Typography variant="h6">{stats.completed}</Typography>
         </Stack>
       </CardContent>
     </Card>
