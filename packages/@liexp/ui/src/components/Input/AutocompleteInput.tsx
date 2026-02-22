@@ -35,7 +35,7 @@ export interface AutocompleteInputProps<L, T> extends Omit<
    * This allows access to relations (media, actors, etc.) when rendering options.
    */
   renderOption?: (
-    props: React.HTMLAttributes<HTMLLIElement> & { key: string },
+    props: React.HTMLAttributes<HTMLLIElement> & { key?: React.Key },
     option: T,
     state: { selected: boolean; index: number; inputValue: string },
     responseData: EndpointOutputType<L> | undefined,
