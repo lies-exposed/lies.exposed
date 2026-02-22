@@ -1,5 +1,5 @@
 import { type URL, type UUID } from "@liexp/io/lib/http/Common/index.js";
-import { Link } from "@liexp/io/lib/http/index.js";
+import * as Link from "@liexp/io/lib/http/Link.js";
 import {
   Column,
   Entity,

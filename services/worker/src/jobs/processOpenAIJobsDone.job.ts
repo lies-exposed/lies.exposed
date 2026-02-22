@@ -17,10 +17,10 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { APPROVED, LINKS } from "@liexp/io/lib/http/Link.js";
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
@@ -104,7 +104,9 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
     fp.RTE.right(job),
     fp.RTE.chain((job) => {
       if (Schema.is(OpenAIUpdateEntitiesFromURLType)(job.type)) {
-        const linkId = (job.data as { linkId?: string }).linkId as UUID | undefined;
+        const linkId = (job.data as { linkId?: string }).linkId as
+          | UUID
+          | undefined;
         if (!linkId) return fp.RTE.of(job);
         return pipe(
           LinkRepository.findOneOrFail({

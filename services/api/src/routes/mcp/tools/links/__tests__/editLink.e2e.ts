@@ -44,7 +44,7 @@ describe("MCP EDIT_LINK Tool", () => {
       links: [],
       media: [],
       keywords: [],
-        status: undefined,
+      status: undefined,
       socialPosts: [],
       actors: [],
       stories: [],

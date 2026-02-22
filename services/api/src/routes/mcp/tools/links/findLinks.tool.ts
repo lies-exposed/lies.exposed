@@ -58,9 +58,7 @@ export const findLinksToolTask = ({
   CallToolResult
 > => {
   const statusFilter: Status[] =
-    status && status.length > 0
-      ? (status as Status[])
-      : [APPROVED.literals[0]];
+    status && status.length > 0 ? (status as Status[]) : [APPROVED.literals[0]];
 
   return (ctx: ServerContext) =>
     pipe(
