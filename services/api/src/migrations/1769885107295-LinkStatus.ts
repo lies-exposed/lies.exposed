@@ -10,6 +10,9 @@ export class LinkStatus1769885107295 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "link" ADD "status" "public"."link_status_enum" NOT NULL DEFAULT 'DRAFT'`,
     );
+    await queryRunner.query(
+      `UPDATE "link" SET "status" = 'APPROVED' WHERE "publishDate" IS NOT NULL`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
