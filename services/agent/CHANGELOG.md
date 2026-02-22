@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...agent@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* **workspace:** add @liexp/eslint-config to tsconfig references in all packages/services ([#3225](https://github.com/lies-exposed/lies.exposed/issues/3225)) ([6607a57](https://github.com/lies-exposed/lies.exposed/commit/6607a57d4fcc70a2c4910fde55eb5d333aa6f6c0))
+
+
+### Miscellaneous
+
+* **workspace:** disable type generation for services build ([#3224](https://github.com/lies-exposed/lies.exposed/issues/3224)) ([4dc573f](https://github.com/lies-exposed/lies.exposed/commit/4dc573f90a5963d2784ecfc460647ad260828194))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.3
+    * @liexp/core bumped to 0.4.3
+    * @liexp/io bumped to 0.4.3
+    * @liexp/shared bumped to 0.4.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.3
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...agent@0.4.2) (2026-02-19)
 
 

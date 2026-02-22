@@ -1,5 +1,35 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...web@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* **web:** mobile layout responsiveness ([#3221](https://github.com/lies-exposed/lies.exposed/issues/3221)) ([55bbb04](https://github.com/lies-exposed/lies.exposed/commit/55bbb046a4e5ee397516c6c324233d504ed16655))
+* **web:** route matching order ([#3226](https://github.com/lies-exposed/lies.exposed/issues/3226)) ([4521a0e](https://github.com/lies-exposed/lies.exposed/commit/4521a0e01f42de0c79909b3fd9a894e382f7d2c6))
+* **workspace:** add @liexp/eslint-config to tsconfig references in all packages/services ([#3225](https://github.com/lies-exposed/lies.exposed/issues/3225)) ([6607a57](https://github.com/lies-exposed/lies.exposed/commit/6607a57d4fcc70a2c4910fde55eb5d333aa6f6c0))
+
+
+### Miscellaneous
+
+* **workspace:** added design system definition and documentation ([#3220](https://github.com/lies-exposed/lies.exposed/issues/3220)) ([0399f5c](https://github.com/lies-exposed/lies.exposed/commit/0399f5ce1961a6e944a140eedff05f69dd165524))
+* **workspace:** disable type generation for services build ([#3224](https://github.com/lies-exposed/lies.exposed/issues/3224)) ([4dc573f](https://github.com/lies-exposed/lies.exposed/commit/4dc573f90a5963d2784ecfc460647ad260828194))
+* **workspace:** local https certificate ([#3219](https://github.com/lies-exposed/lies.exposed/issues/3219)) ([b7b597a](https://github.com/lies-exposed/lies.exposed/commit/b7b597ab4fbde0d977e9d1674be78364539d9b0e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.3
+    * @liexp/core bumped to 0.4.3
+    * @liexp/io bumped to 0.4.3
+    * @liexp/shared bumped to 0.4.3
+    * @liexp/ui bumped to 0.4.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.3
+    * @liexp/test bumped to 0.4.3
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...web@0.4.2) (2026-02-19)
 
 

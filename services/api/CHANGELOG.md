@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...api@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* **admin:** add queue stats card to dashboard ([#3223](https://github.com/lies-exposed/lies.exposed/issues/3223)) ([d533022](https://github.com/lies-exposed/lies.exposed/commit/d533022076cb1120c8842af589d1a6022e5472d8))
+* **backend:** added status to LinkEntity ([#3156](https://github.com/lies-exposed/lies.exposed/issues/3156)) ([71980bf](https://github.com/lies-exposed/lies.exposed/commit/71980bf2e401423c85cb1722e8cff338792b1864))
+* io namespace imports ([#3216](https://github.com/lies-exposed/lies.exposed/issues/3216)) ([0efdfc6](https://github.com/lies-exposed/lies.exposed/commit/0efdfc67a6b43d34a874a3b6fda8169d10486948))
+* **workspace:** add @liexp/eslint-config to tsconfig references in all packages/services ([#3225](https://github.com/lies-exposed/lies.exposed/issues/3225)) ([6607a57](https://github.com/lies-exposed/lies.exposed/commit/6607a57d4fcc70a2c4910fde55eb5d333aa6f6c0))
+
+
+### Miscellaneous
+
+* **workspace:** disable type generation for services build ([#3224](https://github.com/lies-exposed/lies.exposed/issues/3224)) ([4dc573f](https://github.com/lies-exposed/lies.exposed/commit/4dc573f90a5963d2784ecfc460647ad260828194))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.3
+    * @liexp/core bumped to 0.4.3
+    * @liexp/io bumped to 0.4.3
+    * @liexp/shared bumped to 0.4.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.3
+    * @liexp/test bumped to 0.4.3
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...api@0.4.2) (2026-02-19)
 
 
