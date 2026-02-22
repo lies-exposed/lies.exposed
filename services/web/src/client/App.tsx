@@ -55,15 +55,17 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
                     >
                       <r.route />
                     </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <Footer
-                        logoSrc={logo192}
-                        style={{
-                          paddingLeft:
-                            pathname === "/events" && !isDownSM ? 240 : 0,
-                        }}
-                      />
-                    </Grid>
+                     <Grid size={{ xs: 12 }}>
+                       <Footer
+                         logoSrc={logo192}
+                         style={{
+                           paddingLeft: isDownSM ? 0 : 16,
+                           paddingRight: isDownSM ? 0 : 16,
+                           paddingTop: theme.spacing(2),
+                           paddingBottom: theme.spacing(2),
+                         }}
+                       />
+                     </Grid>
                   </Grid>
                 </React.Suspense>
               }
