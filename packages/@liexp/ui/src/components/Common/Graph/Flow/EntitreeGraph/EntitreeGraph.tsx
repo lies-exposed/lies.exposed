@@ -23,27 +23,6 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-const legendStyle: React.CSSProperties = {
-  display: "flex",
-  gap: 12,
-  fontSize: 11,
-  alignItems: "center",
-  background: "rgba(255,255,255,0.9)",
-  padding: PADDING_SM,
-  borderRadius: 4,
-  border: "1px solid #eee",
-};
-
-const emptyStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "100%",
-  height: "100%",
-  color: "#999",
-  fontSize: 13,
-};
-
 interface EntitreeGraphProps {
   tree: any;
   rootId: string;
@@ -57,6 +36,41 @@ const EntitreeGraphInner: React.FC<EntitreeGraphProps> = ({
 }) => {
   const theme = useTheme();
   const { fitView } = useReactFlow();
+
+  // Create theme-aware legend and empty styles
+  const legendStyle = React.useMemo<React.CSSProperties>(
+    () => ({
+      display: "flex",
+      gap: 12,
+      fontSize: 11,
+      alignItems: "center",
+      background:
+        theme.palette.mode === "dark"
+          ? "rgba(30, 30, 30, 0.95)"
+          : "rgba(255, 255, 255, 0.95)",
+      color: theme.palette.text.primary,
+      padding: PADDING_SM,
+      borderRadius: 4,
+      border:
+        theme.palette.mode === "dark"
+          ? `1px solid ${theme.palette.grey[700]}`
+          : `1px solid ${theme.palette.grey[300]}`,
+    }),
+    [theme.palette.mode, theme.palette.text.primary, theme.palette.grey],
+  );
+
+  const emptyStyle = React.useMemo<React.CSSProperties>(
+    () => ({
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: "100%",
+      height: "100%",
+      color: theme.palette.text.secondary,
+      fontSize: 13,
+    }),
+    [theme.palette.text.secondary],
+  );
 
   // Create legend items with theme-based colors
   const legendItems = React.useMemo(

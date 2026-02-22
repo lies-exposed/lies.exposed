@@ -1,7 +1,13 @@
-import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
+import {
+  EventType,
+  type SearchEvent,
+} from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
@@ -178,7 +184,9 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                       ? query.eventType
                       : typeof query.eventType === "string"
                         ? [query.eventType]
-                        : undefined,
+                        : (EventType.members.map(
+                            (t) => t.literals[0],
+                          ) as unknown as NonEmptyArray<EventType>),
                   ids: [actor.id],
                   startDate: formatDate(subYears(new Date(), 2)),
                   endDate: formatDate(new Date()),

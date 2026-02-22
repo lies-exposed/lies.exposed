@@ -18,60 +18,6 @@ import {
 
 const { Top, Bottom, Left, Right } = Position;
 
-const nodeStyle: React.CSSProperties = {
-  minHeight: NODE_MIN_HEIGHT,
-  minWidth: NODE_MIN_WIDTH,
-  maxWidth: NODE_MAX_WIDTH,
-  display: "flex",
-  alignItems: "center",
-  gap: parseFloat(SPACING_BASE),
-  padding: PADDING_COMPACT,
-  borderRadius: NODE_BORDER_RADIUS,
-  backgroundColor: "#fff",
-  boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
-  position: "relative",
-};
-
-const avatarStyle: React.CSSProperties = {
-  width: AVATAR_SIZE,
-  height: AVATAR_SIZE,
-  borderRadius: "50%",
-  objectFit: "cover",
-  flexShrink: 0,
-};
-
-const avatarPlaceholderStyle: React.CSSProperties = {
-  ...avatarStyle,
-  backgroundColor: "#e0e0e0",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  fontSize: 10,
-  color: "#757575",
-};
-
-const nameStyle: React.CSSProperties = {
-  fontSize: FONT_SIZE_NODE,
-  fontWeight: 500,
-  lineHeight: 1.2,
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-};
-
-const badgeStyle: React.CSSProperties = {
-  position: "absolute",
-  top: -7,
-  right: 3,
-  fontSize: FONT_SIZE_BADGE,
-  fontWeight: 600,
-  color: "#fff",
-  padding: PADDING_BADGE,
-  borderRadius: BADGE_BORDER_RADIUS,
-  textTransform: "uppercase",
-  letterSpacing: 0.4,
-};
-
 type NodeRole = "root" | "spouse" | "partner" | "sibling" | "default";
 
 const getNodeRole = (data: any): NodeRole => {
@@ -99,6 +45,63 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
     // For spouse, partner, sibling - use relationship colors
     borderColor = getRelationshipColor(theme, role as any);
   }
+
+  // Theme-aware styles
+  const nodeStyle: React.CSSProperties = {
+    minHeight: NODE_MIN_HEIGHT,
+    minWidth: NODE_MIN_WIDTH,
+    maxWidth: NODE_MAX_WIDTH,
+    display: "flex",
+    alignItems: "center",
+    gap: parseFloat(SPACING_BASE),
+    padding: PADDING_COMPACT,
+    borderRadius: NODE_BORDER_RADIUS,
+    backgroundColor: theme.palette.background.paper,
+    color: theme.palette.text.primary,
+    boxShadow: `0 1px 2px ${theme.palette.mode === "dark" ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)"}`,
+    position: "relative",
+  };
+
+  const avatarStyle: React.CSSProperties = {
+    width: AVATAR_SIZE,
+    height: AVATAR_SIZE,
+    borderRadius: "50%",
+    objectFit: "cover",
+    flexShrink: 0,
+  };
+
+  const avatarPlaceholderStyle: React.CSSProperties = {
+    ...avatarStyle,
+    backgroundColor: theme.palette.grey[300],
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 10,
+    color: theme.palette.text.secondary,
+  };
+
+  const nameStyle: React.CSSProperties = {
+    fontSize: FONT_SIZE_NODE,
+    fontWeight: 500,
+    lineHeight: 1.2,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: theme.palette.text.primary,
+  };
+
+  const badgeStyle: React.CSSProperties = {
+    position: "absolute",
+    top: -7,
+    right: 3,
+    fontSize: FONT_SIZE_BADGE,
+    fontWeight: 600,
+    color: theme.palette.mode === "dark" ? theme.palette.grey[900] : "#fff",
+    padding: PADDING_BADGE,
+    borderRadius: BADGE_BORDER_RADIUS,
+    textTransform: "uppercase",
+    letterSpacing: 0.4,
+  };
 
   const getTargetPosition = () => {
     if (isSpouse) {
