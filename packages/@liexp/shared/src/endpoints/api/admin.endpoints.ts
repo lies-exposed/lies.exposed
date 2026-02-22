@@ -126,6 +126,18 @@ export const GetLinkStats = Endpoint({
   }),
 });
 
+export const GetQueueStats = Endpoint({
+  Method: "GET",
+  getPath: () => `/admins/queues/stats`,
+  Output: Schema.Struct({
+    failed: Schema.Number,
+    pending: Schema.Number,
+    processing: Schema.Number,
+    completed: Schema.Number,
+    total: Schema.Number,
+  }),
+});
+
 const TriggerExtractEntitiesWithNLP = Endpoint({
   Method: "POST",
   getPath: () => `/admins/nlp/extract-entities/trigger`,
@@ -159,6 +171,7 @@ const admin = ResourceEndpoints({
     SearchAreaCoordinates,
     GetLinkStats,
     GetMediaStats,
+    GetQueueStats,
     TriggerExtractEntitiesWithNLP,
     GetExtractEntitiesWithNLP,
   },
