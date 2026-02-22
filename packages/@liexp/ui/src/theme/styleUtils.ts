@@ -2,6 +2,44 @@
 // Reusable style patterns to prevent CSS bloat and duplication
 
 import { SxProps, Theme } from '@mui/material/styles';
+import { spacingConstants } from './index.js';
+
+// Re-export spacing constants for convenience
+export const {
+  XS,
+  SM,
+  BASE,
+  MD,
+  LG,
+  XL,
+  PADDING_COMPACT,
+  PADDING_BADGE,
+  PADDING_SM,
+  PADDING_MD,
+  PADDING_LG,
+  MARGIN_XS,
+  MARGIN_SM,
+  MARGIN_MD,
+  MARGIN_BOTTOM_SM,
+  MARGIN_LEFT_SM,
+  NODE_MIN_HEIGHT,
+  NODE_MIN_WIDTH,
+  NODE_MAX_WIDTH,
+  AVATAR_SIZE,
+  BADGE_BORDER_RADIUS,
+  NODE_BORDER_RADIUS,
+  SANKEY_GRAPH_MAX_HEIGHT,
+  SANKEY_GRAPH_MARGIN,
+  FONT_SIZE_BADGE,
+  FONT_SIZE_LEGEND,
+  FONT_SIZE_NODE,
+} = spacingConstants;
+
+// Convenient aliases for common spacing patterns
+export const SPACING_BASE = BASE;
+export const SPACING_LG = LG;
+export const SPACING_3XL = spacingConstants["3XL"];
+export const SPACING_4XL = spacingConstants["4XL"];
 
 /**
  * FLEXBOX UTILITIES

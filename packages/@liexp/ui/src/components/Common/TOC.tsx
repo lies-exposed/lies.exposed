@@ -1,6 +1,7 @@
 import * as React from "react";
 import ReactTOC from "react-toc";
 import { styled } from "../../theme/index.js";
+import { SPACING_LG } from "../../theme/styleUtils.js";
 
 const PREFIX = "TOC";
 
@@ -10,7 +11,7 @@ const classes = {
 
 const StyledReactTOC = styled(ReactTOC)(({ theme }) => ({
   [`&.${classes.root}`]: {
-    margin: "10px 0",
+    margin: `${SPACING_LG} 0`,
     padding: 0,
     fontFamily: theme.typography.h1.fontFamily,
   },

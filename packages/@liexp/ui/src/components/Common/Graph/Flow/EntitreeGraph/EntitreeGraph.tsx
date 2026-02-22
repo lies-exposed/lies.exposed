@@ -13,6 +13,7 @@ import { CustomNode } from "./CustomNode.js";
 import { layoutElements } from "./layout-elements.js";
 import { useTheme } from "../../../../../theme/index.js";
 import { getRelationshipColor } from "../../../../../theme/styleUtils.js";
+import { PADDING_SM } from "../../../../../theme/styleUtils.js";
 
 import "@xyflow/react/dist/style.css";
 
@@ -26,7 +27,7 @@ const legendStyle: React.CSSProperties = {
   fontSize: 11,
   alignItems: "center",
   background: "rgba(255,255,255,0.9)",
-  padding: "4px 8px",
+  padding: PADDING_SM,
   borderRadius: 4,
   border: "1px solid #eee",
 };

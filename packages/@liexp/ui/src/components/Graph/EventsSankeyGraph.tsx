@@ -40,6 +40,10 @@ import * as React from "react";
 import { type NetworkScale } from "../Common/Graph/Network/Network.js";
 import SankeyGraph from "../Common/Graph/SankeyGraph.js";
 import { Box, Grid } from "../mui/index.js";
+import {
+  SANKEY_GRAPH_MAX_HEIGHT,
+  SANKEY_GRAPH_MARGIN,
+} from "../../theme/styleUtils.js";
 
 type GroupByItem = Actor.Actor | Group.Group | Keyword.Keyword;
 
@@ -78,13 +82,13 @@ export const EventsSankeyGraph: React.FC<EventsSankeyGraphProps> = (props) => {
     <Box display="flex" flexDirection="column" width="100%">
       <ParentSize style={{ minHeight: 400 }}>
         {({ width, height }) => {
-          const networkProps = createEventNetworkGraphProps({
-            ...props,
-            groupBy,
-            width,
-            height: height > 800 ? 800 : height,
-            margin: { vertical: 40, horizontal: 40 },
-          });
+           const networkProps = createEventNetworkGraphProps({
+             ...props,
+             groupBy,
+             width,
+             height: height > SANKEY_GRAPH_MAX_HEIGHT ? SANKEY_GRAPH_MAX_HEIGHT : height,
+             margin: SANKEY_GRAPH_MARGIN,
+           });
 
           return (
             <Grid

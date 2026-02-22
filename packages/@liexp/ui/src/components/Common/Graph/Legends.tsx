@@ -1,6 +1,12 @@
 import { LegendItem, LegendLabel, LegendOrdinal } from "@visx/legend";
 import { type ScaleOrdinal } from "d3-scale";
 import * as React from "react";
+import {
+  PADDING_MD,
+  MARGIN_MD,
+  MARGIN_LEFT_SM,
+  PADDING_LG,
+} from "../../../theme/styleUtils.js";
 
 interface LegendsProps {
   title: string;
@@ -28,11 +34,11 @@ function LegendDemo({
           color: #efefef;
           font-size: 10px;
           font-family: arial;
-          padding: 10px 10px;
+          padding: ${PADDING_MD};
           float: left;
           border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 8px;
-          margin: 5px 5px;
+          margin: ${MARGIN_MD};
         }
         .title {
           font-size: 12px;
@@ -56,7 +62,7 @@ export const Legends: React.FC<LegendsProps> = (props) => {
                   {labels.map((label, i) => (
                     <LegendItem
                       key={`legend-quantile-${i}`}
-                      margin="0 5px"
+                      margin={MARGIN_LEFT_SM}
                       onClick={() => {}}
                     >
                       <svg width={10} height={10}>
@@ -75,7 +81,7 @@ export const Legends: React.FC<LegendsProps> = (props) => {
                           />
                         )}
                       </svg>
-                      <LegendLabel align="left" margin="0 0 0 4px">
+                      <LegendLabel align="left" margin={MARGIN_LEFT_SM}>
                         {label.text}
                       </LegendLabel>
                     </LegendItem>
@@ -91,7 +97,7 @@ export const Legends: React.FC<LegendsProps> = (props) => {
                 font-family: arial;
                 font-weight: 900;
                 border-radius: 14px;
-                padding: 24px 24px 24px 32px;
+                padding: ${PADDING_LG};
                 overflow-y: auto;
                 flex-grow: 1;
                 color: black;
