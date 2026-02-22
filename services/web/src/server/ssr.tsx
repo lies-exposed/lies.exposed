@@ -51,7 +51,7 @@ export const getServer = ({
     res.status(200).send({ data: { status: "OK" } });
   });
 
-  app.all("*", (req, res, next) => {
+  app.all(/./, (req, res, next) => {
     ssrLog.debug.log("req.originalUrl %s (%s)", req.originalUrl, req.baseUrl);
     ssrLog.debug.log("req.params %O", req.params);
 
