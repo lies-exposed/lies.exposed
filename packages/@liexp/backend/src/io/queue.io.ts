@@ -7,43 +7,37 @@ import * as E from "fp-ts/lib/Either.js";
 import { type QueueEntity } from "../entities/Queue.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
-/**
- * Queue IO decoder that handles ISO date strings from API responses
- * Uses Schema.DateFromString to transform string dates to Date objects
- */
-const QueueDecoder = Schema.Struct({
-  id: Schema.String,
-  result: Schema.Union(Schema.String, Schema.Null, Schema.Any),
-  prompt: Schema.Union(Schema.String, Schema.Null),
-  resource: Schema.String,
-  status: Schema.String,
-  error: Schema.Union(
-    Schema.Record({ key: Schema.String, value: Schema.Any }),
-    Schema.Null,
-  ),
-  type: Schema.String,
-  data: Schema.Any,
-  createdAt: Schema.DateFromString,
-  updatedAt: Schema.DateFromString,
-  deletedAt: Schema.NullOr(Schema.DateFromString),
-});
-
 export const toQueueIO = (
   unknownQueue: QueueEntity | Record<string, unknown>,
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
   return pipe(
-    unknownQueue,
-    Schema.decodeUnknownEither(QueueDecoder),
-    E.chain((decoded) =>
+    E.Do,
+    E.bind("queue", () => {
+      const q = unknownQueue as any;
+      return E.right({
+        id: q.id,
+        result: q.result ?? null,
+        prompt: q.prompt ?? null,
+        resource: q.resource,
+        status: q.status,
+        error: q.error ?? null,
+        type: q.type,
+        data: q.data,
+        createdAt: q.createdAt instanceof Date ? q.createdAt : new Date(q.createdAt),
+        updatedAt: q.updatedAt instanceof Date ? q.updatedAt : new Date(q.updatedAt),
+        deletedAt: q.deletedAt ? (q.deletedAt instanceof Date ? q.deletedAt : new Date(q.deletedAt)) : null,
+      });
+    }),
+    E.chain(({ queue }) =>
       pipe(
-        decoded,
+        queue,
         Schema.decodeUnknownEither(io.http.Queue.Queue),
-      ),
-    ),
-    E.mapLeft((e) =>
-      DecodeError.of(
-        `Failed to decode queue (${JSON.stringify(unknownQueue)})`,
-        e,
+        E.mapLeft((e) =>
+          DecodeError.of(
+            `Failed to decode queue (${JSON.stringify(unknownQueue)})`,
+            e,
+          ),
+        ),
       ),
     ),
   );
