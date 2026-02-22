@@ -231,11 +231,11 @@ export const createResponsiveStyle = (
  * Consistent spacing patterns
  */
 
-export const spacingX = (theme: Theme, multiplier: number): number => {
+export const spacingX = (theme: Theme, multiplier: number): string => {
   return theme.spacing(multiplier);
 };
 
-export const spacingY = (theme: Theme, multiplier: number): number => {
+export const spacingY = (theme: Theme, multiplier: number): string => {
   return theme.spacing(multiplier);
 };
 

@@ -13,6 +13,7 @@ import {
   Icons,
   Stack,
 } from "../mui/index.js";
+import * as styles from "./LinkCard.styles.js";
 
 export interface Link extends http.Link.Link {
   selected: boolean;
@@ -40,14 +41,7 @@ const LinkCard: React.FC<LinkCardProps> = ({
 
   return (
     <Card
-      variant={link.selected ? "outlined" : "elevation"}
-      style={{
-        display: "flex",
-        width: "100%",
-        flexDirection: "column",
-        height: "100%",
-        ...style,
-      }}
+      sx={styles.getCardContainerSx(variant)}
       onClick={() => {
         onClick(link);
       }}
@@ -61,18 +55,11 @@ const LinkCard: React.FC<LinkCardProps> = ({
             component="img"
             image={link.image?.thumbnail}
             loading="lazy"
-            style={{
-              height: 200,
-              display: "flex",
-              maxWidth: variant === "horizontal" ? 300 : "100%",
-              // flexBasis: "40%",
-              flexGrow: 0,
-              flexShrink: 1,
-            }}
+            sx={styles.getMediaImageSx(variant)}
           />
         ) : null}
 
-        <Stack flexDirection="column" flexGrow={3} flexShrink={0} spacing={2}>
+        <Stack sx={styles.contentStackSx}>
           <CardHeader
             title={<Typography variant="subtitle1">{title}</Typography>}
             subheader={
@@ -92,8 +79,9 @@ const LinkCard: React.FC<LinkCardProps> = ({
               />
             ) : null}
           </CardContent>
-          <CardActions disableSpacing>
+          <CardActions sx={styles.cardActionsSx} disableSpacing>
             <IconButton
+              sx={styles.openButtonSx}
               color="inherit"
               aria-label="Open link in a new tab"
               onClick={() => {

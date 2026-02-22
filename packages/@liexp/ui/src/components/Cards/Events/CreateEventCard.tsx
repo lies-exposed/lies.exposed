@@ -15,6 +15,7 @@ import {
   CardMedia,
   type CardProps,
 } from "../../mui/index.js";
+import * as styles from "./CreateEventCard.styles.js";
 
 interface EventCardProps extends Omit<CardProps, "onClick"> {
   event: Events.SearchEvent.SearchEvent;
@@ -35,23 +36,25 @@ const CreateEventCard: React.FC<EventCardProps> = ({
 
   return (
     <Box
+      sx={styles.wrapperBoxSx}
       onClick={() => {
         onClick(event);
       }}
     >
-      <Card {...props}>
+      <Card sx={styles.cardSx} {...props}>
         <CardMedia component="img" image={image} />
         <CardHeader
+          sx={styles.headerSx}
           avatar={<EventIcon type={event.type} />}
           title={title}
           subheader={formatDate(event.date)}
         />
-        <CardContent>
+        <CardContent sx={styles.contentSx}>
           {isValidValue(event.excerpt)
             ? getTextContentsCapped(event.excerpt, 200)
             : null}
         </CardContent>
-        <CardActions disableSpacing>
+        <CardActions sx={styles.actionsSx} disableSpacing>
           <KeywordList
             keywords={keywords.map((k) => ({ ...k, selected: true }))}
             onItemClick={() => undefined}
