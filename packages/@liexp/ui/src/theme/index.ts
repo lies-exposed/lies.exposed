@@ -53,53 +53,6 @@ const relationshipSpouse = "#e91e63";
 const relationshipPartner = "#9c27b0";
 const relationshipSibling = "#4caf50";
 
-/**
- * SPACING CONSTANTS
- * Centralized spacing values for consistent UI sizing
- * Can be used in styled() components: ({ theme }) => ({ padding: theme.spacing.PADDING_LG })
- */
-const spacingConstants = {
-  // Spacing sizes
-  XS: "3px",    // Extra small: 3px
-  SM: "4px",    // Small: 4px
-  BASE: "6px",  // Base: 6px (gap between elements)
-  MD: "8px",    // Medium: 8px
-  LG: "10px",   // Large: 10px
-  XL: "12px",   // Extra large: 12px
-  "2XL": "16px",  // 2X large: 16px
-  "3XL": "24px",  // 3X large: 24px
-  "4XL": "32px",  // 4X large: 32px
-
-  // Common padding patterns
-  PADDING_COMPACT: "3px 6px",           // 3px 6px (badges, compact nodes)
-  PADDING_BADGE: "4px 6px",             // 4px 6px (badge padding)
-  PADDING_SM: "8px 8px",                // 8px 8px (legend items)
-  PADDING_MD: "10px 10px",              // 10px 10px (legend section)
-  PADDING_LG: "24px 24px 24px 32px",    // 24px 24px 24px 32px (legend container)
-
-  // Common margin patterns
-  MARGIN_XS: "4px 4px",                 // 4px 4px (tight spacing)
-  MARGIN_SM: "0 4px",                   // 0 4px (horizontal spacing)
-  MARGIN_MD: "10px 10px",               // 10px 10px (section spacing)
-  MARGIN_BOTTOM_SM: "0 0 10px 0",       // 0 0 10px 0 (bottom spacing)
-  MARGIN_LEFT_SM: "0 0 0 4px",          // 0 0 0 4px (left spacing)
-
-  // Component sizing
-  NODE_MIN_HEIGHT: 34,      // Minimum node height
-  NODE_MIN_WIDTH: 130,      // Minimum node width
-  NODE_MAX_WIDTH: 150,      // Maximum node width
-  AVATAR_SIZE: 26,          // Avatar dimensions (square)
-  BADGE_BORDER_RADIUS: 3,   // Badge border radius
-  NODE_BORDER_RADIUS: 6,    // Node border radius
-  SANKEY_GRAPH_MAX_HEIGHT: 800,  // Max height for sankey graphs
-  SANKEY_GRAPH_MARGIN: { vertical: 40, horizontal: 40 },  // Sankey margins
-
-  // Font sizes for small elements
-  FONT_SIZE_BADGE: 8,       // Badge text size
-  FONT_SIZE_LEGEND: 10,     // Legend text size
-  FONT_SIZE_NODE: 11,       // Node label text size
-} as const;
-
 const colors = {
   primary,
   primaryLight,
@@ -424,7 +377,6 @@ export {
   ECOTheme,
   ECOThemeDark,
   colors,
-  spacingConstants,
   useTheme,
   styled,
   themeOptions,

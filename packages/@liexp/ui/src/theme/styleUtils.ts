@@ -3,13 +3,13 @@
 
 import { SxProps, Theme } from '@mui/material/styles';
 
-// Re-export spacing constants using lazy getter to avoid circular dependency
-export const XS = '3px';
-export const SM = '4px';
-export const BASE = '6px';
-export const MD = '8px';
-export const LG = '10px';
-export const XL = '12px';
+// Spacing constants exported with semantic names to avoid duplication
+export const SPACING_XS = '3px';
+export const SPACING_SM = '4px';
+export const SPACING_BASE = '6px';
+export const SPACING_MD = '8px';
+export const SPACING_LG = '10px';
+export const SPACING_XL = '12px';
 export const PADDING_COMPACT = '3px 6px';
 export const PADDING_BADGE = '4px 6px';
 export const PADDING_SM = '8px 8px';
@@ -32,9 +32,7 @@ export const FONT_SIZE_BADGE = 8;
 export const FONT_SIZE_LEGEND = 10;
 export const FONT_SIZE_NODE = 11;
 
-// Convenient aliases for common spacing patterns
-export const SPACING_BASE = BASE;
-export const SPACING_LG = LG;
+// Additional aliases for specific use cases
 export const SPACING_3XL = '24px';
 export const SPACING_4XL = '32px';
 
@@ -448,51 +446,3 @@ export const getRelationshipColor = (
   };
   return colorMap[relationType] || relationshipPalette.parent_child;
 };
-
-// Export all as namespace for convenience
-export const styles = {
-  flexCenter,
-  flexBetween,
-  flexStart,
-  flexColumn,
-  flexColumnCenter,
-  ellipsisText,
-  truncateLines,
-  mutedText,
-  captionText,
-  baseCard,
-  elevatedCard,
-  outlinedCard,
-  aspectVideo,
-  aspectSquare,
-  coverImage,
-  touchFriendlyButton,
-  fullWidthButton,
-  smallButton,
-  focusStyle,
-  inputFocusStyle,
-  darkOverlay,
-  gradientOverlay,
-  smoothTransition,
-  hoverScale,
-  hoverShadow,
-  hideScrollbar,
-  customScrollbar,
-  fullWidth,
-  fullHeight,
-  fullScreen,
-  containerMax,
-  absoluteFill,
-  mobileOnly,
-  desktopOnly,
-  gridAutoFit,
-  gridAutoFill,
-  cardWithHover,
-  flexCenterContainer,
-  responsiveImage,
-  createResponsiveStyle,
-  spacingX,
-  spacingY,
-};
-
-export default styles;
