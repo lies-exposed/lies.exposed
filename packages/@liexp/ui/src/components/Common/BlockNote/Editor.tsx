@@ -21,6 +21,7 @@ import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/inde
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
 import { styled } from "../../../theme/index.js";
+import { useThemeMode } from "../../../context/ThemeContext.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
 import { schema } from "./EditorSchema.js";
 import {
@@ -79,14 +80,13 @@ const ThemedBlockNoteView =
   (theme: "light" | "dark"): React.FC<any> =>
   (props) => <BlockNoteView {...props} theme={theme} />;
 
-const StyledBlockNoteView = styled(ThemedBlockNoteView("light"))(
-  ({ editable }) => ({
+const createStyledBlockNoteView = (theme: "light" | "dark") =>
+  styled(ThemedBlockNoteView(theme))(({ editable }) => ({
     [".bn-editor"]: {
       paddingLeft: !editable ? 0 : 54,
       paddingRight: !editable ? 0 : 54,
     },
-  }),
-);
+  }));
 
 export const BNEditor: React.FC<BNEditorProps> = ({
   content,
@@ -95,6 +95,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
   resource,
   resourceId,
 }) => {
+  const { resolvedMode } = useThemeMode();
   const initialContent = toInitialContent(content);
 
   const editor = useCreateBlockNote({
@@ -108,6 +109,11 @@ export const BNEditor: React.FC<BNEditorProps> = ({
     }
     return [];
   }, [editor.isEditable]);
+
+  const StyledBlockNoteView = React.useMemo(
+    () => createStyledBlockNoteView(resolvedMode),
+    [resolvedMode],
+  );
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
