@@ -24,6 +24,7 @@
   "include": [".storybook/*", "src", "typings"],
   "exclude": ["./node_modules", "build", "public", "eslint.config.js"],
   "references": [
+    { "path": "../../packages/@liexp/eslint-config" },
     {
       "path": "../../packages/@liexp/core"
     },
