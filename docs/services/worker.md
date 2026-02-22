@@ -77,22 +77,87 @@ type WorkerContext = ENVContext &
 | Process Done Jobs | `PROCESS_DONE_JOB_CRON` | Handle completed AI queue jobs |
 | Regenerate Thumbnails | `REGENERATE_MEDIA_THUMBNAILS_CRON` | Regenerate missing thumbnails |
 
-## Redis Subscribers
+## Redis Pub/Sub Subscribers
 
-| Subscriber | Purpose |
-|------------|---------|
-| `SearchLinksSubscriber` | Search for links |
-| `TakeLinkScreenshotSubscriber` | Capture link screenshots |
-| `GenerateThumbnailSubscriber` | Generate media thumbnails |
-| `CreateMediaThumbnailSubscriber` | Create specific thumbnails |
-| `ExtractMediaExtraSubscriber` | Extract media metadata |
-| `TransferFromExternalProviderSubscriber` | Transfer media from external URLs |
-| `CreateEventFromURLSubscriber` | Create events from URLs |
-| `PostToSocialPlatformsSubscriber` | Post to social media |
-| `ExtractEntitiesWithNLPSubscriber` | NLP entity extraction |
-| `SearchFromWikipediaSubscriber` | Wikipedia search and creation |
-| `CreateEntityStatsSubscriber` | Generate entity statistics |
-| `ProcessJobDoneSubscriber` | Handle completed queue jobs |
+### Registered subscribers
+
+All subscribers are registered in `services/worker/src/services/subscribers/WorkerSubscribers.ts`.
+
+| Subscriber | Channel | Purpose |
+|------------|---------|---------|
+| `SearchLinksSubscriber` | `link:search` | Search for links |
+| `TakeLinkScreenshotSubscriber` | `link:take-screenshot` | Capture link screenshots |
+| `UpdateEntitiesFromURLSubscriber` | `link:update-entities-from-url` | Process completed AI entity-update job |
+| `GenerateThumbnailSubscriber` | *(media)* | Generate media thumbnails |
+| `CreateMediaThumbnailSubscriber` | *(media)* | Create specific thumbnails |
+| `ExtractMediaExtraSubscriber` | *(media)* | Extract media metadata |
+| `TransferFromExternalProviderSubscriber` | *(media)* | Transfer media from external URLs |
+| `CreateEventFromURLSubscriber` | *(event)* | Create events from URLs |
+| `PostToSocialPlatformsSubscriber` | *(social)* | Post to social media |
+| `ExtractEntitiesWithNLPSubscriber` | *(nlp)* | NLP entity extraction |
+| `SearchFromWikipediaSubscriber` | *(wikipedia)* | Wikipedia search and creation |
+| `CreateEntityStatsSubscriber` | *(stats)* | Generate entity statistics |
+| `ProcessJobDoneSubscriber` | `job:process-done` | Handle completed queue jobs |
+
+### How it works
+
+The `Subscriber` factory (from `@liexp/backend`) wraps a `RedisPubSub` channel and a handler:
+
+```typescript
+// services/worker/src/services/subscribers/link/updateEntitiesFromURL.subscriber.ts
+export const UpdateEntitiesFromURLSubscriber = Subscriber(
+  LinkPubSub.UpdateEntitiesFromURL,        // typed channel
+  (payload): RTE<void> =>
+    pipe(
+      GetQueueProvider.queue(payload.type).getJob(payload.resource, payload.id),
+      fp.RTE.chain(processDoneJob),
+      fp.RTE.map(() => undefined),
+    ),
+);
+```
+
+`WorkerSubscribers` subscribes all channels at startup and dispatches incoming messages:
+
+```typescript
+// services/worker/src/services/subscribers/WorkerSubscribers.ts
+ctx.redis.client.on("message", (channel, message) => {
+  handlers.filter((h) => h.channel === channel)
+    .forEach((sub) => sub.handler(message));
+});
+```
+
+### Adding a subscriber
+
+1. Create the pub/sub channel in `@liexp/backend` (see [backend docs](../packages/backend.md#redis-pubsub)).
+2. Create `services/worker/src/services/subscribers/<resource>/<name>.subscriber.ts`:
+
+```typescript
+import { Subscriber } from "@liexp/backend/lib/providers/redis/Subscriber.js";
+import { LinkPubSub } from "@liexp/backend/lib/pubsub/links/index.js";
+
+export const MySubscriber = Subscriber(
+  LinkPubSub.MyChannel,
+  (payload): RTE<void> => pipe(/* handler logic */),
+);
+```
+
+3. Register it in `WorkerSubscribers.ts` under the appropriate section comment.
+
+### Queue job completion pattern
+
+For subscribers that process completed AI queue jobs (the `UpdateEntitiesFromURL` pattern):
+
+```
+API                           Worker
+ │                               │
+ ├─ addJob(queue DB) ────────────┤
+ ├─ publish(Redis channel) ──────►
+ │                               ├─ getJob(queue DB)
+ │                               ├─ processDoneJob()
+ │                               └─ updateJob("completed")
+```
+
+The subscriber fetches the job from the DB (not from Redis — only the job ID travels over Redis), processes it via `processDoneJob`, and marks it completed.
 
 ## Wikipedia Integration
 
