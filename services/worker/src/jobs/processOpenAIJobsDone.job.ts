@@ -54,7 +54,11 @@ const processDoneJobBlockNoteResult =
           return fp.RTE.of(entity.excerpt);
         }
 
-        return pipe(fp.RTE.right(toInitialValue(job.result.excerpt)));
+        return pipe(
+          fp.RTE.right(
+            toInitialValue(job.result.description ?? job.result.excerpt),
+          ),
+        );
       }),
       fp.RTE.chain(({ entity, excerpt }) =>
         dbService.save([
