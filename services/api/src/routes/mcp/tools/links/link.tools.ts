@@ -32,6 +32,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
         findLinksToolTask({
           query: input.query,
           ids: input.ids ?? [],
+          status: input.status ?? undefined,
           sort: input.sort,
           order: input.order,
         }),
@@ -65,6 +66,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
           ...input,
           description: input.description ?? undefined,
           publishDate: input.publishDate ?? undefined,
+          status: input.status ?? undefined,
         }),
         throwRTE(ctx),
       ),
@@ -89,6 +91,7 @@ export const registerLinkTools = (server: McpServer, ctx: ServerContext) => {
           publishDate: input.publishDate ?? undefined,
           provider: input.provider ?? undefined,
           image: input.image ?? undefined,
+          status: input.status ?? undefined,
         }),
         throwRTE(ctx),
       ),

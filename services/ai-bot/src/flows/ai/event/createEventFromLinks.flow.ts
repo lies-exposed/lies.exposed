@@ -3,8 +3,7 @@ import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type Event } from "@liexp/io/lib/http/Events/index.js";
 import { EventMap } from "@liexp/io/lib/http/Events/index.js";
-import type * as Events from "@liexp/io/lib/http/Events/index.js";
-import { type Link } from "@liexp/io/lib/http/Link.js";
+import { APPROVED, type Link } from "@liexp/io/lib/http/Link.js";
 import { type CreateEventFromLinksTypeData } from "@liexp/io/lib/http/Queue/event/index.js";
 import {
   buildEvent,
@@ -182,7 +181,7 @@ export const createEventFromLinksFlow: JobProcessRTE<
             createdAt: new Date(),
             updatedAt: new Date(),
             deletedAt: undefined,
-            draft: true,
+            draft: !links.every((l) => l.status === APPROVED.literals[0]),
           } as Event;
         }),
       );

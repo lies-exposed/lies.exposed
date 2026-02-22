@@ -20,6 +20,7 @@ import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { LINKS } from "@liexp/io/lib/http/Link.js";
+import { UpdateEntitiesFromLinkType } from "@liexp/io/lib/http/Queue/event/UpdateEntitiesFromLinkQueue.js";
 import { MEDIA } from "@liexp/io/lib/http/Media/Media.js";
 import type * as Queue from "@liexp/io/lib/http/Queue/index.js";
 import {
@@ -111,6 +112,30 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       if (Schema.is(MEDIA)(job.resource)) {
         return pipe(
           MediaRepository.save([{ id: job.id, description: job.result }]),
+          fp.RTE.map(() => job),
+        );
+      }
+
+      if (
+        Schema.is(LINKS)(job.resource) &&
+        job.type === UpdateEntitiesFromLinkType.literals[0]
+      ) {
+        const result = job.result as {
+          draftStatus: boolean;
+          eventIds: string[];
+        };
+        const { draftStatus, eventIds } = result;
+        return pipe(
+          eventIds.length > 0
+            ? EventRepository.find({ where: { id: In(eventIds) } })
+            : fp.RTE.right([]),
+          fp.RTE.chain((events) =>
+            events.length > 0
+              ? EventRepository.save(
+                  events.map((e) => ({ ...e, draft: draftStatus })),
+                )
+              : fp.RTE.right([]),
+          ),
           fp.RTE.map(() => job),
         );
       }

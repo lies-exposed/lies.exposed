@@ -41,6 +41,16 @@ export const EditLinkInputSchema = Schema.Struct({
   keywords: Schema.Array(UUID).annotations({
     description: "Array of keyword UUIDs to associate with this link",
   }),
+  status: Schema.UndefinedOr(
+    Schema.Union(
+      Schema.Literal("DRAFT"),
+      Schema.Literal("APPROVED"),
+      Schema.Literal("UNAPPROVED"),
+    ),
+  ).annotations({
+    description:
+      'Link approval status: "DRAFT", "APPROVED", or "UNAPPROVED". Undefined keeps the current value.',
+  }),
 });
 export type EditLinkInputSchema = typeof EditLinkInputSchema.Type;
 
@@ -54,6 +64,7 @@ export const editLinkToolTask = ({
   image,
   events,
   keywords,
+  status,
 }: EditLinkInputSchema): ReaderTaskEither<
   ServerContext,
   Error,
@@ -69,6 +80,7 @@ export const editLinkToolTask = ({
         ...(publishDate ? { publishDate: new Date(publishDate) } : {}),
         ...(provider ? { provider: provider as any } : {}),
         ...(image ? { image: image as any } : {}),
+        ...(status ? { status: status as any } : {}),
         events: events.map((e) => ({ id: e })) as EventV2Entity[],
         keywords: keywords.map((k) => ({ id: k })) as KeywordEntity[],
       };

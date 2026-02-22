@@ -3,6 +3,7 @@ import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { DRAFT } from "@liexp/io/lib/http/Link.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -27,6 +28,16 @@ export const CreateLinkInputSchema = Schema.Struct({
   events: Schema.Array(UUID).annotations({
     description: "Array of event UUIDs to associate with the link",
   }),
+  status: Schema.UndefinedOr(
+    Schema.Union(
+      Schema.Literal("DRAFT"),
+      Schema.Literal("APPROVED"),
+      Schema.Literal("UNAPPROVED"),
+    ),
+  ).annotations({
+    description:
+      'Link approval status. Defaults to "DRAFT". Use "APPROVED" to allow event creation without draft flag.',
+  }),
 });
 export type CreateLinkInputSchema = typeof CreateLinkInputSchema.Type;
 
@@ -36,6 +47,7 @@ export const createLinkToolTask = ({
   publishDate,
   description,
   events,
+  status,
 }: CreateLinkInputSchema): ReaderTaskEither<
   ServerContext,
   Error,
@@ -50,6 +62,7 @@ export const createLinkToolTask = ({
           title,
           publishDate: publishDate ? new Date(publishDate) : undefined,
           description: description ?? null,
+          status: status ?? DRAFT.literals[0],
           keywords: [],
           events: events.map((id) => ({ id })),
           creator: null,

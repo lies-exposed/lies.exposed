@@ -43,7 +43,10 @@ const LinkStatusInput: React.FC = () => {
   return (
     <SelectInput
       source="status"
-      choices={Link.Status.members.map((l) => l.literals[0])}
+      choices={Link.Status.members.map((l) => ({
+        id: l.literals[0],
+        name: l.literals[0],
+      }))}
     />
   );
 };
