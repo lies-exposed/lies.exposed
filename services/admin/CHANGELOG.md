@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...admin@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* admin links page mobile responsiveness ([#3218](https://github.com/lies-exposed/lies.exposed/issues/3218)) ([b62d6b6](https://github.com/lies-exposed/lies.exposed/commit/b62d6b6cd5b1a06efc345a732942355bb03ebaba))
+* **admin:** add queue stats card to dashboard ([#3223](https://github.com/lies-exposed/lies.exposed/issues/3223)) ([d533022](https://github.com/lies-exposed/lies.exposed/commit/d533022076cb1120c8842af589d1a6022e5472d8))
+* **admin:** dark theme palette ([#3222](https://github.com/lies-exposed/lies.exposed/issues/3222)) ([a000065](https://github.com/lies-exposed/lies.exposed/commit/a00006513826e557a5b2a81a0f67fb38cfbaf2a5))
+* io namespace imports ([#3216](https://github.com/lies-exposed/lies.exposed/issues/3216)) ([0efdfc6](https://github.com/lies-exposed/lies.exposed/commit/0efdfc67a6b43d34a874a3b6fda8169d10486948))
+* **workspace:** add @liexp/eslint-config to tsconfig references in all packages/services ([#3225](https://github.com/lies-exposed/lies.exposed/issues/3225)) ([6607a57](https://github.com/lies-exposed/lies.exposed/commit/6607a57d4fcc70a2c4910fde55eb5d333aa6f6c0))
+
+
+### Miscellaneous
+
+* **workspace:** added design system definition and documentation ([#3220](https://github.com/lies-exposed/lies.exposed/issues/3220)) ([0399f5c](https://github.com/lies-exposed/lies.exposed/commit/0399f5ce1961a6e944a140eedff05f69dd165524))
+* **workspace:** local https certificate ([#3219](https://github.com/lies-exposed/lies.exposed/issues/3219)) ([b7b597a](https://github.com/lies-exposed/lies.exposed/commit/b7b597ab4fbde0d977e9d1674be78364539d9b0e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.3
+    * @liexp/core bumped to 0.4.3
+    * @liexp/io bumped to 0.4.3
+    * @liexp/shared bumped to 0.4.3
+    * @liexp/ui bumped to 0.4.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.3
+    * @liexp/test bumped to 0.4.3
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...admin@0.4.2) (2026-02-19)
 
 

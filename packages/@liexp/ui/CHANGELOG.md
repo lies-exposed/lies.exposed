@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...@liexp/ui@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* admin links page mobile responsiveness ([#3218](https://github.com/lies-exposed/lies.exposed/issues/3218)) ([b62d6b6](https://github.com/lies-exposed/lies.exposed/commit/b62d6b6cd5b1a06efc345a732942355bb03ebaba))
+* **backend:** added status to LinkEntity ([#3156](https://github.com/lies-exposed/lies.exposed/issues/3156)) ([71980bf](https://github.com/lies-exposed/lies.exposed/commit/71980bf2e401423c85cb1722e8cff338792b1864))
+* **web:** mobile layout responsiveness ([#3221](https://github.com/lies-exposed/lies.exposed/issues/3221)) ([55bbb04](https://github.com/lies-exposed/lies.exposed/commit/55bbb046a4e5ee397516c6c324233d504ed16655))
+* **web:** route matching order ([#3226](https://github.com/lies-exposed/lies.exposed/issues/3226)) ([4521a0e](https://github.com/lies-exposed/lies.exposed/commit/4521a0e01f42de0c79909b3fd9a894e382f7d2c6))
+* **workspace:** add @liexp/eslint-config to tsconfig references in all packages/services ([#3225](https://github.com/lies-exposed/lies.exposed/issues/3225)) ([6607a57](https://github.com/lies-exposed/lies.exposed/commit/6607a57d4fcc70a2c4910fde55eb5d333aa6f6c0))
+
+
+### Miscellaneous
+
+* **workspace:** added design system definition and documentation ([#3220](https://github.com/lies-exposed/lies.exposed/issues/3220)) ([0399f5c](https://github.com/lies-exposed/lies.exposed/commit/0399f5ce1961a6e944a140eedff05f69dd165524))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.3
+    * @liexp/io bumped to 0.4.3
+    * @liexp/shared bumped to 0.4.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.3
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...@liexp/ui@0.4.2) (2026-02-19)
 
 

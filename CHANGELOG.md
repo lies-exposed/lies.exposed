@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...lies.exposed@0.4.3) (2026-02-22)
+
+
+### Bug Fixes
+
+* **admin:** dark theme palette ([#3222](https://github.com/lies-exposed/lies.exposed/issues/3222)) ([a000065](https://github.com/lies-exposed/lies.exposed/commit/a00006513826e557a5b2a81a0f67fb38cfbaf2a5))
+* io namespace imports ([#3216](https://github.com/lies-exposed/lies.exposed/issues/3216)) ([0efdfc6](https://github.com/lies-exposed/lies.exposed/commit/0efdfc67a6b43d34a874a3b6fda8169d10486948))
+* **web:** route matching order ([#3226](https://github.com/lies-exposed/lies.exposed/issues/3226)) ([4521a0e](https://github.com/lies-exposed/lies.exposed/commit/4521a0e01f42de0c79909b3fd9a894e382f7d2c6))
+
+
+### Miscellaneous
+
+* **workspace:** added design system definition and documentation ([#3220](https://github.com/lies-exposed/lies.exposed/issues/3220)) ([0399f5c](https://github.com/lies-exposed/lies.exposed/commit/0399f5ce1961a6e944a140eedff05f69dd165524))
+* **workspace:** local https certificate ([#3219](https://github.com/lies-exposed/lies.exposed/issues/3219)) ([b7b597a](https://github.com/lies-exposed/lies.exposed/commit/b7b597ab4fbde0d977e9d1674be78364539d9b0e))
+
 ## [0.4.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.1...lies.exposed@0.4.2) (2026-02-19)
 
 
