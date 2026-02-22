@@ -58,7 +58,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
     borderRadius: NODE_BORDER_RADIUS,
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
-    boxShadow: `0 1px 2px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.1)'}`,
+    boxShadow: `0 1px 2px ${theme.palette.mode === "dark" ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.1)"}`,
     position: "relative",
   };
 
@@ -96,7 +96,7 @@ export const CustomNode: React.FC<{ data: any }> = memo(({ data }) => {
     right: 3,
     fontSize: FONT_SIZE_BADGE,
     fontWeight: 600,
-    color: theme.palette.mode === 'dark' ? theme.palette.grey[900] : "#fff",
+    color: theme.palette.mode === "dark" ? theme.palette.grey[900] : "#fff",
     padding: PADDING_BADGE,
     borderRadius: BADGE_BORDER_RADIUS,
     textTransform: "uppercase",

@@ -1,7 +1,13 @@
-import { isNonEmpty, type NonEmptyArray } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
+import {
+  isNonEmpty,
+  type NonEmptyArray,
+} from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { EventType, type SearchEvent } from "@liexp/io/lib/http/Events/index.js";
+import {
+  EventType,
+  type SearchEvent,
+} from "@liexp/io/lib/http/Events/index.js";
 import {
   type Actor,
   type Group,
@@ -155,36 +161,36 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                 </Grid>
               </Box>
 
-               <EventNetworkGraphBoxWithFilters
-                 type={ACTORS.Type}
-                 query={{
-                   ...query,
-                   relations: ["actors", "groups", "keywords"],
-                   actors:
-                     query.actors && isNonEmpty(query.actors)
-                       ? query.actors
-                       : null,
-                   groups:
-                     query.groups && isNonEmpty(query.groups)
-                       ? query.groups
-                       : null,
-                   keywords:
-                     query.keywords && isNonEmpty(query.keywords)
-                       ? query.keywords
-                       : null,
-                   eventType:
-                     Array.isArray(query.eventType) &&
-                     isNonEmpty(query.eventType)
-                       ? query.eventType
-                       : typeof query.eventType === "string"
-                         ? [query.eventType]
-                         : (EventType.members.map(
-                             (t) => t.literals[0],
-                           ) as unknown as NonEmptyArray<EventType>),
-                   ids: [actor.id],
-                   startDate: formatDate(subYears(new Date(), 2)),
-                   endDate: formatDate(new Date()),
-                 }}
+              <EventNetworkGraphBoxWithFilters
+                type={ACTORS.Type}
+                query={{
+                  ...query,
+                  relations: ["actors", "groups", "keywords"],
+                  actors:
+                    query.actors && isNonEmpty(query.actors)
+                      ? query.actors
+                      : null,
+                  groups:
+                    query.groups && isNonEmpty(query.groups)
+                      ? query.groups
+                      : null,
+                  keywords:
+                    query.keywords && isNonEmpty(query.keywords)
+                      ? query.keywords
+                      : null,
+                  eventType:
+                    Array.isArray(query.eventType) &&
+                    isNonEmpty(query.eventType)
+                      ? query.eventType
+                      : typeof query.eventType === "string"
+                        ? [query.eventType]
+                        : (EventType.members.map(
+                            (t) => t.literals[0],
+                          ) as unknown as NonEmptyArray<EventType>),
+                  ids: [actor.id],
+                  startDate: formatDate(subYears(new Date(), 2)),
+                  endDate: formatDate(new Date()),
+                }}
                 onActorClick={onActorClick}
                 onGroupClick={onGroupClick}
                 onKeywordClick={onKeywordClick}

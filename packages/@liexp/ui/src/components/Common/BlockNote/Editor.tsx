@@ -20,8 +20,8 @@ import { type ResourcesNames } from "@liexp/io/lib/http/ResourcesNames.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as React from "react";
-import { styled } from "../../../theme/index.js";
 import { useThemeMode } from "../../../context/ThemeContext.js";
+import { styled } from "../../../theme/index.js";
 import { BlockNoteEditorContext } from "./BlockNoteEditorContext.js";
 import { schema } from "./EditorSchema.js";
 import {

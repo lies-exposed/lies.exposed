@@ -27,12 +27,15 @@ const Root = styled("text")(() => ({
  */
 export const getEventTypeColor = (theme: Theme, eventType: string): string => {
   const eventTypePalette = (theme.palette as any).eventType;
-  
+
   // Fallback to legacy EventTypeColor if eventTypePalette is not available
   if (!eventTypePalette) {
-    return EventTypeColor[eventType as keyof typeof EventTypeColor] ?? EventTypeColor.Uncategorized;
+    return (
+      EventTypeColor[eventType as keyof typeof EventTypeColor] ??
+      EventTypeColor.Uncategorized
+    );
   }
-  
+
   const colorMap = {
     [EVENT_TYPES.BOOK]: eventTypePalette.book,
     [EVENT_TYPES.UNCATEGORIZED]: eventTypePalette.uncategorized,
