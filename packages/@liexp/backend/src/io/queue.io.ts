@@ -17,11 +17,11 @@ export const toQueueIO = (
     ...q,
     createdAt: q.createdAt instanceof Date ? q.createdAt.toISOString() : q.createdAt,
     updatedAt: q.updatedAt instanceof Date ? q.updatedAt.toISOString() : q.updatedAt,
-    deletedAt: q.deletedAt
-      ? q.deletedAt instanceof Date
+    deletedAt: q.deletedAt === null 
+      ? null 
+      : q.deletedAt instanceof Date
         ? q.deletedAt.toISOString()
-        : q.deletedAt
-      : undefined,
+        : q.deletedAt,
   };
 
   return pipe(
