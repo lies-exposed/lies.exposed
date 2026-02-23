@@ -36,8 +36,6 @@ const toGroupMemberIO = (
           group,
           startDate: groupMember.startDate ?? new Date(),
           endDate: groupMember.endDate ?? undefined,
-          createdAt: groupMember.createdAt,
-          updatedAt: groupMember.updatedAt,
           deletedAt: groupMember.deletedAt ?? undefined,
         },
         Schema.validateEither(io.http.GroupMember.GroupMember),
