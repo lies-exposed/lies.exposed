@@ -3,7 +3,6 @@ import * as muiColors from "@mui/material/colors";
 import {
   createTheme,
   styled,
-  ThemeProvider,
   type Theme,
   type ThemeOptions,
   type SxProps,
@@ -385,7 +384,6 @@ export {
   type ThemeOptions,
   type Theme,
   type SxProps,
-  ThemeProvider,
   createLightPalette,
   createDarkPalette,
   lightPalette,

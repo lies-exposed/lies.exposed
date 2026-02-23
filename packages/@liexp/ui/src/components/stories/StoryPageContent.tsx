@@ -13,8 +13,10 @@ import { Schema } from "effect";
 import * as React from "react";
 import { useTheme } from "../../theme/index.js";
 import { BNEditor } from "../Common/BlockNote/index.js";
-import { InlineRelationsPlugin } from "../Common/BlockNote/plugins/renderer/InlineRelationsBoxPlugin.js";
-import { TOCPlugin } from "../Common/BlockNote/plugins/renderer/TOCPlugin.js";
+import {
+  InlineRelationsPlugin,
+  TOCPlugin,
+} from "../Common/BlockNote/plugins/renderer/index.js";
 import EditButton from "../Common/Button/EditButton.js";
 import { MainContent } from "../MainContent.js";
 import { Grid, Typography, alpha } from "../mui/index.js";

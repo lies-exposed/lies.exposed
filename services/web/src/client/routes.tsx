@@ -20,13 +20,17 @@ import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
 import { Schema } from "effect";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router";
-import { BooksPage } from "./pages/events/BooksPage.js";
 
 // lazy route components
 const NotFoundPage = React.lazy(() => import("./pages/404.js"));
 const IndexPage = React.lazy(() => import("./pages/index.js"));
 const ActorsPage = React.lazy(() => import("./pages/ActorsPage.js"));
 const AreasPage = React.lazy(() => import("./pages/AreasPage.js"));
+const BooksPage = React.lazy(() =>
+  import("./pages/events/BooksPage.js").then((m) => ({
+    default: m.BooksPage,
+  })),
+);
 const CreateStoryPage = React.lazy(
   () => import("./pages/stories/CreateStoryPage.js"),
 );

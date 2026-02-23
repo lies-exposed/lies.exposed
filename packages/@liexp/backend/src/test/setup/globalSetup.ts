@@ -1,3 +1,4 @@
+import * as fs from "fs";
 import * as path from "path";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -36,6 +37,31 @@ export const createGlobalSetup = <A extends BACKEND_ENV, I = any>(
       moduleLogger.debug.log("Process env %O", process.env);
 
       loadENV(process.cwd(), configPath, true);
+
+      // Ensure required directories exist (mirrors ensureConfigFoldersExist from config.hooks.ts)
+      // This is needed when running tests from a git worktree where these directories may not exist
+      const serviceRoot = path.dirname(configPath);
+      const tempRoot = path.resolve(serviceRoot, "temp");
+      const dirsToCreate = [
+        path.resolve(serviceRoot, "config", "nlp"),
+        tempRoot,
+        path.resolve(tempRoot, "media"),
+        path.resolve(tempRoot, "nlp"),
+        path.resolve(tempRoot, "queue"),
+        path.resolve(tempRoot, "stats"),
+        path.resolve(tempRoot, "db"),
+        path.resolve(tempRoot, "graphs"),
+        path.resolve(tempRoot, "networks"),
+        path.resolve(tempRoot, "tg"),
+        path.resolve(tempRoot, "urls"),
+      ];
+      for (const dir of dirsToCreate) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      moduleLogger.info.log(
+        "Ensured required directories exist under %s",
+        serviceRoot,
+      );
 
       const env = await pipe(
         process.env,

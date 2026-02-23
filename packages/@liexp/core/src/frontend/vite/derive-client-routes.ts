@@ -1,13 +1,14 @@
-import type * as React from "react";
-
 /**
  * Type definition for a server route
  * Matches the structure used in routes.tsx
  */
 export interface ServerRoute {
   path: string;
-  route: React.FC<any>;
-  queries?: (queryProvider: any, config: any) => (params: any) => Promise<any[]>;
+  route: React.ComponentType<any>;
+  queries?: (
+    queryProvider: any,
+    config: any,
+  ) => (params: any) => Promise<any[]>;
 }
 
 /**
@@ -46,7 +47,7 @@ export const extractModulePathsFromRoutes = (
     );
     if (importMatches) {
       importMatches.forEach((match) => {
-        const pathMatch = match.match(/["']([^"']+)["']/);
+        const pathMatch = /["']([^"']+)["']/.exec(match);
         if (pathMatch?.[1]) {
           paths.push(pathMatch[1]);
         }

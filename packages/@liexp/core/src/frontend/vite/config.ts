@@ -91,7 +91,7 @@ const buildMonorepoAliases = (
 export const defineViteConfig = <A extends Record<string, any>>(
   config: GetViteConfigParams<A>,
 ): ((env: ConfigEnv) => UserConfig) => {
-  return ({ mode: _mode }) => {
+  return ({ mode: _mode, isSsrBuild }) => {
     const dotEnvFilePath = path.resolve(
       config.envFileDir,
       process.env.DOTENV_CONFIG_PATH ?? ".env",
@@ -185,7 +185,15 @@ export const defineViteConfig = <A extends Record<string, any>>(
           transformMixedEsModules: true,
         },
         sourcemap: mode === "development",
-        rollupOptions: config.rollupOptions,
+        // Only apply manualChunks for client builds, not SSR
+        // SSR builds have externalized dependencies that conflict with manualChunks
+        rollupOptions: isSsrBuild
+          ? {
+              // For SSR: keep rollupOptions minimal
+              ...(config.rollupOptions ? { ...config.rollupOptions } : {}),
+              output: undefined, // Remove output.manualChunks for SSR
+            }
+          : config.rollupOptions,
       },
       assetsInclude: [
         // "**/@liexp/ui/assets/**"

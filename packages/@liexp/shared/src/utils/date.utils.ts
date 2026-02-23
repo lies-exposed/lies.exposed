@@ -1,5 +1,4 @@
 import {
-  differenceInHours,
   differenceInDays,
   formatDistanceToNow,
   subYears,
@@ -44,7 +43,6 @@ export const formatAnyDateToShort = (date: string | Date): string => {
 export {
   parseISO,
   parse,
-  differenceInHours,
   differenceInDays,
   formatDistanceToNow,
   formatDistanceToNow as distanceFromNow,

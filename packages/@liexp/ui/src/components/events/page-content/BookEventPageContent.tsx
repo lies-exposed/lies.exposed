@@ -2,7 +2,7 @@ import { type Events, type Media } from "@liexp/io/lib/http/index.js";
 import { isValidValue } from "@liexp/shared/lib/providers/blocknote/isValidValue.js";
 import * as React from "react";
 import { useTheme } from "../../../theme/index.js";
-import { BNEditor } from "../../Common/BlockNote/Editor.js";
+import { BNEditor } from "../../Common/BlockNote/index.js";
 import MediaElement from "../../Media/MediaElement.js";
 import { Grid, Typography } from "../../mui/index.js";
 

@@ -205,33 +205,15 @@ export const generateChunkConfig = (
     );
   }
 
-  // Add vendor chunks - only reference actual modules, not directories
-  const vendorChunks = {
-    "vendor-react": [
-      "react",
-      "react-dom",
-      "react-router",
-      "react-router-dom",
-    ],
-    "vendor-mui": [
-      "@mui/material",
-      "@mui/icons-material",
-      "@mui/system",
-      "@mui/lab",
-    ],
-    "vendor-query": ["@tanstack/react-query"],
-    "vendor-form": ["react-hook-form"],
-    "vendor-ui-lib": ["@liexp/ui"],
-    "vendor-shared": ["@liexp/shared"],
-    "chunk-editor": ["@blocknote/core", "@blocknote/react"],
-  };
+  // Note: Vendor chunks are not included here because:
+  // 1. In SSR builds, vendors are externalized and should not be in manualChunks
+  // 2. In client builds, Vite's native chunking handles vendors efficiently
+  // 3. If you need custom vendor chunking for client builds only,
+  //    implement it conditionally in vite.config.ts based on build environment
 
   return {
     output: {
-      manualChunks: {
-        ...vendorChunks,
-        ...manualChunks,
-      },
+      manualChunks,
     },
   };
 };

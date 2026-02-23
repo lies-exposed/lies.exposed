@@ -37,6 +37,8 @@ interface InlineRelationsPluginProps {
   onEventClick: (m: SearchEvent) => void;
 }
 
+export type { InlineRelationsPluginProps };
+
 export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({
   relations: { actors, groups, keywords, media, events },
   onActorClick,

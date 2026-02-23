@@ -37,50 +37,50 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
         <SEO title="lies exposed" urlPath={pathname} />
         <AppHeader />
         <Routes>
-           {routes.map((r) => (
-             <Route
-               key={r.path}
-               path={r.path}
-               element={
-                 <React.Suspense fallback={<FullSizeLoader />}>
-                   <Grid
-                     container
-                     style={{ minHeight: "100%", height: "100%", width: "100%" }}
-                   >
-                     <Grid
-                       size={12}
-                       style={{
-                         width: "100%",
-                         minHeight: "100%",
-                         marginTop: theme.mixins.toolbar.height ?? 64 + 16,
-                       }}
-                     >
-                       <r.route />
-                     </Grid>
-                     <Grid size={{ xs: 12 }}>
-                       <Footer
-                         logoSrc={logo192}
-                         style={{
-                           paddingLeft: isDownSM ? 0 : 16,
-                           paddingRight: isDownSM ? 0 : 16,
-                           paddingTop: theme.spacing(2),
-                           paddingBottom: theme.spacing(2),
-                         }}
-                       />
-                     </Grid>
-                   </Grid>
-                 </React.Suspense>
-               }
-             />
-           ))}
-           <Route
-             path="*"
-             element={
-               <React.Suspense fallback={<FullSizeLoader />}>
-                 <NotFoundPage />
-               </React.Suspense>
-             }
-           />
+          {routes.map((r) => (
+            <Route
+              key={r.path}
+              path={r.path}
+              element={
+                <React.Suspense fallback={<FullSizeLoader />}>
+                  <Grid
+                    container
+                    style={{ minHeight: "100%", height: "100%", width: "100%" }}
+                  >
+                    <Grid
+                      size={12}
+                      style={{
+                        width: "100%",
+                        minHeight: "100%",
+                        marginTop: theme.mixins.toolbar.height ?? 64 + 16,
+                      }}
+                    >
+                      <r.route />
+                    </Grid>
+                    <Grid size={{ xs: 12 }}>
+                      <Footer
+                        logoSrc={logo192}
+                        style={{
+                          paddingLeft: isDownSM ? 0 : 16,
+                          paddingRight: isDownSM ? 0 : 16,
+                          paddingTop: theme.spacing(2),
+                          paddingBottom: theme.spacing(2),
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </React.Suspense>
+              }
+            />
+          ))}
+          <Route
+            path="*"
+            element={
+              <React.Suspense fallback={<FullSizeLoader />}>
+                <NotFoundPage />
+              </React.Suspense>
+            }
+          />
         </Routes>
       </ErrorBoundary>
     </div>
