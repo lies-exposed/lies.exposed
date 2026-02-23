@@ -80,11 +80,9 @@ const decodeMedia = (
         ? ensureHTTPProtocol(media.thumbnail)
         : undefined,
       transferable: !media.location.startsWith("/"),
-      createdAt: media.createdAt.toISOString(),
-      updatedAt: media.updatedAt.toISOString(),
-      deletedAt: media.deletedAt?.toISOString() ?? undefined,
+      deletedAt: media.deletedAt ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Media.AdminMedia),
+    Schema.validateEither(io.http.Media.AdminMedia),
     E.mapLeft((e) => DecodeError.of(`Failed to decode media (${media.id})`, e)),
   );
 };
