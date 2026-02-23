@@ -20,12 +20,7 @@ const encodeSocialPost = (
   socialPost: SocialPostEntity,
 ): E.Either<DecodeError, typeof SocialPost.Encoded> => {
   return pipe(
-    {
-      ...socialPost,
-      createdAt: socialPost.createdAt.toISOString(),
-      updatedAt: socialPost.updatedAt.toISOString(),
-      deletedAt: socialPost.deletedAt?.toISOString(),
-    },
+    socialPost,
     Schema.encodeUnknownEither(SocialPost),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode link (${socialPost.id})`, e),
