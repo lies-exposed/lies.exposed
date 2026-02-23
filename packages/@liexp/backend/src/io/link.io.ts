@@ -21,26 +21,25 @@ const toLinkIO = (
 
   return pipe(
     media,
-    E.map((image) => ({
-      ...link,
-      title: link.title ?? undefined,
-      description: link.description ?? undefined,
-      image,
-      provider: Schema.is(UUID)(link.provider) ? link.provider : undefined,
-      creator: Schema.is(UUID)(link.creator) ? link.creator : undefined,
-      publishDate: link.publishDate?.toISOString() ?? undefined,
-      events: (link.events ?? []).map((e) => (Schema.is(UUID)(e) ? e : e.id)),
-      keywords: (link.keywords ?? []).map((k) =>
-        Schema.is(UUID)(k) ? k : k.id,
-      ),
-      socialPosts: link.socialPosts ?? [],
-      createdAt: link.createdAt.toISOString(),
-      updatedAt: link.updatedAt.toISOString(),
-      deletedAt: link.deletedAt?.toISOString(),
-    })),
-    E.chain((link) =>
+    E.chain((image) =>
       pipe(
-        Schema.decodeUnknownEither(io.http.Link.Link)(link),
+        {
+          ...link,
+          title: link.title ?? undefined,
+          description: link.description ?? undefined,
+          image,
+          provider: Schema.is(UUID)(link.provider) ? link.provider : undefined,
+          creator: Schema.is(UUID)(link.creator) ? link.creator : undefined,
+          publishDate: link.publishDate ?? undefined,
+          events: (link.events ?? []).map((e) =>
+            Schema.is(UUID)(e) ? e : e.id,
+          ),
+          keywords: (link.keywords ?? []).map((k) =>
+            Schema.is(UUID)(k) ? k : k.id,
+          ),
+          socialPosts: link.socialPosts ?? [],
+        },
+        Schema.validateEither(io.http.Link.Link),
         E.mapLeft((e) =>
           DecodeError.of(`Failed to decode link (${link.id})`, e),
         ),
