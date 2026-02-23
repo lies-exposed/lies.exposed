@@ -185,6 +185,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
           transformMixedEsModules: true,
         },
         sourcemap: mode === "development",
+        rollupOptions: config.rollupOptions,
       },
       assetsInclude: [
         // "**/@liexp/ui/assets/**"

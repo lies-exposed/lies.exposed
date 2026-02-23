@@ -49,4 +49,10 @@ export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
    * @default true (auto-detect in development)
    */
   monorepoHmr?: boolean | MonorepoHmrConfig;
+  /**
+   * Rollup options for bundle optimization
+   * Allows custom chunk splitting, output formatting, and more
+   * @see https://vitejs.dev/config/#build-rollupoptions
+   */
+  rollupOptions?: Record<string, unknown>;
 }

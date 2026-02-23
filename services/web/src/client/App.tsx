@@ -8,9 +8,11 @@ import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader.js";
-import NotFoundPage from "./pages/404.js";
 import { routes } from "./routes.js";
 import { webLogger } from "./utils/logger.utils.js";
+
+// Lazy load 404 page to ensure it's in its own chunk
+const NotFoundPage = React.lazy(() => import("./pages/404.js"));
 
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
@@ -35,43 +37,50 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
         <SEO title="lies exposed" urlPath={pathname} />
         <AppHeader />
         <Routes>
-          {routes.map((r) => (
-            <Route
-              key={r.path}
-              path={r.path}
-              element={
-                <React.Suspense fallback={<FullSizeLoader />}>
-                  <Grid
-                    container
-                    style={{ minHeight: "100%", height: "100%", width: "100%" }}
-                  >
-                    <Grid
-                      size={12}
-                      style={{
-                        width: "100%",
-                        minHeight: "100%",
-                        marginTop: theme.mixins.toolbar.height ?? 64 + 16,
-                      }}
-                    >
-                      <r.route />
-                    </Grid>
-                    <Grid size={{ xs: 12 }}>
-                      <Footer
-                        logoSrc={logo192}
-                        style={{
-                          paddingLeft: isDownSM ? 0 : 16,
-                          paddingRight: isDownSM ? 0 : 16,
-                          paddingTop: theme.spacing(2),
-                          paddingBottom: theme.spacing(2),
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-                </React.Suspense>
-              }
-            />
-          ))}
-          <Route path="*" element={<NotFoundPage />} />
+           {routes.map((r) => (
+             <Route
+               key={r.path}
+               path={r.path}
+               element={
+                 <React.Suspense fallback={<FullSizeLoader />}>
+                   <Grid
+                     container
+                     style={{ minHeight: "100%", height: "100%", width: "100%" }}
+                   >
+                     <Grid
+                       size={12}
+                       style={{
+                         width: "100%",
+                         minHeight: "100%",
+                         marginTop: theme.mixins.toolbar.height ?? 64 + 16,
+                       }}
+                     >
+                       <r.route />
+                     </Grid>
+                     <Grid size={{ xs: 12 }}>
+                       <Footer
+                         logoSrc={logo192}
+                         style={{
+                           paddingLeft: isDownSM ? 0 : 16,
+                           paddingRight: isDownSM ? 0 : 16,
+                           paddingTop: theme.spacing(2),
+                           paddingBottom: theme.spacing(2),
+                         }}
+                       />
+                     </Grid>
+                   </Grid>
+                 </React.Suspense>
+               }
+             />
+           ))}
+           <Route
+             path="*"
+             element={
+               <React.Suspense fallback={<FullSizeLoader />}>
+                 <NotFoundPage />
+               </React.Suspense>
+             }
+           />
         </Routes>
       </ErrorBoundary>
     </div>

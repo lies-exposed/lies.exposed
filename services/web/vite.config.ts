@@ -1,7 +1,9 @@
 import { defineEnv } from "@liexp/core/lib/frontend/defineEnv.js";
 import { defineViteConfig } from "@liexp/core/lib/frontend/vite/config.js";
 import { getGitInfo } from "@liexp/core/lib/git/info.js";
+import { generateChunkConfig } from "@liexp/core/lib/frontend/vite/chunk-config.js";
 import { reactVirtualized } from "@liexp/ui/lib/vite/plugins/react-virtualized.js";
+import * as path from "path";
 
 // Set version env vars if not already set
 const gitInfo = getGitInfo();
@@ -44,6 +46,32 @@ const getHmrConfig = () => {
   };
 };
 
+/**
+ * Manual chunk configuration for optimized code splitting
+ * Automatically discovers routes and groups them by semantic folder patterns
+ *
+ * Folder structure:
+ * - pages/actors/* -> chunk-actors
+ * - pages/events/* -> chunk-events
+ * - templates/* -> chunk-templates
+ */
+const getRollupOptions = () => {
+  const cwd = import.meta.dirname;
+
+  return generateChunkConfig(
+    {
+      pagesDir: path.join(cwd, "src/client/pages"),
+      templatesDir: path.join(cwd, "src/client/templates"),
+      chunkPrefix: "chunk-",
+      folderToChunkMap: {
+        // Custom mappings if needed
+        // "events": "chunk-events-detailed",
+      },
+    },
+    cwd,
+  );
+};
+
 const config = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
@@ -70,6 +98,7 @@ const config = defineViteConfig({
       : "tsconfig.json",
 
   plugins: [reactVirtualized()],
+  rollupOptions: getRollupOptions(),
 });
 
 export default config;
