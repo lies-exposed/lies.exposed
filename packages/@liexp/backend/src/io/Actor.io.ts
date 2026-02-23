@@ -46,16 +46,8 @@ export const encodeActor = (
           relationsAsSource: a.relationsAsSource ?? [],
           relationsAsTarget: a.relationsAsTarget ?? [],
           nationalities: a.nationalities ?? [],
-          bornOn: a.bornOn
-            ? a.bornOn instanceof Date
-              ? a.bornOn
-              : new Date(a.bornOn)
-            : undefined,
-          diedOn: a.diedOn
-            ? a.diedOn instanceof Date
-              ? a.diedOn
-              : new Date(a.diedOn)
-            : undefined,
+          bornOn: a.bornOn ?? undefined,
+          diedOn: a.diedOn ?? undefined,
         },
         Schema.encodeUnknownEither(io.http.Actor.Actor),
         E.mapLeft((e) => DecodeError.of(`Failed to encode actor (${a.id})`, e)),
@@ -89,16 +81,14 @@ const decodeActor = ({
           avatar,
           excerpt: toInitialValue(a.excerpt) ?? null,
           body: toInitialValue(a.body) ?? null,
-          memberIn: a.memberIn ? a.memberIn : [],
+          memberIn: a.memberIn ?? [],
           relationsAsSource: a.relationsAsSource ?? [],
           relationsAsTarget: a.relationsAsTarget ?? [],
           nationalities: a.nationalities ?? [],
-          createdAt: a.createdAt.toISOString(),
-          updatedAt: a.updatedAt.toISOString(),
           bornOn: a.bornOn ?? undefined,
           diedOn: a.diedOn ?? undefined,
         },
-        Schema.decodeUnknownEither(io.http.Actor.Actor),
+        Schema.validateEither(io.http.Actor.Actor),
         E.mapLeft((e) => DecodeError.of(`Failed to decode actor (${a.id})`, e)),
       );
     }),
