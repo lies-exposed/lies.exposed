@@ -22,8 +22,7 @@ const toActorRelationIO = (
     E.chain(({ actor, relatedActor }) =>
       pipe(
         {
-          id: actorRelation.id,
-          type: actorRelation.type,
+          ...actorRelation,
           excerpt:
             (actorRelation.excerpt && isValidValue(actorRelation.excerpt)
               ? toInitialValue(actorRelation.excerpt)
@@ -32,8 +31,6 @@ const toActorRelationIO = (
           relatedActor,
           startDate: actorRelation.startDate ?? undefined,
           endDate: actorRelation.endDate ?? undefined,
-          createdAt: actorRelation.createdAt,
-          updatedAt: actorRelation.updatedAt,
           deletedAt: actorRelation.deletedAt ?? undefined,
         },
         Schema.validateEither(io.http.ActorRelation.ActorRelation),
