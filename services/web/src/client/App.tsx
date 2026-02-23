@@ -8,9 +8,11 @@ import * as React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Route, Routes } from "react-router";
 import AppHeader, { logo192 } from "./components/header/AppHeader.js";
-import NotFoundPage from "./pages/404.js";
 import { routes } from "./routes.js";
 import { webLogger } from "./utils/logger.utils.js";
+
+// Lazy load 404 page to ensure it's in its own chunk
+const NotFoundPage = React.lazy(() => import("./pages/404.js"));
 
 import "@liexp/ui/lib/components/Common/Icons/library.js";
 import "@liexp/ui/assets/main.css";
@@ -71,7 +73,14 @@ export const App: React.FC<{ pathname: string }> = ({ pathname }) => {
               }
             />
           ))}
-          <Route path="*" element={<NotFoundPage />} />
+          <Route
+            path="*"
+            element={
+              <React.Suspense fallback={<FullSizeLoader />}>
+                <NotFoundPage />
+              </React.Suspense>
+            }
+          />
         </Routes>
       </ErrorBoundary>
     </div>

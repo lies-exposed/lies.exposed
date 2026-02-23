@@ -17,7 +17,7 @@ import { EventPageContent } from "../components/EventPageContent.js";
 import { GroupMembersList } from "../components/GroupMembersBox.js";
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import SEO from "../components/SEO.js";
-import AreasMap from "../components/area/AreasMap.js";
+import { AreasMap } from "../components/area/index.js";
 import { EventRelatedEvents } from "../components/events/EventRelatedEvents/EventRelatedEvents.js";
 import { EventRelations } from "../components/events/EventRelations.js";
 import { ActorList } from "../components/lists/ActorList.js";

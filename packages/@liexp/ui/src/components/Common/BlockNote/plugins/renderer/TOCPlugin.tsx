@@ -118,7 +118,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }));
 
-interface TOCRendererProps {
+export interface TOCRendererProps {
   value: BNESchemaEditor["document"];
   onClick?: (key: string) => void;
 }

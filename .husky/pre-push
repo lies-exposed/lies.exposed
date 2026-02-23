@@ -1,4 +1,4 @@
 #!/bin/sh
 
 docker compose up -d db.liexp.dev
-pnpm knip && pnpm --filter=...[HEAD^] lint && pnpm --filter=...[HEAD^] build && pnpm vitest --changed=HEAD^ && . "./scripts/healthcheck.sh"
+pnpm knip && pnpm --filter=...[HEAD^] lint --quiet && pnpm --filter=...[HEAD^] build && pnpm vitest --changed=HEAD^ && . "./scripts/healthcheck.sh"
