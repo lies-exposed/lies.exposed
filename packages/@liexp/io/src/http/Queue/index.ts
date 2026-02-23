@@ -181,7 +181,7 @@ export const Queue = Schema.extend(
     prompt: Schema.Union(Schema.String, Schema.Null),
     resource: QueueResourceNames,
     status: Status,
-    error: Schema.Union(Schema.Any, Schema.Null),
+    error: Schema.Union(Schema.Object, Schema.Null),
     createdAt: Schema.DateFromString,
     updatedAt: Schema.DateFromString,
     deletedAt: Schema.NullOr(Schema.DateFromString),
