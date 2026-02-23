@@ -17,28 +17,18 @@ const toAreaIO = ({
     featuredImage
       ? MediaIO.decodeSingle(featuredImage)
       : E.right<DecodeError, io.http.Media.Media | null>(null),
-    fp.E.chain((media) =>
+    fp.E.chain((featuredImage) =>
       pipe(
         {
           ...area,
-          featuredImage: media
-            ? {
-                ...media,
-                createdAt: media.createdAt.toISOString(),
-                updatedAt: media.updatedAt.toISOString(),
-              }
-            : null,
+          featuredImage: featuredImage ?? null,
           media: (area.media ?? []).map((m) => (Schema.is(UUID)(m) ? m : m.id)),
           events: (area.events ?? []).map((e) =>
             Schema.is(UUID)(e) ? e : e.id,
           ),
           socialPosts: area.socialPosts ?? [],
-          geometry: area.geometry,
-          createdAt: area.createdAt.toISOString(),
-          updatedAt: area.updatedAt.toISOString(),
-          deletedAt: area.deletedAt?.toISOString(),
         },
-        Schema.decodeUnknownEither(io.http.Area.Area),
+        Schema.validateEither(io.http.Area.Area),
         E.mapLeft((e) =>
           DecodeError.of(`Failed to decode area (${area.id})`, e),
         ),
