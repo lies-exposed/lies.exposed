@@ -15,6 +15,7 @@ const toTransactionIO = (
       ...event,
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
+      deletedAt: event.deletedAt ?? undefined,
     },
     Schema.validateEither(io.http.Events.Transaction.Transaction),
     E.mapLeft((e) =>

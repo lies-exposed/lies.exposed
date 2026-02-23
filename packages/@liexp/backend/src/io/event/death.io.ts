@@ -20,6 +20,7 @@ const toDeathIO = (
       news: [],
       media: [],
       suspects: [],
+      deletedAt: event.deletedAt ?? undefined,
     },
     Schema.validateEither(io.http.Events.Death.Death),
     E.mapLeft((e) =>

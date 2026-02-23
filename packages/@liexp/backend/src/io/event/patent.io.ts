@@ -20,6 +20,7 @@ const decodePatent = (
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
+      deletedAt: event.deletedAt ?? undefined,
     },
     Schema.validateEither(io.http.Events.Patent.Patent),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),

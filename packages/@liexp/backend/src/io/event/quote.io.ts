@@ -23,6 +23,7 @@ const toQuoteIO = (
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
+      deletedAt: event.deletedAt ?? undefined,
     },
     Schema.validateEither(io.http.Events.Quote.Quote),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),

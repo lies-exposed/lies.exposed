@@ -17,6 +17,7 @@ const toBookIO = (book: EventV2Entity): E.Either<DecodeError, Book.Book> => {
       links: book.links ?? [],
       keywords: book.keywords ?? [],
       stories: book.stories ?? [],
+      deletedAt: book.deletedAt ?? undefined,
     },
     Schema.validateEither(Book.Book),
     E.mapLeft((errors) => DecodeError.of("Failed to decode book", errors)),

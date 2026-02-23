@@ -36,6 +36,7 @@ const decodeEvent = (
           excerpt: event.excerpt ?? undefined,
           body: event.body ?? undefined,
           socialPosts: event.socialPosts ?? [],
+          deletedAt: event.deletedAt ?? undefined,
         },
         Schema.validateEither(io.http.Events.Event),
         E.mapLeft((e) =>
