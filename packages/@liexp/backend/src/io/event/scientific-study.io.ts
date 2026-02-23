@@ -15,12 +15,8 @@ const toScientificStudyIO = (
       ...event,
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
-      date: event.date.toISOString(),
-      createdAt: event.createdAt.toISOString(),
-      updatedAt: event.updatedAt.toISOString(),
-      deletedAt: event.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Events.ScientificStudy.ScientificStudy),
+    Schema.validateEither(io.http.Events.ScientificStudy.ScientificStudy),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
   );
 };

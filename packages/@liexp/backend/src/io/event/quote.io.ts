@@ -23,12 +23,8 @@ const toQuoteIO = (
       },
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
-      date: event.date.toISOString(),
-      createdAt: event.createdAt.toISOString(),
-      updatedAt: event.updatedAt.toISOString(),
-      deletedAt: event.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Events.Quote.Quote),
+    Schema.validateEither(io.http.Events.Quote.Quote),
     E.mapLeft((e) => DecodeError.of(`Failed to decode event (${event.id})`, e)),
   );
 };

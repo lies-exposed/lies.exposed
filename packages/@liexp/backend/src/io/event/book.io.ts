@@ -13,16 +13,12 @@ const toBookIO = (book: EventV2Entity): E.Either<DecodeError, Book.Book> => {
       ...book,
       excerpt: book.excerpt ?? undefined,
       body: book.body ?? undefined,
-      date: book.date.toISOString(),
       media: book.media ?? [],
       links: book.links ?? [],
       keywords: book.keywords ?? [],
       stories: book.stories ?? [],
-      createdAt: book.createdAt.toISOString(),
-      updatedAt: book.updatedAt.toISOString(),
-      deletedAt: book.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(Book.Book),
+    Schema.validateEither(Book.Book),
     E.mapLeft((errors) => DecodeError.of("Failed to decode book", errors)),
   );
 };

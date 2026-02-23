@@ -15,12 +15,8 @@ const toTransactionIO = (
       ...event,
       excerpt: event.excerpt ?? undefined,
       body: event.body ?? undefined,
-      date: event.date.toISOString(),
-      createdAt: event.createdAt.toISOString(),
-      updatedAt: event.updatedAt.toISOString(),
-      deletedAt: event.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Events.Transaction.Transaction),
+    Schema.validateEither(io.http.Events.Transaction.Transaction),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode Transaction (${event.id})`, e),
     ),

@@ -16,11 +16,8 @@ const toKeywordIO = (
       ...keyword,
       socialPosts: keyword.socialPosts ?? [],
       color: keyword.color ? toColor(keyword.color) : "000000",
-      createdAt: keyword.createdAt.toISOString(),
-      updatedAt: keyword.updatedAt.toISOString(),
-      deletedAt: keyword.deletedAt?.toISOString() ?? undefined,
     },
-    Schema.decodeUnknownEither(io.http.Keyword.Keyword),
+    Schema.validateEither(io.http.Keyword.Keyword),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode keyword (${keyword.id})`, e),
     ),
