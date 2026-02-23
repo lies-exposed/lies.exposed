@@ -1,4 +1,3 @@
-import { type ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
@@ -14,7 +13,7 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
     Endpoints.Queues.Create,
     ({ params: { resource, type }, body: { id, result, prompt, data } }) => {
       return pipe(
-        fp.RTE.right<ServerContext, ServerError, Queue>({
+        fp.RTE.right({
           id,
           resource,
           type,
@@ -23,18 +22,18 @@ export const MakeQueueCreateRoute: Route = (r, ctx) => {
           error: null,
           status: PendingStatus.literals[0],
           result: fp.O.toNullable(result),
-        } as Queue),
+        } as Omit<Queue, "createdAt" | "updatedAt" | "deletedAt">),
         LoggerService.RTE.debug((job) => [
           "Create queue ( %s %s) => %O",
           resource,
           id,
           job,
         ]),
-        fp.RTE.chainFirst((job) =>
+        fp.RTE.chain((job) =>
           GetQueueProvider.queue<Queue, ServerContext>(type).addJob(job),
         ),
-        fp.RTE.map((data) => ({
-          body: { data },
+        fp.RTE.map((createdJob) => ({
+          body: { data: createdJob },
           statusCode: 200,
         })),
       )(ctx);

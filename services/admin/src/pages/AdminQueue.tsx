@@ -155,12 +155,21 @@ const getBorderStyleFromStatus = (status: string) => {
 
 export const QueueList: React.FC<ListProps> = (props) => {
   return (
-    <List {...props} resource="queues" filters={filters}>
+    <List
+      {...props}
+      resource="queues"
+      filters={filters}
+      sort={{ field: "createdAt", order: "DESC" }}
+    >
       <Datagrid
         rowClick={(id, resource, record) => {
           return `/${resource}/${record.type}/${record.resource}/${id}`;
         }}
         rowSx={(record) => getBorderStyleFromStatus(record.status)}
+        sx={{
+          "& .MuiDataGrid-columnHeader": { padding: "4px 8px" },
+          "& .MuiDataGrid-cell": { padding: "4px 8px" },
+        }}
       >
         <TextField label="key" source="id" />
         <TextField source="status" />
@@ -169,9 +178,20 @@ export const QueueList: React.FC<ListProps> = (props) => {
         <FunctionField
           render={(r) => {
             return (
-              <Stack style={{ maxWidth: 400 }}>
-                <pre style={{ maxWidth: "100%", overflow: "auto" }}>
-                  {JSON.stringify(r.data, null, 2)}
+              <Stack style={{ minWidth: 250, maxWidth: "100%" }}>
+                <pre
+                  style={{
+                    maxWidth: "100%",
+                    overflow: "auto",
+                    margin: 0,
+                    fontSize: "0.75rem",
+                    lineHeight: 1.2,
+                    wordBreak: "break-word",
+                    whiteSpace: "pre-wrap",
+                  }}
+                >
+                  {JSON.stringify(r.data, null, 2).substring(0, 500)}
+                  {JSON.stringify(r.data, null, 2).length > 500 ? "..." : ""}
                 </pre>
               </Stack>
             );

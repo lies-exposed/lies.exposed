@@ -1,6 +1,7 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { QueueIO } from "@liexp/backend/lib/io/queue.io.js";
 import { QueueRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
+import { getORMOptions } from "@liexp/backend/lib/utils/orm.utils.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import * as O from "effect/Option";
@@ -20,6 +21,16 @@ export const MakeQueueListRoute: Route = (r, ctx) => {
       const status = pipe(query.status, O.map(In), O.getOrUndefined);
       const type = pipe(query.type, O.getOrUndefined);
 
+      const findOptions = getORMOptions(
+        {
+          _start: query._start,
+          _end: query._end,
+          _sort: query._sort,
+          _order: query._order,
+        },
+        ctx.env.DEFAULT_PAGE_SIZE,
+      );
+
       return pipe(
         QueueRepository.find({
           where: {
@@ -27,6 +38,7 @@ export const MakeQueueListRoute: Route = (r, ctx) => {
             type,
             status,
           },
+          ...findOptions,
         }),
         fp.RTE.chainEitherK(QueueIO.decodeMany),
         fp.RTE.map((data) => ({

@@ -8,23 +8,14 @@ import { type QueueEntity } from "../entities/Queue.entity.js";
 import { IOCodec } from "./DomainCodec.js";
 
 export const toQueueIO = (
-  unknownQueue: QueueEntity,
+  q: QueueEntity | Record<string, unknown>,
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
   return pipe(
-    {
-      ...unknownQueue,
-      result: unknownQueue?.result ?? null,
-      prompt: unknownQueue?.prompt ?? null,
-      error: unknownQueue?.error ?? null,
-    },
-    (q) =>
-      pipe(
-        q,
-        Schema.decodeUnknownEither(io.http.Queue.Queue),
-        E.mapLeft((e) =>
-          DecodeError.of(`Failed to decode queue (${JSON.stringify(q)})`, e),
-        ),
-      ),
+    q,
+    Schema.validateEither(io.http.Queue.Queue),
+    E.mapLeft((e) =>
+      DecodeError.of(`Failed to decode queue (${JSON.stringify(q)})`, e),
+    ),
   );
 };
 

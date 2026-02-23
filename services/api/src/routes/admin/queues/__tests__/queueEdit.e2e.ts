@@ -57,16 +57,11 @@ describe("Edit Queue", () => {
     expect(createRes.status).toEqual(200);
     expect(createRes.body.data.id).toEqual(id);
 
-    // Now edit the job
+    // Now edit the job - spread the created queue to include required date fields
     const editBody = {
-      id,
-      resource: "events",
-      type: "openai-summarize",
+      ...createRes.body.data,
       status: "completed",
       result: "processed",
-      prompt: null,
-      error: null,
-      data: { text },
     };
 
     const editRes = await Test.req
