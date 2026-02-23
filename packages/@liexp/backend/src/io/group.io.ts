@@ -75,8 +75,8 @@ const decodeGroupIO = ({
         {
           ...group,
           username: group.username ?? undefined,
-          startDate: group.startDate?.toISOString() ?? undefined,
-          endDate: group.endDate?.toISOString() ?? undefined,
+          startDate: group.startDate ?? undefined,
+          endDate: group.endDate ?? undefined,
           color: toColor(group.color),
           excerpt:
             group.excerpt && isValidValue(group.excerpt)
@@ -91,11 +91,8 @@ const decodeGroupIO = ({
             ? group.members.map((m) => (Schema.is(UUID)(m) ? m : m.id))
             : [],
           subGroups: [],
-          createdAt: group.createdAt?.toISOString(),
-          updatedAt: group.updatedAt?.toISOString(),
-          deletedAt: group.deletedAt?.toISOString(),
         },
-        Schema.decodeUnknownEither(io.http.Group.Group),
+        Schema.validateEither(io.http.Group.Group),
         E.mapLeft((e) =>
           DecodeError.of(`Failed to decode group (${group.id})`, e),
         ),
