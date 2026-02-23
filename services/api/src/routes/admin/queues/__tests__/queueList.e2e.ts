@@ -79,10 +79,14 @@ describe("List Queues", () => {
     expect(queue).toBeDefined();
     expect(queue.createdAt).toBeDefined();
     expect(queue.updatedAt).toBeDefined();
-    
+
     // Verify dates are ISO strings or Date objects (not null/undefined)
-    expect(typeof queue.createdAt === "string" || queue.createdAt instanceof Date).toBeTruthy();
-    expect(typeof queue.updatedAt === "string" || queue.updatedAt instanceof Date).toBeTruthy();
+    expect(
+      typeof queue.createdAt === "string" || queue.createdAt instanceof Date,
+    ).toBeTruthy();
+    expect(
+      typeof queue.updatedAt === "string" || queue.updatedAt instanceof Date,
+    ).toBeTruthy();
   });
 
   test("Should support sorting by createdAt ascending", async () => {
@@ -98,7 +102,7 @@ describe("List Queues", () => {
       .expect(200);
 
     // Small delay to ensure different timestamps
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     await Test.req
       .post("/v1/queues/openai-summarize/events")
@@ -139,7 +143,7 @@ describe("List Queues", () => {
       .expect(200);
 
     // Small delay to ensure different timestamps
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     await Test.req
       .post("/v1/queues/openai-summarize/events")
