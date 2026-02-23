@@ -11,16 +11,8 @@ export const toQueueIO = (
   q: QueueEntity | Record<string, unknown>,
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
   return pipe(
-    {
-      ...q,
-      createdAt:
-        q.createdAt instanceof Date ? q.createdAt.toISOString() : q.createdAt,
-      updatedAt:
-        q.updatedAt instanceof Date ? q.updatedAt.toISOString() : q.updatedAt,
-      deletedAt:
-        q.deletedAt instanceof Date ? q.deletedAt.toISOString() : q.deletedAt,
-    },
-    Schema.decodeUnknownEither(io.http.Queue.Queue),
+    q,
+    Schema.validateEither(io.http.Queue.Queue),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode queue (${JSON.stringify(q)})`, e),
     ),
