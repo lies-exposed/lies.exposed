@@ -20,6 +20,7 @@ describe("MCP GET_LINK Tool", () => {
     testLinks = fc.sample(LinkArb, 5).map((link) =>
       toLinkEntity({
         ...link,
+        status: "APPROVED" as const,
         events: [],
         image: undefined,
       }),
