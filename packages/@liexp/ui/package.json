@@ -128,7 +128,7 @@
     "@types/topojson-specification": "^1.0.5",
     "axios": "^1.13.5",
     "effect": "^3.19.14",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.2",
     "fp-ts": "^2.16.10",
     "jsdom": "^27.4.0",
     "openai": "^6.15.0",
