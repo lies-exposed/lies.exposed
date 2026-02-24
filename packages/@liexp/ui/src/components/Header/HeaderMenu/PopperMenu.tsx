@@ -38,7 +38,6 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
       anchorEl={anchorEl}
       role={undefined}
       transition
-      disablePortal
     >
       {({ TransitionProps, placement }) => (
         <Grow
