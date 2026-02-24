@@ -12,7 +12,9 @@ import { type AppTest, GetAppTest } from "../../../../test/AppTest.js";
 describe("List Links", () => {
   let Test: AppTest,
     authorizationToken: string,
-    links = tests.fc.sample(LinkArb, 10).map(toLinkEntity);
+    links = tests.fc
+      .sample(LinkArb, 10)
+      .map((l) => toLinkEntity({ ...l, status: "APPROVED" as const }));
 
   beforeAll(async () => {
     Test = await GetAppTest();
@@ -83,7 +85,9 @@ describe("List Links", () => {
 
     test("Should filter links by minimum events count", async () => {
       // Create test links with varying numbers of events
-      const testLinks = tests.fc.sample(LinkArb, 3).map(toLinkEntity);
+      const testLinks = tests.fc
+        .sample(LinkArb, 3)
+        .map((l) => toLinkEntity({ ...l, status: "APPROVED" as const }));
       const savedLinks = await throwTE(Test.ctx.db.save(LinkEntity, testLinks));
 
       // Link 0: No events
@@ -138,10 +142,12 @@ describe("List Links", () => {
       // Create test links with specific URLs
       const testLink1 = toLinkEntity({
         ...tests.fc.sample(LinkArb, 1)[0],
+        status: "APPROVED" as const,
         url: "https://example.com/specific-article" as URL,
       });
       const testLink2 = toLinkEntity({
         ...tests.fc.sample(LinkArb, 1)[0],
+        status: "APPROVED" as const,
         url: "https://example.com/another-article" as URL,
       });
 
