@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...@liexp/io@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* **admin:** implement sorting for queue resources ([#3234](https://github.com/lies-exposed/lies.exposed/issues/3234)) ([9e2cb6b](https://github.com/lies-exposed/lies.exposed/commit/9e2cb6b264bf8afad3efef7bdc6ee38a25622429))
+* advanced lazy-loading patterns for web bundle optimization ([#3235](https://github.com/lies-exposed/lies.exposed/issues/3235)) ([571c9b8](https://github.com/lies-exposed/lies.exposed/commit/571c9b8fca271601fa9e7d3c08f3c101a965a292))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.4
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...@liexp/io@0.4.3) (2026-02-22)
 
 

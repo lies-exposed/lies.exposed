@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...api@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* **admin:** implement sorting for queue resources ([#3234](https://github.com/lies-exposed/lies.exposed/issues/3234)) ([9e2cb6b](https://github.com/lies-exposed/lies.exposed/commit/9e2cb6b264bf8afad3efef7bdc6ee38a25622429))
+* web request errors — stats, event payloads, pub/sub, and AI job result handling ([#3228](https://github.com/lies-exposed/lies.exposed/issues/3228)) ([f724796](https://github.com/lies-exposed/lies.exposed/commit/f7247962b33bdd04811fcf23863cbba3320e9caf))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.4
+    * @liexp/core bumped to 0.4.4
+    * @liexp/io bumped to 0.4.4
+    * @liexp/shared bumped to 0.4.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.4
+    * @liexp/test bumped to 0.4.4
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...api@0.4.3) (2026-02-22)
 
 

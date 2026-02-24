@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...worker@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* web request errors — stats, event payloads, pub/sub, and AI job result handling ([#3228](https://github.com/lies-exposed/lies.exposed/issues/3228)) ([f724796](https://github.com/lies-exposed/lies.exposed/commit/f7247962b33bdd04811fcf23863cbba3320e9caf))
+* **worker:** save links even on screenshot failure and always reply to user ([#3232](https://github.com/lies-exposed/lies.exposed/issues/3232)) ([c07a0d3](https://github.com/lies-exposed/lies.exposed/commit/c07a0d392273a1dd0bdf11ff2ad5b65da46b815d))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.4
+    * @liexp/io bumped to 0.4.4
+    * @liexp/core bumped to 0.4.4
+    * @liexp/shared bumped to 0.4.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.4
+    * @liexp/test bumped to 0.4.4
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...worker@0.4.3) (2026-02-22)
 
 
