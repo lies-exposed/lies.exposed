@@ -84,7 +84,9 @@ export const makeCacheMiddleware = (
         res.json = function cacheInterceptor(body) {
           if (res.statusCode === 200) {
             Promise.resolve()
-              .then(() => redis.client.setex(cacheKey, ttl, JSON.stringify(body)))
+              .then(() =>
+                redis.client.setex(cacheKey, ttl, JSON.stringify(body)),
+              )
               .catch(() => {});
           }
           return originalJson(body);

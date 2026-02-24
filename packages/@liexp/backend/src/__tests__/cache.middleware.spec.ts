@@ -77,7 +77,7 @@ describe("makeCacheMiddleware", () => {
       const res = makeResMock();
       const req = makeReqMock("GET", "/actors?page=1");
 
-      middleware(req as Request, res, next);
+      void middleware(req as Request, res, next);
 
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
@@ -91,12 +91,15 @@ describe("makeCacheMiddleware", () => {
 
     it("stores the response body in Redis via the res.json interceptor", async () => {
       const setex = vi.fn().mockResolvedValue("OK");
-      const redis = makeRedisMock({ get: vi.fn().mockResolvedValue(null), setex });
+      const redis = makeRedisMock({
+        get: vi.fn().mockResolvedValue(null),
+        setex,
+      });
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
       const req = makeReqMock("GET", "/actors?page=1");
 
-      middleware(req as Request, res, next);
+      void middleware(req as Request, res, next);
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
       // Simulate the route handler calling res.json
@@ -126,15 +129,13 @@ describe("makeCacheMiddleware", () => {
 
       for (const url of urls) {
         const res = makeResMock();
-        middleware(makeReqMock("GET", url) as Request, res, vi.fn());
+        void middleware(makeReqMock("GET", url) as Request, res, vi.fn());
       }
 
       await vi.waitUntil(() => get.mock.calls.length >= urls.length);
 
       const calledKeys = get.mock.calls.map(([k]) => k);
-      expect(calledKeys).toEqual(
-        urls.map((u) => `cache:test:${u}`),
-      );
+      expect(calledKeys).toEqual(urls.map((u) => `cache:test:${u}`));
     });
   });
 
@@ -147,9 +148,11 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock() as Request, res, next);
+      void middleware(makeReqMock() as Request, res, next);
 
-      await vi.waitUntil(() => (res.send as ReturnType<typeof vi.fn>).mock.calls.length > 0);
+      await vi.waitUntil(
+        () => (res.send as ReturnType<typeof vi.fn>).mock.calls.length > 0,
+      );
 
       expect(next).not.toHaveBeenCalled();
       expect(res.setHeader).toHaveBeenCalledWith("X-Cache", "HIT");
@@ -172,7 +175,7 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock() as Request, res, next);
+      void middleware(makeReqMock() as Request, res, next);
 
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
@@ -185,7 +188,7 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock() as Request, res, next);
+      void middleware(makeReqMock() as Request, res, next);
 
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
@@ -200,7 +203,7 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock() as Request, res, next);
+      void middleware(makeReqMock() as Request, res, next);
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
       // Should not throw when res.json is called
@@ -216,7 +219,7 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock("POST") as Request, res, next);
+      void middleware(makeReqMock("POST") as Request, res, next);
 
       expect(next).toHaveBeenCalledOnce();
       expect(redis.client.get).not.toHaveBeenCalled();
@@ -231,14 +234,14 @@ describe("makeCacheMiddleware", () => {
       const res = makeResMock();
 
       // Register the finish listener
-      const finishListeners: Array<() => void> = [];
+      const finishListeners: (() => void)[] = [];
       (res.on as ReturnType<typeof vi.fn>).mockImplementation(
         (event: string, cb: () => void) => {
           if (event === "finish") finishListeners.push(cb);
         },
       );
 
-      middleware(makeReqMock("POST") as Request, res, next);
+      void middleware(makeReqMock("POST") as Request, res, next);
 
       // Simulate response finishing with 201
       res.statusCode = 201;
@@ -257,14 +260,14 @@ describe("makeCacheMiddleware", () => {
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      const finishListeners: Array<() => void> = [];
+      const finishListeners: (() => void)[] = [];
       (res.on as ReturnType<typeof vi.fn>).mockImplementation(
         (event: string, cb: () => void) => {
           if (event === "finish") finishListeners.push(cb);
         },
       );
 
-      middleware(makeReqMock("POST") as Request, res, next);
+      void middleware(makeReqMock("POST") as Request, res, next);
 
       res.statusCode = 422;
       for (const fn of finishListeners) fn();
@@ -285,14 +288,14 @@ describe("makeCacheMiddleware", () => {
       });
       const res = makeResMock();
 
-      const finishListeners: Array<() => void> = [];
+      const finishListeners: (() => void)[] = [];
       (res.on as ReturnType<typeof vi.fn>).mockImplementation(
         (event: string, cb: () => void) => {
           if (event === "finish") finishListeners.push(cb);
         },
       );
 
-      middleware(makeReqMock("DELETE") as Request, res, next);
+      void middleware(makeReqMock("DELETE") as Request, res, next);
 
       res.statusCode = 200;
       for (const fn of finishListeners) fn();
@@ -309,11 +312,14 @@ describe("makeCacheMiddleware", () => {
   describe("res.json interceptor", () => {
     it("does NOT cache when the handler responds with a non-200 status", async () => {
       const setex = vi.fn().mockResolvedValue("OK");
-      const redis = makeRedisMock({ get: vi.fn().mockResolvedValue(null), setex });
+      const redis = makeRedisMock({
+        get: vi.fn().mockResolvedValue(null),
+        setex,
+      });
       const middleware = makeCacheMiddleware(redis, config);
       const res = makeResMock();
 
-      middleware(makeReqMock() as Request, res, next);
+      void middleware(makeReqMock() as Request, res, next);
       await vi.waitUntil(() => next.mock.calls.length > 0);
 
       res.statusCode = 404;
