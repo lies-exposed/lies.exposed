@@ -61,10 +61,14 @@ export const makeCacheMiddleware = (
     // ── GET: try to serve from cache ──────────────────────────────────────
     const cacheKey = buildKey(keyPrefix, req.originalUrl);
 
-    redis.client
-      .get(cacheKey)
+    // Wrap in Promise.resolve().then() so that a synchronous throw from
+    // redis.client.get() (e.g. when the client is a test mock that returns
+    // undefined instead of a Promise) is converted into a rejection that
+    // the .catch() below can handle gracefully.
+    Promise.resolve()
+      .then(() => redis.client.get(cacheKey))
       .then((cached) => {
-        if (cached !== null) {
+        if (cached != null) {
           res.setHeader("X-Cache", "HIT");
           res.setHeader("Cache-Control", `public, max-age=${ttl}`);
           res.setHeader("Content-Type", "application/json");
@@ -79,8 +83,8 @@ export const makeCacheMiddleware = (
         const originalJson = res.json.bind(res);
         res.json = function cacheInterceptor(body) {
           if (res.statusCode === 200) {
-            redis.client
-              .setex(cacheKey, ttl, JSON.stringify(body))
+            Promise.resolve()
+              .then(() => redis.client.setex(cacheKey, ttl, JSON.stringify(body)))
               .catch(() => {});
           }
           return originalJson(body);

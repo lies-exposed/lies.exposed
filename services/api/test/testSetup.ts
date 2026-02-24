@@ -1,3 +1,4 @@
+import { redisMock } from "@liexp/backend/lib/test/mocks/redis.mock.js";
 import { GetLogger } from "@liexp/core/lib/logger/Logger.js";
 import D from "debug";
 import { afterAll, afterEach, beforeAll, beforeEach, vi } from "vitest";
@@ -49,6 +50,9 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  // Reset the Redis mock so cached responses from one test don't bleed into the next.
+  redisMock.mockReset();
+
   // Rollback the transaction AFTER EACH TEST
   // This is much faster than truncating tables or restoring from snapshot (~1-5ms)
   await rollbackTransaction();
