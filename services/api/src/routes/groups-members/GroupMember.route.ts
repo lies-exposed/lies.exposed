@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateGroupMemberRoute } from "./createGroupMember.controller.js";
 import { MakeDeleteGroupMemberRoute } from "./deleteGroupMember.controller.js";
@@ -10,6 +11,13 @@ export const MakeGroupMemberRoutes = (
   router: Router,
   ctx: ServerContext,
 ): void => {
+  router.use(
+    "/groups-members",
+    makeCacheMiddleware(ctx.redis, {
+      ttl: 1800,
+      keyPrefix: "cache:groups-members",
+    }),
+  );
   MakeCreateGroupMemberRoute(router, ctx);
   MakeEditGroupMemberRoute(router, ctx);
   MakeGetGroupMemberRoute(router, ctx);

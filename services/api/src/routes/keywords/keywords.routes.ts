@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateKeywordRoute } from "./createKeyword.controller.js";
 import { MakeDeleteKeywordRoute } from "./deleteKeyword.controller.js";
@@ -8,6 +9,10 @@ import { MakeListKeywordRoute } from "./listKeyword.controller.js";
 import { type ServerContext } from "#context/context.type.js";
 
 export const MakeKeywordRoutes = (router: Router, ctx: ServerContext): void => {
+  router.use(
+    "/keywords",
+    makeCacheMiddleware(ctx.redis, { ttl: 3600, keyPrefix: "cache:keywords" }),
+  );
   MakeCreateKeywordRoute(router, ctx);
   MakeEditKeywordsRoute(router, ctx);
   MakeKeywordsDistributionRoute(router, ctx);

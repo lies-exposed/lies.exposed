@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateMediaRoute } from "./createMedia.route.js";
 import { MakeDeleteMediaRoute } from "./deleteMedia.route.js";
@@ -8,6 +9,10 @@ import { MakeListMediaRoute } from "./listMedia.controller.js";
 import { type ServerContext } from "#context/context.type.js";
 
 export const MakeMediaRoutes = (router: Router, ctx: ServerContext): void => {
+  router.use(
+    "/media",
+    makeCacheMiddleware(ctx.redis, { ttl: 1800, keyPrefix: "cache:media" }),
+  );
   // thumbnails
   MakeGenerateMediaThumbnailsRoute(router, ctx);
 
