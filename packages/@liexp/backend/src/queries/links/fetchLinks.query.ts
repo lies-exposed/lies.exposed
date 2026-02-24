@@ -124,14 +124,21 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
               hasWhere = true;
             }
 
-            if (O.isSome(status)) {
+            const effectiveStatus =
+              isAdmin && O.isSome(status)
+                ? status.value
+                : isAdmin
+                  ? undefined
+                  : ["APPROVED"];
+
+            if (effectiveStatus !== undefined) {
               if (hasWhere) {
                 q.andWhere("link.status IN (:...status)", {
-                  status: status.value,
+                  status: effectiveStatus,
                 });
               } else {
                 q.where("link.status IN (:...status)", {
-                  status: status.value,
+                  status: effectiveStatus,
                 });
               }
               hasWhere = true;
