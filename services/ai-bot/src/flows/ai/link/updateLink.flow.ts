@@ -51,9 +51,7 @@ export const updateLinkFlow: JobProcessRTE<
       title: result.title,
       description: result.description,
       publishDate:
-        result.publishDate !== ""
-          ? new Date(result.publishDate)
-          : null,
+        result.publishDate !== "" ? new Date(result.publishDate) : null,
     })),
   );
 };

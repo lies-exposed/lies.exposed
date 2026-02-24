@@ -33,12 +33,7 @@ export const PopperMenu: React.FC<PopperMenuProps> = ({
   onMenuItemClick,
 }) => {
   return (
-    <Popper
-      open={open}
-      anchorEl={anchorEl}
-      role={undefined}
-      transition
-    >
+    <Popper open={open} anchorEl={anchorEl} role={undefined} transition>
       {({ TransitionProps, placement }) => (
         <Grow
           {...TransitionProps}
