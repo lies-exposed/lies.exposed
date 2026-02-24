@@ -1,6 +1,7 @@
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { URL } from "@liexp/io/lib/http/Common/index.js";
 import { type CreateQueueEmbeddingTypeData } from "@liexp/io/lib/http/Queue/index.js";
 import { Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
@@ -21,12 +22,21 @@ const UpdateLinkStructuredResponse = Schema.Struct({
     description:
       "The date the content was published in 'YYYY-MM-DD' format (empty string if not published, fallback to 1st day of the year if unknown)",
   }),
+  thumbnailUrl: Schema.NullOr(URL).annotations({
+    description:
+      "Absolute URL of the main representative image (og:image, Twitter card, or prominent article image). Null if not found.",
+  }),
 });
 type UpdateLinkStructuredResponse = typeof UpdateLinkStructuredResponse.Type;
 
 export const updateLinkFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
-  { title: string; description: string; publishDate: Date | null }
+  {
+    title: string;
+    description: string;
+    publishDate: Date | null;
+    thumbnailUrl: URL | null;
+  }
 > = (job) => {
   return pipe(
     fp.RTE.Do,
@@ -52,6 +62,7 @@ export const updateLinkFlow: JobProcessRTE<
       description: result.description,
       publishDate:
         result.publishDate !== "" ? new Date(result.publishDate) : null,
+      thumbnailUrl: result.thumbnailUrl,
     })),
   );
 };

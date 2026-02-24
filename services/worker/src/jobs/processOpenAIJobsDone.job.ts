@@ -17,7 +17,7 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
-import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { APPROVED, LINKS } from "@liexp/io/lib/http/Link.js";
@@ -144,10 +144,39 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
       }
 
       if (Schema.is(LINKS)(job.resource)) {
+        const { thumbnailUrl, ...linkResult } = job.result ?? {};
         return pipe(
-          LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
-          fp.RTE.chain((link) =>
-            LinkRepository.save([{ ...link, ...job.result }]),
+          fp.RTE.Do,
+          fp.RTE.apS(
+            "link",
+            LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
+          ),
+          fp.RTE.bind("image", () => {
+            if (!thumbnailUrl) return fp.RTE.of(undefined);
+            return pipe(
+              MediaRepository.save([
+                {
+                  id: uuid(),
+                  location: thumbnailUrl,
+                  thumbnail: null,
+                  label: null,
+                  description: null,
+                  type: "image/jpg" as const,
+                  creator: null,
+                  extra: null,
+                },
+              ]),
+              fp.RTE.map((saved) => saved[0]),
+            );
+          }),
+          fp.RTE.chain(({ link, image }) =>
+            LinkRepository.save([
+              {
+                ...link,
+                ...linkResult,
+                ...(image ? { image: image.id } : {}),
+              },
+            ]),
           ),
           fp.RTE.map(() => job),
         );

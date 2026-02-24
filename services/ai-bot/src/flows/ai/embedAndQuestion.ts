@@ -37,7 +37,12 @@ const embedAndQuestionCommonFlow: JobProcessRTE<
 export const embedAndQuestionFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
   | string
-  | { title: string; description: string; publishDate: Date | null }
+  | {
+      title: string;
+      description: string;
+      publishDate: Date | null;
+      thumbnailUrl: string | null;
+    }
   | {
       excerpt: BlockNoteDocument;
     }
