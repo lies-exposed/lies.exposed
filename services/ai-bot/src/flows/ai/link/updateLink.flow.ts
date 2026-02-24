@@ -26,7 +26,7 @@ type UpdateLinkStructuredResponse = typeof UpdateLinkStructuredResponse.Type;
 
 export const updateLinkFlow: JobProcessRTE<
   CreateQueueEmbeddingTypeData,
-  { title: string; description: string }
+  { title: string; description: string; publishDate: Date | null }
 > = (job) => {
   return pipe(
     fp.RTE.Do,
@@ -50,6 +50,10 @@ export const updateLinkFlow: JobProcessRTE<
     fp.RTE.map(({ result }) => ({
       title: result.title,
       description: result.description,
+      publishDate:
+        result.publishDate !== ""
+          ? new Date(result.publishDate)
+          : null,
     })),
   );
 };
