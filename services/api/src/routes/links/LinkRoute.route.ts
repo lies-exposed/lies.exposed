@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateLinkRoute } from "./createLink.controller.js";
 import { MakeCreateManyLinkRoute } from "./createManyLink.controller.js";
@@ -11,6 +12,10 @@ import { MakeTakeLinkScreenshotRoute } from "./takeLinkScreenshot.controller.js"
 import { type ServerContext } from "#context/context.type.js";
 
 export const MakeLinkRoutes = (router: Router, ctx: ServerContext): void => {
+  router.use(
+    "/links",
+    makeCacheMiddleware(ctx.redis, { ttl: 1800, keyPrefix: "cache:links" }),
+  );
   MakeSubmitLinkRoute(router, ctx);
   MakeCreateManyLinkRoute(router, ctx);
   MakeCreateLinkRoute(router, ctx);
