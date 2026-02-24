@@ -6,6 +6,7 @@ metadata:
 {{ tuple . "worker" | include "worker.labels" | indent 2 }}
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       lies.exposed/name: worker

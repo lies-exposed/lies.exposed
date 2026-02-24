@@ -6,6 +6,7 @@ metadata:
 {{ tuple . "web" | include "web.labels" | indent 2 }}
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       lies.exposed/name: web
