@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...lies.exposed@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* **admin:** implement sorting for queue resources ([#3234](https://github.com/lies-exposed/lies.exposed/issues/3234)) ([9e2cb6b](https://github.com/lies-exposed/lies.exposed/commit/9e2cb6b264bf8afad3efef7bdc6ee38a25622429))
+* advanced lazy-loading patterns for web bundle optimization ([#3235](https://github.com/lies-exposed/lies.exposed/issues/3235)) ([571c9b8](https://github.com/lies-exposed/lies.exposed/commit/571c9b8fca271601fa9e7d3c08f3c101a965a292))
+* web request errors — stats, event payloads, pub/sub, and AI job result handling ([#3228](https://github.com/lies-exposed/lies.exposed/issues/3228)) ([f724796](https://github.com/lies-exposed/lies.exposed/commit/f7247962b33bdd04811fcf23863cbba3320e9caf))
+* **web:** mobile layout refactor ([#3229](https://github.com/lies-exposed/lies.exposed/issues/3229)) ([1d5125f](https://github.com/lies-exposed/lies.exposed/commit/1d5125fb841c4b33f856c8d86b52066f991cc49c))
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...lies.exposed@0.4.3) (2026-02-22)
 
 

@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...web@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* advanced lazy-loading patterns for web bundle optimization ([#3235](https://github.com/lies-exposed/lies.exposed/issues/3235)) ([571c9b8](https://github.com/lies-exposed/lies.exposed/commit/571c9b8fca271601fa9e7d3c08f3c101a965a292))
+* **web:** mobile responsiveness ([#3231](https://github.com/lies-exposed/lies.exposed/issues/3231)) ([df71064](https://github.com/lies-exposed/lies.exposed/commit/df710640c2322f69dc2620161dae7eb43bad37ea))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.4.4
+    * @liexp/core bumped to 0.4.4
+    * @liexp/io bumped to 0.4.4
+    * @liexp/shared bumped to 0.4.4
+    * @liexp/ui bumped to 0.4.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.4
+    * @liexp/test bumped to 0.4.4
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...web@0.4.3) (2026-02-22)
 
 

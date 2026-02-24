@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...@liexp/ui@0.4.4) (2026-02-24)
+
+
+### Bug Fixes
+
+* advanced lazy-loading patterns for web bundle optimization ([#3235](https://github.com/lies-exposed/lies.exposed/issues/3235)) ([571c9b8](https://github.com/lies-exposed/lies.exposed/commit/571c9b8fca271601fa9e7d3c08f3c101a965a292))
+* **web:** actor page layout ([#3233](https://github.com/lies-exposed/lies.exposed/issues/3233)) ([17de206](https://github.com/lies-exposed/lies.exposed/commit/17de206df17e9de318b741bfd22c3a39f626e0a4))
+* **web:** mobile layout refactor ([#3229](https://github.com/lies-exposed/lies.exposed/issues/3229)) ([1d5125f](https://github.com/lies-exposed/lies.exposed/commit/1d5125fb841c4b33f856c8d86b52066f991cc49c))
+* **web:** mobile responsiveness ([#3231](https://github.com/lies-exposed/lies.exposed/issues/3231)) ([df71064](https://github.com/lies-exposed/lies.exposed/commit/df710640c2322f69dc2620161dae7eb43bad37ea))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.4.4
+    * @liexp/io bumped to 0.4.4
+    * @liexp/shared bumped to 0.4.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.4.4
+
 ## [0.4.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.2...@liexp/ui@0.4.3) (2026-02-22)
 
 
