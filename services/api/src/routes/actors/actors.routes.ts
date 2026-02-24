@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateActorRoute } from "./createActor.controller.js";
 import { MakeDeleteActorRoute } from "./deleteActor.controller.js";
@@ -10,6 +11,10 @@ import { MakeUnlinkActorEventRoute } from "./unlinkActorEvents.controller.js";
 import { type ServerContext } from "#context/context.type.js";
 
 export const MakeActorRoutes = (router: Router, ctx: ServerContext): void => {
+  router.use(
+    "/actors",
+    makeCacheMiddleware(ctx.redis, { ttl: 3600, keyPrefix: "cache:actors" }),
+  );
   MakeCreateActorRoute(router, ctx);
   MakeEditActorRoute(router, ctx);
   MakeGetActorRoute(router, ctx);

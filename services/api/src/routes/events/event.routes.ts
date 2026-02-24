@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { CreateEventRoute } from "./createEvent.controller.js";
 import { DeleteEventRoute } from "./deleteEvent.controller.js";
@@ -17,6 +18,10 @@ import { GetEventSuggestionListRoute } from "./suggestions/getEventSuggestionLis
 import { type ServerContext } from "#context/context.type.js";
 
 export const MakeEventRoutes = (router: Router, ctx: ServerContext): void => {
+  router.use(
+    "/events",
+    makeCacheMiddleware(ctx.redis, { ttl: 300, keyPrefix: "cache:events" }),
+  );
   // MakeCreateEventFromLinkRoute(router, ctx);
   CreateEventFromSuggestionRoute(router, ctx);
   SearchEventsFromProviderRoute(router, ctx);

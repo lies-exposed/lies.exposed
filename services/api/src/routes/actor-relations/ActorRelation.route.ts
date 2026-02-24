@@ -1,3 +1,4 @@
+import { makeCacheMiddleware } from "@liexp/backend/lib/express/middleware/cache.middleware.js";
 import { type Router } from "express";
 import { MakeCreateActorRelationRoute } from "./createActorRelation.controller.js";
 import { MakeDeleteActorRelationRoute } from "./deleteActorRelation.controller.js";
@@ -11,6 +12,13 @@ export const MakeActorRelationRoutes = (
   router: Router,
   ctx: ServerContext,
 ): void => {
+  router.use(
+    "/actor-relations",
+    makeCacheMiddleware(ctx.redis, {
+      ttl: 1800,
+      keyPrefix: "cache:actor-relations",
+    }),
+  );
   MakeCreateActorRelationRoute(router, ctx);
   MakeEditActorRelationRoute(router, ctx);
   MakeGetActorRelationRoute(router, ctx);
