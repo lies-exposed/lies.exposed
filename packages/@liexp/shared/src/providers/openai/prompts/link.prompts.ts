@@ -25,11 +25,14 @@ Your task is to extract accurate metadata from the page and return a JSON object
 - publishDate: string — the publication or last-updated date in 'YYYY-MM-DD' format.
   Use an empty string "" if no date can be found on the page.
   If only a year or month/year is available, use the first day (e.g. "2023-01-01" or "2023-06-01").
+- thumbnailUrl: string | null — the URL of the main representative image for the page (e.g. Open Graph og:image,
+  Twitter card image, or the most prominent article image). Use null if no suitable image is found.
+  Must be an absolute URL (starting with http:// or https://). Do NOT use icons, logos, or decorative images.
 
 IMPORTANT RULES:
 - Do NOT invent, infer, or hallucinate any details not present on the page.
 - Do NOT include URLs or hyperlinks inside description or title values.
-- If the page is behind a paywall or cannot be accessed, return title and description as empty strings and publishDate as "".
+- If the page is behind a paywall or cannot be accessed, return title and description as empty strings, publishDate as "", and thumbnailUrl as null.
 - For scientific papers: use the paper's own abstract as the basis for the description; include publication date if stated.
 - For patents: use the patent's abstract and filing/publication date.
 
