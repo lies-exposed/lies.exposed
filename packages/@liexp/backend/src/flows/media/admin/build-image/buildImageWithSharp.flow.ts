@@ -30,6 +30,9 @@ const DEFAULT_TEXT_HEIGHT = 20;
 const sizePercentage = (size: number, percentage: number): number =>
   Math.ceil((percentage / 100) * size);
 
+/** Ensure a pixel dimension passed to sharp is always a positive integer. */
+const clampPositive = (n: number, min = 1): number => Math.max(min, Math.ceil(n));
+
 // const isHorizontalGravity = (g: keyof GravityEnum): boolean =>
 //   g === "east" || g === "west";
 
@@ -154,13 +157,11 @@ const addTextLayer =
       ctx.logger.debug.log('Adding "text" layer %O (parent %O)', layer, parent);
       const width = parent?.width ?? DEFAULT_TEXT_WIDTH;
       const height = parent?.height ?? DEFAULT_TEXT_HEIGHT;
-      const layerWidth = sizePercentage(
-        width,
-        layer.width ?? DEFAULT_TEXT_WIDTH,
+      const layerWidth = clampPositive(
+        sizePercentage(width, layer.width ?? DEFAULT_TEXT_WIDTH),
       );
-      const layerHeight = sizePercentage(
-        height,
-        layer.height ?? DEFAULT_TEXT_HEIGHT,
+      const layerHeight = clampPositive(
+        sizePercentage(height, layer.height ?? DEFAULT_TEXT_HEIGHT),
       );
       const getSizeForGravity = getSize(
         layer.gravity as keyof GravityEnum,
@@ -206,13 +207,15 @@ const addTextLayer =
       }
 
       const textLayerPadding = layerWidth / 20;
-      const textLayerWidth = layerWidth - textLayerPadding * 2;
-      const textLayerHeight = getSizeForGravity(
-        () => layerHeight - textLayerPadding * 2,
-        {
-          onEast: () => layerHeight * 1.8 - textLayerPadding * 2,
-          onWest: () => layerHeight * 1.8 - textLayerPadding * 2,
-        },
+      const textLayerWidth = clampPositive(layerWidth - textLayerPadding * 2);
+      const textLayerHeight = clampPositive(
+        getSizeForGravity(
+          () => layerHeight - textLayerPadding * 2,
+          {
+            onEast: () => layerHeight * 1.8 - textLayerPadding * 2,
+            onWest: () => layerHeight * 1.8 - textLayerPadding * 2,
+          },
+        ),
       );
       const textLayerTop = getSizeForGravity(() => textLayerPadding, {
         onSouth: () => height - layerHeight + textLayerPadding,

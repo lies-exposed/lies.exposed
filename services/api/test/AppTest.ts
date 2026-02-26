@@ -3,12 +3,13 @@ import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.pr
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
+
 import {
   type DatabaseClient,
   GetTypeORMClient,
 } from "@liexp/backend/lib/providers/orm/index.js";
-import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
 import { GetRedisClient } from "@liexp/backend/lib/providers/redis/redis.provider.js";
 import { MakeSpaceProvider } from "@liexp/backend/lib/providers/space/space.provider.js";
@@ -116,6 +117,11 @@ const loadAppContext = async (
           apiKey: "fake-geo-api-key",
         }),
         queue: GetQueueProvider,
+        imgProc: MakeImgProcClient({
+          logger,
+          client: mocks.sharp.get as any,
+          exifR: mocks.exifR,
+        }),
       };
     }),
     throwTE,

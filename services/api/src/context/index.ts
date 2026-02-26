@@ -5,6 +5,9 @@ import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.pr
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
+import {
+  MakeImgProcClient,
+} from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";
@@ -21,10 +24,12 @@ import * as logger from "@liexp/core/lib/logger/index.js";
 import { editor } from "@liexp/shared/lib/providers/blocknote/ssr.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import * as axios from "axios";
+import ExifReader from "exifreader";
 import ffmpeg from "fluent-ffmpeg";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import { Redis } from "ioredis";
 import * as metadataParser from "page-metadata-parser";
+import sharp from "sharp";
 import WinkFn from "wink-nlp";
 import { type TEControllerError } from "../types/TEControllerError.js";
 import { type ServerContext } from "./context.type.js";
@@ -130,6 +135,13 @@ export const makeContext =
               }),
             connect: env.REDIS_CONNECT,
           }),
+          imgProc: fp.TE.right(
+            MakeImgProcClient({
+              logger: serverLogger.extend("imgproc"),
+              client: sharp,
+              exifR: ExifReader,
+            }),
+          ),
         }),
       ),
       fp.TE.mapLeft((e) => ({
