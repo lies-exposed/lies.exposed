@@ -11,6 +11,10 @@ RUN apk add --no-cache curl
 
 RUN npm i -g corepack@latest && corepack use pnpm@latest-10
 
+RUN apk add --no-cache \
+    curl \
+    binutils
+
 WORKDIR /usr/src/app
 
 FROM pnpm AS api-base
