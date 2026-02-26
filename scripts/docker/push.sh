@@ -11,7 +11,7 @@ ADMIN_WEB_IMAGE=ghcr.io/lies-exposed/liexp-admin
 AI_BOT_IMAGE=ghcr.io/lies-exposed/liexp-ai-bot
 AGENT_IMAGE=ghcr.io/lies-exposed/liexp-agent
 
-(exec ./scripts/docker-login.sh "$1")
+(exec ./scripts/docker/login.sh "$1")
 
 base=false
 pnpm=false
@@ -68,7 +68,6 @@ if [ "$base" = true ]; then
     echo "Pushing image $BASE_IMAGE"
     docker image push $BASE_IMAGE:24-latest
     docker image push $BASE_IMAGE:24-pnpm-latest
-    
 fi
 
 if [ "$api" = true ]; then

@@ -10,6 +10,8 @@ WEB_IMAGE=liexp-web
 AI_BOT_IMAGE=liexp-ai-bot
 AGENT_IMAGE=liexp-agent
 
+(exec ./scripts/docker/login.sh "$1")
+
 # filter image to build based on parameter
 
 base=false
