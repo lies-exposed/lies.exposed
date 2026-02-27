@@ -21,6 +21,7 @@ export const MakeGetStoryRoute: Route = (r, ctx) => {
             relations: [
               "creator",
               "keywords",
+              "links",
               "events",
               "groups",
               "actors",

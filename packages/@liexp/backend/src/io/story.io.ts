@@ -20,7 +20,7 @@ const toStoryIO = ({
       creator: creator ?? undefined,
       body,
       body2,
-      links: [],
+      links: story.links ?? [],
       media: story.media ?? [],
       actors: story.actors ?? [],
       groups: story.groups ?? [],

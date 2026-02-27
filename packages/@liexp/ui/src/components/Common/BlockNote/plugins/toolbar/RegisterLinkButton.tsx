@@ -92,8 +92,8 @@ export const RegisterLinkFormattingButton: React.FC = () => {
             type: "link-entity",
             props: {
               id: link.id,
-              url: link.url,
-              title: link.title ?? "",
+              url: `/links/${link.id}`,
+              title: link.title ?? link.url ?? "",
             },
           } as any,
         ],
@@ -167,8 +167,8 @@ const RegisterLinkToolbarButton: React.FC<
           type: "link-entity",
           attrs: {
             id: link.id,
-            url: link.url,
-            title: link.title ?? "",
+            url: `/links/${link.id}`,
+            title: link.title ?? link.url ?? "",
           },
         })
         .run();

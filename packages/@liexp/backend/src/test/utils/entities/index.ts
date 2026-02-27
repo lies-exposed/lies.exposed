@@ -96,6 +96,7 @@ export const toLinkEntity = (a: Link): LinkEntity => ({
   events: [],
   keywords: [],
   socialPosts: [],
+  stories: [],
   deletedAt: null,
 });
 

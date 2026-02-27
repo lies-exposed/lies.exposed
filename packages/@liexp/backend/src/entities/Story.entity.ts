@@ -12,6 +12,7 @@ import { ActorEntity } from "./Actor.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { GroupEntity } from "./Group.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
+import { LinkEntity } from "./Link.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { UserEntity } from "./User.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
@@ -83,4 +84,10 @@ export class StoryEntity extends DeletableEntity {
   })
   @JoinTable()
   events: Relation<EventV2Entity[]>;
+
+  @ManyToMany(() => LinkEntity, (k) => k.stories, {
+    cascade: false,
+  })
+  @JoinTable()
+  links: Relation<LinkEntity[]>;
 }

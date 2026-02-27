@@ -118,6 +118,7 @@ export const fromURL =
           events: [],
           keywords: [],
           socialPosts: [],
+          stories: [],
           deletedAt: null,
         };
       }),
