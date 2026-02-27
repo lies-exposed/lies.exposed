@@ -83,7 +83,7 @@
     "@types/supertest": "^6.0.3",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
-    "msw": "^2.12.7",
+    "msw": "^2.12.10",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
