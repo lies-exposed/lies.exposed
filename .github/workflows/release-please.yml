@@ -140,7 +140,7 @@ jobs:
       # Download ai-bot build artifacts if needed
       - name: Download ai-bot build artifacts
         if: ${{ matrix.needs_artifacts && matrix.enabled }}
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: ai-bot-build
           path: services/ai-bot/build/
