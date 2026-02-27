@@ -127,7 +127,7 @@
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
     "axios": "^1.13.5",
-    "effect": "^3.19.14",
+    "effect": "^3.19.19",
     "eslint": "^9.39.2",
     "fp-ts": "^2.16.10",
     "jsdom": "^27.4.0",

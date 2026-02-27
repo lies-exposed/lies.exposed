@@ -61,7 +61,7 @@
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz",
     "date-fns": "^4.1.0",
     "debug": "^4.4.0",
-    "effect": "^3.19.14",
+    "effect": "^3.19.19",
     "express": "^5.2.1",
     "fp-ts": "^2.16.10",
     "path-to-regexp": "^8.3.0",
