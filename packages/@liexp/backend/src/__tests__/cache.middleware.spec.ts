@@ -49,9 +49,11 @@ const makeResMock = (): Response => {
 const makeReqMock = (
   method = "GET",
   url = "/actors?page=1",
+  headers: Partial<Request["headers"]> = {},
 ): Partial<Request> => ({
   method,
   originalUrl: url,
+  headers: headers as Request["headers"],
 });
 
 // ── tests ─────────────────────────────────────────────────────────────────────
@@ -66,6 +68,61 @@ describe("makeCacheMiddleware", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  // ── Authenticated requests ─────────────────────────────────────────────────
+
+  describe("authenticated requests", () => {
+    it("bypasses Redis and calls next() when Authorization header is present", async () => {
+      const get = vi.fn().mockResolvedValue(JSON.stringify({ data: [] }));
+      const redis = makeRedisMock({ get });
+      const middleware = makeCacheMiddleware(redis, config);
+      const res = makeResMock();
+      const req = makeReqMock("GET", "/actors?page=1", {
+        authorization: "Bearer some-token",
+      });
+
+      await middleware(req as Request, res, next);
+
+      expect(next).toHaveBeenCalledOnce();
+      expect(get).not.toHaveBeenCalled();
+    });
+
+    it("sets Cache-Control: no-store for authenticated requests", async () => {
+      const redis = makeRedisMock();
+      const middleware = makeCacheMiddleware(redis, config);
+      const res = makeResMock();
+      const req = makeReqMock("GET", "/actors?page=1", {
+        authorization: "Bearer some-token",
+      });
+
+      await middleware(req as Request, res, next);
+
+      expect(res.setHeader).toHaveBeenCalledWith("Cache-Control", "no-store");
+      expect(res.setHeader).not.toHaveBeenCalledWith(
+        "Cache-Control",
+        expect.stringContaining("public"),
+      );
+    });
+
+    it("does not write to Redis for authenticated requests", async () => {
+      const setex = vi.fn().mockResolvedValue("OK");
+      const redis = makeRedisMock({ setex });
+      const middleware = makeCacheMiddleware(redis, config);
+      const res = makeResMock();
+      const req = makeReqMock("GET", "/stories/some-uuid", {
+        authorization: "Bearer some-token",
+      });
+
+      await middleware(req as Request, res, next);
+
+      // Simulate route handler calling res.json
+      (res as any).json({ data: { id: "some-uuid" } });
+
+      await new Promise((r) => setTimeout(r, 10));
+
+      expect(setex).not.toHaveBeenCalled();
+    });
   });
 
   // ── GET / cache miss ───────────────────────────────────────────────────────
