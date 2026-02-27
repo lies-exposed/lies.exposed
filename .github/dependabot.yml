@@ -11,39 +11,25 @@ updates:
     open-pull-requests-limit: 5
     target-branch: "main"
 
-  # ignore all updates for the @liexp/packages
+  # npm – single root entry so pnpm-lock.yaml covers all workspace packages.
+  # Listing individual workspace directories alongside "/" causes Dependabot to
+  # open one PR per directory for every shared dependency (e.g. react-dropzone
+  # would get a PR for "/" AND "/packages/@liexp/ui"). Groups also only apply
+  # within a single directory block, so keeping everything under "/" is required
+  # for cross-workspace grouping (e.g. storybook, eslint) to work properly.
   - package-ecosystem: "npm"
-    directories:
-      - "/packages/@liexp/*"
+    directory: "/"
     schedule:
       interval: "weekly"
-    ignore:
-      - dependency-name: "*"
-
-  - package-ecosystem: "npm"
-    directories:
-      - "/"
-      - "/packages/@liexp/core"
-      - "/packages/@liexp/io"
-      - "/packages/@liexp/backend"
-      - "/packages/@liexp/test"
-      - "/packages/@liexp/shared"
-      - "/packages/@liexp/ui"
-      - "/services/api"
-      - "/services/web"
-      - "/services/ai-bot"
-      - "/services/worker"
-      - "/services/admin"
-      - "/services/storybook"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 15
     target-branch: "main"
     versioning-strategy: increase
     allow:
-      # Allow both direct and indirect updates for all packages
       - dependency-type: "direct"
     ignore:
+      # Internal workspace packages – never updated by Dependabot
+      - dependency-name: "@liexp/*"
+      # Pinned external deps – not ready for these majors yet
       - dependency-name: "@types/express"
         versions: ["5.x"]
       - dependency-name: "@types/mime"
@@ -57,8 +43,7 @@ updates:
       - dependency-name: react-dom
         versions: ["19.x"]
       - dependency-name: "@types/node"
-        versions:
-          - "25.x"
+        versions: ["25.x"]
       - dependency-name: "@types/react"
         versions: ["19.x"]
       - dependency-name: "@types/react-dom"
@@ -85,19 +70,16 @@ updates:
           - "@eslint/*"
           - "eslint*"
           - "eslint"
-
       mui:
         patterns:
           - "*mui*"
       react-admin:
         patterns:
           - "ra-*"
-          - "react-core"
           - "react-admin"
       react-router:
         patterns:
           - "react-router*"
-
       storybook:
         patterns:
           - "@storybook/*"
