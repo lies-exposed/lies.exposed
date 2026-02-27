@@ -48,7 +48,7 @@
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "axios": "^1.13.5",
-    "cronstrue": "^3.9.0",
+    "cronstrue": "^3.13.0",
     "debug": "^4.4.0",
     "effect": "^3.19.14",
     "exifreader": "^4.36.0",
