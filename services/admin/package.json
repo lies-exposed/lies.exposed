@@ -70,7 +70,7 @@
     "@types/node": "^24.10.15",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
-    "@types/supertest": "^6.0.3",
+    "@types/supertest": "^7.2.0",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
     "jsdom": "^27.4.0",
