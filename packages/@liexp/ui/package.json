@@ -131,7 +131,7 @@
     "eslint": "^9.39.2",
     "fp-ts": "^2.16.10",
     "jsdom": "^27.4.0",
-    "openai": "^6.15.0",
+    "openai": "^6.25.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.1.1",
