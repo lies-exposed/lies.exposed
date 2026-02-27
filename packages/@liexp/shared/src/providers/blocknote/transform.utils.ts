@@ -28,7 +28,7 @@ export function transform<T>(
 
 interface InlineRelation {
   id: UUID;
-  type: "actor" | "group" | "keyword" | "event" | "media" | "area";
+  type: "actor" | "group" | "keyword" | "event" | "media" | "area" | "link-entity";
 }
 
 const blockSerializer =
@@ -78,7 +78,8 @@ const inlineRelationsPluginSerializer = (
     case "group":
     case "area":
     case "media":
-    case "event": {
+    case "event":
+    case "link-entity": {
       const pp: any = p;
       return pipe(
         pp.props?.id,
@@ -144,6 +145,8 @@ export const relationsTransformer = (
           acc.events.push(r.id);
         } else if (r.type === "area" && !acc.areas.includes(r.id)) {
           acc.areas.push(r.id);
+        } else if (r.type === "link-entity" && !acc.links.includes(r.id)) {
+          acc.links.push(r.id);
         }
         return acc;
       }),

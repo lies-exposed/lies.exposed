@@ -13,6 +13,7 @@ import { actorInlineContentSpec } from "./plugins/inline/ActorInlineBlockNote.pl
 import { areaInlineContentSpec } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
 import { groupInlineContentSpec } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordInlineContentSpec } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
+import { linkEntityInlineContentSpec } from "./plugins/inline/LinkEntityInlineBlockNote.plugin.js";
 import { relationInlineContentSpec } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
 
 const { image: _image, ...otherBlockSpecs } = defaultBlockSpecs;
@@ -27,6 +28,7 @@ export const schema = BlockNoteSchema.create({
     area: areaInlineContentSpec,
     group: groupInlineContentSpec,
     keyword: keywordInlineContentSpec,
+    "link-entity": linkEntityInlineContentSpec,
     relation: relationInlineContentSpec,
   },
   blockSpecs: {

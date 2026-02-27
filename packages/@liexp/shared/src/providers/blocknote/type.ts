@@ -15,6 +15,7 @@ import { type actorInlineSpec } from "./actorInline.specs.js";
 import { type AreaInlineSpec } from "./areaInline.specs.js";
 import { type GroupInlineSpec } from "./groupInline.specs.js";
 import { type KeywordInlineSpec } from "./keywordInline.specs.js";
+import { type LinkEntityInlineSpec } from "./linkEntityInline.specs.js";
 import { type RelationInlineSpec } from "./relationInline.specs.js";
 
 export type RealBlockNoteSchema = BlockNoteSchema<
@@ -31,6 +32,7 @@ export type RealBlockNoteSchema = BlockNoteSchema<
       relation: InlineContentSpec<RelationInlineSpec>;
       group: InlineContentSpec<GroupInlineSpec>;
       actor: InlineContentSpec<typeof actorInlineSpec>;
+      "link-entity": InlineContentSpec<LinkEntityInlineSpec>;
     }
   >,
   StyleSchemaFromSpecs<typeof defaultStyleSpecs>
