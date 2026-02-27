@@ -13,6 +13,7 @@ import { EventV2Entity } from "./Event.v2.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
 import { MediaEntity } from "./Media.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
+import { type StoryEntity } from "./Story.entity.js";
 import { UserEntity } from "./User.entity.js";
 import { DeletableEntity } from "./abstract/deletable.entity.js";
 
@@ -68,4 +69,6 @@ export class LinkEntity extends DeletableEntity {
   keywords: Relation<KeywordEntity[]>;
 
   socialPosts?: Relation<SocialPostEntity[] | UUID[]>;
+
+  stories: Relation<StoryEntity[]>;
 }

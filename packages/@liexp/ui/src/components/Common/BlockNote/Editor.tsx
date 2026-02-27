@@ -42,6 +42,10 @@ import { groupItem } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordItem } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { relationItem } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
 import { AIInstructionButton } from "./plugins/toolbar/AIInstructionButton.js";
+import {
+  CustomLinkToolbarController,
+  RegisterLinkFormattingButton,
+} from "./plugins/toolbar/RegisterLinkButton.js";
 import { toInitialContent } from "./utils/utils.js";
 
 const getCustomSlashMenuItems = (
@@ -123,6 +127,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
           editable={!readOnly}
           slashMenu={false}
           formattingToolbar={false}
+          linkToolbar={false}
           onChange={() => {
             onChange?.(editor.document);
           }}
@@ -138,6 +143,7 @@ export const BNEditor: React.FC<BNEditorProps> = ({
               );
             }}
           />
+          {!readOnly && <CustomLinkToolbarController />}
           <FormattingToolbarController
             formattingToolbar={() => (
               <FormattingToolbar>
@@ -183,6 +189,8 @@ export const BNEditor: React.FC<BNEditorProps> = ({
                 <UnnestBlockButton key="unnestBlockButton" />
 
                 <CreateLinkButton key="createLinkButton" />
+
+                <RegisterLinkFormattingButton key="registerLinkButton" />
 
                 {resource && resourceId ? (
                   <AIInstructionButton

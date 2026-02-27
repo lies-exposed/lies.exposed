@@ -49,15 +49,21 @@ export const InlineRelationsPlugin: React.FC<InlineRelationsPluginProps> = ({
 }) => {
   return (
     <StyledBox className={classes.root}>
-      <ActorsBox
-        style={{ display: "flex", flexDirection: "row" }}
-        params={{ ids: actors }}
-        onActorClick={onActorClick}
-      />
-      <GroupsBox params={{ ids: groups }} onItemClick={onGroupClick} />
+      {actors.length > 0 && (
+        <ActorsBox
+          style={{ display: "flex", flexDirection: "row" }}
+          params={{ ids: actors }}
+          onActorClick={onActorClick}
+        />
+      )}
+      {groups.length > 0 && (
+        <GroupsBox params={{ ids: groups }} onItemClick={onGroupClick} />
+      )}
       <KeywordsBox ids={keywords} onItemClick={onKeywordClick} />
       <EventTimelinePlugin events={events} onEventClick={onEventClick} />
-      <MediaBox columns={3} filter={{ ids: media }} onClick={onMediaClick} />
+      {media.length > 0 && (
+        <MediaBox columns={3} filter={{ ids: media }} onClick={onMediaClick} />
+      )}
     </StyledBox>
   );
 };

@@ -14,6 +14,7 @@ export const EditStoryBody = Schema.Struct({
   featuredImage: OptionFromNullishToNull(Schema.Struct({ id: UUID })),
   body2: BlockNoteDocument,
   keywords: Schema.Array(UUID),
+  links: Schema.Array(UUID),
   groups: Schema.Array(UUID),
   actors: Schema.Array(UUID),
   events: Schema.Array(UUID),
