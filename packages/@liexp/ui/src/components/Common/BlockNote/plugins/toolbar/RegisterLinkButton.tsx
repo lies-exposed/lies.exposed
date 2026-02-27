@@ -9,20 +9,19 @@ import {
   useSelectedBlocks,
   type LinkToolbarProps,
 } from "@blocknote/react";
+import { fp } from "@liexp/core/lib/fp/index.js";
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { type BNESchemaEditor } from "@liexp/shared/lib/providers/blocknote/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { Schema } from "effect";
 import { pipe } from "fp-ts/lib/function.js";
+import { useNotify } from "ra-core";
 import * as React from "react";
 import { useAPI } from "../../../../../hooks/useAPI.js";
 import { CircularProgress, Icons } from "../../../../mui/index.js";
 
 const isValidUrl = (text: string): boolean => {
-  try {
-    new URL(text.trim());
-    return true;
-  } catch {
-    return false;
-  }
+  return Schema.is(URL)(text);
 };
 
 const getUrlFromBlocks = (
@@ -57,6 +56,7 @@ export const RegisterLinkFormattingButton: React.FC = () => {
   const Components = useComponentsContext();
   const selectedBlocks = useSelectedBlocks(editor);
   const api = useAPI();
+  const notify = useNotify();
 
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -69,13 +69,17 @@ export const RegisterLinkFormattingButton: React.FC = () => {
     setIsLoading(true);
     try {
       const result = await pipe(
-        api.Link.Create({
-          Body: {
-            url: url as any,
-            status: "DRAFT",
-            events: [],
-          },
-        }),
+        Schema.decodeUnknownEither(URL)(url),
+        fp.TE.fromEither,
+        fp.TE.chainW((url) =>
+          api.Link.Create({
+            Body: {
+              url: url,
+              status: "DRAFT",
+              events: [],
+            },
+          }),
+        ),
         throwTE,
       );
 
@@ -94,8 +98,8 @@ export const RegisterLinkFormattingButton: React.FC = () => {
           } as any,
         ],
       });
-    } catch (e) {
-      console.error("Failed to register link:", e);
+    } catch (_e) {
+      notify("Failed to register link:", { type: "error" });
     } finally {
       setIsLoading(false);
     }
@@ -137,6 +141,7 @@ const RegisterLinkToolbarButton: React.FC<
   const Components = useComponentsContext();
   const api = useAPI();
   const [isLoading, setIsLoading] = React.useState(false);
+  const notify = useNotify();
 
   const handleClick = async (): Promise<void> => {
     setIsLoading(true);
@@ -169,8 +174,8 @@ const RegisterLinkToolbarButton: React.FC<
         .run();
 
       setToolbarOpen?.(false);
-    } catch (e) {
-      console.error("Failed to register link:", e);
+    } catch (_e) {
+      notify("Failed to register link:", { type: "error" });
     } finally {
       setIsLoading(false);
     }

@@ -11,7 +11,7 @@ export const linkEntityInlineContentSpec = createReactInlineContentSpec(
         props: { url, title },
       },
     }): React.ReactNode => {
-      const displayText = title || url || "link";
+      const displayText = title ?? url ?? "link";
       return (
         <Tooltip title={url}>
           <Chip

@@ -28,7 +28,14 @@ export function transform<T>(
 
 interface InlineRelation {
   id: UUID;
-  type: "actor" | "group" | "keyword" | "event" | "media" | "area" | "link-entity";
+  type:
+    | "actor"
+    | "group"
+    | "keyword"
+    | "event"
+    | "media"
+    | "area"
+    | "link-entity";
 }
 
 const blockSerializer =
