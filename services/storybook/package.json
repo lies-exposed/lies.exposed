@@ -56,8 +56,8 @@
     "@types/d3": "^7.4.3",
     "@types/react": "^18.3.27",
     "@types/react-virtualized": "^9.22.3",
-    "eslint": "^9.39.2",
-    "eslint-plugin-storybook": "^10.2.8",
+    "eslint": "^10.0.2",
+    "eslint-plugin-storybook": "^10.2.13",
     "prettier": "^3.8.0",
     "typescript": "^5.9.3"
   },
