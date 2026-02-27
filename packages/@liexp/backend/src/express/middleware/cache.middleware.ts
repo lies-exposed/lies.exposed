@@ -36,6 +36,12 @@ export const makeCacheMiddleware = (
   const { ttl, keyPrefix, invalidationPatterns = [`${keyPrefix}:*`] } = config;
 
   return (req, res, next) => {
+    // ── Authenticated requests bypass cache entirely ───────────────────────
+    if (req.headers.authorization) {
+      res.setHeader("Cache-Control", "no-store");
+      return next();
+    }
+
     // ── Mutations: invalidate matching keys after a 2xx response ──────────
     if (req.method !== "GET") {
       if (invalidationPatterns.length > 0) {
