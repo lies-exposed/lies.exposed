@@ -3,6 +3,7 @@ export * from "./EventBlock.specs.js";
 export * from "./MediaBlock.specs.js";
 // inline schema
 export * from "./actorInline.specs.js";
+export * from "./eventInline.specs.js";
 export * from "./linkEntityInline.specs.js";
 export * from "./areaInline.specs.js";
 export * from "./groupInline.specs.js";

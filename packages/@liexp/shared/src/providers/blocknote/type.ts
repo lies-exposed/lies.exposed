@@ -13,6 +13,7 @@ import { type EventBlockSpecs } from "./EventBlock.specs.js";
 import { type MediaBlockSpecs } from "./MediaBlock.specs.js";
 import { type actorInlineSpec } from "./actorInline.specs.js";
 import { type AreaInlineSpec } from "./areaInline.specs.js";
+import { type EventInlineSpec } from "./eventInline.specs.js";
 import { type GroupInlineSpec } from "./groupInline.specs.js";
 import { type KeywordInlineSpec } from "./keywordInline.specs.js";
 import { type LinkEntityInlineSpec } from "./linkEntityInline.specs.js";
@@ -33,6 +34,7 @@ export type RealBlockNoteSchema = BlockNoteSchema<
       group: InlineContentSpec<GroupInlineSpec>;
       actor: InlineContentSpec<typeof actorInlineSpec>;
       "link-entity": InlineContentSpec<LinkEntityInlineSpec>;
+      "event-inline": InlineContentSpec<EventInlineSpec>;
     }
   >,
   StyleSchemaFromSpecs<typeof defaultStyleSpecs>

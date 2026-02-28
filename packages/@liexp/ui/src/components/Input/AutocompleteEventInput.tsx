@@ -32,6 +32,7 @@ const getEventImage = (
 interface AutocompleteEventInputProps {
   className?: string;
   discrete?: boolean;
+  autoFocus?: boolean;
   filter?: Partial<{ eventType: EventType[] }>;
   selectedItems: Events.Event[];
   onChange: (items: Events.Event[]) => void;
@@ -94,6 +95,8 @@ export const AutocompleteEventInput: React.FC<AutocompleteEventInputProps> = ({
           <EventSlimCard
             key={item.id}
             layout="horizontal"
+            showMedia={!!image}
+            showExcerpt={false}
             event={item}
             onEventClick={() => {
               onChange(
