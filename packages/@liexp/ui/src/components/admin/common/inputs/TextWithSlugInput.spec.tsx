@@ -1,19 +1,28 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import * as React from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { Form } from "ra-core";
+import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { TextInput } from "../../../admin/react-admin.js";
 import { TextWithSlugInput } from "./TextWithSlugInput.js";
 
+/**
+ * Use ra-core's Form as wrapper (inside a MemoryRouter) to ensure the
+ * react-hook-form context is provided by the same instance used by
+ * ra-ui-materialui's TextInput.
+ * Using react-hook-form's FormProvider directly can cause duplicate instances
+ * in some pnpm setups (e.g. CI), breaking ra-core's useController.
+ */
 const FormWrapper: React.FC<
   React.PropsWithChildren<{ defaultValues?: any }>
 > = ({ children, defaultValues = {} }) => {
-  const formState = useForm({ defaultValues });
   return (
-    <FormProvider {...formState}>
-      <form>{children}</form>
-    </FormProvider>
+    <MemoryRouter>
+      <Form defaultValues={defaultValues} onSubmit={() => {}}>
+        {children}
+      </Form>
+    </MemoryRouter>
   );
 };
 
