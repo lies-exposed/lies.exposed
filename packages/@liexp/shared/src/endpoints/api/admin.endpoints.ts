@@ -74,6 +74,7 @@ export const BuildImage = Endpoint({
   getPath: () => `/admins/images/build`,
   Input: {
     Body: Schema.Struct({
+      defer: Schema.UndefinedOr(Schema.Boolean),
       layers: Schema.Struct({
         media: Schema.Union(MediaImageLayer, Schema.Undefined),
         text: Schema.Union(TextLayer, Schema.Undefined),
@@ -83,7 +84,9 @@ export const BuildImage = Endpoint({
       }),
     }),
   },
-  Output: Output(Schema.Struct({ success: Schema.Boolean })).annotations({
+  Output: Output(
+    Schema.Union(Schema.String, Schema.Struct({ success: Schema.Boolean })),
+  ).annotations({
     title: "BuildImageOutput",
   }),
 });

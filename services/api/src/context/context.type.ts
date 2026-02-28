@@ -2,6 +2,7 @@ import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type FSClientContext } from "@liexp/backend/lib/context/fs.context.js";
 import {
   type GeocodeProviderContext,
+  type ImgProcClientContext,
   type NERProviderContext,
   type WikipediaProviderContext,
 } from "@liexp/backend/lib/context/index.js";
@@ -47,6 +48,7 @@ export type ServerContext = ENVContext &
   QueuesProviderContext &
   BlockNoteContext &
   GeocodeProviderContext &
+  ImgProcClientContext &
   RedisContext & {
     /** RationalWiki Provider */
     rw: WikipediaProvider;
