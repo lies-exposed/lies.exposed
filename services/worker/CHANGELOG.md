@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.4...worker@0.5.0) (2026-02-28)
+
+
+### Features
+
+* **ai-bot:** extract thumbnailUrl from link metadata and create media on job completion ([#3245](https://github.com/lies-exposed/lies.exposed/issues/3245)) ([fe15601](https://github.com/lies-exposed/lies.exposed/commit/fe15601b9909fbf9e9f069f6ff59ba7679263e8e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.0
+    * @liexp/io bumped to 0.5.0
+    * @liexp/core bumped to 0.5.0
+    * @liexp/shared bumped to 0.5.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.0
+    * @liexp/test bumped to 0.5.0
+
 ## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...worker@0.4.4) (2026-02-24)
 
 

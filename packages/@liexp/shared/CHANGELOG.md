@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.4...@liexp/shared@0.5.0) (2026-02-28)
+
+
+### Features
+
+* **ai-bot:** extract thumbnailUrl from link metadata and create media on job completion ([#3245](https://github.com/lies-exposed/lies.exposed/issues/3245)) ([fe15601](https://github.com/lies-exposed/lies.exposed/commit/fe15601b9909fbf9e9f069f6ff59ba7679263e8e))
+
+
+### Bug Fixes
+
+* **ai-bot:** link metadata extraction and status filtering for admin  ([#3242](https://github.com/lies-exposed/lies.exposed/issues/3242)) ([8b2ce40](https://github.com/lies-exposed/lies.exposed/commit/8b2ce40aaf32c1c6798f282e49ff8e9e7335e015))
+* **api:** stories validation ([#3270](https://github.com/lies-exposed/lies.exposed/issues/3270)) ([57dc553](https://github.com/lies-exposed/lies.exposed/commit/57dc553ede1a3f120d4dc3824aaf4a4b176f7f71))
+* **ui:** add link entity registration from BlockNote editor  ([#3264](https://github.com/lies-exposed/lies.exposed/issues/3264)) ([0c6ec5b](https://github.com/lies-exposed/lies.exposed/commit/0c6ec5b53b35cbd0b24f6883ef18b610702eb5a0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.0
+    * @liexp/io bumped to 0.5.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.0
+    * @liexp/test bumped to 0.5.0
+
 ## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...@liexp/shared@0.4.4) (2026-02-24)
 
 

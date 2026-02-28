@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.4...lies.exposed@0.5.0) (2026-02-28)
+
+
+### Miscellaneous
+
+* **deps:** consolidate dependabot config to single root directory ([#3247](https://github.com/lies-exposed/lies.exposed/issues/3247)) ([9da48a8](https://github.com/lies-exposed/lies.exposed/commit/9da48a8b3292185c26c6db94572160ffd8410908))
+* **workspace:** set kubernetes revisionHistoryLimit to 3 for service deployments ([#3239](https://github.com/lies-exposed/lies.exposed/issues/3239)) ([15baada](https://github.com/lies-exposed/lies.exposed/commit/15baada330ffaeaf9cf453d715c6993a056d6cf8))
+
 ## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...lies.exposed@0.4.4) (2026-02-24)
 
 

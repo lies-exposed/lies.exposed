@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.4...@liexp/io@0.5.0) (2026-02-28)
+
+
+### Bug Fixes
+
+* **ui:** add link entity registration from BlockNote editor  ([#3264](https://github.com/lies-exposed/lies.exposed/issues/3264)) ([0c6ec5b](https://github.com/lies-exposed/lies.exposed/commit/0c6ec5b53b35cbd0b24f6883ef18b610702eb5a0))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.0
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.0
+
 ## [0.4.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.3...@liexp/io@0.4.4) (2026-02-24)
 
 
