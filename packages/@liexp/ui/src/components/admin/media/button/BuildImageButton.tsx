@@ -214,7 +214,11 @@ export const BuildImageButton: React.FC<
 
   return (
     <Box display="flex" flexDirection="column" gap={0.5}>
-      <LayerBox layer={mediaLayer} defaultExpanded onLayerChange={setMediaLayer} />
+      <LayerBox
+        layer={mediaLayer}
+        defaultExpanded
+        onLayerChange={setMediaLayer}
+      />
       <LayerBox layer={text} defaultExpanded onLayerChange={setText} />
       <LayerBox layer={watermark} onLayerChange={setWatermark} />
       <Button

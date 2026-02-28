@@ -26,9 +26,12 @@ import {
  *    falls back to a plain controlled `useState`, driven by the `value` /
  *    `onChange` props that the caller already provides.
  */
-const ColorInputWithForm: React.FC<
-  TextInputProps & { isMobile: boolean }
-> = ({ source, value, isMobile, ...props }) => {
+const ColorInputWithForm: React.FC<TextInputProps & { isMobile: boolean }> = ({
+  source,
+  value,
+  isMobile,
+  ...props
+}) => {
   const record = useRecordContext();
   const { field } = useInput({
     source,
