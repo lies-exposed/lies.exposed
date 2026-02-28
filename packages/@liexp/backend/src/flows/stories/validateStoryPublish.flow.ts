@@ -1,4 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
+import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import * as Link from "@liexp/io/lib/http/Link.js";
 import { IOError } from "@ts-endpoint/core";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
@@ -15,7 +16,10 @@ import { LinkEntity } from "../../entities/Link.entity.js";
  * `IOError` listing the offending link URLs otherwise.
  */
 export const validateStoryPublish =
-  (draft: boolean, linkIds: string[]): ReaderTaskEither<DatabaseContext, IOError, void> =>
+  (
+    draft: boolean,
+    linkIds: readonly UUID[],
+  ): ReaderTaskEither<DatabaseContext, IOError, void> =>
   (ctx) => {
     if (draft || linkIds.length === 0) {
       return TE.right(undefined);
