@@ -120,8 +120,9 @@ const Map = <G extends Geometry>({
     const totalPadding = 20 * 2;
 
     if (size) {
-      if (!featureSource.isEmpty()) {
-        map.getView().fit(featureSource.getExtent(), {
+      const featureExtent = featureSource.getExtent();
+      if (!featureSource.isEmpty() && featureExtent !== null) {
+        map.getView().fit(featureExtent, {
           size: [size[0] - totalPadding, size[1] - totalPadding],
           maxZoom: 12,
         });
