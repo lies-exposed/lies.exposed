@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.0...api@0.5.1) (2026-02-28)
+
+
+### Bug Fixes
+
+* **api:** added migration for new 'openai-update-entities-from-url' queue type ([#3271](https://github.com/lies-exposed/lies.exposed/issues/3271)) ([1bb0265](https://github.com/lies-exposed/lies.exposed/commit/1bb02651981a4b956a8a68ae003b774830ac1537))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.1
+    * @liexp/core bumped to 0.5.1
+    * @liexp/io bumped to 0.5.1
+    * @liexp/shared bumped to 0.5.1
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.1
+    * @liexp/test bumped to 0.5.1
+
 ## [0.5.0](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.4.4...api@0.5.0) (2026-02-28)
 
 
