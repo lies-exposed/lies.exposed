@@ -38,6 +38,7 @@ import { insertLinkBlock } from "./plugins/block/LinkBlock.plugin.js";
 import { insertMediaBlock } from "./plugins/block/MediaBlock.plugin.js";
 import { actorItem } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
 import { areaItem } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
+import { eventInlineItem } from "./plugins/inline/EventInlineBlockNote.plugin.js";
 import { groupItem } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordItem } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { relationItem } from "./plugins/inline/RelationInlineBlockNote.plugin.js";
@@ -58,6 +59,7 @@ const getCustomSlashMenuItems = (
     actorItem(editor),
     areaItem(editor),
     keywordItem(editor),
+    eventInlineItem(editor),
     // blocks
     insertBookEventBlock(editor),
     insertDeathEventBlock(editor),

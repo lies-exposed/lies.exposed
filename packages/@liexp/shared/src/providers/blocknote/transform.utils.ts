@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { type EventRelationIds } from "@liexp/io/lib/http/Events/index.js";
 import { type Option } from "fp-ts/lib/Option.js";
+import { DEFAULT_EVENT_INLINE_ID } from "./eventInline.specs.js";
 import { isValidValue } from "./isValidValue.js";
 import { type BNESchemaEditor, type BNBlock } from "./type.js";
 
@@ -92,6 +93,17 @@ const inlineRelationsPluginSerializer = (
         pp.props?.id,
         fp.O.fromNullable,
         fp.O.map((id) => [{ id, type: p.type as InlineRelation["type"] }]),
+      );
+    }
+    case "event-inline": {
+      const pp: any = p;
+      if (pp.props?.id === DEFAULT_EVENT_INLINE_ID) {
+        return fp.O.none;
+      }
+      return pipe(
+        pp.props?.id,
+        fp.O.fromNullable,
+        fp.O.map((id) => [{ id, type: "event" as InlineRelation["type"] }]),
       );
     }
     case "numberedListItem":

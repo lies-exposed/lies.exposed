@@ -11,6 +11,7 @@ import {
 import { mediaBlock } from "./plugins/block/MediaBlock.plugin.js";
 import { actorInlineContentSpec } from "./plugins/inline/ActorInlineBlockNote.plugin.js";
 import { areaInlineContentSpec } from "./plugins/inline/AreaInlineBlockNote.plugin.js";
+import { eventInlineContentSpec } from "./plugins/inline/EventInlineBlockNote.plugin.js";
 import { groupInlineContentSpec } from "./plugins/inline/GroupInlineBlockNote.plugin.js";
 import { keywordInlineContentSpec } from "./plugins/inline/KeywordInlineBlockNote.plugin.js";
 import { linkEntityInlineContentSpec } from "./plugins/inline/LinkEntityInlineBlockNote.plugin.js";
@@ -29,6 +30,7 @@ export const schema = BlockNoteSchema.create({
     group: groupInlineContentSpec,
     keyword: keywordInlineContentSpec,
     "link-entity": linkEntityInlineContentSpec,
+    "event-inline": eventInlineContentSpec,
     relation: relationInlineContentSpec,
   },
   blockSpecs: {
