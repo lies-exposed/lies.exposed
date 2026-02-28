@@ -124,6 +124,25 @@ describe("Create Queue", () => {
     expect(res.body.data.type).toEqual("openai-update-event");
   });
 
+  test("Should create openai-update-entities-from-url queue", async () => {
+    const id = fc.sample(UUIDArb, 1)[0];
+    const linkId = fc.sample(UUIDArb, 1)[0];
+
+    const body = {
+      id,
+      data: { linkId },
+    };
+
+    const res = await Test.req
+      .post("/v1/queues/openai-update-entities-from-url/events")
+      .set("Authorization", adminAuth)
+      .send(body);
+
+    expect(res.status).toEqual(200);
+    expect(res.body.data.id).toEqual(id);
+    expect(res.body.data.type).toEqual("openai-update-entities-from-url");
+  });
+
   test("Should create openai-embedding and openai-summarize queues", async () => {
     const id1 = fc.sample(UUIDArb, 1)[0];
     const url = fc.sample(URLArb, 1)[0];
