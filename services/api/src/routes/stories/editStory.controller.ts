@@ -1,5 +1,6 @@
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
+import { validateStoryPublish } from "@liexp/backend/lib/flows/stories/validateStoryPublish.flow.js";
 import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
@@ -34,10 +35,13 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
       const relations = relationsTransformer(body2);
 
       return pipe(
-        ctx.db.findOneOrFail(StoryEntity, {
-          where: { id: Equal(id), creator: Equal(creator) },
-          withDeleted: true,
-        }),
+        validateStoryPublish(body.draft, relations.links)(ctx),
+        TE.chain(() =>
+          ctx.db.findOneOrFail(StoryEntity, {
+            where: { id: Equal(id), creator: Equal(creator) },
+            withDeleted: true,
+          }),
+        ),
         TE.chain((e) => {
           const featuredImageId = pipe(
             featuredImage,

@@ -1,8 +1,10 @@
 import { StoryEntity } from "@liexp/backend/lib/entities/Story.entity.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
+import { validateStoryPublish } from "@liexp/backend/lib/flows/stories/validateStoryPublish.flow.js";
 import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -16,21 +18,27 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
       r,
     ) => {
       const featuredImage = pipe(body.featuredImage, O.toNullable);
+      const relations = relationsTransformer(body2);
+
       return pipe(
-        ctx.db.save(StoryEntity, [
-          {
-            ...body,
-            body: "",
-            body2: body2,
-            creator: { id: r.user?.id },
-            keywords: keywords.map((k) => ({ id: k })),
-            actors: actors.map((k) => ({ id: k })),
-            groups: groups.map((k) => ({ id: k })),
-            media: media.map((m) => ({ id: m })),
-            events: events.map((e) => ({ id: e })),
-            featuredImage: featuredImage ? { id: featuredImage } : null,
-          },
-        ]),
+        validateStoryPublish(body.draft, relations.links)(ctx),
+        TE.chain(() =>
+          ctx.db.save(StoryEntity, [
+            {
+              ...body,
+              body: "",
+              body2: body2,
+              creator: { id: r.user?.id },
+              keywords: keywords.map((k) => ({ id: k })),
+              actors: actors.map((k) => ({ id: k })),
+              groups: groups.map((k) => ({ id: k })),
+              media: media.map((m) => ({ id: m })),
+              events: events.map((e) => ({ id: e })),
+              links: relations.links.map((l) => ({ id: l })),
+              featuredImage: featuredImage ? { id: featuredImage } : null,
+            },
+          ]),
+        ),
         TE.chain(([story]) =>
           ctx.db.findOneOrFail(StoryEntity, {
             where: { id: story.id },
