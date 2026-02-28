@@ -1,5 +1,6 @@
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { buildImageWithSharp } from "@liexp/backend/lib/flows/media/admin/build-image/buildImageWithSharp.flow.js";
+import { BuildImageWithSharpPubSub } from "@liexp/backend/lib/pubsub/buildImageWithSharp.pubSub.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type BuildImageLayer,
@@ -8,7 +9,6 @@ import {
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
-import { BuildImageWithSharpPubSub } from "@liexp/backend/lib/pubsub/buildImageWithSharp.pubSub.js";
 
 const DEFAULT_WATERMARK: WatermarkLayer = {
   type: "watermark",
@@ -41,8 +41,7 @@ export const MakeAdminBuildImageRoute: Route = (r, ctx) => {
       // Always include a watermark; fall back to the default if none was provided
       layers.push(watermarkLayer ?? DEFAULT_WATERMARK);
 
-      const deferred =
-        defer != null && defer === true ? true : false;
+      const deferred = defer != null && defer === true ? true : false;
 
       if (deferred) {
         return pipe(

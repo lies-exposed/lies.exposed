@@ -31,7 +31,8 @@ const sizePercentage = (size: number, percentage: number): number =>
   Math.ceil((percentage / 100) * size);
 
 /** Ensure a pixel dimension passed to sharp is always a positive integer. */
-const clampPositive = (n: number, min = 1): number => Math.max(min, Math.ceil(n));
+const clampPositive = (n: number, min = 1): number =>
+  Math.max(min, Math.ceil(n));
 
 // const isHorizontalGravity = (g: keyof GravityEnum): boolean =>
 //   g === "east" || g === "west";
@@ -209,13 +210,10 @@ const addTextLayer =
       const textLayerPadding = layerWidth / 20;
       const textLayerWidth = clampPositive(layerWidth - textLayerPadding * 2);
       const textLayerHeight = clampPositive(
-        getSizeForGravity(
-          () => layerHeight - textLayerPadding * 2,
-          {
-            onEast: () => layerHeight * 1.8 - textLayerPadding * 2,
-            onWest: () => layerHeight * 1.8 - textLayerPadding * 2,
-          },
-        ),
+        getSizeForGravity(() => layerHeight - textLayerPadding * 2, {
+          onEast: () => layerHeight * 1.8 - textLayerPadding * 2,
+          onWest: () => layerHeight * 1.8 - textLayerPadding * 2,
+        }),
       );
       const textLayerTop = getSizeForGravity(() => textLayerPadding, {
         onSouth: () => height - layerHeight + textLayerPadding,

@@ -65,6 +65,7 @@
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.13.5",
+    "exifreader": "^4.36.0",
     "body-parser": "^2.2.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
@@ -81,6 +82,7 @@
     "pg": "^8.16.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typeorm": "^0.3.28",
     "typescript": "^5.9.3"

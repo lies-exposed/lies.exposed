@@ -4,10 +4,8 @@ import { MakeURLMetadata } from "@liexp/backend/lib/providers/URLMetadata.provid
 import { GetFFMPEGProvider } from "@liexp/backend/lib/providers/ffmpeg/ffmpeg.provider.js";
 import { GetFSClient } from "@liexp/backend/lib/providers/fs/fs.provider.js";
 import { GeocodeProvider } from "@liexp/backend/lib/providers/geocode/geocode.provider.js";
+import { MakeImgProcClient } from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
-import {
-  MakeImgProcClient,
-} from "@liexp/backend/lib/providers/imgproc/imgproc.provider.js";
 import { GetNERProvider } from "@liexp/backend/lib/providers/ner/ner.provider.js";
 import { GetTypeORMClient } from "@liexp/backend/lib/providers/orm/index.js";
 import { GetQueueProvider } from "@liexp/backend/lib/providers/queue.provider.js";

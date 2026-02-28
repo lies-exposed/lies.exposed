@@ -1219,6 +1219,9 @@ importers:
       effect:
         specifier: ^3.19.19
         version: 3.19.19
+      exifreader:
+        specifier: ^4.36.0
+        version: 4.36.2
       express:
         specifier: ^5.2.1
         version: 5.2.1
@@ -1252,6 +1255,9 @@ importers:
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      sharp:
+        specifier: ^0.34.5
+        version: 0.34.5
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
