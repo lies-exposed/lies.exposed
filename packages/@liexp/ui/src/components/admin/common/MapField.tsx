@@ -55,10 +55,13 @@ export const MapField: React.FC<MapFieldProps> = (props) => {
       if (target) {
         const map = getDefaultMap(target, featuresLayer);
         if (features.length > 0) {
-          map.getView().fit(featuresSource.getExtent(), {
-            maxZoom: 16,
-            padding: [80, 80, 80, 80],
-          });
+          const featuresExtent = featuresSource.getExtent();
+          if (featuresExtent !== null) {
+            map.getView().fit(featuresExtent, {
+              maxZoom: 16,
+              padding: [80, 80, 80, 80],
+            });
+          }
         }
       }
     }
