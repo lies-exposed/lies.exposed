@@ -13,6 +13,7 @@ import {
 } from "../../queries/social-post/leftJoinSocialPosts.query.js";
 import { DBService } from "../../services/db.service.js";
 import { addOrder } from "../../utils/orm.utils.js";
+import { applyFTSWhere } from "../../utils/search.utils.js";
 
 export const getListQueryEmpty: GetListLinkQuery = {
   q: O.none(),
@@ -145,13 +146,10 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             }
 
             if (O.isSome(search)) {
-              const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
-
-              where(
-                "lower(link.title) LIKE :q OR lower(link.description) LIKE :q",
-                {
-                  q: `%${search.value.toLowerCase()}%`,
-                },
+              applyFTSWhere(
+                q,
+                ["link.title", "link.description", "link.url"],
+                search.value,
               );
               hasWhere = true;
             }

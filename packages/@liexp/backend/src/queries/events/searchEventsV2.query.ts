@@ -19,6 +19,7 @@ import { EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { GroupMemberEntity } from "../../entities/GroupMember.entity.js";
 import { type DBError } from "../../providers/orm/index.js";
 import { addOrder, type ORMOrder } from "../../utils/orm.utils.js";
+import { buildFTSWhereRaw } from "../../utils/search.utils.js";
 import { type EventsConfig } from "../config/index.js";
 import {
   aggregateSocialPostsPerEntry,
@@ -44,23 +45,6 @@ const whereInTitle =
     q: SelectQueryBuilder<EventV2Entity>,
     title: string,
   ): SelectQueryBuilder<EventV2Entity> => {
-    const trimmedWords = title
-      .trim()
-      .replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>{}[]\\\/]/gi, " ");
-
-    const tsQueryTitle = trimmedWords
-      .split(" ")
-      .sort((a, b) => b.length - a.length)
-      .slice(0, 3)
-      .join(" | ")
-      .toLowerCase();
-
-    // logger.debug.log(
-    //   "PG ts_query for title '%s' \n '%s'",
-    //   trimmedWords,
-    //   tsQueryTitle
-    // );
-
     const cases = Object.entries(config).reduce(
       (acc, [key, value]) =>
         acc.concat(
@@ -69,21 +53,10 @@ const whereInTitle =
       [""],
     );
 
-    const whereTitle = `ts_rank_cd(
-      to_tsvector(
-        'english',
-        coalesce(
-          CASE
-            ${cases.join("\n")}
-          END, ''
-        )
-      ),
-      to_tsquery('english', :q)
-    ) > 0.001`;
+    const tsvectorExpr = `coalesce(CASE ${cases.join("\n")} END, '')`;
+    const { whereClause, params } = buildFTSWhereRaw(tsvectorExpr, title);
 
-    return q.andWhere(whereTitle, {
-      q: tsQueryTitle,
-    });
+    return q.andWhere(whereClause, params);
   };
 
 const whereActorInArray =
