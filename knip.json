@@ -40,6 +40,7 @@
       "entry": [
         "src/client/index.tsx",
         "src/server/entry.tsx",
+        "src/server/server.tsx",
         "test/WebAppTest.ts"
       ],
       "includeEntryExports": false,
@@ -54,6 +55,7 @@
     "services/admin": {
       "entry": [
         "src/index.tsx",
+        "src/server/server.tsx",
         "test/AdminAppTest.ts"
       ],
       "includeEntryExports": false,
@@ -71,7 +73,9 @@
     },
     "services/ai-bot": {
       "entry": [
-        "src/run.ts"
+        "src/run.ts",
+        "src/cli/index.ts",
+        "esbuild.config.mjs"
       ],
       "project": [
         "src/**/*.ts"
@@ -86,7 +90,9 @@
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
-        "test/AppTest.ts"
+        "test/AppTest.ts",
+        "src/bin/generate-service-token.ts",
+        "src/scripts/database.dump.ts"
       ],
       "project": [
         "src/**/*.{ts,js}",
@@ -113,6 +119,7 @@
     "services/agent": {
       "entry": [
         "src/run.ts",
+        "src/cli/cli.ts",
         "**/*.{spec,e2e}.ts",
         "test/AppTest.ts"
       ],
