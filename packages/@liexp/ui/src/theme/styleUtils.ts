@@ -438,16 +438,28 @@ export const defaultSpacing = (theme: Theme): string => theme.spacing(2);
  * Get relationship color from theme palette.
  * Used for EntitreeGraph and relationship visualizations.
  */
+const DEFAULT_RELATIONSHIP_COLORS = {
+  parent_child: "#555",
+  spouse: "#e91e63",
+  partner: "#9c27b0",
+  sibling: "#4caf50",
+};
+
 export const getRelationshipColor = (
   theme: Theme,
   relationType: "parent_child" | "spouse" | "partner" | "sibling",
 ): string => {
-  const relationshipPalette = (theme.palette as any).relationship;
+  const relationshipPalette =
+    (theme.palette as any).relationship ?? DEFAULT_RELATIONSHIP_COLORS;
   const colorMap = {
     parent_child: relationshipPalette.parent_child,
     spouse: relationshipPalette.spouse,
     partner: relationshipPalette.partner,
     sibling: relationshipPalette.sibling,
   };
-  return colorMap[relationType] ?? relationshipPalette.parent_child;
+  return (
+    colorMap[relationType] ??
+    relationshipPalette.parent_child ??
+    DEFAULT_RELATIONSHIP_COLORS.parent_child
+  );
 };
