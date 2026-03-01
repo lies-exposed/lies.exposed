@@ -26,6 +26,14 @@ const darkSecondary = "#FF7976";
 const darkSecondaryLight = lighten(darkSecondary, 0.3);
 const darkSecondaryDark = darken(darkSecondary, 0.3);
 
+// Relationship colors for graph visualizations (shared between light and dark)
+const relationshipPalette = {
+  parent_child: "#555",
+  spouse: "#e91e63",
+  partner: "#9c27b0",
+  sibling: "#4caf50",
+};
+
 const lightPalette = {
   primary: {
     main: primary,
@@ -39,6 +47,7 @@ const lightPalette = {
     dark: secondaryDark,
     contrastText: "#FFF",
   },
+  relationship: relationshipPalette,
 };
 
 const darkPalette = {
@@ -62,6 +71,7 @@ const darkPalette = {
     primary: "#fff",
     secondary: "rgba(255, 255, 255, 0.7)",
   },
+  relationship: relationshipPalette,
 };
 
 const createBaseAdminTheme = (
