@@ -5,7 +5,6 @@ import { type RTE } from "../../types.js";
 import { CreateEventFromURLSubscriber } from "./event/createEventFromURL.subscriber.js";
 import { SearchLinksSubscriber } from "./link/searchLinks.subscriber.js";
 import { TakeLinkScreenshotSubscriber } from "./link/takeLinkScreeenshot.subscriber.js";
-import { UpdateEntitiesFromURLSubscriber } from "./link/updateEntitiesFromURL.subscriber.js";
 import { CreateMediaThumbnailSubscriber } from "./media/createThumbnail.subscriber.js";
 import { ExtractMediaExtraSubscriber } from "./media/extractMediaExtra.subscriber.js";
 import { GenerateThumbnailSubscriber } from "./media/generateThumbnail.subscriber.js";
@@ -23,7 +22,6 @@ export const WorkerSubscribers: RTE<void> = (ctx) => {
     // links
     SearchLinksSubscriber,
     TakeLinkScreenshotSubscriber,
-    UpdateEntitiesFromURLSubscriber,
     // media
     GenerateThumbnailSubscriber,
     CreateMediaThumbnailSubscriber,
