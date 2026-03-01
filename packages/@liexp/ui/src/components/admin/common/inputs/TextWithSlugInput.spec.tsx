@@ -1,29 +1,19 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Form, TestMemoryRouter } from "ra-core";
 import * as React from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { describe, expect, it } from "vitest";
 import { TextInput } from "../../../admin/react-admin.js";
 import { TextWithSlugInput } from "./TextWithSlugInput.js";
 
-/**
- * Use ra-core's Form wrapped in ra-core's TestMemoryRouter.
- *
- * Both Form and TestMemoryRouter are from the same ra-core bundle, which
- * means they share the same react-hook-form and react-router-dom instances.
- * Using react-hook-form's FormProvider or react-router-dom's MemoryRouter
- * directly can cause duplicate-instance issues in pnpm on CI (ESM vs CJS
- * resolution mismatch), breaking useController and useLocation inside ra-core.
- */
 const FormWrapper: React.FC<
   React.PropsWithChildren<{ defaultValues?: any }>
 > = ({ children, defaultValues = {} }) => {
+  const formState = useForm({ defaultValues });
   return (
-    <TestMemoryRouter>
-      <Form defaultValues={defaultValues} onSubmit={() => {}}>
-        {children}
-      </Form>
-    </TestMemoryRouter>
+    <FormProvider {...formState}>
+      <form>{children}</form>
+    </FormProvider>
   );
 };
 
