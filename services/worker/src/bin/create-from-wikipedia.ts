@@ -66,7 +66,7 @@ export const createFromWikipedia: CommandFlow = async (ctx, args) => {
   const slug = getUsernameFromDisplayName(pageTitle);
 
   // Check if the entity already exists before attempting creation
-  let existingId: string | null = null;
+  let existingId: string | null;
   if (type === "actor") {
     const r = await pipe(
       ctx.db.findOne(ActorEntity, { where: { username: Equal(slug) } }),

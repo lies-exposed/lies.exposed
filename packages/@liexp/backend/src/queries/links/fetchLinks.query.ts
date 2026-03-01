@@ -242,7 +242,6 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
                   q.withDeleted().andWhere("link.deletedAt IS NOT NULL");
                 } else {
                   q.withDeleted().where("link.deletedAt IS NOT NULL");
-                  hasWhere = true;
                 }
               }
             }
