@@ -12,9 +12,6 @@ export const ToolMessageDisplay: React.FC<{
 }> = ({ message }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
-  // Try to parse content as JSON for structured display
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let parsedContent: any = null;
   let toolName = "Unknown Tool";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let toolResult: any = null;
@@ -22,7 +19,7 @@ export const ToolMessageDisplay: React.FC<{
   let toolParams: any = null;
 
   try {
-    parsedContent = JSON.parse(message.content);
+    const parsedContent = JSON.parse(message.content);
 
     // Extract tool name, arguments, and result from the parsed content
     if (parsedContent.tool) {
