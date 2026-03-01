@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...@liexp/shared@0.5.2) (2026-03-01)
+
+
+### Bug Fixes
+
+* **backend:** reject PDF URLs as links and create media instead ([#3277](https://github.com/lies-exposed/lies.exposed/issues/3277)) ([dc7680c](https://github.com/lies-exposed/lies.exposed/commit/dc7680c8229b9288bd172ed88590217e46aba16a))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.2
+    * @liexp/io bumped to 0.5.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.2
+    * @liexp/test bumped to 0.5.2
+
 ## [0.5.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.0...@liexp/shared@0.5.1) (2026-02-28)
 
 

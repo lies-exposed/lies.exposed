@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...lies.exposed@0.5.2) (2026-03-01)
+
+
+### Miscellaneous
+
+* add explicit knip entry points to fix false positives in git worktrees ([#3278](https://github.com/lies-exposed/lies.exposed/issues/3278)) ([73656c0](https://github.com/lies-exposed/lies.exposed/commit/73656c0b04d5ff0e00bf390cb227acb6c2c7bd67))
+* **workspace:** bind nginx reverproxy port 443 for local development ([#3273](https://github.com/lies-exposed/lies.exposed/issues/3273)) ([5a25103](https://github.com/lies-exposed/lies.exposed/commit/5a25103ad23751c7ac5c023138b5f0f7e0ff837c))
+
 ## [0.5.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.0...lies.exposed@0.5.1) (2026-02-28)
 
 

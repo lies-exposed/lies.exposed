@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...@liexp/ui@0.5.2) (2026-03-01)
+
+
+### Bug Fixes
+
+* **admin:** add relationship palette to admin theme to fix EntitreeGraph crash ([#3280](https://github.com/lies-exposed/lies.exposed/issues/3280)) ([0e9f651](https://github.com/lies-exposed/lies.exposed/commit/0e9f651c3624895f707732609bca0dcfd5f2ad64))
+* **ui:** link edit approve button ([#3274](https://github.com/lies-exposed/lies.exposed/issues/3274)) ([c5abc9f](https://github.com/lies-exposed/lies.exposed/commit/c5abc9f5d831b0a772c0758aa1854c6eb79b5e22))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.2
+    * @liexp/io bumped to 0.5.2
+    * @liexp/shared bumped to 0.5.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.2
+
 ## [0.5.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.0...@liexp/ui@0.5.1) (2026-02-28)
 
 

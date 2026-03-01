@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...@liexp/backend@0.5.2) (2026-03-01)
+
+
+### Bug Fixes
+
+* **api:** search improvements ([#3281](https://github.com/lies-exposed/lies.exposed/issues/3281)) ([9960c92](https://github.com/lies-exposed/lies.exposed/commit/9960c924c16ea78ed03e4c23b7268039b6889e89))
+* **backend:** reject PDF URLs as links and create media instead ([#3277](https://github.com/lies-exposed/lies.exposed/issues/3277)) ([dc7680c](https://github.com/lies-exposed/lies.exposed/commit/dc7680c8229b9288bd172ed88590217e46aba16a))
+* **worker:** remove premature UpdateEntitiesFromURL pub/sub and let ai-bot scheduler handle the job ([#3279](https://github.com/lies-exposed/lies.exposed/issues/3279)) ([508e19d](https://github.com/lies-exposed/lies.exposed/commit/508e19dbc35a5cc5c17d870750af44b4571d1c8b))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.2
+    * @liexp/io bumped to 0.5.2
+    * @liexp/shared bumped to 0.5.2
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.2
+    * @liexp/test bumped to 0.5.2
+
 ## [0.5.1](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.0...@liexp/backend@0.5.1) (2026-02-28)
 
 
