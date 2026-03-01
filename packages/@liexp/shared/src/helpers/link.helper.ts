@@ -11,6 +11,10 @@ const excludedURLs = [
   /http(?:s?):\/\/(?:www\.)?rumble\.com\/c\/[^*]+$/,
 ];
 
+export const isPDFURL = (url: URL): boolean => {
+  return /\.pdf(\?.*)?$/i.test(url);
+};
+
 export const isExcludedURL = (url: URL): boolean => {
   return excludedURLs.some((u) => u.test(url));
 };
