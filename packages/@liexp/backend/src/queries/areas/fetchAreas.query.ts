@@ -48,7 +48,7 @@ export const fetchAreas =
             if (O.isSome(search)) {
               applyFTSWhere(
                 q,
-                ["area.label", blockNoteTextExpr('"area"."body"')],
+                ['"area"."label"', blockNoteTextExpr('"area"."body"')],
                 search.value,
               );
             }

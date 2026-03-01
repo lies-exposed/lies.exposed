@@ -67,8 +67,8 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
               return applyFTSWhere(
                 q,
                 [
-                  "actors.fullName",
-                  "actors.username",
+                  '"actors"."fullName"',
+                  '"actors"."username"',
                   blockNoteTextExpr('"actors"."excerpt"'),
                   blockNoteTextExpr('"actors"."body"'),
                 ],

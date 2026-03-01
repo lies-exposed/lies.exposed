@@ -67,7 +67,11 @@ export const fetchManyMedia =
       (q) => {
         let hasWhere = false;
         if (fp.O.isSome(search)) {
-          applyFTSWhere(q, ["media.label", "media.description"], search.value);
+          applyFTSWhere(
+            q,
+            ['"media"."label"', '"media"."description"'],
+            search.value,
+          );
           hasWhere = true;
         }
 

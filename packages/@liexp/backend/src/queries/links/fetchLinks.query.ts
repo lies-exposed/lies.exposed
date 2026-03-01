@@ -148,7 +148,7 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
             if (O.isSome(search)) {
               applyFTSWhere(
                 q,
-                ["link.title", "link.description", "link.url"],
+                ['"link"."title"', '"link"."description"', '"link"."url"'],
                 search.value,
               );
               hasWhere = true;

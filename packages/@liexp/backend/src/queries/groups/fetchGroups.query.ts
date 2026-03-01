@@ -52,7 +52,7 @@ export const fetchGroups =
           return applyFTSWhere(
             q,
             [
-              "group.name",
+              '"group"."name"',
               blockNoteTextExpr('"group"."excerpt"'),
               blockNoteTextExpr('"group"."body"'),
             ],
