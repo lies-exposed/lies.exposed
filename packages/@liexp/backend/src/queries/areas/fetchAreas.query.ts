@@ -12,6 +12,7 @@ import {
   type DBError,
 } from "../../providers/orm/database.provider.js";
 import { getORMOptions } from "../../utils/orm.utils.js";
+import { applyFTSWhere, blockNoteTextExpr } from "../../utils/search.utils.js";
 import {
   aggregateSocialPostsPerEntry,
   leftJoinSocialPosts,
@@ -45,9 +46,11 @@ export const fetchAreas =
           },
           (q) => {
             if (O.isSome(search)) {
-              q.andWhere("lower(unaccent(area.label)) LIKE :search", {
-                search: `%${search.value.toLowerCase()}%`,
-              });
+              applyFTSWhere(
+                q,
+                ['"area"."label"', blockNoteTextExpr('"area"."body"')],
+                search.value,
+              );
             }
 
             if (O.isSome(ids)) {

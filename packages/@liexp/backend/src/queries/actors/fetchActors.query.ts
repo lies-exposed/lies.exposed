@@ -9,6 +9,7 @@ import { type ENVContext } from "../../context/env.context.js";
 import { ActorEntity } from "../../entities/Actor.entity.js";
 import { type DBError } from "../../providers/orm/database.provider.js";
 import { DBService } from "../../services/db.service.js";
+import { applyFTSWhere, blockNoteTextExpr } from "../../utils/search.utils.js";
 
 const defaultQuery: http.Actor.GetListActorQuery = {
   ids: O.none(),
@@ -63,11 +64,15 @@ export const fetchActors = <C extends DatabaseContext & ENVContext>(
             }
 
             if (O.isSome(search)) {
-              return q.andWhere(
-                "lower(unaccent(actors.fullName)) ILIKE :search OR lower(unaccent(actors.username)) ILIKE :search",
-                {
-                  search: `%${search.value}%`,
-                },
+              return applyFTSWhere(
+                q,
+                [
+                  '"actors"."fullName"',
+                  '"actors"."username"',
+                  blockNoteTextExpr('"actors"."excerpt"'),
+                  blockNoteTextExpr('"actors"."body"'),
+                ],
+                search.value,
               );
             }
             return q;

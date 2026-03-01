@@ -8,6 +8,7 @@ import { type ENVContext } from "../../context/env.context.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
 import { type DBError } from "../../providers/orm/database.provider.js";
 import { addOrder, getORMOptions } from "../../utils/orm.utils.js";
+import { applyFTSWhere } from "../../utils/search.utils.js";
 import { leftJoinSocialPosts } from "../social-post/leftJoinSocialPosts.query.js";
 
 export const fetchManyMedia =
@@ -66,17 +67,11 @@ export const fetchManyMedia =
       (q) => {
         let hasWhere = false;
         if (fp.O.isSome(search)) {
-          q.where(
-            new Brackets((qb) =>
-              qb.where(
-                "lower(media.description) LIKE :search OR lower(media.label) LIKE :search",
-                {
-                  search: `%${search.value.toLowerCase()}%`,
-                },
-              ),
-            ),
+          applyFTSWhere(
+            q,
+            ['"media"."label"', '"media"."description"'],
+            search.value,
           );
-
           hasWhere = true;
         }
 

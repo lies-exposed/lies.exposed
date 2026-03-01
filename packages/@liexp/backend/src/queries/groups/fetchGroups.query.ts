@@ -8,6 +8,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { type DBError } from "../../providers/orm/index.js";
 import { addOrder, getORMOptions } from "../../utils/orm.utils.js";
+import { applyFTSWhere, blockNoteTextExpr } from "../../utils/search.utils.js";
 
 const defaultQuery: http.Group.GetGroupListQuery = {
   ids: O.none(),
@@ -48,9 +49,15 @@ export const fetchGroups =
       (q) => {
         if (O.isSome(search)) {
           logger.debug.log("Where name is %s", search.value);
-          return q.andWhere("lower(unaccent(group.name)) LIKE lower(:name)", {
-            name: `%${search.value}%`,
-          });
+          return applyFTSWhere(
+            q,
+            [
+              '"group"."name"',
+              blockNoteTextExpr('"group"."excerpt"'),
+              blockNoteTextExpr('"group"."body"'),
+            ],
+            search.value,
+          );
         }
 
         if (O.isSome(ids)) {
