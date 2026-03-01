@@ -2,7 +2,10 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { isNonEmpty } from "@liexp/core/lib/fp/utils/NonEmptyArray.utils.js";
 import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { isExcludedURL } from "@liexp/shared/lib/helpers/link.helper.js";
+import {
+  isExcludedURL,
+  isPDFURL,
+} from "@liexp/shared/lib/helpers/link.helper.js";
 import {
   getPlatform,
   type VideoPlatformMatch,
@@ -34,6 +37,7 @@ import { type UserEntity } from "../../../entities/User.entity.js";
 import { type TGError } from "../../../providers/tg/tg.provider.js";
 import { LoggerService } from "../../../services/logger/logger.service.js";
 import { parseDocument } from "../parseDocument.flow.js";
+import { parsePDFURLs } from "../parsePDFURL.flow.js";
 import { parsePhoto } from "../parsePhoto.flow.js";
 import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
 import { parseURLs } from "../parseURL.flow.js";
@@ -62,6 +66,9 @@ interface MessageParserAPI<C extends MessageParserContext> {
     page: puppeteer.Page,
     user: UserEntity,
   ) => ReaderTaskEither<C, TGError, readonly UUID[]>;
+  parsePDFURLs: (
+    user: UserEntity,
+  ) => ReaderTaskEither<C, TGError, readonly UUID[]>;
   parsePlatformMedia: (
     page: puppeteer.Page,
     user: UserEntity,
@@ -85,7 +92,11 @@ const takeURLsFromMessageEntity =
 export const MessageParser = <C extends MessageParserContext>(
   message: TelegramBot.Message,
 ): MessageParserAPI<C> => {
-  const { url: urlEntity, video: videoURLS } = [
+  const {
+    url: urlEntity,
+    pdf: pdfEntity,
+    video: videoURLS,
+  } = [
     ...(message.entities ?? []).reduce(
       takeURLsFromMessageEntity(message.text),
       [],
@@ -106,6 +117,13 @@ export const MessageParser = <C extends MessageParserContext>(
           };
         }
 
+        if (isPDFURL(url)) {
+          return {
+            ...acc,
+            pdf: acc.pdf.concat(url),
+          };
+        }
+
         return {
           ...acc,
           url: acc.url.concat(url),
@@ -113,6 +131,7 @@ export const MessageParser = <C extends MessageParserContext>(
       },
       {
         url: [] as URL[],
+        pdf: [] as URL[],
         video: [] as (VideoPlatformMatch & { url: URL })[],
       },
     );
@@ -121,6 +140,8 @@ export const MessageParser = <C extends MessageParserContext>(
     urlEntity.map(sanitizeURL),
     O.fromPredicate((u) => u.length > 0),
   );
+
+  const pdfURLs = pdfEntity.map(sanitizeURL);
 
   const platformMediaURLs = pipe(videoURLS, O.fromPredicate(isNonEmpty));
 
@@ -189,6 +210,11 @@ export const MessageParser = <C extends MessageParserContext>(
         ),
       ),
     parseURLs: (page, creator) => parseURLs(urls, creator, page),
+    parsePDFURLs: (_creator) => (ctx) =>
+      pipe(
+        parsePDFURLs<C>(pdfURLs)(ctx),
+        TE.mapLeft((e) => e as unknown as TGError),
+      ),
     parsePlatformMedia: (p, creator) =>
       pipe(
         fp.RTE.ask<C>(),

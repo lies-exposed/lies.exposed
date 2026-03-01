@@ -87,6 +87,7 @@ export const createFromTGMessage =
                 photos: messageParser.parsePhoto(ctx),
                 videos: messageParser.parseVideo(ctx),
                 documents: messageParser.parseDocument(ctx),
+                pdfMedia: messageParser.parsePDFURLs(creator)(ctx),
                 platformMedia: messageParser.parsePlatformMedia(
                   page,
                   creator,
@@ -99,8 +100,9 @@ export const createFromTGMessage =
           ),
         ),
       ),
-      TE.map(({ videos, platformMedia, ...others }) => ({
+      TE.map(({ videos, platformMedia, pdfMedia, photos, ...others }) => ({
         ...others,
+        photos: [...photos, ...pdfMedia],
         videos: [...videos, ...platformMedia],
       })),
       TE.mapLeft((e) => {

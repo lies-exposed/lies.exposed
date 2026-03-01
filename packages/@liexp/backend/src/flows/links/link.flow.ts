@@ -4,6 +4,7 @@ import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import * as Link from "@liexp/io/lib/http/Link.js";
 import { ImageType } from "@liexp/io/lib/http/Media/index.js";
+import { isPDFURL } from "@liexp/shared/lib/helpers/link.helper.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
@@ -36,6 +37,15 @@ export const fromURL =
     LinkEntity & { image: MediaEntity | null }
   > => {
     const urll = sanitizeURL(url);
+
+    if (isPDFURL(urll)) {
+      return TE.left(
+        ServerError.of([
+          `URL "${urll}" points to a PDF file. PDFs should be uploaded as Media, not Links.`,
+        ]),
+      );
+    }
+
     return pipe(
       ctx.urlMetadata.fetchMetadata(urll, {}, (_e) =>
         ServerError.of([`Error fetching metadata from url ${urll}`]),
