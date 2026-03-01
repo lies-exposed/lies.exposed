@@ -3,7 +3,7 @@ import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
-import { Grid, Stack, Toolbar } from "../../mui/index.js";
+import { Box, Grid, Stack, Toolbar, Typography } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -34,20 +34,31 @@ import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
 import { EditTitle } from "./EditTitle.js";
 import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
+import { ApproveLinkButton } from "./button/ApproveLinkButton.js";
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
 import { transformLink } from "./transformLink.js";
 
-const LinkStatusInput: React.FC = () => {
+const LinkStatusSection: React.FC = () => {
   return (
-    <SelectInput
-      source="status"
-      choices={Link.Status.members.map((l) => ({
-        id: l.literals[0],
-        name: l.literals[0],
-      }))}
-    />
+    <Box sx={{ mb: 2 }}>
+      <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+        Status
+      </Typography>
+      <Stack direction="row" spacing={2} alignItems="flex-start">
+        <SelectInput
+          source="status"
+          choices={Link.Status.members.map((l) => ({
+            id: l.literals[0],
+            name: l.literals[0],
+          }))}
+        />
+        <Box sx={{ pt: 1 }}>
+          <ApproveLinkButton />
+        </Box>
+      </Stack>
+    </Box>
   );
 };
 
@@ -79,7 +90,7 @@ export const LinkEdit: React.FC = () => {
           <Grid container spacing={2}>
             <Grid size={{ md: 6 }}>
               <TextInput source="title" fullWidth />
-              <LinkStatusInput />
+              <LinkStatusSection />
               <URLMetadataInput source="url" type="Link" />
               <DateInput source="publishDate" />
               <MediaField
