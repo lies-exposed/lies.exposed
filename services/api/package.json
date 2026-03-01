@@ -77,7 +77,7 @@
     "fp-ts": "^2.16.10",
     "ioredis": "^5.9.2",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^2.0.1",
+    "multer": "^2.1.0",
     "page-metadata-parser": "^1.1.4",
     "pg": "^8.16.0",
     "react": "^18.3.1",
