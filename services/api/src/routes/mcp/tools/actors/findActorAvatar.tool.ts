@@ -85,6 +85,7 @@ export const findActorAvatarToolTask = ({
             error instanceof Error
               ? error.message
               : `Failed to find avatar for "${fullName}"`,
+            { cause: error },
           );
         }
       };

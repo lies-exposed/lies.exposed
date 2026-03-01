@@ -148,11 +148,9 @@ export const fetchManyMedia =
           where("areas.id IN (:...areaIds)", {
             areaIds: areas.value,
           });
-          hasWhere = true;
         } else if (fp.O.isSome(emptyAreas) && emptyAreas.value) {
           const where = hasWhere ? q.andWhere.bind(q) : q.where.bind(q);
           where("areas.id IS NULL");
-          hasWhere = true;
         }
 
         if (fp.O.isSome(spCount)) {

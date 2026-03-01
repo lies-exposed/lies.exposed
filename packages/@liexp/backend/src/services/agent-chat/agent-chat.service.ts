@@ -100,6 +100,7 @@ const defaultParser = <T>(
   } catch (e) {
     throw new Error(
       `Agent response missing structured_output and content is not valid JSON: ${e}`,
+      { cause: e },
     );
   }
 };

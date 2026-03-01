@@ -85,6 +85,7 @@ export const findGroupAvatarToolTask = ({
             error instanceof Error
               ? error.message
               : `Failed to find avatar for "${name}"`,
+            { cause: error },
           );
         }
       };
