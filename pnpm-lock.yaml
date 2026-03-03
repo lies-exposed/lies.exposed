@@ -140,7 +140,7 @@ importers:
         version: 3.0.2
       typeorm:
         specifier: ^0.3.28
-        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.9.2)(pg@8.16.3)
+        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.16.3)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -224,8 +224,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       ioredis:
-        specifier: ^5.9.2
-        version: 5.9.2
+        specifier: ^5.10.0
+        version: 5.10.0
       langchain:
         specifier: ^1.2.28
         version: 1.2.28(@langchain/core@1.1.29(@opentelemetry/api@1.9.0)(openai@6.25.0(ws@8.19.0)(zod@4.3.6)))(@opentelemetry/api@1.9.0)(openai@6.25.0(ws@8.19.0)(zod@4.3.6))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(zod-to-json-schema@3.25.1(zod@4.3.6))
@@ -1235,8 +1235,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       ioredis:
-        specifier: ^5.9.2
-        version: 5.9.2
+        specifier: ^5.10.0
+        version: 5.10.0
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.3
@@ -1263,7 +1263,7 @@ importers:
         version: 4.21.0
       typeorm:
         specifier: ^0.3.28
-        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.9.2)(pg@8.16.3)
+        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.16.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -1625,8 +1625,8 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       ioredis:
-        specifier: ^5.9.2
-        version: 5.9.2
+        specifier: ^5.10.0
+        version: 5.10.0
       lodash:
         specifier: ^4.17.23
         version: 4.17.23
@@ -1665,7 +1665,7 @@ importers:
         version: 0.34.5
       typeorm:
         specifier: ^0.3.28
-        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.9.2)(pg@8.16.3)
+        version: 0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.16.3)
       wink-eng-lite-web-model:
         specifier: ^1.8.0
         version: 1.8.1
@@ -2794,8 +2794,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@ioredis/commands@1.5.0':
-    resolution: {integrity: sha512-eUgLqrMf8nJkZxT24JvVRrQya1vZkQh8BBeYNwGDqa5I0VUi8ACx7uFvAaLxintokpTenkK6DASvo/bvNbBGow==}
+  '@ioredis/commands@1.5.1':
+    resolution: {integrity: sha512-JH8ZL/ywcJyR9MmJ5BNqZllXNZQqQbnVZOqpPQqE1vHiFgAw4NHbvE0FOduNU8IX9babitBT46571OnPTT0Zcw==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -6972,8 +6972,8 @@ packages:
   invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
 
-  ioredis@5.9.2:
-    resolution: {integrity: sha512-tAAg/72/VxOUW7RQSX1pIxJVucYKcjFjfvj60L57jrZpYCHC3XN0WCQ3sNYL4Gmvv+7GPvTAjc+KSdeNuE8oWQ==}
+  ioredis@5.10.0:
+    resolution: {integrity: sha512-HVBe9OFuqs+Z6n64q09PQvP1/R4Bm+30PAyyD4wIEqssh3v9L21QjCVk4kRLucMBcDokJTcLjsGeVRlq/nH6DA==}
     engines: {node: '>=12.22.0'}
 
   ip-address@10.0.1:
@@ -11958,7 +11958,7 @@ snapshots:
       '@types/node': 25.3.2
     optional: true
 
-  '@ioredis/commands@1.5.0': {}
+  '@ioredis/commands@1.5.1': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -16747,9 +16747,9 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
 
-  ioredis@5.9.2:
+  ioredis@5.10.0:
     dependencies:
-      '@ioredis/commands': 1.5.0
+      '@ioredis/commands': 1.5.1
       cluster-key-slot: 1.1.2
       debug: 4.4.3
       denque: 2.1.0
@@ -20130,7 +20130,7 @@ snapshots:
     dependencies:
       '@electric-sql/pglite': 0.3.15
 
-  typeorm@0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.9.2)(pg@8.16.3):
+  typeorm@0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.16.3):
     dependencies:
       '@sqltools/formatter': 1.2.5
       ansis: 4.2.0
@@ -20148,7 +20148,7 @@ snapshots:
       uuid: 11.1.0
       yargs: 17.7.2
     optionalDependencies:
-      ioredis: 5.9.2
+      ioredis: 5.10.0
       pg: 8.16.3
     transitivePeerDependencies:
       - babel-plugin-macros
