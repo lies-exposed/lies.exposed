@@ -1,3 +1,4 @@
+import { type SearchResult } from "@liexp/ui/lib/components/Common/Search/GlobalSearchModal.js";
 import Header from "@liexp/ui/lib/components/Header/Header.js";
 import { type HeaderMenuItem } from "@liexp/ui/lib/components/Header/HeaderMenu/types.js";
 import { useNavigateTo } from "@liexp/ui/lib/utils/history.utils.js";
@@ -93,6 +94,40 @@ const AppHeader: React.FC = () => {
 
   const userMenuItem = hasAuth ? profileMenuItem : loginMenuItem;
 
+  const handleSearchResultClick = React.useCallback(
+    (result: SearchResult): void => {
+      switch (result.kind) {
+        case "actor":
+          navigateToResource.actors({ id: result.item.id });
+          break;
+        case "group":
+          navigateToResource.groups({ id: result.item.id });
+          break;
+        case "keyword":
+          navigateToResource.keywords({ id: result.item.id });
+          break;
+        case "area":
+          navigateToResource.areas({ id: result.item.id });
+          break;
+        case "event":
+          navigateToResource.events({ id: result.item.id });
+          break;
+        case "link":
+          navigateToResource.links({ id: result.item.id });
+          break;
+        case "media":
+          navigateToResource.media({ id: result.item.id });
+          break;
+        case "story":
+          navigateToResource.stories({ path: result.item.path });
+          break;
+        default:
+          break;
+      }
+    },
+    [navigateToResource],
+  );
+
   return (
     <Header
       logoSrc={logo192}
@@ -104,6 +139,7 @@ const AppHeader: React.FC = () => {
       onMenuItemClick={(m) => {
         navigateTo(m.view);
       }}
+      onSearchResultClick={handleSearchResultClick}
     />
   );
 };

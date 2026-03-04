@@ -3,9 +3,11 @@ import { styled } from "../../theme/index.js";
 import DonateButton from "../Common/Button/DonateButton.js";
 import SuggestLinkButton from "../Common/Button/SuggestLinkButton.js";
 import { TelegramIcon } from "../Common/Icons/index.js";
+import { type SearchResult } from "../Common/Search/GlobalSearchModal.js";
 import { ThemeSwitcher } from "../Common/ThemeSwitcher.js";
 import GithubButton from "../GithubButton.js";
 import { AppBar, Box, Link, Toolbar, Typography } from "../mui/index.js";
+import GlobalSearchButton from "./GlobalSearchButton.js";
 import { HeaderMenu } from "./HeaderMenu/HeaderMenu.js";
 import {
   type HeaderMenuSubItem,
@@ -135,6 +137,8 @@ export interface HeaderProps {
   onMenuItemClick: (m: HeaderMenuSubItem) => void;
   menu: HeaderMenuItem[];
   pathname: string;
+  /** Called when the user selects a search result. Required to enable the search button. */
+  onSearchResultClick?: (result: SearchResult) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -143,6 +147,7 @@ const Header: React.FC<HeaderProps> = ({
   onTitleClick,
   onMenuItemClick,
   menu,
+  onSearchResultClick,
 }) => {
   const {
     site: {
@@ -187,6 +192,12 @@ const Header: React.FC<HeaderProps> = ({
         </Box>
 
         <Box className={classes.menuRight}>
+          {onSearchResultClick !== undefined ? (
+            <GlobalSearchButton
+              className={classes.menuItem}
+              onResultClick={onSearchResultClick}
+            />
+          ) : null}
           <SuggestLinkButton className={classes.menuItem} color={"white"} />
 
           <HeaderMenu
@@ -204,6 +215,9 @@ const Header: React.FC<HeaderProps> = ({
                 }}
               >
                 <ThemeSwitcher size="medium" showTooltip={false} />
+                {onSearchResultClick !== undefined ? (
+                  <GlobalSearchButton onResultClick={onSearchResultClick} />
+                ) : null}
                 <GithubButton {...github} showStarCount={false} />
                 <Link
                   href={telegram.href}

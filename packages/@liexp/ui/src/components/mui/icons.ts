@@ -45,6 +45,7 @@ import {
   TagOutlined as RecentKeywordsIcon,
   OpenInFull,
   PinOutlined,
+  MenuBook as StoryIcon,
 } from "@mui/icons-material";
 
 export {
@@ -94,4 +95,5 @@ export {
   RecentKeywordsIcon,
   OpenInFull,
   PinOutlined,
+  StoryIcon,
 };
