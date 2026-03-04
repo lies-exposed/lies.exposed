@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...@liexp/core@0.5.3) (2026-03-04)
+
+
+### Bug Fixes
+
+* **core:** skip manualChunks rollupOptions in development mode ([#3316](https://github.com/lies-exposed/lies.exposed/issues/3316)) ([783f9c0](https://github.com/lies-exposed/lies.exposed/commit/783f9c0ba597de417c408616fe49c22c99bb0aef))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.3
+
 ## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...@liexp/core@0.5.2) (2026-03-01)
 
 
