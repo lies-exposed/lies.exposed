@@ -84,6 +84,7 @@ updates:
         patterns:
           - "@storybook/*"
           - "storybook"
+          - "eslint-plugin-storybook"
       types:
         patterns:
           - "@types/*"
