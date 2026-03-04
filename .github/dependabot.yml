@@ -84,6 +84,9 @@ updates:
         patterns:
           - "@storybook/*"
           - "storybook"
+      types:
+        patterns:
+          - "@types/*"
       visx:
         patterns:
           - "*visx*"
