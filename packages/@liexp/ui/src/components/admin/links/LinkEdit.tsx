@@ -3,7 +3,17 @@ import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
-import { Box, Grid, Stack, Toolbar, Typography } from "../../mui/index.js";
+import { useFormContext } from "react-hook-form";
+import { PersonIcon } from "../../mui/icons.js";
+import {
+  Box,
+  Grid,
+  Stack,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "../../mui/index.js";
+import { IconButton } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -27,8 +37,12 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useGetIdentity,
+  useNotify,
   usePermissions,
   useRecordContext,
+  useRefresh,
+  useUpdate,
 } from "../react-admin.js";
 import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
@@ -39,6 +53,62 @@ import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
 import { transformLink } from "./transformLink.js";
+
+const SetMeAsAuthorButton: React.FC = () => {
+  const { identity, isLoading: isLoadingIdentity } = useGetIdentity();
+  const record = useRecordContext();
+  const { setValue } = useFormContext();
+  const [update, { isPending }] = useUpdate();
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  if (isLoadingIdentity || !identity || !record) {
+    return null;
+  }
+
+  const isAlreadyAuthor = record.creator === identity.id;
+
+  const handleClick = () => {
+    setValue("creator", identity.id, { shouldDirty: true });
+    void update(
+      "links",
+      {
+        id: record.id,
+        data: { ...record, creator: identity.id },
+        previousData: record,
+      },
+      {
+        onSuccess: () => {
+          notify("You are now set as the author", { type: "success" });
+          refresh();
+        },
+        onError: () => {
+          notify("Failed to set author", { type: "error" });
+        },
+      },
+    );
+  };
+
+  return (
+    <Tooltip
+      title={
+        isAlreadyAuthor ? "You are already the author" : "Set me as author"
+      }
+    >
+      <span>
+        <IconButton
+          size="small"
+          color="primary"
+          disabled={isPending || isAlreadyAuthor}
+          onClick={handleClick}
+          aria-label="Set me as author"
+        >
+          <PersonIcon fontSize="small" />
+        </IconButton>
+      </span>
+    </Tooltip>
+  );
+};
 
 const LinkStatusSection: React.FC = () => {
   return (
@@ -124,7 +194,16 @@ export const LinkEdit: React.FC = () => {
             </Grid>
             <Grid size={{ md: 6 }}>
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
-              {isAdmin && <ReferenceUserInput source="creator" />}
+              {isAdmin && (
+                <Stack direction="row" spacing={1} alignItems="flex-end">
+                  <Box sx={{ flexGrow: 1 }}>
+                    <ReferenceUserInput source="creator" />
+                  </Box>
+                  <Box sx={{ pb: 1 }}>
+                    <SetMeAsAuthorButton />
+                  </Box>
+                </Stack>
+              )}
               <LinkSuggestedEntityRelations />
             </Grid>
           </Grid>
