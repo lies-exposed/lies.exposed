@@ -20,7 +20,6 @@ import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import LinkPreview from "../previews/LinkPreview.js";
 import {
-  Button,
   Datagrid,
   DateInput,
   LoadingPage,
@@ -30,11 +29,16 @@ import {
   TextField,
   TextInput,
   useGetIdentity,
+  useNotify,
   usePermissions,
   useRecordContext,
+  useRefresh,
+  useUpdate,
 } from "../react-admin.js";
 import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
+import { PersonIcon } from "../../mui/icons.js";
+import { IconButton } from "../../mui/index.js";
 import { ApproveLinkButton } from "./button/ApproveLinkButton.js";
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
@@ -44,23 +48,50 @@ import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js"
 import { transformLink } from "./transformLink.js";
 
 const SetMeAsAuthorButton: React.FC = () => {
-  const { identity, isLoading } = useGetIdentity();
+  const { identity, isLoading: isLoadingIdentity } = useGetIdentity();
+  const record = useRecordContext();
   const { setValue } = useFormContext();
+  const [update, { isPending }] = useUpdate();
+  const notify = useNotify();
+  const refresh = useRefresh();
 
-  if (isLoading || !identity) {
+  if (isLoadingIdentity || !identity || !record) {
     return null;
   }
 
+  const handleClick = () => {
+    setValue("creator", identity.id, { shouldDirty: true });
+    void update(
+      "links",
+      {
+        id: record.id,
+        data: { ...record, creator: identity.id },
+        previousData: record,
+      },
+      {
+        onSuccess: () => {
+          notify("You are now set as the author", { type: "success" });
+          refresh();
+        },
+        onError: () => {
+          notify("Failed to set author", { type: "error" });
+        },
+      },
+    );
+  };
+
   return (
-    <Tooltip title="Set yourself as the author of this link">
+    <Tooltip title="Set me as author">
       <span>
-        <Button
-          label="Set me as author"
+        <IconButton
           size="small"
-          onClick={() => {
-            setValue("creator", identity.id, { shouldDirty: true });
-          }}
-        />
+          color="primary"
+          disabled={isPending}
+          onClick={handleClick}
+          aria-label="Set me as author"
+        >
+          <PersonIcon fontSize="small" />
+        </IconButton>
       </span>
     </Tooltip>
   );
