@@ -4,7 +4,16 @@ import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
-import { Box, Grid, Stack, Toolbar, Tooltip, Typography } from "../../mui/index.js";
+import { PersonIcon } from "../../mui/icons.js";
+import {
+  Box,
+  Grid,
+  Stack,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "../../mui/index.js";
+import { IconButton } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -37,14 +46,12 @@ import {
 } from "../react-admin.js";
 import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
-import { PersonIcon } from "../../mui/icons.js";
-import { IconButton } from "../../mui/index.js";
+import { EditTitle } from "./EditTitle.js";
+import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
 import { ApproveLinkButton } from "./button/ApproveLinkButton.js";
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
-import { EditTitle } from "./EditTitle.js";
-import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
 import { transformLink } from "./transformLink.js";
 
 const SetMeAsAuthorButton: React.FC = () => {
@@ -58,6 +65,8 @@ const SetMeAsAuthorButton: React.FC = () => {
   if (isLoadingIdentity || !identity || !record) {
     return null;
   }
+
+  const isAlreadyAuthor = record.creator === identity.id;
 
   const handleClick = () => {
     setValue("creator", identity.id, { shouldDirty: true });
@@ -81,12 +90,16 @@ const SetMeAsAuthorButton: React.FC = () => {
   };
 
   return (
-    <Tooltip title="Set me as author">
+    <Tooltip
+      title={
+        isAlreadyAuthor ? "You are already the author" : "Set me as author"
+      }
+    >
       <span>
         <IconButton
           size="small"
           color="primary"
-          disabled={isPending}
+          disabled={isPending || isAlreadyAuthor}
           onClick={handleClick}
           aria-label="Set me as author"
         >
