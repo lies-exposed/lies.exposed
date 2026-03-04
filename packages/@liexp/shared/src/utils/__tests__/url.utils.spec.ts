@@ -1,6 +1,10 @@
 import { type URL } from "@liexp/io/lib/http/Common/index.js";
 import { describe, expect, it } from "vitest";
-import { sanitizeURL, ensureHTTPProtocol } from "../url.utils.js";
+import {
+  sanitizeURL,
+  ensureHTTPProtocol,
+  extractDateFromUrl,
+} from "../url.utils.js";
 
 describe("URL utils", () => {
   describe("sanitizeURL", () => {
@@ -83,6 +87,54 @@ describe("URL utils", () => {
       expect(ensureHTTPProtocol("example.com/page?foo=bar")).toBe(
         "https://example.com/page?foo=bar",
       );
+    });
+  });
+
+  describe("extractDateFromUrl", () => {
+    it("extracts /YYYY/MM/DD/ path", () => {
+      expect(
+        extractDateFromUrl("https://example.com/news/2023/07/26/some-article/"),
+      ).toEqual(new Date("2023-07-26T00:00:00.000Z"));
+    });
+
+    it("extracts /YYYY/mon/DD/ path (month abbreviation)", () => {
+      expect(
+        extractDateFromUrl("https://www.guardian.com/world/2025/jul/26/story"),
+      ).toEqual(new Date("2025-07-26T00:00:00.000Z"));
+    });
+
+    it("extracts /YYYY/MM/DD without trailing slash", () => {
+      expect(extractDateFromUrl("https://example.com/2021/08/15")).toEqual(
+        new Date("2021-08-15T00:00:00.000Z"),
+      );
+    });
+
+    it("extracts underscore-separated date", () => {
+      expect(
+        extractDateFromUrl("https://www.who.int/csr/don/2009_04_26/en/"),
+      ).toEqual(new Date("2009-04-26T00:00:00.000Z"));
+    });
+
+    it("extracts compact YYYYMMDD from Wayback Machine timestamp", () => {
+      expect(
+        extractDateFromUrl(
+          "https://web.archive.org/web/20190516150836/https://example.com/",
+        ),
+      ).toEqual(new Date("2019-05-16T00:00:00.000Z"));
+    });
+
+    it("prefers original URL date over Wayback Machine capture date", () => {
+      expect(
+        extractDateFromUrl(
+          "https://web.archive.org/web/20190516150836/https://www.who.int/csr/don/2009_04_26/en/",
+        ),
+      ).toEqual(new Date("2009-04-26T00:00:00.000Z"));
+    });
+
+    it("returns null when no date pattern matches", () => {
+      expect(
+        extractDateFromUrl("https://www.nih.gov/news-events/press-release"),
+      ).toBeNull();
     });
   });
 });

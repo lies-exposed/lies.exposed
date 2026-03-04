@@ -1,37 +1,16 @@
 import { type SCIENTIFIC_STUDY } from "@liexp/io/lib/http/Events/EventType.js";
 import { type Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { extractDateFromUrl as _extractDateFromUrl } from "@liexp/shared/lib/utils/url.utils.js";
 import * as React from "react";
 import { TextInput, type TextInputProps, useInput } from "react-admin";
 import { useFormContext } from "react-hook-form";
 import { useDataProvider } from "../../../hooks/useDataProvider.js";
 import { Box, Button, TextField } from "../../mui/index.js";
 
-const MONTH_ABBR: Record<string, string> = {
-  jan: "01",
-  feb: "02",
-  mar: "03",
-  apr: "04",
-  may: "05",
-  jun: "06",
-  jul: "07",
-  aug: "08",
-  sep: "09",
-  oct: "10",
-  nov: "11",
-  dec: "12",
-};
-
-// Matches paths like /2025/jul/26/ or /2025/07/26/
-const URL_DATE_RE =
-  /\/(\d{4})\/(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|0?\d|1[0-2])\/(\d{1,2})\//i;
-
 function extractDateFromUrl(url: string): string | null {
-  const m = URL_DATE_RE.exec(url);
-  if (!m) return null;
-  const [, year, month, day] = m;
-  const mm = MONTH_ABBR[month.toLowerCase()] ?? month.padStart(2, "0");
-  const dd = day.padStart(2, "0");
-  return `${year}-${mm}-${dd}`;
+  const d = _extractDateFromUrl(url);
+  if (!d) return null;
+  return d.toISOString().slice(0, 10);
 }
 
 interface URLMetadataInputProps extends TextInputProps {

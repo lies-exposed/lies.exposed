@@ -1,6 +1,7 @@
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import D from "debug";
 import { assignDefaultAreaFeaturedImage } from "./assign-default-area-featured-image.js";
+import { backfillLinkPublishDates } from "./backfill-link-publish-dates.js";
 import { cleanSpaceMedia } from "./clean-space-media.js";
 import { cleanTGMessages } from "./clean-tg-messages.js";
 import { type CommandFlow } from "./command.type.js";
@@ -20,6 +21,7 @@ import { upsertTGPinnedMessage } from "./upsert-tg-pinned-message.js";
 
 const commands: Record<string, CommandFlow> = {
   "assign-default-area-featured-image": assignDefaultAreaFeaturedImage,
+  "backfill-link-publish-dates": backfillLinkPublishDates,
   "clean-space-media": cleanSpaceMedia,
   "clean-tg-messages": cleanTGMessages,
   "create-from-wikipedia": createFromWikipedia,
