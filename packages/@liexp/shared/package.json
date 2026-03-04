@@ -29,7 +29,7 @@
   "dependencies": {
     "@blocknote/core": "^0.47.1",
     "@blocknote/server-util": "^0.47.1",
-    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/dom": "^1.7.6",
     "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
