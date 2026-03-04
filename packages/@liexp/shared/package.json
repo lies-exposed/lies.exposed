@@ -43,7 +43,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
-    "@types/lodash": "^4.17.23",
+    "@types/lodash": "^4.17.24",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
     "axios": "^1.13.5",
