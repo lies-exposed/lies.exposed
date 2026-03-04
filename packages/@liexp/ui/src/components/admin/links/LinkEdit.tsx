@@ -3,7 +3,8 @@ import { OpenAIEmbeddingQueueType } from "@liexp/io/lib/http/Queue/index.js";
 import { Link } from "@liexp/io/lib/http/index.js";
 import { checkIsAdmin } from "@liexp/shared/lib/utils/auth.utils.js";
 import * as React from "react";
-import { Box, Grid, Stack, Toolbar, Typography } from "../../mui/index.js";
+import { useFormContext } from "react-hook-form";
+import { Box, Grid, Stack, Toolbar, Tooltip, Typography } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
@@ -19,6 +20,7 @@ import { OpenAIEmbeddingJobButton } from "../media/OpenAIJobButton.js";
 import ReferenceMediaInput from "../media/input/ReferenceMediaInput.js";
 import LinkPreview from "../previews/LinkPreview.js";
 import {
+  Button,
   Datagrid,
   DateInput,
   LoadingPage,
@@ -27,18 +29,42 @@ import {
   TabbedForm,
   TextField,
   TextInput,
+  useGetIdentity,
   usePermissions,
   useRecordContext,
 } from "../react-admin.js";
 import { EditToolbar } from "../toolbar/index.js";
 import ReferenceUserInput from "../user/ReferenceUserInput.js";
-import { EditTitle } from "./EditTitle.js";
-import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
 import { ApproveLinkButton } from "./button/ApproveLinkButton.js";
 import { LinkTGPostButton } from "./button/LinkTGPostButton.js";
 import { OverrideThumbnail } from "./button/OverrideThumbnail.js";
 import { TakeLinkScreenshot } from "./button/TakeLinkScreenshotButton.js";
+import { EditTitle } from "./EditTitle.js";
+import { LinkSuggestedEntityRelations } from "./LinkSuggestedEntityRelations.js";
 import { transformLink } from "./transformLink.js";
+
+const SetMeAsAuthorButton: React.FC = () => {
+  const { identity, isLoading } = useGetIdentity();
+  const { setValue } = useFormContext();
+
+  if (isLoading || !identity) {
+    return null;
+  }
+
+  return (
+    <Tooltip title="Set yourself as the author of this link">
+      <span>
+        <Button
+          label="Set me as author"
+          size="small"
+          onClick={() => {
+            setValue("creator", identity.id, { shouldDirty: true });
+          }}
+        />
+      </span>
+    </Tooltip>
+  );
+};
 
 const LinkStatusSection: React.FC = () => {
   return (
@@ -124,7 +150,16 @@ export const LinkEdit: React.FC = () => {
             </Grid>
             <Grid size={{ md: 6 }}>
               <ReferenceArrayKeywordInput source="keywords" showAdd={true} />
-              {isAdmin && <ReferenceUserInput source="creator" />}
+              {isAdmin && (
+                <Stack direction="row" spacing={1} alignItems="flex-end">
+                  <Box sx={{ flexGrow: 1 }}>
+                    <ReferenceUserInput source="creator" />
+                  </Box>
+                  <Box sx={{ pb: 1 }}>
+                    <SetMeAsAuthorButton />
+                  </Box>
+                </Stack>
+              )}
               <LinkSuggestedEntityRelations />
             </Grid>
           </Grid>

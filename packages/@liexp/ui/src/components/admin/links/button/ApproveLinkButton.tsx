@@ -33,6 +33,9 @@ const getMissingFields = (record: Link.Link): MissingField[] => {
   if (!record.publishDate) {
     missing.push({ field: "publishDate", label: "Publish Date" });
   }
+  if (!record.creator) {
+    missing.push({ field: "creator", label: "Author" });
+  }
 
   return missing;
 };
