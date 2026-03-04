@@ -185,15 +185,18 @@ export const defineViteConfig = <A extends Record<string, any>>(
           transformMixedEsModules: true,
         },
         sourcemap: mode === "development",
-        // Only apply manualChunks for client builds, not SSR
-        // SSR builds have externalized dependencies that conflict with manualChunks
-        rollupOptions: isSsrBuild
-          ? {
-              // For SSR: keep rollupOptions minimal
-              ...(config.rollupOptions ? { ...config.rollupOptions } : {}),
-              output: undefined, // Remove output.manualChunks for SSR
-            }
-          : config.rollupOptions,
+        // Only apply manualChunks for production client builds:
+        // - SSR builds have externalized dependencies that conflict with manualChunks
+        // - Dev mode uses native ESM via esbuild and ignores manualChunks entirely,
+        //   so skip the generateChunkConfig filesystem scan to avoid wasted startup work
+        rollupOptions:
+          isSsrBuild || mode === "development"
+            ? {
+                // For SSR and dev: keep rollupOptions minimal, strip output.manualChunks
+                ...(config.rollupOptions ? { ...config.rollupOptions } : {}),
+                output: undefined,
+              }
+            : config.rollupOptions,
       },
       assetsInclude: [
         // "**/@liexp/ui/assets/**"
