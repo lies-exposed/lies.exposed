@@ -1,11 +1,11 @@
-import GlobalSearchButton, {
-  type GlobalSearchButtonProps,
-} from "@liexp/ui/lib/components/Header/GlobalSearchButton.js";
 import {
   GlobalSearchModal,
   type GlobalSearchModalProps,
   type SearchResult,
 } from "@liexp/ui/lib/components/Common/Search/GlobalSearchModal.js";
+import GlobalSearchButton, {
+  type GlobalSearchButtonProps,
+} from "@liexp/ui/lib/components/Header/GlobalSearchButton.js";
 import { type Meta, type StoryObj } from "@storybook/react-vite";
 import * as React from "react";
 
@@ -20,8 +20,8 @@ const modalMeta: Meta<GlobalSearchModalProps> = {
     layout: "fullscreen",
     docs: {
       description: {
-          component:
-            "Two-step command-palette modal. First select a resource type from the autocomplete dropdown (keyboard navigable), then enter a search term for that resource type. Opened via the search button or Ctrl+K / Cmd+K.",
+        component:
+          "Two-step command-palette modal. First select a resource type from the autocomplete dropdown (keyboard navigable), then enter a search term for that resource type. Opened via the search button or Ctrl+K / Cmd+K.",
       },
     },
   },
@@ -122,37 +122,15 @@ export const Interactive: ModalStory = {
 };
 
 // ---------------------------------------------------------------------------
-// GlobalSearchButton stories
+// GlobalSearchButton story — inlined here because Storybook only supports one
+// default export per file; metadata is applied directly on the story object.
 // ---------------------------------------------------------------------------
-
-const buttonMeta: Meta<GlobalSearchButtonProps> = {
-  title: "Components/Common/GlobalSearch/GlobalSearchButton",
-  component: GlobalSearchButton,
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "Self-contained icon button that owns the open/close state of the GlobalSearchModal. Also responds to Ctrl+K / Cmd+K globally.",
-      },
-    },
-  },
-  tags: ["autodocs"],
-  argTypes: {
-    onResultClick: { action: "onResultClick" },
-  },
-};
-
-// Re-export as a second default for the button sub-story group.
-// Storybook resolves the default export per file, so we inline the button
-// story as a named export inside the modal story file using a custom render.
-
-type ButtonStory = StoryObj<GlobalSearchButtonProps>;
 
 /**
  * The button as it appears in the app header — click it to open the modal,
- * or press Ctrl+K.
+ * or press Ctrl+K / Cmd+K.
  */
-export const Button: ButtonStory = {
+export const Button: StoryObj<GlobalSearchButtonProps> = {
   render: (args) => (
     <div
       style={{
