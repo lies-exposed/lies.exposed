@@ -339,9 +339,11 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           multiple
           autoHighlight
           // Phase 1: open on focus and show all resource types.
-          // Phase 2: keep closed so typing goes to the search query.
-          open={resourceType !== null ? false : undefined}
+          // Phase 2: render a no-op Popper so MUI never mounts the popup
+          //   DOM node — prevents "No options" overlay and result dimming.
           openOnFocus={resourceType === null}
+          open={resourceType !== null ? false : undefined}
+          PopperComponent={resourceType !== null ? () => null : undefined}
           options={resourceType === null ? RESOURCE_TYPES : []}
           value={selected}
           inputValue={inputValue}
