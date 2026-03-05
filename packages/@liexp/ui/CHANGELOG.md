@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...@liexp/ui@0.5.3) (2026-03-04)
+
+
+### Bug Fixes
+
+* **admin:** add cretor to link approval rules and a set-me-as author button ([#3300](https://github.com/lies-exposed/lies.exposed/issues/3300)) ([292fc2c](https://github.com/lies-exposed/lies.exposed/commit/292fc2cdc7cdd368c75554792772cce4478e7f05))
+* **admin:** auto-populate publishDate from date embedded in link URL ([#3282](https://github.com/lies-exposed/lies.exposed/issues/3282)) ([3f74659](https://github.com/lies-exposed/lies.exposed/commit/3f74659a190e9226a09d9ea7292f19d75cb2bcfa))
+* **worker:** add backfill-link-publish-dates command ([#3317](https://github.com/lies-exposed/lies.exposed/issues/3317)) ([e33e26d](https://github.com/lies-exposed/lies.exposed/commit/e33e26d17560e2b544811822a0a540328a97f138))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.3
+    * @liexp/io bumped to 0.5.3
+    * @liexp/shared bumped to 0.5.3
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.3
+
 ## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...@liexp/ui@0.5.2) (2026-03-01)
 
 

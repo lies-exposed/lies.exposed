@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...lies.exposed@0.5.3) (2026-03-04)
+
+
+### Miscellaneous
+
+* **deps:** group @types/* updates into a single PR ([#3299](https://github.com/lies-exposed/lies.exposed/issues/3299)) ([3dc9f8f](https://github.com/lies-exposed/lies.exposed/commit/3dc9f8f52ee6c226a375bd287dd362871c1ba27e))
+
 ## [0.5.2](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.1...lies.exposed@0.5.2) (2026-03-01)
 
 
