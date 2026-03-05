@@ -14,7 +14,6 @@ import { ActorListItem } from "../../lists/ActorList.js";
 import { GroupListItem } from "../../lists/GroupList.js";
 import { KeywordListItem } from "../../lists/KeywordList.js";
 import {
-  Autocomplete,
   Box,
   Chip,
   CircularProgress,
@@ -23,9 +22,9 @@ import {
   DialogTitle,
   IconButton,
   Icons,
+  ListItemText,
   MenuItem,
   MenuList,
-  ListItemText,
   TextField,
   Typography,
 } from "../../mui/index.js";
@@ -158,7 +157,9 @@ const ResultRow: React.FC<{
       );
 
     content = (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}
+      >
         {icon}
         <ListItemText
           primary={label}
@@ -201,22 +202,25 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 }) => {
   const Queries = useEndpointQueries();
 
-  /**
-   * We use a `multiple` Autocomplete capped at 1 item so that the selected
-   * resource type appears as an inline chip inside the input box. Once the
-   * chip is present the dropdown is hidden (options=[]) and the user's
-   * typing becomes the free-text search query — all in the same <input>.
-   */
-  const [selected, setSelected] = React.useState<ResourceTypeOption[]>([]);
+  const [resourceType, setResourceType] =
+    React.useState<ResourceTypeOption | null>(null);
   const [inputValue, setInputValue] = React.useState("");
   const [debouncedQuery, setDebouncedQuery] = React.useState("");
 
-  const menuListRef = React.useRef<HTMLUListElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const menuListRef = React.useRef<HTMLUListElement>(null);
 
-  const resourceType = selected[0] ?? null;
+  // Chip highlighted by the current input text (before explicit selection)
+  const highlighted = React.useMemo<ResourceTypeOption | null>(() => {
+    if (resourceType !== null) return null;
+    const q = inputValue.trim().toLowerCase();
+    if (q.length === 0) return null;
+    return (
+      RESOURCE_TYPES.find((rt) => rt.label.toLowerCase().startsWith(q)) ?? null
+    );
+  }, [inputValue, resourceType]);
 
-  // Debounce the search term (only relevant after a type chip is set)
+  // Debounce the search query
   React.useEffect(() => {
     if (resourceType === null) return;
     const t = setTimeout(() => {
@@ -227,14 +231,23 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     };
   }, [inputValue, resourceType]);
 
-  // Reset everything when the modal closes
+  // Reset when modal closes
   React.useEffect(() => {
     if (!open) {
-      setSelected([]);
+      setResourceType(null);
       setInputValue("");
       setDebouncedQuery("");
     }
   }, [open]);
+
+  // Focus the input after selecting a resource type
+  React.useEffect(() => {
+    if (resourceType !== null) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
+  }, [resourceType]);
 
   const kind = resourceType?.value ?? null;
   const enabled = kind !== null && debouncedQuery.length >= MIN_QUERY_LENGTH;
@@ -282,18 +295,44 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     onClose();
   };
 
-  // ArrowDown from the text input → first result item
+  const selectResourceType = (rt: ResourceTypeOption): void => {
+    setResourceType(rt);
+    setInputValue("");
+    setDebouncedQuery("");
+  };
+
+  const clearResourceType = (): void => {
+    setResourceType(null);
+    setInputValue("");
+    setDebouncedQuery("");
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
   const handleInputKeyDown = (e: React.KeyboardEvent): void => {
+    // Enter confirms a highlighted chip if no resource is selected yet
+    if (e.key === "Enter" && resourceType === null && highlighted !== null) {
+      e.preventDefault();
+      selectResourceType(highlighted);
+      return;
+    }
+    // ArrowDown → first result
     if (e.key === "ArrowDown" && results.length > 0) {
       e.preventDefault();
       menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']")?.focus();
+      return;
+    }
+    // Backspace with empty input and a resource selected → clear it
+    if (e.key === "Backspace" && inputValue === "" && resourceType !== null) {
+      clearResourceType();
+      return;
     }
     if (e.key === "Escape") {
       onClose();
     }
   };
 
-  // ArrowUp on first result item → back to input
   const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLUListElement>): void => {
     if (e.key === "Escape") { onClose(); return; }
     if (e.key === "ArrowUp") {
@@ -316,8 +355,16 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       PaperProps={{ sx: { borderRadius: 2 } }}
     >
       <DialogTitle sx={{ pb: 1 }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Typography variant="subtitle1" fontWeight="bold">Search</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="subtitle1" fontWeight="bold">
+            Search
+          </Typography>
           <IconButton size="small" onClick={onClose} aria-label="Close search">
             <Icons.Close fontSize="small" />
           </IconButton>
@@ -325,132 +372,109 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       </DialogTitle>
 
       <DialogContent sx={{ pt: 0 }}>
-        {/*
-         * Single combined input (multiple Autocomplete, capped at 1 chip).
-         *
-         * Phase 1 — no chip: typing filters the resource-type dropdown;
-         *   arrow keys + Enter select a type → chip appears inline.
-         *
-         * Phase 2 — chip present: dropdown is suppressed (options=[]);
-         *   typing goes into the free-text search query; × on chip resets
-         *   back to phase 1.
-         */}
-        <Autocomplete<ResourceTypeOption, true>
-          multiple
-          autoHighlight
-          // Phase 1: open on focus and show all resource types.
-          // Phase 2: keep closed so typing goes to the search query.
-          open={resourceType !== null ? false : undefined}
-          openOnFocus={resourceType === null}
-          options={resourceType === null ? RESOURCE_TYPES : []}
-          value={selected}
-          inputValue={inputValue}
-          onChange={(_e, newValue) => {
-            // MUI passes the full array; we only ever want 0 or 1 entries.
-            const latest = newValue[newValue.length - 1] ?? null;
-            if (latest === null) {
-              setSelected([]);
-              setInputValue("");
-              setDebouncedQuery("");
-            } else {
-              setSelected([latest]);
-              setInputValue("");
-              setDebouncedQuery("");
-            }
+        {/* Resource type chips — always visible */}
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 0.75,
+            mb: 1.25,
           }}
-          onInputChange={(_e, value, reason) => {
-            // Don't let MUI reset the input after an option is picked
-            if (reason === "reset" && resourceType !== null) return;
-            setInputValue(value);
-          }}
-          getOptionLabel={(opt) => opt.label}
-          isOptionEqualToValue={(opt, val) => opt.value === val.value}
-          // Render each resource-type option in the dropdown with its icon
-          renderOption={(props, opt) => (
-            <Box
-              component="li"
-              {...props}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            >
-              {opt.icon}
-              <span>{opt.label}</span>
-            </Box>
-          )}
-          // Render the selected resource type as an inline chip inside the input
-          renderTags={(value, getTagProps) =>
-            value.map((opt, index) => {
-              const { key, ...tagProps } = getTagProps({ index });
-              return (
-                <Chip
-                  key={key}
-                  {...tagProps}
-                  label={opt.label}
-                  icon={opt.icon as React.ReactElement}
-                  size="small"
-                  color="primary"
-                  onDelete={() => {
-                    setSelected([]);
-                    setInputValue("");
-                    setDebouncedQuery("");
-                  }}
-                />
-              );
-            })
+        >
+          {RESOURCE_TYPES.map((rt) => {
+            const isSelected = resourceType?.value === rt.value;
+            const isHighlighted =
+              !isSelected && highlighted?.value === rt.value;
+            return (
+              <Chip
+                key={rt.value}
+                label={rt.label}
+                icon={rt.icon as React.ReactElement}
+                size="small"
+                clickable
+                onClick={() => {
+                  if (isSelected) {
+                    clearResourceType();
+                  } else {
+                    selectResourceType(rt);
+                  }
+                }}
+                color={isSelected || isHighlighted ? "primary" : "default"}
+                variant={isSelected ? "filled" : isHighlighted ? "filled" : "outlined"}
+                sx={
+                  isHighlighted && !isSelected
+                    ? { opacity: 0.75 }
+                    : undefined
+                }
+              />
+            );
+          })}
+        </Box>
+
+        {/* Search input */}
+        <TextField
+          autoFocus
+          fullWidth
+          size="small"
+          placeholder={
+            resourceType !== null
+              ? `Search ${resourceType.label.toLowerCase()}...`
+              : "Type a resource name or select above…"
           }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              autoFocus
-              size="small"
-              placeholder={
-                resourceType !== null
-                  ? `Search ${resourceType.label.toLowerCase()}...`
-                  : "Select a resource type…"
-              }
-              inputRef={inputRef}
-              onKeyDown={handleInputKeyDown}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <>
-                    <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
-                      <Icons.Search fontSize="small" color="action" />
-                    </Box>
-                    {params.InputProps.startAdornment}
-                  </>
-                ),
-                endAdornment: (
-                  <>
-                    {isLoading ? <CircularProgress size={16} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          )}
+          value={inputValue}
+          inputRef={inputRef}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          onKeyDown={handleInputKeyDown}
+          InputProps={{
+            startAdornment: (
+              <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
+                <Icons.Search fontSize="small" color="action" />
+              </Box>
+            ),
+            endAdornment: isLoading ? (
+              <CircularProgress size={16} />
+            ) : undefined,
+          }}
           sx={{ mb: 1.5 }}
         />
 
         {/* Hint / empty states */}
         {resourceType === null && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
-            Select a resource type to start searching
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
+            {highlighted !== null
+              ? `Press Enter to search ${highlighted.label.toLowerCase()}`
+              : "Select a resource type to start searching"}
           </Typography>
         )}
 
         {resourceType !== null && !enabled && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
-            Type at least {MIN_QUERY_LENGTH} characters to search {resourceType.label.toLowerCase()}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
+            Type at least {MIN_QUERY_LENGTH} characters to search{" "}
+            {resourceType.label.toLowerCase()}
           </Typography>
         )}
 
         {enabled && !isLoading && results.length === 0 && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
             No results for &quot;{debouncedQuery}&quot;
           </Typography>
         )}
 
-        {/* Results list — keyboard navigable */}
+        {/* Results list */}
         {enabled && results.length > 0 && (
           <MenuList
             ref={menuListRef}
