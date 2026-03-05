@@ -3,12 +3,6 @@
   "includeEntryExports": true,
   "workspaces": {
     ".": {
-      "ignore": [
-        "services/*/build/**",
-        "packages/@liexp/*/lib/**",
-        "**/temp/**",
-        "localai/**"
-      ],
       "ignoreDependencies": [
         "husky",
         "lint-staged",
@@ -38,9 +32,7 @@
     },
     "services/web": {
       "entry": [
-        "src/client/index.tsx",
         "src/server/entry.tsx",
-        "src/server/server.tsx",
         "test/WebAppTest.ts"
       ],
       "includeEntryExports": false,
@@ -54,8 +46,6 @@
     },
     "services/admin": {
       "entry": [
-        "src/index.tsx",
-        "src/server/server.tsx",
         "test/AdminAppTest.ts"
       ],
       "includeEntryExports": false,
@@ -64,18 +54,11 @@
       ],
       "ignoreDependencies": [
         "@ts-endpoint/resource-client"
-      ],
-      "ignore": [
-        "src/hooks/useAgentAPI.ts",
-        "src/hooks/useAPIAgent.ts",
-        "src/hooks/useAgentDataProvider.ts"
       ]
     },
     "services/ai-bot": {
       "entry": [
-        "src/run.ts",
-        "src/cli/index.ts",
-        "esbuild.config.mjs"
+        "src/run.ts"
       ],
       "project": [
         "src/**/*.ts"
@@ -90,18 +73,13 @@
       "entry": [
         "src/run.ts",
         "src/**/*.{spec,e2e}.ts",
-        "test/AppTest.ts",
-        "src/bin/generate-service-token.ts",
-        "src/scripts/database.dump.ts"
+        "test/AppTest.ts"
       ],
       "project": [
         "src/**/*.{ts,js}",
         "test/**/*.{ts,js}",
         "!src/migrations/*.ts",
         "!src/**/*.{spec,e2e}.ts"
-      ],
-      "ignore": [
-        "ormconfig.js"
       ]
     },
     "services/worker": {
@@ -118,8 +96,6 @@
     },
     "services/agent": {
       "entry": [
-        "src/run.ts",
-        "src/cli/cli.ts",
         "**/*.{spec,e2e}.ts",
         "test/AppTest.ts"
       ],
