@@ -118,7 +118,7 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         <Box sx={{ marginTop: 4, marginBottom: 4 }}>
           <EventsBox
             title={hasKeywords ? "Related events by keywords" : "Recent events"}
-            query={{ keywords: m.keywords, _start: randomOffset, _end: randomOffset + 6 }}
+            query={{ keywords: m.keywords, _start: randomOffset, _end: 6 }}
             onEventClick={onEventClick}
           />
         </Box>
