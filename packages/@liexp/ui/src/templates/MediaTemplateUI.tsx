@@ -27,6 +27,12 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
   onKeywordClick,
   onMediaClick,
 }) => {
+  const hasKeywords = m.keywords.length > 0;
+  const randomOffset = React.useMemo(
+    () => (hasKeywords ? 0 : Math.floor(Math.random() * 50)),
+    [m.id],
+  );
+
   return (
     <SplitPageTemplate
       resource={{ name: "media", item: m }}
@@ -98,21 +104,21 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
         </Box>
         <Box sx={{ marginTop: 6, marginBottom: 4 }}>
           <Typography variant="h5" sx={{ marginBottom: 1.5 }}>
-            Related media by keywords
+            {hasKeywords ? "Related media by keywords" : "Other media"}
           </Typography>
           <MediaBox
-            filter={{ keywords: m.keywords }}
+            filter={{ keywords: m.keywords, _start: String(randomOffset) }}
             onClick={onMediaClick}
             limit={6}
-            columns={3}
-            style={{ height: 220 }}
+            layout="horizontal"
+            itemStyle={{ height: 300 }}
           />
         </Box>
 
         <Box sx={{ marginTop: 4, marginBottom: 4 }}>
           <EventsBox
-            title="Related events by keywords"
-            query={{ keywords: m.keywords, _end: 3 }}
+            title={hasKeywords ? "Related events by keywords" : "Recent events"}
+            query={{ keywords: m.keywords, _start: randomOffset, _end: randomOffset + 3 }}
             onEventClick={onEventClick}
           />
         </Box>

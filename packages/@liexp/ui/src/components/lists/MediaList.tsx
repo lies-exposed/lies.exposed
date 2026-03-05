@@ -148,6 +148,7 @@ export interface MediaListProps {
   itemStyle?: React.CSSProperties;
   gutterSize?: number;
   columns?: number;
+  layout?: "masonry" | "horizontal";
 }
 
 const LIST_PREFIX = "media-list";
@@ -176,11 +177,44 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       itemStyle,
       gutterSize: _gutterSize = 20,
       columns = 4,
+      layout = "masonry",
       enableDescription,
       disableZoom = true,
     },
     ref,
   ) => {
+    if (layout === "horizontal") {
+      return (
+        <Box
+          ref={ref}
+          className={clsx(listClasses.root, className)}
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "auto",
+            overflowY: "hidden",
+            gap: 8,
+            width: "100%",
+            ...style,
+          }}
+        >
+          {media.map((m) => (
+            <Box
+              key={m.id}
+              style={{ flexShrink: 0, width: 240, ...itemStyle }}
+            >
+              <MediaListItemCell
+                item={m}
+                onClick={() => onItemClick?.(m)}
+                enableDescription={enableDescription}
+                disableZoom={disableZoom}
+              />
+            </Box>
+          ))}
+        </Box>
+      );
+    }
+
     const wrapperMaxHeight = style?.maxHeight ?? style?.height ?? "100%";
 
     const minHeight =
@@ -189,10 +223,6 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
       style?.minHeight ??
       style?.height ??
       400;
-
-    // React.useEffect(() => {
-    //   console.log("ref", ref);
-    // }, []);
 
     return (
       <AutoSizer
