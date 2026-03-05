@@ -1,7 +1,28 @@
+import * as fs from "fs";
 import * as path from "path";
 import D from "debug";
-import dotenv from "dotenv";
 import { type Either } from "fp-ts/lib/Either.js";
+
+const parseDotenv = (src: string): Record<string, string> => {
+  const result: Record<string, string> = {};
+  for (const line of src.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eqIdx = trimmed.indexOf("=");
+    if (eqIdx === -1) continue;
+    const key = trimmed.slice(0, eqIdx).trim();
+    let val = trimmed.slice(eqIdx + 1).trim();
+    if (
+      val.length >= 2 &&
+      ((val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'")))
+    ) {
+      val = val.slice(1, -1);
+    }
+    result[key] = val;
+  }
+  return result;
+};
 
 export const loadENV = (
   root?: string,
@@ -15,10 +36,16 @@ export const loadENV = (
   }
   const envPath = path.resolve(root, envFile);
 
-  dotenv.config({
-    path: envPath,
-    override: override ?? false,
-  });
+  if (!fs.existsSync(envPath)) {
+    return;
+  }
+
+  const parsed = parseDotenv(fs.readFileSync(envPath, "utf8"));
+  for (const [key, val] of Object.entries(parsed)) {
+    if (override === true || process.env[key] === undefined) {
+      process.env[key] = val;
+    }
+  }
 };
 
 export const loadAndParseENV =

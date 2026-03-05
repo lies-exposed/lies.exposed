@@ -25,7 +25,6 @@ publicHoistPattern:
   - "*rollup*"
   - "*eslint*"
   - "*prettier*"
-  - "dotenv"
 
 nodeLinker: hoisted
 linkWorkspacePackages: deep
