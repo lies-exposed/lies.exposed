@@ -8,7 +8,7 @@ runs:
       id: hash
       shell: bash
       run: |
-        HASH=$(find packages -type f \( -name "*.ts" -o -name "*.tsx" -o -name "package.json" \) -not -path "*/node_modules/*" -not -path "*/lib/*" | sort | xargs cat | sha256sum | cut -d' ' -f1)
+        HASH=$( (find packages -type f \( -name "*.ts" -o -name "*.tsx" -o -name "package.json" \) -not -path "*/node_modules/*" -not -path "*/lib/*" | sort | xargs cat; cat pnpm-lock.yaml) | sha256sum | cut -d' ' -f1)
         echo "packages_hash=${HASH:0:16}" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v5
