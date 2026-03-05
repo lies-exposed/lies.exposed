@@ -20,8 +20,8 @@ const modalMeta: Meta<GlobalSearchModalProps> = {
     layout: "fullscreen",
     docs: {
       description: {
-        component:
-          "Command-palette style modal for searching across all entity types. Opened via the search button or Ctrl+K / Cmd+K.",
+          component:
+            "Two-step command-palette modal. First select a resource type from the autocomplete dropdown (keyboard navigable), then enter a search term for that resource type. Opened via the search button or Ctrl+K / Cmd+K.",
       },
     },
   },
@@ -55,9 +55,9 @@ export const Closed: ModalStory = {
 };
 
 /**
- * Interactive wrapper — type at least 2 characters to trigger live queries,
- * click a chip to narrow the search to a specific entity type, and click a
- * result row to see the navigation callback fire.
+ * Interactive wrapper — first select a resource type from the autocomplete
+ * dropdown (arrow keys + Enter), then type at least 3 characters to trigger
+ * live API queries. Click a result row to see the navigation callback fire.
  */
 const InteractiveModal: React.FC<GlobalSearchModalProps> = (args) => {
   const [open, setOpen] = React.useState(true);
@@ -115,7 +115,7 @@ export const Interactive: ModalStory = {
     docs: {
       description: {
         story:
-          "Fully interactive version. Type in the search box (at least 2 characters) to trigger live API queries. Select a resource type chip to narrow results. Clicking a result row logs the selected entity below the button.",
+          "Fully interactive version. Use the autocomplete dropdown to select a resource type (arrow keys + Enter), then type at least 3 characters to trigger live API queries. Clicking a result row logs the selected entity below the button.",
       },
     },
   },

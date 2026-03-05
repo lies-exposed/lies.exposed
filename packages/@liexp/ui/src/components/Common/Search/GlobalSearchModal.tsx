@@ -14,6 +14,7 @@ import { ActorListItem } from "../../lists/ActorList.js";
 import { GroupListItem } from "../../lists/GroupList.js";
 import { KeywordListItem } from "../../lists/KeywordList.js";
 import {
+  Autocomplete,
   Box,
   Chip,
   CircularProgress,
@@ -42,7 +43,6 @@ import {
 // ---------------------------------------------------------------------------
 
 export type SearchResourceType =
-  | "all"
   | "actor"
   | "group"
   | "keyword"
@@ -59,7 +59,6 @@ interface ResourceTypeOption {
 }
 
 const RESOURCE_TYPES: ResourceTypeOption[] = [
-  { value: "all", label: "All", icon: <Icons.Search fontSize="small" /> },
   { value: "actor", label: "Actors", icon: <ActorIcon /> },
   { value: "group", label: "Groups", icon: <GroupIcon /> },
   { value: "keyword", label: "Keywords", icon: <HashtagIcon /> },
@@ -201,12 +200,15 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 }) => {
   const Queries = useEndpointQueries();
 
+  // Step 1: resource type (null = not yet chosen)
+  const [resourceType, setResourceType] =
+    React.useState<ResourceTypeOption | null>(null);
+
+  // Step 2: search term
   const [query, setQuery] = React.useState("");
   const [debouncedQuery, setDebouncedQuery] = React.useState("");
-  const [resourceType, setResourceType] =
-    React.useState<SearchResourceType>("all");
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
   const menuListRef = React.useRef<HTMLUListElement>(null);
 
   // Debounce query input
@@ -219,127 +221,132 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     };
   }, [query]);
 
-  // Reset state and restore input focus when modal opens or closes
+  // Focus the search input once a resource type is chosen
+  React.useEffect(() => {
+    if (resourceType !== null) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+    }
+  }, [resourceType]);
+
+  // Reset all state when modal closes
   React.useEffect(() => {
     if (!open) {
+      setResourceType(null);
       setQuery("");
       setDebouncedQuery("");
-      setResourceType("all");
     }
   }, [open]);
 
-  const enabled = debouncedQuery.length >= MIN_QUERY_LENGTH;
+  const enabled =
+    resourceType !== null && debouncedQuery.length >= MIN_QUERY_LENGTH;
+
   const baseQueryParams = {
     q: debouncedQuery,
     _sort: "createdAt" as const,
     _order: "DESC" as const,
   };
 
-  const includeActors = resourceType === "all" || resourceType === "actor";
-  const includeGroups = resourceType === "all" || resourceType === "group";
-  const includeKeywords = resourceType === "all" || resourceType === "keyword";
-  const includeAreas = resourceType === "all" || resourceType === "area";
-  const includeEvents = resourceType === "all" || resourceType === "event";
-  const includeLinks = resourceType === "all" || resourceType === "link";
-  const includeMedia = resourceType === "all" || resourceType === "media";
-  const includeStories = resourceType === "all" || resourceType === "story";
+  const kind = resourceType?.value ?? null;
 
   const actorQuery = Queries.Actor.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeActors,
+    !enabled || kind !== "actor",
   );
   const groupQuery = Queries.Group.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeGroups,
+    !enabled || kind !== "group",
   );
   const keywordQuery = Queries.Keyword.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeKeywords,
+    !enabled || kind !== "keyword",
   );
   const areaQuery = Queries.Area.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeAreas,
+    !enabled || kind !== "area",
   );
   const eventQuery = Queries.Event.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeEvents,
+    !enabled || kind !== "event",
   );
   const linkQuery = Queries.Link.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeLinks,
+    !enabled || kind !== "link",
   );
   const mediaQuery = Queries.Media.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeMedia,
+    !enabled || kind !== "media",
   );
   const storyQuery = Queries.Story.list.useQuery(
     undefined,
     baseQueryParams,
-    !enabled || !includeStories,
+    !enabled || kind !== "story",
   );
 
   const isLoading =
-    (includeActors && actorQuery.isFetching) ||
-    (includeGroups && groupQuery.isFetching) ||
-    (includeKeywords && keywordQuery.isFetching) ||
-    (includeAreas && areaQuery.isFetching) ||
-    (includeEvents && eventQuery.isFetching) ||
-    (includeLinks && linkQuery.isFetching) ||
-    (includeMedia && mediaQuery.isFetching) ||
-    (includeStories && storyQuery.isFetching);
+    actorQuery.isFetching ||
+    groupQuery.isFetching ||
+    keywordQuery.isFetching ||
+    areaQuery.isFetching ||
+    eventQuery.isFetching ||
+    linkQuery.isFetching ||
+    mediaQuery.isFetching ||
+    storyQuery.isFetching;
 
   const results = React.useMemo<SearchResult[]>(() => {
-    if (!enabled) return [];
+    if (!enabled || kind === null) return [];
 
-    const actors: SearchResult[] = includeActors
-      ? (actorQuery.data?.data ?? []).map((item) => ({ kind: "actor", item }))
-      : [];
-    const groups: SearchResult[] = includeGroups
-      ? (groupQuery.data?.data ?? []).map((item) => ({ kind: "group", item }))
-      : [];
-    const keywords: SearchResult[] = includeKeywords
-      ? (keywordQuery.data?.data ?? []).map((item) => ({
-          kind: "keyword",
-          item,
-        }))
-      : [];
-    const areas: SearchResult[] = includeAreas
-      ? (areaQuery.data?.data ?? []).map((item) => ({ kind: "area", item }))
-      : [];
-    const events: SearchResult[] = includeEvents
-      ? ((eventQuery.data?.data as Events.Event[] | undefined) ?? []).map(
-          (item) => ({ kind: "event", item }),
-        )
-      : [];
-    const links: SearchResult[] = includeLinks
-      ? (linkQuery.data?.data ?? []).map((item) => ({ kind: "link", item }))
-      : [];
-    const media: SearchResult[] = includeMedia
-      ? (mediaQuery.data?.data ?? []).map((item) => ({ kind: "media", item }))
-      : [];
-    const stories: SearchResult[] = includeStories
-      ? (storyQuery.data?.data ?? []).map((item) => ({ kind: "story", item }))
-      : [];
-
-    return [
-      ...actors,
-      ...groups,
-      ...keywords,
-      ...areas,
-      ...events,
-      ...links,
-      ...media,
-      ...stories,
-    ];
+    if (kind === "actor")
+      return (actorQuery.data?.data ?? []).map((item) => ({
+        kind: "actor",
+        item,
+      }));
+    if (kind === "group")
+      return (groupQuery.data?.data ?? []).map((item) => ({
+        kind: "group",
+        item,
+      }));
+    if (kind === "keyword")
+      return (keywordQuery.data?.data ?? []).map((item) => ({
+        kind: "keyword",
+        item,
+      }));
+    if (kind === "area")
+      return (areaQuery.data?.data ?? []).map((item) => ({
+        kind: "area",
+        item,
+      }));
+    if (kind === "event")
+      return ((eventQuery.data?.data as Events.Event[] | undefined) ?? []).map(
+        (item) => ({ kind: "event", item }),
+      );
+    if (kind === "link")
+      return (linkQuery.data?.data ?? []).map((item) => ({
+        kind: "link",
+        item,
+      }));
+    if (kind === "media")
+      return (mediaQuery.data?.data ?? []).map((item) => ({
+        kind: "media",
+        item,
+      }));
+    if (kind === "story")
+      return (storyQuery.data?.data ?? []).map((item) => ({
+        kind: "story",
+        item,
+      }));
+    return [];
   }, [
     enabled,
+    kind,
     actorQuery.data,
     groupQuery.data,
     keywordQuery.data,
@@ -355,11 +362,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     onClose();
   };
 
-  // ArrowDown from the text input moves focus to the first menu item
-  const handleInputKeyDown = (e: React.KeyboardEvent): void => {
+  // ArrowDown from the search TextField moves focus to the first menu item
+  const handleSearchKeyDown = (e: React.KeyboardEvent): void => {
     if (e.key === "ArrowDown" && results.length > 0) {
       e.preventDefault();
-      const first = menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']");
+      const first = menuListRef.current?.querySelector<HTMLElement>(
+        "[role='menuitem']",
+      );
       first?.focus();
     }
     if (e.key === "Escape") {
@@ -367,7 +376,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     }
   };
 
-  // ArrowUp on the first menu item sends focus back to the text input
+  // ArrowUp on first menu item returns focus to search input
   const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLUListElement>): void => {
     if (e.key === "Escape") {
       onClose();
@@ -382,7 +391,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       );
       if (focused === first) {
         e.preventDefault();
-        inputRef.current?.focus();
+        searchInputRef.current?.focus();
       }
     }
   };
@@ -414,59 +423,111 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       </DialogTitle>
 
       <DialogContent sx={{ pt: 0 }}>
-        {/* Text input */}
-        <TextField
-          autoFocus
-          fullWidth
-          variant="outlined"
-          size="small"
-          placeholder="Search across all entities..."
-          value={query}
-          inputRef={inputRef}
-          onChange={(e) => {
-            setQuery(e.target.value);
+        {/* Step 1: resource type autocomplete */}
+        <Autocomplete<ResourceTypeOption>
+          autoHighlight
+          openOnFocus
+          options={RESOURCE_TYPES}
+          value={resourceType}
+          onChange={(_e, value) => {
+            setResourceType(value);
+            setQuery("");
+            setDebouncedQuery("");
           }}
-          onKeyDown={handleInputKeyDown}
-          InputProps={{
-            startAdornment: (
-              <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
-                <Icons.Search fontSize="small" color="action" />
-              </Box>
-            ),
-            endAdornment: isLoading ? (
-              <CircularProgress size={16} />
-            ) : undefined,
-          }}
+          getOptionLabel={(opt) => opt.label}
+          isOptionEqualToValue={(opt, val) => opt.value === val.value}
+          renderOption={(props, opt) => (
+            <Box
+              component="li"
+              {...props}
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              {opt.icon}
+              <span>{opt.label}</span>
+            </Box>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              autoFocus
+              placeholder="Select a resource type..."
+              size="small"
+              InputProps={{
+                ...params.InputProps,
+                startAdornment: resourceType !== null ? (
+                  <Box sx={{ mr: 0.5, display: "flex", alignItems: "center" }}>
+                    {resourceType.icon}
+                  </Box>
+                ) : (
+                  <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
+                    <Icons.Search fontSize="small" color="action" />
+                  </Box>
+                ),
+              }}
+            />
+          )}
+          renderTags={() => null}
           sx={{ mb: 1.5 }}
         />
 
-        {/* Resource type chips */}
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 0.75,
-            mb: 1.5,
-          }}
-        >
-          {RESOURCE_TYPES.map((rt) => (
-            <Chip
-              key={rt.value}
-              label={rt.label}
-              icon={rt.icon as React.ReactElement}
-              size="small"
-              variant={resourceType === rt.value ? "filled" : "outlined"}
-              color={resourceType === rt.value ? "primary" : "default"}
-              onClick={() => {
-                setResourceType(rt.value);
-              }}
-              clickable
-            />
-          ))}
-        </Box>
+        {/* Step 2: search term input — only shown once a resource is selected */}
+        {resourceType !== null && (
+          <>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}>
+              <Chip
+                label={resourceType.label}
+                icon={resourceType.icon as React.ReactElement}
+                size="small"
+                color="primary"
+                onDelete={() => {
+                  setResourceType(null);
+                  setQuery("");
+                  setDebouncedQuery("");
+                }}
+              />
+              <Typography variant="caption" color="text.secondary">
+                — type to search
+              </Typography>
+            </Box>
 
-        {/* Results */}
-        {!enabled && (
+            <TextField
+              fullWidth
+              variant="outlined"
+              size="small"
+              placeholder={`Search ${resourceType.label.toLowerCase()}...`}
+              value={query}
+              inputRef={searchInputRef}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+              onKeyDown={handleSearchKeyDown}
+              InputProps={{
+                startAdornment: (
+                  <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
+                    <Icons.Search fontSize="small" color="action" />
+                  </Box>
+                ),
+                endAdornment: isLoading ? (
+                  <CircularProgress size={16} />
+                ) : undefined,
+              }}
+              sx={{ mb: 1.5 }}
+            />
+          </>
+        )}
+
+        {/* Empty/hint states */}
+        {resourceType === null && (
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
+            Select a resource type above to start searching
+          </Typography>
+        )}
+
+        {resourceType !== null && !enabled && (
           <Typography
             variant="body2"
             color="text.secondary"
@@ -486,6 +547,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           </Typography>
         )}
 
+        {/* Results list */}
         {enabled && results.length > 0 && (
           <MenuList
             ref={menuListRef}
