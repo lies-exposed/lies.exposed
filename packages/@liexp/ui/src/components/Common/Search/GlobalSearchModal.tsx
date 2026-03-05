@@ -22,9 +22,8 @@ import {
   DialogTitle,
   IconButton,
   Icons,
-  List,
-  ListItem,
-  ListItemButton,
+  MenuItem,
+  MenuList,
   ListItemText,
   TextField,
   Typography,
@@ -94,7 +93,7 @@ type SearchResult =
   | { kind: "story"; item: Story.Story };
 
 // ---------------------------------------------------------------------------
-// Per-result row
+// Per-result row — rendered as a MenuItem so MUI handles arrow-key focus
 // ---------------------------------------------------------------------------
 
 const ResultRow: React.FC<{
@@ -105,93 +104,79 @@ const ResultRow: React.FC<{
     onClick(result);
   };
 
+  let content: React.ReactNode;
+
   if (result.kind === "actor") {
-    return (
-      <ListItemButton onClick={handleClick} dense>
-        <ActorListItem
-          displayFullName
-          avatarSize="small"
-          item={{ ...result.item, selected: false }}
-        />
-      </ListItemButton>
+    content = (
+      <ActorListItem
+        displayFullName
+        avatarSize="small"
+        item={{ ...result.item, selected: false }}
+      />
     );
-  }
-
-  if (result.kind === "group") {
-    return (
-      <ListItemButton onClick={handleClick} dense>
-        <GroupListItem
-          avatarSize="small"
-          displayName
-          item={{ ...result.item, selected: false }}
-        />
-      </ListItemButton>
+  } else if (result.kind === "group") {
+    content = (
+      <GroupListItem
+        avatarSize="small"
+        displayName
+        item={{ ...result.item, selected: false }}
+      />
     );
-  }
+  } else if (result.kind === "keyword") {
+    content = <KeywordListItem item={{ ...result.item, selected: false }} />;
+  } else {
+    let label = "";
+    if (result.kind === "event") {
+      label =
+        (result.item as any).payload?.title ??
+        (result.item as any).payload?.excerpt ??
+        result.item.id;
+    } else if (result.kind === "link") {
+      label =
+        result.item.title ??
+        result.item.description ??
+        result.item.url ??
+        result.item.id;
+    } else if (result.kind === "media") {
+      label =
+        result.item.label ??
+        result.item.description ??
+        result.item.location ??
+        result.item.id;
+    } else if (result.kind === "area") {
+      label = result.item.label ?? result.item.id;
+    } else if (result.kind === "story") {
+      label = result.item.title ?? result.item.id;
+    }
 
-  if (result.kind === "keyword") {
-    return (
-      <ListItemButton onClick={handleClick} dense>
-        <KeywordListItem item={{ ...result.item, selected: false }} />
-      </ListItemButton>
-    );
-  }
+    const icon =
+      result.kind === "event" ? (
+        <Icons.Assignment fontSize="small" />
+      ) : result.kind === "link" ? (
+        <LinkIcon />
+      ) : result.kind === "area" ? (
+        <AreaIcon />
+      ) : result.kind === "story" ? (
+        <Icons.StoryIcon fontSize="small" />
+      ) : (
+        <MediaIcon />
+      );
 
-  // event / link / media / area / story — generic label row
-  let label = "";
-  if (result.kind === "event") {
-    label =
-      (result.item as any).payload?.title ??
-      (result.item as any).payload?.excerpt ??
-      result.item.id;
-  } else if (result.kind === "link") {
-    label =
-      result.item.title ??
-      result.item.description ??
-      result.item.url ??
-      result.item.id;
-  } else if (result.kind === "media") {
-    label =
-      result.item.label ??
-      result.item.description ??
-      result.item.location ??
-      result.item.id;
-  } else if (result.kind === "area") {
-    label = result.item.label ?? result.item.id;
-  } else if (result.kind === "story") {
-    label = result.item.title ?? result.item.id;
-  }
-
-  const icon =
-    result.kind === "event" ? (
-      <Icons.Assignment fontSize="small" />
-    ) : result.kind === "link" ? (
-      <LinkIcon />
-    ) : result.kind === "area" ? (
-      <AreaIcon />
-    ) : result.kind === "story" ? (
-      <Icons.StoryIcon fontSize="small" />
-    ) : (
-      <MediaIcon />
-    );
-
-  return (
-    <ListItemButton onClick={handleClick} dense>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          width: "100%",
-        }}
-      >
+    content = (
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
         {icon}
         <ListItemText
           primary={label}
           primaryTypographyProps={{ noWrap: true, variant: "body2" }}
         />
       </Box>
-    </ListItemButton>
+    );
+  }
+
+  return (
+    <MenuItem dense onClick={handleClick} sx={{ px: 1.5, py: 0.5 }}>
+      {content}
+    </MenuItem>
   );
 };
 
@@ -206,7 +191,7 @@ export interface GlobalSearchModalProps {
   onResultClick: (result: SearchResult) => void;
 }
 
-const MIN_QUERY_LENGTH = 2;
+const MIN_QUERY_LENGTH = 3;
 const DEBOUNCE_MS = 300;
 
 export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
@@ -221,6 +206,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   const [resourceType, setResourceType] =
     React.useState<SearchResourceType>("all");
 
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const menuListRef = React.useRef<HTMLUListElement>(null);
+
   // Debounce query input
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -231,7 +219,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     };
   }, [query]);
 
-  // Reset state when modal closes
+  // Reset state and restore input focus when modal opens or closes
   React.useEffect(() => {
     if (!open) {
       setQuery("");
@@ -367,9 +355,35 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     onClose();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent): void => {
+  // ArrowDown from the text input moves focus to the first menu item
+  const handleInputKeyDown = (e: React.KeyboardEvent): void => {
+    if (e.key === "ArrowDown" && results.length > 0) {
+      e.preventDefault();
+      const first = menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']");
+      first?.focus();
+    }
     if (e.key === "Escape") {
       onClose();
+    }
+  };
+
+  // ArrowUp on the first menu item sends focus back to the text input
+  const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLUListElement>): void => {
+    if (e.key === "Escape") {
+      onClose();
+      return;
+    }
+    if (e.key === "ArrowUp") {
+      const focused = menuListRef.current?.querySelector<HTMLElement>(
+        "[role='menuitem']:focus",
+      );
+      const first = menuListRef.current?.querySelector<HTMLElement>(
+        "[role='menuitem']:first-child",
+      );
+      if (focused === first) {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
     }
   };
 
@@ -379,7 +393,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       onClose={onClose}
       fullWidth
       maxWidth="sm"
-      onKeyDown={handleKeyDown}
       aria-label="Global search"
       PaperProps={{ sx: { borderRadius: 2 } }}
     >
@@ -409,9 +422,11 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           size="small"
           placeholder="Search across all entities..."
           value={query}
+          inputRef={inputRef}
           onChange={(e) => {
             setQuery(e.target.value);
           }}
+          onKeyDown={handleInputKeyDown}
           InputProps={{
             startAdornment: (
               <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
@@ -472,16 +487,21 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         )}
 
         {enabled && results.length > 0 && (
-          <List dense disablePadding>
+          <MenuList
+            ref={menuListRef}
+            dense
+            disablePadding
+            onKeyDown={handleMenuKeyDown}
+            sx={{ py: 0 }}
+          >
             {results.map((result, i) => (
-              <ListItem
+              <ResultRow
                 key={`${result.kind}-${result.item.id}-${i}`}
-                disablePadding
-              >
-                <ResultRow result={result} onClick={handleResultClick} />
-              </ListItem>
+                result={result}
+                onClick={handleResultClick}
+              />
             ))}
-          </List>
+          </MenuList>
         )}
       </DialogContent>
     </Dialog>
