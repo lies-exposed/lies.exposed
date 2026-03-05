@@ -97,7 +97,7 @@
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/multer": "^2.0.0",
-    "@types/node": "^24.10.15",
+    "@types/node": "^24.11.0",
     "@types/pg": "^8.18.0",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.6",
