@@ -344,6 +344,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
           openOnFocus={resourceType === null}
           open={resourceType !== null ? false : undefined}
           PopperComponent={resourceType !== null ? () => null : undefined}
+          filterOptions={resourceType !== null ? () => [] : undefined}
+          noOptionsText={null}
           options={resourceType === null ? RESOURCE_TYPES : []}
           value={selected}
           inputValue={inputValue}
