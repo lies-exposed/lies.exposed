@@ -59,7 +59,11 @@ export const ApproveLinkButton: React.FC = () => {
       "links",
       {
         id: record.id,
-        data: { ...record, status: "APPROVED" },
+        data: {
+          ...record,
+          image: (record.image as any)?.id,
+          status: "APPROVED",
+        },
         previousData: record,
       },
       {

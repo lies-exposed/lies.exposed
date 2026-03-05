@@ -7,6 +7,7 @@ import {
   useUpdate,
 } from "../react-admin.js";
 import { SuggestedEntityRelationsBox } from "./SuggestedEntityRelationsBox.js";
+import { transformLink } from "./transformLink.js";
 
 export const LinkSuggestedEntityRelations: React.FC = () => {
   const record = useRecordContext();
@@ -26,13 +27,15 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
 
   const doAddKeyword = React.useCallback(
     (entity: string) => {
-      void update("links", {
-        id: record?.id,
-        data: {
-          ...record,
-          keywords: (record?.keywords ?? []).concat([entity]),
-        },
-      });
+      if (record) {
+        void update("links", {
+          id: record.id,
+          data: transformLink({
+            ...record,
+            keywords: (record.keywords ?? []).concat([entity]),
+          }),
+        });
+      }
     },
     [update, record],
   );
@@ -42,10 +45,10 @@ export const LinkSuggestedEntityRelations: React.FC = () => {
       if (record) {
         void update("links", {
           id: record.id,
-          data: {
+          data: transformLink({
             ...record,
             description: `${record.description}\n\n${sentence}`,
-          },
+          }),
         });
       }
     },
