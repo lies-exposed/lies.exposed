@@ -12,8 +12,8 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  IconButton,
 } from "../../mui/index.js";
-import { IconButton } from "../../mui/index.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { DangerZoneField } from "../common/DangerZoneField.js";
 import { EditForm } from "../common/EditForm.js";
