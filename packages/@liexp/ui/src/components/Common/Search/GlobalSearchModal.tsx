@@ -98,7 +98,7 @@ const ResultRow: React.FC<{
       <ActorListItem
         displayFullName
         avatarSize="small"
-        item={{ ...result.item, selected: false }}
+        item={{ ...result.item, selected: true }}
       />
     );
   } else if (result.kind === "group") {
@@ -106,11 +106,11 @@ const ResultRow: React.FC<{
       <GroupListItem
         avatarSize="small"
         displayName
-        item={{ ...result.item, selected: false }}
+        item={{ ...result.item, selected: true }}
       />
     );
   } else if (result.kind === "keyword") {
-    content = <KeywordListItem item={{ ...result.item, selected: false }} />;
+    content = <KeywordListItem item={{ ...result.item, selected: true }} />;
   } else {
     let label = "";
     if (result.kind === "event") {
