@@ -25,6 +25,7 @@ publicHoistPattern:
   - "*rollup*"
   - "*eslint*"
   - "*prettier*"
+  - "dotenv"
 
 overrides:
   "react-is": "^18"
