@@ -118,9 +118,6 @@ const AppHeader: React.FC = () => {
         case "media":
           navigateToResource.media({ id: result.item.id });
           break;
-        case "story":
-          navigateToResource.stories({ path: result.item.path });
-          break;
         default:
           break;
       }

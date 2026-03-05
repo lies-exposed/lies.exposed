@@ -6,7 +6,6 @@ import {
   type Keyword,
   type Link,
   type Media,
-  type Story,
 } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useEndpointQueries } from "../../../hooks/useEndpointQueriesProvider.js";
@@ -49,8 +48,7 @@ export type SearchResourceType =
   | "area"
   | "event"
   | "link"
-  | "media"
-  | "story";
+  | "media";
 
 interface ResourceTypeOption {
   value: SearchResourceType;
@@ -70,11 +68,6 @@ const RESOURCE_TYPES: ResourceTypeOption[] = [
   },
   { value: "link", label: "Links", icon: <LinkIcon /> },
   { value: "media", label: "Media", icon: <MediaIcon /> },
-  {
-    value: "story",
-    label: "Stories",
-    icon: <Icons.StoryIcon fontSize="small" />,
-  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -88,8 +81,7 @@ type SearchResult =
   | { kind: "area"; item: Area.Area }
   | { kind: "event"; item: Events.Event }
   | { kind: "link"; item: Link.Link }
-  | { kind: "media"; item: Media.Media }
-  | { kind: "story"; item: Story.Story };
+  | { kind: "media"; item: Media.Media };
 
 // ---------------------------------------------------------------------------
 // Per-result row
@@ -140,8 +132,6 @@ const ResultRow: React.FC<{
         result.item.id;
     } else if (result.kind === "area") {
       label = result.item.label ?? result.item.id;
-    } else if (result.kind === "story") {
-      label = result.item.title ?? result.item.id;
     }
 
     const icon =
@@ -151,8 +141,6 @@ const ResultRow: React.FC<{
         <LinkIcon />
       ) : result.kind === "area" ? (
         <AreaIcon />
-      ) : result.kind === "story" ? (
-        <Icons.StoryIcon fontSize="small" />
       ) : (
         <MediaIcon />
       );
@@ -201,12 +189,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 }) => {
   const Queries = useEndpointQueries();
 
-  /**
-   * We use a `multiple` Autocomplete capped at 1 item so that the selected
-   * resource type appears as an inline chip inside the input box. Once the
-   * chip is present the dropdown is hidden (options=[]) and the user's
-   * typing becomes the free-text search query — all in the same <input>.
-   */
   const [selected, setSelected] = React.useState<ResourceTypeOption[]>([]);
   const [inputValue, setInputValue] = React.useState("");
   const [debouncedQuery, setDebouncedQuery] = React.useState("");
@@ -252,7 +234,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   const eventQuery = Queries.Event.list.useQuery(undefined, baseQueryParams, !enabled || kind !== "event");
   const linkQuery = Queries.Link.list.useQuery(undefined, baseQueryParams, !enabled || kind !== "link");
   const mediaQuery = Queries.Media.list.useQuery(undefined, baseQueryParams, !enabled || kind !== "media");
-  const storyQuery = Queries.Story.list.useQuery(undefined, baseQueryParams, !enabled || kind !== "story");
 
   const isLoading =
     actorQuery.isFetching ||
@@ -261,8 +242,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     areaQuery.isFetching ||
     eventQuery.isFetching ||
     linkQuery.isFetching ||
-    mediaQuery.isFetching ||
-    storyQuery.isFetching;
+    mediaQuery.isFetching;
 
   const results = React.useMemo<SearchResult[]>(() => {
     if (!enabled || kind === null) return [];
@@ -273,9 +253,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     if (kind === "event") return ((eventQuery.data?.data as Events.Event[] | undefined) ?? []).map((item) => ({ kind: "event", item }));
     if (kind === "link") return (linkQuery.data?.data ?? []).map((item) => ({ kind: "link", item }));
     if (kind === "media") return (mediaQuery.data?.data ?? []).map((item) => ({ kind: "media", item }));
-    if (kind === "story") return (storyQuery.data?.data ?? []).map((item) => ({ kind: "story", item }));
     return [];
-  }, [enabled, kind, actorQuery.data, groupQuery.data, keywordQuery.data, areaQuery.data, eventQuery.data, linkQuery.data, mediaQuery.data, storyQuery.data]);
+  }, [enabled, kind, actorQuery.data, groupQuery.data, keywordQuery.data, areaQuery.data, eventQuery.data, linkQuery.data, mediaQuery.data]);
 
   const handleResultClick = (result: SearchResult): void => {
     onResultClick(result);
@@ -326,114 +305,103 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
 
       <DialogContent sx={{ pt: 0 }}>
         {/*
-         * Single combined input (multiple Autocomplete, capped at 1 chip).
+         * Two-phase input:
          *
-         * Phase 1 — no chip: typing filters the resource-type dropdown;
-         *   arrow keys + Enter select a type → chip appears inline.
+         * Phase 1 — no chip: MUI Autocomplete lets the user pick a resource
+         *   type from a dropdown. Selecting one sets `resourceType` and
+         *   switches to phase 2.
          *
-         * Phase 2 — chip present: dropdown is suppressed (options=[]);
-         *   typing goes into the free-text search query; × on chip resets
-         *   back to phase 1.
+         * Phase 2 — chip present: the Autocomplete is replaced by a plain
+         *   TextField + an inline chip. This completely avoids any MUI popup
+         *   machinery (no "No options" overlay, no dimming of the results).
          */}
-        <Autocomplete<ResourceTypeOption, true>
-          multiple
-          autoHighlight
-          // Phase 1: open on focus and show all resource types.
-          // Phase 2: render a no-op Popper so MUI never mounts the popup
-          //   DOM node — prevents "No options" overlay and result dimming.
-          openOnFocus={resourceType === null}
-          open={resourceType !== null ? false : undefined}
-          PopperComponent={resourceType !== null ? () => null : undefined}
-          filterOptions={resourceType !== null ? () => [] : undefined}
-          noOptionsText={null}
-          options={resourceType === null ? RESOURCE_TYPES : []}
-          value={selected}
-          inputValue={inputValue}
-          onChange={(_e, newValue) => {
-            // MUI passes the full array; we only ever want 0 or 1 entries.
-            const latest = newValue[newValue.length - 1] ?? null;
-            if (latest === null) {
-              setSelected([]);
-              setInputValue("");
-              setDebouncedQuery("");
-            } else {
-              setSelected([latest]);
-              setInputValue("");
-              setDebouncedQuery("");
-            }
-          }}
-          onInputChange={(_e, value, reason) => {
-            // Don't let MUI reset the input after an option is picked
-            if (reason === "reset" && resourceType !== null) return;
-            setInputValue(value);
-          }}
-          getOptionLabel={(opt) => opt.label}
-          isOptionEqualToValue={(opt, val) => opt.value === val.value}
-          // Render each resource-type option in the dropdown with its icon
-          renderOption={(props, opt) => (
-            <Box
-              component="li"
-              {...props}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            >
-              {opt.icon}
-              <span>{opt.label}</span>
-            </Box>
-          )}
-          // Render the selected resource type as an inline chip inside the input
-          renderTags={(value, getTagProps) =>
-            value.map((opt, index) => {
-              const { key, ...tagProps } = getTagProps({ index });
-              return (
-                <Chip
-                  key={key}
-                  {...tagProps}
-                  label={opt.label}
-                  icon={opt.icon as React.ReactElement}
-                  size="small"
-                  color="primary"
-                  onDelete={() => {
-                    setSelected([]);
-                    setInputValue("");
-                    setDebouncedQuery("");
-                  }}
-                />
-              );
-            })
-          }
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              autoFocus
-              size="small"
-              placeholder={
-                resourceType !== null
-                  ? `Search ${resourceType.label.toLowerCase()}...`
-                  : "Select a resource type…"
+        {resourceType === null ? (
+          <Autocomplete<ResourceTypeOption, true>
+            multiple
+            autoHighlight
+            openOnFocus
+            options={RESOURCE_TYPES}
+            value={selected}
+            inputValue={inputValue}
+            onChange={(_e, newValue) => {
+              const latest = newValue[newValue.length - 1] ?? null;
+              if (latest !== null) {
+                setSelected([latest]);
+                setInputValue("");
+                setDebouncedQuery("");
+                // Focus the search field after a short tick so the TextField
+                // that replaces this Autocomplete can receive focus.
+                setTimeout(() => { inputRef.current?.focus(); }, 50);
               }
-              inputRef={inputRef}
-              onKeyDown={handleInputKeyDown}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <>
+            }}
+            onInputChange={(_e, value) => {
+              setInputValue(value);
+            }}
+            getOptionLabel={(opt) => opt.label}
+            isOptionEqualToValue={(opt, val) => opt.value === val.value}
+            renderOption={(props, opt) => (
+              <Box
+                component="li"
+                {...props}
+                sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              >
+                {opt.icon}
+                <span>{opt.label}</span>
+              </Box>
+            )}
+            renderTags={() => null}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                autoFocus
+                size="small"
+                placeholder="Select a resource type…"
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: (
                     <Box sx={{ mr: 1, display: "flex", alignItems: "center" }}>
                       <Icons.Search fontSize="small" color="action" />
                     </Box>
-                    {params.InputProps.startAdornment}
-                  </>
-                ),
-                endAdornment: (
-                  <>
-                    {isLoading ? <CircularProgress size={16} /> : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
+                  ),
+                }}
+              />
+            )}
+            sx={{ mb: 1.5 }}
+          />
+        ) : (
+          // Phase 2: plain TextField with inline chip — no MUI popup at all.
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+            <Box sx={{ mr: 0.5, display: "flex", alignItems: "center" }}>
+              <Icons.Search fontSize="small" color="action" />
+            </Box>
+            <Chip
+              label={resourceType.label}
+              icon={resourceType.icon as React.ReactElement}
+              size="small"
+              color="primary"
+              onDelete={() => {
+                setSelected([]);
+                setInputValue("");
+                setDebouncedQuery("");
               }}
             />
-          )}
-          sx={{ mb: 1.5 }}
-        />
+            <TextField
+              autoFocus
+              size="small"
+              variant="standard"
+              placeholder={`Search ${resourceType.label.toLowerCase()}...`}
+              value={inputValue}
+              inputRef={inputRef}
+              onChange={(e) => { setInputValue(e.target.value); }}
+              onKeyDown={handleInputKeyDown}
+              InputProps={{
+                disableUnderline: true,
+                endAdornment: isLoading ? <CircularProgress size={16} /> : null,
+              }}
+              sx={{ flex: 1 }}
+            />
+          </Box>
+        )}
 
         {/* Hint / empty states */}
         {resourceType === null && (
@@ -441,7 +409,6 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
             Select a resource type to start searching
           </Typography>
         )}
-
         {resourceType !== null && !enabled && (
           <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
             Type at least {MIN_QUERY_LENGTH} characters to search {resourceType.label.toLowerCase()}
