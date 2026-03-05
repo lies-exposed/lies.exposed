@@ -38,9 +38,12 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
     flexDirection: "row",
     height: "100%",
     width: "100%",
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(8),
     [theme.breakpoints.down("sm")]: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
+      paddingTop: theme.spacing(2),
     },
     [theme.breakpoints.between("sm", "md")]: {
       paddingLeft: theme.spacing(2),
@@ -249,7 +252,7 @@ export const SplitPageTemplate: React.FC<SplitPageTemplateProps> = ({
 
   return (
     <StyledGrid className={classes.root} container spacing={2}>
-      <Grid size={{ lg: 3, md: 4, sm: 12, xs: 12 }} className={classes.left}>
+      <Grid size={{ lg: 3, md: 3, sm: 12, xs: 12 }} className={classes.left}>
         <Stack
           width={"100%"}
           height={"100%"}

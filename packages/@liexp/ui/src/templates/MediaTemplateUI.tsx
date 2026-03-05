@@ -3,7 +3,7 @@ import { type Keyword, type Media } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { KeywordsBox } from "../components/KeywordsBox.js";
 import MediaElement from "../components/Media/MediaElement.js";
-import { Box, Typography } from "../components/mui/index.js";
+import { Box, Chip, Typography } from "../components/mui/index.js";
 import EventsBox from "../containers/EventsBox.js";
 import { EventsPanelBox } from "../containers/EventsPanel.js";
 import { MediaBox } from "../containers/MediaBox.js";
@@ -27,6 +27,12 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
   onKeywordClick,
   onMediaClick,
 }) => {
+  const hasKeywords = m.keywords.length > 0;
+  const randomOffset = React.useMemo(
+    () => (hasKeywords ? 0 : Math.floor(Math.random() * 50)),
+    [m.id],
+  );
+
   return (
     <SplitPageTemplate
       resource={{ name: "media", item: m }}
@@ -36,6 +42,8 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           display="flex"
           flexDirection={"column"}
           paddingLeft={2}
+          paddingTop={1}
+          gap={1}
         >
           <MediaElement
             media={m}
@@ -51,7 +59,11 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
               video: { showPlay: false },
             }}
           />
-          <Typography>{m.type}</Typography>
+          <Chip
+            size="small"
+            label={m.type.split("/").pop()?.toUpperCase() ?? m.type}
+            sx={{ alignSelf: "flex-start" }}
+          />
           <KeywordsBox ids={m.keywords} onItemClick={onKeywordClick} />
         </Box>
       }
@@ -70,11 +82,18 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
       ]}
     >
       <Box sx={{ padding: 1.25 }}>
-        <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 } }}>
+        <Box sx={{ marginBottom: { xs: 4, sm: 6, md: 8 }, maxWidth: 640 }}>
           <MediaElement
             media={m}
             enableDescription={false}
-            itemStyle={{ maxHeight: 600, minHeight: 300, maxWidth: "100%" }}
+            disableZoom
+            options={{ iframe: { showPlay: true }, video: { showPlay: true } }}
+            itemStyle={{
+              maxHeight: 400,
+              minHeight: 250,
+              maxWidth: "100%",
+              width: "100%",
+            }}
           />
         </Box>
         <Box sx={{ marginBottom: 6 }}>
@@ -83,17 +102,26 @@ export const MediaTemplateUI: React.FC<MediaTemplateUIProps> = ({
           </Typography>
           <Typography sx={{ marginBottom: 2.5 }}>{m.description}</Typography>
         </Box>
-        <MediaBox
-          filter={{ keywords: m.keywords }}
-          onClick={onMediaClick}
-          limit={3}
-        />
+        <Box sx={{ marginTop: 6, marginBottom: 4 }}>
+          <Typography variant="h5" sx={{ marginBottom: 1.5 }}>
+            {hasKeywords ? "Related media by keywords" : "Other media"}
+          </Typography>
+          <MediaBox
+            filter={{ keywords: m.keywords, _start: String(randomOffset) }}
+            onClick={onMediaClick}
+            limit={6}
+            layout="horizontal"
+            itemStyle={{ height: 300 }}
+          />
+        </Box>
 
-        <EventsBox
-          title="Events by keywords"
-          query={{ keywords: m.keywords, _end: 3 }}
-          onEventClick={onEventClick}
-        />
+        <Box sx={{ marginTop: 4, marginBottom: 4 }}>
+          <EventsBox
+            title={hasKeywords ? "Related events by keywords" : "Recent events"}
+            query={{ keywords: m.keywords, _start: randomOffset, _end: 6 }}
+            onEventClick={onEventClick}
+          />
+        </Box>
       </Box>
       <EventsPanelBox
         query={{

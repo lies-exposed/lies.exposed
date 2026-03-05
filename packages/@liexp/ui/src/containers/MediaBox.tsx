@@ -15,6 +15,8 @@ export interface MediaBoxProps {
   enableDescription?: boolean;
   disableZoom?: boolean;
   columns?: number;
+  layout?: "masonry" | "horizontal";
+  itemStyle?: React.CSSProperties;
   discrete?: boolean;
 }
 
