@@ -5,7 +5,7 @@ import * as d3 from "d3";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/SVGD3",
+  title: "Components/Common/SVGD3",
 };
 
 export default meta;

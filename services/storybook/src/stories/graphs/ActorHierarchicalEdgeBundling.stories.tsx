@@ -2,7 +2,7 @@ import { ActorHierarchyEdgeBundlingGraph } from "@liexp/ui/lib/components/Graph/
 import { type Meta } from "@storybook/react-vite";
 
 const meta: Meta = {
-  title: "Components/Graph/HierarchicalEdgeBundling",
+  title: "Components/Graph/ActorHierarchicalEdgeBundling",
   component: ActorHierarchyEdgeBundlingGraph,
   parameters: {
     docs: {
