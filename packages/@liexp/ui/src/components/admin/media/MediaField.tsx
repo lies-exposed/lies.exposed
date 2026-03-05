@@ -67,6 +67,7 @@ export const MediaField: React.FC<MediaFieldProps> = ({
           sx={() => ({
             "& .RaImageField-image": {
               maxWidth: 300,
+              width: "100%",
             },
           })}
         />

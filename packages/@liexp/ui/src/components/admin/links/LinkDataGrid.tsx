@@ -82,7 +82,7 @@ export const LinkDataGrid: React.FC<LinkDataGridProps> = ({
                 // Always use row layout to prevent text overlaying image
                 width: "100%",
                 minWidth: 0, // Important: allows flex children to shrink below minWidth
-                alignItems: "flex-start",
+                alignItems: "center",
               }}
             >
               {/* Thumbnail image */}
