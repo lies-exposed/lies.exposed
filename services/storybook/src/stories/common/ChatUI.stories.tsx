@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import React, { useState } from "react";
 
 const meta: Meta<typeof ChatUI> = {
-  title: "Components/ChatUI",
+  title: "Components/Common/ChatUI",
   component: ChatUI,
   parameters: {
     layout: "fullscreen",

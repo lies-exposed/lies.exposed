@@ -6,7 +6,7 @@ import { ParentSize } from "@visx/responsive";
 import * as React from "react";
 
 const meta = {
-  title: "Components/Map",
+  title: "Components/Common/Map",
   component: Map,
   render: (props) => {
     return (

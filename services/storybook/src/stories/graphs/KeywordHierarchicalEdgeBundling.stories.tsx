@@ -7,7 +7,7 @@ import { type Meta, type StoryFn } from "@storybook/react-vite";
 import * as React from "react";
 
 const meta: Meta = {
-  title: "Components/Graph/HierarchicalEdgeBundling",
+  title: "Components/Graph/KeywordHierarchicalEdgeBundling",
   component: KeywordHierarchyEdgeBundlingGraph,
   parameters: {
     docs: {
