@@ -31,6 +31,7 @@
     "@types/debug": "^4.1.12",
     "@vitejs/plugin-react": "^5.1.4",
     "debug": "^4.4.0",
+    "dotenv": "^17.3.1",
     "effect": "^3.19.19",
     "eslint": "^10.0.2",
     "eslint-import-resolver-typescript": "^4.4.2",
@@ -41,6 +42,7 @@
   },
   "peerDependencies": {
     "debug": "*",
+    "dotenv": "^17",
     "effect": "^3",
     "fp-ts": "^2",
     "vite": "^7",
