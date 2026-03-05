@@ -24,8 +24,8 @@ const IndexPage: React.FC<RouteComponentProps> = () => {
   const isMD = useMuiMediaQuery("min-width: 960px");
 
   // Responsive values for MediaBox
-  const mediaBoxColumns = isMD ? 2 : isSM ? 2 : 1;
-  const mediaBoxHeight = isMD ? 1200 : isSM ? 900 : 600;
+  const mediaBoxColumns = isMD ? 5 : isSM ? 3 : 2;
+  const mediaBoxHeight = isMD ? 600 : isSM ? 500 : 400;
 
   return (
     <Grid
