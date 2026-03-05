@@ -94,7 +94,9 @@ const ResultRow: React.FC<{
       );
 
     content = (
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}>
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 1, width: "100%" }}
+      >
         {icon}
         <ListItemText
           primary={label}
@@ -139,13 +141,41 @@ const useResourceSearch = (
     _order: "DESC" as const,
   };
 
-  const actorQuery = Queries.Actor.list.useQuery(undefined, params, !enabled || kind !== "actor");
-  const groupQuery = Queries.Group.list.useQuery(undefined, params, !enabled || kind !== "group");
-  const keywordQuery = Queries.Keyword.list.useQuery(undefined, params, !enabled || kind !== "keyword");
-  const areaQuery = Queries.Area.list.useQuery(undefined, params, !enabled || kind !== "area");
-  const eventQuery = Queries.Event.list.useQuery(undefined, params, !enabled || kind !== "event");
-  const linkQuery = Queries.Link.list.useQuery(undefined, params, !enabled || kind !== "link");
-  const mediaQuery = Queries.Media.list.useQuery(undefined, params, !enabled || kind !== "media");
+  const actorQuery = Queries.Actor.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "actor",
+  );
+  const groupQuery = Queries.Group.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "group",
+  );
+  const keywordQuery = Queries.Keyword.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "keyword",
+  );
+  const areaQuery = Queries.Area.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "area",
+  );
+  const eventQuery = Queries.Event.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "event",
+  );
+  const linkQuery = Queries.Link.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "link",
+  );
+  const mediaQuery = Queries.Media.list.useQuery(
+    undefined,
+    params,
+    !enabled || kind !== "media",
+  );
 
   const isLoading =
     actorQuery.isFetching ||
@@ -158,18 +188,51 @@ const useResourceSearch = (
 
   const results = React.useMemo<SearchResult[]>(() => {
     if (!enabled || kind === null) return [];
-    if (kind === "actor") return (actorQuery.data?.data ?? []).map((item) => ({ kind: "actor", item }));
-    if (kind === "group") return (groupQuery.data?.data ?? []).map((item) => ({ kind: "group", item }));
-    if (kind === "keyword") return (keywordQuery.data?.data ?? []).map((item) => ({ kind: "keyword", item }));
-    if (kind === "area") return (areaQuery.data?.data ?? []).map((item) => ({ kind: "area", item }));
-    if (kind === "event") return ((eventQuery.data?.data as Events.Event[] | undefined) ?? []).map((item) => ({ kind: "event", item }));
-    if (kind === "link") return (linkQuery.data?.data ?? []).map((item) => ({ kind: "link", item }));
-    if (kind === "media") return (mediaQuery.data?.data ?? []).map((item) => ({ kind: "media", item }));
+    if (kind === "actor")
+      return (actorQuery.data?.data ?? []).map((item) => ({
+        kind: "actor",
+        item,
+      }));
+    if (kind === "group")
+      return (groupQuery.data?.data ?? []).map((item) => ({
+        kind: "group",
+        item,
+      }));
+    if (kind === "keyword")
+      return (keywordQuery.data?.data ?? []).map((item) => ({
+        kind: "keyword",
+        item,
+      }));
+    if (kind === "area")
+      return (areaQuery.data?.data ?? []).map((item) => ({
+        kind: "area",
+        item,
+      }));
+    if (kind === "event")
+      return ((eventQuery.data?.data as Events.Event[] | undefined) ?? []).map(
+        (item) => ({ kind: "event", item }),
+      );
+    if (kind === "link")
+      return (linkQuery.data?.data ?? []).map((item) => ({
+        kind: "link",
+        item,
+      }));
+    if (kind === "media")
+      return (mediaQuery.data?.data ?? []).map((item) => ({
+        kind: "media",
+        item,
+      }));
     return [];
   }, [
-    enabled, kind,
-    actorQuery.data, groupQuery.data, keywordQuery.data,
-    areaQuery.data, eventQuery.data, linkQuery.data, mediaQuery.data,
+    enabled,
+    kind,
+    actorQuery.data,
+    groupQuery.data,
+    keywordQuery.data,
+    areaQuery.data,
+    eventQuery.data,
+    linkQuery.data,
+    mediaQuery.data,
   ]);
 
   return { results, isLoading };
@@ -190,7 +253,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   onClose,
   onResultClick,
 }) => {
-  const [resourceType, setResourceType] = React.useState<ResourceTypeOption | null>(null);
+  const [resourceType, setResourceType] =
+    React.useState<ResourceTypeOption | null>(null);
   const [searchValue, setSearchValue] = React.useState("");
   const [debouncedQuery, setDebouncedQuery] = React.useState("");
 
@@ -203,7 +267,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     const t = setTimeout(() => {
       setDebouncedQuery(searchValue);
     }, DEBOUNCE_MS);
-    return () => { clearTimeout(t); };
+    return () => {
+      clearTimeout(t);
+    };
   }, [searchValue, resourceType]);
 
   // Reset all state when the modal closes
@@ -220,7 +286,8 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     debouncedQuery,
   );
 
-  const enabled = resourceType !== null && debouncedQuery.length >= MIN_QUERY_LENGTH;
+  const enabled =
+    resourceType !== null && debouncedQuery.length >= MIN_QUERY_LENGTH;
 
   const handleResultClick = (result: SearchResult): void => {
     onResultClick(result);
@@ -232,7 +299,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
     setSearchValue("");
     setDebouncedQuery("");
     // Shift focus to the search TextField once it mounts
-    setTimeout(() => { searchInputRef.current?.focus(); }, 50);
+    setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 50);
   };
 
   const handleResourceTypeClear = (): void => {
@@ -242,10 +311,14 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   };
 
   // ArrowDown from the search input → first result row
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleSearchKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ): void => {
     if (e.key === "ArrowDown" && results.length > 0) {
       e.preventDefault();
-      menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']")?.focus();
+      menuListRef.current
+        ?.querySelector<HTMLElement>("[role='menuitem']")
+        ?.focus();
     }
     if (e.key === "Escape") {
       onClose();
@@ -253,11 +326,20 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
   };
 
   // ArrowUp on first result row → back to search input; Escape → close
-  const handleMenuKeyDown = (e: React.KeyboardEvent<HTMLUListElement>): void => {
-    if (e.key === "Escape") { onClose(); return; }
+  const handleMenuKeyDown = (
+    e: React.KeyboardEvent<HTMLUListElement>,
+  ): void => {
+    if (e.key === "Escape") {
+      onClose();
+      return;
+    }
     if (e.key === "ArrowUp") {
-      const focused = menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']:focus");
-      const first = menuListRef.current?.querySelector<HTMLElement>("[role='menuitem']:first-child");
+      const focused = menuListRef.current?.querySelector<HTMLElement>(
+        "[role='menuitem']:focus",
+      );
+      const first = menuListRef.current?.querySelector<HTMLElement>(
+        "[role='menuitem']:first-child",
+      );
       if (focused === first) {
         e.preventDefault();
         searchInputRef.current?.focus();
@@ -275,8 +357,16 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
       PaperProps={{ sx: { borderRadius: 2 } }}
     >
       <DialogTitle sx={{ pb: 1 }}>
-        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Typography variant="subtitle1" fontWeight="bold">Search</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="subtitle1" fontWeight="bold">
+            Search
+          </Typography>
           <IconButton size="small" onClick={onClose} aria-label="Close search">
             <Icons.Close fontSize="small" />
           </IconButton>
@@ -296,19 +386,32 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({
         />
 
         {resourceType === null && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
             Select a resource type to start searching
           </Typography>
         )}
 
         {resourceType !== null && !enabled && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
-            Type at least {MIN_QUERY_LENGTH} characters to search {resourceType.label.toLowerCase()}
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
+            Type at least {MIN_QUERY_LENGTH} characters to search{" "}
+            {resourceType.label.toLowerCase()}
           </Typography>
         )}
 
         {enabled && !isLoading && results.length === 0 && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", py: 2 }}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ textAlign: "center", py: 2 }}
+          >
             No results for &quot;{debouncedQuery}&quot;
           </Typography>
         )}
