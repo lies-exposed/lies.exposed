@@ -25,15 +25,13 @@
   "lint-staged": {
     "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
-  "dependencies": {
-    "dotenv": "^17.3.1"
-  },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@rollup/plugin-image": "^3.0.3",
     "@types/debug": "^4.1.12",
     "@vitejs/plugin-react": "^5.1.4",
     "debug": "^4.4.0",
+    "dotenv": "^17.3.1",
     "effect": "^3.19.19",
     "eslint": "^10.0.2",
     "eslint-import-resolver-typescript": "^4.4.2",

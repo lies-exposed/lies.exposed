@@ -26,11 +26,6 @@ publicHoistPattern:
   - "*eslint*"
   - "*prettier*"
 
-overrides:
-  "react-is": "^18"
-  "zod": "^4.3.5"
-  "dotenv": "^17.3.1"
-
 nodeLinker: hoisted
 linkWorkspacePackages: deep
 preferWorkspacePackages: true

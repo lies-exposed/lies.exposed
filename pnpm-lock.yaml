@@ -15,6 +15,7 @@ overrides:
   '@ts-endpoint/express': file:patches/ts-endpoint-express-0.1.0.tgz
   '@ts-endpoint/react-admin': file:patches/ts-endpoint-react-admin-0.1.0.tgz
   '@ts-endpoint/tanstack-query': file:patches/ts-endpoint-tanstack-query-0.1.0.tgz
+  react-is: ^18
   zod: ^4.3.5
   dotenv: ^17.3.1
 
@@ -272,9 +273,6 @@ importers:
 
   packages/@liexp/core:
     dependencies:
-      dotenv:
-        specifier: ^17.3.1
-        version: 17.3.1
       vite:
         specifier: ^7
         version: 7.3.1(@types/node@25.3.3)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
@@ -303,6 +301,9 @@ importers:
       debug:
         specifier: ^4.4.0
         version: 4.4.3
+      dotenv:
+        specifier: ^17.3.1
+        version: 17.3.1
       effect:
         specifier: ^3.19.19
         version: 3.19.19
@@ -8542,7 +8543,7 @@ packages:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
       react-hook-form: '*'
-      react-is: ^18.0.0 || ^19.0.0
+      react-is: ^18
       react-router: ^6.28.1 || ^7.1.1
       react-router-dom: ^6.28.1 || ^7.1.1
 
@@ -8634,11 +8635,8 @@ packages:
     peerDependencies:
       react: '*'
 
-  react-is@16.13.1:
-    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-
-  react-is@17.0.2:
-    resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+  react-is@18.3.1:
+    resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
   react-is@19.2.4:
     resolution: {integrity: sha512-W+EWGn2v0ApPKgKKCy/7s7WHXkboGcsrXE+2joLyVxkbyVQfO3MUEaUQDHoSmb8TFFrSKYa9mw64WZHNHSDzYA==}
@@ -12117,7 +12115,7 @@ snapshots:
       prop-types: 15.8.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-      react-is: 19.2.4
+      react-is: 18.3.1
       react-transition-group: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     optionalDependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.27)(react@18.3.1)
@@ -12176,7 +12174,7 @@ snapshots:
       clsx: 2.1.1
       prop-types: 15.8.1
       react: 18.3.1
-      react-is: 19.2.4
+      react-is: 18.3.1
     optionalDependencies:
       '@types/react': 18.3.27
 
@@ -16374,7 +16372,7 @@ snapshots:
 
   hoist-non-react-statics@3.3.2:
     dependencies:
-      react-is: 16.13.1
+      react-is: 18.3.1
 
   hono@4.12.5: {}
 
@@ -18210,7 +18208,7 @@ snapshots:
     dependencies:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
-      react-is: 17.0.2
+      react-is: 18.3.1
 
   process-nextick-args@2.0.1: {}
 
@@ -18225,7 +18223,7 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
-      react-is: 16.13.1
+      react-is: 18.3.1
 
   property-information@7.1.0: {}
 
@@ -18492,7 +18490,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-error-boundary: 4.1.2(react@18.3.1)
       react-hook-form: 7.71.2(react@18.3.1)
-      react-is: 19.2.4
+      react-is: 18.3.1
       react-router: 7.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-router-dom: 7.13.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
@@ -18668,9 +18666,7 @@ snapshots:
     dependencies:
       react: 18.3.1
 
-  react-is@16.13.1: {}
-
-  react-is@17.0.2: {}
+  react-is@18.3.1: {}
 
   react-is@19.2.4: {}
 
