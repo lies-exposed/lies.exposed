@@ -43,7 +43,7 @@ export function CommandMenu({ onSelect }: Props) {
         marginBottom={1}
       >
         <Text bold color="cyan">
-          lies.exposed  Docker CLI
+          lies.exposed  dev CLI
         </Text>
       </Box>
 

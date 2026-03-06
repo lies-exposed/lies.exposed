@@ -1,8 +1,11 @@
 {
-  "name": "@liexp/docker-cli",
+  "name": "@liexp/dev-cli",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "bin": {
+    "liexp": "./src/run.tsx"
+  },
   "scripts": {
     "start": "tsx src/run.tsx",
     "build": "tsc -b tsconfig.build.json",
