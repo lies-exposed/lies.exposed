@@ -41,7 +41,6 @@
   },
   "peerDependencies": {
     "debug": "*",
-    "dotenv": ">=16",
     "effect": "^3",
     "fp-ts": "^2",
     "vite": "^7",

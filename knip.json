@@ -21,6 +21,18 @@
         "@floating-ui/dom"
       ]
     },
+    "packages/@liexp/core": {
+      "includeEntryExports": false,
+      "entry": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "project": [
+        "src/**/*.{ts,tsx}"
+      ],
+      "ignoreDependencies": [
+        "dotenv"
+      ]
+    },
     "packages/@liexp/*": {
       "includeEntryExports": false,
       "entry": [
