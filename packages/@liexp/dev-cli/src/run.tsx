@@ -88,6 +88,39 @@ if (parsed.mode === "interactive") {
       element = <TestDeployCommand autoRun />;
       break;
     }
+    case "worktree:list": {
+      const { WorktreeCommand } = await import("./commands/worktree.js");
+      element = <WorktreeCommand preSubCommand="list" />;
+      break;
+    }
+    case "worktree:add": {
+      const { WorktreeCommand } = await import("./commands/worktree.js");
+      element = (
+        <WorktreeCommand
+          preSubCommand="add"
+          preName={parsed.name}
+          preNewBranch={parsed.newBranch}
+          preBase={parsed.base}
+        />
+      );
+      break;
+    }
+    case "worktree:remove": {
+      const { WorktreeCommand } = await import("./commands/worktree.js");
+      element = (
+        <WorktreeCommand
+          preSubCommand="remove"
+          preName={parsed.name}
+          preForce={parsed.force}
+        />
+      );
+      break;
+    }
+    case "worktree:prune": {
+      const { WorktreeCommand } = await import("./commands/worktree.js");
+      element = <WorktreeCommand preSubCommand="prune" />;
+      break;
+    }
   }
 
   const { waitUntilExit } = render(

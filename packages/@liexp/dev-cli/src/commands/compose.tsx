@@ -10,19 +10,25 @@ type Props = {
   /** Pre-supplied args. If provided, runs immediately without prompt. */
   preArgs?: string[];
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "prompt" | "running" | "done";
 
-export function ComposeCommand({ preArgs, onBack }: Props) {
+export function ComposeCommand({ preArgs, onBack, onPhaseChange }: Props) {
   const [phase, setPhase] = useState<Phase>(preArgs ? "running" : "prompt");
   const [argsInput, setArgsInput] = useState(
     preArgs ? preArgs.join(" ") : DEFAULT_COMPOSE_ARGS
   );
   const [output, callbacks] = useProcessOutput();
 
-  useInput((input) => {
-    if (phase === "done" && (input === "b" || input === "\x7F") && onBack) {
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "prompt" ? "idle" : p === "running" ? "running" : "done");
+  };
+
+  useInput((_input, key) => {
+    if (phase === "done" && key.escape && onBack) {
       onBack();
     }
   });
@@ -53,7 +59,7 @@ export function ComposeCommand({ preArgs, onBack }: Props) {
       );
 
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -74,7 +80,7 @@ export function ComposeCommand({ preArgs, onBack }: Props) {
             <TextInput
               value={argsInput}
               onChange={setArgsInput}
-              onSubmit={() => setPhase("running")}
+              onSubmit={() => updatePhase("running")}
             />
           </Box>
           <Text dimColor>
@@ -92,15 +98,7 @@ export function ComposeCommand({ preArgs, onBack }: Props) {
             liveLine={output.liveLine}
           />
 
-          {phase === "done" && (
-            <Box marginTop={1}>
-              <Text dimColor>
-                {onBack
-                  ? "Press b/backspace to go back or ctrl+c to quit."
-                  : "Press ctrl+c to quit."}
-              </Text>
-            </Box>
-          )}
+          {phase === "done" && null}
         </>
       )}
     </Box>

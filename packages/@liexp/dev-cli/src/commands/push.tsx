@@ -10,6 +10,7 @@ type Props = {
   username?: string;
   preSelectedServices?: ServiceKey[];
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "selectServices" | "running" | "done";
@@ -18,6 +19,7 @@ export function PushCommand({
   username: initialUsername,
   preSelectedServices,
   onBack,
+  onPhaseChange,
 }: Props) {
   const [phase, setPhase] = useState<Phase>(
     preSelectedServices ? "running" : "selectServices"
@@ -30,8 +32,13 @@ export function PushCommand({
   const [failedServices, setFailedServices] = useState<ServiceKey[]>([]);
   const [output, callbacks] = useProcessOutput();
 
-  useInput((input) => {
-    if (phase === "done" && (input === "b" || input === "\x7F") && onBack) {
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "selectServices" ? "idle" : p === "running" ? "running" : "done");
+  };
+
+  useInput((_input, key) => {
+    if (phase === "done" && key.escape && onBack) {
       onBack();
     }
   });
@@ -49,7 +56,7 @@ export function PushCommand({
         );
         if (loginResult.exitCode !== 0) {
           callbacks.setStatus("error");
-          setPhase("done");
+          updatePhase("done");
           onBack?.();
           return;
         }
@@ -85,7 +92,7 @@ export function PushCommand({
 
       setCurrentService(null);
       callbacks.setStatus(failedServices.length > 0 ? "error" : "success");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -108,7 +115,7 @@ export function PushCommand({
                 return;
               }
               setSelectedServices(svcs);
-              setPhase("running");
+              updatePhase("running");
             }}
           />
         </Box>
@@ -141,11 +148,6 @@ export function PushCommand({
                   Failed: {failedServices.join(", ")}
                 </Text>
               )}
-              <Text dimColor>
-                {onBack
-                  ? "Press b/backspace to go back or ctrl+c to quit."
-                  : "Press ctrl+c to quit."}
-              </Text>
             </Box>
           )}
         </>

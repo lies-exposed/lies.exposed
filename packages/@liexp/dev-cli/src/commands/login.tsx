@@ -8,29 +8,34 @@ type Props = {
   /** If provided, skips the username prompt and runs immediately. */
   username?: string;
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "prompt" | "running" | "done";
 
-export function LoginCommand({ username: initialUsername, onBack }: Props) {
+export function LoginCommand({ username: initialUsername, onBack, onPhaseChange }: Props) {
   const [phase, setPhase] = useState<Phase>(
     initialUsername ? "running" : "prompt"
   );
   const [username, setUsername] = useState(initialUsername ?? "");
   const [output, callbacks] = useProcessOutput();
 
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "prompt" ? "idle" : p === "running" ? "running" : "done");
+  };
+
   useEffect(() => {
     if (phase !== "running") return;
     callbacks.setStatus("running");
 
     const run = async () => {
-      // Mirrors: cat ./deploy/gh-token.txt | docker login ghcr.io -u "$1" --password-stdin
       const result = await execShell(
         `cat ./deploy/gh-token.txt | docker login ghcr.io -u '${username}' --password-stdin`,
         { onStdout: callbacks.onLine, onStderr: callbacks.onLine }
       );
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -50,7 +55,7 @@ export function LoginCommand({ username: initialUsername, onBack }: Props) {
             onSubmit={(val) => {
               if (val.trim()) {
                 setUsername(val.trim());
-                setPhase("running");
+                updatePhase("running");
               }
             }}
           />
@@ -74,9 +79,6 @@ export function LoginCommand({ username: initialUsername, onBack }: Props) {
           {output.status === "error" && (
             <Text color="red">Login failed. Check deploy/gh-token.txt and your username.</Text>
           )}
-          <Text dimColor>
-            {onBack ? "Press backspace to go back or ctrl+c to quit." : "Press ctrl+c to quit."}
-          </Text>
         </Box>
       )}
     </Box>

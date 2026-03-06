@@ -8,7 +8,8 @@ export type CommandId =
   | "compose"
   | "up"
   | "test"
-  | "test-deploy";
+  | "test-deploy"
+  | "worktree";
 
 type Props = {
   onSelect: (command: CommandId) => void;
@@ -28,6 +29,7 @@ const ITEMS: MenuItem[] = [
   { label: "up",          value: "up",          description: "Start dev stack" },
   { label: "test",        value: "test",        description: "Smoke test API container" },
   { label: "test-deploy", value: "test-deploy", description: "Simulate prod deploy" },
+  { label: "worktree",    value: "worktree",    description: "Manage git worktrees" },
 ];
 
 // Precompute label → description for use inside itemComponent

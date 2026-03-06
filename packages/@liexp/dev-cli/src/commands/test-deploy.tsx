@@ -8,6 +8,7 @@ import { REPO_ROOT } from "../lib/paths.js";
 type Props = {
   autoRun?: boolean;
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "confirm" | "running" | "done";
@@ -30,16 +31,21 @@ async function copyAndPatchEnv(
   await fs.writeFile(dest, content);
 }
 
-export function TestDeployCommand({ autoRun = false, onBack }: Props) {
+export function TestDeployCommand({ autoRun = false, onBack, onPhaseChange }: Props) {
   const [phase, setPhase] = useState<Phase>(autoRun ? "running" : "confirm");
   const [output, callbacks] = useProcessOutput();
 
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "confirm" ? "idle" : p === "running" ? "running" : "done");
+  };
+
   useInput((input, key) => {
     if (phase === "confirm") {
-      if (key.return || input === "y") setPhase("running");
+      if (key.return || input === "y") updatePhase("running");
       if (input === "n" || input === "q") onBack?.();
     }
-    if (phase === "done" && (input === "b" || input === "\x7F") && onBack) {
+    if (phase === "done" && key.escape && onBack) {
       onBack();
     }
   });
@@ -83,7 +89,7 @@ export function TestDeployCommand({ autoRun = false, onBack }: Props) {
       } catch (err) {
         callbacks.onLine(`  ✘ Failed to copy env files: ${String(err)}`);
         callbacks.setStatus("error");
-        setPhase("done");
+        updatePhase("done");
         return;
       }
 
@@ -190,7 +196,7 @@ export function TestDeployCommand({ autoRun = false, onBack }: Props) {
       );
 
       callbacks.setStatus(anyFailed ? "error" : "success");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -229,11 +235,6 @@ export function TestDeployCommand({ autoRun = false, onBack }: Props) {
               ) : (
                 <Text color="red">Deploy test completed with errors.</Text>
               )}
-              <Text dimColor>
-                {onBack
-                  ? "Press b/backspace to go back or ctrl+c to quit."
-                  : "Press ctrl+c to quit."}
-              </Text>
             </Box>
           )}
         </>

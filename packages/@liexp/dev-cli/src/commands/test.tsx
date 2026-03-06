@@ -9,21 +9,27 @@ type Props = {
   /** If true, skips confirmation prompt and runs immediately. */
   autoRun?: boolean;
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "confirm" | "running" | "done";
 
-export function TestCommand({ autoRun = false, onBack }: Props) {
+export function TestCommand({ autoRun = false, onBack, onPhaseChange }: Props) {
   const [phase, setPhase] = useState<Phase>(autoRun ? "running" : "confirm");
   const [output, callbacks] = useProcessOutput();
   const [healthOk, setHealthOk] = useState<boolean | null>(null);
 
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "confirm" ? "idle" : p === "running" ? "running" : "done");
+  };
+
   useInput((input, key) => {
     if (phase === "confirm") {
-      if (key.return || input === "y") setPhase("running");
+      if (key.return || input === "y") updatePhase("running");
       if (input === "n" || input === "q") onBack?.();
     }
-    if (phase === "done" && (input === "b" || input === "\x7F") && onBack) {
+    if (phase === "done" && key.escape && onBack) {
       onBack();
     }
   });
@@ -42,7 +48,7 @@ export function TestCommand({ autoRun = false, onBack }: Props) {
       });
       if (build.exitCode !== 0) {
         callbacks.setStatus("error");
-        setPhase("done");
+        updatePhase("done");
         onBack?.();
         return;
       }
@@ -76,7 +82,7 @@ export function TestCommand({ autoRun = false, onBack }: Props) {
       const ok = hc.exitCode === 0;
       setHealthOk(ok);
       callbacks.setStatus(ok ? "success" : "error");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -113,11 +119,6 @@ export function TestCommand({ autoRun = false, onBack }: Props) {
               ) : (
                 <Text color="red">Healthcheck failed.</Text>
               )}
-              <Text dimColor>
-                {onBack
-                  ? "Press b/backspace to go back or ctrl+c to quit."
-                  : "Press ctrl+c to quit."}
-              </Text>
             </Box>
           )}
         </>

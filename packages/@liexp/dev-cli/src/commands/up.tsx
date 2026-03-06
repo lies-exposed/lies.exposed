@@ -36,6 +36,7 @@ type Props = {
   /** If provided, runs immediately with these services (skips selector). */
   preServices?: string[];
   onBack?: () => void;
+  onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 };
 
 type Phase = "selectServices" | "running" | "done";
@@ -107,7 +108,7 @@ function UpServiceSelector({
 
 // ── UpCommand ────────────────────────────────────────────────────────────────
 
-export function UpCommand({ preServices, onBack }: Props) {
+export function UpCommand({ preServices, onBack, onPhaseChange }: Props) {
   const [phase, setPhase] = useState<Phase>(
     preServices ? "running" : "selectServices"
   );
@@ -116,8 +117,13 @@ export function UpCommand({ preServices, onBack }: Props) {
   );
   const [output, callbacks] = useProcessOutput();
 
-  useInput((input) => {
-    if (phase === "done" && (input === "b" || input === "\x7F") && onBack) {
+  const updatePhase = (p: Phase) => {
+    setPhase(p);
+    onPhaseChange?.(p === "selectServices" ? "idle" : p === "running" ? "running" : "done");
+  };
+
+  useInput((_input, key) => {
+    if (phase === "done" && key.escape && onBack) {
       onBack();
     }
   });
@@ -144,7 +150,7 @@ export function UpCommand({ preServices, onBack }: Props) {
         for (const f of missing) callbacks.onLine(`  ✘ ${f}`);
         callbacks.onLine("\nCreate these files before running `up`.");
         callbacks.setStatus("error");
-        setPhase("done");
+        updatePhase("done");
         onBack?.();
         return;
       }
@@ -186,7 +192,7 @@ export function UpCommand({ preServices, onBack }: Props) {
       );
 
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
-      setPhase("done");
+      updatePhase("done");
       onBack?.();
     };
 
@@ -205,7 +211,7 @@ export function UpCommand({ preServices, onBack }: Props) {
           <UpServiceSelector
             onConfirm={(svcs) => {
               setSelectedServices(svcs);
-              setPhase("running");
+              updatePhase("running");
             }}
           />
         </Box>
@@ -226,15 +232,7 @@ export function UpCommand({ preServices, onBack }: Props) {
             liveLine={output.liveLine}
           />
 
-          {phase === "done" && (
-            <Box marginTop={1}>
-              <Text dimColor>
-                {onBack
-                  ? "Press b/backspace to go back or ctrl+c to quit."
-                  : "Press ctrl+c to quit."}
-              </Text>
-            </Box>
-          )}
+          {phase === "done" && null}
         </>
       )}
     </Box>
