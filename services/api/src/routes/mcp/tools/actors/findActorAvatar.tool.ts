@@ -20,7 +20,7 @@ import { formatMediaToMarkdown } from "../formatters/mediaToMarkdown.formatter.j
  * 2. Tool returns media ID and avatar URL
  * 3. Use the media ID in createActor config.avatar parameter
  */
-export const FindActorAvatarInputSchema = Schema.Struct({
+const FindActorAvatarInputSchema = Schema.Struct({
   fullName: Schema.String.annotations({
     description:
       "Full name of the actor to search for on Wikipedia (e.g., 'Barack Obama')",
@@ -30,7 +30,7 @@ export const FindActorAvatarInputSchema = Schema.Struct({
       "Prefer high-resolution images over thumbnails if available (default: true)",
   }),
 });
-export type FindActorAvatarInputSchema = typeof FindActorAvatarInputSchema.Type;
+type FindActorAvatarInputSchema = typeof FindActorAvatarInputSchema.Type;
 
 export const findActorAvatarToolTask = ({
   fullName,

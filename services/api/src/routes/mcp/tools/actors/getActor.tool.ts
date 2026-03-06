@@ -2,21 +2,15 @@ import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { ActorRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { GetActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { Equal } from "typeorm";
 import { type ServerContext } from "../../../../context/context.type.js";
 import { formatActorToMarkdown } from "../formatters/actorToMarkdown.formatter.js";
 
-export const GetActorInputSchema = Schema.Struct({
-  id: UUID.annotations({
-    description: "UUID of the actor to retrieve",
-  }),
-});
-export type GetActorInputSchema = typeof GetActorInputSchema.Type;
+export { GetActorInputSchema };
 
 export const getActorToolTask = ({
   id,

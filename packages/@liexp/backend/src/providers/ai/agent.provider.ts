@@ -42,6 +42,7 @@ const toAgentError = (e: unknown) => {
 
 interface GetAgentProviderOptions {
   mcpClient: MultiServerMCPClient;
+  extraTools?: Tool[];
 }
 
 export const GetAgentProvider =
@@ -69,6 +70,7 @@ export const GetAgentProvider =
         ...mcpTools,
         createWebScrapingTool(ctx),
         createSearchWebTool(ctx),
+        ...(opts.extraTools ?? []),
       ];
 
       // Initialize memory to persist state between graph runs

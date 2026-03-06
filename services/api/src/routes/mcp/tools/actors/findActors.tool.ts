@@ -2,49 +2,15 @@ import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { fetchActors } from "@liexp/backend/lib/queries/actors/fetchActors.query.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { FindActorsInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { Schema } from "effect";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { type ServerContext } from "../../../../context/context.type.js";
 import { formatActorToMarkdown } from "../formatters/actorToMarkdown.formatter.js";
 
-export const FindActorsInputSchema = Schema.Struct({
-  fullName: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Full name to search for (partial match supported)",
-  }),
-  memberIn: Schema.Array(UUID).annotations({
-    description: "Array of group UUIDs the actor is a member of",
-  }),
-  withDeleted: Schema.UndefinedOr(Schema.Boolean).annotations({
-    description: "Include deleted actors in the search results",
-  }),
-  sort: Schema.Union(
-    Schema.Literal("username"),
-    Schema.Literal("createdAt"),
-    Schema.Literal("updatedAt"),
-    Schema.Undefined,
-  ).annotations({
-    description:
-      'Sort field: "createdAt", "fullName", or "username". Defaults to createdAt',
-  }),
-  order: Schema.Union(
-    Schema.Literal("ASC"),
-    Schema.Literal("DESC"),
-    Schema.Undefined,
-  ).annotations({
-    description: 'Sort order: "ASC" for ascending or "DESC" for descending',
-  }),
-  start: Schema.UndefinedOr(Schema.Number).annotations({
-    description: "Pagination start index",
-  }),
-  end: Schema.UndefinedOr(Schema.Number).annotations({
-    description: "Pagination end index",
-  }),
-});
-export type FindActorsInputSchema = typeof FindActorsInputSchema.Type;
+export { FindActorsInputSchema };
 
 export const findActorsToolTask = ({
   fullName,

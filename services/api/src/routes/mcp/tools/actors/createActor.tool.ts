@@ -1,7 +1,7 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { AddActorBody } from "@liexp/io/lib/http/Actor.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { CreateActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import {
   toParagraph,
   toInitialValue,
@@ -17,48 +17,7 @@ import { createActor } from "../../../../flows/actors/createActor.flow.js";
 import { toControllerError } from "../../../../io/ControllerError.js";
 import { formatActorToMarkdown } from "../formatters/actorToMarkdown.formatter.js";
 
-/**
- * Simplified actor creation schema.
- * Only 2 required fields: username and fullName.
- * Optional fields grouped into config object for clarity.
- */
-export const CreateActorInputSchema = Schema.Struct({
-  username: Schema.String.annotations({
-    description: "Unique username for the actor (required)",
-  }),
-  fullName: Schema.String.annotations({
-    description: "Full name of the actor (required)",
-  }),
-  config: Schema.optional(
-    Schema.Struct({
-      color: Schema.optional(Schema.String).annotations({
-        description: "Hex color without # (default: random)",
-      }),
-      excerpt: Schema.optional(Schema.String).annotations({
-        description: "Short description (default: null)",
-      }),
-      nationalityIds: Schema.optional(Schema.Array(UUID)).annotations({
-        description: "Array of nationality UUIDs (default: [])",
-      }),
-      body: Schema.optional(Schema.String).annotations({
-        description: "Full body content as plain text (default: null)",
-      }),
-      avatar: Schema.optional(UUID).annotations({
-        description: "Avatar media UUID (default: null)",
-      }),
-      bornOn: Schema.optional(Schema.String).annotations({
-        description: "Birth date in ISO format YYYY-MM-DD (default: null)",
-      }),
-      diedOn: Schema.optional(Schema.String).annotations({
-        description: "Death date in ISO format YYYY-MM-DD (default: null)",
-      }),
-    }),
-  ).annotations({
-    description:
-      "Optional configuration. Fields not specified use defaults (random color, empty arrays, null values)",
-  }),
-});
-export type CreateActorInputSchema = typeof CreateActorInputSchema.Type;
+export { CreateActorInputSchema };
 
 export const createActorToolTask = ({
   username,

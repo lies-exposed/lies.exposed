@@ -866,6 +866,66 @@ When making code changes:
 - **Media Analysis**: Image and video content processing
 - **Social Monitoring**: Real-time social media analysis
 
+## CLI Tools (Agent Service)
+
+The agent service exposes actor management commands via CLI, as a lightweight alternative to the MCP server. CLI commands have clean `--flag=value` interfaces, JSON stdout output, and standard exit codes — easy to compose, test, and call from scripts.
+
+Actor commands use a lightweight context (HTTP + env only) — they start instantly without connecting to MCP or loading LangChain.
+
+### Setup
+
+Set the following env vars in `services/agent/.env` (or `.env.local`):
+
+```
+API_BASE_URL=http://localhost:3001   # lies.exposed API base URL
+API_TOKEN=<your-jwt-token>           # Bearer token for authenticated requests
+```
+
+### Running commands
+
+```bash
+# From repo root using pnpm workspace filter
+pnpm --filter agent cli <command> [options]
+
+# Or after building, directly:
+node services/agent/build/cli/cli.js <command> [options]
+```
+
+### Actor commands
+
+| Command | Description |
+|---------|-------------|
+| `actor-find` | Search actors by name or group |
+| `actor-get` | Get a single actor by UUID |
+| `actor-create` | Create a new actor |
+| `actor-edit` | Edit an existing actor by UUID |
+
+**Examples:**
+
+```bash
+# Search actors by name
+pnpm --filter agent cli actor-find --name=Obama --take=5
+
+# Get actor by ID
+pnpm --filter agent cli actor-get --id=<uuid>
+
+# Create actor
+pnpm --filter agent cli actor-create --username=barack-obama --fullName="Barack Obama" --bornOn=1961-08-04
+
+# Edit actor
+pnpm --filter agent cli actor-edit --id=<uuid> --excerpt="44th President of the United States"
+
+# Show help for any command
+pnpm --filter agent cli actor-find --help
+
+# Interactive agent chat (full MCP + LangChain context)
+pnpm --filter agent cli agent
+```
+
+All commands output JSON to stdout (the API response body) and exit with code 0 on success, 1 on failure.
+
+The CLI coexists with the MCP server — use whichever fits your workflow.
+
 ## Deployment
 
 The AI services are containerized and deployed using:

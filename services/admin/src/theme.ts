@@ -51,6 +51,7 @@ const lightPalette = {
 };
 
 const darkPalette = {
+  mode: "dark" as const,
   primary: {
     main: darkPrimary,
     light: darkPrimaryLight,

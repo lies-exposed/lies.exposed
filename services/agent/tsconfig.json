@@ -13,7 +13,8 @@
       "#flows/*": ["./flows/*"],
       "#io/*": ["./io/*"],
       "#routes/*": ["./routes/*"],
-      "#cli/*": ["./cli/*"]
+      "#cli/*": ["./cli/*"],
+      "#tools/*": ["./tools/*"]
     }
   },
   "include": ["src/**/*", "test/**/*"],

@@ -1,9 +1,8 @@
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
-import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { EditActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { Schema } from "effect";
 import * as O from "effect/Option";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -11,47 +10,7 @@ import { type ServerContext } from "../../../../context/context.type.js";
 import { editActor } from "../../../../flows/actors/editActor.flow.js";
 import { formatActorToMarkdown } from "../formatters/actorToMarkdown.formatter.js";
 
-export const EditActorInputSchema = Schema.Struct({
-  id: UUID.annotations({
-    description: "UUID of the actor to edit",
-  }),
-  username: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Unique username for the actor or null to keep current",
-  }),
-  fullName: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Full name of the actor or null to keep current",
-  }),
-  color: Schema.UndefinedOr(Schema.String).annotations({
-    description:
-      "Color associated with the actor (hex format, without #) or null to keep current",
-  }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description:
-      "Short description of the actor as plain text or null to keep current",
-  }),
-  nationalities: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Array of nationality UUIDs or undefined to keep current",
-  }),
-  body: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Full body content as plain text or null to keep current",
-  }),
-  avatar: Schema.UndefinedOr(UUID).annotations({
-    description: "Avatar media UUID or null to keep current",
-  }),
-  bornOn: Schema.UndefinedOr(Schema.String).annotations({
-    description:
-      "Birth date in ISO format (YYYY-MM-DD) or null to keep current",
-  }),
-  diedOn: Schema.UndefinedOr(Schema.String).annotations({
-    description:
-      "Death date in ISO format (YYYY-MM-DD) or undefined to keep current",
-  }),
-  memberIn: Schema.UndefinedOr(Schema.Array(Schema.Union(UUID))).annotations({
-    description:
-      "Array of group memberships (as UUIDs or detailed objects) or undefined to keep current",
-  }),
-});
-export type EditActorInputSchema = typeof EditActorInputSchema.Type;
+export { EditActorInputSchema };
 
 export const editActorToolTask = ({
   id,
