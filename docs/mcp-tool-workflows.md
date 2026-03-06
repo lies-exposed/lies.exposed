@@ -329,6 +329,70 @@ Before creating ANY entity:
 
 ---
 
+## Workflow 9: Creating an Actor with Avatar
+
+**Goal**: Create an actor and automatically attach their Wikipedia profile image.
+
+### Pattern: Find Avatar → Create Actor
+
+```
+Step 1: Find avatar from Wikipedia
+findActorAvatar({ fullName: "Barack Obama" })
+→ Returns: { media_id: "uuid123", content: [...] }
+
+Step 2: Create actor using the media ID
+createActor({
+  username: "barack-obama",
+  fullName: "Barack Obama",
+  bornOn: "1961-08-04",
+  config: { avatar: "uuid123" }  // media ID from step 1
+})
+→ Returns: Created actor with profile image
+```
+
+**Tool Details — `findActorAvatar`:**
+- **Input**: `fullName` (required), `preferHighRes` (optional, default: `true`)
+- **Output**: Media ID and markdown-formatted information
+- **Behaviour**: Searches Wikipedia, downloads the image, uploads to storage, returns media UUID
+- **Error Handling**: Returns descriptive errors if actor not found or no image available
+- **Fallback**: If high-res is unavailable, automatically falls back to thumbnail
+
+**Important Notes:**
+- Always call `findActorAvatar` **before** `createActor` — the image must be uploaded first
+- The returned `media_id` can be used immediately in `config.avatar`
+- If Wikipedia has no image, proceed with `config: { avatar: null }`
+
+---
+
+## Workflow 10: Creating a Group with Avatar
+
+**Goal**: Create a group/organization and attach their Wikipedia logo/image.
+
+### Pattern: Find Avatar → Create Group
+
+```
+Step 1: Find avatar from Wikipedia
+findGroupAvatar({ name: "United Nations" })
+→ Returns: { media_id: "uuid456", content: [...] }
+
+Step 2: Create group using the media ID
+createGroup({
+  username: "united-nations",
+  name: "United Nations",
+  startDate: "1945-10-24",
+  config: { avatar: "uuid456" }  // media ID from step 1
+})
+→ Returns: Created group with logo
+```
+
+**Tool Details — `findGroupAvatar`:**
+- **Input**: `name` (required), `preferHighRes` (optional, default: `true`)
+- **Output**: Media ID and markdown-formatted information
+- **Behaviour**: Searches Wikipedia, downloads the image, uploads to storage, returns media UUID
+- **Error Handling**: Returns descriptive errors if group not found or no image available
+
+---
+
 ## 📝 Summary: The 80/20 Pattern
 
 For 80% of use cases, follow this simple pattern:
