@@ -62,7 +62,7 @@ const MessagesContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: theme.spacing(1),
-  backgroundColor: theme.palette.grey[50],
+  backgroundColor: theme.palette.background.default,
 }));
 
 interface ToolCall {

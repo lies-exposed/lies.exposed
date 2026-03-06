@@ -8,7 +8,9 @@ export const MessageBubble = styled(Paper)<{ isUser: boolean }>(
     alignSelf: isUser ? "flex-end" : "flex-start",
     backgroundColor: isUser
       ? theme.palette.primary.main
-      : theme.palette.grey[200],
+      : theme.palette.mode === "dark"
+        ? theme.palette.grey[800]
+        : theme.palette.grey[200],
     color: isUser
       ? theme.palette.primary.contrastText
       : theme.palette.text.primary,

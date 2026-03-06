@@ -102,17 +102,27 @@ export const ToolMessageDisplay: React.FC<{
   return (
     <Box
       sx={{
-        border: "1px solid rgba(0, 0, 0, 0.15)",
+        border: (theme) =>
+          `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)"}`,
         borderRadius: 1,
         overflow: "hidden",
-        backgroundColor: "rgba(255, 243, 224, 0.3)", // Light orange tint to distinguish from AI messages
+        backgroundColor: (theme) =>
+          theme.palette.mode === "dark"
+            ? "rgba(255, 152, 0, 0.08)"
+            : "rgba(255, 243, 224, 0.3)",
       }}
     >
       {/* Tool Header */}
       <Box
         sx={{
-          backgroundColor: "rgba(255, 152, 0, 0.12)", // Orange background for tools
-          borderBottom: isExpanded ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
+          backgroundColor: (theme) =>
+            theme.palette.mode === "dark"
+              ? "rgba(255, 152, 0, 0.2)"
+              : "rgba(255, 152, 0, 0.12)",
+          borderBottom: (theme) =>
+            isExpanded
+              ? `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`
+              : "none",
           padding: "0.5em 0.75em",
           display: "flex",
           alignItems: "center",
@@ -164,9 +174,15 @@ export const ToolMessageDisplay: React.FC<{
       {isExpanded && toolParams && (
         <Box
           sx={{
-            backgroundColor: "rgba(0, 0, 0, 0.02)",
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(255,255,255,0.04)"
+                : "rgba(0,0,0,0.02)",
             padding: "0.5em 0.75em",
-            borderBottom: toolResult ? "1px solid rgba(0, 0, 0, 0.1)" : "none",
+            borderBottom: (theme) =>
+              toolResult
+                ? `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`
+                : "none",
           }}
         >
           <Typography
@@ -188,7 +204,10 @@ export const ToolMessageDisplay: React.FC<{
               fontSize: "0.7rem",
               fontFamily: "monospace",
               overflow: "auto",
-              backgroundColor: "rgba(0, 0, 0, 0.03)",
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark"
+                  ? "rgba(255,255,255,0.05)"
+                  : "rgba(0,0,0,0.03)",
               padding: "0.4em",
               borderRadius: "4px",
               maxHeight: "150px",
@@ -222,7 +241,10 @@ export const ToolMessageDisplay: React.FC<{
                 fontSize: "0.7rem",
                 fontFamily: "monospace",
                 overflow: "auto",
-                backgroundColor: "rgba(0, 0, 0, 0.03)",
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.03)",
                 padding: "0.4em",
                 borderRadius: "4px",
                 whiteSpace: "pre-wrap",
@@ -238,7 +260,10 @@ export const ToolMessageDisplay: React.FC<{
                 whiteSpace: "pre-wrap",
                 maxHeight: "400px",
                 overflow: "auto",
-                backgroundColor: "rgba(0, 0, 0, 0.03)",
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.03)",
                 padding: "0.4em",
                 borderRadius: "4px",
                 fontFamily: "monospace",
