@@ -79,7 +79,7 @@
     "@types/debug": "^4.1.12",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/lodash": "^4.17.24",
-    "@types/node-telegram-bot-api": "^0.64.13",
+    "@types/node-telegram-bot-api": "^0.64.14",
     "@types/prompts": "^2.4.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
