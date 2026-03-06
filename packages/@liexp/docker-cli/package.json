@@ -1,0 +1,26 @@
+{
+  "name": "@liexp/docker-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/run.tsx",
+    "build": "tsc -b tsconfig.build.json",
+    "watch": "tsc -b tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ink": "^5.2.1",
+    "ink-select-input": "^6.2.0",
+    "ink-text-input": "^6.0.0"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.9",
+    "@types/react": "^18.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.9.3"
+  }
+}

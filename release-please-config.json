@@ -15,6 +15,12 @@
       ],
       "always-update": true
     },
+    "packages/@liexp/docker-cli": {
+      "component": "@liexp/docker-cli",
+      "include-scope": [
+        "docker-cli"
+      ]
+    },
     "packages/@liexp/backend": {
       "component": "@liexp/backend",
       "skip-github-release": true,
