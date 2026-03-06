@@ -16,6 +16,8 @@ FROM base AS dev
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
+
 RUN pnpm packages build
 
 CMD ["pnpm", "admin", "docker:dev"]

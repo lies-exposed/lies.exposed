@@ -16,6 +16,8 @@ COPY services/api services/api
 
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
+ENV NODE_OPTIONS=--max-old-space-size=3072
+
 RUN pnpm packages build
 
 CMD ["pnpm", "api", "dev"]
