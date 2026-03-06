@@ -25,9 +25,7 @@ publicHoistPattern:
   - "*rollup*"
   - "*eslint*"
   - "*prettier*"
-
-overrides:
-  "react-is": "^18"
+  - "dotenv"
 
 nodeLinker: hoisted
 linkWorkspacePackages: deep

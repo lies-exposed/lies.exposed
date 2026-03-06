@@ -199,10 +199,7 @@ export const MediaList = React.forwardRef<any, MediaListProps>(
           }}
         >
           {media.map((m) => (
-            <Box
-              key={m.id}
-              style={{ flexShrink: 0, width: 240, ...itemStyle }}
-            >
+            <Box key={m.id} style={{ flexShrink: 0, width: 240, ...itemStyle }}>
               <MediaListItemCell
                 item={m}
                 onClick={() => onItemClick?.(m)}
