@@ -71,7 +71,12 @@ const URLMetadataInput = React.forwardRef<
     }, []);
 
   return (
-    <Box ref={ref} width={"100%"} style={{ display: "flex" }} flexDirection="row">
+    <Box
+      ref={ref}
+      width={"100%"}
+      style={{ display: "flex" }}
+      flexDirection="row"
+    >
       <Box>
         <TextInput
           {...props}

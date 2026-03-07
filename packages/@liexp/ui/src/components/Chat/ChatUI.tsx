@@ -320,13 +320,12 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onToggleContext={onToggleContext}
             />
 
-            {(agentSelector || providerSelector) && (
+            {(agentSelector ?? providerSelector) && (
               <Box
                 sx={{
                   px: 1.5,
                   pb: 0.75,
-                  borderTop: (theme) =>
-                    `1px solid ${theme.palette.divider}`,
+                  borderTop: (theme) => `1px solid ${theme.palette.divider}`,
                   display: "flex",
                   flexDirection: "column",
                   gap: 0,

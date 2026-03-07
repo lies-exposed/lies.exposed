@@ -113,7 +113,7 @@ Multi-source research, biographical verification, comparing platform data to web
 |------------|-----------|
 | `event list` | `--query=<text>`, `--actors=<uuid>`, `--groups=<uuid>`, `--type=<type>`, `--startDate=YYYY-MM-DD`, `--endDate=YYYY-MM-DD`, `--start=N`, `--end=N` |
 | `event get` | `--id=<uuid>` |
-| `event create` | `--type=<Uncategorized\|Death\|Quote\|Transaction\|ScientificStudy\|Book\|Patent\|Documentary>` (req), `--date=YYYY-MM-DD` (req), `--draft=true\|false`, `--excerpt`, `--links=uuid,...`, `--media=uuid,...`, `--keywords=uuid,...`; type-specific: `--title`, `--victim`, `--actor`, `--quote`, `--total`, `--currency`, `--fromType/--fromId/--toType/--toId`, `--studyUrl`, `--pdf`, `--audio`, `--authors`, `--publisher`, `--ownerActors/--ownerGroups`, `--source`, `--documentaryMedia`, `--website`, `--authorActors/--authorGroups/--subjectActors/--subjectGroups` |
+| `event create` | `--type=<Uncategorized\|Death\|Quote\|Transaction\|ScientificStudy\|Book\|Patent\|Documentary>` (req), `--date=YYYY-MM-DD` (req), `--draft=true\|false`, `--excerpt`, `--links=uuid,...`, `--media=uuid,...`, `--keywords=uuid,...`; type-specific: `--title`, `--victim`, `--actor`, `--quote`, `--total`, `--currency`, `--fromType/--fromId/--toType/--toId`, `--studyUrl=<link-uuid>` (**Link UUID** — run `link create --url=...` first to get it), `--pdf`, `--audio`, `--authors=<actor-uuid,...>`, `--publisher=<actor-uuid>`, `--ownerActors/--ownerGroups`, `--source`, `--documentaryMedia`, `--website`, `--authorActors/--authorGroups/--subjectActors/--subjectGroups` |
 | `event edit` | `--id=<uuid>` (req), then same flags as `event create` |
 
 ### Link commands
