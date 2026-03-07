@@ -1079,6 +1079,9 @@ importers:
       eslint:
         specifier: ^10.0.2
         version: 10.0.2(jiti@2.6.1)
+      msw:
+        specifier: ^2.12.10
+        version: 2.12.10(@types/node@24.12.0)(typescript@5.9.3)
       supertest:
         specifier: ^7.1.0
         version: 7.2.2
