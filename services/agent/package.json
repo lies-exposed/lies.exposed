@@ -29,7 +29,8 @@
     "lint": "eslint --cache src",
     "start": "node build/run.js",
     "test": "vitest",
-    "test:spec": "vitest --project spec",
+    "test:coverage": "vitest --run --coverage --project agent-spec",
+    "test:spec": "vitest --config vitest.config.spec.ts run",
     "test:e2e": "vitest --project agent-e2e",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"

@@ -3,21 +3,13 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Link as LinkArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import type { CLIContext } from "../command.type.js";
 import { linkCreate } from "../links/create.js";
 import { linkGet } from "../links/get.js";
 import { linkList } from "../links/list.js";
 import { makeCLIContext } from "../make-cli-context.js";
+import { mswServer } from "../../../test/mswServer.js";
 
 const encodeLink = Schema.encodeSync(LinkIO.Link);
 
@@ -28,7 +20,7 @@ const links = fc.sample(LinkArbs.LinkArb, 3).map((l, i) => ({
 
 const encoded = links.map(encodeLink);
 
-const server = setupServer(
+const handlers = [
   http.get("http://localhost:4010/v1/links", ({ request }) => {
     const url = new URL(request.url);
     const end = Number(url.searchParams.get("_end") ?? "20");
@@ -45,23 +37,22 @@ const server = setupServer(
   http.post("http://localhost:4010/v1/links/submit", () => {
     return HttpResponse.json({ data: encoded[0] });
   }),
-);
+];
 
 describe("link CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   test("list --end=3 returns 3 links with expected shape", async () => {
     await linkList.run(ctx, ["--end=3"]);

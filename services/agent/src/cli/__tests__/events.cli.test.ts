@@ -4,20 +4,12 @@ import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized
 import { fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import type { CLIContext } from "../command.type.js";
 import { eventGet } from "../events/get.js";
 import { eventList } from "../events/list.js";
 import { makeCLIContext } from "../make-cli-context.js";
+import { mswServer } from "../../../test/mswServer.js";
 
 const encodeEvent = Schema.encodeSync(EventsIO.Event);
 
@@ -39,7 +31,7 @@ const emptyTotals = {
   quotes: 0,
 };
 
-const server = setupServer(
+const handlers = [
   http.get("http://localhost:4010/v1/events", ({ request }) => {
     const url = new URL(request.url);
     const end = Number(url.searchParams.get("_end") ?? "20");
@@ -58,23 +50,22 @@ const server = setupServer(
     if (!event) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json({ data: event });
   }),
-);
+];
 
 describe("event CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   test("list --end=3 returns 3 events with expected shape", async () => {
     await eventList.run(ctx, ["--end=3"]);

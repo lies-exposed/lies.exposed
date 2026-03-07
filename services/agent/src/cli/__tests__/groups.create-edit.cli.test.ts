@@ -3,26 +3,18 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Group as GroupArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import type { CLIContext } from "../command.type.js";
 import { groupCreate } from "../groups/create.js";
 import { groupEdit } from "../groups/edit.js";
 import { makeCLIContext } from "../make-cli-context.js";
+import { mswServer } from "../../../test/mswServer.js";
 
 const encodeGroup = Schema.encodeSync(GroupIO.Group);
 
 const [groupA, groupB] = fc.sample(GroupArbs.GroupArb, 2).map(encodeGroup);
 
-const server = setupServer(
+const handlers = [
   // POST /groups — create
   http.post("http://localhost:4010/v1/groups", () => {
     return HttpResponse.json({ data: groupA }, { status: 201 });
@@ -34,23 +26,22 @@ const server = setupServer(
       params.id === groupB.id ? { ...groupB, name: "Updated Group" } : groupB;
     return HttpResponse.json({ data: updated });
   }),
-);
+];
 
 describe("group create/edit CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   // --- create ---
 

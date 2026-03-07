@@ -7,6 +7,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     root: toAlias("./"),
     globals: true,
     watch: false,
+    setupFiles: [toAlias("./test/specSetup.ts")],
     include: [toAlias("./src/**/*.spec.ts"), toAlias("./src/**/*.test.ts")],
     exclude: ["**/build", "src/migrations", "src/scripts"],
     env: {

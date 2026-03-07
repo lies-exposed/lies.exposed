@@ -11,20 +11,12 @@ import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized
 import { fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import type { CLIContext } from "../command.type.js";
 import { eventCreate } from "../events/create.js";
 import { eventEdit } from "../events/edit.js";
 import { makeCLIContext } from "../make-cli-context.js";
+import { mswServer } from "../../../test/mswServer.js";
 
 const encodeEvent = Schema.encodeSync(EventsIO.Event);
 
@@ -38,7 +30,7 @@ const [patentA] = fc.sample(PatentEventArb, 1).map(encodeEvent);
 const [docA] = fc.sample(DocumentaryEventArb, 1).map(encodeEvent);
 const [uncatB] = fc.sample(UncategorizedArb, 1).map(encodeEvent);
 
-const server = setupServer(
+const handlers = [
   // POST /events — create (default: Uncategorized)
   http.post("http://localhost:4010/v1/events", () => {
     return HttpResponse.json({ data: uncatA }, { status: 201 });
@@ -48,23 +40,22 @@ const server = setupServer(
   http.put("http://localhost:4010/v1/events/:id", () => {
     return HttpResponse.json({ data: uncatB });
   }),
-);
+];
 
 describe("event create/edit CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   // ── create: Uncategorized ──────────────────────────────────────────────
 
@@ -120,7 +111,7 @@ describe("event create/edit CLI", () => {
   // ── create: Death ──────────────────────────────────────────────────────
 
   test("create Death --victim --date returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: deathA }, { status: 201 });
       }),
@@ -147,7 +138,7 @@ describe("event create/edit CLI", () => {
   // ── create: Quote ──────────────────────────────────────────────────────
 
   test("create Quote --date with optional --actor --quote returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: quoteA }, { status: 201 });
       }),
@@ -166,7 +157,7 @@ describe("event create/edit CLI", () => {
   // ── create: Transaction ────────────────────────────────────────────────
 
   test("create Transaction with all required fields returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: transactionA }, { status: 201 });
       }),
@@ -200,7 +191,7 @@ describe("event create/edit CLI", () => {
   // ── create: ScientificStudy ────────────────────────────────────────────
 
   test("create ScientificStudy --title --studyUrl returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: studyA }, { status: 201 });
       }),
@@ -229,7 +220,7 @@ describe("event create/edit CLI", () => {
   // ── create: Book ───────────────────────────────────────────────────────
 
   test("create Book --title --pdf returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: bookA }, { status: 201 });
       }),
@@ -259,7 +250,7 @@ describe("event create/edit CLI", () => {
   // ── create: Patent ─────────────────────────────────────────────────────
 
   test("create Patent --title returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: patentA }, { status: 201 });
       }),
@@ -287,7 +278,7 @@ describe("event create/edit CLI", () => {
   // ── create: Documentary ────────────────────────────────────────────────
 
   test("create Documentary --title --documentaryMedia returns the created event", async () => {
-    server.use(
+    mswServer.use(
       http.post("http://localhost:4010/v1/events", () => {
         return HttpResponse.json({ data: docA }, { status: 201 });
       }),

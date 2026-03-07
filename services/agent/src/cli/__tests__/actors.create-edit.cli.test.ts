@@ -3,26 +3,18 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Actor as ActorArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
 import { actorCreate } from "../actors/actor-create.js";
 import { actorEdit } from "../actors/actor-edit.js";
 import type { CLIContext } from "../command.type.js";
 import { makeCLIContext } from "../make-cli-context.js";
+import { mswServer } from "../../../test/mswServer.js";
 
 const encodeActor = Schema.encodeSync(ActorIO.Actor);
 
 const [actorA, actorB] = fc.sample(ActorArbs.ActorArb, 2).map(encodeActor);
 
-const server = setupServer(
+const handlers = [
   // POST /actors — create
   http.post("http://localhost:4010/v1/actors", () => {
     return HttpResponse.json({ data: actorA }, { status: 201 });
@@ -36,23 +28,22 @@ const server = setupServer(
         : actorB;
     return HttpResponse.json({ data: updated });
   }),
-);
+];
 
 describe("actor create/edit CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   // --- create ---
 
