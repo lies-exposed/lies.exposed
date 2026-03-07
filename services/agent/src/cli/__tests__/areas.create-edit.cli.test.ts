@@ -3,16 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Area as AreaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import { areaCreate } from "../areas/create.js";
 import { areaEdit } from "../areas/edit.js";
 import type { CLIContext } from "../command.type.js";
@@ -22,7 +14,7 @@ const encodeArea = Schema.encodeSync(AreaIO.Area);
 
 const [areaA, areaB] = fc.sample(AreaArbs.AreaArb, 2).map(encodeArea);
 
-const server = setupServer(
+const handlers = [
   // POST /areas — create
   http.post("http://localhost:4010/v1/areas", () => {
     return HttpResponse.json({ data: areaA }, { status: 201 });
@@ -34,23 +26,22 @@ const server = setupServer(
       params.id === areaB.id ? { ...areaB, label: "Updated Label" } : areaB;
     return HttpResponse.json({ data: updated });
   }),
-);
+];
 
 describe("area create/edit CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   // --- create ---
 

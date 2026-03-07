@@ -3,16 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Group as GroupArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import type { CLIContext } from "../command.type.js";
 import { groupGet } from "../groups/get.js";
 import { groupList } from "../groups/list.js";
@@ -27,7 +19,7 @@ const groups = fc.sample(GroupArbs.GroupArb, 3).map((g, i) => ({
 
 const encoded = groups.map(encodeGroup);
 
-const server = setupServer(
+const handlers = [
   http.get("http://localhost:4010/v1/groups", ({ request }) => {
     const url = new URL(request.url);
     const end = Number(url.searchParams.get("_end") ?? "20");
@@ -40,23 +32,22 @@ const server = setupServer(
     if (!group) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json({ data: group });
   }),
-);
+];
 
 describe("group CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   test("list --end=3 returns 3 groups with expected shape", async () => {
     await groupList.run(ctx, ["--end=3"]);

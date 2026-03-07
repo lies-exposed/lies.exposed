@@ -3,16 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Link as LinkArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import type { CLIContext } from "../command.type.js";
 import { linkEdit } from "../links/edit.js";
 import { makeCLIContext } from "../make-cli-context.js";
@@ -21,30 +13,29 @@ const encodeLink = Schema.encodeSync(LinkIO.Link);
 
 const [_, linkB] = fc.sample(LinkArbs.LinkArb, 2).map(encodeLink);
 
-const server = setupServer(
+const handlers = [
   // PUT /links/:id — edit
   http.put("http://localhost:4010/v1/links/:id", ({ params }) => {
     const updated =
       params.id === linkB.id ? { ...linkB, title: "Updated Title" } : linkB;
     return HttpResponse.json({ data: updated });
   }),
-);
+];
 
 describe("link edit CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   test("edit --id --title --url returns the updated link", async () => {
     await linkEdit.run(ctx, [

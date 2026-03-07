@@ -3,16 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Area as AreaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
-import { setupServer } from "msw/node";
-import {
-  afterAll,
-  afterEach,
-  beforeAll,
-  describe,
-  expect,
-  test,
-  vi,
-} from "vitest";
+import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import { areaGet } from "../areas/get.js";
 import { areaList } from "../areas/list.js";
 import type { CLIContext } from "../command.type.js";
@@ -27,7 +19,7 @@ const areas = fc.sample(AreaArbs.AreaArb, 3).map((a, i) => ({
 
 const encoded = areas.map(encodeArea);
 
-const server = setupServer(
+const handlers = [
   http.get("http://localhost:4010/v1/areas", ({ request }) => {
     const url = new URL(request.url);
     const end = Number(url.searchParams.get("_end") ?? "20");
@@ -40,23 +32,22 @@ const server = setupServer(
     if (!area) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json({ data: area });
   }),
-);
+];
 
 describe("area CLI", () => {
   let ctx: CLIContext;
   let output: string;
 
   beforeAll(async () => {
-    server.listen({ onUnhandledRequest: "error" });
     ctx = await throwTE(makeCLIContext());
     vi.spyOn(console, "log").mockImplementation((v: unknown) => {
       output = String(v);
     });
   });
 
-  afterEach(() => server.resetHandlers());
-
-  afterAll(() => server.close());
+  beforeEach(() => {
+    mswServer.use(...handlers);
+  });
 
   test("list --end=3 returns 3 areas with expected shape", async () => {
     await areaList.run(ctx, ["--end=3"]);
