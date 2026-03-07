@@ -16,13 +16,8 @@ Options:
 Output: JSON area object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      GetAreaInputSchema,
-      { id: getArg(args, "id") },
-      (input) => {
-        ctx.logger.debug.log("area get input: %O", input);
-        return ctx.api.Area.Get({ Params: { id: input.id as any } });
-      },
-    ),
+    runCommand(ctx, GetAreaInputSchema, { id: getArg(args, "id") }, (input) => {
+      ctx.logger.debug.log("area get input: %O", input);
+      return ctx.api.Area.Get({ Params: { id: input.id as any } });
+    }),
 };

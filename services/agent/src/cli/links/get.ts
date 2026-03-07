@@ -16,13 +16,8 @@ Options:
 Output: JSON link object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      GetLinkInputSchema,
-      { id: getArg(args, "id") },
-      (input) => {
-        ctx.logger.debug.log("link get input: %O", input);
-        return ctx.api.Link.Get({ Params: { id: input.id as any } });
-      },
-    ),
+    runCommand(ctx, GetLinkInputSchema, { id: getArg(args, "id") }, (input) => {
+      ctx.logger.debug.log("link get input: %O", input);
+      return ctx.api.Link.Get({ Params: { id: input.id as any } });
+    }),
 };

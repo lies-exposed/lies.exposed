@@ -18,9 +18,7 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   ctx: CLIContext,
   schema: S,
   rawInput: unknown,
-  handler: (
-    input: Schema.Schema.Type<S>,
-  ) => TaskEither<Error, unknown>,
+  handler: (input: Schema.Schema.Type<S>) => TaskEither<Error, unknown>,
 ): Promise<void> => {
   const result = await pipe(
     Schema.decodeUnknownEither(schema)(rawInput),

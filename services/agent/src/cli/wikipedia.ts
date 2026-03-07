@@ -20,7 +20,9 @@ const WIKIPEDIA_BASE = "https://en.wikipedia.org";
  * Searches Wikipedia for a query and returns the best-matching image URL.
  * Throws if no results or no image are found.
  */
-export const searchWikipediaImageUrl = async (query: string): Promise<string> => {
+export const searchWikipediaImageUrl = async (
+  query: string,
+): Promise<string> => {
   const searchRes = await axios.get<{ pages: WikipediaSearchPage[] }>(
     `${WIKIPEDIA_BASE}/w/rest.php/v1/search/page`,
     { params: { q: query, limit: 5 } },
