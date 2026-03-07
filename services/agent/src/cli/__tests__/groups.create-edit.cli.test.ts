@@ -1,4 +1,5 @@
 import * as GroupIO from "@liexp/io/lib/http/Group.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Group as GroupArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
@@ -12,11 +13,10 @@ import {
   test,
   vi,
 } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import type { CLIContext } from "../command.type.js";
 import { groupCreate } from "../groups/create.js";
 import { groupEdit } from "../groups/edit.js";
 import { makeCLIContext } from "../make-cli-context.js";
-import type { CLIContext } from "../command.type.js";
 
 const encodeGroup = Schema.encodeSync(GroupIO.Group);
 
@@ -30,7 +30,8 @@ const server = setupServer(
 
   // PUT /groups/:id — edit
   http.put("http://localhost:4010/v1/groups/:id", ({ params }) => {
-    const updated = params.id === groupB.id ? { ...groupB, name: "Updated Group" } : groupB;
+    const updated =
+      params.id === groupB.id ? { ...groupB, name: "Updated Group" } : groupB;
     return HttpResponse.json({ data: updated });
   }),
 );
@@ -78,10 +79,7 @@ describe("group create/edit CLI", () => {
   });
 
   test("edit --id --name returns the updated group", async () => {
-    await groupEdit.run(ctx, [
-      `--id=${groupB.id}`,
-      "--name=Updated Group",
-    ]);
+    await groupEdit.run(ctx, [`--id=${groupB.id}`, "--name=Updated Group"]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({
       id: groupB.id,
@@ -90,10 +88,7 @@ describe("group create/edit CLI", () => {
   });
 
   test("edit --id with optional --kind returns the updated group", async () => {
-    await groupEdit.run(ctx, [
-      `--id=${groupB.id}`,
-      "--kind=Private",
-    ]);
+    await groupEdit.run(ctx, [`--id=${groupB.id}`, "--kind=Private"]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({
       id: expect.any(String),

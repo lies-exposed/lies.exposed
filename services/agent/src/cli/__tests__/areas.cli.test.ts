@@ -1,4 +1,5 @@
 import * as AreaIO from "@liexp/io/lib/http/Area.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Area as AreaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
@@ -12,11 +13,10 @@ import {
   test,
   vi,
 } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { areaGet } from "../areas/get.js";
 import { areaList } from "../areas/list.js";
-import { makeCLIContext } from "../make-cli-context.js";
 import type { CLIContext } from "../command.type.js";
+import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeArea = Schema.encodeSync(AreaIO.Area);
 

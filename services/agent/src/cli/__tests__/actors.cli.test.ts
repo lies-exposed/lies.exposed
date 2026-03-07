@@ -1,14 +1,22 @@
 import * as ActorIO from "@liexp/io/lib/http/Actor.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Actor as ActorArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+  vi,
+} from "vitest";
 import { actorFind } from "../actors/actor-find.js";
 import { actorGet } from "../actors/actor-get.js";
-import { makeCLIContext } from "../make-cli-context.js";
 import type { CLIContext } from "../command.type.js";
+import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeActor = Schema.encodeSync(ActorIO.Actor);
 
@@ -64,7 +72,9 @@ describe("actor CLI", () => {
     await actorFind.run(ctx, ["--sort=createdAt", "--order=DESC", "--end=2"]);
     const { data } = JSON.parse(output);
     expect(data).toHaveLength(2);
-    expect(new Date(data[0].createdAt) >= new Date(data[1].createdAt)).toBe(true);
+    expect(new Date(data[0].createdAt) >= new Date(data[1].createdAt)).toBe(
+      true,
+    );
   });
 
   test("list --start=0 --end=20 returns total count in response", async () => {

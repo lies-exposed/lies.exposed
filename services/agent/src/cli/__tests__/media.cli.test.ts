@@ -1,4 +1,5 @@
 import * as MediaIO from "@liexp/io/lib/http/Media/Media.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Media as MediaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
@@ -12,11 +13,10 @@ import {
   test,
   vi,
 } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import type { CLIContext } from "../command.type.js";
+import { makeCLIContext } from "../make-cli-context.js";
 import { mediaGet } from "../media/get.js";
 import { mediaList } from "../media/list.js";
-import { makeCLIContext } from "../make-cli-context.js";
-import type { CLIContext } from "../command.type.js";
 
 const encodeMedia = Schema.encodeSync(MediaIO.Media);
 

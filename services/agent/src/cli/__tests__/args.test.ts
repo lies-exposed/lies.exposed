@@ -21,9 +21,9 @@ describe("getArg()", () => {
   });
 
   test("returns the correct value when multiple args are present", () => {
-    expect(getArg(["--end=10", "--sort=createdAt", "--order=DESC"], "sort")).toBe(
-      "createdAt",
-    );
+    expect(
+      getArg(["--end=10", "--sort=createdAt", "--order=DESC"], "sort"),
+    ).toBe("createdAt");
   });
 
   test("returns undefined for an empty args array", () => {

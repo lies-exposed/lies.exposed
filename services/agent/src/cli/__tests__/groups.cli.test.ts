@@ -1,14 +1,22 @@
 import * as GroupIO from "@liexp/io/lib/http/Group.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Group as GroupArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { afterAll, afterEach, beforeAll, describe, expect, test, vi } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+  vi,
+} from "vitest";
+import type { CLIContext } from "../command.type.js";
 import { groupGet } from "../groups/get.js";
 import { groupList } from "../groups/list.js";
 import { makeCLIContext } from "../make-cli-context.js";
-import type { CLIContext } from "../command.type.js";
 
 const encodeGroup = Schema.encodeSync(GroupIO.Group);
 
@@ -64,7 +72,9 @@ describe("group CLI", () => {
     await groupList.run(ctx, ["--sort=createdAt", "--order=DESC", "--end=2"]);
     const { data } = JSON.parse(output);
     expect(data).toHaveLength(2);
-    expect(new Date(data[0].createdAt) >= new Date(data[1].createdAt)).toBe(true);
+    expect(new Date(data[0].createdAt) >= new Date(data[1].createdAt)).toBe(
+      true,
+    );
   });
 
   test("list --start=0 --end=20 returns total count in response", async () => {

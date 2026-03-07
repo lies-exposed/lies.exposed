@@ -1,4 +1,5 @@
 import * as EventsIO from "@liexp/io/lib/http/Events/index.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { UncategorizedArb } from "@liexp/test/lib/arbitrary/events/Uncategorized.arbitrary.js";
 import { fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
@@ -13,20 +14,17 @@ import {
   test,
   vi,
 } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import type { CLIContext } from "../command.type.js";
 import { eventGet } from "../events/get.js";
 import { eventList } from "../events/list.js";
 import { makeCLIContext } from "../make-cli-context.js";
-import type { CLIContext } from "../command.type.js";
 
 const encodeEvent = Schema.encodeSync(EventsIO.Event);
 
-const events = fc
-  .sample(UncategorizedArb, 3)
-  .map((e, i) => ({
-    ...e,
-    createdAt: new Date(2024, 0, 3 - i),
-  }));
+const events = fc.sample(UncategorizedArb, 3).map((e, i) => ({
+  ...e,
+  createdAt: new Date(2024, 0, 3 - i),
+}));
 
 const encoded = events.map(encodeEvent);
 

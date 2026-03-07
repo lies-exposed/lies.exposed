@@ -1,4 +1,5 @@
 import * as ActorIO from "@liexp/io/lib/http/Actor.js";
+import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Actor as ActorArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
@@ -12,11 +13,10 @@ import {
   test,
   vi,
 } from "vitest";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { actorCreate } from "../actors/actor-create.js";
 import { actorEdit } from "../actors/actor-edit.js";
-import { makeCLIContext } from "../make-cli-context.js";
 import type { CLIContext } from "../command.type.js";
+import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeActor = Schema.encodeSync(ActorIO.Actor);
 
@@ -30,7 +30,10 @@ const server = setupServer(
 
   // PUT /actors/:id — edit
   http.put("http://localhost:4010/v1/actors/:id", ({ params }) => {
-    const updated = params.id === actorB.id ? { ...actorB, fullName: "Updated Name" } : actorB;
+    const updated =
+      params.id === actorB.id
+        ? { ...actorB, fullName: "Updated Name" }
+        : actorB;
     return HttpResponse.json({ data: updated });
   }),
 );
@@ -76,10 +79,7 @@ describe("actor create/edit CLI", () => {
   });
 
   test("edit --id --fullName returns the updated actor", async () => {
-    await actorEdit.run(ctx, [
-      `--id=${actorB.id}`,
-      "--fullName=Updated Name",
-    ]);
+    await actorEdit.run(ctx, [`--id=${actorB.id}`, "--fullName=Updated Name"]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({
       id: actorB.id,
@@ -88,10 +88,7 @@ describe("actor create/edit CLI", () => {
   });
 
   test("edit --id with optional --color returns the updated actor", async () => {
-    await actorEdit.run(ctx, [
-      `--id=${actorB.id}`,
-      "--color=00ff00",
-    ]);
+    await actorEdit.run(ctx, [`--id=${actorB.id}`, "--color=00ff00"]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({
       id: expect.any(String),

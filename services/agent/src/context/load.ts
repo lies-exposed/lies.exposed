@@ -53,8 +53,8 @@ export const makeAgentContext = (
 
       // Get the first available provider, or throw error if none are configured
       const getDefaultProvider = (): "openai" | "anthropic" | "xai" => {
-        if (availableProviders.xai) return "xai";
         if (availableProviders.openai) return "openai";
+        if (availableProviders.xai) return "xai";
         if (availableProviders.anthropic) return "anthropic";
         throw new Error(
           "No AI provider API keys configured. Set at least one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, or XAI_API_KEY",
@@ -294,6 +294,11 @@ export const makeAgentContext = (
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
             mcpClient,
+            extraTools: [
+              createCliExecutorTool(
+                path.resolve(process.cwd(), "build/cli/cli.js"),
+              ),
+            ],
           })({
             langchain,
             logger: agentLogger,

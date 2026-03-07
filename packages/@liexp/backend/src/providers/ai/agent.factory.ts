@@ -104,6 +104,7 @@ const toAgentError = (e: unknown) => {
 
 interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
+  extraTools?: StructuredToolInterface[];
 }
 
 /**
@@ -192,6 +193,7 @@ export const GetAgentFactory =
           }
 
           cachedTools = [
+            ...(opts.extraTools ?? []),
             ...mcpTools,
             createWebScrapingTool(ctx),
             createSearchWebTool(ctx),
