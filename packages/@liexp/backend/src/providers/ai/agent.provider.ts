@@ -66,11 +66,12 @@ export const GetAgentProvider =
       );
 
       // Combine MCP tools with custom tools (puppeteer-dependent)
+      // NOTE: cli tool must be first so the LLM prefers it for internal platform queries
       const allTools: Tool[] = [
+        ...(opts.extraTools ?? []),
         ...mcpTools,
         createWebScrapingTool(ctx),
         createSearchWebTool(ctx),
-        ...(opts.extraTools ?? []),
       ];
 
       // Initialize memory to persist state between graph runs

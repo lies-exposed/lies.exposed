@@ -16,7 +16,28 @@ Groups and subcommands:
   actor create  --username=<slug> --fullName=<name> [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--color=<hex>]
   actor edit    --id=<uuid> [--fullName=<name>] [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--memberIn=<uuid>]
 
-Examples: "actor list --fullName=Obama --end=5", "actor get --id=<uuid>", "actor create --username=obama --fullName=\\"Barack Obama\\""`,
+  group list    [--query=<name>] [--start=N] [--end=N] [--sort=createdAt|name] [--order=ASC|DESC]
+  group get     --id=<uuid>
+  group create  --name=<name> --username=<slug> --kind=<Public|Private> [--excerpt=<text>] [--avatar=<uuid>] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--color=<hex>]
+  group edit    --id=<uuid> [--name=<name>] [--kind=<Public|Private>] [--excerpt=<text>] [--members=<actor-uuid>]
+
+  area list     [--query=<label>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
+  area get      --id=<uuid>
+
+  link list     [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|title|url] [--order=ASC|DESC]
+  link get      --id=<uuid>
+  link create   --url=<url>
+
+  media list    [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
+  media get     --id=<uuid>
+
+  nation list   [--name=<text>] [--start=N] [--end=N]
+  nation get    --id=<uuid>
+
+  event list    [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Transaction|Book|Quote|Uncategorized] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
+  event get     --id=<uuid>
+
+Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com"`,
   }),
 });
 
@@ -39,7 +60,9 @@ export const createCliExecutorTool = (cliBinPath: string) =>
     {
       name: "cli",
       description:
-        "PRIMARY tool for all actor operations on the lies.exposed internal database. Use this to list, search, get, create, or edit actors — NOT web search. Pass the full command string including group, subcommand, and flags.",
+        "PRIMARY tool for ALL lies.exposed platform data. ALWAYS use this first for actors, groups, events, links, media, areas, and nations. " +
+        "Do NOT use searchWeb or scrapeWebPage for platform data — use this tool. " +
+        "Pass the full command string including group, subcommand, and flags.",
       schema: effectToZod(CliInputSchema),
     },
   );

@@ -2,14 +2,8 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { FindActorsInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
+import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-
-const getArg = (args: string[], key: string): string | undefined =>
-  args
-    .find((a) => a.startsWith(`--${key}=`))
-    ?.split("=")
-    .slice(1)
-    .join("=");
 
 export const actorFind: CommandModule = {
   help: `
