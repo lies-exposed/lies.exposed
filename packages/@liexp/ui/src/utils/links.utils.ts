@@ -7,7 +7,6 @@ export const getAdminLink =
   <K extends io.http.ResourcesNames>(key: K, f: { id: string }): string => {
     switch (key) {
       case "stories":
-      case "projects":
       case "events":
       case "keywords":
       case "actors":

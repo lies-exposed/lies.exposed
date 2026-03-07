@@ -1,9 +1,5 @@
 import { type GroupMember } from "@liexp/io/lib/http/GroupMember.js";
-import {
-  type Actor,
-  type Group,
-  type Project,
-} from "@liexp/io/lib/http/index.js";
+import { type Actor, type Group } from "@liexp/io/lib/http/index.js";
 import * as React from "react";
 import { useTheme } from "../theme/index.js";
 import { BNEditor } from "./Common/BlockNote/index.js";
@@ -14,7 +10,6 @@ import { Grid, Typography } from "./mui/index.js";
 export interface GroupPageContentProps {
   group: Group.Group;
   groupsMembers: readonly GroupMember[];
-  projects: readonly Project.Project[];
   funds: any[];
   ownedGroups: Group.Group[];
   onMemberClick: (m: Actor.Actor) => void;
