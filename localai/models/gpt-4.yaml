@@ -1,57 +1,60 @@
 backend: llama-cpp
-context_size: 16384
-gpu_layers: 36
+context_size: 8192
 download_files:
-    - filename: localai-functioncall-phi-4-v0.3-q4_k_m.gguf
-      sha256: 23fee048ded2a6e2e1a7b6bbefa6cbf83068f194caa9552aecbaa00fec8a16d5
-      uri: huggingface://mudler/LocalAI-functioncall-phi-4-v0.3-Q4_K_M-GGUF/localai-functioncall-phi-4-v0.3-q4_k_m.gguf
+    - filename: Hermes-3-Llama-3.2-3B-Q4_K_M.gguf
+      sha256: 2e220a14ba4328fee38cf36c2c068261560f999fadb5725ce5c6d977cb5126b5
+      uri: huggingface://bartowski/Hermes-3-Llama-3.2-3B-GGUF/Hermes-3-Llama-3.2-3B-Q4_K_M.gguf
 f16: true
 function:
-    capture_llm_results:
-        - (?s)<Thought>(.*?)</Thought>
     grammar:
-        properties_order: name,arguments
-    json_regex_match:
-        - (?s)<Output>(.*?)</Output>
-    replace_llm_results:
-        - key: (?s)<Thought>(.*?)</Thought>
+        no_mixed_free_string: true
+        schema_type: llama3.1
+    response_regex:
+        - <function=(?P<name>\w+)>(?P<arguments>.*)</function>
 known_usecases:
     - FLAG_CHAT
     - FLAG_COMPLETION
-# mmap must be disabled for SYCL (Intel GPU) - causes hangs
-mmap: false
+mmap: true
 name: gpt-4
 parameters:
-    model: localai-functioncall-phi-4-v0.3-q4_k_m.gguf
+    model: Hermes-3-Llama-3.2-3B-Q4_K_M.gguf
 stopwords:
     - <|im_end|>
     - <dummy32000>
-    - </s>
+    - <|eot_id|>
+    - <|end_of_text|>
 template:
     chat: |
-        {{.Input -}}
-        <|im_start|>assistant
+        <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+        You are a helpful assistant<|eot_id|><|start_header_id|>user<|end_header_id|>
+        {{.Input }}
+        <|start_header_id|>assistant<|end_header_id|>
     chat_message: |
-        <|im_start|>{{ .RoleName }}
+        <|start_header_id|>{{if eq .RoleName "assistant"}}assistant{{else if eq .RoleName "system"}}system{{else if eq .RoleName "tool"}}tool{{else if eq .RoleName "user"}}user{{end}}<|end_header_id|>
         {{ if .FunctionCall -}}
-        Function call:
         {{ else if eq .RoleName "tool" -}}
-        Function response:
+        The Function was executed and the response was:
         {{ end -}}
         {{ if .Content -}}
-        {{.Content }}
+        {{.Content -}}
+        {{ else if .FunctionCall -}}
+        {{ range .FunctionCall }}
+        [{{.FunctionCall.Name}}({{.FunctionCall.Arguments}})]
+        {{ end }}
         {{ end -}}
-        {{ if .FunctionCall -}}
-        {{toJson .FunctionCall}}
-        {{ end -}}<|im_end|>
+        <|eot_id|>
     completion: |
         {{.Input}}
     function: |
-        <|im_start|>system
-        You are an AI assistant that executes function calls, and these are the tools at your disposal:
-        {{range .Functions}}
-        {'type': 'function', 'function': {'name': '{{.Name}}', 'description': '{{.Description}}', 'parameters': {{toJson .Parameters}} }}
-        {{end}}
-        <|im_end|>
-        {{.Input -}}
-        <|im_start|>assistant
+        <|start_header_id|>system<|end_header_id|>
+        You are an expert in composing functions. You are given a question and a set of possible functions.
+        Based on the question, you will need to make one or more function/tool calls to achieve the purpose.
+        If none of the functions can be used, point it out. If the given question lacks the parameters required by the function, also point it out. You should only return the function call in tools call sections.
+        If you decide to invoke any of the function(s), you MUST put it in the format as follows:
+        [func_name1(params_name1=params_value1,params_name2=params_value2,...),func_name2(params_name1=params_value1,params_name2=params_value2,...)]
+        You SHOULD NOT include any other text in the response.
+        Here is a list of functions in JSON format that you can invoke.
+        {{toJson .Functions}}
+        <|eot_id|><|start_header_id|>user<|end_header_id|>
+        {{.Input}}
+        <|eot_id|><|start_header_id|>assistant<|end_header_id|>

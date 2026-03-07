@@ -11,8 +11,7 @@ f16: true
 known_usecases:
     - FLAG_CHAT
     - FLAG_COMPLETION
-# mmap must be disabled for SYCL (Intel GPU) - causes hangs
-mmap: false
+mmap: true
 mmproj: minicpm-v-4_5-mmproj-f16.gguf
 name: gpt-4o
 parameters:
