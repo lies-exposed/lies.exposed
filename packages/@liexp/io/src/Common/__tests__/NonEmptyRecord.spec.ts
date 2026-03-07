@@ -1,10 +1,7 @@
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, test } from "vitest";
-import {
-  NonEmptyRecord,
-  nonEmptyRecordFromType,
-} from "../NonEmptyRecord.js";
+import { NonEmptyRecord, nonEmptyRecordFromType } from "../NonEmptyRecord.js";
 
 describe("NonEmptyRecord", () => {
   const decode = Schema.decodeUnknownEither(NonEmptyRecord);

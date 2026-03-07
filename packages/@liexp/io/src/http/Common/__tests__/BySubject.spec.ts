@@ -1,8 +1,8 @@
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, test } from "vitest";
-import { uuid } from "../UUID.js";
 import { ByActor, ByGroup, BySubject, BySubjectId } from "../BySubject.js";
+import { uuid } from "../UUID.js";
 
 const actorId = uuid();
 const groupId = uuid();

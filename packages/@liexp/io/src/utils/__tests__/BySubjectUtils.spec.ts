@@ -1,7 +1,7 @@
 import * as O from "fp-ts/lib/Option.js";
 import { describe, expect, test } from "vitest";
-import { uuid } from "../../http/Common/UUID.js";
 import type { Actor } from "../../http/Actor.js";
+import { uuid } from "../../http/Common/UUID.js";
 import type { Group } from "../../http/Group.js";
 import {
   BySubjectUtils,
@@ -75,22 +75,14 @@ describe("findBySubject", () => {
 describe("BySubjectUtils.toBySubjectArray", () => {
   test("Should convert actor subject IDs to BySubject array", () => {
     const subjectIds = [{ type: "Actor" as const, id: actorId }];
-    const result = BySubjectUtils.toBySubjectArray(
-      subjectIds,
-      [mockActor],
-      [],
-    );
+    const result = BySubjectUtils.toBySubjectArray(subjectIds, [mockActor], []);
     expect(result).toHaveLength(1);
     expect(result[0].type).toBe("Actor");
   });
 
   test("Should convert group subject IDs to BySubject array", () => {
     const subjectIds = [{ type: "Group" as const, id: groupId }];
-    const result = BySubjectUtils.toBySubjectArray(
-      subjectIds,
-      [],
-      [mockGroup],
-    );
+    const result = BySubjectUtils.toBySubjectArray(subjectIds, [], [mockGroup]);
     expect(result).toHaveLength(1);
     expect(result[0].type).toBe("Group");
   });
@@ -98,11 +90,7 @@ describe("BySubjectUtils.toBySubjectArray", () => {
   test("Should skip subjects not found in actors or groups", () => {
     const unknownId = uuid();
     const subjectIds = [{ type: "Actor" as const, id: unknownId }];
-    const result = BySubjectUtils.toBySubjectArray(
-      subjectIds,
-      [mockActor],
-      [],
-    );
+    const result = BySubjectUtils.toBySubjectArray(subjectIds, [mockActor], []);
     expect(result).toHaveLength(0);
   });
 });

@@ -19,7 +19,10 @@ describe("Output", () => {
   });
 
   test("Should work with complex inner schema", () => {
-    const innerSchema = Schema.Struct({ id: Schema.Number, name: Schema.String });
+    const innerSchema = Schema.Struct({
+      id: Schema.Number,
+      name: Schema.String,
+    });
     const outputSchema = Output(innerSchema);
     const result = Schema.decodeUnknownEither(outputSchema)({
       data: { id: 1, name: "test" },
