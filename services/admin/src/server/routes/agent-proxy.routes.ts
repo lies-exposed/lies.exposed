@@ -596,6 +596,67 @@ export const registerAgentProxyRoutes = (
   );
 
   /**
+   * GET /api/proxy/agent/agents
+   *
+   * Proxy agent listing to agent service.
+   * - Requires authentication (AdminRead permission)
+   */
+  router.get(
+    "/agents",
+    authenticationHandler([AdminRead.literals[0]])(ctx),
+    (req: Request, res: Response, next: NextFunction) => {
+      const correlationId = generateCorrelationId();
+
+      logger.info.log(
+        "Proxying agents list request (correlation: %s, user: %s)",
+        correlationId,
+        req.user?.id ?? "unknown",
+      );
+
+      pipe(
+        TE.fromIO(() => m2m.getToken()),
+        TE.chain(() =>
+          pipe(
+            agent.Chat.Custom.ListAgents(),
+            TE.mapLeft((error) => {
+              logger.error.log(
+                "Agent service error fetching agents: %O (correlation: %s)",
+                error,
+                correlationId,
+              );
+              return error;
+            }),
+          ),
+        ),
+        TE.fold(
+          (_error: unknown) => () => {
+            res.status(500).json({
+              error: "Internal server error",
+              message: "Failed to fetch agents from agent service",
+            });
+            return Promise.resolve();
+          },
+          (response) => () => {
+            logger.info.log(
+              "Agents list successful (correlation: %s)",
+              correlationId,
+            );
+            res.status(200).json(response);
+            return Promise.resolve();
+          },
+        ),
+      )().catch((e) => {
+        logger.error.log(
+          "Unexpected error in agents proxy: %O (correlation: %s)",
+          e,
+          correlationId,
+        );
+        next(e);
+      });
+    },
+  );
+
+  /**
    * Reject unsupported HTTP methods for /chat/message
    * POST only is supported
    */

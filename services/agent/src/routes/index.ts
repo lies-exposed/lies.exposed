@@ -6,6 +6,7 @@ import {
   MakeDeleteChatConversationRoute,
   MakeSendChatMessageStreamRoute,
   MakeListProvidersRoute,
+  MakeListAgentsRoute,
 } from "./chat/chat.controller.js";
 import { type AgentContext } from "#context/context.type.js";
 
@@ -21,6 +22,9 @@ export const createRoutes = (ctx: AgentContext) => {
 
   // Provider routes
   MakeListProvidersRoute(router, ctx);
+
+  // Agent routes
+  MakeListAgentsRoute(router, ctx);
 
   // Health check
   router.get("/healthcheck", (_req, res) => {

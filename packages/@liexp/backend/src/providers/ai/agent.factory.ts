@@ -10,7 +10,7 @@ import { type StructuredToolInterface } from "@langchain/core/tools";
 import { MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type { AIConfig } from "@liexp/io/lib/http/Chat.js";
+import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { createAgent as createReactAgent, type ReactAgent } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
@@ -102,9 +102,28 @@ const toAgentError = (e: unknown) => {
   return ServerError.fromUnknown(e);
 };
 
+export const AGENT_CONFIGS: Record<
+  AgentType,
+  { label: string; description: string; systemPromptFile: string }
+> = {
+  platform: {
+    label: "Platform Manager",
+    description:
+      "Manages platform resources (actors, events, groups, links) via the CLI",
+    systemPromptFile: "AGENTS.md",
+  },
+  researcher: {
+    label: "Researcher",
+    description:
+      "Web research specialist — knows where to look and what to search for",
+    systemPromptFile: "RESEARCHER.md",
+  },
+};
+
 interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
-  extraTools?: StructuredToolInterface[];
+  /** CLI executor tool used exclusively by the platform agent */
+  cliTool: StructuredToolInterface;
 }
 
 /**
@@ -151,119 +170,120 @@ export const GetAgentFactory =
   >(
     ctx: C,
   ): ((
+    agentType?: AgentType,
     override?: ProviderConfigOverride,
   ) => TaskEither<ServerError, Agent>) => {
-    // Cache for tools and system prompt (created on first use)
-    let cachedTools: StructuredToolInterface[] | null = null;
-    let initializeToolsTask: TaskEither<
-      ServerError,
-      StructuredToolInterface[]
-    > | null = null;
-    let cachedSystemPrompt: string | null = null;
+    // Per-agent-type caches for tools and system prompts
+    const toolsCache = new Map<AgentType, StructuredToolInterface[]>();
+    const toolsTaskCache = new Map<
+      AgentType,
+      TaskEither<ServerError, StructuredToolInterface[]>
+    >();
+    const promptCache = new Map<AgentType, string>();
 
     /**
-     * Initialize tools once and cache them
-     * Falls back to empty tools array if MCP client is not available
+     * Initialize tools for a specific agent type, cached per type.
      */
-    const getOrInitializeTools = (): TaskEither<
-      ServerError,
-      StructuredToolInterface[]
-    > => {
-      if (cachedTools) {
-        return fp.TE.right(cachedTools);
-      }
+    const getOrInitializeTools = (
+      type: AgentType,
+    ): TaskEither<ServerError, StructuredToolInterface[]> => {
+      const cached = toolsCache.get(type);
+      if (cached) return fp.TE.right(cached);
 
-      if (initializeToolsTask) {
-        return initializeToolsTask;
-      }
+      const inFlight = toolsTaskCache.get(type);
+      if (inFlight) return inFlight;
 
       const task: TaskEither<ServerError, StructuredToolInterface[]> = pipe(
         fp.TE.tryCatch(async () => {
-          ctx.logger.debug.log("Initializing tools from MCP client...");
-
-          // Get tools from MCP servers
-          let mcpTools: StructuredToolInterface[] = [];
-          if (opts.mcpClient) {
-            mcpTools = await opts.mcpClient.getTools();
-            ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
-          } else {
-            ctx.logger.warn.log(
-              "MCP client not available, tools will be empty",
-            );
-          }
-
-          cachedTools = [
-            ...(opts.extraTools ?? []),
-            ...mcpTools,
-            createWebScrapingTool(ctx),
-            createSearchWebTool(ctx),
-          ];
-
           ctx.logger.debug.log(
-            "Tools ready (%d): %O",
-            cachedTools.length,
-            cachedTools.reduce(
-              (acc, t) => ({ ...acc, [t.name]: t.description }),
-              {},
-            ),
+            "Initializing tools for agent type: %s",
+            type,
           );
 
-          return cachedTools;
+          const webScraping = createWebScrapingTool(ctx);
+          const searchWeb = createSearchWebTool(ctx);
+
+          let tools: StructuredToolInterface[];
+
+          if (type === "researcher") {
+            // Researcher: web tools only — no MCP, no CLI
+            tools = [searchWeb, webScraping];
+          } else {
+            // Platform (default): CLI + MCP + web tools
+            let mcpTools: StructuredToolInterface[] = [];
+            if (opts.mcpClient) {
+              mcpTools = await opts.mcpClient.getTools();
+              ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+            } else {
+              ctx.logger.warn.log("MCP client not available");
+            }
+            tools = [opts.cliTool, ...mcpTools, webScraping, searchWeb];
+          }
+
+          ctx.logger.debug.log(
+            "Tools ready for %s (%d): %O",
+            type,
+            tools.length,
+            tools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
+          );
+
+          toolsCache.set(type, tools);
+          return tools;
         }, toAgentError),
-        // On failure, clear the cached task so the next call retries
         fp.TE.orElse((error) => {
-          initializeToolsTask = null;
+          toolsTaskCache.delete(type);
           return fp.TE.left(error);
         }),
       );
 
-      initializeToolsTask = task;
+      toolsTaskCache.set(type, task);
       return task;
     };
 
     /**
-     * Read AGENTS.md once and cache it as the agent system prompt
+     * Read the system prompt file for a specific agent type, cached per type.
      */
-    const getOrReadSystemPrompt = (): TaskEither<ServerError, string> => {
-      if (cachedSystemPrompt) {
-        return fp.TE.right(cachedSystemPrompt);
-      }
+    const getOrReadSystemPrompt = (
+      type: AgentType,
+    ): TaskEither<ServerError, string> => {
+      const cached = promptCache.get(type);
+      if (cached) return fp.TE.right(cached);
+
+      const promptFile = AGENT_CONFIGS[type].systemPromptFile;
       return pipe(
-        ctx.fs.getObject(path.resolve(process.cwd(), "AGENTS.md")),
+        ctx.fs.getObject(path.resolve(process.cwd(), promptFile)),
         fp.TE.mapLeft(ServerError.fromUnknown),
         fp.TE.tap((prompt) =>
           fp.TE.fromIO(() => {
-            cachedSystemPrompt = prompt;
+            promptCache.set(type, prompt);
           }),
         ),
       );
     };
 
     /**
-     * Create an agent with optional provider override
+     * Create an agent with optional agent type and provider override
      */
-    return (override?: ProviderConfigOverride) =>
-      pipe(
+    return (agentType?: AgentType, override?: ProviderConfigOverride) => {
+      const type: AgentType = agentType ?? "platform";
+      return pipe(
         fp.TE.Do,
-        fp.TE.bind("tools", getOrInitializeTools),
-        fp.TE.bind("systemPrompt", getOrReadSystemPrompt),
+        fp.TE.bind("tools", () => getOrInitializeTools(type)),
+        fp.TE.bind("systemPrompt", () => getOrReadSystemPrompt(type)),
         fp.TE.chain(({ tools, systemPrompt }) =>
           fp.TE.fromEither(
             fp.E.tryCatch(() => {
-              // Merge config: use override if provided, otherwise use default
               const mergedConfig = mergeProviderConfig(
                 ctx.langchain.options,
                 override,
               );
 
-              ctx.logger.info.log("Creating agent with provider config: %O", {
-                provider: mergedConfig.provider,
-                model: mergedConfig.model,
-              });
+              ctx.logger.info.log(
+                "Creating %s agent with provider config: %O",
+                type,
+                { provider: mergedConfig.provider, model: mergedConfig.model },
+              );
 
-              // Create a temporary Langchain provider with merged config
-              // This allows us to switch providers on a per-request basis
-              // Type assertion needed because provider is dynamic at runtime
               const tempLangchainProvider = GetLangchainProvider({
                 baseURL: ctx.langchain.options.baseURL,
                 apiKey: ctx.langchain.options.apiKey,
@@ -290,4 +310,5 @@ export const GetAgentFactory =
           ),
         ),
       );
+    };
   };

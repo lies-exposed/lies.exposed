@@ -3,10 +3,12 @@ import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
+  type AgentInfo,
   type AIProvider,
   type AvailableModels,
   type ProviderInfo,
 } from "@liexp/io/lib/http/Chat.js";
+import { AGENT_CONFIGS } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
@@ -203,6 +205,32 @@ export const MakeListProvidersRoute: Route = (r, ctx) => {
         data: {
           providers,
           count: providers.length,
+          timestamp: new Date().toISOString(),
+        },
+      },
+      statusCode: 200 as const,
+    });
+  });
+};
+
+export const MakeListAgentsRoute: Route = (r, _ctx) => {
+  AddEndpoint(r)(AgentEndpoints.Chat.Custom.ListAgents, () => {
+    const agents: AgentInfo[] = (
+      Object.entries(AGENT_CONFIGS) as [
+        keyof typeof AGENT_CONFIGS,
+        (typeof AGENT_CONFIGS)[keyof typeof AGENT_CONFIGS],
+      ][]
+    ).map(([name, cfg]) => ({
+      name,
+      label: cfg.label,
+      description: cfg.description,
+    }));
+
+    return TE.right({
+      body: {
+        data: {
+          agents,
+          count: agents.length,
           timestamp: new Date().toISOString(),
         },
       },

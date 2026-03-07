@@ -314,6 +314,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                               assistantMessage,
                             ];
                             newState.streamingContent = "";
+                            newState.thinkingContent = "";
                             newState.activeToolCalls = new Map();
                             newState.completedToolCalls = [];
                             newState.conversationId =

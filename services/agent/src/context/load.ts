@@ -294,11 +294,9 @@ export const makeAgentContext = (
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
             mcpClient,
-            extraTools: [
-              createCliExecutorTool(
-                path.resolve(process.cwd(), "build/cli/cli.js"),
-              ),
-            ],
+            cliTool: createCliExecutorTool(
+              path.resolve(process.cwd(), "build/cli/cli.js"),
+            ),
           })({
             langchain,
             logger: agentLogger,

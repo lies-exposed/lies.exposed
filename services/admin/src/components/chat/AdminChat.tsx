@@ -1,13 +1,33 @@
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
+import { type AgentType } from "@liexp/ui/lib/components/Chat/AgentSelector.js";
 import { ChatUI } from "@liexp/ui/lib/components/Chat/ChatUI.js";
 import { type AIProvider } from "@liexp/ui/lib/components/Chat/ProviderSelector.js";
 import {
   useRecordContext,
   useResourceContext,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { useLocation } from "react-router";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
+
+function useLocalStorage<T>(key: string, initial: T): [T, (v: T) => void] {
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw !== null ? (JSON.parse(raw) as T) : initial;
+    } catch {
+      return initial;
+    }
+  });
+  const set = useCallback(
+    (v: T) => {
+      setValue(v);
+      localStorage.setItem(key, JSON.stringify(v));
+    },
+    [key],
+  );
+  return [value, set];
+}
 
 interface ChatProps {
   className?: string;
@@ -18,10 +38,16 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<AIProvider | null>(
+  const [selectedAgent, setSelectedAgent] = useLocalStorage<AgentType | null>(
+    "chat.agent",
     null,
   );
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [selectedProvider, setSelectedProvider] =
+    useLocalStorage<AIProvider | null>("chat.provider", null);
+  const [selectedModel, setSelectedModel] = useLocalStorage<string | null>(
+    "chat.model",
+    null,
+  );
 
   const location = useLocation();
 
@@ -128,6 +154,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       message: inputValue.trim(),
       conversation_id: conversationId,
       resource_context: isContextEnabled ? context : undefined,
+      agent_type: selectedAgent ?? undefined,
     };
 
     // Create aiConfig if provider is selected
@@ -196,6 +223,11 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       onToggleContext={handleToggleContext}
       contextLabel={contextLabel}
       streamingMessage={streamingMessage}
+      agentSelector={{
+        selectedAgent,
+        onAgentChange: setSelectedAgent,
+        getAuthToken: getAuthFromLocalStorage,
+      }}
       providerSelector={{
         selectedProvider,
         onProviderChange: (provider: string) =>
