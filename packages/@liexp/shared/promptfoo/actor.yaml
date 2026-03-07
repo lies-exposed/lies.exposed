@@ -9,6 +9,14 @@ evaluateOptions:
 
 sharing: false
 
+defaultTest:
+  options:
+    provider:
+      id: xai:grok-4-fast
+      config:
+        apiKey: "{{env.XAI_API_KEY}}"
+        temperature: 0
+
 prompts:
   # actor prompts
   - id: file://../lib/providers/openai/prompts/actor.prompts.js:EMBED_ACTOR_PROMPT
@@ -73,10 +81,26 @@ tests:
       - agent-service
     prompts:
       - EMBED_ACTOR_PROMPT
-  - vars:
+  - description: find-latest-actors
+    vars:
       message: Find the latest 10 actors on the platform
     # Only agent-service has platform access; xAI alone cannot answer this
     providers:
       - agent-service
     prompts:
       - AGENT_QUERY
+    assert:
+      # Must not fall back to web search or apologise
+      - type: not-contains
+        value: "wasn't able"
+      - type: not-contains
+        value: "I'm sorry"
+      - type: not-contains
+        value: "publicly indexed"
+      # Must return a real list of actors from the platform
+      - type: llm-rubric
+        value: >
+          The response must contain a list of at least 5 actors retrieved from
+          the lies.exposed platform database (not from the web or general
+          knowledge). Each entry should include at minimum a name. The response
+          must NOT say it could not find actors or apologise for missing data.

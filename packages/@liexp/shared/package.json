@@ -24,6 +24,7 @@
     "watch": "tsc -b -w",
     "promptfoo:eval": "AGENT_API_TOKEN=$(grep API_TOKEN ../../../services/agent/.env.local | cut -d= -f2-) promptfoo eval -c promptfoo/actor.yaml",
     "promptfoo:eval:actor": "AGENT_API_TOKEN=$(grep API_TOKEN ../../../services/agent/.env.local | cut -d= -f2-) promptfoo eval -c promptfoo/actor.yaml",
+    "promptfoo:eval:actor:find-latest": "AGENT_API_TOKEN=$(grep API_TOKEN ../../../services/agent/.env.local | cut -d= -f2-) promptfoo eval -c promptfoo/actor.yaml --filter-pattern find-latest-actors",
     "promptfoo:eval:event": "promptfoo eval -c promptfoo/event.yaml",
     "promptfoo:eval:group": "promptfoo eval -c promptfoo/group.yaml",
     "promptfoo:eval:link": "promptfoo eval -c promptfoo/link.yaml"
