@@ -1,4 +1,5 @@
 import {
+  AgentsResponse,
   ChatConversation,
   ChatRequest,
   ChatResponse,
@@ -81,6 +82,15 @@ export const ListProviders = Endpoint({
   }),
 });
 
+export const ListAgents = Endpoint({
+  Method: "GET",
+  getPath: () => "/agents",
+  Input: undefined,
+  Output: Output(AgentsResponse).annotations({
+    title: "AgentsResponse",
+  }),
+});
+
 export const chat = ResourceEndpoints({
   Get: GetConversation,
   List: ListConversations,
@@ -90,5 +100,6 @@ export const chat = ResourceEndpoints({
   Custom: {
     Stream: SendMessageStream,
     ListProviders,
+    ListAgents,
   },
 });

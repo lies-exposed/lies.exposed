@@ -7,6 +7,7 @@ import {
   type ResourceContext,
   type ChatStreamEvent,
   type AIConfig,
+  type AgentType,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -17,22 +18,23 @@ import { type AgentContext } from "../../context/context.type.js";
 const conversations = new Map<string, ChatMessage[]>();
 
 /**
- * Get or create an agent with optional provider override
- * If no override provided, uses the default agent from context
+ * Get or create an agent with optional agent type and provider override.
+ * The default agent from context is only used when no agentType is specified
+ * and no aiConfig override is requested.
  */
-const getOrCreateAgent = (aiConfig?: AIConfig) => (ctx: AgentContext) => {
-  if (!aiConfig) {
-    // Use the default agent (bootstrapped at startup)
-    return TE.right(ctx.agent.agent);
-  }
+const getOrCreateAgent =
+  (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
+    if (!agentType && !aiConfig) {
+      // Use the default bootstrapped agent (platform type, default provider)
+      return TE.right(ctx.agent.agent);
+    }
 
-  // Create new agent with specified provider config
-  const override = aiConfigToProviderOverride(aiConfig);
-  return pipe(
-    ctx.agentFactory(override),
-    TE.mapLeft((error) => ServerError.fromUnknown(error)),
-  );
-};
+    const override = aiConfig ? aiConfigToProviderOverride(aiConfig) : undefined;
+    return pipe(
+      ctx.agentFactory(agentType, override),
+      TE.mapLeft((error) => ServerError.fromUnknown(error)),
+    );
+  };
 
 export const sendChatMessage =
   (payload: {
@@ -40,6 +42,7 @@ export const sendChatMessage =
     conversation_id: string | null;
     resource_context?: ResourceContext;
     aiConfig?: AIConfig;
+    agent_type?: AgentType;
   }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
     // Use existing conversation_id or generate a new one
@@ -53,7 +56,7 @@ export const sendChatMessage =
       : payload.message;
 
     return pipe(
-      getOrCreateAgent(payload.aiConfig)(ctx),
+      getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
       TE.chain((agent) =>
         TE.tryCatch(
           () =>
@@ -184,6 +187,7 @@ export const sendChatMessageStream = (payload: {
   conversation_id: string | null;
   resource_context?: ResourceContext;
   aiConfig?: AIConfig;
+  agent_type?: AgentType;
 }) => {
   return async function* (ctx: AgentContext): AsyncGenerator<ChatStreamEvent> {
     const conversationId = payload.conversation_id ?? uuid();
@@ -197,8 +201,8 @@ export const sendChatMessageStream = (payload: {
       : payload.message;
 
     try {
-      // Get or create agent with optional provider override
-      const agentResult = await getOrCreateAgent(payload.aiConfig)(ctx)();
+      // Get or create agent with optional type + provider override
+      const agentResult = await getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx)();
 
       if (agentResult._tag === "Left") {
         // Error case

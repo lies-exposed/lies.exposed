@@ -6,11 +6,22 @@
  */
 
 import path from "path";
-import { type StructuredToolInterface } from "@langchain/core/tools";
-import { MemorySaver } from "@langchain/langgraph";
+import { tool, type StructuredToolInterface } from "@langchain/core/tools";
+import {
+  Command,
+  MemorySaver,
+  MessagesAnnotation,
+  START,
+  StateGraph,
+} from "@langchain/langgraph";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore — package exports subpath not recognised by node10 moduleResolution
+import { createReactAgent as createLangGraphReactAgent } from "@langchain/langgraph/prebuilt";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type { AIConfig } from "@liexp/io/lib/http/Chat.js";
+import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
+import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
+import { Schema } from "effect";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { createAgent as createReactAgent, type ReactAgent } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
@@ -102,9 +113,34 @@ const toAgentError = (e: unknown) => {
   return ServerError.fromUnknown(e);
 };
 
+export const AGENT_CONFIGS: Record<
+  AgentType,
+  { label: string; description: string; systemPromptFile: string }
+> = {
+  auto: {
+    label: "Auto",
+    description:
+      "Automatically routes to the best agent — Platform Manager or Researcher — based on your request",
+    systemPromptFile: "AGENTS.md", // unused for auto, supervisor decides routing
+  },
+  platform: {
+    label: "Platform Manager",
+    description:
+      "Manages platform resources (actors, events, groups, links) via the CLI",
+    systemPromptFile: "AGENTS.md",
+  },
+  researcher: {
+    label: "Researcher",
+    description:
+      "Web research specialist — knows where to look and what to search for",
+    systemPromptFile: "RESEARCHER.md",
+  },
+};
+
 interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
-  extraTools?: StructuredToolInterface[];
+  /** CLI executor tool used exclusively by the platform agent */
+  cliTool: StructuredToolInterface;
 }
 
 /**
@@ -136,6 +172,115 @@ const createAgentWithProvider = (
 };
 
 /**
+ * Create a multi-agent orchestrator graph.
+ *
+ * Architecture:
+ *   START → supervisor → platform ⇄ researcher → END
+ *
+ * The supervisor LLM classifies the user's message and routes to the appropriate
+ * subagent. Each subagent has a handoff tool to transfer control to the other.
+ * The outer graph owns the MemorySaver, so conversation history is shared.
+ */
+const createMultiAgentGraph = (
+  platformTools: StructuredToolInterface[],
+  researcherTools: StructuredToolInterface[],
+  platformPrompt: string,
+  researcherPrompt: string,
+  chat: LangchainContext["langchain"]["chat"],
+  logger: LoggerContext["logger"],
+): Agent => {
+  // Handoff tools — return a Command to route to the target node
+  const transferToResearcher = tool(
+    async () =>
+      new Command({
+        goto: "researcher",
+      }),
+    {
+      name: "transfer_to_researcher",
+      description:
+        "Delegate to the Researcher agent for web research, fact-checking, or finding information online. Use this when you need current information from the web.",
+      schema: effectToZod(Schema.Struct({})),
+      returnDirect: true,
+    },
+  );
+
+  const transferToPlatform = tool(
+    async () =>
+      new Command({
+        goto: "platform",
+      }),
+    {
+      name: "transfer_to_platform",
+      description:
+        "Transfer back to the Platform Manager after completing research so it can act on the findings.",
+      schema: effectToZod(Schema.Struct({})),
+      returnDirect: true,
+    },
+  );
+
+  // Subagents: use LangGraph's createReactAgent (returns CompiledStateGraph,
+  // compatible with StateGraph.addNode). No checkpointer — outer graph manages state.
+  const platformAgent = createLangGraphReactAgent({
+    model: chat,
+    tools: [...platformTools, transferToResearcher],
+    prompt: platformPrompt,
+  });
+
+  const researcherAgent = createLangGraphReactAgent({
+    model: chat,
+    tools: [...researcherTools, transferToPlatform],
+    prompt: researcherPrompt,
+  });
+
+  // Supervisor: one LLM call to classify and route the initial message
+  const supervisorNode = async (
+    state: typeof MessagesAnnotation.State,
+  ): Promise<Command> => {
+    const lastMessage = state.messages.at(-1);
+    const content =
+      typeof lastMessage?.content === "string"
+        ? lastMessage.content
+        : JSON.stringify(lastMessage?.content ?? "");
+
+    const response = await (chat as any).invoke([
+      {
+        role: "system",
+        content: [
+          "You are a router for a fact-checking platform assistant.",
+          "Choose which specialized agent handles this request:",
+          '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories)',
+          '- "researcher": find information online, web research, fact-checking, search for people/organizations/events',
+          'Reply with ONLY the agent name: "platform" or "researcher".',
+        ].join("\n"),
+      },
+      { role: "user", content },
+    ]);
+
+    const text = (
+      typeof response.content === "string" ? response.content : "platform"
+    )
+      .trim()
+      .toLowerCase();
+
+    const next = text.includes("researcher") ? "researcher" : "platform";
+    logger.info.log("Supervisor routing to: %s", next);
+    return new Command({ goto: next });
+  };
+
+  const graph = new StateGraph(MessagesAnnotation)
+    .addNode("supervisor", supervisorNode, {
+      ends: ["platform", "researcher"],
+    })
+    .addNode("platform", platformAgent)
+    .addNode("researcher", researcherAgent)
+    .addEdge(START, "supervisor")
+    .compile({ checkpointer: new MemorySaver() });
+
+  logger.debug.log("Multi-agent graph created");
+  return graph as unknown as Agent;
+};
+
+/**
  * Agent Factory: Creates agents on-demand with optional provider overrides
  *
  * Caches MCP tools to avoid re-fetching on every agent creation.
@@ -151,138 +296,193 @@ export const GetAgentFactory =
   >(
     ctx: C,
   ): ((
+    agentType?: AgentType,
     override?: ProviderConfigOverride,
   ) => TaskEither<ServerError, Agent>) => {
-    // Cache for tools and system prompt (created on first use)
-    let cachedTools: StructuredToolInterface[] | null = null;
-    let initializeToolsTask: TaskEither<
-      ServerError,
-      StructuredToolInterface[]
-    > | null = null;
-    let cachedSystemPrompt: string | null = null;
+    // Per-agent-type caches for tools and system prompts
+    const toolsCache = new Map<AgentType, StructuredToolInterface[]>();
+    const toolsTaskCache = new Map<
+      AgentType,
+      TaskEither<ServerError, StructuredToolInterface[]>
+    >();
+    const promptCache = new Map<AgentType, string>();
 
     /**
-     * Initialize tools once and cache them
-     * Falls back to empty tools array if MCP client is not available
+     * Initialize tools for a specific agent type, cached per type.
      */
-    const getOrInitializeTools = (): TaskEither<
-      ServerError,
-      StructuredToolInterface[]
-    > => {
-      if (cachedTools) {
-        return fp.TE.right(cachedTools);
-      }
+    const getOrInitializeTools = (
+      type: AgentType,
+    ): TaskEither<ServerError, StructuredToolInterface[]> => {
+      const cached = toolsCache.get(type);
+      if (cached) return fp.TE.right(cached);
 
-      if (initializeToolsTask) {
-        return initializeToolsTask;
-      }
+      const inFlight = toolsTaskCache.get(type);
+      if (inFlight) return inFlight;
 
       const task: TaskEither<ServerError, StructuredToolInterface[]> = pipe(
         fp.TE.tryCatch(async () => {
-          ctx.logger.debug.log("Initializing tools from MCP client...");
-
-          // Get tools from MCP servers
-          let mcpTools: StructuredToolInterface[] = [];
-          if (opts.mcpClient) {
-            mcpTools = await opts.mcpClient.getTools();
-            ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
-          } else {
-            ctx.logger.warn.log(
-              "MCP client not available, tools will be empty",
-            );
-          }
-
-          cachedTools = [
-            ...(opts.extraTools ?? []),
-            ...mcpTools,
-            createWebScrapingTool(ctx),
-            createSearchWebTool(ctx),
-          ];
-
           ctx.logger.debug.log(
-            "Tools ready (%d): %O",
-            cachedTools.length,
-            cachedTools.reduce(
-              (acc, t) => ({ ...acc, [t.name]: t.description }),
-              {},
-            ),
+            "Initializing tools for agent type: %s",
+            type,
           );
 
-          return cachedTools;
+          const webScraping = createWebScrapingTool(ctx);
+          const searchWeb = createSearchWebTool(ctx);
+
+          let tools: StructuredToolInterface[];
+
+          if (type === "researcher") {
+            // Researcher: web tools only — no MCP, no CLI
+            tools = [searchWeb, webScraping];
+          } else {
+            // Platform (default): CLI + MCP + web tools
+            let mcpTools: StructuredToolInterface[] = [];
+            if (opts.mcpClient) {
+              mcpTools = await opts.mcpClient.getTools();
+              ctx.logger.info.log("Loaded %d MCP tools", mcpTools.length);
+            } else {
+              ctx.logger.warn.log("MCP client not available");
+            }
+            tools = [opts.cliTool, ...mcpTools, webScraping, searchWeb];
+          }
+
+          ctx.logger.debug.log(
+            "Tools ready for %s (%d): %O",
+            type,
+            tools.length,
+            tools.reduce((acc, t) => ({ ...acc, [t.name]: t.description }), {}),
+          );
+
+          toolsCache.set(type, tools);
+          return tools;
         }, toAgentError),
-        // On failure, clear the cached task so the next call retries
         fp.TE.orElse((error) => {
-          initializeToolsTask = null;
+          toolsTaskCache.delete(type);
           return fp.TE.left(error);
         }),
       );
 
-      initializeToolsTask = task;
+      toolsTaskCache.set(type, task);
       return task;
     };
 
     /**
-     * Read AGENTS.md once and cache it as the agent system prompt
+     * Read the system prompt file for a specific agent type, cached per type.
      */
-    const getOrReadSystemPrompt = (): TaskEither<ServerError, string> => {
-      if (cachedSystemPrompt) {
-        return fp.TE.right(cachedSystemPrompt);
-      }
+    const getOrReadSystemPrompt = (
+      type: AgentType,
+    ): TaskEither<ServerError, string> => {
+      const cached = promptCache.get(type);
+      if (cached) return fp.TE.right(cached);
+
+      const promptFile = AGENT_CONFIGS[type].systemPromptFile;
       return pipe(
-        ctx.fs.getObject(path.resolve(process.cwd(), "AGENTS.md")),
+        ctx.fs.getObject(path.resolve(process.cwd(), promptFile)),
         fp.TE.mapLeft(ServerError.fromUnknown),
         fp.TE.tap((prompt) =>
           fp.TE.fromIO(() => {
-            cachedSystemPrompt = prompt;
+            promptCache.set(type, prompt);
           }),
         ),
       );
     };
 
     /**
-     * Create an agent with optional provider override
+     * Build the resolved LangChain chat model for a given provider override.
      */
-    return (override?: ProviderConfigOverride) =>
-      pipe(
+    const resolveChatModel = (override?: ProviderConfigOverride) => {
+      const mergedConfig = mergeProviderConfig(ctx.langchain.options, override);
+      return GetLangchainProvider({
+        baseURL: ctx.langchain.options.baseURL,
+        apiKey: ctx.langchain.options.apiKey,
+        maxRetries: ctx.langchain.options.maxRetries,
+        provider: mergedConfig.provider,
+        models: {
+          chat: mergedConfig.model,
+          embeddings: ctx.langchain.options.models?.embeddings,
+        },
+        options: {
+          chat: (mergedConfig.options ?? {}) as never,
+          embeddings: (ctx.langchain.options.options?.embeddings ??
+            {}) as never,
+        },
+      });
+    };
+
+    /**
+     * Create an agent with optional agent type and provider override.
+     * When agentType is "auto", builds a multi-agent orchestrator graph.
+     */
+    return (agentType?: AgentType, override?: ProviderConfigOverride) => {
+      const type: AgentType = agentType ?? "auto";
+
+      // Multi-agent orchestrator
+      if (type === "auto") {
+        return pipe(
+          fp.TE.Do,
+          fp.TE.bind("platformTools", () => getOrInitializeTools("platform")),
+          fp.TE.bind("researcherTools", () =>
+            getOrInitializeTools("researcher"),
+          ),
+          fp.TE.bind("platformPrompt", () => getOrReadSystemPrompt("platform")),
+          fp.TE.bind("researcherPrompt", () =>
+            getOrReadSystemPrompt("researcher"),
+          ),
+          fp.TE.chain(
+            ({
+              platformTools,
+              researcherTools,
+              platformPrompt,
+              researcherPrompt,
+            }) =>
+              fp.TE.fromEither(
+                fp.E.tryCatch(() => {
+                  const { chat } = resolveChatModel(override);
+                  ctx.logger.info.log(
+                    "Creating auto multi-agent graph with provider config: %O",
+                    {
+                      provider: mergeProviderConfig(
+                        ctx.langchain.options,
+                        override,
+                      ).provider,
+                    },
+                  );
+                  return createMultiAgentGraph(
+                    platformTools,
+                    researcherTools,
+                    platformPrompt,
+                    researcherPrompt,
+                    chat,
+                    ctx.logger,
+                  );
+                }, toAgentError),
+              ),
+          ),
+        );
+      }
+
+      // Single-agent (platform or researcher)
+      return pipe(
         fp.TE.Do,
-        fp.TE.bind("tools", getOrInitializeTools),
-        fp.TE.bind("systemPrompt", getOrReadSystemPrompt),
+        fp.TE.bind("tools", () => getOrInitializeTools(type)),
+        fp.TE.bind("systemPrompt", () => getOrReadSystemPrompt(type)),
         fp.TE.chain(({ tools, systemPrompt }) =>
           fp.TE.fromEither(
             fp.E.tryCatch(() => {
-              // Merge config: use override if provided, otherwise use default
-              const mergedConfig = mergeProviderConfig(
-                ctx.langchain.options,
-                override,
+              const { chat } = resolveChatModel(override);
+
+              ctx.logger.info.log(
+                "Creating %s agent with provider config: %O",
+                type,
+                {
+                  provider: mergeProviderConfig(ctx.langchain.options, override)
+                    .provider,
+                },
               );
-
-              ctx.logger.info.log("Creating agent with provider config: %O", {
-                provider: mergedConfig.provider,
-                model: mergedConfig.model,
-              });
-
-              // Create a temporary Langchain provider with merged config
-              // This allows us to switch providers on a per-request basis
-              // Type assertion needed because provider is dynamic at runtime
-              const tempLangchainProvider = GetLangchainProvider({
-                baseURL: ctx.langchain.options.baseURL,
-                apiKey: ctx.langchain.options.apiKey,
-                maxRetries: ctx.langchain.options.maxRetries,
-                provider: mergedConfig.provider,
-                models: {
-                  chat: mergedConfig.model,
-                  embeddings: ctx.langchain.options.models?.embeddings,
-                },
-                options: {
-                  chat: (mergedConfig.options ?? {}) as never,
-                  embeddings: (ctx.langchain.options.options?.embeddings ??
-                    {}) as never,
-                },
-              });
 
               return createAgentWithProvider(
                 systemPrompt,
-                tempLangchainProvider.chat,
+                chat,
                 tools,
                 ctx.logger,
               );
@@ -290,4 +490,5 @@ export const GetAgentFactory =
           ),
         ),
       );
+    };
   };
