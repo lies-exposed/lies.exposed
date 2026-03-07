@@ -4,11 +4,11 @@ import { Media as MediaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import type { CLIContext } from "../command.type.js";
 import { makeCLIContext } from "../make-cli-context.js";
 import { mediaCreate } from "../media/create.js";
 import { mediaEdit } from "../media/edit.js";
-import { mswServer } from "../../../test/mswServer.js";
 
 const encodeMedia = Schema.encodeSync(MediaIO.Media);
 

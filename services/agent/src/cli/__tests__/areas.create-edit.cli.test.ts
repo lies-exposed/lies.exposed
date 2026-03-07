@@ -4,11 +4,11 @@ import { Area as AreaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import { areaCreate } from "../areas/create.js";
 import { areaEdit } from "../areas/edit.js";
 import type { CLIContext } from "../command.type.js";
 import { makeCLIContext } from "../make-cli-context.js";
-import { mswServer } from "../../../test/mswServer.js";
 
 const encodeArea = Schema.encodeSync(AreaIO.Area);
 

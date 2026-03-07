@@ -4,11 +4,11 @@ import { Nation as NationArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import type { CLIContext } from "../command.type.js";
 import { makeCLIContext } from "../make-cli-context.js";
 import { nationGet } from "../nations/get.js";
 import { nationList } from "../nations/list.js";
-import { mswServer } from "../../../test/mswServer.js";
 
 const encodeNation = Schema.encodeSync(NationIO.Nation);
 

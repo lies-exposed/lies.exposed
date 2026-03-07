@@ -12,11 +12,11 @@ import { fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
 import { beforeAll, beforeEach, describe, expect, test, vi } from "vitest";
+import { mswServer } from "../../../test/mswServer.js";
 import type { CLIContext } from "../command.type.js";
 import { eventCreate } from "../events/create.js";
 import { eventEdit } from "../events/edit.js";
 import { makeCLIContext } from "../make-cli-context.js";
-import { mswServer } from "../../../test/mswServer.js";
 
 const encodeEvent = Schema.encodeSync(EventsIO.Event);
 
