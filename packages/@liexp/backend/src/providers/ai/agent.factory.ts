@@ -141,6 +141,8 @@ interface AgentFactoryOptions {
   mcpClient: MultiServerMCPClient | null;
   /** CLI executor tool used exclusively by the platform agent */
   cliTool: StructuredToolInterface;
+  /** Per-provider API keys — used when an override switches to a different provider */
+  apiKeys?: Partial<Record<AIProvider, string>>;
 }
 
 /**
@@ -389,12 +391,17 @@ export const GetAgentFactory =
 
     /**
      * Build the resolved LangChain chat model for a given provider override.
+     * When the override switches provider, use the matching API key from opts.apiKeys
+     * rather than falling back to the default provider's key.
      */
     const resolveChatModel = (override?: ProviderConfigOverride) => {
       const mergedConfig = mergeProviderConfig(ctx.langchain.options, override);
+      const apiKey =
+        (opts.apiKeys?.[mergedConfig.provider as AIProvider] ??
+          ctx.langchain.options.apiKey);
       return GetLangchainProvider({
         baseURL: ctx.langchain.options.baseURL,
-        apiKey: ctx.langchain.options.apiKey,
+        apiKey,
         maxRetries: ctx.langchain.options.maxRetries,
         provider: mergedConfig.provider,
         models: {

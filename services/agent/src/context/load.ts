@@ -297,6 +297,11 @@ export const makeAgentContext = (
             cliTool: createCliExecutorTool(
               path.resolve(process.cwd(), "build/cli/cli.js"),
             ),
+            apiKeys: {
+              openai: env.OPENAI_API_KEY,
+              anthropic: env.ANTHROPIC_API_KEY,
+              xai: env.XAI_API_KEY,
+            },
           })({
             langchain,
             logger: agentLogger,
