@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { styled } from "../../theme/index.js";
 import { Box, CircularProgress, Typography } from "../mui/index.js";
 
-export type AgentType = "platform" | "researcher";
+export type AgentType = "auto" | "platform" | "researcher";
 
 export interface AgentInfo {
   name: AgentType;
@@ -47,6 +47,7 @@ const AgentChip = styled("button")<{ selected?: boolean }>(
 );
 
 const AGENT_ICONS: Record<AgentType, string> = {
+  auto: "🤖",
   platform: "⚙",
   researcher: "🔍",
 };
