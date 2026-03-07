@@ -77,17 +77,7 @@ describe.sequential("Admin Web Server", () => {
         expect([401, 500]).toContain(response.status);
       });
 
-      // Note: Skip JWT validation tests for now to focus on basic functionality
-      // The JWT middleware integration can be tested separately
-      it.skip("should proxy authenticated requests to agent service", async () => {
-        // This test would need proper JWT mocking
-        // Will be implemented in follow-up work
-      });
-
-      it.skip("should handle agent service errors gracefully", async () => {
-        // This test would need proper JWT mocking  
-        // Will be implemented in follow-up work
-      });
+      // JWT-authenticated proxy tests deferred: need proper JWT mocking setup.
     });
 
     describe("CORS Headers", () => {

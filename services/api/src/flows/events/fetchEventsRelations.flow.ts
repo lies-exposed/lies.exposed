@@ -1,8 +1,10 @@
 import { type DatabaseContext } from "@liexp/backend/lib/context/db.context.js";
 import { type ENVContext } from "@liexp/backend/lib/context/env.context.js";
 import { type LoggerContext } from "@liexp/backend/lib/context/logger.context.js";
+import { GroupMemberEntity } from "@liexp/backend/lib/entities/GroupMember.entity.js";
 import { ActorIO } from "@liexp/backend/lib/io/Actor.io.js";
 import { GroupIO } from "@liexp/backend/lib/io/group.io.js";
+import { GroupMemberIO } from "@liexp/backend/lib/io/groupMember.io.js";
 import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
@@ -14,6 +16,7 @@ import { takeEventRelations } from "@liexp/shared/lib/helpers/event/event.helper
 import * as O from "effect/Option";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
+import { In } from "typeorm";
 import { type ENV } from "../../io/ENV.js";
 import { type TEReader } from "#flows/flow.types.js";
 
@@ -60,29 +63,32 @@ export const fetchEventsRelations =
             },
             isAdmin,
           )(ctx),
-          TE.chain((relations) =>
+          TE.chain((fetchedRelations) =>
             sequenceS(TE.ApplicativePar)({
               events: fp.TE.right(events),
               actors: shouldFetch("actors")
-                ? pipe(ActorIO.decodeMany(relations.actors), fp.TE.fromEither)
+                ? pipe(
+                    ActorIO.decodeMany(fetchedRelations.actors),
+                    fp.TE.fromEither,
+                  )
                 : fp.TE.right([]),
               groups: shouldFetch("groups")
                 ? pipe(
-                    relations.groups.map((g) => ({ ...g, members: [] })),
+                    fetchedRelations.groups.map((g) => ({ ...g, members: [] })),
                     (gg) => GroupIO.decodeMany(gg),
                     fp.TE.fromEither,
                   )
                 : fp.TE.right([]),
               keywords: shouldFetch("keywords")
                 ? pipe(
-                    relations.keywords,
+                    fetchedRelations.keywords,
                     KeywordIO.decodeMany,
                     fp.TE.fromEither,
                   )
                 : fp.TE.right([]),
               media: shouldFetch("media")
                 ? pipe(
-                    relations.media.map((m) => ({
+                    fetchedRelations.media.map((m) => ({
                       ...m,
                       links: [],
                       keywords: [],
@@ -91,8 +97,28 @@ export const fetchEventsRelations =
                     fp.TE.fromEither,
                   )
                 : fp.TE.right([]),
-              links: pipe(LinkIO.decodeMany(relations.links), TE.fromEither),
-              groupsMembers: TE.right([]),
+              links: pipe(
+                LinkIO.decodeMany(fetchedRelations.links),
+                TE.fromEither,
+              ),
+              groupsMembers: shouldFetch("groups")
+                ? pipe(relations.groupsMembers ?? [], (ids) =>
+                    ids.length > 0
+                      ? pipe(
+                          ctx.db.find(GroupMemberEntity, {
+                            where: { id: In(ids) },
+                            relations: ["actor", "group"],
+                          }),
+                          TE.chain((entities) =>
+                            pipe(
+                              GroupMemberIO.decodeMany(entities),
+                              TE.fromEither,
+                            ),
+                          ),
+                        )
+                      : TE.right([]),
+                  )
+                : TE.right([]),
               areas: TE.right([]),
             }),
           ),
