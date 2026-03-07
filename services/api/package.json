@@ -46,6 +46,7 @@
     "start:worker": "node build/worker/index.js",
     "test": "pnpm vitest",
     "test:all": "pnpm test:spec --run && pnpm test:e2e --run",
+    "test:coverage": "vitest --run --coverage --project api-spec",
     "test:e2e": "vitest --project api-e2e",
     "test:spec": "vitest --project api-spec",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",

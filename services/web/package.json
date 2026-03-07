@@ -25,6 +25,7 @@
     "scripts:make-avatars-mock": "tsx ./scripts/make-avatars-mock.ts",
     "serve": "node ./build/server/server.js",
     "test": "vitest",
+    "test:coverage": "vitest --run --coverage --project=web-spec",
     "test:e2e": "vitest --project=web-e2e",
     "test:spec": "vitest --project=web-spec",
     "watch": "tsc -b --watch",
