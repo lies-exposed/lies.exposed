@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...@liexp/core@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **core:** fix dotenv v17 ESM resolution in Vite config bundler ([#3327](https://github.com/lies-exposed/lies.exposed/issues/3327)) ([84843e1](https://github.com/lies-exposed/lies.exposed/commit/84843e112e774248d294a2afd85704258bd39d51))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.4
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...@liexp/core@0.5.3) (2026-03-04)
 
 

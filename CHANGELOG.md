@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...lies.exposed@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **agent:** provide cli tools to access platform resources ([#3332](https://github.com/lies-exposed/lies.exposed/issues/3332)) ([6ba161f](https://github.com/lies-exposed/lies.exposed/commit/6ba161fcc9dc132fdedc9d3b81a8b3432325dfc6))
+* **core:** fix dotenv v17 ESM resolution in Vite config bundler ([#3327](https://github.com/lies-exposed/lies.exposed/issues/3327)) ([84843e1](https://github.com/lies-exposed/lies.exposed/commit/84843e112e774248d294a2afd85704258bd39d51))
+* **workspace:** include pnpm-lock.yaml in build-packages cache hash ([#3326](https://github.com/lies-exposed/lies.exposed/issues/3326)) ([c0c3cac](https://github.com/lies-exposed/lies.exposed/commit/c0c3caceb4e5e4fec3f9f1f1eebf8dae545f66ab))
+
+
+### Miscellaneous
+
+* use localai cpu for local development ([#3333](https://github.com/lies-exposed/lies.exposed/issues/3333)) ([20cbba1](https://github.com/lies-exposed/lies.exposed/commit/20cbba1a0ddcfdad40692f3a9f7855b54bc0cbfb))
+* **workspace:** address knip config hints ([#3321](https://github.com/lies-exposed/lies.exposed/issues/3321)) ([d3840f4](https://github.com/lies-exposed/lies.exposed/commit/d3840f4b791809ee3beedc48a9316295a466f6ce))
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...lies.exposed@0.5.3) (2026-03-04)
 
 

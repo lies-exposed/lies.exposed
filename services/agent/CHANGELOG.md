@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...agent@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **agent:** agent supervisor ([#3344](https://github.com/lies-exposed/lies.exposed/issues/3344)) ([723675e](https://github.com/lies-exposed/lies.exposed/commit/723675e1f5b2e0c5474c40944239cf6b8b9cb9b7))
+* **agent:** provide cli tools to access platform resources ([#3332](https://github.com/lies-exposed/lies.exposed/issues/3332)) ([6ba161f](https://github.com/lies-exposed/lies.exposed/commit/6ba161fcc9dc132fdedc9d3b81a8b3432325dfc6))
+* **core:** fix dotenv v17 ESM resolution in Vite config bundler ([#3327](https://github.com/lies-exposed/lies.exposed/issues/3327)) ([84843e1](https://github.com/lies-exposed/lies.exposed/commit/84843e112e774248d294a2afd85704258bd39d51))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.4
+    * @liexp/core bumped to 0.5.4
+    * @liexp/io bumped to 0.5.4
+    * @liexp/shared bumped to 0.5.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.4
+    * @liexp/test bumped to 0.5.4
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...agent@0.5.3) (2026-03-04)
 
 

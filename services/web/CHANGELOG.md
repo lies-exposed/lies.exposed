@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...web@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **ui:** global search command palette (Ctrl+K) ([#3324](https://github.com/lies-exposed/lies.exposed/issues/3324)) ([24ab24a](https://github.com/lies-exposed/lies.exposed/commit/24ab24a9628bcd258784a08381e0bbab7473465e))
+* **web:** improve media page layout and home page media grid ([#3325](https://github.com/lies-exposed/lies.exposed/issues/3325)) ([52b440d](https://github.com/lies-exposed/lies.exposed/commit/52b440d303e60591cb2ddb1c14c9c8f936a40e03))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.4
+    * @liexp/core bumped to 0.5.4
+    * @liexp/io bumped to 0.5.4
+    * @liexp/shared bumped to 0.5.4
+    * @liexp/ui bumped to 0.5.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.4
+    * @liexp/test bumped to 0.5.4
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...web@0.5.3) (2026-03-04)
 
 
