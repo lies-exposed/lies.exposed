@@ -4589,6 +4589,9 @@ packages:
   '@types/node-telegram-bot-api@0.64.14':
     resolution: {integrity: sha512-Nq1LAAw4PGpR8Vii5F7uGlAaAFmaT3cPIt7mUZv6VrftPsrt9xjmnhXD9hoKFstAzn/a5ZCr+ksbkmK+QBhZiA==}
 
+  '@types/node@24.10.9':
+    resolution: {integrity: sha512-ne4A0IpG3+2ETuREInjPNhUGis1SFjv1d5asp8MzEAGtOZeTeHVDOYqOgqfhvseqg/iXty2hjBf1zAOb7RNiNw==}
+
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
 
@@ -13926,7 +13929,7 @@ snapshots:
   '@types/compression@1.8.1':
     dependencies:
       '@types/express': 5.0.6
-      '@types/node': 24.12.0
+      '@types/node': 24.10.9
 
   '@types/connect@3.4.38':
     dependencies:
@@ -14130,7 +14133,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.28':
     dependencies:
-      '@types/node': 24.12.0
+      '@types/node': 24.10.9
 
   '@types/geojson@7946.0.16': {}
 
@@ -14148,7 +14151,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.12.0
+      '@types/node': 24.10.9
 
   '@types/linkify-it@5.0.0': {}
 
@@ -14181,6 +14184,10 @@ snapshots:
     dependencies:
       '@types/node': 24.12.0
       '@types/request': 2.48.12
+
+  '@types/node@24.10.9':
+    dependencies:
+      undici-types: 7.16.0
 
   '@types/node@24.12.0':
     dependencies:
