@@ -7,7 +7,7 @@ const { mockExecAsync } = vi.hoisted(() => ({
 }));
 
 vi.mock("node:child_process", () => ({
-  exec: vi.fn(),
+  execFile: vi.fn(),
 }));
 
 vi.mock("node:util", () => ({
@@ -40,7 +40,8 @@ describe("createCliExecutorTool", () => {
     const result = await tool.invoke({ command: "actor list --end=10" });
 
     expect(mockExecAsync).toHaveBeenCalledWith(
-      `node ${BIN_PATH} actor list --end=10`,
+      "node",
+      [BIN_PATH, "actor", "list", "--end=10"],
       { timeout: 30_000 },
     );
     expect(result).toBe(json);
@@ -70,8 +71,7 @@ describe("createCliExecutorTool", () => {
 
     const result = await tool.invoke({ command: "actor get --id=bad-id" });
 
-    expect(result).toContain("Error (exit 1)");
-    expect(result).toContain("Command failed");
+    expect(result).toContain("ERROR (exit 1)");
     expect(result).toContain("actor not found");
   });
 
@@ -81,7 +81,7 @@ describe("createCliExecutorTool", () => {
 
     const result = await tool.invoke({ command: "event list" });
 
-    expect(result).toContain("Error (exit 1)");
+    expect(result).toContain("ERROR (exit 1)");
   });
 
   test("omits stderr section when err.stderr is empty", async () => {
@@ -92,7 +92,7 @@ describe("createCliExecutorTool", () => {
 
     const result = await tool.invoke({ command: "media list" });
 
-    expect(result).toContain("Error (exit 124)");
+    expect(result).toContain("ERROR (exit 124)");
     expect(result).not.toContain("stderr:");
   });
 
@@ -104,7 +104,8 @@ describe("createCliExecutorTool", () => {
     });
 
     expect(mockExecAsync).toHaveBeenCalledWith(
-      `node ${BIN_PATH} event list --query=vaccine --start=0 --end=5`,
+      "node",
+      [BIN_PATH, "event", "list", "--query=vaccine", "--start=0", "--end=5"],
       { timeout: 30_000 },
     );
   });
