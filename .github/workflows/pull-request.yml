@@ -108,28 +108,28 @@ jobs:
           fi
           items=()
           [[ "$ADMIN" == "true" ]] && items+=(
-            '{"service":"admin","lint_command":"pnpm admin lint","build_command":"pnpm admin build","app_command":"pnpm admin build:app","app_dotenv":".env.prod","spec_command":"pnpm admin test"}'
+            '{"service":"admin","lint_command":"pnpm admin lint","build_command":"pnpm admin build","app_command":"pnpm admin build:app","app_dotenv":".env.prod","spec_command":"pnpm admin test:coverage"}'
           )
           [[ "$AGENT" == "true" ]] && items+=(
-            '{"service":"agent","lint_command":"pnpm agent lint","build_command":"pnpm agent build","spec_command":"pnpm agent test"}'
+            '{"service":"agent","lint_command":"pnpm agent lint","build_command":"pnpm agent build","spec_command":"pnpm agent test:coverage"}'
           )
           [[ "$AI_BOT" == "true" ]] && items+=(
             '{"service":"ai-bot","lint_command":"pnpm ai-bot lint","build_command":"pnpm ai-bot build","spec_command":"pnpm ai-bot test"}'
           )
           [[ "$API" == "true" ]] && items+=(
-            '{"service":"api","lint_command":"pnpm api lint","build_command":"pnpm api build","spec_command":"pnpm api test:spec","e2e_command":"pnpm api test:e2e","migration_command":"pnpm api migration:run","dotenv_path":"./.env.test","needs_db":true}'
+            '{"service":"api","lint_command":"pnpm api lint","build_command":"pnpm api build","spec_command":"pnpm api test:spec:coverage","e2e_command":"pnpm api test:e2e","migration_command":"pnpm api migration:run","dotenv_path":"./.env.test","needs_db":true}'
           )
           [[ "$PACKAGES" == "true" ]] && items+=(
-            '{"service":"packages","lint_command":"pnpm packages lint","spec_command":"pnpm packages test"}'
+            '{"service":"packages","lint_command":"pnpm packages lint","spec_command":"pnpm packages test:coverage"}'
           )
           [[ "$STORYBOOK" == "true" ]] && items+=(
             '{"service":"storybook","lint_command":"pnpm storybook lint","build_command":"pnpm storybook typecheck","app_command":"pnpm storybook build:app","app_dotenv":".env.prod","spec_command":"pnpm storybook test"}'
           )
           [[ "$WEB" == "true" ]] && items+=(
-            '{"service":"web","lint_command":"pnpm web lint","build_command":"pnpm web build","app_command":"pnpm web build:app-server","app_dotenv":".env.prod","spec_command":"pnpm web test"}'
+            '{"service":"web","lint_command":"pnpm web lint","build_command":"pnpm web build","app_command":"pnpm web build:app-server","app_dotenv":".env.prod","spec_command":"pnpm web test:coverage"}'
           )
           [[ "$WORKER" == "true" ]] && items+=(
-            '{"service":"worker","lint_command":"pnpm worker lint","build_command":"pnpm worker build","spec_command":"pnpm worker test","e2e_command":"pnpm worker test:e2e","dotenv_path":"./.env.test","needs_db":true}'
+            '{"service":"worker","lint_command":"pnpm worker lint","build_command":"pnpm worker build","spec_command":"pnpm worker test:coverage","e2e_command":"pnpm worker test:e2e","dotenv_path":"./.env.test","needs_db":true}'
           )
           joined=$(IFS=,; echo "${items[*]}")
           echo "matrix={\"include\":[$joined]}" >> $GITHUB_OUTPUT

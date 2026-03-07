@@ -21,6 +21,7 @@
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "vitest",
+    "test:coverage": "vitest --run --coverage",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
