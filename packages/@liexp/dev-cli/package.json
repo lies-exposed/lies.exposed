@@ -10,7 +10,12 @@
     "start": "tsx src/run.tsx",
     "build": "tsc -b tsconfig.build.json",
     "watch": "tsc -b tsconfig.build.json --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint --cache src",
+    "lint-staged": "eslint --cache --fix"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": "eslint --cache --fix"
   },
   "dependencies": {
     "ink": "^5.2.1",
@@ -21,9 +26,12 @@
     "react": ">=18"
   },
   "devDependencies": {
+    "@liexp/eslint-config": "workspace:*",
     "@types/node": "^24.10.9",
     "@types/react": "^18.0.0",
+    "eslint": "^10.0.2",
     "tsx": "^4.19.3",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.35.0"
   }
 }
