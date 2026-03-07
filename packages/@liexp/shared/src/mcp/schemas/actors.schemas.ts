@@ -50,33 +50,26 @@ export const CreateActorInputSchema = Schema.Struct({
   fullName: Schema.String.annotations({
     description: "Full name of the actor (required)",
   }),
-  config: Schema.optional(
-    Schema.Struct({
-      color: Schema.optional(Schema.String).annotations({
-        description: "Hex color without # (default: random)",
-      }),
-      excerpt: Schema.optional(Schema.String).annotations({
-        description: "Short description (default: null)",
-      }),
-      nationalityIds: Schema.optional(Schema.Array(UUID)).annotations({
-        description: "Array of nationality UUIDs (default: [])",
-      }),
-      body: Schema.optional(Schema.String).annotations({
-        description: "Full body content as plain text (default: null)",
-      }),
-      avatar: Schema.optional(UUID).annotations({
-        description: "Avatar media UUID (default: null)",
-      }),
-      bornOn: Schema.optional(Schema.String).annotations({
-        description: "Birth date in ISO format YYYY-MM-DD (default: null)",
-      }),
-      diedOn: Schema.optional(Schema.String).annotations({
-        description: "Death date in ISO format YYYY-MM-DD (default: null)",
-      }),
-    }),
-  ).annotations({
-    description:
-      "Optional configuration. Fields not specified use defaults (random color, empty arrays, null values)",
+  color: Schema.optional(Schema.String).annotations({
+    description: "Hex color without # (default: random)",
+  }),
+  excerpt: Schema.optional(Schema.String).annotations({
+    description: "Short description (default: null)",
+  }),
+  nationalityIds: Schema.optional(Schema.Array(UUID)).annotations({
+    description: "Array of nationality UUIDs (default: [])",
+  }),
+  body: Schema.optional(Schema.String).annotations({
+    description: "Full body content as plain text (default: null)",
+  }),
+  avatar: Schema.optional(UUID).annotations({
+    description: "Avatar media UUID (default: null)",
+  }),
+  bornOn: Schema.optional(Schema.String).annotations({
+    description: "Birth date in ISO format YYYY-MM-DD (default: null)",
+  }),
+  diedOn: Schema.optional(Schema.String).annotations({
+    description: "Death date in ISO format YYYY-MM-DD (default: null)",
   }),
 });
 export type CreateActorInputSchema = typeof CreateActorInputSchema.Type;

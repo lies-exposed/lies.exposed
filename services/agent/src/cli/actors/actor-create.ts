@@ -31,18 +31,16 @@ Output: JSON created actor object
       {
         username: getArg(args, "username"),
         fullName: getArg(args, "fullName"),
-        config: {
-          avatar: getArg(args, "avatar"),
-          excerpt: getArg(args, "excerpt"),
-          bornOn: getArg(args, "bornOn"),
-          diedOn: getArg(args, "diedOn"),
-          color: getArg(args, "color"),
-          nationalityIds:
-            nationalityIdsArg !== undefined
-              ? splitUUIDs(nationalityIdsArg)
-              : undefined,
-          body: getArg(args, "body"),
-        },
+        avatar: getArg(args, "avatar"),
+        excerpt: getArg(args, "excerpt"),
+        bornOn: getArg(args, "bornOn"),
+        diedOn: getArg(args, "diedOn"),
+        color: getArg(args, "color"),
+        nationalityIds:
+          nationalityIdsArg !== undefined
+            ? splitUUIDs(nationalityIdsArg)
+            : undefined,
+        body: getArg(args, "body"),
       },
       (input) => {
         ctx.logger.debug.log("actor-create input: %O", input);
@@ -50,27 +48,21 @@ Output: JSON created actor object
           Body: {
             username: input.username,
             fullName: input.fullName,
-            ...(input.config?.color !== undefined
-              ? { color: input.config.color as any }
+            ...(input.color !== undefined ? { color: input.color as any } : {}),
+            ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
+            ...(input.bornOn !== undefined
+              ? { bornOn: new Date(input.bornOn) }
               : {}),
-            ...(input.config?.excerpt !== undefined
-              ? { excerpt: input.config.excerpt }
+            ...(input.diedOn !== undefined
+              ? { diedOn: new Date(input.diedOn) }
               : {}),
-            ...(input.config?.bornOn !== undefined
-              ? { bornOn: new Date(input.config.bornOn) }
+            ...(input.avatar !== undefined
+              ? { avatar: input.avatar as any }
               : {}),
-            ...(input.config?.diedOn !== undefined
-              ? { diedOn: new Date(input.config.diedOn) }
+            ...(input.nationalityIds !== undefined
+              ? { nationalityIds: input.nationalityIds as any }
               : {}),
-            ...(input.config?.avatar !== undefined
-              ? { avatar: input.config.avatar as any }
-              : {}),
-            ...(input.config?.nationalityIds !== undefined
-              ? { nationalityIds: input.config.nationalityIds as any }
-              : {}),
-            ...(input.config?.body !== undefined
-              ? { body: input.config.body }
-              : {}),
+            ...(input.body !== undefined ? { body: input.body } : {}),
           } as any,
         });
       },
