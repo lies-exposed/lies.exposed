@@ -15,7 +15,6 @@ export const ResourcesNames = Schema.Union(
   GROUPS,
   Schema.Literal("stories"),
   AREAS,
-  Schema.Literal("projects"),
   MEDIA,
   Schema.Literal("profile"),
   LINKS,

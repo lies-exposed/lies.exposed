@@ -24,7 +24,6 @@ import * as Link from "./link.endpoints.js";
 import * as Media from "./media.endpoints.js";
 import * as Nations from "./nation.endpoints.js";
 import * as Page from "./page.endpoints.js";
-import * as Project from "./project.endpoints.js";
 import * as Queues from "./queue.endpoints.js";
 import * as Setting from "./setting.endpoints.js";
 import * as SocialPosts from "./socialPost.endpoints.js";
@@ -55,7 +54,6 @@ interface Endpoints extends EndpointsMapType {
   TransactionEvent: typeof TransactionEvent.transactions;
   OpenGraph: typeof OpenGraph.openGraphs;
   Page: typeof Page.pages;
-  Project: typeof Project.projects;
   Queues: typeof Queues.queues;
   Stats: typeof Stats.stats;
   Networks: typeof Networks.networks;
@@ -98,8 +96,6 @@ const Endpoints: Endpoints = {
   Nation: Nations.nations,
   OpenGraph: OpenGraph.openGraphs,
   Page: Page.pages,
-  Project: Project.projects,
-  // ProjectImage endpoints removed
   Stats: Stats.stats,
   Networks: Networks.networks,
   Healthcheck: Healthcheck.healthcheck,

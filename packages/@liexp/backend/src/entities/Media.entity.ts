@@ -13,7 +13,6 @@ import { AreaEntity } from "./Area.entity.js";
 import { EventV2Entity } from "./Event.v2.entity.js";
 import { KeywordEntity } from "./Keyword.entity.js";
 import { LinkEntity } from "./Link.entity.js";
-import { ProjectEntity } from "./Project.entity.js";
 import { type SocialPostEntity } from "./SocialPost.entity.js";
 import { StoryEntity } from "./Story.entity.js";
 import { UserEntity } from "./User.entity.js";
@@ -89,11 +88,6 @@ export class MediaEntity extends DeletableEntity {
     cascade: false,
   })
   keywords: Relation<KeywordEntity[]>;
-
-  @ManyToMany(() => ProjectEntity, (p) => p.media, {
-    cascade: false,
-  })
-  projects?: Relation<ProjectEntity[]>;
 
   socialPosts?: Relation<SocialPostEntity>[];
 }
