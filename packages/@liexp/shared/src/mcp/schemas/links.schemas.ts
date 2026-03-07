@@ -37,3 +37,38 @@ export const CreateLinkInputSchema = Schema.Struct({
     description: "URL of the link (required)",
   }),
 });
+
+export const EditLinkInputSchema = Schema.Struct({
+  id: Schema.String.annotations({
+    description: "UUID of the link to edit (required)",
+  }),
+  title: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Link title",
+  }),
+  description: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Link description",
+  }),
+  url: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Link URL",
+  }),
+  status: Schema.UndefinedOr(
+    Schema.Union(
+      Schema.Literal("DRAFT"),
+      Schema.Literal("APPROVED"),
+      Schema.Literal("UNAPPROVED"),
+    ),
+  ).annotations({
+    description: 'Link status: "DRAFT" | "APPROVED" | "UNAPPROVED"',
+  }),
+  publishDate: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Publication date YYYY-MM-DD",
+  }),
+  events: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated event UUIDs to associate",
+  }),
+  keywords: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated keyword UUIDs",
+  }),
+});
+
+export type EditLinkInputSchema = typeof EditLinkInputSchema.Type;

@@ -23,13 +23,13 @@ When the user mentions any of the following terms, they are **always** referring
 
 | Term | Meaning in this platform | Primary tool |
 |------|--------------------------|--------------|
-| **actor** / **actors** | A person or entity tracked in the platform (politician, journalist, organization member, etc.) | `cli actor list / get / create / edit` |
-| **group** / **groups** | An organization, party, institution, or collective | `cli group list / get / create / edit` |
-| **event** / **events** | A fact-checked event or incident recorded in the platform | `cli event list / get` |
-| **link** / **links** | A web source or reference stored in the platform | `cli link list / get / create` |
-| **media** | An image, video, or file uploaded to the platform | `cli media list / get` |
+| **actor** / **actors** | A person or entity tracked in the platform (politician, journalist, organization member, etc.) | `cli actor list / get / create / edit / find-avatar` |
+| **group** / **groups** | An organization, party, institution, or collective | `cli group list / get / create / edit / find-avatar` |
+| **event** / **events** | A fact-checked event or incident recorded in the platform | `cli event list / get / create / edit` |
+| **link** / **links** | A web source or reference stored in the platform | `cli link list / get / create / edit` |
+| **media** | An image, video, or file uploaded to the platform | `cli media list / get / create / edit` |
 | **keyword** / **keywords** | A tag used to categorize platform content | (no CLI yet — search via event/actor relations) |
-| **area** / **areas** | A geographic area tracked in the platform | `cli area list / get` |
+| **area** / **areas** | A geographic area tracked in the platform | `cli area list / get / create / edit` |
 | **nation** / **nations** | A country or nation tracked in the platform | `cli nation list / get` |
 
 **Rule:** Any query about these terms — "find actors", "latest events", "list groups", "show me links" — must be answered using the internal tools above, **not** web search. Only use `searchWeb` when the user explicitly asks to search the web or needs external sources.
@@ -70,10 +70,17 @@ Before creating any new entity (actor, group, event, link, etc.):
 - "create group", "add group" → **always use `find_platform_data` with `group create`**
 - "edit group", "update group" → **always use `find_platform_data` with `group edit`**
 - "find events", "list events", "search events" → **always use `find_platform_data` with `event list`**
+- "create event", "add event" → **always use `find_platform_data` with `event create`**
+- "edit event", "update event" → **always use `find_platform_data` with `event edit`**
 - "find links", "list links", "search links" → **always use `find_platform_data` with `link list`**
 - "add link", "create link", "save link" → **always use `find_platform_data` with `link create --url=<url>`**
+- "edit link", "update link" → **always use `find_platform_data` with `link edit`**
 - "find media", "list media", "search media" → **always use `find_platform_data` with `media list`**
+- "create media", "add media", "upload media" → **always use `find_platform_data` with `media create`**
+- "edit media", "update media" → **always use `find_platform_data` with `media edit`**
 - "find areas", "list areas" → **always use `find_platform_data` with `area list`**
+- "create area", "add area" → **always use `find_platform_data` with `area create`**
+- "edit area", "update area" → **always use `find_platform_data` with `area edit`**
 - "find nations", "list nations" → **always use `find_platform_data` with `nation list`**
 - Never search the web for a platform UUID or internal resource
 - Web search (`searchWeb`) and web scraping are for **external** information only (Wikipedia, news, etc.)
@@ -87,16 +94,16 @@ Does the task involve groups (organizations, parties, institutions)?
   YES → Use cli tool: "group list", "group get", "group create", "group edit"
 
 Does the task involve events?
-  YES → Use cli tool: "event list", "event get"
+  YES → Use cli tool: "event list", "event get", "event create", "event edit"
 
 Does the task involve links (web sources)?
-  YES → Use cli tool: "link list", "link get", "link create"
+  YES → Use cli tool: "link list", "link get", "link create", "link edit"
 
 Does the task involve media (images, videos)?
-  YES → Use cli tool: "media list", "media get"
+  YES → Use cli tool: "media list", "media get", "media create", "media edit"
 
 Does the task involve areas or nations?
-  YES → Use cli tool: "area list/get", "nation list/get"
+  YES → Use cli tool: "area list/get/create/edit", "nation list/get"
 
 Is this about external information (news, Wikipedia, web sources)?
   YES → Use searchWeb / webScraping
@@ -138,6 +145,7 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 | `actor get` | `--id=<uuid>` |
 | `actor create` | `--username=<slug>` (req), `--fullName=<name>` (req), `--excerpt`, `--avatar=<uuid>`, `--bornOn=YYYY-MM-DD`, `--diedOn=YYYY-MM-DD`, `--color=<hex>` |
 | `actor edit` | `--id=<uuid>` (req), `--fullName`, `--excerpt`, `--avatar=<uuid>`, `--memberIn=<uuid>` |
+| `actor find-avatar` | `--fullName=<name>` (req) — searches Wikipedia, downloads image, saves as Media, prints media UUID |
 
 ### Group commands
 
@@ -147,6 +155,7 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 | `group get` | `--id=<uuid>` |
 | `group create` | `--name=<name>` (req), `--username=<slug>` (req), `--kind=Public\|Private` (req), `--excerpt`, `--avatar=<uuid>`, `--startDate=YYYY-MM-DD`, `--color=<hex>` |
 | `group edit` | `--id=<uuid>` (req), `--name`, `--kind`, `--excerpt`, `--avatar=<uuid>`, `--members=<actor-uuid>` |
+| `group find-avatar` | `--name=<name>` (req) — searches Wikipedia, downloads image, saves as Media, prints media UUID |
 
 ### Event commands
 
@@ -154,6 +163,8 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 |------------|-----------|
 | `event list` | `--query=<text>`, `--actors=<uuid>`, `--groups=<uuid>`, `--type=<type>`, `--startDate=YYYY-MM-DD`, `--endDate=YYYY-MM-DD`, `--start=N`, `--end=N` |
 | `event get` | `--id=<uuid>` |
+| `event create` | `--type=<Uncategorized\|Death\|Quote\|Transaction\|ScientificStudy\|Book\|Patent\|Documentary>` (req), `--date=YYYY-MM-DD` (req), `--draft=true\|false`, `--excerpt`, `--links=uuid,...`, `--media=uuid,...`, `--keywords=uuid,...`; type-specific: `--title`, `--victim`, `--actor`, `--quote`, `--total`, `--currency`, `--fromType/--fromId/--toType/--toId`, `--studyUrl`, `--pdf`, `--audio`, `--authors`, `--publisher`, `--ownerActors/--ownerGroups`, `--source`, `--documentaryMedia`, `--website`, `--authorActors/--authorGroups/--subjectActors/--subjectGroups` |
+| `event edit` | `--id=<uuid>` (req), then same flags as `event create` |
 
 ### Link commands
 
@@ -162,6 +173,7 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 | `link list` | `--query=<text>`, `--sort=createdAt\|title\|url`, `--order=ASC\|DESC`, `--start=N`, `--end=N` |
 | `link get` | `--id=<uuid>` |
 | `link create` | `--url=<url>` (req) — auto-fetches metadata via OpenGraph |
+| `link edit` | `--id=<uuid>` (req), `--title`, `--description`, `--url`, `--status=DRAFT\|APPROVED\|UNAPPROVED`, `--publishDate=YYYY-MM-DD`, `--events=uuid,...`, `--keywords=uuid,...` |
 
 ### Media commands
 
@@ -169,6 +181,8 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 |------------|-----------|
 | `media list` | `--query=<text>`, `--sort=createdAt\|label`, `--order=ASC\|DESC`, `--start=N`, `--end=N` |
 | `media get` | `--id=<uuid>` |
+| `media create` | `--location=<url>` (req), `--type=<mime>` (req), `--label`, `--description`, `--thumbnail=<url>`, `--events=uuid,...`, `--links=uuid,...`, `--keywords=uuid,...`, `--areas=uuid,...` |
+| `media edit` | `--id=<uuid>` (req), `--location=<url>` (req), `--type=<mime>` (req), `--label` (req), `--description`, `--thumbnail=<url>`, `--events=uuid,...`, `--links=uuid,...`, `--keywords=uuid,...`, `--areas=uuid,...` |
 
 ### Area commands
 
@@ -176,6 +190,8 @@ The `find_platform_data` tool is the **primary interface for all platform resour
 |------------|-----------|
 | `area list` | `--query=<label>`, `--sort=createdAt\|label`, `--order=ASC\|DESC`, `--start=N`, `--end=N` |
 | `area get` | `--id=<uuid>` |
+| `area create` | `--label=<string>` (req), `--slug=<string>` (req), `--draft=true\|false`, `--geometry=<geojson>` |
+| `area edit` | `--id=<uuid>` (req), `--label`, `--slug`, `--draft=true\|false`, `--geometry=<geojson>`, `--featuredImage=<uuid>`, `--media=uuid,...`, `--events=uuid,...` |
 
 ### Nation commands
 
@@ -204,6 +220,24 @@ find_platform_data("event list --actors=550e8400-e29b-41d4-a716-446655440000 --e
 
 # Save a link from a URL
 find_platform_data("link create --url=https://example.com/article")
+
+# Create a Death event
+find_platform_data("event create --type=Death --date=2024-03-15 --victim=<actor-uuid> --links=<link-uuid>")
+
+# Edit a link's status and title
+find_platform_data("link edit --id=<uuid> --title=Updated Title --status=APPROVED")
+
+# Upload a media entry
+find_platform_data("media create --location=https://example.com/image.jpg --type=image/jpeg --label=My Image")
+
+# Find an actor avatar on Wikipedia
+find_platform_data("actor find-avatar --fullName=Elon Musk")
+
+# Find a group avatar on Wikipedia
+find_platform_data("group find-avatar --name=Greenpeace")
+
+# Create a new geographic area
+find_platform_data("area create --label=Kyiv Oblast --slug=kyiv-oblast")
 ```
 
 All commands output JSON to stdout. Errors include a non-zero exit code and a description.

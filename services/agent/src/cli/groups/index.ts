@@ -1,6 +1,7 @@
 import { type CommandGroup } from "../command.type.js";
 import { groupCreate } from "./create.js";
 import { groupEdit } from "./edit.js";
+import { groupFindAvatar } from "./find-avatar.js";
 import { groupGet } from "./get.js";
 import { groupList } from "./list.js";
 
@@ -11,5 +12,6 @@ export const groupGroup: CommandGroup = {
     get: groupGet,
     create: groupCreate,
     edit: groupEdit,
+    "find-avatar": groupFindAvatar,
   },
 };

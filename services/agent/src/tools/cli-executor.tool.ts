@@ -11,33 +11,47 @@ const CliInputSchema = Schema.Struct({
     description: `CLI command to run. Format: <group> <subcommand> [--flag=value]
 
 Groups and subcommands:
-  actor list    [--fullName=<name>] [--memberIn=<uuid>] [--start=N] [--end=N] [--sort=createdAt|updatedAt|username] [--order=ASC|DESC]
-  actor get     --id=<uuid>
-  actor create  --username=<slug> --fullName=<name> [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--color=<hex>]
-  actor edit    --id=<uuid> [--fullName=<name>] [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--memberIn=<uuid>]
+  actor list         [--fullName=<name>] [--memberIn=<uuid>] [--start=N] [--end=N] [--sort=createdAt|updatedAt|username] [--order=ASC|DESC]
+  actor get          --id=<uuid>
+  actor create       --username=<slug> --fullName=<name> [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--color=<hex>]
+  actor edit         --id=<uuid> [--fullName=<name>] [--excerpt=<text>] [--avatar=<uuid>] [--bornOn=YYYY-MM-DD] [--diedOn=YYYY-MM-DD] [--memberIn=<uuid>]
+  actor find-avatar  --fullName=<name>  (search Wikipedia for avatar image and save to platform)
 
-  group list    [--query=<name>] [--start=N] [--end=N] [--sort=createdAt|name] [--order=ASC|DESC]
-  group get     --id=<uuid>
-  group create  --name=<name> --username=<slug> --kind=<Public|Private> [--excerpt=<text>] [--avatar=<uuid>] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--color=<hex>]
-  group edit    --id=<uuid> [--name=<name>] [--kind=<Public|Private>] [--excerpt=<text>] [--members=<actor-uuid>]
+  group list         [--query=<name>] [--start=N] [--end=N] [--sort=createdAt|name] [--order=ASC|DESC]
+  group get          --id=<uuid>
+  group create       --name=<name> --username=<slug> --kind=<Public|Private> [--excerpt=<text>] [--avatar=<uuid>] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--color=<hex>]
+  group edit         --id=<uuid> [--name=<name>] [--kind=<Public|Private>] [--excerpt=<text>] [--members=<actor-uuid>]
+  group find-avatar  --name=<name>  (search Wikipedia for avatar image and save to platform)
 
-  area list     [--query=<label>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
-  area get      --id=<uuid>
+  area list          [--query=<label>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
+  area get           --id=<uuid>
+  area create        --label=<name> --slug=<slug> [--draft=true|false] [--geometry=<geojson>]
+  area edit          --id=<uuid> [--label=<name>] [--slug=<slug>] [--draft=true|false] [--geometry=<geojson>] [--featuredImage=<uuid>] [--media=<uuid,...>] [--events=<uuid,...>]
 
-  link list     [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|title|url] [--order=ASC|DESC]
-  link get      --id=<uuid>
-  link create   --url=<url>
+  link list          [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|title|url] [--order=ASC|DESC]
+  link get           --id=<uuid>
+  link create        --url=<url>
+  link edit          --id=<uuid> [--title=<text>] [--description=<text>] [--url=<url>] [--status=DRAFT|APPROVED|UNAPPROVED] [--publishDate=YYYY-MM-DD] [--events=<uuid,...>] [--keywords=<uuid,...>]
 
-  media list    [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
-  media get     --id=<uuid>
+  media list         [--query=<text>] [--start=N] [--end=N] [--sort=createdAt|label] [--order=ASC|DESC]
+  media get          --id=<uuid>
+  media create       --location=<url> --type=<mime> [--label=<text>] [--description=<text>] [--thumbnail=<url>] [--events=<uuid,...>] [--links=<uuid,...>] [--keywords=<uuid,...>] [--areas=<uuid,...>]
+  media edit         --id=<uuid> --location=<url> --type=<mime> --label=<text> [--description=<text>] [--thumbnail=<url>] [--events=<uuid,...>] [--links=<uuid,...>] [--keywords=<uuid,...>] [--areas=<uuid,...>]
 
-  nation list   [--name=<text>] [--start=N] [--end=N]
-  nation get    --id=<uuid>
+  nation list        [--name=<text>] [--start=N] [--end=N]
+  nation get         --id=<uuid>
 
-  event list    [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Transaction|Book|Quote|Uncategorized] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
-  event get     --id=<uuid>
+  event list         [--query=<text>] [--actors=<uuid>] [--groups=<uuid>] [--type=Death|ScientificStudy|Patent|Documentary|Transaction|Book|Quote|Uncategorized] [--startDate=YYYY-MM-DD] [--endDate=YYYY-MM-DD] [--start=N] [--end=N]
+  event get          --id=<uuid>
+  event create       --type=<type> --date=YYYY-MM-DD [--draft=true|false] [--excerpt=<text>] [--links=<uuid,...>] [--media=<uuid,...>] [--keywords=<uuid,...>]
+                     type-specific flags: --title, --victim, --actor, --quote, --total, --currency,
+                       --fromType/--fromId/--toType/--toId (Transaction), --studyUrl, --pdf, --audio,
+                       --authors, --publisher (ScientificStudy/Book), --ownerActors/--ownerGroups (Patent),
+                       --source, --documentaryMedia (Documentary), --website (Book),
+                       --authorActors/--authorGroups/--subjectActors/--subjectGroups (Quote)
+  event edit         --id=<uuid> --type=<type> --date=YYYY-MM-DD [same optional flags as event create]
 
-Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com"`,
+Examples: "actor list --fullName=Obama --end=5", "event list --query=vaccine --end=10", "link create --url=https://example.com", "actor find-avatar --fullName=Elon Musk", "event create --type=Death --date=2024-01-15 --victim=<actor-uuid>"`,
   }),
 });
 

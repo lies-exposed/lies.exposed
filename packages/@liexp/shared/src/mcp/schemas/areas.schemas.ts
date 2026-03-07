@@ -27,3 +27,50 @@ export const GetAreaInputSchema = Schema.Struct({
     description: "UUID of the area to retrieve",
   }),
 });
+
+export const CreateAreaInputSchema = Schema.Struct({
+  label: Schema.String.annotations({
+    description: "Area label / name (required)",
+  }),
+  slug: Schema.String.annotations({
+    description: "URL slug for the area (required)",
+  }),
+  draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
+    description: "Draft flag (default: false)",
+  }),
+  geometry: Schema.UndefinedOr(Schema.String).annotations({
+    description:
+      "GeoJSON geometry as a JSON string (optional, e.g. Point/Polygon)",
+  }),
+});
+
+export type CreateAreaInputSchema = typeof CreateAreaInputSchema.Type;
+
+export const EditAreaInputSchema = Schema.Struct({
+  id: Schema.String.annotations({
+    description: "UUID of the area to edit (required)",
+  }),
+  label: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Area label / name",
+  }),
+  slug: Schema.UndefinedOr(Schema.String).annotations({
+    description: "URL slug for the area",
+  }),
+  draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
+    description: "Draft flag",
+  }),
+  geometry: Schema.UndefinedOr(Schema.String).annotations({
+    description: "GeoJSON geometry as a JSON string",
+  }),
+  featuredImage: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Media UUID for the featured image",
+  }),
+  media: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated media UUIDs",
+  }),
+  events: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated event UUIDs",
+  }),
+});
+
+export type EditAreaInputSchema = typeof EditAreaInputSchema.Type;

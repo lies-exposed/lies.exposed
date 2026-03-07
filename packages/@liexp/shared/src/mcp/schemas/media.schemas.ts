@@ -27,3 +27,71 @@ export const GetMediaInputSchema = Schema.Struct({
     description: "UUID of the media to retrieve",
   }),
 });
+
+export const CreateMediaInputSchema = Schema.Struct({
+  location: Schema.String.annotations({
+    description: "URL of the media file (required)",
+  }),
+  type: Schema.String.annotations({
+    description:
+      "Media MIME type (required), e.g. image/jpg, video/mp4, application/pdf",
+  }),
+  label: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Human-readable label for the media",
+  }),
+  description: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Description of the media",
+  }),
+  thumbnail: Schema.UndefinedOr(Schema.String).annotations({
+    description: "URL of thumbnail image",
+  }),
+  events: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated event UUIDs to associate",
+  }),
+  links: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated link UUIDs to associate",
+  }),
+  keywords: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated keyword UUIDs to associate",
+  }),
+  areas: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated area UUIDs to associate",
+  }),
+});
+
+export type CreateMediaInputSchema = typeof CreateMediaInputSchema.Type;
+
+export const EditMediaInputSchema = Schema.Struct({
+  id: Schema.String.annotations({
+    description: "UUID of the media to edit (required)",
+  }),
+  location: Schema.String.annotations({
+    description: "URL of the media file (required)",
+  }),
+  type: Schema.String.annotations({
+    description: "Media MIME type (required), e.g. image/jpg, video/mp4",
+  }),
+  label: Schema.String.annotations({
+    description: "Human-readable label for the media (required)",
+  }),
+  description: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Description of the media",
+  }),
+  thumbnail: Schema.UndefinedOr(Schema.String).annotations({
+    description: "URL of thumbnail image",
+  }),
+  events: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated event UUIDs",
+  }),
+  links: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated link UUIDs",
+  }),
+  keywords: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated keyword UUIDs",
+  }),
+  areas: Schema.UndefinedOr(Schema.String).annotations({
+    description: "Comma-separated area UUIDs",
+  }),
+});
+
+export type EditMediaInputSchema = typeof EditMediaInputSchema.Type;
