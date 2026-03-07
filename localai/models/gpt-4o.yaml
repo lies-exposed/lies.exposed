@@ -9,10 +9,9 @@ download_files:
       uri: huggingface://openbmb/MiniCPM-V-4_5-gguf/mmproj-model-f16.gguf
 f16: true
 known_usecases:
-    - FLAG_CHAT
     - FLAG_COMPLETION
-# mmap must be disabled for SYCL (Intel GPU) - causes hangs
-mmap: false
+    - FLAG_CHAT
+mmap: true
 mmproj: minicpm-v-4_5-mmproj-f16.gguf
 name: gpt-4o
 parameters:
