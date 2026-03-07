@@ -230,7 +230,7 @@ describe("Search Events", () => {
     });
   });
 
-  describe.skip("Search by group member", () => {
+  describe("Search by group member", () => {
     test("Should return events for given group member", async () => {
       const response = await appTest.req
         .get(`/v1/events/search`)
@@ -241,7 +241,7 @@ describe("Search Events", () => {
       expect(response.body.data.totals.uncategorized).toBe(10);
       expect(response.body.data.events[0]).toMatchObject({
         payload: {
-          groupsMembers: [groupMember.id],
+          groupsMembers: [{ id: groupMember.id }],
         },
       });
     });
