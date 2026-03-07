@@ -9,6 +9,7 @@ This guide covers development best practices, code quality standards, and workfl
 - [Functional Programming](./functional-programming.md) - fp-ts and Effect patterns
 - [CI/CD Workflows](./ci-workflows.md) - GitHub Actions, caching, adding services
 - [Kubernetes Access](./kubernetes.md) - Remote cluster access and debugging
+- [Subagents](./subagents.md) - Spawning subagents with proper context (Task tool patterns)
 
 ## Development Priority Order
 

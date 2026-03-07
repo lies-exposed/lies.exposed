@@ -467,7 +467,8 @@ export const createWebScrapingTool = <
   const scrapeTool = tool<any, any, any, any>(scrapeFunction, {
     name: "scrapeWebPage",
     description:
-      "Navigate to a URL and extract comprehensive page content optimized for LLM analysis. Extracts structured content, metadata, headings, links, and key information while preserving semantic structure.",
+      "Navigate to an EXTERNAL URL and extract page content for LLM analysis. " +
+      "Use ONLY for external web pages. NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `find_platform_data` tool instead.",
     schema: scrapeWebPageInput,
   });
 

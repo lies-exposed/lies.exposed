@@ -42,6 +42,7 @@ const toAgentError = (e: unknown) => {
 
 interface GetAgentProviderOptions {
   mcpClient: MultiServerMCPClient;
+  extraTools?: Tool[];
 }
 
 export const GetAgentProvider =
@@ -65,7 +66,9 @@ export const GetAgentProvider =
       );
 
       // Combine MCP tools with custom tools (puppeteer-dependent)
+      // NOTE: cli tool must be first so the LLM prefers it for internal platform queries
       const allTools: Tool[] = [
+        ...(opts.extraTools ?? []),
         ...mcpTools,
         createWebScrapingTool(ctx),
         createSearchWebTool(ctx),

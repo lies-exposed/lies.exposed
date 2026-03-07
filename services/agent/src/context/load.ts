@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import path from "path";
 import { MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { GetAgentFactory } from "@liexp/backend/lib/providers/ai/agent.factory.js";
@@ -21,6 +22,7 @@ import * as puppeteer from "puppeteer-core";
 import { type VanillaPuppeteer } from "puppeteer-extra";
 import { type AgentContext } from "./context.type.js";
 import { ENV } from "#io/ENV.js";
+import { createCliExecutorTool } from "#tools/cli-executor.tool.js";
 
 export const makeAgentContext = (
   namespace: string,
@@ -51,8 +53,8 @@ export const makeAgentContext = (
 
       // Get the first available provider, or throw error if none are configured
       const getDefaultProvider = (): "openai" | "anthropic" | "xai" => {
-        if (availableProviders.xai) return "xai";
         if (availableProviders.openai) return "openai";
+        if (availableProviders.xai) return "xai";
         if (availableProviders.anthropic) return "anthropic";
         throw new Error(
           "No AI provider API keys configured. Set at least one of: OPENAI_API_KEY, ANTHROPIC_API_KEY, or XAI_API_KEY",
@@ -268,7 +270,14 @@ export const makeAgentContext = (
         ),
         TE.chain((mcpClient) =>
           pipe(
-            GetAgentProvider({ mcpClient })({
+            GetAgentProvider({
+              mcpClient,
+              extraTools: [
+                createCliExecutorTool(
+                  path.resolve(process.cwd(), "build/cli/cli.js"),
+                ),
+              ],
+            })({
               langchain,
               logger: agentLogger,
               puppeteer: puppeteerProvider,
@@ -285,6 +294,11 @@ export const makeAgentContext = (
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
             mcpClient,
+            extraTools: [
+              createCliExecutorTool(
+                path.resolve(process.cwd(), "build/cli/cli.js"),
+              ),
+            ],
           })({
             langchain,
             logger: agentLogger,

@@ -14,7 +14,7 @@ import { pipe } from "fp-ts/lib/function.js";
 import { Equal } from "typeorm";
 import { type TEReader } from "../flow.types.js";
 
-export const createGroupFromBody =
+const createGroupFromBody =
   (body: AddGroupBody): TEReader<Group> =>
   (ctx) => {
     return pipe(

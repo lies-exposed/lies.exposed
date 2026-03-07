@@ -11,7 +11,8 @@
     "#flows/*": "./build/flows/*",
     "#io/*": "./build/io/*",
     "#providers/*": "./build/providers/*",
-    "#routes/*": "./build/routes/*"
+    "#routes/*": "./build/routes/*",
+    "#tools/*": "./build/tools/*"
   },
   "files": [
     "build",
@@ -46,6 +47,7 @@
     "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
+    "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "axios": "^1.13.6",
     "brave-search": "^0.9.0",
     "cors": "^2.8.5",
@@ -61,6 +63,7 @@
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
+    "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
@@ -68,6 +71,7 @@
     "@types/prompts": "^2.4.9",
     "@types/supertest": "^7.2.0",
     "eslint": "^10.0.2",
+    "msw": "^2.12.10",
     "supertest": "^7.1.0",
     "tsx": "^4.21.0",
     "vitest": "^4.0.18"
