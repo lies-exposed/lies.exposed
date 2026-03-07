@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as path from "path";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import express from "express";
 import sirv from "sirv";
@@ -79,6 +80,9 @@ export const setupSpaFallback = (
   indexFile: string,
   logger: Logger,
 ): void => {
+  const indexRoot = path.dirname(indexFile);
+  const indexFilename = path.basename(indexFile);
+
   app.get("/{*splat}", (req, res, next) => {
     // Skip API routes
     if (req.path.startsWith("/api/")) {
@@ -86,9 +90,12 @@ export const setupSpaFallback = (
       return next();
     }
 
-    // Serve index.html for all other routes (client-side routing)
+    // Serve index.html for all other routes (client-side routing).
+    // Use { root } option so Express's `send` module resolves the file
+    // relative to the build directory rather than treating the absolute
+    // path as a URL-relative path (which would cause a 404).
     logger.info.log("SPA fallback: serving index.html for %s", req.path);
-    res.sendFile(indexFile, (err) => {
+    res.sendFile(indexFilename, { root: indexRoot }, (err) => {
       if (err) {
         logger.error.log("SPA fallback: error serving index.html: %O", err);
         next(err);
