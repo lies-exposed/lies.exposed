@@ -11,6 +11,6 @@ usage: |-
     To test if this model works as expected, you can use the following curl command:
 
     curl http://localhost:8080/tts -H "Content-Type: application/json" -d '{
-      "model":"tts-1",
+      "model":"voice-en-us-amy-low",
       "input": "Hi, this is a test."
     }'

@@ -4,6 +4,8 @@ download_files:
       sha256: 5f696cf0d0f3d347c4a279eee8270e5918554cdac0ed1f632f2619e4e8341407
       uri: huggingface://mradermacher/jina-reranker-v1-tiny-en-GGUF/jina-reranker-v1-tiny-en.f16.gguf
 f16: true
+known_usecases:
+    - FLAG_RERANK
 name: jina-reranker-v1-base-en
 parameters:
     model: jina-reranker-v1-tiny-en.f16.gguf
