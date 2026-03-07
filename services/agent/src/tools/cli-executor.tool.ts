@@ -58,13 +58,15 @@ export const createCliExecutorTool = (cliBinPath: string) =>
       }
     },
     {
-      name: "cli",
+      name: "find_platform_data",
       description:
-        "Executes a database query against the lies.exposed internal database and returns real JSON results. " +
-        "This is a LIVE tool you invoke directly — it queries the actual database. " +
-        "Use for ALL platform data: actors, groups, events, links, media, areas, nations. " +
-        "NEVER use searchWeb for platform data — call this tool instead. " +
-        "Pass the command string including group, subcommand, and flags.",
+        "Query the lies.exposed database to find actors, groups, events, links, media, areas, or nations. " +
+        "Returns real live JSON from the database. " +
+        "Use this for ANY query about people, organizations, events, or sources tracked in the platform. " +
+        "Do NOT use searchWeb — this tool is the correct one for all platform data.\n\n" +
+        "IMPORTANT: Always pass --end=<N> to limit results (default to 10). " +
+        "For 'latest/recent' queries use --sort=createdAt --order=DESC. " +
+        "Example: 'actor list --sort=createdAt --order=DESC --end=10'",
       schema: effectToZod(CliInputSchema),
     },
   );

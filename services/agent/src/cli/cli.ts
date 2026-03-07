@@ -3,15 +3,15 @@
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { actorGroup } from "#cli/actors/index.js";
+import { agentCommand } from "#cli/agent.command.js";
 import { areaGroup } from "#cli/areas/index.js";
+import { type CommandGroup } from "#cli/command.type.js";
 import { eventGroup } from "#cli/events/index.js";
 import { groupGroup } from "#cli/groups/index.js";
 import { linkGroup } from "#cli/links/index.js";
+import { makeCLIContext } from "#cli/make-cli-context.js";
 import { mediaGroup } from "#cli/media/index.js";
 import { nationGroup } from "#cli/nations/index.js";
-import { agentCommand } from "#cli/agent.command.js";
-import { type CommandGroup } from "#cli/command.type.js";
-import { makeCLIContext } from "#cli/make-cli-context.js";
 import { makeAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");

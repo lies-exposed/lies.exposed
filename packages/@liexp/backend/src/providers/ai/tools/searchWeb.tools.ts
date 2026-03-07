@@ -85,7 +85,7 @@ export const createSearchWebTool = <
     name: "searchWeb",
     description:
       "Search the EXTERNAL WEB (news, Wikipedia, public sources) for information. " +
-      "NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `cli` tool instead.",
+      "NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `find_platform_data` tool instead.",
     schema: searchWebInput,
   });
 

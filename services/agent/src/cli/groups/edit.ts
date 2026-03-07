@@ -54,9 +54,7 @@ Output: JSON updated group object
               ? { username: input.username }
               : {}),
             ...(input.kind !== undefined ? { kind: input.kind } : {}),
-            ...(input.color !== undefined
-              ? { color: input.color as any }
-              : {}),
+            ...(input.color !== undefined ? { color: input.color as any } : {}),
             ...(input.excerpt !== undefined
               ? { excerpt: input.excerpt as any }
               : {}),

@@ -468,7 +468,7 @@ export const createWebScrapingTool = <
     name: "scrapeWebPage",
     description:
       "Navigate to an EXTERNAL URL and extract page content for LLM analysis. " +
-      "Use ONLY for external web pages. NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `cli` tool instead.",
+      "Use ONLY for external web pages. NEVER use this for lies.exposed platform data (actors, groups, events, links, media, areas, nations) — use the `find_platform_data` tool instead.",
     schema: scrapeWebPageInput,
   });
 
