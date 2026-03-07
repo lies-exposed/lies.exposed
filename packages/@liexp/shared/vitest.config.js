@@ -10,13 +10,11 @@ export default defineConfig({
     include: [__dirname + "/src/**/*.spec.ts"],
     watch: false,
     coverage: {
-      // Thresholds set at current coverage floored to nearest 5% (ratchet).
-      // Actual: stmts 63.90%, branch 58.92%, funcs 56.84%, lines 63.53%
       thresholds: {
-        statements: 60,
-        branches: 55,
-        functions: 55,
-        lines: 60,
+        statements: 80,
+        branches: 80,
+        functions: 80,
+        lines: 80,
       },
     },
     alias: {
