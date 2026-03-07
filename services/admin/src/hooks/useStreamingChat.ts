@@ -6,7 +6,6 @@ import type {
 } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useCallback, useRef } from "react";
-import { flushSync } from "react-dom";
 
 // Simple token estimation: roughly 1 token ≈ 4 characters
 // This is a conservative estimate; actual tokens depend on the model's tokenizer
@@ -196,9 +195,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                   // eslint-disable-next-line no-console
                   console.log("Received SSE event:", event.type, event);
 
-                  // Use flushSync to ensure each event causes an immediate render
-                  flushSync(() => {
-                    setState((prev) => {
+                  setState((prev) => {
                       const newState = { ...prev };
 
                       switch (event.type) {
@@ -314,6 +311,7 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                               assistantMessage,
                             ];
                             newState.streamingContent = "";
+                            newState.thinkingContent = "";
                             newState.activeToolCalls = new Map();
                             newState.completedToolCalls = [];
                             newState.conversationId =
@@ -339,7 +337,6 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
 
                       return newState;
                     });
-                  });
                 } catch (parseError) {
                   // eslint-disable-next-line no-console
                   console.error("Failed to parse SSE event:", parseError, data);

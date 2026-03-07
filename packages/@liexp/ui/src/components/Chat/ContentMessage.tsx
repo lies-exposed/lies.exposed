@@ -1,5 +1,5 @@
 import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { MarkdownContent } from "../Common/Markdown/MarkdownContent.js";
 import { Box, IconButton, Icons, Stack, Typography } from "../mui/index.js";
 import { MessageBubble } from "./MessageBubble.js";
@@ -7,16 +7,21 @@ import { MessageBubble } from "./MessageBubble.js";
 interface ContentMessageProps {
   message: ChatMessage;
   formatTime: (timestamp: string) => string;
-  copiedMessageId: string | null;
-  onCopyMessage: (messageId: string, content: string) => void;
 }
 
-export const ContentMessage: React.FC<ContentMessageProps> = ({
+export const ContentMessage: React.FC<ContentMessageProps> = React.memo(({
   message,
   formatTime,
-  copiedMessageId,
-  onCopyMessage,
 }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    void navigator.clipboard.writeText(message.content).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }, [message.content]);
+
   return (
     <Stack
       direction="row"
@@ -45,7 +50,7 @@ export const ContentMessage: React.FC<ContentMessageProps> = ({
             <IconButton
               className="copy-button"
               size="small"
-              onClick={() => onCopyMessage(message.id, message.content)}
+              onClick={handleCopy}
               sx={{
                 opacity: 0,
                 transition: "opacity 0.2s",
@@ -57,7 +62,7 @@ export const ContentMessage: React.FC<ContentMessageProps> = ({
               }}
               title="Copy message"
             >
-              {copiedMessageId === message.id ? (
+              {copied ? (
                 <Icons.CheckBox sx={{ fontSize: "1rem" }} />
               ) : (
                 <Icons.Copy sx={{ fontSize: "1rem" }} />
@@ -68,4 +73,4 @@ export const ContentMessage: React.FC<ContentMessageProps> = ({
       </MessageBubble>
     </Stack>
   );
-};
+});

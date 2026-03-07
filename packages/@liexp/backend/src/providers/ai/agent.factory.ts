@@ -6,6 +6,7 @@
  */
 
 import path from "path";
+import { type BaseChatModel } from "@langchain/core/language_models/chat_models";
 import { tool, type StructuredToolInterface } from "@langchain/core/tools";
 import {
   Command,
@@ -193,7 +194,7 @@ const createMultiAgentGraph = (
 ): Agent => {
   // Handoff tools — return a Command to route to the target node
   const transferToResearcher = tool(
-    async () =>
+    () =>
       new Command({
         goto: "researcher",
       }),
@@ -207,7 +208,7 @@ const createMultiAgentGraph = (
   );
 
   const transferToPlatform = tool(
-    async () =>
+    () =>
       new Command({
         goto: "platform",
       }),
@@ -223,13 +224,13 @@ const createMultiAgentGraph = (
   // Subagents: use LangGraph's createReactAgent (returns CompiledStateGraph,
   // compatible with StateGraph.addNode). No checkpointer — outer graph manages state.
   const platformAgent = createLangGraphReactAgent({
-    model: chat,
+    llm: chat,
     tools: [...platformTools, transferToResearcher],
     prompt: platformPrompt,
   });
 
   const researcherAgent = createLangGraphReactAgent({
-    model: chat,
+    llm: chat,
     tools: [...researcherTools, transferToPlatform],
     prompt: researcherPrompt,
   });
@@ -244,7 +245,7 @@ const createMultiAgentGraph = (
         ? lastMessage.content
         : JSON.stringify(lastMessage?.content ?? "");
 
-    const response = await (chat as any).invoke([
+    const response = await (chat as BaseChatModel).invoke([
       {
         role: "system",
         content: [
@@ -323,10 +324,7 @@ export const GetAgentFactory =
 
       const task: TaskEither<ServerError, StructuredToolInterface[]> = pipe(
         fp.TE.tryCatch(async () => {
-          ctx.logger.debug.log(
-            "Initializing tools for agent type: %s",
-            type,
-          );
+          ctx.logger.debug.log("Initializing tools for agent type: %s", type);
 
           const webScraping = createWebScrapingTool(ctx);
           const searchWeb = createSearchWebTool(ctx);
@@ -397,8 +395,7 @@ export const GetAgentFactory =
     const resolveChatModel = (override?: ProviderConfigOverride) => {
       const mergedConfig = mergeProviderConfig(ctx.langchain.options, override);
       const apiKey =
-        (opts.apiKeys?.[mergedConfig.provider as AIProvider] ??
-          ctx.langchain.options.apiKey);
+        opts.apiKeys?.[mergedConfig.provider] ?? ctx.langchain.options.apiKey;
       return GetLangchainProvider({
         baseURL: ctx.langchain.options.baseURL,
         apiKey,

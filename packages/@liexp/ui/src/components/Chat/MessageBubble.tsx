@@ -1,8 +1,9 @@
 import { styled } from "../../theme/index.js";
 import { Paper } from "../mui/index.js";
 
-export const MessageBubble = styled(Paper)<{ isUser: boolean }>(
-  ({ theme, isUser }) => ({
+export const MessageBubble = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "isUser",
+})<{ isUser: boolean }>(({ theme, isUser }) => ({
     padding: theme.spacing(1, 2),
     maxWidth: "70%",
     alignSelf: isUser ? "flex-end" : "flex-start",
@@ -16,6 +17,9 @@ export const MessageBubble = styled(Paper)<{ isUser: boolean }>(
       : theme.palette.text.primary,
     borderRadius: theme.spacing(2),
     position: "relative",
+    overflowWrap: "break-word",
+    wordBreak: "break-word",
+    minWidth: 0,
     "&:hover .copy-button": {
       opacity: 1,
     },

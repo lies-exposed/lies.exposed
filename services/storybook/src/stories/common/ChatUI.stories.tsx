@@ -492,114 +492,87 @@ export const MultipleToolCalls: Story = {
   },
 };
 
-// Simulated streaming with progressive message additions
+const STREAMING_RESPONSE = `I've searched the platform and found the relevant sources. Here's what I can tell you:
+
+The study referenced in the article — [Half! Science confirms COVID deaths greatly exaggerated](https://okaythennews.substack.com/p/half-science-confirms-covid-deaths) — cites a Greek paper published in *Scientific Reports*. The paper found that only **54.7%** of deaths officially attributed to COVID-19 were actually caused by or directly related to the virus, with **45.3%** being unrelated.
+
+Key findings:
+- The exaggeration was **more pronounced in younger age groups**
+- The paper was peer-reviewed and published in a Nature portfolio journal
+- It aligns with earlier critiques of how COVID mortality was counted (co-morbidities, PCR-positive at time of death, etc.)
+
+**Source confidence:** *Single source — treat as preliminary* pending corroboration from independent analyses of other national datasets.
+
+Would you like me to create an event or link entry for this?`;
+
+// Simulated streaming with the real streamingMessage prop
 const StreamingChatUI = (args: typeof ChatUI.arguments) => {
   const [isOpen, setIsOpen] = useState(args.isOpen ?? false);
   const [inputValue, setInputValue] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isStreaming, setIsStreaming] = useState(false);
+  const [streamingContent, setStreamingContent] = useState("");
+  const streamTimestamp = React.useRef(new Date().toISOString());
 
-  const simulateStream = React.useCallback(() => {
-    if (isStreaming) return;
-
-    setIsStreaming(true);
+  const runScenario = React.useCallback(() => {
     setMessages([]);
+    setStreamingContent("");
     setIsLoading(true);
+    streamTimestamp.current = new Date().toISOString();
 
-    // User message
     const userMsg: ChatMessage = {
       id: "user-1",
       role: "user",
-      content: "Create an event about Pfizer delaying heart damage study",
-      timestamp: new Date().toISOString(),
+      content:
+        "Check this link: https://okaythennews.substack.com/p/half-science-confirms-covid-deaths-greatly-exaggerated-new-study",
+      timestamp: streamTimestamp.current,
     };
     setMessages([userMsg]);
 
-    // Simulate tool call after 800ms
+    // After 600ms, start streaming the response character by character
     setTimeout(() => {
-      const toolMsg: ChatMessage = {
-        id: "tool-1",
-        role: "tool",
-        content: JSON.stringify(
-          {
-            tool: "createUncategorizedEvent",
-            arguments: JSON.stringify({
-              title:
-                "Pfizer Delays Study of Heart Damage Among Covid-Vaxxed Children Until 2030",
-              date: "2024-11-20",
-              summary:
-                "Pfizer has delayed a major study into the risks of heart damage in children who received the company's Covid mRNA vaccines until 2030.",
-            }),
-            result: JSON.stringify({
-              type: "Uncategorized",
-              id: "63e58601-a1b0-4184-97da-0e28f50f738d",
-              title:
-                "Pfizer Delays Study of Heart Damage Among Covid-Vaxxed Children Until 2030",
-              date: "2024-11-20",
-              draft: false,
-              groups: [{ id: "group-1", name: "Pfizer" }],
-              media: [{ id: "media-1", type: "image" }],
-              links: [
-                { id: "link-1", url: "https://example.com/pfizer-study" },
-              ],
-              summary:
-                "Pfizer has delayed a major study into the risks of heart damage in children who received the company's Covid mRNA vaccines until 2030.",
-              created: "2025-11-23T15:21:24.053Z",
-              updated: "2025-11-23T15:21:24.053Z",
-            }),
-          },
-          null,
-          2,
-        ),
-        timestamp: new Date().toISOString(),
-        tool_call_id: "call-create-event",
+      let charIndex = 0;
+      const chars = STREAMING_RESPONSE.split("");
+
+      const tick = () => {
+        if (charIndex >= chars.length) {
+          // Streaming done — move content to messages
+          setStreamingContent("");
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: "assistant-1",
+              role: "assistant",
+              content: STREAMING_RESPONSE,
+              timestamp: new Date().toISOString(),
+            },
+          ]);
+          setIsLoading(false);
+          return;
+        }
+        // Drip 3 chars at a time so it's fast but visible
+        const chunk = chars.slice(charIndex, charIndex + 3).join("");
+        charIndex += 3;
+        setStreamingContent((prev) => prev + chunk);
+        setTimeout(tick, 18);
       };
-      setMessages((prev) => [...prev, toolMsg]);
-
-      // Simulate assistant response after another 500ms
-      setTimeout(() => {
-        const assistantMsg: ChatMessage = {
-          id: "assistant-1",
-          role: "assistant",
-          content: `I've successfully created an **Uncategorized Event** about the Pfizer study delay:
-
-**Title:** Pfizer Delays Study of Heart Damage Among Covid-Vaxxed Children Until 2030
-
-**Date:** November 20, 2024
-
-**Summary:** Pfizer has delayed a major study into the risks of heart damage in children who received the company's Covid mRNA vaccines until 2030.
-
-The event includes:
-- 1 associated group (Pfizer)
-- 1 media item
-- 1 reference link
-
-Would you like me to add more details or make any modifications to this event?`,
-          timestamp: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, assistantMsg]);
-        setIsLoading(false);
-        setIsStreaming(false);
-      }, 500);
-    }, 800);
-  }, [isStreaming]);
+      tick();
+    }, 600);
+  }, []);
 
   React.useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      simulateStream();
+    if (isOpen && messages.length === 0 && !isLoading) {
+      runScenario();
     }
-  }, [isOpen, messages.length, simulateStream]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
 
-  const handleSendMessage = () => {
-    // Not implemented for this demo
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-    }
-  };
+  const streamingMessage = streamingContent
+    ? {
+        content: streamingContent,
+        timestamp: streamTimestamp.current,
+      }
+    : null;
 
   return (
     <ChatUI
@@ -608,10 +581,13 @@ Would you like me to add more details or make any modifications to this event?`,
       messages={messages}
       inputValue={inputValue}
       isLoading={isLoading}
+      streamingMessage={streamingMessage}
       onToggle={() => setIsOpen(!isOpen)}
       onInputChange={setInputValue}
-      onSendMessage={handleSendMessage}
-      onKeyPress={handleKeyPress}
+      onSendMessage={() => {}}
+      onKeyPress={(e) => {
+        if (e.key === "Enter" && !e.shiftKey) e.preventDefault();
+      }}
     />
   );
 };
@@ -620,8 +596,7 @@ export const StreamingSimulation: Story = {
   render: (args) => <StreamingChatUI {...args} />,
   args: {
     isOpen: true,
-    welcomeMessage:
-      "Watch as messages stream in progressively, simulating a real AI conversation!",
+    welcomeMessage: "Simulating a real streaming AI reply...",
   },
 };
 

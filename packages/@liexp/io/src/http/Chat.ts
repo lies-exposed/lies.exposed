@@ -2,8 +2,8 @@ import { Schema } from "effect";
 
 // Agent type selection
 export const AgentType = Schema.Literal(
-  "auto",       // Multi-agent orchestrator — supervisor routes to platform or researcher
-  "platform",   // CLI-based agent for managing platform resources
+  "auto", // Multi-agent orchestrator — supervisor routes to platform or researcher
+  "platform", // CLI-based agent for managing platform resources
   "researcher", // Web-search-focused agent
 ).annotations({
   title: "AgentType",

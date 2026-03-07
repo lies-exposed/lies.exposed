@@ -1,5 +1,5 @@
 import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
 import { Box, Paper, Icons } from "../mui/index.js";
@@ -191,26 +191,10 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   usedProvider,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
-
-  const handleCopyMessage = async (messageId: string, content: string) => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopiedMessageId(messageId);
-      setTimeout(() => setCopiedMessageId(null), 2000);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error("Failed to copy message:", err);
-    }
-  };
 
   return (
     <div className={className}>
@@ -266,10 +250,6 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                         key={message.id}
                         message={message}
                         formatTime={formatTime}
-                        copiedMessageId={copiedMessageId}
-                        onCopyMessage={(messageId, content) => {
-                          void handleCopyMessage(messageId, content);
-                        }}
                       />,
                     );
                   }
