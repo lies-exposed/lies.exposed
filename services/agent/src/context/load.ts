@@ -294,11 +294,14 @@ export const makeAgentContext = (
           // Create the agent factory for on-demand agent creation
           const agentFactory = GetAgentFactory({
             mcpClient,
-            extraTools: [
-              createCliExecutorTool(
-                path.resolve(process.cwd(), "build/cli/cli.js"),
-              ),
-            ],
+            cliTool: createCliExecutorTool(
+              path.resolve(process.cwd(), "build/cli/cli.js"),
+            ),
+            apiKeys: {
+              openai: env.OPENAI_API_KEY,
+              anthropic: env.ANTHROPIC_API_KEY,
+              xai: env.XAI_API_KEY,
+            },
           })({
             langchain,
             logger: agentLogger,

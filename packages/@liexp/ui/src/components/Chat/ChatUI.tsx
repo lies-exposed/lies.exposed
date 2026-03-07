@@ -1,8 +1,9 @@
 import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
 import { Box, Paper, Icons } from "../mui/index.js";
+import { AgentSelector, type AgentType } from "./AgentSelector.js";
 import { ChatHeader } from "./ChatHeader.js";
 import { ChatInput } from "./ChatInput.js";
 import { ContentMessage } from "./ContentMessage.js";
@@ -10,6 +11,7 @@ import { ErrorDisplay } from "./ErrorDisplay.js";
 import { LoadingMessage } from "./LoadingMessage.js";
 import { ProviderSelector } from "./ProviderSelector.js";
 import { StreamingMessage } from "./StreamingMessage.js";
+import { SystemMessage } from "./SystemMessage.js";
 import { ToolMessage } from "./ToolMessage.js";
 import { WelcomeMessage } from "./WelcomeMessage.js";
 
@@ -128,6 +130,12 @@ export interface ChatUIProps {
     } | null;
     thinkingContent?: string;
   } | null;
+  /** Agent selector configuration */
+  agentSelector?: {
+    selectedAgent: AgentType | null;
+    onAgentChange: (agent: AgentType) => void;
+    getAuthToken?: () => string | null;
+  };
   /** Provider selector configuration */
   providerSelector?: {
     selectedProvider: string | null;
@@ -178,30 +186,15 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   onToggleContext,
   contextLabel,
   streamingMessage,
+  agentSelector,
   providerSelector,
   usedProvider,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, streamingMessage]);
-
-  const handleCopyMessage = async (messageId: string, content: string) => {
-    try {
-      await navigator.clipboard.writeText(content);
-      setCopiedMessageId(messageId);
-      setTimeout(() => setCopiedMessageId(null), 2000);
-    } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error("Failed to copy message:", err);
-    }
-  };
 
   return (
     <div className={className}>
@@ -240,6 +233,15 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                       formatTime={formatTime}
                     />,
                   );
+                } else if (message.role === "system") {
+                  // System messages rendered as centered notifications
+                  messageComponents.push(
+                    <SystemMessage
+                      key={message.id}
+                      message={message}
+                      formatTime={formatTime}
+                    />,
+                  );
                 } else {
                   // User or assistant messages
                   if (message.content) {
@@ -248,21 +250,27 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                         key={message.id}
                         message={message}
                         formatTime={formatTime}
-                        copiedMessageId={copiedMessageId}
-                        onCopyMessage={(messageId, content) => {
-                          void handleCopyMessage(messageId, content);
-                        }}
                       />,
                     );
                   }
 
-                  // Add separate message bubbles for each tool call
+                  // Add separate message bubbles for each tool call (only when
+                  // there are no corresponding role:"tool" messages in the list,
+                  // i.e. assistant messages loaded from history that include
+                  // tool_calls but no separate tool result messages)
                   if (
                     message.role === "assistant" &&
                     message.tool_calls &&
                     message.tool_calls.length > 0
                   ) {
+                    const toolMessageIds = new Set(
+                      messages
+                        .filter((m) => m.role === "tool" && m.tool_call_id)
+                        .map((m) => m.tool_call_id),
+                    );
                     message.tool_calls.forEach((toolCall, index) => {
+                      // Skip if there's already a dedicated tool result message
+                      if (toolMessageIds.has(toolCall.id)) return;
                       messageComponents.push(
                         <ToolMessage
                           key={`${message.id}-tool-${toolCall.id}-${index}`}
@@ -312,16 +320,34 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onToggleContext={onToggleContext}
             />
 
-            {providerSelector && (
-              <Box sx={{ px: 1.5, pb: 0.75 }}>
-                <ProviderSelector
-                  selectedProvider={providerSelector.selectedProvider as any}
-                  selectedModel={providerSelector.selectedModel}
-                  onProviderChange={providerSelector.onProviderChange}
-                  onModelChange={providerSelector.onModelChange}
-                  getAuthToken={providerSelector.getAuthToken}
-                  usedProvider={usedProvider}
-                />
+            {(agentSelector ?? providerSelector) && (
+              <Box
+                sx={{
+                  px: 1.5,
+                  pb: 0.75,
+                  borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 0,
+                }}
+              >
+                {agentSelector && (
+                  <AgentSelector
+                    selectedAgent={agentSelector.selectedAgent}
+                    onAgentChange={agentSelector.onAgentChange}
+                    getAuthToken={agentSelector.getAuthToken}
+                  />
+                )}
+                {providerSelector && (
+                  <ProviderSelector
+                    selectedProvider={providerSelector.selectedProvider as any}
+                    selectedModel={providerSelector.selectedModel}
+                    onProviderChange={providerSelector.onProviderChange}
+                    onModelChange={providerSelector.onModelChange}
+                    getAuthToken={providerSelector.getAuthToken}
+                    usedProvider={usedProvider}
+                  />
+                )}
               </Box>
             )}
           </ChatModal>,

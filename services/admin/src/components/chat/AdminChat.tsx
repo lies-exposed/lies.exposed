@@ -5,7 +5,7 @@ import {
   useRecordContext,
   useResourceContext,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { useLocation } from "react-router";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
@@ -24,6 +24,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const [selectedModel, setSelectedModel] = useState<string | null>(null);
 
   const location = useLocation();
+  const streamingStartTimeRef = useRef<string | null>(null);
 
   // Use streaming chat hook
   const {
@@ -124,6 +125,8 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const handleSendMessage = async (): Promise<void> => {
     if (!inputValue.trim() || isLoading) return;
 
+    streamingStartTimeRef.current = new Date().toISOString();
+
     const request = {
       message: inputValue.trim(),
       conversation_id: conversationId,
@@ -165,11 +168,11 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       }),
     );
 
-    // Use current timestamp for streaming messages
+    // Use the timestamp captured when the message was sent (stable for entire stream)
     return {
       content: streamingContent,
       tool_calls: toolCalls.length > 0 ? toolCalls : undefined,
-      timestamp: new Date().toISOString(),
+      timestamp: streamingStartTimeRef.current ?? new Date().toISOString(),
       tokenUsage: tokenUsage,
       thinkingContent: thinkingContent || undefined,
     };

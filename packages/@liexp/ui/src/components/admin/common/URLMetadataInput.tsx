@@ -17,10 +17,10 @@ interface URLMetadataInputProps extends TextInputProps {
   type: SCIENTIFIC_STUDY | "Link";
 }
 
-const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
-  type,
-  ...props
-}) => {
+const URLMetadataInput = React.forwardRef<
+  HTMLDivElement,
+  URLMetadataInputProps
+>(({ type, ...props }, ref) => {
   const {
     field: { onChange, value, ...inputRest },
 
@@ -71,7 +71,12 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
     }, []);
 
   return (
-    <Box width={"100%"} style={{ display: "flex" }} flexDirection="row">
+    <Box
+      ref={ref}
+      width={"100%"}
+      style={{ display: "flex" }}
+      flexDirection="row"
+    >
       <Box>
         <TextInput
           {...props}
@@ -124,6 +129,6 @@ const URLMetadataInput: React.FC<URLMetadataInputProps> = ({
       </Box>
     </Box>
   );
-};
+});
 
 export default URLMetadataInput;

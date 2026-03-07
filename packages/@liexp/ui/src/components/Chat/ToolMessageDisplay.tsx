@@ -9,7 +9,8 @@ import { Box, Icons, Typography } from "../mui/index.js";
  */
 export const ToolMessageDisplay: React.FC<{
   message: ChatMessage;
-}> = ({ message }) => {
+  formatTime?: (ts: string) => string;
+}> = ({ message, formatTime }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
   let toolName = "Unknown Tool";
@@ -72,6 +73,11 @@ export const ToolMessageDisplay: React.FC<{
     }
   }
 
+  // Detect whether the tool result represents an error
+  const isError =
+    typeof toolResult === "string" &&
+    toolResult.trimStart().startsWith("ERROR");
+
   // Generate a compact summary of parameters for the collapsed view
   const paramSummary = React.useMemo(() => {
     if (!toolParams) return null;
@@ -103,22 +109,32 @@ export const ToolMessageDisplay: React.FC<{
     <Box
       sx={{
         border: (theme) =>
-          `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)"}`,
+          isError
+            ? `1px solid ${theme.palette.mode === "dark" ? "rgba(244,67,54,0.4)" : "rgba(211,47,47,0.35)"}`
+            : `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.15)"}`,
         borderRadius: 1,
         overflow: "hidden",
         backgroundColor: (theme) =>
-          theme.palette.mode === "dark"
-            ? "rgba(255, 152, 0, 0.08)"
-            : "rgba(255, 243, 224, 0.3)",
+          isError
+            ? theme.palette.mode === "dark"
+              ? "rgba(244, 67, 54, 0.06)"
+              : "rgba(255, 235, 238, 0.4)"
+            : theme.palette.mode === "dark"
+              ? "rgba(255, 152, 0, 0.08)"
+              : "rgba(255, 243, 224, 0.3)",
       }}
     >
       {/* Tool Header */}
       <Box
         sx={{
           backgroundColor: (theme) =>
-            theme.palette.mode === "dark"
-              ? "rgba(255, 152, 0, 0.2)"
-              : "rgba(255, 152, 0, 0.12)",
+            isError
+              ? theme.palette.mode === "dark"
+                ? "rgba(244, 67, 54, 0.18)"
+                : "rgba(244, 67, 54, 0.10)"
+              : theme.palette.mode === "dark"
+                ? "rgba(255, 152, 0, 0.2)"
+                : "rgba(255, 152, 0, 0.12)",
           borderBottom: (theme) =>
             isExpanded
               ? `1px solid ${theme.palette.mode === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`
@@ -131,17 +147,22 @@ export const ToolMessageDisplay: React.FC<{
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <Icons.AutoAwesome sx={{ fontSize: "1rem", color: "warning.main" }} />
+        {isError ? (
+          <Icons.HighlightOff sx={{ fontSize: "1rem", color: "error.main" }} />
+        ) : (
+          <Icons.AutoAwesome sx={{ fontSize: "1rem", color: "warning.main" }} />
+        )}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
             variant="body2"
             sx={{
               fontWeight: "bold",
               fontSize: "0.8rem",
-              color: "warning.dark",
+              color: isError ? "error.dark" : "warning.dark",
             }}
           >
-            Tool: {toolName}
+            {isError ? "Tool error: " : "Tool: "}
+            {toolName}
           </Typography>
           {!isExpanded && paramSummary && (
             <Typography
@@ -159,10 +180,18 @@ export const ToolMessageDisplay: React.FC<{
             </Typography>
           )}
         </Box>
+        {formatTime && (
+          <Typography
+            variant="caption"
+            sx={{ fontSize: "0.65rem", opacity: 0.6, flexShrink: 0, mr: 0.5 }}
+          >
+            {formatTime(message.timestamp)}
+          </Typography>
+        )}
         <Icons.ExpandMore
           sx={{
             fontSize: "1rem",
-            color: "warning.main",
+            color: isError ? "error.main" : "warning.main",
             transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.2s",
             flexShrink: 0,

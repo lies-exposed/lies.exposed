@@ -1,5 +1,40 @@
 import { Schema } from "effect";
 
+// Agent type selection
+export const AgentType = Schema.Literal(
+  "auto", // Multi-agent orchestrator — supervisor routes to platform or researcher
+  "platform", // CLI-based agent for managing platform resources
+  "researcher", // Web-search-focused agent
+).annotations({
+  title: "AgentType",
+  description: "Which specialized agent to use",
+});
+
+export type AgentType = typeof AgentType.Type;
+
+// Agent info for discovery
+export const AgentInfo = Schema.Struct({
+  name: AgentType,
+  label: Schema.String,
+  description: Schema.String,
+}).annotations({
+  title: "AgentInfo",
+  description: "Information about an available agent",
+});
+
+export type AgentInfo = typeof AgentInfo.Type;
+
+export const AgentsResponse = Schema.Struct({
+  agents: Schema.Array(AgentInfo),
+  count: Schema.Number,
+  timestamp: Schema.String,
+}).annotations({
+  title: "AgentsResponse",
+  description: "Response containing available agents",
+});
+
+export type AgentsResponse = typeof AgentsResponse.Type;
+
 // AI Provider types
 export const AIProvider = Schema.Literal(
   "openai",
@@ -142,6 +177,8 @@ export const ChatRequest = Schema.Struct({
   resource_context: Schema.optional(ResourceContext),
   // AI provider configuration override
   aiConfig: Schema.optional(AIConfig),
+  // Which specialized agent to use
+  agent_type: Schema.optional(AgentType),
 }).annotations({
   title: "ChatRequest",
   description:

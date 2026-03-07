@@ -1,10 +1,60 @@
-import { exec } from "node:child_process";
+import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
 import { tool } from "langchain";
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
+
+/**
+ * Parse a shell-style command string into an argv array without invoking a
+ * shell. Supports single-quoted, double-quoted, and unquoted tokens.
+ * Double-quoted strings honour \" escapes. This avoids shell injection and
+ * correctly handles flag values that contain double-quote characters
+ * (e.g. --title="Deaths "due to" COVID-19").
+ */
+function parseCommandArgs(command: string): string[] {
+  const args: string[] = [];
+  let current = "";
+  let inSingle = false;
+  let inDouble = false;
+  let i = 0;
+
+  while (i < command.length) {
+    const ch = command[i];
+    if (inSingle) {
+      if (ch === "'") {
+        inSingle = false;
+      } else {
+        current += ch;
+      }
+    } else if (inDouble) {
+      if (ch === '"') {
+        inDouble = false;
+      } else if (ch === "\\" && i + 1 < command.length) {
+        current += command[++i];
+      } else {
+        current += ch;
+      }
+    } else {
+      if (ch === "'") {
+        inSingle = true;
+      } else if (ch === '"') {
+        inDouble = true;
+      } else if (ch === " " || ch === "\t") {
+        if (current) {
+          args.push(current);
+          current = "";
+        }
+      } else {
+        current += ch;
+      }
+    }
+    i++;
+  }
+  if (current) args.push(current);
+  return args;
+}
 
 const CliInputSchema = Schema.Struct({
   command: Schema.String.annotations({
@@ -61,14 +111,31 @@ export const createCliExecutorTool = (cliBinPath: string) =>
   tool<any, any, any, any>(
     async (input: CliInput): Promise<string> => {
       try {
-        const { stdout, stderr } = await execAsync(
-          `node ${cliBinPath} ${input.command}`,
+        const args = parseCommandArgs(input.command);
+        const { stdout, stderr } = await execFileAsync(
+          "node",
+          [cliBinPath, ...args],
           { timeout: 30_000 },
         );
         return stdout || stderr || "(no output)";
       } catch (err: any) {
-        const stderr = err.stderr ? `\nstderr: ${err.stderr}` : "";
-        return `Error (exit ${err.code ?? 1}): ${err.message}${stderr}`;
+        // err.message from execFile just repeats the full command — not useful.
+        // Extract meaningful lines from stderr: prefer logger :error lines,
+        // fall back to the last 5 lines so the LLM sees a concise failure reason.
+        const stderrRaw: string = err.stderr ?? "";
+        const stderrLines = stderrRaw.split("\n").filter(Boolean);
+        const errorLines = stderrLines.filter(
+          (l) => /:error\b/i.test(l) || /^\s*Error/i.test(l),
+        );
+        const summary =
+          errorLines.length > 0
+            ? errorLines.join("\n")
+            : stderrLines.slice(-5).join("\n");
+
+        // Also include stdout if it has content (some errors go there)
+        const stdoutNote = err.stdout ? `\nstdout: ${err.stdout}` : "";
+
+        return `ERROR (exit ${err.code ?? 1}):\n${summary || err.message}${stdoutNote}`;
       }
     },
     {

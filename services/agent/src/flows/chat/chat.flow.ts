@@ -7,6 +7,7 @@ import {
   type ResourceContext,
   type ChatStreamEvent,
   type AIConfig,
+  type AgentType,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -17,22 +18,25 @@ import { type AgentContext } from "../../context/context.type.js";
 const conversations = new Map<string, ChatMessage[]>();
 
 /**
- * Get or create an agent with optional provider override
- * If no override provided, uses the default agent from context
+ * Get or create an agent with optional agent type and provider override.
+ * The default agent from context is only used when no agentType is specified
+ * and no aiConfig override is requested.
  */
-const getOrCreateAgent = (aiConfig?: AIConfig) => (ctx: AgentContext) => {
-  if (!aiConfig) {
-    // Use the default agent (bootstrapped at startup)
-    return TE.right(ctx.agent.agent);
-  }
+const getOrCreateAgent =
+  (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
+    if (!agentType && !aiConfig) {
+      // Use the default bootstrapped agent (platform type, default provider)
+      return TE.right(ctx.agent.agent);
+    }
 
-  // Create new agent with specified provider config
-  const override = aiConfigToProviderOverride(aiConfig);
-  return pipe(
-    ctx.agentFactory(override),
-    TE.mapLeft((error) => ServerError.fromUnknown(error)),
-  );
-};
+    const override = aiConfig
+      ? aiConfigToProviderOverride(aiConfig)
+      : undefined;
+    return pipe(
+      ctx.agentFactory(agentType, override),
+      TE.mapLeft((error) => ServerError.fromUnknown(error)),
+    );
+  };
 
 export const sendChatMessage =
   (payload: {
@@ -40,6 +44,7 @@ export const sendChatMessage =
     conversation_id: string | null;
     resource_context?: ResourceContext;
     aiConfig?: AIConfig;
+    agent_type?: AgentType;
   }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
     // Use existing conversation_id or generate a new one
@@ -53,7 +58,7 @@ export const sendChatMessage =
       : payload.message;
 
     return pipe(
-      getOrCreateAgent(payload.aiConfig)(ctx),
+      getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
       TE.chain((agent) =>
         TE.tryCatch(
           () =>
@@ -184,6 +189,7 @@ export const sendChatMessageStream = (payload: {
   conversation_id: string | null;
   resource_context?: ResourceContext;
   aiConfig?: AIConfig;
+  agent_type?: AgentType;
 }) => {
   return async function* (ctx: AgentContext): AsyncGenerator<ChatStreamEvent> {
     const conversationId = payload.conversation_id ?? uuid();
@@ -197,8 +203,11 @@ export const sendChatMessageStream = (payload: {
       : payload.message;
 
     try {
-      // Get or create agent with optional provider override
-      const agentResult = await getOrCreateAgent(payload.aiConfig)(ctx)();
+      // Get or create agent with optional type + provider override
+      const agentResult = await getOrCreateAgent(
+        payload.agent_type,
+        payload.aiConfig,
+      )(ctx)();
 
       if (agentResult._tag === "Left") {
         // Error case
@@ -250,120 +259,145 @@ export const sendChatMessageStream = (payload: {
         ctx.logger.debug.log("Stream chunk [%s]: %O", streamMode, chunk);
 
         if (streamMode === "messages") {
-          // Handle message chunks (incremental content)
-          const messages = Array.isArray(chunk) ? chunk : [chunk];
+          // In LangGraph messages mode, chunk is [messageChunk, metadata].
+          // Destructure properly to avoid iterating the metadata object as a message.
+          const [msg, metadata] = (
+            Array.isArray(chunk) ? chunk : [chunk, {}]
+          ) as [AIMessage, { langgraph_node?: string }];
 
-          for (const msg of messages as AIMessage[]) {
-            // Handle tool calls
-            if (msg.tool_calls && msg.tool_calls.length > 0) {
-              for (const toolCall of msg.tool_calls) {
-                const toolCallId = toolCall.id ?? uuid();
+          // ToolMessages carry tool results. Emit tool_call_end from them (works
+          // for both single-agent and multi-agent subgraphs, since the messages
+          // stream propagates from inner graphs too). Do NOT accumulate their
+          // content — tool results must not appear in the assistant reply bubble.
+          if ("tool_call_id" in msg && msg.tool_call_id) {
+            if (msg.name) {
+              yield {
+                type: "tool_call_end",
+                timestamp: new Date().toISOString(),
+                tool_call: {
+                  id: msg.tool_call_id as string,
+                  name: msg.name,
+                  result:
+                    typeof msg.content === "string"
+                      ? msg.content
+                      : JSON.stringify(msg.content),
+                },
+              } satisfies ChatStreamEvent;
+            }
+            continue;
+          }
 
-                if (!processedToolCalls.has(toolCallId)) {
-                  processedToolCalls.add(toolCallId);
+          // In auto (multi-agent) mode the supervisor emits a one-word routing
+          // decision ("platform" / "researcher"). Skip it so it doesn't appear
+          // in the final content bubble.
+          if (metadata?.langgraph_node === "supervisor") {
+            continue;
+          }
 
-                  // Tool call start
-                  yield {
-                    type: "tool_call_start",
-                    timestamp: new Date().toISOString(),
-                    tool_call: {
-                      id: toolCallId,
-                      name: toolCall.name,
-                      arguments:
-                        typeof toolCall.args === "string"
-                          ? toolCall.args
-                          : JSON.stringify(toolCall.args),
-                    },
-                  } satisfies ChatStreamEvent;
-                }
+          // Handle tool calls
+          if (msg.tool_calls && msg.tool_calls.length > 0) {
+            for (const toolCall of msg.tool_calls) {
+              const toolCallId = toolCall.id ?? uuid();
+
+              if (!processedToolCalls.has(toolCallId)) {
+                processedToolCalls.add(toolCallId);
+
+                // Tool call start
+                yield {
+                  type: "tool_call_start",
+                  timestamp: new Date().toISOString(),
+                  tool_call: {
+                    id: toolCallId,
+                    name: toolCall.name,
+                    arguments:
+                      typeof toolCall.args === "string"
+                        ? toolCall.args
+                        : JSON.stringify(toolCall.args),
+                  },
+                } satisfies ChatStreamEvent;
               }
             }
+          }
 
-            // Handle content deltas — parse <think> tags for Qwen3/LocalAI
-            // msg.content in LangGraph messages mode is a delta, not the full accumulated text
-            if (typeof msg.content === "string" && msg.content) {
-              const newContent = msg.content;
-              if (newContent) {
-                contentAccumulator += newContent;
+          // Handle content deltas — parse <think> tags for Qwen3/LocalAI
+          // msg.content in LangGraph messages mode is a delta, not the full accumulated text
+          if (typeof msg.content === "string" && msg.content) {
+            const newContent = msg.content;
+            contentAccumulator += newContent;
 
-                // Process the new content, splitting on <think>/</think> boundaries
-                // Prepend any buffered partial tag from the previous chunk
-                let remaining = thinkBuffer + newContent;
-                thinkBuffer = "";
-                while (remaining.length > 0) {
-                  if (insideThinkBlock) {
-                    // Look for closing </think> tag
-                    const closeIdx = remaining.indexOf("</think>");
-                    if (closeIdx !== -1) {
-                      // Emit thinking content before the closing tag
-                      const thinkContent = remaining.slice(0, closeIdx);
-                      insideThinkBlock = false;
-                      if (thinkContent) {
-                        yield {
-                          type: "content_delta",
-                          timestamp: new Date().toISOString(),
-                          content: thinkContent,
-                          message_id: messageId,
-                          thinking: true,
-                        } satisfies ChatStreamEvent;
-                      }
-                      remaining = remaining.slice(closeIdx + "</think>".length);
-                    } else {
-                      // Still inside think block, buffer the content
-                      thinkBuffer += remaining;
-                      remaining = "";
-                    }
-                  } else {
-                    // Look for opening <think> tag
-                    const openIdx = remaining.indexOf("<think>");
-                    if (openIdx !== -1) {
-                      // Emit regular content before the opening tag
-                      const regularContent = remaining.slice(0, openIdx);
-                      if (regularContent) {
-                        yield {
-                          type: "content_delta",
-                          timestamp: new Date().toISOString(),
-                          content: regularContent,
-                          message_id: messageId,
-                        } satisfies ChatStreamEvent;
-                      }
-                      insideThinkBlock = true;
-                      thinkBuffer = "";
-                      remaining = remaining.slice(openIdx + "<think>".length);
-                    } else {
-                      // No think tag — check if we might have a partial tag at the end
-                      // e.g. remaining ends with "<", "<t", "<th", etc.
-                      const partialMatch = getPartialTagMatch(remaining);
-                      if (partialMatch > 0) {
-                        // Emit everything except the potential partial tag
-                        const safeContent = remaining.slice(
-                          0,
-                          remaining.length - partialMatch,
-                        );
-                        if (safeContent) {
-                          yield {
-                            type: "content_delta",
-                            timestamp: new Date().toISOString(),
-                            content: safeContent,
-                            message_id: messageId,
-                          } satisfies ChatStreamEvent;
-                        }
-                        // Buffer the partial tag for the next chunk
-                        thinkBuffer = remaining.slice(
-                          remaining.length - partialMatch,
-                        );
-                      } else {
-                        // Regular content, no think tags
-                        yield {
-                          type: "content_delta",
-                          timestamp: new Date().toISOString(),
-                          content: remaining,
-                          message_id: messageId,
-                        } satisfies ChatStreamEvent;
-                      }
-                      remaining = "";
-                    }
+            // Process the new content, splitting on <think>/</think> boundaries
+            // Prepend any buffered partial tag from the previous chunk
+            let remaining = thinkBuffer + newContent;
+            thinkBuffer = "";
+            while (remaining.length > 0) {
+              if (insideThinkBlock) {
+                // Look for closing </think> tag
+                const closeIdx = remaining.indexOf("</think>");
+                if (closeIdx !== -1) {
+                  // Emit thinking content before the closing tag
+                  const thinkContent = remaining.slice(0, closeIdx);
+                  insideThinkBlock = false;
+                  if (thinkContent) {
+                    yield {
+                      type: "content_delta",
+                      timestamp: new Date().toISOString(),
+                      content: thinkContent,
+                      message_id: messageId,
+                      thinking: true,
+                    } satisfies ChatStreamEvent;
                   }
+                  remaining = remaining.slice(closeIdx + "</think>".length);
+                } else {
+                  // Still inside think block, buffer the content
+                  thinkBuffer += remaining;
+                  remaining = "";
+                }
+              } else {
+                // Look for opening <think> tag
+                const openIdx = remaining.indexOf("<think>");
+                if (openIdx !== -1) {
+                  // Emit regular content before the opening tag
+                  const regularContent = remaining.slice(0, openIdx);
+                  if (regularContent) {
+                    yield {
+                      type: "content_delta",
+                      timestamp: new Date().toISOString(),
+                      content: regularContent,
+                      message_id: messageId,
+                    } satisfies ChatStreamEvent;
+                  }
+                  insideThinkBlock = true;
+                  thinkBuffer = "";
+                  remaining = remaining.slice(openIdx + "<think>".length);
+                } else {
+                  // No think tag — check for partial tag at end of chunk
+                  const partialMatch = getPartialTagMatch(remaining);
+                  if (partialMatch > 0) {
+                    const safeContent = remaining.slice(
+                      0,
+                      remaining.length - partialMatch,
+                    );
+                    if (safeContent) {
+                      yield {
+                        type: "content_delta",
+                        timestamp: new Date().toISOString(),
+                        content: safeContent,
+                        message_id: messageId,
+                      } satisfies ChatStreamEvent;
+                    }
+                    thinkBuffer = remaining.slice(
+                      remaining.length - partialMatch,
+                    );
+                  } else {
+                    // Regular content, no think tags
+                    yield {
+                      type: "content_delta",
+                      timestamp: new Date().toISOString(),
+                      content: remaining,
+                      message_id: messageId,
+                    } satisfies ChatStreamEvent;
+                  }
+                  remaining = "";
                 }
               }
             }

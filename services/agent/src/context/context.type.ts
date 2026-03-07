@@ -6,6 +6,7 @@ import { type PuppeteerProviderContext } from "@liexp/backend/lib/context/puppet
 import { type ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { type AgentProvider } from "@liexp/backend/lib/providers/ai/agent.provider.js";
+import { type AgentType } from "@liexp/io/lib/http/Chat.js";
 import { type HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type ENV } from "#io/ENV.js";
@@ -23,11 +24,11 @@ interface AgentProviderContext {
 }
 
 /**
- * Agent factory for creating agents on-demand with provider overrides
- * If no override provided, uses the default agent from AgentProvider
+ * Agent factory for creating agents on-demand with type + provider overrides
  */
 interface AgentFactoryContext {
   agentFactory: (
+    agentType?: AgentType,
     override?: ProviderConfigOverride,
   ) => TaskEither<ServerError, any>;
 }
