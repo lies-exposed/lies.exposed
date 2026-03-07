@@ -260,9 +260,25 @@ export const sendChatMessageStream = (payload: {
             Array.isArray(chunk) ? chunk : [chunk, {}]
           ) as [AIMessage, { langgraph_node?: string }];
 
-          // Skip ToolMessages (tool results) — they are handled in updates mode
-          // and should not appear as content deltas in the assistant's reply.
+          // ToolMessages carry tool results. Emit tool_call_end from them (works
+          // for both single-agent and multi-agent subgraphs, since the messages
+          // stream propagates from inner graphs too). Do NOT accumulate their
+          // content — tool results must not appear in the assistant reply bubble.
           if ("tool_call_id" in msg && msg.tool_call_id) {
+            if (msg.name) {
+              yield {
+                type: "tool_call_end",
+                timestamp: new Date().toISOString(),
+                tool_call: {
+                  id: msg.tool_call_id as string,
+                  name: msg.name as string,
+                  result:
+                    typeof msg.content === "string"
+                      ? msg.content
+                      : JSON.stringify(msg.content),
+                },
+              } satisfies ChatStreamEvent;
+            }
             continue;
           }
 
