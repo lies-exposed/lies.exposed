@@ -119,8 +119,23 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         );
         return stdout || stderr || "(no output)";
       } catch (err: any) {
-        const stderr = err.stderr ? `\nstderr: ${err.stderr}` : "";
-        return `Error (exit ${err.code ?? 1}): ${err.message}${stderr}`;
+        // err.message from execFile just repeats the full command — not useful.
+        // Extract meaningful lines from stderr: prefer logger :error lines,
+        // fall back to the last 5 lines so the LLM sees a concise failure reason.
+        const stderrRaw: string = err.stderr ?? "";
+        const stderrLines = stderrRaw.split("\n").filter(Boolean);
+        const errorLines = stderrLines.filter(
+          (l) => /:error\b/i.test(l) || /^\s*Error/i.test(l),
+        );
+        const summary =
+          errorLines.length > 0
+            ? errorLines.join("\n")
+            : stderrLines.slice(-5).join("\n");
+
+        // Also include stdout if it has content (some errors go there)
+        const stdoutNote = err.stdout ? `\nstdout: ${err.stdout}` : "";
+
+        return `ERROR (exit ${err.code ?? 1}):\n${summary || err.message}${stdoutNote}`;
       }
     },
     {
