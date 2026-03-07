@@ -186,7 +186,7 @@ function OpenWorktree({ onBack }: { onBack?: () => void }) {
 
   useEffect(() => {
     listWorktrees()
-      .then((wts) => {
+      .then((wts: WorktreeInfo[]) => {
         setWorktrees(wts);
       })
       .catch((e: unknown) => setError(String(e)));
