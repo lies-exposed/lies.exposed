@@ -323,7 +323,7 @@ importers:
         specifier: ^4.3.0
         version: 4.5.0(rollup@4.53.4)(typescript@5.9.3)(vite@7.3.1(@types/node@25.0.9)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
 
-  packages/@liexp/docker-cli:
+  packages/@liexp/dev-cli:
     dependencies:
       ink:
         specifier: ^5.2.1
@@ -340,7 +340,7 @@ importers:
     devDependencies:
       '@types/node':
         specifier: ^24.10.9
-        version: 24.10.9
+        version: 24.12.0
       '@types/react':
         specifier: ^18.0.0
         version: 18.3.27
@@ -4579,9 +4579,6 @@ packages:
 
   '@types/node-telegram-bot-api@0.64.14':
     resolution: {integrity: sha512-Nq1LAAw4PGpR8Vii5F7uGlAaAFmaT3cPIt7mUZv6VrftPsrt9xjmnhXD9hoKFstAzn/a5ZCr+ksbkmK+QBhZiA==}
-
-  '@types/node@24.10.9':
-    resolution: {integrity: sha512-ne4A0IpG3+2ETuREInjPNhUGis1SFjv1d5asp8MzEAGtOZeTeHVDOYqOgqfhvseqg/iXty2hjBf1zAOb7RNiNw==}
 
   '@types/node@24.12.0':
     resolution: {integrity: sha512-GYDxsZi3ChgmckRT9HPU0WEhKLP08ev/Yfcq2AstjrDASOYCSXeyjDsHg4v5t4jOj7cyDX3vmprafKlWIG9MXQ==}
@@ -13920,7 +13917,7 @@ snapshots:
   '@types/compression@1.8.1':
     dependencies:
       '@types/express': 5.0.6
-      '@types/node': 24.10.9
+      '@types/node': 24.12.0
 
   '@types/connect@3.4.38':
     dependencies:
@@ -14124,7 +14121,7 @@ snapshots:
 
   '@types/fluent-ffmpeg@2.1.28':
     dependencies:
-      '@types/node': 24.10.9
+      '@types/node': 24.12.0
 
   '@types/geojson@7946.0.16': {}
 
@@ -14142,7 +14139,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.10.9
+      '@types/node': 24.12.0
 
   '@types/linkify-it@5.0.0': {}
 
@@ -14175,10 +14172,6 @@ snapshots:
     dependencies:
       '@types/node': 24.12.0
       '@types/request': 2.48.12
-
-  '@types/node@24.10.9':
-    dependencies:
-      undici-types: 7.16.0
 
   '@types/node@24.12.0':
     dependencies:

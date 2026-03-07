@@ -28,7 +28,7 @@ export function ComposeCommand({ preArgs, onBack, onPhaseChange }: Props) {
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape && onBack) {
+    if (key.escape && phase !== "running" && onBack) {
       onBack();
     }
   });
@@ -60,7 +60,6 @@ export function ComposeCommand({ preArgs, onBack, onPhaseChange }: Props) {
 
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

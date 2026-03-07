@@ -38,7 +38,7 @@ export function PushCommand({
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape && onBack) {
+    if (key.escape && phase !== "running" && onBack) {
       onBack();
     }
   });
@@ -57,7 +57,6 @@ export function PushCommand({
         if (loginResult.exitCode !== 0) {
           callbacks.setStatus("error");
           updatePhase("done");
-          onBack?.();
           return;
         }
       }
@@ -93,7 +92,6 @@ export function PushCommand({
       setCurrentService(null);
       callbacks.setStatus(failedServices.length > 0 ? "error" : "success");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

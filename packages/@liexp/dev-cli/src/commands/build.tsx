@@ -43,7 +43,7 @@ export function BuildCommand({
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape && onBack) {
+    if (key.escape && phase !== "running" && onBack) {
       onBack();
     }
   });
@@ -63,7 +63,6 @@ export function BuildCommand({
         if (loginResult.exitCode !== 0) {
           callbacks.setStatus("error");
           updatePhase("done");
-          onBack?.();
           return;
         }
       }
@@ -90,7 +89,6 @@ export function BuildCommand({
       setCurrentService(null);
       callbacks.setStatus("success");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

@@ -123,7 +123,7 @@ export function UpCommand({ preServices, onBack, onPhaseChange }: Props) {
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape && onBack) {
+    if (key.escape && phase !== "running" && onBack) {
       onBack();
     }
   });
@@ -151,7 +151,6 @@ export function UpCommand({ preServices, onBack, onPhaseChange }: Props) {
         callbacks.onLine("\nCreate these files before running `up`.");
         callbacks.setStatus("error");
         updatePhase("done");
-        onBack?.();
         return;
       }
 
@@ -193,7 +192,6 @@ export function UpCommand({ preServices, onBack, onPhaseChange }: Props) {
 
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

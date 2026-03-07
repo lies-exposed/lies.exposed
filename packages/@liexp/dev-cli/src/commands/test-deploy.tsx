@@ -43,7 +43,7 @@ export function TestDeployCommand({ autoRun = false, onBack, onPhaseChange }: Pr
   useInput((input, key) => {
     if (phase === "confirm") {
       if (key.return || input === "y") updatePhase("running");
-      if (input === "n" || input === "q") onBack?.();
+      if (input === "n" || input === "q" || key.escape) onBack?.();
     }
     if (phase === "done" && key.escape && onBack) {
       onBack();
@@ -197,7 +197,6 @@ export function TestDeployCommand({ autoRun = false, onBack, onPhaseChange }: Pr
 
       callbacks.setStatus(anyFailed ? "error" : "success");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

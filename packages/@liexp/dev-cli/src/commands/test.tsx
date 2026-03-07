@@ -27,7 +27,7 @@ export function TestCommand({ autoRun = false, onBack, onPhaseChange }: Props) {
   useInput((input, key) => {
     if (phase === "confirm") {
       if (key.return || input === "y") updatePhase("running");
-      if (input === "n" || input === "q") onBack?.();
+      if (input === "n" || input === "q" || key.escape) onBack?.();
     }
     if (phase === "done" && key.escape && onBack) {
       onBack();
@@ -49,7 +49,6 @@ export function TestCommand({ autoRun = false, onBack, onPhaseChange }: Props) {
       if (build.exitCode !== 0) {
         callbacks.setStatus("error");
         updatePhase("done");
-        onBack?.();
         return;
       }
 
@@ -83,7 +82,6 @@ export function TestCommand({ autoRun = false, onBack, onPhaseChange }: Props) {
       setHealthOk(ok);
       callbacks.setStatus(ok ? "success" : "error");
       updatePhase("done");
-      onBack?.();
     };
 
     void run();

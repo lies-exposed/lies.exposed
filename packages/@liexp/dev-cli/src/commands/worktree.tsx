@@ -12,12 +12,13 @@ import {
   WORKTREES_DIR,
   type WorktreeInfo,
 } from "../lib/worktree.js";
+import { openInTmuxPane, isInsideTmux } from "../lib/tmux.js";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-type SubCommand = "menu" | "list" | "add" | "remove" | "prune";
+type SubCommand = "menu" | "list" | "add" | "remove" | "prune" | "open";
 type Phase = "input" | "running" | "done";
 
 type Props = {
@@ -41,6 +42,7 @@ type Props = {
 
 const SUB_MENU_ITEMS = [
   { label: "list",   value: "list"   as SubCommand, description: "List all worktrees" },
+  { label: "open",   value: "open"   as SubCommand, description: "Open a worktree in a new tmux pane" },
   { label: "add",    value: "add"    as SubCommand, description: `Add a worktree under ${WORKTREES_DIR}/` },
   { label: "remove", value: "remove" as SubCommand, description: "Remove a worktree" },
   { label: "prune",  value: "prune"  as SubCommand, description: "Prune stale worktree metadata" },
@@ -62,13 +64,12 @@ export function WorktreeCommand({
   const [subCmd, setSubCmd] = useState<SubCommand | null>(preSubCommand ?? null);
 
   useInput((_input, key) => {
-    if (subCmd !== null && key.escape) {
-      if (subCmd === "menu" || preSubCommand) {
-        onBack?.();
-      } else {
-        setSubCmd(null);
-        onPhaseChange?.("idle");
-      }
+    if (!key.escape) return;
+    if (subCmd === null || subCmd === "menu" || preSubCommand) {
+      onBack?.();
+    } else {
+      setSubCmd(null);
+      onPhaseChange?.("idle");
     }
   });
 
@@ -109,6 +110,8 @@ export function WorktreeCommand({
   switch (subCmd) {
     case "list":
       return <ListWorktrees onBack={goBack} />;
+    case "open":
+      return <OpenWorktree onBack={goBack} />;
     case "add":
       return (
         <AddWorktree
@@ -172,6 +175,97 @@ function ListWorktrees({ onBack }: { onBack?: () => void; onPhaseChange?: (phase
 }
 
 // ---------------------------------------------------------------------------
+// Open in tmux
+// ---------------------------------------------------------------------------
+
+function OpenWorktree({ onBack }: { onBack?: () => void }) {
+  const [worktrees, setWorktrees] = useState<WorktreeInfo[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [cursor, setCursor] = useState(0);
+  const [result, setResult] = useState<string | null>(null);
+
+  useEffect(() => {
+    listWorktrees()
+      .then((wts) => {
+        setWorktrees(wts);
+      })
+      .catch((e: unknown) => setError(String(e)));
+  }, []);
+
+  useInput((_input, key) => {
+    if (key.escape) { onBack?.(); return; }
+
+    if (worktrees === null || result !== null) return;
+
+    if (key.upArrow) {
+      setCursor((c) => Math.max(0, c - 1));
+    } else if (key.downArrow) {
+      setCursor((c) => Math.min(worktrees.length - 1, c + 1));
+    } else if (key.return) {
+      const wt = worktrees[cursor];
+      if (!wt) return;
+      if (!isInsideTmux()) {
+        setResult("error: not running inside a tmux session (TMUX env var not set)");
+        return;
+      }
+      openInTmuxPane(wt.path).then((res) => {
+        if (res.ok) {
+          setResult(`opened window for ${wt.branch}`);
+        } else {
+          setResult(`error: ${res.message}`);
+        }
+      }).catch((e: unknown) => setResult(`error: ${String(e)}`));
+    }
+  });
+
+  if (error) {
+    return (
+      <Box flexDirection="column" gap={1}>
+        <Text bold>Open worktree in tmux</Text>
+        <Text color="red">{error}</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <Box flexDirection="column" gap={1}>
+      <Text bold>Open worktree in tmux</Text>
+
+      {worktrees === null && <Text dimColor>Loading…</Text>}
+
+      {worktrees !== null && worktrees.length === 0 && (
+        <Text dimColor>No worktrees found.</Text>
+      )}
+
+      {worktrees !== null && worktrees.length > 0 && result === null && (
+        <>
+          <Text dimColor>↑/↓ move  ·  enter open in new tmux pane  ·  esc back</Text>
+          {worktrees.map((wt, idx) => (
+            <Box key={wt.path} gap={1}>
+              <Text color={idx === cursor ? "cyan" : undefined}>
+                {idx === cursor ? "›" : " "}
+              </Text>
+              <Text color={wt.isMain ? "green" : "white"}>
+                {wt.branch}
+              </Text>
+              <Text dimColor>{wt.path}</Text>
+              {wt.isMain && <Text dimColor>(main)</Text>}
+            </Box>
+          ))}
+        </>
+      )}
+
+      {result !== null && (
+        <Box flexDirection="column" gap={1} marginTop={1}>
+          <Text color={result.startsWith("error") ? "red" : "green"}>{result}</Text>
+          <Text dimColor>Press esc to go back.</Text>
+        </Box>
+      )}
+    </Box>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Add
 // ---------------------------------------------------------------------------
 
@@ -212,7 +306,7 @@ function AddWorktree({
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape) onBack?.();
+    if (key.escape && phase !== "running") onBack?.();
   });
 
   useEffect(() => {
@@ -345,7 +439,7 @@ function RemoveWorktree({
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape) onBack?.();
+    if (key.escape && phase !== "running") onBack?.();
   });
 
   useEffect(() => {
@@ -427,7 +521,7 @@ function PruneWorktrees({ onBack, onPhaseChange }: { onBack?: () => void; onPhas
   };
 
   useInput((_input, key) => {
-    if (phase === "done" && key.escape) onBack?.();
+    if (key.escape && phase !== "running") onBack?.();
   });
 
   useEffect(() => {
