@@ -54,6 +54,8 @@ describe("actor create/edit CLI", () => {
 
   afterAll(() => server.close());
 
+  // --- create ---
+
   test("create --username --fullName returns the created actor", async () => {
     await actorCreate.run(ctx, [
       "--username=test-actor",
@@ -78,6 +80,71 @@ describe("actor create/edit CLI", () => {
     });
   });
 
+  test("create with optional --avatar returns the created actor", async () => {
+    await actorCreate.run(ctx, [
+      "--username=test-actor3",
+      "--fullName=Test Actor 3",
+      "--avatar=00000000-0000-4000-8000-000000000001",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create with optional --excerpt returns the created actor", async () => {
+    await actorCreate.run(ctx, [
+      "--username=test-actor4",
+      "--fullName=Test Actor 4",
+      "--excerpt=A short bio",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create with optional --bornOn and --diedOn returns the created actor", async () => {
+    await actorCreate.run(ctx, [
+      "--username=test-actor5",
+      "--fullName=Test Actor 5",
+      "--bornOn=1950-01-01",
+      "--diedOn=2020-06-15",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create with optional --nationalityIds returns the created actor", async () => {
+    await actorCreate.run(ctx, [
+      "--username=test-actor6",
+      "--fullName=Test Actor 6",
+      "--nationalityIds=00000000-0000-4000-8000-000000000002,00000000-0000-4000-8000-000000000003",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create with optional --body returns the created actor", async () => {
+    await actorCreate.run(ctx, [
+      "--username=test-actor7",
+      "--fullName=Test Actor 7",
+      "--body=Full biography text here",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create missing required --username throws validation error", async () => {
+    await expect(
+      actorCreate.run(ctx, ["--fullName=No Username"]),
+    ).rejects.toThrow();
+  });
+
+  test("create missing required --fullName throws validation error", async () => {
+    await expect(
+      actorCreate.run(ctx, ["--username=no-fullname"]),
+    ).rejects.toThrow();
+  });
+
+  // --- edit ---
+
   test("edit --id --fullName returns the updated actor", async () => {
     await actorEdit.run(ctx, [`--id=${actorB.id}`, "--fullName=Updated Name"]);
     const result = JSON.parse(output);
@@ -93,5 +160,70 @@ describe("actor create/edit CLI", () => {
     expect(result.data).toMatchObject({
       id: expect.any(String),
     });
+  });
+
+  test("edit --id with optional --username returns the updated actor", async () => {
+    await actorEdit.run(ctx, [`--id=${actorB.id}`, "--username=new-username"]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --excerpt returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--excerpt=Updated biography",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --body returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--body=Full updated biography body",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --avatar returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--avatar=00000000-0000-4000-8000-000000000004",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --bornOn and --diedOn returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--bornOn=1960-03-10",
+      "--diedOn=2021-11-20",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --memberIn (multiple UUIDs) returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--memberIn=00000000-0000-4000-8000-000000000005,00000000-0000-4000-8000-000000000006",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with optional --nationalities (multiple UUIDs) returns the updated actor", async () => {
+    await actorEdit.run(ctx, [
+      `--id=${actorB.id}`,
+      "--nationalities=00000000-0000-4000-8000-000000000007,00000000-0000-4000-8000-000000000008",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit missing required --id throws validation error", async () => {
+    await expect(actorEdit.run(ctx, ["--fullName=No ID"])).rejects.toThrow();
   });
 });

@@ -71,6 +71,26 @@ describe("link edit CLI", () => {
     });
   });
 
+  test("edit --id with --status=UNAPPROVED returns the updated link", async () => {
+    await linkEdit.run(ctx, [
+      `--id=${linkB.id}`,
+      "--status=UNAPPROVED",
+      "--url=https://example.com/unapproved",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --status=DRAFT returns the updated link", async () => {
+    await linkEdit.run(ctx, [
+      `--id=${linkB.id}`,
+      "--status=DRAFT",
+      "--url=https://example.com/draft",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
   test("edit --id with --publishDate returns the updated link", async () => {
     await linkEdit.run(ctx, [
       `--id=${linkB.id}`,
@@ -81,5 +101,41 @@ describe("link edit CLI", () => {
     expect(result.data).toMatchObject({
       id: expect.any(String),
     });
+  });
+
+  test("edit --id with --description returns the updated link", async () => {
+    await linkEdit.run(ctx, [
+      `--id=${linkB.id}`,
+      "--url=https://example.com/described",
+      "--description=A detailed description of the article",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --events (multiple UUIDs) returns the updated link", async () => {
+    await linkEdit.run(ctx, [
+      `--id=${linkB.id}`,
+      "--url=https://example.com/with-events",
+      "--events=00000000-0000-4000-8000-000000000001,00000000-0000-4000-8000-000000000002",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --keywords (multiple UUIDs) returns the updated link", async () => {
+    await linkEdit.run(ctx, [
+      `--id=${linkB.id}`,
+      "--url=https://example.com/with-keywords",
+      "--keywords=00000000-0000-4000-8000-000000000003,00000000-0000-4000-8000-000000000004",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit missing required --id throws validation error", async () => {
+    await expect(
+      linkEdit.run(ctx, ["--title=No ID", "--url=https://example.com"]),
+    ).rejects.toThrow();
   });
 });

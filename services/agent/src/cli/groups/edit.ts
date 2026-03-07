@@ -1,5 +1,5 @@
 import { EditGroupInputSchema } from "@liexp/shared/lib/mcp/schemas/groups.schemas.js";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -10,17 +10,17 @@ Usage: agent group edit [options]
 Edit an existing group by UUID.
 
 Options:
-  --id=<uuid>            Group UUID (required)
-  --name=<string>        Group name
-  --username=<string>    Unique slug
-  --kind=<Public|Private> Group visibility
-  --color=<hex>          Color hex without #
-  --excerpt=<string>     Short description
-  --avatar=<uuid>        Media UUID for avatar
-  --startDate=<date>     Start date YYYY-MM-DD
-  --endDate=<date>       End date YYYY-MM-DD
-  --members=<uuid>       Actor UUID to add as member
-  --help                 Show this help message
+  --id=<uuid>              Group UUID (required)
+  --name=<string>          Group name
+  --username=<string>      Unique slug
+  --kind=<Public|Private>  Group visibility
+  --color=<hex>            Color hex without #
+  --excerpt=<string>       Short description
+  --avatar=<uuid>          Media UUID for avatar
+  --startDate=<date>       Start date YYYY-MM-DD
+  --endDate=<date>         End date YYYY-MM-DD
+  --members=<uuid,...>     Comma-separated actor UUIDs to set as members
+  --help                   Show this help message
 
 Output: JSON updated group object
 `,
@@ -39,7 +39,7 @@ Output: JSON updated group object
         avatar: getArg(args, "avatar"),
         startDate: getArg(args, "startDate"),
         endDate: getArg(args, "endDate"),
-        members: membersArg ? [membersArg] : undefined,
+        members: membersArg !== undefined ? splitUUIDs(membersArg) : undefined,
       },
       (input) => {
         ctx.logger.debug.log("group edit input: %O", input);

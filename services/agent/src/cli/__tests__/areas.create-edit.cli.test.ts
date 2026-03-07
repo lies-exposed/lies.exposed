@@ -52,6 +52,8 @@ describe("area create/edit CLI", () => {
 
   afterAll(() => server.close());
 
+  // --- create ---
+
   test("create --label --slug returns the created area", async () => {
     await areaCreate.run(ctx, ["--label=Test Area", "--slug=test-area"]);
     const result = JSON.parse(output);
@@ -72,6 +74,30 @@ describe("area create/edit CLI", () => {
     });
   });
 
+  test("create with optional --geometry returns the created area", async () => {
+    const geometry = JSON.stringify({
+      type: "Point",
+      coordinates: [30.5238, 50.4501],
+    });
+    await areaCreate.run(ctx, [
+      "--label=Kyiv",
+      "--slug=kyiv",
+      `--geometry=${geometry}`,
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("create missing required --label throws validation error", async () => {
+    await expect(areaCreate.run(ctx, ["--slug=no-label"])).rejects.toThrow();
+  });
+
+  test("create missing required --slug throws validation error", async () => {
+    await expect(areaCreate.run(ctx, ["--label=No Slug"])).rejects.toThrow();
+  });
+
+  // --- edit ---
+
   test("edit --id --label returns the updated area", async () => {
     await areaEdit.run(ctx, [`--id=${areaB.id}`, "--label=Updated Label"]);
     const result = JSON.parse(output);
@@ -87,5 +113,60 @@ describe("area create/edit CLI", () => {
     expect(result.data).toMatchObject({
       id: expect.any(String),
     });
+  });
+
+  test("edit --id with --draft=false returns the updated area", async () => {
+    await areaEdit.run(ctx, [`--id=${areaB.id}`, "--draft=false"]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --geometry returns the updated area", async () => {
+    const geometry = JSON.stringify({
+      type: "Polygon",
+      coordinates: [
+        [
+          [30.0, 50.0],
+          [31.0, 50.0],
+          [31.0, 51.0],
+          [30.0, 51.0],
+          [30.0, 50.0],
+        ],
+      ],
+    });
+    await areaEdit.run(ctx, [`--id=${areaB.id}`, `--geometry=${geometry}`]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --featuredImage returns the updated area", async () => {
+    await areaEdit.run(ctx, [
+      `--id=${areaB.id}`,
+      "--featuredImage=00000000-0000-4000-8000-000000000001",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --media (multiple UUIDs) returns the updated area", async () => {
+    await areaEdit.run(ctx, [
+      `--id=${areaB.id}`,
+      "--media=00000000-0000-4000-8000-000000000002,00000000-0000-4000-8000-000000000003",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit --id with --events (multiple UUIDs) returns the updated area", async () => {
+    await areaEdit.run(ctx, [
+      `--id=${areaB.id}`,
+      "--events=00000000-0000-4000-8000-000000000004,00000000-0000-4000-8000-000000000005",
+    ]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+  });
+
+  test("edit missing required --id throws validation error", async () => {
+    await expect(areaEdit.run(ctx, ["--label=No ID"])).rejects.toThrow();
   });
 });
