@@ -1,17 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { CreateMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-
-const splitUUIDs = (value: string | undefined): string[] =>
-  value
-    ? value
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
+import { runCommand } from "../run-command.js";
 
 export const mediaCreate: CommandModule = {
   help: `
@@ -33,9 +23,11 @@ Options:
 
 Output: JSON created media object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(CreateMediaInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      CreateMediaInputSchema,
+      {
         location: getArg(args, "location"),
         type: getArg(args, "type"),
         label: getArg(args, "label"),
@@ -45,10 +37,8 @@ Output: JSON created media object
         links: getArg(args, "links"),
         keywords: getArg(args, "keywords"),
         areas: getArg(args, "areas"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("media create input: %O", input);
         return ctx.api.Media.Create({
           Body: {
@@ -65,16 +55,6 @@ Output: JSON created media object
             areas: splitUUIDs(input.areas) as any[],
           },
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("media create response: id=%s", result.data.id);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

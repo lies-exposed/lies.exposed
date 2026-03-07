@@ -8,3 +8,10 @@ export const getArg = (args: string[], key: string): string | undefined =>
     ?.split("=")
     .slice(1)
     .join("=");
+
+/**
+ * Splits a comma-separated string of UUIDs into an array.
+ * Returns [] if the value is undefined or empty.
+ */
+export const splitUUIDs = (value: string | undefined): string[] =>
+  value ? value.split(",").map((s) => s.trim()).filter(Boolean) : [];

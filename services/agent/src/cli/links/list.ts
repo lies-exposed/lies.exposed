@@ -1,9 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { FindLinksInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const linkList: CommandModule = {
   help: `
@@ -21,18 +19,18 @@ Options:
 
 Output: JSON list of link objects
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(FindLinksInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      FindLinksInputSchema,
+      {
         query: getArg(args, "query"),
         sort: getArg(args, "sort"),
         order: getArg(args, "order"),
         start: getArg(args, "start"),
         end: getArg(args, "end"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("link list input: %O", input);
         return ctx.api.Link.List({
           Query: {
@@ -43,16 +41,6 @@ Output: JSON list of link objects
             _end: input.end !== undefined ? String(input.end) : "20",
           } as any,
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("link list response: total=%d", result.total);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

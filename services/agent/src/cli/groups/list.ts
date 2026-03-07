@@ -1,9 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { FindGroupsInputSchema } from "@liexp/shared/lib/mcp/schemas/groups.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const groupList: CommandModule = {
   help: `
@@ -21,18 +19,18 @@ Options:
 
 Output: JSON group list
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(FindGroupsInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      FindGroupsInputSchema,
+      {
         query: getArg(args, "query"),
         sort: getArg(args, "sort") as any,
         order: getArg(args, "order") as any,
         start: getArg(args, "start"),
         end: getArg(args, "end"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("group list input: %O", input);
         return ctx.api.Group.List({
           Query: {
@@ -43,16 +41,6 @@ Output: JSON group list
             _end: input.end !== undefined ? String(input.end) : "20",
           },
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("group list response: total=%d", result.total);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

@@ -1,9 +1,8 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { CreateAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const areaCreate: CommandModule = {
   help: `
@@ -20,17 +19,17 @@ Options:
 
 Output: JSON created area object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(CreateAreaInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      CreateAreaInputSchema,
+      {
         label: getArg(args, "label"),
         slug: getArg(args, "slug"),
         draft: getArg(args, "draft"),
         geometry: getArg(args, "geometry"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("area create input: %O", input);
 
         let geometry: any = undefined;
@@ -56,16 +55,6 @@ Output: JSON created area object
             body: [] as any,
           },
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("area create response: id=%s", result.data.id);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

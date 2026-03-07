@@ -1,9 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { CreateActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const actorCreate: CommandModule = {
   help: `
@@ -23,9 +21,11 @@ Options:
 
 Output: JSON created actor object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(CreateActorInputSchema)({
+  run: async (ctx, args) =>
+    runCommand(
+      ctx,
+      CreateActorInputSchema,
+      {
         username: getArg(args, "username"),
         fullName: getArg(args, "fullName"),
         config: {
@@ -35,10 +35,8 @@ Output: JSON created actor object
           diedOn: getArg(args, "diedOn"),
           color: getArg(args, "color"),
         },
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("actor-create input: %O", input);
         return ctx.api.Actor.Create({
           Body: {
@@ -58,16 +56,6 @@ Output: JSON created actor object
               : {}),
           } as any,
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("actor-create response: %O", result.data);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

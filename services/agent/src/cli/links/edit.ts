@@ -1,17 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EditLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-
-const splitUUIDs = (value: string | undefined): string[] =>
-  value
-    ? value
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
+import { runCommand } from "../run-command.js";
 
 export const linkEdit: CommandModule = {
   help: `
@@ -32,9 +22,11 @@ Options:
 
 Output: JSON updated link object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(EditLinkInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      EditLinkInputSchema,
+      {
         id: getArg(args, "id"),
         title: getArg(args, "title"),
         description: getArg(args, "description"),
@@ -43,10 +35,8 @@ Output: JSON updated link object
         publishDate: getArg(args, "publishDate"),
         events: getArg(args, "events"),
         keywords: getArg(args, "keywords"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("link edit input: %O", input);
         return ctx.api.Link.Edit({
           Params: { id: input.id as any },
@@ -66,16 +56,6 @@ Output: JSON updated link object
             overrideThumbnail: null,
           } as any,
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("link edit response: id=%s", result.data.id);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

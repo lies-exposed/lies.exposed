@@ -1,9 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { FindEventsInputSchema } from "@liexp/shared/lib/mcp/schemas/events.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const eventList: CommandModule = {
   help: `
@@ -24,12 +22,14 @@ Options:
 
 Output: JSON list of event objects
 `,
-  run: async (ctx, args) => {
+  run: (ctx, args) => {
     const actorsArg = getArg(args, "actors");
     const groupsArg = getArg(args, "groups");
 
-    const result = await pipe(
-      Schema.decodeUnknownEither(FindEventsInputSchema)({
+    return runCommand(
+      ctx,
+      FindEventsInputSchema,
+      {
         query: getArg(args, "query"),
         actors: actorsArg ? [actorsArg] : undefined,
         groups: groupsArg ? [groupsArg] : undefined,
@@ -38,10 +38,8 @@ Output: JSON list of event objects
         endDate: getArg(args, "endDate"),
         start: getArg(args, "start"),
         end: getArg(args, "end"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("event list input: %O", input);
         return ctx.api.Event.List({
           Query: {
@@ -55,16 +53,7 @@ Output: JSON list of event objects
             _end: input.end !== undefined ? String(input.end) : "20",
           } as any,
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("event list response: total=%d", result.total);
-        }),
-      ),
-      throwTE,
+      },
     );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
   },
 };

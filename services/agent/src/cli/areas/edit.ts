@@ -1,17 +1,8 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-
-const splitUUIDs = (value: string | undefined): string[] =>
-  value
-    ? value
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
+import { runCommand } from "../run-command.js";
 
 export const areaEdit: CommandModule = {
   help: `
@@ -32,9 +23,11 @@ Options:
 
 Output: JSON updated area object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(EditAreaInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      EditAreaInputSchema,
+      {
         id: getArg(args, "id"),
         label: getArg(args, "label"),
         slug: getArg(args, "slug"),
@@ -43,10 +36,8 @@ Output: JSON updated area object
         featuredImage: getArg(args, "featuredImage"),
         media: getArg(args, "media"),
         events: getArg(args, "events"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("area edit input: %O", input);
 
         let geometry: any = null;
@@ -76,16 +67,6 @@ Output: JSON updated area object
             updateGeometry: geometry !== null ? true : null,
           } as any,
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("area edit response: id=%s", result.data.id);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

@@ -1,21 +1,8 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { CreateEventInputSchema } from "@liexp/shared/lib/mcp/schemas/events.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-
-/**
- * Splits a comma-separated string of UUIDs into an array.
- * Returns [] if the value is undefined or empty.
- */
-const splitUUIDs = (value: string | undefined): string[] =>
-  value
-    ? value
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
+import { runCommand } from "../run-command.js";
 
 export const eventCreate: CommandModule = {
   help: `
@@ -90,9 +77,11 @@ Documentary payload:
 
 Output: JSON created event object
 `,
-  run: async (ctx, args) => {
-    const result = await pipe(
-      Schema.decodeUnknownEither(CreateEventInputSchema)({
+  run: (ctx, args) =>
+    runCommand(
+      ctx,
+      CreateEventInputSchema,
+      {
         type: getArg(args, "type"),
         date: getArg(args, "date"),
         draft: getArg(args, "draft"),
@@ -131,10 +120,8 @@ Output: JSON created event object
         authorGroups: getArg(args, "authorGroups"),
         subjectActors: getArg(args, "subjectActors"),
         subjectGroups: getArg(args, "subjectGroups"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("event create input: %O", input);
 
         const common = {
@@ -324,16 +311,6 @@ Output: JSON created event object
         }
 
         return ctx.api.Event.Create({ Body: body });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("event create response: %O", result.data);
-        }),
-      ),
-      throwTE,
-    );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  },
+      },
+    ),
 };

@@ -1,9 +1,7 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { FindActorsInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
+import { runCommand } from "../run-command.js";
 
 export const actorFind: CommandModule = {
   help: `
@@ -25,9 +23,10 @@ Output: JSON array of actor objects
 `,
   run: async (ctx, args) => {
     const memberInArg = getArg(args, "memberIn");
-
-    const result = await pipe(
-      Schema.decodeUnknownEither(FindActorsInputSchema)({
+    return runCommand(
+      ctx,
+      FindActorsInputSchema,
+      {
         fullName: getArg(args, "fullName"),
         memberIn: memberInArg ? [memberInArg] : [],
         withDeleted: args.includes("--withDeleted") ? true : undefined,
@@ -35,10 +34,8 @@ Output: JSON array of actor objects
         order: getArg(args, "order"),
         start: getArg(args, "start"),
         end: getArg(args, "end"),
-      }),
-      fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
-      fp.TE.fromEither,
-      fp.TE.chainW((input) => {
+      },
+      (input) => {
         ctx.logger.debug.log("actor-find input: %O", input);
         return ctx.api.Actor.List({
           Query: {
@@ -49,16 +46,7 @@ Output: JSON array of actor objects
             _end: input.end !== undefined ? String(input.end) : "20",
           },
         });
-      }),
-      fp.TE.tap((result) =>
-        fp.TE.fromIO(() => {
-          ctx.logger.debug.log("actor-find response: total=%d", result.total);
-        }),
-      ),
-      throwTE,
+      },
     );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
   },
 };
