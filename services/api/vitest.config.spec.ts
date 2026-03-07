@@ -12,6 +12,9 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.e2e.ts", "test"],
+      // TODO: add coverage thresholds once the service can run tests without a
+      // live database. Currently most tests require a DB connection and are
+      // exercised via e2e rather than unit tests.
     }
   },
 }));

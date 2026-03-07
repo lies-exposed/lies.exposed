@@ -21,7 +21,7 @@
     "serve": "node build/server/server.js",
     "start": "vite start",
     "test": "vitest",
-    "test:coverage": "vitest --run --coverage",
+    "test:coverage": "vitest --run --coverage --project admin-spec",
     "test:e2e": "vitest --project e2e",
     "watch": "tsc -b --watch"
   },

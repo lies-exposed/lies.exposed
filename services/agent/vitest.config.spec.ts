@@ -23,6 +23,14 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.e2e.ts", "test"],
+      // Thresholds set at current coverage floored to nearest 5% (ratchet).
+      // Actual: stmts 85.90%, branch 73.46%, funcs 96.80%, lines 85.79%
+      thresholds: {
+        statements: 85,
+        branches: 70,
+        functions: 95,
+        lines: 85,
+      },
     },
   },
 }));
