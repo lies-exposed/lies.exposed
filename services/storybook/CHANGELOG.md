@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...@liexp/storybook@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **agent:** agent supervisor ([#3344](https://github.com/lies-exposed/lies.exposed/issues/3344)) ([723675e](https://github.com/lies-exposed/lies.exposed/commit/723675e1f5b2e0c5474c40944239cf6b8b9cb9b7))
+* **ui:** global search command palette (Ctrl+K) ([#3324](https://github.com/lies-exposed/lies.exposed/issues/3324)) ([24ab24a](https://github.com/lies-exposed/lies.exposed/commit/24ab24a9628bcd258784a08381e0bbab7473465e))
+
+
+### Miscellaneous
+
+* **storybook:** reorganize stories into proper folder hierarchy ([#3322](https://github.com/lies-exposed/lies.exposed/issues/3322)) ([5285b10](https://github.com/lies-exposed/lies.exposed/commit/5285b10eda0acf836b4fdbc14e3a6ed8975ec826))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.5.4
+    * @liexp/shared bumped to 0.5.4
+    * @liexp/test bumped to 0.5.4
+    * @liexp/ui bumped to 0.5.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.4
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...@liexp/storybook@0.5.3) (2026-03-04)
 
 

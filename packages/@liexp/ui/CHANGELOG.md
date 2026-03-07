@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...@liexp/ui@0.5.4) (2026-03-07)
+
+
+### Bug Fixes
+
+* **admin:** fix link list media alignment ([#3319](https://github.com/lies-exposed/lies.exposed/issues/3319)) ([e98c135](https://github.com/lies-exposed/lies.exposed/commit/e98c135f873e6a9bcafa69de5f276cc68f25d571))
+* **admin:** preserve link image in all direct useUpdate calls  ([#3323](https://github.com/lies-exposed/lies.exposed/issues/3323)) ([049e554](https://github.com/lies-exposed/lies.exposed/commit/049e554a9e7dfb0856c085cb1c467c95353b4dab))
+* **agent:** agent supervisor ([#3344](https://github.com/lies-exposed/lies.exposed/issues/3344)) ([723675e](https://github.com/lies-exposed/lies.exposed/commit/723675e1f5b2e0c5474c40944239cf6b8b9cb9b7))
+* **core:** fix dotenv v17 ESM resolution in Vite config bundler ([#3327](https://github.com/lies-exposed/lies.exposed/issues/3327)) ([84843e1](https://github.com/lies-exposed/lies.exposed/commit/84843e112e774248d294a2afd85704258bd39d51))
+* **ui:** chat compatibility with dark theme ([#3331](https://github.com/lies-exposed/lies.exposed/issues/3331)) ([22fe9a3](https://github.com/lies-exposed/lies.exposed/commit/22fe9a3f2ed4dac904f645e40918fb3f242a9db5))
+* **ui:** global search command palette (Ctrl+K) ([#3324](https://github.com/lies-exposed/lies.exposed/issues/3324)) ([24ab24a](https://github.com/lies-exposed/lies.exposed/commit/24ab24a9628bcd258784a08381e0bbab7473465e))
+* **web:** improve media page layout and home page media grid ([#3325](https://github.com/lies-exposed/lies.exposed/issues/3325)) ([52b440d](https://github.com/lies-exposed/lies.exposed/commit/52b440d303e60591cb2ddb1c14c9c8f936a40e03))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.4
+    * @liexp/io bumped to 0.5.4
+    * @liexp/shared bumped to 0.5.4
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.4
+
 ## [0.5.3](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.2...@liexp/ui@0.5.3) (2026-03-04)
 
 
