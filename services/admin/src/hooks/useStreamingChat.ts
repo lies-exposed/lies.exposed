@@ -196,147 +196,146 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
                   console.log("Received SSE event:", event.type, event);
 
                   setState((prev) => {
-                      const newState = { ...prev };
+                    const newState = { ...prev };
 
-                      switch (event.type) {
-                        case "message_start":
-                          currentMessageIdRef.current =
-                            event.message_id ?? null;
-                          newState.streamingContent = "";
-                          // Capture provider info if available
-                          if (event.usedProvider) {
-                            newState.usedProvider = event.usedProvider;
-                          }
-                          break;
+                    switch (event.type) {
+                      case "message_start":
+                        currentMessageIdRef.current = event.message_id ?? null;
+                        newState.streamingContent = "";
+                        // Capture provider info if available
+                        if (event.usedProvider) {
+                          newState.usedProvider = event.usedProvider;
+                        }
+                        break;
 
-                        case "content_delta":
-                          if (event.content) {
-                            // Check if this is thinking content or regular content
-                            if (event.thinking) {
-                              // Accumulate thinking content separately
-                              newState.thinkingContent += event.content;
-                            } else {
-                              // Regular content delta
-                              newState.streamingContent += event.content;
-                              // Update estimated token usage during streaming
-                              const estimatedCompletionTokens = estimateTokens(
-                                newState.streamingContent,
-                              );
-                              if (!newState.tokenUsage) {
-                                newState.tokenUsage = {
-                                  promptTokens: 0, // We don't know prompt tokens yet
-                                  completionTokens: estimatedCompletionTokens,
-                                  totalTokens: estimatedCompletionTokens,
-                                  isEstimated: true,
-                                };
-                              } else {
-                                newState.tokenUsage.completionTokens =
-                                  estimatedCompletionTokens;
-                                newState.tokenUsage.totalTokens =
-                                  newState.tokenUsage.promptTokens +
-                                  estimatedCompletionTokens;
-                                newState.tokenUsage.isEstimated = true;
-                              }
-                            }
-                          }
-                          break;
-
-                        case "tool_call_start":
-                          if (event.tool_call) {
-                            newState.activeToolCalls = new Map(
-                              prev.activeToolCalls,
+                      case "content_delta":
+                        if (event.content) {
+                          // Check if this is thinking content or regular content
+                          if (event.thinking) {
+                            // Accumulate thinking content separately
+                            newState.thinkingContent += event.content;
+                          } else {
+                            // Regular content delta
+                            newState.streamingContent += event.content;
+                            // Update estimated token usage during streaming
+                            const estimatedCompletionTokens = estimateTokens(
+                              newState.streamingContent,
                             );
-                            newState.activeToolCalls.set(event.tool_call.id, {
-                              name: event.tool_call.name,
-                              args: event.tool_call.arguments,
-                            });
-                            newState.completedToolCalls = [
-                              ...prev.completedToolCalls,
-                            ];
-                          }
-                          break;
-
-                        case "tool_call_end":
-                          if (event.tool_call) {
-                            // Get the arguments from the active tool call before deleting it
-                            const toolArgs = prev.activeToolCalls.get(
-                              event.tool_call.id,
-                            )?.args;
-
-                            newState.activeToolCalls = new Map(
-                              prev.activeToolCalls,
-                            );
-                            newState.activeToolCalls.delete(event.tool_call.id);
-                            newState.completedToolCalls = [
-                              ...prev.completedToolCalls,
-                              {
-                                name: event.tool_call.name,
-                                result: event.tool_call.result ?? "No result",
-                              },
-                            ];
-
-                            // Add tool result as a message so users can see what happened
-                            const toolMessage: ChatMessage = {
-                              id: `tool-${event.tool_call.id}`,
-                              role: "tool",
-                              content: JSON.stringify(
-                                {
-                                  tool: event.tool_call.name,
-                                  arguments: toolArgs,
-                                  result: event.tool_call.result,
-                                },
-                                null,
-                                2,
-                              ),
-                              timestamp: new Date().toISOString(),
-                              tool_call_id: event.tool_call.id,
-                            };
-
-                            newState.messages = [...prev.messages, toolMessage];
-                          }
-                          break;
-
-                        case "message_end":
-                          // Finalize the assistant message
-                          if (currentMessageIdRef.current && event.content) {
-                            const assistantMessage: ChatMessage = {
-                              id: currentMessageIdRef.current,
-                              role: "assistant",
-                              content: event.content,
-                              timestamp: event.timestamp,
-                            };
-
-                            newState.messages = [
-                              ...prev.messages,
-                              assistantMessage,
-                            ];
-                            newState.streamingContent = "";
-                            newState.thinkingContent = "";
-                            newState.activeToolCalls = new Map();
-                            newState.completedToolCalls = [];
-                            newState.conversationId =
-                              request.conversation_id ?? prev.conversationId;
-
-                            // Update token usage with actual values if provided
-                            if (event.usage) {
+                            if (!newState.tokenUsage) {
                               newState.tokenUsage = {
-                                promptTokens: event.usage.prompt_tokens ?? 0,
-                                completionTokens:
-                                  event.usage.completion_tokens ?? 0,
-                                totalTokens: event.usage.total_tokens ?? 0,
-                                isEstimated: false,
+                                promptTokens: 0, // We don't know prompt tokens yet
+                                completionTokens: estimatedCompletionTokens,
+                                totalTokens: estimatedCompletionTokens,
+                                isEstimated: true,
                               };
+                            } else {
+                              newState.tokenUsage.completionTokens =
+                                estimatedCompletionTokens;
+                              newState.tokenUsage.totalTokens =
+                                newState.tokenUsage.promptTokens +
+                                estimatedCompletionTokens;
+                              newState.tokenUsage.isEstimated = true;
                             }
                           }
-                          break;
+                        }
+                        break;
 
-                        case "error":
-                          newState.error = event.error ?? "Unknown error";
-                          break;
-                      }
+                      case "tool_call_start":
+                        if (event.tool_call) {
+                          newState.activeToolCalls = new Map(
+                            prev.activeToolCalls,
+                          );
+                          newState.activeToolCalls.set(event.tool_call.id, {
+                            name: event.tool_call.name,
+                            args: event.tool_call.arguments,
+                          });
+                          newState.completedToolCalls = [
+                            ...prev.completedToolCalls,
+                          ];
+                        }
+                        break;
 
-                      return newState;
-                    });
+                      case "tool_call_end":
+                        if (event.tool_call) {
+                          // Get the arguments from the active tool call before deleting it
+                          const toolArgs = prev.activeToolCalls.get(
+                            event.tool_call.id,
+                          )?.args;
+
+                          newState.activeToolCalls = new Map(
+                            prev.activeToolCalls,
+                          );
+                          newState.activeToolCalls.delete(event.tool_call.id);
+                          newState.completedToolCalls = [
+                            ...prev.completedToolCalls,
+                            {
+                              name: event.tool_call.name,
+                              result: event.tool_call.result ?? "No result",
+                            },
+                          ];
+
+                          // Add tool result as a message so users can see what happened
+                          const toolMessage: ChatMessage = {
+                            id: `tool-${event.tool_call.id}`,
+                            role: "tool",
+                            content: JSON.stringify(
+                              {
+                                tool: event.tool_call.name,
+                                arguments: toolArgs,
+                                result: event.tool_call.result,
+                              },
+                              null,
+                              2,
+                            ),
+                            timestamp: new Date().toISOString(),
+                            tool_call_id: event.tool_call.id,
+                          };
+
+                          newState.messages = [...prev.messages, toolMessage];
+                        }
+                        break;
+
+                      case "message_end":
+                        // Finalize the assistant message
+                        if (currentMessageIdRef.current && event.content) {
+                          const assistantMessage: ChatMessage = {
+                            id: currentMessageIdRef.current,
+                            role: "assistant",
+                            content: event.content,
+                            timestamp: event.timestamp,
+                          };
+
+                          newState.messages = [
+                            ...prev.messages,
+                            assistantMessage,
+                          ];
+                          newState.streamingContent = "";
+                          newState.thinkingContent = "";
+                          newState.activeToolCalls = new Map();
+                          newState.completedToolCalls = [];
+                          newState.conversationId =
+                            request.conversation_id ?? prev.conversationId;
+
+                          // Update token usage with actual values if provided
+                          if (event.usage) {
+                            newState.tokenUsage = {
+                              promptTokens: event.usage.prompt_tokens ?? 0,
+                              completionTokens:
+                                event.usage.completion_tokens ?? 0,
+                              totalTokens: event.usage.total_tokens ?? 0,
+                              isEstimated: false,
+                            };
+                          }
+                        }
+                        break;
+
+                      case "error":
+                        newState.error = event.error ?? "Unknown error";
+                        break;
+                    }
+
+                    return newState;
+                  });
                 } catch (parseError) {
                   // eslint-disable-next-line no-console
                   console.error("Failed to parse SSE event:", parseError, data);

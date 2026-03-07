@@ -29,7 +29,9 @@ const getOrCreateAgent =
       return TE.right(ctx.agent.agent);
     }
 
-    const override = aiConfig ? aiConfigToProviderOverride(aiConfig) : undefined;
+    const override = aiConfig
+      ? aiConfigToProviderOverride(aiConfig)
+      : undefined;
     return pipe(
       ctx.agentFactory(agentType, override),
       TE.mapLeft((error) => ServerError.fromUnknown(error)),
@@ -202,7 +204,10 @@ export const sendChatMessageStream = (payload: {
 
     try {
       // Get or create agent with optional type + provider override
-      const agentResult = await getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx)();
+      const agentResult = await getOrCreateAgent(
+        payload.agent_type,
+        payload.aiConfig,
+      )(ctx)();
 
       if (agentResult._tag === "Left") {
         // Error case
@@ -271,7 +276,7 @@ export const sendChatMessageStream = (payload: {
                 timestamp: new Date().toISOString(),
                 tool_call: {
                   id: msg.tool_call_id as string,
-                  name: msg.name as string,
+                  name: msg.name,
                   result:
                     typeof msg.content === "string"
                       ? msg.content
@@ -380,7 +385,9 @@ export const sendChatMessageStream = (payload: {
                         message_id: messageId,
                       } satisfies ChatStreamEvent;
                     }
-                    thinkBuffer = remaining.slice(remaining.length - partialMatch);
+                    thinkBuffer = remaining.slice(
+                      remaining.length - partialMatch,
+                    );
                   } else {
                     // Regular content, no think tags
                     yield {

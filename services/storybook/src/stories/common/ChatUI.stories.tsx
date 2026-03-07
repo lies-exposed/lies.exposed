@@ -564,7 +564,6 @@ const StreamingChatUI = (args: typeof ChatUI.arguments) => {
     if (isOpen && messages.length === 0 && !isLoading) {
       runScenario();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const streamingMessage = streamingContent

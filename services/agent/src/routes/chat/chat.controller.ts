@@ -1,6 +1,7 @@
 import { Readable } from "node:stream";
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { authenticationHandler } from "@liexp/backend/lib/express/middleware/auth.middleware.js";
+import { AGENT_CONFIGS } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
   type AgentInfo,
@@ -8,7 +9,6 @@ import {
   type AvailableModels,
   type ProviderInfo,
 } from "@liexp/io/lib/http/Chat.js";
-import { AGENT_CONFIGS } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js";
 import { type HTTPStreamResponse } from "@ts-endpoint/express/lib/HTTPResponse.js";
