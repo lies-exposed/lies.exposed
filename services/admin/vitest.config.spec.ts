@@ -13,9 +13,8 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     coverage: {
       include: ["src/**/*.ts", "src/**/*.tsx"],
       exclude: ["src/**/*.e2e.*", "test/**", "node_modules/**", "build/**"],
-      // Thresholds set at current coverage floored to nearest 5% (ratchet).
-      // Only one spec file exists (useStreamingChat.spec.ts).
-      // TODO: increase thresholds as more unit tests are added.
+      // Only one spec file exists (useStreamingChat.spec.ts); coverage is minimal.
+      // TODO: add more unit tests and raise thresholds to 80%.
       thresholds: {
         statements: 0,
         branches: 0,
