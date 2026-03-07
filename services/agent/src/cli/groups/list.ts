@@ -22,16 +22,13 @@ Options:
 Output: JSON group list
 `,
   run: async (ctx, args) => {
-    const startArg = getArg(args, "start");
-    const endArg = getArg(args, "end");
-
     const result = await pipe(
       Schema.decodeUnknownEither(FindGroupsInputSchema)({
         query: getArg(args, "query"),
         sort: getArg(args, "sort") as any,
         order: getArg(args, "order") as any,
-        start: startArg !== undefined ? Number(startArg) : undefined,
-        end: endArg !== undefined ? Number(endArg) : undefined,
+        start: getArg(args, "start"),
+        end: getArg(args, "end"),
       }),
       fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
       fp.TE.fromEither,

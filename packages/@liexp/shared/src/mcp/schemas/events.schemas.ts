@@ -21,10 +21,10 @@ export const FindEventsInputSchema = Schema.Struct({
   endDate: Schema.UndefinedOr(Schema.String).annotations({
     description: "Filter events on or before this date (YYYY-MM-DD)",
   }),
-  start: Schema.UndefinedOr(Schema.Number).annotations({
+  start: Schema.UndefinedOr(Schema.NumberFromString).annotations({
     description: "Pagination offset (default: 0)",
   }),
-  end: Schema.UndefinedOr(Schema.Number).annotations({
+  end: Schema.UndefinedOr(Schema.NumberFromString).annotations({
     description: "Pagination limit (default: 20)",
   }),
 });

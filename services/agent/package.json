@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
+    "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",

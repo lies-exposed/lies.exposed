@@ -27,10 +27,10 @@ export const FindActorsInputSchema = Schema.Struct({
   ).annotations({
     description: 'Sort order: "ASC" for ascending or "DESC" for descending',
   }),
-  start: Schema.UndefinedOr(Schema.Number).annotations({
+  start: Schema.UndefinedOr(Schema.NumberFromString).annotations({
     description: "Pagination start index",
   }),
-  end: Schema.UndefinedOr(Schema.Number).annotations({
+  end: Schema.UndefinedOr(Schema.NumberFromString).annotations({
     description: "Pagination end index",
   }),
 });

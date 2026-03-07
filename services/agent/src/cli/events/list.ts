@@ -27,8 +27,6 @@ Output: JSON list of event objects
   run: async (ctx, args) => {
     const actorsArg = getArg(args, "actors");
     const groupsArg = getArg(args, "groups");
-    const startArg = getArg(args, "start");
-    const endArg = getArg(args, "end");
 
     const result = await pipe(
       Schema.decodeUnknownEither(FindEventsInputSchema)({
@@ -38,8 +36,8 @@ Output: JSON list of event objects
         type: getArg(args, "type"),
         startDate: getArg(args, "startDate"),
         endDate: getArg(args, "endDate"),
-        start: startArg !== undefined ? Number(startArg) : undefined,
-        end: endArg !== undefined ? Number(endArg) : undefined,
+        start: getArg(args, "start"),
+        end: getArg(args, "end"),
       }),
       fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
       fp.TE.fromEither,

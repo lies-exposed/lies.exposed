@@ -25,8 +25,6 @@ Output: JSON array of actor objects
 `,
   run: async (ctx, args) => {
     const memberInArg = getArg(args, "memberIn");
-    const startArg = getArg(args, "start");
-    const endArg = getArg(args, "end");
 
     const result = await pipe(
       Schema.decodeUnknownEither(FindActorsInputSchema)({
@@ -35,8 +33,8 @@ Output: JSON array of actor objects
         withDeleted: args.includes("--withDeleted") ? true : undefined,
         sort: getArg(args, "sort"),
         order: getArg(args, "order"),
-        start: startArg !== undefined ? Number(startArg) : undefined,
-        end: endArg !== undefined ? Number(endArg) : undefined,
+        start: getArg(args, "start"),
+        end: getArg(args, "end"),
       }),
       fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
       fp.TE.fromEither,

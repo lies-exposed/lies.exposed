@@ -1055,6 +1055,9 @@ importers:
       '@liexp/eslint-config':
         specifier: workspace:*
         version: link:../../packages/@liexp/eslint-config
+      '@liexp/test':
+        specifier: workspace:*
+        version: link:../../packages/@liexp/test
       '@types/cors':
         specifier: ^2.8.18
         version: 2.8.19

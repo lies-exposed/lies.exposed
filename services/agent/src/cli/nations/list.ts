@@ -20,14 +20,11 @@ Options:
 Output: JSON list of nation objects
 `,
   run: async (ctx, args) => {
-    const startArg = getArg(args, "start");
-    const endArg = getArg(args, "end");
-
     const result = await pipe(
       Schema.decodeUnknownEither(FindNationsInputSchema)({
         name: getArg(args, "name"),
-        start: startArg !== undefined ? Number(startArg) : undefined,
-        end: endArg !== undefined ? Number(endArg) : undefined,
+        start: getArg(args, "start"),
+        end: getArg(args, "end"),
       }),
       fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
       fp.TE.fromEither,
