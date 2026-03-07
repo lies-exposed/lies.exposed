@@ -60,9 +60,11 @@ export const createCliExecutorTool = (cliBinPath: string) =>
     {
       name: "cli",
       description:
-        "PRIMARY tool for ALL lies.exposed platform data. ALWAYS use this first for actors, groups, events, links, media, areas, and nations. " +
-        "Do NOT use searchWeb or scrapeWebPage for platform data — use this tool. " +
-        "Pass the full command string including group, subcommand, and flags.",
+        "Executes a database query against the lies.exposed internal database and returns real JSON results. " +
+        "This is a LIVE tool you invoke directly — it queries the actual database. " +
+        "Use for ALL platform data: actors, groups, events, links, media, areas, nations. " +
+        "NEVER use searchWeb for platform data — call this tool instead. " +
+        "Pass the command string including group, subcommand, and flags.",
       schema: effectToZod(CliInputSchema),
     },
   );
