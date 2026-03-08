@@ -18,7 +18,7 @@ describe("MediaIO", () => {
       const media = fc.sample(MediaArb, 1)[0];
       const entity = {
         ...toMediaEntity(media),
-        thumbnail: null as any,
+        thumbnail: null,
       };
       const result = MediaIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);

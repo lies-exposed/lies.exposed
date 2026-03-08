@@ -1,6 +1,7 @@
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
+import type { QueueEntity } from "../../entities/Queue.entity.js";
 import { QueueIO } from "../queue.io.js";
 
 const makeQueueEntity = (overrides: Record<string, unknown> = {}) => ({
@@ -76,13 +77,13 @@ describe("QueueIO", () => {
         updatedAt: new Date().toISOString(),
         deletedAt: null,
       };
-      const result = QueueIO.decodeSingle(entity as any);
+      const result = QueueIO.decodeSingle(entity as unknown as QueueEntity);
       expect(E.isLeft(result)).toBe(true);
     });
 
     it("should decode multiple queue entities via decodeMany", () => {
       const entities = [makeQueueEntity(), makeQueueEntity()];
-      const result = QueueIO.decodeMany(entities as any);
+      const result = QueueIO.decodeMany(entities as unknown as QueueEntity[]);
       expect(E.isRight(result)).toBe(true);
       if (E.isRight(result)) {
         expect(result.right.length).toBe(2);
@@ -93,7 +94,7 @@ describe("QueueIO", () => {
   describe("encodeSingle", () => {
     it("should return Left since encode is not implemented", () => {
       const entity = makeQueueEntity();
-      const result = QueueIO.encodeSingle(entity as any);
+      const result = QueueIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

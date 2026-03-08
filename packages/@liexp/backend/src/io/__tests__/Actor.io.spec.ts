@@ -5,12 +5,15 @@ import { describe, expect, it } from "vitest";
 import { toActorEntity } from "../../test/utils/entities/index.js";
 import { ActorIO } from "../Actor.io.js";
 
-// The Actor HTTP schema requires `death: UUID | undefined` (not null).
-// The decodeActor function spreads `...entity`, so we must set death: undefined.
-const makeActorEntity = (actor: ReturnType<typeof fc.sample<typeof ActorArb>>[0]) => ({
-  ...toActorEntity(actor),
-  death: undefined as any,
-});
+// ActorIO.decodeSingle spreads the entity into the Actor HTTP schema,
+// which requires death: UUID | undefined (not null).
+const makeActorEntity = (
+  actor: ReturnType<typeof fc.sample<typeof ActorArb>>[0],
+) =>
+  ({
+    ...toActorEntity(actor),
+    death: undefined,
+  }) as unknown as ReturnType<typeof toActorEntity>;
 
 describe("ActorIO", () => {
   describe("decodeSingle", () => {

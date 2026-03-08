@@ -72,7 +72,7 @@ describe("BookIO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(BookEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = BookIO.encodeSingle(entity as any);
+      const result = BookIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

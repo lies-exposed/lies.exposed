@@ -72,7 +72,7 @@ describe("DeathIO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(DeathEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = DeathIO.encodeSingle(entity as any);
+      const result = DeathIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

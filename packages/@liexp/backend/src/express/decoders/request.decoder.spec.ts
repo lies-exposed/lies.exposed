@@ -1,44 +1,46 @@
-import { GetLogger } from "@liexp/core";
-import * as IOE from "fp-ts/lib/IOEither.js";
-import * as IO from "fp-ts/lib/IO.js";
+import * as logger from "@liexp/core/lib/logger/index.js";
+import type { UserEncoded } from "@liexp/io/lib/http/User.js";
+import type { AuthPermission } from "@liexp/io/lib/http/auth/permissions/index.js";
+import type { ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
+import type { Request } from "express";
 import * as E from "fp-ts/lib/Either.js";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { GetJWTProvider, JWTError } from "../../providers/jwt/jwt.provider.js";
 import { RequestDecoder } from "./request.decoder.js";
 
 const testSecret = "test-request-decoder-secret";
-const logger = GetLogger("test");
-const jwtProvider = GetJWTProvider({ secret: testSecret, logger });
+const testLogger = logger.GetLogger("test");
+const jwtProvider = GetJWTProvider({ secret: testSecret, logger: testLogger });
 
-const testUser: any = {
+const testUser = {
   id: "00000001-0001-1000-8000-000000000001",
   username: "testuser",
   email: "test@example.com",
-  permissions: ["admin:create"],
-};
+  permissions: ["admin:create" as const],
+} as unknown as UserEncoded;
 
-const testClient: any = {
+const testClient = {
   id: "00000001-0001-1000-8000-000000000002",
   userId: "00000001-0001-1000-8000-000000000003",
-  permissions: ["admin:create"],
-};
+  permissions: ["admin:create" as const],
+} as unknown as ServiceClient;
 
 const makeCtx = () => ({
-  logger,
+  logger: testLogger,
   jwt: jwtProvider,
 });
 
-const makeReqWithToken = (token: string) =>
+const makeReqWithToken = (token: string): Request =>
   ({
     headers: {
       authorization: token,
     },
-  }) as any;
+  }) as unknown as Request;
 
-const makeReqWithoutToken = () =>
+const makeReqWithoutToken = (): Request =>
   ({
     headers: {},
-  }) as any;
+  }) as unknown as Request;
 
 describe("RequestDecoder", () => {
   describe("decodeUserFromRequest", () => {
@@ -87,7 +89,9 @@ describe("RequestDecoder", () => {
       const req = makeReqWithToken(token);
       const ctx = makeCtx();
 
-      const result = RequestDecoder.decodeUserFromRequest(req, ["admin:create" as any])(ctx)();
+      const result = RequestDecoder.decodeUserFromRequest(req, [
+        "admin:create" as AuthPermission,
+      ])(ctx)();
       expect(E.isRight(result)).toBe(true);
     });
 
@@ -96,7 +100,9 @@ describe("RequestDecoder", () => {
       const req = makeReqWithToken(token);
       const ctx = makeCtx();
 
-      const result = RequestDecoder.decodeUserFromRequest(req, ["admin:delete" as any])(ctx)();
+      const result = RequestDecoder.decodeUserFromRequest(req, [
+        "admin:delete" as AuthPermission,
+      ])(ctx)();
       expect(E.isLeft(result)).toBe(true);
     });
   });
@@ -135,7 +141,10 @@ describe("RequestDecoder", () => {
       const req = makeReqWithToken(token);
       const ctx = makeCtx();
 
-      const result = RequestDecoder.decodeServiceClientFromRequest(req, [])(ctx)();
+      const result = RequestDecoder.decodeServiceClientFromRequest(
+        req,
+        [],
+      )(ctx)();
       expect(E.isRight(result)).toBe(true);
     });
 
@@ -143,7 +152,10 @@ describe("RequestDecoder", () => {
       const req = makeReqWithoutToken();
       const ctx = makeCtx();
 
-      const result = RequestDecoder.decodeServiceClientFromRequest(req, [])(ctx)();
+      const result = RequestDecoder.decodeServiceClientFromRequest(
+        req,
+        [],
+      )(ctx)();
       expect(E.isLeft(result)).toBe(true);
     });
 
@@ -152,7 +164,10 @@ describe("RequestDecoder", () => {
       const req = makeReqWithToken(token);
       const ctx = makeCtx();
 
-      const result = RequestDecoder.decodeServiceClientFromRequest(req, [])(ctx)();
+      const result = RequestDecoder.decodeServiceClientFromRequest(
+        req,
+        [],
+      )(ctx)();
       expect(E.isLeft(result)).toBe(true);
     });
   });

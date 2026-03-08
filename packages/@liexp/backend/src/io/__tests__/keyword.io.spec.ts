@@ -1,3 +1,5 @@
+import type { Color } from "@liexp/io/lib/http/Common/Color.js";
+import type { Tag } from "@liexp/io/lib/http/Common/Tag.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { KeywordArb } from "@liexp/test/lib/arbitrary/Keyword.arbitrary.js";
 import fc from "fast-check";
@@ -19,7 +21,7 @@ describe("KeywordIO", () => {
       const keyword = fc.sample(KeywordArb, 1)[0];
       const entity = {
         ...toKeywordEntity(keyword),
-        color: null as any,
+        color: null,
       };
       const result = KeywordIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
@@ -28,8 +30,8 @@ describe("KeywordIO", () => {
     it("should decode a manually constructed keyword entity", () => {
       const entity = {
         id: uuid(),
-        tag: "testkeyword" as any, // Tag must be alphanumeric only (no hyphens)
-        color: "#ff0000" as any,
+        tag: "testkeyword" as Tag,
+        color: "ff0000" as Color,
         socialPosts: [],
         events: [],
         links: [],
@@ -69,7 +71,7 @@ describe("KeywordIO", () => {
     it("should return Left since encode is not implemented", () => {
       const keyword = fc.sample(KeywordArb, 1)[0];
       const entity = toKeywordEntity(keyword);
-      const result = KeywordIO.encodeSingle(entity as any);
+      const result = KeywordIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

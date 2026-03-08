@@ -9,10 +9,8 @@ const StringSchema = Schema.String;
 const StringIOCodec = IOCodec(
   StringSchema,
   {
-    decode: (v: unknown) =>
-      Schema.decodeUnknownEither(StringSchema)(v),
-    encode: (v: unknown) =>
-      Schema.encodeUnknownEither(StringSchema)(v),
+    decode: (v: unknown) => Schema.decodeUnknownEither(StringSchema)(v),
+    encode: (v: unknown) => Schema.encodeUnknownEither(StringSchema)(v),
   },
   "string",
 );
@@ -63,7 +61,7 @@ describe("IOCodec (DomainCodec)", () => {
     });
 
     it("should return Left if any element fails decoding", () => {
-      const result = StringIOCodec.decodeMany(["valid", 42 as any, "also valid"]);
+      const result = StringIOCodec.decodeMany(["valid", 42, "also valid"]);
       expect(E.isLeft(result)).toBe(true);
     });
 
@@ -86,7 +84,7 @@ describe("IOCodec (DomainCodec)", () => {
     });
 
     it("should return Left for invalid data", () => {
-      const result = StringIOCodec.encodeSingle(99 as any);
+      const result = StringIOCodec.encodeSingle(99);
       expect(E.isLeft(result)).toBe(true);
     });
   });
@@ -101,7 +99,7 @@ describe("IOCodec (DomainCodec)", () => {
     });
 
     it("should return Left if any element fails encoding", () => {
-      const result = StringIOCodec.encodeMany(["valid", 55 as any]);
+      const result = StringIOCodec.encodeMany(["valid", 55]);
       expect(E.isLeft(result)).toBe(true);
     });
   });
@@ -116,7 +114,10 @@ describe("IOCodec (DomainCodec)", () => {
     });
 
     it("should pass through existing DecodeError without wrapping again", () => {
-      const existingError = DecodeError.of("pre-existing error", new Error("original"));
+      const existingError = DecodeError.of(
+        "pre-existing error",
+        new Error("original"),
+      );
       const PassThroughCodec = IOCodec(
         StringSchema,
         {

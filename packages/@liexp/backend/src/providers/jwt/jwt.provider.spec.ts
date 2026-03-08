@@ -1,27 +1,29 @@
-import { GetLogger } from "@liexp/core";
+import * as coreLogger from "@liexp/core/lib/logger/index.js";
+import type { UserEncoded } from "@liexp/io/lib/http/User.js";
+import type { ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
 import { GetJWTProvider, JWTError } from "./jwt.provider.js";
 
 const testSecret = "test-secret-key-for-testing";
-const logger = GetLogger("test");
+const logger = coreLogger.GetLogger("test");
 
 const provider = GetJWTProvider({ secret: testSecret, logger });
 
 // Minimal user payload matching AuthUser schema
-const testUser: any = {
+const testUser = {
   id: "00000001-0001-1000-8000-000000000001",
   username: "testuser",
   email: "test@example.com",
-  permissions: ["admin:create"],
-};
+  permissions: ["admin:create" as const],
+} as unknown as UserEncoded;
 
 // Minimal service client payload
-const testClient: any = {
+const testClient = {
   id: "00000001-0001-1000-8000-000000000002",
   userId: "00000001-0001-1000-8000-000000000003",
-  permissions: ["admin:create"],
-};
+  permissions: ["admin:create" as const],
+} as unknown as ServiceClient;
 
 describe("GetJWTProvider", () => {
   describe("signUser", () => {

@@ -1,3 +1,4 @@
+import type { WhereExpressionBuilder } from "typeorm";
 import { describe, expect, it, vi } from "vitest";
 import { Book } from "../book.config.js";
 import { Death } from "../death.config.js";
@@ -8,7 +9,7 @@ const makeMockQb = () => {
     andWhere: vi.fn().mockReturnThis(),
     where: vi.fn().mockReturnThis(),
     orWhere: vi.fn().mockReturnThis(),
-  } as any;
+  } as unknown as WhereExpressionBuilder;
   return qb;
 };
 

@@ -56,7 +56,7 @@ describe("orm.utils", () => {
         25,
       );
       expect(opts.order).toBeDefined();
-      expect(opts.order?.["createdAt"]).toBe("DESC");
+      expect(opts.order?.createdAt).toBe("DESC");
     });
 
     it("should use DESC order by default when _sort present but _order absent", () => {
@@ -69,7 +69,7 @@ describe("orm.utils", () => {
         },
         25,
       );
-      expect(opts.order?.["updatedAt"]).toBe("DESC");
+      expect(opts.order?.updatedAt).toBe("DESC");
     });
 
     it("should produce empty order when _sort is none", () => {

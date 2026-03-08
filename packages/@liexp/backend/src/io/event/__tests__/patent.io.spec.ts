@@ -72,7 +72,7 @@ describe("PatentIO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(PatentEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = PatentIO.encodeSingle(entity as any);
+      const result = PatentIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

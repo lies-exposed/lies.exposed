@@ -18,7 +18,7 @@ describe("LinkIO", () => {
       const link = fc.sample(LinkArb, 1)[0];
       const entity = {
         ...toLinkEntity(link),
-        image: null as any,
+        image: null,
       };
       const result = LinkIO.decodeSingle(entity);
       expect(E.isRight(result)).toBe(true);
@@ -48,7 +48,7 @@ describe("LinkIO", () => {
     it("should return Left since encode is not implemented", () => {
       const link = fc.sample(LinkArb, 1)[0];
       const entity = toLinkEntity(link);
-      const result = LinkIO.encodeSingle(entity as any);
+      const result = LinkIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

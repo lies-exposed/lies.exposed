@@ -76,7 +76,7 @@ describe("StoryIO", () => {
     it("should return Left since encode is not implemented", () => {
       const story = fc.sample(StoryArb, 1)[0];
       const entity = toStoryEntity(story);
-      const result = StoryIO.encodeSingle(entity as any);
+      const result = StoryIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

@@ -72,7 +72,7 @@ describe("QuoteIO", () => {
     it("should return Left since encode is not implemented", () => {
       const event = fc.sample(QuoteEventArb, 1)[0];
       const entity = toEventEntity(event);
-      const result = QuoteIO.encodeSingle(entity as any);
+      const result = QuoteIO.encodeSingle(entity as never);
       expect(E.isLeft(result)).toBe(true);
     });
   });

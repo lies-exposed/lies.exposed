@@ -1,3 +1,4 @@
+import type { DataSourceOptions } from "typeorm";
 import { describe, expect, it } from "vitest";
 import { ALL_ENTITIES, createORMConfig } from "./data-source.js";
 
@@ -32,35 +33,41 @@ describe("data-source", () => {
     });
 
     it("should allow overriding synchronize", () => {
-      const config = createORMConfig({ type: "postgres" }, { synchronize: true });
+      const config = createORMConfig(
+        { type: "postgres" },
+        { synchronize: true },
+      );
       expect(config.synchronize).toBe(true);
     });
 
     it("should preserve base config options", () => {
-      const config = createORMConfig({
+      const baseOptions = {
         type: "postgres",
         host: "localhost",
         port: 5432,
         database: "testdb",
-      } as any);
-      expect((config as any).host).toBe("localhost");
-      expect((config as any).port).toBe(5432);
-      expect((config as any).database).toBe("testdb");
+      } as DataSourceOptions;
+      const config = createORMConfig(baseOptions);
+      expect(config.host).toBe("localhost");
+      expect(config.port).toBe(5432);
+      expect(config.database).toBe("testdb");
     });
 
     it("should allow overrides to take precedence over base config", () => {
       const config = createORMConfig(
-        { type: "postgres", host: "original-host" } as any,
-        { host: "override-host" } as any,
-      );
-      expect((config as any).host).toBe("override-host");
+        { type: "postgres", host: "original-host" } as DataSourceOptions,
+        { host: "override-host" } as Partial<DataSourceOptions>,
+      ) as { host?: string };
+      expect(config.host).toBe("override-host");
     });
 
     it("should include entities in the resulting config", () => {
       const config = createORMConfig({ type: "postgres" });
       expect(config.entities).toBeDefined();
       expect(Array.isArray(config.entities)).toBe(true);
-      expect((config.entities as any[]).length).toBeGreaterThan(0);
+      expect(
+        Array.isArray(config.entities) && config.entities.length,
+      ).toBeGreaterThan(0);
     });
 
     it("should set the type from base config", () => {

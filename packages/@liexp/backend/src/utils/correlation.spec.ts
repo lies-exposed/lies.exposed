@@ -1,5 +1,12 @@
-import { CORRELATION_ID_HEADER, generateCorrelationId, getCorrelationId, withCorrelationId, correlationMiddleware } from "./correlation.js";
+import type { NextFunction, Request, Response } from "express";
 import { describe, expect, it, vi } from "vitest";
+import {
+  CORRELATION_ID_HEADER,
+  generateCorrelationId,
+  getCorrelationId,
+  withCorrelationId,
+  correlationMiddleware,
+} from "./correlation.js";
 
 describe("correlation utils", () => {
   describe("CORRELATION_ID_HEADER", () => {
@@ -12,7 +19,9 @@ describe("correlation utils", () => {
     it("should return a UUID string", () => {
       const id = generateCorrelationId();
       expect(typeof id).toBe("string");
-      expect(id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i);
+      expect(id).toMatch(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+      );
     });
 
     it("should generate unique IDs on each call", () => {
@@ -26,21 +35,21 @@ describe("correlation utils", () => {
     it("should return correlation ID from request headers", () => {
       const mockReq = {
         headers: { "x-correlation-id": "test-id-123" },
-      } as any;
+      } as unknown as Request;
       expect(getCorrelationId(mockReq)).toBe("test-id-123");
     });
 
     it("should return first element when header is an array", () => {
       const mockReq = {
         headers: { "x-correlation-id": ["first-id", "second-id"] },
-      } as any;
+      } as unknown as Request;
       expect(getCorrelationId(mockReq)).toBe("first-id");
     });
 
     it("should return undefined when correlation ID header is missing", () => {
       const mockReq = {
         headers: {},
-      } as any;
+      } as unknown as Request;
       expect(getCorrelationId(mockReq)).toBeUndefined();
     });
   });
@@ -69,11 +78,11 @@ describe("correlation utils", () => {
   describe("correlationMiddleware", () => {
     it("should add correlation ID to response and call next", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as any;
+      const mockReq = { headers: {} } as unknown as Request;
       const mockRes = {
         setHeader: vi.fn(),
-      } as any;
-      const mockNext = vi.fn();
+      } as unknown as Response;
+      const mockNext: NextFunction = vi.fn();
 
       middleware(mockReq, mockRes, mockNext);
 
@@ -86,9 +95,9 @@ describe("correlation utils", () => {
 
     it("should generate a new correlation ID when not present", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as any;
-      const mockRes = { setHeader: vi.fn() } as any;
-      const mockNext = vi.fn();
+      const mockReq = { headers: {} } as unknown as Request;
+      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      const mockNext: NextFunction = vi.fn();
 
       middleware(mockReq, mockRes, mockNext);
 
@@ -103,9 +112,9 @@ describe("correlation utils", () => {
       const middleware = correlationMiddleware();
       const mockReq = {
         headers: { [CORRELATION_ID_HEADER]: existingId },
-      } as any;
-      const mockRes = { setHeader: vi.fn() } as any;
-      const mockNext = vi.fn();
+      } as unknown as Request;
+      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      const mockNext: NextFunction = vi.fn();
 
       middleware(mockReq, mockRes, mockNext);
 
@@ -117,9 +126,9 @@ describe("correlation utils", () => {
 
     it("should store generated correlation ID on the request object", () => {
       const middleware = correlationMiddleware();
-      const mockReq = { headers: {} } as any;
-      const mockRes = { setHeader: vi.fn() } as any;
-      const mockNext = vi.fn();
+      const mockReq = { headers: {} } as unknown as Request;
+      const mockRes = { setHeader: vi.fn() } as unknown as Response;
+      const mockNext: NextFunction = vi.fn();
 
       middleware(mockReq, mockRes, mockNext);
 
