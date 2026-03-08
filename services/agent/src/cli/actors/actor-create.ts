@@ -1,4 +1,6 @@
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { CreateActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
+import { stripUndefined } from "../args.js";
 import { makeCommand } from "../run-command.js";
 
 export const actorCreate = makeCommand(
@@ -10,24 +12,20 @@ export const actorCreate = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("actor-create input: %O", input);
-    return ctx.api.Actor.Create({
-      Body: {
+    return pipe(
+      stripUndefined({
         username: input.username,
         fullName: input.fullName,
-        ...(input.color !== undefined ? { color: input.color as any } : {}),
-        ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
-        ...(input.bornOn !== undefined
-          ? { bornOn: new Date(input.bornOn) }
-          : {}),
-        ...(input.diedOn !== undefined
-          ? { diedOn: new Date(input.diedOn) }
-          : {}),
-        ...(input.avatar !== undefined ? { avatar: input.avatar as any } : {}),
-        ...(input.nationalityIds !== undefined
-          ? { nationalityIds: input.nationalityIds as any }
-          : {}),
-        ...(input.body !== undefined ? { body: input.body } : {}),
-      } as any,
-    });
+        color: input.color,
+        excerpt: input.excerpt,
+        bornOn: input.bornOn ? new Date(input.bornOn) : undefined,
+        diedOn: input.diedOn ? new Date(input.diedOn) : undefined,
+        avatar: input.avatar,
+        nationalityIds: input.nationalityIds,
+        body: input.body,
+      }),
+      (body) => ctx.api.Actor.Create({ Body: body as any }),
+      fp.TE.mapLeft((e) => e as Error),
+    );
   },
 );
