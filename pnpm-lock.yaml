@@ -1009,6 +1009,9 @@ importers:
       '@liexp/shared':
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
+      '@ts-endpoint/core':
+        specifier: file:../../patches/ts-endpoint-core-0.1.0.tgz
+        version: file:patches/ts-endpoint-core-0.1.0.tgz(fp-ts@2.16.11)
       '@ts-endpoint/express':
         specifier: file:../../patches/ts-endpoint-express-0.1.0.tgz
         version: file:patches/ts-endpoint-express-0.1.0.tgz(express@5.2.1)(fp-ts@2.16.11)

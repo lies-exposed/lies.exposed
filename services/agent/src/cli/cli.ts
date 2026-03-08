@@ -2,6 +2,8 @@
 
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { IOError } from "@ts-endpoint/core";
+import { ParseResult } from "effect";
 import { actorGroup } from "#cli/actors/index.js";
 import { agentCommand } from "#cli/agent.command.js";
 import { areaGroup } from "#cli/areas/index.js";
@@ -16,6 +18,37 @@ import { storyGroup } from "#cli/stories/index.js";
 import { makeAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");
+
+/**
+ * Formats any thrown error into a human-readable string for stderr output.
+ *
+ * - IOError with DecodingError kind: renders the Effect ParseError tree for
+ *   each error in details.errors
+ * - IOError with ClientError/ServerError kind: includes the HTTP status and
+ *   meta lines
+ * - Plain Error: uses error.message
+ * - Unknown: stringifies
+ */
+const formatError = (error: unknown): string => {
+  if (error instanceof IOError) {
+    const { details } = error;
+    if (details.kind === "DecodingError") {
+      const trees = details.errors
+        .map((e: any) => ParseResult.TreeFormatter.formatErrorSync(e))
+        .join("\n");
+      return `${error.message}\n${trees}`;
+    }
+    const meta =
+      "meta" in details && Array.isArray(details.meta)
+        ? details.meta.filter(Boolean).join("\n")
+        : "";
+    return `HTTP ${error.status}: ${error.message}${meta ? `\n${meta}` : ""}`;
+  }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  return String(error);
+};
 
 /**
  * Command groups that only need the lightweight CLI context (HTTP + env).
@@ -113,22 +146,28 @@ const main = async () => {
   try {
     await command.run(ctx, args);
   } catch (error) {
+    process.stderr.write(
+      `Error running ${groupName} ${subcommand}:\n${formatError(error)}\n`,
+    );
     cliLogger.error.log(`Error running ${groupName} ${subcommand}:`, error);
     process.exit(1);
   }
 };
 
 process.on("uncaughtException", (error) => {
+  process.stderr.write(`Uncaught Exception: ${formatError(error)}\n`);
   cliLogger.error.log("Uncaught Exception:", error);
   process.exit(1);
 });
 
 process.on("unhandledRejection", (reason) => {
+  process.stderr.write(`Unhandled Rejection: ${formatError(reason)}\n`);
   cliLogger.error.log("Unhandled Rejection:", reason);
   process.exit(1);
 });
 
 main().catch((error) => {
+  process.stderr.write(`Failed to start agent CLI: ${formatError(error)}\n`);
   cliLogger.error.log("Failed to start agent CLI:", error);
   process.exit(1);
 });

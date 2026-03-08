@@ -120,17 +120,18 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         return stdout || stderr || "(no output)";
       } catch (err: any) {
         // err.message from execFile just repeats the full command — not useful.
-        // Extract meaningful lines from stderr: prefer logger :error lines,
-        // fall back to the last 5 lines so the LLM sees a concise failure reason.
+        // The CLI writes structured errors to stderr. Take all content from
+        // the first error-looking line onward (includes tree-formatted parse
+        // errors), falling back to the last 10 lines.
         const stderrRaw: string = err.stderr ?? "";
         const stderrLines = stderrRaw.split("\n").filter(Boolean);
-        const errorLines = stderrLines.filter(
+        const firstErrorIdx = stderrLines.findIndex(
           (l) => /:error\b/i.test(l) || /^\s*Error/i.test(l),
         );
         const summary =
-          errorLines.length > 0
-            ? errorLines.join("\n")
-            : stderrLines.slice(-5).join("\n");
+          firstErrorIdx >= 0
+            ? stderrLines.slice(firstErrorIdx).join("\n")
+            : stderrLines.slice(-10).join("\n");
 
         // Also include stdout if it has content (some errors go there)
         const stdoutNote = err.stdout ? `\nstdout: ${err.stdout}` : "";

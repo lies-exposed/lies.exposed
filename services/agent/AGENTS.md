@@ -190,7 +190,13 @@ find_platform_data("group find-avatar --name=Greenpeace")
 find_platform_data("area create --label=Kyiv Oblast --slug=kyiv-oblast")
 ```
 
-All commands output JSON to stdout. Errors include a non-zero exit code and a description.
+All commands output JSON to stdout on success.
+
+When a command fails, the tool returns a string starting with `ERROR (exit 1):` followed by the error description. **Do not ignore this.** When you see an error:
+- **Report it to the user** — explain what went wrong in plain language
+- **Do not retry the same failing command** with the same arguments
+- Only retry if you can fix the root cause (e.g. wrong flag, missing required argument, invalid UUID)
+- If the error is unrecoverable (e.g. server error, permission denied), stop and tell the user
 
 ## Queue Job Processing
 
