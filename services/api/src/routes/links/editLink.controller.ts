@@ -84,7 +84,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
         TE.map((u) => {
           const linkUpdate = {
             ...body,
-            url: sanitizeURL(url),
+            url: url !== undefined ? sanitizeURL(url) : undefined,
             image: Schema.is(UUID)(image) ? image : (image ?? null),
             events: events.map((e) => ({ id: e })) as EventV2Entity[],
             keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
@@ -120,6 +120,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...ll,
                         ...l,
                         ...linkUpdate,
+                        url: linkUpdate.url ?? l.url,
                         provider: linkUpdate.provider ?? l.provider ?? null,
                         publishDate: linkUpdate.publishDate ?? null,
                         image: updateLinkMedia(ll, linkUpdate.image),
@@ -130,6 +131,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                   return TE.right({
                     ...l,
                     ...linkUpdate,
+                    url: linkUpdate.url ?? l.url,
                     publishDate: linkUpdate.publishDate ?? null,
                     provider: linkUpdate.provider ?? l.provider ?? null,
                     image: updateLinkMedia(l, linkUpdate.image),
@@ -139,6 +141,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                   TE.right({
                     ...l,
                     ...linkUpdate,
+                    url: linkUpdate.url ?? l.url,
                     publishDate: linkUpdate.publishDate ?? null,
                     provider: linkUpdate.provider ?? l.provider ?? null,
                     image: (linkUpdate.image ?? l.image) as
