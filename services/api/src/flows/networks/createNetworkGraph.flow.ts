@@ -73,7 +73,7 @@ export const emptyGetNetworkQuery: GetNetworkQuery = {
 
 type ItemType = Group.Group | Keyword.Keyword | Actor.Actor;
 
-export const getRelationLinks =
+const getRelationLinks =
   (relationType: NetworkType, ev: SearchEvent.SearchEvent) =>
   (relationLinks: Map<string, NetworkLink[]>) =>
   (relations: ItemType[]): Map<string, NetworkLink[]> => {
@@ -117,7 +117,7 @@ interface GetEventGraphOpts {
   relations: readonly NetworkGroupBy[];
 }
 
-export const getEventGraph = (
+const getEventGraph = (
   type: NetworkType,
   ids: UUID[],
   {
