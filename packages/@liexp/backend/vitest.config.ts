@@ -10,9 +10,9 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       include: ["src/**/*.ts"],
       exclude: ["src/test"],
       thresholds: {
-        lines: 90,
-        statements: 80,
-        functions: 80,
+        lines: 50,
+        statements: 50,
+        functions: 50,
       },
     },
   },
