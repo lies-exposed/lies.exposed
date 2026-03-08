@@ -44,6 +44,15 @@ export class RemoveProject1772909110812 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE IF EXISTS "project_image"`);
     await queryRunner.query(`DROP TYPE IF EXISTS "project_image_kind_enum"`);
 
+    // Drop legacy project_images_image join table (TypeORM auto-generated ManyToMany table)
+    await queryRunner.query(
+      `ALTER TABLE IF EXISTS "project_images_image" DROP CONSTRAINT IF EXISTS "FK_03a17ee66315e5591bdbbedfa04"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE IF EXISTS "project_images_image" DROP CONSTRAINT IF EXISTS "FK_9c7f5ad7e1a5d1bc98dd3e944b9"`,
+    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "project_images_image"`);
+
     // Drop the project table itself
     await queryRunner.query(`DROP TABLE IF EXISTS "project"`);
   }
