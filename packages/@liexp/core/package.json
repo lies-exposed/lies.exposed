@@ -20,6 +20,7 @@
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "echo 'No tests configured for @liexp/core'",
+    "test:coverage": "vitest --run --coverage",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
@@ -37,7 +38,8 @@
     "eslint-plugin-import-x": "^4.16.2",
     "fp-ts": "^2.16.10",
     "typescript": "^5.9.3",
-    "vite-plugin-svgr": "^4.3.0"
+    "vite-plugin-svgr": "^4.3.0",
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "debug": "*",

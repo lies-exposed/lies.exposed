@@ -15,6 +15,7 @@
     "clean": "rm -rf lib",
     "lint": "eslint --cache src",
     "test": "echo 'No tests configured for @liexp/test'",
+    "test:coverage": "vitest --run --coverage",
     "watch": "tsc -b -w"
   },
   "lint-staged": {
@@ -30,7 +31,8 @@
     "effect": "^3.20.0",
     "eslint": "^10.1.0",
     "fp-ts": "^2.16.10",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2"
   },
   "peerDependencies": {
     "effect": "^3",

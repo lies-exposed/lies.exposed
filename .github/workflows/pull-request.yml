@@ -117,7 +117,7 @@ jobs:
             '{"service":"ai-bot","lint_command":"pnpm ai-bot lint","build_command":"pnpm ai-bot build","spec_command":"pnpm ai-bot test"}'
           )
           [[ "$API" == "true" ]] && items+=(
-            '{"service":"api","lint_command":"pnpm api lint","build_command":"pnpm api build","spec_command":"pnpm api test:spec:coverage","e2e_command":"pnpm api test:e2e","migration_command":"pnpm api migration:run","dotenv_path":"./.env.test","needs_db":true}'
+            '{"service":"api","lint_command":"pnpm api lint","build_command":"pnpm api build","spec_command":"pnpm api test:coverage","e2e_command":"pnpm api test:e2e","migration_command":"pnpm api migration:run","dotenv_path":"./.env.test","needs_db":true}'
           )
           [[ "$PACKAGES" == "true" ]] && items+=(
             '{"service":"packages","lint_command":"pnpm packages lint","spec_command":"pnpm packages test:coverage"}'
