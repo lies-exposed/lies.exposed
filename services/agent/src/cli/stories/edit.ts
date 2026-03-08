@@ -1,8 +1,7 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const storyEdit: CommandModule = {
   help: `
@@ -29,52 +28,33 @@ Options:
 Output: JSON updated story object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      EditStoryInputSchema,
-      {
-        id: getArg(args, "id"),
-        title: getArg(args, "title"),
-        path: getArg(args, "path"),
-        date: getArg(args, "date"),
-        draft: getArg(args, "draft"),
-        creator: getArg(args, "creator"),
-        featuredImage: getArg(args, "featuredImage"),
-        keywords: splitUUIDs(getArg(args, "keywords")),
-        links: splitUUIDs(getArg(args, "links")),
-        actors: splitUUIDs(getArg(args, "actors")),
-        groups: splitUUIDs(getArg(args, "groups")),
-        events: splitUUIDs(getArg(args, "events")),
-        media: splitUUIDs(getArg(args, "media")),
-      },
-      (input) => {
-        ctx.logger.debug.log("story edit input: %O", input);
+    runCliCommand(ctx, EditStoryInputSchema, args, (input) => {
+      ctx.logger.debug.log("story edit input: %O", input);
 
-        if (!input.id) {
-          return fp.TE.left(new Error("--id is required"));
-        }
+      if (!input.id) {
+        return fp.TE.left(new Error("--id is required"));
+      }
 
-        return ctx.api.Story.Edit({
-          Params: { id: input.id },
-          Body: {
-            title: input.title ?? "",
-            path: input.path ?? "",
-            date: input.date ? new Date(input.date) : new Date(),
-            draft: input.draft ?? false,
-            creator: input.creator ?? undefined,
-            featuredImage: (input.featuredImage
-              ? { id: input.featuredImage }
-              : null) as any,
-            body2: [] as any,
-            keywords: input.keywords,
-            links: input.links,
-            actors: input.actors,
-            groups: input.groups,
-            events: input.events,
-            media: input.media,
-            restore: null as any,
-          } as any,
-        });
-      },
-    ),
+      return ctx.api.Story.Edit({
+        Params: { id: input.id as any },
+        Body: {
+          title: input.title ?? "",
+          path: input.path ?? "",
+          date: input.date ? new Date(input.date) : new Date(),
+          draft: input.draft ?? false,
+          creator: (input.creator ?? null) as any,
+          featuredImage: (input.featuredImage
+            ? { id: input.featuredImage as any }
+            : null) as any,
+          body2: [] as any,
+          keywords: input.keywords,
+          links: input.links,
+          actors: input.actors,
+          groups: input.groups,
+          events: input.events,
+          media: input.media,
+          restore: null as any,
+        },
+      });
+    }),
 };

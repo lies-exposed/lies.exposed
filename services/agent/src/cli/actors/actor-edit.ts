@@ -1,7 +1,6 @@
 import { EditActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const actorEdit: CommandModule = {
   help: `
@@ -25,61 +24,37 @@ Options:
 
 Output: JSON updated actor object
 `,
-  run: async (ctx, args) => {
-    const memberInArg = getArg(args, "memberIn");
-    const nationalitiesArg = getArg(args, "nationalities");
-    return runCommand(
-      ctx,
-      EditActorInputSchema,
-      {
-        id: getArg(args, "id"),
-        username: getArg(args, "username"),
-        fullName: getArg(args, "fullName"),
-        avatar: getArg(args, "avatar"),
-        excerpt: getArg(args, "excerpt"),
-        bornOn: getArg(args, "bornOn"),
-        diedOn: getArg(args, "diedOn"),
-        color: getArg(args, "color"),
-        body: getArg(args, "body"),
-        memberIn:
-          memberInArg !== undefined ? splitUUIDs(memberInArg) : undefined,
-        nationalities:
-          nationalitiesArg !== undefined
-            ? splitUUIDs(nationalitiesArg)
-            : undefined,
-      },
-      (input) => {
-        ctx.logger.debug.log("actor-edit input: %O", input);
-        return ctx.api.Actor.Edit({
-          Params: { id: input.id },
-          Body: {
-            ...(input.username !== undefined
-              ? { username: input.username }
-              : {}),
-            ...(input.fullName !== undefined
-              ? { fullName: input.fullName }
-              : {}),
-            ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
-            ...(input.body !== undefined ? { body: input.body } : {}),
-            ...(input.bornOn !== undefined
-              ? { bornOn: new Date(input.bornOn) }
-              : {}),
-            ...(input.diedOn !== undefined
-              ? { diedOn: new Date(input.diedOn) }
-              : {}),
-            ...(input.avatar !== undefined
-              ? { avatar: input.avatar as any }
-              : {}),
-            ...(input.color !== undefined ? { color: input.color as any } : {}),
-            ...(input.memberIn !== undefined
-              ? { memberIn: input.memberIn as any }
-              : {}),
-            ...(input.nationalities !== undefined
-              ? { nationalities: input.nationalities as any }
-              : {}),
-          } as any,
-        });
-      },
-    );
-  },
+  run: (ctx, args) =>
+    runCliCommand(ctx, EditActorInputSchema, args, (input) => {
+      ctx.logger.debug.log("actor-edit input: %O", input);
+      return ctx.api.Actor.Edit({
+        Params: { id: input.id },
+        Body: {
+          ...(input.username !== undefined
+            ? { username: input.username }
+            : {}),
+          ...(input.fullName !== undefined
+            ? { fullName: input.fullName }
+            : {}),
+          ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
+          ...(input.body !== undefined ? { body: input.body } : {}),
+          ...(input.bornOn !== undefined
+            ? { bornOn: new Date(input.bornOn) }
+            : {}),
+          ...(input.diedOn !== undefined
+            ? { diedOn: new Date(input.diedOn) }
+            : {}),
+          ...(input.avatar !== undefined
+            ? { avatar: input.avatar as any }
+            : {}),
+          ...(input.color !== undefined ? { color: input.color as any } : {}),
+          ...(input.memberIn !== undefined
+            ? { memberIn: input.memberIn as any }
+            : {}),
+          ...(input.nationalities !== undefined
+            ? { nationalities: input.nationalities as any }
+            : {}),
+        } as any,
+      });
+    }),
 };

@@ -1,7 +1,6 @@
 import { FindMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const mediaList: CommandModule = {
   help: `
@@ -20,27 +19,16 @@ Options:
 Output: JSON list of media objects
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      FindMediaInputSchema,
-      {
-        query: getArg(args, "query"),
-        sort: getArg(args, "sort"),
-        order: getArg(args, "order"),
-        start: getArg(args, "start"),
-        end: getArg(args, "end"),
-      },
-      (input) => {
-        ctx.logger.debug.log("media list input: %O", input);
-        return ctx.api.Media.List({
-          Query: {
-            q: input.query,
-            _sort: input.sort,
-            _order: input.order,
-            _start: input.start !== undefined ? String(input.start) : "0",
-            _end: input.end !== undefined ? String(input.end) : "20",
-          } as any,
-        });
-      },
-    ),
+    runCliCommand(ctx, FindMediaInputSchema, args, (input) => {
+      ctx.logger.debug.log("media list input: %O", input);
+      return ctx.api.Media.List({
+        Query: {
+          q: input.query,
+          _sort: input.sort,
+          _order: input.order,
+          _start: input.start !== undefined ? String(input.start) : "0",
+          _end: input.end !== undefined ? String(input.end) : "20",
+        } as any,
+      });
+    }),
 };

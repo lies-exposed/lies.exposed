@@ -1,7 +1,6 @@
 import { GetMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const mediaGet: CommandModule = {
   help: `
@@ -16,13 +15,8 @@ Options:
 Output: JSON media object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      GetMediaInputSchema,
-      { id: getArg(args, "id") },
-      (input) => {
-        ctx.logger.debug.log("media get input: %O", input);
-        return ctx.api.Media.Get({ Params: { id: input.id as any } });
-      },
-    ),
+    runCliCommand(ctx, GetMediaInputSchema, args, (input) => {
+      ctx.logger.debug.log("media get input: %O", input);
+      return ctx.api.Media.Get({ Params: { id: input.id as any } });
+    }),
 };

@@ -1,7 +1,6 @@
 import { FindLinksInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const linkList: CommandModule = {
   help: `
@@ -20,27 +19,16 @@ Options:
 Output: JSON list of link objects
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      FindLinksInputSchema,
-      {
-        query: getArg(args, "query"),
-        sort: getArg(args, "sort"),
-        order: getArg(args, "order"),
-        start: getArg(args, "start"),
-        end: getArg(args, "end"),
-      },
-      (input) => {
-        ctx.logger.debug.log("link list input: %O", input);
-        return ctx.api.Link.List({
-          Query: {
-            q: input.query,
-            _sort: input.sort,
-            _order: input.order,
-            _start: input.start !== undefined ? String(input.start) : "0",
-            _end: input.end !== undefined ? String(input.end) : "20",
-          } as any,
-        });
-      },
-    ),
+    runCliCommand(ctx, FindLinksInputSchema, args, (input) => {
+      ctx.logger.debug.log("link list input: %O", input);
+      return ctx.api.Link.List({
+        Query: {
+          q: input.query,
+          _sort: input.sort,
+          _order: input.order,
+          _start: input.start !== undefined ? String(input.start) : "0",
+          _end: input.end !== undefined ? String(input.end) : "20",
+        } as any,
+      });
+    }),
 };

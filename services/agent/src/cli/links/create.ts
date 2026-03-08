@@ -1,7 +1,6 @@
 import { CreateLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const linkCreate: CommandModule = {
   help: `
@@ -16,15 +15,10 @@ Options:
 Output: JSON created link object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      CreateLinkInputSchema,
-      { url: getArg(args, "url") },
-      (input) => {
-        ctx.logger.debug.log("link create input: %O", input);
-        return ctx.api.Link.Custom.Submit({
-          Body: { url: input.url as any },
-        });
-      },
-    ),
+    runCliCommand(ctx, CreateLinkInputSchema, args, (input) => {
+      ctx.logger.debug.log("link create input: %O", input);
+      return ctx.api.Link.Custom.Submit({
+        Body: { url: input.url as any },
+      });
+    }),
 };

@@ -1,7 +1,6 @@
 import { FindActorsInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const actorFind: CommandModule = {
   help: `
@@ -21,32 +20,17 @@ Options:
 
 Output: JSON array of actor objects
 `,
-  run: async (ctx, args) => {
-    const memberInArg = getArg(args, "memberIn");
-    return runCommand(
-      ctx,
-      FindActorsInputSchema,
-      {
-        fullName: getArg(args, "fullName"),
-        memberIn: memberInArg ? [memberInArg] : [],
-        withDeleted: args.includes("--withDeleted") ? true : undefined,
-        sort: getArg(args, "sort"),
-        order: getArg(args, "order"),
-        start: getArg(args, "start"),
-        end: getArg(args, "end"),
-      },
-      (input) => {
-        ctx.logger.debug.log("actor-find input: %O", input);
-        return ctx.api.Actor.List({
-          Query: {
-            q: input.fullName,
-            memberIn:
-              input.memberIn.length > 0 ? (input.memberIn as any) : undefined,
-            _start: input.start !== undefined ? String(input.start) : "0",
-            _end: input.end !== undefined ? String(input.end) : "20",
-          },
-        });
-      },
-    );
-  },
+  run: (ctx, args) =>
+    runCliCommand(ctx, FindActorsInputSchema, args, (input) => {
+      ctx.logger.debug.log("actor-find input: %O", input);
+      return ctx.api.Actor.List({
+        Query: {
+          q: input.fullName,
+          memberIn:
+            input.memberIn.length > 0 ? (input.memberIn as any) : undefined,
+          _start: input.start !== undefined ? String(input.start) : "0",
+          _end: input.end !== undefined ? String(input.end) : "20",
+        },
+      });
+    }),
 };

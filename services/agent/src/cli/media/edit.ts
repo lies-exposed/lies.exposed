@@ -1,7 +1,7 @@
 import { EditMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
+import { splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const mediaEdit: CommandModule = {
   help: `
@@ -25,44 +25,28 @@ Options:
 Output: JSON updated media object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      EditMediaInputSchema,
-      {
-        id: getArg(args, "id"),
-        location: getArg(args, "location"),
-        type: getArg(args, "type"),
-        label: getArg(args, "label"),
-        description: getArg(args, "description"),
-        thumbnail: getArg(args, "thumbnail"),
-        events: splitUUIDs(getArg(args, "events")),
-        links: splitUUIDs(getArg(args, "links")),
-        keywords: splitUUIDs(getArg(args, "keywords")),
-        areas: splitUUIDs(getArg(args, "areas")),
-      },
-      (input) => {
-        ctx.logger.debug.log("media edit input: %O", input);
-        return ctx.api.Media.Edit({
-          Params: { id: input.id as any },
-          Body: {
-            location: input.location as any,
-            type: input.type as any,
-            label: input.label,
-            description: input.description ?? null,
-            thumbnail: input.thumbnail ? (input.thumbnail as any) : null,
-            extra: null,
-            events: (input.events ?? []) as any[],
-            links: (input.links ?? []) as any[],
-            keywords: (input.keywords ?? []) as any[],
-            areas: (input.areas ?? []) as any[],
-            creator: null,
-            overrideThumbnail: null,
-            overrideExtra: null,
-            transfer: null,
-            transferThumbnail: null,
-            restore: null,
-          } as any,
-        });
-      },
-    ),
+    runCliCommand(ctx, EditMediaInputSchema, args, (input) => {
+      ctx.logger.debug.log("media edit input: %O", input);
+      return ctx.api.Media.Edit({
+        Params: { id: input.id as any },
+        Body: {
+          location: input.location as any,
+          type: input.type as any,
+          label: input.label,
+          description: input.description ?? null,
+          thumbnail: input.thumbnail ? (input.thumbnail as any) : null,
+          extra: null,
+          events: splitUUIDs(input.events) as any[],
+          links: splitUUIDs(input.links) as any[],
+          keywords: splitUUIDs(input.keywords) as any[],
+          areas: splitUUIDs(input.areas) as any[],
+          creator: null,
+          overrideThumbnail: null,
+          overrideExtra: null,
+          transfer: null,
+          transferThumbnail: null,
+          restore: null,
+        } as any,
+      });
+    }),
 };

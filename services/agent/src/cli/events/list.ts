@@ -1,7 +1,6 @@
 import { FindEventsInputSchema } from "@liexp/shared/lib/mcp/schemas/events.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const eventList: CommandModule = {
   help: `
@@ -22,38 +21,20 @@ Options:
 
 Output: JSON list of event objects
 `,
-  run: (ctx, args) => {
-    const actorsArg = getArg(args, "actors");
-    const groupsArg = getArg(args, "groups");
-
-    return runCommand(
-      ctx,
-      FindEventsInputSchema,
-      {
-        query: getArg(args, "query"),
-        actors: actorsArg ? [actorsArg] : undefined,
-        groups: groupsArg ? [groupsArg] : undefined,
-        type: getArg(args, "type"),
-        startDate: getArg(args, "startDate"),
-        endDate: getArg(args, "endDate"),
-        start: getArg(args, "start"),
-        end: getArg(args, "end"),
-      },
-      (input) => {
-        ctx.logger.debug.log("event list input: %O", input);
-        return ctx.api.Event.List({
-          Query: {
-            q: input.query ?? null,
-            actors: input.actors as any,
-            groups: input.groups as any,
-            type: input.type ? [input.type as any] : undefined,
-            startDate: input.startDate,
-            endDate: input.endDate,
-            _start: input.start !== undefined ? String(input.start) : "0",
-            _end: input.end !== undefined ? String(input.end) : "20",
-          } as any,
-        });
-      },
-    );
-  },
+  run: (ctx, args) =>
+    runCliCommand(ctx, FindEventsInputSchema, args, (input) => {
+      ctx.logger.debug.log("event list input: %O", input);
+      return ctx.api.Event.List({
+        Query: {
+          q: input.query ?? null,
+          actors: input.actors as any,
+          groups: input.groups as any,
+          type: input.type ? [input.type as any] : undefined,
+          startDate: input.startDate,
+          endDate: input.endDate,
+          _start: input.start !== undefined ? String(input.start) : "0",
+          _end: input.end !== undefined ? String(input.end) : "20",
+        } as any,
+      });
+    }),
 };

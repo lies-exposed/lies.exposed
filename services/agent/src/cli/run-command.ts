@@ -4,6 +4,7 @@ import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type CLIContext } from "./command.type.js";
+import { parseArgsFromSchema } from "./args.js";
 
 /**
  * Decodes raw CLI input through an Effect Schema, runs the API call, prints
@@ -37,3 +38,24 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   // eslint-disable-next-line no-console
   console.log(JSON.stringify(result, null, 2));
 };
+
+/**
+ * Like runCommand but takes a raw string[] args array instead of a
+ * pre-built raw input object. Derives the input object automatically from
+ * the schema's field definitions using parseArgsFromSchema.
+ *
+ * Usage in a CommandModule.run:
+ *
+ *   return runCliCommand(ctx, MySchema, args, (input) =>
+ *     ctx.api.Actor.Get({ Params: { id: input.id } }),
+ *   );
+ */
+export const runCliCommand = <Fields extends Schema.Struct.Fields>(
+  ctx: CLIContext,
+  schema: Schema.Struct<Fields>,
+  args: string[],
+  handler: (
+    input: Schema.Schema.Type<Schema.Struct<Fields>>,
+  ) => TaskEither<Error, unknown>,
+): Promise<void> =>
+  runCommand(ctx, schema, parseArgsFromSchema(schema, args), handler);

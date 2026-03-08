@@ -1,8 +1,8 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { CreateStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg } from "../args.js";
+import { splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const storyCreate: CommandModule = {
   help: `
@@ -27,47 +27,30 @@ Options:
 Output: JSON created story object
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      CreateStoryInputSchema,
-      {
-        title: getArg(args, "title"),
-        path: getArg(args, "path"),
-        date: getArg(args, "date"),
-        draft: getArg(args, "draft"),
-        creator: getArg(args, "creator"),
-        featuredImage: getArg(args, "featuredImage"),
-        keywords: splitUUIDs(getArg(args, "keywords")),
-        actors: splitUUIDs(getArg(args, "actors")),
-        groups: splitUUIDs(getArg(args, "groups")),
-        events: splitUUIDs(getArg(args, "events")),
-        media: splitUUIDs(getArg(args, "media")),
-      },
-      (input) => {
-        ctx.logger.debug.log("story create input: %O", input);
+    runCliCommand(ctx, CreateStoryInputSchema, args, (input) => {
+      ctx.logger.debug.log("story create input: %O", input);
 
-        if (!input.title || !input.path || !input.date) {
-          return fp.TE.left(
-            new Error("--title, --path, and --date are required"),
-          );
-        }
+      if (!input.title || !input.path || !input.date) {
+        return fp.TE.left(
+          new Error("--title, --path, and --date are required"),
+        );
+      }
 
-        return ctx.api.Story.Create({
-          Body: {
-            title: input.title,
-            path: input.path,
-            date: new Date(input.date),
-            draft: input.draft ?? true,
-            creator: input.creator ?? undefined,
-            featuredImage: input.featuredImage ?? undefined,
-            body2: [] as any,
-            keywords: input.keywords,
-            actors: input.actors,
-            groups: input.groups,
-            events: input.events,
-            media: input.media,
-          } as any,
-        });
-      },
-    ),
+      return ctx.api.Story.Create({
+        Body: {
+          title: input.title,
+          path: input.path,
+          date: new Date(input.date),
+          draft: input.draft ?? true,
+          creator: (input.creator ?? null) as any,
+          featuredImage: (input.featuredImage ?? null) as any,
+          body2: [] as any,
+          keywords: input.keywords,
+          actors: input.actors,
+          groups: input.groups,
+          events: input.events,
+          media: input.media,
+        },
+      });
+    }),
 };

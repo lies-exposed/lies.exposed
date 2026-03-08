@@ -1,7 +1,6 @@
 import { GetAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const areaGet: CommandModule = {
   help: `
@@ -16,7 +15,7 @@ Options:
 Output: JSON area object
 `,
   run: (ctx, args) =>
-    runCommand(ctx, GetAreaInputSchema, { id: getArg(args, "id") }, (input) => {
+    runCliCommand(ctx, GetAreaInputSchema, args, (input) => {
       ctx.logger.debug.log("area get input: %O", input);
       return ctx.api.Area.Get({ Params: { id: input.id as any } });
     }),

@@ -1,7 +1,6 @@
 import { FindGroupsInputSchema } from "@liexp/shared/lib/mcp/schemas/groups.schemas.js";
-import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { runCliCommand } from "../run-command.js";
 
 export const groupList: CommandModule = {
   help: `
@@ -20,27 +19,16 @@ Options:
 Output: JSON group list
 `,
   run: (ctx, args) =>
-    runCommand(
-      ctx,
-      FindGroupsInputSchema,
-      {
-        query: getArg(args, "query"),
-        sort: getArg(args, "sort") as any,
-        order: getArg(args, "order") as any,
-        start: getArg(args, "start"),
-        end: getArg(args, "end"),
-      },
-      (input) => {
-        ctx.logger.debug.log("group list input: %O", input);
-        return ctx.api.Group.List({
-          Query: {
-            q: input.query,
-            _sort: input.sort as any,
-            _order: input.order as any,
-            _start: input.start !== undefined ? String(input.start) : "0",
-            _end: input.end !== undefined ? String(input.end) : "20",
-          },
-        });
-      },
-    ),
+    runCliCommand(ctx, FindGroupsInputSchema, args, (input) => {
+      ctx.logger.debug.log("group list input: %O", input);
+      return ctx.api.Group.List({
+        Query: {
+          q: input.query,
+          _sort: input.sort as any,
+          _order: input.order as any,
+          _start: input.start !== undefined ? String(input.start) : "0",
+          _end: input.end !== undefined ? String(input.end) : "20",
+        },
+      });
+    }),
 };
