@@ -5,7 +5,6 @@ import { useStreamingChat } from "./useStreamingChat.js";
 
 const mockFetch: ReturnType<typeof vi.fn> = vi.fn();
 
-vi.mock("fetch", () => mockFetch);
 // Mock getAuthFromLocalStorage
 vi.mock("@liexp/ui/lib/client/api.js", () => ({
   getAuthFromLocalStorage: vi.fn(() => "mock-token"),
@@ -14,6 +13,7 @@ vi.mock("@liexp/ui/lib/client/api.js", () => ({
 describe("useStreamingChat", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    global.fetch = mockFetch;
   });
 
   afterEach(() => {
