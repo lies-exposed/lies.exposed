@@ -255,11 +255,11 @@ export const fetchLinks = <C extends DatabaseContext & ENVContext>(
                 const subQuery = qb
                   .subQuery()
                   .select('"eventLink"."linkId"')
-                  .from("event_v2_links_link", "eventLink")
+                  .from("event_links_link", "eventLink")
                   .innerJoin(
-                    "event_v2",
+                    "event",
                     "evt",
-                    'evt.id = "eventLink"."eventV2Id" AND evt."deletedAt" IS NULL',
+                    'evt.id = "eventLink"."eventId" AND evt."deletedAt" IS NULL',
                   )
                   .groupBy('"eventLink"."linkId"')
                   .having("COUNT(evt.id) >= :eventsCount", {

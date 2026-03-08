@@ -24,43 +24,25 @@ export class DropOrphanTables1772600000000 implements MigrationInterface {
     await queryRunner.query(
       `DROP TABLE IF EXISTS "death_event_supsected_actors_actor"`,
     );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "death_event_images_image"`,
-    );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "death_event_media_image"`,
-    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "death_event_images_image"`);
+    await queryRunner.query(`DROP TABLE IF EXISTS "death_event_media_image"`);
 
     // old event relations
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_actors_actor"`,
-    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_actors_actor"`);
     await queryRunner.query(
       `DROP TABLE IF EXISTS "event_group_members_group_member"`,
     );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_groups_group"`,
-    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_groups_group"`);
     await queryRunner.query(
       `DROP TABLE IF EXISTS "event_groups_members_group_member"`,
     );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_images_image"`,
-    );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_keywords_keyword"`,
-    );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_links_link"`,
-    );
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "event_media_image"`,
-    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_images_image"`);
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_keywords_keyword"`);
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_links_link"`);
+    await queryRunner.query(`DROP TABLE IF EXISTS "event_media_image"`);
 
     // article / scientific_study relations
-    await queryRunner.query(
-      `DROP TABLE IF EXISTS "keyword_articles_article"`,
-    );
+    await queryRunner.query(`DROP TABLE IF EXISTS "keyword_articles_article"`);
     await queryRunner.query(
       `DROP TABLE IF EXISTS "scientific_study_authors_actor"`,
     );
@@ -163,15 +145,33 @@ export class DropOrphanTables1772600000000 implements MigrationInterface {
         CONSTRAINT "PK_event_legacy" PRIMARY KEY ("id")
       )
     `);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_link" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "eventId" uuid, "linkId" uuid, "publishDate" date, "draft" boolean NOT NULL DEFAULT true, "deletedAt" timestamp, CONSTRAINT "PK_event_link" PRIMARY KEY ("id"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_actors_actor"            ("eventId" uuid NOT NULL, "actorId"       uuid NOT NULL, CONSTRAINT "PK_event_actors_actor"            PRIMARY KEY ("eventId", "actorId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_group_members_group_member" ("eventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_event_group_members_group_member" PRIMARY KEY ("eventId", "groupMemberId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_groups_group"            ("eventId" uuid NOT NULL, "groupId"       uuid NOT NULL, CONSTRAINT "PK_event_groups_group"            PRIMARY KEY ("eventId", "groupId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_groups_members_group_member" ("eventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_event_groups_members_group_member" PRIMARY KEY ("eventId", "groupMemberId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_images_image"            ("eventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_event_images_image"            PRIMARY KEY ("eventId", "imageId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_keywords_keyword"        ("eventId" uuid NOT NULL, "keywordId"     uuid NOT NULL, CONSTRAINT "PK_event_keywords_keyword"        PRIMARY KEY ("eventId", "keywordId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_links_link"              ("eventId" uuid NOT NULL, "linkId"        uuid NOT NULL, CONSTRAINT "PK_event_links_link"              PRIMARY KEY ("eventId", "linkId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "event_media_image"             ("eventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_event_media_image"             PRIMARY KEY ("eventId", "imageId"))`);
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_link" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "eventId" uuid, "linkId" uuid, "publishDate" date, "draft" boolean NOT NULL DEFAULT true, "deletedAt" timestamp, CONSTRAINT "PK_event_link" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_actors_actor"            ("eventId" uuid NOT NULL, "actorId"       uuid NOT NULL, CONSTRAINT "PK_event_actors_actor"            PRIMARY KEY ("eventId", "actorId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_group_members_group_member" ("eventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_event_group_members_group_member" PRIMARY KEY ("eventId", "groupMemberId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_groups_group"            ("eventId" uuid NOT NULL, "groupId"       uuid NOT NULL, CONSTRAINT "PK_event_groups_group"            PRIMARY KEY ("eventId", "groupId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_groups_members_group_member" ("eventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_event_groups_members_group_member" PRIMARY KEY ("eventId", "groupMemberId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_images_image"            ("eventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_event_images_image"            PRIMARY KEY ("eventId", "imageId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_keywords_keyword"        ("eventId" uuid NOT NULL, "keywordId"     uuid NOT NULL, CONSTRAINT "PK_event_keywords_keyword"        PRIMARY KEY ("eventId", "keywordId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_links_link"              ("eventId" uuid NOT NULL, "linkId"        uuid NOT NULL, CONSTRAINT "PK_event_links_link"              PRIMARY KEY ("eventId", "linkId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "event_media_image"             ("eventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_event_media_image"             PRIMARY KEY ("eventId", "imageId"))`,
+    );
 
     await queryRunner.query(`
       CREATE TABLE IF NOT EXISTS "death_event" (
@@ -184,10 +184,20 @@ export class DropOrphanTables1772600000000 implements MigrationInterface {
         CONSTRAINT "PK_death_event" PRIMARY KEY ("id")
       )
     `);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "death_event_images_image"                          ("deathEventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_death_event_images_image"                          PRIMARY KEY ("deathEventId", "imageId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "death_event_media_image"                           ("deathEventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_death_event_media_image"                           PRIMARY KEY ("deathEventId", "imageId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "death_event_subspected_groups_group"               ("deathEventId" uuid NOT NULL, "groupId"       uuid NOT NULL, CONSTRAINT "PK_death_event_subspected_groups_group"               PRIMARY KEY ("deathEventId", "groupId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "death_event_supsected_actors_actor"                ("deathEventId" uuid NOT NULL, "actorId"       uuid NOT NULL, CONSTRAINT "PK_death_event_supsected_actors_actor"                PRIMARY KEY ("deathEventId", "actorId"))`);
-    await queryRunner.query(`CREATE TABLE IF NOT EXISTS "death_event_suspected_groups_members_group_member" ("deathEventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_death_event_suspected_groups_members_group_member" PRIMARY KEY ("deathEventId", "groupMemberId"))`);
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "death_event_images_image"                          ("deathEventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_death_event_images_image"                          PRIMARY KEY ("deathEventId", "imageId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "death_event_media_image"                           ("deathEventId" uuid NOT NULL, "imageId"       uuid NOT NULL, CONSTRAINT "PK_death_event_media_image"                           PRIMARY KEY ("deathEventId", "imageId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "death_event_subspected_groups_group"               ("deathEventId" uuid NOT NULL, "groupId"       uuid NOT NULL, CONSTRAINT "PK_death_event_subspected_groups_group"               PRIMARY KEY ("deathEventId", "groupId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "death_event_supsected_actors_actor"                ("deathEventId" uuid NOT NULL, "actorId"       uuid NOT NULL, CONSTRAINT "PK_death_event_supsected_actors_actor"                PRIMARY KEY ("deathEventId", "actorId"))`,
+    );
+    await queryRunner.query(
+      `CREATE TABLE IF NOT EXISTS "death_event_suspected_groups_members_group_member" ("deathEventId" uuid NOT NULL, "groupMemberId" uuid NOT NULL, CONSTRAINT "PK_death_event_suspected_groups_members_group_member" PRIMARY KEY ("deathEventId", "groupMemberId"))`,
+    );
   }
 }

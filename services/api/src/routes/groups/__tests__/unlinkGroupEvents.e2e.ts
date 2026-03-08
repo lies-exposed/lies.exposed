@@ -57,7 +57,7 @@ describe("Unlink Group Events", () => {
 
     // ensure event has group
     const savedRows: any[] = await Test.ctx.db.manager.query(
-      `SELECT payload FROM event_v2 WHERE id = $1`,
+      `SELECT payload FROM event WHERE id = $1`,
       [event.id],
     );
     expect(savedRows.length).toBeGreaterThan(0);
@@ -72,7 +72,7 @@ describe("Unlink Group Events", () => {
     expect(res.body.data).toMatchObject({ success: true });
 
     const updatedRows: any[] = await Test.ctx.db.manager.query(
-      `SELECT payload FROM event_v2 WHERE id = $1`,
+      `SELECT payload FROM event WHERE id = $1`,
       [event.id],
     );
     expect(updatedRows.length).toBeGreaterThan(0);
