@@ -217,9 +217,17 @@ export const transformEvent =
       }),
     );
 
-    const relations = relationsTransformer(data.excerpt);
+    const excerpt =
+      Array.isArray(data.excerpt) && data.excerpt.length > 0
+        ? data.excerpt
+        : null;
 
-    const event = transformByType(data, { ...relations, groupsMembers: [] });
+    const relations = relationsTransformer(excerpt ?? []);
+
+    const event = transformByType(
+      { ...data, excerpt },
+      { ...relations, groupsMembers: [] },
+    );
 
     return pipe(
       mediaTask,
