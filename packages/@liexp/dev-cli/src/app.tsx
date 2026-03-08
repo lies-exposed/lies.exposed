@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Box } from "ink";
+import { Box, useInput } from "ink";
 import { CommandMenu, type CommandId } from "./components/CommandMenu.js";
 import { StatusBar, type KeyBinding, BINDING_QUIT, BINDING_BACK, BINDING_SELECT, BINDING_CONFIRM } from "./components/StatusBar.js";
+import { TabBar, TABS, type TabId } from "./components/TabBar.js";
 import { LoginCommand } from "./commands/login.js";
 import { BuildCommand } from "./commands/build.js";
 import { PushCommand } from "./commands/push.js";
@@ -24,7 +25,12 @@ const BINDINGS_RUNNING: KeyBinding[] = [BINDING_QUIT];
 const BINDINGS_DONE: KeyBinding[] = [BINDING_BACK, BINDING_QUIT];
 
 /** Bindings for the top-level menu. */
-const BINDINGS_MENU: KeyBinding[] = [BINDING_SELECT, BINDING_CONFIRM, BINDING_QUIT];
+const BINDINGS_MENU: KeyBinding[] = [
+  BINDING_SELECT,
+  BINDING_CONFIRM,
+  ...TABS.map((t) => ({ key: t.shortcut, description: `${t.label} tab` })),
+  BINDING_QUIT,
+];
 
 // ---------------------------------------------------------------------------
 // App
@@ -33,11 +39,22 @@ const BINDINGS_MENU: KeyBinding[] = [BINDING_SELECT, BINDING_CONFIRM, BINDING_QU
 export function App() {
   const [screen, setScreen] = useState<Screen>("menu");
   const [phase, setPhase] = useState<"idle" | "running" | "done">("idle");
+  const [activeTab, setActiveTab] = useState<TabId>("docker");
 
   const goBack = () => {
     setScreen("menu");
     setPhase("idle");
   };
+
+  // Tab switching is available whenever we're on the menu (not mid-command)
+  useInput((_input, key) => {
+    if (screen !== "menu") return;
+    if (key.ctrl && _input === "d") {
+      setActiveTab("docker");
+    } else if (key.ctrl && _input === "g") {
+      setActiveTab("git");
+    }
+  });
 
   // Derive current keybindings from screen + phase
   let bindings: KeyBinding[];
@@ -51,9 +68,16 @@ export function App() {
 
   return (
     <Box flexDirection="column" padding={1}>
+      {/* Tab bar — always visible */}
+      <TabBar activeTab={activeTab} />
+
+      {/* Main content area */}
       <Box flexDirection="column" flexGrow={1}>
         {screen === "menu" && (
-          <CommandMenu onSelect={(cmd) => { setScreen(cmd); setPhase("idle"); }} />
+          <CommandMenu
+            tab={activeTab}
+            onSelect={(cmd) => { setScreen(cmd); setPhase("idle"); }}
+          />
         )}
         {screen === "login" && (
           <LoginCommand onBack={goBack} onPhaseChange={setPhase} />
@@ -81,6 +105,7 @@ export function App() {
         )}
       </Box>
 
+      {/* Key binding hint bar — always at the bottom */}
       <StatusBar bindings={bindings} />
     </Box>
   );
