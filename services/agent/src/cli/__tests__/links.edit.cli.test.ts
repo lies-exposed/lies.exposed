@@ -16,12 +16,15 @@ const [_, linkB] = fc.sample(LinkArbs.LinkArb, 2).map(encodeLink);
 let lastPutBody: any = null;
 
 const handlers = [
-  http.put("http://localhost:4010/v1/links/:id", async ({ params, request }) => {
-    lastPutBody = await request.json();
-    const updated =
-      params.id === linkB.id ? { ...linkB, title: "Updated Title" } : linkB;
-    return HttpResponse.json({ data: updated });
-  }),
+  http.put(
+    "http://localhost:4010/v1/links/:id",
+    async ({ params, request }) => {
+      lastPutBody = await request.json();
+      const updated =
+        params.id === linkB.id ? { ...linkB, title: "Updated Title" } : linkB;
+      return HttpResponse.json({ data: updated });
+    },
+  ),
 ];
 
 describe("link edit CLI", () => {
