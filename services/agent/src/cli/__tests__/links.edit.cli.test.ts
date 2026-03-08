@@ -13,9 +13,11 @@ const encodeLink = Schema.encodeSync(LinkIO.Link);
 
 const [_, linkB] = fc.sample(LinkArbs.LinkArb, 2).map(encodeLink);
 
+let lastPutBody: any = null;
+
 const handlers = [
-  // PUT /links/:id — edit
-  http.put("http://localhost:4010/v1/links/:id", ({ params }) => {
+  http.put("http://localhost:4010/v1/links/:id", async ({ params, request }) => {
+    lastPutBody = await request.json();
     const updated =
       params.id === linkB.id ? { ...linkB, title: "Updated Title" } : linkB;
     return HttpResponse.json({ data: updated });
@@ -128,5 +130,21 @@ describe("link edit CLI", () => {
     await expect(
       linkEdit.run(ctx, ["--title=No ID", "--url=https://example.com"]),
     ).rejects.toThrow();
+  });
+
+  test("edit --id --status=APPROVED without --url sends url as undefined to the API", async () => {
+    await linkEdit.run(ctx, [`--id=${linkB.id}`, "--status=APPROVED"]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+    // url must be absent (undefined) in the request body so the API falls back to the existing URL
+    expect(lastPutBody).not.toHaveProperty("url");
+  });
+
+  test("edit --id --url overrides the existing URL in the request body", async () => {
+    const newUrl = "https://example.com/override";
+    await linkEdit.run(ctx, [`--id=${linkB.id}`, `--url=${newUrl}`]);
+    const result = JSON.parse(output);
+    expect(result.data).toMatchObject({ id: expect.any(String) });
+    expect(lastPutBody).toHaveProperty("url", newUrl);
   });
 });
