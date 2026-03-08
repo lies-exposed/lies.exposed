@@ -63,7 +63,8 @@ export const eventEdit = makeCommand(
   EditEventInputSchema,
   {
     usage: "event edit",
-    description: "Edit an existing event by UUID. The --type flag determines which payload fields apply.",
+    description:
+      "Edit an existing event by UUID. The --type flag determines which payload fields apply.",
     output: "JSON updated event object",
     notes: EVENT_EDIT_NOTES,
   },
@@ -73,9 +74,7 @@ export const eventEdit = makeCommand(
     const common = {
       ...(input.date !== undefined ? { date: new Date(input.date) } : {}),
       ...(input.draft !== undefined ? { draft: input.draft } : {}),
-      ...(input.excerpt !== undefined
-        ? { excerpt: input.excerpt as any }
-        : {}),
+      ...(input.excerpt !== undefined ? { excerpt: input.excerpt as any } : {}),
       ...(input.media !== undefined
         ? { media: splitUUIDs(input.media) as any[] }
         : {}),
@@ -195,9 +194,7 @@ export const eventEdit = makeCommand(
 
       case "Patent":
         if (!input.title) {
-          return fp.TE.left(
-            new Error("--title is required for Patent events"),
-          );
+          return fp.TE.left(new Error("--title is required for Patent events"));
         }
         body = {
           ...common,

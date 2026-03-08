@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const mediaGet = makeCommand(
   GetMediaInputSchema,
-  { usage: "media get", description: "Retrieve a media item by UUID.", output: "JSON media object" },
+  {
+    usage: "media get",
+    description: "Retrieve a media item by UUID.",
+    output: "JSON media object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("media get input: %O", input);
     return ctx.api.Media.Get({ Params: { id: input.id as any } });

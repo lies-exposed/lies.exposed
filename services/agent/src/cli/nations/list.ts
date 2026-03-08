@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const nationList = makeCommand(
   FindNationsInputSchema,
-  { usage: "nation list", description: "Search and list nations.", output: "JSON list of nation objects" },
+  {
+    usage: "nation list",
+    description: "Search and list nations.",
+    output: "JSON list of nation objects",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("nation list input: %O", input);
     return ctx.api.Nation.List({

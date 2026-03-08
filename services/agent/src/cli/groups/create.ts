@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const groupCreate = makeCommand(
   CreateGroupInputSchema,
-  { usage: "group create", description: "Create a new group.", output: "JSON created group object" },
+  {
+    usage: "group create",
+    description: "Create a new group.",
+    output: "JSON created group object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("group create input: %O", input);
     return ctx.api.Group.Create({

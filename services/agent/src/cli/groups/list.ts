@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const groupList = makeCommand(
   FindGroupsInputSchema,
-  { usage: "group list", description: "Search for groups in the lies.exposed database.", output: "JSON group list" },
+  {
+    usage: "group list",
+    description: "Search for groups in the lies.exposed database.",
+    output: "JSON group list",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("group list input: %O", input);
     return ctx.api.Group.List({

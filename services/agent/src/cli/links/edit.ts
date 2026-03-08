@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const linkEdit = makeCommand(
   EditLinkInputSchema,
-  { usage: "link edit", description: "Edit an existing link by UUID.", output: "JSON updated link object" },
+  {
+    usage: "link edit",
+    description: "Edit an existing link by UUID.",
+    output: "JSON updated link object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("link edit input: %O", input);
     return ctx.api.Link.Edit({

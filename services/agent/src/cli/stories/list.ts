@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const storyList = makeCommand(
   FindStoriesInputSchema,
-  { usage: "story list", description: "Search and list stories.", output: "JSON list of story objects" },
+  {
+    usage: "story list",
+    description: "Search and list stories.",
+    output: "JSON list of story objects",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("story list input: %O", input);
     return ctx.api.Story.List({

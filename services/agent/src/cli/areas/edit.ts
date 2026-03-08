@@ -5,7 +5,11 @@ import { makeCommand } from "../run-command.js";
 
 export const areaEdit = makeCommand(
   EditAreaInputSchema,
-  { usage: "area edit", description: "Edit an existing geographic area by UUID.", output: "JSON updated area object" },
+  {
+    usage: "area edit",
+    description: "Edit an existing geographic area by UUID.",
+    output: "JSON updated area object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("area edit input: %O", input);
 

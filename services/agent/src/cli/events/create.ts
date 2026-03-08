@@ -63,7 +63,8 @@ export const eventCreate = makeCommand(
   CreateEventInputSchema,
   {
     usage: "event create",
-    description: "Create a new event. The --type flag determines which payload fields are required.",
+    description:
+      "Create a new event. The --type flag determines which payload fields are required.",
     output: "JSON created event object",
     notes: EVENT_CREATE_NOTES,
   },
@@ -189,9 +190,7 @@ export const eventCreate = makeCommand(
 
       case "Patent":
         if (!input.title) {
-          return fp.TE.left(
-            new Error("--title is required for Patent events"),
-          );
+          return fp.TE.left(new Error("--title is required for Patent events"));
         }
         body = {
           ...common,

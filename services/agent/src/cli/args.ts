@@ -1,4 +1,4 @@
-import { type AST, SchemaAST, type Schema } from "effect";
+import { SchemaAST, type Schema } from "effect";
 
 /**
  * Parses a --key=value argument from the args array.
@@ -23,26 +23,30 @@ export const splitUUIDs = (value: string | undefined): string[] =>
         .filter(Boolean)
     : [];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyAst = any;
+
 /**
  * Checks whether an Effect Schema AST node represents an array type
  * (i.e., Schema.Array(...)). Unwraps Union, Transformation, and
  * PropertySignatureDeclaration recursively.
  */
-const isArrayAst = (ast: AST.AST): boolean => {
+const isArrayAst = (ast: AnyAst): boolean => {
   switch (ast._tag) {
     case "TupleType":
       // Schema.Array creates a TupleType with rest elements and no fixed elements
-      return (ast as AST.TupleType).rest.length > 0;
+      return ast.rest.length > 0;
     case "Union":
       return ast.types
         .filter(
-          (t) => t._tag !== "UndefinedKeyword" && t._tag !== "NullKeyword",
+          (t: AnyAst) =>
+            t._tag !== "UndefinedKeyword" && t._tag !== "NullKeyword",
         )
         .some(isArrayAst);
     case "Transformation":
       return isArrayAst(ast.from);
     case "PropertySignatureDeclaration":
-      return isArrayAst((ast as any).type);
+      return isArrayAst(ast.type);
     default:
       return false;
   }
@@ -54,14 +58,14 @@ const isArrayAst = (ast: AST.AST): boolean => {
  * Schema.UndefinedOr(Schema.Array(...))). Used to decide whether to default
  * to [] or undefined when no CLI arg is provided.
  */
-const isOptionalArrayAst = (ast: AST.AST): boolean => {
+const isOptionalArrayAst = (ast: AnyAst): boolean => {
   switch (ast._tag) {
     case "PropertySignatureDeclaration":
       // Schema.optional(...) sets isOptional=true on the declaration
-      return (ast as any).isOptional && isArrayAst(ast);
+      return ast.isOptional && isArrayAst(ast);
     case "Union":
       return (
-        ast.types.some((t) => t._tag === "UndefinedKeyword") &&
+        ast.types.some((t: AnyAst) => t._tag === "UndefinedKeyword") &&
         ast.types.some(isArrayAst)
       );
     default:
@@ -72,12 +76,12 @@ const isOptionalArrayAst = (ast: AST.AST): boolean => {
 /**
  * Returns true if the field is optional (UndefinedOr, Schema.optional, etc.)
  */
-const isOptionalField = (ast: AST.AST): boolean => {
+const isOptionalField = (ast: AnyAst): boolean => {
   switch (ast._tag) {
     case "Union":
-      return ast.types.some((t) => t._tag === "UndefinedKeyword");
+      return ast.types.some((t: AnyAst) => t._tag === "UndefinedKeyword");
     case "PropertySignatureDeclaration":
-      return (ast as any).isOptional;
+      return ast.isOptional;
     default:
       return false;
   }
@@ -104,6 +108,7 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
 ): Record<string, unknown> => {
   const result: Record<string, unknown> = {};
   for (const [key, fieldSchema] of Object.entries(schema.fields)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ast = (fieldSchema as Schema.Schema<any>).ast;
     const rawValue = getArg(args, key);
     if (isArrayAst(ast)) {
@@ -150,11 +155,12 @@ export const helpFromSchema = <Fields extends Schema.Struct.Fields>(
   const lines: string[] = [];
 
   for (const [key, fieldSchema] of Object.entries(schema.fields)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const ast = (fieldSchema as Schema.Schema<any>).ast;
     const description =
-      (ast.annotations[
-        SchemaAST.DescriptionAnnotationId
-      ] as string | undefined) ?? "";
+      (ast.annotations[SchemaAST.DescriptionAnnotationId] as
+        | string
+        | undefined) ?? "";
     const optional = isOptionalField(ast);
     const flag = `--${key}=<value>`.padEnd(PAD);
     const suffix = optional ? "" : " (required)";

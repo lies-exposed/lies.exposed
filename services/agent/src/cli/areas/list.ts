@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const areaList = makeCommand(
   FindAreasInputSchema,
-  { usage: "area list", description: "Search and list geographic areas.", output: "JSON list of area objects" },
+  {
+    usage: "area list",
+    description: "Search and list geographic areas.",
+    output: "JSON list of area objects",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("area list input: %O", input);
     return ctx.api.Area.List({

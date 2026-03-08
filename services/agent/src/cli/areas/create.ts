@@ -4,7 +4,11 @@ import { makeCommand } from "../run-command.js";
 
 export const areaCreate = makeCommand(
   CreateAreaInputSchema,
-  { usage: "area create", description: "Create a new geographic area.", output: "JSON created area object" },
+  {
+    usage: "area create",
+    description: "Create a new geographic area.",
+    output: "JSON created area object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("area create input: %O", input);
 

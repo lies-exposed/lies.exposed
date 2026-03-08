@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const mediaList = makeCommand(
   FindMediaInputSchema,
-  { usage: "media list", description: "Search and list media (images, videos, files).", output: "JSON list of media objects" },
+  {
+    usage: "media list",
+    description: "Search and list media (images, videos, files).",
+    output: "JSON list of media objects",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("media list input: %O", input);
     return ctx.api.Media.List({

@@ -4,14 +4,16 @@ import { makeCommand } from "../run-command.js";
 
 export const storyCreate = makeCommand(
   CreateStoryInputSchema,
-  { usage: "story create", description: "Create a new story.", output: "JSON created story object" },
+  {
+    usage: "story create",
+    description: "Create a new story.",
+    output: "JSON created story object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("story create input: %O", input);
 
     if (!input.title || !input.path || !input.date) {
-      return fp.TE.left(
-        new Error("--title, --path, and --date are required"),
-      );
+      return fp.TE.left(new Error("--title, --path, and --date are required"));
     }
 
     return ctx.api.Story.Create({

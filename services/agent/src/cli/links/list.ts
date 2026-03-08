@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const linkList = makeCommand(
   FindLinksInputSchema,
-  { usage: "link list", description: "Search and list links (web sources and references).", output: "JSON list of link objects" },
+  {
+    usage: "link list",
+    description: "Search and list links (web sources and references).",
+    output: "JSON list of link objects",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("link list input: %O", input);
     return ctx.api.Link.List({

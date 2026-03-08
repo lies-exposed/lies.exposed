@@ -3,7 +3,11 @@ import { makeCommand } from "../run-command.js";
 
 export const groupEdit = makeCommand(
   EditGroupInputSchema,
-  { usage: "group edit", description: "Edit an existing group by UUID.", output: "JSON updated group object" },
+  {
+    usage: "group edit",
+    description: "Edit an existing group by UUID.",
+    output: "JSON updated group object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("group edit input: %O", input);
     return ctx.api.Group.Edit({
@@ -16,9 +20,7 @@ export const groupEdit = makeCommand(
         ...(input.excerpt !== undefined
           ? { excerpt: input.excerpt as any }
           : {}),
-        ...(input.avatar !== undefined
-          ? { avatar: input.avatar as any }
-          : {}),
+        ...(input.avatar !== undefined ? { avatar: input.avatar as any } : {}),
         ...(input.startDate !== undefined
           ? { startDate: new Date(input.startDate) }
           : {}),

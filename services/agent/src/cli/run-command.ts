@@ -53,8 +53,24 @@ export const runCliCommand =
       ctx: CLIContext,
     ) => TaskEither<Error, unknown>,
   ) =>
-  (ctx: CLIContext, args: string[]): Promise<void> =>
-    runCommand(ctx, schema, parseArgsFromSchema(schema, args), handler);
+  async (ctx: CLIContext, args: string[]): Promise<void> => {
+    const result = await pipe(
+      parseArgsFromSchema(schema, args),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Schema.decodeUnknownEither(schema as any),
+      fp.E.mapLeft(
+        (e: ParseError) =>
+          new Error(
+            `Invalid arguments:\n${ParseResult.TreeFormatter.formatErrorSync(e)}`,
+          ),
+      ),
+      fp.TE.fromEither,
+      fp.TE.chainW((input) => handler(input, ctx)),
+      throwTE,
+    );
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(result, null, 2));
+  };
 
 /**
  * Creates a CommandModule (run + help) from a Schema.Struct.

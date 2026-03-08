@@ -4,7 +4,11 @@ import { makeCommand } from "../run-command.js";
 
 export const storyEdit = makeCommand(
   EditStoryInputSchema,
-  { usage: "story edit", description: "Edit an existing story by UUID.", output: "JSON updated story object" },
+  {
+    usage: "story edit",
+    description: "Edit an existing story by UUID.",
+    output: "JSON updated story object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("story edit input: %O", input);
 

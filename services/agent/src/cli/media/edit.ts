@@ -4,7 +4,11 @@ import { makeCommand } from "../run-command.js";
 
 export const mediaEdit = makeCommand(
   EditMediaInputSchema,
-  { usage: "media edit", description: "Edit an existing media entry by UUID.", output: "JSON updated media object" },
+  {
+    usage: "media edit",
+    description: "Edit an existing media entry by UUID.",
+    output: "JSON updated media object",
+  },
   (input, ctx) => {
     ctx.logger.debug.log("media edit input: %O", input);
     return ctx.api.Media.Edit({
