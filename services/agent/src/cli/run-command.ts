@@ -1,6 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import { Schema } from "effect";
+import { ParseResult, Schema } from "effect";
+import { type ParseError } from "effect/ParseResult";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type CLIContext } from "./command.type.js";
 
@@ -22,7 +23,12 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
 ): Promise<void> => {
   const result = await pipe(
     Schema.decodeUnknownEither(schema)(rawInput),
-    fp.E.mapLeft((e) => new Error(`Invalid arguments: ${JSON.stringify(e)}`)),
+    fp.E.mapLeft(
+      (e: ParseError) =>
+        new Error(
+          `Invalid arguments:\n${ParseResult.TreeFormatter.formatErrorSync(e)}`,
+        ),
+    ),
     fp.TE.fromEither,
     fp.TE.chainW(handler),
     throwTE,

@@ -113,22 +113,32 @@ const main = async () => {
   try {
     await command.run(ctx, args);
   } catch (error) {
+    const message =
+      error instanceof Error ? error.message : String(error);
+    process.stderr.write(
+      `Error running ${groupName} ${subcommand}:\n${message}\n`,
+    );
     cliLogger.error.log(`Error running ${groupName} ${subcommand}:`, error);
     process.exit(1);
   }
 };
 
 process.on("uncaughtException", (error) => {
+  process.stderr.write(`Uncaught Exception: ${error.message}\n`);
   cliLogger.error.log("Uncaught Exception:", error);
   process.exit(1);
 });
 
 process.on("unhandledRejection", (reason) => {
+  const message = reason instanceof Error ? reason.message : String(reason);
+  process.stderr.write(`Unhandled Rejection: ${message}\n`);
   cliLogger.error.log("Unhandled Rejection:", reason);
   process.exit(1);
 });
 
 main().catch((error) => {
+  const message = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`Failed to start agent CLI: ${message}\n`);
   cliLogger.error.log("Failed to start agent CLI:", error);
   process.exit(1);
 });

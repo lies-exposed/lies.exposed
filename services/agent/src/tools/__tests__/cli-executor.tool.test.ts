@@ -148,6 +148,25 @@ describe("createCliExecutorTool", () => {
     );
   });
 
+  test("captures full tree-formatted parse error from stderr", async () => {
+    const err: any = new Error("Command failed");
+    err.code = 1;
+    err.stderr = [
+      "Error running link edit:",
+      "Invalid arguments:",
+      '└─ ["id"]',
+      "   └─ Expected string, actual undefined",
+    ].join("\n");
+    mockExecAsync.mockRejectedValueOnce(err);
+
+    const result = await tool.invoke({ command: "link edit --title=foo" });
+
+    expect(result).toContain("ERROR (exit 1)");
+    expect(result).toContain("Error running link edit:");
+    expect(result).toContain("Invalid arguments:");
+    expect(result).toContain("Expected string, actual undefined");
+  });
+
   test("includes stdout note in error output when exec throws with stdout", async () => {
     const err: any = new Error("Command failed");
     err.code = 1;
