@@ -10,7 +10,7 @@ import { type LinkEntity } from "../Link.entity.js";
         "event"."date" as "date",
         "event"."payload" AS "payload",
         "actor" as "victim"
-      FROM "event_v2" "event"
+      FROM "event" "event"
       LEFT JOIN "actor" "actor" ON "event"."payload" ->> 'victim' = "actor"."id"::varchar
       WHERE type = 'Death'
   `,
