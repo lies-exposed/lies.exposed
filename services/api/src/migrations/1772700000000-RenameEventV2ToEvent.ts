@@ -63,29 +63,36 @@ export class RenameEventV2ToEvent1772700000000 implements MigrationInterface {
       `ALTER TABLE "story_events_event" RENAME COLUMN "eventV2Id" TO "eventId"`,
     );
 
-    // ── 4. Rename primary table event_v2 → event ─────────────────────────
+    // ── 4. Rename primary table event_v2 → event and its enum type ──────────
     await queryRunner.query(`ALTER TABLE "event_v2" RENAME TO "event"`);
+    await queryRunner.query(
+      `ALTER TYPE "public"."event_v2_type_enum" RENAME TO "event_type_enum"`,
+    );
 
     // ── 5. Re-create FK constraints pointing to the renamed primary table ─
+    // Original actions per migration 1639419928672-EventV2.ts:
+    //   keywords/links/media: ON DELETE CASCADE ON UPDATE CASCADE
+    // Original action per migration 1684261288313-ArticleToStory.ts:
+    //   story_events: ON DELETE NO ACTION ON UPDATE NO ACTION
     await queryRunner.query(`
       ALTER TABLE "event_keywords_keyword"
         ADD CONSTRAINT "FK_event_keywords_keyword_eventId"
-        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "event_links_link"
         ADD CONSTRAINT "FK_event_links_link_eventId"
-        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "event_media_image"
         ADD CONSTRAINT "FK_event_media_image_eventId"
-        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "story_events_event"
         ADD CONSTRAINT "FK_story_events_event_eventId"
-        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventId") REFERENCES "event"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
     `);
 
     // ── 6. Rename indexes ─────────────────────────────────────────────────
@@ -190,6 +197,9 @@ export class RenameEventV2ToEvent1772700000000 implements MigrationInterface {
     );
 
     // ── Rename primary table back ─────────────────────────────────────────
+    await queryRunner.query(
+      `ALTER TYPE "public"."event_type_enum" RENAME TO "event_v2_type_enum"`,
+    );
     await queryRunner.query(`ALTER TABLE "event" RENAME TO "event_v2"`);
 
     // ── Rename join-columns back ──────────────────────────────────────────
@@ -224,22 +234,22 @@ export class RenameEventV2ToEvent1772700000000 implements MigrationInterface {
     await queryRunner.query(`
       ALTER TABLE "event_v2_keywords_keyword"
         ADD CONSTRAINT "FK_57ac84768f13865a71586c1c845"
-        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "event_v2_links_link"
         ADD CONSTRAINT "FK_1b66e865afd0df322ce51f045cf"
-        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "event_v2_media_image"
         ADD CONSTRAINT "FK_9e131ce1d4c24730c83e7b420fc"
-        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE CASCADE
     `);
     await queryRunner.query(`
       ALTER TABLE "story_events_event_v2"
         ADD CONSTRAINT "FK_a4d7604cc22cebdecc36241a73d"
-        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE CASCADE ON UPDATE NO ACTION
+        FOREIGN KEY ("eventV2Id") REFERENCES "event_v2"("id") ON DELETE NO ACTION ON UPDATE NO ACTION
     `);
   }
 }

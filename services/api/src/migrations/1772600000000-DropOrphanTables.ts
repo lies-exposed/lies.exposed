@@ -8,7 +8,7 @@ import { type MigrationInterface, type QueryRunner } from "typeorm";
  *  2. Removal of `article`, `scientific_study`, and `death_event` entity types
  *
  * Junction tables are dropped first to respect FK constraints, then the
- * primary tables.  The subsequent migration (DropOrphanTablesRenameEvent)
+ * primary tables.  The subsequent migration (RenameEventV2ToEvent1772700000000)
  * handles renaming `event_v2` → `event` once the old `event` table is gone.
  */
 export class DropOrphanTables1772600000000 implements MigrationInterface {
