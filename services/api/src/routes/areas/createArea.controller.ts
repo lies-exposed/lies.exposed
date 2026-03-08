@@ -3,6 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { AreaIO } from "@liexp/backend/lib/io/Area.io.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type Route } from "../route.types.js";
@@ -23,7 +24,7 @@ export const MakeCreateAreaRoute: Route = (r, { db, logger, s3: _s3, jwt }) => {
           if (fp.O.isSome(area)) {
             return TE.right([area.value]);
           }
-          return db.save(AreaEntity, [body]);
+          return db.save(AreaEntity, [removeUndefinedFromPayload(body)]);
         }),
         fp.TE.map(([a]) => a),
         TE.chainEitherK((a) => AreaIO.decodeSingle(a)),

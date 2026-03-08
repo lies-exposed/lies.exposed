@@ -9,7 +9,7 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { type EventV2Entity } from "../../entities/Event.v2.entity.js";
 import { type DBError } from "../../providers/orm/database.provider.js";
-import { optionalsToUndefined } from "../../utils/foldOptionals.utils.js";
+import { foldOptionals } from "../../utils/foldOptionals.utils.js";
 import { fetchRelationIds } from "./fetchEventRelations.query.js";
 
 interface EditEventEntity extends Omit<DeepPartial<EventV2Entity>, "type"> {
@@ -55,7 +55,7 @@ export const editEventQuery =
         switch (input.type) {
           case EVENT_TYPES.BOOK: {
             const { excerpt, body, payload, date, draft } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -75,7 +75,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.QUOTE: {
             const { excerpt, body, payload, date, draft } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -95,7 +95,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.TRANSACTION: {
             const { excerpt, body, payload, date, draft } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -115,7 +115,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.DOCUMENTARY: {
             const { excerpt, body, payload, date, draft } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -135,7 +135,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.PATENT: {
             const { excerpt, body, payload, date, draft } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -155,7 +155,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.DEATH: {
             const { excerpt, body, payload, draft, date } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               excerpt,
               body,
               date,
@@ -176,7 +176,7 @@ export const editEventQuery =
           }
           case EVENT_TYPES.SCIENTIFIC_STUDY: {
             const { type, date, draft, excerpt, body, payload } = input;
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               date,
               draft,
               excerpt,
@@ -197,7 +197,7 @@ export const editEventQuery =
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
 
-            const baseProps = optionalsToUndefined({
+            const baseProps = foldOptionals({
               draft,
               date,
               excerpt,

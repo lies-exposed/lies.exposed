@@ -5,6 +5,7 @@ import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { AdminCreate } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -23,7 +24,9 @@ export const MakeCreateKeywordRoute: Route = (r, { db, logger, jwt }) => {
       TE.filterOrElse(O.isNone, () =>
         ServerError.of([`Keyword ${body.tag} already exists.`]),
       ),
-      TE.chain(() => db.save(KeywordEntity, [body])),
+      TE.chain(() =>
+        db.save(KeywordEntity, [removeUndefinedFromPayload(body)]),
+      ),
       TE.chain(([keyword]) =>
         db.findOneOrFail(KeywordEntity, {
           where: { id: keyword.id },
