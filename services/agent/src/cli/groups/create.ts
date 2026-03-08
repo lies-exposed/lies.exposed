@@ -18,8 +18,8 @@ export const groupCreate = makeCommand(
         color: input.color as any,
         excerpt: input.excerpt as any,
         avatar: input.avatar as any,
-        startDate: input.startDate ? new Date(input.startDate) : undefined,
-        endDate: input.endDate ? new Date(input.endDate) : undefined,
+        startDate: input.startDate,
+        endDate: input.endDate,
         members: [],
       },
     });

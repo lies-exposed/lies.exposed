@@ -70,9 +70,10 @@ export const runCliCommand =
     // Schema.decodeUnknownEither has a known TypeScript limitation with
     // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
     // inferred constraint. The `as any` is scoped to this single decode call.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const decoded = Schema.decodeUnknownEither(schema as any)(
+
+    const decoded = pipe(
       parseArgsFromSchema(schema, args),
+      Schema.decodeUnknownEither(schema as any),
     ) as Either<ParseError, Input>;
 
     const result = await pipe(

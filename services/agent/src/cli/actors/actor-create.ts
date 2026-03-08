@@ -13,17 +13,7 @@ export const actorCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("actor-create input: %O", input);
     return pipe(
-      removeUndefinedFromPayload({
-        username: input.username,
-        fullName: input.fullName,
-        color: input.color,
-        excerpt: input.excerpt,
-        bornOn: input.bornOn ? new Date(input.bornOn) : undefined,
-        diedOn: input.diedOn ? new Date(input.diedOn) : undefined,
-        avatar: input.avatar,
-        nationalityIds: input.nationalityIds,
-        body: input.body,
-      }),
+      removeUndefinedFromPayload(input),
       (body) => ctx.api.Actor.Create({ Body: body as any }),
       fp.TE.mapLeft((e) => e as Error),
     );

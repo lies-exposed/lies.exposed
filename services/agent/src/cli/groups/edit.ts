@@ -12,20 +12,11 @@ export const groupEdit = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("group edit input: %O", input);
+    const { id, ...rest } = input;
     return pipe(
-      removeUndefinedFromPayload({
-        name: input.name,
-        username: input.username,
-        kind: input.kind,
-        color: input.color,
-        excerpt: input.excerpt,
-        avatar: input.avatar,
-        startDate: input.startDate ? new Date(input.startDate) : undefined,
-        endDate: input.endDate ? new Date(input.endDate) : undefined,
-        members: input.members,
-      }),
+      removeUndefinedFromPayload(rest),
       (body) =>
-        ctx.api.Group.Edit({ Params: { id: input.id as any }, Body: body as any }),
+        ctx.api.Group.Edit({ Params: { id: id as any }, Body: body as any }),
       fp.TE.mapLeft((e) => e as Error),
     );
   },

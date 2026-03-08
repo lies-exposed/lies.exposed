@@ -73,12 +73,21 @@ export const eventEdit = makeCommand(
     ctx.logger.debug.log("event edit input: %O", input);
 
     const common = removeUndefinedFromPayload({
-      date: input.date ? new Date(input.date) : undefined,
+      date: input.date,
       draft: input.draft,
       excerpt: input.excerpt as any,
-      media: input.media !== undefined ? (splitUUIDs(input.media) as any[]) : undefined,
-      links: input.links !== undefined ? (splitUUIDs(input.links) as any[]) : undefined,
-      keywords: input.keywords !== undefined ? (splitUUIDs(input.keywords) as any[]) : undefined,
+      media:
+        input.media !== undefined
+          ? (splitUUIDs(input.media) as any[])
+          : undefined,
+      links:
+        input.links !== undefined
+          ? (splitUUIDs(input.links) as any[])
+          : undefined,
+      keywords:
+        input.keywords !== undefined
+          ? (splitUUIDs(input.keywords) as any[])
+          : undefined,
     });
 
     let body: any;
@@ -243,7 +252,7 @@ export const eventEdit = makeCommand(
             groups: splitUUIDs(input.groups),
             groupsMembers: splitUUIDs(input.groupsMembers),
             location: input.location ?? null,
-            endDate: input.endDate ? new Date(input.endDate) : null,
+            endDate: input.endDate ?? null,
           },
         };
         break;

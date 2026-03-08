@@ -12,21 +12,10 @@ export const actorEdit = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("actor-edit input: %O", input);
+    const { id, ...rest } = input;
     return pipe(
-      removeUndefinedFromPayload({
-        username: input.username,
-        fullName: input.fullName,
-        excerpt: input.excerpt,
-        body: input.body,
-        bornOn: input.bornOn ? new Date(input.bornOn) : undefined,
-        diedOn: input.diedOn ? new Date(input.diedOn) : undefined,
-        avatar: input.avatar,
-        color: input.color,
-        memberIn: input.memberIn,
-        nationalities: input.nationalities,
-      }),
-      (body) =>
-        ctx.api.Actor.Edit({ Params: { id: input.id }, Body: body as any }),
+      removeUndefinedFromPayload(rest),
+      (body) => ctx.api.Actor.Edit({ Params: { id }, Body: body as any }),
       fp.TE.mapLeft((e) => e as Error),
     );
   },

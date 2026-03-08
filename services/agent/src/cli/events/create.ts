@@ -72,7 +72,7 @@ export const eventCreate = makeCommand(
     ctx.logger.debug.log("event create input: %O", input);
 
     const common = {
-      date: new Date(input.date),
+      date: input.date,
       draft: input.draft ?? false,
       excerpt: input.excerpt as any,
       media: splitUUIDs(input.media) as any[],
@@ -249,7 +249,7 @@ export const eventCreate = makeCommand(
             groups: splitUUIDs(input.groups),
             groupsMembers: splitUUIDs(input.groupsMembers),
             location: input.location ?? null,
-            endDate: input.endDate ? new Date(input.endDate) : null,
+            endDate: input.endDate ?? null,
           },
         };
         break;

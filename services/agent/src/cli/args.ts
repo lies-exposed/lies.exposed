@@ -131,7 +131,6 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
   return result;
 };
 
-
 export interface HelpMeta {
   /** e.g. "actor get", "link edit" — shown in Usage line */
   usage: string;
