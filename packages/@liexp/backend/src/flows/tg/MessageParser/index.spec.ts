@@ -22,6 +22,13 @@ import { type SpaceContext } from "../../../context/space.context.js";
 import { type URLMetadataContext } from "../../../context/urlMetadata.context.js";
 import { UserEntity } from "../../../entities/User.entity.js";
 import { mockedContext } from "../../../test/context.js";
+import { parseDocument } from "../parseDocument.flow.js";
+import { parsePDFURLs } from "../parsePDFURL.flow.js";
+import { parsePhoto } from "../parsePhoto.flow.js";
+import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
+import { parseURLs } from "../parseURL.flow.js";
+import { parseVideo } from "../parseVideo.flow.js";
+import { MessageParser } from "./index.js";
 
 // Mock sub-parser flows so they don't need real dependencies
 vi.mock("../parseDocument.flow.js", () => ({
@@ -47,14 +54,6 @@ vi.mock("../parsePDFURL.flow.js", () => ({
 vi.mock("../parsePlatformMedia.flow.js", () => ({
   parsePlatformMedia: vi.fn(),
 }));
-
-import { parseDocument } from "../parseDocument.flow.js";
-import { parsePhoto } from "../parsePhoto.flow.js";
-import { parseVideo } from "../parseVideo.flow.js";
-import { parseURLs } from "../parseURL.flow.js";
-import { parsePDFURLs } from "../parsePDFURL.flow.js";
-import { parsePlatformMedia } from "../parsePlatformMedia.flow.js";
-import { MessageParser } from "./index.js";
 
 type MessageParserContext = DatabaseContext &
   TGBotProviderContext &
@@ -134,9 +133,7 @@ describe("MessageParser", () => {
         document,
       } as any;
 
-      vi.mocked(parseDocument).mockReturnValue(() =>
-        fp.TE.right([docId]),
-      );
+      vi.mocked(parseDocument).mockReturnValue(() => fp.TE.right([docId]));
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parseDocument(appTest.ctx), throwTE);
@@ -185,9 +182,7 @@ describe("MessageParser", () => {
         photo,
       } as any;
 
-      vi.mocked(parsePhoto).mockReturnValue(() =>
-        fp.TE.right([photoId]),
-      );
+      vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([photoId]));
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parsePhoto(appTest.ctx), throwTE);
@@ -224,9 +219,7 @@ describe("MessageParser", () => {
         photo,
       } as any;
 
-      vi.mocked(parsePhoto).mockReturnValue(() =>
-        fp.TE.right([uuid()]),
-      );
+      vi.mocked(parsePhoto).mockReturnValue(() => fp.TE.right([uuid()]));
 
       const parser = MessageParser(message);
       await pipe(parser.parsePhoto(appTest.ctx), throwTE);
@@ -302,9 +295,7 @@ describe("MessageParser", () => {
         video,
       } as any;
 
-      vi.mocked(parseVideo).mockReturnValue(() =>
-        fp.TE.right([videoId]),
-      );
+      vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
       const parser = MessageParser(message);
       const result = await pipe(parser.parseVideo(appTest.ctx), throwTE);
@@ -330,9 +321,7 @@ describe("MessageParser", () => {
         // No caption or text
       } as any;
 
-      vi.mocked(parseVideo).mockReturnValue(() =>
-        fp.TE.right([videoId]),
-      );
+      vi.mocked(parseVideo).mockReturnValue(() => fp.TE.right([videoId]));
 
       const parser = MessageParser(message);
       await pipe(parser.parseVideo(appTest.ctx), throwTE);
@@ -354,9 +343,7 @@ describe("MessageParser", () => {
         entities: [],
       } as any;
 
-      vi.mocked(parseURLs).mockImplementation((urls) => () =>
-        fp.TE.right([]),
-      );
+      vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
 
       const parser = MessageParser(message);
       const result = await pipe(
@@ -378,8 +365,8 @@ describe("MessageParser", () => {
         entities: [{ type: "url", offset: 6, length: 27 }],
       } as any;
 
-      vi.mocked(parseURLs).mockImplementation(() => () =>
-        fp.TE.right([linkId]),
+      vi.mocked(parseURLs).mockImplementation(
+        () => () => fp.TE.right([linkId]),
       );
 
       const parser = MessageParser(message);
@@ -412,8 +399,8 @@ describe("MessageParser", () => {
         ],
       } as any;
 
-      vi.mocked(parseURLs).mockImplementation(() => () =>
-        fp.TE.right([linkId]),
+      vi.mocked(parseURLs).mockImplementation(
+        () => () => fp.TE.right([linkId]),
       );
 
       const parser = MessageParser(message);
@@ -440,9 +427,7 @@ describe("MessageParser", () => {
         entities: [],
       } as any;
 
-      vi.mocked(parsePDFURLs).mockReturnValue(() =>
-        fp.TE.right([]),
-      );
+      vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([]));
 
       const parser = MessageParser(message);
       const result = await pipe(
@@ -462,9 +447,7 @@ describe("MessageParser", () => {
         entities: [{ type: "url", offset: 9, length: 28 }],
       } as any;
 
-      vi.mocked(parsePDFURLs).mockReturnValue(() =>
-        fp.TE.right([pdfId]),
-      );
+      vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([pdfId]));
 
       const parser = MessageParser(message);
       const result = await pipe(
@@ -620,9 +603,7 @@ describe("MessageParser", () => {
         entities: [{ type: "url", offset: 0, length: 25 }],
       } as any;
 
-      vi.mocked(parseURLs).mockImplementation((urls) => () =>
-        fp.TE.right([]),
-      );
+      vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
 
       const parser = MessageParser(message);
       await pipe(parser.parseURLs(mockPage, testUser)(appTest.ctx), throwTE);
@@ -640,12 +621,8 @@ describe("MessageParser", () => {
         entities: [{ type: "url", offset: 8, length: pdfUrl.length }],
       } as any;
 
-      vi.mocked(parseURLs).mockImplementation((urls) => () =>
-        fp.TE.right([]),
-      );
-      vi.mocked(parsePDFURLs).mockReturnValue(() =>
-        fp.TE.right([uuid()]),
-      );
+      vi.mocked(parseURLs).mockImplementation((_urls) => () => fp.TE.right([]));
+      vi.mocked(parsePDFURLs).mockReturnValue(() => fp.TE.right([uuid()]));
 
       const parser = MessageParser(message);
 

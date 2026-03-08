@@ -4,14 +4,22 @@ import { JSONOperators } from "./utils.js";
 describe("orm/utils", () => {
   describe("JSONOperators.Strings.Eq", () => {
     it("should produce a JSONB equality expression for a single path", () => {
-      const result = JSONOperators.Strings.Eq("entity.data", ["key"], "myValue");
+      const result = JSONOperators.Strings.Eq(
+        "entity.data",
+        ["key"],
+        "myValue",
+      );
 
       expect(result).toContain("entity.data::jsonb");
       expect(result).toContain("'myValue'");
     });
 
     it("should include the field value in the expression", () => {
-      const result = JSONOperators.Strings.Eq("table.col", ["path"], "value123");
+      const result = JSONOperators.Strings.Eq(
+        "table.col",
+        ["path"],
+        "value123",
+      );
 
       expect(result).toContain("value123");
     });
@@ -29,7 +37,11 @@ describe("orm/utils", () => {
     });
 
     it("should include the path key in the expression", () => {
-      const result = JSONOperators.Strings.Eq("entity.data", ["myField"], "value");
+      const result = JSONOperators.Strings.Eq(
+        "entity.data",
+        ["myField"],
+        "value",
+      );
 
       expect(result).toContain("'myField'");
     });
@@ -49,13 +61,21 @@ describe("orm/utils", () => {
 
   describe("JSONOperators.Array.every", () => {
     it("should produce a ?& (contains all) JSONB operator expression", () => {
-      const result = JSONOperators.Array.every("entity.tags", ["items"], "tagValues");
+      const result = JSONOperators.Array.every(
+        "entity.tags",
+        ["items"],
+        "tagValues",
+      );
 
       expect(result).toContain("?& ARRAY[:...tagValues]");
     });
 
     it("should include the column with ::jsonb cast", () => {
-      const result = JSONOperators.Array.every("entity.tags", ["items"], "tagValues");
+      const result = JSONOperators.Array.every(
+        "entity.tags",
+        ["items"],
+        "tagValues",
+      );
 
       expect(result).toContain("entity.tags::jsonb");
     });
@@ -92,13 +112,21 @@ describe("orm/utils", () => {
 
   describe("JSONOperators.Array.some", () => {
     it("should produce a ?| (contains any) JSONB operator expression", () => {
-      const result = JSONOperators.Array.some("entity.tags", ["items"], "tagValues");
+      const result = JSONOperators.Array.some(
+        "entity.tags",
+        ["items"],
+        "tagValues",
+      );
 
       expect(result).toContain("?| ARRAY[:...tagValues]");
     });
 
     it("should include the column with ::jsonb cast", () => {
-      const result = JSONOperators.Array.some("entity.tags", ["items"], "tagValues");
+      const result = JSONOperators.Array.some(
+        "entity.tags",
+        ["items"],
+        "tagValues",
+      );
 
       expect(result).toContain("entity.tags::jsonb");
     });

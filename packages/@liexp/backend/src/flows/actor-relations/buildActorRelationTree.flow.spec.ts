@@ -42,10 +42,7 @@ describe(buildActorRelationTree.name, () => {
     mockTERightOnce(mockDb.find, () => []);
     // No Batch 3 (allParentIds is empty)
 
-    const result = await pipe(
-      buildActorRelationTree(actorId, 0)(ctx),
-      throwTE,
-    );
+    const result = await pipe(buildActorRelationTree(actorId, 0)(ctx), throwTE);
 
     expect(Object.keys(result)).toHaveLength(1);
     expect(result[actorId]).toBeDefined();
@@ -75,10 +72,7 @@ describe(buildActorRelationTree.name, () => {
     mockTERightOnce(mockDb.find, () => [actor]);
     mockTERightOnce(mockDb.find, () => []);
 
-    const result = await pipe(
-      buildActorRelationTree(actorId, 0)(ctx),
-      throwTE,
-    );
+    const result = await pipe(buildActorRelationTree(actorId, 0)(ctx), throwTE);
 
     expect(result[actorId].avatar).toBe("https://example.com/avatar.jpg");
   });
@@ -160,10 +154,7 @@ describe(buildActorRelationTree.name, () => {
     // Batch 3: sibling query – parent's children (no other siblings)
     mockTERightOnce(mockDb.find, () => [relation]);
 
-    const result = await pipe(
-      buildActorRelationTree(actorId, 0)(ctx),
-      throwTE,
-    );
+    const result = await pipe(buildActorRelationTree(actorId, 0)(ctx), throwTE);
 
     expect(result[actorId]).toBeDefined();
     expect(result[actorId].parents).toContain(parentId);
@@ -211,8 +202,8 @@ describe(buildActorRelationTree.name, () => {
     const actorId = "non-existent";
 
     const dbError = new Error("Entity not found");
-    mockDb.findOneOrFail.mockImplementationOnce(() => () =>
-      Promise.resolve({ _tag: "Left", left: dbError } as any),
+    mockDb.findOneOrFail.mockImplementationOnce(
+      () => () => Promise.resolve({ _tag: "Left", left: dbError } as any),
     );
 
     const result = await buildActorRelationTree(actorId, 0)(ctx)();

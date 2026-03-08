@@ -14,13 +14,12 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
+import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
+import { parseDocument } from "./parseDocument.flow.js";
 
 vi.mock("../media/uploadAndCreate.flow.js", () => ({
   uploadAndCreate: vi.fn(),
 }));
-
-import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
-import { parseDocument } from "./parseDocument.flow.js";
 
 type ParseDocumentContext = TGBotProviderContext &
   LoggerContext &
@@ -63,13 +62,9 @@ describe(parseDocument.name, () => {
 
     const fakeMedia = { id: "some-media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     const result = await pipe(parseDocument(doc)(appTest.ctx), throwTE);
 
@@ -99,9 +94,7 @@ describe(parseDocument.name, () => {
       mime_type: "video/mp4",
     } as any;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     const te = parseDocument(doc)(appTest.ctx);
     const outcome = await te();
@@ -119,9 +112,7 @@ describe(parseDocument.name, () => {
     } as any;
 
     const streamError = new Error("Stream error");
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.left(streamError),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.left(streamError));
 
     const te = parseDocument(doc)(appTest.ctx);
     const outcome = await te();
@@ -138,9 +129,7 @@ describe(parseDocument.name, () => {
       mime_type: "application/pdf",
     } as any;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
       fp.TE.left({ name: "ServerError", message: "upload failed" } as any),
@@ -162,13 +151,9 @@ describe(parseDocument.name, () => {
 
     const fakeMedia = { id: "some-media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     const result = await pipe(parseDocument(doc)(appTest.ctx), throwTE);
 

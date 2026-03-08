@@ -10,6 +10,7 @@ import { ActorEntity } from "../../entities/Actor.entity.js";
 import { GroupEntity } from "../../entities/Group.entity.js";
 import { KeywordEntity } from "../../entities/Keyword.entity.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
+import { fetchRelations } from "../../queries/common/fetchRelations.query.js";
 import { mockedContext } from "../../test/context.js";
 import { fetchSocialPostRelations } from "./fetchSocialPostRelations.flow.js";
 
@@ -18,8 +19,6 @@ import { fetchSocialPostRelations } from "./fetchSocialPostRelations.flow.js";
 vi.mock("../../queries/common/fetchRelations.query.js", () => ({
   fetchRelations: vi.fn(),
 }));
-
-import { fetchRelations } from "../../queries/common/fetchRelations.query.js";
 
 type TestContext = DatabaseContext & ENVContext & LoggerContext;
 
@@ -227,9 +226,7 @@ describe(fetchSocialPostRelations.name, () => {
   it("should propagate errors from fetchRelations as Left", async () => {
     const dbError = { name: "DBError", message: "connection failed" };
 
-    vi.mocked(fetchRelations).mockReturnValue(() =>
-      fp.TE.left(dbError as any),
-    );
+    vi.mocked(fetchRelations).mockReturnValue(() => fp.TE.left(dbError as any));
 
     const te = fetchSocialPostRelations({
       actors: [uuid()],

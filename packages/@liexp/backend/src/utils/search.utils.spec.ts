@@ -25,7 +25,9 @@ describe("search.utils", () => {
     it("should wrap fields with coalesce and ::text cast", () => {
       const result = buildFTSWhere(["actor.fullName"], "test");
 
-      expect(result.whereClause).toContain("coalesce(actor.fullName::text, '')");
+      expect(result.whereClause).toContain(
+        "coalesce(actor.fullName::text, '')",
+      );
     });
 
     it("should join multiple fields with || concatenation", () => {
@@ -34,8 +36,12 @@ describe("search.utils", () => {
         "test",
       );
 
-      expect(result.whereClause).toContain("coalesce(actor.fullName::text, '')");
-      expect(result.whereClause).toContain("coalesce(actor.username::text, '')");
+      expect(result.whereClause).toContain(
+        "coalesce(actor.fullName::text, '')",
+      );
+      expect(result.whereClause).toContain(
+        "coalesce(actor.username::text, '')",
+      );
       expect(result.whereClause).toContain("|| ' ' ||");
     });
 
@@ -43,7 +49,9 @@ describe("search.utils", () => {
       const result = buildFTSWhere(["actor.fullName"], "test");
 
       expect(result.whereClause).toContain("ts_rank_cd(");
-      expect(result.whereClause).toContain("websearch_to_tsquery('simple', :ftsQ)");
+      expect(result.whereClause).toContain(
+        "websearch_to_tsquery('simple', :ftsQ)",
+      );
       expect(result.whereClause).toContain("to_tsvector('simple',");
     });
 
@@ -61,10 +69,7 @@ describe("search.utils", () => {
     });
 
     it("should handle three or more fields", () => {
-      const result = buildFTSWhere(
-        ["a.col1", "a.col2", "a.col3"],
-        "query",
-      );
+      const result = buildFTSWhere(["a.col1", "a.col2", "a.col3"], "query");
 
       expect(result.whereClause).toContain("coalesce(a.col1::text, '')");
       expect(result.whereClause).toContain("coalesce(a.col2::text, '')");
@@ -97,7 +102,9 @@ describe("search.utils", () => {
       const result = buildFTSWhereRaw("some_expr", "test");
 
       expect(result.whereClause).toContain("ts_rank_cd(");
-      expect(result.whereClause).toContain("websearch_to_tsquery('simple', :ftsQ)");
+      expect(result.whereClause).toContain(
+        "websearch_to_tsquery('simple', :ftsQ)",
+      );
       expect(result.whereClause).toContain("> 0");
     });
 

@@ -15,7 +15,11 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { MediaEntity } from "../../entities/Media.entity.js";
 import { UserEntity } from "../../entities/User.entity.js";
+import { MediaRepository } from "../../services/entity-repository.service.js";
 import { mockedContext } from "../../test/context.js";
+import { extractMediaExtra } from "../media/extra/extractMediaExtra.flow.js";
+import { extractMediaFromPlatform } from "../media/extractMediaFromPlatform.flow.js";
+import { parsePlatformMedia } from "./parsePlatformMedia.flow.js";
 
 vi.mock("../media/extractMediaFromPlatform.flow.js", () => ({
   extractMediaFromPlatform: vi.fn(),
@@ -30,11 +34,6 @@ vi.mock("../../services/entity-repository.service.js", () => ({
     save: vi.fn(),
   },
 }));
-
-import { extractMediaFromPlatform } from "../media/extractMediaFromPlatform.flow.js";
-import { extractMediaExtra } from "../media/extra/extractMediaExtra.flow.js";
-import { MediaRepository } from "../../services/entity-repository.service.js";
-import { parsePlatformMedia } from "./parsePlatformMedia.flow.js";
 
 type ParsePlatformMediaContext = LoggerContext &
   DatabaseContext &
@@ -98,9 +97,7 @@ describe(parsePlatformMedia.name, () => {
     // Save new media
     appTest.ctx.db.save.mockReturnValueOnce(fp.TE.right([savedMedia]));
 
-    vi.mocked(extractMediaExtra).mockReturnValue(() =>
-      fp.TE.right(null),
-    );
+    vi.mocked(extractMediaExtra).mockReturnValue(() => fp.TE.right(null));
 
     vi.mocked(MediaRepository.save).mockReturnValue(() =>
       fp.TE.right([savedMedia]),
@@ -154,9 +151,7 @@ describe(parsePlatformMedia.name, () => {
       fp.TE.right(O.some(existingMedia)),
     );
 
-    vi.mocked(extractMediaExtra).mockReturnValue(() =>
-      fp.TE.right(null),
-    );
+    vi.mocked(extractMediaExtra).mockReturnValue(() => fp.TE.right(null));
 
     vi.mocked(MediaRepository.save).mockReturnValue(() =>
       fp.TE.right([existingMedia]),
@@ -186,13 +181,9 @@ describe(parsePlatformMedia.name, () => {
 
     // When location is falsy, media array is empty []
     // extractMediaExtra will be called with undefined
-    vi.mocked(extractMediaExtra).mockReturnValue(() =>
-      fp.TE.right(null),
-    );
+    vi.mocked(extractMediaExtra).mockReturnValue(() => fp.TE.right(null));
 
-    vi.mocked(MediaRepository.save).mockReturnValue(() =>
-      fp.TE.right([]),
-    );
+    vi.mocked(MediaRepository.save).mockReturnValue(() => fp.TE.right([]));
 
     const result = await pipe(
       parsePlatformMedia(testURL, testMatch, mockPage, testUser)(appTest.ctx),

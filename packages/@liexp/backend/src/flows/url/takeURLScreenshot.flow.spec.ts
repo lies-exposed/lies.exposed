@@ -1,11 +1,11 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import type * as puppeteer from "puppeteer-core";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { mockedContext } from "../../test/context.js";
 import { takeURLScreenshot } from "./takeURLScreenshot.flow.js";
-import type * as puppeteer from "puppeteer-core";
 
 type TakeURLScreenshotContext = PuppeteerProviderContext;
 
@@ -57,9 +57,8 @@ describe(takeURLScreenshot.name, () => {
 
   it("should return a PuppeteerError when getBrowserFirstPage fails", async () => {
     const url = "https://unreachable.example.com";
-    const { toPuppeteerError } = await import(
-      "../../providers/puppeteer.provider.js"
-    );
+    const { toPuppeteerError } =
+      await import("../../providers/puppeteer.provider.js");
     const puppeteerError = toPuppeteerError(
       new Error("net::ERR_NAME_NOT_RESOLVED"),
     );

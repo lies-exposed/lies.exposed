@@ -7,6 +7,10 @@ import { type HTTPProviderContext } from "../../../context/http.context.js";
 import { type ImgProcClientContext } from "../../../context/index.js";
 import { type LoggerContext } from "../../../context/logger.context.js";
 import { mockedContext } from "../../../test/context.js";
+import { readExifMetadataFromImage } from "../readExifMetadataFromImage.flow.js";
+import type { SimpleImageMedia } from "../thumbnails/extractThumbnailFromImage.flow.js";
+import { extractImageTypeExtra } from "./extractImageTypeExtra.flow.js";
+import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
 
 vi.mock("../readExifMetadataFromImage.flow.js", () => ({
   readExifMetadataFromImage: vi.fn(),
@@ -15,11 +19,6 @@ vi.mock("../readExifMetadataFromImage.flow.js", () => ({
 vi.mock("./extractThumbnailsExtra.flow.js", () => ({
   extractThumbnailsExtra: vi.fn(),
 }));
-
-import { readExifMetadataFromImage } from "../readExifMetadataFromImage.flow.js";
-import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
-import { extractImageTypeExtra } from "./extractImageTypeExtra.flow.js";
-import type { SimpleImageMedia } from "../thumbnails/extractThumbnailFromImage.flow.js";
 
 type ExtractImageContext = ConfigContext &
   HTTPProviderContext &
@@ -89,7 +88,11 @@ describe(extractImageTypeExtra.name, () => {
     } as any;
 
     (readExifMetadataFromImage as any).mockReturnValueOnce(
-      fp.RTE.left({ name: "ServerError", message: "fetch failed", status: 500 }),
+      fp.RTE.left({
+        name: "ServerError",
+        message: "fetch failed",
+        status: 500,
+      }),
     );
 
     const result = await extractImageTypeExtra(media)(ctx)();

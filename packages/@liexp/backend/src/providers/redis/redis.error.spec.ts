@@ -36,10 +36,17 @@ describe("redis.error", () => {
     });
 
     it("should store details", () => {
-      const details = { kind: "ServerError" as const, status: "500" as const, meta: ["ECONNREFUSED"] };
+      const details = {
+        kind: "ServerError" as const,
+        status: "500" as const,
+        meta: ["ECONNREFUSED"],
+      };
       const error = new RedisError("fail", details);
 
-      expect(error.details).toMatchObject({ kind: "ServerError", status: "500" });
+      expect(error.details).toMatchObject({
+        kind: "ServerError",
+        status: "500",
+      });
     });
   });
 

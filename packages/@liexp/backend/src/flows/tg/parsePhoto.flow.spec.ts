@@ -14,13 +14,12 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
+import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
+import { parsePhoto } from "./parsePhoto.flow.js";
 
 vi.mock("../media/uploadAndCreate.flow.js", () => ({
   uploadAndCreate: vi.fn(),
 }));
-
-import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
-import { parsePhoto } from "./parsePhoto.flow.js";
 
 type ParsePhotoContext = TGBotProviderContext &
   LoggerContext &
@@ -76,13 +75,9 @@ describe(parsePhoto.name, () => {
     const description = "Test photo";
     const fakeMedia = { id: "media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     const result = await pipe(
       parsePhoto(description, photo)(appTest.ctx),
@@ -156,13 +151,9 @@ describe(parsePhoto.name, () => {
 
     const fakeMedia = { id: "media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     await pipe(parsePhoto("desc", photo)(appTest.ctx), throwTE);
 
@@ -205,9 +196,7 @@ describe(parsePhoto.name, () => {
       },
     ] as any[];
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
       fp.TE.left({ name: "ServerError", message: "upload failed" } as any),

@@ -13,6 +13,10 @@ import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
 import { type UserEntity } from "../../entities/User.entity.js";
+import { fromURL } from "../../flows/links/link.flow.js";
+import { takeLinkScreenshot } from "../../flows/links/takeLinkScreenshot.flow.js";
+import { GetQueueProvider } from "../../providers/queue.provider.js";
+import { LinkRepository } from "../../services/entity-repository.service.js";
 import { mockedContext } from "../../test/context.js";
 import { parseURLs } from "./parseURL.flow.js";
 
@@ -38,11 +42,6 @@ vi.mock("../../services/entity-repository.service.js", () => ({
     save: vi.fn(),
   },
 }));
-
-import { fromURL } from "../../flows/links/link.flow.js";
-import { takeLinkScreenshot } from "../../flows/links/takeLinkScreenshot.flow.js";
-import { GetQueueProvider } from "../../providers/queue.provider.js";
-import { LinkRepository } from "../../services/entity-repository.service.js";
 
 type TestContext = LoggerContext &
   DatabaseContext &
@@ -75,9 +74,7 @@ describe(parseURLs.name, () => {
   });
 
   it("should return an empty array when urls is O.none", async () => {
-    vi.mocked(LinkRepository.save).mockReturnValue(() =>
-      fp.TE.right([]),
-    );
+    vi.mocked(LinkRepository.save).mockReturnValue(() => fp.TE.right([]));
 
     const result = await pipe(
       parseURLs(O.none, testUser, mockPage)(appTest.ctx),
@@ -89,9 +86,7 @@ describe(parseURLs.name, () => {
   });
 
   it("should return an empty array when urls is an empty O.some", async () => {
-    vi.mocked(LinkRepository.save).mockReturnValue(() =>
-      fp.TE.right([]),
-    );
+    vi.mocked(LinkRepository.save).mockReturnValue(() => fp.TE.right([]));
 
     const result = await pipe(
       parseURLs(O.some([]), testUser, mockPage)(appTest.ctx),
@@ -102,9 +97,7 @@ describe(parseURLs.name, () => {
   });
 
   it("should filter out excluded telegram profile URLs", async () => {
-    vi.mocked(LinkRepository.save).mockReturnValue(() =>
-      fp.TE.right([]),
-    );
+    vi.mocked(LinkRepository.save).mockReturnValue(() => fp.TE.right([]));
 
     const excludedUrl = "https://t.me/some_channel" as any;
 
@@ -127,7 +120,9 @@ describe(parseURLs.name, () => {
     const validUrl = "https://example.com/article" as any;
 
     // Link is found in db
-    appTest.ctx.db.findOne.mockReturnValueOnce(fp.TE.right(O.some(existingLink)));
+    appTest.ctx.db.findOne.mockReturnValueOnce(
+      fp.TE.right(O.some(existingLink)),
+    );
 
     vi.mocked(LinkRepository.save).mockReturnValue(() =>
       fp.TE.right([existingLink]),
@@ -188,7 +183,10 @@ describe(parseURLs.name, () => {
     // No thumbnail on image
     newLink.image = { thumbnail: null } as any;
 
-    const screenshotLink = { ...newLink, image: { thumbnail: "new-thumb.jpg" } };
+    const screenshotLink = {
+      ...newLink,
+      image: { thumbnail: "new-thumb.jpg" },
+    };
 
     const validUrl = "https://example.com/no-thumb" as any;
 

@@ -1,4 +1,7 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
+import * as Link from "@liexp/io/lib/http/Link.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
@@ -6,9 +9,6 @@ import { type DatabaseContext } from "../../context/db.context.js";
 import { LinkEntity } from "../../entities/Link.entity.js";
 import { mockedContext } from "../../test/context.js";
 import { validateStoryPublish } from "./validateStoryPublish.flow.js";
-import type { UUID } from "@liexp/io/lib/http/Common/UUID.js";
-import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import * as Link from "@liexp/io/lib/http/Link.js";
 
 type ValidateStoryPublishContext = DatabaseContext;
 
@@ -123,7 +123,8 @@ describe(validateStoryPublish.name, () => {
   });
 
   it("should propagate db.find errors", async () => {
-    const { DBError } = await import("../../providers/orm/database.provider.js");
+    const { DBError } =
+      await import("../../providers/orm/database.provider.js");
     const linkIds: UUID[] = [uuid()];
     const dbError = new DBError("DB connection failed", {
       kind: "ServerError",

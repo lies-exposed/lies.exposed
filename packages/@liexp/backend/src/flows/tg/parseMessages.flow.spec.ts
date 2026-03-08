@@ -19,14 +19,13 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { mockedContext } from "../../test/context.js";
+import { createFromTGMessage } from "./createFromTGMessage.flow.js";
 import { parseTGMessageFileFlow } from "./parseMessages.flow.js";
 
 // Mock createFromTGMessage which has deep database/network dependencies
 vi.mock("./createFromTGMessage.flow.js", () => ({
   createFromTGMessage: vi.fn(),
 }));
-
-import { createFromTGMessage } from "./createFromTGMessage.flow.js";
 
 type TestContext = TGBotProviderContext &
   LoggerContext &

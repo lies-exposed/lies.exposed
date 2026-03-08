@@ -21,6 +21,9 @@ import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import { UserEntity } from "../../entities/User.entity.js";
 import { mockedContext } from "../../test/context.js";
+import { getOneAdminOrFail } from "../user/getOneUserOrFail.flow.js";
+import { MessageParser } from "./MessageParser/index.js";
+import { createFromTGMessage } from "./createFromTGMessage.flow.js";
 
 vi.mock("./MessageParser/index.js", () => ({
   MessageParser: vi.fn(),
@@ -29,10 +32,6 @@ vi.mock("./MessageParser/index.js", () => ({
 vi.mock("../user/getOneUserOrFail.flow.js", () => ({
   getOneAdminOrFail: vi.fn(),
 }));
-
-import { MessageParser } from "./MessageParser/index.js";
-import { getOneAdminOrFail } from "../user/getOneUserOrFail.flow.js";
-import { createFromTGMessage } from "./createFromTGMessage.flow.js";
 
 type TestContext = LoggerContext &
   DatabaseContext &
@@ -75,10 +74,12 @@ describe(createFromTGMessage.name, () => {
   });
 
   const mockPage = {
-    browser: vi.fn().mockReturnValue({ close: vi.fn().mockResolvedValue(undefined) }),
+    browser: vi
+      .fn()
+      .mockReturnValue({ close: vi.fn().mockResolvedValue(undefined) }),
   } as any;
 
-  const mockParserResult = {
+  const _mockParserResult = {
     link: [],
     photos: [],
     videos: [],
@@ -89,7 +90,7 @@ describe(createFromTGMessage.name, () => {
     platformMedia: [],
   };
 
-  const makeParser = (overrides?: Partial<typeof mockParserResult>) => ({
+  const makeParser = (overrides?: Partial<typeof _mockParserResult>) => ({
     parseDocument: () => fp.TE.right([]),
     parsePhoto: () => fp.TE.right([]),
     parseVideo: () => fp.TE.right([]),

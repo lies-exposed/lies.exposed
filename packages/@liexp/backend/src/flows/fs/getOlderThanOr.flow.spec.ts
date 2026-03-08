@@ -36,9 +36,9 @@ describe("getOlderThanOr", () => {
       fp.TE.right(JSON.stringify(cachedData)),
     );
 
-    const rte = fp.RTE.right<GetOlderThanOrContext, Error, typeof cachedData>(
-      { different: "data" } as any,
-    );
+    const rte = fp.RTE.right<GetOlderThanOrContext, Error, typeof cachedData>({
+      different: "data",
+    } as any);
 
     const result = await pipe(
       getOlderThanOr(fileName, hours)(rte)(appTest.ctx),
@@ -155,7 +155,11 @@ describe("getOlderThanOr", () => {
     } as any;
     appTest.ctx.fs.getObject.mockReturnValueOnce(
       fp.TE.left(
-        new FSError("Read error", { kind: "ServerError", status: "500", meta: [] }),
+        new FSError("Read error", {
+          kind: "ServerError",
+          status: "500",
+          meta: [],
+        }),
       ),
     );
 

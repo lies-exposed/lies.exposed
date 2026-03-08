@@ -52,9 +52,9 @@ describe("DBService", () => {
         fp.TE.left(dbError as any),
       );
 
-      const te = DBService.execQuery<unknown, DBServiceTestContext>(
-        vi.fn(),
-      )(appTest.ctx);
+      const te = DBService.execQuery<unknown, DBServiceTestContext>(vi.fn())(
+        appTest.ctx,
+      );
       const outcome = await te();
 
       expect(outcome._tag).toBe("Left");
@@ -62,7 +62,7 @@ describe("DBService", () => {
     });
 
     it("should call ctx.db.execQuery with the provided function", async () => {
-      const fn = vi.fn(async () => [1, 2, 3]);
+      const fn = vi.fn(() => [1, 2, 3]);
 
       mockTERightOnce(appTest.ctx.db.execQuery, () => [1, 2, 3]);
 

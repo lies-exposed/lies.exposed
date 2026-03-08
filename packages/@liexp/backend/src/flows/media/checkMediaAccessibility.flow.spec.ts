@@ -1,5 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockDeep } from "vitest-mock-extended";
 import { type HTTPProviderContext } from "../../context/http.context.js";
@@ -7,7 +8,6 @@ import { type LoggerContext } from "../../context/logger.context.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
 import { checkMediaAccessibility } from "./checkMediaAccessibility.flow.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 
 type CheckMediaContext = HTTPProviderContext & LoggerContext;
 

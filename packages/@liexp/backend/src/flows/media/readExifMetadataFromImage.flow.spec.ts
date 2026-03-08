@@ -7,15 +7,16 @@ import { type ImgProcClientContext } from "../../context/index.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { mockedContext } from "../../test/context.js";
 import { mockTERightOnce } from "../../test/mocks/mock.utils.js";
+import { fetchAsBuffer } from "../url/fetchAsBuffer.flow.js";
+import { readExifMetadataFromImage } from "./readExifMetadataFromImage.flow.js";
 
 vi.mock("../url/fetchAsBuffer.flow.js", () => ({
   fetchAsBuffer: vi.fn(),
 }));
 
-import { fetchAsBuffer } from "../url/fetchAsBuffer.flow.js";
-import { readExifMetadataFromImage } from "./readExifMetadataFromImage.flow.js";
-
-type ReadExifContext = ImgProcClientContext & HTTPProviderContext & LoggerContext;
+type ReadExifContext = ImgProcClientContext &
+  HTTPProviderContext &
+  LoggerContext;
 
 describe(readExifMetadataFromImage.name, () => {
   const mockImgProc = mockDeep<ImgProcClientContext["imgProc"]>();
@@ -34,9 +35,7 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/photo.jpg";
     const fakeBuffer = Buffer.from("fake-image-data");
 
-    (fetchAsBuffer as any).mockReturnValueOnce(() =>
-      fp.TE.right(fakeBuffer),
-    );
+    (fetchAsBuffer as any).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
 
     mockTERightOnce(mockImgProc.readExif, () => ({
       "Image Width": { value: 1920, description: "1920" },
@@ -56,9 +55,7 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/photo.jpg";
     const fakeBuffer = Buffer.from("no-exif-data");
 
-    (fetchAsBuffer as any).mockReturnValueOnce(() =>
-      fp.TE.right(fakeBuffer),
-    );
+    (fetchAsBuffer as any).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
 
     mockTERightOnce(mockImgProc.readExif, () => ({}));
 
@@ -75,9 +72,7 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/missing.jpg";
     const fetchError = { name: "HTTPError", message: "Not found", status: 404 };
 
-    (fetchAsBuffer as any).mockReturnValueOnce(() =>
-      fp.TE.left(fetchError),
-    );
+    (fetchAsBuffer as any).mockReturnValueOnce(() => fp.TE.left(fetchError));
 
     const result = await readExifMetadataFromImage(location)(ctx)();
 
@@ -88,12 +83,14 @@ describe(readExifMetadataFromImage.name, () => {
     const location = "https://example.com/corrupt.jpg";
     const fakeBuffer = Buffer.from("corrupt");
 
-    (fetchAsBuffer as any).mockReturnValueOnce(() =>
-      fp.TE.right(fakeBuffer),
-    );
+    (fetchAsBuffer as any).mockReturnValueOnce(() => fp.TE.right(fakeBuffer));
 
     mockImgProc.readExif.mockImplementationOnce(() =>
-      fp.TE.left({ name: "ImgProcError", message: "Cannot read exif", status: 500 } as any),
+      fp.TE.left({
+        name: "ImgProcError",
+        message: "Cannot read exif",
+        status: 500,
+      } as any),
     );
 
     const result = await readExifMetadataFromImage(location)(ctx)();

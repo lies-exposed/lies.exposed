@@ -34,7 +34,9 @@ describe(ensureFolderExists.name, () => {
       throwTE,
     );
 
-    expect(appTest.ctx.fs._fs.existsSync).toHaveBeenCalledWith("/tmp/existing-folder");
+    expect(appTest.ctx.fs._fs.existsSync).toHaveBeenCalledWith(
+      "/tmp/existing-folder",
+    );
     expect(mkdirSyncMock).not.toHaveBeenCalled();
     expect(result).toBeUndefined();
   });
@@ -53,7 +55,9 @@ describe(ensureFolderExists.name, () => {
       throwTE,
     );
 
-    expect(appTest.ctx.fs._fs.existsSync).toHaveBeenCalledWith("/tmp/new-folder/sub");
+    expect(appTest.ctx.fs._fs.existsSync).toHaveBeenCalledWith(
+      "/tmp/new-folder/sub",
+    );
     expect(mkdirSyncMock).toHaveBeenCalledWith("/tmp/new-folder/sub", {
       recursive: true,
     });

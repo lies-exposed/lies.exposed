@@ -14,6 +14,9 @@ import { type RedisContext } from "../../context/redis.context.js";
 import { type SpaceContext } from "../../context/space.context.js";
 import { type MediaEntity } from "../../entities/Media.entity.js";
 import { mockedContext } from "../../test/context.js";
+import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
+import { upload } from "../space/upload.flow.js";
+import { parseVideo } from "./parseVideo.flow.js";
 
 vi.mock("../media/uploadAndCreate.flow.js", () => ({
   uploadAndCreate: vi.fn(),
@@ -22,10 +25,6 @@ vi.mock("../media/uploadAndCreate.flow.js", () => ({
 vi.mock("../space/upload.flow.js", () => ({
   upload: vi.fn(),
 }));
-
-import { upload } from "../space/upload.flow.js";
-import { uploadAndCreate } from "../media/uploadAndCreate.flow.js";
-import { parseVideo } from "./parseVideo.flow.js";
 
 type ParseVideoContext = LoggerContext &
   TGBotProviderContext &
@@ -72,13 +71,9 @@ describe(parseVideo.name, () => {
     const description = "Test video description";
     const fakeMedia = { id: "media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     const result = await pipe(
       parseVideo(description, video)(appTest.ctx),
@@ -128,15 +123,13 @@ describe(parseVideo.name, () => {
     // is called before getFileStream for the main video.
     appTest.ctx.tg.getFileStream
       .mockReturnValueOnce(fp.TE.right(mockThumbStream)) // first: thumb
-      .mockReturnValueOnce(fp.TE.right(mockStream));      // second: video
+      .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
       fp.TE.right({ Location: thumbLocation } as any),
     );
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     const result = await pipe(
       parseVideo(description, video)(appTest.ctx),
@@ -195,7 +188,7 @@ describe(parseVideo.name, () => {
 
     appTest.ctx.tg.getFileStream
       .mockReturnValueOnce(fp.TE.right(mockThumbStream)) // first: thumb
-      .mockReturnValueOnce(fp.TE.right(mockStream));      // second: video
+      .mockReturnValueOnce(fp.TE.right(mockStream)); // second: video
 
     vi.mocked(upload).mockReturnValue(() =>
       fp.TE.left({ name: "SpaceError", message: "upload failed" } as any),
@@ -216,9 +209,7 @@ describe(parseVideo.name, () => {
       thumb: undefined,
     } as any;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
     vi.mocked(uploadAndCreate).mockReturnValue(() =>
       fp.TE.left({ name: "ServerError", message: "create failed" } as any),
@@ -240,13 +231,9 @@ describe(parseVideo.name, () => {
 
     const fakeMedia = { id: "media-id" } as MediaEntity;
 
-    appTest.ctx.tg.getFileStream.mockReturnValueOnce(
-      fp.TE.right(mockStream),
-    );
+    appTest.ctx.tg.getFileStream.mockReturnValueOnce(fp.TE.right(mockStream));
 
-    vi.mocked(uploadAndCreate).mockReturnValue(() =>
-      fp.TE.right(fakeMedia),
-    );
+    vi.mocked(uploadAndCreate).mockReturnValue(() => fp.TE.right(fakeMedia));
 
     // UUID string as description (direct string)
     const result = await pipe(

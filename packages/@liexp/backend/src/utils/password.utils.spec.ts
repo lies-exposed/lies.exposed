@@ -1,6 +1,5 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, it, expect } from "vitest";
 import { hash, verify } from "./password.utils.js";
 

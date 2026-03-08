@@ -12,6 +12,10 @@ import { type LoggerContext } from "../../../context/logger.context.js";
 import { type SpaceContext } from "../../../context/space.context.js";
 import { MediaEntity } from "../../../entities/Media.entity.js";
 import { mockedContext } from "../../../test/context.js";
+import { extractImageTypeExtra } from "./extractImageTypeExtra.flow.js";
+import { extractMP4Extra } from "./extractMP4Extra.js";
+import { extractMediaExtra } from "./extractMediaExtra.flow.js";
+import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
 
 vi.mock("./extractImageTypeExtra.flow.js", () => ({
   extractImageTypeExtra: vi.fn(),
@@ -24,11 +28,6 @@ vi.mock("./extractMP4Extra.js", () => ({
 vi.mock("./extractThumbnailsExtra.flow.js", () => ({
   extractThumbnailsExtra: vi.fn(),
 }));
-
-import { extractImageTypeExtra } from "./extractImageTypeExtra.flow.js";
-import { extractMP4Extra } from "./extractMP4Extra.js";
-import { extractThumbnailsExtra } from "./extractThumbnailsExtra.flow.js";
-import { extractMediaExtra } from "./extractMediaExtra.flow.js";
 
 type ExtractMediaContext = FFMPEGProviderContext &
   ConfigContext &
@@ -80,7 +79,12 @@ describe("extractMediaExtra", () => {
     );
 
     (extractThumbnailsExtra as any).mockReturnValueOnce(
-      fp.RTE.right({ thumbnailWidth: 0, thumbnailHeight: 0, thumbnails: [], needRegenerateThumbnail: true }),
+      fp.RTE.right({
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
+        thumbnails: [],
+        needRegenerateThumbnail: true,
+      }),
     );
 
     const result = await pipe(extractMediaExtra(media)(ctx), throwTE);
@@ -106,12 +110,15 @@ describe("extractMediaExtra", () => {
       thumbnailHeight: 0,
     };
 
-    (extractMP4Extra as any).mockReturnValueOnce(
-      fp.RTE.right(videoExtra),
-    );
+    (extractMP4Extra as any).mockReturnValueOnce(fp.RTE.right(videoExtra));
 
     (extractThumbnailsExtra as any).mockReturnValueOnce(
-      fp.RTE.right({ thumbnailWidth: 0, thumbnailHeight: 0, thumbnails: [], needRegenerateThumbnail: true }),
+      fp.RTE.right({
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
+        thumbnails: [],
+        needRegenerateThumbnail: true,
+      }),
     );
 
     const result = await pipe(extractMediaExtra(media)(ctx), throwTE);
@@ -130,7 +137,12 @@ describe("extractMediaExtra", () => {
     media.extra = existingExtra;
 
     (extractThumbnailsExtra as any).mockReturnValueOnce(
-      fp.RTE.right({ thumbnailWidth: 0, thumbnailHeight: 0, thumbnails: [], needRegenerateThumbnail: true }),
+      fp.RTE.right({
+        thumbnailWidth: 0,
+        thumbnailHeight: 0,
+        thumbnails: [],
+        needRegenerateThumbnail: true,
+      }),
     );
 
     const result = await pipe(extractMediaExtra(media)(ctx), throwTE);
