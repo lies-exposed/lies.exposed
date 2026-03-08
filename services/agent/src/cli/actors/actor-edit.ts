@@ -30,12 +30,8 @@ Output: JSON updated actor object
       return ctx.api.Actor.Edit({
         Params: { id: input.id },
         Body: {
-          ...(input.username !== undefined
-            ? { username: input.username }
-            : {}),
-          ...(input.fullName !== undefined
-            ? { fullName: input.fullName }
-            : {}),
+          ...(input.username !== undefined ? { username: input.username } : {}),
+          ...(input.fullName !== undefined ? { fullName: input.fullName } : {}),
           ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
           ...(input.body !== undefined ? { body: input.body } : {}),
           ...(input.bornOn !== undefined

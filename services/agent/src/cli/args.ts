@@ -1,4 +1,4 @@
-import { AST, Schema } from "effect";
+import { type AST, type Schema } from "effect";
 
 /**
  * Parses a --key=value argument from the args array.

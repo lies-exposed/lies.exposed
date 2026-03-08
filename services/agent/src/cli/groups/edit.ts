@@ -30,9 +30,7 @@ Output: JSON updated group object
         Params: { id: input.id as any },
         Body: {
           ...(input.name !== undefined ? { name: input.name } : {}),
-          ...(input.username !== undefined
-            ? { username: input.username }
-            : {}),
+          ...(input.username !== undefined ? { username: input.username } : {}),
           ...(input.kind !== undefined ? { kind: input.kind } : {}),
           ...(input.color !== undefined ? { color: input.color as any } : {}),
           ...(input.excerpt !== undefined

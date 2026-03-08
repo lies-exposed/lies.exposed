@@ -3,8 +3,8 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { type CLIContext } from "./command.type.js";
 import { parseArgsFromSchema } from "./args.js";
+import { type CLIContext } from "./command.type.js";
 
 /**
  * Decodes raw CLI input through an Effect Schema, runs the API call, prints
@@ -20,10 +20,14 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   ctx: CLIContext,
   schema: S,
   rawInput: unknown,
-  handler: (input: Schema.Schema.Type<S>) => TaskEither<Error, unknown>,
+  handler: (
+    input: Schema.Schema.Type<S>,
+    ctx: CLIContext,
+  ) => TaskEither<Error, unknown>,
 ): Promise<void> => {
   const result = await pipe(
-    Schema.decodeUnknownEither(schema)(rawInput),
+    rawInput,
+    Schema.decodeUnknownEither(schema),
     fp.E.mapLeft(
       (e: ParseError) =>
         new Error(
@@ -31,7 +35,7 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
         ),
     ),
     fp.TE.fromEither,
-    fp.TE.chainW(handler),
+    fp.TE.chainW((input) => handler(input, ctx)),
     throwTE,
   );
 
@@ -50,12 +54,13 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
  *     ctx.api.Actor.Get({ Params: { id: input.id } }),
  *   );
  */
-export const runCliCommand = <Fields extends Schema.Struct.Fields>(
-  ctx: CLIContext,
-  schema: Schema.Struct<Fields>,
-  args: string[],
-  handler: (
-    input: Schema.Schema.Type<Schema.Struct<Fields>>,
-  ) => TaskEither<Error, unknown>,
-): Promise<void> =>
-  runCommand(ctx, schema, parseArgsFromSchema(schema, args), handler);
+export const runCliCommand =
+  <Fields extends Schema.Struct.Fields>(
+    schema: Schema.Struct<Fields>,
+    handler: (
+      input: Schema.Schema.Type<Schema.Struct<Fields>>,
+      ctx: CLIContext,
+    ) => TaskEither<Error, unknown>,
+  ) =>
+  (ctx: CLIContext, args: string[]): Promise<void> =>
+    runCommand(ctx, schema, parseArgsFromSchema(schema, args), handler);

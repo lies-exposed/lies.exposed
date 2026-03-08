@@ -14,9 +14,8 @@ Options:
 
 Output: JSON actor object
 `,
-  run: (ctx, args) =>
-    runCliCommand(ctx, GetActorInputSchema, args, (input) => {
-      ctx.logger.debug.log("actor-get input: %O", input);
-      return ctx.api.Actor.Get({ Params: { id: input.id } });
-    }),
+  run: runCliCommand(GetActorInputSchema, (input, ctx) => {
+    ctx.logger.debug.log("actor-get input: %O", input);
+    return ctx.api.Actor.Get({ Params: { id: input.id } });
+  }),
 };
