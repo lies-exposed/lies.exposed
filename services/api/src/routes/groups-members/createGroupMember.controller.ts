@@ -3,6 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { GroupMemberIO } from "@liexp/backend/lib/io/groupMember.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
@@ -17,7 +18,7 @@ export const MakeCreateGroupMemberRoute: Route = (
     Endpoints.GroupMember.Create,
     ({ body }) => {
       const saveData = {
-        ...body,
+        ...removeUndefinedFromPayload(body),
         group: { id: body.group },
         actor: { id: body.actor },
         endDate: O.toNullable(body.endDate),

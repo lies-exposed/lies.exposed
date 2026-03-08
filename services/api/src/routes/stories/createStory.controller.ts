@@ -5,6 +5,7 @@ import { StoryIO } from "@liexp/backend/lib/io/story.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { relationsTransformer } from "@liexp/shared/lib/providers/blocknote/transform.utils.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
@@ -25,7 +26,7 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
         TE.chain(() =>
           ctx.db.save(StoryEntity, [
             {
-              ...body,
+              ...removeUndefinedFromPayload(body),
               body: "",
               body2: body2,
               creator: { id: r.user?.id },

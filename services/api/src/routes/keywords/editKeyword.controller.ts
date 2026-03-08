@@ -3,6 +3,7 @@ import { authenticationHandler } from "@liexp/backend/lib/express/middleware/aut
 import { KeywordIO } from "@liexp/backend/lib/io/keyword.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
@@ -13,7 +14,7 @@ export const MakeEditKeywordsRoute: Route = (r, { db, logger, jwt }) => {
     ({ params: { id }, body }) => {
       logger.debug.log("Actor update data %O", body);
       return pipe(
-        db.save(KeywordEntity, [{ id, ...body }]),
+        db.save(KeywordEntity, [{ id, ...removeUndefinedFromPayload(body) }]),
         TE.chain(() =>
           db.findOneOrFail(KeywordEntity, {
             where: { id },

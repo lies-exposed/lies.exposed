@@ -34,6 +34,18 @@ export const separateTE = <E, A>(
   );
 };
 
+/**
+ * Returns a shallow copy of the object with all undefined-valued keys removed.
+ * Useful for building API request bodies where omitting a key means "no change".
+ */
+export const removeUndefinedFromPayload = <T extends Record<string, unknown>>(
+  payload: T,
+): T =>
+  pipe(
+    payload,
+    fp.Rec.filter((value) => value !== undefined),
+  ) as T;
+
 export const throwTE = async <E, A>(te: TE.TaskEither<E, A>): Promise<A> => {
   return te().then((rr) => {
     if (rr._tag === "Left") {
