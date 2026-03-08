@@ -45,7 +45,6 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
     case "events":
     case "actors":
     case "keywords":
-    case "projects":
     case "groups": {
       await Promise.resolve(nav(`/${resourceName}/${f.id}`));
       break;
