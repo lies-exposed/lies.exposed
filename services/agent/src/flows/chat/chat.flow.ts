@@ -68,7 +68,7 @@ export const sendChatMessage =
               },
               {
                 configurable: { thread_id: conversationId },
-                recursionLimit: 25,
+                recursionLimit: 50,
               },
             ),
           (error) => ServerError.fromUnknown(error),
@@ -243,7 +243,7 @@ export const sendChatMessageStream = (payload: {
         {
           streamMode: ["messages", "updates", "debug"],
           configurable: { thread_id: conversationId },
-          recursionLimit: 25,
+          recursionLimit: 50,
         },
       );
 
