@@ -122,7 +122,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...linkUpdate,
                         url: linkUpdate.url ?? l.url,
                         provider: linkUpdate.provider ?? l.provider ?? null,
-                        publishDate: linkUpdate.publishDate ?? null,
+                        publishDate: linkUpdate.publishDate ?? l.publishDate,
                         image: updateLinkMedia(ll, linkUpdate.image),
                       })),
                     );
@@ -132,7 +132,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...l,
                     ...linkUpdate,
                     url: linkUpdate.url ?? l.url,
-                    publishDate: linkUpdate.publishDate ?? null,
+                    publishDate: linkUpdate.publishDate ?? l.publishDate,
                     provider: linkUpdate.provider ?? l.provider ?? null,
                     image: updateLinkMedia(l, linkUpdate.image),
                   });
@@ -142,7 +142,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...l,
                     ...linkUpdate,
                     url: linkUpdate.url ?? l.url,
-                    publishDate: linkUpdate.publishDate ?? null,
+                    publishDate: linkUpdate.publishDate ?? l.publishDate,
                     provider: linkUpdate.provider ?? l.provider ?? null,
                     image: (linkUpdate.image ?? l.image) as
                       | MediaEntity

@@ -47,7 +47,7 @@ export const editMedia = (
     O.filter((o): o is true => !!o),
   );
 
-  const description = pipe(_description, O.toNullable);
+  const description = pipe(_description, O.toUndefined);
 
   const restore = pipe(
     _restore,
