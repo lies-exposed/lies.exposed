@@ -3,18 +3,12 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
-import { parseArgsFromSchema } from "./args.js";
-import { type CLIContext } from "./command.type.js";
+import { helpFromSchema, parseArgsFromSchema, type HelpMeta } from "./args.js";
+import { type CLIContext, type CommandModule } from "./command.type.js";
 
 /**
  * Decodes raw CLI input through an Effect Schema, runs the API call, prints
  * JSON to stdout, and re-throws any errors.
- *
- * Usage in a CommandModule.run:
- *
- *   return runCommand(ctx, MySchema, rawInput, (input) =>
- *     ctx.api.Actor.Get({ Params: { id: input.id } }),
- *   );
  */
 export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   ctx: CLIContext,
@@ -48,11 +42,8 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
  * pre-built raw input object. Derives the input object automatically from
  * the schema's field definitions using parseArgsFromSchema.
  *
- * Usage in a CommandModule.run:
- *
- *   return runCliCommand(ctx, MySchema, args, (input) =>
- *     ctx.api.Actor.Get({ Params: { id: input.id } }),
- *   );
+ * Returns a CommandFlow (ctx, args) => Promise<void> suitable for use
+ * as CommandModule.run.
  */
 export const runCliCommand =
   <Fields extends Schema.Struct.Fields>(
@@ -64,3 +55,27 @@ export const runCliCommand =
   ) =>
   (ctx: CLIContext, args: string[]): Promise<void> =>
     runCommand(ctx, schema, parseArgsFromSchema(schema, args), handler);
+
+/**
+ * Creates a CommandModule (run + help) from a Schema.Struct.
+ * The help text is derived from the schema's field annotations, so it always
+ * stays in sync with the schema definition.
+ *
+ * Usage:
+ *   export const actorGet = makeCommand(
+ *     GetActorInputSchema,
+ *     { usage: "actor get", description: "Get a single actor by UUID.", output: "JSON actor object" },
+ *     (input, ctx) => ctx.api.Actor.Get({ Params: { id: input.id } }),
+ *   );
+ */
+export const makeCommand = <Fields extends Schema.Struct.Fields>(
+  schema: Schema.Struct<Fields>,
+  meta: HelpMeta,
+  handler: (
+    input: Schema.Schema.Type<Schema.Struct<Fields>>,
+    ctx: CLIContext,
+  ) => TaskEither<Error, unknown>,
+): CommandModule => ({
+  help: helpFromSchema(schema, meta),
+  run: runCliCommand(schema, handler),
+});

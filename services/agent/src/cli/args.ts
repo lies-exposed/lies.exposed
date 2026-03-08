@@ -1,4 +1,4 @@
-import { type AST, type Schema } from "effect";
+import { type AST, SchemaAST, type Schema } from "effect";
 
 /**
  * Parses a --key=value argument from the args array.
@@ -70,6 +70,20 @@ const isOptionalArrayAst = (ast: AST.AST): boolean => {
 };
 
 /**
+ * Returns true if the field is optional (UndefinedOr, Schema.optional, etc.)
+ */
+const isOptionalField = (ast: AST.AST): boolean => {
+  switch (ast._tag) {
+    case "Union":
+      return ast.types.some((t) => t._tag === "UndefinedKeyword");
+    case "PropertySignatureDeclaration":
+      return (ast as any).isOptional;
+    default:
+      return false;
+  }
+};
+
+/**
  * Derives a raw CLI input object from a Schema.Struct definition and a
  * string[] argv array.
  *
@@ -110,4 +124,56 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
     }
   }
   return result;
+};
+
+export interface HelpMeta {
+  /** e.g. "actor get", "link edit" — shown in Usage line */
+  usage: string;
+  /** One-line description of what the command does */
+  description: string;
+  /** Output description, e.g. "JSON actor object". Defaults to "JSON object" */
+  output?: string;
+  /** Any extra text appended after the options block (e.g. type-specific flags) */
+  notes?: string;
+}
+
+/**
+ * Generates a formatted help string from an Effect Schema.Struct definition.
+ * Reads field names and descriptions from schema annotations so help stays
+ * in sync with the schema automatically.
+ */
+export const helpFromSchema = <Fields extends Schema.Struct.Fields>(
+  schema: Schema.Struct<Fields>,
+  meta: HelpMeta,
+): string => {
+  const PAD = 28;
+  const lines: string[] = [];
+
+  for (const [key, fieldSchema] of Object.entries(schema.fields)) {
+    const ast = (fieldSchema as Schema.Schema<any>).ast;
+    const description =
+      (ast.annotations[
+        SchemaAST.DescriptionAnnotationId
+      ] as string | undefined) ?? "";
+    const optional = isOptionalField(ast);
+    const flag = `--${key}=<value>`.padEnd(PAD);
+    const suffix = optional ? "" : " (required)";
+    lines.push(`  ${flag}${description}${suffix}`);
+  }
+
+  lines.push(`  ${"--help".padEnd(PAD)}Show this help message`);
+
+  const output = meta.output ?? "JSON object";
+  const notes = meta.notes ? `\n${meta.notes}` : "";
+
+  return `
+Usage: agent ${meta.usage} [options]
+
+${meta.description}
+
+Options:
+${lines.join("\n")}${notes}
+
+Output: ${output}
+`;
 };
