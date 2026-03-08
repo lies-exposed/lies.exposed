@@ -7,7 +7,6 @@ export const getAdminLink =
   <K extends io.http.ResourcesNames>(key: K, f: { id: string }): string => {
     switch (key) {
       case "stories":
-      case "projects":
       case "events":
       case "keywords":
       case "actors":
@@ -46,7 +45,6 @@ export const navigateTo = async <K extends io.http.ResourcesNames>(
     case "events":
     case "actors":
     case "keywords":
-    case "projects":
     case "groups": {
       await Promise.resolve(nav(`/${resourceName}/${f.id}`));
       break;

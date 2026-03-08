@@ -25,7 +25,6 @@ import { MakeMediaRoutes } from "#routes/media/media.routes.js";
 import { MakeNetworksRoutes } from "#routes/networks/networks.routes.js";
 import { MakeOpenGraphRoutes } from "#routes/open-graph/openGraph.routes.js";
 import { MakePageRoutes } from "#routes/pages/pages.route.js";
-import { MakeProjectRoutes } from "#routes/projects/project.routes.js";
 import { MakeSocialPostRoutes } from "#routes/social-posts/socialPost.routes.js";
 import { MakeStatsRoutes } from "#routes/stats/stats.routes.js";
 import { MakeStoriesRoutes } from "#routes/stories/stories.route.js";
@@ -54,11 +53,6 @@ export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
 
   // areas
   MakeAreasRoutes(router, ctx);
-
-  // projects
-  MakeProjectRoutes(router, ctx);
-
-  // project images (deprecated) - removed
 
   // stories
   MakeStoriesRoutes(router, ctx);

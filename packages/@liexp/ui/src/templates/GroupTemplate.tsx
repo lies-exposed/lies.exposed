@@ -110,7 +110,6 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                     group={group}
                     groupsMembers={[...groupsMembers.data]}
                     funds={[]}
-                    projects={[]}
                     onMemberClick={onActorClick}
                     onGroupClick={onGroupClick}
                     ownedGroups={[]}
