@@ -217,10 +217,7 @@ export const transformEvent =
       }),
     );
 
-    const excerpt =
-      Array.isArray(data.excerpt) && data.excerpt.length > 0
-        ? data.excerpt
-        : null;
+    const excerpt = isValidValue(data.excerpt) ? data.excerpt : null;
 
     const relations = relationsTransformer(excerpt ?? []);
 
