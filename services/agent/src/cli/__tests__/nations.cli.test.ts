@@ -67,6 +67,12 @@ describe("nation CLI", () => {
     expect(Array.isArray(result.data)).toBe(true);
   });
 
+  test("list without --end uses default pagination", async () => {
+    await nationList.run(ctx, ["--start=0"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
   test("get --id=<uuid> returns single nation matching the id", async () => {
     await nationList.run(ctx, ["--end=1"]);
     const { data } = JSON.parse(output);

@@ -109,4 +109,55 @@ describe("createCliExecutorTool", () => {
       { timeout: 30_000 },
     );
   });
+
+  test("handles single-quoted token with spaces", async () => {
+    mockExecAsync.mockResolvedValueOnce({ stdout: "{}", stderr: "" });
+
+    await tool.invoke({ command: "event list --title='Hello World'" });
+
+    expect(mockExecAsync).toHaveBeenCalledWith(
+      "node",
+      [BIN_PATH, "event", "list", "--title=Hello World"],
+      { timeout: 30_000 },
+    );
+  });
+
+  test("handles double-quoted token with spaces", async () => {
+    mockExecAsync.mockResolvedValueOnce({ stdout: "{}", stderr: "" });
+
+    await tool.invoke({ command: 'actor list --fullName="John Doe"' });
+
+    expect(mockExecAsync).toHaveBeenCalledWith(
+      "node",
+      [BIN_PATH, "actor", "list", "--fullName=John Doe"],
+      { timeout: 30_000 },
+    );
+  });
+
+  test("handles escaped double-quote inside double-quoted token", async () => {
+    mockExecAsync.mockResolvedValueOnce({ stdout: "{}", stderr: "" });
+
+    await tool.invoke({
+      command: 'actor list --fullName="John \\"Nickname\\" Doe"',
+    });
+
+    expect(mockExecAsync).toHaveBeenCalledWith(
+      "node",
+      [BIN_PATH, "actor", "list", '--fullName=John "Nickname" Doe'],
+      { timeout: 30_000 },
+    );
+  });
+
+  test("includes stdout note in error output when exec throws with stdout", async () => {
+    const err: any = new Error("Command failed");
+    err.code = 1;
+    err.stderr = "some error";
+    err.stdout = "partial output";
+    mockExecAsync.mockRejectedValueOnce(err);
+
+    const result = await tool.invoke({ command: "actor list" });
+
+    expect(result).toContain("ERROR (exit 1)");
+    expect(result).toContain("stdout: partial output");
+  });
 });
