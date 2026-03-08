@@ -7,6 +7,7 @@ import { ThemeContextProvider } from "@liexp/ui/lib/context/ThemeContext.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
+import qs from "qs";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { configuration } from "./configuration/index.js";
@@ -35,10 +36,15 @@ root.render(
   <React.StrictMode>
     <ConfigurationContext.Provider value={configuration}>
       <DataProviderContext.Provider
-        value={APIRESTClient({
-          url: import.meta.env.VITE_API_URL,
-          getAuth: getAuthFromLocalStorage,
-        })}
+        value={(() => {
+          const client = APIRESTClient({
+            url: import.meta.env.VITE_API_URL,
+            getAuth: getAuthFromLocalStorage,
+          });
+          client.client.defaults.paramsSerializer = (params) =>
+            qs.stringify(params, { arrayFormat: "brackets" });
+          return client;
+        })()}
       >
         <AgentAPIContext.Provider
           value={APIRESTClient({
