@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
 
-export type TabId = "docker" | "git";
+export type TabId = "docker" | "git" | "k8s";
 
 export type Tab = {
   id: TabId;
@@ -10,8 +10,9 @@ export type Tab = {
 };
 
 export const TABS: Tab[] = [
-  { id: "docker", label: "Docker", shortcut: "ctrl+d" },
-  { id: "git",    label: "Git",    shortcut: "ctrl+g" },
+  { id: "docker", label: "Docker",     shortcut: "ctrl+d" },
+  { id: "git",    label: "Git",        shortcut: "ctrl+g" },
+  { id: "k8s",    label: "Kubernetes", shortcut: "ctrl+k" },
 ];
 
 type Props = {

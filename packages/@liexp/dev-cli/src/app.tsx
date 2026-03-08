@@ -55,6 +55,8 @@ export function App() {
       setActiveTab("docker");
     } else if (key.ctrl && _input === "g") {
       setActiveTab("git");
+    } else if (key.ctrl && _input === "k") {
+      setActiveTab("k8s");
     }
   });
 
