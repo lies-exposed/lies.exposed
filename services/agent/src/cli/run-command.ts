@@ -2,6 +2,7 @@ import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
+import type { Either } from "fp-ts/lib/Either.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { helpFromSchema, parseArgsFromSchema, type HelpMeta } from "./args.js";
 import { type CLIContext, type CommandModule } from "./command.type.js";
@@ -37,6 +38,11 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   console.log(JSON.stringify(result, null, 2));
 };
 
+const formatParseError = (e: ParseError): Error =>
+  new Error(
+    `Invalid arguments:\n${ParseResult.TreeFormatter.formatErrorSync(e)}`,
+  );
+
 /**
  * Like runCommand but takes a raw string[] args array instead of a
  * pre-built raw input object. Derives the input object automatically from
@@ -54,20 +60,29 @@ export const runCliCommand =
     ) => TaskEither<Error, unknown>,
   ) =>
   async (ctx: CLIContext, args: string[]): Promise<void> => {
-    const result = await pipe(
+    type Input = Schema.Schema.Type<Schema.Struct<Fields>>;
+
+    // Schema.decodeUnknownEither has a known TypeScript limitation with
+    // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
+    // inferred constraint. The `as any` is scoped to this single call and is
+    // safe because parseArgsFromSchema already uses the same schema to build
+    // the raw input object.
+    // Schema.decodeUnknownEither has a known TypeScript limitation with
+    // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
+    // inferred constraint. The `as any` is scoped to this single decode call.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const decoded = Schema.decodeUnknownEither(schema as any)(
       parseArgsFromSchema(schema, args),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      Schema.decodeUnknownEither(schema as any),
-      fp.E.mapLeft(
-        (e: ParseError) =>
-          new Error(
-            `Invalid arguments:\n${ParseResult.TreeFormatter.formatErrorSync(e)}`,
-          ),
-      ),
+    ) as Either<ParseError, Input>;
+
+    const result = await pipe(
+      decoded,
+      fp.E.mapLeft(formatParseError),
       fp.TE.fromEither,
-      fp.TE.chainW((input) => handler(input, ctx)),
+      fp.TE.chain((input: Input) => handler(input, ctx)),
       throwTE,
     );
+
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(result, null, 2));
   };
