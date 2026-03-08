@@ -10,6 +10,7 @@
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
+import AdminPage from "./AdminPage.js";
 
 // ---------------------------------------------------------------------------
 // vi.hoisted: capture registered resource names before any mock is applied
@@ -115,9 +116,7 @@ vi.mock("@liexp/ui/lib/components/admin/react-admin.js", () => ({
   CustomRoutes: ({ children }: React.PropsWithChildren) => (
     <div data-testid="custom-routes">{children}</div>
   ),
-  Layout: ({ children }: React.PropsWithChildren) => (
-    <div>{children}</div>
-  ),
+  Layout: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
   Menu: Object.assign(
     ({ children }: React.PropsWithChildren) => <nav>{children}</nav>,
     {
@@ -209,27 +208,12 @@ vi.mock(
   "@liexp/ui/lib/components/admin/events/suggestions/AdminEventSuggestion.js",
   lazyPageMock,
 );
-vi.mock(
-  "@liexp/ui/lib/components/admin/links/AdminLinks.js",
-  lazyPageMock,
-);
-vi.mock(
-  "@liexp/ui/lib/components/admin/links/LinkEdit.js",
-  lazyPageMock,
-);
+vi.mock("@liexp/ui/lib/components/admin/links/AdminLinks.js", lazyPageMock);
+vi.mock("@liexp/ui/lib/components/admin/links/LinkEdit.js", lazyPageMock);
 vi.mock("@liexp/ui/lib/components/admin/media/index.js", lazyPageMock);
-vi.mock(
-  "@liexp/ui/lib/components/admin/stories/AdminStories.js",
-  lazyPageMock,
-);
-vi.mock(
-  "@liexp/ui/lib/components/admin/user/UserEdit.js",
-  lazyPageMock,
-);
-vi.mock(
-  "@liexp/ui/lib/components/admin/nations/AdminNations.js",
-  lazyPageMock,
-);
+vi.mock("@liexp/ui/lib/components/admin/stories/AdminStories.js", lazyPageMock);
+vi.mock("@liexp/ui/lib/components/admin/user/UserEdit.js", lazyPageMock);
+vi.mock("@liexp/ui/lib/components/admin/nations/AdminNations.js", lazyPageMock);
 vi.mock("./pages/areas/AreaCreate.js", lazyPageMock);
 vi.mock("./pages/areas/AreaEdit.js", lazyPageMock);
 vi.mock("./pages/areas/AreaList.js", lazyPageMock);
@@ -248,19 +232,13 @@ vi.mock("./pages/AdminSocialPost.js", lazyPageMock);
 vi.mock("./pages/AdminUsers.js", lazyPageMock);
 vi.mock("./pages/Pages.js", lazyPageMock);
 vi.mock("./pages/dashboard/AdminStats.js", lazyPageMock);
-vi.mock(
-  "./pages/events/documentary/AdminDocumentaryEvent.js",
-  lazyPageMock,
-);
+vi.mock("./pages/events/documentary/AdminDocumentaryEvent.js", lazyPageMock);
 vi.mock("./pages/events/quote/AdminQuoteEvent.js", lazyPageMock);
 vi.mock(
   "./pages/events/scientificStudy/AdminScientificStudyEvent.js",
   lazyPageMock,
 );
-vi.mock(
-  "./pages/events/transaction/AdminTransactionEvent.js",
-  lazyPageMock,
-);
+vi.mock("./pages/events/transaction/AdminTransactionEvent.js", lazyPageMock);
 vi.mock("./pages/actors/ActorList.js", lazyPageMock);
 vi.mock("./pages/actors/ActorCreate.js", lazyPageMock);
 vi.mock("./pages/actors/ActorEdit.js", lazyPageMock);
@@ -274,11 +252,6 @@ vi.mock("./pages/events/patent/PatentList.js", lazyPageMock);
 vi.mock("./pages/events/patent/PatentCreate.js", lazyPageMock);
 vi.mock("./pages/events/patent/PatentEdit.js", lazyPageMock);
 vi.mock("./pages/events/AdminUncategorizedEvent.js", lazyPageMock);
-
-// ---------------------------------------------------------------------------
-// Import the component under test (AFTER all mocks)
-// ---------------------------------------------------------------------------
-import AdminPage from "./AdminPage.js";
 
 // ---------------------------------------------------------------------------
 // Expected resource names

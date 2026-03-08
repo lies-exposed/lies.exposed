@@ -1,3 +1,4 @@
+import * as ReactAdminMock from "@liexp/ui/lib/components/admin/react-admin.js";
 import { render, screen } from "@testing-library/react";
 import * as React from "react";
 import { describe, expect, it, vi, beforeEach } from "vitest";
@@ -14,9 +15,9 @@ vi.mock("@liexp/ui/lib/hooks/useDataProvider.js", () => ({
 // Mock react-admin primitives — FormDataConsumer is key here
 // ---------------------------------------------------------------------------
 vi.mock("@liexp/ui/lib/components/admin/react-admin.js", async () => {
-  const actual = await vi.importActual<
-    typeof import("@liexp/ui/lib/components/admin/react-admin.js")
-  >("@liexp/ui/lib/components/admin/react-admin.js");
+  const actual = await vi.importActual<typeof ReactAdminMock>(
+    "@liexp/ui/lib/components/admin/react-admin.js",
+  );
 
   return {
     ...actual,
@@ -25,7 +26,9 @@ vi.mock("@liexp/ui/lib/components/admin/react-admin.js", async () => {
       ({
         children,
       }: {
-        children: (args: { formData: Record<string, unknown> }) => React.ReactNode;
+        children: (args: {
+          formData: Record<string, unknown>;
+        }) => React.ReactNode;
       }) => <>{children({ formData: { _from: "plain" } })}</>,
     ),
     Create: ({
@@ -47,11 +50,7 @@ vi.mock("@liexp/ui/lib/components/admin/react-admin.js", async () => {
       <input data-testid={`input-${source}`} aria-label={source} />
     ),
     DateInput: ({ source }: { source: string }) => (
-      <input
-        type="date"
-        data-testid={`input-${source}`}
-        aria-label={source}
-      />
+      <input type="date" data-testid={`input-${source}`} aria-label={source} />
     ),
     ArrayInput: ({
       source,
@@ -74,21 +73,15 @@ vi.mock("@liexp/ui/lib/components/admin/BlockNoteInput.js", () => ({
   ),
 }));
 
-vi.mock(
-  "@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js",
-  () => ({
-    default: () => <div data-testid="reference-actor-input" />,
-  }),
-);
+vi.mock("@liexp/ui/lib/components/admin/actors/ReferenceActorInput.js", () => ({
+  default: () => <div data-testid="reference-actor-input" />,
+}));
 
-vi.mock(
-  "@liexp/ui/lib/components/admin/common/inputs/ColorInput.js",
-  () => ({
-    ColorInput: ({ source }: { source: string }) => (
-      <input data-testid={`color-input-${source}`} aria-label={source} />
-    ),
-  }),
-);
+vi.mock("@liexp/ui/lib/components/admin/common/inputs/ColorInput.js", () => ({
+  ColorInput: ({ source }: { source: string }) => (
+    <input data-testid={`color-input-${source}`} aria-label={source} />
+  ),
+}));
 
 vi.mock(
   "@liexp/ui/lib/components/admin/common/inputs/TextWithSlugInput.js",
@@ -115,11 +108,6 @@ vi.mock(
 );
 
 // ---------------------------------------------------------------------------
-// Import mocked module for per-test overrides
-// ---------------------------------------------------------------------------
-import * as ReactAdminMock from "@liexp/ui/lib/components/admin/react-admin.js";
-
-// ---------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------
 
@@ -129,8 +117,13 @@ describe("GroupCreate", () => {
 
     // Default: _from = "plain" → full form
     vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-      ({ children }: { children: (args: { formData: Record<string, unknown> }) => React.ReactNode }) =>
-        <>{children({ formData: { _from: "plain" } })}</>,
+      ({
+        children,
+      }: {
+        children: (args: {
+          formData: Record<string, unknown>;
+        }) => React.ReactNode;
+      }) => <>{children({ formData: { _from: "plain" } })}</>,
     );
   });
 
@@ -160,8 +153,13 @@ describe("GroupCreate", () => {
   describe("Plain mode (_from = 'plain')", () => {
     beforeEach(() => {
       vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({ children }: { children: (args: { formData: Record<string, unknown> }) => React.ReactNode }) =>
-          <>{children({ formData: { _from: "plain" } })}</>,
+        ({
+          children,
+        }: {
+          children: (args: {
+            formData: Record<string, unknown>;
+          }) => React.ReactNode;
+        }) => <>{children({ formData: { _from: "plain" } })}</>,
       );
     });
 
@@ -173,16 +171,14 @@ describe("GroupCreate", () => {
     it("should render the startDate input", () => {
       render(<GroupCreate />);
       // startDate appears in both the top-level form and the members iterator
-      expect(
-        screen.getAllByTestId("input-startDate").length,
-      ).toBeGreaterThan(0);
+      expect(screen.getAllByTestId("input-startDate").length).toBeGreaterThan(
+        0,
+      );
     });
 
     it("should render the TextWithSlugInput for name", () => {
       render(<GroupCreate />);
-      expect(
-        screen.getByTestId("text-slug-input-name"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("text-slug-input-name")).toBeInTheDocument();
     });
 
     it("should render the kind SelectInput", () => {
@@ -211,24 +207,25 @@ describe("GroupCreate", () => {
     it("should render the body BlockNote input", () => {
       render(<GroupCreate />);
       // body appears in both the top-level form and inside the members iterator
-      expect(
-        screen.getAllByTestId("blocknote-body").length,
-      ).toBeGreaterThan(0);
+      expect(screen.getAllByTestId("blocknote-body").length).toBeGreaterThan(0);
     });
 
     it("should NOT render the search TextInput in plain mode", () => {
       render(<GroupCreate />);
-      expect(
-        screen.queryByTestId("input-search"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("input-search")).not.toBeInTheDocument();
     });
   });
 
   describe("Wikipedia mode (_from = 'wikipedia')", () => {
     beforeEach(() => {
       vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({ children }: { children: (args: { formData: Record<string, unknown> }) => React.ReactNode }) =>
-          <>{children({ formData: { _from: "wikipedia" } })}</>,
+        ({
+          children,
+        }: {
+          children: (args: {
+            formData: Record<string, unknown>;
+          }) => React.ReactNode;
+        }) => <>{children({ formData: { _from: "wikipedia" } })}</>,
       );
     });
 
@@ -239,9 +236,7 @@ describe("GroupCreate", () => {
 
     it("should NOT render the color input in wikipedia mode", () => {
       render(<GroupCreate />);
-      expect(
-        screen.queryByTestId("color-input-color"),
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("color-input-color")).not.toBeInTheDocument();
     });
 
     it("should NOT render the TextWithSlugInput in wikipedia mode", () => {
