@@ -4,10 +4,10 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { type AgentContext } from "../../../context/context.type.js";
 import {
-  sendChatMessage,
+  deleteChatConversation,
   getChatConversation,
   listChatConversations,
-  deleteChatConversation,
+  sendChatMessage,
   sendChatMessageStream,
 } from "../chat.flow.js";
 
@@ -469,6 +469,730 @@ describe("chat.flow", () => {
       const toolCallStart = events.find((e) => e.type === "tool_call_start");
       expect(toolCallStart).toBeDefined();
       expect(toolCallStart?.tool_call.name).toBe("search_events");
+    });
+
+    test("should yield error event when agent creation fails", async () => {
+      ctx = createMockContext({
+        agentFactory: vi
+          .fn()
+          .mockReturnValue(TE.left(new Error("Provider unavailable"))),
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+        agent_type: "platform" as any,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      expect(events[0].type).toBe("error");
+      expect(events[0].error).toBe(
+        "Failed to create agent with requested provider",
+      );
+    });
+
+    test("should yield tool_call_end event for tool messages with tool_call_id", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [
+                  {
+                    tool_call_id: "tid-123",
+                    name: "search_events",
+                    content: "results here",
+                  },
+                ],
+              ];
+              yield ["messages", [{ content: "Based on results..." }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolEnd = events.find((e) => e.type === "tool_call_end");
+      expect(toolEnd).toBeDefined();
+      expect(toolEnd.tool_call.name).toBe("search_events");
+      expect(toolEnd.tool_call.id).toBe("tid-123");
+      expect(toolEnd.tool_call.result).toBe("results here");
+    });
+
+    test("should not yield tool_call_end when tool message has no name", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [{ tool_call_id: "tid-no-name", content: "result" }],
+              ];
+              yield ["messages", [{ content: "response" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolEndEvents = events.filter((e) => e.type === "tool_call_end");
+      expect(toolEndEvents).toHaveLength(0);
+    });
+
+    test("should skip supervisor node messages", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [{ content: "platform" }, { langgraph_node: "supervisor" }],
+              ];
+              yield ["messages", [{ content: "Regular response" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const contentDeltas = events.filter((e) => e.type === "content_delta");
+      expect(contentDeltas.every((e) => e.content !== "platform")).toBe(true);
+      expect(contentDeltas.some((e) => e.content === "Regular response")).toBe(
+        true,
+      );
+    });
+
+    test("should handle think tags in content deltas", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [
+                  {
+                    content: "<think>internal reasoning</think>actual answer",
+                  },
+                ],
+              ];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const thinkingDeltas = events.filter(
+        (e) => e.type === "content_delta" && e.thinking === true,
+      );
+      const regularDeltas = events.filter(
+        (e) => e.type === "content_delta" && !e.thinking,
+      );
+
+      expect(
+        thinkingDeltas.some((e) => e.content === "internal reasoning"),
+      ).toBe(true);
+      expect(regularDeltas.some((e) => e.content === "actual answer")).toBe(
+        true,
+      );
+    });
+
+    test("should buffer content inside think block without closing tag in chunk", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [{ content: "<think>first chunk of thinking" }],
+              ];
+              yield [
+                "messages",
+                [{ content: " continued thinking</think>answer" }],
+              ];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const thinkDeltas = events.filter(
+        (e) => e.type === "content_delta" && e.thinking,
+      );
+      const regularDeltas = events.filter(
+        (e) => e.type === "content_delta" && !e.thinking,
+      );
+
+      const allThinkContent = thinkDeltas.map((e) => e.content).join("");
+      expect(allThinkContent).toContain("first chunk of thinking");
+      expect(regularDeltas.some((e) => e.content === "answer")).toBe(true);
+    });
+
+    test("should buffer partial think tag at chunk boundary", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield ["messages", [{ content: "prefix<thi" }]];
+              yield ["messages", [{ content: "nk>thinking</think>suffix" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const thinkDeltas = events.filter(
+        (e) => e.type === "content_delta" && e.thinking,
+      );
+      const regularDeltas = events.filter(
+        (e) => e.type === "content_delta" && !e.thinking,
+      );
+
+      expect(thinkDeltas.some((e) => e.content === "thinking")).toBe(true);
+      expect(regularDeltas.some((e) => e.content === "prefix")).toBe(true);
+      expect(regularDeltas.some((e) => e.content === "suffix")).toBe(true);
+    });
+
+    test("should yield tool_call_end for tool results in updates mode", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "updates",
+                {
+                  tools: {
+                    messages: [
+                      { name: "search_events", content: "results from search" },
+                    ],
+                  },
+                },
+              ];
+              yield ["messages", [{ content: "Based on results..." }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolEnd = events.find(
+        (e) =>
+          e.type === "tool_call_end" && e.tool_call.name === "search_events",
+      );
+      expect(toolEnd).toBeDefined();
+      expect(toolEnd.tool_call.result).toBe("results from search");
+    });
+
+    test("should stringify non-string tool content in updates mode", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "updates",
+                {
+                  tools: {
+                    messages: [
+                      {
+                        name: "search",
+                        content: [{ type: "result", data: "found" }],
+                      },
+                    ],
+                  },
+                },
+              ];
+              yield ["messages", [{ content: "done" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolEnd = events.find(
+        (e) => e.type === "tool_call_end" && e.tool_call.name === "search",
+      );
+      expect(toolEnd).toBeDefined();
+      expect(typeof toolEnd.tool_call.result).toBe("string");
+    });
+
+    test("should yield thinking content_delta for debug checkpoint with thinking", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "debug",
+                {
+                  type: "checkpoint",
+                  values: {
+                    messages: [
+                      {
+                        additional_kwargs: { thinking: "deep reasoning here" },
+                      },
+                    ],
+                  },
+                },
+              ];
+              yield ["messages", [{ content: "conclusion" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const thinkingDeltas = events.filter(
+        (e) => e.type === "content_delta" && e.thinking === true,
+      );
+      expect(
+        thinkingDeltas.some((e) => e.content === "deep reasoning here"),
+      ).toBe(true);
+    });
+
+    test("should not emit thinking when debug checkpoint has no thinking kwargs", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "debug",
+                {
+                  type: "checkpoint",
+                  values: {
+                    messages: [{ additional_kwargs: {} }],
+                  },
+                },
+              ];
+              yield ["messages", [{ content: "normal response" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const thinkingDeltas = events.filter(
+        (e) => e.type === "content_delta" && e.thinking,
+      );
+      expect(thinkingDeltas).toHaveLength(0);
+    });
+
+    test("should include usedProvider in message_start and message_end when aiConfig is provided", async () => {
+      const aiConfig = {
+        provider: "anthropic" as const,
+        model: "claude-sonnet-4-20250514" as const,
+      };
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi.fn(),
+            stream: vi.fn().mockImplementation(function* () {
+              yield ["messages", [{ content: "response" }]];
+            }),
+          }),
+        ),
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+        aiConfig,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const startEvent = events.find((e) => e.type === "message_start");
+      const endEvent = events.find((e) => e.type === "message_end");
+
+      expect(startEvent?.usedProvider?.provider).toBe("anthropic");
+      expect(startEvent?.usedProvider?.model).toBe("claude-sonnet-4-20250514");
+      expect(endEvent?.usedProvider?.provider).toBe("anthropic");
+    });
+
+    test("should default model to gpt-4o in stream when aiConfig.model is undefined", async () => {
+      const aiConfig = { provider: "openai" as const };
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi.fn(),
+            stream: vi.fn().mockImplementation(function* () {
+              yield ["messages", [{ content: "response" }]];
+            }),
+          }),
+        ),
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+        aiConfig,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const startEvent = events.find((e) => e.type === "message_start");
+      expect(startEvent?.usedProvider?.model).toBe("gpt-4o");
+    });
+
+    test("should not yield duplicate tool_call_start for same tool call id", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [
+                  {
+                    tool_calls: [{ id: "dup-1", name: "tool_a", args: {} }],
+                  },
+                ],
+              ];
+              yield [
+                "messages",
+                [
+                  {
+                    tool_calls: [{ id: "dup-1", name: "tool_a", args: {} }],
+                  },
+                ],
+              ];
+              yield ["messages", [{ content: "done" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolCallStarts = events.filter(
+        (e) => e.type === "tool_call_start" && e.tool_call.id === "dup-1",
+      );
+      expect(toolCallStarts).toHaveLength(1);
+    });
+
+    test("should handle tool call args as string", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [
+                  {
+                    tool_calls: [
+                      {
+                        id: "str-args-1",
+                        name: "tool_b",
+                        args: '{"key":"val"}',
+                      },
+                    ],
+                  },
+                ],
+              ];
+              yield ["messages", [{ content: "done" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolCallStart = events.find((e) => e.type === "tool_call_start");
+      expect(toolCallStart?.tool_call.arguments).toBe('{"key":"val"}');
+    });
+
+    test("should generate uuid for tool call when id is missing", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [{ tool_calls: [{ name: "tool_c", args: {} }] }],
+              ];
+              yield ["messages", [{ content: "done" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const toolCallStart = events.find((e) => e.type === "tool_call_start");
+      expect(toolCallStart?.tool_call.id).toBeDefined();
+      expect(toolCallStart?.tool_call.id).toHaveLength(36);
+    });
+
+    test("should skip content accumulation for non-string message content", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            stream: vi.fn().mockImplementation(function* () {
+              yield [
+                "messages",
+                [{ content: [{ type: "text", text: "obj content" }] }],
+              ];
+              yield ["messages", [{ content: "string content" }]];
+            }),
+          },
+        } as any,
+      });
+
+      const events: any[] = [];
+      for await (const event of sendChatMessageStream({
+        message: "test",
+        conversation_id: null,
+      })(ctx)) {
+        events.push(event);
+      }
+
+      const contentDeltas = events.filter((e) => e.type === "content_delta");
+      expect(contentDeltas.some((e) => e.content === "string content")).toBe(
+        true,
+      );
+      expect(contentDeltas.every((e) => typeof e.content === "string")).toBe(
+        true,
+      );
+    });
+  });
+
+  describe("sendChatMessage with aiConfig", () => {
+    test("should include usedProvider when aiConfig is provided", async () => {
+      const aiConfig = {
+        provider: "openai" as const,
+        model: "gpt-4o" as const,
+      };
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi.fn().mockResolvedValue({
+              messages: [{ id: "msg-456", content: "AI response" }],
+            }),
+            stream: vi.fn(),
+          }),
+        ),
+      });
+
+      const result = await pipe(
+        sendChatMessage({
+          message: "Hello with aiConfig",
+          conversation_id: null,
+          aiConfig,
+        })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.usedProvider).toBeDefined();
+        expect(result.right.usedProvider?.provider).toBe("openai");
+        expect(result.right.usedProvider?.model).toBe("gpt-4o");
+      }
+    });
+
+    test("should use model default 'gpt-4o' when aiConfig.model is undefined", async () => {
+      const aiConfig = { provider: "openai" as const };
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi.fn().mockResolvedValue({
+              messages: [{ id: "msg-789", content: "response" }],
+            }),
+            stream: vi.fn(),
+          }),
+        ),
+      });
+
+      const result = await pipe(
+        sendChatMessage({
+          message: "test",
+          conversation_id: null,
+          aiConfig,
+        })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.usedProvider?.model).toBe("gpt-4o");
+      }
+    });
+
+    test("should handle non-string lastMessage content", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            invoke: vi.fn().mockResolvedValue({
+              messages: [
+                {
+                  id: "msg-obj",
+                  content: [{ type: "text", text: "object content" }],
+                },
+              ],
+            }),
+            stream: vi.fn(),
+          },
+        } as any,
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.message.content).toContain("object content");
+      }
+    });
+
+    test("should use uuid for lastMessage.id when not present", async () => {
+      ctx = createMockContext({
+        agent: {
+          invoke: vi.fn(),
+          agent: {
+            invoke: vi.fn().mockResolvedValue({
+              messages: [{ content: "response without id" }],
+            }),
+            stream: vi.fn(),
+          },
+        } as any,
+      });
+
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.message.id).toBeDefined();
+        expect(result.right.message.id).toHaveLength(36);
+      }
+    });
+
+    test("should enhance message with resource context using defaults when action and recordId are missing", async () => {
+      const payload = {
+        message: "Help me",
+        conversation_id: null,
+        resource_context: {
+          resource: "events",
+        } as any,
+      };
+
+      const result = await pipe(sendChatMessage(payload)(ctx))();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect((ctx.agent.agent as any).invoke).toHaveBeenCalledWith(
+          expect.objectContaining({
+            messages: expect.arrayContaining([
+              expect.stringContaining("viewing events"),
+            ]),
+          }),
+          expect.any(Object),
+        );
+      }
     });
   });
 });

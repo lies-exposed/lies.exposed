@@ -78,6 +78,12 @@ describe("link CLI", () => {
     expect(Array.isArray(result.data)).toBe(true);
   });
 
+  test("list without --end uses default pagination", async () => {
+    await linkList.run(ctx, ["--start=0"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
   test("get --id=<uuid> returns single link matching the id", async () => {
     await linkList.run(ctx, ["--end=1"]);
     const { data } = JSON.parse(output);

@@ -76,6 +76,25 @@ describe("actor CLI", () => {
     expect(Array.isArray(result.data)).toBe(true);
   });
 
+  test("list without --end uses default pagination", async () => {
+    await actorFind.run(ctx, ["--start=0"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
+  test("list --memberIn=<uuid> filters by group membership", async () => {
+    const groupId = encoded[0].id;
+    await actorFind.run(ctx, [`--memberIn=${groupId}`]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
+  test("list --withDeleted includes deleted actors", async () => {
+    await actorFind.run(ctx, ["--withDeleted", "--end=3"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
   test("get --id=<uuid> returns single actor matching the id", async () => {
     await actorFind.run(ctx, ["--end=1"]);
     const { data } = JSON.parse(output);

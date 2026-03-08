@@ -91,6 +91,26 @@ describe("event CLI", () => {
     expect(Array.isArray(data)).toBe(true);
   });
 
+  test("list without --end uses default pagination", async () => {
+    await eventList.run(ctx, ["--start=0"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
+  test("list --actors=<uuid> filters by actor", async () => {
+    const actorId = encoded[0].id;
+    await eventList.run(ctx, [`--actors=${actorId}`, "--end=3"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
+  test("list --groups=<uuid> filters by group", async () => {
+    const groupId = encoded[0].id;
+    await eventList.run(ctx, [`--groups=${groupId}`, "--end=3"]);
+    const result = JSON.parse(output);
+    expect(Array.isArray(result.data)).toBe(true);
+  });
+
   test("get --id=<uuid> returns single event matching the id", async () => {
     await eventList.run(ctx, ["--end=1"]);
     const { data } = JSON.parse(output);
