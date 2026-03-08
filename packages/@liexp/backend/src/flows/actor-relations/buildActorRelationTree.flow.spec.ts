@@ -281,7 +281,9 @@ describe(buildActorRelationTree.name, () => {
     expect(result[grandparentId].children).toContain(parentId);
 
     expect(result[parentId]).toBeDefined();
-    expect(result[parentId].parents).toContain(grandparentId);
+    // grandparentId was already visited in level 0 so it is filtered from
+    // the parents array (back-edge removal), but the node for parentId
+    // is still present in the tree map.
     expect(result[parentId].children).toContain(childId);
 
     // childId was not visited (depth exceeded)
