@@ -7,7 +7,7 @@ import { createMediaFromURLFlow } from "./createMediaFromURL.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
 
 export const createMediaFlow =
-  (body: CreateMedia, user: UserEntity): TEReader<MediaEntity[]> =>
+  (body: CreateMedia, user: UserEntity | null): TEReader<MediaEntity[]> =>
   (ctx) => {
     return pipe(
       fp.TE.Do,
