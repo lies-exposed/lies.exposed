@@ -1248,6 +1248,9 @@ importers:
       pg:
         specifier: ^8.19.0
         version: 8.19.0
+      qs:
+        specifier: ^6.14.2
+        version: 6.14.2
       react:
         specifier: ^18.3.1
         version: 18.3.1

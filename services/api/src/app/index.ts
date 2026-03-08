@@ -1,6 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { unless } from "express-unless";
+import qs from "qs";
 import { MakeMCPRoutes } from "../routes/mcp/index.js";
 import { errorHandler } from "./error.middleware.js";
 import { type ServerContext } from "#context/context.type.js";
@@ -10,7 +11,7 @@ import { MakeUploadFileRoute } from "#routes/uploads/uploadFile.controller.js";
 export const makeApp = (ctx: ServerContext): express.Express => {
   const app = express();
 
-  app.set("query parser", "extended");
+  app.set("query parser", (str: string) => qs.parse(str, { arrayLimit: 200 }));
 
   app.use(cors(ctx.config.cors));
   // uploads
