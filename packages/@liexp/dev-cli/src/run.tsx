@@ -126,6 +126,11 @@ if (parsed.mode === "interactive") {
       element = <ReleaseCommand />;
       break;
     }
+    case "upgrade": {
+      const { UpgradeCommand } = await import("./commands/release.js");
+      element = <UpgradeCommand />;
+      break;
+    }
   }
 
   const { waitUntilExit } = render(

@@ -10,6 +10,7 @@ export type CommandId =
   | "up"
   | "test"
   | "test-deploy"
+  | "upgrade"
   | "release"
   | "worktree";
 
@@ -32,9 +33,10 @@ const ITEMS: MenuItem[] = [
   { label: "compose",     value: "compose",     description: "docker compose wrapper",      tab: "docker" },
   { label: "up",          value: "up",          description: "Start dev stack",             tab: "docker" },
   { label: "test",        value: "test",        description: "Smoke test API container",    tab: "docker" },
-  { label: "test-deploy", value: "test-deploy", description: "Simulate prod deploy",           tab: "docker" },
-  { label: "release",     value: "release",     description: "Helm upgrade + rollout restart", tab: "k8s"    },
-  { label: "worktree",    value: "worktree",    description: "Manage git worktrees",           tab: "git"    },
+  { label: "test-deploy", value: "test-deploy", description: "Simulate prod deploy",              tab: "docker" },
+  { label: "upgrade",     value: "upgrade",     description: "Helm upgrade only (no pod restart)", tab: "k8s"    },
+  { label: "release",     value: "release",     description: "Helm upgrade + rollout restart",     tab: "k8s"    },
+  { label: "worktree",    value: "worktree",    description: "Manage git worktrees",               tab: "git"    },
 ];
 
 // Precompute label → description for use inside itemComponent

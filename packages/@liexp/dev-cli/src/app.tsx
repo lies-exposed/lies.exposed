@@ -12,7 +12,7 @@ import { UpCommand } from "./commands/up.js";
 import { TestCommand } from "./commands/test.js";
 import { TestDeployCommand } from "./commands/test-deploy.js";
 import { WorktreeCommand } from "./commands/worktree.js";
-import { ReleaseCommand } from "./commands/release.js";
+import { ReleaseCommand, UpgradeCommand } from "./commands/release.js";
 
 type Screen = "menu" | CommandId;
 
@@ -107,6 +107,9 @@ export function App() {
           )}
           {screen === "worktree" && (
             <WorktreeCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "upgrade" && (
+            <UpgradeCommand onBack={goBack} onPhaseChange={setPhase} />
           )}
           {screen === "release" && (
             <ReleaseCommand onBack={goBack} onPhaseChange={setPhase} />
