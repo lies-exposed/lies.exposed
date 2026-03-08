@@ -25,7 +25,7 @@ export const areaEdit = makeCommand(
     }
 
     return ctx.api.Area.Edit({
-      Params: { id: input.id as any },
+      Params: { id: input.id },
       Body: {
         label: input.label ?? null,
         slug: input.slug ?? null,

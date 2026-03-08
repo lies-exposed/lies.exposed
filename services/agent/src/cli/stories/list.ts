@@ -13,11 +13,11 @@ export const storyList = makeCommand(
     return ctx.api.Story.List({
       Query: {
         q: input.query ?? null,
-        draft: input.draft ?? null,
+        draft: input.draft ? `${input.draft}` : null,
         creator: input.creator ?? null,
         _start: input.start !== undefined ? String(input.start) : "0",
         _end: input.end !== undefined ? String(input.end) : "20",
-      } as any,
+      },
     });
   },
 );

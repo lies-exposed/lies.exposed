@@ -1,4 +1,4 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EditActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
 import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
@@ -13,10 +13,8 @@ export const actorEdit = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("actor-edit input: %O", input);
     const { id, ...rest } = input;
-    return pipe(
-      removeUndefinedFromPayload(rest),
-      (body) => ctx.api.Actor.Edit({ Params: { id }, Body: body as any }),
-      fp.TE.mapLeft((e) => e as Error),
+    return pipe(removeUndefinedFromPayload(rest), (body) =>
+      ctx.api.Actor.Edit({ Params: { id }, Body: body as any }),
     );
   },
 );

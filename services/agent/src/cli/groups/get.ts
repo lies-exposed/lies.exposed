@@ -10,6 +10,6 @@ export const groupGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("group get input: %O", input);
-    return ctx.api.Group.Get({ Params: { id: input.id as any } });
+    return ctx.api.Group.Get({ Params: { id: input.id } });
   },
 );

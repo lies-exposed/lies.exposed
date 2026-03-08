@@ -10,6 +10,6 @@ export const linkGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("link get input: %O", input);
-    return ctx.api.Link.Get({ Params: { id: input.id as any } });
+    return ctx.api.Link.Get({ Params: { id: input.id } });
   },
 );

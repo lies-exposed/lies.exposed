@@ -12,7 +12,7 @@ export const mediaEdit = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("media edit input: %O", input);
     return ctx.api.Media.Edit({
-      Params: { id: input.id as any },
+      Params: { id: input.id },
       Body: {
         location: input.location as any,
         type: input.type as any,

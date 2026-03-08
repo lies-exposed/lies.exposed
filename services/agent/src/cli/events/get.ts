@@ -10,6 +10,6 @@ export const eventGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("event get input: %O", input);
-    return ctx.api.Event.Get({ Params: { id: input.id as any } });
+    return ctx.api.Event.Get({ Params: { id: input.id } });
   },
 );

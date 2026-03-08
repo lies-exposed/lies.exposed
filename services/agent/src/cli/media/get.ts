@@ -10,6 +10,6 @@ export const mediaGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("media get input: %O", input);
-    return ctx.api.Media.Get({ Params: { id: input.id as any } });
+    return ctx.api.Media.Get({ Params: { id: input.id } });
   },
 );

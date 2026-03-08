@@ -1,11 +1,14 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { type IOError } from "@ts-endpoint/core";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
 import type { Either } from "fp-ts/lib/Either.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { helpFromSchema, parseArgsFromSchema, type HelpMeta } from "./args.js";
 import { type CLIContext, type CommandModule } from "./command.type.js";
+
+type CommandError = IOError | Error;
 
 /**
  * Decodes raw CLI input through an Effect Schema, runs the API call, prints
@@ -18,7 +21,7 @@ export const runCommand = async <S extends Schema.Schema<any, any, never>>(
   handler: (
     input: Schema.Schema.Type<S>,
     ctx: CLIContext,
-  ) => TaskEither<Error, unknown>,
+  ) => TaskEither<CommandError, unknown>,
 ): Promise<void> => {
   const result = await pipe(
     rawInput,
@@ -57,20 +60,14 @@ export const runCliCommand =
     handler: (
       input: Schema.Schema.Type<Schema.Struct<Fields>>,
       ctx: CLIContext,
-    ) => TaskEither<Error, unknown>,
+    ) => TaskEither<CommandError, unknown>,
   ) =>
   async (ctx: CLIContext, args: string[]): Promise<void> => {
     type Input = Schema.Schema.Type<Schema.Struct<Fields>>;
 
     // Schema.decodeUnknownEither has a known TypeScript limitation with
     // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
-    // inferred constraint. The `as any` is scoped to this single call and is
-    // safe because parseArgsFromSchema already uses the same schema to build
-    // the raw input object.
-    // Schema.decodeUnknownEither has a known TypeScript limitation with
-    // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
     // inferred constraint. The `as any` is scoped to this single decode call.
-
     const decoded = pipe(
       parseArgsFromSchema(schema, args),
       Schema.decodeUnknownEither(schema as any),
@@ -81,6 +78,7 @@ export const runCliCommand =
       fp.E.mapLeft(formatParseError),
       fp.TE.fromEither,
       fp.TE.chain((input: Input) => handler(input, ctx)),
+      fp.TE.mapLeft((e) => (e instanceof Error ? e : new Error(String(e)))),
       throwTE,
     );
 
@@ -106,7 +104,7 @@ export const makeCommand = <Fields extends Schema.Struct.Fields>(
   handler: (
     input: Schema.Schema.Type<Schema.Struct<Fields>>,
     ctx: CLIContext,
-  ) => TaskEither<Error, unknown>,
+  ) => TaskEither<CommandError, unknown>,
 ): CommandModule => ({
   help: helpFromSchema(schema, meta),
   run: runCliCommand(schema, handler),

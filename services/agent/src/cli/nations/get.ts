@@ -10,6 +10,6 @@ export const nationGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("nation get input: %O", input);
-    return ctx.api.Nation.Get({ Params: { id: input.id as any } });
+    return ctx.api.Nation.Get({ Params: { id: input.id } });
   },
 );

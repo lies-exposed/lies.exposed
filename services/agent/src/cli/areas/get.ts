@@ -10,6 +10,6 @@ export const areaGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("area get input: %O", input);
-    return ctx.api.Area.Get({ Params: { id: input.id as any } });
+    return ctx.api.Area.Get({ Params: { id: input.id } });
   },
 );
