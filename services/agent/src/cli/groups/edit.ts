@@ -1,4 +1,6 @@
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EditGroupInputSchema } from "@liexp/shared/lib/mcp/schemas/groups.schemas.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const groupEdit = makeCommand(
@@ -10,27 +12,21 @@ export const groupEdit = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("group edit input: %O", input);
-    return ctx.api.Group.Edit({
-      Params: { id: input.id as any },
-      Body: {
-        ...(input.name !== undefined ? { name: input.name } : {}),
-        ...(input.username !== undefined ? { username: input.username } : {}),
-        ...(input.kind !== undefined ? { kind: input.kind } : {}),
-        ...(input.color !== undefined ? { color: input.color as any } : {}),
-        ...(input.excerpt !== undefined
-          ? { excerpt: input.excerpt as any }
-          : {}),
-        ...(input.avatar !== undefined ? { avatar: input.avatar as any } : {}),
-        ...(input.startDate !== undefined
-          ? { startDate: new Date(input.startDate) }
-          : {}),
-        ...(input.endDate !== undefined
-          ? { endDate: new Date(input.endDate) }
-          : {}),
-        ...(input.members !== undefined
-          ? { members: input.members as any }
-          : {}),
-      } as any,
-    });
+    return pipe(
+      removeUndefinedFromPayload({
+        name: input.name,
+        username: input.username,
+        kind: input.kind,
+        color: input.color,
+        excerpt: input.excerpt,
+        avatar: input.avatar,
+        startDate: input.startDate ? new Date(input.startDate) : undefined,
+        endDate: input.endDate ? new Date(input.endDate) : undefined,
+        members: input.members,
+      }),
+      (body) =>
+        ctx.api.Group.Edit({ Params: { id: input.id as any }, Body: body as any }),
+      fp.TE.mapLeft((e) => e as Error),
+    );
   },
 );

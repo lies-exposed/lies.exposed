@@ -1,5 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditEventInputSchema } from "@liexp/shared/lib/mcp/schemas/events.schemas.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { splitUUIDs } from "../args.js";
 import { makeCommand } from "../run-command.js";
 
@@ -71,20 +72,14 @@ export const eventEdit = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("event edit input: %O", input);
 
-    const common = {
-      ...(input.date !== undefined ? { date: new Date(input.date) } : {}),
-      ...(input.draft !== undefined ? { draft: input.draft } : {}),
-      ...(input.excerpt !== undefined ? { excerpt: input.excerpt as any } : {}),
-      ...(input.media !== undefined
-        ? { media: splitUUIDs(input.media) as any[] }
-        : {}),
-      ...(input.links !== undefined
-        ? { links: splitUUIDs(input.links) as any[] }
-        : {}),
-      ...(input.keywords !== undefined
-        ? { keywords: splitUUIDs(input.keywords) as any[] }
-        : {}),
-    };
+    const common = removeUndefinedFromPayload({
+      date: input.date ? new Date(input.date) : undefined,
+      draft: input.draft,
+      excerpt: input.excerpt as any,
+      media: input.media !== undefined ? (splitUUIDs(input.media) as any[]) : undefined,
+      links: input.links !== undefined ? (splitUUIDs(input.links) as any[]) : undefined,
+      keywords: input.keywords !== undefined ? (splitUUIDs(input.keywords) as any[]) : undefined,
+    });
 
     let body: any;
 

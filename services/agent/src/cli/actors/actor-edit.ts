@@ -1,4 +1,6 @@
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { EditActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const actorEdit = makeCommand(
@@ -10,28 +12,22 @@ export const actorEdit = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("actor-edit input: %O", input);
-    return ctx.api.Actor.Edit({
-      Params: { id: input.id },
-      Body: {
-        ...(input.username !== undefined ? { username: input.username } : {}),
-        ...(input.fullName !== undefined ? { fullName: input.fullName } : {}),
-        ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
-        ...(input.body !== undefined ? { body: input.body } : {}),
-        ...(input.bornOn !== undefined
-          ? { bornOn: new Date(input.bornOn) }
-          : {}),
-        ...(input.diedOn !== undefined
-          ? { diedOn: new Date(input.diedOn) }
-          : {}),
-        ...(input.avatar !== undefined ? { avatar: input.avatar as any } : {}),
-        ...(input.color !== undefined ? { color: input.color as any } : {}),
-        ...(input.memberIn !== undefined
-          ? { memberIn: input.memberIn as any }
-          : {}),
-        ...(input.nationalities !== undefined
-          ? { nationalities: input.nationalities as any }
-          : {}),
-      } as any,
-    });
+    return pipe(
+      removeUndefinedFromPayload({
+        username: input.username,
+        fullName: input.fullName,
+        excerpt: input.excerpt,
+        body: input.body,
+        bornOn: input.bornOn ? new Date(input.bornOn) : undefined,
+        diedOn: input.diedOn ? new Date(input.diedOn) : undefined,
+        avatar: input.avatar,
+        color: input.color,
+        memberIn: input.memberIn,
+        nationalities: input.nationalities,
+      }),
+      (body) =>
+        ctx.api.Actor.Edit({ Params: { id: input.id }, Body: body as any }),
+      fp.TE.mapLeft((e) => e as Error),
+    );
   },
 );

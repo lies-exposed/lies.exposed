@@ -1,6 +1,6 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { CreateActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { stripUndefined } from "../args.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const actorCreate = makeCommand(
@@ -13,7 +13,7 @@ export const actorCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("actor-create input: %O", input);
     return pipe(
-      stripUndefined({
+      removeUndefinedFromPayload({
         username: input.username,
         fullName: input.fullName,
         color: input.color,

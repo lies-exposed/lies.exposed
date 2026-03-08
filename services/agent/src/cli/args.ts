@@ -131,17 +131,6 @@ export const parseArgsFromSchema = <Fields extends Schema.Struct.Fields>(
   return result;
 };
 
-/**
- * Returns a shallow copy of the object with all undefined-valued keys removed.
- * Useful for building API request bodies where omitting a key means "no change"
- * vs. passing undefined which may not survive serialization.
- */
-export const stripUndefined = <T extends Record<string, unknown>>(
-  obj: T,
-): Partial<T> =>
-  Object.fromEntries(
-    Object.entries(obj).filter(([, v]) => v !== undefined),
-  ) as Partial<T>;
 
 export interface HelpMeta {
   /** e.g. "actor get", "link edit" — shown in Usage line */
