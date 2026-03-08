@@ -9,7 +9,6 @@ export const UploadResource = Schema.Union(
   GROUPS,
   Schema.Literal("stories"),
   Schema.Literal("media"),
-  Schema.Literal("projects"),
   Schema.Literal("areas"),
 ).annotations({ title: "UploadResource" });
 
