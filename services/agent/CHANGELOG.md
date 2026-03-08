@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...agent@0.5.5) (2026-03-08)
+
+
+### Bug Fixes
+
+* **agent:** add story CLI command group with spec tests ([#3351](https://github.com/lies-exposed/lies.exposed/issues/3351)) ([03aae78](https://github.com/lies-exposed/lies.exposed/commit/03aae782b20021988a19384bc0cd609c7e288e56))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.5
+    * @liexp/core bumped to 0.5.5
+    * @liexp/io bumped to 0.5.5
+    * @liexp/shared bumped to 0.5.5
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.5
+    * @liexp/test bumped to 0.5.5
+
 ## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...agent@0.5.4) (2026-03-07)
 
 

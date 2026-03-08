@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...lies.exposed@0.5.5) (2026-03-08)
+
+
+### Bug Fixes
+
+* **admin:** fix ids[] array limit and excerpt empty string ([#3357](https://github.com/lies-exposed/lies.exposed/issues/3357)) ([4e5bb94](https://github.com/lies-exposed/lies.exposed/commit/4e5bb94a564fe173ae05cffe8da0496fc91063a9))
+* **api:** allow query param array length up to 200 ([#3356](https://github.com/lies-exposed/lies.exposed/issues/3356)) ([7761de3](https://github.com/lies-exposed/lies.exposed/commit/7761de3337bc9beed72ee7e7e31dca3825742a54))
+
 ## [0.5.4](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.3...lies.exposed@0.5.4) (2026-03-07)
 
 
