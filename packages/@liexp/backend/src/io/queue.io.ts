@@ -12,7 +12,7 @@ export const toQueueIO = (
 ): E.Either<DecodeError, io.http.Queue.Queue> => {
   return pipe(
     q,
-    Schema.validateEither(io.http.Queue.Queue),
+    Schema.decodeUnknownEither(io.http.Queue.Queue),
     E.mapLeft((e) =>
       DecodeError.of(`Failed to decode queue (${JSON.stringify(q)})`, e),
     ),
