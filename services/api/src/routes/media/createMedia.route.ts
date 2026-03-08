@@ -3,6 +3,7 @@ import { MediaIO } from "@liexp/backend/lib/io/media.io.js";
 import { UserRepository } from "@liexp/backend/lib/services/entity-repository.service.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { createMediaFlow } from "#flows/media/createMedia.flow.js";
@@ -19,8 +20,9 @@ export const MakeCreateMediaRoute: Route = (r, ctx) => {
         ensureUserExists(req.user),
         TE.fromEither,
         TE.chain((u) =>
-          UserRepository.findOneOrFail({ where: { id: Equal(u.id) } })(ctx),
+          UserRepository.findOne({ where: { id: Equal(u.id) } })(ctx),
         ),
+        TE.map(O.toNullable),
         TE.chain((u) => createMediaFlow(body, u)(ctx)),
         TE.chainEitherK((media) => MediaIO.decodeSingle(media[0])),
         TE.map((data) => ({
