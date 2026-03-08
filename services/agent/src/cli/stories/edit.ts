@@ -72,7 +72,7 @@ Output: JSON updated story object
             groups: splitUUIDs(input.groups) as any[],
             events: splitUUIDs(input.events) as any[],
             media: splitUUIDs(input.media) as any[],
-            restore: null,
+            restore: null as any,
           },
         });
       },
