@@ -10,6 +10,8 @@ import {
   worktreeRemoveArgs,
   WORKTREE_PRUNE_ARGS,
   WORKTREES_DIR,
+  worktreePath,
+  copyEnvFiles,
   type WorktreeInfo,
 } from "../lib/worktree.js";
 import { openInTmuxPane, isInsideTmux } from "../lib/tmux.js";
@@ -269,11 +271,25 @@ function OpenWorktree({ onBack }: { onBack?: () => void }) {
 // Add
 // ---------------------------------------------------------------------------
 
-type AddPhase = "inputName" | "inputMode" | "inputBase" | "running" | "done";
+type AddPhase =
+  | "inputName"
+  | "inputMode"
+  | "inputBase"
+  | "inputDb"
+  | "inputSeed"
+  | "running"
+  | "copyingEnv"
+  | "seeding"
+  | "done";
 
 const MODE_ITEMS = [
   { label: "checkout existing branch", value: "existing" },
   { label: "create new branch",        value: "new" },
+];
+
+const SEED_ITEMS = [
+  { label: "yes — run DB seed after setup", value: "yes" },
+  { label: "no  — skip seeding",            value: "no"  },
 ];
 
 function AddWorktree({
@@ -289,26 +305,33 @@ function AddWorktree({
   onBack?: () => void;
   onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 }) {
-  const initialPhase: AddPhase = preName
-    ? "running"
-    : "inputName";
+  const initialPhase: AddPhase = preName ? "running" : "inputName";
 
   const [phase, setPhase] = useState<AddPhase>(initialPhase);
   const [name, setName] = useState(preName ?? "");
   const [isNew, setIsNew] = useState(preNewBranch ?? false);
   const [base, setBase] = useState(preBase ?? "main");
+  const [dbName, setDbName] = useState("");
+  const [seed, setSeed] = useState(false);
+  const [envResult, setEnvResult] = useState<{ copied: string[]; skipped: string[]; errors: Array<{ file: string; error: string }> } | null>(null);
   const [output, callbacks] = useProcessOutput();
 
   const updatePhase = (p: AddPhase) => {
     setPhase(p);
-    const mapped = (p === "running") ? "running" : (p === "done") ? "done" : "idle";
+    const mapped =
+      p === "running" || p === "copyingEnv" || p === "seeding"
+        ? "running"
+        : p === "done"
+        ? "done"
+        : "idle";
     onPhaseChange?.(mapped);
   };
 
   useInput((_input, key) => {
-    if (key.escape && phase !== "running") onBack?.();
+    if (key.escape && phase !== "running" && phase !== "copyingEnv" && phase !== "seeding") onBack?.();
   });
 
+  // ── Phase: git worktree add ───────────────────────────────────────────────
   useEffect(() => {
     if (phase !== "running") return;
 
@@ -324,12 +347,70 @@ function AddWorktree({
         onStderr: callbacks.onLine,
       });
 
+      if (result.exitCode !== 0) {
+        callbacks.setStatus("error");
+        updatePhase("done");
+        return;
+      }
+
+      updatePhase("copyingEnv");
+    };
+
+    void run();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
+  // ── Phase: copy .env.local files ─────────────────────────────────────────
+  useEffect(() => {
+    if (phase !== "copyingEnv") return;
+
+    const run = async () => {
+      callbacks.onLine("\nCopying .env.local files from main worktree…");
+
+      const effectiveDb = dbName.trim() || name;
+      const target = worktreePath(name);
+      const res = await copyEnvFiles(target, effectiveDb);
+      setEnvResult(res);
+
+      for (const f of res.copied)  callbacks.onLine(`  ✔ copied  ${f}  (DB_DATABASE=${effectiveDb})`);
+      for (const f of res.skipped) callbacks.onLine(`  ○ skipped ${f}  (not found in main worktree)`);
+      for (const e of res.errors)  callbacks.onLine(`  ✘ error   ${e.file}: ${e.error}`);
+
+      if (seed) {
+        updatePhase("seeding");
+      } else {
+        callbacks.setStatus(res.errors.length === 0 ? "success" : "error");
+        updatePhase("done");
+      }
+    };
+
+    void run();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
+  // ── Phase: seed ───────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (phase !== "seeding") return;
+
+    const run = async () => {
+      callbacks.onLine("\nRunning DB seed…");
+      callbacks.onLine(`$ pnpm --filter api run db:seed`);
+
+      const result = await exec("pnpm", ["--filter", "api", "run", "db:seed"], {
+        cwd: worktreePath(name),
+        onStdout: callbacks.onLine,
+        onStderr: callbacks.onLine,
+      });
+
       callbacks.setStatus(result.exitCode === 0 ? "success" : "error");
       updatePhase("done");
     };
 
     void run();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
+
+  // ── Input phases ──────────────────────────────────────────────────────────
 
   if (phase === "inputName") {
     return (
@@ -342,7 +423,9 @@ function AddWorktree({
             onChange={setName}
             onSubmit={(val) => {
               if (val.trim()) {
-                setName(val.trim());
+                const trimmed = val.trim();
+                setName(trimmed);
+                setDbName(trimmed);
                 updatePhase("inputMode");
               }
             }}
@@ -364,7 +447,7 @@ function AddWorktree({
             if (newBranch) {
               updatePhase("inputBase");
             } else {
-              updatePhase("running");
+              updatePhase("inputDb");
             }
           }}
         />
@@ -383,10 +466,47 @@ function AddWorktree({
             onChange={setBase}
             onSubmit={(val) => {
               setBase(val.trim() || "main");
-              updatePhase("running");
+              updatePhase("inputDb");
             }}
           />
         </Box>
+      </Box>
+    );
+  }
+
+  if (phase === "inputDb") {
+    return (
+      <Box flexDirection="column" gap={1}>
+        <Text bold>Add worktree — {name}</Text>
+        <Box gap={1}>
+          <Text>DB name</Text>
+          <Text dimColor>(leave blank to use <Text color="cyan">{name}</Text>):</Text>
+          <TextInput
+            value={dbName}
+            onChange={setDbName}
+            onSubmit={(val) => {
+              setDbName(val.trim() || name);
+              updatePhase("inputSeed");
+            }}
+          />
+        </Box>
+        <Text dimColor>Will set DB_DATABASE={dbName || name} in all copied .env.local files.</Text>
+      </Box>
+    );
+  }
+
+  if (phase === "inputSeed") {
+    return (
+      <Box flexDirection="column" gap={1}>
+        <Text bold>Add worktree — {name}</Text>
+        <Text dimColor>Seed the database after setup?</Text>
+        <SelectInput
+          items={SEED_ITEMS}
+          onSelect={(item) => {
+            setSeed(item.value === "yes");
+            updatePhase("running");
+          }}
+        />
       </Box>
     );
   }
@@ -402,10 +522,20 @@ function AddWorktree({
       {phase === "done" && (
         <Box flexDirection="column" gap={1} marginTop={1}>
           {output.status === "success" && (
-            <Text color="green">Worktree created at .worktrees/{name}</Text>
+            <>
+              <Text color="green">Worktree created at .worktrees/{name}</Text>
+              {envResult && (
+                <Text dimColor>
+                  {envResult.copied.length} env file(s) copied
+                  {envResult.skipped.length > 0 ? `, ${envResult.skipped.length} skipped` : ""}
+                  {envResult.errors.length > 0 ? `, ${envResult.errors.length} error(s)` : ""}
+                  .
+                </Text>
+              )}
+            </>
           )}
           {output.status === "error" && (
-            <Text color="red">Failed to create worktree. See output above.</Text>
+            <Text color="red">Setup failed. See output above.</Text>
           )}
         </Box>
       )}
@@ -416,6 +546,13 @@ function AddWorktree({
 // ---------------------------------------------------------------------------
 // Remove
 // ---------------------------------------------------------------------------
+
+type RemovePhase = "selectWorktree" | "confirmForce" | "running" | "done";
+
+const FORCE_ITEMS = [
+  { label: "no  — normal remove",   value: "no"    },
+  { label: "yes — force (discard uncommitted changes)", value: "yes" },
+];
 
 function RemoveWorktree({
   preName,
@@ -428,15 +565,29 @@ function RemoveWorktree({
   onBack?: () => void;
   onPhaseChange?: (phase: "idle" | "running" | "done") => void;
 }) {
-  const [phase, setPhase] = useState<Phase>(preName ? "running" : "input");
+  const initialPhase: RemovePhase = preName ? "running" : "selectWorktree";
+
+  const [phase, setPhase] = useState<RemovePhase>(initialPhase);
   const [name, setName] = useState(preName ?? "");
-  const [force] = useState(preForce ?? false);
+  const [force, setForce] = useState(preForce ?? false);
+  const [worktrees, setWorktrees] = useState<WorktreeInfo[] | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [output, callbacks] = useProcessOutput();
 
-  const updatePhase = (p: Phase) => {
+  const updatePhase = (p: RemovePhase) => {
     setPhase(p);
-    onPhaseChange?.(p === "input" ? "idle" : p === "running" ? "running" : "done");
+    const mapped =
+      p === "running" ? "running" : p === "done" ? "done" : "idle";
+    onPhaseChange?.(mapped);
   };
+
+  // Load worktrees for the picker (only needed in interactive mode)
+  useEffect(() => {
+    if (preName) return;
+    listWorktrees()
+      .then((wts) => setWorktrees(wts.filter((w) => !w.isMain)))
+      .catch((e: unknown) => setLoadError(String(e)));
+  }, []);
 
   useInput((_input, key) => {
     if (key.escape && phase !== "running") onBack?.();
@@ -460,25 +611,66 @@ function RemoveWorktree({
     };
 
     void run();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
-  if (phase === "input") {
+  if (phase === "selectWorktree") {
     return (
       <Box flexDirection="column" gap={1}>
         <Text bold>Remove worktree</Text>
-        <Box gap={1}>
-          <Text>Worktree name (under .worktrees/):</Text>
-          <TextInput
-            value={name}
-            onChange={setName}
-            onSubmit={(val) => {
-              if (val.trim()) {
-                setName(val.trim());
-                updatePhase("running");
-              }
-            }}
-          />
-        </Box>
+
+        {loadError && <Text color="red">{loadError}</Text>}
+
+        {worktrees === null && !loadError && (
+          <Text dimColor>Loading worktrees…</Text>
+        )}
+
+        {worktrees !== null && worktrees.length === 0 && (
+          <Text dimColor>No non-main worktrees found.</Text>
+        )}
+
+        {worktrees !== null && worktrees.length > 0 && (
+          <>
+            <Text dimColor>Select a worktree to remove:</Text>
+            <SelectInput
+              items={worktrees.map((wt) => ({
+                label: wt.branch,
+                value: wt.branch,
+              }))}
+              onSelect={(item) => {
+                setName(item.value);
+                updatePhase("confirmForce");
+              }}
+              itemComponent={({ isSelected, label }) => {
+                const wt = worktrees.find((w) => w.branch === label);
+                return (
+                  <Box gap={2}>
+                    <Text color={isSelected ? "cyan" : undefined} bold={isSelected}>
+                      {label}
+                    </Text>
+                    {wt && <Text dimColor>{wt.path}</Text>}
+                  </Box>
+                );
+              }}
+            />
+          </>
+        )}
+      </Box>
+    );
+  }
+
+  if (phase === "confirmForce") {
+    return (
+      <Box flexDirection="column" gap={1}>
+        <Text bold>Remove worktree — {name}</Text>
+        <Text dimColor>Force-remove (discard uncommitted changes)?</Text>
+        <SelectInput
+          items={FORCE_ITEMS}
+          onSelect={(item) => {
+            setForce(item.value === "yes");
+            updatePhase("running");
+          }}
+        />
       </Box>
     );
   }
@@ -498,7 +690,7 @@ function RemoveWorktree({
           )}
           {output.status === "error" && (
             <Text color="red">
-              Failed to remove worktree. If it has uncommitted changes, pass --force.
+              Failed to remove worktree. If it has uncommitted changes, use force remove.
             </Text>
           )}
         </Box>
