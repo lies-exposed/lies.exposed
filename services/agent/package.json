@@ -16,7 +16,8 @@
   },
   "files": [
     "build",
-    "AGENTS.md"
+    "AGENTS.md",
+    "RESEARCHER.md"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
