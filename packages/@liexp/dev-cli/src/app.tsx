@@ -3,6 +3,7 @@ import { Box, useInput } from "ink";
 import { CommandMenu, type CommandId } from "./components/CommandMenu.js";
 import { StatusBar, type KeyBinding, BINDING_QUIT, BINDING_BACK, BINDING_SELECT, BINDING_CONFIRM } from "./components/StatusBar.js";
 import { TabBar, TABS, type TabId } from "./components/TabBar.js";
+import { ServicesPanel } from "./components/ServicesPanel.js";
 import { LoginCommand } from "./commands/login.js";
 import { BuildCommand } from "./commands/build.js";
 import { PushCommand } from "./commands/push.js";
@@ -11,6 +12,7 @@ import { UpCommand } from "./commands/up.js";
 import { TestCommand } from "./commands/test.js";
 import { TestDeployCommand } from "./commands/test-deploy.js";
 import { WorktreeCommand } from "./commands/worktree.js";
+import { ReleaseCommand } from "./commands/release.js";
 
 type Screen = "menu" | CommandId;
 
@@ -72,36 +74,46 @@ export function App() {
       <TabBar activeTab={activeTab} />
 
       {/* Main content area */}
-      <Box flexDirection="column" flexGrow={1}>
-        {screen === "menu" && (
-          <CommandMenu
-            tab={activeTab}
-            onSelect={(cmd) => { setScreen(cmd); setPhase("idle"); }}
-          />
-        )}
-        {screen === "login" && (
-          <LoginCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "build" && (
-          <BuildCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "push" && (
-          <PushCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "compose" && (
-          <ComposeCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "up" && (
-          <UpCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "test" && (
-          <TestCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "test-deploy" && (
-          <TestDeployCommand onBack={goBack} onPhaseChange={setPhase} />
-        )}
-        {screen === "worktree" && (
-          <WorktreeCommand onBack={goBack} onPhaseChange={setPhase} />
+      <Box flexDirection="row" flexGrow={1} gap={2}>
+        <Box flexDirection="column" flexGrow={1}>
+          {screen === "menu" && (
+            <CommandMenu
+              tab={activeTab}
+              onSelect={(cmd) => { setScreen(cmd); setPhase("idle"); }}
+            />
+          )}
+          {screen === "login" && (
+            <LoginCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "build" && (
+            <BuildCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "push" && (
+            <PushCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "compose" && (
+            <ComposeCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "up" && (
+            <UpCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "test" && (
+            <TestCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "test-deploy" && (
+            <TestDeployCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "worktree" && (
+            <WorktreeCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+          {screen === "release" && (
+            <ReleaseCommand onBack={goBack} onPhaseChange={setPhase} />
+          )}
+        </Box>
+
+        {/* Services panel — only on Docker tab while on the menu screen */}
+        {screen === "menu" && activeTab === "docker" && (
+          <ServicesPanel />
         )}
       </Box>
 

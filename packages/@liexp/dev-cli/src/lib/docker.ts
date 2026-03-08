@@ -1,5 +1,8 @@
 /** Canonical Docker image definitions for the lies.exposed platform. */
 
+import { exec } from "./exec.js";
+import { REPO_ROOT } from "./paths.js";
+
 export type ServiceKey =
   | "base"
   | "pnpm"
@@ -126,3 +129,58 @@ export const DEFAULT_COMPOSE_ARGS =
 
 /** The env file path used by docker compose. */
 export const COMPOSE_ENV_FILE = "./services/api/.env.local";
+
+// ---------------------------------------------------------------------------
+// compose ps
+// ---------------------------------------------------------------------------
+
+export type ComposeService = {
+  service: string;
+  state: "running" | "exited" | "restarting" | "paused" | "dead" | string;
+  /** Human-readable status line, e.g. "Up 2 hours" */
+  status: string;
+  /** Health check state: "healthy" | "unhealthy" | "" */
+  health: string;
+  /** Published port mappings, e.g. "0.0.0.0:8432->5432/tcp" */
+  ports: string;
+};
+
+/**
+ * Runs `docker compose ps --format json` against the repo's compose.yml and
+ * returns parsed service rows. Each line of output is a separate JSON object.
+ *
+ * Returns an empty array if docker / the compose project is not running.
+ */
+export async function composePs(composeFile?: string): Promise<ComposeService[]> {
+  const file = composeFile ?? `${REPO_ROOT}/compose.yml`;
+  const result = await exec(
+    "docker",
+    ["compose", "-f", file, "ps", "--format", "json"],
+    { onStdout: undefined, onStderr: undefined }
+  );
+
+  const services: ComposeService[] = [];
+  for (const line of result.stdout) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      const obj = JSON.parse(trimmed) as {
+        Service: string;
+        State: string;
+        Status: string;
+        Health: string;
+        Ports: string;
+      };
+      services.push({
+        service: obj.Service,
+        state: obj.State,
+        status: obj.Status,
+        health: obj.Health ?? "",
+        ports: obj.Ports ?? "",
+      });
+    } catch {
+      // skip malformed lines
+    }
+  }
+  return services;
+}

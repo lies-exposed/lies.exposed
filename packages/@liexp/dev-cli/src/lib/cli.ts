@@ -22,7 +22,8 @@ export type ParsedArgs =
   | { mode: "worktree:list" }
   | { mode: "worktree:add"; name: string; newBranch: boolean; base: string }
   | { mode: "worktree:remove"; name: string; force: boolean }
-  | { mode: "worktree:prune" };
+  | { mode: "worktree:prune" }
+  | { mode: "release" };
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -132,6 +133,9 @@ export function parseArgs(argv: string[]): ParsedArgs {
     case "test-deploy":
       return { mode: "test-deploy" };
 
+    case "release":
+      return { mode: "release" };
+
     case "worktree": {
       const [sub, ...wArgs] = rest;
       switch (sub) {
@@ -168,7 +172,7 @@ export function parseArgs(argv: string[]): ParsedArgs {
       if (isServiceKey(command ?? "")) {
         return { mode: "interactive" };
       }
-      die(`Unknown command: ${command ?? ""}. Valid commands: login, build, push, compose, up, test, test-deploy, worktree`);
+      die(`Unknown command: ${command ?? ""}. Valid commands: login, build, push, compose, up, test, test-deploy, release, worktree`);
   }
 }
 

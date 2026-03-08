@@ -121,6 +121,11 @@ if (parsed.mode === "interactive") {
       element = <WorktreeCommand preSubCommand="prune" />;
       break;
     }
+    case "release": {
+      const { ReleaseCommand } = await import("./commands/release.js");
+      element = <ReleaseCommand />;
+      break;
+    }
   }
 
   const { waitUntilExit } = render(
