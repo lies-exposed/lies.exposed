@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindAreasInputSchema = Schema.Struct({
@@ -23,7 +24,7 @@ export const FindAreasInputSchema = Schema.Struct({
 });
 
 export const GetAreaInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the area to retrieve",
   }),
 });
@@ -47,7 +48,7 @@ export const CreateAreaInputSchema = Schema.Struct({
 export type CreateAreaInputSchema = typeof CreateAreaInputSchema.Type;
 
 export const EditAreaInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the area to edit (required)",
   }),
   label: Schema.UndefinedOr(Schema.String).annotations({
@@ -62,13 +63,13 @@ export const EditAreaInputSchema = Schema.Struct({
   geometry: Schema.UndefinedOr(Schema.String).annotations({
     description: "GeoJSON geometry as a JSON string",
   }),
-  featuredImage: Schema.UndefinedOr(Schema.String).annotations({
+  featuredImage: Schema.UndefinedOr(UUID).annotations({
     description: "Media UUID for the featured image",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
+  media: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated media UUIDs",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
+  events: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated event UUIDs",
   }),
 });

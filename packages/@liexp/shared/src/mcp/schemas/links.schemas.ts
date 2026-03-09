@@ -1,3 +1,5 @@
+import { URL } from "@liexp/io/lib/http/Common";
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindLinksInputSchema = Schema.Struct({
@@ -27,19 +29,19 @@ export const FindLinksInputSchema = Schema.Struct({
 });
 
 export const GetLinkInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the link to retrieve",
   }),
 });
 
 export const CreateLinkInputSchema = Schema.Struct({
-  url: Schema.String.annotations({
+  url: URL.annotations({
     description: "URL of the link (required)",
   }),
 });
 
 export const EditLinkInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the link to edit (required)",
   }),
   title: Schema.UndefinedOr(Schema.String).annotations({
@@ -48,7 +50,7 @@ export const EditLinkInputSchema = Schema.Struct({
   description: Schema.UndefinedOr(Schema.String).annotations({
     description: "Link description",
   }),
-  url: Schema.UndefinedOr(Schema.String).annotations({
+  url: Schema.UndefinedOr(URL).annotations({
     description: "Link URL",
   }),
   status: Schema.UndefinedOr(

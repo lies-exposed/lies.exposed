@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindGroupsInputSchema = Schema.Struct({
@@ -23,7 +24,7 @@ export const FindGroupsInputSchema = Schema.Struct({
 });
 
 export const GetGroupInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the group to retrieve",
   }),
 });
@@ -47,19 +48,19 @@ export const CreateGroupInputSchema = Schema.Struct({
   excerpt: Schema.UndefinedOr(Schema.String).annotations({
     description: "Short description",
   }),
-  avatar: Schema.UndefinedOr(Schema.String).annotations({
+  avatar: Schema.UndefinedOr(UUID).annotations({
     description: "Avatar media UUID",
   }),
-  startDate: Schema.UndefinedOr(Schema.String).annotations({
+  startDate: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "Start date YYYY-MM-DD",
   }),
-  endDate: Schema.UndefinedOr(Schema.String).annotations({
+  endDate: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "End date YYYY-MM-DD",
   }),
 });
 
 export const EditGroupInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the group to edit (required)",
   }),
   name: Schema.UndefinedOr(Schema.String),
@@ -70,8 +71,8 @@ export const EditGroupInputSchema = Schema.Struct({
   color: Schema.UndefinedOr(Schema.String),
   excerpt: Schema.UndefinedOr(Schema.String),
   avatar: Schema.UndefinedOr(Schema.String),
-  startDate: Schema.UndefinedOr(Schema.String),
-  endDate: Schema.UndefinedOr(Schema.String),
+  startDate: Schema.UndefinedOr(Schema.DateFromString),
+  endDate: Schema.UndefinedOr(Schema.DateFromString),
   members: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
     description: "Array of actor UUIDs",
   }),

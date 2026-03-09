@@ -30,7 +30,7 @@ export const FindEventsInputSchema = Schema.Struct({
 });
 
 export const GetEventInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the event to retrieve",
   }),
 });
@@ -63,7 +63,7 @@ export const CreateEventInputSchema = Schema.Struct({
     description:
       "Event type (required): Uncategorized | Death | Quote | Transaction | ScientificStudy | Book | Patent | Documentary",
   }),
-  date: Schema.String.annotations({
+  date: Schema.DateFromString.annotations({
     description: "Event date (required) YYYY-MM-DD",
   }),
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
@@ -73,13 +73,13 @@ export const CreateEventInputSchema = Schema.Struct({
     description: "Short excerpt text",
   }),
   // common relations
-  links: Schema.UndefinedOr(Schema.String).annotations({
+  links: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated link UUIDs",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
+  media: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated media UUIDs",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
+  keywords: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated keyword UUIDs",
   }),
   // Uncategorized / Death / Quote / etc. payloads
@@ -87,19 +87,19 @@ export const CreateEventInputSchema = Schema.Struct({
     description:
       "Event title (required for Uncategorized, Transaction, ScientificStudy, Book, Patent, Documentary)",
   }),
-  actors: Schema.UndefinedOr(Schema.String).annotations({
+  actors: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated actor UUIDs (Uncategorized payload)",
   }),
-  groups: Schema.UndefinedOr(Schema.String).annotations({
+  groups: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated group UUIDs (Uncategorized payload)",
   }),
-  groupsMembers: Schema.UndefinedOr(Schema.String).annotations({
+  groupsMembers: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated group-member UUIDs (Uncategorized payload)",
   }),
   location: Schema.UndefinedOr(UUID).annotations({
     description: "Area UUID for event location (Uncategorized/Death payload)",
   }),
-  endDate: Schema.UndefinedOr(Schema.String).annotations({
+  endDate: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "End date YYYY-MM-DD (Uncategorized payload)",
   }),
   // Death payload
@@ -214,7 +214,7 @@ export const EditEventInputSchema = Schema.Struct({
     description:
       "Event type (required for edit): Uncategorized | Death | Quote | Transaction | ScientificStudy | Book | Patent | Documentary",
   }),
-  date: Schema.UndefinedOr(Schema.String).annotations({
+  date: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "Event date YYYY-MM-DD",
   }),
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
@@ -248,7 +248,7 @@ export const EditEventInputSchema = Schema.Struct({
   location: Schema.UndefinedOr(UUID).annotations({
     description: "Area UUID for event location",
   }),
-  endDate: Schema.UndefinedOr(Schema.String).annotations({
+  endDate: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "End date YYYY-MM-DD (Uncategorized payload)",
   }),
   victim: Schema.UndefinedOr(UUID).annotations({

@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindMediaInputSchema = Schema.Struct({
@@ -23,7 +24,7 @@ export const FindMediaInputSchema = Schema.Struct({
 });
 
 export const GetMediaInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the media to retrieve",
   }),
 });
@@ -62,7 +63,7 @@ export const CreateMediaInputSchema = Schema.Struct({
 export type CreateMediaInputSchema = typeof CreateMediaInputSchema.Type;
 
 export const EditMediaInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the media to edit (required)",
   }),
   location: Schema.String.annotations({
@@ -80,16 +81,16 @@ export const EditMediaInputSchema = Schema.Struct({
   thumbnail: Schema.UndefinedOr(Schema.String).annotations({
     description: "URL of thumbnail image",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
+  events: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated event UUIDs",
   }),
-  links: Schema.UndefinedOr(Schema.String).annotations({
+  links: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated link UUIDs",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
+  keywords: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated keyword UUIDs",
   }),
-  areas: Schema.UndefinedOr(Schema.String).annotations({
+  areas: Schema.UndefinedOr(UUID).annotations({
     description: "Comma-separated area UUIDs",
   }),
 });
