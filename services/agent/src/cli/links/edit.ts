@@ -1,5 +1,5 @@
 import { EditLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
+import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
