@@ -1,5 +1,5 @@
-import { URL } from "@liexp/io/lib/http/Common";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { URL } from "@liexp/io/lib/http/Common/index.js";
 import { Schema } from "effect";
 
 export const FindLinksInputSchema = Schema.Struct({

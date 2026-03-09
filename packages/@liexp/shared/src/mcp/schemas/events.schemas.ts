@@ -73,13 +73,13 @@ export const CreateEventInputSchema = Schema.Struct({
     description: "Short excerpt text",
   }),
   // common relations
-  links: Schema.UndefinedOr(UUID).annotations({
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated link UUIDs",
   }),
-  media: Schema.UndefinedOr(UUID).annotations({
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated media UUIDs",
   }),
-  keywords: Schema.UndefinedOr(UUID).annotations({
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated keyword UUIDs",
   }),
   // Uncategorized / Death / Quote / etc. payloads
@@ -87,13 +87,13 @@ export const CreateEventInputSchema = Schema.Struct({
     description:
       "Event title (required for Uncategorized, Transaction, ScientificStudy, Book, Patent, Documentary)",
   }),
-  actors: Schema.UndefinedOr(UUID).annotations({
+  actors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated actor UUIDs (Uncategorized payload)",
   }),
-  groups: Schema.UndefinedOr(UUID).annotations({
+  groups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated group UUIDs (Uncategorized payload)",
   }),
-  groupsMembers: Schema.UndefinedOr(UUID).annotations({
+  groupsMembers: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated group-member UUIDs (Uncategorized payload)",
   }),
   location: Schema.UndefinedOr(UUID).annotations({

@@ -66,10 +66,10 @@ export const EditAreaInputSchema = Schema.Struct({
   featuredImage: Schema.UndefinedOr(UUID).annotations({
     description: "Media UUID for the featured image",
   }),
-  media: Schema.UndefinedOr(UUID).annotations({
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated media UUIDs",
   }),
-  events: Schema.UndefinedOr(UUID).annotations({
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated event UUIDs",
   }),
 });

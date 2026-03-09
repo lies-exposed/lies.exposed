@@ -46,16 +46,16 @@ export const CreateMediaInputSchema = Schema.Struct({
   thumbnail: Schema.UndefinedOr(Schema.String).annotations({
     description: "URL of thumbnail image",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated event UUIDs to associate",
   }),
-  links: Schema.UndefinedOr(Schema.String).annotations({
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated link UUIDs to associate",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated keyword UUIDs to associate",
   }),
-  areas: Schema.UndefinedOr(Schema.String).annotations({
+  areas: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated area UUIDs to associate",
   }),
 });
@@ -81,16 +81,16 @@ export const EditMediaInputSchema = Schema.Struct({
   thumbnail: Schema.UndefinedOr(Schema.String).annotations({
     description: "URL of thumbnail image",
   }),
-  events: Schema.UndefinedOr(UUID).annotations({
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated event UUIDs",
   }),
-  links: Schema.UndefinedOr(UUID).annotations({
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated link UUIDs",
   }),
-  keywords: Schema.UndefinedOr(UUID).annotations({
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated keyword UUIDs",
   }),
-  areas: Schema.UndefinedOr(UUID).annotations({
+  areas: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Comma-separated area UUIDs",
   }),
 });
