@@ -1,6 +1,6 @@
-import { pipe } from "@liexp/core/lib/fp/index.js";
 import { CreateActorInputSchema } from "@liexp/shared/lib/mcp/schemas/actors.schemas.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { makeCommand } from "../run-command.js";
 
 export const actorCreate = makeCommand(
@@ -12,8 +12,18 @@ export const actorCreate = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("actor-create input: %O", input);
-    return pipe(removeUndefinedFromPayload(input), (body) =>
-      ctx.api.Actor.Create({ Body: body as any }),
-    );
+    return ctx.api.Actor.Create({
+      Body: {
+        username: input.username,
+        fullName: input.fullName,
+        color: input.color ?? generateRandomColor(),
+        excerpt: toInitialValue(input.excerpt ?? ""),
+        nationalities: (input.nationalities ?? []) as any[],
+        body: input.body ? toInitialValue(input.body) : undefined,
+        avatar: input.avatar,
+        bornOn: input.bornOn,
+        diedOn: input.diedOn,
+      },
+    });
   },
 );
