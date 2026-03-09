@@ -1,5 +1,5 @@
 import { EditLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -33,8 +33,8 @@ Output: JSON updated link object
         url: getArg(args, "url"),
         status: getArg(args, "status"),
         publishDate: getArg(args, "publishDate"),
-        events: getArg(args, "events"),
-        keywords: getArg(args, "keywords"),
+        events: splitUUIDs(getArg(args, "events")),
+        keywords: splitUUIDs(getArg(args, "keywords")),
       },
       (input) => {
         ctx.logger.debug.log("link edit input: %O", input);

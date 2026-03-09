@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg } from "../args.js";
+import { getArg, splitUUIDs } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -40,12 +40,12 @@ Output: JSON updated story object
         draft: getArg(args, "draft"),
         creator: getArg(args, "creator"),
         featuredImage: getArg(args, "featuredImage"),
-        keywords: getArg(args, "keywords"),
-        links: getArg(args, "links"),
-        actors: getArg(args, "actors"),
-        groups: getArg(args, "groups"),
-        events: getArg(args, "events"),
-        media: getArg(args, "media"),
+        keywords: splitUUIDs(getArg(args, "keywords")),
+        links: splitUUIDs(getArg(args, "links")),
+        actors: splitUUIDs(getArg(args, "actors")),
+        groups: splitUUIDs(getArg(args, "groups")),
+        events: splitUUIDs(getArg(args, "events")),
+        media: splitUUIDs(getArg(args, "media")),
       },
       (input) => {
         ctx.logger.debug.log("story edit input: %O", input);
