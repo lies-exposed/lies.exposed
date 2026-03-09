@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
+import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -55,25 +55,25 @@ Output: JSON updated story object
         }
 
         return ctx.api.Story.Edit({
-          Params: { id: input.id as any },
+          Params: { id: input.id },
           Body: {
             title: input.title ?? "",
             path: input.path ?? "",
             date: input.date ? new Date(input.date) : new Date(),
             draft: input.draft ?? false,
-            creator: (input.creator ?? null) as any,
+            creator: input.creator ?? undefined,
             featuredImage: (input.featuredImage
-              ? { id: input.featuredImage as any }
+              ? { id: input.featuredImage }
               : null) as any,
             body2: [] as any,
-            keywords: splitUUIDs(input.keywords) as any[],
-            links: splitUUIDs(input.links) as any[],
-            actors: splitUUIDs(input.actors) as any[],
-            groups: splitUUIDs(input.groups) as any[],
-            events: splitUUIDs(input.events) as any[],
-            media: splitUUIDs(input.media) as any[],
+            keywords: input.keywords,
+            links: input.links,
+            actors: input.actors,
+            groups: input.groups,
+            events: input.events,
+            media: input.media,
             restore: null as any,
-          },
+          } as any,
         });
       },
     ),

@@ -62,14 +62,16 @@ export const EditLinkInputSchema = Schema.Struct({
   ).annotations({
     description: 'Link status: "DRAFT" | "APPROVED" | "UNAPPROVED"',
   }),
-  publishDate: Schema.UndefinedOr(Schema.String).annotations({
+  publishDate: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description: "Publication date YYYY-MM-DD",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated event UUIDs to associate",
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Event UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated keyword UUIDs",
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });
 

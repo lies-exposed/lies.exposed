@@ -1,6 +1,6 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { CreateStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
+import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -58,15 +58,15 @@ Output: JSON created story object
             path: input.path,
             date: new Date(input.date),
             draft: input.draft ?? true,
-            creator: (input.creator ?? null) as any,
-            featuredImage: (input.featuredImage ?? null) as any,
+            creator: input.creator ?? undefined,
+            featuredImage: input.featuredImage ?? undefined,
             body2: [] as any,
-            keywords: splitUUIDs(input.keywords) as any[],
-            actors: splitUUIDs(input.actors) as any[],
-            groups: splitUUIDs(input.groups) as any[],
-            events: splitUUIDs(input.events) as any[],
-            media: splitUUIDs(input.media) as any[],
-          },
+            keywords: input.keywords,
+            actors: input.actors,
+            groups: input.groups,
+            events: input.events,
+            media: input.media,
+          } as any,
         });
       },
     ),

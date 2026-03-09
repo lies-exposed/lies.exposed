@@ -1,4 +1,6 @@
+import { URL } from "@liexp/io/lib/http/Common/URL.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { MediaType } from "@liexp/io/lib/http/Media/index.js";
 import { Schema } from "effect";
 
 export const FindMediaInputSchema = Schema.Struct({
@@ -30,10 +32,10 @@ export const GetMediaInputSchema = Schema.Struct({
 });
 
 export const CreateMediaInputSchema = Schema.Struct({
-  location: Schema.String.annotations({
+  location: URL.annotations({
     description: "URL of the media file (required)",
   }),
-  type: Schema.String.annotations({
+  type: MediaType.annotations({
     description:
       "Media MIME type (required), e.g. image/jpg, video/mp4, application/pdf",
   }),
@@ -43,20 +45,24 @@ export const CreateMediaInputSchema = Schema.Struct({
   description: Schema.UndefinedOr(Schema.String).annotations({
     description: "Description of the media",
   }),
-  thumbnail: Schema.UndefinedOr(Schema.String).annotations({
+  thumbnail: Schema.UndefinedOr(URL).annotations({
     description: "URL of thumbnail image",
   }),
   events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated event UUIDs to associate",
+    description:
+      "Event UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated link UUIDs to associate",
+    description:
+      "Link UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated keyword UUIDs to associate",
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   areas: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated area UUIDs to associate",
+    description:
+      "Area UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });
 
@@ -66,10 +72,10 @@ export const EditMediaInputSchema = Schema.Struct({
   id: UUID.annotations({
     description: "UUID of the media to edit (required)",
   }),
-  location: Schema.String.annotations({
+  location: URL.annotations({
     description: "URL of the media file (required)",
   }),
-  type: Schema.String.annotations({
+  type: MediaType.annotations({
     description: "Media MIME type (required), e.g. image/jpg, video/mp4",
   }),
   label: Schema.String.annotations({
@@ -78,20 +84,24 @@ export const EditMediaInputSchema = Schema.Struct({
   description: Schema.UndefinedOr(Schema.String).annotations({
     description: "Description of the media",
   }),
-  thumbnail: Schema.UndefinedOr(Schema.String).annotations({
+  thumbnail: Schema.UndefinedOr(URL).annotations({
     description: "URL of thumbnail image",
   }),
   events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated event UUIDs",
+    description:
+      "Event UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated link UUIDs",
+    description:
+      "Link UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated keyword UUIDs",
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
   areas: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated area UUIDs",
+    description:
+      "Area UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });
 

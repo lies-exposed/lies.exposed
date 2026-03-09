@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindStoriesInputSchema = Schema.Struct({
@@ -7,7 +8,7 @@ export const FindStoriesInputSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Filter by draft status",
   }),
-  creator: Schema.UndefinedOr(Schema.String).annotations({
+  creator: Schema.UndefinedOr(UUID).annotations({
     description: "Filter by creator UUID",
   }),
   start: Schema.UndefinedOr(Schema.NumberFromString).annotations({
@@ -19,7 +20,7 @@ export const FindStoriesInputSchema = Schema.Struct({
 });
 
 export const GetStoryInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the story to retrieve",
   }),
 });
@@ -37,31 +38,36 @@ export const CreateStoryInputSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Draft status (default: true)",
   }),
-  creator: Schema.UndefinedOr(Schema.String).annotations({
+  creator: Schema.UndefinedOr(UUID).annotations({
     description: "Creator actor UUID",
   }),
-  featuredImage: Schema.UndefinedOr(Schema.String).annotations({
+  featuredImage: Schema.UndefinedOr(UUID).annotations({
     description: "Featured image media UUID",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated keyword UUIDs",
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  actors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs",
+  actors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Actor UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  groups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs",
+  groups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Group UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated event UUIDs",
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Event UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated media UUIDs",
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Media UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });
 
 export const EditStoryInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the story to edit (required)",
   }),
   title: Schema.UndefinedOr(Schema.String).annotations({
@@ -82,22 +88,28 @@ export const EditStoryInputSchema = Schema.Struct({
   featuredImage: Schema.UndefinedOr(Schema.String).annotations({
     description: "Featured image media UUID",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated keyword UUIDs",
+  keywords: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  links: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated link UUIDs",
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Link UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  actors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs",
+  actors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Actor UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  groups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs",
+  groups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Group UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  events: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated event UUIDs",
+  events: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Event UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated media UUIDs",
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Media UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });

@@ -11,14 +11,17 @@ export const EventCreateBaseSchema = Schema.Struct({
   excerpt: Schema.UndefinedOr(Schema.String).annotations({
     description: "Short excerpt text",
   }),
-  links: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated link UUIDs",
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Link UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated media UUIDs",
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Media UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated keyword UUIDs",
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });
 
@@ -35,13 +38,16 @@ export const EventEditBaseSchema = Schema.Struct({
   excerpt: Schema.UndefinedOr(Schema.String).annotations({
     description: "Short excerpt text",
   }),
-  links: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated link UUIDs",
+  links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Link UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  media: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated media UUIDs",
+  media: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Media UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
-  keywords: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated keyword UUIDs",
+  keywords: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description:
+      "Keyword UUIDs to associate (comma-separated when passed as CLI arg)",
   }),
 });

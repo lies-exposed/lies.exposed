@@ -1,5 +1,5 @@
 import { EditLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
+import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
 import { runCommand } from "../run-command.js";
 
@@ -48,8 +48,8 @@ Output: JSON updated link object
             publishDate: input.publishDate
               ? new Date(input.publishDate)
               : undefined,
-            events: splitUUIDs(input.events) as any[],
-            keywords: splitUUIDs(input.keywords) as any[],
+            events: input.events,
+            keywords: input.keywords,
             provider: undefined,
             image: undefined,
             creator: null,

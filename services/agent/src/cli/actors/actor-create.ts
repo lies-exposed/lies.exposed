@@ -48,7 +48,7 @@ Output: JSON created actor object
           Body: {
             username: input.username,
             fullName: input.fullName,
-            ...(input.color !== undefined ? { color: input.color as any } : {}),
+            ...(input.color !== undefined ? { color: input.color } : {}),
             ...(input.excerpt !== undefined ? { excerpt: input.excerpt } : {}),
             ...(input.bornOn !== undefined
               ? { bornOn: new Date(input.bornOn) }
@@ -56,11 +56,9 @@ Output: JSON created actor object
             ...(input.diedOn !== undefined
               ? { diedOn: new Date(input.diedOn) }
               : {}),
-            ...(input.avatar !== undefined
-              ? { avatar: input.avatar as any }
-              : {}),
-            ...(input.nationalityIds !== undefined
-              ? { nationalityIds: input.nationalityIds as any }
+            ...(input.avatar !== undefined ? { avatar: input.avatar } : {}),
+            ...(input.nationalities !== undefined
+              ? { nationalityIds: input.nationalities }
               : {}),
             ...(input.body !== undefined ? { body: input.body } : {}),
           } as any,
