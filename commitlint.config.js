@@ -21,6 +21,7 @@ export default {
         "worker",
         "ai-bot",
         "agent",
+        "docker-cli",
         "storybook",
         "localai",
         // used by Dependabot

@@ -15,6 +15,7 @@
       ],
       "always-update": true
     },
+
     "packages/@liexp/backend": {
       "component": "@liexp/backend",
       "skip-github-release": true,
