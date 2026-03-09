@@ -18,7 +18,7 @@ const stories = fc.sample(StoryArbs.StoryArb, 3).map((s, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = stories.map(encodeStory);
+const encoded = stories.map((a) => encodeStory(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/stories", ({ request }) => {

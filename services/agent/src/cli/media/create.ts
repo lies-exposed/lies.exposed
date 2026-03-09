@@ -1,5 +1,4 @@
 import { CreateMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { splitUUIDs } from "../args.js";
 import { makeCommand } from "../run-command.js";
 
 export const mediaCreate = makeCommand(
@@ -23,7 +22,7 @@ export const mediaCreate = makeCommand(
         events: input.events as any[],
         links: input.links as any[],
         keywords: input.keywords as any[],
-        areas: splitUUIDs(input.areas) as any[],
+        areas: (input.areas ?? []) as any[],
       },
     });
   },

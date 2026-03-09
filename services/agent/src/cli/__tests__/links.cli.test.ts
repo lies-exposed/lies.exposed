@@ -18,7 +18,7 @@ const links = fc.sample(LinkArbs.LinkArb, 3).map((l, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = links.map(encodeLink);
+const encoded = links.map((a) => encodeLink(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/links", ({ request }) => {

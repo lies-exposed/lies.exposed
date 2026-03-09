@@ -11,7 +11,7 @@ import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeMedia = Schema.encodeSync(MediaIO.Media);
 
-const [mediaA] = fc.sample(MediaArbs.MediaArb, 1).map(encodeMedia);
+const [mediaA] = fc.sample(MediaArbs.MediaArb, 1).map((a) => encodeMedia(a));
 
 const IMAGE_URL =
   "https://upload.wikimedia.org/wikipedia/commons/thumb/test/Test_logo.png/400px-Test_logo.png";

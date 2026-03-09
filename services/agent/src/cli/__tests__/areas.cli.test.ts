@@ -17,7 +17,7 @@ const areas = fc.sample(AreaArbs.AreaArb, 3).map((a, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = areas.map(encodeArea);
+const encoded = areas.map((a) => encodeArea(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/areas", ({ request }) => {

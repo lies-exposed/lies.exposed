@@ -12,7 +12,9 @@ import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeGroup = Schema.encodeSync(GroupIO.Group);
 
-const [groupA, groupB] = fc.sample(GroupArbs.GroupArb, 2).map(encodeGroup);
+const [groupA, groupB] = fc
+  .sample(GroupArbs.GroupArb, 2)
+  .map((a) => encodeGroup(a));
 
 const handlers = [
   // POST /groups — create

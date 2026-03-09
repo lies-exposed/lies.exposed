@@ -17,7 +17,7 @@ const actors = fc.sample(ActorArbs.ActorArb, 3).map((a, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = actors.map(encodeActor);
+const encoded = actors.map((a) => encodeActor(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/actors", ({ request }) => {
