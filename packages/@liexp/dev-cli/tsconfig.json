@@ -10,6 +10,16 @@
     "skipLibCheck": true,
     "strict": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "build"]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "references": [
+    {
+      "path": "../eslint-config"
+    }
+  ]
 }
