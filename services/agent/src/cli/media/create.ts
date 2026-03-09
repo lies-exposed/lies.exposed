@@ -14,15 +14,15 @@ export const mediaCreate = makeCommand(
     return ctx.api.Media.Create({
       Body: {
         id: undefined,
-        location: input.location as any,
-        type: input.type as any,
+        location: input.location,
+        type: input.type,
         label: input.label,
         description: input.description,
-        thumbnail: input.thumbnail as any,
+        thumbnail: input.thumbnail,
         extra: undefined,
-        events: splitUUIDs(input.events) as any[],
-        links: splitUUIDs(input.links) as any[],
-        keywords: splitUUIDs(input.keywords) as any[],
+        events: input.events as any[],
+        links: input.links as any[],
+        keywords: input.keywords as any[],
         areas: splitUUIDs(input.areas) as any[],
       },
     });

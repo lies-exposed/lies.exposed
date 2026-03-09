@@ -2,7 +2,6 @@ import {
   CreateDocumentaryEventSchema,
   EditDocumentaryEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/documentary.schema.js";
-import { splitUUIDs } from "../../args.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -23,12 +22,12 @@ export const documentaryCreate = makeCommand(
           media: input.documentaryMedia,
           website: input.website ?? null,
           authors: {
-            actors: splitUUIDs(input.authorActors),
-            groups: splitUUIDs(input.authorGroups),
+            actors: input.authorActors,
+            groups: input.authorGroups,
           },
           subjects: {
-            actors: splitUUIDs(input.subjectActors),
-            groups: splitUUIDs(input.subjectGroups),
+            actors: input.subjectActors,
+            groups: input.subjectGroups,
           },
         },
       } as any,

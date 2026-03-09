@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { pipe } from "@liexp/core/lib/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { IOError } from "@ts-endpoint/core";
@@ -8,7 +9,7 @@ import { actorGroup } from "#cli/actors/index.js";
 import { agentCommand } from "#cli/agent.command.js";
 import { areaGroup } from "#cli/areas/index.js";
 import {
-  CommandModule,
+  type CommandModule,
   isCommandGroup,
   type CommandGroup,
 } from "#cli/command.type.js";
@@ -20,7 +21,6 @@ import { mediaGroup } from "#cli/media/index.js";
 import { nationGroup } from "#cli/nations/index.js";
 import { storyGroup } from "#cli/stories/index.js";
 import { makeAgentContext } from "#context/load.js";
-import { pipe } from "@liexp/core";
 
 const cliLogger = GetLogger("agent-cli");
 

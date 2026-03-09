@@ -3,7 +3,6 @@ import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type IOError } from "@ts-endpoint/core";
 import { ParseResult, Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
-import type { Either } from "fp-ts/lib/Either.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { helpFromSchema, parseArgsFromSchema, type HelpMeta } from "./args.js";
 import { type CLIContext, type CommandModule } from "./command.type.js";
@@ -14,26 +13,19 @@ type CommandError = IOError | Error;
  * Decodes raw CLI input through an Effect Schema, runs the API call, prints
  * JSON to stdout, and re-throws any errors.
  */
-export const runCommand = async <S extends Schema.Schema<any, any, never>>(
+const runCommand = async <A>(
   ctx: CLIContext,
-  schema: S,
+  schema: Schema.Schema<A, any, never>,
   rawInput: unknown,
-  handler: (
-    input: Schema.Schema.Type<S>,
-    ctx: CLIContext,
-  ) => TaskEither<CommandError, unknown>,
+  handler: (input: A, ctx: CLIContext) => TaskEither<CommandError, unknown>,
 ): Promise<void> => {
   const result = await pipe(
     rawInput,
     Schema.decodeUnknownEither(schema),
-    fp.E.mapLeft(
-      (e: ParseError) =>
-        new Error(
-          `Invalid arguments:\n${ParseResult.TreeFormatter.formatErrorSync(e)}`,
-        ),
-    ),
+    fp.E.mapLeft(formatParseError),
     fp.TE.fromEither,
     fp.TE.chainW((input) => handler(input, ctx)),
+    fp.TE.mapLeft((e) => (e instanceof Error ? e : new Error(String(e)))),
     throwTE,
   );
 
@@ -54,7 +46,7 @@ const formatParseError = (e: ParseError): Error =>
  * Returns a CommandFlow (ctx, args) => Promise<void> suitable for use
  * as CommandModule.run.
  */
-export const runCliCommand =
+const runCliCommand =
   <Fields extends Schema.Struct.Fields>(
     schema: Schema.Struct<Fields>,
     handler: (
@@ -62,29 +54,19 @@ export const runCliCommand =
       ctx: CLIContext,
     ) => TaskEither<CommandError, unknown>,
   ) =>
-  async (ctx: CLIContext, args: string[]): Promise<void> => {
-    type Input = Schema.Schema.Type<Schema.Struct<Fields>>;
-
-    // Schema.decodeUnknownEither has a known TypeScript limitation with
-    // Schema.Struct<Fields>: the mapped-type output doesn't unify with the
-    // inferred constraint. The `as any` is scoped to this single decode call.
-    const decoded = pipe(
+  (ctx: CLIContext, args: string[]): Promise<void> =>
+    // Schema.Struct<Fields> Context can't be proven `never` at the generic
+    // level; safe because all CLI schemas carry no Effect dependencies (R=never).
+    runCommand(
+      ctx,
+      schema as any as Schema.Schema<
+        Schema.Schema.Type<Schema.Struct<Fields>>,
+        any,
+        never
+      >,
       parseArgsFromSchema(schema, args),
-      Schema.decodeUnknownEither(schema as any),
-    ) as Either<ParseError, Input>;
-
-    const result = await pipe(
-      decoded,
-      fp.E.mapLeft(formatParseError),
-      fp.TE.fromEither,
-      fp.TE.chain((input: Input) => handler(input, ctx)),
-      fp.TE.mapLeft((e) => (e instanceof Error ? e : new Error(String(e)))),
-      throwTE,
+      handler,
     );
-
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(result, null, 2));
-  };
 
 /**
  * Creates a CommandModule (run + help) from a Schema.Struct.

@@ -19,9 +19,18 @@ export const buildCreateCommon = (input: BaseInput) =>
     date: input.date,
     draft: input.draft ?? false,
     excerpt: input.excerpt,
-    links: input.links !== undefined ? (splitUUIDs(input.links) as any[]) : undefined,
-    media: input.media !== undefined ? (splitUUIDs(input.media) as any[]) : undefined,
-    keywords: input.keywords !== undefined ? (splitUUIDs(input.keywords) as any[]) : undefined,
+    links:
+      input.links !== undefined
+        ? (splitUUIDs(input.links) as any[])
+        : undefined,
+    media:
+      input.media !== undefined
+        ? (splitUUIDs(input.media) as any[])
+        : undefined,
+    keywords:
+      input.keywords !== undefined
+        ? (splitUUIDs(input.keywords) as any[])
+        : undefined,
   });
 
 export const buildEditCommon = (input: BaseEditInput) =>
@@ -29,7 +38,16 @@ export const buildEditCommon = (input: BaseEditInput) =>
     date: input.date,
     draft: input.draft,
     excerpt: input.excerpt,
-    links: input.links !== undefined ? (splitUUIDs(input.links) as any[]) : undefined,
-    media: input.media !== undefined ? (splitUUIDs(input.media) as any[]) : undefined,
-    keywords: input.keywords !== undefined ? (splitUUIDs(input.keywords) as any[]) : undefined,
+    links:
+      input.links !== undefined
+        ? (splitUUIDs(input.links) as any[])
+        : undefined,
+    media:
+      input.media !== undefined
+        ? (splitUUIDs(input.media) as any[])
+        : undefined,
+    keywords:
+      input.keywords !== undefined
+        ? (splitUUIDs(input.keywords) as any[])
+        : undefined,
   });

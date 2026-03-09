@@ -6,9 +6,15 @@ import { deathCreate, deathEdit } from "./types/death.js";
 import { documentaryCreate, documentaryEdit } from "./types/documentary.js";
 import { patentCreate, patentEdit } from "./types/patent.js";
 import { quoteCreate, quoteEdit } from "./types/quote.js";
-import { scientificStudyCreate, scientificStudyEdit } from "./types/scientific-study.js";
+import {
+  scientificStudyCreate,
+  scientificStudyEdit,
+} from "./types/scientific-study.js";
 import { transactionCreate, transactionEdit } from "./types/transaction.js";
-import { uncategorizedCreate, uncategorizedEdit } from "./types/uncategorized.js";
+import {
+  uncategorizedCreate,
+  uncategorizedEdit,
+} from "./types/uncategorized.js";
 
 export const eventGroup: CommandGroup = {
   description: "Manage fact-checked events",

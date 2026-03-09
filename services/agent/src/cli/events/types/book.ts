@@ -2,7 +2,6 @@ import {
   CreateBookEventSchema,
   EditBookEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/book.schema.js";
-import { splitUUIDs } from "../../args.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -21,7 +20,7 @@ export const bookCreate = makeCommand(
         payload: {
           title: input.title,
           media: { pdf: input.pdf, audio: input.audio },
-          authors: splitUUIDs(input.authors).map((id) => ({
+          authors: (input.authors ?? []).map((id) => ({
             type: "actor" as const,
             id,
           })),
@@ -49,7 +48,7 @@ export const bookEdit = makeCommand(
         payload: {
           title: input.title,
           media: { pdf: input.pdf, audio: input.audio },
-          authors: splitUUIDs(input.authors).map((id) => ({
+          authors: (input.authors ?? []).map((id) => ({
             type: "actor" as const,
             id,
           })),

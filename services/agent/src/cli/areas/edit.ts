@@ -1,6 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
-import { splitUUIDs } from "../args.js";
 import { makeCommand } from "../run-command.js";
 
 export const areaEdit = makeCommand(
@@ -31,12 +30,10 @@ export const areaEdit = makeCommand(
         slug: input.slug ?? null,
         draft: input.draft ?? null,
         geometry: geometry,
-        body: null,
-        featuredImage: input.featuredImage
-          ? (input.featuredImage as any)
-          : null,
-        media: splitUUIDs(input.media) as any[],
-        events: input.events ? (splitUUIDs(input.events) as any[]) : null,
+        body: undefined,
+        featuredImage: input.featuredImage ?? undefined,
+        media: input.media,
+        events: input.events ?? undefined,
         updateGeometry: geometry !== null ? true : null,
       } as any,
     });

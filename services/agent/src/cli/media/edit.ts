@@ -1,5 +1,4 @@
 import { EditMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { splitUUIDs } from "../args.js";
 import { makeCommand } from "../run-command.js";
 
 export const mediaEdit = makeCommand(
@@ -14,16 +13,16 @@ export const mediaEdit = makeCommand(
     return ctx.api.Media.Edit({
       Params: { id: input.id },
       Body: {
-        location: input.location as any,
-        type: input.type as any,
+        location: input.location,
+        type: input.type,
         label: input.label,
         description: input.description ?? null,
         thumbnail: input.thumbnail ? (input.thumbnail as any) : null,
         extra: null,
-        events: splitUUIDs(input.events) as any[],
-        links: splitUUIDs(input.links) as any[],
-        keywords: splitUUIDs(input.keywords) as any[],
-        areas: splitUUIDs(input.areas) as any[],
+        events: input.events,
+        links: input.links,
+        keywords: input.keywords,
+        areas: input.areas,
         creator: null,
         overrideThumbnail: null,
         overrideExtra: null,
