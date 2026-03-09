@@ -2,7 +2,7 @@ import {
   CreatePatentEventSchema,
   EditPatentEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/patent.schema.js";
-import { splitUUIDs } from "../../args.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -21,8 +21,8 @@ export const patentCreate = makeCommand(
         payload: {
           title: input.title,
           owners: {
-            actors: splitUUIDs(input.ownerActors),
-            groups: splitUUIDs(input.ownerGroups),
+            actors: (input.ownerActors ?? []) as any[],
+            groups: (input.ownerGroups ?? []) as any[],
           },
           source: input.source,
         },
@@ -43,14 +43,17 @@ export const patentEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Patent" as const,
-        payload: {
+        payload: removeUndefinedFromPayload({
           title: input.title,
-          owners: {
-            actors: splitUUIDs(input.ownerActors),
-            groups: splitUUIDs(input.ownerGroups),
-          },
+          owners:
+            input.ownerActors !== undefined || input.ownerGroups !== undefined
+              ? {
+                  actors: (input.ownerActors ?? []) as any[],
+                  groups: (input.ownerGroups ?? []) as any[],
+                }
+              : undefined,
           source: input.source,
-        },
+        }),
       } as any,
     }),
 );

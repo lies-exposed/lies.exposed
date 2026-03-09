@@ -14,17 +14,10 @@ export const CreateDocumentaryEventSchema = Schema.Struct({
     description: "Link UUID for the documentary website",
   }),
   authorActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-<<<<<<< HEAD
     description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
   authorGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Author group UUIDs (comma-separated when passed as CLI arg)",
-=======
-    description: "Comma-separated actor UUIDs as authors",
-  }),
-  authorGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
-    description: "Comma-separated group UUIDs as authors",
->>>>>>> 2798d923b (chore: remove all splitUUIDs)
   }),
   subjectActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Subject actor UUIDs (comma-separated when passed as CLI arg)",

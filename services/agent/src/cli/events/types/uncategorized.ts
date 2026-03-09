@@ -2,7 +2,7 @@ import {
   CreateUncategorizedEventSchema,
   EditUncategorizedEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/uncategorized.schema.js";
-import { splitUUIDs } from "../../args.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -20,9 +20,9 @@ export const uncategorizedCreate = makeCommand(
         type: "Uncategorized" as const,
         payload: {
           title: input.title,
-          actors: splitUUIDs(input.actors),
-          groups: splitUUIDs(input.groups),
-          groupsMembers: splitUUIDs(input.groupsMembers),
+          actors: (input.actors ?? []) as any[],
+          groups: (input.groups ?? []) as any[],
+          groupsMembers: (input.groupsMembers ?? []) as any[],
           location: input.location ?? null,
           endDate: input.endDate ?? null,
         },
@@ -43,14 +43,14 @@ export const uncategorizedEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Uncategorized" as const,
-        payload: {
-          title: input.title ?? "",
-          actors: splitUUIDs(input.actors),
-          groups: splitUUIDs(input.groups),
-          groupsMembers: splitUUIDs(input.groupsMembers),
+        payload: removeUndefinedFromPayload({
+          title: input.title,
+          actors: input.actors as any[] | undefined,
+          groups: input.groups as any[] | undefined,
+          groupsMembers: input.groupsMembers as any[] | undefined,
           location: input.location ?? null,
           endDate: input.endDate ?? null,
-        },
+        }),
       } as any,
     }),
 );

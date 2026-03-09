@@ -2,6 +2,7 @@ import {
   CreateDocumentaryEventSchema,
   EditDocumentaryEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/documentary.schema.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -22,12 +23,12 @@ export const documentaryCreate = makeCommand(
           media: input.documentaryMedia,
           website: input.website ?? null,
           authors: {
-            actors: input.authorActors ?? [],
-            groups: input.authorGroups ?? [],
+            actors: (input.authorActors ?? []) as any[],
+            groups: (input.authorGroups ?? []) as any[],
           },
           subjects: {
-            actors: input.subjectActors ?? [],
-            groups: input.subjectGroups ?? [],
+            actors: (input.subjectActors ?? []) as any[],
+            groups: (input.subjectGroups ?? []) as any[],
           },
         },
       } as any,
@@ -47,19 +48,26 @@ export const documentaryEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Documentary" as const,
-        payload: {
+        payload: removeUndefinedFromPayload({
           title: input.title,
           media: input.documentaryMedia,
           website: input.website ?? null,
-          authors: {
-            actors: input.authorActors ?? [],
-            groups: input.authorGroups ?? [],
-          },
-          subjects: {
-            actors: input.subjectActors ?? [],
-            groups: input.subjectGroups ?? [],
-          },
-        },
+          authors:
+            input.authorActors !== undefined || input.authorGroups !== undefined
+              ? {
+                  actors: (input.authorActors ?? []) as any[],
+                  groups: (input.authorGroups ?? []) as any[],
+                }
+              : undefined,
+          subjects:
+            input.subjectActors !== undefined ||
+            input.subjectGroups !== undefined
+              ? {
+                  actors: (input.subjectActors ?? []) as any[],
+                  groups: (input.subjectGroups ?? []) as any[],
+                }
+              : undefined,
+        }),
       } as any,
     }),
 );

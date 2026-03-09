@@ -1,4 +1,5 @@
 import { EditLinkInputSchema } from "@liexp/shared/lib/mcp/schemas/links.schemas.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const linkEdit = makeCommand(
@@ -13,15 +14,15 @@ export const linkEdit = makeCommand(
     return ctx.api.Link.Edit({
       Params: { id: input.id },
       Body: {
-        title: input.title ?? "",
-        description: input.description ?? "",
-        url: input.url,
-        status: (input.status ?? "DRAFT"),
-        publishDate: input.publishDate
-          ? new Date(input.publishDate)
-          : undefined,
-        events: input.events,
-        keywords: input.keywords,
+        ...removeUndefinedFromPayload({
+          title: input.title,
+          description: input.description,
+          url: input.url ,
+          status: input.status ,
+          publishDate: input.publishDate,
+          events: input.events as any[] | undefined,
+          keywords: input.keywords as any[] | undefined,
+        }),
         provider: undefined,
         image: undefined,
         creator: null,
