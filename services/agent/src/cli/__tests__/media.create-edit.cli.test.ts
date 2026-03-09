@@ -1,5 +1,6 @@
 import * as MediaIO from "@liexp/io/lib/http/Media/Media.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
+import { UUIDArb } from "@liexp/test/lib/arbitrary/common/UUID.arbitrary.js";
 import { Media as MediaArbs, fc } from "@liexp/test/lib/index.js";
 import { Schema } from "effect";
 import { http, HttpResponse } from "msw";
@@ -89,10 +90,11 @@ describe("media create/edit CLI", () => {
   });
 
   test("create with optional --events (multiple UUIDs) returns the created media", async () => {
+    const uuids = fc.sample(UUIDArb, 2).join(",");
     await mediaCreate.run(ctx, [
       "--location=https://example.com/image4.jpg",
       "--type=image/jpg",
-      "--events=00000000-0000-4000-8000-000000000001,00000000-0000-4000-8000-000000000002",
+      `--events=${uuids}`,
     ]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({ id: expect.any(String) });
@@ -181,48 +183,52 @@ describe("media create/edit CLI", () => {
   });
 
   test("edit --id with --events (multiple UUIDs) returns the updated media", async () => {
+    const uuids = fc.sample(UUIDArb, 2).join(",");
     await mediaEdit.run(ctx, [
       `--id=${mediaB.id}`,
       "--location=https://example.com/updated.jpg",
       "--type=image/jpg",
       "--label=Test",
-      "--events=00000000-0000-4000-8000-000000000001,00000000-0000-4000-8000-000000000002",
+      `--events=${uuids}`,
     ]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({ id: expect.any(String) });
   });
 
   test("edit --id with --links (multiple UUIDs) returns the updated media", async () => {
+    const uuids = fc.sample(UUIDArb, 2).join(",");
     await mediaEdit.run(ctx, [
       `--id=${mediaB.id}`,
       "--location=https://example.com/updated.jpg",
       "--type=image/jpg",
       "--label=Test",
-      "--links=00000000-0000-4000-8000-000000000003,00000000-0000-4000-8000-000000000004",
+      `--links=${uuids}`,
     ]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({ id: expect.any(String) });
   });
 
   test("edit --id with --keywords (multiple UUIDs) returns the updated media", async () => {
+    const uuids = fc.sample(UUIDArb, 2).join(",");
     await mediaEdit.run(ctx, [
       `--id=${mediaB.id}`,
       "--location=https://example.com/updated.jpg",
       "--type=image/jpg",
       "--label=Test",
-      "--keywords=00000000-0000-4000-8000-000000000005,00000000-0000-4000-8000-000000000006",
+      `--keywords=${uuids}`,
     ]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({ id: expect.any(String) });
   });
 
   test("edit --id with --areas (multiple UUIDs) returns the updated media", async () => {
+    const uuids = fc.sample(UUIDArb, 2).join(",");
     await mediaEdit.run(ctx, [
       `--id=${mediaB.id}`,
       "--location=https://example.com/updated.jpg",
       "--type=image/jpg",
       "--label=Test",
-      "--areas=00000000-0000-4000-8000-000000000007,00000000-0000-4000-8000-000000000008",
+      `--areas=${uuids}`,
     ]);
     const result = JSON.parse(output);
     expect(result.data).toMatchObject({ id: expect.any(String) });

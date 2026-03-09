@@ -34,8 +34,8 @@ Output: JSON updated area object
         draft: getArg(args, "draft"),
         geometry: getArg(args, "geometry"),
         featuredImage: getArg(args, "featuredImage"),
-        media: getArg(args, "media"),
-        events: getArg(args, "events"),
+        media: splitUUIDs(getArg(args, "media")),
+        events: splitUUIDs(getArg(args, "events")),
       },
       (input) => {
         ctx.logger.debug.log("area edit input: %O", input);
@@ -62,8 +62,9 @@ Output: JSON updated area object
             featuredImage: input.featuredImage
               ? (input.featuredImage as any)
               : null,
-            media: splitUUIDs(input.media) as any[],
-            events: input.events ? (splitUUIDs(input.events) as any[]) : null,
+            media: (input.media ?? []) as any[],
+            events:
+              (input.events ?? []).length > 0 ? (input.events as any[]) : null,
             updateGeometry: geometry !== null ? true : null,
           } as any,
         });

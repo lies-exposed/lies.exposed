@@ -1,3 +1,4 @@
+import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
 export const FindNationsInputSchema = Schema.Struct({
@@ -13,7 +14,7 @@ export const FindNationsInputSchema = Schema.Struct({
 });
 
 export const GetNationInputSchema = Schema.Struct({
-  id: Schema.String.annotations({
+  id: UUID.annotations({
     description: "UUID of the nation to retrieve",
   }),
 });

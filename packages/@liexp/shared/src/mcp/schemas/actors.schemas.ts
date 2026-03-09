@@ -65,10 +65,10 @@ export const CreateActorInputSchema = Schema.Struct({
   avatar: Schema.optional(UUID).annotations({
     description: "Avatar media UUID (default: null)",
   }),
-  bornOn: Schema.optional(Schema.String).annotations({
+  bornOn: Schema.optional(Schema.DateFromString).annotations({
     description: "Birth date in ISO format YYYY-MM-DD (default: null)",
   }),
-  diedOn: Schema.optional(Schema.String).annotations({
+  diedOn: Schema.optional(Schema.DateFromString).annotations({
     description: "Death date in ISO format YYYY-MM-DD (default: null)",
   }),
 });
@@ -101,11 +101,11 @@ export const EditActorInputSchema = Schema.Struct({
   avatar: Schema.UndefinedOr(UUID).annotations({
     description: "Avatar media UUID or null to keep current",
   }),
-  bornOn: Schema.UndefinedOr(Schema.String).annotations({
+  bornOn: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description:
       "Birth date in ISO format (YYYY-MM-DD) or null to keep current",
   }),
-  diedOn: Schema.UndefinedOr(Schema.String).annotations({
+  diedOn: Schema.UndefinedOr(Schema.DateFromString).annotations({
     description:
       "Death date in ISO format (YYYY-MM-DD) or undefined to keep current",
   }),
