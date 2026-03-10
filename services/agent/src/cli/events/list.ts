@@ -13,9 +13,9 @@ export const eventList = makeCommand(
     return ctx.api.Event.List({
       Query: {
         q: input.query ?? null,
-        actors: input.actors as any,
-        groups: input.groups as any,
-        type: input.type ? [input.type as any] : undefined,
+        actors: input.actors,
+        groups: input.groups,
+        type: input.type ? [input.type] : undefined,
         startDate: input.startDate,
         endDate: input.endDate,
         _start: input.start !== undefined ? String(input.start) : "0",

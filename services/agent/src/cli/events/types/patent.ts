@@ -21,8 +21,8 @@ export const patentCreate = makeCommand(
         payload: {
           title: input.title,
           owners: {
-            actors: (input.ownerActors ?? []) as any[],
-            groups: (input.ownerGroups ?? []) as any[],
+            actors: [...(input.ownerActors ?? [])],
+            groups: [...(input.ownerGroups ?? [])],
           },
           source: input.source,
         },
@@ -48,8 +48,8 @@ export const patentEdit = makeCommand(
           owners:
             input.ownerActors !== undefined || input.ownerGroups !== undefined
               ? {
-                  actors: (input.ownerActors ?? []) as any[],
-                  groups: (input.ownerGroups ?? []) as any[],
+                  actors: [...(input.ownerActors ?? [])],
+                  groups: [...(input.ownerGroups ?? [])],
                 }
               : undefined,
           source: input.source,

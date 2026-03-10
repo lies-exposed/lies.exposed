@@ -18,7 +18,7 @@ export const actorCreate = makeCommand(
         fullName: input.fullName,
         color: input.color ?? generateRandomColor(),
         excerpt: input.excerpt ?? toInitialValue(""),
-        nationalities: (input.nationalities ?? []) as any[],
+        nationalities: [...(input.nationalities ?? [])],
         body: input.body,
         avatar: input.avatar,
         bornOn: input.bornOn,

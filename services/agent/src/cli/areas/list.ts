@@ -17,7 +17,7 @@ export const areaList = makeCommand(
         _order: input.order,
         _start: input.start !== undefined ? String(input.start) : "0",
         _end: input.end !== undefined ? String(input.end) : "20",
-      } as any,
+      },
     });
   },
 );

@@ -19,9 +19,9 @@ export const buildCreateCommon = (input: BaseInput) =>
     date: input.date,
     draft: input.draft ?? false,
     excerpt: input.excerpt,
-    links: input.links as any[] | undefined,
-    media: input.media as any[] | undefined,
-    keywords: input.keywords as any[] | undefined,
+    links: input.links ? [...input.links] : undefined,
+    media: input.media ? [...input.media] : undefined,
+    keywords: input.keywords ? [...input.keywords] : undefined,
   });
 
 export const buildEditCommon = (input: BaseEditInput) =>
@@ -29,7 +29,7 @@ export const buildEditCommon = (input: BaseEditInput) =>
     date: input.date,
     draft: input.draft,
     excerpt: input.excerpt,
-    links: input.links as any[] | undefined,
-    media: input.media as any[] | undefined,
-    keywords: input.keywords as any[] | undefined,
+    links: input.links ? [...input.links] : undefined,
+    media: input.media ? [...input.media] : undefined,
+    keywords: input.keywords ? [...input.keywords] : undefined,
   });

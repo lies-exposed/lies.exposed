@@ -23,12 +23,12 @@ export const documentaryCreate = makeCommand(
           media: input.documentaryMedia,
           website: input.website ?? null,
           authors: {
-            actors: (input.authorActors ?? []) as any[],
-            groups: (input.authorGroups ?? []) as any[],
+            actors: [...(input.authorActors ?? [])],
+            groups: [...(input.authorGroups ?? [])],
           },
           subjects: {
-            actors: (input.subjectActors ?? []) as any[],
-            groups: (input.subjectGroups ?? []) as any[],
+            actors: [...(input.subjectActors ?? [])],
+            groups: [...(input.subjectGroups ?? [])],
           },
         },
       } as any,
@@ -55,16 +55,16 @@ export const documentaryEdit = makeCommand(
           authors:
             input.authorActors !== undefined || input.authorGroups !== undefined
               ? {
-                  actors: (input.authorActors ?? []) as any[],
-                  groups: (input.authorGroups ?? []) as any[],
+                  actors: [...(input.authorActors ?? [])],
+                  groups: [...(input.authorGroups ?? [])],
                 }
               : undefined,
           subjects:
             input.subjectActors !== undefined ||
             input.subjectGroups !== undefined
               ? {
-                  actors: (input.subjectActors ?? []) as any[],
-                  groups: (input.subjectGroups ?? []) as any[],
+                  actors: [...(input.subjectActors ?? [])],
+                  groups: [...(input.subjectGroups ?? [])],
                 }
               : undefined,
         }),

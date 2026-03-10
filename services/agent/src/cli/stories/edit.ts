@@ -18,7 +18,7 @@ export const storyEdit = makeCommand(
     }
 
     return ctx.api.Story.Edit({
-      Params: { id: input.id as any },
+      Params: { id: input.id },
       Body: {
         ...removeUndefinedFromPayload({
           title: input.title,
@@ -27,14 +27,14 @@ export const storyEdit = makeCommand(
           draft: input.draft,
           creator: input.creator as any,
           featuredImage: input.featuredImage
-            ? ({ id: input.featuredImage as any } as any)
+            ? ({ id: input.featuredImage } as any)
             : undefined,
-          keywords: input.keywords as any[] | undefined,
-          links: input.links as any[] | undefined,
-          actors: input.actors as any[] | undefined,
-          groups: input.groups as any[] | undefined,
-          events: input.events as any[] | undefined,
-          media: input.media as any[] | undefined,
+          keywords: input.keywords ? [...input.keywords] : undefined,
+          links: input.links ? [...input.links] : undefined,
+          actors: input.actors ? [...input.actors] : undefined,
+          groups: input.groups ? [...input.groups] : undefined,
+          events: input.events ? [...input.events] : undefined,
+          media: input.media ? [...input.media] : undefined,
         }),
         body2: [] as any,
         restore: null as any,

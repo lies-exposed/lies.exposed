@@ -12,7 +12,7 @@ export const linkCreate = makeCommand(
   (input, ctx) => {
     ctx.logger.debug.log("link create input: %O", input);
     return ctx.api.Link.Custom.Submit({
-      Body: { url: input.url as any },
+      Body: { url: input.url },
     });
   },
 );

@@ -13,8 +13,8 @@ export const groupList = makeCommand(
     return ctx.api.Group.List({
       Query: {
         q: input.query,
-        _sort: input.sort as any,
-        _order: input.order as any,
+        _sort: input.sort,
+        _order: input.order,
         _start: input.start !== undefined ? String(input.start) : "0",
         _end: input.end !== undefined ? String(input.end) : "20",
       },

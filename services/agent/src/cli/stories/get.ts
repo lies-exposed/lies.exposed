@@ -10,6 +10,6 @@ export const storyGet = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("story get input: %O", input);
-    return ctx.api.Story.Get({ Params: { id: input.id as any } });
+    return ctx.api.Story.Get({ Params: { id: input.id } });
   },
 );
