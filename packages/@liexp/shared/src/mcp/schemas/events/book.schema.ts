@@ -13,8 +13,8 @@ export const CreateBookEventSchema = Schema.Struct({
   audio: Schema.UndefinedOr(UUID).annotations({
     description: "Media UUID for audio version",
   }),
-  authors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs of authors",
+  authors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
   publisher: Schema.UndefinedOr(UUID).annotations({
     description: "Actor UUID of the publisher",
@@ -32,8 +32,8 @@ export const EditBookEventSchema = Schema.Struct({
   audio: Schema.UndefinedOr(UUID).annotations({
     description: "Media UUID for audio version",
   }),
-  authors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs of authors",
+  authors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
   publisher: Schema.UndefinedOr(UUID).annotations({
     description: "Actor UUID of the publisher",

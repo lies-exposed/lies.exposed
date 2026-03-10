@@ -40,12 +40,12 @@ Output: JSON updated story object
         draft: getArg(args, "draft"),
         creator: getArg(args, "creator"),
         featuredImage: getArg(args, "featuredImage"),
-        keywords: getArg(args, "keywords"),
-        links: getArg(args, "links"),
-        actors: getArg(args, "actors"),
-        groups: getArg(args, "groups"),
-        events: getArg(args, "events"),
-        media: getArg(args, "media"),
+        keywords: splitUUIDs(getArg(args, "keywords")),
+        links: splitUUIDs(getArg(args, "links")),
+        actors: splitUUIDs(getArg(args, "actors")),
+        groups: splitUUIDs(getArg(args, "groups")),
+        events: splitUUIDs(getArg(args, "events")),
+        media: splitUUIDs(getArg(args, "media")),
       },
       (input) => {
         ctx.logger.debug.log("story edit input: %O", input);
@@ -55,25 +55,25 @@ Output: JSON updated story object
         }
 
         return ctx.api.Story.Edit({
-          Params: { id: input.id as any },
+          Params: { id: input.id },
           Body: {
             title: input.title ?? "",
             path: input.path ?? "",
             date: input.date ? new Date(input.date) : new Date(),
             draft: input.draft ?? false,
-            creator: (input.creator ?? null) as any,
+            creator: input.creator ?? undefined,
             featuredImage: (input.featuredImage
-              ? { id: input.featuredImage as any }
+              ? { id: input.featuredImage }
               : null) as any,
             body2: [] as any,
-            keywords: splitUUIDs(input.keywords) as any[],
-            links: splitUUIDs(input.links) as any[],
-            actors: splitUUIDs(input.actors) as any[],
-            groups: splitUUIDs(input.groups) as any[],
-            events: splitUUIDs(input.events) as any[],
-            media: splitUUIDs(input.media) as any[],
+            keywords: input.keywords,
+            links: input.links,
+            actors: input.actors,
+            groups: input.groups,
+            events: input.events,
+            media: input.media,
             restore: null as any,
-          },
+          } as any,
         });
       },
     ),

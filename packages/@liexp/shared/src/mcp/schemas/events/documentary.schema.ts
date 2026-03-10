@@ -13,17 +13,17 @@ export const CreateDocumentaryEventSchema = Schema.Struct({
   website: Schema.UndefinedOr(UUID).annotations({
     description: "Link UUID for the documentary website",
   }),
-  authorActors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs as authors",
+  authorActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  authorGroups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs as authors",
+  authorGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author group UUIDs (comma-separated when passed as CLI arg)",
   }),
-  subjectActors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs as subjects",
+  subjectActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Subject actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  subjectGroups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs as subjects",
+  subjectGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Subject group UUIDs (comma-separated when passed as CLI arg)",
   }),
 });
 
@@ -38,16 +38,16 @@ export const EditDocumentaryEventSchema = Schema.Struct({
   website: Schema.UndefinedOr(UUID).annotations({
     description: "Link UUID for the documentary website",
   }),
-  authorActors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs as authors",
+  authorActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  authorGroups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs as authors",
+  authorGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author group UUIDs (comma-separated when passed as CLI arg)",
   }),
-  subjectActors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs as subjects",
+  subjectActors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Subject actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  subjectGroups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs as subjects",
+  subjectGroups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Subject group UUIDs (comma-separated when passed as CLI arg)",
   }),
 });

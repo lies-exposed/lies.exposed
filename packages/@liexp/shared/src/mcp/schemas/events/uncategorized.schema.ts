@@ -7,14 +7,14 @@ export const CreateUncategorizedEventSchema = Schema.Struct({
   title: Schema.String.annotations({
     description: "Event title (required)",
   }),
-  actors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs",
+  actors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  groups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs",
+  groups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Group UUIDs (comma-separated when passed as CLI arg)",
   }),
-  groupsMembers: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group-member UUIDs",
+  groupsMembers: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Group-member UUIDs (comma-separated when passed as CLI arg)",
   }),
   location: Schema.UndefinedOr(UUID).annotations({
     description: "Area UUID for event location",
@@ -29,14 +29,14 @@ export const EditUncategorizedEventSchema = Schema.Struct({
   title: Schema.UndefinedOr(Schema.String).annotations({
     description: "Event title",
   }),
-  actors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs",
+  actors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Actor UUIDs (comma-separated when passed as CLI arg)",
   }),
-  groups: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group UUIDs",
+  groups: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Group UUIDs (comma-separated when passed as CLI arg)",
   }),
-  groupsMembers: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated group-member UUIDs",
+  groupsMembers: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Group-member UUIDs (comma-separated when passed as CLI arg)",
   }),
   location: Schema.UndefinedOr(UUID).annotations({
     description: "Area UUID for event location",

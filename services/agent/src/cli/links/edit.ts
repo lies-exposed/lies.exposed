@@ -33,8 +33,8 @@ Output: JSON updated link object
         url: getArg(args, "url"),
         status: getArg(args, "status"),
         publishDate: getArg(args, "publishDate"),
-        events: getArg(args, "events"),
-        keywords: getArg(args, "keywords"),
+        events: splitUUIDs(getArg(args, "events")),
+        keywords: splitUUIDs(getArg(args, "keywords")),
       },
       (input) => {
         ctx.logger.debug.log("link edit input: %O", input);
@@ -48,8 +48,8 @@ Output: JSON updated link object
             publishDate: input.publishDate
               ? new Date(input.publishDate)
               : undefined,
-            events: splitUUIDs(input.events) as any[],
-            keywords: splitUUIDs(input.keywords) as any[],
+            events: input.events,
+            keywords: input.keywords,
             provider: undefined,
             image: undefined,
             creator: null,

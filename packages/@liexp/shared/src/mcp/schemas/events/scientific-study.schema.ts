@@ -16,8 +16,8 @@ export const CreateScientificStudyEventSchema = Schema.Struct({
   publisher: Schema.UndefinedOr(UUID).annotations({
     description: "Actor UUID of the publisher",
   }),
-  authors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs of authors",
+  authors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
 });
 
@@ -35,7 +35,7 @@ export const EditScientificStudyEventSchema = Schema.Struct({
   publisher: Schema.UndefinedOr(UUID).annotations({
     description: "Actor UUID of the publisher",
   }),
-  authors: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Comma-separated actor UUIDs of authors",
+  authors: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Author actor UUIDs (comma-separated when passed as CLI arg)",
   }),
 });

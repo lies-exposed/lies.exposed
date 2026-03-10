@@ -1,3 +1,4 @@
+import { Color } from "@liexp/io/lib/http/Common/Color.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 
@@ -50,13 +51,13 @@ export const CreateActorInputSchema = Schema.Struct({
   fullName: Schema.String.annotations({
     description: "Full name of the actor (required)",
   }),
-  color: Schema.optional(Schema.String).annotations({
+  color: Schema.optional(Color).annotations({
     description: "Hex color without # (default: random)",
   }),
   excerpt: Schema.optional(Schema.String).annotations({
     description: "Short description (default: null)",
   }),
-  nationalityIds: Schema.optional(Schema.Array(UUID)).annotations({
+  nationalities: Schema.optional(Schema.Array(UUID)).annotations({
     description: "Array of nationality UUIDs (default: [])",
   }),
   body: Schema.optional(Schema.String).annotations({
