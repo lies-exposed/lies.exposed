@@ -235,8 +235,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       pdfjs-dist:
-        specifier: ^5.4.530
-        version: 5.4.530
+        specifier: ^5.5.207
+        version: 5.5.207
       puppeteer-core:
         specifier: ^24.38.0
         version: 24.38.0
@@ -488,8 +488,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       pdfjs-dist:
-        specifier: ^5.4.530
-        version: 5.4.530
+        specifier: ^5.5.207
+        version: 5.5.207
       react-admin:
         specifier: ^5.14.3
         version: 5.14.3(@mui/system@7.3.8(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.8(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1)
@@ -1149,8 +1149,8 @@ importers:
         specifier: ^6.25.0
         version: 6.25.0(ws@8.19.0)(zod@4.3.6)
       pdfjs-dist:
-        specifier: ^5.4.530
-        version: 5.4.530
+        specifier: ^5.5.207
+        version: 5.5.207
       puppeteer-core:
         specifier: ^24.38.0
         version: 24.38.0
@@ -1651,8 +1651,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       pdfjs-dist:
-        specifier: ^5.4.530
-        version: 5.4.530
+        specifier: ^5.5.207
+        version: 5.5.207
       pg:
         specifier: ^8.19.0
         version: 8.19.0
@@ -7930,6 +7930,9 @@ packages:
     resolution: {integrity: sha512-ZZFkaYzIfGfBvSM6QhA9dM8EEaUJOVewzGSRcXWbJELXDj0lajAtKaENCYxvF5yE+TgHg6NQb0CmgYMsMdcNJQ==}
     engines: {node: '>= 0.4'}
 
+  node-readable-to-web-readable-stream@0.4.2:
+    resolution: {integrity: sha512-/cMZNI34v//jUTrI+UIo4ieHAB5EZRY/+7OmXZgBxaWBMcW2tGdceIw06RFxWxrKZ5Jp3sI2i5TsRo+CBhtVLQ==}
+
   node-releases@2.0.27:
     resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
 
@@ -8171,9 +8174,9 @@ packages:
     resolution: {integrity: sha512-SuLdBvS42z33m8ejRbInMapQe8n0D3vN/Xd5fmWM3tufNgRQFBpaW2YVJxQZV4iPNqb0vEFvssMEo5w9c6BTIA==}
     hasBin: true
 
-  pdfjs-dist@5.4.530:
-    resolution: {integrity: sha512-r1hWsSIGGmyYUAHR26zSXkxYWLXLMd6AwqcaFYG9YUZ0GBf5GvcjJSeo512tabM4GYFhxhl5pMCmPr7Q72Rq2Q==}
-    engines: {node: '>=20.16.0 || >=22.3.0'}
+  pdfjs-dist@5.5.207:
+    resolution: {integrity: sha512-WMqqw06w1vUt9ZfT0gOFhMf3wHsWhaCrxGrckGs5Cci6ybDW87IvPaOd2pnBwT6BJuP/CzXDZxjFgmSULLdsdw==}
+    engines: {node: '>=20.19.0 || >=22.13.0 || >=24'}
 
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
@@ -17806,6 +17809,9 @@ snapshots:
       object.entries: 1.1.9
       warning: 4.0.3
 
+  node-readable-to-web-readable-stream@0.4.2:
+    optional: true
+
   node-releases@2.0.27: {}
 
   node-telegram-bot-api@0.66.0(request@2.88.2):
@@ -18113,9 +18119,10 @@ snapshots:
     dependencies:
       resolve-protobuf-schema: 2.1.0
 
-  pdfjs-dist@5.4.530:
+  pdfjs-dist@5.5.207:
     optionalDependencies:
       '@napi-rs/canvas': 0.1.95
+      node-readable-to-web-readable-stream: 0.4.2
 
   pend@1.2.0: {}
 
