@@ -6,6 +6,7 @@ import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { getTextContents } from "./getTextContents.js";
 import { type BNBlock } from "./type.js";
 
 const toContent = (v: string) => ({
@@ -53,3 +54,20 @@ function toInitialValue(v: any): BlockNoteDocument | undefined {
 }
 
 export { toInitialValue };
+
+/**
+ * Schema.transform that converts a plain-text string into a BlockNoteDocument
+ * (one paragraph per newline) and encodes it back to plain text.
+ *
+ * Useful in CLI/MCP input schemas where the user provides a string but the API
+ * expects a BlockNoteDocument.
+ */
+export const StringToBlockNoteDocument = Schema.transform(
+  Schema.String,
+  Schema.typeSchema(BlockNoteDocument),
+  {
+    strict: false,
+    decode: (s) => toInitialValueS(s),
+    encode: (doc) => getTextContents(doc as any),
+  },
+);

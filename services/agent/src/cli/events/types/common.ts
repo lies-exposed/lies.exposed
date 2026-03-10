@@ -1,9 +1,10 @@
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 
 interface BaseInput {
   date: Date;
   draft?: boolean;
-  excerpt?: string;
+  excerpt?: BlockNoteDocument;
   links?: readonly string[];
   media?: readonly string[];
   keywords?: readonly string[];

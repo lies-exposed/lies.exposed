@@ -1,5 +1,6 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
+import { StringToBlockNoteDocument } from "../../../providers/blocknote/utils.js";
 
 export const EventCreateBaseSchema = Schema.Struct({
   date: Schema.DateFromString.annotations({
@@ -8,8 +9,8 @@ export const EventCreateBaseSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Draft flag (default: false)",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Short excerpt text",
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Short excerpt text as plain text",
   }),
   links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description:
@@ -35,8 +36,8 @@ export const EventEditBaseSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Draft flag",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Short excerpt text",
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Short excerpt text as plain text",
   }),
   links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description:
