@@ -1277,8 +1277,8 @@ importers:
         version: 5.9.3
     devDependencies:
       '@electric-sql/pglite':
-        specifier: ^0.3.13
-        version: 0.3.15
+        specifier: ^0.3.16
+        version: 0.3.16
       '@liexp/eslint-config':
         specifier: workspace:*
         version: link:../../packages/@liexp/eslint-config
@@ -1332,7 +1332,7 @@ importers:
         version: 7.2.2
       typeorm-pglite:
         specifier: ^0.3.4
-        version: 0.3.4(@electric-sql/pglite@0.3.15)
+        version: 0.3.4(@electric-sql/pglite@0.3.16)
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(typescript@5.9.3)(vite@7.3.1(@types/node@24.12.0)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
@@ -2223,8 +2223,8 @@ packages:
   '@databases/validate-unicode@1.0.0':
     resolution: {integrity: sha512-dLKqxGcymeVwEb/6c44KjOnzaAafFf0Wxa8xcfEjx/qOl3rdijsKYBAtIGhtVtOlpPf/PFKfgTuFurSPn/3B/g==}
 
-  '@electric-sql/pglite@0.3.15':
-    resolution: {integrity: sha512-Cj++n1Mekf9ETfdc16TlDi+cDDQF0W7EcbyRHYOAeZdsAe8M/FJg18itDTSwyHfar2WIezawM9o0EKaRGVKygQ==}
+  '@electric-sql/pglite@0.3.16':
+    resolution: {integrity: sha512-mZkZfOd9OqTMHsK+1cje8OSzfAQcpD7JmILXTl5ahdempjUDdmg4euf1biDex5/LfQIDJ3gvCu6qDgdnDxfJmA==}
 
   '@emnapi/core@1.8.1':
     resolution: {integrity: sha512-AvT9QFpxK0Zd8J0jopedNm+w/2fIzvtPKPjqyw9jwvBaReTTqPBk9Hixaz7KbjimP+QNz605/XnjFcDAL2pqBg==}
@@ -11357,7 +11357,7 @@ snapshots:
 
   '@databases/validate-unicode@1.0.0': {}
 
-  '@electric-sql/pglite@0.3.15': {}
+  '@electric-sql/pglite@0.3.16': {}
 
   '@emnapi/core@1.8.1':
     dependencies:
@@ -19924,9 +19924,9 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm-pglite@0.3.4(@electric-sql/pglite@0.3.15):
+  typeorm-pglite@0.3.4(@electric-sql/pglite@0.3.16):
     dependencies:
-      '@electric-sql/pglite': 0.3.15
+      '@electric-sql/pglite': 0.3.16
 
   typeorm@0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.19.0):
     dependencies:

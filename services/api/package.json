@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
-    "@electric-sql/pglite": "^0.3.13",
+    "@electric-sql/pglite": "^0.3.16",
     "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.18",
     "@types/debug": "^4.1.12",
