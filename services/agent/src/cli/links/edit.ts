@@ -17,8 +17,8 @@ export const linkEdit = makeCommand(
         ...removeUndefinedFromPayload({
           title: input.title,
           description: input.description,
-          url: input.url ,
-          status: input.status ,
+          url: input.url,
+          status: input.status,
           publishDate: input.publishDate,
           events: input.events as any[] | undefined,
           keywords: input.keywords as any[] | undefined,
