@@ -66,7 +66,7 @@
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.13.6",
     "exifreader": "^4.36.2",
-    "body-parser": "^2.2.1",
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "debug": "^4.4.0",
