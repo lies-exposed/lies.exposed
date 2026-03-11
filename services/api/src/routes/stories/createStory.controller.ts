@@ -15,20 +15,29 @@ export const MakeCreateStoryRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["event-suggestion:create"])(ctx))(
     Endpoints.Story.Create,
     (
-      { body: { body2, actors, groups, media, events, keywords, ...body } },
+      {
+        body: {
+          body: storyBody,
+          actors,
+          groups,
+          media,
+          events,
+          keywords,
+          ...restBody
+        },
+      },
       r,
     ) => {
-      const featuredImage = pipe(body.featuredImage, O.toNullable);
-      const relations = relationsTransformer(body2);
+      const featuredImage = pipe(restBody.featuredImage, O.toNullable);
+      const relations = relationsTransformer(storyBody);
 
       return pipe(
-        validateStoryPublish(body.draft, relations.links)(ctx),
+        validateStoryPublish(restBody.draft, relations.links)(ctx),
         TE.chain(() =>
           ctx.db.save(StoryEntity, [
             {
-              ...removeUndefinedFromPayload(body),
-              body: "",
-              body2: body2,
+              ...removeUndefinedFromPayload(restBody),
+              body: storyBody,
               creator: { id: r.user?.id },
               keywords: keywords.map((k) => ({ id: k })),
               actors: actors.map((k) => ({ id: k })),

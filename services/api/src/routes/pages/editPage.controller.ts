@@ -12,15 +12,9 @@ import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 export const MakeEditPageRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler(["admin:edit"])(ctx))(
     Endpoints.Page.Edit,
-    ({ params: { id }, body: { body2, ...editBody } }) => {
+    ({ params: { id }, body: editBody }) => {
       return pipe(
-        ctx.db.save(PageEntity, [
-          {
-            ...editBody,
-            body2: body2,
-            id,
-          },
-        ]),
+        ctx.db.save(PageEntity, [{ ...editBody, id }]),
         TE.chain(() =>
           ctx.db.findOne(PageEntity, { where: { id: Equal(id) } }),
         ),

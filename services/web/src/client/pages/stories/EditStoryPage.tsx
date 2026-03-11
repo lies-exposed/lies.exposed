@@ -67,7 +67,7 @@ const EditStoryPageContent: React.FC<{ id?: string }> = ({ id }) => {
           allowedTypes={["image/jpg"]}
           fullWidth
         />
-        <BlockNoteInput className={classes.input} source="body2" />
+        <BlockNoteInput className={classes.input} source="body" />
       </SimpleForm>
       {isSubmitting ? <FullSizeLoader /> : null}
     </EditBase>

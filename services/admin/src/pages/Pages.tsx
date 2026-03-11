@@ -50,7 +50,7 @@ export const PageEdit: React.FC<EditProps> = (props) => {
           <TextInput source="title" />
           <TextInput source="path" />
           <BlockNoteInput source="excerpt" onlyText />
-          <BlockNoteInput source="body2" />
+          <BlockNoteInput source="body" />
           <DateField source="createdAt" />
           <DateField source="updatedAt" />
         </FormTab>
@@ -64,9 +64,8 @@ export const PageCreate: React.FC<CreateProps> = (props) => (
     <SimpleForm>
       <TextInput source="title" validate={[required()]} />
       <TextInput source="path" validate={[required()]} />
-      <TextInput source="body" multiline />
       <BlockNoteInput source="excerpt" validate={[required()]} onlyText />
-      <BlockNoteInput source="body2" validate={[required()]} />
+      <BlockNoteInput source="body" validate={[required()]} />
     </SimpleForm>
   </Create>
 );

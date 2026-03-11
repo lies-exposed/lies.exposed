@@ -46,7 +46,7 @@ export const CreateStory = Endpoint({
       date: Schema.Date,
       featuredImage: OptionFromNullishToNull(UUID),
       creator: OptionFromNullishToNull(UUID),
-      body2: BlockNoteDocument,
+      body: BlockNoteDocument,
       keywords: Schema.Array(UUID),
       actors: Schema.Array(UUID),
       groups: Schema.Array(UUID),

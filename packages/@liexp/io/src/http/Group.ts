@@ -33,8 +33,7 @@ export interface GroupC {
   avatar: Schema.Union<[typeof Schema.String, typeof Schema.Undefined]>;
   members: Schema.Array$<typeof Schema.String>;
   subGroups: Schema.Array$<typeof Schema.Any>;
-  body: Schema.String;
-  body2: Schema.Union<[typeof BlockNoteDocument, typeof Schema.Undefined]>;
+  body: Schema.Union<[typeof BlockNoteDocument, typeof Schema.Undefined]>;
 }
 
 // export type GroupType = t.RecursiveType<t.ExactC<t.TypeC<GroupC>>>;
@@ -88,17 +87,13 @@ export const AddGroupBody = Schema.Struct({
   ).annotations({
     description: "Short description of the group as BlockNote document",
   }),
-  body: Schema.Union(
-    BlockNoteDocument,
-    Schema.Any,
-    Schema.Undefined,
-  ).annotations({
+  body: Schema.UndefinedOr(BlockNoteDocument).annotations({
     description: "Full description as BlockNote document",
   }),
-  startDate: Schema.Union(Schema.Date, Schema.Undefined).annotations({
+  startDate: Schema.UndefinedOr(Schema.Date).annotations({
     description: "Group establishment or start date",
   }),
-  endDate: Schema.Union(Schema.Date, Schema.Undefined).annotations({
+  endDate: Schema.UndefinedOr(Schema.Date).annotations({
     description: "Group dissolution or end date (if applicable)",
   }),
   members: Schema.Array(

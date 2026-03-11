@@ -14,7 +14,7 @@ export const PageArb: fc.Arbitrary<Page.Page> = Arbitrary.make(Page.Page).map(
       .sample(HumanReadableStringArb({ count: 10 }), 1)
       .reduce((acc, s) => acc.concat(s), ""),
     excerpt: fc.sample(BlockNoteDocumentArb(), 1)[0],
-    body2: fc.sample(BlockNoteDocumentArb(), 1)[0],
+    body: fc.sample(BlockNoteDocumentArb(), 1)[0],
     deletedAt: undefined,
   }),
 );

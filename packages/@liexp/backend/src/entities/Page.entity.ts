@@ -16,9 +16,6 @@ export class PageEntity extends DeletableEntity {
   @Column({ type: "json", nullable: true })
   excerpt: BlockNoteDocument;
 
-  @Column({ type: "varchar", nullable: true })
-  body: string | null;
-
   @Column({ type: "json", nullable: true })
-  body2: BlockNoteDocument | null;
+  body: BlockNoteDocument | null;
 }
