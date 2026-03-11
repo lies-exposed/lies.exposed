@@ -20,11 +20,7 @@ export const CreatePage = Page.omit("id", "createdAt", "updatedAt").annotations(
 );
 export type CreatePage = typeof CreatePage.Type;
 
-export const EditPage = Page.omit(
-  "id",
-  "createdAt",
-  "updatedAt",
-).annotations({
+export const EditPage = Page.omit("id", "createdAt", "updatedAt").annotations({
   title: "EditPage",
 });
 

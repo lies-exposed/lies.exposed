@@ -49,7 +49,7 @@ export const StoryPageContent: React.FC<StoryPageContentProps> = ({
 }) => {
   const theme = useTheme();
 
-  const body = story.body2;
+  const body = story.body;
 
   return (
     <Grid container style={{ marginBottom: 100 }}>
