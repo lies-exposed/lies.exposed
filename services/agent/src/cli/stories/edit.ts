@@ -36,7 +36,7 @@ export const storyEdit = makeCommand(
           events: input.events ? [...input.events] : undefined,
           media: input.media ? [...input.media] : undefined,
         }),
-        body2: [] as any,
+        body: [] as any,
         restore: null as any,
       } as any,
     });

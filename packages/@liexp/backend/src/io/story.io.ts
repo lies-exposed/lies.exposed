@@ -10,7 +10,6 @@ import { IOCodec } from "./DomainCodec.js";
 
 const toStoryIO = ({
   body,
-  body2,
   creator,
   ...story
 }: StoryEntity): E.Either<DecodeError, io.http.Story.Story> => {
@@ -19,7 +18,6 @@ const toStoryIO = ({
       ...story,
       creator: creator ?? undefined,
       body,
-      body2,
       links: story.links ?? [],
       media: story.media ?? [],
       actors: story.actors ?? [],

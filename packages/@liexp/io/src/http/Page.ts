@@ -6,9 +6,8 @@ export const Page = Schema.Struct({
   ...BaseProps.fields,
   title: Schema.String,
   path: Schema.String,
-  body: Schema.Union(Schema.String, Schema.Undefined),
   excerpt: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Null),
-  body2: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Null),
+  body: Schema.Union(BlockNoteDocument, Schema.Any, Schema.Null),
 }).annotations({
   title: "Page",
 });
@@ -23,7 +22,6 @@ export type CreatePage = typeof CreatePage.Type;
 
 export const EditPage = Page.omit(
   "id",
-  "body",
   "createdAt",
   "updatedAt",
 ).annotations({

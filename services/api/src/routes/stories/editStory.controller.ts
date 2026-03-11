@@ -19,7 +19,7 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
         params: { id },
         body: {
           featuredImage,
-          body2,
+          body: storyBody,
           creator,
           keywords: _keywords,
           media: _media,
@@ -27,15 +27,15 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           groups: _groups,
           events: _events,
           restore,
-          ...body
+          ...restBody
         },
       },
       _r,
     ) => {
-      const relations = relationsTransformer(body2);
+      const relations = relationsTransformer(storyBody);
 
       return pipe(
-        validateStoryPublish(body.draft, relations.links)(ctx),
+        validateStoryPublish(restBody.draft, relations.links)(ctx),
         TE.chain(() =>
           ctx.db.findOneOrFail(StoryEntity, {
             where: { id: Equal(id), creator: Equal(creator) },
@@ -61,14 +61,14 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           return ctx.db.save(StoryEntity, [
             {
               ...e,
-              ...body,
+              ...restBody,
               keywords: relations.keywords.map((k) => ({ id: k })),
               links: relations.links.map((l) => ({ id: l })),
               actors: relations.actors.map((k) => ({ id: k })),
               groups: relations.groups.map((k) => ({ id: k })),
               media: relations.media.map((m) => ({ id: m })),
               events: relations.events.map((e) => ({ id: e })),
-              body2,
+              body: storyBody,
               creator,
               featuredImage: featuredImageId,
               deletedAt,

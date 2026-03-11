@@ -8,8 +8,8 @@ import { describe, test, expect, beforeAll } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
-/** Minimal body2 document with a link-entity inline referencing `linkId`. */
-const makeBody2WithLink = (linkId: string) => [
+/** Minimal body document with a link-entity inline referencing `linkId`. */
+const makeBodyWithLink = (linkId: string) => [
   {
     id: "block-1",
     type: "paragraph",
@@ -31,7 +31,7 @@ const makeStoryBody = (overrides: Record<string, unknown> = {}) => ({
   date: new Date().toISOString(),
   featuredImage: null,
   creator: null,
-  body2: [],
+  body: [],
   keywords: [],
   actors: [],
   groups: [],
@@ -88,7 +88,7 @@ describe("Create Story", () => {
       .send(
         makeStoryBody({
           draft: false,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 
@@ -110,7 +110,7 @@ describe("Create Story", () => {
       .send(
         makeStoryBody({
           draft: false,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 
@@ -133,7 +133,7 @@ describe("Create Story", () => {
       .send(
         makeStoryBody({
           draft: true,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 

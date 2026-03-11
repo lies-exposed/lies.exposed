@@ -11,7 +11,7 @@ export const registerBlockNoteTools = (server: McpServer) => {
     Schema.Struct({
       blocknote: BlockNoteDocument.annotations({
         description:
-          "BlockNote JSON document to convert to plain text (usually from 'excerpt', 'body', or 'body2' fields)",
+          "BlockNote JSON document to convert to plain text (usually from 'excerpt' or 'body' fields)",
       }),
     }),
   );

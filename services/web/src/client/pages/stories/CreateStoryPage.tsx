@@ -68,7 +68,7 @@ const CreateStoryPage: React.FC<RouteComponentProps> = () => {
                 source="featuredImage.id"
                 allowedTypes={["image/jpg"]}
               />
-              <BlockNoteInput className={classes.input} source="body2" />
+              <BlockNoteInput className={classes.input} source="body" />
 
               <StoryRelationsBox />
             </SimpleForm>

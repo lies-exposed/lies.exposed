@@ -9,8 +9,8 @@ import { describe, test, expect, beforeAll } from "vitest";
 import { GetAppTest, type AppTest } from "../../../../test/AppTest.js";
 import { loginUser } from "../../../../test/utils/user.utils.js";
 
-/** Minimal body2 document with a link-entity inline referencing `linkId`. */
-const makeBody2WithLink = (linkId: string) => [
+/** Minimal body document with a link-entity inline referencing `linkId`. */
+const makeBodyWithLink = (linkId: string) => [
   {
     id: "block-1",
     type: "paragraph",
@@ -31,7 +31,7 @@ const makeStoryBody = (overrides: Record<string, unknown> = {}) => ({
   draft: true,
   date: new Date().toISOString(),
   featuredImage: null,
-  body2: [],
+  body: [],
   keywords: [],
   links: [],
   groups: [],
@@ -62,8 +62,7 @@ describe("Edit Story", () => {
           path: `story-${Date.now()}`,
           draft: true,
           date: new Date(),
-          body: "",
-          body2: [],
+          body: [],
           creator: { id: user.id },
           keywords: [],
           actors: [],
@@ -113,7 +112,7 @@ describe("Edit Story", () => {
         makeStoryBody({
           draft: false,
           creator: user.id,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 
@@ -136,7 +135,7 @@ describe("Edit Story", () => {
         makeStoryBody({
           draft: false,
           creator: user.id,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 
@@ -160,7 +159,7 @@ describe("Edit Story", () => {
         makeStoryBody({
           draft: true,
           creator: user.id,
-          body2: makeBody2WithLink(savedLink.id),
+          body: makeBodyWithLink(savedLink.id),
         }),
       );
 

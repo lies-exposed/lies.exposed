@@ -44,11 +44,8 @@ export class StoryEntity extends DeletableEntity {
   @Column({ type: "varchar", nullable: true })
   excerpt: string | null;
 
-  @Column({ type: "varchar" })
-  body: string;
-
   @Column({ type: "json", nullable: true })
-  body2: BlockNoteDocument | null;
+  body: BlockNoteDocument | null;
 
   @ManyToOne(() => UserEntity, (u) => u.stories, {
     cascade: false,

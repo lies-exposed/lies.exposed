@@ -18,7 +18,7 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
         return (
           <Box>
             <SEO title={m.title} image={""} urlPath={m.path} />
-            {isValidValue(m.body2) ? (
+            {isValidValue(m.body) ? (
               <Container
                 maxWidth="lg"
                 sx={{
@@ -40,7 +40,7 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
                     overflowY: { md: "auto" },
                   }}
                 >
-                  <TOCPlugin value={m.body2} />
+                  <TOCPlugin value={m.body} />
                 </Box>
                 <MainContent
                   style={{
@@ -48,7 +48,7 @@ const PageTemplate: React.FC<{ customPath: string }> = ({ customPath }) => {
                     minWidth: 0,
                   }}
                 >
-                  <BNEditor content={m.body2} readOnly />
+                  <BNEditor content={m.body} readOnly />
                 </MainContent>
               </Container>
             ) : (
