@@ -24,7 +24,7 @@ export const PageContentBox: React.FC<PageContentProps> = ({
       queries={(Q) => ({
         pageContent: Q.Page.Custom.GetPageContentByPath.useQuery(path),
       })}
-      render={({ pageContent: { title, path, excerpt, body2 } }) => {
+      render={({ pageContent: { title, path, excerpt, body } }) => {
         return (
           <div className="page-content" style={style}>
             <SEO
@@ -38,8 +38,8 @@ export const PageContentBox: React.FC<PageContentProps> = ({
                 {title}
               </Typography>
             ) : null}
-            {body2 ? <BNEditor content={body2} readOnly /> : null}
-            {body2 ? <TOCPlugin value={body2} /> : null}
+            {body ? <BNEditor content={body} readOnly /> : null}
+            {body ? <TOCPlugin value={body} /> : null}
           </div>
         );
       }}
