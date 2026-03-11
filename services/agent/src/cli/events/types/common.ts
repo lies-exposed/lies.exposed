@@ -16,20 +16,20 @@ interface BaseEditInput extends Omit<BaseInput, "date"> {
 
 export const buildCreateCommon = (input: BaseInput) =>
   removeUndefinedFromPayload({
-    date: input.date,
+    date: input.date.toISOString(),
     draft: input.draft ?? false,
     excerpt: input.excerpt,
-    links: input.links ? [...input.links] : undefined,
-    media: input.media ? [...input.media] : undefined,
-    keywords: input.keywords ? [...input.keywords] : undefined,
+    links: input.links ?? [],
+    media: input.media ?? [],
+    keywords: input.keywords ?? [],
   });
 
 export const buildEditCommon = (input: BaseEditInput) =>
   removeUndefinedFromPayload({
-    date: input.date,
+    date: input.date?.toISOString(),
     draft: input.draft,
     excerpt: input.excerpt,
-    links: input.links ? [...input.links] : undefined,
-    media: input.media ? [...input.media] : undefined,
-    keywords: input.keywords ? [...input.keywords] : undefined,
+    links: input.links,
+    media: input.media,
+    keywords: input.keywords,
   });

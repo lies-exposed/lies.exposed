@@ -12,17 +12,13 @@ export const mediaCreate = makeCommand(
     ctx.logger.debug.log("media create input: %O", input);
     return ctx.api.Media.Create({
       Body: {
+        ...input,
         id: undefined,
-        location: input.location,
-        type: input.type,
-        label: input.label,
-        description: input.description,
-        thumbnail: input.thumbnail,
         extra: undefined,
-        events: [...(input.events ?? [])],
-        links: [...(input.links ?? [])],
-        keywords: [...(input.keywords ?? [])],
-        areas: [...(input.areas ?? [])],
+        events: input.events ?? [],
+        links: input.links ?? [],
+        keywords: input.keywords ?? [],
+        areas: input.areas ?? [],
       },
     });
   },

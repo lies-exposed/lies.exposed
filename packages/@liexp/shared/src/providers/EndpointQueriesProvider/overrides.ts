@@ -3,11 +3,9 @@ import {
   type EndpointOutputType,
   type EndpointParamsType,
   type MinimalEndpointInstance,
-} from "@ts-endpoint/core";
-import {
   type EndpointDataOutputType,
-  type GetListFnParamsE,
-} from "@ts-endpoint/react-admin";
+} from "@ts-endpoint/core";
+import { type GetListFnParamsE } from "@ts-endpoint/react-admin";
 import {
   type CustomQueryOverride,
   type QueryProviderOverrides,

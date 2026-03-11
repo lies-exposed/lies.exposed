@@ -1,4 +1,6 @@
 import { CreateGroupInputSchema } from "@liexp/shared/lib/mcp/schemas/groups.schemas.js";
+import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { generateRandomColor } from "@liexp/shared/lib/utils/colors.js";
 import { makeCommand } from "../run-command.js";
 
 export const groupCreate = makeCommand(
@@ -12,14 +14,12 @@ export const groupCreate = makeCommand(
     ctx.logger.debug.log("group create input: %O", input);
     return ctx.api.Group.Create({
       Body: {
-        name: input.name,
-        username: input.username,
-        kind: input.kind,
-        color: input.color as any,
-        excerpt: input.excerpt as any,
-        avatar: input.avatar as any,
-        startDate: input.startDate,
-        endDate: input.endDate,
+        ...input,
+        color: input.color ?? generateRandomColor(),
+        excerpt: input.excerpt ?? toInitialValue(input.name),
+        avatar: input.avatar,
+        startDate: input.startDate?.toISOString(),
+        endDate: input.endDate?.toISOString(),
         members: [],
       },
     });

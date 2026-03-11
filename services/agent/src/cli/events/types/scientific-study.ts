@@ -2,7 +2,6 @@ import {
   CreateScientificStudyEventSchema,
   EditScientificStudyEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/scientific-study.schema.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -23,9 +22,9 @@ export const scientificStudyCreate = makeCommand(
           url: input.studyUrl,
           image: input.image,
           publisher: input.publisher,
-          authors: [...(input.authors ?? [])],
+          authors: input.authors ?? [],
         },
-      } as any,
+      },
     }),
 );
 
@@ -42,13 +41,13 @@ export const scientificStudyEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "ScientificStudy" as const,
-        payload: removeUndefinedFromPayload({
+        payload: {
           title: input.title,
           url: input.studyUrl,
           image: input.image,
           publisher: input.publisher,
-          authors: input.authors ? [...input.authors] : undefined,
-        }),
-      } as any,
+          authors: input.authors ?? [],
+        } as any,
+      },
     }),
 );

@@ -1,5 +1,6 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
+import { StringToBlockNoteDocument } from "../../providers/blocknote/utils.js";
 
 export const FindStoriesInputSchema = Schema.Struct({
   query: Schema.UndefinedOr(Schema.String).annotations({
@@ -87,6 +88,9 @@ export const EditStoryInputSchema = Schema.Struct({
   }),
   featuredImage: Schema.UndefinedOr(Schema.String).annotations({
     description: "Featured image media UUID",
+  }),
+  body: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Body of the story",
   }),
   keywords: Schema.UndefinedOr(Schema.Array(Schema.String)).annotations({
     description:

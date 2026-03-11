@@ -21,7 +21,10 @@ export const deathCreate = makeCommand(
           victim: input.victim,
           location: input.location ?? null,
         },
-      } as any,
+        media: [],
+        links: [],
+        keywords: [],
+      },
     }),
 );
 
@@ -40,8 +43,8 @@ export const deathEdit = makeCommand(
         type: "Death" as const,
         payload: {
           victim: input.victim,
-          location: input.location ?? null,
+          location: input.location,
         },
-      } as any,
+      },
     }),
 );

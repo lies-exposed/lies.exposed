@@ -65,7 +65,7 @@ export { toInitialValue };
  */
 export const StringToBlockNoteDocument = Schema.transformOrFail(
   Schema.String,
-  Schema.typeSchema(BlockNoteDocument),
+  BlockNoteDocument,
   {
     strict: false,
     decode: (s, _options, ast) => {

@@ -3,8 +3,8 @@ import {
   type EndpointOutputType,
   type EndpointQueryType,
   type IOError,
+  type EndpointDataOutputType,
 } from "@ts-endpoint/core";
-import { type EndpointDataOutputType } from "@ts-endpoint/react-admin";
 import * as React from "react";
 import { ErrorBox } from "../Common/ErrorBox.js";
 import {

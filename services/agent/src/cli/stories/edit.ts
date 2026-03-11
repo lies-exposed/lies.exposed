@@ -1,6 +1,6 @@
-import { fp } from "@liexp/core/lib/fp/index.js";
+import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type BlockNoteDocument } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { EditStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const storyEdit = makeCommand(
@@ -17,28 +17,34 @@ export const storyEdit = makeCommand(
       return fp.TE.left(new Error("--id is required"));
     }
 
-    return ctx.api.Story.Edit({
-      Params: { id: input.id },
-      Body: {
-        ...removeUndefinedFromPayload({
-          title: input.title,
-          path: input.path,
-          date: input.date ? new Date(input.date) : undefined,
-          draft: input.draft,
-          creator: input.creator as any,
-          featuredImage: input.featuredImage
-            ? ({ id: input.featuredImage } as any)
-            : undefined,
-          keywords: input.keywords ? [...input.keywords] : undefined,
-          links: input.links ? [...input.links] : undefined,
-          actors: input.actors ? [...input.actors] : undefined,
-          groups: input.groups ? [...input.groups] : undefined,
-          events: input.events ? [...input.events] : undefined,
-          media: input.media ? [...input.media] : undefined,
+    const { id, featuredImage, date, ...body } = input;
+    return pipe(
+      ctx.api.Story.Get({ Params: { id } }),
+      fp.TE.chain((existing) =>
+        ctx.api.Story.Edit({
+          Params: { id },
+          Body: {
+            title: body.title ?? existing.data.title,
+            path: body.path ?? existing.data.path,
+            draft: body.draft ?? existing.data.draft,
+            creator: existing.data.creator!,
+            date: date ?? existing.data.date.toISOString(),
+            featuredImage: featuredImage
+              ? { id: featuredImage }
+              : existing.data.featuredImage
+                ? { id: existing.data.featuredImage.id }
+                : null,
+            body: body.body ?? (existing.data.body as BlockNoteDocument),
+            keywords: body.keywords ?? [...existing.data.keywords],
+            links: body.links ?? [...existing.data.links],
+            groups: body.groups ?? [...existing.data.groups],
+            actors: body.actors ?? [...existing.data.actors],
+            events: body.events ?? [...existing.data.events],
+            media: body.media ?? [...existing.data.media],
+            restore: null,
+          },
         }),
-        body: [] as any,
-        restore: null as any,
-      } as any,
-    });
+      ),
+    );
   },
 );

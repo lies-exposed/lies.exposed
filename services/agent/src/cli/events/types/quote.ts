@@ -23,7 +23,7 @@ export const quoteCreate = makeCommand(
           quote: input.quote,
           details: input.details,
         },
-      } as any,
+      },
     }),
 );
 
@@ -46,6 +46,6 @@ export const quoteEdit = makeCommand(
           quote: input.quote,
           details: input.details,
         },
-      } as any,
+      },
     }),
 );

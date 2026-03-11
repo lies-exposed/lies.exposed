@@ -1,5 +1,4 @@
 import { EditMediaInputSchema } from "@liexp/shared/lib/mcp/schemas/media.schemas.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const mediaEdit = makeCommand(
@@ -11,20 +10,15 @@ export const mediaEdit = makeCommand(
   },
   (input, ctx) => {
     ctx.logger.debug.log("media edit input: %O", input);
+    const { id, ...body } = input;
     return ctx.api.Media.Edit({
-      Params: { id: input.id },
+      Params: { id },
       Body: {
-        ...removeUndefinedFromPayload({
-          location: input.location,
-          type: input.type,
-          label: input.label,
-          description: input.description,
-          thumbnail: input.thumbnail,
-          events: input.events ? [...input.events] : undefined,
-          links: input.links ? [...input.links] : undefined,
-          keywords: input.keywords ? [...input.keywords] : undefined,
-          areas: input.areas ? [...input.areas] : undefined,
-        }),
+        ...body,
+        events: body.events ?? [],
+        links: body.links ?? [],
+        keywords: body.keywords ?? [],
+        areas: body.areas ?? [],
         extra: null,
         creator: null,
         overrideThumbnail: null,
@@ -32,7 +26,7 @@ export const mediaEdit = makeCommand(
         transfer: null,
         transferThumbnail: null,
         restore: null,
-      } as any,
+      },
     });
   },
 );

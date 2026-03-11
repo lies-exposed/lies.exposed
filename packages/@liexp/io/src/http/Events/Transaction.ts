@@ -58,7 +58,7 @@ export type EditTransactionBodyPayload =
 export const Transaction = Schema.Struct({
   ...EventCommon.fields,
   type: TRANSACTION,
-  payload: TransactionPayload,
+  payload: Schema.partial(TransactionPayload),
 }).annotations({
   title: "TransactionEvent",
 });

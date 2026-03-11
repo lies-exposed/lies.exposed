@@ -7,8 +7,8 @@ import {
   type EndpointOutputType,
   type EndpointQueryType,
   type MinimalEndpointInstance,
+  type EndpointDataOutputType,
 } from "@ts-endpoint/core";
-import { type EndpointDataOutputType } from "@ts-endpoint/react-admin";
 import {
   type EndpointsQueryProvider,
   type ResourceQuery,
