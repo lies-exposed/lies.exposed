@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...api@0.5.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* **api:** allow service client to create media without a DB user row ([#3361](https://github.com/lies-exposed/lies.exposed/issues/3361)) ([aacb8ec](https://github.com/lies-exposed/lies.exposed/commit/aacb8ece77af25f6afe4cf20afcc03d9088a39cb))
+* **api:** prevent unintended null writes in media and link edit flows ([#3368](https://github.com/lies-exposed/lies.exposed/issues/3368)) ([8be31f6](https://github.com/lies-exposed/lies.exposed/commit/8be31f69409fb27e63fcedb37cc51f91a9b308d7))
+* **io:** make url optional in EditLink schema ([#3362](https://github.com/lies-exposed/lies.exposed/issues/3362)) ([2fae15a](https://github.com/lies-exposed/lies.exposed/commit/2fae15a6d96945a10ef9654f3bdff5672293339f))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.6
+    * @liexp/core bumped to 0.5.6
+    * @liexp/io bumped to 0.5.6
+    * @liexp/shared bumped to 0.5.6
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.6
+    * @liexp/test bumped to 0.5.6
+
 ## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...api@0.5.5) (2026-03-08)
 
 

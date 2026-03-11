@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...@liexp/shared@0.5.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* **agent:** cli events sub-command ([#3370](https://github.com/lies-exposed/lies.exposed/issues/3370)) ([c615dc8](https://github.com/lies-exposed/lies.exposed/commit/c615dc8dbcbfde9cb8671f1c763eceda01472bb2))
+* **shared:** use proper common codecs for CLI schemas ([#3371](https://github.com/lies-exposed/lies.exposed/issues/3371)) ([e237ee5](https://github.com/lies-exposed/lies.exposed/commit/e237ee5d6acae99f49117459e4f23ce63ce913d0))
+* **shared:** use proper UUID codec for relation ids in MCP schemas ([#3369](https://github.com/lies-exposed/lies.exposed/issues/3369)) ([e5f02c6](https://github.com/lies-exposed/lies.exposed/commit/e5f02c64de8c23611ba9269d66a34ecd3c3779a4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.6
+    * @liexp/io bumped to 0.5.6
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.6
+    * @liexp/test bumped to 0.5.6
+
 ## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...@liexp/shared@0.5.5) (2026-03-08)
 
 
