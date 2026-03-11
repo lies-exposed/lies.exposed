@@ -1,80 +1,44 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditStoryInputSchema } from "@liexp/shared/lib/mcp/schemas/stories.schemas.js";
-import { getArg, splitUUIDs } from "../args.js";
-import { type CommandModule } from "../command.type.js";
-import { runCommand } from "../run-command.js";
+import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
+import { makeCommand } from "../run-command.js";
 
-export const storyEdit: CommandModule = {
-  help: `
-Usage: agent story edit [options]
+export const storyEdit = makeCommand(
+  EditStoryInputSchema,
+  {
+    usage: "story edit",
+    description: "Edit an existing story by UUID.",
+    output: "JSON updated story object",
+  },
+  (input, ctx) => {
+    ctx.logger.debug.log("story edit input: %O", input);
 
-Edit an existing story by UUID.
+    if (!input.id) {
+      return fp.TE.left(new Error("--id is required"));
+    }
 
-Options:
-  --id=<uuid>                  Story UUID (required)
-  --title=<string>             Story title
-  --path=<string>              URL-friendly path slug
-  --date=<YYYY-MM-DD>          Publication date
-  --draft=<true|false>         Draft status
-  --creator=<uuid>             Creator actor UUID
-  --featuredImage=<uuid>       Featured image media UUID
-  --keywords=<uuid,uuid,...>   Comma-separated keyword UUIDs
-  --links=<uuid,uuid,...>      Comma-separated link UUIDs
-  --actors=<uuid,uuid,...>     Comma-separated actor UUIDs
-  --groups=<uuid,uuid,...>     Comma-separated group UUIDs
-  --events=<uuid,uuid,...>     Comma-separated event UUIDs
-  --media=<uuid,uuid,...>      Comma-separated media UUIDs
-  --help                       Show this help message
-
-Output: JSON updated story object
-`,
-  run: (ctx, args) =>
-    runCommand(
-      ctx,
-      EditStoryInputSchema,
-      {
-        id: getArg(args, "id"),
-        title: getArg(args, "title"),
-        path: getArg(args, "path"),
-        date: getArg(args, "date"),
-        draft: getArg(args, "draft"),
-        creator: getArg(args, "creator"),
-        featuredImage: getArg(args, "featuredImage"),
-        keywords: splitUUIDs(getArg(args, "keywords")),
-        links: splitUUIDs(getArg(args, "links")),
-        actors: splitUUIDs(getArg(args, "actors")),
-        groups: splitUUIDs(getArg(args, "groups")),
-        events: splitUUIDs(getArg(args, "events")),
-        media: splitUUIDs(getArg(args, "media")),
-      },
-      (input) => {
-        ctx.logger.debug.log("story edit input: %O", input);
-
-        if (!input.id) {
-          return fp.TE.left(new Error("--id is required"));
-        }
-
-        return ctx.api.Story.Edit({
-          Params: { id: input.id },
-          Body: {
-            title: input.title ?? "",
-            path: input.path ?? "",
-            date: input.date ? new Date(input.date) : new Date(),
-            draft: input.draft ?? false,
-            creator: input.creator ?? undefined,
-            featuredImage: (input.featuredImage
-              ? { id: input.featuredImage }
-              : null) as any,
-            body2: [] as any,
-            keywords: input.keywords,
-            links: input.links,
-            actors: input.actors,
-            groups: input.groups,
-            events: input.events,
-            media: input.media,
-            restore: null as any,
-          } as any,
-        });
-      },
-    ),
-};
+    return ctx.api.Story.Edit({
+      Params: { id: input.id },
+      Body: {
+        ...removeUndefinedFromPayload({
+          title: input.title,
+          path: input.path,
+          date: input.date ? new Date(input.date) : undefined,
+          draft: input.draft,
+          creator: input.creator as any,
+          featuredImage: input.featuredImage
+            ? ({ id: input.featuredImage } as any)
+            : undefined,
+          keywords: input.keywords ? [...input.keywords] : undefined,
+          links: input.links ? [...input.links] : undefined,
+          actors: input.actors ? [...input.actors] : undefined,
+          groups: input.groups ? [...input.groups] : undefined,
+          events: input.events ? [...input.events] : undefined,
+          media: input.media ? [...input.media] : undefined,
+        }),
+        body2: [] as any,
+        restore: null as any,
+      } as any,
+    });
+  },
+);

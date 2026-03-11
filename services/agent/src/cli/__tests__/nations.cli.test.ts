@@ -17,7 +17,7 @@ const nations = fc.sample(NationArbs.NationArb, 3).map((n, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = nations.map(encodeNation);
+const encoded = nations.map((a) => encodeNation(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/nations", ({ request }) => {

@@ -23,5 +23,11 @@ export interface CommandModule {
 
 export interface CommandGroup {
   description: string;
-  commands: Record<string, CommandModule>;
+  commands: Record<string, CommandModule | CommandGroup>;
 }
+
+export const isCommandGroup = (a: unknown): a is CommandGroup => {
+  return (
+    typeof a === "object" && a !== null && "description" in a && "commands" in a
+  );
+};

@@ -18,7 +18,7 @@ const events = fc.sample(UncategorizedArb, 3).map((e, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = events.map(encodeEvent);
+const encoded = events.map((a) => encodeEvent(a));
 
 const emptyTotals = {
   uncategorized: 0,

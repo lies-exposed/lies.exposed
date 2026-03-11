@@ -1,5 +1,6 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
+import { StringToBlockNoteDocument } from "../../providers/blocknote/utils.js";
 
 export const FindGroupsInputSchema = Schema.Struct({
   query: Schema.UndefinedOr(Schema.String).annotations({
@@ -45,8 +46,8 @@ export const CreateGroupInputSchema = Schema.Struct({
   color: Schema.UndefinedOr(Schema.String).annotations({
     description: "Hex color without # (default: random)",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Short description",
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Short description as plain text",
   }),
   avatar: Schema.UndefinedOr(UUID).annotations({
     description: "Avatar media UUID",
@@ -69,7 +70,7 @@ export const EditGroupInputSchema = Schema.Struct({
     Schema.Union(Schema.Literal("Public"), Schema.Literal("Private")),
   ),
   color: Schema.UndefinedOr(Schema.String),
-  excerpt: Schema.UndefinedOr(Schema.String),
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument),
   avatar: Schema.UndefinedOr(Schema.String),
   startDate: Schema.UndefinedOr(Schema.DateFromString),
   endDate: Schema.UndefinedOr(Schema.DateFromString),

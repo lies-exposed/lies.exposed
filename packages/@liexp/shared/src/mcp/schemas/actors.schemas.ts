@@ -1,6 +1,7 @@
 import { Color } from "@liexp/io/lib/http/Common/Color.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
+import { StringToBlockNoteDocument } from "../../providers/blocknote/utils.js";
 
 export const FindActorsInputSchema = Schema.Struct({
   fullName: Schema.UndefinedOr(Schema.String).annotations({
@@ -54,13 +55,13 @@ export const CreateActorInputSchema = Schema.Struct({
   color: Schema.optional(Color).annotations({
     description: "Hex color without # (default: random)",
   }),
-  excerpt: Schema.optional(Schema.String).annotations({
-    description: "Short description (default: null)",
+  excerpt: Schema.optional(StringToBlockNoteDocument).annotations({
+    description: "Short description as plain text (default: null)",
   }),
   nationalities: Schema.optional(Schema.Array(UUID)).annotations({
     description: "Array of nationality UUIDs (default: [])",
   }),
-  body: Schema.optional(Schema.String).annotations({
+  body: Schema.optional(StringToBlockNoteDocument).annotations({
     description: "Full body content as plain text (default: null)",
   }),
   avatar: Schema.optional(UUID).annotations({
@@ -89,14 +90,14 @@ export const EditActorInputSchema = Schema.Struct({
     description:
       "Color associated with the actor (hex format, without #) or null to keep current",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
     description:
       "Short description of the actor as plain text or null to keep current",
   }),
   nationalities: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
     description: "Array of nationality UUIDs or undefined to keep current",
   }),
-  body: Schema.UndefinedOr(Schema.String).annotations({
+  body: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
     description: "Full body content as plain text or null to keep current",
   }),
   avatar: Schema.UndefinedOr(UUID).annotations({

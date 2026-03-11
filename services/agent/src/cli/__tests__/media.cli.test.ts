@@ -17,7 +17,7 @@ const mediaItems = fc.sample(MediaArbs.MediaArb, 3).map((m, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = mediaItems.map(encodeMedia);
+const encoded = mediaItems.map((a) => encodeMedia(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/media", ({ request }) => {

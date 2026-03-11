@@ -17,7 +17,7 @@ const groups = fc.sample(GroupArbs.GroupArb, 3).map((g, i) => ({
   createdAt: new Date(2024, 0, 3 - i),
 }));
 
-const encoded = groups.map(encodeGroup);
+const encoded = groups.map((a) => encodeGroup(a));
 
 const handlers = [
   http.get("http://localhost:4010/v1/groups", ({ request }) => {

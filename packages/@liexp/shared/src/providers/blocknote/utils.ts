@@ -3,9 +3,10 @@ import {
   type BlockNoteBlock,
 } from "@liexp/io/lib/http/Common/BlockNoteDocument.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { Schema } from "effect";
+import { ParseResult, Schema } from "effect";
 import * as NEA from "fp-ts/lib/NonEmptyArray.js";
 import { pipe } from "fp-ts/lib/function.js";
+import { getTextContents } from "./getTextContents.js";
 import { type BNBlock } from "./type.js";
 
 const toContent = (v: string) => ({
@@ -53,3 +54,45 @@ function toInitialValue(v: any): BlockNoteDocument | undefined {
 }
 
 export { toInitialValue };
+
+/**
+ * Schema.transformOrFail that converts a plain-text string into a BlockNoteDocument
+ * (one paragraph per newline) and encodes it back to plain text.
+ *
+ * Fails with a ParseError if the string cannot be converted to a valid document.
+ * Useful in CLI/MCP input schemas where the user provides a string but the API
+ * expects a BlockNoteDocument.
+ */
+export const StringToBlockNoteDocument = Schema.transformOrFail(
+  Schema.String,
+  Schema.typeSchema(BlockNoteDocument),
+  {
+    strict: false,
+    decode: (s, _options, ast) => {
+      try {
+        return ParseResult.succeed(toInitialValueS(s));
+      } catch (e) {
+        return ParseResult.fail(
+          new ParseResult.Type(
+            ast,
+            s,
+            `Failed to convert string to BlockNoteDocument: ${e}`,
+          ),
+        );
+      }
+    },
+    encode: (doc, _options, ast) => {
+      try {
+        return ParseResult.succeed(getTextContents(doc as any));
+      } catch (e) {
+        return ParseResult.fail(
+          new ParseResult.Type(
+            ast,
+            doc,
+            `Failed to encode BlockNoteDocument to string: ${e}`,
+          ),
+        );
+      }
+    },
+  },
+);

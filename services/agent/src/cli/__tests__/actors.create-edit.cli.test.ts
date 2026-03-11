@@ -12,7 +12,9 @@ import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeActor = Schema.encodeSync(ActorIO.Actor);
 
-const [actorA, actorB] = fc.sample(ActorArbs.ActorArb, 2).map(encodeActor);
+const [actorA, actorB] = fc
+  .sample(ActorArbs.ActorArb, 2)
+  .map((a) => encodeActor(a));
 
 const handlers = [
   // POST /actors — create

@@ -12,7 +12,7 @@ import { makeCLIContext } from "../make-cli-context.js";
 
 const encodeArea = Schema.encodeSync(AreaIO.Area);
 
-const [areaA, areaB] = fc.sample(AreaArbs.AreaArb, 2).map(encodeArea);
+const [areaA, areaB] = fc.sample(AreaArbs.AreaArb, 2).map((a) => encodeArea(a));
 
 const handlers = [
   // POST /areas — create

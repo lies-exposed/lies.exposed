@@ -13,7 +13,9 @@ import { mediaEdit } from "../media/edit.js";
 
 const encodeMedia = Schema.encodeSync(MediaIO.Media);
 
-const [mediaA, mediaB] = fc.sample(MediaArbs.MediaArb, 2).map(encodeMedia);
+const [mediaA, mediaB] = fc
+  .sample(MediaArbs.MediaArb, 2)
+  .map((a) => encodeMedia(a));
 
 const handlers = [
   // POST /media — create

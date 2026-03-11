@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { pipe } from "@liexp/core/lib/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { IOError } from "@ts-endpoint/core";
@@ -7,7 +8,11 @@ import { ParseResult } from "effect";
 import { actorGroup } from "#cli/actors/index.js";
 import { agentCommand } from "#cli/agent.command.js";
 import { areaGroup } from "#cli/areas/index.js";
-import { type CommandGroup } from "#cli/command.type.js";
+import {
+  type CommandModule,
+  isCommandGroup,
+  type CommandGroup,
+} from "#cli/command.type.js";
 import { eventGroup } from "#cli/events/index.js";
 import { groupGroup } from "#cli/groups/index.js";
 import { linkGroup } from "#cli/links/index.js";
@@ -125,13 +130,24 @@ const main = async () => {
     process.exit(0);
   }
 
-  const command = group.commands[subcommand];
+  let command = group.commands[subcommand] as CommandModule;
   if (!command) {
     const available = Object.keys(group.commands).join(", ");
     cliLogger.error.log(
       `Unknown subcommand: ${groupName} ${subcommand}\nAvailable: ${available}`,
     );
     process.exit(1);
+  }
+  let commandArgs = args;
+
+  // if command has sub-commands
+  if (isCommandGroup(command)) {
+    const [subCommandArg, ...subArgs] = args;
+    const subCommand = command.commands[subCommandArg] as CommandModule;
+    if (subCommand) {
+      command = subCommand;
+      commandArgs = subArgs;
+    }
   }
 
   // "agent actor list --help"
@@ -142,9 +158,9 @@ const main = async () => {
   }
 
   // Lightweight path: just HTTP + env, no MCP
-  const ctx = await throwTE(makeCLIContext());
+  const ctx = await pipe(makeCLIContext(), throwTE);
   try {
-    await command.run(ctx, args);
+    await command.run(ctx, commandArgs);
   } catch (error) {
     process.stderr.write(
       `Error running ${groupName} ${subcommand}:\n${formatError(error)}\n`,

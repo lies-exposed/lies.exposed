@@ -11,7 +11,9 @@ import { storyEdit } from "../stories/edit.js";
 
 const encodeStory = Schema.encodeSync(StoryIO.Story);
 
-const [_storyA, storyB] = fc.sample(StoryArbs.StoryArb, 2).map(encodeStory);
+const [_storyA, storyB] = fc
+  .sample(StoryArbs.StoryArb, 2)
+  .map((a) => encodeStory(a));
 
 const handlers = [
   http.put("http://localhost:4010/v1/stories/:id", ({ params }) => {

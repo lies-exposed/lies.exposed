@@ -1,5 +1,6 @@
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { Schema } from "effect";
+import { StringToBlockNoteDocument } from "../../providers/blocknote/utils.js";
 
 export const FindEventsInputSchema = Schema.Struct({
   query: Schema.UndefinedOr(Schema.String).annotations({
@@ -69,8 +70,8 @@ export const CreateEventInputSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Draft flag (default: false)",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Short excerpt text",
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Short excerpt text as plain text",
   }),
   // common relations
   links: Schema.UndefinedOr(Schema.Array(UUID)).annotations({
@@ -220,8 +221,8 @@ export const EditEventInputSchema = Schema.Struct({
   draft: Schema.UndefinedOr(Schema.BooleanFromString).annotations({
     description: "Draft flag",
   }),
-  excerpt: Schema.UndefinedOr(Schema.String).annotations({
-    description: "Short excerpt text",
+  excerpt: Schema.UndefinedOr(StringToBlockNoteDocument).annotations({
+    description: "Short excerpt text as plain text",
   }),
   links: Schema.UndefinedOr(Schema.String).annotations({
     description: "Comma-separated link UUIDs",
