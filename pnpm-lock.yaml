@@ -178,7 +178,7 @@ importers:
         specifier: workspace:*
         version: link:../test
       '@napi-rs/canvas':
-        specifier: ^0.1.96
+        specifier: ^0.1.95
         version: 0.1.96
       '@types/compression':
         specifier: ^1.8.1
@@ -1125,7 +1125,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/@liexp/shared
       '@napi-rs/canvas':
-        specifier: ^0.1.96
+        specifier: ^0.1.95
         version: 0.1.96
       '@ts-endpoint/core':
         specifier: file:../../patches/ts-endpoint-core-0.1.0.tgz

@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...lies.exposed@0.5.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* **agent:** cli events sub-command ([#3370](https://github.com/lies-exposed/lies.exposed/issues/3370)) ([c615dc8](https://github.com/lies-exposed/lies.exposed/commit/c615dc8dbcbfde9cb8671f1c763eceda01472bb2))
+* **agent:** improve CLI error visibility and IOError formatting ([#3366](https://github.com/lies-exposed/lies.exposed/issues/3366)) ([98b0cf4](https://github.com/lies-exposed/lies.exposed/commit/98b0cf430403f39d80216edb78c913999f49a2a9))
+
 ## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...lies.exposed@0.5.5) (2026-03-08)
 
 

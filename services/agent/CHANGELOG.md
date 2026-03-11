@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...agent@0.5.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* **agent:** cli events sub-command ([#3370](https://github.com/lies-exposed/lies.exposed/issues/3370)) ([c615dc8](https://github.com/lies-exposed/lies.exposed/commit/c615dc8dbcbfde9cb8671f1c763eceda01472bb2))
+* **agent:** improve CLI error visibility and IOError formatting ([#3366](https://github.com/lies-exposed/lies.exposed/issues/3366)) ([98b0cf4](https://github.com/lies-exposed/lies.exposed/commit/98b0cf430403f39d80216edb78c913999f49a2a9))
+* **agent:** include RESEARCHER.md in Docker image ([#3359](https://github.com/lies-exposed/lies.exposed/issues/3359)) ([f8469df](https://github.com/lies-exposed/lies.exposed/commit/f8469df06c14b63c65f3fa795cc562582f0f3875))
+* **agent:** increase chat stream recursion limit from 25 to 50 ([#3363](https://github.com/lies-exposed/lies.exposed/issues/3363)) ([4cf3cb2](https://github.com/lies-exposed/lies.exposed/commit/4cf3cb2d8a479c9949cabdb04d442676c2553e07))
+* **io:** make url optional in EditLink schema ([#3362](https://github.com/lies-exposed/lies.exposed/issues/3362)) ([2fae15a](https://github.com/lies-exposed/lies.exposed/commit/2fae15a6d96945a10ef9654f3bdff5672293339f))
+* **shared:** use proper common codecs for CLI schemas ([#3371](https://github.com/lies-exposed/lies.exposed/issues/3371)) ([e237ee5](https://github.com/lies-exposed/lies.exposed/commit/e237ee5d6acae99f49117459e4f23ce63ce913d0))
+* **shared:** use proper UUID codec for relation ids in MCP schemas ([#3369](https://github.com/lies-exposed/lies.exposed/issues/3369)) ([e5f02c6](https://github.com/lies-exposed/lies.exposed/commit/e5f02c64de8c23611ba9269d66a34ecd3c3779a4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.6
+    * @liexp/core bumped to 0.5.6
+    * @liexp/io bumped to 0.5.6
+    * @liexp/shared bumped to 0.5.6
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.6
+    * @liexp/test bumped to 0.5.6
+
 ## [0.5.5](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.4...agent@0.5.5) (2026-03-08)
 
 
