@@ -73,7 +73,11 @@ export const StringToBlockNoteDocument = Schema.transformOrFail(
         return ParseResult.succeed(toInitialValueS(s));
       } catch (e) {
         return ParseResult.fail(
-          new ParseResult.Type(ast, s, `Failed to convert string to BlockNoteDocument: ${e}`),
+          new ParseResult.Type(
+            ast,
+            s,
+            `Failed to convert string to BlockNoteDocument: ${e}`,
+          ),
         );
       }
     },
@@ -82,7 +86,11 @@ export const StringToBlockNoteDocument = Schema.transformOrFail(
         return ParseResult.succeed(getTextContents(doc as any));
       } catch (e) {
         return ParseResult.fail(
-          new ParseResult.Type(ast, doc, `Failed to encode BlockNoteDocument to string: ${e}`),
+          new ParseResult.Type(
+            ast,
+            doc,
+            `Failed to encode BlockNoteDocument to string: ${e}`,
+          ),
         );
       }
     },

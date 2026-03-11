@@ -13,8 +13,7 @@ export const actorFind = makeCommand(
     return ctx.api.Actor.List({
       Query: {
         q: input.fullName,
-        memberIn:
-          input.memberIn.length > 0 ? input.memberIn : undefined,
+        memberIn: input.memberIn.length > 0 ? input.memberIn : undefined,
         _start: input.start !== undefined ? String(input.start) : "0",
         _end: input.end !== undefined ? String(input.end) : "20",
       },

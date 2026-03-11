@@ -47,7 +47,9 @@ export const uncategorizedEdit = makeCommand(
           title: input.title,
           actors: input.actors ? [...input.actors] : undefined,
           groups: input.groups ? [...input.groups] : undefined,
-          groupsMembers: input.groupsMembers ? [...input.groupsMembers] : undefined,
+          groupsMembers: input.groupsMembers
+            ? [...input.groupsMembers]
+            : undefined,
           location: input.location ?? null,
           endDate: input.endDate ?? null,
         }),
