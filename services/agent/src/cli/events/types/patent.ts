@@ -1,3 +1,4 @@
+import type { EditPatentBodyPayload } from "@liexp/io/lib/http/Events/Patent.js";
 import {
   CreatePatentEventSchema,
   EditPatentEventSchema,
@@ -49,7 +50,7 @@ export const patentEdit = makeCommand(
             groups: input.ownerGroups ?? [],
           },
           source: input.source,
-        } as any,
+        } satisfies EditPatentBodyPayload,
       },
     }),
 );

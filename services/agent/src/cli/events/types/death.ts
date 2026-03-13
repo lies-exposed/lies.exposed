@@ -1,3 +1,4 @@
+import type { EditDeathBodyPayload } from "@liexp/io/lib/http/Events/Death.js";
 import {
   CreateDeathEventSchema,
   EditDeathEventSchema,
@@ -44,7 +45,7 @@ export const deathEdit = makeCommand(
         payload: {
           victim: input.victim,
           location: input.location,
-        },
+        } satisfies EditDeathBodyPayload,
       },
     }),
 );

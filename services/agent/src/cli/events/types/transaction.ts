@@ -1,3 +1,4 @@
+import type { EditTransactionBodyPayload } from "@liexp/io/lib/http/Events/Transaction.js";
 import {
   CreateTransactionEventSchema,
   EditTransactionEventSchema,
@@ -56,7 +57,7 @@ export const transactionEdit = makeCommand(
             input.toType && input.toId
               ? { type: input.toType, id: input.toId }
               : undefined,
-        },
+        } satisfies EditTransactionBodyPayload,
         media: [],
         links: [],
         keywords: [],

@@ -1,3 +1,4 @@
+import type { EditScientificStudyBodyPayload } from "@liexp/io/lib/http/Events/ScientificStudy.js";
 import {
   CreateScientificStudyEventSchema,
   EditScientificStudyEventSchema,
@@ -47,7 +48,7 @@ export const scientificStudyEdit = makeCommand(
           image: input.image,
           publisher: input.publisher,
           authors: input.authors ?? [],
-        } as any,
+        } satisfies EditScientificStudyBodyPayload,
       },
     }),
 );

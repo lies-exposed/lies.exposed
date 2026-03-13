@@ -1,3 +1,4 @@
+import type { EditUncategorizedBodyPayload } from "@liexp/io/lib/http/Events/Uncategorized.js";
 import {
   CreateUncategorizedEventSchema,
   EditUncategorizedEventSchema,
@@ -49,7 +50,7 @@ export const uncategorizedEdit = makeCommand(
           groupsMembers: input.groupsMembers ?? [],
           location: input.location ?? null,
           endDate: input.endDate?.toISOString() ?? null,
-        } as any,
+        } satisfies EditUncategorizedBodyPayload,
       },
     }),
 );

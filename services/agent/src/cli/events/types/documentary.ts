@@ -1,3 +1,4 @@
+import type { EditDocumentaryBodyPayload } from "@liexp/io/lib/http/Events/Documentary.js";
 import {
   CreateDocumentaryEventSchema,
   EditDocumentaryEventSchema,
@@ -59,7 +60,7 @@ export const documentaryEdit = makeCommand(
             actors: input.subjectActors ?? [],
             groups: input.subjectGroups ?? [],
           },
-        } as any,
+        } satisfies EditDocumentaryBodyPayload,
       },
     }),
 );

@@ -52,7 +52,7 @@ export type DeathPayload = typeof DeathPayload.Type;
 export const Death = Schema.Struct({
   ...EventCommon.fields,
   type: DEATH,
-  payload: Schema.partial(DeathPayload),
+  payload: DeathPayload,
 }).annotations({ title: "DeathEvent" });
 
 export type Death = typeof Death.Type;
