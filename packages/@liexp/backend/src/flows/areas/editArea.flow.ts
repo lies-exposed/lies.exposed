@@ -53,21 +53,31 @@ export const editArea = <C extends DatabaseContext & GeocodeProviderContext>(
               ),
               TE.right,
             ),
-            body: TE.right({
-              ...foldOptionals({ ...body }),
-              media: media.map((id) => ({ id })),
-              id,
-            }),
+            media: pipe(
+              media,
+              fp.O.map((ids) => ids.map((id) => ({ id }))),
+              fp.O.toUndefined,
+              TE.right,
+            ),
+            body: pipe(
+              {
+                ...foldOptionals({ ...body }),
+                id,
+              },
+              TE.right,
+            ),
           }),
-        fp.RTE.chain(({ events, geometry, body: { featuredImage, ...body } }) =>
-          AreaRepository.save<C>([
-            {
-              ...body,
-              featuredImage: featuredImage ? { id: featuredImage } : null,
-              geometry,
-              ...(events ? { events } : {}),
-            },
-          ]),
+        fp.RTE.chain(
+          ({ events, geometry, media, body: { featuredImage, ...body } }) =>
+            AreaRepository.save<C>([
+              {
+                ...body,
+                media,
+                featuredImage: featuredImage ? { id: featuredImage } : null,
+                geometry,
+                ...(events ? { events } : {}),
+              },
+            ]),
         ),
         fp.RTE.chain(() =>
           AreaRepository.findOneOrFail<C>({

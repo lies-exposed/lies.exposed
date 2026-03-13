@@ -32,12 +32,14 @@ export type CreateScientificStudyBody = typeof CreateScientificStudyBody.Type;
 export const EditScientificStudyBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: SCIENTIFIC_STUDY,
-  payload: ScientificStudyPayload,
+  payload: Schema.partial(ScientificStudyPayload),
 }).annotations({
   title: "EditScientificStudyBody",
 });
 
 export type EditScientificStudyBody = typeof EditScientificStudyBody.Type;
+export type EditScientificStudyBodyPayload =
+  (typeof EditScientificStudyBody.Encoded)["payload"];
 
 export const ScientificStudy = Schema.Struct({
   ...EventCommon.fields,

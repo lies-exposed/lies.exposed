@@ -69,7 +69,7 @@ export type LinkMedia = typeof LinkMedia.Type;
 export const EditLink = Schema.Struct({
   ...CreateLink.fields,
   url: Schema.Union(URL, Schema.Undefined),
-  title: Schema.String,
+  title: Schema.UndefinedOr(Schema.String),
   description: Schema.String,
   keywords: Schema.Array(UUID),
   provider: Schema.Union(UUID, Schema.Undefined),

@@ -161,14 +161,17 @@ export const editEventQuery =
               date,
               draft,
             });
+            const { location: deathLocation, ...deathPayloadRest } = payload;
             const event: EditEventEntity = {
               ...storedEvent,
               ...baseProps,
               type: input.type,
               payload: {
                 ...storedEvent.payload,
-                ...payload,
-                location: O.toUndefined(payload.location),
+                ...deathPayloadRest,
+                ...(deathLocation !== undefined
+                  ? { location: O.toUndefined(deathLocation) }
+                  : {}),
               },
               ...commonData,
             };
@@ -196,6 +199,11 @@ export const editEventQuery =
           case EVENT_TYPES.UNCATEGORIZED:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
+            const {
+              location: uncatLocation,
+              endDate: uncatEndDate,
+              ...uncatPayloadRest
+            } = payload;
 
             const baseProps = foldOptionals({
               draft,
@@ -207,9 +215,13 @@ export const editEventQuery =
             return pipe(
               {
                 ...storedEvent.payload,
-                ...payload,
-                location: O.toUndefined(payload.location),
-                endDate: O.toUndefined(payload.endDate),
+                ...uncatPayloadRest,
+                ...(uncatLocation !== undefined
+                  ? { location: O.toUndefined(uncatLocation) }
+                  : {}),
+                ...(uncatEndDate !== undefined
+                  ? { endDate: O.toUndefined(uncatEndDate) }
+                  : {}),
               },
               TE.right,
               TE.map((p) => ({

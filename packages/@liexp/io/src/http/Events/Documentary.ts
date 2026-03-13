@@ -51,12 +51,14 @@ export type CreateDocumentaryBody = typeof CreateDocumentaryBody.Type;
 export const EditDocumentaryBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: DOCUMENTARY,
-  payload: EditDocumentaryPayload,
+  payload: Schema.partial(EditDocumentaryPayload),
 }).annotations({
   title: "EditDocumentaryBody",
 });
 
 export type EditDocumentaryBody = typeof EditDocumentaryBody.Type;
+export type EditDocumentaryBodyPayload =
+  (typeof EditDocumentaryBody.Encoded)["payload"];
 
 export const Documentary = Schema.Struct({
   ...EventCommon.fields,

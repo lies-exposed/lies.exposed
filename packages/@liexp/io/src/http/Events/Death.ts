@@ -34,13 +34,16 @@ export type CreateDeathBody = typeof CreateDeathBody.Type;
 export const EditDeathBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: DEATH,
-  payload: Schema.Struct({
-    victim: UUID,
-    location: OptionFromNullishToNull(UUID),
-  }),
-}).annotations({ title: "CreateDeathBody" });
+  payload: Schema.partial(
+    Schema.Struct({
+      victim: UUID,
+      location: OptionFromNullishToNull(UUID),
+    }),
+  ),
+}).annotations({ title: "EditDeathBody" });
 
 export type EditDeathBody = typeof EditDeathBody.Type;
+export type EditDeathBodyPayload = (typeof EditDeathBody.Encoded)["payload"];
 
 export const DeathPayload = Schema.Struct({
   victim: UUID,

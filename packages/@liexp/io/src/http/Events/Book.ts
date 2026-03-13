@@ -43,7 +43,7 @@ export type CreateBookBody = typeof CreateBookBody.Type;
 export const EditBookBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: BOOK,
-  payload: BookPayload,
+  payload: Schema.partial(BookPayload),
 }).annotations({
   title: "EditBookBody",
 });

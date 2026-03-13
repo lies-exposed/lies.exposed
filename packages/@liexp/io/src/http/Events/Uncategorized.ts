@@ -25,22 +25,28 @@ export const CreateEventBody = Schema.Struct({
 
 export type CreateEventBody = typeof CreateEventBody.Type;
 
+export const EditUncategorizedPayload = Schema.Struct({
+  title: Schema.String,
+  location: OptionFromNullishToNull(UUID),
+  actors: Schema.Array(Schema.String),
+  groups: Schema.Array(Schema.String),
+  groupsMembers: Schema.Array(Schema.String),
+  endDate: OptionFromNullishToNull(Schema.Date),
+}).annotations({ title: "EditUncategorizedPayload" });
+
+export type EditUncategorizedPayload = typeof EditUncategorizedPayload.Type;
+
 export const EditEventBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: UNCATEGORIZED,
-  payload: Schema.Struct({
-    title: Schema.String,
-    location: OptionFromNullishToNull(UUID),
-    actors: Schema.Array(Schema.String),
-    groups: Schema.Array(Schema.String),
-    groupsMembers: Schema.Array(Schema.String),
-    endDate: OptionFromNullishToNull(Schema.Date),
-  }),
+  payload: Schema.partial(EditUncategorizedPayload),
 }).annotations({
   title: "EditEventPayload",
 });
 
 export type EditEventBody = typeof EditEventBody.Type;
+export type EditUncategorizedBodyPayload =
+  (typeof EditEventBody.Encoded)["payload"];
 
 export const UncategorizedV2Payload = Schema.Struct({
   title: Schema.String,

@@ -56,6 +56,7 @@ export type CreatePatentBody = typeof CreatePatentBody.Type;
 export const EditPatentBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: PATENT,
-  payload: PatentPayload,
+  payload: Schema.partial(PatentPayload),
 });
 export type EditPatentBody = typeof EditPatentBody.Type;
+export type EditPatentBodyPayload = (typeof EditPatentBody.Encoded)["payload"];

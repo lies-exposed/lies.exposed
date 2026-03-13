@@ -120,6 +120,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...ll,
                         ...l,
                         ...linkUpdate,
+                        title: linkUpdate.title ?? l.title,
                         url: linkUpdate.url ?? l.url,
                         provider: linkUpdate.provider ?? l.provider ?? null,
                         publishDate: linkUpdate.publishDate ?? l.publishDate,
@@ -131,6 +132,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                   return TE.right({
                     ...l,
                     ...linkUpdate,
+                    title: linkUpdate.title ?? l.title,
                     url: linkUpdate.url ?? l.url,
                     publishDate: linkUpdate.publishDate ?? l.publishDate,
                     provider: linkUpdate.provider ?? l.provider ?? null,
@@ -141,6 +143,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                   TE.right({
                     ...l,
                     ...linkUpdate,
+                    title: linkUpdate.title ?? l.title,
                     url: linkUpdate.url ?? l.url,
                     publishDate: linkUpdate.publishDate ?? l.publishDate,
                     provider: linkUpdate.provider ?? l.provider ?? null,

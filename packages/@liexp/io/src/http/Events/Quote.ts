@@ -38,7 +38,7 @@ export type CreateQuoteBody = typeof CreateQuoteBody.Type;
 export const EditQuoteBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: QUOTE,
-  payload: QuotePayload,
+  payload: Schema.partial(QuotePayload),
 }).annotations({
   title: "EditQuoteBody",
 });

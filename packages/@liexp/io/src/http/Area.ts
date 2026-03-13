@@ -40,7 +40,7 @@ export const EditAreaBody = Schema.Struct({
   draft: OptionFromNullishToNull(Schema.Boolean),
   body: OptionFromNullishToNull(BlockNoteDocument),
   featuredImage: OptionFromNullishToNull(UUID),
-  media: Schema.Array(UUID),
+  media: OptionFromNullishToNull(Schema.Array(UUID)),
   events: OptionFromNullishToNull(Schema.Array(UUID)),
   updateGeometry: OptionFromNullishToNull(Schema.Boolean),
 }).annotations({
