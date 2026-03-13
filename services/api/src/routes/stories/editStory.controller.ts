@@ -43,11 +43,11 @@ export const MakeEditStoryRoute: Route = (r, ctx) => {
           }),
         ),
         TE.chain((e) => {
-          const featuredImageId = pipe(
-            featuredImage,
-            O.map((f) => f.id),
-            O.getOrElse(() => e.featuredImage),
-          );
+          const featuredImageId = O.isNone(featuredImage)
+            ? e.featuredImage
+            : featuredImage.value !== null
+              ? featuredImage.value.id
+              : null;
 
           ctx.logger.debug.log("Featured image %O", featuredImageId);
 

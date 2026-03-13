@@ -138,41 +138,49 @@ export const CreateGroupBody = Schema.Union(
 export type CreateGroupBody = typeof CreateGroupBody.Type;
 
 export const EditGroupBody = Schema.Struct({
-  name: OptionFromNullishToNull(Schema.String).annotations({
-    description: "Name of the group (null to keep current)",
+  name: Schema.OptionFromUndefinedOr(Schema.String).annotations({
+    description: "Name of the group (undefined to keep current)",
   }),
-  username: OptionFromNullishToNull(Schema.String).annotations({
+  username: Schema.OptionFromUndefinedOr(Schema.String).annotations({
     description:
-      "Unique username identifier for the group (null to keep current)",
+      "Unique username identifier for the group (undefined to keep current)",
   }),
-  color: OptionFromNullishToNull(Schema.String).annotations({
+  color: Schema.OptionFromUndefinedOr(Schema.String).annotations({
     description:
-      "Color associated with the group in hex format without # (null to keep current)",
+      "Color associated with the group in hex format without # (undefined to keep current)",
   }),
-  kind: OptionFromNullishToNull(GroupKind).annotations({
+  kind: Schema.OptionFromUndefinedOr(GroupKind).annotations({
     description:
-      "Visibility type of the group (Public or Private) (null to keep current)",
+      "Visibility type of the group (Public or Private) (undefined to keep current)",
   }),
-  excerpt: OptionFromNullishToNull(BlockNoteDocument).annotations({
+  excerpt: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(BlockNoteDocument),
+  ).annotations({
     description:
-      "Short description as BlockNote document (null to keep current)",
+      "Short description as BlockNote document (null to clear, undefined to keep current)",
   }),
-  body: OptionFromNullishToNull(BlockNoteDocument).annotations({
+  body: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(BlockNoteDocument),
+  ).annotations({
     description:
-      "Full description as BlockNote document (null to keep current)",
+      "Full description as BlockNote document (null to clear, undefined to keep current)",
   }),
-  avatar: OptionFromNullishToNull(UUID).annotations({
-    description: "Avatar media UUID (null to keep current)",
+  avatar: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)).annotations({
+    description: "Avatar media UUID (null to clear, undefined to keep current)",
   }),
-  startDate: OptionFromNullishToNull(Schema.String).annotations({
+  startDate: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.String),
+  ).annotations({
     description:
-      "Group establishment date in ISO format (YYYY-MM-DD) (null to keep current)",
+      "Group establishment date in ISO format (YYYY-MM-DD) (null to clear, undefined to keep current)",
   }),
-  endDate: OptionFromNullishToNull(Schema.String).annotations({
+  endDate: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.String),
+  ).annotations({
     description:
-      "Group dissolution date in ISO format (YYYY-MM-DD) (null to keep current)",
+      "Group dissolution date in ISO format (YYYY-MM-DD) (null to clear, undefined to keep current)",
   }),
-  members: OptionFromNullishToNull(
+  members: Schema.OptionFromUndefinedOr(
     Schema.Array(
       Schema.Union(
         UUID.annotations({
@@ -182,13 +190,18 @@ export const EditGroupBody = Schema.Struct({
           actor: UUID.annotations({
             description: "Actor UUID for the member",
           }),
-          body: OptionFromNullishToNull(BlockNoteDocument).annotations({
-            description: "Description of the membership (null if not provided)",
+          body: Schema.OptionFromUndefinedOr(
+            Schema.NullOr(BlockNoteDocument),
+          ).annotations({
+            description:
+              "Description of the membership (null to clear, undefined if not provided)",
           }),
           startDate: Schema.Date.annotations({
             description: "Membership start date",
           }),
-          endDate: OptionFromNullishToNull(Schema.Date).annotations({
+          endDate: Schema.OptionFromUndefinedOr(
+            Schema.NullOr(Schema.Date),
+          ).annotations({
             description: "Membership end date (null if still active)",
           }),
         }).annotations({
@@ -198,7 +211,7 @@ export const EditGroupBody = Schema.Struct({
       ),
     ),
   ).annotations({
-    description: "Array of group members (null to keep current)",
+    description: "Array of group members (undefined to keep current)",
   }),
 }).annotations({
   title: "EditGroupBody",

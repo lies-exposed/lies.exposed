@@ -40,7 +40,13 @@ export type CreateTransactionBody = typeof CreateTransactionBody.Type;
 export const EditTransactionBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: TRANSACTION,
-  payload: Schema.partial(TransactionPayload),
+  payload: Schema.Struct({
+    title: Schema.OptionFromUndefinedOr(Schema.String),
+    total: Schema.OptionFromUndefinedOr(Schema.Number),
+    currency: Schema.OptionFromUndefinedOr(Schema.String),
+    from: Schema.OptionFromUndefinedOr(BySubjectId),
+    to: Schema.OptionFromUndefinedOr(BySubjectId),
+  }),
 }).annotations({
   title: "EditTransactionBody",
 });

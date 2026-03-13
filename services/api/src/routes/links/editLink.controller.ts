@@ -72,7 +72,17 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
     (
       {
         params: { id },
-        body: { events, url, overrideThumbnail, image, creator, ...body },
+        body: {
+          events,
+          url,
+          overrideThumbnail,
+          image,
+          creator,
+          title,
+          publishDate,
+          provider,
+          ...body
+        },
       },
       req,
     ) => {
@@ -84,14 +94,21 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
         TE.map((u) => {
           const linkUpdate = {
             ...body,
-            url: url !== undefined ? sanitizeURL(url) : undefined,
-            image: Schema.is(UUID)(image) ? image : (image ?? null),
+            url: pipe(url, O.map(sanitizeURL), O.toUndefined),
+            title: O.toUndefined(title),
+            publishDate: O.toUndefined(publishDate),
+            provider: O.toUndefined(provider),
+            image: O.isNone(image)
+              ? undefined
+              : (image as O.Some<typeof image.value>).value === null
+                ? null
+                : (image as O.Some<typeof image.value>).value,
             events: events.map((e) => ({ id: e })) as EventV2Entity[],
             keywords: body.keywords.map((k) => ({ id: k })) as KeywordEntity[],
             id,
             creator: pipe(
               creator,
-              O.map((id): any => ({ id })),
+              O.map((id) => ({ id }) as UserEntity),
               O.toNullable,
             ),
           };
@@ -122,9 +139,15 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...linkUpdate,
                         title: linkUpdate.title ?? l.title,
                         url: linkUpdate.url ?? l.url,
-                        provider: linkUpdate.provider ?? l.provider ?? null,
-                        publishDate: linkUpdate.publishDate ?? l.publishDate,
-                        image: updateLinkMedia(ll, linkUpdate.image),
+                        provider:
+                          linkUpdate.provider !== undefined
+                            ? linkUpdate.provider
+                            : (l.provider ?? null),
+                        publishDate:
+                          linkUpdate.publishDate !== undefined
+                            ? linkUpdate.publishDate
+                            : l.publishDate,
+                        image: updateLinkMedia(ll, linkUpdate.image ?? null),
                       })),
                     );
                   }
@@ -134,24 +157,40 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...linkUpdate,
                     title: linkUpdate.title ?? l.title,
                     url: linkUpdate.url ?? l.url,
-                    publishDate: linkUpdate.publishDate ?? l.publishDate,
-                    provider: linkUpdate.provider ?? l.provider ?? null,
-                    image: updateLinkMedia(l, linkUpdate.image),
+                    publishDate:
+                      linkUpdate.publishDate !== undefined
+                        ? linkUpdate.publishDate
+                        : l.publishDate,
+                    provider:
+                      linkUpdate.provider !== undefined
+                        ? linkUpdate.provider
+                        : (l.provider ?? null),
+                    image: updateLinkMedia(l, linkUpdate.image ?? null),
                   });
                 }),
                 O.getOrElse(() =>
                   TE.right({
                     ...l,
                     ...linkUpdate,
-                    title: linkUpdate.title ?? l.title,
-                    url: linkUpdate.url ?? l.url,
-                    publishDate: linkUpdate.publishDate ?? l.publishDate,
-                    provider: linkUpdate.provider ?? l.provider ?? null,
-                    image: (linkUpdate.image ?? l.image) as
-                      | MediaEntity
-                      | UUID
-                      | null,
-                  }),
+                    title:
+                      // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                      linkUpdate.title === undefined
+                        ? l.title
+                        : linkUpdate.title,
+                    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+                    url: linkUpdate.url !== undefined ? linkUpdate.url : l.url,
+                    publishDate:
+                      linkUpdate.publishDate !== undefined
+                        ? linkUpdate.publishDate
+                        : l.publishDate,
+                    provider:
+                      linkUpdate.provider !== undefined
+                        ? linkUpdate.provider
+                        : (l.provider ?? null),
+                    image: (linkUpdate.image !== undefined
+                      ? linkUpdate.image
+                      : l.image) as MediaEntity | UUID | null,
+                  } as unknown as LinkEntity),
                 ),
               );
             }),

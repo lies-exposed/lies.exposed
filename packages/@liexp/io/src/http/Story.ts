@@ -1,7 +1,6 @@
 import { Schema } from "effect";
 import { BaseProps } from "./Common/BaseProps.js";
 import { BlockNoteDocument } from "./Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "./Common/OptionFromNullishToNull.js";
 import { UUID } from "./Common/UUID.js";
 import { Media } from "./Media/Media.js";
 
@@ -11,7 +10,9 @@ export const EditStoryBody = Schema.Struct({
   draft: Schema.Boolean,
   creator: UUID,
   date: Schema.Date,
-  featuredImage: OptionFromNullishToNull(Schema.Struct({ id: UUID })),
+  featuredImage: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.Struct({ id: UUID })),
+  ),
   body: BlockNoteDocument,
   keywords: Schema.Array(UUID),
   links: Schema.Array(UUID),
@@ -19,7 +20,7 @@ export const EditStoryBody = Schema.Struct({
   actors: Schema.Array(UUID),
   events: Schema.Array(UUID),
   media: Schema.Array(UUID),
-  restore: OptionFromNullishToNull(Schema.Boolean),
+  restore: Schema.OptionFromUndefinedOr(Schema.Boolean),
 }).annotations({
   identifier: "EditStoryBody",
 });

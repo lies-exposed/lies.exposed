@@ -103,36 +103,47 @@ export const CreateActorBody = Schema.Union(
 export type CreateActorBody = typeof CreateActorBody.Type;
 
 export const EditActorBody = Schema.Struct({
-  username: OptionFromNullishToNull(Schema.String).annotations({
-    description: "Unique username for the actor (null to keep current)",
+  username: Schema.OptionFromUndefinedOr(Schema.String).annotations({
+    description: "Unique username for the actor (undefined to keep current)",
   }),
-  fullName: OptionFromNullishToNull(Schema.String).annotations({
-    description: "Full name of the actor (null to keep current)",
+  fullName: Schema.OptionFromUndefinedOr(Schema.String).annotations({
+    description: "Full name of the actor (undefined to keep current)",
   }),
-  color: OptionFromNullishToNull(Schema.String).annotations({
+  color: Schema.OptionFromUndefinedOr(Schema.String).annotations({
     description:
-      "Color associated with the actor in hex format without # (null to keep current)",
+      "Color associated with the actor in hex format without # (undefined to keep current)",
   }),
-  excerpt: OptionFromNullishToNull(BlockNoteDocument).annotations({
+  excerpt: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(BlockNoteDocument),
+  ).annotations({
     description:
-      "Short description as BlockNote document (null to keep current)",
+      "Short description as BlockNote document (null to clear, undefined to keep current)",
   }),
-  body: OptionFromNullishToNull(BlockNoteDocument).annotations({
-    description: "Full biography as BlockNote document (null to keep current)",
+  body: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(BlockNoteDocument),
+  ).annotations({
+    description:
+      "Full biography as BlockNote document (null to clear, undefined to keep current)",
   }),
-  avatar: OptionFromNullishToNull(UUID).annotations({
-    description: "Avatar media UUID (null to keep current)",
+  avatar: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)).annotations({
+    description: "Avatar media UUID (null to clear, undefined to keep current)",
   }),
-  bornOn: OptionFromNullishToNull(Schema.String).annotations({
-    description: "Birth date in ISO format (YYYY-MM-DD) (null to keep current)",
+  bornOn: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.String),
+  ).annotations({
+    description:
+      "Birth date in ISO format (YYYY-MM-DD) (null to clear, undefined to keep current)",
   }),
-  diedOn: OptionFromNullishToNull(Schema.String).annotations({
-    description: "Death date in ISO format (YYYY-MM-DD) (null to keep current)",
+  diedOn: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.String),
+  ).annotations({
+    description:
+      "Death date in ISO format (YYYY-MM-DD) (null to clear, undefined to keep current)",
   }),
-  nationalities: OptionFromNullishToNull(Schema.Array(UUID)).annotations({
-    description: "Array of nationality UUIDs (null to keep current)",
+  nationalities: Schema.OptionFromUndefinedOr(Schema.Array(UUID)).annotations({
+    description: "Array of nationality UUIDs (undefined to keep current)",
   }),
-  memberIn: OptionFromNullishToNull(
+  memberIn: Schema.OptionFromUndefinedOr(
     Schema.Array(
       Schema.Union(
         UUID.annotations({
@@ -148,7 +159,9 @@ export const EditActorBody = Schema.Struct({
           startDate: Schema.Date.annotations({
             description: "Membership start date",
           }),
-          endDate: OptionFromNullishToNull(Schema.Date).annotations({
+          endDate: Schema.OptionFromUndefinedOr(
+            Schema.NullOr(Schema.Date),
+          ).annotations({
             description: "Membership end date (null if still active)",
           }),
         }).annotations({
@@ -157,7 +170,7 @@ export const EditActorBody = Schema.Struct({
       ),
     ),
   ).annotations({
-    description: "Array of group memberships (null to keep current)",
+    description: "Array of group memberships (undefined to keep current)",
   }),
 }).annotations({
   title: "EditActorBody",

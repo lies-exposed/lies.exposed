@@ -56,7 +56,16 @@ export type CreatePatentBody = typeof CreatePatentBody.Type;
 export const EditPatentBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: PATENT,
-  payload: Schema.partial(PatentPayload),
+  payload: Schema.Struct({
+    title: Schema.OptionFromUndefinedOr(Schema.String),
+    owners: Schema.OptionFromUndefinedOr(
+      Schema.Struct({
+        actors: Schema.Array(UUID),
+        groups: Schema.Array(UUID),
+      }),
+    ),
+    source: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+  }),
 });
 export type EditPatentBody = typeof EditPatentBody.Type;
 export type EditPatentBodyPayload = (typeof EditPatentBody.Encoded)["payload"];

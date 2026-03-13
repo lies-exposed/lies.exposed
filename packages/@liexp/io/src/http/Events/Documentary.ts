@@ -51,7 +51,23 @@ export type CreateDocumentaryBody = typeof CreateDocumentaryBody.Type;
 export const EditDocumentaryBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: DOCUMENTARY,
-  payload: Schema.partial(EditDocumentaryPayload),
+  payload: Schema.Struct({
+    title: Schema.OptionFromUndefinedOr(Schema.String),
+    media: Schema.OptionFromUndefinedOr(UUID),
+    website: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+    authors: Schema.OptionFromUndefinedOr(
+      Schema.Struct({
+        actors: Schema.Array(UUID),
+        groups: Schema.Array(UUID),
+      }),
+    ),
+    subjects: Schema.OptionFromUndefinedOr(
+      Schema.Struct({
+        actors: Schema.Array(UUID),
+        groups: Schema.Array(UUID),
+      }),
+    ),
+  }),
 }).annotations({
   title: "EditDocumentaryBody",
 });

@@ -40,7 +40,7 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
     endDate: O.getOrUndefined(endDate),
     avatar: pipe(
       avatar,
-      O.map((a) => ({ id: a })),
+      O.map((a): { id: string } | null => (a !== null ? { id: a } : null)),
       O.getOrUndefined,
     ),
     members: pipe(

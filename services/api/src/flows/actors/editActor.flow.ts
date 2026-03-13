@@ -40,7 +40,7 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
     diedOn: O.getOrUndefined(diedOn),
     avatar: pipe(
       avatar,
-      O.map((a) => ({ id: a })),
+      O.map((a): { id: UUID } | null => (a !== null ? { id: a } : null)),
       O.getOrUndefined,
     ),
     nationalities: pipe(
@@ -87,8 +87,8 @@ export const editActor = (input: EditActorInput): TEReader<Actor> => {
             ? updateData.nationalities
             : actor.nationalities,
           memberIn: [...updateData.memberIn],
-          excerpt: updateData.excerpt ?? actor.excerpt,
-          body: updateData.body ?? actor.body,
+          excerpt: "excerpt" in updateData ? updateData.excerpt : actor.excerpt,
+          body: "body" in updateData ? updateData.body : actor.body,
         },
       ]),
     ),

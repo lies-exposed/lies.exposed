@@ -38,12 +38,18 @@ export type CreateQuoteBody = typeof CreateQuoteBody.Type;
 export const EditQuoteBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: QUOTE,
-  payload: Schema.partial(QuotePayload),
+  payload: Schema.Struct({
+    actor: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+    subject: Schema.OptionFromUndefinedOr(Schema.NullOr(BySubjectId)),
+    quote: Schema.OptionFromUndefinedOr(Schema.String),
+    details: Schema.OptionFromUndefinedOr(Schema.NullOr(Schema.String)),
+  }),
 }).annotations({
   title: "EditQuoteBody",
 });
 
 export type EditQuoteBody = typeof EditQuoteBody.Type;
+export type EditQuoteBodyPayload = (typeof EditQuoteBody.Encoded)["payload"];
 
 export const Quote = Schema.Struct({
   ...EventCommon.fields,
