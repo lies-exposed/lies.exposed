@@ -66,14 +66,16 @@ export const editEventQuery =
               date,
               draft,
             });
+            const unwrappedPayload = foldOptionals(payload as any);
+            const mergedPayload = {
+              ...storedEvent.payload,
+              ...unwrappedPayload,
+            };
             const event: EditEventEntity = {
               ...storedEvent,
               ...baseProps,
               type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...(foldOptionals(payload) as Record<string, unknown>),
-              },
+              payload: mergedPayload,
               ...commonData,
             };
             return TE.right(event);
@@ -87,15 +89,17 @@ export const editEventQuery =
               excerpt,
               body,
             });
+            const unwrappedPayload = foldOptionals(payload as any);
+            const mergedPayload = {
+              ...storedEvent.payload,
+              ...unwrappedPayload,
+            };
             return TE.right({
               ...storedEvent,
               ...baseProps,
               ...commonData,
               type,
-              payload: {
-                ...storedEvent.payload,
-                ...(foldOptionals(payload) as Record<string, unknown>),
-              },
+              payload: mergedPayload,
             });
           }
         }

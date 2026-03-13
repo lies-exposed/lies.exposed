@@ -15,8 +15,6 @@ export const EditEventRoute: Route = (r, ctx) => {
   AddEndpoint(r, authenticationHandler([AdminEdit.literals[0]])(ctx))(
     Endpoints.Event.Edit,
     ({ params: { id }, body }) => {
-      ctx.logger.debug.log("Incoming body %O", body);
-
       return pipe(
         ctx.db.findOneOrFail(EventV2Entity, {
           where: { id: Equal(id) },

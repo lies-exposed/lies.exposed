@@ -26,12 +26,12 @@ export const CreateEventBody = Schema.Struct({
 export type CreateEventBody = typeof CreateEventBody.Type;
 
 export const EditUncategorizedPayload = Schema.Struct({
-  title: Schema.OptionFromUndefinedOr(Schema.String),
-  location: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
-  actors: Schema.OptionFromUndefinedOr(Schema.Array(Schema.String)),
-  groups: Schema.OptionFromUndefinedOr(Schema.Array(Schema.String)),
-  groupsMembers: Schema.OptionFromUndefinedOr(Schema.Array(Schema.String)),
-  endDate: Schema.OptionFromUndefinedOr(Schema.NullOr(Schema.Date)),
+  title: OptionFromNullishToNull(Schema.String),
+  location: OptionFromNullishToNull(Schema.NullOr(UUID)),
+  actors: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  groups: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  groupsMembers: OptionFromNullishToNull(Schema.Array(Schema.String)),
+  endDate: OptionFromNullishToNull(Schema.NullOr(Schema.Date)),
 }).annotations({ title: "EditUncategorizedPayload" });
 
 export type EditUncategorizedPayload = typeof EditUncategorizedPayload.Type;
