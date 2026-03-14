@@ -88,7 +88,10 @@ export const makeContext = (
     restClient: impl.rw.http,
   });
 
-  const urlMetadataClient = MakeURLMetadata(impl.urlMetadata);
+  const urlMetadataClient = MakeURLMetadata({
+    ...impl.urlMetadata,
+    logger: GetLogger("url-metadata"),
+  });
 
   const redisClient = GetRedisClient({
     client: () =>

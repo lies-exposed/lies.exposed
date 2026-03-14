@@ -1,4 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
+import { type Logger } from "@liexp/core/lib/logger/Logger.js";
 import { type AxiosInstance } from "axios";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -14,10 +15,133 @@ metadataRuleSets.date = {
   ],
 };
 
+// ---------------------------------------------------------------------------
+// 1. URL-based date extraction (zero network cost)
+// ---------------------------------------------------------------------------
+
+const URL_DATE_PATTERNS: {
+  re: RegExp;
+  groups: { year: number; month?: number; day?: number };
+}[] = [
+  // /YYYY/MM/DD/ or /YYYY/MM/DD at end
+  {
+    re: /\/(\d{4})\/(\d{2})\/(\d{2})(?:\/|$)/,
+    groups: { year: 1, month: 2, day: 3 },
+  },
+  // /YYYY/MM/ (year + month only — only when NOT followed by a day segment)
+  { re: /\/(\d{4})\/(\d{2})\/(?!\d)/, groups: { year: 1, month: 2 } },
+  // ?date=YYYY-MM-DD or &date=YYYY-MM-DD
+  {
+    re: /[?&]date=(\d{4})-(\d{2})-(\d{2})/,
+    groups: { year: 1, month: 2, day: 3 },
+  },
+  // -YYYY-MM-DD or _YYYY-MM-DD in path/query (lookahead so trailing separator is not consumed)
+  {
+    re: /[_\-](\d{4})-(\d{2})-(\d{2})(?=[_\-\.\/]|$)/,
+    groups: { year: 1, month: 2, day: 3 },
+  },
+  // Compact: /YYYYMMDD/ (8 consecutive digits between slashes)
+  { re: /\/(\d{4})(\d{2})(\d{2})\//, groups: { year: 1, month: 2, day: 3 } },
+];
+
 /**
- * Regex patterns to extract a publish date from raw HTML.
- * Ordered from most-specific (published) to least-specific (modified fallback).
+ * Attempt to extract a publication date directly from the URL path or query string.
+ * Many news sites embed the date in paths like /2021/03/15/article-slug.
+ * Returns an ISO date string or null. Never throws.
  */
+export function extractDateFromURL(url: string): string | null {
+  const currentYear = new Date().getFullYear();
+  for (const { re, groups } of URL_DATE_PATTERNS) {
+    const m = re.exec(url);
+    if (!m) continue;
+    const year = parseInt(m[groups.year], 10);
+    const month =
+      groups.month !== undefined ? parseInt(m[groups.month], 10) : 1;
+    const day = groups.day !== undefined ? parseInt(m[groups.day], 10) : 1;
+    if (year < 1990 || year > currentYear + 1) continue;
+    if (month < 1 || month > 12) continue;
+    if (day < 1 || day > 31) continue;
+    const d = new Date(
+      `${String(year)}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T00:00:00Z`,
+    );
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// 2. JSON-LD full-block parsing (covers @graph and nested structures)
+// ---------------------------------------------------------------------------
+
+function walkJSONLDForDate(obj: unknown): string | null {
+  if (!obj || typeof obj !== "object") return null;
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      const found = walkJSONLDForDate(item);
+      if (found) return found;
+    }
+    return null;
+  }
+  const record = obj as Record<string, unknown>;
+  for (const key of ["datePublished", "dateCreated"]) {
+    if (typeof record[key] === "string") {
+      const d = new Date(record[key]);
+      if (!isNaN(d.getTime())) return d.toISOString();
+    }
+  }
+  for (const val of Object.values(record)) {
+    const found = walkJSONLDForDate(val);
+    if (found) return found;
+  }
+  return null;
+}
+
+/**
+ * Parse all <script type="application/ld+json"> blocks and walk the JSON tree
+ * for datePublished / dateCreated, including nested @graph arrays.
+ * Returns an ISO date string or null.
+ */
+export function extractDateFromJSONLD(html: string): string | null {
+  const scriptRe =
+    /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = scriptRe.exec(html)) !== null) {
+    try {
+      const date = walkJSONLDForDate(JSON.parse(m[1]));
+      if (date) return date;
+    } catch {
+      // malformed JSON-LD block — skip
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// 3. archive.ph original-URL extraction
+// ---------------------------------------------------------------------------
+
+const ARCHIVE_PH_RE = /^https?:\/\/archive\.ph\//i;
+
+/**
+ * Extract the original archived URL from an archive.ph page's HTML.
+ * archive.ph renders the original URL in a text input with id="url".
+ * Returns the original URL string or null.
+ */
+export function extractOriginalURLFromArchivePh(html: string): string | null {
+  // Attribute order: id before value
+  let m = /<input[^>]+id=["']url["'][^>]+value=["']([^"']+)["']/i.exec(html);
+  // Attribute order: value before id
+  m ??= /<input[^>]+value=["']([^"']+)["'][^>]+id=["']url["']/i.exec(html);
+  const candidate = m?.[1];
+  if (candidate && /^https?:\/\//i.test(candidate)) return candidate;
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// 4. HTML meta-tag regex patterns (OG, itemprop, Dublin Core, modified fallback)
+//    Note: JSON-LD is intentionally excluded here — handled by extractDateFromJSONLD.
+// ---------------------------------------------------------------------------
+
 const HTML_DATE_PATTERNS: RegExp[] = [
   // Open Graph / standard: property="article:published_time"
   /<meta[^>]+property=["']article:published_time["'][^>]+content=["']([^"']+)["']/i,
@@ -38,15 +162,14 @@ const HTML_DATE_PATTERNS: RegExp[] = [
   // Dublin Core
   /<meta[^>]+name=["']DC\.date\.issued["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']DC\.date\.issued["']/i,
-  // JSON-LD: "datePublished":"..."
-  /"datePublished"\s*:\s*"([^"]+)"/i,
   // Fallback: modified time (better than nothing)
   /<meta[^>]+property=["']article:modified_time["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']article:modified_time["']/i,
 ];
 
 /**
- * Extract a publish date from raw HTML by scanning common meta tags and JSON-LD.
+ * Extract a publish date from raw HTML by scanning common meta tags.
+ * JSON-LD is handled separately by extractDateFromJSONLD.
  * Returns an ISO date string or null.
  */
 export function extractDateFromHTML(html: string): string | null {
@@ -59,6 +182,53 @@ export function extractDateFromHTML(html: string): string | null {
   }
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// 4. Wayback Machine CDX API (last resort — for inaccessible / undated pages)
+// ---------------------------------------------------------------------------
+
+const WAYBACK_CDX_BASE = "https://web.archive.org/cdx/search/cdx";
+
+function parseWaybackTimestamp(ts: string): string | null {
+  if (ts.length !== 14) return null;
+  const d = new Date(
+    `${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}T${ts.slice(8, 10)}:${ts.slice(10, 12)}:${ts.slice(12, 14)}Z`,
+  );
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+/**
+ * Query the Wayback Machine CDX API for the earliest successful crawl of a URL.
+ * Returns an ISO date string or null. Never propagates errors.
+ */
+async function fetchWaybackDate(
+  client: AxiosInstance,
+  url: string,
+): Promise<string | null> {
+  try {
+    const { data } = await client.get<string[][]>(WAYBACK_CDX_BASE, {
+      params: {
+        url,
+        output: "json",
+        limit: 1,
+        fl: "timestamp",
+        filter: "statuscode:200",
+        matchType: "exact",
+        collapse: "urlkey",
+      },
+    });
+    // Response format: [["timestamp"], ["20210315123456"]] — first row is the header
+    const row = data[1];
+    if (!Array.isArray(row) || typeof row[0] !== "string") return null;
+    return parseWaybackTimestamp(row[0]);
+  } catch {
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Provider interfaces & factory
+// ---------------------------------------------------------------------------
 
 export interface URLMetadataClient {
   fetchMetadata: <E>(
@@ -78,6 +248,7 @@ export interface MakeURLMetadataContext {
   parser: {
     getMetadata: (dom: Document, url: string, opts?: any) => Metadata;
   };
+  logger?: Logger;
 }
 
 export const MakeURLMetadata = (
@@ -85,7 +256,7 @@ export const MakeURLMetadata = (
 ): URLMetadataClient => {
   const fetchHTML = <E>(
     url: string,
-    opts: any,
+    _opts: any,
     toError: (e: unknown) => E,
   ): TE.TaskEither<E, string> => {
     return pipe(
@@ -103,7 +274,14 @@ export const MakeURLMetadata = (
     opts: any,
     toError: (e: unknown) => E,
   ): TE.TaskEither<E, Metadata> => {
-    return pipe(
+    // extractDateFromURL is free (no network) — compute once upfront so it is
+    // available regardless of whether the HTML fetch succeeds or fails.
+    const urlDate = extractDateFromURL(url);
+
+    // Inner step: fetch HTML and extract all DOM/HTML-based signals.
+    // On any failure (bot block, 404, JS wall, parse error) we fall back to
+    // empty metadata so the outer steps (URL date, Wayback) can still run.
+    const fromHTML: TE.TaskEither<E, Metadata> = pipe(
       fetchHTML(url, opts, toError),
       TE.chain((html) =>
         pipe(
@@ -113,14 +291,66 @@ export const MakeURLMetadata = (
           }, toError),
           TE.map((dom) => {
             const meta = ctx.parser.getMetadata(dom, url, metadataRuleSets);
-            // page-metadata-parser only covers name="article:published_time"
-            // and the first <time datetime>. Fall back to the broader regex scan
-            // when the parser found nothing.
+            // 1. JSON-LD full block parsing (covers @graph and nested structures)
+            meta.date ??= extractDateFromJSONLD(html) ?? undefined;
+            // 2. HTML meta / itemprop / Dublin Core regex patterns
             meta.date ??= extractDateFromHTML(html) ?? undefined;
+            // 3. For archive.ph pages: extract the original URL and derive the
+            //    date from its path (e.g. reuters.com/2021/03/15/article-slug).
+            //    The archived HTML already contains the original meta tags above;
+            //    this step recovers dates that were only in the original URL path.
+            if (ARCHIVE_PH_RE.test(url)) {
+              const originalUrl = extractOriginalURLFromArchivePh(html);
+              if (originalUrl) {
+                meta.date ??= extractDateFromURL(originalUrl) ?? undefined;
+              }
+            }
             return meta;
           }),
         ),
       ),
+      TE.orElse((_err) => {
+        ctx.logger?.info.log(
+          "[URLMetadata] HTML fetch/parse failed for %s — falling back to URL pattern and Wayback CDX",
+          url,
+        );
+        return TE.right<E, Metadata>({ url } as Partial<Metadata> as Metadata);
+      }),
+    );
+
+    return pipe(
+      fromHTML,
+      // 4. URL path / query string (free — applies even when HTML fetch failed)
+      TE.map((meta) => {
+        meta.date ??= urlDate ?? undefined;
+        return meta;
+      }),
+      // 5. Wayback Machine CDX API (last resort)
+      TE.chain((meta) => {
+        if (meta.date !== undefined) return TE.right(meta);
+        ctx.logger?.info.log(
+          "[URLMetadata] No date found via HTML/URL for %s — querying Wayback Machine CDX",
+          url,
+        );
+        return pipe(
+          TE.fromTask(() => fetchWaybackDate(ctx.client, url)),
+          TE.map((date) => {
+            if (date) {
+              ctx.logger?.info.log(
+                "[URLMetadata] Wayback Machine CDX resolved date for %s → %s",
+                url,
+                date,
+              );
+            } else {
+              ctx.logger?.info.log(
+                "[URLMetadata] Wayback Machine CDX found no date for %s",
+                url,
+              );
+            }
+            return { ...meta, date: date ?? undefined };
+          }),
+        );
+      }),
     );
   };
 
