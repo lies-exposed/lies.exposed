@@ -18,8 +18,6 @@ export const linkEdit = makeCommand(
         title: input.title,
         description: input.description ?? "",
         publishDate: input.publishDate?.toISOString(),
-        creator: undefined,
-        overrideThumbnail: null,
         status: input.status ?? "DRAFT",
         events: input.events ?? [],
         keywords: input.keywords ?? [],

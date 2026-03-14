@@ -49,7 +49,7 @@ export const bookEdit = makeCommand(
           title: input.title!,
           media: {
             pdf: input.pdf!,
-            audio: input.audio,
+            audio: input.audio ?? undefined,
           },
           authors: (input.authors ?? []).map((id) => ({
             type: "Actor" as const,

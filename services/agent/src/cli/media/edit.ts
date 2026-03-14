@@ -19,13 +19,6 @@ export const mediaEdit = makeCommand(
         links: body.links ?? [],
         keywords: body.keywords ?? [],
         areas: body.areas ?? [],
-        extra: null,
-        creator: null,
-        overrideThumbnail: null,
-        overrideExtra: null,
-        transfer: null,
-        transferThumbnail: null,
-        restore: null,
       },
     });
   },

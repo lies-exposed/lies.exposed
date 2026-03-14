@@ -41,7 +41,6 @@ export const storyEdit = makeCommand(
             actors: body.actors ?? [...existing.data.actors],
             events: body.events ?? [...existing.data.events],
             media: body.media ?? [...existing.data.media],
-            restore: null,
           },
         }),
       ),
