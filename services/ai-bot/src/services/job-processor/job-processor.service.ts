@@ -28,7 +28,7 @@ const processJob =
       fp.TE.bracket(
         pipe(
           fp.TE.right(job),
-          fp.TE.chainFirst(() =>
+          fp.TE.chainFirst((job) =>
             ctx.api.Queues.Edit({
               Params: {
                 id: job.id,
@@ -37,15 +37,12 @@ const processJob =
               },
               Body: {
                 ...job,
-                data: {
-                  ...job.data,
-                  date:
-                    "date" in job.data
-                      ? job.data.date?.toISOString()
-                      : undefined,
-                } as any,
+                type: job.type,
+                createdAt: job.createdAt.toISOString(),
+                updatedAt: job.updatedAt.toISOString(),
+                deletedAt: job.deletedAt?.toISOString() ?? null,
                 status: "processing",
-              },
+              } as typeof Queue.Queue.Encoded,
             }),
           ),
         ),
