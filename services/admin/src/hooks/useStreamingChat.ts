@@ -5,6 +5,7 @@ import type {
   AIConfig,
 } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
+import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { useState, useCallback, useRef } from "react";
 
 // Simple token estimation: roughly 1 token ≈ 4 characters
@@ -49,6 +50,7 @@ interface UseStreamingChatOptions {
 
 export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
   const { proxyUrl = "/api/proxy/agent/chat/message/stream" } = options;
+  const config = useConfiguration();
 
   const [state, setState] = useState<StreamingChatState>({
     messages: [],
@@ -74,7 +76,6 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
-
       const abortController = new AbortController();
       abortControllerRef.current = abortController;
 
@@ -129,15 +130,18 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
         };
         resetActivityTimeout();
 
-        const response = await fetch(proxyUrl, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            ...request,
-            ...(aiConfig && { aiConfig }),
-          }),
-          signal: abortController.signal,
-        });
+        const response = await fetch(
+          `${config.platforms.admin.url}${proxyUrl}`,
+          {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              ...request,
+              ...(aiConfig && { aiConfig }),
+            }),
+            signal: abortController.signal,
+          },
+        );
 
         if (!response.ok) {
           if (timeoutIdRef.current) {

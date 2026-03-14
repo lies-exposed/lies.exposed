@@ -1,23 +1,67 @@
 import type { AIConfig, ChatRequest } from "@liexp/io/lib/http/Chat.js";
 import { renderHook, act, waitFor } from "@testing-library/react";
-import { describe, expect, it, beforeEach, vi, afterEach } from "vitest";
+import { type DefaultBodyType, http, HttpResponse } from "msw";
+import { type SetupServer, setupServer } from "msw/node";
+import {
+  describe,
+  expect,
+  it,
+  beforeEach,
+  vi,
+  afterEach,
+  beforeAll,
+  afterAll,
+} from "vitest";
 import { useStreamingChat } from "./useStreamingChat.js";
 
-const mockFetch: ReturnType<typeof vi.fn> = vi.fn();
-
-vi.mock("fetch", () => mockFetch);
 // Mock getAuthFromLocalStorage
 vi.mock("@liexp/ui/lib/client/api.js", () => ({
   getAuthFromLocalStorage: vi.fn(() => "mock-token"),
 }));
 
 describe("useStreamingChat", () => {
+  const agentProxyHandler = vi.fn();
+  let mswServer: SetupServer;
+
+  const mockHandler = (data: string[]): HttpResponse<DefaultBodyType> => {
+    const stream = new ReadableStream({
+      start(controller) {
+        data
+          .reduce((acc, d) => {
+            acc.enqueue(new TextEncoder().encode(d));
+
+            return acc;
+          }, controller)
+          .close();
+      },
+    });
+
+    return new HttpResponse(stream, {
+      headers: {
+        "content-type": "text/plain",
+      },
+    });
+  };
+
+  beforeAll(() => {
+    mswServer = setupServer(http.all("*", agentProxyHandler));
+
+    mswServer.listen({ onUnhandledRequest: "error" });
+  });
+
   beforeEach(() => {
-    vi.clearAllMocks();
+    agentProxyHandler.mockImplementation(async (req) => {
+      const body = await req.request.clone().json();
+      return mockHandler([JSON.stringify(body)]);
+    });
   });
 
   afterEach(() => {
-    vi.restoreAllMocks();
+    vi.resetAllMocks();
+  });
+
+  afterAll(() => {
+    mswServer?.close();
   });
 
   describe("Initial state", () => {
@@ -45,18 +89,10 @@ describe("useStreamingChat", () => {
 
   describe("sendMessage with aiConfig", () => {
     it("should accept aiConfig parameter and store it in state", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
+      agentProxyHandler.mockImplementation(async (req) => {
+        const body = await req.request.clone().json();
+        return mockHandler([JSON.stringify(body)]);
       });
-
       const { result } = renderHook(() => useStreamingChat());
 
       const aiConfig: AIConfig = {
@@ -77,16 +113,9 @@ describe("useStreamingChat", () => {
     });
 
     it("should include aiConfig in fetch request body when provided", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
+      agentProxyHandler.mockImplementation(async (req) => {
+        const body = await req.request.clone().json();
+        return mockHandler([JSON.stringify(body)]);
       });
 
       const { result } = renderHook(() => useStreamingChat());
@@ -106,29 +135,20 @@ describe("useStreamingChat", () => {
       });
 
       // Check that fetch was called with aiConfig in body
-      const fetchCall = mockFetch.mock.calls[0];
-      expect(fetchCall[0]).toBe("/api/proxy/agent/chat/message/stream");
-      expect(fetchCall[1].method).toBe("POST");
+      const fetchCall = agentProxyHandler.mock.calls[0];
 
-      const body = JSON.parse(fetchCall[1].body);
+      expect(fetchCall[0].request.url).toContain(
+        "/api/proxy/agent/chat/message/stream",
+      );
+      expect(fetchCall[0].request.method).toBe("POST");
+
+      const body = await fetchCall[0].request.clone().json();
       expect(body.aiConfig).toEqual(aiConfig);
       expect(body.message).toBe("Hello");
       expect(body.conversation_id).toBe("conv-123");
     });
 
     it("should not include aiConfig in fetch body when not provided", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
-
       const { result } = renderHook(() => useStreamingChat());
 
       const request: ChatRequest = {
@@ -140,8 +160,8 @@ describe("useStreamingChat", () => {
         await result.current.sendMessage(request);
       });
 
-      const fetchCall = mockFetch.mock.calls[0];
-      const body = JSON.parse(fetchCall[1].body);
+      const fetchCall = agentProxyHandler.mock.calls[0];
+      const body = await fetchCall[0].request.json();
       expect(body.aiConfig).toBeUndefined();
     });
   });
@@ -154,26 +174,7 @@ describe("useStreamingChat", () => {
         "data: [DONE]\n",
       ];
 
-      let readIndex = 0;
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi.fn().mockImplementation(async () => {
-              if (readIndex < streamData.length) {
-                const data = streamData[readIndex];
-                readIndex++;
-                return Promise.resolve({
-                  done: false,
-                  value: new TextEncoder().encode(data),
-                });
-              }
-              return Promise.resolve({ done: true, value: undefined });
-            }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
+      agentProxyHandler.mockImplementation(() => mockHandler(streamData));
 
       const { result } = renderHook(() => useStreamingChat());
 
@@ -201,26 +202,7 @@ describe("useStreamingChat", () => {
         "data: [DONE]\n",
       ];
 
-      let readIndex = 0;
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi.fn().mockImplementation(async () => {
-              if (readIndex < streamData.length) {
-                const data = streamData[readIndex];
-                readIndex++;
-                return Promise.resolve({
-                  done: false,
-                  value: new TextEncoder().encode(data),
-                });
-              }
-              return Promise.resolve({ done: true, value: undefined });
-            }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
+      agentProxyHandler.mockImplementation(() => mockHandler(streamData));
 
       const { result } = renderHook(() => useStreamingChat());
 
@@ -247,18 +229,6 @@ describe("useStreamingChat", () => {
       // Manually set usedProvider state
       await act(async () => {
         // Send a message and set provider info
-        mockFetch.mockResolvedValueOnce({
-          ok: true,
-          body: {
-            getReader: () => ({
-              read: vi
-                .fn()
-                .mockResolvedValueOnce({ done: true, value: undefined }),
-              releaseLock: vi.fn(),
-            }),
-          },
-        });
-
         await result.current.sendMessage({
           message: "Test",
           conversation_id: null,
@@ -278,18 +248,6 @@ describe("useStreamingChat", () => {
 
   describe("Message handling", () => {
     it("should add user message immediately when sendMessage is called", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
-
       const { result } = renderHook(() => useStreamingChat());
 
       await act(async () => {
@@ -305,18 +263,6 @@ describe("useStreamingChat", () => {
     });
 
     it("should clear aiConfig and usedProvider on new message", async () => {
-      mockFetch.mockResolvedValue({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
-
       const { result } = renderHook(() => useStreamingChat());
 
       // Send first message with config
@@ -342,8 +288,21 @@ describe("useStreamingChat", () => {
 
   describe("Error handling", () => {
     it("should handle network errors gracefully", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network error"));
+      agentProxyHandler.mockImplementationOnce(() => {
+        const stream = new ReadableStream({
+          start(controller) {
+            controller.enqueue(new TextEncoder().encode("hi"));
+            controller.error("Network error");
+            controller.close();
+          },
+        });
 
+        return new HttpResponse(stream, {
+          headers: {
+            "content-type": "text/plain",
+          },
+        });
+      });
       const { result } = renderHook(() => useStreamingChat());
 
       await act(async () => {
@@ -353,15 +312,14 @@ describe("useStreamingChat", () => {
         });
       });
 
-      expect(result.current.error).toContain("Network error");
+      expect(result.current.error).toContain("HTTP error! status: 500");
       expect(result.current.isLoading).toBe(false);
     });
 
     it("should handle HTTP errors", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-      });
+      agentProxyHandler.mockImplementation(() =>
+        HttpResponse.json({}, { status: 500 }),
+      );
 
       const { result } = renderHook(() => useStreamingChat());
 
@@ -379,17 +337,9 @@ describe("useStreamingChat", () => {
 
   describe("clearMessages", () => {
     it("should clear all state including aiConfig and usedProvider", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
+      agentProxyHandler.mockImplementation(() =>
+        mockHandler(["data: [DONE]\n"]),
+      );
 
       const { result } = renderHook(() => useStreamingChat());
 
@@ -416,17 +366,9 @@ describe("useStreamingChat", () => {
 
   describe("Authorization header", () => {
     it("should include Authorization header when token is available", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        body: {
-          getReader: () => ({
-            read: vi
-              .fn()
-              .mockResolvedValueOnce({ done: true, value: undefined }),
-            releaseLock: vi.fn(),
-          }),
-        },
-      });
+      agentProxyHandler.mockImplementation(() =>
+        mockHandler(["data: [DONE]\n"]),
+      );
 
       const { result } = renderHook(() => useStreamingChat());
 
@@ -437,9 +379,9 @@ describe("useStreamingChat", () => {
         });
       });
 
-      const fetchCall = mockFetch.mock.calls[0];
-      const headers = fetchCall[1].headers;
-      expect(headers.Authorization).toBe("mock-token");
+      const fetchCall = agentProxyHandler.mock.calls[0];
+      const authHeader = fetchCall[0].request.headers.get("Authorization");
+      expect(authHeader).toBe("mock-token");
     });
   });
 });
