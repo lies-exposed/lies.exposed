@@ -1,9 +1,21 @@
 {
   "mcpServers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "api-liexp-dev": {
+      "url": "https://api.liexp.dev/mcp",
+      "type": "http"
+    },
     "basic-memory": {
       "type": "stdio",
       "command": "uvx",
-      "args": ["basic-memory", "mcp", "--project", "lies-exposed"]
+      "args": [
+        "basic-memory",
+        "mcp",
+        "--project",
+        "lies-exposed"
+      ]
     }
   }
 }

@@ -120,21 +120,19 @@ vi.mock("@liexp/ui/lib/components/admin/events/titles/EventTitle.js", () => ({
 // Tests
 // ---------------------------------------------------------------------------
 
+/** Helper: re-configure the FormDataConsumer mock to inject specific formData. */
+const mockFormDataConsumer = (formData: Record<string, unknown>) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation((props: any) =>
+    props.children({ formData }),
+  );
+};
+
 describe("EventEdit", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
     // Default: no type → UNCATEGORIZED branch
-    vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-      ({
-        children,
-      }: {
-        children: (args: {
-          formData: Record<string, unknown>;
-          scopedFormData?: unknown;
-        }) => React.ReactNode;
-      }) => <>{children({ formData: {} })}</>,
-    );
+    mockFormDataConsumer({});
   });
 
   describe("Container structure", () => {
@@ -173,16 +171,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — DOCUMENTARY", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => <>{children({ formData: { type: EVENT_TYPES.DOCUMENTARY } })}</>,
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.DOCUMENTARY });
     });
 
     it("should render the DocumentaryEditFormTab", () => {
@@ -200,16 +189,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — DEATH", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => <>{children({ formData: { type: EVENT_TYPES.DEATH } })}</>,
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.DEATH });
     });
 
     it("should render the DeathEventEditFormTab", () => {
@@ -227,18 +207,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — SCIENTIFIC_STUDY", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => (
-          <>{children({ formData: { type: EVENT_TYPES.SCIENTIFIC_STUDY } })}</>
-        ),
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.SCIENTIFIC_STUDY });
     });
 
     it("should render the ScientificStudyEventEditTab", () => {
@@ -251,16 +220,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — QUOTE", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => <>{children({ formData: { type: EVENT_TYPES.QUOTE } })}</>,
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.QUOTE });
     });
 
     it("should render the QuoteEditFormTab", () => {
@@ -271,16 +231,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — PATENT", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => <>{children({ formData: { type: EVENT_TYPES.PATENT } })}</>,
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.PATENT });
     });
 
     it("should render the PatentEventEditFormTab", () => {
@@ -291,16 +242,7 @@ describe("EventEdit", () => {
 
   describe("Type dispatch — BOOK", () => {
     beforeEach(() => {
-      vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation(
-        ({
-          children,
-        }: {
-          children: (args: {
-            formData: Record<string, unknown>;
-            scopedFormData?: unknown;
-          }) => React.ReactNode;
-        }) => <>{children({ formData: { type: EVENT_TYPES.BOOK } })}</>,
-      );
+      mockFormDataConsumer({ type: EVENT_TYPES.BOOK });
     });
 
     it("should render the BookEditFormTab", () => {

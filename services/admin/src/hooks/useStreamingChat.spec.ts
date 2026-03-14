@@ -64,6 +64,10 @@ describe("useStreamingChat", () => {
     mswServer?.close();
   });
 
+  afterAll(() => {
+    mswServer?.close();
+  });
+
   describe("Initial state", () => {
     it("should initialize with empty messages and no loading", () => {
       const { result } = renderHook(() => useStreamingChat());
