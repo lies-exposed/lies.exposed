@@ -34,15 +34,15 @@ export const CreateAreaBody = Schema.Struct({
 export type CreateAreaBody = typeof CreateAreaBody.Type;
 
 export const EditAreaBody = Schema.Struct({
-  geometry: OptionFromNullishToNull(Geometry),
-  label: OptionFromNullishToNull(Schema.String),
-  slug: OptionFromNullishToNull(Schema.String),
-  draft: OptionFromNullishToNull(Schema.Boolean),
-  body: OptionFromNullishToNull(BlockNoteDocument),
-  featuredImage: OptionFromNullishToNull(UUID),
-  media: Schema.Array(UUID),
-  events: OptionFromNullishToNull(Schema.Array(UUID)),
-  updateGeometry: OptionFromNullishToNull(Schema.Boolean),
+  geometry: Schema.OptionFromUndefinedOr(Geometry),
+  label: Schema.OptionFromUndefinedOr(Schema.String),
+  slug: Schema.OptionFromUndefinedOr(Schema.String),
+  draft: Schema.OptionFromUndefinedOr(Schema.Boolean),
+  body: Schema.OptionFromUndefinedOr(Schema.NullOr(BlockNoteDocument)),
+  featuredImage: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+  media: Schema.OptionFromUndefinedOr(Schema.Array(UUID)),
+  events: Schema.OptionFromUndefinedOr(Schema.Array(UUID)),
+  updateGeometry: Schema.OptionFromUndefinedOr(Schema.Boolean),
 }).annotations({
   title: "EditAreaBody",
 });

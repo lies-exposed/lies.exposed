@@ -43,11 +43,22 @@ export type CreateBookBody = typeof CreateBookBody.Type;
 export const EditBookBody = Schema.Struct({
   ...EditEventCommon.fields,
   type: BOOK,
-  payload: BookPayload,
+  payload: Schema.Struct({
+    title: Schema.OptionFromUndefinedOr(Schema.String),
+    media: Schema.OptionFromUndefinedOr(
+      Schema.Struct({
+        pdf: UUID,
+        audio: Schema.NullOr(UUID),
+      }),
+    ),
+    authors: Schema.OptionFromUndefinedOr(Schema.Array(BySubjectId)),
+    publisher: Schema.OptionFromUndefinedOr(Schema.NullOr(BySubjectId)),
+  }),
 }).annotations({
   title: "EditBookBody",
 });
 export type EditBookBody = typeof EditBookBody.Type;
+export type EditBookBodyPayload = (typeof EditBookBody.Encoded)["payload"];
 
 export const Book = Schema.Struct({
   ...EventCommon.fields,

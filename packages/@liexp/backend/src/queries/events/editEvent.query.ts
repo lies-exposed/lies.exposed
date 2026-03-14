@@ -1,7 +1,6 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
-import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type DeepPartial } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
@@ -53,173 +52,55 @@ export const editEventQuery =
         // };
 
         switch (input.type) {
-          case EVENT_TYPES.BOOK: {
-            const { excerpt, body, payload, date, draft } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
-          case EVENT_TYPES.QUOTE: {
-            const { excerpt, body, payload, date, draft } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
-          case EVENT_TYPES.TRANSACTION: {
-            const { excerpt, body, payload, date, draft } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
-          case EVENT_TYPES.DOCUMENTARY: {
-            const { excerpt, body, payload, date, draft } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
-          case EVENT_TYPES.PATENT: {
-            const { excerpt, body, payload, date, draft } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
-          case EVENT_TYPES.DEATH: {
-            const { excerpt, body, payload, draft, date } = input;
-            const baseProps = foldOptionals({
-              excerpt,
-              body,
-              date,
-              draft,
-            });
-            const event: EditEventEntity = {
-              ...storedEvent,
-              ...baseProps,
-              type: input.type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-                location: O.toUndefined(payload.location),
-              },
-              ...commonData,
-            };
-            return TE.right(event);
-          }
+          case EVENT_TYPES.BOOK:
+          case EVENT_TYPES.QUOTE:
+          case EVENT_TYPES.TRANSACTION:
+          case EVENT_TYPES.DOCUMENTARY:
+          case EVENT_TYPES.PATENT:
+          case EVENT_TYPES.DEATH:
           case EVENT_TYPES.SCIENTIFIC_STUDY: {
-            const { type, date, draft, excerpt, body, payload } = input;
+            const { excerpt, body, payload, date, draft } = input;
             const baseProps = foldOptionals({
-              date,
-              draft,
               excerpt,
               body,
+              date,
+              draft,
             });
-            return TE.right({
+            const unwrappedPayload = foldOptionals(payload as any);
+            const mergedPayload = {
+              ...storedEvent.payload,
+              ...unwrappedPayload,
+            };
+            const event: EditEventEntity = {
               ...storedEvent,
               ...baseProps,
-              type,
-              payload: {
-                ...storedEvent.payload,
-                ...payload,
-              },
+              type: input.type,
+              payload: mergedPayload,
               ...commonData,
-            });
+            };
+            return TE.right(event);
           }
           case EVENT_TYPES.UNCATEGORIZED:
           default: {
             const { type, excerpt, draft, date, body, payload } = input;
-
             const baseProps = foldOptionals({
               draft,
               date,
               excerpt,
               body,
             });
-
-            return pipe(
-              {
-                ...storedEvent.payload,
-                ...payload,
-                location: O.toUndefined(payload.location),
-                endDate: O.toUndefined(payload.endDate),
-              },
-              TE.right,
-              TE.map((p) => ({
-                ...storedEvent,
-                ...baseProps,
-                ...commonData,
-                type,
-                payload: p,
-              })),
-            );
+            const unwrappedPayload = foldOptionals(payload as any);
+            const mergedPayload = {
+              ...storedEvent.payload,
+              ...unwrappedPayload,
+            };
+            return TE.right({
+              ...storedEvent,
+              ...baseProps,
+              ...commonData,
+              type,
+              payload: mergedPayload,
+            });
           }
         }
       }),

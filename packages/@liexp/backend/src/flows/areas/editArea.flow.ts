@@ -10,6 +10,7 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { Equal } from "typeorm";
 import { type DatabaseContext } from "../../context/db.context.js";
 import { type GeocodeProviderContext } from "../../context/index.js";
+import { type MediaEntity } from "../../entities/Media.entity.js";
 import { AreaIO } from "../../io/Area.io.js";
 import { type GeocodeError } from "../../providers/geocode/geocode.provider.js";
 import { type DBError } from "../../providers/orm/database.provider.js";
@@ -24,7 +25,7 @@ interface EditAreaInput extends EditAreaBody {
 export const editArea = <C extends DatabaseContext & GeocodeProviderContext>(
   input: EditAreaInput,
 ): ReaderTaskEither<C, DBError | GeocodeError, Area> => {
-  const { id, media, events, updateGeometry, ...body } = input;
+  const { id, media, events, updateGeometry, featuredImage, ...body } = input;
 
   return pipe(
     RTE.ask<C>(),
@@ -47,23 +48,36 @@ export const editArea = <C extends DatabaseContext & GeocodeProviderContext>(
             geometry: getGeometry,
             events: pipe(
               events,
-              fp.O.fold(
-                () => undefined,
-                (ids) => ids.map((id) => ({ id })),
-              ),
+              fp.O.map((ids) => ids.map((id) => ({ id }))),
+              fp.O.toUndefined,
               TE.right,
             ),
-            body: TE.right({
-              ...foldOptionals({ ...body }),
-              media: media.map((id) => ({ id })),
-              id,
-            }),
+            media: pipe(
+              media,
+              fp.O.map((ids) => ids.map((id) => ({ id }))),
+              fp.O.toUndefined,
+              TE.right,
+            ),
+            body: pipe(
+              {
+                ...foldOptionals({ ...body }),
+                id,
+              },
+              TE.right,
+            ),
+            featuredImage: pipe(
+              featuredImage,
+              fp.O.map((id) => ({ id }) as MediaEntity),
+              fp.O.toUndefined,
+              TE.right,
+            ),
           }),
-        fp.RTE.chain(({ events, geometry, body: { featuredImage, ...body } }) =>
+        fp.RTE.chain(({ events, geometry, media, featuredImage, body }) =>
           AreaRepository.save<C>([
             {
               ...body,
-              featuredImage: featuredImage ? { id: featuredImage } : null,
+              media,
+              featuredImage,
               geometry,
               ...(events ? { events } : {}),
             },

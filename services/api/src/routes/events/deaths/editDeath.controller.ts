@@ -22,7 +22,10 @@ export const MakeEditDeathEventRoute: Route = (r, ctx) => {
           editEventQuery(event, {
             ...body,
             type: "Death",
-            payload,
+            payload: {
+              ...payload,
+              victim: O.some(payload.victim),
+            },
             date: O.some(body.date),
             draft: O.some(body.draft),
             body: O.fromNullable(body.body),

@@ -1,6 +1,5 @@
 import { Schema } from "effect";
 import { BlockNoteDocument } from "../Common/BlockNoteDocument.js";
-import { OptionFromNullishToNull } from "../Common/OptionFromNullishToNull.js";
 import { UUID } from "../Common/UUID.js";
 import { CreateLink } from "../Link.js";
 import { CreateMedia } from "../Media/Media.js";
@@ -24,13 +23,15 @@ export const CreateEventCommon = Schema.Struct({
 export type CreateEventCommon = typeof CreateEventCommon.Type;
 
 export const EditEventCommon = Schema.Struct({
-  excerpt: OptionFromNullishToNull(BlockNoteDocument),
-  body: OptionFromNullishToNull(BlockNoteDocument),
-  draft: OptionFromNullishToNull(Schema.Boolean),
-  date: OptionFromNullishToNull(Schema.Date),
-  keywords: OptionFromNullishToNull(Schema.Array(UUID)),
-  media: OptionFromNullishToNull(Schema.Array(Schema.Union(UUID, CreateMedia))),
-  links: OptionFromNullishToNull(
+  excerpt: Schema.OptionFromUndefinedOr(Schema.NullOr(BlockNoteDocument)),
+  body: Schema.OptionFromUndefinedOr(Schema.NullOr(BlockNoteDocument)),
+  draft: Schema.OptionFromUndefinedOr(Schema.Boolean),
+  date: Schema.OptionFromUndefinedOr(Schema.Date),
+  keywords: Schema.OptionFromUndefinedOr(Schema.Array(UUID)),
+  media: Schema.OptionFromUndefinedOr(
+    Schema.Array(Schema.Union(UUID, CreateMedia)),
+  ),
+  links: Schema.OptionFromUndefinedOr(
     Schema.Array(Schema.Union(UUID, CreateEventLink)),
   ),
 }).annotations({

@@ -67,18 +67,19 @@ export const LinkMedia = Schema.Struct({
 export type LinkMedia = typeof LinkMedia.Type;
 
 export const EditLink = Schema.Struct({
-  ...CreateLink.fields,
-  url: Schema.Union(URL, Schema.Undefined),
-  title: Schema.String,
+  url: Schema.OptionFromUndefinedOr(URL),
+  status: Status,
+  publishDate: Schema.OptionFromUndefinedOr(Schema.NullOr(Schema.Date)),
   description: Schema.String,
+  title: Schema.OptionFromUndefinedOr(Schema.String),
   keywords: Schema.Array(UUID),
-  provider: Schema.Union(UUID, Schema.Undefined),
+  provider: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
   events: Schema.Array(UUID),
-  creator: OptionFromNullishToNull(UUID),
-  image: Schema.Union(LinkMedia, UUID, Schema.Undefined).annotations({
-    title: "LinkImage",
-  }),
-  overrideThumbnail: OptionFromNullishToNull(Schema.Boolean),
+  creator: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
+  image: Schema.OptionFromUndefinedOr(
+    Schema.NullOr(Schema.Union(LinkMedia, UUID)),
+  ).annotations({ title: "LinkImage" }),
+  overrideThumbnail: Schema.OptionFromUndefinedOr(Schema.Boolean),
 }).annotations({
   title: "EditLinkBody",
 });

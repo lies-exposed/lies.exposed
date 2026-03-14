@@ -119,28 +119,31 @@ export const EditEventBody = Schema.Union(
 export type EditEventBody = typeof EditEventBody.Type;
 
 export const EditEventTypeAndPayload = Schema.Union(
-  Schema.Struct({ type: BOOK, payload: Book.BookPayload }),
-  Schema.Struct({ type: DEATH, payload: Death.DeathPayload }),
-  Schema.Struct({ type: PATENT, payload: Patent.PatentPayload }),
+  Schema.Struct({ type: BOOK, payload: Schema.partial(Book.BookPayload) }),
+  Schema.Struct({ type: DEATH, payload: Schema.partial(Death.DeathPayload) }),
+  Schema.Struct({
+    type: PATENT,
+    payload: Schema.partial(Patent.PatentPayload),
+  }),
   Schema.Struct({
     type: SCIENTIFIC_STUDY,
-    payload: ScientificStudy.ScientificStudyPayload,
+    payload: Schema.partial(ScientificStudy.ScientificStudyPayload),
   }),
   Schema.Struct({
     type: DOCUMENTARY,
-    payload: Documentary.DocumentaryPayload,
+    payload: Schema.partial(Documentary.EditDocumentaryPayload),
   }),
   Schema.Struct({
     type: TRANSACTION,
-    payload: Transaction.TransactionPayload,
+    payload: Schema.partial(Transaction.TransactionPayload),
   }),
   Schema.Struct({
     type: QUOTE,
-    payload: Quote.QuotePayload,
+    payload: Schema.partial(Quote.QuotePayload),
   }),
   Schema.Struct({
     type: UNCATEGORIZED,
-    payload: Uncategorized.UncategorizedV2Payload,
+    payload: Schema.partial(Uncategorized.EditUncategorizedPayload),
   }),
 );
 
