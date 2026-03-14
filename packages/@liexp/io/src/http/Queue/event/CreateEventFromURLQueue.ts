@@ -14,6 +14,8 @@ export const CreateEventFromURLQueueData = Schema.Struct({
   date: Schema.Union(
     Schema.DateFromSelf,
     Schema.DateFromString,
+    Schema.String,
+    Schema.Null,
     Schema.Undefined,
   ),
 });

@@ -37,7 +37,7 @@ export const CreateEventFromURLQueueButton: React.FC = () => {
         data: {
           url: record.url,
           type: eventType,
-          date: record.publishDate ? new Date(record.publishDate) : undefined,
+          date: record.publishDate ?? undefined,
         },
         id: newEventId,
       })

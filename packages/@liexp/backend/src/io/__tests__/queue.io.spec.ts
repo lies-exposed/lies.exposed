@@ -63,6 +63,30 @@ describe("QueueIO", () => {
       expect(E.isRight(result)).toBe(true);
     });
 
+    it("should decode a queue with ISO date string in data (from jsonb)", () => {
+      const entity = makeQueueEntity({
+        data: {
+          url: "https://example.com/article",
+          type: "Uncategorized" as const,
+          date: "2024-01-15T10:00:00.000Z",
+        },
+      });
+      const result = QueueIO.decodeSingle(entity);
+      expect(E.isRight(result)).toBe(true);
+    });
+
+    it("should decode a queue with null date in data", () => {
+      const entity = makeQueueEntity({
+        data: {
+          url: "https://example.com/article",
+          type: "Uncategorized" as const,
+          date: null,
+        },
+      });
+      const result = QueueIO.decodeSingle(entity);
+      expect(E.isRight(result)).toBe(true);
+    });
+
     it("should return Left for invalid queue data", () => {
       const entity = {
         id: uuid(),
