@@ -3,6 +3,16 @@
   "compilerOptions": {
     "allowJs": false
   },
-  "include": ["./src", "./typings"],
-  "exclude": ["node_modules", "build", ".eslintrc.cjs", "vite.config.ts"]
+  "include": [
+    "./src",
+    "./typings"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    ".eslintrc.cjs",
+    "vite.config.ts",
+    "**/test/**",
+    "**/*.spec.ts"
+  ]
 }

@@ -8,7 +8,7 @@ export interface ChunkConfigOptions {
   /** Root directory to scan for pages and templates */
   pagesDir: string;
   /** Root directory to scan for templates */
-  templatesDir: string;
+  templatesDir?: string;
   /** Map folder names to chunk names (e.g., "events" -> "chunk-events") */
   folderToChunkMap?: Record<string, string>;
   /** Default chunk name prefix (e.g., "chunk-") */
@@ -158,7 +158,7 @@ export const generateChunkConfig = (
 
   // Get all page and template files
   const pageFiles = getFilesInDir(pagesDir);
-  const templateFiles = getFilesInDir(templatesDir);
+  const templateFiles = templatesDir ? getFilesInDir(templatesDir) : [];
 
   // Group files by their context folder
   const pagesByContext = groupFilesByContext(pageFiles);

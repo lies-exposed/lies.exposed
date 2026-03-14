@@ -2,7 +2,6 @@ import { Link, fc } from "@liexp/test/lib/index.js";
 import { LinkEdit } from "@liexp/ui/lib/components/admin/links/LinkEdit.js";
 import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import "react";
 import { describe, vi, expect } from "vitest";
 import { adminTest } from "../../../test/adminTest.js";
 
