@@ -12,7 +12,7 @@ import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
 import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
 export const DocumentaryEditFormTab: React.FC = () => (
-  <Box>
+  <Box data-testid="documentary-edit-tab">
     <TextInput fullWidth source="payload.title" />
     <ReferenceAreaInput source="payload.location" />
     <ReferenceLinkInput source="payload.website" fullWidth />

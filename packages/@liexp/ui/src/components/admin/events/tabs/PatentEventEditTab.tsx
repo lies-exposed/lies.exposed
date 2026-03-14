@@ -7,7 +7,7 @@ import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
 
 export const PatentEventEditFormTab: React.FC = () => {
   return (
-    <Box>
+    <Box data-testid="patent-edit-tab">
       <TextInput source="payload.title" fullWidth />
       <ReferenceLinkInput source="payload.source" />
       <ReferenceArrayActorInput

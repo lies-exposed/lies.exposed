@@ -26,6 +26,7 @@ export const EditEventForm: React.FC<EditEventFormProps> = ({
       preview={<EventPreview />}
       title={<EventTitle source="payload.title" />}
       transform={(r) => transformEvent(dataProvider)(r.id, r)}
+      data-testid="edit-event-form"
       {...props}
     >
       <EventFormTabs>{children}</EventFormTabs>

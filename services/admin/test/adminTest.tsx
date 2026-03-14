@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 /**
  * Canonical vitest fixtures for admin spec tests.
  *
@@ -16,12 +17,15 @@
  *   });
  */
 
+import { type ResourcesNames } from "@liexp/io/lib/http/ResourcesNames.js";
 import {
   AdminContext,
   type AuthProvider,
   type DataProvider,
   RecordContextProvider,
   ResourceContext,
+  type Store,
+  memoryStore,
   reactRouterProvider,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
@@ -68,13 +72,14 @@ afterAll(() => {
 interface AdminMocks {
   authProvider: MockProxy<Required<AuthProvider>>;
   dataProvider: MockProxy<DataProvider>;
+  store: Store;
   queryClient: QueryClient;
 }
 
 interface RenderOptions {
   record?: Record<string, unknown>;
   permissions?: string[];
-  resource?: string;
+  resource?: ResourcesNames;
   /** Override the route :id param. Defaults to record.id or "test-id". */
   id?: string;
 }
@@ -191,15 +196,16 @@ const renderWithAdminContext =
               authProvider={mocks.authProvider}
               i18nProvider={i18nProvider}
               routerProvider={routerProvider}
+              store={mocks.store}
               queryClient={mocks.queryClient}
             >
               <ResourceContext.Provider value={resource}>
                 {record ? (
                   <RecordContextProvider value={record}>
-                    {ui}
+                    <React.Suspense>{ui}</React.Suspense>
                   </RecordContextProvider>
                 ) : (
-                  ui
+                  <React.Suspense>{ui}</React.Suspense>
                 )}
               </ResourceContext.Provider>
             </AdminContext>
@@ -270,15 +276,19 @@ export const adminTest = baseTest.extend<AdminFixtures>({
       },
     });
 
+    const store = memoryStore();
+
     await use({
       authProvider,
       dataProvider,
       queryClient,
+      store,
     });
 
     queryClient.clear();
     mockClear(authProvider);
     mockClear(authProvider);
+    store.reset();
   },
   render: async ({ mocks }, use) => {
     await use(renderWithAdminContext(mocks));

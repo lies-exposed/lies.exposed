@@ -7,7 +7,7 @@ import ReferenceLinkInput from "../../links/ReferenceLinkInput.js";
 
 export const ScientificStudyEventEditTab: React.FC = () => {
   return (
-    <Stack width="100%">
+    <Stack width="100%" data-testid="scientific-study-edit-tab">
       <TextInput source="payload.title" fullWidth />
       <ReferenceLinkInput source="payload.url" />
       <ReferenceGroupInput source="payload.publisher" />

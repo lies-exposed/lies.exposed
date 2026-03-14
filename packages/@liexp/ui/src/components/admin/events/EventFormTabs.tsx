@@ -2,7 +2,7 @@ import React from "react";
 import BlockNoteInput from "../BlockNoteInput.js";
 import { SocialPostFormTabContent } from "../SocialPost/SocialPostFormTabContent.js";
 import { ImportMediaButton } from "../media/button/ImportMediaButton.js";
-import { TabbedForm } from "../react-admin.js";
+import { TabbedForm, type TabbedFormProps } from "../react-admin.js";
 import {
   EventGeneralTab,
   type EventGeneralTabProps,
@@ -14,13 +14,19 @@ import { EditToolbar } from "../toolbar/index.js";
 import { EventsFlowGraphFormTab } from "./tabs/EventsFlowGraphFormTab.js";
 import { EventsNetworkGraphFormTab } from "./tabs/EventsNetworkGraphFormTab.js";
 
-interface EventFormTabsProps {
+interface EventFormTabsProps extends Omit<
+  TabbedFormProps,
+  "toolbar" | "children"
+> {
   children: EventGeneralTabProps["children"];
 }
 
-export const EventFormTabs: React.FC<EventFormTabsProps> = ({ children }) => {
+export const EventFormTabs: React.FC<EventFormTabsProps> = ({
+  children,
+  ...props
+}) => {
   return (
-    <TabbedForm toolbar={<EditToolbar />}>
+    <TabbedForm {...props} toolbar={<EditToolbar />}>
       <TabbedForm.Tab label="Generals">
         <EventGeneralTab>
           {(props, handlers) => children(props, handlers)}

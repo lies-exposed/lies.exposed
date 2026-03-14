@@ -5,7 +5,7 @@ import ReferenceBySubjectInput from "../../common/inputs/BySubject/ReferenceBySu
 
 export const QuoteEditFormTab: React.FC = () => {
   return (
-    <Box>
+    <Box data-testid="quote-edit-tab">
       <ReferenceBySubjectInput source="payload.subject" />
       <TextInput source="payload.details" fullWidth />
       <TextField source="payload.quote" fullWidth />
