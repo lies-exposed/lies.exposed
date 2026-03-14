@@ -1,11 +1,17 @@
 {
   "mcpServers": {
     "context7": {
+      "type": "http",
       "url": "https://mcp.context7.com/mcp"
     },
-    "api-liexp-dev": {
-      "url": "https://api.liexp.dev/mcp",
-      "type": "http"
+    "api-liexp-dev-db": {
+      "type":"stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://liexp:liexp-password@localhost:8432/liexp"
+      ]
     },
     "basic-memory": {
       "type": "stdio",
