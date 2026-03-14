@@ -50,10 +50,14 @@
       ],
       "includeEntryExports": false,
       "project": [
-        "src/**/*.{ts,tsx}"
+        "src/**/*.{ts,tsx}",
+        "test/**/*.{ts,tsx}"
       ],
       "ignoreDependencies": [
         "@ts-endpoint/resource-client"
+      ],
+      "ignore": [
+        "test/mocks/*.tsx"
       ]
     },
     "services/ai-bot": {

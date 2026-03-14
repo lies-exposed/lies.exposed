@@ -22,6 +22,7 @@ import {
   type DataProvider,
   RecordContextProvider,
   ResourceContext,
+  reactRouterProvider,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import { i18nProvider } from "@liexp/ui/lib/i18n/i18n.provider.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -29,7 +30,6 @@ import { act, render as tlRender } from "@testing-library/react";
 import type { RenderResult } from "@testing-library/react";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-import { reactRouterProvider } from "ra-core";
 import * as React from "react";
 import { MemoryRouter } from "react-router";
 import { test as baseTest, afterAll, afterEach, beforeAll, vi } from "vitest";
@@ -44,7 +44,7 @@ import {
 // MSW server — intercepts any HTTP calls from deeply-nested sub-components
 // ---------------------------------------------------------------------------
 
-export const mswServer = setupServer(
+const mswServer = setupServer(
   // Catch-all handler: return empty 200 for any request not otherwise handled
   http.get("*", () => HttpResponse.json({ data: [], total: 0 })),
   http.post("*", () => HttpResponse.json({ data: {} })),
@@ -71,7 +71,7 @@ interface AdminMocks {
   queryClient: QueryClient;
 }
 
-export interface RenderOptions {
+interface RenderOptions {
   record?: Record<string, unknown>;
   permissions?: string[];
   resource?: string;
@@ -149,7 +149,7 @@ const makeTestRouterProvider = (routeId: string) => ({
   Link: TestLink as typeof reactRouterProvider.Link,
 });
 
-export const renderWithAdminContext =
+const renderWithAdminContext =
   (mocks: AdminMocks) =>
   async (
     ui: React.ReactElement,
