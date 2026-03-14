@@ -167,12 +167,13 @@ export const UpdateEntitiesFromURLTypeData = Schema.Struct({
 export type UpdateEntitiesFromURLTypeData =
   typeof UpdateEntitiesFromURLTypeData.Type;
 
-const CreateQueueTypeData = Schema.Union(
+export const CreateQueueTypeData = Schema.Union(
   ...EventQueue.members,
   CreateQueueEmbeddingTypeData,
   CreateQueueTextTypeData,
   UpdateEntitiesFromURLTypeData,
 );
+export type CreateQueueTypeData = typeof CreateQueueTypeData.Type;
 
 export const Queue = Schema.extend(
   Schema.Struct({
