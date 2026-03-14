@@ -1,3 +1,4 @@
+import { isDate } from "util/types";
 import { AgentChatService } from "@liexp/backend/lib/services/agent-chat/agent-chat.service.js";
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
@@ -11,6 +12,7 @@ import {
   type EventCommonProps,
 } from "@liexp/shared/lib/helpers/event/event.helper.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { parseISO } from "@liexp/shared/lib/utils/date.utils.js";
 import { JSONSchema, type Schema } from "effect";
 import { toAIBotError } from "../../../common/error/index.js";
 import { type ClientContext } from "../../../context.js";
@@ -144,7 +146,9 @@ export const createEventFromLinksFlow: JobProcessRTE<
         .sort((a, b) => a.getTime() - b.getTime())[0];
 
       const fallbackDate = job.data.date ?? earliestLinkDate ?? new Date();
-      const eventDate = aiDate ?? [fallbackDate];
+      const eventDate = aiDate ?? [
+        isDate(fallbackDate) ? fallbackDate : parseISO(fallbackDate),
+      ];
 
       return pipe(
         buildEvent(job.data.type, {

@@ -40,7 +40,7 @@ const processJob =
                 type: job.type,
                 createdAt: job.createdAt.toISOString(),
                 updatedAt: job.updatedAt.toISOString(),
-                deletedAt: job.deletedAt?.toISOString() ?? null,
+                deletedAt: job.deletedAt?.toISOString(),
                 status: "processing",
               } as typeof Queue.Queue.Encoded,
             }),
