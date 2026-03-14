@@ -14,15 +14,12 @@ export const actorCreate = makeCommand(
     ctx.logger.debug.log("actor-create input: %O", input);
     return ctx.api.Actor.Create({
       Body: {
-        username: input.username,
-        fullName: input.fullName,
+        ...input,
         color: input.color ?? generateRandomColor(),
         excerpt: input.excerpt ?? toInitialValue(""),
-        nationalities: [...(input.nationalities ?? [])],
-        body: input.body,
-        avatar: input.avatar,
-        bornOn: input.bornOn,
-        diedOn: input.diedOn,
+        nationalities: input.nationalities ?? [],
+        bornOn: input.bornOn?.toISOString(),
+        diedOn: input.diedOn?.toISOString(),
       },
     });
   },

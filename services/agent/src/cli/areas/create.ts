@@ -25,14 +25,13 @@ export const areaCreate = makeCommand(
 
     return ctx.api.Area.Create({
       Body: {
-        label: input.label,
-        slug: input.slug,
-        draft: input.draft ?? false,
+        ...input,
         geometry: geometry ?? {
           type: "Point",
           coordinates: [0, 0],
         },
-        body: [] as any,
+        draft: input.draft ?? false,
+        body: [],
       },
     });
   },

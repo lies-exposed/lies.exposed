@@ -2,7 +2,6 @@ import {
   CreateBookEventSchema,
   EditBookEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/book.schema.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -22,14 +21,14 @@ export const bookCreate = makeCommand(
           title: input.title,
           media: { pdf: input.pdf, audio: input.audio },
           authors: (input.authors ?? []).map((id) => ({
-            type: "actor" as const,
+            type: "Actor" as const,
             id,
           })),
           publisher: input.publisher
-            ? { type: "actor" as const, id: input.publisher }
+            ? { type: "Actor" as const, id: input.publisher }
             : undefined,
         },
-      } as any,
+      },
     }),
 );
 
@@ -46,20 +45,20 @@ export const bookEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Book" as const,
-        payload: removeUndefinedFromPayload({
-          title: input.title,
-          media:
-            input.pdf !== undefined || input.audio !== undefined
-              ? { pdf: input.pdf, audio: input.audio }
-              : undefined,
-          authors: input.authors?.map((id) => ({
-            type: "actor" as const,
+        payload: {
+          title: input.title!,
+          media: {
+            pdf: input.pdf!,
+            audio: input.audio ?? undefined,
+          },
+          authors: (input.authors ?? []).map((id) => ({
+            type: "Actor" as const,
             id,
           })),
           publisher: input.publisher
-            ? { type: "actor" as const, id: input.publisher }
+            ? { type: "Actor" as const, id: input.publisher }
             : undefined,
-        }),
-      } as any,
+        },
+      },
     }),
 );

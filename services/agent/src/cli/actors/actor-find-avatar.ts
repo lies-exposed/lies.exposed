@@ -1,4 +1,5 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { getArg } from "../args.js";
 import { type CommandModule } from "../command.type.js";
@@ -36,8 +37,8 @@ Output: JSON created media object (use .data.id as the avatar UUID)
         return ctx.api.Media.Create({
           Body: {
             id: undefined,
-            location: imageUrl as any,
-            type: "image/jpg" as any,
+            location: imageUrl,
+            type: "image/jpg" as MediaType,
             label: `${fullName} Avatar`,
             description: `Avatar/profile image for ${fullName} from Wikipedia`,
             thumbnail: undefined,

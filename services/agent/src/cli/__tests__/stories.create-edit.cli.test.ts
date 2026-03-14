@@ -16,6 +16,11 @@ const [_storyA, storyB] = fc
   .map((a) => encodeStory(a));
 
 const handlers = [
+  http.get("http://localhost:4010/v1/stories/:id", ({ params }) => {
+    const updated =
+      params.id === storyB.id ? { ...storyB, title: "Updated Title" } : storyB;
+    return HttpResponse.json({ data: updated });
+  }),
   http.put("http://localhost:4010/v1/stories/:id", ({ params }) => {
     const updated =
       params.id === storyB.id ? { ...storyB, title: "Updated Title" } : storyB;

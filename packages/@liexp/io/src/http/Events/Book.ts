@@ -48,7 +48,7 @@ export const EditBookBody = Schema.Struct({
     media: Schema.OptionFromUndefinedOr(
       Schema.Struct({
         pdf: UUID,
-        audio: Schema.NullOr(UUID),
+        audio: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
       }),
     ),
     authors: Schema.OptionFromUndefinedOr(Schema.Array(BySubjectId)),

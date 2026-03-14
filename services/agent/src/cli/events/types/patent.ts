@@ -1,8 +1,8 @@
+import type { EditPatentBodyPayload } from "@liexp/io/lib/http/Events/Patent.js";
 import {
   CreatePatentEventSchema,
   EditPatentEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/patent.schema.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -21,12 +21,12 @@ export const patentCreate = makeCommand(
         payload: {
           title: input.title,
           owners: {
-            actors: [...(input.ownerActors ?? [])],
-            groups: [...(input.ownerGroups ?? [])],
+            actors: input.ownerActors ?? [],
+            groups: input.ownerGroups ?? [],
           },
-          source: input.source,
+          source: input.source!,
         },
-      } as any,
+      },
     }),
 );
 
@@ -43,17 +43,14 @@ export const patentEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Patent" as const,
-        payload: removeUndefinedFromPayload({
+        payload: {
           title: input.title,
-          owners:
-            input.ownerActors !== undefined || input.ownerGroups !== undefined
-              ? {
-                  actors: [...(input.ownerActors ?? [])],
-                  groups: [...(input.ownerGroups ?? [])],
-                }
-              : undefined,
+          owners: {
+            actors: input.ownerActors ?? [],
+            groups: input.ownerGroups ?? [],
+          },
           source: input.source,
-        }),
-      } as any,
+        } satisfies EditPatentBodyPayload,
+      },
     }),
 );

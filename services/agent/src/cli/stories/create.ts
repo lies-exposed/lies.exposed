@@ -12,18 +12,17 @@ export const storyCreate = makeCommand(
     ctx.logger.debug.log("story create input: %O", input);
     return ctx.api.Story.Create({
       Body: {
-        title: input.title,
-        path: input.path,
-        date: new Date(input.date),
+        ...input,
+        date: new Date(input.date).toISOString(),
         draft: input.draft ?? true,
-        creator: (input.creator ?? null) as any,
-        featuredImage: (input.featuredImage ?? null) as any,
+        creator: input.creator ?? null,
+        featuredImage: input.featuredImage ?? null,
         body: [] as any,
-        keywords: [...(input.keywords ?? [])],
-        actors: [...(input.actors ?? [])],
-        groups: [...(input.groups ?? [])],
-        events: [...(input.events ?? [])],
-        media: [...(input.media ?? [])],
+        keywords: input.keywords ?? [],
+        actors: input.actors ?? [],
+        groups: input.groups ?? [],
+        events: input.events ?? [],
+        media: input.media ?? [],
       },
     });
   },

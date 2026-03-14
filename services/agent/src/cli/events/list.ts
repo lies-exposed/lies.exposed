@@ -12,15 +12,10 @@ export const eventList = makeCommand(
     ctx.logger.debug.log("event list input: %O", input);
     return ctx.api.Event.List({
       Query: {
+        ...input,
         q: input.query ?? null,
-        actors: input.actors,
-        groups: input.groups,
-        type: input.type ? [input.type] : undefined,
-        startDate: input.startDate,
-        endDate: input.endDate,
-        _start: input.start !== undefined ? String(input.start) : "0",
-        _end: input.end !== undefined ? String(input.end) : "20",
-      } as any,
+        eventType: input.type ? ([input.type] as any) : undefined,
+      },
     });
   },
 );

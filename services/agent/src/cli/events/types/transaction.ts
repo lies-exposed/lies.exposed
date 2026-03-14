@@ -1,8 +1,8 @@
+import type { EditTransactionBodyPayload } from "@liexp/io/lib/http/Events/Transaction.js";
 import {
   CreateTransactionEventSchema,
   EditTransactionEventSchema,
 } from "@liexp/shared/lib/mcp/schemas/events/transaction.schema.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../../run-command.js";
 import { buildCreateCommon, buildEditCommon } from "./common.js";
 
@@ -25,7 +25,10 @@ export const transactionCreate = makeCommand(
           from: { type: input.fromType, id: input.fromId },
           to: { type: input.toType, id: input.toId },
         },
-      } as any,
+        media: [],
+        links: [],
+        keywords: [],
+      },
     }),
 );
 
@@ -42,7 +45,7 @@ export const transactionEdit = makeCommand(
       Body: {
         ...buildEditCommon(input),
         type: "Transaction" as const,
-        payload: removeUndefinedFromPayload({
+        payload: {
           title: input.title,
           total: input.total,
           currency: input.currency,
@@ -54,7 +57,10 @@ export const transactionEdit = makeCommand(
             input.toType && input.toId
               ? { type: input.toType, id: input.toId }
               : undefined,
-        }),
-      } as any,
+        } satisfies EditTransactionBodyPayload,
+        media: [],
+        links: [],
+        keywords: [],
+      },
     }),
 );

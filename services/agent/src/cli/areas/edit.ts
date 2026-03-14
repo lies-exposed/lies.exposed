@@ -1,6 +1,5 @@
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { EditAreaInputSchema } from "@liexp/shared/lib/mcp/schemas/areas.schemas.js";
-import { removeUndefinedFromPayload } from "@liexp/shared/lib/utils/fp.utils.js";
 import { makeCommand } from "../run-command.js";
 
 export const areaEdit = makeCommand(
@@ -24,21 +23,15 @@ export const areaEdit = makeCommand(
       }
     }
 
+    const { id, ...body } = input;
     return ctx.api.Area.Edit({
-      Params: { id: input.id },
+      Params: { id },
       Body: {
-        ...removeUndefinedFromPayload({
-          label: input.label,
-          slug: input.slug,
-          draft: input.draft,
-          geometry: geometry ?? undefined,
-          featuredImage: input.featuredImage,
-          media: input.media ? [...input.media] : undefined,
-          events: input.events ? [...input.events] : undefined,
-          updateGeometry: geometry !== null ? true : undefined,
-        }),
+        ...body,
+        geometry: geometry ?? undefined,
+        updateGeometry: geometry !== null ? true : undefined,
         body: undefined,
-      } as any,
+      },
     });
   },
 );
