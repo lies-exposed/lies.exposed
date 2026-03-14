@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...lies.exposed@0.5.7) (2026-03-14)
+
+
+### Bug Fixes
+
+* **agent:** partial cli edit body ([#3392](https://github.com/lies-exposed/lies.exposed/issues/3392)) ([12efac3](https://github.com/lies-exposed/lies.exposed/commit/12efac3dac9c2dac94ae27b8ec823aa9adca0ef6))
+
+
+### Miscellaneous
+
+* **admin:** spec tests setup ([#3393](https://github.com/lies-exposed/lies.exposed/issues/3393)) ([5ae330d](https://github.com/lies-exposed/lies.exposed/commit/5ae330d90d2b3f797ca69f679b59a99eeaff5aa3))
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...lies.exposed@0.5.6) (2026-03-11)
 
 

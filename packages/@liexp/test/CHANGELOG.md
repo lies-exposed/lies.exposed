@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...@liexp/test@0.5.7) (2026-03-14)
+
+
+### Bug Fixes
+
+* **api:** drop old 'body' columns and renamed current 'body2' to 'body' ([#3389](https://github.com/lies-exposed/lies.exposed/issues/3389)) ([9ae4881](https://github.com/lies-exposed/lies.exposed/commit/9ae4881c4ca5fdbc30ac3d77568f59d5c001b1ee))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.5.7
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.7
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...@liexp/test@0.5.6) (2026-03-11)
 
 
