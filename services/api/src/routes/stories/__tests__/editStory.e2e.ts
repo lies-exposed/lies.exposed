@@ -38,7 +38,6 @@ const makeStoryBody = (overrides: Record<string, unknown> = {}) => ({
   actors: [],
   events: [],
   media: [],
-  restore: null,
   ...overrides,
 });
 
