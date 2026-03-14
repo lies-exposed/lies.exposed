@@ -69,7 +69,6 @@ describe("Edit Link", () => {
         events: [],
         keywords: [],
         creator: null,
-        overrideThumbnail: null,
       });
 
     expect(response.status).toEqual(200);
@@ -93,7 +92,6 @@ describe("Edit Link", () => {
         events: [],
         keywords: [],
         creator: null,
-        overrideThumbnail: null,
       });
 
     expect(response.status).toEqual(200);
