@@ -21,6 +21,8 @@
     "serve": "node build/server/server.js",
     "start": "vite start",
     "test": "vitest",
+    "test:spec": "vitest --project admin-spec",
+    "test:coverage": "vitest --run --coverage --project admin-spec",
     "test:e2e": "vitest --project e2e",
     "watch": "tsc -b --watch"
   },
@@ -65,6 +67,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/cors": "^2.8.17",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
@@ -75,6 +78,7 @@
     "eslint": "^10.0.3",
     "jsdom": "^27.4.0",
     "msw": "^2.12.10",
+    "react-hook-form": "^7.71.0",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
@@ -82,6 +86,7 @@
     "vite-plugin-css-injected-by-js": "^4.0.1",
     "vite-plugin-optimizer": "^1.4.3",
     "vite-tsconfig-paths": "^6.1.1",
+    "vitest-mock-extended": "^3.1.0",
     "vitest": "^4.0.18"
   },
   "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316"

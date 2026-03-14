@@ -928,6 +928,9 @@ importers:
       '@liexp/test':
         specifier: workspace:*
         version: link:../../packages/@liexp/test
+      '@testing-library/jest-dom':
+        specifier: ^6.9.1
+        version: 6.9.1
       '@types/cors':
         specifier: ^2.8.17
         version: 2.8.19
@@ -958,6 +961,9 @@ importers:
       msw:
         specifier: ^2.12.10
         version: 2.12.10(@types/node@24.12.0)(typescript@5.9.3)
+      react-hook-form:
+        specifier: ^7.71.0
+        version: 7.71.2(react@18.3.1)
       supertest:
         specifier: ^7.2.2
         version: 7.2.2
@@ -982,6 +988,9 @@ importers:
       vitest:
         specifier: ^4.0.18
         version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@24.12.0)(jiti@2.6.1)(jsdom@27.4.0(canvas@3.0.1))(msw@2.12.10(@types/node@24.12.0)(typescript@5.9.3))(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2)
+      vitest-mock-extended:
+        specifier: ^3.1.0
+        version: 3.1.0(typescript@5.9.3)(vitest@4.0.18(@opentelemetry/api@1.9.0)(@types/node@24.12.0)(jiti@2.6.1)(jsdom@27.4.0(canvas@3.0.1))(msw@2.12.10(@types/node@24.12.0)(typescript@5.9.3))(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.2))
 
   services/agent:
     dependencies:
