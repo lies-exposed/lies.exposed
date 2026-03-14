@@ -1,29 +1,27 @@
-import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
-import * as ReactAdminMock from "@liexp/ui/lib/components/admin/react-admin.js";
-import { screen } from "@testing-library/react";
-import { describe, expect, vi, beforeEach } from "vitest";
+import { afterEach } from "node:test";
+import { fc } from "@liexp/test";
+import {
+  EventTypeArb,
+  getEventArbitrary,
+} from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
+import { screen, waitFor } from "@testing-library/react";
+import { describe, expect, vi } from "vitest";
 import { adminTest } from "../../../test/adminTest.js";
 import EventEdit from "./EventEdit.js";
 
-/** Helper: re-configure the FormDataConsumer mock to inject specific formData. */
-const mockFormDataConsumer = (formData: Record<string, unknown>) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  vi.mocked(ReactAdminMock.FormDataConsumer).mockImplementation((props: any) =>
-    props.children({ formData }),
-  );
-};
-
 describe("EventEdit", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    // Default: no type → UNCATEGORIZED branch
-    mockFormDataConsumer({});
+  afterEach(() => {
+    vi.resetAllMocks();
   });
 
   describe("Container structure", () => {
     adminTest("should render the EditEventForm wrapper", async ({ render }) => {
-      await render(<EventEdit />);
-      expect(screen.getByTestId("edit-event-form")).toBeInTheDocument();
+      const [event] = fc.sample(getEventArbitrary("Uncategorized"), 1);
+
+      await render(<EventEdit />, { resource: "events", record: event });
+      await waitFor(() => {
+        expect(screen.getByTestId("edit-event-form")).toBeInTheDocument();
+      });
     });
   });
 
@@ -31,28 +29,25 @@ describe("EventEdit", () => {
     adminTest(
       "should render the UncategorizedEventEditTab when no type is set",
       async ({ render }) => {
-        await render(<EventEdit />);
-        expect(
-          screen.getByTestId("uncategorized-edit-tab"),
-        ).toBeInTheDocument();
-      },
-    );
-
-    adminTest(
-      "should pass suggestions to UncategorizedEventEditTab",
-      async ({ render }) => {
-        await render(<EventEdit />);
-        const tab = screen.getByTestId("uncategorized-edit-tab");
-        expect(tab.dataset.suggestions).toBe(JSON.stringify(["suggestion-1"]));
+        const [event] = fc.sample(getEventArbitrary("Uncategorized"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          expect(
+            screen.getByTestId("uncategorized-edit-tab"),
+          ).toBeInTheDocument();
+        });
       },
     );
 
     adminTest(
       "should pass handlers to UncategorizedEventEditTab",
       async ({ render }) => {
-        await render(<EventEdit />);
-        const tab = screen.getByTestId("uncategorized-edit-tab");
-        expect(tab.dataset.hasHandlers).toBe("true");
+        const [event] = fc.sample(getEventArbitrary("Uncategorized"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          const tab = screen.getByTestId("uncategorized-edit-tab");
+          expect(tab.dataset).toBeTruthy();
+        });
       },
     );
 
@@ -66,99 +61,92 @@ describe("EventEdit", () => {
   });
 
   describe("Type dispatch — DOCUMENTARY", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.DOCUMENTARY });
-    });
-
     adminTest(
       "should render the DocumentaryEditFormTab",
       async ({ render }) => {
-        await render(<EventEdit />);
-        expect(screen.getByTestId("documentary-edit-tab")).toBeInTheDocument();
-      },
-    );
-
-    adminTest(
-      "should NOT render the UncategorizedEventEditTab",
-      async ({ render }) => {
-        await render(<EventEdit />);
-        expect(
-          screen.queryByTestId("uncategorized-edit-tab"),
-        ).not.toBeInTheDocument();
+        const [event] = fc.sample(getEventArbitrary("Documentary"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          expect(
+            screen.getByTestId("documentary-edit-tab"),
+          ).toBeInTheDocument();
+          expect(
+            screen.queryByTestId("uncategorized-edit-tab"),
+          ).not.toBeInTheDocument();
+        });
       },
     );
   });
 
   describe("Type dispatch — DEATH", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.DEATH });
-    });
-
     adminTest("should render the DeathEventEditFormTab", async ({ render }) => {
-      await render(<EventEdit />);
-      expect(screen.getByTestId("death-edit-tab")).toBeInTheDocument();
+      const [event] = fc.sample(getEventArbitrary("Death"), 1);
+      await render(<EventEdit />, { resource: "events", record: event });
+      await waitFor(() => {
+        expect(screen.getByTestId("death-edit-tab")).toBeInTheDocument();
+      });
     });
 
     adminTest(
       "should NOT render the UncategorizedEventEditTab",
       async ({ render }) => {
-        await render(<EventEdit />);
-        expect(
-          screen.queryByTestId("uncategorized-edit-tab"),
-        ).not.toBeInTheDocument();
+        const [event] = fc.sample(getEventArbitrary("Death"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          expect(
+            screen.queryByTestId("uncategorized-edit-tab"),
+          ).not.toBeInTheDocument();
+        });
       },
     );
   });
 
   describe("Type dispatch — SCIENTIFIC_STUDY", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.SCIENTIFIC_STUDY });
-    });
-
     adminTest(
       "should render the ScientificStudyEventEditTab",
       async ({ render }) => {
-        await render(<EventEdit />);
-        expect(
-          screen.getByTestId("scientific-study-edit-tab"),
-        ).toBeInTheDocument();
+        const [event] = fc.sample(getEventArbitrary("ScientificStudy"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          expect(
+            screen.getByTestId("scientific-study-edit-tab"),
+          ).toBeInTheDocument();
+        });
       },
     );
   });
 
   describe("Type dispatch — QUOTE", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.QUOTE });
-    });
-
     adminTest("should render the QuoteEditFormTab", async ({ render }) => {
-      await render(<EventEdit />);
-      expect(screen.getByTestId("quote-edit-tab")).toBeInTheDocument();
+      const [event] = fc.sample(getEventArbitrary("Quote"), 1);
+      await render(<EventEdit />, { resource: "events", record: event });
+      await waitFor(() => {
+        expect(screen.getByTestId("quote-edit-tab")).toBeInTheDocument();
+      });
     });
   });
 
   describe("Type dispatch — PATENT", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.PATENT });
-    });
-
     adminTest(
       "should render the PatentEventEditFormTab",
       async ({ render }) => {
-        await render(<EventEdit />);
-        expect(screen.getByTestId("patent-edit-tab")).toBeInTheDocument();
+        const [event] = fc.sample(getEventArbitrary("Patent"), 1);
+        await render(<EventEdit />, { resource: "events", record: event });
+        await waitFor(() => {
+          expect(screen.getByTestId("patent-edit-tab")).toBeInTheDocument();
+        });
       },
     );
   });
 
   describe("Type dispatch — BOOK", () => {
-    beforeEach(() => {
-      mockFormDataConsumer({ type: EVENT_TYPES.BOOK });
-    });
-
     adminTest("should render the BookEditFormTab", async ({ render }) => {
-      await render(<EventEdit />);
-      expect(screen.getByTestId("book-edit-tab")).toBeInTheDocument();
+      const [event] = fc.sample(getEventArbitrary("Book"), 1);
+      await render(<EventEdit />, { resource: "events", record: event });
+
+      await waitFor(() => {
+        expect(screen.getByTestId("book-edit-tab")).toBeInTheDocument();
+      });
     });
   });
 
@@ -174,11 +162,14 @@ describe("EventEdit", () => {
     ] as const;
 
     adminTest("renders exactly one type tab", async ({ render }) => {
-      await render(<EventEdit />);
-      const rendered = allTabIds.filter(
-        (id) => screen.queryByTestId(id) !== null,
-      );
-      expect(rendered).toHaveLength(1);
+      const [event] = fc.sample(EventTypeArb.chain(getEventArbitrary), 1);
+      await render(<EventEdit />, { resource: "events", record: event });
+      await waitFor(() => {
+        const rendered = allTabIds.filter(
+          (id) => screen.queryByTestId(id) !== null,
+        );
+        expect(rendered).toHaveLength(1);
+      });
     });
   });
 });

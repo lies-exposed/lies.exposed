@@ -30,7 +30,7 @@ export const UncategorizedEventEditTab: React.FC<{
     `${typeof sourcePrefix === "undefined" ? "" : `${sourcePrefix}.`}${s}`;
 
   return (
-    <Box>
+    <Box data-testid="uncategorized-edit-tab">
       <Grid container spacing={2}>
         <Grid size={{ md: 12 }}>
           <TextInput size="small" source={source("payload.title")} fullWidth />

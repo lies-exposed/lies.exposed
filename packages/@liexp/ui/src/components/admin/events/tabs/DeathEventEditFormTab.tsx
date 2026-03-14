@@ -5,7 +5,7 @@ import ReferenceAreaInput from "../../areas/input/ReferenceAreaInput.js";
 
 export const DeathEventEditFormTab: React.FC = () => {
   return (
-    <Stack direction="column">
+    <Stack direction="column" data-testid="death-edit-tab">
       <ReferenceActorInput source="payload.victim" />
       <ReferenceAreaInput source="payload.location" />
     </Stack>

@@ -8,7 +8,12 @@ import ReferenceMediaInput from "../../media/input/ReferenceMediaInput.js";
 
 export const BookEditFormTab: React.FC = () => {
   return (
-    <Stack direction="column" width="100%" spacing={2}>
+    <Stack
+      direction="column"
+      width="100%"
+      spacing={2}
+      data-testid="book-edit-tab"
+    >
       <TextInput source="payload.title" fullWidth />
       <ReferenceMediaInput
         source="payload.media.pdf"

@@ -71,7 +71,11 @@ export const ReferenceMediaInputWithUpload: React.FC<
   const currentMedia = get(record, source.replace(/\.id$/, ""));
 
   return (
-    <Stack spacing={2} width={fullWidth ? "100%" : undefined}>
+    <Stack
+      spacing={2}
+      width={fullWidth ? "100%" : undefined}
+      data-testid="reference-media-input-with-upload"
+    >
       {showPreview && currentMedia && (
         <Box>
           <MediaField

@@ -79,7 +79,6 @@
     "eslint": "^10.0.3",
     "jsdom": "^27.4.0",
     "msw": "^2.12.10",
-    "react-hook-form": "^7.71.0",
     "supertest": "^7.2.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

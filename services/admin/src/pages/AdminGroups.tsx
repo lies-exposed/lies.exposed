@@ -71,6 +71,7 @@ const GroupKindInput: React.FC<SelectInputProps> = (props) => {
         id: t.literals[0],
         name: t.literals[0],
       }))}
+      data-testid="group-kind-input"
     />
   );
 };
@@ -79,7 +80,7 @@ const GroupMemberArrayInput: React.FC<Omit<ArrayInputProps, "children">> = (
   props,
 ) => {
   return (
-    <ArrayInput {...props}>
+    <ArrayInput {...props} data-testid="group-member-array-input">
       <SimpleFormIterator>
         <ReferenceActorInput source="actor" />
         <DateInput source="startDate" />
@@ -346,6 +347,7 @@ export const GroupCreate: React.FC<CreateProps> = (props) => {
       title="Create a Group"
       {...props}
       transform={(g) => transformGroup(dataProvider)({ ...g, id: uuid() })}
+      data-testid="create-container"
     >
       <SimpleForm>
         <SelectInput

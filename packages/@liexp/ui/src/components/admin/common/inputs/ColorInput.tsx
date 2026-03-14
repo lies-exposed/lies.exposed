@@ -64,6 +64,7 @@ const ColorInputWithForm: React.FC<TextInputProps & { isMobile: boolean }> = ({
           size="small"
           label={props.label ?? "color"}
           value={field.value}
+          name={source}
           fullWidth={isMobile}
           style={isMobile ? {} : { width: 80 }}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

@@ -5,6 +5,7 @@ import {
   SCIENTIFIC_STUDY,
   TRANSACTION,
   QUOTE,
+  PATENT,
 } from "@liexp/io/lib/http/Events/EventType.js";
 import type * as Events from "@liexp/io/lib/http/Events/index.js";
 import { EventType } from "@liexp/io/lib/http/Events/index.js";
@@ -13,6 +14,7 @@ import type fc from "fast-check";
 import { BookEventArb } from "./BookEvent.arbitrary.js";
 import { DeathEventArb } from "./DeathEvent.arbitrary.js";
 import { DocumentaryEventArb } from "./DocumentaryEvent.arbitrary.js";
+import { PatentEventArb } from "./PatentEvent.arbitrary.js";
 import { QuoteEventArb } from "./QuoteEvent.arbitrary.js";
 import { ScientificStudyArb } from "./ScientificStudy.arbitrary.js";
 import { TransactionEventArb } from "./TransactionEvent.arbitrary.js";
@@ -43,6 +45,10 @@ export const getEventArbitrary = <E extends EventType>(
 
   if (Schema.is(QUOTE)(type)) {
     return QuoteEventArb;
+  }
+
+  if (Schema.is(PATENT)(type)) {
+    return PatentEventArb;
   }
 
   return UncategorizedArb;
