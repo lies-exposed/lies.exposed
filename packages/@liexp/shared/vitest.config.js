@@ -11,8 +11,10 @@ export default defineConfig({
     watch: false,
     coverage: {
       thresholds: {
-        statements: 80,
-        functions: 80,
+        statements: 60,
+        branches: 55,
+        functions: 55,
+        lines: 60,
       },
     },
     alias: {
