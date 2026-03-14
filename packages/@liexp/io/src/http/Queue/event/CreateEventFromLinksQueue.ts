@@ -15,7 +15,6 @@ export const CreateEventFromLinksQueueData = Schema.Struct({
     Schema.DateFromSelf,
     Schema.DateFromString,
     Schema.String,
-    Schema.Null,
     Schema.Undefined,
   ),
 }).annotations({
