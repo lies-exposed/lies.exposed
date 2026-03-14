@@ -128,7 +128,7 @@ Examples:
           select: ["id", "url"],
           skip,
           take: chunkSize,
-          order: { createdAt: "DESC" },
+          order: { createdAt: "DESC", id: "ASC" },
         }),
         fp.TE.mapLeft((e) => new Error(String(e))),
         fp.TE.chain((links) => {
@@ -147,7 +147,11 @@ Examples:
             links.map(processLink),
             fp.A.sequence(fp.TE.ApplicativePar),
             fp.TE.chain((outcomes) => {
-              const chunkStats: ChunkStats = { updated: 0, skipped: 0, failed: 0 };
+              const chunkStats: ChunkStats = {
+                updated: 0,
+                skipped: 0,
+                failed: 0,
+              };
               for (const o of outcomes) chunkStats[o]++;
 
               totals.updated += chunkStats.updated;

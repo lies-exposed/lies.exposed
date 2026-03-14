@@ -37,7 +37,7 @@ const URL_DATE_PATTERNS: {
   },
   // -YYYY-MM-DD or _YYYY-MM-DD in path/query (lookahead so trailing separator is not consumed)
   {
-    re: /[_\-](\d{4})-(\d{2})-(\d{2})(?=[_\-\.\/]|$)/,
+    re: /[_-](\d{4})-(\d{2})-(\d{2})(?=[_\-./]|$)/,
     groups: { year: 1, month: 2, day: 3 },
   },
   // Compact: /YYYYMMDD/ (8 consecutive digits between slashes)
@@ -183,6 +183,193 @@ export function extractDateFromHTML(html: string): string | null {
   return null;
 }
 
+/**
+ * Extract the "Date of Patent" from freepatentsonline.com HTML pages.
+ * Format: "Date of Patent: Jul. 2, 2002" or "Date of Patent: October 15, 1996".
+ * Returns an ISO date string or null.
+ */
+export function extractDateFromPatentHTML(html: string): string | null {
+  // Justia renders: <strong>Date of Patent</strong>: Jul 2, 2002
+  // Allow up to 30 chars (e.g. a closing tag) between "Date of Patent" and ":".
+  const m =
+    /Date of Patent[\s\S]{0,30}?:\s*([A-Za-z]+\.?\s+\d{1,2},\s*\d{4})/i.exec(
+      html,
+    );
+  if (!m) return null;
+  // Strip trailing periods from month abbreviations ("Jul." → "Jul")
+  const d = new Date(m[1].replace(/\.(\s)/, "$1"));
+  if (isNaN(d.getTime())) return null;
+  return new Date(
+    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
+  ).toISOString();
+}
+
+// ---------------------------------------------------------------------------
+// 5. Domain-specific API fetchers (NCBI, CrossRef, Archive.org)
+// ---------------------------------------------------------------------------
+
+// 5a. NCBI / PubMed E-utils
+const NCBI_PUBMED_RE =
+  /^https?:\/\/(?:www\.)?(?:pubmed\.ncbi\.nlm\.nih\.gov|ncbi\.nlm\.nih\.gov\/pubmed)\/(\d+)/i;
+const NCBI_PMC_RE =
+  /^https?:\/\/(?:www\.)?ncbi\.nlm\.nih\.gov\/(?:labs\/)?pmc\/articles\/PMC(\d+)/i;
+
+function parseNCBIPubDate(pubdate: string): string | null {
+  if (!pubdate) return null;
+  // Formats: "2021 Mar 15", "2021 Mar", "2021"
+  const parts = pubdate.trim().split(/\s+/);
+  const year = parseInt(parts[0], 10);
+  if (isNaN(year) || year < 1900) return null;
+  if (parts[1]) {
+    const day = parts[2] ? parseInt(parts[2], 10) : 1;
+    const d = new Date(`${parts[1]} ${day}, ${year}`);
+    if (!isNaN(d.getTime()))
+      return new Date(
+        Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
+      ).toISOString();
+  }
+  return new Date(`${year}-01-01T00:00:00Z`).toISOString();
+}
+
+async function fetchNCBIDate(
+  client: AxiosInstance,
+  url: string,
+): Promise<string | null> {
+  const pmidMatch = NCBI_PUBMED_RE.exec(url);
+  const pmcMatch = NCBI_PMC_RE.exec(url);
+  if (!pmidMatch && !pmcMatch) return null;
+
+  const db = pmcMatch ? "pmc" : "pubmed";
+  const id = (pmcMatch ?? pmidMatch)![1];
+
+  try {
+    const { data } = await client.get(
+      "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
+      { timeout: 10_000, params: { db, id, retmode: "json" } },
+    );
+    const result = data?.result?.[id];
+    if (!result) return null;
+    return parseNCBIPubDate(result.epubdate ?? result.pubdate);
+  } catch {
+    return null;
+  }
+}
+
+// 5b. CrossRef (doi.org / dx.doi.org)
+const DOI_URL_RE = /^https?:\/\/(?:dx\.)?doi\.org\/(.+)/i;
+
+function parseCrossRefDateParts(dateParts: unknown): string | null {
+  if (!Array.isArray(dateParts) || !Array.isArray(dateParts[0])) return null;
+  const [year, month = 1, day = 1] = dateParts[0] as number[];
+  if (!year || year < 1900) return null;
+  const d = new Date(
+    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}T00:00:00Z`,
+  );
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+async function fetchCrossRefDate(
+  client: AxiosInstance,
+  url: string,
+): Promise<string | null> {
+  const m = DOI_URL_RE.exec(url);
+  if (!m) return null;
+  try {
+    const { data } = await client.get(
+      `https://api.crossref.org/works/${m[1]}`,
+      {
+        timeout: 10_000,
+        headers: {
+          "User-Agent": "lies-exposed/0.3.0 (mailto:info@lies.exposed)",
+        },
+      },
+    );
+    const msg = data?.message;
+    if (!msg) return null;
+    return (
+      parseCrossRefDateParts(msg["published-print"]?.["date-parts"]) ??
+      parseCrossRefDateParts(msg["published-online"]?.["date-parts"]) ??
+      parseCrossRefDateParts(msg.created?.["date-parts"])
+    );
+  } catch {
+    return null;
+  }
+}
+
+// 5c. Internet Archive metadata API
+const ARCHIVE_ORG_RE = /^https?:\/\/archive\.org\/details\/([^/?#]+)/i;
+
+async function fetchArchiveOrgDate(
+  client: AxiosInstance,
+  url: string,
+): Promise<string | null> {
+  const m = ARCHIVE_ORG_RE.exec(url);
+  if (!m) return null;
+  try {
+    const { data } = await client.get(`https://archive.org/metadata/${m[1]}`, {
+      timeout: 10_000,
+    });
+    const dateStr: string | undefined =
+      data?.metadata?.date ?? data?.metadata?.year;
+    if (!dateStr) return null;
+    const iso = dateStr.length === 4 ? `${dateStr}-01-01T00:00:00Z` : dateStr;
+    const d = new Date(iso);
+    return isNaN(d.getTime()) ? null : d.toISOString();
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Run all domain-specific API fetchers in parallel and return the first date found.
+ * Returns null when no API matches the URL or all calls fail.
+ */
+async function fetchDomainSpecificDate(
+  client: AxiosInstance,
+  url: string,
+): Promise<string | null> {
+  const results = await Promise.all([
+    fetchNCBIDate(client, url),
+    fetchCrossRefDate(client, url),
+    fetchArchiveOrgDate(client, url),
+  ]);
+  return results.find((r) => r !== null) ?? null;
+}
+
+// ---------------------------------------------------------------------------
+// 5d. freepatentsonline.com — redirect to Justia Patents (accessible, same data)
+// freepatentsonline.com blocks automated HTTP requests (ERR_CONNECTION_RESET).
+// Justia Patents is openly accessible and includes "Date of Patent" in raw HTML.
+// ---------------------------------------------------------------------------
+
+// US numeric patent:   /6412416.pdf  → patents.justia.com/patent/6412416
+// US publication:      /y2012/0115240.html → patents.justia.com/patent/20120115240
+// EP/WO/other:         /EP2435633A1.pdf → patents.justia.com/patent/EP2435633A1
+const FREEPATENTS_BASE = /^https?:\/\/(?:www\.)?freepatentsonline\.com\//i;
+const FREEPATENTS_Y_RE =
+  /^https?:\/\/(?:www\.)?freepatentsonline\.com\/y(\d{4})\/0*(\d+)(?:\.html)?$/i;
+const FREEPATENTS_OTHER_RE =
+  /^https?:\/\/(?:www\.)?freepatentsonline\.com\/(.+?)(?:\.pdf|\.html)?$/i;
+
+/**
+ * Redirect any freepatentsonline.com URL to the equivalent Justia Patents page.
+ * For all other URLs returns the original URL unchanged.
+ */
+function normalizeFetchURL(url: string): string {
+  if (!FREEPATENTS_BASE.test(url)) return url;
+
+  // y-series (US application): y2012/0115240 → 20120115240
+  const ym = FREEPATENTS_Y_RE.exec(url);
+  if (ym)
+    return `https://patents.justia.com/patent/${ym[1]}${ym[2].padStart(7, "0")}`;
+
+  // Everything else: strip extension and pass the id as-is
+  const om = FREEPATENTS_OTHER_RE.exec(url);
+  if (om) return `https://patents.justia.com/patent/${om[1]}`;
+
+  return url;
+}
+
 // ---------------------------------------------------------------------------
 // 4. Wayback Machine CDX API (last resort — for inaccessible / undated pages)
 // ---------------------------------------------------------------------------
@@ -207,6 +394,7 @@ async function fetchWaybackDate(
 ): Promise<string | null> {
   try {
     const { data } = await client.get<string[][]>(WAYBACK_CDX_BASE, {
+      timeout: 10_000,
       params: {
         url,
         output: "json",
@@ -256,13 +444,16 @@ export const MakeURLMetadata = (
 ): URLMetadataClient => {
   const fetchHTML = <E>(
     url: string,
-    _opts: any,
+    opts: any,
     toError: (e: unknown) => E,
   ): TE.TaskEither<E, string> => {
     return pipe(
       TE.tryCatch(
         () =>
-          ctx.client.get<any, { data: string }>(url, { responseType: "text" }),
+          ctx.client.get<any, { data: string }>(url, {
+            responseType: "text",
+            timeout: opts?.timeout,
+          }),
         toError,
       ),
       TE.map((data) => data.data),
@@ -278,11 +469,16 @@ export const MakeURLMetadata = (
     // available regardless of whether the HTML fetch succeeds or fails.
     const urlDate = extractDateFromURL(url);
 
+    // For freepatentsonline.com PDF URLs, fetch the HTML equivalent so that
+    // "Date of Patent" can be extracted from the page markup.
+    const fetchUrl = normalizeFetchURL(url);
+
     // Inner step: fetch HTML and extract all DOM/HTML-based signals.
     // On any failure (bot block, 404, JS wall, parse error) we fall back to
-    // empty metadata so the outer steps (URL date, Wayback) can still run.
+    // empty metadata so the outer steps (URL date, domain APIs, Wayback) can
+    // still run.
     const fromHTML: TE.TaskEither<E, Metadata> = pipe(
-      fetchHTML(url, opts, toError),
+      fetchHTML(fetchUrl, opts, toError),
       TE.chain((html) =>
         pipe(
           fp.TE.tryCatch(async () => {
@@ -295,7 +491,9 @@ export const MakeURLMetadata = (
             meta.date ??= extractDateFromJSONLD(html) ?? undefined;
             // 2. HTML meta / itemprop / Dublin Core regex patterns
             meta.date ??= extractDateFromHTML(html) ?? undefined;
-            // 3. For archive.ph pages: extract the original URL and derive the
+            // 3. Patent HTML: "Date of Patent: Month DD, YYYY"
+            meta.date ??= extractDateFromPatentHTML(html) ?? undefined;
+            // 4. For archive.ph pages: extract the original URL and derive the
             //    date from its path (e.g. reuters.com/2021/03/15/article-slug).
             //    The archived HTML already contains the original meta tags above;
             //    this step recovers dates that were only in the original URL path.
@@ -311,7 +509,7 @@ export const MakeURLMetadata = (
       ),
       TE.orElse((_err) => {
         ctx.logger?.info.log(
-          "[URLMetadata] HTML fetch/parse failed for %s — falling back to URL pattern and Wayback CDX",
+          "[URLMetadata] HTML fetch/parse failed for %s — falling back to URL pattern and domain APIs",
           url,
         );
         return TE.right<E, Metadata>({ url } as Partial<Metadata> as Metadata);
@@ -320,16 +518,37 @@ export const MakeURLMetadata = (
 
     return pipe(
       fromHTML,
-      // 4. URL path / query string (free — applies even when HTML fetch failed)
+      // 5. URL path / query string (free — applies even when HTML fetch failed)
       TE.map((meta) => {
         meta.date ??= urlDate ?? undefined;
         return meta;
       }),
-      // 5. Wayback Machine CDX API (last resort)
+      // 6. Domain-specific APIs: NCBI, CrossRef, Archive.org (run in parallel)
       TE.chain((meta) => {
         if (meta.date !== undefined) return TE.right(meta);
         ctx.logger?.info.log(
-          "[URLMetadata] No date found via HTML/URL for %s — querying Wayback Machine CDX",
+          "[URLMetadata] No date found via HTML/URL for %s — trying domain-specific APIs",
+          url,
+        );
+        return pipe(
+          TE.fromTask(() => fetchDomainSpecificDate(ctx.client, url)),
+          TE.map((date) => {
+            if (date) {
+              ctx.logger?.info.log(
+                "[URLMetadata] Domain API resolved date for %s → %s",
+                url,
+                date,
+              );
+            }
+            return { ...meta, date: date ?? undefined };
+          }),
+        );
+      }),
+      // 7. Wayback Machine CDX API (last resort)
+      TE.chain((meta) => {
+        if (meta.date !== undefined) return TE.right(meta);
+        ctx.logger?.info.log(
+          "[URLMetadata] No date found via domain APIs for %s — querying Wayback Machine CDX",
           url,
         );
         return pipe(

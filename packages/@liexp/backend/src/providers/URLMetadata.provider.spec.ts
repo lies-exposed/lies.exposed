@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   extractDateFromHTML,
   extractDateFromJSONLD,
+  extractDateFromPatentHTML,
   extractDateFromURL,
   extractOriginalURLFromArchivePh,
 } from "./URLMetadata.provider.js";
@@ -266,6 +267,43 @@ describe("extractDateFromURL", () => {
     expect(
       extractDateFromURL("https://example.com/products/1234/detail"),
     ).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// extractDateFromPatentHTML
+// ---------------------------------------------------------------------------
+
+describe("extractDateFromPatentHTML", () => {
+  it("extracts from Justia format: <strong>Date of Patent</strong>: Jul 2, 2002", () => {
+    const html = `<strong>Date of Patent</strong>: Jul 2, 2002<br>`;
+    expect(extractDateFromPatentHTML(html)).toBe(
+      new Date("2002-07-02T00:00:00Z").toISOString(),
+    );
+  });
+
+  it("extracts from plain inline text: Date of Patent: Jan. 5, 1999", () => {
+    const html = `Date of Patent: Jan. 5, 1999`;
+    expect(extractDateFromPatentHTML(html)).toBe(
+      new Date("1999-01-05T00:00:00Z").toISOString(),
+    );
+  });
+
+  it("extracts full month name from Justia format", () => {
+    const html = `<strong>Date of Patent</strong>: October 15, 1996<br>`;
+    expect(extractDateFromPatentHTML(html)).toBe(
+      new Date("1996-10-15T00:00:00Z").toISOString(),
+    );
+  });
+
+  it("returns null when no patent date is present", () => {
+    const html = `<html><head><title>No patent date here</title></head></html>`;
+    expect(extractDateFromPatentHTML(html)).toBeNull();
+  });
+
+  it("returns null for invalid date text", () => {
+    const html = `Date of Patent: Xyz. 99, 2002`;
+    expect(extractDateFromPatentHTML(html)).toBeNull();
   });
 });
 
