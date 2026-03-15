@@ -140,12 +140,11 @@ export const createCliExecutorTool = (cliBinPath: string) =>
       }
     },
     {
-      name: "find_platform_data",
+      name: "liexp_cli",
       description:
-        "Query the lies.exposed database to find actors, groups, events, links, media, areas, or nations. " +
+        "Interact with the lies.exposed platform: list, get, create, and edit actors, groups, events, links, media, areas, and nations. " +
         "Returns real live JSON from the database. " +
-        "Use this for ANY query about people, organizations, events, or sources tracked in the platform. " +
-        "Do NOT use searchWeb — this tool is the correct one for all platform data.\n\n" +
+        "Use this for ANY query or modification of platform data — do NOT use searchWeb for platform data.\n\n" +
         "IMPORTANT: Always pass --end=<N> to limit results (default to 10). " +
         "For 'latest/recent' queries use --sort=createdAt --order=DESC. " +
         "Example: 'actor list --sort=createdAt --order=DESC --end=10'",
