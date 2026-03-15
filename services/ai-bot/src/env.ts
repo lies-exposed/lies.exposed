@@ -10,12 +10,7 @@ const ENV = Schema.Struct({
   NODE_ENV,
   DEBUG: OptionFromNullishToNull(Schema.String),
   API_TOKEN: OptionFromNullishToNull(Schema.String),
-  AGENT_API_URL: OptionFromNullishToNull(Schema.String),
-  AGENT_MODEL: OptionFromNullishToNull(Schema.String),
   AGENT_API_KEY: Schema.String,
-  AGENT_TIMEOUT: OptionFromNullishToNull(Schema.NumberFromString),
-  CF_ACCESS_CLIENT_ID: OptionFromNullishToNull(Schema.String),
-  CF_ACCESS_CLIENT_SECRET: OptionFromNullishToNull(Schema.String),
 }).annotations({
   title: "ENV",
 });
