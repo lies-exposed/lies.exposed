@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...@liexp/backend@0.5.9) (2026-03-15)
+
+
+### Miscellaneous
+
+* **agent:** rename tool find_platform_data → liexp_cli ([#3404](https://github.com/lies-exposed/lies.exposed/issues/3404)) ([f37b0aa](https://github.com/lies-exposed/lies.exposed/commit/f37b0aa7548d6bf515d12f655d6d6fd5af42dbbf))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.9
+    * @liexp/io bumped to 0.5.9
+    * @liexp/shared bumped to 0.5.9
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.9
+    * @liexp/test bumped to 0.5.9
+
 ## [0.5.8](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.7...@liexp/backend@0.5.8) (2026-03-15)
 
 
