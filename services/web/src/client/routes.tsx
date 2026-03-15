@@ -14,7 +14,6 @@ import {
   getSearchEventsInfiniteQueryKey,
   getSearchEventsQueryKey,
 } from "@liexp/ui/lib/state/queries/SearchEventsQuery.js";
-import { fetchGithubRepo } from "@liexp/ui/lib/state/queries/github.js";
 import { hashToQuery } from "@liexp/ui/lib/utils/history.utils.js";
 import { type EndpointsQueryProvider } from "@ts-endpoint/tanstack-query";
 import { Schema } from "effect";
@@ -74,16 +73,14 @@ const RedirectToEventsRoute: React.FC = () => {
 };
 
 const githubQuery = (
-  _: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
-  conf: Configuration,
+  Q: EndpointsQueryProvider<Endpoints, QueryProviderCustomQueries>,
+  _conf: Configuration,
 ): AsyncDataRouteQuery<any, any, any> => ({
-  queryKey: [
-    "github",
-    { user: "lies-exposed", repo: "lies.exposed" },
-    true,
-    true,
-  ],
-  queryFn: fetchGithubRepo(conf),
+  queryKey: Q.GithubRepoStats.list.getKey(undefined, {
+    owner: "lies-exposed",
+    repo: "lies.exposed",
+  }),
+  queryFn: Q.GithubRepoStats.list.fetch,
 });
 
 const commonQueries = [githubQuery];

@@ -1,4 +1,5 @@
 import { type Router } from "express";
+import { MakeGithubRepoStatsRoutes } from "./github-repo-stats/githubRepoStats.routes.js";
 import { MakeNationRoutes } from "./nations/nations.routes.js";
 import { MakeSettingRoutes } from "./settings/settings.routes.js";
 import { type ServerContext } from "#context/context.type.js";
@@ -85,6 +86,9 @@ export const AddRoutes = (router: Router, ctx: ServerContext): Router => {
 
   // stats
   MakeStatsRoutes(router, ctx);
+
+  // github repo stats
+  MakeGithubRepoStatsRoutes(router, ctx);
 
   // networks
   MakeNetworksRoutes(router, ctx);

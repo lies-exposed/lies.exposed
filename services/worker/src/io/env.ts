@@ -6,6 +6,7 @@ const CRON_ENVS = Schema.Struct({
   SOCIAL_POSTING_CRON: Schema.String,
   PROCESS_DONE_JOB_CRON: Schema.String,
   REGENERATE_MEDIA_THUMBNAILS_CRON: Schema.String,
+  GITHUB_REPO_STATS_CRON: Schema.String,
 }).annotations({ title: "CRON_ENVS" });
 
 const REDIS_ENVS = Schema.Struct({
