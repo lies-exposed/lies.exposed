@@ -17,7 +17,7 @@ import {
 import { LoggerService } from "@liexp/backend/lib/services/logger/logger.service.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { ACTORS } from "@liexp/io/lib/http/Actor.js";
-import { uuid, type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { UUID, uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { Event } from "@liexp/io/lib/http/Events/index.js";
 import { APPROVED, LINKS } from "@liexp/io/lib/http/Link.js";
@@ -72,16 +72,11 @@ const processDoneJobBlockNoteResult =
     );
   };
 
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const isValidUUID = (value: unknown): value is UUID =>
-  typeof value === "string" && UUID_REGEX.test(value);
-
 const resolveToActorIds = (values: unknown[]): RTE<UUID[]> =>
   pipe(
     values,
     fp.A.traverse(fp.RTE.ApplicativeSeq)((value): RTE<UUID | null> => {
-      if (isValidUUID(value)) return fp.RTE.of(value);
+      if (Schema.is(UUID)(value)) return fp.RTE.of(value);
       if (typeof value !== "string") return fp.RTE.of(null);
       return pipe(
         ActorRepository.findOne({ where: { fullName: Equal(value) } }),
@@ -96,7 +91,7 @@ const resolveToGroupIds = (values: unknown[]): RTE<UUID[]> =>
   pipe(
     values,
     fp.A.traverse(fp.RTE.ApplicativeSeq)((value): RTE<UUID | null> => {
-      if (isValidUUID(value)) return fp.RTE.of(value);
+      if (Schema.is(UUID)(value)) return fp.RTE.of(value);
       if (typeof value !== "string") return fp.RTE.of(null);
       return pipe(
         GroupRepository.findOne({ where: { name: Equal(value) } }),
