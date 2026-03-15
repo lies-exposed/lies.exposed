@@ -1,6 +1,4 @@
 import * as React from "react";
-import { useConfiguration } from "../context/ConfigurationContext.js";
-import { githubRepo } from "../state/queries/github.js";
 import { GithubIcon } from "./Common/Icons/index.js";
 import QueriesRenderer from "./QueriesRenderer.js";
 import { Box, IconButton, Typography } from "./mui/index.js";
@@ -17,14 +15,18 @@ const GithubButton: React.FC<GithubButtonProps> = ({
   className,
   showStarCount = true,
 }) => {
-  const conf = useConfiguration();
   return (
     <Box display="inline">
       <QueriesRenderer
-        queries={(_) => ({
-          github: githubRepo(conf)({ user, repo }),
+        queries={(Q) => ({
+          github: Q.GithubRepoStats.list.useQuery(
+            undefined,
+            { owner: user, repo },
+            false,
+          ),
         })}
         render={({ github }) => {
+          const starCount = github.data[0]?.stargazers_count ?? 0;
           return (
             <IconButton
               color="inherit"
@@ -42,7 +44,7 @@ const GithubButton: React.FC<GithubButtonProps> = ({
               />
               {showStarCount && (
                 <Typography variant="subtitle1" display="inline">
-                  {github.stargazers_count}
+                  {starCount}
                 </Typography>
               )}
             </IconButton>
