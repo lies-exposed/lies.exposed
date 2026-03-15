@@ -40,7 +40,7 @@ const processJob =
                 type: job.type,
                 createdAt: job.createdAt.toISOString(),
                 updatedAt: job.updatedAt.toISOString(),
-                deletedAt: job.deletedAt?.toISOString(),
+                deletedAt: job.deletedAt?.toISOString() ?? null,
                 status: "processing",
               } as typeof Queue.Queue.Encoded,
             }),
@@ -99,6 +99,9 @@ const processJob =
               },
               Body: {
                 ...(updatedJob as any),
+                createdAt: updatedJob.createdAt.toISOString(),
+                updatedAt: new Date().toISOString(),
+                deletedAt: updatedJob.deletedAt?.toISOString() ?? null,
               },
             }),
             fp.TE.map(() => undefined),
