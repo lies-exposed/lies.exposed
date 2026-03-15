@@ -24,8 +24,8 @@ describe("createCliExecutorTool", () => {
     tool = createCliExecutorTool(BIN_PATH);
   });
 
-  test("tool is named find_platform_data", () => {
-    expect(tool.name).toBe("find_platform_data");
+  test("tool is named liexp_cli", () => {
+    expect(tool.name).toBe("liexp_cli");
   });
 
   test("tool has a non-empty description", () => {
