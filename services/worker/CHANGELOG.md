@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...worker@0.5.9) (2026-03-15)
+
+
+### Bug Fixes
+
+* **worker:** cache GitHub repo stats in Redis, serve via API endpoint ([#3406](https://github.com/lies-exposed/lies.exposed/issues/3406)) ([31b9802](https://github.com/lies-exposed/lies.exposed/commit/31b98023fb99967892abfd5da7a5ae0277a6ce3f))
+* **worker:** resolve actor/group names in event payload and isolate per-job errors ([#3405](https://github.com/lies-exposed/lies.exposed/issues/3405)) ([1ff8e9b](https://github.com/lies-exposed/lies.exposed/commit/1ff8e9b727550bedac54fcfe493348cc236e3220))
+* **worker:** upsert image by location to avoid duplicate key errors ([#3401](https://github.com/lies-exposed/lies.exposed/issues/3401)) ([7ced0cd](https://github.com/lies-exposed/lies.exposed/commit/7ced0cd59e7c67f17d343ef9f04a8e173bf2cd59))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.9
+    * @liexp/io bumped to 0.5.9
+    * @liexp/core bumped to 0.5.9
+    * @liexp/shared bumped to 0.5.9
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.9
+    * @liexp/test bumped to 0.5.9
+
 ## [0.5.8](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.7...worker@0.5.8) (2026-03-15)
 
 

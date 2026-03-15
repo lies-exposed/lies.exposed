@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...lies.exposed@0.5.9) (2026-03-15)
+
+
+### Bug Fixes
+
+* **ai-bot:** fix queue processing and remove LocalAI dependencies ([#3403](https://github.com/lies-exposed/lies.exposed/issues/3403)) ([1eb5d14](https://github.com/lies-exposed/lies.exposed/commit/1eb5d1434874a8ac8d4745fe52b213679ca098ab))
+
+
+### Miscellaneous
+
+* **agent:** rename tool find_platform_data → liexp_cli ([#3404](https://github.com/lies-exposed/lies.exposed/issues/3404)) ([f37b0aa](https://github.com/lies-exposed/lies.exposed/commit/f37b0aa7548d6bf515d12f655d6d6fd5af42dbbf))
+* **workspace:** use dynamic matrix to skip CI when no code changes ([#3398](https://github.com/lies-exposed/lies.exposed/issues/3398)) ([525c372](https://github.com/lies-exposed/lies.exposed/commit/525c372e75ae67c3c2b542284fd2f9f3372b8828))
+
 ## [0.5.8](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.7...lies.exposed@0.5.8) (2026-03-15)
 
 
