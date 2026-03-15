@@ -33,7 +33,7 @@ import { Equal, In, type FindOptionsWhere } from "typeorm";
 import { type RTE } from "../types.js";
 import { type CronJobTE } from "./cron-task.type.js";
 import { type WorkerContext } from "#context/context.js";
-import { toWorkerError } from "#io/worker.error.js";
+import { type WorkerError, toWorkerError } from "#io/worker.error.js";
 
 const processDoneJobBlockNoteResult =
   <E extends ActorEntity | GroupEntity | StoryEntity | EventV2Entity>(
@@ -72,23 +72,88 @@ const processDoneJobBlockNoteResult =
     );
   };
 
+const UUID_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const isValidUUID = (value: unknown): value is UUID =>
+  typeof value === "string" && UUID_REGEX.test(value);
+
+const resolveToActorIds = (values: unknown[]): RTE<UUID[]> =>
+  pipe(
+    values,
+    fp.A.traverse(fp.RTE.ApplicativeSeq)((value): RTE<UUID | null> => {
+      if (isValidUUID(value)) return fp.RTE.of(value);
+      if (typeof value !== "string") return fp.RTE.of(null);
+      return pipe(
+        ActorRepository.findOne({ where: { fullName: Equal(value) } }),
+        fp.RTE.mapLeft(toWorkerError),
+        fp.RTE.map((opt) => (fp.O.isSome(opt) ? opt.value.id : null)),
+      );
+    }),
+    fp.RTE.map((results) => results.filter((id): id is UUID => id !== null)),
+  );
+
+const resolveToGroupIds = (values: unknown[]): RTE<UUID[]> =>
+  pipe(
+    values,
+    fp.A.traverse(fp.RTE.ApplicativeSeq)((value): RTE<UUID | null> => {
+      if (isValidUUID(value)) return fp.RTE.of(value);
+      if (typeof value !== "string") return fp.RTE.of(null);
+      return pipe(
+        GroupRepository.findOne({ where: { name: Equal(value) } }),
+        fp.RTE.mapLeft(toWorkerError),
+        fp.RTE.map((opt) => (fp.O.isSome(opt) ? opt.value.id : null)),
+      );
+    }),
+    fp.RTE.map((results) => results.filter((id): id is UUID => id !== null)),
+  );
+
+const normalizeEventPayload = (result: unknown): RTE<unknown> => {
+  if (!result || typeof result !== "object")
+    return fp.RTE.of(result) as RTE<unknown>;
+  const r = result as Record<string, unknown>;
+  const payload = r.payload;
+  if (!payload || typeof payload !== "object")
+    return fp.RTE.of(result) as RTE<unknown>;
+  const p = payload as Record<string, unknown>;
+
+  const actorValues: unknown[] = Array.isArray(p.actors) ? p.actors : [];
+  const groupValues: unknown[] = Array.isArray(p.groups) ? p.groups : [];
+
+  const needsResolution =
+    actorValues.some((v) => !isValidUUID(v)) ||
+    groupValues.some((v) => !isValidUUID(v));
+
+  if (!needsResolution) return fp.RTE.of(result) as RTE<unknown>;
+
+  return pipe(
+    resolveToActorIds(actorValues),
+    fp.RTE.bindTo("actors"),
+    fp.RTE.bind("groups", () => resolveToGroupIds(groupValues)),
+    fp.RTE.map(({ actors, groups }) => ({
+      ...r,
+      payload: { ...p, actors, groups },
+    })),
+  );
+};
+
 const processDoneJobEventResult =
   (dbService: EntityRepository<EventV2Entity>) =>
-  (job: Queue.Queue): RTE<Queue.Queue> => {
-    return pipe(
-      fp.RTE.Do,
-      fp.RTE.bind("event", () => {
-        return pipe(
-          fp.RTE.of({
-            id: job.id,
-            draft: true,
-            ...job.result,
-          }),
-          fp.RTE.chainEitherK(Schema.decodeUnknownEither(Event)),
-          fp.RTE.mapLeft((errs) => DecodeError.of("Event", errs)),
-        );
-      }),
-      fp.RTE.chain(({ event }) =>
+  (job: Queue.Queue): RTE<Queue.Queue> =>
+    pipe(
+      normalizeEventPayload({ id: job.id, draft: true, ...job.result }),
+      fp.RTE.chain(
+        (normalizedResult): RTE<Event> =>
+          (_ctx) => {
+            const decoded = Schema.decodeUnknownEither(Event)(normalizedResult);
+            if (fp.E.isLeft(decoded)) {
+              return fp.TE.left(
+                DecodeError.of("Event", decoded.left) as WorkerError,
+              );
+            }
+            return fp.TE.right(decoded.right);
+          },
+      ),
+      fp.RTE.chain((event) =>
         dbService.save([
           {
             ...event,
@@ -101,7 +166,6 @@ const processDoneJobEventResult =
       ),
       fp.RTE.map(() => job),
     );
-  };
 
 export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
   return pipe(
@@ -253,7 +317,22 @@ export const processOpenAIJobsDone: CronJobTE = () => {
     fp.RTE.chain(({ doneJobs }) => {
       return pipe(
         doneJobs,
-        fp.A.traverse(fp.RTE.ApplicativePar)(processDoneJob),
+        fp.A.traverse(fp.RTE.ApplicativePar)((job) =>
+          pipe(
+            processDoneJob(job),
+            fp.RTE.orElse(
+              (e): RTE<Queue.Queue> =>
+                (ctx) => {
+                  ctx.logger.error.log(
+                    "Error processing done job %s: %O",
+                    job.id,
+                    e,
+                  );
+                  return fp.TE.right(job);
+                },
+            ),
+          ),
+        ),
       );
     }),
     fp.RTE.fold(
