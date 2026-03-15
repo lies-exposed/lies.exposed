@@ -47,12 +47,19 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
         },
       ),
     ),
-    fp.RTE.orLeft((e) => (ctx) => {
-      ctx.logger.error.log("Error processing embeddings queue task %O", e);
-      return fp.T.of(e);
-    }),
-    fp.RTE.chain((result) => (ctx) => {
-      ctx.logger.debug.log("End processing embeddings queue task: %O", result);
+    fp.RTE.map(() => undefined),
+    fp.RTE.orElse((e) => (ctx) => {
+      const axiosError = (e as any)?.details?.meta;
+      const requestUrl: string | undefined = axiosError?.config?.url;
+      const responseBody: unknown = axiosError?.response?.data;
+      const httpStatus: number | undefined = axiosError?.response?.status;
+      ctx.logger.error.log(
+        "Error processing embeddings queue task: %s (HTTP %s)\n  URL: %s\n  Response body: %O",
+        e.message,
+        httpStatus ?? e.status,
+        requestUrl ?? "unknown",
+        responseBody ?? e.details,
+      );
       return fp.TE.right(undefined);
     }),
   );

@@ -9,15 +9,6 @@ data:
       },
       "agent": {
         "url": "http://agent.prod.svc.cluster.local/v1"
-      },
-      "localAi": {
-        "url": "http://localai.prod.svc.cluster.local/v1",
-        "apiKey": "{{ .Values.localai.openAIApiKey }}",
-        "models": {
-          "summarize": "gpt-4o",
-          "chat": "qwen3-4b",
-          "embeddings": "qwen3-embedding-4b"
-        }
       }
     }
 
