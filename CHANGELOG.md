@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...lies.exposed@0.5.7) (2026-03-15)
+
+
+### Bug Fixes
+
+* **agent:** partial cli edit body ([#3392](https://github.com/lies-exposed/lies.exposed/issues/3392)) ([12efac3](https://github.com/lies-exposed/lies.exposed/commit/12efac3dac9c2dac94ae27b8ec823aa9adca0ef6))
+
+
+### Miscellaneous
+
+* **admin:** added spec tests ([#3358](https://github.com/lies-exposed/lies.exposed/issues/3358)) ([6d7d0dd](https://github.com/lies-exposed/lies.exposed/commit/6d7d0ddcec527046a077b30f8aa5a58f3ee8a5e9))
+* **admin:** spec tests setup ([#3393](https://github.com/lies-exposed/lies.exposed/issues/3393)) ([5ae330d](https://github.com/lies-exposed/lies.exposed/commit/5ae330d90d2b3f797ca69f679b59a99eeaff5aa3))
+* **workspace:** added local db mcp tool for Claude ([#3395](https://github.com/lies-exposed/lies.exposed/issues/3395)) ([dc634b1](https://github.com/lies-exposed/lies.exposed/commit/dc634b1059da83b3e34f937aeac5421f5721e1c1))
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...lies.exposed@0.5.6) (2026-03-11)
 
 

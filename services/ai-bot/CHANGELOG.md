@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...ai-bot@0.5.7) (2026-03-15)
+
+
+### Bug Fixes
+
+* **agent:** partial cli edit body ([#3392](https://github.com/lies-exposed/lies.exposed/issues/3392)) ([12efac3](https://github.com/lies-exposed/lies.exposed/commit/12efac3dac9c2dac94ae27b8ec823aa9adca0ef6))
+* **io:** handle ISO date strings in jsonb data for validateEither ([#3394](https://github.com/lies-exposed/lies.exposed/issues/3394)) ([b144fe8](https://github.com/lies-exposed/lies.exposed/commit/b144fe840e464f1ac34cc53be6cd93498d9f0814))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.7
+    * @liexp/core bumped to 0.5.7
+    * @liexp/io bumped to 0.5.7
+    * @liexp/shared bumped to 0.5.7
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.7
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...ai-bot@0.5.6) (2026-03-11)
 
 
