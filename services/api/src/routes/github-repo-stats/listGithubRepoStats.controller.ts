@@ -5,7 +5,7 @@ import { type Route } from "../route.types.js";
 import { toControllerError } from "#io/ControllerError.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 
-export const GITHUB_REPO_STATS_KEY = (owner: string, repo: string): string =>
+const GITHUB_REPO_STATS_KEY = (owner: string, repo: string): string =>
   `github:repo:stats:${owner}:${repo}`;
 
 export const MakeListGithubRepoStatsRoute: Route = (r, ctx) => {
