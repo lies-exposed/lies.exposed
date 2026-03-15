@@ -8,6 +8,7 @@ import { type CronJobTE } from "./cron-task.type.js";
 import { processOpenAIJobsDone } from "./processOpenAIJobsDone.job.js";
 import { regenerateMediaThumbnailJob } from "./regenerateMediaThumbnail.job.js";
 import { postOnSocialJob } from "./socialPostScheduler.job.js";
+import { updateGithubRepoStatsJob } from "./updateGithubRepoStats.job.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError, type WorkerError } from "#io/worker.error.js";
 
@@ -74,11 +75,18 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
     "REGENERATE_MEDIA_THUMBNAILS",
   );
 
+  const updateGithubRepoStatsTask = scheduleTask(
+    ctx.env.GITHUB_REPO_STATS_CRON,
+    updateGithubRepoStatsJob,
+    "UPDATE_GITHUB_REPO_STATS",
+  );
+
   const tasksWithSchedules: [ScheduledTask, string][] = [
     [postOnSocialTask, ctx.env.SOCIAL_POSTING_CRON],
     [cleanTempFolderTask, ctx.env.TEMP_FOLDER_CLEAN_UP_CRON],
     [processOpenAIJobsDoneTask, ctx.env.PROCESS_DONE_JOB_CRON],
     [regenerateMediaThumbnailTask, ctx.env.REGENERATE_MEDIA_THUMBNAILS_CRON],
+    [updateGithubRepoStatsTask, ctx.env.GITHUB_REPO_STATS_CRON],
   ];
 
   return {

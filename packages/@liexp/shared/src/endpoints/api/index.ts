@@ -16,6 +16,7 @@ import * as PatentEvent from "./events/patent.endpoints.js";
 import * as QuoteEvent from "./events/quote.endpoints.js";
 import * as ScientificStudy from "./events/scientificStudy.endpoint.js";
 import * as TransactionEvent from "./events/transactions.endpoints.js";
+import * as GithubRepoStats from "./githubRepoStats.endpoints.js";
 import * as Graph from "./graph.endpoints.js";
 import * as Group from "./group.endpoints.js";
 import * as Healthcheck from "./healthcheck.endpoints.js";
@@ -32,6 +33,7 @@ import * as Uploads from "./upload.endpoints.js";
 
 interface Endpoints extends EndpointsMapType {
   Admin: typeof Admins.admin;
+  GithubRepoStats: typeof GithubRepoStats.githubRepoStats;
   User: typeof User.users;
   Actor: typeof Actor.actors;
   ActorRelation: typeof ActorRelation.actorRelations;
@@ -65,6 +67,7 @@ interface Endpoints extends EndpointsMapType {
 const Endpoints: Endpoints = {
   // admin
   Admin: Admins.admin,
+  GithubRepoStats: GithubRepoStats.githubRepoStats,
   // user
   User: User.users,
   // data resources

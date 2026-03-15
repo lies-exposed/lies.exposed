@@ -17,12 +17,15 @@ export const fetchGithubRepo =
       });
     }
 
+    const { user, repo } = queryKey[1] as GithubRepo;
     return axios
       .get(
-        `https://api.github.com/repos/${queryKey[1].user}/${queryKey[1].repo}`,
-        {},
+        `${conf.platforms.api.url}/github-repo-stats?owner=${encodeURIComponent(user)}&repo=${encodeURIComponent(repo)}`,
       )
-      .then((res) => res.data as { stargazers_count: number });
+      .then((res) => {
+        const items: { stargazers_count: number }[] = res.data?.data ?? [];
+        return items[0] ?? { stargazers_count: 0 };
+      });
   };
 
 export const githubRepo =
