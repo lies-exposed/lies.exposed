@@ -152,21 +152,33 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
             LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
           ),
           fp.RTE.bind("image", () => {
-            if (!thumbnailUrl) return fp.RTE.of(undefined);
+            if (!thumbnailUrl) {
+              return fp.RTE.of(undefined);
+            }
+
             return pipe(
-              MediaRepository.save([
-                {
-                  id: uuid(),
-                  location: thumbnailUrl,
-                  thumbnail: null,
-                  label: null,
-                  description: null,
-                  type: "image/jpg" as const,
-                  creator: null,
-                  extra: null,
-                },
-              ]),
-              fp.RTE.map((saved) => saved[0]),
+              MediaRepository.findOne({
+                where: { location: Equal(thumbnailUrl) },
+              }),
+              fp.RTE.chain((existing) =>
+                fp.O.isSome(existing)
+                  ? fp.RTE.of(existing.value)
+                  : pipe(
+                      MediaRepository.save([
+                        {
+                          id: uuid(),
+                          location: thumbnailUrl,
+                          thumbnail: null,
+                          label: null,
+                          description: null,
+                          type: "image/jpg" as const,
+                          creator: null,
+                          extra: null,
+                        },
+                      ]),
+                      fp.RTE.map((saved) => saved[0]),
+                    ),
+              ),
             );
           }),
           fp.RTE.chain(({ link, image }) =>
