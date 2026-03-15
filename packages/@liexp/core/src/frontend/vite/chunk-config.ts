@@ -44,7 +44,11 @@ const getFilesInDir = (dir: string): ModuleInfo[] => {
         continue;
       }
       files.push(...getFilesInDir(fullPath));
-    } else if (entry.isFile() && /\.(ts|tsx)$/.test(entry.name)) {
+    } else if (
+      entry.isFile() &&
+      /\.(ts|tsx)$/.test(entry.name) &&
+      !/\.(test)\.(ts|tsx)$/.test(entry.name)
+    ) {
       files.push({
         fileName: entry.name,
         filePath: fullPath,
