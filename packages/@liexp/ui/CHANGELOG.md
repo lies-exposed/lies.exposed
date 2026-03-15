@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...@liexp/ui@0.5.7) (2026-03-15)
+
+
+### Bug Fixes
+
+* **agent:** partial cli edit body ([#3392](https://github.com/lies-exposed/lies.exposed/issues/3392)) ([12efac3](https://github.com/lies-exposed/lies.exposed/commit/12efac3dac9c2dac94ae27b8ec823aa9adca0ef6))
+* **api:** drop old 'body' columns and renamed current 'body2' to 'body' ([#3389](https://github.com/lies-exposed/lies.exposed/issues/3389)) ([9ae4881](https://github.com/lies-exposed/lies.exposed/commit/9ae4881c4ca5fdbc30ac3d77568f59d5c001b1ee))
+* **io:** handle ISO date strings in jsonb data for validateEither ([#3394](https://github.com/lies-exposed/lies.exposed/issues/3394)) ([b144fe8](https://github.com/lies-exposed/lies.exposed/commit/b144fe840e464f1ac34cc53be6cd93498d9f0814))
+
+
+### Miscellaneous
+
+* **admin:** added spec tests ([#3358](https://github.com/lies-exposed/lies.exposed/issues/3358)) ([6d7d0dd](https://github.com/lies-exposed/lies.exposed/commit/6d7d0ddcec527046a077b30f8aa5a58f3ee8a5e9))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.7
+    * @liexp/io bumped to 0.5.7
+    * @liexp/shared bumped to 0.5.7
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.7
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...@liexp/ui@0.5.6) (2026-03-11)
 
 

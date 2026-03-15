@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.7](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.6...worker@0.5.7) (2026-03-15)
+
+
+### Bug Fixes
+
+* **backend:** improve publish date extraction for links ([#3396](https://github.com/lies-exposed/lies.exposed/issues/3396)) ([5c2f81e](https://github.com/lies-exposed/lies.exposed/commit/5c2f81e5ba17f3f219d73a8b77c686166b699b02))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.7
+    * @liexp/io bumped to 0.5.7
+    * @liexp/core bumped to 0.5.7
+    * @liexp/shared bumped to 0.5.7
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.7
+    * @liexp/test bumped to 0.5.7
+
 ## [0.5.6](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.5...worker@0.5.6) (2026-03-11)
 
 
