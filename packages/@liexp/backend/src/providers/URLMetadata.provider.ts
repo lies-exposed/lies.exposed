@@ -162,6 +162,14 @@ const HTML_DATE_PATTERNS: RegExp[] = [
   // Dublin Core
   /<meta[^>]+name=["']DC\.date\.issued["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']DC\.date\.issued["']/i,
+  // Google Scholar / Highwire citation meta tags (Elsevier, Springer, Wiley, MDPI, PLoS, etc.)
+  // Format is typically YYYY/MM/DD
+  /<meta[^>]+name=["']citation_publication_date["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']citation_publication_date["']/i,
+  /<meta[^>]+name=["']citation_online_date["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']citation_online_date["']/i,
+  /<meta[^>]+name=["']citation_date["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']citation_date["']/i,
   // Fallback: modified time (better than nothing)
   /<meta[^>]+property=["']article:modified_time["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+property=["']article:modified_time["']/i,
@@ -176,7 +184,13 @@ export function extractDateFromHTML(html: string): string | null {
   for (const re of HTML_DATE_PATTERNS) {
     const m = re.exec(html);
     if (m?.[1]) {
-      const d = new Date(m[1]);
+      // Normalize YYYY/MM/DD (used by citation_* meta tags) to YYYY-MM-DD so
+      // that new Date() parses it as UTC rather than local time.
+      const normalized = m[1].replace(
+        /^(\d{4})\/(\d{2})\/(\d{2})$/,
+        "$1-$2-$3",
+      );
+      const d = new Date(normalized);
       if (!isNaN(d.getTime())) return d.toISOString();
     }
   }

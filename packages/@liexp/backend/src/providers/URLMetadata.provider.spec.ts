@@ -91,6 +91,29 @@ describe("extractDateFromHTML", () => {
     );
   });
 
+  it("extracts citation_publication_date (Elsevier/ScienceDirect YYYY/MM/DD)", () => {
+    const html = `<meta name="citation_publication_date" content="2022/09/22">`;
+    expect(extractDateFromHTML(html)).toBe("2022-09-22T00:00:00.000Z");
+  });
+
+  it("extracts citation_online_date", () => {
+    const html = `<meta name="citation_online_date" content="2022/08/31">`;
+    expect(extractDateFromHTML(html)).toBe("2022-08-31T00:00:00.000Z");
+  });
+
+  it("extracts citation_date", () => {
+    const html = `<meta name="citation_date" content="2021/03/15">`;
+    expect(extractDateFromHTML(html)).toBe("2021-03-15T00:00:00.000Z");
+  });
+
+  it("prefers citation_publication_date over citation_online_date", () => {
+    const html = `
+      <meta name="citation_publication_date" content="2022/09/22">
+      <meta name="citation_online_date" content="2022/08/31">
+    `;
+    expect(extractDateFromHTML(html)).toBe("2022-09-22T00:00:00.000Z");
+  });
+
   it("returns null when no date pattern matches", () => {
     const html = `<html><head><title>No dates here</title></head><body></body></html>`;
     expect(extractDateFromHTML(html)).toBeNull();
