@@ -108,7 +108,7 @@ jobs:
           fi
           items=()
           [[ "$ADMIN" == "true" ]] && items+=(
-            '{"service":"admin","lint_command":"pnpm admin lint","build_command":"pnpm admin build","app_command":"pnpm admin build:app","spec_command":"pnpm admin test"}'
+            '{"service":"admin","lint_command":"pnpm admin lint","build_command":"pnpm admin build","app_command":"pnpm admin build:app","app_dotenv":"services/admin/.env.prod","spec_command":"pnpm admin test"}'
           )
           [[ "$AGENT" == "true" ]] && items+=(
             '{"service":"agent","lint_command":"pnpm agent lint","build_command":"pnpm agent build","spec_command":"pnpm agent test"}'
@@ -123,10 +123,10 @@ jobs:
             '{"service":"packages","lint_command":"pnpm packages lint","spec_command":"pnpm packages test"}'
           )
           [[ "$STORYBOOK" == "true" ]] && items+=(
-            '{"service":"storybook","lint_command":"pnpm storybook lint","build_command":"pnpm storybook typecheck","app_command":"pnpm storybook build:app","spec_command":"pnpm storybook test"}'
+            '{"service":"storybook","lint_command":"pnpm storybook lint","build_command":"pnpm storybook typecheck","app_command":"pnpm storybook build:app","app_dotenv":"services/storybook/.env.prod","spec_command":"pnpm storybook test"}'
           )
           [[ "$WEB" == "true" ]] && items+=(
-            '{"service":"web","lint_command":"pnpm web lint","build_command":"pnpm web build","app_command":"pnpm web build:app-server","spec_command":"pnpm web test"}'
+            '{"service":"web","lint_command":"pnpm web lint","build_command":"pnpm web build","app_command":"pnpm web build:app-server","app_dotenv":"services/web/.env.prod","spec_command":"pnpm web test"}'
           )
           [[ "$WORKER" == "true" ]] && items+=(
             '{"service":"worker","lint_command":"pnpm worker lint","build_command":"pnpm worker build","spec_command":"pnpm worker test","e2e_command":"pnpm worker test:e2e","dotenv_path":"./.env.test","needs_db":true}'
@@ -205,7 +205,7 @@ jobs:
       - name: Build ${{ matrix.service }} app
         if: ${{ matrix.app_command }}
         env:
-          DOTENV_CONFIG_PATH: "./.env"
+          DOTENV_CONFIG_PATH: ${{ matrix.app_dotenv || '.env' }}
         run: ${{ matrix.app_command }}
 
       - name: Test ${{ matrix.service }} (spec)
