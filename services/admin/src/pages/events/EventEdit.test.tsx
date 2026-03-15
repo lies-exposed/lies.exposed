@@ -1,11 +1,10 @@
-import { afterEach } from "node:test";
 import { fc } from "@liexp/test";
 import {
   EventTypeArb,
   getEventArbitrary,
 } from "@liexp/test/lib/arbitrary/events/index.arbitrary.js";
 import { screen, waitFor } from "@testing-library/react";
-import { describe, expect, vi } from "vitest";
+import { describe, expect, vi, afterEach } from "vitest";
 import { adminTest } from "../../../test/adminTest.js";
 import EventEdit from "./EventEdit.js";
 

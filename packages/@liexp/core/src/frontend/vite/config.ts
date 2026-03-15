@@ -205,7 +205,11 @@ export const defineViteConfig = <A extends Record<string, any>>(
         devSourcemap: true,
       },
       optimizeDeps: {
-        entries: [path.join(config.cwd, "src/**")],
+        entries: [
+          path.join(config.cwd, "src/**/*.{ts,tsx,js,jsx}"),
+          `!${path.join(config.cwd, "src/**/*.{spec,test}.{ts,tsx,js,jsx}")}`,
+          `!${path.join(config.cwd, "src/**/__tests__/**")}`,
+        ],
         // https://github.com/staylor/react-helmet-async/issues/208#issuecomment-2948288817
         include: ["react-helmet-async"],
         // Exclude monorepo packages from pre-bundling to enable HMR

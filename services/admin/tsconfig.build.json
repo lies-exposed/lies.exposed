@@ -12,7 +12,10 @@
     "build",
     ".eslintrc.cjs",
     "vite.config.ts",
-    "**/test/**",
-    "**/*.spec.ts"
-  ]
+    "vitest.config*.ts",
+    "test/**",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "references": []
 }
