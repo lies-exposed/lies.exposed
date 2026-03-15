@@ -152,9 +152,14 @@ export const processDoneJob = (job: Queue.Queue): RTE<Queue.Queue> => {
             LinkRepository.findOneOrFail({ where: { id: Equal(job.id) } }),
           ),
           fp.RTE.bind("image", () => {
-            if (!thumbnailUrl) return fp.RTE.of(undefined);
+            if (!thumbnailUrl) {
+              return fp.RTE.of(undefined);
+            }
+
             return pipe(
-              MediaRepository.findOne({ where: { location: Equal(thumbnailUrl) as any } }),
+              MediaRepository.findOne({
+                where: { location: Equal(thumbnailUrl) },
+              }),
               fp.RTE.chain((existing) =>
                 fp.O.isSome(existing)
                   ? fp.RTE.of(existing.value)
