@@ -13,6 +13,13 @@
         "postgresql://liexp:liexp-password@localhost:8432/liexp"
       ]
     },
+    "playwright": {
+      "type":"stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest"
+      ]
+    },
     "basic-memory": {
       "type": "stdio",
       "command": "uvx",
