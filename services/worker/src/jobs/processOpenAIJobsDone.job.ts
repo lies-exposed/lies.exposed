@@ -115,8 +115,8 @@ const normalizeEventPayload = (result: unknown): RTE<unknown> => {
   const groupValues: unknown[] = Array.isArray(p.groups) ? p.groups : [];
 
   const needsResolution =
-    actorValues.some((v) => !isValidUUID(v)) ||
-    groupValues.some((v) => !isValidUUID(v));
+    actorValues.some((v) => !Schema.is(UUID)(v)) ||
+    groupValues.some((v) => !Schema.is(UUID)(v));
 
   if (!needsResolution) return fp.RTE.of(result) as RTE<unknown>;
 
