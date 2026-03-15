@@ -84,6 +84,7 @@ export const makeContext =
       parser: {
         getMetadata: metadataParser.getMetadata,
       },
+      logger: serverLogger.extend("url-metadata"),
     });
 
     const config = Config(env, process.cwd());
