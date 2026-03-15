@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   extractDateFromHTML,
   extractDateFromJSONLD,
+  extractDateFromNextData,
   extractDateFromPatentHTML,
   extractDateFromURL,
   extractOriginalURLFromArchivePh,
+  extractPublishedOnlineDate,
 } from "./URLMetadata.provider.js";
 
 // ---------------------------------------------------------------------------
@@ -89,6 +91,16 @@ describe("extractDateFromHTML", () => {
     expect(extractDateFromHTML(html)).toBe(
       new Date("2023-03-10T00:00:00Z").toISOString(),
     );
+  });
+
+  it("extracts dc.date (Dublin Core lowercase, used by MDPI)", () => {
+    const html = `<meta name="dc.date" content="2021-10-13">`;
+    expect(extractDateFromHTML(html)).toBe("2021-10-13T00:00:00.000Z");
+  });
+
+  it("extracts prism.publicationDate (used by MDPI)", () => {
+    const html = `<meta name="prism.publicationDate" content="2021-10-13">`;
+    expect(extractDateFromHTML(html)).toBe("2021-10-13T00:00:00.000Z");
   });
 
   it("extracts citation_publication_date (Elsevier/ScienceDirect YYYY/MM/DD)", () => {
@@ -331,6 +343,32 @@ describe("extractDateFromPatentHTML", () => {
 });
 
 // ---------------------------------------------------------------------------
+// extractPublishedOnlineDate
+// ---------------------------------------------------------------------------
+
+describe("extractPublishedOnlineDate", () => {
+  it("extracts 'Published Online: June 29, 2021' (plain text)", () => {
+    const html = `Published Online: June 29, 2021`;
+    expect(extractPublishedOnlineDate(html)).toBe("2021-06-29T00:00:00.000Z");
+  });
+
+  it("extracts when 'Published Online' is wrapped in HTML tags", () => {
+    const html = `<span class="label">Published Online:</span> <span>29 June 2021</span>`;
+    expect(extractPublishedOnlineDate(html)).toBe("2021-06-29T00:00:00.000Z");
+  });
+
+  it("extracts abbreviated month: Published Online: Oct. 13, 2021", () => {
+    const html = `Published Online: Oct. 13, 2021`;
+    expect(extractPublishedOnlineDate(html)).toBe("2021-10-13T00:00:00.000Z");
+  });
+
+  it("returns null when not present", () => {
+    const html = `<html><body>No publish date here</body></html>`;
+    expect(extractPublishedOnlineDate(html)).toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
 // extractOriginalURLFromArchivePh
 // ---------------------------------------------------------------------------
 
@@ -375,5 +413,65 @@ describe("extractOriginalURLFromArchivePh", () => {
     expect(extractDateFromURL(originalUrl!)).toBe(
       new Date("2026-03-03T00:00:00Z").toISOString(),
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// extractDateFromNextData
+// ---------------------------------------------------------------------------
+
+describe("extractDateFromNextData", () => {
+  it("extracts 'created' field from ZeroHedge-style __NEXT_DATA__", () => {
+    const payload = JSON.stringify({
+      props: {
+        pageProps: {
+          article: {
+            created: "2022-08-27T16:30:00-0400",
+          },
+        },
+      },
+    });
+    const html = `<script id="__NEXT_DATA__" type="application/json">${payload}</script>`;
+    expect(extractDateFromNextData(html)).toBe(
+      new Date("2022-08-27T16:30:00-0400").toISOString(),
+    );
+  });
+
+  it("extracts 'publishedAt' field", () => {
+    const payload = JSON.stringify({
+      props: { pageProps: { post: { publishedAt: "2021-06-15T00:00:00Z" } } },
+    });
+    const html = `<script id="__NEXT_DATA__" type="application/json">${payload}</script>`;
+    expect(extractDateFromNextData(html)).toBe(
+      new Date("2021-06-15T00:00:00Z").toISOString(),
+    );
+  });
+
+  it("extracts 'datePublished' field", () => {
+    const payload = JSON.stringify({
+      props: { pageProps: { datePublished: "2020-01-01" } },
+    });
+    const html = `<script id="__NEXT_DATA__" type="application/json">${payload}</script>`;
+    expect(extractDateFromNextData(html)).toBe(
+      new Date("2020-01-01").toISOString(),
+    );
+  });
+
+  it("returns null when __NEXT_DATA__ script is absent", () => {
+    const html = `<html><body><p>No next data</p></body></html>`;
+    expect(extractDateFromNextData(html)).toBeNull();
+  });
+
+  it("returns null when __NEXT_DATA__ has no recognised date fields", () => {
+    const payload = JSON.stringify({
+      props: { pageProps: { title: "Hello" } },
+    });
+    const html = `<script id="__NEXT_DATA__" type="application/json">${payload}</script>`;
+    expect(extractDateFromNextData(html)).toBeNull();
+  });
+
+  it("returns null when __NEXT_DATA__ is malformed JSON", () => {
+    const html = `<script id="__NEXT_DATA__" type="application/json">{broken</script>`;
+    expect(extractDateFromNextData(html)).toBeNull();
   });
 });

@@ -159,9 +159,14 @@ const HTML_DATE_PATTERNS: RegExp[] = [
   /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']date["']/i,
   /<meta[^>]+name=["']pubdate["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']pubdate["']/i,
-  // Dublin Core
+  // Dublin Core (dc.date, DC.date.issued, dc.date.issued variants)
+  /<meta[^>]+name=["']dc\.date["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']dc\.date["']/i,
   /<meta[^>]+name=["']DC\.date\.issued["'][^>]+content=["']([^"']+)["']/i,
   /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']DC\.date\.issued["']/i,
+  // PRISM (Publishing Requirements for Industry Standard Metadata)
+  /<meta[^>]+name=["']prism\.publicationDate["'][^>]+content=["']([^"']+)["']/i,
+  /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']prism\.publicationDate["']/i,
   // Google Scholar / Highwire citation meta tags (Elsevier, Springer, Wiley, MDPI, PLoS, etc.)
   // Format is typically YYYY/MM/DD
   /<meta[^>]+name=["']citation_publication_date["'][^>]+content=["']([^"']+)["']/i,
@@ -202,6 +207,17 @@ export function extractDateFromHTML(html: string): string | null {
  * Format: "Date of Patent: Jul. 2, 2002" or "Date of Patent: October 15, 1996".
  * Returns an ISO date string or null.
  */
+// Shared helper: parse "Month DD, YYYY" or "DD Month YYYY" style date strings,
+// tolerating trailing periods on abbreviated month names (e.g. "Jul.").
+function parseLongformDate(raw: string): string | null {
+  const normalized = raw.replace(/\.(\s)/, "$1");
+  const d = new Date(normalized);
+  if (isNaN(d.getTime())) return null;
+  return new Date(
+    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
+  ).toISOString();
+}
+
 export function extractDateFromPatentHTML(html: string): string | null {
   // Justia renders: <strong>Date of Patent</strong>: Jul 2, 2002
   // Allow up to 30 chars (e.g. a closing tag) between "Date of Patent" and ":".
@@ -209,13 +225,72 @@ export function extractDateFromPatentHTML(html: string): string | null {
     /Date of Patent[\s\S]{0,30}?:\s*([A-Za-z]+\.?\s+\d{1,2},\s*\d{4})/i.exec(
       html,
     );
-  if (!m) return null;
-  // Strip trailing periods from month abbreviations ("Jul." → "Jul")
-  const d = new Date(m[1].replace(/\.(\s)/, "$1"));
-  if (isNaN(d.getTime())) return null;
-  return new Date(
-    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()),
-  ).toISOString();
+  return m ? parseLongformDate(m[1]) : null;
+}
+
+/**
+ * Extract a "Published Online: Month DD, YYYY" date from HTML body text.
+ * Used by MDPI, Wiley, and other academic publishers that render publication
+ * timeline inline in the article page.
+ * Returns an ISO date string or null.
+ */
+export function extractPublishedOnlineDate(html: string): string | null {
+  const m =
+    /Published\s+Online[:\s]+[\s\S]{0,20}?([A-Za-z]+\.?\s+\d{1,2},\s*\d{4}|\d{1,2}\s+[A-Za-z]+\.?\s+\d{4})/i.exec(
+      html,
+    );
+  return m ? parseLongformDate(m[1]) : null;
+}
+
+/**
+ * Extract a publish date from a Next.js `__NEXT_DATA__` JSON blob embedded in
+ * the page. Walks common field names used by Next.js-based news sites
+ * (e.g. ZeroHedge uses `created`, others use `publishedAt` or `published_at`).
+ * Returns an ISO date string or null.
+ */
+export function extractDateFromNextData(html: string): string | null {
+  const scriptMatch =
+    /<script[^>]+id=["']__NEXT_DATA__["'][^>]*>([\s\S]*?)<\/script>/i.exec(
+      html,
+    );
+  if (!scriptMatch?.[1]) return null;
+  let json: unknown;
+  try {
+    json = JSON.parse(scriptMatch[1]);
+  } catch {
+    return null;
+  }
+  // Walk the JSON recursively looking for known date field names
+  const DATE_KEYS = new Set([
+    "created",
+    "publishedAt",
+    "published_at",
+    "datePublished",
+    "date_published",
+    "pubDate",
+    "pub_date",
+    "postDate",
+  ]);
+  function walk(node: unknown): string | null {
+    if (!node || typeof node !== "object") return null;
+    if (Array.isArray(node)) {
+      for (const item of node) {
+        const r = walk(item);
+        if (r) return r;
+      }
+      return null;
+    }
+    for (const [k, v] of Object.entries(node as Record<string, unknown>)) {
+      if (DATE_KEYS.has(k) && typeof v === "string" && v.length >= 10) {
+        const d = new Date(v);
+        if (!isNaN(d.getTime())) return d.toISOString();
+      }
+      const r = walk(v);
+      if (r) return r;
+    }
+    return null;
+  }
+  return walk(json);
 }
 
 // ---------------------------------------------------------------------------
@@ -269,8 +344,15 @@ async function fetchNCBIDate(
   }
 }
 
-// 5b. CrossRef (doi.org / dx.doi.org)
+// 5b. CrossRef (doi.org / dx.doi.org and publisher-embedded DOIs)
 const DOI_URL_RE = /^https?:\/\/(?:dx\.)?doi\.org\/(.+)/i;
+// Publisher URLs that embed a DOI path segment after /doi/
+const PUBLISHER_DOI_RE =
+  /^https?:\/\/(?:[\w-]+\.)?(?:wiley\.com|onlinelibrary\.wiley\.com|nejm\.org|bmj\.com|thelancet\.com|springer\.com|link\.springer\.com|nature\.com|jamanetwork\.com|acpjournals\.org)\/doi\/(10\.\S+)/i;
+
+function extractDOIFromURL(url: string): string | null {
+  return (DOI_URL_RE.exec(url) ?? PUBLISHER_DOI_RE.exec(url))?.[1] ?? null;
+}
 
 function parseCrossRefDateParts(dateParts: unknown): string | null {
   if (!Array.isArray(dateParts) || !Array.isArray(dateParts[0])) return null;
@@ -286,18 +368,15 @@ async function fetchCrossRefDate(
   client: AxiosInstance,
   url: string,
 ): Promise<string | null> {
-  const m = DOI_URL_RE.exec(url);
-  if (!m) return null;
+  const doi = extractDOIFromURL(url);
+  if (!doi) return null;
   try {
-    const { data } = await client.get(
-      `https://api.crossref.org/works/${m[1]}`,
-      {
-        timeout: 10_000,
-        headers: {
-          "User-Agent": "lies-exposed/0.3.0 (mailto:info@lies.exposed)",
-        },
+    const { data } = await client.get(`https://api.crossref.org/works/${doi}`, {
+      timeout: 10_000,
+      headers: {
+        "User-Agent": "lies-exposed/0.3.0 (mailto:info@lies.exposed)",
       },
-    );
+    });
     const msg = data?.message;
     if (!msg) return null;
     return (
@@ -359,6 +438,9 @@ async function fetchDomainSpecificDate(
 // US numeric patent:   /6412416.pdf  → patents.justia.com/patent/6412416
 // US publication:      /y2012/0115240.html → patents.justia.com/patent/20120115240
 // EP/WO/other:         /EP2435633A1.pdf → patents.justia.com/patent/EP2435633A1
+// 5e. MDPI — strip /htm suffix (returns 404; canonical URL without it works fine)
+const MDPI_HTM_RE = /^(https?:\/\/(?:www\.)?mdpi\.com\/.+)\/htm$/i;
+
 const FREEPATENTS_BASE = /^https?:\/\/(?:www\.)?freepatentsonline\.com\//i;
 const FREEPATENTS_Y_RE =
   /^https?:\/\/(?:www\.)?freepatentsonline\.com\/y(\d{4})\/0*(\d+)(?:\.html)?$/i;
@@ -370,6 +452,10 @@ const FREEPATENTS_OTHER_RE =
  * For all other URLs returns the original URL unchanged.
  */
 function normalizeFetchURL(url: string): string {
+  // MDPI: /htm suffix causes 404; strip it to hit the canonical article page
+  const mdpiMatch = MDPI_HTM_RE.exec(url);
+  if (mdpiMatch) return mdpiMatch[1];
+
   if (!FREEPATENTS_BASE.test(url)) return url;
 
   // y-series (US application): y2012/0115240 → 20120115240
@@ -507,7 +593,11 @@ export const MakeURLMetadata = (
             meta.date ??= extractDateFromHTML(html) ?? undefined;
             // 3. Patent HTML: "Date of Patent: Month DD, YYYY"
             meta.date ??= extractDateFromPatentHTML(html) ?? undefined;
-            // 4. For archive.ph pages: extract the original URL and derive the
+            // 4. "Published Online: Month DD, YYYY" body text (MDPI, Wiley, etc.)
+            meta.date ??= extractPublishedOnlineDate(html) ?? undefined;
+            // 5. Next.js __NEXT_DATA__ JSON blob (ZeroHedge and other Next.js sites)
+            meta.date ??= extractDateFromNextData(html) ?? undefined;
+            // 7. For archive.ph pages: extract the original URL and derive the
             //    date from its path (e.g. reuters.com/2021/03/15/article-slug).
             //    The archived HTML already contains the original meta tags above;
             //    this step recovers dates that were only in the original URL path.
