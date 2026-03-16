@@ -1,3 +1,4 @@
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -22,6 +23,8 @@ const run = (): Promise<void> => {
 
     D.enable(process.env.DEBUG ?? "*");
   }
+
+  initSentry(process.env.SENTRY_DSN);
 
   return pipe(
     TE.Do,
