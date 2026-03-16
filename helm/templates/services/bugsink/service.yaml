@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bugsink
+{{ tuple . "bugsink" | include "bugsink.labels" | indent 2 }}
+spec:
+  selector:
+    lies.exposed/name: bugsink
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+  type: ClusterIP
