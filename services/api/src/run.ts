@@ -24,11 +24,10 @@ const run = (): Promise<void> => {
     D.enable(process.env.DEBUG ?? "*");
   }
 
-  initSentry(process.env.SENTRY_DSN);
-
   return pipe(
     TE.Do,
     TE.apS("ctx", loadContext("server")),
+    TE.chainFirst(({ ctx }) => TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN))),
     TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.chainFirst(({ ctx }) => seedNations(ctx)),
     TE.chainFirst(({ ctx }) => ensureConfigFoldersExist(ctx)),
