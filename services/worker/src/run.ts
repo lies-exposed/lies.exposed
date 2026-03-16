@@ -1,3 +1,4 @@
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -8,6 +9,8 @@ import { loadContext } from "#context/load.js";
 import { TGMessageCommands } from "#providers/tg/index.js";
 
 const run = (): Promise<void> => {
+  initSentry(process.env.SENTRY_DSN);
+
   return pipe(
     TE.Do,
     TE.bind("ctx", () => loadContext()),
