@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...@liexp/shared@0.5.10) (2026-03-16)
+
+
+### Bug Fixes
+
+* replace ?? with firstNonEmpty() for string fields that may be empty ([#3409](https://github.com/lies-exposed/lies.exposed/issues/3409)) ([4c30f20](https://github.com/lies-exposed/lies.exposed/commit/4c30f20f7a4a227ee13dad6ba5cec0d27c438989))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.10
+    * @liexp/io bumped to 0.5.10
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.10
+    * @liexp/test bumped to 0.5.10
+
 ## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...@liexp/shared@0.5.9) (2026-03-15)
 
 
