@@ -26,6 +26,17 @@ export interface Configuration {
   version: VersionInfo;
 }
 
+const GITHUB_URL = "https://github.com/lies-exposed/lies-exposed";
+
+export const buildVersionConfig = (
+  version: string,
+  commitHash: string,
+): VersionInfo => ({
+  version: version || "0.0.0",
+  commitHash: commitHash || "unknown",
+  githubUrl: GITHUB_URL,
+});
+
 export const defaultConfiguration: Configuration = {
   publicUrl: "https://lies.exposed",
   mode: "production",
@@ -47,11 +58,7 @@ export const defaultConfiguration: Configuration = {
       author: "lies.exposed",
     },
   },
-  version: {
-    version: "0.0.0",
-    commitHash: "unknown",
-    githubUrl: "https://github.com/lies-exposed/lies-exposed",
-  },
+  version: buildVersionConfig("", ""),
 };
 
 export const ConfigurationContext =

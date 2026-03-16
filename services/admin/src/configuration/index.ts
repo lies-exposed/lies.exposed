@@ -1,5 +1,6 @@
 import {
   type Configuration,
+  buildVersionConfig,
   defaultConfiguration,
 } from "@liexp/ui/lib/context/ConfigurationContext.js";
 
@@ -21,9 +22,8 @@ export const configuration: Configuration = {
       url: import.meta.env.VITE_API_URL,
     },
   },
-  version: {
-    version: import.meta.env.VITE_VERSION ?? "0.0.0",
-    commitHash: import.meta.env.VITE_COMMIT_HASH ?? "unknown",
-    githubUrl: "https://github.com/lies-exposed/lies-exposed",
-  },
+  version: buildVersionConfig(
+    import.meta.env.VITE_VERSION,
+    import.meta.env.VITE_COMMIT_HASH,
+  ),
 };

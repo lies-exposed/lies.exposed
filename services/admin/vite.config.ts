@@ -7,8 +7,8 @@ import * as path from "path";
 
 // Set version env vars if not already set
 const gitInfo = getGitInfo();
-process.env.VITE_VERSION ??= gitInfo.version;
-process.env.VITE_COMMIT_HASH ??= gitInfo.commitHash;
+process.env.VITE_VERSION ||= gitInfo.version;
+process.env.VITE_COMMIT_HASH ||= gitInfo.commitHash;
 
 export const AppEnv = defineEnv((Schema) => ({
   VITE_NODE_ENV: Schema.String,
