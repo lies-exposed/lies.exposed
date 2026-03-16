@@ -20,26 +20,23 @@ export const initSentry = (
   dsn: string | null | undefined,
   options: SentryOptions = {},
 ): IOE.IOEither<ServerError, void> =>
-  IOE.tryCatch(
-    () => {
-      if (!dsn) return;
+  IOE.tryCatch(() => {
+    if (!dsn) return;
 
-      const ignoredStatuses = options.ignoredStatuses ?? ["401", "404"];
+    const ignoredStatuses = options.ignoredStatuses ?? ["401", "404"];
 
-      Sentry.init({
-        dsn,
-        integrations: [],
-        tracesSampleRate: 0,
-        beforeSend(event, hint) {
-          const err = hint?.originalException;
-          if (err instanceof IOError && "status" in err.details) {
-            if (ignoredStatuses.includes(err.details.status)) return null;
-          }
-          return event;
-        },
-      });
-    },
-    ServerError.fromUnknown,
-  );
+    Sentry.init({
+      dsn,
+      integrations: [],
+      tracesSampleRate: 0,
+      beforeSend(event, hint) {
+        const err = hint?.originalException;
+        if (err instanceof IOError && "status" in err.details) {
+          if (ignoredStatuses.includes(err.details.status)) return null;
+        }
+        return event;
+      },
+    });
+  }, ServerError.fromUnknown);
 
 export { Sentry };

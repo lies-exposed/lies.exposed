@@ -6,14 +6,19 @@ import { pipe } from "fp-ts/lib/function.js";
 import { CronJobs } from "./jobs/jobs.js";
 import { WorkerSubscribers } from "./services/subscribers/WorkerSubscribers.js";
 import { loadContext } from "#context/load.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { TGMessageCommands } from "#providers/tg/index.js";
 
 const run = (): Promise<void> => {
-  initSentry(process.env.SENTRY_DSN);
-
   return pipe(
     TE.Do,
     TE.bind("ctx", () => loadContext()),
+    TE.chainFirst(({ ctx }) =>
+      pipe(
+        TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN)),
+        TE.mapLeft(toWorkerError),
+      ),
+    ),
     TE.bind("subscribers", ({ ctx }) =>
       WorkerSubscribers({ ...ctx, logger: ctx.logger.extend("sub") }),
     ),

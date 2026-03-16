@@ -23,7 +23,9 @@ const run = (): Promise<void> => {
   return pipe(
     TE.Do,
     TE.apS("ctx", makeAgentContext("agent-service")),
-    TE.chainFirstW(({ ctx }) => TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN))),
+    TE.chainFirstW(({ ctx }) =>
+      TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN)),
+    ),
     TE.bind("app", ({ ctx }) => {
       return TE.right(makeApp(ctx));
     }),
