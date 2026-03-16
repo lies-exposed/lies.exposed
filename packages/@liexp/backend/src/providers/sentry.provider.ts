@@ -12,7 +12,10 @@ export interface SentryOptions {
 /**
  * Initializes Sentry error tracking if a DSN is provided.
  * Automatically filters out client errors (401, 404 by default) via `beforeSend`.
- * Call this once at service startup, before any other code runs.
+ *
+ * Intentionally kept outside the fp-ts pipe so Sentry is active during context
+ * loading and can capture startup errors. Never throws — any init failure is
+ * swallowed so a misconfigured DSN cannot crash the service.
  */
 export const initSentry = (
   dsn: string | null | undefined,
@@ -22,18 +25,23 @@ export const initSentry = (
 
   const ignoredStatuses = options.ignoredStatuses ?? ["401", "404"];
 
-  Sentry.init({
-    dsn,
-    integrations: [],
-    tracesSampleRate: 0,
-    beforeSend(event, hint) {
-      const err = hint?.originalException;
-      if (err instanceof IOError && "status" in err.details) {
-        if (ignoredStatuses.includes(err.details.status)) return null;
-      }
-      return event;
-    },
-  });
+  try {
+    Sentry.init({
+      dsn,
+      integrations: [],
+      tracesSampleRate: 0,
+      beforeSend(event, hint) {
+        const err = hint?.originalException;
+        if (err instanceof IOError && "status" in err.details) {
+          if (ignoredStatuses.includes(err.details.status)) return null;
+        }
+        return event;
+      },
+    });
+  } catch (e) {
+    // Sentry init must never crash the service
+    console.error("[sentry] Failed to initialize:", e);
+  }
 };
 
 export { Sentry };
