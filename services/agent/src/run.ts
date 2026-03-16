@@ -1,3 +1,4 @@
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -22,6 +23,9 @@ const run = (): Promise<void> => {
   return pipe(
     TE.Do,
     TE.apS("ctx", makeAgentContext("agent-service")),
+    TE.chainFirstW(({ ctx }) =>
+      TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN)),
+    ),
     TE.bind("app", ({ ctx }) => {
       return TE.right(makeApp(ctx));
     }),

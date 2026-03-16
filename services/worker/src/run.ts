@@ -1,3 +1,4 @@
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -5,12 +6,19 @@ import { pipe } from "fp-ts/lib/function.js";
 import { CronJobs } from "./jobs/jobs.js";
 import { WorkerSubscribers } from "./services/subscribers/WorkerSubscribers.js";
 import { loadContext } from "#context/load.js";
+import { toWorkerError } from "#io/worker.error.js";
 import { TGMessageCommands } from "#providers/tg/index.js";
 
 const run = (): Promise<void> => {
   return pipe(
     TE.Do,
     TE.bind("ctx", () => loadContext()),
+    TE.chainFirst(({ ctx }) =>
+      pipe(
+        TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN)),
+        TE.mapLeft(toWorkerError),
+      ),
+    ),
     TE.bind("subscribers", ({ ctx }) =>
       WorkerSubscribers({ ...ctx, logger: ctx.logger.extend("sub") }),
     ),
@@ -31,10 +39,6 @@ const run = (): Promise<void> => {
       TGMessageCommands(ctx);
 
       process.on("beforeExit", () => {
-        // serverLogger.debug.log(
-        //   "Removing vaccine data download cron task..."
-        // );
-        // downloadVaccineDataTask.stop();
         cronJobs.onShutdown();
 
         ctx.redis.client.disconnect();

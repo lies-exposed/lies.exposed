@@ -35,6 +35,7 @@
     "@liexp/core": "workspace:*",
     "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
+    "@sentry/node": "^10.43.0",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "brave-search": "^0.9.0",

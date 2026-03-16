@@ -1,3 +1,4 @@
+import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import cors from "cors";
 import express from "express";
 import { unless } from "express-unless";
@@ -31,6 +32,10 @@ export const makeApp = (ctx: ServerContext): express.Express => {
   app.use("/v1", AddRoutes(express.Router(), ctx));
 
   MakeMCPRoutes(app, ctx);
+
+  if (Sentry.isInitialized()) {
+    Sentry.setupExpressErrorHandler(app);
+  }
 
   app.use(errorHandler(ctx));
 

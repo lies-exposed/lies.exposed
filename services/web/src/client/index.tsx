@@ -14,6 +14,7 @@ import {
 } from "@liexp/ui/lib/context/ThemeContext.js";
 import createEmotionCache from "@liexp/ui/lib/react/createEmotionCache.js";
 import { ECOTheme, ECOThemeDark } from "@liexp/ui/lib/theme/index.js";
+import * as Sentry from "@sentry/react";
 import {
   HydrationBoundary,
   QueryClient,
@@ -31,6 +32,14 @@ import { configuration } from "./configuration/index.js";
 config.autoAddCss = false;
 
 debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
+
+if (import.meta.env.VITE_SENTRY_DSN) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    integrations: [],
+    tracesSampleRate: 0,
+  });
+}
 
 // watch for font awesome icons
 dom.watch();
@@ -110,6 +119,8 @@ const root = ReactDOM.createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Main />
+    <Sentry.ErrorBoundary>
+      <Main />
+    </Sentry.ErrorBoundary>
   </React.StrictMode>,
 );

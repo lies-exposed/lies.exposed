@@ -4,6 +4,7 @@ import { AgentAPIContext } from "@liexp/ui/lib/context/AgentAPIContext.js";
 import { ConfigurationContext } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { DataProviderContext } from "@liexp/ui/lib/context/DataProviderContext.js";
 import { ThemeContextProvider } from "@liexp/ui/lib/context/ThemeContext.js";
+import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
@@ -17,6 +18,14 @@ import reportWebVitals from "./reportWebVitals.js";
 config.autoAddCss = false;
 
 debug.enable(import.meta.env.VITE_DEBUG ?? "@liexp:*:error");
+
+if (import.meta.env.VITE_SENTRY_DSN) {
+  Sentry.init({
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    integrations: [],
+    tracesSampleRate: 0,
+  });
+}
 
 // watch for font awesome icons
 dom.watch();
@@ -34,33 +43,35 @@ const container =
 const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
-    <ConfigurationContext.Provider value={configuration}>
-      <DataProviderContext.Provider
-        value={(() => {
-          const client = APIRESTClient({
-            url: import.meta.env.VITE_API_URL,
-            getAuth: getAuthFromLocalStorage,
-          });
-          client.client.defaults.paramsSerializer = (params) =>
-            qs.stringify(params, { arrayFormat: "brackets" });
-          return client;
-        })()}
-      >
-        <AgentAPIContext.Provider
-          value={APIRESTClient({
-            url: "/api/proxy/agent",
-            getAuth: getAuthFromLocalStorage,
-          })}
+    <Sentry.ErrorBoundary>
+      <ConfigurationContext.Provider value={configuration}>
+        <DataProviderContext.Provider
+          value={(() => {
+            const client = APIRESTClient({
+              url: import.meta.env.VITE_API_URL,
+              getAuth: getAuthFromLocalStorage,
+            });
+            client.client.defaults.paramsSerializer = (params) =>
+              qs.stringify(params, { arrayFormat: "brackets" });
+            return client;
+          })()}
         >
-          <QueryClientProvider client={new QueryClient()}>
-            <ThemeContextProvider>
-              <AdminPage />
-              {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={true} />} */}
-            </ThemeContextProvider>
-          </QueryClientProvider>
-        </AgentAPIContext.Provider>
-      </DataProviderContext.Provider>
-    </ConfigurationContext.Provider>
+          <AgentAPIContext.Provider
+            value={APIRESTClient({
+              url: "/api/proxy/agent",
+              getAuth: getAuthFromLocalStorage,
+            })}
+          >
+            <QueryClientProvider client={new QueryClient()}>
+              <ThemeContextProvider>
+                <AdminPage />
+                {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={true} />} */}
+              </ThemeContextProvider>
+            </QueryClientProvider>
+          </AgentAPIContext.Provider>
+        </DataProviderContext.Provider>
+      </ConfigurationContext.Provider>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>,
 );
 

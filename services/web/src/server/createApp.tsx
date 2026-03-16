@@ -2,6 +2,7 @@ import * as fs from "fs";
 import type http from "http";
 import * as path from "path";
 import { createViteServerHelper } from "@liexp/backend/lib/express/vite-server-helper.js";
+import { Sentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import D from "debug";
@@ -128,6 +129,10 @@ export const createApp = async (config: WebAppConfig) => {
     throw new Error(
       "SSR configuration incomplete: missing required template or server entry functions",
     );
+  }
+
+  if (Sentry.isInitialized()) {
+    Sentry.setupExpressErrorHandler(app);
   }
 
   const server = getServer({

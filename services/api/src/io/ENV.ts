@@ -17,6 +17,10 @@ const ENV = Schema.extend(
     // geo coding
     GEO_CODE_BASE_URL: Schema.String,
     GEO_CODE_API_KEY: Schema.String,
+    // error tracking
+    SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), {
+      default: () => null,
+    }),
   }),
 ).annotations({ title: "API_ENV" });
 

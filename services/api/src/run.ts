@@ -1,3 +1,4 @@
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { loadENV } from "@liexp/core/lib/env/utils.js";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
@@ -26,6 +27,7 @@ const run = (): Promise<void> => {
   return pipe(
     TE.Do,
     TE.apS("ctx", loadContext("server")),
+    TE.chainFirst(({ ctx }) => TE.fromIOEither(initSentry(ctx.env.SENTRY_DSN))),
     TE.bind("app", ({ ctx }) => TE.right(makeApp(ctx))),
     TE.chainFirst(({ ctx }) => seedNations(ctx)),
     TE.chainFirst(({ ctx }) => ensureConfigFoldersExist(ctx)),

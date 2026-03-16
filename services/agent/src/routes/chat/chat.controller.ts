@@ -244,7 +244,7 @@ export const MakeListAgentsRoute: Route = (r, _ctx) => {
  */
 function checkProviderApiKey(
   provider: AIProvider,
-  env: Record<string, string | number | boolean | undefined>,
+  env: Record<string, string | number | boolean | null | undefined>,
 ): boolean {
   switch (provider) {
     case "openai":
