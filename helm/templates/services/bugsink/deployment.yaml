@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bugsink
+  namespace: {{ .Release.Namespace }}
+{{ tuple . "bugsink" | include "bugsink.labels" | indent 2 }}
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      lies.exposed/name: bugsink
+  template:
+    metadata:
+{{ tuple . "bugsink" | include "bugsink.labels" | indent 6 }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-io-registry-auth
+      containers:
+        - name: bugsink
+          envFrom:
+            - configMapRef:
+                name: bugsink-env
+            - secretRef:
+                name: bugsink-secrets
+          image: bugsink/bugsink:latest
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8000
+              httpHeaders:
+                - name: Host
+                  value: "{{ .Values.bugsink.domain }}"
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: 500m
+            requests:
+              memory: 256Mi
+              cpu: 100m
+      restartPolicy: Always

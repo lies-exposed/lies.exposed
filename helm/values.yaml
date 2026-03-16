@@ -95,6 +95,18 @@ localai:
   modelsHostPath: /home/node/localai-models
   openAIApiKey: no-key-is-a-good-key
 
+bugsink:
+  enabled: true
+  domain: "bugsink.liexp.dev"
+  secretKey: "CHANGE_ME_generate_a_random_secret_key_at_least_50_chars"
+  superuser: "admin:admin"
+  email:
+    host: ""  # SMTP server (e.g., smtp.gmail.com)
+    port: "587"
+    useTls: "true"
+    hostUser: ""  # email address
+    password: ""  # app password or SMTP password
+
 imageCredentials:
   registry: ghcr.io
   username: your-username
