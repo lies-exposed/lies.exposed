@@ -34,10 +34,6 @@ const run = (): Promise<void> => {
       TGMessageCommands(ctx);
 
       process.on("beforeExit", () => {
-        // serverLogger.debug.log(
-        //   "Removing vaccine data download cron task..."
-        // );
-        // downloadVaccineDataTask.stop();
         cronJobs.onShutdown();
 
         ctx.redis.client.disconnect();
