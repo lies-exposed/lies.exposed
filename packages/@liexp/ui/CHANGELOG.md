@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...@liexp/ui@0.5.10) (2026-03-16)
+
+
+### Bug Fixes
+
+* **workspace:** fix version display showing empty in prod builds ([#3407](https://github.com/lies-exposed/lies.exposed/issues/3407)) ([e1ea157](https://github.com/lies-exposed/lies.exposed/commit/e1ea15781d07add291db158688b1c8cb0b09eaaa))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.10
+    * @liexp/io bumped to 0.5.10
+    * @liexp/shared bumped to 0.5.10
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.10
+
 ## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...@liexp/ui@0.5.9) (2026-03-15)
 
 

@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...agent@0.5.10) (2026-03-16)
+
+
+### Bug Fixes
+
+* integrate Sentry SDK for api, agent, worker, admin and web services ([#3410](https://github.com/lies-exposed/lies.exposed/issues/3410)) ([6d1ac72](https://github.com/lies-exposed/lies.exposed/commit/6d1ac723f5051878a90cb15dea7f3f3108e149db))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.10
+    * @liexp/core bumped to 0.5.10
+    * @liexp/io bumped to 0.5.10
+    * @liexp/shared bumped to 0.5.10
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.10
+    * @liexp/test bumped to 0.5.10
+
 ## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...agent@0.5.9) (2026-03-15)
 
 

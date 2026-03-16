@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...lies.exposed@0.5.10) (2026-03-16)
+
+
+### Bug Fixes
+
+* integrate Sentry SDK for api, agent, worker, admin and web services ([#3410](https://github.com/lies-exposed/lies.exposed/issues/3410)) ([6d1ac72](https://github.com/lies-exposed/lies.exposed/commit/6d1ac723f5051878a90cb15dea7f3f3108e149db))
+
+
+### Miscellaneous
+
+* add Bugsink self-hosted error tracking deployment ([#3411](https://github.com/lies-exposed/lies.exposed/issues/3411)) ([3b70d37](https://github.com/lies-exposed/lies.exposed/commit/3b70d3710afc4e9829387bf1ffa99c2a841a38ee))
+
 ## [0.5.9](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.8...lies.exposed@0.5.9) (2026-03-15)
 
 
