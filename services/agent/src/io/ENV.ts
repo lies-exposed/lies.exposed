@@ -18,6 +18,8 @@ const ENV = Schema.Struct({
 
   // Brave Search
   BRAVE_API_KEY: Schema.String,
+  // error tracking
+  SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), { default: () => null }),
 }).annotations({ title: "AGENT_ENV" });
 
 type ENV = typeof ENV.Type;

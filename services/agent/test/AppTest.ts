@@ -73,6 +73,7 @@ export const loadAgentContext = async (
       API_TOKEN: "my-token",
       API_BASE_URL: "http://api.liexp.test",
       BRAVE_API_KEY: "null",
+      SENTRY_DSN: null,
     },
     logger,
     jwt: GetJWTProvider({ secret: "test-secret", logger }),
