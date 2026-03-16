@@ -62,7 +62,6 @@
     "@liexp/io": "workspace:*",
     "@liexp/shared": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.27.1",
-    "@sentry/node": "^10.43.0",
     "@ts-endpoint/core": "file:patches/ts-endpoint-core-0.1.0.tgz",
     "@ts-endpoint/express": "file:patches/ts-endpoint-express-0.1.0.tgz",
     "axios": "^1.13.6",

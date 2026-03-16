@@ -48,7 +48,9 @@ export const ENV = Schema.extend(
     ...SERVICES_ENVS.fields,
     ...CRON_ENVS.fields,
     // error tracking
-    SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), { default: () => null }),
+    SENTRY_DSN: Schema.optionalWith(Schema.NullOr(Schema.String), {
+      default: () => null,
+    }),
   }),
 ).annotations({
   title: "ENV",
