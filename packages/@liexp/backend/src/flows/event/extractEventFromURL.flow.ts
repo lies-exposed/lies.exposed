@@ -8,6 +8,7 @@ import {
 import { getRelationIdsFromEventRelations } from "@liexp/shared/lib/helpers/event/getEventRelationIds.js";
 import { getSuggestions } from "@liexp/shared/lib/helpers/event-suggestion.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { parse } from "date-fns";
 import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
@@ -192,7 +193,7 @@ const extractByProvider =
         return fp.TE.right({
           url: l.url,
           title: l.title,
-          description: l.description ?? l.title,
+          description: firstNonEmpty(l.description) ?? l.title,
           keywords: [],
           image: Schema.is(UUID)(l.image) ? l.image : (l.image?.id ?? null),
           icon: "",

@@ -5,6 +5,7 @@ import { LinkIO } from "@liexp/backend/lib/io/link.io.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import type * as Link from "@liexp/io/lib/http/Link.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
+import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
@@ -37,7 +38,8 @@ export const MakeGetMetadataRoute: Route = (r, ctx) => {
             return TE.right<ControllerError, Metadata>({
               date: link.value.publishDate?.toISOString() ?? undefined,
               title: link.value.title,
-              description: link.value.description ?? link.value.title,
+              description:
+                firstNonEmpty(link.value.description) ?? link.value.title,
               keywords: link.value.keywords?.map((id) => id.id) ?? [],
               icon: "",
               image: link.value.image?.location ?? null,

@@ -2,6 +2,7 @@ import { flow, fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
 import { ImageType, MP4Type } from "@liexp/io/lib/http/Media/MediaType.js";
 import { SocialPost } from "@liexp/io/lib/http/SocialPost.js";
+import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { Schema } from "effect";
 import { sequenceS } from "fp-ts/lib/Apply.js";
 import * as E from "fp-ts/lib/Either.js";
@@ -75,7 +76,10 @@ const decodeSocialPost = ({
             : "document",
 
         media: m.location,
-        filename: (m.label ?? m.description ?? m.id).replace(/\s/g, "-"),
+        filename: (firstNonEmpty(m.label, m.description) ?? m.id).replace(
+          /\s/g,
+          "-",
+        ),
       })),
       result: {
         tg: socialPost.result?.tg ?? undefined,

@@ -10,6 +10,7 @@ import * as EventSuggestion from "@liexp/io/lib/http/EventSuggestion.js";
 import { EVENT_TYPES } from "@liexp/io/lib/http/Events/EventType.js";
 import { Endpoints } from "@liexp/shared/lib/endpoints/api/index.js";
 import { toInitialValue } from "@liexp/shared/lib/providers/blocknote/utils.js";
+import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { addWeeks, subWeeks } from "date-fns";
 import * as O from "effect/Option";
 import * as E from "fp-ts/lib/Either.js";
@@ -41,7 +42,8 @@ export const GetEventFromLinkRoute: Route = (r, ctx) => {
           return TE.right<ControllerError, Metadata>({
             date: link.value.publishDate?.toISOString() ?? undefined,
             title: link.value.title,
-            description: link.value.description ?? link.value.title,
+            description:
+              firstNonEmpty(link.value.description) ?? link.value.title,
             keywords: [],
             icon: "",
             image: link.value.image?.location ?? null,

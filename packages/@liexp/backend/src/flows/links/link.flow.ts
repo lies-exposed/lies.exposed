@@ -5,6 +5,7 @@ import { type APIError } from "@liexp/io/lib/http/Error/APIError.js";
 import * as Link from "@liexp/io/lib/http/Link.js";
 import { ImageType } from "@liexp/io/lib/http/Media/index.js";
 import { isPDFURL } from "@liexp/shared/lib/helpers/link.helper.js";
+import { firstNonEmpty } from "@liexp/shared/lib/utils/string.utils.js";
 import { sanitizeURL } from "@liexp/shared/lib/utils/url.utils.js";
 import { Schema } from "effect";
 import { type ParseError } from "effect/ParseResult";
@@ -59,8 +60,9 @@ export const fromURL =
       TE.map((m) => ({
         ...m,
         url: urll,
-        title: defaults?.title ?? m.title ?? urll,
-        description: defaults?.description ?? m.description ?? urll,
+        title: firstNonEmpty(defaults?.title, m.title) ?? urll,
+        description:
+          firstNonEmpty(defaults?.description, m.description) ?? urll,
         image: defaults?.image ?? m.image ?? null,
       })),
       TE.chain((m) =>
@@ -69,10 +71,11 @@ export const fromURL =
             m,
             (image) => ({
               id: uuid(),
-              label: defaults?.title ?? m.description ?? m.url,
+              label: firstNonEmpty(defaults?.title, m.description) ?? m.url,
               thumbnail: image,
               location: image,
-              description: defaults?.title ?? m.description ?? m.url,
+              description:
+                firstNonEmpty(defaults?.title, m.description) ?? m.url,
               type: ImageType.members[0].Encoded,
               creator,
             }),
