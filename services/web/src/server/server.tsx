@@ -7,11 +7,14 @@
 import * as http from "http";
 import { fileURLToPath } from "node:url";
 import * as path from "path";
+import { initSentry } from "@liexp/backend/lib/providers/sentry.provider.js";
 import { createApp, webSrvLog } from "./createApp.js";
 
 // Get service root directory (resolves to services/web/)
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SERVICE_ROOT = path.resolve(__dirname, "../..");
+
+initSentry(process.env.SENTRY_DSN)();
 
 const run = async (base: string): Promise<void> => {
   const port = process.env.VIRTUAL_PORT

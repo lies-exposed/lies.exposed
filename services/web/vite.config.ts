@@ -18,6 +18,7 @@ export const AppEnv = defineEnv((Schema) => ({
   VITE_DEBUG: Schema.String,
   VITE_VERSION: Schema.String,
   VITE_COMMIT_HASH: Schema.String,
+  VITE_SENTRY_DSN: Schema.optionalWith(Schema.String, { default: () => "" }),
 }));
 
 export const port =

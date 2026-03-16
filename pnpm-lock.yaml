@@ -1499,6 +1499,9 @@ importers:
       '@liexp/ui':
         specifier: workspace:*
         version: link:../../packages/@liexp/ui
+      '@sentry/react':
+        specifier: ^10.43.0
+        version: 10.43.0(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.90.2
         version: 5.90.21(react@18.3.1)
