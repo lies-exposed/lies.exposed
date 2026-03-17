@@ -21,7 +21,6 @@ const config = defineConfig(
     plugins: {
       "@typescript-eslint": tseslint.plugin,
       "fp-ts": fpTS,
-      // @ts-expect-error - import-x plugin has type incompatibilities with strict ESLint types, but works at runtime
       "import-x": importX,
     },
     extends: ["import-x/flat/recommended", "import-x/flat/typescript"],
