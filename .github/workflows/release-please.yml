@@ -155,9 +155,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           push: ${{ needs.release-please.outputs.releases_created == 'true' }}
+          load: "true"
           build-args: |
             DOTENV_CONFIG_PATH=${{ matrix.service == 'admin' && '.env.prod' || matrix.service == 'web' && '.env.prod' || '.env' }}
             VITE_VERSION=${{ steps.pkg-version.outputs.version }}
             VITE_COMMIT_HASH=${{ github.sha }}
             VERSION=${{ steps.pkg-version.outputs.version }}
             COMMIT_HASH=${{ github.sha }}
+
+      # Smoke test: verify node runtime is functional inside the built image
+      - name: Smoke test ${{ matrix.service }}
+        if: ${{ matrix.enabled && matrix.dockerfile }}
+        run: |
+          docker run --rm --entrypoint="" ${{ matrix.image_tag }} node --version
