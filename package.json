@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^20.4.3",
-    "@commitlint/config-conventional": "^20.4.3",
+    "@commitlint/config-conventional": "^20.5.0",
     "@types/node": "^24.12.0",
     "@vitest/coverage-v8": "^4.0.18",
     "corepack": "^0.34.5",
