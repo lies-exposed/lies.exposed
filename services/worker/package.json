@@ -50,7 +50,7 @@
     "axios": "^1.13.6",
     "cronstrue": "^3.13.0",
     "debug": "^4.4.0",
-    "effect": "^3.19.19",
+    "effect": "^3.20.0",
     "exifreader": "^4.37.0",
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
