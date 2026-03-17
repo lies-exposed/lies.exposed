@@ -4,11 +4,11 @@ import { MemorySaver } from "@langchain/langgraph";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
+import { type StructuredToolInterface } from "@langchain/core/tools";
 import {
   createAgent as createReactAgent,
   type AIMessage,
   type ReactAgent,
-  type Tool,
 } from "langchain";
 import { type BraveProviderContext } from "../../context/brave.context.js";
 import { type LangchainContext } from "../../context/langchain.context.js";
@@ -22,7 +22,7 @@ export type Agent = ReactAgent;
 
 export interface AgentProvider {
   agent: Agent;
-  tools: Tool[];
+  tools: StructuredToolInterface[];
   createAgent: (opts: Partial<Parameters<typeof createReactAgent>[0]>) => Agent;
   invoke: (
     input: Parameters<Agent["invoke"]>[0],
@@ -42,7 +42,7 @@ const toAgentError = (e: unknown) => {
 
 interface GetAgentProviderOptions {
   mcpClient: MultiServerMCPClient;
-  extraTools?: Tool[];
+  extraTools?: StructuredToolInterface[];
 }
 
 export const GetAgentProvider =
@@ -67,7 +67,7 @@ export const GetAgentProvider =
 
       // Combine MCP tools with custom tools (puppeteer-dependent)
       // NOTE: cli tool must be first so the LLM prefers it for internal platform queries
-      const allTools: Tool[] = [
+      const allTools: StructuredToolInterface[] = [
         ...(opts.extraTools ?? []),
         ...mcpTools,
         createWebScrapingTool(ctx),
