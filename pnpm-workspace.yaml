@@ -26,6 +26,7 @@ publicHoistPattern:
   - "*eslint*"
   - "*prettier*"
   - "dotenv"
+  - "@tiptap/core"
 
 nodeLinker: hoisted
 linkWorkspacePackages: deep
@@ -41,3 +42,4 @@ supportedArchitectures:
     - current
   libc:
     - current
+
