@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...web@0.5.11) (2026-03-18)
+
+
+### Bug Fixes
+
+* **web:** extract path from queryKey in SSR prefetch for GetPageContentByPath ([#3431](https://github.com/lies-exposed/lies.exposed/issues/3431)) ([e872274](https://github.com/lies-exposed/lies.exposed/commit/e8722746680fe019d3dc5de6b43d95827f82b5be))
+
+
+### Miscellaneous
+
+* bump pnpm to 10.32.1 ([#3439](https://github.com/lies-exposed/lies.exposed/issues/3439)) ([7a15bc4](https://github.com/lies-exposed/lies.exposed/commit/7a15bc435542fe86f4c0ada9e52b43765e19bde7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.11
+    * @liexp/core bumped to 0.5.11
+    * @liexp/io bumped to 0.5.11
+    * @liexp/shared bumped to 0.5.11
+    * @liexp/ui bumped to 0.5.11
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.11
+    * @liexp/test bumped to 0.5.11
+
 ## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...web@0.5.10) (2026-03-16)
 
 
