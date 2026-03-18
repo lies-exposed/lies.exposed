@@ -507,7 +507,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("groups"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Group.list.getKey(
@@ -531,7 +532,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("actors"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Actor.list.getKey(undefined),
@@ -668,7 +670,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("areas"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Area.list.getKey(undefined, undefined),
@@ -685,7 +688,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("media"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Media.list.getKey(undefined, undefined),
@@ -704,7 +708,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("stories"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Story.list.getKey(
@@ -763,7 +768,8 @@ export const routes: ServerRoute[] = [
         ...commonQueries.map((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("index"),
-          queryFn: Q.Page.Custom.GetPageContentByPath.fetch,
+          queryFn: ({ queryKey }) =>
+            Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
           queryKey: Q.Keyword.Custom.Distribution.getKey(undefined, {
