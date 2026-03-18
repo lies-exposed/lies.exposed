@@ -107,9 +107,7 @@ export const CronJobs = (ctx: WorkerContext): CronJobsHooks => {
         fp.TE.map(() => {
           cronLogger.info.log("Cron jobs started");
         }),
-        fp.TE.chainFirst(() =>
-          fp.TE.fromTask(updateGithubRepoStatsJob()(ctx)),
-        ),
+        fp.TE.chainFirst(() => fp.TE.fromTask(updateGithubRepoStatsJob()(ctx))),
       );
     },
     onShutdown() {
