@@ -69,7 +69,7 @@ export const editGroup = (input: EditGroupInput): TEReader<Group> => {
           } as GroupMemberEntity;
         }),
       ),
-      O.getOrElse(() => []),
+      O.getOrUndefined,
     ),
   };
 
