@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...@liexp/test@0.5.11) (2026-03-18)
+
+
+### Miscellaneous
+
+* bump pnpm to 10.32.1 ([#3439](https://github.com/lies-exposed/lies.exposed/issues/3439)) ([7a15bc4](https://github.com/lies-exposed/lies.exposed/commit/7a15bc435542fe86f4c0ada9e52b43765e19bde7))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/io bumped to 0.5.11
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.11
+
 ## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...@liexp/test@0.5.10) (2026-03-16)
 
 

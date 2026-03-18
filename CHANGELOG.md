@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...lies.exposed@0.5.11) (2026-03-18)
+
+
+### Bug Fixes
+
+* **workspace:** hoist @tiptap/core ([#3428](https://github.com/lies-exposed/lies.exposed/issues/3428)) ([220626d](https://github.com/lies-exposed/lies.exposed/commit/220626d3049a4e36d4c4e32446a266f195a15f40))
+* **workspace:** pin base image to alpine3.21 to avoid Chromium 146 SIGILL crash ([#3438](https://github.com/lies-exposed/lies.exposed/issues/3438)) ([0a3a939](https://github.com/lies-exposed/lies.exposed/commit/0a3a939decb0a655d5a3fc25a9a90086907f6c09))
+
+
+### Miscellaneous
+
+* bump pnpm to 10.32.1 ([#3439](https://github.com/lies-exposed/lies.exposed/issues/3439)) ([7a15bc4](https://github.com/lies-exposed/lies.exposed/commit/7a15bc435542fe86f4c0ada9e52b43765e19bde7))
+
 ## [0.5.10](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.9...lies.exposed@0.5.10) (2026-03-16)
 
 
