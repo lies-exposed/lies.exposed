@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
-import { GroupMemberIO } from "../groupMember.io.js";
 import { IOError } from "@ts-endpoint/core";
 import * as E from "fp-ts/lib/Either.js";
+import { describe, expect, it } from "vitest";
+import { GroupMemberIO } from "../groupMember.io.js";
 
 describe("GroupMemberIO", () => {
   describe("decodeSingle", () => {

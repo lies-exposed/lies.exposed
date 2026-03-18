@@ -1,6 +1,6 @@
 import { IOError } from "@ts-endpoint/core";
 import { describe, expect, it } from "vitest";
-import { RedisError, toRedisError } from "./redis.error.js";
+import { RedisError, toRedisError } from "../redis.error.js";
 
 describe("redis.error", () => {
   describe("RedisError", () => {

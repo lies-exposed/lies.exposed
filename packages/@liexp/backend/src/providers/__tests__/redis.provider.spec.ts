@@ -5,7 +5,7 @@ import { mockDeep } from "vitest-mock-extended";
 import { GetRedisClient, type RedisClient } from "../redis/redis.provider.js";
 
 describe("redis.provider", () => {
-  const mockLogger = {
+  const _mockLogger = {
     debug: { log: vi.fn() },
     error: { log: vi.fn() },
     info: { log: vi.fn() },
@@ -45,7 +45,9 @@ describe("redis.provider", () => {
     it("should return Left when redis get fails", async () => {
       const mockRedis = mockDeep<Redis>();
       mockRedis.connect.mockResolvedValue(undefined);
-      mockRedis.get.mockImplementation(() => Promise.reject(new Error("Redis get failed")));
+      mockRedis.get.mockImplementation(() =>
+        Promise.reject(new Error("Redis get failed")),
+      );
 
       const result = await GetRedisClient({
         client: () => mockRedis as Redis,
@@ -62,7 +64,9 @@ describe("redis.provider", () => {
     it("should return Left when redis set fails", async () => {
       const mockRedis = mockDeep<Redis>();
       mockRedis.connect.mockResolvedValue(undefined);
-      mockRedis.set.mockImplementation(() => Promise.reject(new Error("Redis set failed")));
+      mockRedis.set.mockImplementation(() =>
+        Promise.reject(new Error("Redis set failed")),
+      );
 
       const result = await GetRedisClient({
         client: () => mockRedis as Redis,
