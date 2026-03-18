@@ -1,4 +1,4 @@
-FROM node:24-alpine AS base
+FROM node:24-alpine3.21 AS base
 
 
 FROM base AS pnpm
