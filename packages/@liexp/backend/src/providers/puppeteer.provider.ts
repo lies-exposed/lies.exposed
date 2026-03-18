@@ -78,7 +78,7 @@ const makePuppeteerError = (name: string, message: string): PuppeteerError =>
 export const forceKillBrowser = (
   b: puppeteer.Browser,
 ): TE.TaskEither<PuppeteerError, void> =>
-  TE.tryCatch(() => {
+  TE.tryCatch(async () => {
     const proc = b.process();
     if (proc?.pid) {
       try {
@@ -86,6 +86,7 @@ export const forceKillBrowser = (
       } catch {
         // ESRCH = process already gone, ignore
       }
+      return Promise.resolve();
     }
   }, toPuppeteerError);
 
