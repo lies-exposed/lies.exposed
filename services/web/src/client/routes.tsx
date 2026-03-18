@@ -507,7 +507,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("groups"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
@@ -532,7 +532,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("actors"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
@@ -670,7 +670,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("areas"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
@@ -688,7 +688,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("media"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
@@ -708,7 +708,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.flatMap((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("stories"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
@@ -768,7 +768,7 @@ export const routes: ServerRoute[] = [
         ...commonQueries.map((c) => c(Q, conf)),
         {
           queryKey: Q.Page.Custom.GetPageContentByPath.getKey("index"),
-          queryFn: ({ queryKey }) =>
+          queryFn: ({ queryKey }: { queryKey: string[] }) =>
             Q.Page.Custom.GetPageContentByPath.fetch(queryKey[1]),
         },
         {
