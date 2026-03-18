@@ -22,6 +22,7 @@ import { type SpaceContext } from "../../context/space.context.js";
 import { type URLMetadataContext } from "../../context/urlMetadata.context.js";
 import {
   type PuppeteerError,
+  forceKillBrowser,
   toPuppeteerError,
 } from "../../providers/puppeteer.provider.js";
 import { type TGError } from "../../providers/tg/tg.provider.js";
@@ -95,8 +96,13 @@ export const createFromTGMessage =
                 hashtags: TE.right(hashtags),
                 areas: TE.right([]),
               }),
-            (page) =>
-              TE.tryCatch(() => page.browser().close(), toPuppeteerError),
+            (page) => {
+              const browser = page.browser();
+              return pipe(
+                TE.tryCatch(() => browser.close(), toPuppeteerError),
+                TE.orElse(() => forceKillBrowser(browser)),
+              );
+            },
           ),
         ),
       ),

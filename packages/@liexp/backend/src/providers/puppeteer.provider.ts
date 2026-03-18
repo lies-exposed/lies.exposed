@@ -75,6 +75,20 @@ export const toPuppeteerError = (e: unknown): PuppeteerError => {
 const makePuppeteerError = (name: string, message: string): PuppeteerError =>
   toPuppeteerError({ name, message });
 
+export const forceKillBrowser = (
+  b: puppeteer.Browser,
+): TE.TaskEither<PuppeteerError, void> =>
+  TE.tryCatch(() => {
+    const proc = b.process();
+    if (proc?.pid) {
+      try {
+        process.kill(-proc.pid, "SIGKILL");
+      } catch {
+        // ESRCH = process already gone, ignore
+      }
+    }
+  }, toPuppeteerError);
+
 export function getChromePath(): E.Either<PuppeteerError, string> {
   const knownPaths = [
     "/usr/bin/chromium-browser",
@@ -170,6 +184,14 @@ export const GetPuppeteerProvider = (
         });
 
         b.on("disconnected", (e) => {
+          const proc = b.process();
+          if (proc?.pid) {
+            try {
+              process.kill(-proc.pid, "SIGKILL");
+            } catch {
+              // ESRCH = process already gone, ignore
+            }
+          }
           puppeteerLogger.debug.log(
             "browser disconnected %ds: %O",
             differenceInSeconds(new Date(), connectedAt, {
@@ -199,7 +221,11 @@ export const GetPuppeteerProvider = (
             TE.tryCatch(() => b.newPage(), toPuppeteerError),
             TE.chain((p) => te(b, p)),
           ),
-        (b) => TE.tryCatch(() => b.close(), toPuppeteerError),
+        (b) =>
+          pipe(
+            TE.tryCatch(() => b.close(), toPuppeteerError),
+            TE.orElse(() => forceKillBrowser(b)),
+          ),
       ),
     );
   };
@@ -231,12 +257,20 @@ export const GetPuppeteerProvider = (
     return pipe(
       launch(opts),
       TE.chain((browser) => {
-        return TE.tryCatch(async () => {
-          puppeteerLogger.debug.log("getting first browser page");
-          const p = await browser.pages().then((pages) => pages[0]);
-          await p.goto(url);
-          return p;
-        }, toPuppeteerError);
+        return pipe(
+          TE.tryCatch(async () => {
+            puppeteerLogger.debug.log("getting first browser page");
+            const p = await browser.pages().then((pages) => pages[0]);
+            await p.goto(url);
+            return p;
+          }, toPuppeteerError),
+          TE.orElse((e) =>
+            pipe(
+              forceKillBrowser(browser),
+              TE.chain(() => TE.left(e)),
+            ),
+          ),
+        );
       }),
     );
   };
