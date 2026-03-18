@@ -60,6 +60,9 @@ export const processOpenAIQueue = (dryRun: boolean): ClientContextRTE<void> =>
         requestUrl ?? "unknown",
         responseBody ?? e.details,
       );
+      const isNetworkError =
+        !httpStatus || [502, 503].includes(httpStatus) || !axiosError?.response;
+      if (isNetworkError) return fp.TE.left(e);
       return fp.TE.right(undefined);
     }),
   );

@@ -4,7 +4,7 @@ import { getApiToken } from "./flows/getApiToken.flow.js";
 import { loadContext } from "./load-context.js";
 import { type ClientContextRTE } from "./types.js";
 import { exponentialWait } from "./utils/exponentialWait.js";
-import { report } from "#common/error/index.js";
+import { report, toAIBotError } from "#common/error/index.js";
 import { processOpenAIQueue } from "#flows/processOpenAIQueue.flow.js";
 
 let token: string | null = null;
@@ -32,24 +32,37 @@ const waitForAgent = (): ClientContextRTE<void> => (ctx) => {
   );
 };
 
+const MAX_CONSECUTIVE_FAILURES = 10;
+
 const run = (dryRun: boolean): ClientContextRTE<void> => {
   const go = (retry: number): ClientContextRTE<void> =>
     pipe(
       processOpenAIQueue(dryRun),
       fp.RTE.fold(
-        (e) => {
+        (e) => (ctx) => {
+          if (retry >= MAX_CONSECUTIVE_FAILURES) {
+            ctx.logger.error.log(
+              "%d consecutive failures — exiting process for clean restart",
+              MAX_CONSECUTIVE_FAILURES,
+            );
+            return fp.TE.left(
+              toAIBotError(
+                new Error(
+                  `${MAX_CONSECUTIVE_FAILURES} consecutive failures — exiting`,
+                ),
+              ),
+            );
+          }
           if (e.status === 401) {
-            // With API token auth, a 401 means the token is invalid/expired
-            // Log error and retry with exponential backoff
             return pipe(
               exponentialWaitOneMinute(10000, retry, "auth:401"),
               fp.RTE.chain(() => go(retry + 1)),
-            );
+            )(ctx);
           }
           return pipe(
             exponentialWaitOneMinute(10000, retry, "run:failed"),
             fp.RTE.chain(() => go(retry + 1)),
-          );
+          )(ctx);
         },
         () =>
           pipe(
