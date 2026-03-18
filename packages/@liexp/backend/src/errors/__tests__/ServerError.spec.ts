@@ -17,5 +17,54 @@ describe(ServerError.name, () => {
         },
       });
     });
+
+    it("Should return error with undefined meta when no meta provided", () => {
+      const error = ServerError.of();
+
+      expect(error.details.meta).toBeUndefined();
+    });
+  });
+
+  describe("fromUnknown", () => {
+    it("Should extract message and stack from Error instance", () => {
+      const originalError = new Error("Something went wrong");
+      const error = ServerError.fromUnknown(originalError);
+
+      expect(error.message).toBe("Something went wrong");
+      expect(error.status).toBe(500);
+      expect(error.name).toBe("ServerError");
+      expect(error.details.kind).toBe("ServerError");
+      expect(error.details.meta).toContain(originalError.stack);
+    });
+
+    it("Should handle non-Error values by JSON stringifying", () => {
+      const unknownValue = { code: 404, reason: "Not found" };
+      const error = ServerError.fromUnknown(unknownValue);
+
+      expect(error.message).toBe("Unknown error");
+      expect(error.status).toBe(500);
+      expect(error.details.meta).toContain(JSON.stringify(unknownValue));
+    });
+
+    it("Should handle null value", () => {
+      const error = ServerError.fromUnknown(null);
+
+      expect(error.message).toBe("Unknown error");
+      expect(error.status).toBe(500);
+    });
+
+    it("Should handle undefined value", () => {
+      const error = ServerError.fromUnknown(undefined);
+
+      expect(error.message).toBe("Unknown error");
+      expect(error.status).toBe(500);
+    });
+
+    it("Should handle primitive values", () => {
+      const error = ServerError.fromUnknown("string error");
+
+      expect(error.message).toBe("Unknown error");
+      expect(error.details.meta).toContain('"string error"');
+    });
   });
 });

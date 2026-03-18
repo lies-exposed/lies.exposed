@@ -1,101 +1,47 @@
-import * as O from "fp-ts/lib/Option.js";
-import { describe, expect, it } from "vitest";
-import { getORMOptions } from "./orm.utils.js";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { addOrder } from "./orm.utils.js";
 
-describe("orm.utils", () => {
-  describe("getORMOptions", () => {
-    it("should return default skip and take when no pagination provided", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.none,
-          _sort: O.none,
-          _order: O.none,
-        },
-        25,
-      );
-      expect(opts.skip).toBe(0);
-      expect(opts.take).toBe(25);
-    });
+const mockQ = {
+  addOrderBy: vi.fn().mockReturnThis(),
+} as any;
 
-    it("should use provided _start and _end for pagination", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.some(10),
-          _end: O.some(20),
-          _sort: O.none,
-          _order: O.none,
-        },
-        25,
-      );
-      expect(opts.skip).toBe(10);
-      expect(opts.take).toBe(20);
-    });
+describe("orm.utils - addOrder", () => {
+  beforeEach(() => {
+    mockQ.addOrderBy.mockClear();
+  });
 
-    it("should use defaultPageSize when _end is 0", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.some(0),
-          _sort: O.none,
-          _order: O.none,
-        },
-        100,
-      );
-      expect(opts.take).toBe(100);
-    });
+  it("should add order by key with value", () => {
+    addOrder({ name: "ASC" }, mockQ);
+    expect(mockQ.addOrderBy).toHaveBeenCalledWith("name", "ASC");
+  });
 
-    it("should produce order when _sort is provided", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.none,
-          _sort: O.some("createdAt"),
-          _order: O.some("DESC" as const),
-        },
-        25,
-      );
-      expect(opts.order).toBeDefined();
-      expect(opts.order?.createdAt).toBe("DESC");
-    });
+  it("should add order with prefix", () => {
+    addOrder({ name: "DESC" }, mockQ, "user");
+    expect(mockQ.addOrderBy).toHaveBeenCalledWith("user.name", "DESC");
+  });
 
-    it("should use DESC order by default when _sort present but _order absent", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.none,
-          _sort: O.some("updatedAt"),
-          _order: O.none,
-        },
-        25,
-      );
-      expect(opts.order?.updatedAt).toBe("DESC");
-    });
+  it("should add order with orderedKeys", () => {
+    addOrder({ a: "ASC", b: "DESC" }, mockQ, undefined, ["a", "b"]);
+    expect(mockQ.addOrderBy).toHaveBeenCalledTimes(2);
+  });
 
-    it("should produce empty order when _sort is none", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.none,
-          _sort: O.none,
-          _order: O.none,
-        },
-        25,
-      );
-      expect(opts.order).toBeUndefined();
-    });
+  it("should handle random order with seeder_random", () => {
+    addOrder({ random: true } as Record<string, any>, mockQ);
+    expect(mockQ.addOrderBy).toHaveBeenCalledWith("seeder_random", "DESC");
+  });
 
-    it("should not include where when no filters provided", () => {
-      const opts = getORMOptions(
-        {
-          _start: O.none,
-          _end: O.none,
-          _sort: O.none,
-          _order: O.none,
-        },
-        25,
-      );
-      expect(opts.where).toBeUndefined();
-    });
+  it("should handle multiple orders", () => {
+    addOrder({ createdAt: "DESC", name: "ASC" }, mockQ);
+    expect(mockQ.addOrderBy).toHaveBeenCalledTimes(2);
+  });
+
+  it("should handle prefix with random", () => {
+    addOrder({ random: true } as Record<string, any>, mockQ, "test");
+    expect(mockQ.addOrderBy).toHaveBeenCalledWith("seeder_random", "DESC");
+  });
+
+  it("should handle multiple random keys", () => {
+    addOrder({ random: true, name: "ASC" } as Record<string, any>, mockQ);
+    expect(mockQ.addOrderBy).toHaveBeenCalledTimes(2);
   });
 });

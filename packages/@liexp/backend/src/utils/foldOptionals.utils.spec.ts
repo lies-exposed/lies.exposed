@@ -78,5 +78,33 @@ describe("foldOptionals.utils", () => {
       expect(Object.keys(result)).toContain("present");
       expect(Object.keys(result)).not.toContain("absent");
     });
+
+    it("should handle mixed Some and None values", () => {
+      const obj = {
+        first: O.none,
+        second: O.some("value"),
+        third: O.none,
+        fourth: O.some(42),
+      };
+
+      const result = foldOptionals(obj);
+
+      expect(result).toEqual({ second: "value", fourth: 42 });
+    });
+
+    it("should preserve types correctly", () => {
+      const obj = {
+        str: O.some("string"),
+        num: O.none,
+        bool: O.some(true),
+        arr: O.some([1, 2, 3]),
+      };
+
+      const result = foldOptionals(obj);
+
+      expect(typeof result.str).toBe("string");
+      expect(typeof result.bool).toBe("boolean");
+      expect(Array.isArray(result.arr)).toBe(true);
+    });
   });
 });
