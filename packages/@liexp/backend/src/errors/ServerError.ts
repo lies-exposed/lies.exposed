@@ -12,6 +12,10 @@ export class ServerError extends IOError {
   }
 
   static fromUnknown(e: unknown): ServerError {
+    if (e instanceof IOError) {
+      return e as ServerError;
+    }
+
     if (e instanceof Error) {
       return new ServerError(e.message, {
         kind: "ServerError",
