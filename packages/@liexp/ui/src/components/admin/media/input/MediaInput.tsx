@@ -8,6 +8,7 @@ import {
   FormDataConsumer,
   SelectInput,
   TextInput,
+  required,
   type InputProps,
 } from "../../react-admin.js";
 import { MediaField } from "../MediaField.js";
@@ -112,7 +113,11 @@ export const MediaInput: React.FC<MediaInputProps> = ({
           return (
             <Box>
               <Stack spacing={2} direction="row" alignItems="center">
-                <TextInput source={sourceLocation} style={{ width: "80%" }} />
+                <TextInput
+                  source={sourceLocation}
+                  style={{ width: "80%" }}
+                  validate={[required()]}
+                />
                 <SelectInput
                   {...rest}
                   source={sourceType}
@@ -121,6 +126,7 @@ export const MediaInput: React.FC<MediaInputProps> = ({
                     name: v.literals[0],
                   }))}
                   defaultValue={mediaType}
+                  validate={[required()]}
                 />
               </Stack>
               {handleClickOnField ? (
