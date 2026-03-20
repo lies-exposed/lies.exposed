@@ -3,6 +3,7 @@ import { type AgentEndpoints } from "@liexp/shared/lib/endpoints/agent/index.js"
 import { type API } from "@ts-endpoint/resource-client";
 import { type Schema } from "effect";
 import { type ReaderTaskEither } from "fp-ts/lib/ReaderTaskEither.js";
+import { type TaskEither } from "fp-ts/lib/TaskEither.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { ServerError } from "../../errors/index.js";
 import { LoggerService } from "../logger/logger.service.js";
@@ -63,7 +64,7 @@ interface StructuredOutputOptions<T> {
 /**
  * Extracts JSON from markdown code blocks
  */
-const extractJsonFromMarkdown = (content: string): string => {
+export const extractJsonFromMarkdown = (content: string): string => {
   const jsonExecResult = /```json\s*([\s\S]*?)\s*```/.exec(content);
   if (jsonExecResult) {
     return jsonExecResult[1];
@@ -80,7 +81,7 @@ const extractJsonFromMarkdown = (content: string): string => {
 /**
  * Default parser that tries structured_output first, then parses content as JSON
  */
-const defaultParser = <T>(
+export const defaultParser = <T>(
   content: string,
   structuredOutput: unknown,
   extractFromMarkdown: boolean,
@@ -108,6 +109,15 @@ const defaultParser = <T>(
 /**
  * Service for making agent chat requests with structured output parsing
  */
+export interface AgentChatServiceTestContext {
+  logger: LoggerContext;
+  agent: {
+    Chat: {
+      Create: () => TaskEither<any, any>;
+    };
+  };
+}
+
 export const AgentChatService = {
   /**
    * Makes a chat request and returns structured output
