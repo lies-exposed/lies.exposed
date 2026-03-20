@@ -1,4 +1,3 @@
-import { type URL } from "@liexp/io/lib/http/Common/URL.js";
 import { ImageType, PDFType } from "@liexp/io/lib/http/Media/index.js";
 import { type Media } from "@liexp/io/lib/http/index.js";
 import { Schema } from "effect";
@@ -28,7 +27,7 @@ export const MediaSuggestedEntityRelations: React.FC = () => {
     }
 
     if (Schema.is(ImageType)(record.type) && record.description) {
-      return { url: record.description as URL };
+      return { text: record.description };
     }
 
     return null;
