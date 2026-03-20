@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...@liexp/backend@0.5.12) (2026-03-20)
+
+
+### Bug Fixes
+
+* **backend:** preserve IOError status in ServerError.fromUnknown ([#3443](https://github.com/lies-exposed/lies.exposed/issues/3443)) ([7d45b2f](https://github.com/lies-exposed/lies.exposed/commit/7d45b2f04b5744a1c3cdd045decee99a32cd7a68))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.12
+    * @liexp/io bumped to 0.5.12
+    * @liexp/shared bumped to 0.5.12
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.12
+    * @liexp/test bumped to 0.5.12
+
 ## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...@liexp/backend@0.5.11) (2026-03-18)
 
 
