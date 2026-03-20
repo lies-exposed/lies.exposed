@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...lies.exposed@0.5.12) (2026-03-20)
+
+
+### Miscellaneous
+
+* **lies.exposed:** Synchronize monorepo versions
+
 ## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...lies.exposed@0.5.11) (2026-03-18)
 
 

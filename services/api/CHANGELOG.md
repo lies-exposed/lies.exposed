@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...api@0.5.12) (2026-03-20)
+
+
+### Bug Fixes
+
+* **api:** load existing GroupMember entities before cascade save in editGroup ([#3441](https://github.com/lies-exposed/lies.exposed/issues/3441)) ([20e604f](https://github.com/lies-exposed/lies.exposed/commit/20e604feadd4992371ec5ec92be9bc6d7b266f65))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.12
+    * @liexp/core bumped to 0.5.12
+    * @liexp/io bumped to 0.5.12
+    * @liexp/shared bumped to 0.5.12
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.12
+    * @liexp/test bumped to 0.5.12
+
 ## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...api@0.5.11) (2026-03-18)
 
 

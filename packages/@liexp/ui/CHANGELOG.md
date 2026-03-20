@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...@liexp/ui@0.5.12) (2026-03-20)
+
+
+### Bug Fixes
+
+* **ui:** add required validation to MediaInput location and type fields ([#3444](https://github.com/lies-exposed/lies.exposed/issues/3444)) ([a9caf0d](https://github.com/lies-exposed/lies.exposed/commit/a9caf0d334bd392bc63dc8d564a029f7c3b2b783))
+* **ui:** use text field instead of url for image media NLP extraction ([#3445](https://github.com/lies-exposed/lies.exposed/issues/3445)) ([92f4eaa](https://github.com/lies-exposed/lies.exposed/commit/92f4eaa065293c1acee211e28cdaea20547062eb))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.12
+    * @liexp/io bumped to 0.5.12
+    * @liexp/shared bumped to 0.5.12
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.12
+
 ## [0.5.11](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.10...@liexp/ui@0.5.11) (2026-03-18)
 
 
