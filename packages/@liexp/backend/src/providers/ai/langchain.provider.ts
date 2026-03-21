@@ -1,6 +1,8 @@
 import { ChatAnthropic, type AnthropicInput } from "@langchain/anthropic";
+import type { BaseMessageChunk } from "@langchain/core/messages";
 import {
   ChatOpenAI,
+  ChatOpenAICompletions,
   type ChatOpenAIFields,
   OpenAIEmbeddings,
 } from "@langchain/openai";
@@ -10,6 +12,7 @@ import { type AvailableModels } from "@liexp/io/lib/http/Chat.js";
 import { type PromptFn } from "@liexp/shared/lib/providers/openai/prompts/prompt.type";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";
+import type OpenAI from "openai";
 
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
@@ -29,8 +32,6 @@ Question: ${question}
 
 Answer:
 `;
-
-export type { AvailableModels };
 
 export type AIProvider = "openai" | "xai" | "anthropic";
 
@@ -69,6 +70,42 @@ export interface LangchainProvider<Provider extends AIProvider> {
     question: string,
     options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
   ) => Promise<string>;
+}
+
+/**
+ * Extends ChatOpenAICompletions to capture `delta.reasoning` from LocalAI/Qwen3
+ * thinking mode into `additional_kwargs.reasoning`. LangChain automatically
+ * concatenates string values in additional_kwargs across streaming chunks,
+ * so the full reasoning is assembled the same way as function_call.arguments.
+ */
+class ChatOpenAICompletionsWithThinking extends ChatOpenAICompletions {
+  protected _convertCompletionsDeltaToBaseMessageChunk(
+    delta: Record<string, any>,
+    rawResponse: OpenAI.Chat.Completions.ChatCompletionChunk,
+    defaultRole?: OpenAI.Chat.ChatCompletionRole,
+  ): BaseMessageChunk {
+    const chunk = super._convertCompletionsDeltaToBaseMessageChunk(
+      delta,
+      rawResponse,
+      defaultRole,
+    );
+    const reasoning = delta.reasoning as string | undefined;
+    if (reasoning) {
+      chunk.additional_kwargs.reasoning = reasoning;
+      // If content is empty, copy reasoning to content so LangGraph can process
+      // the message (avoids "no action received" when the model puts its final
+      // answer in delta.reasoning instead of delta.content after a tool call).
+      // Wrap in <think> so supervisor parsing and the <think>-tag stream parser
+      // can strip it out when extracting the actual final answer.
+      if (
+        chunk.content == null ||
+        (typeof chunk.content === "string" && chunk.content === "")
+      ) {
+        chunk.content = `<think>${reasoning}</think>`;
+      }
+    }
+    return chunk;
+  }
 }
 
 const langchainLogger = GetLogger("langchain");
@@ -112,7 +149,7 @@ export const GetLangchainProvider = <P extends AIProvider>(
     if (provider === "openai") {
       const openAIChatOpts = (opts.options?.chat ?? {}) as ChatOpenAIFields;
       const openAIChatOptions = chatOptions as ChatOpenAIFields;
-      return new ChatOpenAI({
+      const openAIFields: ChatOpenAIFields = {
         model,
         temperature: 0,
         apiKey: opts.apiKey,
@@ -127,6 +164,10 @@ export const GetLangchainProvider = <P extends AIProvider>(
           ...openAIChatOpts.configuration,
           ...openAIChatOptions.configuration,
         },
+      };
+      return new ChatOpenAI({
+        ...openAIFields,
+        completions: new ChatOpenAICompletionsWithThinking(openAIFields),
       }) as ChatModel<P>;
     }
 

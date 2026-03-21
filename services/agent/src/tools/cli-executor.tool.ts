@@ -3,6 +3,7 @@ import { promisify } from "node:util";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
 import { tool } from "langchain";
+import { z } from "zod/v3";
 
 const execFileAsync = promisify(execFile);
 
@@ -148,6 +149,24 @@ export const createCliExecutorTool = (cliBinPath: string) =>
         "IMPORTANT: Always pass --end=<N> to limit results (default to 10). " +
         "For 'latest/recent' queries use --sort=createdAt --order=DESC. " +
         "Example: 'actor list --sort=createdAt --order=DESC --end=10'",
-      schema: effectToZod(CliInputSchema),
+      // Wrap with z.preprocess to handle models (e.g. Qwen3) that double-encode
+      // tool arguments as a JSON string instead of passing an object directly.
+      schema: z.preprocess((val) => {
+        if (typeof val === "string") {
+          try {
+            return JSON.parse(val);
+          } catch {
+            // Bare command string (not JSON) — wrap it
+            return { command: val };
+          }
+        }
+        // Empty object (Qwen3 parallel-call quirk): return empty command so
+        // the CLI prints usage help rather than throwing a schema error that
+        // confuses the model into generating garbage.
+        if (typeof val === "object" && val !== null && !("command" in val)) {
+          return { command: "" };
+        }
+        return val;
+      }, effectToZod(CliInputSchema)),
     },
   );

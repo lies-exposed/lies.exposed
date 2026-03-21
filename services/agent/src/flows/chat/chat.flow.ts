@@ -248,6 +248,13 @@ export const sendChatMessageStream = (payload: {
       );
 
       let contentAccumulator = "";
+      // Map of tool_call_id → accumulated {name, args} across streaming chunks.
+      // tool_call_start is deferred until the ToolMessage arrives so we emit
+      // the complete args rather than an empty {} from the first partial chunk.
+      const pendingToolCalls = new Map<
+        string,
+        { name: string; args: string }
+      >();
       const processedToolCalls = new Set<string>();
 
       // Track <think> tag state for Qwen3 models that emit thinking
@@ -265,18 +272,34 @@ export const sendChatMessageStream = (payload: {
             Array.isArray(chunk) ? chunk : [chunk, {}]
           ) as [AIMessage, { langgraph_node?: string }];
 
-          // ToolMessages carry tool results. Emit tool_call_end from them (works
-          // for both single-agent and multi-agent subgraphs, since the messages
-          // stream propagates from inner graphs too). Do NOT accumulate their
-          // content — tool results must not appear in the assistant reply bubble.
+          // ToolMessages carry tool results. Emit tool_call_start (with the final
+          // accumulated args) then tool_call_end. Deferring tool_call_start until
+          // here ensures the UI shows the complete args instead of {}.
           if ("tool_call_id" in msg && msg.tool_call_id) {
-            if (msg.name) {
+            const toolCallId = msg.tool_call_id as string;
+            const pending = pendingToolCalls.get(toolCallId);
+            const name = pending?.name ?? msg.name ?? "";
+
+            if (name && !processedToolCalls.has(toolCallId)) {
+              processedToolCalls.add(toolCallId);
+              yield {
+                type: "tool_call_start",
+                timestamp: new Date().toISOString(),
+                tool_call: {
+                  id: toolCallId,
+                  name,
+                  arguments: pending?.args ?? "",
+                },
+              } satisfies ChatStreamEvent;
+            }
+
+            if (name) {
               yield {
                 type: "tool_call_end",
                 timestamp: new Date().toISOString(),
                 tool_call: {
-                  id: msg.tool_call_id as string,
-                  name: msg.name,
+                  id: toolCallId,
+                  name,
                   result:
                     typeof msg.content === "string"
                       ? msg.content
@@ -284,43 +307,62 @@ export const sendChatMessageStream = (payload: {
                 },
               } satisfies ChatStreamEvent;
             }
+
+            // Reset content accumulator after each tool execution so only the
+            // content generated AFTER the last tool call ends up in the final
+            // stored message (preamble text before tool calls is discarded).
+            contentAccumulator = "";
+            insideThinkBlock = false;
+            thinkBuffer = "";
             continue;
           }
 
+          // Handle reasoning from additional_kwargs (LocalAI/Qwen3 thinking mode via
+          // ChatOpenAICompletionsWithThinking — delta.reasoning lands here instead of content).
+          // Must happen BEFORE the supervisor skip so thinking is always visible.
+          const reasoning = msg.additional_kwargs?.reasoning;
+          if (typeof reasoning === "string" && reasoning) {
+            yield {
+              type: "content_delta",
+              timestamp: new Date().toISOString(),
+              content: reasoning,
+              message_id: messageId,
+              thinking: true,
+            } satisfies ChatStreamEvent;
+          }
+
           // In auto (multi-agent) mode the supervisor emits a one-word routing
-          // decision ("platform" / "researcher"). Skip it so it doesn't appear
-          // in the final content bubble.
+          // decision ("platform" / "researcher"). Always skip its content so the
+          // routing word never leaks into the chat bubble. Reasoning was already
+          // emitted just above.
           if (metadata?.langgraph_node === "supervisor") {
             continue;
           }
 
-          // Handle tool calls
+          // Accumulate tool call args across streaming chunks.
+          // tool_call_start is deferred to ToolMessage time (above) so we always
+          // show complete args instead of the empty {} from the first chunk.
           if (msg.tool_calls && msg.tool_calls.length > 0) {
             for (const toolCall of msg.tool_calls) {
               const toolCallId = toolCall.id ?? uuid();
-
-              if (!processedToolCalls.has(toolCallId)) {
-                processedToolCalls.add(toolCallId);
-
-                // Tool call start
-                yield {
-                  type: "tool_call_start",
-                  timestamp: new Date().toISOString(),
-                  tool_call: {
-                    id: toolCallId,
-                    name: toolCall.name,
-                    arguments:
-                      typeof toolCall.args === "string"
-                        ? toolCall.args
-                        : JSON.stringify(toolCall.args),
-                  },
-                } satisfies ChatStreamEvent;
-              }
+              const args =
+                typeof toolCall.args === "string"
+                  ? toolCall.args
+                  : JSON.stringify(toolCall.args);
+              pendingToolCalls.set(toolCallId, {
+                name:
+                  toolCall.name ?? pendingToolCalls.get(toolCallId)?.name ?? "",
+                args,
+              });
             }
           }
 
           // Handle content deltas — parse <think> tags for Qwen3/LocalAI
-          // msg.content in LangGraph messages mode is a delta, not the full accumulated text
+          // msg.content in LangGraph messages mode is a delta, not the full accumulated text.
+          // Skip if content is just the reasoning wrapped in <think> by
+          // ChatOpenAICompletionsWithThinking (copied when delta.content was empty
+          // so LangGraph doesn't stall). The <think> tag parser below handles it
+          // correctly — no need for a separate echo-detection check.
           if (typeof msg.content === "string" && msg.content) {
             const newContent = msg.content;
             contentAccumulator += newContent;

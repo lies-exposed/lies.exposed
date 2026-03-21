@@ -20,7 +20,11 @@ import {
 import { createReactAgent as createLangGraphReactAgent } from "@langchain/langgraph/prebuilt";
 import { type MultiServerMCPClient } from "@langchain/mcp-adapters";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
-import type { AgentType, AIConfig } from "@liexp/io/lib/http/Chat.js";
+import type {
+  AgentType,
+  AIConfig,
+  AvailableModels,
+} from "@liexp/io/lib/http/Chat.js";
 import { effectToZod } from "@liexp/shared/lib/utils/schema.utils.js";
 import { Schema } from "effect";
 import { type TaskEither } from "fp-ts/lib/TaskEither.js";
@@ -31,11 +35,7 @@ import { type LangchainContext } from "../../context/langchain.context.js";
 import { type LoggerContext } from "../../context/logger.context.js";
 import { type PuppeteerProviderContext } from "../../context/puppeteer.context.js";
 import { ServerError } from "../../errors/index.js";
-import {
-  GetLangchainProvider,
-  type AIProvider,
-  type AvailableModels,
-} from "./langchain.provider.js";
+import { GetLangchainProvider, type AIProvider } from "./langchain.provider.js";
 import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
@@ -251,21 +251,34 @@ const createMultiAgentGraph = (
         content: [
           "You are a router for a fact-checking platform assistant.",
           "Choose which specialized agent handles this request:",
-          '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories)',
-          '- "researcher": find information online, web research, fact-checking, search for people/organizations/events',
+          "",
+          '- "platform": manages platform records (actors, events, groups, links, keywords, stories). Use for: ANY task that mentions an ID, a record, fetching/updating/creating platform data, or editing something in the platform. This agent can also search the web when needed.',
+          '- "researcher": web research only — no platform data access. Use for: pure external research with no platform intent (fact-checking a claim, finding background information, news lookup).',
+          "",
+          "IMPORTANT RULES:",
+          "1. If the message mentions an ID (UUID or numeric), always choose platform.",
+          "2. If the message says fetch/get/update/edit/create anything — always choose platform.",
+          "3. Only choose researcher for pure web research with zero platform interaction.",
           'Reply with ONLY the agent name: "platform" or "researcher".',
         ].join("\n"),
       },
       { role: "user", content },
     ]);
 
-    const text = (
-      typeof response.content === "string" ? response.content : "platform"
-    )
+    // Strip <think>...</think> blocks (reasoning copied to content when delta.content
+    // is empty) so we only parse the model's final routing decision.
+    const rawText =
+      typeof response.content === "string" ? response.content : "";
+    const text = rawText
+      .replace(/<think>[\s\S]*?<\/think>/g, "")
       .trim()
       .toLowerCase();
 
-    const next = text.includes("researcher") ? "researcher" : "platform";
+    // Use the LAST occurrence of each routing word — the model's thinking may
+    // mention "researcher" as an intermediate thought before deciding "platform".
+    const lastResearcher = text.lastIndexOf("researcher");
+    const lastPlatform = text.lastIndexOf("platform");
+    const next = lastResearcher > lastPlatform ? "researcher" : "platform";
     logger.info.log("Supervisor routing to: %s", next);
     return new Command({ goto: next });
   };
