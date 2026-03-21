@@ -97,7 +97,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
             ...body,
             url: pipe(url, O.map(sanitizeURL), O.toUndefined),
             title: O.toUndefined(title),
-            description: O.toUndefined(description),
+            description: O.toUndefined(description as O.Option<string>),
             publishDate: O.toUndefined(publishDate),
             provider: O.toUndefined(provider),
             image: O.isNone(image)
