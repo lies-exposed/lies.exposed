@@ -181,10 +181,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                       linkUpdate.title === undefined
                         ? l.title
                         : linkUpdate.title,
-                    description:
-                      linkUpdate.description === undefined
-                        ? l.description
-                        : linkUpdate.description,
+                    description: linkUpdate.description ?? l.description,
                     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     url: linkUpdate.url !== undefined ? linkUpdate.url : l.url,
                     publishDate:
