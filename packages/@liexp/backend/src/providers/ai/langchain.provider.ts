@@ -6,8 +6,8 @@ import {
 } from "@langchain/openai";
 import { ChatXAI, type ChatXAIInput } from "@langchain/xai";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
+import { type AvailableModels } from "@liexp/io/lib/http/Chat.js";
 import { type PromptFn } from "@liexp/shared/lib/providers/openai/prompts/prompt.type";
-import { Schema } from "effect/index";
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";
 
@@ -30,21 +30,7 @@ Question: ${question}
 Answer:
 `;
 
-export const AvailableModels = Schema.Union(
-  // OpenAI models
-  Schema.Literal("gpt-4o"),
-  // Local AI models
-  Schema.Literal("qwen3-4b"),
-  Schema.Literal("qwen3-embedding-4b"),
-  // XAI models
-  Schema.Literal("grok-4-fast"),
-  // Anthropic Claude models
-  Schema.Literal("claude-sonnet-4-20250514"),
-  Schema.Literal("claude-3-7-sonnet-latest"),
-  Schema.Literal("claude-3-5-haiku-latest"),
-);
-
-export type AvailableModels = typeof AvailableModels.Type;
+export type { AvailableModels };
 
 export type AIProvider = "openai" | "xai" | "anthropic";
 
