@@ -79,6 +79,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
           image,
           creator,
           title,
+          description,
           publishDate,
           provider,
           ...body
@@ -96,6 +97,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
             ...body,
             url: pipe(url, O.map(sanitizeURL), O.toUndefined),
             title: O.toUndefined(title),
+            description: O.toUndefined(description),
             publishDate: O.toUndefined(publishDate),
             provider: O.toUndefined(provider),
             image: O.isNone(image)
@@ -138,6 +140,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                         ...l,
                         ...linkUpdate,
                         title: linkUpdate.title ?? l.title,
+                        description: linkUpdate.description ?? l.description,
                         url: linkUpdate.url ?? l.url,
                         provider:
                           linkUpdate.provider !== undefined
@@ -156,6 +159,7 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                     ...l,
                     ...linkUpdate,
                     title: linkUpdate.title ?? l.title,
+                    description: linkUpdate.description ?? l.description,
                     url: linkUpdate.url ?? l.url,
                     publishDate:
                       linkUpdate.publishDate !== undefined
@@ -177,6 +181,10 @@ export const MakeEditLinkRoute: Route = (r, ctx) => {
                       linkUpdate.title === undefined
                         ? l.title
                         : linkUpdate.title,
+                    description:
+                      linkUpdate.description === undefined
+                        ? l.description
+                        : linkUpdate.description,
                     // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                     url: linkUpdate.url !== undefined ? linkUpdate.url : l.url,
                     publishDate:
