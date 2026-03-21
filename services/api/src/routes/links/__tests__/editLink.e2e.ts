@@ -64,7 +64,6 @@ describe("Edit Link", () => {
       .set("Authorization", adminAuthorization)
       .send({
         title: "Original Title",
-        description: "",
         status: "APPROVED",
         events: [],
         keywords: [],
@@ -86,7 +85,6 @@ describe("Edit Link", () => {
       .set("Authorization", adminAuthorization)
       .send({
         title: "Original Title",
-        description: "",
         url: newUrl,
         status: "DRAFT",
         events: [],

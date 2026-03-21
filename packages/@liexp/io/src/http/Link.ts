@@ -70,7 +70,7 @@ export const EditLink = Schema.Struct({
   url: Schema.OptionFromUndefinedOr(URL),
   status: Status,
   publishDate: Schema.OptionFromUndefinedOr(Schema.NullOr(Schema.Date)),
-  description: Schema.String,
+  description: Schema.OptionFromUndefinedOr(Schema.String),
   title: Schema.OptionFromUndefinedOr(Schema.String),
   keywords: Schema.Array(UUID),
   provider: Schema.OptionFromUndefinedOr(Schema.NullOr(UUID)),
