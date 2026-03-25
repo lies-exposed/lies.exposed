@@ -48,8 +48,12 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
           },
           false,
         ),
+        flowGraph: Q.Graph.Custom.GetGraphByType.useQuery(
+          { type: "groups", id: group.id },
+          {},
+        ),
       })}
-      render={({ groupsMembers }) => {
+      render={({ groupsMembers, flowGraph: { data: flowGraph } }) => {
         return (
           <Box
             display="flex"
@@ -120,6 +124,7 @@ export const GroupTemplate: React.FC<GroupTemplateProps> = ({
                   <StatsPanelBox
                     type="groups"
                     id={group.id}
+                    flowGraphData={flowGraph}
                     onActorClick={onActorClick}
                     onGroupClick={onGroupClick}
                     onKeywordClick={onKeywordClick}

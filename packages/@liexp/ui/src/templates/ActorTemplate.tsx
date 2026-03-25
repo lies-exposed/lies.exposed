@@ -69,8 +69,12 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
           false,
           `actor-${actor.id}`,
         ),
+        flowGraph: Queries.Graph.Custom.GetGraphByType.useQuery(
+          { type: "actors", id: actor.id },
+          {},
+        ),
       })}
-      render={({ groups: { data: groups } }) => {
+      render={({ groups: { data: groups }, flowGraph: { data: flowGraph } }) => {
         return (
           <Box
             display="flex"
@@ -153,6 +157,7 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
                     <StatsPanelBox
                       type="actors"
                       id={actor.id}
+                      flowGraphData={flowGraph}
                       onKeywordClick={onKeywordClick}
                       onGroupClick={onGroupClick}
                       onActorClick={onActorClick}
