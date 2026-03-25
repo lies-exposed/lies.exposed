@@ -28,7 +28,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@rollup/plugin-image": "^3.0.3",
-    "@types/debug": "^4.1.12",
+    "@types/debug": "^4.1.13",
     "@vitejs/plugin-react": "^5.1.4",
     "debug": "^4.4.0",
     "effect": "^3.20.0",
