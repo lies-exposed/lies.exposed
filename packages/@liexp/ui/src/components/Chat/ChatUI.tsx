@@ -2,7 +2,14 @@ import { type ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import React, { useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { styled } from "../../theme/index.js";
-import { Box, Paper, Icons } from "../mui/index.js";
+import {
+  Box,
+  Paper,
+  Icons,
+  Switch,
+  FormControlLabel,
+  Typography,
+} from "../mui/index.js";
 import { AgentSelector, type AgentType } from "./AgentSelector.js";
 import { ChatHeader } from "./ChatHeader.js";
 import { ChatInput } from "./ChatInput.js";
@@ -115,6 +122,21 @@ export interface ChatUIProps {
   isContextEnabled?: boolean;
   /** Callback when context toggle is clicked */
   onToggleContext?: () => void;
+  /** Callback to compact the conversation (summarize and start fresh thread) */
+  onCompact?: () => void;
+  /** Whether a compact operation is in progress */
+  isCompacting?: boolean;
+  /** Whether auto-compact is enabled */
+  autoCompact?: boolean;
+  /** Callback to toggle auto-compact */
+  onToggleAutoCompact?: () => void;
+  /** Token usage from the last completed message */
+  tokenUsage?: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    isEstimated: boolean;
+  } | null;
   /** Label to display for current context (e.g., "actors #123") */
   contextLabel?: string;
   /** Streaming message content (content_delta accumulation) */
@@ -189,6 +211,11 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   agentSelector,
   providerSelector,
   usedProvider,
+  onCompact,
+  isCompacting,
+  autoCompact,
+  onToggleAutoCompact,
+  tokenUsage,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -214,6 +241,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               isFullSize={isFullSize}
               onToggle={onToggle}
               onToggleFullSize={onToggleFullSize}
+              onCompact={onCompact}
+              isCompacting={isCompacting}
             />
 
             <MessagesContainer>
@@ -320,7 +349,10 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onToggleContext={onToggleContext}
             />
 
-            {(agentSelector ?? providerSelector) && (
+            {(agentSelector ??
+              providerSelector ??
+              onToggleAutoCompact ??
+              tokenUsage) && (
               <Box
                 sx={{
                   px: 1.5,
@@ -347,6 +379,44 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     getAuthToken={providerSelector.getAuthToken}
                     usedProvider={usedProvider}
                   />
+                )}
+                {onToggleAutoCompact && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      mt: 0.5,
+                    }}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          size="small"
+                          checked={!!autoCompact}
+                          onChange={onToggleAutoCompact}
+                        />
+                      }
+                      label={
+                        <Typography
+                          variant="caption"
+                          sx={{ fontSize: "0.7rem" }}
+                        >
+                          Auto-compact on context limit
+                        </Typography>
+                      }
+                      sx={{ m: 0 }}
+                    />
+                    {tokenUsage && (
+                      <Typography
+                        variant="caption"
+                        sx={{ fontSize: "0.65rem", opacity: 0.7 }}
+                      >
+                        {tokenUsage.totalTokens.toLocaleString()} tokens
+                        {tokenUsage.isEstimated ? " (est.)" : ""}
+                      </Typography>
+                    )}
+                  </Box>
                 )}
               </Box>
             )}
