@@ -1,6 +1,6 @@
 import { type EventType } from "@liexp/io/lib/http/Events/index.js";
-import { type FlowGraphOutput } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import { type StatsType } from "@liexp/io/lib/http/Stats.js";
+import { type FlowGraphOutput } from "@liexp/io/lib/http/graphs/FlowGraph.js";
 import {
   type Actor,
   type Group,
@@ -135,8 +135,12 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
     return deriveStatsFromFlowGraph(flowGraphData);
   }, [flowGraphData]);
 
-  const useFlowGraph = !!flowGraphData && !!statsFromGraph && 
-    (statsFromGraph.actors.length > 0 || statsFromGraph.groups.length > 0 || statsFromGraph.keywords.length > 0);
+  const useFlowGraph =
+    !!flowGraphData &&
+    !!statsFromGraph &&
+    (statsFromGraph.actors.length > 0 ||
+      statsFromGraph.groups.length > 0 ||
+      statsFromGraph.keywords.length > 0);
 
   if (useFlowGraph && statsFromGraph) {
     const { actors, groups, keywords } = statsFromGraph;
@@ -151,92 +155,61 @@ export const StatsPanelBox: React.FC<StatsPanelProps> = ({
         style={{ height: "100%" }}
       >
         <Typography variant="h5">Interactions</Typography>
-        <QueriesRenderer
-          queries={(Q) => ({
-            actors: Q.Actor.list.useQuery(
-              undefined,
-              { ids: actorIds as any },
-              actorIds.length > 0,
-            ),
-            groups: Q.Group.list.useQuery(
-              undefined,
-              { ids: groupIds as any },
-              groupIds.length > 0,
-            ),
-            keywords: Q.Keyword.list.useQuery(
-              undefined,
-              { ids: keywordIds as any },
-              keywordIds.length > 0,
-            ),
-          })}
-          render={({
-            actors: { data: actorData },
-            groups: { data: groupData },
-            keywords: { data: keywordData },
-          }) => (
-            <Box className={classes.content}>
-              <ActorsBoxWrapper
-                params={{ ids: actorIds }}
-              >
-                {({ data }) => (
-                  <Box className={classes.relationBox}>
-                    {actors.map(([id, count]) => {
-                      const actor = (data ?? []).find((a) => a.id === id);
-                      return actor ? (
-                        <ActorChipCount
-                          key={id}
-                          actor={actor}
-                          count={count}
-                          onClick={() => onActorClick(actor)}
-                        />
-                      ) : null;
-                    })}
-                  </Box>
-                )}
-              </ActorsBoxWrapper>
+        <Box className={classes.content}>
+          <ActorsBoxWrapper params={{ ids: actorIds }}>
+            {({ data }) => (
+              <Box className={classes.relationBox}>
+                {actors.map(([id, count]) => {
+                  const actor = (data ?? []).find((a) => a.id === id);
+                  return actor ? (
+                    <ActorChipCount
+                      key={id}
+                      actor={actor}
+                      count={count}
+                      onClick={() => onActorClick(actor)}
+                    />
+                  ) : null;
+                })}
+              </Box>
+            )}
+          </ActorsBoxWrapper>
 
-              <GroupsBoxWrapper
-                params={{ ids: groupIds }}
-              >
-                {({ data }) => (
-                  <Box className={classes.relationBox}>
-                    {groups.map(([id, count]) => {
-                      const group = (data ?? []).find((g) => g.id === id);
-                      return group ? (
-                        <GroupChipCount
-                          key={id}
-                          count={count}
-                          group={group}
-                          onClick={() => onGroupClick(group)}
-                        />
-                      ) : null;
-                    })}
-                  </Box>
-                )}
-              </GroupsBoxWrapper>
+          <GroupsBoxWrapper params={{ ids: groupIds }}>
+            {({ data }) => (
+              <Box className={classes.relationBox}>
+                {groups.map(([id, count]) => {
+                  const group = (data ?? []).find((g) => g.id === id);
+                  return group ? (
+                    <GroupChipCount
+                      key={id}
+                      count={count}
+                      group={group}
+                      onClick={() => onGroupClick(group)}
+                    />
+                  ) : null;
+                })}
+              </Box>
+            )}
+          </GroupsBoxWrapper>
 
-              <KeywordsBoxWrapper
-                params={{ filter: { ids: keywordIds } }}
-              >
-                {({ data }) => (
-                  <Box className={classes.relationBox}>
-                    {keywords.map(([id, count]) => {
-                      const keyword = (data ?? []).find((k) => k.id === id);
-                      return keyword ? (
-                        <KeywordChipCount
-                          key={id}
-                          count={count}
-                          keyword={keyword}
-                          onClick={() => onKeywordClick(keyword)}
-                        />
-                      ) : null;
-                    })}
-                  </Box>
-                )}
-              </KeywordsBoxWrapper>
-            </Box>
-          )}
-        />
+          <KeywordsBoxWrapper params={{ filter: { ids: keywordIds } }}>
+            {({ data }) => (
+              <Box className={classes.relationBox}>
+                {keywords.map(([id, count]) => {
+                  const keyword = (data ?? []).find((k) => k.id === id);
+                  return keyword ? (
+                    <KeywordChipCount
+                      key={id}
+                      count={count}
+                      keyword={keyword}
+                      onClick={() => onKeywordClick(keyword)}
+                    />
+                  ) : null;
+                })}
+              </Box>
+            )}
+          </KeywordsBoxWrapper>
+        </Box>
       </StyledBox>
     );
   }

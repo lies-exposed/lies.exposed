@@ -51,14 +51,17 @@ export const KeywordTemplate: React.FC<KeywordTemplateProps> = ({
 }) => {
   return (
     <QueriesRenderer
-      queries={(Q) => ({ 
+      queries={(Q) => ({
         keyword: Q.Keyword.get.useQuery({ id: keywordId }),
         flowGraph: Q.Graph.Custom.GetGraphByType.useQuery(
           { type: "keywords", id: keywordId },
           {},
         ),
       })}
-      render={({ keyword: { data: keyword }, flowGraph: { data: flowGraph } }) => {
+      render={({
+        keyword: { data: keyword },
+        flowGraph: { data: flowGraph },
+      }) => {
         return (
           <Box
             display="flex"

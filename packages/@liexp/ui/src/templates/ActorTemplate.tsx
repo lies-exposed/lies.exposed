@@ -74,7 +74,10 @@ export const ActorTemplate: React.FC<ActorTemplateProps> = ({
           {},
         ),
       })}
-      render={({ groups: { data: groups }, flowGraph: { data: flowGraph } }) => {
+      render={({
+        groups: { data: groups },
+        flowGraph: { data: flowGraph },
+      }) => {
         return (
           <Box
             display="flex"
