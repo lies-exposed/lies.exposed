@@ -5,7 +5,7 @@
     ],
     "module": "ES2022",
     "target": "es6",
-    "moduleResolution": "node10",
+    "moduleResolution": "bundler",
     "incremental": true,
     "strict": true,
     "declaration": true,

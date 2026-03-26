@@ -50,9 +50,9 @@ export interface GetViteConfigParams<A extends Schema.Struct.Fields> {
    */
   monorepoHmr?: boolean | MonorepoHmrConfig;
   /**
-   * Rollup options for bundle optimization
+   * Rolldown options for bundle optimization
    * Allows custom chunk splitting, output formatting, and more
-   * @see https://vitejs.dev/config/#build-rollupoptions
+   * @see https://vite.dev/config/build-options#build-rolldownoptions
    */
-  rollupOptions?: Record<string, unknown>;
+  rolldownOptions?: Record<string, unknown>;
 }

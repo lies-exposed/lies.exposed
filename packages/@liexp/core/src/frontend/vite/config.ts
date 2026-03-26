@@ -180,23 +180,21 @@ export const defineViteConfig = <A extends Record<string, any>>(
         outDir: config.output ?? "build",
         assetsDir: config.assetDir,
         minify: mode === "production",
-        commonjsOptions: {
-          include: [/node_modules/],
-          transformMixedEsModules: true,
-        },
         sourcemap: mode === "development",
         // Only apply manualChunks for production client builds:
         // - SSR builds have externalized dependencies that conflict with manualChunks
-        // - Dev mode uses native ESM via esbuild and ignores manualChunks entirely,
+        // - Dev mode ignores manualChunks entirely,
         //   so skip the generateChunkConfig filesystem scan to avoid wasted startup work
-        rollupOptions:
+        rolldownOptions:
           isSsrBuild || mode === "development"
             ? {
-                // For SSR and dev: keep rollupOptions minimal, strip output.manualChunks
-                ...(config.rollupOptions ? { ...config.rollupOptions } : {}),
+                // For SSR and dev: keep options minimal, strip output.manualChunks
+                ...(config.rolldownOptions
+                  ? { ...config.rolldownOptions }
+                  : {}),
                 output: undefined,
               }
-            : config.rollupOptions,
+            : config.rolldownOptions,
       },
       assetsInclude: [
         // "**/@liexp/ui/assets/**"
@@ -284,9 +282,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
         viteReact(),
         ...(config.plugins ?? []),
       ],
-      esbuild: {
-        jsx: "automatic",
-      },
     };
 
     return viteConfig;

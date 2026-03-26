@@ -123,17 +123,10 @@ const generateChunkName = (
 };
 
 /**
- * Generates relative paths for manual chunk configuration
- * Converts absolute paths to paths relative to vite cwd
- */
-const toRelativePath = (filePath: string, cwd: string): string => {
-  const relative = path.relative(cwd, filePath);
-  // Use .js extension for import resolution
-  return `./${relative.replace(/\.(ts|tsx)$/, ".js")}`;
-};
-
-/**
- * Auto-generates rollupOptions.output.manualChunks based on folder structure
+ * Auto-generates rollupOptions.output.manualChunks based on folder structure.
+ *
+ * Returns the function form of manualChunks (required by Vite 8 / rolldown —
+ * the object form was removed in https://vite.dev/guide/migration#removed-object-form-build-rollupoptions-output-manualchunks-and-deprecate-function-form-one).
  *
  * @example
  * ```ts
@@ -149,7 +142,7 @@ const toRelativePath = (filePath: string, cwd: string): string => {
  */
 export const generateChunkConfig = (
   options: ChunkConfigOptions,
-  cwd?: string,
+  _cwd?: string,
 ): Record<string, unknown> => {
   const {
     pagesDir,
@@ -157,8 +150,6 @@ export const generateChunkConfig = (
     folderToChunkMap = {},
     chunkPrefix = "chunk-",
   } = options;
-
-  const workingDir = cwd ?? process.cwd();
 
   // Get all page and template files
   const pageFiles = getFilesInDir(pagesDir);
@@ -168,45 +159,32 @@ export const generateChunkConfig = (
   const pagesByContext = groupFilesByContext(pageFiles);
   const templatesByContext = groupFilesByContext(templateFiles);
 
-  // Generate manual chunks
-  const manualChunks: Record<string, string[]> = {};
+  // Build a map from absolute file path -> chunk name
+  const fileToChunk = new Map<string, string>();
 
   // Process pages grouped by context
   for (const [context, files] of Object.entries(pagesByContext)) {
     if (context === "root") {
-      // Root pages (ActorsPage, GroupsPage, etc.) stay ungrouped
-      // Vite will auto-chunk them if they're large enough
+      // Root pages stay ungrouped; Vite auto-chunks them if large enough
       continue;
     }
 
     const chunkName = generateChunkName(context, chunkPrefix, folderToChunkMap);
-    manualChunks[chunkName] = files.map((f) =>
-      toRelativePath(f.filePath, workingDir),
-    );
+    for (const f of files) {
+      fileToChunk.set(f.filePath, chunkName);
+    }
   }
 
   // Process templates grouped by context
   for (const [context, files] of Object.entries(templatesByContext)) {
-    if (context === "root") {
-      // Root templates - group them together
-      const chunkName = `${chunkPrefix}templates`;
-      if (!manualChunks[chunkName]) {
-        manualChunks[chunkName] = [];
-      }
-      manualChunks[chunkName].push(
-        ...files.map((f) => toRelativePath(f.filePath, workingDir)),
-      );
-      continue;
-    }
+    const chunkName =
+      context === "root"
+        ? `${chunkPrefix}templates`
+        : generateChunkName(context, chunkPrefix, folderToChunkMap);
 
-    // For contextualized templates (e.g., events), add to existing context chunk
-    const chunkName = generateChunkName(context, chunkPrefix, folderToChunkMap);
-    if (!manualChunks[chunkName]) {
-      manualChunks[chunkName] = [];
+    for (const f of files) {
+      fileToChunk.set(f.filePath, chunkName);
     }
-    manualChunks[chunkName].push(
-      ...files.map((f) => toRelativePath(f.filePath, workingDir)),
-    );
   }
 
   // Note: Vendor chunks are not included here because:
@@ -217,7 +195,9 @@ export const generateChunkConfig = (
 
   return {
     output: {
-      manualChunks,
+      manualChunks: (id: string): string | undefined => {
+        return fileToChunk.get(id);
+      },
     },
   };
 };

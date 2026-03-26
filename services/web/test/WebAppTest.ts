@@ -194,6 +194,18 @@ export const createWebServerTest = async (
 
   const app = await createApp(config);
 
+  // Warm up Vite dev server: the first request triggers module transformation
+  // of the entire SSR bundle which can take 15–30s in CI. Running it here
+  // (inside beforeAll which has a 30s hookTimeout) means actual tests see a
+  // pre-warmed server and complete in milliseconds.
+  if (!isProduction) {
+    await supertest(app)
+      .get("/")
+      .catch(() => {
+        // warmup failure is non-fatal; the individual tests will surface errors
+      });
+  }
+
   const webTest: WebAppTest = {
     app,
     req: supertest(app),
