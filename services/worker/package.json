@@ -76,7 +76,7 @@
   "devDependencies": {
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
-    "@types/debug": "^4.1.12",
+    "@types/debug": "^4.1.13",
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/lodash": "^4.17.24",
     "@types/node-telegram-bot-api": "^0.64.14",
