@@ -28,7 +28,7 @@ show_help() {
     echo -e "${YELLOW}Usage:${NC} $0 [preset|custom]"
     echo ""
     echo -e "${YELLOW}Presets:${NC}"
-    echo "  agent     - Generate token for agent service (mcp:tools, admin:read)"
+    echo "  agent     - Generate token for agent service (mcp:tools, admin:edit)"
     echo "  ai-bot    - Generate token for ai-bot service (mcp:tools, admin:read, admin:create, admin:edit)"
     echo "  admin     - Generate token with full admin permissions"
     echo "  readonly  - Generate token with read-only permissions"
@@ -67,7 +67,7 @@ fi
 case "$1" in
     "agent")
         echo -e "${GREEN}Generating Agent Service Token${NC}"
-        generate_token "agent" "mcp:tools" "admin:read"
+        generate_token "agent" "mcp:tools" "admin:read" "admin:create" "admin:edit"
         ;;
     
     "ai-bot")
