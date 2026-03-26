@@ -12,6 +12,7 @@ import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.pro
 import { loadAndParseENV } from "@liexp/core/lib/env/utils.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
+import { type AvailableModels } from "@liexp/io/lib/http/Chat.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { ENVParser } from "@liexp/shared/lib/utils/env.utils.js";
 import axios from "axios";
@@ -72,17 +73,19 @@ export const makeAgentContext = (
         );
 
         switch (provider) {
-          case "openai":
+          case "openai": {
+            const model = (env.LOCALAI_MODEL ?? "gpt-4o") as AvailableModels;
             return {
               baseURL: env.OPENAI_BASE_URL,
               apiKey: env.OPENAI_API_KEY!,
               maxRetries: env.LOCALAI_MAX_RETRIES,
               provider: "openai" as const,
               models: {
-                chat: "gpt-4o" as const,
-                embeddings: "gpt-4o" as const,
+                chat: model,
+                embeddings: model,
               },
             };
+          }
           case "anthropic":
             return {
               baseURL: undefined as any,

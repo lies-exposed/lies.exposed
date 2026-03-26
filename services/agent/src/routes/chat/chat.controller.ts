@@ -163,8 +163,8 @@ const PROVIDER_MODELS: Record<
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
-    models: ["gpt-4o", "qwen3-4b"],
-    defaultModel: "gpt-4o",
+    models: ["gpt-4o", "qwen3.5-9b"],
+    defaultModel: "qwen3.5-9b",
   },
   anthropic: {
     description: "Anthropic Claude models",

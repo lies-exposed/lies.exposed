@@ -1,0 +1,21 @@
+backend: llama-cpp
+description: Qwen3.5-9B-GGUF - A GGUF quantized model optimized for local inference. Based on Qwen 3.5 architecture with enhanced language understanding. Available in multiple quantization levels for various hardware requirements. Multimodal capabilities for image-text-to-text tasks.
+function:
+  grammar:
+    disable: true
+known_usecases:
+  - chat
+mmproj: llama-cpp/mmproj/mmproj-F32.gguf
+name: qwen3.5-9b
+options:
+  - use_jinja:true
+parameters:
+  model: llama-cpp/models/Qwen3.5-9B-Q4_K_M.gguf
+  context_size: 32768
+reasoning:
+  # Prevents LocalAI from splitting output into delta.reasoning vs delta.content.
+  # <think> tags stay in delta.content and are handled by the agent stream parser.
+  # Also prevents the "enable_thinking + prefill" conflict from llama.cpp.
+  disable: true
+template:
+  use_tokenizer_template: true
