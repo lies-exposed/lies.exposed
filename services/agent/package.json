@@ -60,7 +60,7 @@
     "fp-ts": "^2.16.10",
     "langchain": "^1.2.37",
     "prompts": "^2.4.2",
-    "puppeteer-core": "^24.38.0",
+    "puppeteer-core": "^24.40.0",
     "puppeteer-extra": "^3.3.6",
     "typescript": "^5.9.3"
   },
