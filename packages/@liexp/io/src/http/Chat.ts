@@ -52,8 +52,7 @@ export const AvailableModels = Schema.Union(
   // OpenAI models
   Schema.Literal("gpt-4o"),
   // Local AI models
-  Schema.Literal("qwen3-4b"),
-  Schema.Literal("qwen3-embedding-4b"),
+  Schema.Literal("qwen3.5-9b"),
   // XAI models
   Schema.Literal("grok-4-fast"),
   // Anthropic Claude models
