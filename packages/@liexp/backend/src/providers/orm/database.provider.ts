@@ -2,7 +2,7 @@ import { escapePostgresIdentifier } from "@databases/escape-identifier";
 import { type FormatConfig, type SQLQuery } from "@databases/sql";
 import { fp } from "@liexp/core/lib/fp/index.js";
 import * as logger from "@liexp/core/lib/logger/index.js";
-import { type UUID } from "@liexp/io/lib/http/Common";
+import { type UUID } from "@liexp/io/lib/http/Common/index.js";
 import { IOError } from "@ts-endpoint/core";
 import type * as O from "fp-ts/lib/Option.js";
 import type * as Reader from "fp-ts/lib/Reader.js";
