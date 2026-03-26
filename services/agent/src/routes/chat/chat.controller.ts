@@ -20,6 +20,7 @@ import {
   sendChatMessage,
   sendChatMessageStream,
 } from "#flows/chat/chat.flow.js";
+import { compactConversation } from "#flows/chat/compact.flow.js";
 import { AddEndpoint } from "#routes/endpoint.subscriber.js";
 import { type Route } from "#routes/route.types.js";
 
@@ -237,6 +238,27 @@ export const MakeListAgentsRoute: Route = (r, _ctx) => {
       statusCode: 200 as const,
     });
   });
+};
+
+export const MakeCompactConversationRoute: Route = (r, ctx) => {
+  AddEndpoint(r, authenticationHandler([AdminRead.literals[0]])(ctx))(
+    AgentEndpoints.Chat.Custom.Compact,
+    ({ body }) => {
+      return pipe(
+        compactConversation(body.conversation_id)(ctx),
+        TE.mapLeft(ServerError.fromUnknown),
+        TE.map(({ newConversationId, summary }) => ({
+          body: {
+            data: {
+              new_conversation_id: newConversationId,
+              summary,
+            },
+          },
+          statusCode: 200 as const,
+        })),
+      );
+    },
+  );
 };
 
 /**

@@ -12,6 +12,8 @@ interface ChatHeaderProps {
   isFullSize: boolean;
   onToggle: () => void;
   onToggleFullSize?: () => void;
+  onCompact?: () => void;
+  isCompacting?: boolean;
 }
 
 export const ChatHeader: React.FC<ChatHeaderProps> = ({
@@ -19,6 +21,8 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
   isFullSize,
   onToggle,
   onToggleFullSize,
+  onCompact,
+  isCompacting,
 }) => {
   return (
     <CardHeader
@@ -29,6 +33,16 @@ export const ChatHeader: React.FC<ChatHeaderProps> = ({
       }
       action={
         <Box sx={{ display: "flex", gap: 0.5 }}>
+          {onCompact && (
+            <IconButton
+              color="inherit"
+              onClick={onCompact}
+              disabled={isCompacting}
+              title="Compact conversation (summarize and start fresh thread)"
+            >
+              <Icons.Compress />
+            </IconButton>
+          )}
           {onToggleFullSize && (
             <IconButton
               color="inherit"

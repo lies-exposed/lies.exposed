@@ -9,7 +9,12 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     watch: false,
     environment: "jsdom",
     setupFiles: [toAlias("./test/specSetup.ts")],
-    include: [toAlias("./src/**/*.spec.ts"), toAlias("./src/**/*.spec.tsx")],
+    include: [
+      toAlias("./src/**/*.spec.ts"),
+      toAlias("./src/**/*.spec.tsx"),
+      toAlias("./src/**/*.test.ts"),
+      toAlias("./src/**/*.test.tsx"),
+    ],
     exclude: ["node_modules/**", "build/**", "**/*.e2e.*"],
     // Alias jsdom-incompatible UI components to lightweight stubs so spec
     // tests don't need to repeat vi.mock() calls in every file.

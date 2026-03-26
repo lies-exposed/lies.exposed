@@ -83,10 +83,7 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
   return (
     <Box
       sx={{
-        position: "sticky",
-        bottom: 0,
         backgroundColor: (theme) => theme.palette.background.paper,
-        zIndex: (theme) => theme.zIndex.appBar + 1,
       }}
     >
       {/* Thinking content section (if present) */}

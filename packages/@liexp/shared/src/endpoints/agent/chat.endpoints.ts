@@ -91,6 +91,22 @@ export const ListAgents = Endpoint({
   }),
 });
 
+export const CompactConversation = Endpoint({
+  Method: "POST",
+  getPath: () => "/chat/compact",
+  Input: {
+    Body: Schema.Struct({
+      conversation_id: Schema.String,
+    }),
+  },
+  Output: Output(
+    Schema.Struct({
+      new_conversation_id: Schema.String,
+      summary: Schema.String,
+    }).annotations({ title: "CompactConversationResponse" }),
+  ),
+});
+
 export const chat = ResourceEndpoints({
   Get: GetConversation,
   List: ListConversations,
@@ -101,5 +117,6 @@ export const chat = ResourceEndpoints({
     Stream: SendMessageStream,
     ListProviders,
     ListAgents,
+    Compact: CompactConversation,
   },
 });

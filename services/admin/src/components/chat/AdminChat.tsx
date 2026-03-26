@@ -13,15 +13,55 @@ interface ChatProps {
   className?: string;
 }
 
+const SETTINGS_KEY = "chat:settings";
+
+interface ChatSettings {
+  provider: AIProvider | null;
+  model: string | null;
+  autoCompact: boolean;
+}
+
+const loadSettings = (): ChatSettings => {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (raw)
+      return {
+        provider: null,
+        model: null,
+        autoCompact: false,
+        ...JSON.parse(raw),
+      };
+  } catch {
+    // ignore parse errors
+  }
+  return { provider: null, model: null, autoCompact: false };
+};
+
+const saveSettings = (patch: Partial<ChatSettings>) => {
+  try {
+    const current = loadSettings();
+    localStorage.setItem(
+      SETTINGS_KEY,
+      JSON.stringify({ ...current, ...patch }),
+    );
+  } catch {
+    // ignore write errors
+  }
+};
+
 export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isFullSize, setIsFullSize] = useState(false);
   const [isContextEnabled, setIsContextEnabled] = useState(false);
+
+  const initialSettings = useMemo(loadSettings, []);
   const [selectedProvider, setSelectedProvider] = useState<AIProvider | null>(
-    null,
+    initialSettings.provider,
   );
-  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<string | null>(
+    initialSettings.model,
+  );
 
   const location = useLocation();
   const streamingStartTimeRef = useRef<string | null>(null);
@@ -38,7 +78,13 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     tokenUsage,
     usedProvider,
     sendMessage,
-  } = useStreamingChat();
+    compact,
+    autoCompact,
+    toggleAutoCompact,
+  } = useStreamingChat({
+    initialAutoCompact: initialSettings.autoCompact,
+    onAutoCompactChange: (value) => saveSettings({ autoCompact: value }),
+  });
 
   // Use react-admin hooks to get resource context
   const hookResource = useResourceContext();
@@ -199,12 +245,22 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       onToggleContext={handleToggleContext}
       contextLabel={contextLabel}
       streamingMessage={streamingMessage}
+      onCompact={conversationId ? () => void compact() : undefined}
+      isCompacting={isLoading}
+      autoCompact={autoCompact}
+      onToggleAutoCompact={toggleAutoCompact}
+      tokenUsage={tokenUsage}
       providerSelector={{
         selectedProvider,
-        onProviderChange: (provider: string) =>
-          setSelectedProvider(provider as AIProvider),
+        onProviderChange: (provider: string) => {
+          setSelectedProvider(provider as AIProvider);
+          saveSettings({ provider: provider as AIProvider });
+        },
         selectedModel,
-        onModelChange: setSelectedModel,
+        onModelChange: (model: string) => {
+          setSelectedModel(model);
+          saveSettings({ model });
+        },
         getAuthToken: getAuthFromLocalStorage,
       }}
       usedProvider={usedProvider}

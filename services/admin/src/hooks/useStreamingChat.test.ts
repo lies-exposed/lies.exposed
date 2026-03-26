@@ -364,6 +364,117 @@ describe("useStreamingChat", () => {
     });
   });
 
+  describe("autoCompact", () => {
+    it("should initialize autoCompact from initialAutoCompact option", () => {
+      const { result } = renderHook(() =>
+        useStreamingChat({ initialAutoCompact: true }),
+      );
+      expect(result.current.autoCompact).toBe(true);
+    });
+
+    it("should toggle autoCompact and call onAutoCompactChange", () => {
+      const onChange = vi.fn();
+      const { result } = renderHook(() =>
+        useStreamingChat({
+          initialAutoCompact: false,
+          onAutoCompactChange: onChange,
+        }),
+      );
+
+      act(() => {
+        result.current.toggleAutoCompact();
+      });
+
+      expect(result.current.autoCompact).toBe(true);
+      expect(onChange).toHaveBeenCalledWith(true);
+
+      act(() => {
+        result.current.toggleAutoCompact();
+      });
+
+      expect(result.current.autoCompact).toBe(false);
+      expect(onChange).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe("compact", () => {
+    it("should call compact endpoint and reset state with summary", async () => {
+      const compactHandler = vi.fn();
+      mswServer.use(
+        http.post("*/api/proxy/agent/chat/compact", compactHandler),
+      );
+      compactHandler.mockImplementation(() =>
+        HttpResponse.json({
+          data: {
+            new_conversation_id: "new-conv-456",
+            summary: "Conversation was about greetings.",
+          },
+        }),
+      );
+
+      // Prime the hook with a conversation
+      agentProxyHandler.mockImplementation(() =>
+        mockHandler([
+          'data: {"type":"message_start","message_id":"msg-1","timestamp":"2024-01-01T00:00:00Z"}\n',
+          'data: {"type":"message_end","content":"Hi","timestamp":"2024-01-01T00:00:00Z"}\n',
+          "data: [DONE]\n",
+        ]),
+      );
+
+      const { result } = renderHook(() => useStreamingChat());
+
+      await act(async () => {
+        await result.current.sendMessage({
+          message: "Hello",
+          conversation_id: "conv-111",
+        });
+      });
+
+      // Now compact
+      await act(async () => {
+        await result.current.compact();
+      });
+
+      expect(result.current.conversationId).toBe("new-conv-456");
+      expect(result.current.messages).toHaveLength(1);
+      expect(result.current.messages[0].role).toBe("system");
+      expect(result.current.messages[0].content).toContain(
+        "Conversation was about greetings.",
+      );
+    });
+
+    it("should set error state when compact endpoint fails", async () => {
+      mswServer.use(
+        http.post("*/api/proxy/agent/chat/compact", () =>
+          HttpResponse.json({}, { status: 500 }),
+        ),
+      );
+
+      agentProxyHandler.mockImplementation(() =>
+        mockHandler([
+          'data: {"type":"message_end","content":"Hi","timestamp":"2024-01-01T00:00:00Z"}\n',
+          "data: [DONE]\n",
+        ]),
+      );
+
+      const { result } = renderHook(() => useStreamingChat());
+
+      await act(async () => {
+        await result.current.sendMessage({
+          message: "Hello",
+          conversation_id: "conv-222",
+        });
+      });
+
+      await act(async () => {
+        await result.current.compact();
+      });
+
+      expect(result.current.error).toContain("Compact failed");
+      expect(result.current.isLoading).toBe(false);
+    });
+  });
+
   describe("Authorization header", () => {
     it("should include Authorization header when token is available", async () => {
       agentProxyHandler.mockImplementation(() =>

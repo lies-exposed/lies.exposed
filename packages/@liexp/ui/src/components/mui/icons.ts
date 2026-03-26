@@ -46,6 +46,7 @@ import {
   OpenInFull,
   PinOutlined,
   MenuBook as StoryIcon,
+  Compress,
 } from "@mui/icons-material";
 
 export {
@@ -96,4 +97,5 @@ export {
   OpenInFull,
   PinOutlined,
   StoryIcon,
+  Compress,
 };
