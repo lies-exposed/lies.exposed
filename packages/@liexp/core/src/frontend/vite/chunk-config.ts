@@ -142,7 +142,7 @@ const generateChunkName = (
  */
 export const generateChunkConfig = (
   options: ChunkConfigOptions,
-  cwd?: string,
+  _cwd?: string,
 ): Record<string, unknown> => {
   const {
     pagesDir,

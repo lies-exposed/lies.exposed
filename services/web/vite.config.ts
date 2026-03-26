@@ -99,7 +99,7 @@ const config = defineViteConfig({
       : "tsconfig.json",
 
   plugins: [reactVirtualized()],
-  rollupOptions: getRollupOptions(),
+  rolldownOptions: getRollupOptions(),
 });
 
 export default config;

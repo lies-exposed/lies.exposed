@@ -81,7 +81,7 @@ const config = defineViteConfig({
       ? "tsconfig.build.json"
       : "tsconfig.json",
   plugins: [reactVirtualized()],
-  rollupOptions: getRollupOptions(),
+  rolldownOptions: getRollupOptions(),
   // Monorepo HMR is auto-detected and enabled by default in development
   // Set to false to disable: monorepoHmr: false
 });
