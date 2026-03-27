@@ -18,17 +18,8 @@ const createMockContext = () => {
     events: {},
   };
 
-  const mockSharpFn = vi.fn();
-  const mockSharp = vi.fn().mockReturnValue({
-    keepExif: vi.fn().mockReturnThis(),
-    rotate: vi.fn().mockReturnThis(),
-    resize: vi.fn().mockReturnThis(),
-    toFormat: vi.fn().mockReturnThis(),
-    toBuffer: vi.fn().mockResolvedValue(Buffer.from("resized")),
-  });
-
   const imgProc = {
-    run: vi.fn().mockImplementation((fn: (s: any) => Promise<Buffer>) => {
+    run: vi.fn().mockImplementation((_fn: (s: any) => Promise<Buffer>) => {
       return TE.right(Buffer.from("resized"));
     }),
     readExif: vi.fn(),
@@ -62,10 +53,7 @@ describe("resizeThumbnailFlow", () => {
   it("should call imgProc.run with a function", async () => {
     const inputBuffer = new ArrayBuffer(512);
 
-    await pipe(
-      resizeThumbnailFlow(inputBuffer)(ctx as any),
-      throwTE,
-    );
+    await pipe(resizeThumbnailFlow(inputBuffer)(ctx as any), throwTE);
 
     expect(ctx.imgProc.run).toHaveBeenCalled();
   });
@@ -88,7 +76,9 @@ describe("resizeThumbnailFlow", () => {
 
     const inputBuffer = new ArrayBuffer(256);
 
-    const result = await resizeThumbnailFlow(inputBuffer)(ctxWithError as any)();
+    const result = await resizeThumbnailFlow(inputBuffer)(
+      ctxWithError as any,
+    )();
 
     expect(result._tag).toBe("Left");
   });

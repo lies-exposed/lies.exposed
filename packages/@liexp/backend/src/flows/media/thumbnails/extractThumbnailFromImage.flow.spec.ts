@@ -1,4 +1,4 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";

@@ -35,14 +35,10 @@ describe("AIMessageLogger", () => {
 
     AIMessageLogger(logger as any)(message);
 
-    expect(logger.info.log).toHaveBeenCalledWith(
-      "[ai] Run tool: %s",
-      "search",
-    );
-    expect(logger.debug.log).toHaveBeenCalledWith(
-      "Tool arguments: %O",
-      { query: "test" },
-    );
+    expect(logger.info.log).toHaveBeenCalledWith("[ai] Run tool: %s", "search");
+    expect(logger.debug.log).toHaveBeenCalledWith("Tool arguments: %O", {
+      query: "test",
+    });
   });
 
   it("should log invalid tool calls", () => {
@@ -147,14 +143,15 @@ describe("AIMessageLogger", () => {
 
     AIMessageLogger(logger as any)(message);
 
-    expect(logger.info.log).toHaveBeenCalledWith(
-      "[ai] This is a test message",
-    );
+    expect(logger.info.log).toHaveBeenCalledWith("[ai] This is a test message");
   });
 
   it("should log complex content as object", () => {
     const logger = createMockLogger();
-    const complexContent = [{ type: "text", text: "Hello" }, { type: "image", url: "..." }];
+    const complexContent = [
+      { type: "text", text: "Hello" },
+      { type: "image", url: "..." },
+    ];
     const message = {
       type: "ai",
       content: complexContent,

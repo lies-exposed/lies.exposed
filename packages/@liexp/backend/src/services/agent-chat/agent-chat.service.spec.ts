@@ -32,25 +32,20 @@ const createMockContext = (): AgentChatServiceTestContext => {
   };
 };
 
-const mockChatCreate = (
-  ctx: AgentChatServiceTestContext,
-  response: any,
-) => {
-  ctx.agent.Chat.Create = vi.fn().mockImplementation(() =>
-    TE.right(response),
-  );
+const mockChatCreate = (ctx: AgentChatServiceTestContext, response: any) => {
+  ctx.agent.Chat.Create = vi.fn().mockImplementation(() => TE.right(response));
 };
 
 describe("AgentChatService", () => {
   describe("extractJsonFromMarkdown", () => {
     it("should extract JSON from markdown code block", () => {
-      const content = "```json\n{ \"name\": \"test\" }\n```";
+      const content = '```json\n{ "name": "test" }\n```';
       const result = extractJsonFromMarkdown(content);
       expect(result).toBe('{ "name": "test" }');
     });
 
     it("should extract code without json tag from markdown", () => {
-      const content = "```\n{ \"name\": \"test\" }\n```";
+      const content = '```\n{ "name": "test" }\n```';
       const result = extractJsonFromMarkdown(content);
       expect(result).toBe('{ "name": "test" }');
     });
@@ -68,7 +63,8 @@ describe("AgentChatService", () => {
     });
 
     it("should extract only the first code block", () => {
-      const content = "```json\n{ \"first\": true }\n```\n```json\n{ \"second\": true }\n```";
+      const content =
+        '```json\n{ "first": true }\n```\n```json\n{ "second": true }\n```';
       const result = extractJsonFromMarkdown(content);
       expect(result).toBe('{ "first": true }');
     });
@@ -93,23 +89,28 @@ describe("AgentChatService", () => {
 
     it("should parse JSON from markdown when extractFromMarkdown is true", () => {
       const markdownContent = '```json\n{"name": "test"}\n```';
-      const result = defaultParser<{ name: string }>(markdownContent, undefined, true);
+      const result = defaultParser<{ name: string }>(
+        markdownContent,
+        undefined,
+        true,
+      );
       expect(result).toEqual({ name: "test" });
     });
 
     it("should throw error when content is not valid JSON and no structured_output", () => {
       expect(() => {
         defaultParser("not valid json", undefined, false);
-      }).toThrow("Agent response missing structured_output and content is not valid JSON");
+      }).toThrow(
+        "Agent response missing structured_output and content is not valid JSON",
+      );
     });
 
     it("should handle nested JSON objects", () => {
-      const nestedJson = '{"user": {"name": "test", "settings": {"theme": "dark"}}}';
-      const result = defaultParser<{ user: { name: string; settings: { theme: string } } }>(
-        nestedJson,
-        undefined,
-        false,
-      );
+      const nestedJson =
+        '{"user": {"name": "test", "settings": {"theme": "dark"}}}';
+      const result = defaultParser<{
+        user: { name: string; settings: { theme: string } };
+      }>(nestedJson, undefined, false);
       expect(result.user.name).toBe("test");
       expect(result.user.settings.theme).toBe("dark");
     });

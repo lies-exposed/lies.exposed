@@ -13,7 +13,7 @@ const createMockContext = () => ({
 });
 
 const makeAsyncIterable = (chunks: any[]) => ({
-  [Symbol.asyncIterator]: async function* () {
+  [Symbol.asyncIterator]: function* () {
     for (const chunk of chunks) yield chunk;
   },
 });
@@ -28,7 +28,10 @@ describe("runAgent", () => {
       const ctx = createMockContext();
 
       const result = await throwTE(
-        runAgent([{ role: "user", content: "hello" }] as any, chain as any)(ctx as any),
+        runAgent(
+          [{ role: "user", content: "hello" }] as any,
+          chain as any,
+        )(ctx as any),
       );
 
       expect(result).toBe("");
@@ -40,14 +43,18 @@ describe("runAgent", () => {
 
     it("accumulates agent chunks", async () => {
       const chain = {
-        stream: vi.fn().mockResolvedValue(
-          makeAsyncIterable([{ agent: "first" }, { agent: "second" }]),
-        ),
+        stream: vi
+          .fn()
+          .mockResolvedValue(
+            makeAsyncIterable([{ agent: "first" }, { agent: "second" }]),
+          ),
         invoke: vi.fn(),
       };
       const ctx = createMockContext();
 
-      const result = await throwTE(runAgent([] as any, chain as any)(ctx as any));
+      const result = await throwTE(
+        runAgent([] as any, chain as any)(ctx as any),
+      );
 
       expect(result).toContain('"first"');
       expect(result).toContain('"second"');
@@ -56,16 +63,20 @@ describe("runAgent", () => {
     it("captures structured response from generate_structured_response chunk", async () => {
       const structuredResponse = { title: "Test Event", date: "2024-01-01" };
       const chain = {
-        stream: vi.fn().mockResolvedValue(
-          makeAsyncIterable([
-            { generate_structured_response: { structuredResponse } },
-          ]),
-        ),
+        stream: vi
+          .fn()
+          .mockResolvedValue(
+            makeAsyncIterable([
+              { generate_structured_response: { structuredResponse } },
+            ]),
+          ),
         invoke: vi.fn(),
       };
       const ctx = createMockContext();
 
-      const result = await throwTE(runAgent([] as any, chain as any)(ctx as any));
+      const result = await throwTE(
+        runAgent([] as any, chain as any)(ctx as any),
+      );
 
       expect(result).toBe(JSON.stringify(structuredResponse));
     });
@@ -76,14 +87,20 @@ describe("runAgent", () => {
         stream: vi.fn().mockResolvedValue(
           makeAsyncIterable([
             { agent: "preliminary" },
-            { generate_structured_response: { structuredResponse: structured } },
+            {
+              generate_structured_response: {
+                structuredResponse: structured,
+              },
+            },
           ]),
         ),
         invoke: vi.fn(),
       };
       const ctx = createMockContext();
 
-      const result = await throwTE(runAgent([] as any, chain as any)(ctx as any));
+      const result = await throwTE(
+        runAgent([] as any, chain as any)(ctx as any),
+      );
 
       expect(result).toBe(JSON.stringify(structured));
     });
@@ -125,7 +142,11 @@ describe("runAgent", () => {
       };
       const ctx = createMockContext();
 
-      const result = await runAgent([] as any, chain as any, "invoke")(ctx as any)();
+      const result = await runAgent(
+        [] as any,
+        chain as any,
+        "invoke",
+      )(ctx as any)();
 
       expect(result._tag).toBe("Left");
     });

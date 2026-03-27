@@ -13,9 +13,11 @@ const createMockContext = (chatResponse?: any) => ({
   },
   langchain: {
     chat: {
-      invoke: vi.fn().mockResolvedValue(
-        chatResponse ?? { content: JSON.stringify({ title: "Test Event" }) },
-      ),
+      invoke: vi
+        .fn()
+        .mockResolvedValue(
+          chatResponse ?? { content: JSON.stringify({ title: "Test Event" }) },
+        ),
     },
   },
 });
@@ -24,10 +26,16 @@ const mockPromptFn = vi.fn().mockReturnValue("rendered prompt");
 
 describe("updateEventFromDocuments", () => {
   it("invokes the chat model with system and human messages", async () => {
-    const ctx = createMockContext({ content: JSON.stringify({ date: "2024-01-01" }) });
+    const ctx = createMockContext({
+      content: JSON.stringify({ date: "2024-01-01" }),
+    });
 
     await pipe(
-      updateEventFromDocuments("Death", mockPromptFn, "What happened?")(ctx as any),
+      updateEventFromDocuments(
+        "Death",
+        mockPromptFn,
+        "What happened?",
+      )(ctx as any),
       throwTE,
     );
 
@@ -40,7 +48,11 @@ describe("updateEventFromDocuments", () => {
   });
 
   it("parses string response content as JSON", async () => {
-    const eventProps = { title: "Test Death", date: "2024-01-01", excerpt: "An excerpt" };
+    const eventProps = {
+      title: "Test Death",
+      date: "2024-01-01",
+      excerpt: "An excerpt",
+    };
     const ctx = createMockContext({ content: JSON.stringify(eventProps) });
 
     const result = await pipe(
@@ -81,7 +93,9 @@ describe("updateEventFromDocuments", () => {
 
   it("returns Left when chat invocation throws", async () => {
     const ctx = createMockContext();
-    ctx.langchain.chat.invoke = vi.fn().mockRejectedValue(new Error("LLM unavailable"));
+    ctx.langchain.chat.invoke = vi
+      .fn()
+      .mockRejectedValue(new Error("LLM unavailable"));
 
     const result = await updateEventFromDocuments(
       "ScientificStudy",
@@ -108,7 +122,11 @@ describe("updateEventFromDocuments", () => {
     const ctx = createMockContext({ content: "{}" });
 
     await pipe(
-      updateEventFromDocuments("Transaction", mockPromptFn, "question")(ctx as any),
+      updateEventFromDocuments(
+        "Transaction",
+        mockPromptFn,
+        "question",
+      )(ctx as any),
       throwTE,
     );
 

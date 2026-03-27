@@ -10,7 +10,10 @@ const createMockContext = (chatResult?: any) => {
       chatResult ?? {
         data: {
           message: {
-            content: JSON.stringify({ title: "Test Event", date: "2024-01-01" }),
+            content: JSON.stringify({
+              title: "Test Event",
+              date: "2024-01-01",
+            }),
           },
         },
       },
@@ -64,7 +67,13 @@ describe("createEventFromDocuments", () => {
     const ctx = createMockContext();
 
     await pipe(
-      createEventFromDocuments([], "Quote", promptFn, {}, "question")(ctx as any),
+      createEventFromDocuments(
+        [],
+        "Quote",
+        promptFn,
+        {},
+        "question",
+      )(ctx as any),
       throwTE,
     );
 
@@ -77,7 +86,13 @@ describe("createEventFromDocuments", () => {
     const ctx = createMockContext();
 
     await pipe(
-      createEventFromDocuments([], "ScientificStudy", promptFn, {}, "q")(ctx as any),
+      createEventFromDocuments(
+        [],
+        "ScientificStudy",
+        promptFn,
+        {},
+        "q",
+      )(ctx as any),
       throwTE,
     );
 
@@ -94,7 +109,11 @@ describe("createEventFromDocuments", () => {
       agent: {
         Chat: {
           Create: vi.fn().mockImplementation(() =>
-            TE.left({ name: "APIError", message: "Unauthorized", status: 401 }),
+            TE.left({
+              name: "APIError",
+              message: "Unauthorized",
+              status: 401,
+            }),
           ),
         },
       },

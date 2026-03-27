@@ -1,19 +1,34 @@
 import { describe, expect, it, vi } from "vitest";
+import {
+  EMBEDDINGS_PROMPT,
+  GetLangchainProvider,
+} from "./langchain.provider.js";
 
 vi.mock("@langchain/openai", () => {
-  const ChatOpenAI = vi.fn().mockImplementation(function (this: any, opts: any) {
+  const ChatOpenAI = vi.fn().mockImplementation(function (
+    this: any,
+    opts: any,
+  ) {
     this.model = opts?.model;
-    this.stream = vi.fn().mockResolvedValue({ [Symbol.asyncIterator]: async function* () {} });
+    this.stream = vi
+      .fn()
+      .mockResolvedValue({ [Symbol.asyncIterator]: async function* () {} });
     this.invoke = vi.fn();
   });
-  const OpenAIEmbeddings = vi.fn().mockImplementation(function (this: any, opts: any) {
+  const OpenAIEmbeddings = vi.fn().mockImplementation(function (
+    this: any,
+    opts: any,
+  ) {
     this.model = opts?.model;
   });
   return { ChatOpenAI, OpenAIEmbeddings };
 });
 
 vi.mock("@langchain/anthropic", () => {
-  const ChatAnthropic = vi.fn().mockImplementation(function (this: any, opts: any) {
+  const ChatAnthropic = vi.fn().mockImplementation(function (
+    this: any,
+    opts: any,
+  ) {
     this.model = opts?.model;
     this.stream = vi.fn();
     this.invoke = vi.fn();
@@ -30,8 +45,6 @@ vi.mock("@langchain/xai", () => {
   return { ChatXAI };
 });
 
-import { EMBEDDINGS_PROMPT, GetLangchainProvider } from "./langchain.provider.js";
-
 const baseOpts = {
   baseURL: "https://api.example.com",
   apiKey: "sk-test-key-1234567890",
@@ -41,7 +54,10 @@ const baseOpts = {
 describe("EMBEDDINGS_PROMPT", () => {
   it("renders text and question into the template", () => {
     const result = EMBEDDINGS_PROMPT({
-      vars: { text: "Some climate context", question: "What is global warming?" },
+      vars: {
+        text: "Some climate context",
+        question: "What is global warming?",
+      },
     });
 
     expect(result).toContain("Some climate context");
@@ -49,12 +65,16 @@ describe("EMBEDDINGS_PROMPT", () => {
   });
 
   it("includes instruction to limit answer to 300 chars", () => {
-    const result = EMBEDDINGS_PROMPT({ vars: { text: "context", question: "q?" } });
+    const result = EMBEDDINGS_PROMPT({
+      vars: { text: "context", question: "q?" },
+    });
     expect(result).toContain("300 chars");
   });
 
   it("includes instruction to say unknown when no answer available", () => {
-    const result = EMBEDDINGS_PROMPT({ vars: { text: "irrelevant", question: "q?" } });
+    const result = EMBEDDINGS_PROMPT({
+      vars: { text: "irrelevant", question: "q?" },
+    });
     expect(result).toContain("don't know");
   });
 
@@ -79,7 +99,10 @@ describe("GetLangchainProvider", () => {
   });
 
   it("uses claude-sonnet as default chat model for anthropic provider", () => {
-    const provider = GetLangchainProvider({ ...baseOpts, provider: "anthropic" });
+    const provider = GetLangchainProvider({
+      ...baseOpts,
+      provider: "anthropic",
+    });
     expect((provider.chat as any).model).toContain("claude");
   });
 
@@ -114,11 +137,9 @@ describe("GetLangchainProvider", () => {
     it("accepts optional model override", async () => {
       const provider = GetLangchainProvider(baseOpts);
       // Should not throw when called with a custom model
-      const result = await provider.queryDocument(
-        [],
-        "question",
-        { model: "gpt-4o-mini" },
-      );
+      const result = await provider.queryDocument([], "question", {
+        model: "gpt-4o-mini",
+      });
       expect(typeof result).toBe("string");
     });
   });

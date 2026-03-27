@@ -1,4 +1,4 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { fp } from "@liexp/core/lib/fp/index.js";
 import { describe, expect, it, vi } from "vitest";
 import { createSearchWebTool } from "./searchWeb.tools.js";
 
@@ -97,9 +97,11 @@ describe("createSearchWebTool", () => {
 
   it("returns error message string when brave.webSearch fails", async () => {
     const ctx = createMockContext();
-    ctx.brave.webSearch = vi.fn().mockImplementation(() =>
-      fp.TE.left({ name: "BraveError", message: "API limit exceeded" }),
-    );
+    ctx.brave.webSearch = vi
+      .fn()
+      .mockImplementation(() =>
+        fp.TE.left({ name: "BraveError", message: "API limit exceeded" }),
+      );
     const tool = createSearchWebTool(ctx as any);
 
     const result = await tool.invoke({
@@ -186,9 +188,24 @@ describe("createSearchWebTool", () => {
     const ctx = createMockContext({
       web: {
         results: [
-          { url: "https://a.com", title: "A", description: "desc A", thumbnail: null },
-          { url: "https://b.com", title: "B", description: "desc B", thumbnail: null },
-          { url: "https://c.com", title: "C", description: "desc C", thumbnail: null },
+          {
+            url: "https://a.com",
+            title: "A",
+            description: "desc A",
+            thumbnail: null,
+          },
+          {
+            url: "https://b.com",
+            title: "B",
+            description: "desc B",
+            thumbnail: null,
+          },
+          {
+            url: "https://c.com",
+            title: "C",
+            description: "desc C",
+            thumbnail: null,
+          },
         ],
       },
     });

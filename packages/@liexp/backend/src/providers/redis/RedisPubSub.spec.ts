@@ -1,9 +1,11 @@
-import { fp, pipe } from "@liexp/core/lib/fp/index.js";
+import { pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { Schema } from "effect";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { RedisPubSub, type RedisPubSub as RedisPubSubType } from "./RedisPubSub.js";
+import {
+  RedisPubSub,
+  type RedisPubSub as RedisPubSubType,
+} from "./RedisPubSub.js";
 
 const createMockContext = () => {
   const logger = {
@@ -86,10 +88,7 @@ describe("RedisPubSub", () => {
       const ctx = { redis, logger } as any;
       const message = { id: "123" };
 
-      await pipe(
-        TestPubSub.publish(message)(ctx),
-        throwTE,
-      );
+      await pipe(TestPubSub.publish(message)(ctx), throwTE);
 
       expect(redis.client.publish).toHaveBeenCalledWith(
         "test:channel",
@@ -101,10 +100,7 @@ describe("RedisPubSub", () => {
       const { redis, logger } = createMockContext();
       const ctx = { redis, logger } as any;
 
-      await pipe(
-        TestPubSub.publish({ id: "456" })(ctx),
-        throwTE,
-      );
+      await pipe(TestPubSub.publish({ id: "456" })(ctx), throwTE);
 
       expect(logger.debug.log).toHaveBeenCalledWith(
         "Published message to channel test:channel",
@@ -127,7 +123,9 @@ describe("RedisPubSub", () => {
     it("should return Left when publish fails", async () => {
       const { redis, logger } = createMockContext();
       const ctx = { redis, logger } as any;
-      redis.client.publish.mockRejectedValueOnce(new Error("Connection refused"));
+      redis.client.publish.mockRejectedValueOnce(
+        new Error("Connection refused"),
+      );
 
       const result = await TestPubSub.publish({ id: "fail" })(ctx)();
 

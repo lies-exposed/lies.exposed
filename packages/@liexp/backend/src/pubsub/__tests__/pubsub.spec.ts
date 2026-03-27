@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { BuildImageWithSharpPubSub } from "../buildImageWithSharp.pubSub.js";
-import { PostToSocialPlatformsPubSub } from "../postToSocialPlatforms.pubSub.js";
-import { SearchFromWikipediaPubSub } from "../searchFromWikipedia.pubSub.js";
 import { CreateEventFromURLPubSub } from "../events/createEventFromURL.pubSub.js";
+import { ProcessJobDonePubSub } from "../jobs/processJobDone.pubSub.js";
 import { SearchLinksPubSub } from "../links/searchLinks.pubSub.js";
 import { TakeLinkScreenshotPubSub } from "../links/takeLinkScreenshot.pubSub.js";
-import { ProcessJobDonePubSub } from "../jobs/processJobDone.pubSub.js";
 import { CreateMediaThumbnailPubSub } from "../media/createThumbnail.pubSub.js";
 import { ExtractMediaExtraPubSub } from "../media/extractMediaExtra.pubSub.js";
 import { GenerateThumbnailPubSub } from "../media/generateThumbnail.pubSub.js";
 import { TransferMediaFromExternalProviderPubSub } from "../media/transferFromExternalProvider.pubSub.js";
-import { CreateEntityStatsPubSub } from "../stats/createEntityStats.pubSub.js";
 import { ExtractEntitiesWithNLP } from "../nlp/extractEntitiesWithNLP.pubSub.js";
+import { PostToSocialPlatformsPubSub } from "../postToSocialPlatforms.pubSub.js";
+import { SearchFromWikipediaPubSub } from "../searchFromWikipedia.pubSub.js";
+import { CreateEntityStatsPubSub } from "../stats/createEntityStats.pubSub.js";
 
 const TEST_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890";
 const TEST_URL = "https://example.com/test";

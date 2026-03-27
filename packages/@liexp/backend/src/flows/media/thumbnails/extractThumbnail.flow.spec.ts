@@ -1,8 +1,12 @@
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
-import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
 import { extractThumbnail } from "./extractThumbnail.flow.js";
+import { extractThumbnailFromImage } from "./extractThumbnailFromImage.flow.js";
+import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
+import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.flow.js";
+import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
 
 vi.mock("./extractThumbnailFromImage.flow.js", () => ({
   extractThumbnailFromImage: vi.fn(),
@@ -19,12 +23,6 @@ vi.mock("./extractThumbnailFromVideoPlatform.flow.js", () => ({
 vi.mock("./thumbnailResize.flow.js", () => ({
   resizeThumbnailFlow: vi.fn(),
 }));
-
-import { extractThumbnailFromImage } from "./extractThumbnailFromImage.flow.js";
-import { extractThumbnailFromPDF } from "./extractThumbnailFromPDF.flow.js";
-import { extractMP4Thumbnail } from "./extractMP4Thumbnail.flow.js";
-import { extractThumbnailFromIframe } from "./extractThumbnailFromVideoPlatform.flow.js";
-import { resizeThumbnailFlow } from "./thumbnailResize.flow.js";
 
 const TEST_UUID = "a1b2c3d4-e5f6-7890-abcd-ef1234567890" as any;
 const TEST_URL = "https://example.com/media" as any;
@@ -53,9 +51,7 @@ const createMockContext = () => ({
 describe("extractThumbnail", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(resizeThumbnailFlow).mockReturnValue(
-      fp.RTE.right(MOCK_RESIZED),
-    );
+    vi.mocked(resizeThumbnailFlow).mockReturnValue(fp.RTE.right(MOCK_RESIZED));
   });
 
   it("dispatches to extractThumbnailFromImage for image/jpeg", async () => {
@@ -70,10 +66,7 @@ describe("extractThumbnail", () => {
     };
 
     const ctx = createMockContext();
-    const result = await pipe(
-      extractThumbnail(media)(ctx as any),
-      throwTE,
-    );
+    const result = await pipe(extractThumbnail(media)(ctx as any), throwTE);
 
     expect(extractThumbnailFromImage).toHaveBeenCalledWith(
       expect.objectContaining({ type: "image/jpeg" }),
@@ -123,9 +116,7 @@ describe("extractThumbnail", () => {
   });
 
   it("dispatches to extractMP4Thumbnail for video/mp4", async () => {
-    vi.mocked(extractMP4Thumbnail).mockReturnValue(
-      fp.RTE.right([MOCK_BUFFER]),
-    );
+    vi.mocked(extractMP4Thumbnail).mockReturnValue(fp.RTE.right([MOCK_BUFFER]));
 
     const media = {
       id: TEST_UUID,
