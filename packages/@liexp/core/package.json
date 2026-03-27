@@ -43,7 +43,7 @@
     "debug": "*",
     "effect": "^3",
     "fp-ts": "^2",
-    "vite": "^7",
+    "vite": "^8",
     "vite-plugin-css-injected-by-js": "^3",
     "vite-plugin-optimizer": "^1",
     "vite-tsconfig-paths": "^6"
