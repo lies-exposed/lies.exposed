@@ -1,16 +1,16 @@
 import { makeAgentClient } from "@liexp/backend/lib/clients/agent.http.client.js";
+import { findUserOrReplyFlow } from "@liexp/backend/lib/flows/tg/findUserOrReply.flow.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { type TGBotProvider } from "@liexp/backend/lib/providers/tg/tg.provider.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type ChatResponse } from "@liexp/io/lib/http/Chat.js";
-import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
+import { AdminRead } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import { type WorkerContext } from "#context/context.js";
 import { toWorkerError } from "#io/worker.error.js";
 
-const WORKER_SERVICE_CLIENT_ID =
-  "00000000-0000-0000-0000-000000000011" as UUID;
+const WORKER_SERVICE_CLIENT_ID = "00000000-0000-0000-0000-000000000011" as UUID;
 const WORKER_SERVICE_USER_ID = "00000000-0000-0000-0000-000000000012" as UUID;
 
 export const askCommand = (ctx: WorkerContext): TGBotProvider => {
@@ -40,22 +40,25 @@ export const askCommand = (ctx: WorkerContext): TGBotProvider => {
     ctx.logger.debug.log("Ask command: %s", question);
 
     void pipe(
-      agentClient.Chat.Create({
-        Body: { message: question, conversation_id: null },
-      }),
-      fp.TE.mapLeft(toWorkerError),
-      fp.TE.chain((response) => {
-        const { data } = response as { data: ChatResponse };
-        return fp.TE.tryCatch(
-          () =>
-            ctx.tg.api.sendMessage(
-              msg.chat.id,
-              data.message.content,
-              { reply_to_message_id: msg.message_id },
-            ),
-          toWorkerError,
-        );
-      }),
+      findUserOrReplyFlow(ctx)(() =>
+        pipe(
+          agentClient.Chat.Create({
+            Body: { message: question, conversation_id: null },
+          }),
+          fp.TE.mapLeft(toWorkerError),
+          fp.TE.chain((response) => {
+            const { data } = response as { data: ChatResponse };
+            return fp.TE.tryCatch(
+              () =>
+                ctx.tg.api.sendMessage(msg.chat.id, data.message.content, {
+                  reply_to_message_id: msg.message_id,
+                }),
+              toWorkerError,
+            );
+          }),
+          fp.TE.map(() => undefined),
+        ),
+      )(msg.chat.id, msg.from?.id),
       throwTE,
     ).catch((e) => {
       ctx.logger.error.log("Error in /ask command: %O", e);
