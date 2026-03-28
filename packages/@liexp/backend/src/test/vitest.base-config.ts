@@ -31,6 +31,7 @@ export const extendBaseConfig = (
       test: {
         environment: "node",
         pool: "vmForks",
+        sequence: { groupOrder: 1 },
         watch: false,
         alias: {
           sharp: toBackendAlias("lib/test/mocks/sharp.mock.js"),
