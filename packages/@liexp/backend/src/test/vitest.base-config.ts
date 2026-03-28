@@ -1,5 +1,4 @@
 import { URL } from "url";
-import viteTsconfigPaths from "vite-tsconfig-paths";
 import {
   defineConfig,
   type ViteUserConfig,
@@ -63,12 +62,10 @@ export const extendBaseConfig = (
           ],
         },
       },
-      plugins: [
-        viteTsconfigPaths({
-          root: toAlias("./"),
-        }),
-        ...((config.plugins ?? []) as any[]),
-      ],
+      resolve: {
+        tsconfigPaths: true,
+      },
+      plugins: [...((config.plugins ?? []) as any[])],
     }),
     config,
   );

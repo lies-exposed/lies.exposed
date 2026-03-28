@@ -18,7 +18,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     // Run test files sequentially to avoid Vite cache conflicts
     fileParallelism: false,
   },
-  esbuild: {
-    target: "node18",
-  },
 }));

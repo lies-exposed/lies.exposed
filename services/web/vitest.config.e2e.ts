@@ -15,7 +15,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       NODE_ENV: "test",
     },
   },
-  esbuild: {
-    target: "node18",
-  },
 }));
