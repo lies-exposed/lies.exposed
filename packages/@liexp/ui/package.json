@@ -134,7 +134,6 @@
     "openai": "^6.25.0",
     "typescript": "^5.9.3",
     "vite": "^8.0.3",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.2"
   },
   "peerDependencies": {
