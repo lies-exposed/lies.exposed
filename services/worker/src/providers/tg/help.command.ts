@@ -13,9 +13,10 @@ export const helpCommand = ({
       msg.chat.id,
       `
 /login [email] [token]  Login with email and token
-/actor [fullName]      Create new actor
+/actor [fullName]       Create new actor
 /group [name]           Create new group
 /area [name]            Create new area
+/ask [question]         Ask the AI agent a question
     `,
     );
   });

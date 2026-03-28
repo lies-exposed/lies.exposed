@@ -6,6 +6,7 @@ import { sequenceS } from "fp-ts/lib/Apply.js";
 import { pipe } from "fp-ts/lib/function.js";
 import { actorCommand } from "./actor.command.js";
 import { areaCommand } from "./area.command.js";
+import { askCommand } from "./ask.command.js";
 import { groupCommand } from "./group.command.js";
 import { helpCommand } from "./help.command.js";
 import { loginCommand } from "./login.command.js";
@@ -28,6 +29,8 @@ export const TGMessageCommands = (ctx: WorkerContext) => {
   groupCommand(ctx);
   // bind /area command to tg bot
   areaCommand(ctx);
+  // bind /ask command to tg bot
+  askCommand(ctx);
 
   ctx.tg.onMessage((msg, metadata) => {
     if (msg.text?.startsWith("/")) {
