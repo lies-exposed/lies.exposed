@@ -1,4 +1,4 @@
-import { BACKEND_ENV } from "@liexp/backend/lib/io/ENV.js";
+import { BACKEND_ENV, JWT_ENV } from "@liexp/backend/lib/io/ENV.js";
 import { Schema } from "effect";
 
 const CRON_ENVS = Schema.Struct({
@@ -33,16 +33,21 @@ const GEO_CODE_ENVS = Schema.Struct({
   GEO_CODE_API_KEY: Schema.String,
 }).annotations({ title: "GEO_CODE_ENV" });
 
+const AGENT_ENVS = Schema.Struct({
+  AGENT_API_URL: Schema.String,
+}).annotations({ title: "AGENT_ENVS" });
+
 const SERVICES_ENVS = Schema.Struct({
   ...REDIS_ENVS.fields,
   ...TG_BOT_ENVS.fields,
   ...GEO_CODE_ENVS.fields,
+  ...AGENT_ENVS.fields,
 }).annotations({
   title: "SERVICES_ENVS",
 });
 
 export const ENV = Schema.extend(
-  BACKEND_ENV,
+  Schema.extend(BACKEND_ENV, JWT_ENV),
   Schema.Struct({
     WEB_URL: Schema.String,
     ...SERVICES_ENVS.fields,
