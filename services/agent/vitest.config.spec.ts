@@ -23,6 +23,12 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/**/*.e2e.ts", "test"],
+      thresholds: {
+        statements: 80,
+        branches: 80,
+        functions: 80,
+        lines: 80,
+      },
     },
   },
 }));

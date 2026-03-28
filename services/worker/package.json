@@ -32,6 +32,7 @@
     "bin:upsert-nlp-entities": "node ./build/bin/cli.js upsert-nlp-entities",
     "start": "node build/run.js",
     "test": "vitest",
+    "test:coverage": "vitest --run --coverage",
     "test:e2e": "vitest --project worker-e2e",
     "tsx:build": "tsx --tsconfig tsconfig.build.json",
     "watch": "tsc -b ./tsconfig.build.json --watch",

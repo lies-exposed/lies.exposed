@@ -17,6 +17,8 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["test/**/*.e2e.ts", "test"],
+      // TODO: add coverage thresholds once the service can run tests without a
+      // live database. Worker tests are all e2e and require a running DB.
     },
   },
   poolOptions: {
