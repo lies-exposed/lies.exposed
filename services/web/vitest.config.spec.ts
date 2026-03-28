@@ -1,12 +1,13 @@
 import { defineProject } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineProject({
-  plugins: [tsconfigPaths()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
     name: "web-spec",
     globals: true,
