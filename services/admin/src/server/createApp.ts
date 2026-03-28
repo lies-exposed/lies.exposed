@@ -106,11 +106,12 @@ export const createApp = async (
         host: env.SERVER_HOST,
         port: env.SERVER_PORT,
       },
-      // Use a separate cache directory for tests to avoid conflicts with Docker
-      cacheDir:
-        env.NODE_ENV === "test"
-          ? path.resolve(serviceRoot, "node_modules/.vite-test")
-          : undefined,
+      // Use a separate cache directory for tests to avoid conflicts with Docker.
+      // Check process.env.VITEST (set by vitest) rather than env.NODE_ENV
+      // because AdminAppTest.ts overrides NODE_ENV to "development"/"production".
+      cacheDir: process.env.VITEST
+        ? path.resolve(serviceRoot, "node_modules/.vite-test")
+        : undefined,
       // HMR: browser connects via nginx on port 443; WebSocket is attached
       // to the shared HTTP server so no extra port is exposed.
       // Disabled in production since there's no hot reloading needed.

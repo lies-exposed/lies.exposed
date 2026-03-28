@@ -76,7 +76,7 @@ const getRollupOptions = () => {
 const config = defineViteConfig({
   cwd: import.meta.dirname,
   env: AppEnv,
-  envFileDir: __dirname,
+  envFileDir: import.meta.dirname,
   output: "build",
   base: "/",
   server: {
