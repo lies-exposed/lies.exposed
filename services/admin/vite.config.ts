@@ -56,7 +56,7 @@ const config = defineViteConfig({
   cwd: import.meta.dirname,
   base: "/",
   env: AppEnv,
-  envFileDir: __dirname,
+  envFileDir: import.meta.dirname,
   server: {
     port,
     host: process.env.VIRTUAL_HOST ?? "0.0.0.0",

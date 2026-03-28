@@ -1,5 +1,4 @@
 import path from "path";
-import viteTsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -7,6 +6,7 @@ export default defineConfig({
     name: "ui",
     root: __dirname,
     globals: true,
+    pool: "vmForks",
     watch: false,
     environment: "jsdom",
     setupFiles: [path.join(__dirname, "test.setup.ts")],
@@ -20,6 +20,8 @@ export default defineConfig({
       },
     },
   },
-  plugins: [viteTsconfigPaths()],
+  resolve: {
+    tsconfigPaths: true,
+  },
   root: __dirname,
 });

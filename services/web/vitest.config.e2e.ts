@@ -5,6 +5,10 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     name: "web-e2e",
     globals: true,
     environment: "node",
+    // Must use forks (child process), not vmForks (V8 VM context):
+    // Vite's dev server uses rolldown native bindings that do instanceof checks
+    // which fail when objects cross V8 VM realm boundaries.
+    pool: "forks",
     testTimeout: 30000,
     hookTimeout: 30000,
     setupFiles: [toAlias("test/testSetup.ts")],
@@ -14,8 +18,12 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     env: {
       NODE_ENV: "test",
     },
+    sequence: { groupOrder: 2 },
   },
-  esbuild: {
-    target: "node18",
+  poolOptions: {
+    forks: {
+      singleFork: true,
+      isolate: false,
+    },
   },
 }));
