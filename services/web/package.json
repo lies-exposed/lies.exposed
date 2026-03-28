@@ -65,7 +65,7 @@
     "effect": "^3.20.0",
     "express": "^5.2.1",
     "fp-ts": "^2.16.10",
-    "path-to-regexp": "^8.3.0",
+    "path-to-regexp": "^8.4.0",
     "ra-core": "^5.14.4",
     "ra-i18n-polyglot": "^5.14.4",
     "react": "^18.3.1",
