@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...lies.exposed@0.5.13) (2026-03-28)
+
+
+### Bug Fixes
+
+* **agent:** added qwen3.5-9b for openai provider ([#3468](https://github.com/lies-exposed/lies.exposed/issues/3468)) ([1cc8f4c](https://github.com/lies-exposed/lies.exposed/commit/1cc8f4c67b98d4e6a23c6e0a37c51af2aeff999f))
+* **workspace:** upgrade release-please-action to v4.2.0 to use Node.js 22 ([#3446](https://github.com/lies-exposed/lies.exposed/issues/3446)) ([2624540](https://github.com/lies-exposed/lies.exposed/commit/2624540d21c16c2923e6ce50531b45ee7e71ea61))
+
+
+### Miscellaneous
+
+* **admin:** added 'admin:edit' permission to jwt token for agent ([#3470](https://github.com/lies-exposed/lies.exposed/issues/3470)) ([0bbee38](https://github.com/lies-exposed/lies.exposed/commit/0bbee389e1ae19c1a583f2a96b1fbe42e62f76d1))
+* bump vite from 7 to 8 ([#3474](https://github.com/lies-exposed/lies.exposed/issues/3474)) ([1cb7bef](https://github.com/lies-exposed/lies.exposed/commit/1cb7beff5adfa1b91d968c89e9b5131327a4eefc))
+* use rolldown-vite as pre-step to migrate to v8 ([#3472](https://github.com/lies-exposed/lies.exposed/issues/3472)) ([898d12f](https://github.com/lies-exposed/lies.exposed/commit/898d12fb050ed3b0358ef2c544479eebda31d3b8))
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...lies.exposed@0.5.12) (2026-03-20)
 
 

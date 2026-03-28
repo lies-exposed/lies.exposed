@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...api@0.5.13) (2026-03-28)
+
+
+### Bug Fixes
+
+* **api:** make description optional in EditLink body schema ([#3447](https://github.com/lies-exposed/lies.exposed/issues/3447)) ([73033f4](https://github.com/lies-exposed/lies.exposed/commit/73033f4f326f27d67fa44d9cadf8d6b1068f3d70))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.13
+    * @liexp/core bumped to 0.5.13
+    * @liexp/io bumped to 0.5.13
+    * @liexp/shared bumped to 0.5.13
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.13
+    * @liexp/test bumped to 0.5.13
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...api@0.5.12) (2026-03-20)
 
 

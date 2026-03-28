@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...worker@0.5.13) (2026-03-28)
+
+
+### Bug Fixes
+
+* **worker:** add /ask command to Telegram bot for AI agent integration ([#3476](https://github.com/lies-exposed/lies.exposed/issues/3476)) ([1125261](https://github.com/lies-exposed/lies.exposed/commit/1125261e75aa3ab59ec72168bd1bbbcfea9e591e))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.13
+    * @liexp/io bumped to 0.5.13
+    * @liexp/core bumped to 0.5.13
+    * @liexp/shared bumped to 0.5.13
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.13
+    * @liexp/test bumped to 0.5.13
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...worker@0.5.12) (2026-03-20)
 
 
