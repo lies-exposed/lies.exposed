@@ -6,6 +6,7 @@ export default defineConfig({
     name: "ui",
     root: __dirname,
     globals: true,
+    pool: "vmForks",
     watch: false,
     environment: "jsdom",
     setupFiles: [path.join(__dirname, "test.setup.ts")],
