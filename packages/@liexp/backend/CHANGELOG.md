@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...@liexp/backend@0.5.13) (2026-03-28)
+
+
+### Miscellaneous
+
+* use rolldown-vite as pre-step to migrate to v8 ([#3472](https://github.com/lies-exposed/lies.exposed/issues/3472)) ([898d12f](https://github.com/lies-exposed/lies.exposed/commit/898d12fb050ed3b0358ef2c544479eebda31d3b8))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.13
+    * @liexp/io bumped to 0.5.13
+    * @liexp/shared bumped to 0.5.13
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.13
+    * @liexp/test bumped to 0.5.13
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...@liexp/backend@0.5.12) (2026-03-20)
 
 
