@@ -86,7 +86,6 @@
     "vite": "^8.0.8",
     "vite-plugin-css-injected-by-js": "^4.0.1",
     "vite-plugin-optimizer": "^1.4.3",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.4",
     "vitest-mock-extended": "^4.0.0"
   },

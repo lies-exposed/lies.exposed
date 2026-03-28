@@ -7,7 +7,6 @@ import { type Alias, type ConfigEnv, type UserConfig } from "vite";
 import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 import optimizer from "vite-plugin-optimizer";
 import svgr from "vite-plugin-svgr";
-import tsConfigPaths from "vite-tsconfig-paths";
 import { loadENV } from "../../env/utils.js";
 import { fp, pipe } from "../../fp/index.js";
 import { type GetViteConfigParams, type MonorepoHmrConfig } from "./type.js";
@@ -215,6 +214,7 @@ export const defineViteConfig = <A extends Record<string, any>>(
       },
 
       resolve: {
+        tsconfigPaths: true,
         // preserveSymlinks: true,
         dedupe: [
           "react",
@@ -275,10 +275,6 @@ export const defineViteConfig = <A extends Record<string, any>>(
         svgr(),
         cssInjectedByJsPlugin(),
         optimizer({}),
-        tsConfigPaths({
-          root: config.cwd,
-          projects: config.tsConfigFile ? [config.tsConfigFile] : undefined,
-        }),
         viteReact(),
         ...(config.plugins ?? []),
       ],
