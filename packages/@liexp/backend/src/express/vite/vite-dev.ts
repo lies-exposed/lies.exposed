@@ -90,6 +90,12 @@ export const createViteDevServer = async (
     configFile: config.configFile,
     base: config.base,
     cacheDir: config.cacheDir,
+    // In vitest context, rolldown's native binding fails validation for its
+    // own internal plugins (BindingPluginOptions) and resolver config
+    // (BindingViteResolvePluginConfig). Use the "native" loader which does a
+    // plain import() via Node's ESM loader (TypeScript-aware in vitest forks)
+    // and bypasses rolldown entirely for config file loading.
+    ...(process.env.VITEST ? { configLoader: "native" as const } : {}),
     // When using a custom cache directory, disable deps optimization to avoid
     // conflicts with existing cache directories (e.g., from Docker containers)
     optimizeDeps: config.cacheDir
