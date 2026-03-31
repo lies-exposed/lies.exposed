@@ -56,7 +56,7 @@
     "@liexp/shared": "workspace:*",
     "@liexp/ui": "workspace:*",
     "@sentry/react": "^10.43.0",
-    "@tanstack/react-query": "^5.90.2",
+    "@tanstack/react-query": "^5.96.0",
     "@ts-endpoint/react-admin": "file:patches/ts-endpoint-react-admin-0.1.0.tgz",
     "@ts-endpoint/resource-client": "file:patches/ts-endpoint-resource-client-0.1.0.tgz",
     "@ts-endpoint/tanstack-query": "file:patches/ts-endpoint-tanstack-query-0.1.0.tgz",
