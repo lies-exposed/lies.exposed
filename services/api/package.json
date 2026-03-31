@@ -89,7 +89,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.3.16",
+    "@electric-sql/pglite": "^0.4.2",
     "@liexp/eslint-config": "workspace:*",
     "@liexp/test": "workspace:*",
     "@types/cors": "^2.8.18",
