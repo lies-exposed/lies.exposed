@@ -36,4 +36,7 @@ WORKDIR /prod/agent
 
 COPY --from=pruned /prod/agent .
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:${SERVER_PORT:-3003}/v1/healthcheck || exit 1
+
 CMD ["node", "build/run.js"]
