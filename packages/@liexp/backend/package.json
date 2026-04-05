@@ -88,7 +88,7 @@
     "vite": "^8.0.3",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.2",
-    "vitest-mock-extended": "^3.1.0"
+    "vitest-mock-extended": "^3.1.1"
   },
   "peerDependencies": {
     "@langchain/anthropic": "^1.0.0",
