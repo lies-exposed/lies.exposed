@@ -46,7 +46,7 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@types/node": "^24.12.0",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.2",
     "corepack": "^0.34.5",
     "eslint": "^10.1.0",
     "husky": "^9.1.7",
