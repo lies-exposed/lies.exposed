@@ -48,7 +48,7 @@
     "@types/node": "^24.12.0",
     "@vitest/coverage-v8": "^4.0.18",
     "corepack": "^0.34.5",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "husky": "^9.1.7",
     "knip": "^6.3.0",
     "lint-staged": "^16.4.0",
