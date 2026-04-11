@@ -1,5 +1,6 @@
 import type { AddressInfo } from "net";
 import type { Server } from "node:http";
+import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { GetJWTProvider } from "@liexp/backend/lib/providers/jwt/jwt.provider.js";
 import { GetPuppeteerProvider } from "@liexp/backend/lib/providers/puppeteer.provider.js";
 import puppeteerMock from "@liexp/backend/lib/test/mocks/puppeteer.mock.js";
@@ -7,7 +8,6 @@ import { type DepsMocks, mocks } from "@liexp/backend/lib/test/mocks.js";
 import { type Logger } from "@liexp/core/lib/logger/index.js";
 import { HTTPProvider } from "@liexp/shared/lib/providers/http/http.provider.js";
 import { type AxiosInstance } from "axios";
-import { type ProviderConfigOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import supertest from "supertest";
 import type TestAgent from "supertest/lib/agent.js";
@@ -72,6 +72,7 @@ export const loadAgentContext = async (
       LOCALAI_MAX_RETRIES: 3,
       API_TOKEN: "my-token",
       API_BASE_URL: "http://api.liexp.test",
+      MCP_URL: "http://api.liexp.test/mcp",
       BRAVE_API_KEY: "null",
       SENTRY_DSN: null,
     },

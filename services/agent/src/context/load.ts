@@ -222,7 +222,7 @@ export const makeAgentContext = (
 
       // Initialize real MCP client to connect to API service
       const createMcpClient = (): MultiServerMCPClient => {
-        const mcpBaseUrl = env.API_BASE_URL ?? "http://api.liexp.dev/mcp";
+        const mcpBaseUrl = env.MCP_URL;
         agentLogger.debug.log("Connecting to MCP at:", mcpBaseUrl);
         agentLogger.debug.log(
           "Using API token:",

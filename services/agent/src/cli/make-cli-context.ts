@@ -24,7 +24,7 @@ export const makeCLIContext = (): TE.TaskEither<Error, CLIContext> =>
       const logger = GetLogger("agent-cli");
 
       const axiosClient = axios.create({
-        baseURL: `${(env.API_BASE_URL ?? "").replace(/\/mcp$/, "")}/v1`,
+        baseURL: env.API_BASE_URL,
         headers: { Authorization: `Bearer ${env.API_TOKEN}` },
       });
 
