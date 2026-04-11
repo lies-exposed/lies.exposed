@@ -26,7 +26,4 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       isolate: false,
     },
   },
-  esbuild: {
-    target: "node18",
-  },
 }));
