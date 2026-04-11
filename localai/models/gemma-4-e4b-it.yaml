@@ -1,0 +1,25 @@
+backend: llama-cpp
+context_size: 16384
+# gpu_layers: 32
+# f16: true
+# mmap must be disabled for SYCL (Intel GPU) - causes hangs
+# mmap: false
+name: gemma-4-e4b-it
+mmproj: mmproj-gemma-4-e4b-it-f16.gguf
+known_usecases:
+    - chat
+options:
+    - use_jinja:true
+parameters:
+    model: gemma-4-e4b-it-Q4_K_M.gguf
+template:
+    use_tokenizer_template: true
+function:
+    disable_no_action: false
+    automatic_tool_parsing_fallback: true
+    grammar:
+        disable: true
+    return_name_in_function_response: true
+    json_regex_match:
+        - "(?s)<tool_call>\\s*\\[?\\s*(\\{.*?\\})\\s*\\]?\\s*</tool_call>"
+        - "(?s)<tool_call>\\s*\\[?\\s*(\\{.*?)\\s*\\]?\\s*$"
