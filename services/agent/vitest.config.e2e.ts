@@ -11,6 +11,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     setupFiles: [toAlias(`test/testSetup.ts`)],
     exclude: ["**/build", "src/migrations", "src/scripts"],
     pool: "forks",
+    sequence: { groupOrder: 4 },
     bail: 1,
     isolate: false,
     coverage: {

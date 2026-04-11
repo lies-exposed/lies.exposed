@@ -9,6 +9,10 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     watch: false,
     environment: "jsdom",
     setupFiles: [toAlias("./test/specSetup.ts")],
+    // Must use forks (child process), not vmForks (V8 VM context):
+    // MSW's SSE handler uses WritableStream (web stream API) which is not
+    // available inside a V8 VM realm used by vmForks workers.
+    pool: "forks",
     include: [
       toAlias("./src/**/*.spec.ts"),
       toAlias("./src/**/*.spec.tsx"),
