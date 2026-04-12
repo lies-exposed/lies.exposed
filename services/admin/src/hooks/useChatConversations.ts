@@ -42,7 +42,6 @@ export const useChatConversations = () => {
   const fetchConversations = useCallback(async () => {
     setLoading(true);
     setError(null);
-
     try {
       const authToken = getAuthFromLocalStorage();
       const headers: HeadersInit = {

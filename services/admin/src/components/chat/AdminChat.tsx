@@ -30,7 +30,6 @@ const loadSettings = (): ChatSettings => {
         provider: null,
         model: null,
         autoCompact: false,
-        enableThinking: true,
         ...JSON.parse(raw),
       };
   } catch {

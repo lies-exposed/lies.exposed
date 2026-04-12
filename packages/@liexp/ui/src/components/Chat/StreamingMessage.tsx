@@ -47,6 +47,7 @@ interface StreamingMessageProps {
     thinkingContent?: string;
   };
   formatTime: (timestamp: string) => string;
+  showThinking?: boolean;
 }
 
 export const StreamingMessage: React.FC<StreamingMessageProps> = ({
