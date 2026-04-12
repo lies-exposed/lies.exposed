@@ -17,6 +17,7 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
       SERVER_PORT: "4000",
       JWT_SECRET: "test-secret",
       API_BASE_URL: "http://localhost:4010",
+      MCP_URL: "http://localhost:4010/mcp",
       API_TOKEN: "test-token",
       BRAVE_API_KEY: "null",
     },
