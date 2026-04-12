@@ -25,10 +25,8 @@ spec:
           envFrom:
           - configMapRef:
               name: localai-env
-          image: localai/localai:master-aio-gpu-intel
-          # image: localai/localai:latest-aio-cpu
-          # image: localai/localai:master-aio-cpu
-          # image: localai/localai:v3.3.2-aio-cpu
+          # image: localai/localai:latest-gpu-intel
+          image: localai/localai:latest
           imagePullPolicy: Always
           # livenessProbe:
           #   exec:
@@ -46,15 +44,15 @@ spec:
           volumeMounts:
             - name: localai-models-pv
               mountPath: /models
-            # - name: localai-backends-pv
-            #   mountPath: /backends
+            - name: localai-backends-pv
+              mountPath: /backends
           resources:
             limits:
-              memory: 5Gi
-              cpu: 2000m
+              memory: 7Gi
+              cpu: 4000m
               gpu.intel.com/i915: 1
             requests:
-              memory: 2Gi
+              memory: 3Gi
               cpu: 500m
               gpu.intel.com/i915: 1
       restartPolicy: Always
@@ -62,6 +60,6 @@ spec:
         - name: localai-models-pv
           persistentVolumeClaim:
             claimName: localai-models-pv-claim
-        # - name: localai-backends-pv
-        #   persistentVolumeClaim:
-        #     claimName: localai-backends-pv-claim
+        - name: localai-backends-pv
+          persistentVolumeClaim:
+            claimName: localai-backends-pv-claim

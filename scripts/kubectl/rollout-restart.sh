@@ -3,7 +3,7 @@
 set -e -x
 
 namespace=prod
-kubeconfig=microk8s-local
+kubeconfig=home-server
 
 # default deployments
 default_deployments=(api ai-bot agent web admin worker storybook)
