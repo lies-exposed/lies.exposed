@@ -14,7 +14,8 @@ const ENV = Schema.Struct({
   ANTHROPIC_API_KEY: Schema.optional(Schema.String),
   LOCALAI_MODEL: Schema.optional(Schema.String),
   LOCALAI_MAX_RETRIES: Schema.optional(Schema.NumberFromString),
-  API_BASE_URL: Schema.optional(Schema.String),
+  API_BASE_URL: Schema.String,
+  MCP_URL: Schema.String,
   API_TOKEN: Schema.String,
 
   // Brave Search

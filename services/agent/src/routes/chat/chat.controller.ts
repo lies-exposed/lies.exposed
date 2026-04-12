@@ -164,7 +164,7 @@ const PROVIDER_MODELS: Record<
 > = {
   openai: {
     description: "OpenAI GPT models (or LocalAI-compatible)",
-    models: ["gpt-4o", "qwen3.5-9b"],
+    models: ["gpt-4o", "qwen3.5-9b", "gemma-4-e4b-it", "gemma-4-e2b-it"],
     defaultModel: "qwen3.5-9b",
   },
   anthropic: {

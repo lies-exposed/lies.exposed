@@ -47,12 +47,19 @@ export const AIProvider = Schema.Literal(
 
 export type AIProvider = typeof AIProvider.Type;
 
+const LocalAIModels = Schema.Union(
+  Schema.Literal("qwen3.5-4b"),
+  Schema.Literal("qwen3.5-9b"),
+  Schema.Literal("gemma-4-e4b-it"),
+  Schema.Literal("gemma-4-e2b-it"),
+);
+
 // Available model names per provider
 export const AvailableModels = Schema.Union(
   // OpenAI models
   Schema.Literal("gpt-4o"),
   // Local AI models
-  Schema.Literal("qwen3.5-9b"),
+  LocalAIModels,
   // XAI models
   Schema.Literal("grok-4-fast"),
   // Anthropic Claude models
