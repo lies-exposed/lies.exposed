@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...agent@0.5.13) (2026-04-13)
+
+
+### Bug Fixes
+
+* **admin:** chat compact conversation and settings from local storage ([#3469](https://github.com/lies-exposed/lies.exposed/issues/3469)) ([2a44f04](https://github.com/lies-exposed/lies.exposed/commit/2a44f0480a11e3893824f2214f2fa7d7356343a7))
+* **agent:** added cli tools to read the docs ([#3508](https://github.com/lies-exposed/lies.exposed/issues/3508)) ([b2534df](https://github.com/lies-exposed/lies.exposed/commit/b2534df339b365008ef40cfe65dac822e6cf71f5))
+* **agent:** added qwen3.5-9b for openai provider ([#3468](https://github.com/lies-exposed/lies.exposed/issues/3468)) ([1cc8f4c](https://github.com/lies-exposed/lies.exposed/commit/1cc8f4c67b98d4e6a23c6e0a37c51af2aeff999f))
+* **agent:** set proper User-Agent for Wikipedia API calls ([#3471](https://github.com/lies-exposed/lies.exposed/issues/3471)) ([061c143](https://github.com/lies-exposed/lies.exposed/commit/061c143de6949d43f684b70e0d143153a2f97583))
+* **agent:** tool call parsing ([#3513](https://github.com/lies-exposed/lies.exposed/issues/3513)) ([9737d4e](https://github.com/lies-exposed/lies.exposed/commit/9737d4ee6fc5e5020f81bc2a1e24f79e8725b0dd))
+* **agent:** use specific env for api baseUrl and MCP route ([#3506](https://github.com/lies-exposed/lies.exposed/issues/3506)) ([bcdb6bc](https://github.com/lies-exposed/lies.exposed/commit/bcdb6bc3e56e12a4c37ca62e1ad882b8b70f1a11))
+
+
+### Miscellaneous
+
+* **agent:** setup test eval pipeline with record and replay ([#3511](https://github.com/lies-exposed/lies.exposed/issues/3511)) ([616b444](https://github.com/lies-exposed/lies.exposed/commit/616b444f47504bd67fc1dab19f18074c4d504f3b))
+* removed old models for localai ([#3510](https://github.com/lies-exposed/lies.exposed/issues/3510)) ([57f3898](https://github.com/lies-exposed/lies.exposed/commit/57f38985b98da8d307ca593058d50e31568a127d))
+* **test:** switch unit tests to vmForks pool with groupOrder fixes ([#3505](https://github.com/lies-exposed/lies.exposed/issues/3505)) ([30709af](https://github.com/lies-exposed/lies.exposed/commit/30709af89801c36ebb004209511101c7f10a7fa4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/backend bumped to 0.5.13
+    * @liexp/core bumped to 0.5.13
+    * @liexp/io bumped to 0.5.13
+    * @liexp/shared bumped to 0.5.13
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.13
+    * @liexp/test bumped to 0.5.13
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...agent@0.5.12) (2026-03-20)
 
 

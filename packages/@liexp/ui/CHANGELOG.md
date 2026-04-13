@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...@liexp/ui@0.5.13) (2026-04-13)
+
+
+### Bug Fixes
+
+* **admin:** chat compact conversation and settings from local storage ([#3469](https://github.com/lies-exposed/lies.exposed/issues/3469)) ([2a44f04](https://github.com/lies-exposed/lies.exposed/commit/2a44f0480a11e3893824f2214f2fa7d7356343a7))
+* **admin:** show token usages and conversation history for AI chat ([#3509](https://github.com/lies-exposed/lies.exposed/issues/3509)) ([ce16dd0](https://github.com/lies-exposed/lies.exposed/commit/ce16dd0e963bc2bc9577affb66a9d796ad326a62))
+* **agent:** tool call parsing ([#3513](https://github.com/lies-exposed/lies.exposed/issues/3513)) ([9737d4e](https://github.com/lies-exposed/lies.exposed/commit/9737d4ee6fc5e5020f81bc2a1e24f79e8725b0dd))
+* **ui:** use flowGraph data in keyword, actor and group template ([#3467](https://github.com/lies-exposed/lies.exposed/issues/3467)) ([7d60f12](https://github.com/lies-exposed/lies.exposed/commit/7d60f127a8406420ea01461f5400c3a7a169539a))
+
+
+### Miscellaneous
+
+* replace vite-tsconfig-paths plugin and remove esbuild conflicts ([#3477](https://github.com/lies-exposed/lies.exposed/issues/3477)) ([de439af](https://github.com/lies-exposed/lies.exposed/commit/de439afc1b62eda0c7bbc0d32612ff07d0c44490))
+* **test:** switch unit tests to vmForks pool with groupOrder fixes ([#3505](https://github.com/lies-exposed/lies.exposed/issues/3505)) ([30709af](https://github.com/lies-exposed/lies.exposed/commit/30709af89801c36ebb004209511101c7f10a7fa4))
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @liexp/core bumped to 0.5.13
+    * @liexp/io bumped to 0.5.13
+    * @liexp/shared bumped to 0.5.13
+  * devDependencies
+    * @liexp/eslint-config bumped to 0.5.13
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...@liexp/ui@0.5.12) (2026-03-20)
 
 
