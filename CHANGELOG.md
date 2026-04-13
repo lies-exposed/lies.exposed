@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.13](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.12...lies.exposed@0.5.13) (2026-04-13)
+
+
+### Bug Fixes
+
+* **agent:** added qwen3.5-9b for openai provider ([#3468](https://github.com/lies-exposed/lies.exposed/issues/3468)) ([1cc8f4c](https://github.com/lies-exposed/lies.exposed/commit/1cc8f4c67b98d4e6a23c6e0a37c51af2aeff999f))
+* **agent:** tool call parsing ([#3513](https://github.com/lies-exposed/lies.exposed/issues/3513)) ([9737d4e](https://github.com/lies-exposed/lies.exposed/commit/9737d4ee6fc5e5020f81bc2a1e24f79e8725b0dd))
+* **workspace:** upgrade release-please-action to v4.2.0 to use Node.js 22 ([#3446](https://github.com/lies-exposed/lies.exposed/issues/3446)) ([2624540](https://github.com/lies-exposed/lies.exposed/commit/2624540d21c16c2923e6ce50531b45ee7e71ea61))
+
+
+### Miscellaneous
+
+* **admin:** added 'admin:edit' permission to jwt token for agent ([#3470](https://github.com/lies-exposed/lies.exposed/issues/3470)) ([0bbee38](https://github.com/lies-exposed/lies.exposed/commit/0bbee389e1ae19c1a583f2a96b1fbe42e62f76d1))
+* **agent:** setup test eval pipeline with record and replay ([#3511](https://github.com/lies-exposed/lies.exposed/issues/3511)) ([616b444](https://github.com/lies-exposed/lies.exposed/commit/616b444f47504bd67fc1dab19f18074c4d504f3b))
+* bump vite from 7 to 8 ([#3474](https://github.com/lies-exposed/lies.exposed/issues/3474)) ([1cb7bef](https://github.com/lies-exposed/lies.exposed/commit/1cb7beff5adfa1b91d968c89e9b5131327a4eefc))
+* removed old models for localai ([#3510](https://github.com/lies-exposed/lies.exposed/issues/3510)) ([57f3898](https://github.com/lies-exposed/lies.exposed/commit/57f38985b98da8d307ca593058d50e31568a127d))
+* replace vite-tsconfig-paths plugin and remove esbuild conflicts ([#3477](https://github.com/lies-exposed/lies.exposed/issues/3477)) ([de439af](https://github.com/lies-exposed/lies.exposed/commit/de439afc1b62eda0c7bbc0d32612ff07d0c44490))
+* update localai to v4.4 and setup gemma4 and qwen3.5 ([#3507](https://github.com/lies-exposed/lies.exposed/issues/3507)) ([9586841](https://github.com/lies-exposed/lies.exposed/commit/9586841d4419336fa28fd6a0af5bbaa407a1592e))
+* use rolldown-vite as pre-step to migrate to v8 ([#3472](https://github.com/lies-exposed/lies.exposed/issues/3472)) ([898d12f](https://github.com/lies-exposed/lies.exposed/commit/898d12fb050ed3b0358ef2c544479eebda31d3b8))
+
 ## [0.5.12](https://github.com/lies-exposed/lies.exposed/compare/lies.exposed@0.5.11...lies.exposed@0.5.12) (2026-03-20)
 
 
