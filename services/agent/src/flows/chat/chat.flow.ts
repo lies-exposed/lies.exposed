@@ -162,10 +162,6 @@ export const parseThinkContent = (
   return [events, { inside, buffer }];
 };
 
-/** Strip <think>…</think> blocks before persisting to conversation store. */
-const stripThinkTags = (text: string): string =>
-  text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
-
 // ---------------------------------------------------------------------------
 // Stream event processing
 // ---------------------------------------------------------------------------
@@ -599,6 +595,11 @@ export const sendChatMessageStream = (payload: {
       } satisfies ChatStreamEvent;
 
       let state = initialStreamState();
+      // Accumulate visible (non-thinking) content from the content_delta events
+      // we actually emit rather than from raw LangGraph chunks. This prevents
+      // duplicates when LangGraph or the provider sends both per-token deltas
+      // AND a final "summary" chunk that replays the full response.
+      let visibleContent = "";
 
       for await (const event of agent.streamEvents(
         { messages: [enhancedMessage] },
@@ -620,14 +621,24 @@ export const sendChatMessageStream = (payload: {
           messageId,
         );
         state = nextState;
-        for (const e of events) yield e;
+        for (const e of events) {
+          yield e;
+          if (e.type === "content_delta" && !e.thinking) {
+            visibleContent += e.content ?? "";
+          }
+        }
       }
 
-      const finalContent =
-        stripThinkTags(state.contentAccumulator) || "No response generated";
+      // Flush any buffered partial think-tag fragment that was never completed
+      // (e.g. response ends with a bare "<" that looked like the start of <think>).
+      if (state.think.buffer) {
+        visibleContent += state.think.buffer;
+      }
+
+      const finalContent = visibleContent || "No response generated";
 
       ctx.logger.debug.log(
-        "final content: %s (accumulated: %s)",
+        "final content: %s (raw accumulator: %s)",
         finalContent,
         state.contentAccumulator,
       );
