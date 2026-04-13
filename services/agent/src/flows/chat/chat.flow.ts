@@ -332,6 +332,19 @@ export const processStreamEvent = (
 
   if (event.event === "on_tool_end") {
     const toolOutput = (event.data as { output: unknown }).output;
+    // LangGraph wraps tool results in ToolMessage objects; extract the plain string content.
+    const extractResult = (output: unknown): string => {
+      if (typeof output === "string") return output;
+      const content = (output as any)?.content;
+      if (typeof content === "string") return content;
+      if (Array.isArray(content)) {
+        return content
+          .filter((c: any) => c.type === "text")
+          .map((c: any) => String(c.text ?? ""))
+          .join("");
+      }
+      return JSON.stringify(output);
+    };
     return [
       [
         {
@@ -340,10 +353,7 @@ export const processStreamEvent = (
           tool_call: {
             id: event.run_id ?? uuid(),
             name: event.name ?? "unknown",
-            result:
-              typeof toolOutput === "string"
-                ? toolOutput
-                : JSON.stringify(toolOutput),
+            result: extractResult(toolOutput),
           },
         } satisfies ChatStreamEvent,
       ],

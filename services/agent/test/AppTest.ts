@@ -53,6 +53,22 @@ const createMockAgentProvider = () => ({
         ],
       ];
     },
+    *streamEvents() {
+      yield {
+        event: "on_chat_model_stream",
+        run_id: "mock-run-1",
+        name: "ChatOpenAI",
+        data: {
+          chunk: {
+            lc: 1,
+            type: "constructor",
+            id: ["langchain_core", "messages", "AIMessageChunk"],
+            kwargs: { content: "Test streaming response" },
+          },
+        },
+        metadata: {},
+      };
+    },
   },
 });
 
