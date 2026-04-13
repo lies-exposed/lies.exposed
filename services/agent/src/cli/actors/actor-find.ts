@@ -16,6 +16,8 @@ export const actorFind = makeCommand(
         memberIn: input.memberIn.length > 0 ? input.memberIn : undefined,
         _start: input.start !== undefined ? String(input.start) : "0",
         _end: input.end !== undefined ? String(input.end) : "20",
+        _sort: input.sort,
+        _order: input.order,
       },
     });
   },
