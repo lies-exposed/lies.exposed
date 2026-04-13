@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "$schema": "https://unpkg.com/knip@6/schema.json",
   "includeEntryExports": true,
   "workspaces": {
     ".": {
@@ -100,7 +100,7 @@
     },
     "services/agent": {
       "entry": [
-        "**/*.{spec,e2e}.ts",
+        "**/*.{spec,e2e,eval}.ts",
         "test/AppTest.ts"
       ],
       "project": [

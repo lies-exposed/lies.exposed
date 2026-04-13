@@ -33,6 +33,9 @@
     "test:coverage": "vitest --run --coverage --project agent-spec",
     "test:spec": "vitest --project agent-spec",
     "test:e2e": "vitest --project agent-e2e",
+    "test:eval": "DEBUG='@liexp:*' vitest --config vitest.config.eval.ts --run",
+    "test:eval:record": "DEBUG_EVAL=1 DEBUG='@liexp:*' vitest --config vitest.config.eval.ts --run",
+    "test:eval:replay": "REPLAY_EVAL=1 vitest --config vitest.config.eval.ts --run",
     "watch": "tsc -b ./tsconfig.build.json --watch",
     "watch:dev": "tsc -b --watch"
   },
