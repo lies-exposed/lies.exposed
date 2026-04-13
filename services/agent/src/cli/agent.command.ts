@@ -1,61 +1,52 @@
 import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
-import { AIMessageLogger } from "@liexp/backend/lib/providers/ai/aiMessage.helper.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { type AIMessage } from "langchain";
 import * as prompts from "prompts";
 import { type AgentContext } from "../context/context.type.js";
+import { sendChatMessageStream } from "../flows/chat/chat.flow.js";
 
 export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
-  const threadId = uuid();
-  const agent = ctx.agent.agent;
+  const conversationId = uuid();
   const defaultQuestion = _args[1];
 
-  const aiMessageLogger = AIMessageLogger(ctx.logger);
+  const ask = async (message: string): Promise<string> => {
+    const streamGenerator = sendChatMessageStream({
+      message,
+      conversation_id: conversationId,
+    })(ctx);
 
-  const ask = async (ag: typeof agent, message: string) => {
-    const agentFinalState = await ag.stream(
-      {
-        messages: [message],
-      },
-      {
-        streamMode: ["debug", "messages", "updates", "tasks", "values"],
-        configurable: {
-          thread_id: threadId,
-        },
-        recursionLimit: 50,
-      },
-    );
-
-    try {
-      let answer = "";
-      for await (const [streamMode, chunk] of agentFinalState) {
-        // ctx.logger.debug.log("Agent stream:", streamMode, chunk);
-        if (streamMode === "debug") {
-          ctx.logger.debug.log("Agent debug: %o", chunk);
-        } else if (streamMode === "messages") {
-          answer += JSON.stringify(chunk[0].content);
+    let answer = "";
+    for await (const event of streamGenerator) {
+      if (event.type === "content_delta" && event.content) {
+        if (event.thinking) {
+          process.stderr.write(`\x1b[2m${event.content}\x1b[0m`);
         } else {
-          const messages = (
-            "agent" in chunk ? chunk.agent.messages : []
-          ) as AIMessage[];
-          const toolMessages = (
-            "tools" in chunk ? chunk.tools.messages : []
-          ) as AIMessage[];
-
-          [...messages, ...toolMessages].forEach(aiMessageLogger);
+          process.stdout.write(event.content);
+          answer += event.content;
         }
+      } else if (event.type === "tool_call_start" && event.tool_call) {
+        ctx.logger.info.log(
+          "[tool] %s %s",
+          event.tool_call.name,
+          event.tool_call.arguments,
+        );
+      } else if (event.type === "tool_call_end" && event.tool_call) {
+        ctx.logger.debug.log(
+          "[tool result] %s: %s",
+          event.tool_call.name,
+          event.tool_call.result,
+        );
+      } else if (event.type === "error") {
+        ctx.logger.error.log("Stream error: %s", event.error);
       }
-      return answer;
-    } catch (error) {
-      ctx.logger.error.log("Error processing agent stream:", error);
-      throw error;
     }
+    process.stdout.write("\n");
+    return answer;
   };
 
-  const chat = async (ag: typeof agent) => {
+  const chat = async (): Promise<void> => {
     const { question } = defaultQuestion
       ? await Promise.resolve({ question: defaultQuestion })
       : await prompts.default({
@@ -68,19 +59,13 @@ export const agentCommand = async (ctx: AgentContext, _args: string[]) => {
       ctx.logger.info.log("Goodbye!");
       process.exit(0);
     } else {
-      const result = await ask(ag, question);
-
-      ctx.logger.debug.log("Answer %O", result);
-
-      await chat(ag);
+      await ask(question);
+      await chat();
     }
   };
 
   return pipe(
-    TE.tryCatch(async () => {
-      // Init the chat loop!
-      await chat(agent);
-    }, ServerError.fromUnknown),
+    TE.tryCatch(() => chat(), ServerError.fromUnknown),
     throwTE,
   );
 };

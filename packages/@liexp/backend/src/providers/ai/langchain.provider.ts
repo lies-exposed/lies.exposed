@@ -11,6 +11,8 @@ import { type PromptFn } from "@liexp/shared/lib/providers/openai/prompts/prompt
 import type * as Reader from "fp-ts/lib/Reader.js";
 import { type Document as LangchainDocument } from "langchain";
 
+const langchainLogger = GetLogger("langchain");
+
 export const EMBEDDINGS_PROMPT: PromptFn<{
   text: string;
   question: string;
@@ -70,8 +72,6 @@ export interface LangchainProvider<Provider extends AIProvider> {
     options?: { model?: AvailableModels; prompt?: PromptFn<Args> },
   ) => Promise<string>;
 }
-
-const langchainLogger = GetLogger("langchain");
 
 export const GetLangchainProvider = <P extends AIProvider>(
   opts: LangchainProviderOptions<P>,

@@ -2,41 +2,433 @@ import { ServerError } from "@liexp/backend/lib/errors/ServerError.js";
 import { aiConfigToProviderOverride } from "@liexp/backend/lib/providers/ai/agent.factory.js";
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import {
-  type ChatResponse,
-  type ChatMessage,
-  type ResourceContext,
-  type ChatStreamEvent,
   type AIConfig,
   type AgentType,
+  type ChatMessage,
+  type ChatResponse,
+  type ChatStreamEvent,
+  type ResourceContext,
 } from "@liexp/io/lib/http/Chat.js";
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { type AIMessage } from "langchain";
 import { type AgentContext } from "../../context/context.type.js";
 
-// In-memory storage for conversations (in production, use a database)
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+interface LangChainToolCall {
+  id: string;
+  type?: string;
+  function: {
+    name: string;
+    arguments: string;
+  };
+}
+
+interface ModelRequestMessage {
+  additional_kwargs?: {
+    tool_calls?: LangChainToolCall[];
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Model context limits
+// ---------------------------------------------------------------------------
+
+const MODEL_CONTEXT_LIMITS: Record<string, number> = {
+  "gpt-4o": 128000,
+  "gemma-4-e4b-it": 32768,
+  "gemma-4-e2b-it": 32768,
+  "qwen3.5-4b": 32768,
+  "grok-4-fast": 200000,
+  "claude-sonnet-4-20250514": 200000,
+  "claude-3-7-sonnet-latest": 200000,
+  "claude-3-5-haiku-latest": 200000,
+};
+
+const getModelContextLimit = (model?: string): number | undefined =>
+  model ? MODEL_CONTEXT_LIMITS[model] : undefined;
+
+// ---------------------------------------------------------------------------
+// In-memory conversation store
+// ---------------------------------------------------------------------------
+
 const conversations = new Map<string, ChatMessage[]>();
 
+// ---------------------------------------------------------------------------
+// Pure helpers
+// ---------------------------------------------------------------------------
+
+export const buildEnhancedMessage = (
+  message: string,
+  resource_context?: ResourceContext,
+): string => {
+  if (!resource_context) return message;
+  const idPart = resource_context.recordId
+    ? ` with ID ${resource_context.recordId}`
+    : "";
+  return `${message}\n\n[Context: User is currently ${resource_context.action ?? "viewing"} ${resource_context.resource}${idPart}]`;
+};
+
+const makeContentDelta = (
+  content: string,
+  messageId: string,
+  thinking = false,
+): ChatStreamEvent => ({
+  type: "content_delta",
+  timestamp: new Date().toISOString(),
+  content,
+  message_id: messageId,
+  ...(thinking ? { thinking: true } : {}),
+});
+
+/** State for the incremental <think>…</think> tag parser. */
+interface ThinkState {
+  inside: boolean;
+  buffer: string;
+}
+
+export const emptyThinkState = (): ThinkState => ({
+  inside: false,
+  buffer: "",
+});
+
 /**
- * Get or create an agent with optional agent type and provider override.
- * The default agent from context is only used when no agentType is specified
- * and no aiConfig override is requested.
+ * Check whether `text` ends with a partial prefix of "<think>".
+ * Returns the prefix length (0 = no partial match).
  */
+const THINK_OPEN = "<think>";
+export const trailingPartialTag = (text: string): number => {
+  for (let i = THINK_OPEN.length - 1; i >= 1; i--) {
+    if (text.endsWith(THINK_OPEN.slice(0, i))) return i;
+  }
+  return 0;
+};
+
+/**
+ * Pure parser: consume `text` given current `state`, returning the events to
+ * emit and the next state. No side effects.
+ */
+export const parseThinkContent = (
+  text: string,
+  state: ThinkState,
+  messageId: string,
+): [ChatStreamEvent[], ThinkState] => {
+  const events: ChatStreamEvent[] = [];
+  let remaining = state.buffer + text;
+  let inside = state.inside;
+  let buffer = "";
+
+  while (remaining.length > 0) {
+    if (inside) {
+      const closeIdx = remaining.indexOf("</think>");
+      if (closeIdx !== -1) {
+        if (closeIdx > 0) {
+          events.push(
+            makeContentDelta(remaining.slice(0, closeIdx), messageId, true),
+          );
+        }
+        inside = false;
+        remaining = remaining.slice(closeIdx + "</think>".length);
+      } else {
+        // Whole remaining chunk is still inside the think block
+        buffer = remaining;
+        remaining = "";
+      }
+    } else {
+      const openIdx = remaining.indexOf(THINK_OPEN);
+      if (openIdx !== -1) {
+        if (openIdx > 0) {
+          events.push(makeContentDelta(remaining.slice(0, openIdx), messageId));
+        }
+        inside = true;
+        remaining = remaining.slice(openIdx + THINK_OPEN.length);
+      } else {
+        const partial = trailingPartialTag(remaining);
+        if (partial > 0) {
+          const safe = remaining.slice(0, remaining.length - partial);
+          if (safe) events.push(makeContentDelta(safe, messageId));
+          buffer = remaining.slice(remaining.length - partial);
+        } else {
+          events.push(makeContentDelta(remaining, messageId));
+        }
+        remaining = "";
+      }
+    }
+  }
+
+  return [events, { inside, buffer }];
+};
+
+// ---------------------------------------------------------------------------
+// Stream event processing
+// ---------------------------------------------------------------------------
+
+interface TokenUsage {
+  promptTokens: number;
+  completionTokens: number;
+}
+
+interface StreamState {
+  contentAccumulator: string;
+  tokens: TokenUsage;
+  think: ThinkState;
+}
+
+const initialStreamState = (): StreamState => ({
+  contentAccumulator: "",
+  tokens: { promptTokens: 0, completionTokens: 0 },
+  think: emptyThinkState(),
+});
+
+const extractTokenUsage = (chunk: AIMessage): TokenUsage | null => {
+  const meta = (chunk as unknown as { usage_metadata?: unknown })
+    .usage_metadata;
+  if (!meta || typeof meta !== "object") return null;
+  const u = meta as { input_tokens?: number; output_tokens?: number };
+  if (u.input_tokens === undefined && u.output_tokens === undefined)
+    return null;
+  return {
+    promptTokens: u.input_tokens ?? 0,
+    completionTokens: u.output_tokens ?? 0,
+  };
+};
+
+export const isSupervisorEvent = (event: { metadata?: unknown }): boolean =>
+  (event.metadata as { langgraph_node?: string } | undefined)
+    ?.langgraph_node === "supervisor";
+
+/**
+ * Pure per-event handler. Returns the list of events to yield and the updated
+ * stream state. No side effects, easy to unit-test.
+ */
+export const processStreamEvent = (
+  event: {
+    event: string;
+    name?: string;
+    run_id?: string;
+    data: unknown;
+    metadata?: unknown;
+  },
+  state: StreamState,
+  messageId: string,
+): [ChatStreamEvent[], StreamState] => {
+  if (event.event === "on_chat_model_stream") {
+    if (isSupervisorEvent(event)) return [[], state];
+
+    // LangGraph serializes AIMessageChunk as { lc, type, id, kwargs: { content, ... } }.
+    // Support both the plain object form and the serialized form.
+    const rawChunk = (event.data as { chunk?: Record<string, unknown> }).chunk;
+    if (!rawChunk) return [[], state];
+    const chunk = rawChunk as unknown as AIMessage;
+    const content: string =
+      typeof rawChunk.content === "string"
+        ? rawChunk.content
+        : typeof (rawChunk.kwargs as Record<string, unknown> | undefined)
+              ?.content === "string"
+          ? ((rawChunk.kwargs as Record<string, unknown>).content as string)
+          : "";
+
+    const tokenUpdate = extractTokenUsage(chunk);
+    const tokens = tokenUpdate
+      ? {
+          promptTokens: tokenUpdate.promptTokens,
+          completionTokens: tokenUpdate.completionTokens,
+        }
+      : state.tokens;
+
+    if (!content) {
+      return [[], { ...state, tokens }];
+    }
+
+    const [deltaEvents, nextThink] = parseThinkContent(
+      content,
+      state.think,
+      messageId,
+    );
+
+    return [
+      deltaEvents,
+      {
+        contentAccumulator: state.contentAccumulator + content,
+        tokens,
+        think: nextThink,
+      },
+    ];
+  }
+
+  if (event.event === "on_chain_stream") {
+    try {
+      const chunk = event.data as {
+        chunk: Record<string, { messages?: ModelRequestMessage[] }>;
+      };
+
+      // Handle both single-agent format (model_request) and multi-agent format (node names)
+      let messages: ModelRequestMessage[] | undefined;
+      if (chunk?.chunk?.model_request?.messages) {
+        messages = chunk.chunk.model_request.messages;
+      } else {
+        // Check for messages in any node (platform, researcher, etc.)
+        for (const nodeData of Object.values(chunk?.chunk || {})) {
+          if (nodeData?.messages) {
+            messages = nodeData.messages;
+            break;
+          }
+        }
+      }
+
+      if (!messages) return [[], state];
+
+      const events: ChatStreamEvent[] = [];
+      for (const msg of messages) {
+        const toolCalls = msg.additional_kwargs?.tool_calls;
+        if (toolCalls) {
+          for (const tc of toolCalls) {
+            events.push({
+              type: "tool_call_start",
+              timestamp: new Date().toISOString(),
+              tool_call: {
+                id: tc.id,
+                name: tc.function.name,
+                arguments: tc.function.arguments,
+              },
+            } satisfies ChatStreamEvent);
+          }
+        }
+      }
+      return [events, state];
+    } catch {
+      return [[], state];
+    }
+  }
+
+  if (event.event === "on_tool_start") {
+    const rawInput = (event.data as { input: unknown }).input;
+    // LangGraph passes tool input as a pre-serialized JSON string; pass it through
+    // as-is. Only stringify if it's already a plain object.
+    const arguments_ =
+      typeof rawInput === "string" ? rawInput : JSON.stringify(rawInput);
+    return [
+      [
+        {
+          type: "tool_call_start",
+          timestamp: new Date().toISOString(),
+          tool_call: {
+            id: event.run_id ?? uuid(),
+            name: event.name ?? "unknown",
+            arguments: arguments_,
+          },
+        } satisfies ChatStreamEvent,
+      ],
+      state,
+    ];
+  }
+
+  if (event.event === "on_tool_end") {
+    const toolOutput = (event.data as { output: unknown }).output;
+    // LangGraph wraps tool results in ToolMessage objects; extract the plain string content.
+    const extractResult = (output: unknown): string => {
+      if (typeof output === "string") return output;
+      const content = (output as any)?.content;
+      if (typeof content === "string") return content;
+      if (Array.isArray(content)) {
+        return content
+          .filter((c: any) => c.type === "text")
+          .map((c: any) => String(c.text ?? ""))
+          .join("");
+      }
+      return JSON.stringify(output);
+    };
+    return [
+      [
+        {
+          type: "tool_call_end",
+          timestamp: new Date().toISOString(),
+          tool_call: {
+            id: event.run_id ?? uuid(),
+            name: event.name ?? "unknown",
+            result: extractResult(toolOutput),
+          },
+        } satisfies ChatStreamEvent,
+      ],
+      state,
+    ];
+  }
+
+  if (event.event === "on_chain_end") {
+    try {
+      // Check for ToolMessage results in LangGraph chain end events
+      const data = event.data as {
+        output?: {
+          messages?: {
+            lc?: number;
+            type?: string;
+            id?: string[];
+            kwargs?: {
+              content?: string;
+              tool_call_id?: string;
+              name?: string;
+            };
+          }[];
+        };
+      };
+
+      const messages = data?.output?.messages;
+      if (!messages) return [[], state];
+
+      const events: ChatStreamEvent[] = [];
+      for (const msg of messages) {
+        // Look for ToolMessage objects
+        if (
+          msg.lc === 1 &&
+          msg.type === "constructor" &&
+          msg.id?.[msg.id.length - 1] === "ToolMessage" &&
+          msg.kwargs?.tool_call_id &&
+          msg.kwargs?.name
+        ) {
+          events.push({
+            type: "tool_call_end",
+            timestamp: new Date().toISOString(),
+            tool_call: {
+              id: msg.kwargs.tool_call_id,
+              name: msg.kwargs.name,
+              result: msg.kwargs.content ?? "",
+            },
+          } satisfies ChatStreamEvent);
+        }
+      }
+      return [events, state];
+    } catch {
+      return [[], state];
+    }
+  }
+
+  return [[], state];
+};
+
+// ---------------------------------------------------------------------------
+// Agent resolution
+// ---------------------------------------------------------------------------
+
 const getOrCreateAgent =
   (agentType?: AgentType, aiConfig?: AIConfig) => (ctx: AgentContext) => {
     if (!agentType && !aiConfig) {
-      // Use the default bootstrapped agent (platform type, default provider)
       return TE.right(ctx.agent.agent);
     }
-
     const override = aiConfig
       ? aiConfigToProviderOverride(aiConfig)
       : undefined;
     return pipe(
       ctx.agentFactory(agentType, override),
-      TE.mapLeft((error) => ServerError.fromUnknown(error)),
+      TE.mapLeft(ServerError.fromUnknown),
     );
   };
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
 
 export const sendChatMessage =
   (payload: {
@@ -47,15 +439,11 @@ export const sendChatMessage =
     agent_type?: AgentType;
   }) =>
   (ctx: AgentContext): TE.TaskEither<ServerError, ChatResponse> => {
-    // Use existing conversation_id or generate a new one
     const conversationId = payload.conversation_id ?? uuid();
-
-    // Build context-enhanced message
-    const enhancedMessage = payload.resource_context
-      ? `${payload.message}
-
-[Context: User is currently ${payload.resource_context.action ?? "viewing"} ${payload.resource_context.resource}${payload.resource_context.recordId ? ` with ID ${payload.resource_context.recordId}` : ""}]`
-      : payload.message;
+    const enhancedMessage = buildEnhancedMessage(
+      payload.message,
+      payload.resource_context,
+    );
 
     return pipe(
       getOrCreateAgent(payload.agent_type, payload.aiConfig)(ctx),
@@ -63,19 +451,16 @@ export const sendChatMessage =
         TE.tryCatch(
           () =>
             agent.invoke(
-              {
-                messages: [enhancedMessage],
-              },
+              { messages: [enhancedMessage] },
               {
                 configurable: { thread_id: conversationId },
                 recursionLimit: 50,
               },
             ),
-          (error) => ServerError.fromUnknown(error),
+          ServerError.fromUnknown,
         ),
       ),
       TE.map((result) => {
-        // Extract the message content from the agent result
         const { messages } = result as { messages: AIMessage[] };
         const lastMessage = messages[messages.length - 1];
         const content =
@@ -89,7 +474,6 @@ export const sendChatMessage =
           role: "user",
           timestamp: new Date().toISOString(),
         };
-
         const assistantMessage: ChatMessage = {
           id: lastMessage.id ?? uuid(),
           content,
@@ -97,10 +481,8 @@ export const sendChatMessage =
           timestamp: new Date().toISOString(),
         };
 
-        // Store messages in conversation
-        const existingMessages = conversations.get(conversationId) ?? [];
         conversations.set(conversationId, [
-          ...existingMessages,
+          ...(conversations.get(conversationId) ?? []),
           userMessage,
           assistantMessage,
         ]);
@@ -121,9 +503,8 @@ export const sendChatMessage =
 
 export const getChatConversation =
   (conversationId: string) =>
-  (_ctx: AgentContext): TE.TaskEither<Error, ChatMessage[]> => {
-    return TE.right(conversations.get(conversationId) ?? []);
-  };
+  (_ctx: AgentContext): TE.TaskEither<Error, ChatMessage[]> =>
+    TE.right(conversations.get(conversationId) ?? []);
 
 export const listChatConversations =
   (_query: { limit?: number; offset?: number }) =>
@@ -140,8 +521,8 @@ export const listChatConversations =
         updated_at: string;
       }[];
     }
-  > => {
-    return TE.right({
+  > =>
+    TE.right({
       total: conversations.size,
       data: Array.from(conversations.entries()).map(([id, messages]) => ({
         id,
@@ -151,66 +532,42 @@ export const listChatConversations =
           messages[messages.length - 1]?.timestamp ?? new Date().toISOString(),
       })),
     });
-  };
 
 export const deleteChatConversation =
   (conversationId: string) =>
-  (_ctx: AgentContext): TE.TaskEither<Error, boolean> => {
-    return TE.right(conversations.delete(conversationId));
-  };
+  (_ctx: AgentContext): TE.TaskEither<Error, boolean> =>
+    TE.right(conversations.delete(conversationId));
 
-/**
- * Check if a string ends with a partial match of "<think>" tag.
- * Returns the length of the partial match (0 if none).
- */
-const THINK_OPEN_TAG = "<think>";
-function getPartialTagMatch(text: string): number {
-  for (let i = 1; i < THINK_OPEN_TAG.length; i++) {
-    if (text.endsWith(THINK_OPEN_TAG.slice(0, i))) {
-      return i;
-    }
-  }
-  return 0;
-}
-
-/**
- * Strip <think>...</think> blocks from text (for final stored content).
- */
-function stripThinkTags(text: string): string {
-  return text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
-}
-
-/**
- * Stream chat messages with tool calls and responses
- * Returns an async generator that yields ChatStreamEvents
- */
 export const sendChatMessageStream = (payload: {
   message: string;
   conversation_id: string | null;
   resource_context?: ResourceContext;
   aiConfig?: AIConfig;
   agent_type?: AgentType;
+  /** Optional hook called with every raw LangGraph streamEvent before processing. */
+  onRawEvent?: (event: unknown) => void;
 }) => {
   return async function* (ctx: AgentContext): AsyncGenerator<ChatStreamEvent> {
     const conversationId = payload.conversation_id ?? uuid();
     const messageId = uuid();
+    const enhancedMessage = buildEnhancedMessage(
+      payload.message,
+      payload.resource_context,
+    );
 
-    // Build context-enhanced message
-    const enhancedMessage = payload.resource_context
-      ? `${payload.message}
-
-[Context: User is currently ${payload.resource_context.action ?? "viewing"} ${payload.resource_context.resource}${payload.resource_context.recordId ? ` with ID ${payload.resource_context.recordId}` : ""}]`
-      : payload.message;
+    ctx.logger.debug.log(
+      "sendChatMessageStream — agent_type: %s, aiConfig: %O",
+      payload.agent_type,
+      payload.aiConfig,
+    );
 
     try {
-      // Get or create agent with optional type + provider override
       const agentResult = await getOrCreateAgent(
         payload.agent_type,
         payload.aiConfig,
       )(ctx)();
 
       if (agentResult._tag === "Left") {
-        // Error case
         yield {
           type: "error",
           timestamp: new Date().toISOString(),
@@ -220,8 +577,9 @@ export const sendChatMessageStream = (payload: {
       }
 
       const agent = agentResult.right;
+      const model = payload.aiConfig?.model ?? "gpt-4o";
+      const contextTotal = getModelContextLimit(model);
 
-      // Signal message start with provider info
       yield {
         type: "message_start",
         timestamp: new Date().toISOString(),
@@ -233,257 +591,79 @@ export const sendChatMessageStream = (payload: {
               model: payload.aiConfig.model ?? "gpt-4o",
             }
           : undefined,
+        context: contextTotal ? { total: contextTotal } : undefined,
       } satisfies ChatStreamEvent;
 
-      // Stream the agent's response
-      const streamResult = await agent.stream(
+      let state = initialStreamState();
+      // Accumulate visible (non-thinking) content from the content_delta events
+      // we actually emit rather than from raw LangGraph chunks. This prevents
+      // duplicates when LangGraph or the provider sends both per-token deltas
+      // AND a final "summary" chunk that replays the full response.
+      let visibleContent = "";
+
+      for await (const event of agent.streamEvents(
+        { messages: [enhancedMessage] },
         {
-          messages: [enhancedMessage],
-        },
-        {
-          streamMode: ["messages", "updates", "debug"],
+          version: "v2",
           configurable: { thread_id: conversationId },
           recursionLimit: 50,
         },
-      );
+      )) {
+        if (!event) continue;
 
-      let contentAccumulator = "";
-      const processedToolCalls = new Set<string>();
+        ctx.logger.debug.log("stream event [%s]: %O", event.event, event.data);
 
-      // Track <think> tag state for Qwen3 models that emit thinking
-      // content inline as <think>...</think> in delta.content
-      let insideThinkBlock = false;
-      let thinkBuffer = "";
+        payload.onRawEvent?.(event);
 
-      for await (const [streamMode, chunk] of streamResult) {
-        ctx.logger.debug.log("Stream chunk [%s]: %O", streamMode, chunk);
-
-        if (streamMode === "messages") {
-          // In LangGraph messages mode, chunk is [messageChunk, metadata].
-          // Destructure properly to avoid iterating the metadata object as a message.
-          const [msg, metadata] = (
-            Array.isArray(chunk) ? chunk : [chunk, {}]
-          ) as [AIMessage, { langgraph_node?: string }];
-
-          // ToolMessages carry tool results. Emit tool_call_end from them (works
-          // for both single-agent and multi-agent subgraphs, since the messages
-          // stream propagates from inner graphs too). Do NOT accumulate their
-          // content — tool results must not appear in the assistant reply bubble.
-          if ("tool_call_id" in msg && msg.tool_call_id) {
-            if (msg.name) {
-              yield {
-                type: "tool_call_end",
-                timestamp: new Date().toISOString(),
-                tool_call: {
-                  id: msg.tool_call_id as string,
-                  name: msg.name,
-                  result:
-                    typeof msg.content === "string"
-                      ? msg.content
-                      : JSON.stringify(msg.content),
-                },
-              } satisfies ChatStreamEvent;
-            }
-            continue;
-          }
-
-          // In auto (multi-agent) mode the supervisor emits a one-word routing
-          // decision ("platform" / "researcher"). Skip it so it doesn't appear
-          // in the final content bubble.
-          if (metadata?.langgraph_node === "supervisor") {
-            continue;
-          }
-
-          // Handle tool calls
-          if (msg.tool_calls && msg.tool_calls.length > 0) {
-            for (const toolCall of msg.tool_calls) {
-              const toolCallId = toolCall.id ?? uuid();
-
-              if (!processedToolCalls.has(toolCallId)) {
-                processedToolCalls.add(toolCallId);
-
-                // Tool call start
-                yield {
-                  type: "tool_call_start",
-                  timestamp: new Date().toISOString(),
-                  tool_call: {
-                    id: toolCallId,
-                    name: toolCall.name,
-                    arguments:
-                      typeof toolCall.args === "string"
-                        ? toolCall.args
-                        : JSON.stringify(toolCall.args),
-                  },
-                } satisfies ChatStreamEvent;
-              }
-            }
-          }
-
-          // Handle content deltas — parse <think> tags for Qwen3/LocalAI
-          // msg.content in LangGraph messages mode is a delta, not the full accumulated text
-          if (typeof msg.content === "string" && msg.content) {
-            const newContent = msg.content;
-            contentAccumulator += newContent;
-
-            // Process the new content, splitting on <think>/</think> boundaries
-            // Prepend any buffered partial tag from the previous chunk
-            let remaining = thinkBuffer + newContent;
-            thinkBuffer = "";
-            while (remaining.length > 0) {
-              if (insideThinkBlock) {
-                // Look for closing </think> tag
-                const closeIdx = remaining.indexOf("</think>");
-                if (closeIdx !== -1) {
-                  // Emit thinking content before the closing tag
-                  const thinkContent = remaining.slice(0, closeIdx);
-                  insideThinkBlock = false;
-                  if (thinkContent) {
-                    yield {
-                      type: "content_delta",
-                      timestamp: new Date().toISOString(),
-                      content: thinkContent,
-                      message_id: messageId,
-                      thinking: true,
-                    } satisfies ChatStreamEvent;
-                  }
-                  remaining = remaining.slice(closeIdx + "</think>".length);
-                } else {
-                  // Still inside think block, buffer the content
-                  thinkBuffer += remaining;
-                  remaining = "";
-                }
-              } else {
-                // Look for opening <think> tag
-                const openIdx = remaining.indexOf("<think>");
-                if (openIdx !== -1) {
-                  // Emit regular content before the opening tag
-                  const regularContent = remaining.slice(0, openIdx);
-                  if (regularContent) {
-                    yield {
-                      type: "content_delta",
-                      timestamp: new Date().toISOString(),
-                      content: regularContent,
-                      message_id: messageId,
-                    } satisfies ChatStreamEvent;
-                  }
-                  insideThinkBlock = true;
-                  thinkBuffer = "";
-                  remaining = remaining.slice(openIdx + "<think>".length);
-                } else {
-                  // No think tag — check for partial tag at end of chunk
-                  const partialMatch = getPartialTagMatch(remaining);
-                  if (partialMatch > 0) {
-                    const safeContent = remaining.slice(
-                      0,
-                      remaining.length - partialMatch,
-                    );
-                    if (safeContent) {
-                      yield {
-                        type: "content_delta",
-                        timestamp: new Date().toISOString(),
-                        content: safeContent,
-                        message_id: messageId,
-                      } satisfies ChatStreamEvent;
-                    }
-                    thinkBuffer = remaining.slice(
-                      remaining.length - partialMatch,
-                    );
-                  } else {
-                    // Regular content, no think tags
-                    yield {
-                      type: "content_delta",
-                      timestamp: new Date().toISOString(),
-                      content: remaining,
-                      message_id: messageId,
-                    } satisfies ChatStreamEvent;
-                  }
-                  remaining = "";
-                }
-              }
-            }
-          }
-        } else if (streamMode === "updates") {
-          // Handle tool execution results
-          if ("tools" in chunk && chunk.tools?.messages) {
-            const toolMessages = chunk.tools.messages as AIMessage[];
-
-            for (const toolMsg of toolMessages) {
-              if (toolMsg.name) {
-                yield {
-                  type: "tool_call_end",
-                  timestamp: new Date().toISOString(),
-                  tool_call: {
-                    id: uuid(),
-                    name: toolMsg.name,
-                    result:
-                      typeof toolMsg.content === "string"
-                        ? toolMsg.content
-                        : JSON.stringify(toolMsg.content),
-                  },
-                } satisfies ChatStreamEvent;
-              }
-            }
-          }
-        } else if (streamMode === "debug") {
-          // Handle debug/think messages from LLM (e.g., OpenAI's extended thinking)
-          if (
-            "type" in chunk &&
-            chunk.type === "checkpoint" &&
-            "values" in chunk
-          ) {
-            const values = chunk.values as {
-              messages?: AIMessage[];
-            };
-            if (values.messages && Array.isArray(values.messages)) {
-              for (const msg of values.messages) {
-                // Check for thinking/debug content in additional kwargs
-                const additionalKwargs = msg.additional_kwargs || {};
-                if ("thinking" in additionalKwargs) {
-                  const thinkContent = additionalKwargs.thinking;
-                  if (typeof thinkContent === "string" && thinkContent) {
-                    yield {
-                      type: "content_delta",
-                      timestamp: new Date().toISOString(),
-                      content: thinkContent,
-                      message_id: messageId,
-                      // Mark as thinking content
-                      thinking: true,
-                    } satisfies ChatStreamEvent;
-                  }
-                }
-              }
-            }
+        const [events, nextState] = processStreamEvent(
+          event as Parameters<typeof processStreamEvent>[0],
+          state,
+          messageId,
+        );
+        state = nextState;
+        for (const e of events) {
+          yield e;
+          if (e.type === "content_delta" && !e.thinking) {
+            visibleContent += e.content ?? "";
           }
         }
       }
 
-      // Store messages in conversation
-      const userMessage: ChatMessage = {
-        id: uuid(),
-        content: payload.message,
-        role: "user",
-        timestamp: new Date().toISOString(),
-      };
+      // Flush any buffered partial think-tag fragment that was never completed
+      // (e.g. response ends with a bare "<" that looked like the start of <think>).
+      if (state.think.buffer) {
+        visibleContent += state.think.buffer;
+      }
 
-      // Strip any <think> tags from the final stored content
-      const finalContent =
-        stripThinkTags(contentAccumulator) || "No response generated";
+      const finalContent = visibleContent || "No response generated";
 
-      const assistantMessage: ChatMessage = {
-        id: messageId,
-        content: finalContent,
-        role: "assistant",
-        timestamp: new Date().toISOString(),
-      };
+      ctx.logger.debug.log(
+        "final content: %s (raw accumulator: %s)",
+        finalContent,
+        state.contentAccumulator,
+      );
 
-      const existingMessages = conversations.get(conversationId) ?? [];
       conversations.set(conversationId, [
-        ...existingMessages,
-        userMessage,
-        assistantMessage,
+        ...(conversations.get(conversationId) ?? []),
+        {
+          id: uuid(),
+          content: payload.message,
+          role: "user",
+          timestamp: new Date().toISOString(),
+        },
+        {
+          id: messageId,
+          content: finalContent,
+          role: "assistant",
+          timestamp: new Date().toISOString(),
+        },
       ]);
 
-      // Signal message end
+      const modelLimit = getModelContextLimit(
+        payload.aiConfig?.model ?? "gpt-4o",
+      );
+      const { promptTokens, completionTokens } = state.tokens;
+
       yield {
         type: "message_end",
         timestamp: new Date().toISOString(),
@@ -495,9 +675,17 @@ export const sendChatMessageStream = (payload: {
               model: payload.aiConfig.model ?? "gpt-4o",
             }
           : undefined,
+        usage: {
+          prompt_tokens: promptTokens,
+          completion_tokens: completionTokens,
+          total_tokens: promptTokens + completionTokens,
+        },
+        context: modelLimit
+          ? { total: modelLimit, used: promptTokens + completionTokens }
+          : undefined,
       } satisfies ChatStreamEvent;
     } catch (error) {
-      ctx.logger.error.log("Stream error: %O", error);
+      ctx.logger.error.log("stream error: %O", error);
       yield {
         type: "error",
         timestamp: new Date().toISOString(),

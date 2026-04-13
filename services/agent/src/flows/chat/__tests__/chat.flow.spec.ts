@@ -4,29 +4,94 @@ import * as TE from "fp-ts/lib/TaskEither.js";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { type AgentContext } from "../../../context/context.type.js";
 import {
+  buildEnhancedMessage,
   deleteChatConversation,
+  emptyThinkState,
   getChatConversation,
+  isSupervisorEvent,
   listChatConversations,
+  parseThinkContent,
+  processStreamEvent,
   sendChatMessage,
   sendChatMessageStream,
+  trailingPartialTag,
 } from "../chat.flow.js";
 
-/**
- * Unit tests for chat.flow.ts
- *
- * These tests mock the agent context and verify the flow logic
- * for chat message handling, conversation management, and streaming.
- */
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Build a minimal on_chat_model_stream event. */
+const chatModelEvent = (
+  content: string,
+  opts: {
+    supervisorNode?: boolean;
+    usageMeta?: { input_tokens: number; output_tokens: number };
+  } = {},
+) => ({
+  event: "on_chat_model_stream" as const,
+  run_id: "run-chat",
+  name: "ChatOpenAI",
+  data: {
+    chunk: {
+      content,
+      ...(opts.usageMeta ? { usage_metadata: opts.usageMeta } : {}),
+    },
+  },
+  metadata: opts.supervisorNode
+    ? { langgraph_node: "supervisor" }
+    : { langgraph_node: "platform" },
+});
+
+/** Build a minimal on_tool_start event. */
+const toolStartEvent = (
+  name: string,
+  input: Record<string, unknown>,
+  runId = "run-tool-1",
+) => ({
+  event: "on_tool_start" as const,
+  run_id: runId,
+  name,
+  data: { input },
+  metadata: {},
+});
+
+/** Build a minimal on_tool_end event. */
+const toolEndEvent = (name: string, output: unknown, runId = "run-tool-1") => ({
+  event: "on_tool_end" as const,
+  run_id: runId,
+  name,
+  data: { output },
+  metadata: {},
+});
+
+/** Create an async generator from an array of events. */
+function* asyncEvents<T>(items: T[]): Generator<T> {
+  for (const item of items) yield item;
+}
+
+// ---------------------------------------------------------------------------
+// Mock context
+// ---------------------------------------------------------------------------
 
 const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
   const logger = GetLogger("test-chat-flow");
 
+  const defaultAgent = {
+    invoke: vi.fn().mockResolvedValue({
+      messages: [{ id: "msg-123", content: "This is a test response" }],
+    }),
+    streamEvents: vi
+      .fn()
+      .mockImplementation(() =>
+        asyncEvents([chatModelEvent("Test streaming response")]),
+      ),
+  };
+
   return {
     env: {
       NODE_ENV: "test",
-      PUPPETEER_EXECUTABLE_PATH: "/usr/bin/chromium",
       JWT_SECRET: "test-secret",
-      MCP_AUTH_URL: "http://localhost:4000",
     } as any,
     logger,
     jwt: {} as any,
@@ -36,63 +101,259 @@ const createMockContext = (overrides?: Partial<AgentContext>): AgentContext => {
     agentFactory: vi.fn().mockReturnValue(
       TE.right({
         invoke: vi.fn().mockResolvedValue({
-          messages: [
-            {
-              id: "msg-123",
-              content: "This is a test response",
-            },
-          ],
+          messages: [{ id: "msg-factory", content: "Factory response" }],
         }),
-        stream: vi.fn().mockImplementation(function* () {
-          yield [
-            "messages",
-            [
-              {
-                content: "Test streaming response",
-              },
-            ],
-          ];
-        }),
+        streamEvents: vi
+          .fn()
+          .mockImplementation(() =>
+            asyncEvents([chatModelEvent("Factory stream response")]),
+          ),
       }),
     ),
     fs: {
       getObject: vi.fn().mockReturnValue(TE.right("# Mock AGENTS.md")),
     } as any,
     agent: {
-      invoke: vi.fn().mockReturnValue(
-        TE.right({
-          messages: [
-            {
-              id: "msg-123",
-              content: "This is a test response",
-            },
-          ],
-        }),
-      ),
-      agent: {
-        invoke: vi.fn().mockResolvedValue({
-          messages: [
-            {
-              id: "msg-123",
-              content: "This is a test response",
-            },
-          ],
-        }),
-        stream: vi.fn().mockImplementation(function* () {
-          yield [
-            "messages",
-            [
-              {
-                content: "Test streaming response",
-              },
-            ],
-          ];
-        }),
-      },
+      invoke: vi
+        .fn()
+        .mockReturnValue(
+          TE.right({ messages: [{ id: "msg-123", content: "Test response" }] }),
+        ),
+      agent: defaultAgent,
     } as any,
     ...overrides,
   };
 };
+
+// ---------------------------------------------------------------------------
+// Pure function unit tests
+// ---------------------------------------------------------------------------
+
+describe("buildEnhancedMessage", () => {
+  test("returns message unchanged when no resource_context", () => {
+    expect(buildEnhancedMessage("hello")).toBe("hello");
+  });
+
+  test("appends context block with resource and recordId", () => {
+    const result = buildEnhancedMessage("edit this", {
+      resource: "actors",
+      recordId: "actor-1",
+      action: "edit",
+    });
+    expect(result).toContain("edit this");
+    expect(result).toContain("edit actors");
+    expect(result).toContain("actor-1");
+  });
+
+  test("defaults action to 'viewing' when not provided", () => {
+    const result = buildEnhancedMessage("view this", {
+      resource: "events",
+      recordId: null,
+    });
+    expect(result).toContain("viewing events");
+  });
+
+  test("omits id part when recordId is null", () => {
+    const result = buildEnhancedMessage("browse", {
+      resource: "groups",
+      action: "listing",
+      recordId: null,
+    });
+    expect(result).not.toContain("with ID");
+  });
+});
+
+describe("trailingPartialTag", () => {
+  test("returns 0 for text with no partial <think> suffix", () => {
+    expect(trailingPartialTag("hello world")).toBe(0);
+  });
+
+  test("returns 1 for text ending with '<'", () => {
+    expect(trailingPartialTag("hello<")).toBe(1);
+  });
+
+  test("returns 6 for text ending with '<think'", () => {
+    expect(trailingPartialTag("hello<think")).toBe(6);
+  });
+
+  test("returns 0 for complete <think> tag (no partial)", () => {
+    // A complete tag is not a partial — no buffering needed
+    expect(trailingPartialTag("hello<think>")).toBe(0);
+  });
+});
+
+describe("isSupervisorEvent", () => {
+  test("returns true when langgraph_node is supervisor", () => {
+    expect(
+      isSupervisorEvent({ metadata: { langgraph_node: "supervisor" } }),
+    ).toBe(true);
+  });
+
+  test("returns false for other nodes", () => {
+    expect(
+      isSupervisorEvent({ metadata: { langgraph_node: "platform" } }),
+    ).toBe(false);
+  });
+
+  test("returns false when metadata is absent", () => {
+    expect(isSupervisorEvent({})).toBe(false);
+  });
+});
+
+describe("parseThinkContent", () => {
+  const id = "msg-1";
+
+  test("emits a regular content_delta for plain text", () => {
+    const [events, state] = parseThinkContent("hello", emptyThinkState(), id);
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      type: "content_delta",
+      content: "hello",
+      message_id: id,
+    });
+    expect((events[0] as any).thinking).toBeUndefined();
+    expect(state.inside).toBe(false);
+  });
+
+  test("splits text at <think> into regular + thinking deltas", () => {
+    const [events] = parseThinkContent(
+      "before<think>thought</think>after",
+      emptyThinkState(),
+      id,
+    );
+    const regular = events.filter((e) => !e.thinking);
+    const thinking = events.filter((e) => e.thinking);
+    expect(regular.map((e) => e.content).join("")).toContain("before");
+    expect(regular.map((e) => e.content).join("")).toContain("after");
+    expect(thinking.map((e) => e.content).join("")).toContain("thought");
+  });
+
+  test("buffers content when inside think block spans chunks", () => {
+    const [, midState] = parseThinkContent(
+      "<think>first",
+      emptyThinkState(),
+      id,
+    );
+    expect(midState.inside).toBe(true);
+
+    const [events, finalState] = parseThinkContent(
+      " second</think>end",
+      midState,
+      id,
+    );
+    const thinking = events.filter((e) => e.thinking);
+    const regular = events.filter((e) => !e.thinking);
+    expect(thinking.map((e) => e.content).join("")).toContain("first second");
+    expect(regular.some((e) => e.content === "end")).toBe(true);
+    expect(finalState.inside).toBe(false);
+  });
+
+  test("buffers partial <think> tag at chunk boundary", () => {
+    const [events1, state1] = parseThinkContent(
+      "prefix<thi",
+      emptyThinkState(),
+      id,
+    );
+    // "prefix" should be emitted, "<thi" buffered
+    expect(events1.some((e) => e.content === "prefix")).toBe(true);
+    expect(state1.buffer).toContain("<thi");
+
+    const [events2] = parseThinkContent(
+      "nk>thinking</think>suffix",
+      state1,
+      id,
+    );
+    const thinking = events2.filter((e) => e.thinking);
+    const regular = events2.filter((e) => !e.thinking);
+    expect(thinking.some((e) => e.content === "thinking")).toBe(true);
+    expect(regular.some((e) => e.content === "suffix")).toBe(true);
+  });
+});
+
+describe("processStreamEvent", () => {
+  const state = () => ({
+    contentAccumulator: "",
+    tokens: { promptTokens: 0, completionTokens: 0 },
+    think: emptyThinkState(),
+  });
+
+  test("on_chat_model_stream emits content_delta for string content", () => {
+    const event = chatModelEvent("hello");
+    const [events, nextState] = processStreamEvent(
+      event as any,
+      state(),
+      "msg-1",
+    );
+    expect(events).toHaveLength(1);
+    expect(events[0].type).toBe("content_delta");
+    expect(events[0].content).toBe("hello");
+    expect(nextState.contentAccumulator).toBe("hello");
+  });
+
+  test("on_chat_model_stream skips supervisor events", () => {
+    const event = chatModelEvent("platform", { supervisorNode: true });
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(events).toHaveLength(0);
+  });
+
+  test("on_chat_model_stream accumulates token usage", () => {
+    const event = chatModelEvent("hi", {
+      usageMeta: { input_tokens: 10, output_tokens: 5 },
+    });
+    const [, nextState] = processStreamEvent(event as any, state(), "msg-1");
+    expect(nextState.tokens.promptTokens).toBe(10);
+    expect(nextState.tokens.completionTokens).toBe(5);
+  });
+
+  test("on_chat_model_stream ignores empty string content", () => {
+    const event = chatModelEvent("");
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(events).toHaveLength(0);
+  });
+
+  test("on_tool_start emits tool_call_start with serialized input", () => {
+    const event = toolStartEvent("liexp_cli", {
+      command: "actor list --_start 0",
+    });
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(events).toHaveLength(1);
+    expect(events[0].type).toBe("tool_call_start");
+    expect(events[0].tool_call?.name).toBe("liexp_cli");
+    expect(events[0].tool_call?.id).toBe("run-tool-1");
+    expect(events[0].tool_call?.arguments).toContain("actor list");
+  });
+
+  test("on_tool_end emits tool_call_end with string output", () => {
+    const event = toolEndEvent("liexp_cli", "actor results here");
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(events).toHaveLength(1);
+    expect(events[0].type).toBe("tool_call_end");
+    expect(events[0].tool_call?.result).toBe("actor results here");
+  });
+
+  test("on_tool_end serializes non-string output", () => {
+    const event = toolEndEvent("liexp_cli", [{ id: "1", name: "Actor A" }]);
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(typeof events[0].tool_call?.result).toBe("string");
+    expect(events[0].tool_call?.result).toContain("Actor A");
+  });
+
+  test("unknown events produce no output", () => {
+    const event = {
+      event: "on_chain_start",
+      run_id: "r",
+      name: "foo",
+      data: {},
+      metadata: {},
+    };
+    const [events] = processStreamEvent(event as any, state(), "msg-1");
+    expect(events).toHaveLength(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Integration tests via sendChatMessage / sendChatMessageStream
+// ---------------------------------------------------------------------------
 
 describe("chat.flow", () => {
   let ctx: AgentContext;
@@ -102,157 +363,165 @@ describe("chat.flow", () => {
     vi.clearAllMocks();
   });
 
-  describe("sendChatMessage", () => {
-    test("should create a new conversation when conversation_id is null", async () => {
-      const payload = {
-        message: "Hello, world!",
-        conversation_id: null,
-      };
+  // -------------------------------------------------------------------------
+  // sendChatMessage
+  // -------------------------------------------------------------------------
 
-      const result = await pipe(sendChatMessage(payload)(ctx))();
+  describe("sendChatMessage", () => {
+    test("creates a new conversation UUID when conversation_id is null", async () => {
+      const result = await pipe(
+        sendChatMessage({ message: "Hello", conversation_id: null })(ctx),
+      )();
 
       expect(result._tag).toBe("Right");
       if (result._tag === "Right") {
-        expect(result.right.conversationId).toBeDefined();
-        expect(result.right.conversationId).toHaveLength(36); // UUID length
+        expect(result.right.conversationId).toHaveLength(36);
         expect(result.right.message.role).toBe("assistant");
         expect(result.right.message.content).toBe("This is a test response");
       }
     });
 
-    test("should use existing conversation_id when provided", async () => {
-      const existingConversationId = "existing-conv-123";
-      const payload = {
-        message: "Continue conversation",
-        conversation_id: existingConversationId,
-      };
-
-      const result = await pipe(sendChatMessage(payload)(ctx))();
+    test("preserves provided conversation_id", async () => {
+      const result = await pipe(
+        sendChatMessage({ message: "Continue", conversation_id: "conv-abc" })(
+          ctx,
+        ),
+      )();
 
       expect(result._tag).toBe("Right");
       if (result._tag === "Right") {
-        expect(result.right.conversationId).toBe(existingConversationId);
+        expect(result.right.conversationId).toBe("conv-abc");
       }
     });
 
-    test("should enhance message with resource context when provided", async () => {
-      const payload = {
-        message: "Help me edit this",
-        conversation_id: null,
-        resource_context: {
-          resource: "actors",
-          recordId: "actor-123",
-          action: "edit",
-        },
-      };
-
-      await pipe(sendChatMessage(payload)(ctx))();
-
-      expect((ctx.agent.agent as any).invoke).toHaveBeenCalledWith(
-        expect.objectContaining({
-          messages: expect.arrayContaining([
-            expect.stringContaining("Help me edit this"),
-          ]),
-        }),
-        expect.any(Object),
-      );
-    });
-
-    test("should handle agent invoke error", async () => {
+    test("returns Left when agent invoke fails", async () => {
       ctx = createMockContext({
         agent: {
           invoke: vi.fn().mockReturnValue(TE.left(new Error("Agent error"))),
-          agent: {} as any,
+          agent: {
+            invoke: vi.fn().mockRejectedValue(new Error("Agent error")),
+          } as any,
         } as any,
       });
 
-      const payload = {
-        message: "Test message",
-        conversation_id: null,
-      };
-
-      const result = await pipe(sendChatMessage(payload)(ctx))();
-
+      const result = await pipe(
+        sendChatMessage({ message: "test", conversation_id: null })(ctx),
+      )();
       expect(result._tag).toBe("Left");
     });
 
-    test("should store messages in conversation", async () => {
-      const payload = {
-        message: "First message",
-        conversation_id: null,
-      };
+    test("stores user + assistant message in conversation", async () => {
+      const sendResult = await pipe(
+        sendChatMessage({ message: "First message", conversation_id: null })(
+          ctx,
+        ),
+      )();
 
-      const result = await pipe(sendChatMessage(payload)(ctx))();
+      expect(sendResult._tag).toBe("Right");
+      if (sendResult._tag === "Right") {
+        const convResult = await pipe(
+          getChatConversation(sendResult.right.conversationId)(ctx),
+        )();
+        expect(convResult._tag).toBe("Right");
+        if (convResult._tag === "Right") {
+          expect(convResult.right).toHaveLength(2);
+          expect(convResult.right[0].role).toBe("user");
+          expect(convResult.right[0].content).toBe("First message");
+          expect(convResult.right[1].role).toBe("assistant");
+        }
+      }
+    });
+
+    test("includes usedProvider when aiConfig is provided", async () => {
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi.fn().mockResolvedValue({
+              messages: [{ id: "msg-456", content: "AI response" }],
+            }),
+            streamEvents: vi.fn(),
+          }),
+        ),
+      });
+
+      const result = await pipe(
+        sendChatMessage({
+          message: "Hello",
+          conversation_id: null,
+          aiConfig: { provider: "openai", model: "gpt-4o" },
+        })(ctx),
+      )();
 
       expect(result._tag).toBe("Right");
       if (result._tag === "Right") {
-        const conversationId = result.right.conversationId;
+        expect(result.right.usedProvider?.provider).toBe("openai");
+        expect(result.right.usedProvider?.model).toBe("gpt-4o");
+      }
+    });
 
-        // Verify conversation was stored
-        const conversationResult = await pipe(
-          getChatConversation(conversationId)(ctx),
-        )();
+    test("defaults model to gpt-4o when aiConfig.model is missing", async () => {
+      ctx = createMockContext({
+        agentFactory: vi.fn().mockReturnValue(
+          TE.right({
+            invoke: vi
+              .fn()
+              .mockResolvedValue({ messages: [{ id: "m", content: "ok" }] }),
+            streamEvents: vi.fn(),
+          }),
+        ),
+      });
 
-        expect(conversationResult._tag).toBe("Right");
-        if (conversationResult._tag === "Right") {
-          expect(conversationResult.right).toHaveLength(2); // user + assistant
-          expect(conversationResult.right[0].role).toBe("user");
-          expect(conversationResult.right[0].content).toBe("First message");
-          expect(conversationResult.right[1].role).toBe("assistant");
-        }
+      const result = await pipe(
+        sendChatMessage({
+          message: "test",
+          conversation_id: null,
+          aiConfig: { provider: "openai" } as any,
+        })(ctx),
+      )();
+
+      expect(result._tag).toBe("Right");
+      if (result._tag === "Right") {
+        expect(result.right.usedProvider?.model).toBe("gpt-4o");
       }
     });
   });
 
-  describe("getChatConversation", () => {
-    test("should return empty array for non-existent conversation", async () => {
-      const result = await pipe(getChatConversation("non-existent-id")(ctx))();
+  // -------------------------------------------------------------------------
+  // getChatConversation / listChatConversations / deleteChatConversation
+  // -------------------------------------------------------------------------
 
+  describe("getChatConversation", () => {
+    test("returns empty array for unknown conversation", async () => {
+      const result = await pipe(getChatConversation("nonexistent")(ctx))();
       expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right).toEqual([]);
-      }
+      if (result._tag === "Right") expect(result.right).toEqual([]);
     });
 
-    test("should return messages for existing conversation", async () => {
-      // First create a conversation
-      const createResult = await pipe(
-        sendChatMessage({
-          message: "Test message",
-          conversation_id: null,
-        })(ctx),
+    test("returns stored messages for existing conversation", async () => {
+      const send = await pipe(
+        sendChatMessage({ message: "Hi", conversation_id: null })(ctx),
       )();
-
-      expect(createResult._tag).toBe("Right");
-      if (createResult._tag === "Right") {
-        const conversationId = createResult.right.conversationId;
-
-        const result = await pipe(getChatConversation(conversationId)(ctx))();
-
-        expect(result._tag).toBe("Right");
-        if (result._tag === "Right") {
-          expect(result.right.length).toBeGreaterThan(0);
-        }
+      expect(send._tag).toBe("Right");
+      if (send._tag === "Right") {
+        const get = await pipe(
+          getChatConversation(send.right.conversationId)(ctx),
+        )();
+        expect(get._tag).toBe("Right");
+        if (get._tag === "Right") expect(get.right.length).toBeGreaterThan(0);
       }
     });
   });
 
   describe("listChatConversations", () => {
-    test("should return list of conversations", async () => {
-      // Create a conversation first
+    test("returns all conversations with metadata", async () => {
       await pipe(
-        sendChatMessage({
-          message: "Test message",
-          conversation_id: null,
-        })(ctx),
+        sendChatMessage({ message: "List test", conversation_id: null })(ctx),
       )();
 
       const result = await pipe(listChatConversations({})(ctx))();
-
       expect(result._tag).toBe("Right");
       if (result._tag === "Right") {
         expect(result.right.total).toBeGreaterThan(0);
-        expect(result.right.data.length).toBeGreaterThan(0);
         expect(result.right.data[0]).toHaveProperty("id");
         expect(result.right.data[0]).toHaveProperty("messages");
         expect(result.right.data[0]).toHaveProperty("created_at");
@@ -262,216 +531,249 @@ describe("chat.flow", () => {
   });
 
   describe("deleteChatConversation", () => {
-    test("should return false for non-existent conversation", async () => {
-      const result = await pipe(
-        deleteChatConversation("non-existent-id")(ctx),
-      )();
-
+    test("returns false for non-existent conversation", async () => {
+      const result = await pipe(deleteChatConversation("ghost")(ctx))();
       expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right).toBe(false);
-      }
+      if (result._tag === "Right") expect(result.right).toBe(false);
     });
 
-    test("should delete existing conversation", async () => {
-      // Create a conversation first
-      const createResult = await pipe(
-        sendChatMessage({
-          message: "Test message",
-          conversation_id: null,
-        })(ctx),
+    test("deletes existing conversation and clears it", async () => {
+      const send = await pipe(
+        sendChatMessage({ message: "To delete", conversation_id: null })(ctx),
       )();
+      expect(send._tag).toBe("Right");
+      if (send._tag === "Right") {
+        const convId = send.right.conversationId;
 
-      expect(createResult._tag).toBe("Right");
-      if (createResult._tag === "Right") {
-        const conversationId = createResult.right.conversationId;
+        const del = await pipe(deleteChatConversation(convId)(ctx))();
+        expect(del._tag).toBe("Right");
+        if (del._tag === "Right") expect(del.right).toBe(true);
 
-        // Delete the conversation
-        const deleteResult = await pipe(
-          deleteChatConversation(conversationId)(ctx),
-        )();
-
-        expect(deleteResult._tag).toBe("Right");
-        if (deleteResult._tag === "Right") {
-          expect(deleteResult.right).toBe(true);
-        }
-
-        // Verify it's gone
-        const getResult = await pipe(
-          getChatConversation(conversationId)(ctx),
-        )();
-
-        expect(getResult._tag).toBe("Right");
-        if (getResult._tag === "Right") {
-          expect(getResult.right).toEqual([]);
-        }
+        const get = await pipe(getChatConversation(convId)(ctx))();
+        expect(get._tag).toBe("Right");
+        if (get._tag === "Right") expect(get.right).toEqual([]);
       }
     });
   });
 
+  // -------------------------------------------------------------------------
+  // sendChatMessageStream
+  // -------------------------------------------------------------------------
+
   describe("sendChatMessageStream", () => {
-    test("should yield message_start event first", async () => {
-      const payload = {
-        message: "Stream test",
-        conversation_id: null,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
+    const collect = async (
+      ctx: AgentContext,
+      msg = "test",
+      conversationId: string | null = null,
+    ) => {
       const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-        if (events.length >= 1) break; // Just get first event
+      for await (const e of sendChatMessageStream({
+        message: msg,
+        conversation_id: conversationId,
+      })(ctx)) {
+        events.push(e);
       }
+      return events;
+    };
 
+    test("first event is message_start with role assistant", async () => {
+      const events = await collect(ctx);
       expect(events[0].type).toBe("message_start");
       expect(events[0].role).toBe("assistant");
       expect(events[0].message_id).toBeDefined();
-      expect(events[0].timestamp).toBeDefined();
     });
 
-    test("should yield content_delta events for content", async () => {
-      const payload = {
-        message: "Stream test",
-        conversation_id: null,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
-      const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-      }
-
-      const contentDeltas = events.filter((e) => e.type === "content_delta");
-      expect(contentDeltas.length).toBeGreaterThan(0);
-      expect(contentDeltas[0].content).toBeDefined();
+    test("last event is message_end with content", async () => {
+      const events = await collect(ctx);
+      const last = events[events.length - 1];
+      expect(last.type).toBe("message_end");
+      expect(last.message_id).toBeDefined();
+      expect(last.content).toBeDefined();
     });
 
-    test("should yield message_end event at the end", async () => {
-      const payload = {
-        message: "Stream test",
-        conversation_id: null,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
-      const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-      }
-
-      const lastEvent = events[events.length - 1];
-      expect(lastEvent.type).toBe("message_end");
-      expect(lastEvent.message_id).toBeDefined();
-    });
-
-    test("should use provided conversation_id", async () => {
-      const existingConversationId = "stream-conv-123";
-      const payload = {
-        message: "Stream test",
-        conversation_id: existingConversationId,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
-      const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-      }
-
-      // Verify conversation was stored with correct ID
-      const result = await pipe(
-        getChatConversation(existingConversationId)(ctx),
-      )();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.length).toBeGreaterThan(0);
-      }
-    });
-
-    test("should yield error event on stream error", async () => {
+    test("emits content_delta for on_chat_model_stream events", async () => {
       ctx = createMockContext({
         agent: {
-          invoke: vi.fn(),
           agent: {
-            // eslint-disable-next-line require-yield
-            stream: vi.fn().mockImplementation(function* () {
-              throw new Error("Stream error");
-            }),
+            invoke: vi.fn(),
+            streamEvents: vi
+              .fn()
+              .mockImplementation(() =>
+                asyncEvents([
+                  chatModelEvent("Hello "),
+                  chatModelEvent("world"),
+                ]),
+              ),
           },
         } as any,
       });
 
-      const payload = {
-        message: "Error test",
-        conversation_id: null,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
-      const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-      }
-
-      const errorEvent = events.find((e) => e.type === "error");
-      expect(errorEvent).toBeDefined();
-      expect(errorEvent?.error).toContain("Stream error");
+      const events = await collect(ctx);
+      const deltas = events.filter((e) => e.type === "content_delta");
+      expect(deltas.some((e) => e.content === "Hello ")).toBe(true);
+      expect(deltas.some((e) => e.content === "world")).toBe(true);
     });
 
-    test("should yield tool_call_start events for tool calls", async () => {
+    test("supervisor node events are not emitted as content_delta", async () => {
       ctx = createMockContext({
         agent: {
-          invoke: vi.fn(),
           agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [
-                  {
-                    tool_calls: [
-                      {
-                        id: "tool-1",
-                        name: "search_events",
-                        args: { query: "test" },
-                      },
-                    ],
-                  },
-                ],
-              ];
-              yield [
-                "messages",
-                [
-                  {
-                    content: "Based on the search results...",
-                  },
-                ],
-              ];
-            }),
+            invoke: vi.fn(),
+            streamEvents: vi
+              .fn()
+              .mockImplementation(() =>
+                asyncEvents([
+                  chatModelEvent("platform", { supervisorNode: true }),
+                  chatModelEvent("Real answer"),
+                ]),
+              ),
           },
         } as any,
       });
 
-      const payload = {
-        message: "Search for events",
-        conversation_id: null,
-      };
-
-      const generator = sendChatMessageStream(payload)(ctx);
-      const events: any[] = [];
-
-      for await (const event of generator) {
-        events.push(event);
-      }
-
-      const toolCallStart = events.find((e) => e.type === "tool_call_start");
-      expect(toolCallStart).toBeDefined();
-      expect(toolCallStart?.tool_call.name).toBe("search_events");
+      const events = await collect(ctx);
+      const deltas = events.filter((e) => e.type === "content_delta");
+      expect(deltas.every((e) => e.content !== "platform")).toBe(true);
+      expect(deltas.some((e) => e.content === "Real answer")).toBe(true);
     });
 
-    test("should yield error event when agent creation fails", async () => {
+    test("on_tool_start emits tool_call_start with arguments", async () => {
+      ctx = createMockContext({
+        agent: {
+          agent: {
+            invoke: vi.fn(),
+            streamEvents: vi.fn().mockImplementation(() =>
+              asyncEvents([
+                toolStartEvent("liexp_cli", {
+                  command: "actor list --_start 0",
+                }),
+                chatModelEvent("Here are the actors."),
+              ]),
+            ),
+          },
+        } as any,
+      });
+
+      const events = await collect(ctx);
+      const toolStart = events.find((e) => e.type === "tool_call_start");
+      expect(toolStart).toBeDefined();
+      expect(toolStart.tool_call.name).toBe("liexp_cli");
+      expect(toolStart.tool_call.arguments).toContain("actor list");
+    });
+
+    test("on_tool_end emits tool_call_end with result", async () => {
+      ctx = createMockContext({
+        agent: {
+          agent: {
+            invoke: vi.fn(),
+            streamEvents: vi
+              .fn()
+              .mockImplementation(() =>
+                asyncEvents([
+                  toolStartEvent("liexp_cli", { command: "actor get 123" }),
+                  toolEndEvent(
+                    "liexp_cli",
+                    JSON.stringify({ id: "123", fullName: "Test" }),
+                  ),
+                  chatModelEvent("Found the actor."),
+                ]),
+              ),
+          },
+        } as any,
+      });
+
+      const events = await collect(ctx);
+      const toolEnd = events.find((e) => e.type === "tool_call_end");
+      expect(toolEnd).toBeDefined();
+      expect(toolEnd.tool_call.name).toBe("liexp_cli");
+      expect(toolEnd.tool_call.result).toContain("Test");
+    });
+
+    test("think tags produce thinking content_delta events", async () => {
+      ctx = createMockContext({
+        agent: {
+          agent: {
+            invoke: vi.fn(),
+            streamEvents: vi
+              .fn()
+              .mockImplementation(() =>
+                asyncEvents([
+                  chatModelEvent(
+                    "<think>internal reasoning</think>actual answer",
+                  ),
+                ]),
+              ),
+          },
+        } as any,
+      });
+
+      const events = await collect(ctx);
+      const thinking = events.filter(
+        (e) => e.type === "content_delta" && e.thinking,
+      );
+      const regular = events.filter(
+        (e) => e.type === "content_delta" && !e.thinking,
+      );
+      expect(thinking.some((e) => e.content === "internal reasoning")).toBe(
+        true,
+      );
+      expect(regular.some((e) => e.content === "actual answer")).toBe(true);
+    });
+
+    test("think tags spanning chunks are parsed correctly", async () => {
+      ctx = createMockContext({
+        agent: {
+          agent: {
+            invoke: vi.fn(),
+            streamEvents: vi
+              .fn()
+              .mockImplementation(() =>
+                asyncEvents([
+                  chatModelEvent("<think>first chunk"),
+                  chatModelEvent(" second chunk</think>conclusion"),
+                ]),
+              ),
+          },
+        } as any,
+      });
+
+      const events = await collect(ctx);
+      const thinking = events.filter(
+        (e) => e.type === "content_delta" && e.thinking,
+      );
+      const regular = events.filter(
+        (e) => e.type === "content_delta" && !e.thinking,
+      );
+      const thinkText = thinking.map((e: any) => e.content).join("");
+      expect(thinkText).toContain("first chunk");
+      expect(thinkText).toContain("second chunk");
+      expect(regular.some((e: any) => e.content === "conclusion")).toBe(true);
+    });
+
+    test("token usage from usage_metadata is reflected in message_end", async () => {
+      ctx = createMockContext({
+        agent: {
+          agent: {
+            invoke: vi.fn(),
+            streamEvents: vi.fn().mockImplementation(() =>
+              asyncEvents([
+                chatModelEvent("response", {
+                  usageMeta: { input_tokens: 20, output_tokens: 10 },
+                }),
+              ]),
+            ),
+          },
+        } as any,
+      });
+
+      const events = await collect(ctx);
+      const end = events.find((e) => e.type === "message_end");
+      expect(end?.usage?.prompt_tokens).toBe(20);
+      expect(end?.usage?.completion_tokens).toBe(10);
+      expect(end?.usage?.total_tokens).toBe(30);
+    });
+
+    test("yields error event when agent factory fails", async () => {
       ctx = createMockContext({
         agentFactory: vi
           .fn()
@@ -479,12 +781,12 @@ describe("chat.flow", () => {
       });
 
       const events: any[] = [];
-      for await (const event of sendChatMessageStream({
+      for await (const e of sendChatMessageStream({
         message: "test",
         conversation_id: null,
         agent_type: "platform" as any,
       })(ctx)) {
-        events.push(event);
+        events.push(e);
       }
 
       expect(events[0].type).toBe("error");
@@ -493,706 +795,50 @@ describe("chat.flow", () => {
       );
     });
 
-    test("should yield tool_call_end event for tool messages with tool_call_id", async () => {
+    test("yields error event when streamEvents throws", async () => {
       ctx = createMockContext({
         agent: {
-          invoke: vi.fn(),
           agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [
-                  {
-                    tool_call_id: "tid-123",
-                    name: "search_events",
-                    content: "results here",
-                  },
-                ],
-              ];
-              yield ["messages", [{ content: "Based on results..." }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolEnd = events.find((e) => e.type === "tool_call_end");
-      expect(toolEnd).toBeDefined();
-      expect(toolEnd.tool_call.name).toBe("search_events");
-      expect(toolEnd.tool_call.id).toBe("tid-123");
-      expect(toolEnd.tool_call.result).toBe("results here");
-    });
-
-    test("should not yield tool_call_end when tool message has no name", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [{ tool_call_id: "tid-no-name", content: "result" }],
-              ];
-              yield ["messages", [{ content: "response" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolEndEvents = events.filter((e) => e.type === "tool_call_end");
-      expect(toolEndEvents).toHaveLength(0);
-    });
-
-    test("should skip supervisor node messages", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [{ content: "platform" }, { langgraph_node: "supervisor" }],
-              ];
-              yield ["messages", [{ content: "Regular response" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const contentDeltas = events.filter((e) => e.type === "content_delta");
-      expect(contentDeltas.every((e) => e.content !== "platform")).toBe(true);
-      expect(contentDeltas.some((e) => e.content === "Regular response")).toBe(
-        true,
-      );
-    });
-
-    test("should handle think tags in content deltas", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [
-                  {
-                    content: "<think>internal reasoning</think>actual answer",
-                  },
-                ],
-              ];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const thinkingDeltas = events.filter(
-        (e) => e.type === "content_delta" && e.thinking === true,
-      );
-      const regularDeltas = events.filter(
-        (e) => e.type === "content_delta" && !e.thinking,
-      );
-
-      expect(
-        thinkingDeltas.some((e) => e.content === "internal reasoning"),
-      ).toBe(true);
-      expect(regularDeltas.some((e) => e.content === "actual answer")).toBe(
-        true,
-      );
-    });
-
-    test("should buffer content inside think block without closing tag in chunk", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [{ content: "<think>first chunk of thinking" }],
-              ];
-              yield [
-                "messages",
-                [{ content: " continued thinking</think>answer" }],
-              ];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const thinkDeltas = events.filter(
-        (e) => e.type === "content_delta" && e.thinking,
-      );
-      const regularDeltas = events.filter(
-        (e) => e.type === "content_delta" && !e.thinking,
-      );
-
-      const allThinkContent = thinkDeltas.map((e) => e.content).join("");
-      expect(allThinkContent).toContain("first chunk of thinking");
-      expect(regularDeltas.some((e) => e.content === "answer")).toBe(true);
-    });
-
-    test("should buffer partial think tag at chunk boundary", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield ["messages", [{ content: "prefix<thi" }]];
-              yield ["messages", [{ content: "nk>thinking</think>suffix" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const thinkDeltas = events.filter(
-        (e) => e.type === "content_delta" && e.thinking,
-      );
-      const regularDeltas = events.filter(
-        (e) => e.type === "content_delta" && !e.thinking,
-      );
-
-      expect(thinkDeltas.some((e) => e.content === "thinking")).toBe(true);
-      expect(regularDeltas.some((e) => e.content === "prefix")).toBe(true);
-      expect(regularDeltas.some((e) => e.content === "suffix")).toBe(true);
-    });
-
-    test("should yield tool_call_end for tool results in updates mode", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "updates",
-                {
-                  tools: {
-                    messages: [
-                      { name: "search_events", content: "results from search" },
-                    ],
-                  },
-                },
-              ];
-              yield ["messages", [{ content: "Based on results..." }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolEnd = events.find(
-        (e) =>
-          e.type === "tool_call_end" && e.tool_call.name === "search_events",
-      );
-      expect(toolEnd).toBeDefined();
-      expect(toolEnd.tool_call.result).toBe("results from search");
-    });
-
-    test("should stringify non-string tool content in updates mode", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "updates",
-                {
-                  tools: {
-                    messages: [
-                      {
-                        name: "search",
-                        content: [{ type: "result", data: "found" }],
-                      },
-                    ],
-                  },
-                },
-              ];
-              yield ["messages", [{ content: "done" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolEnd = events.find(
-        (e) => e.type === "tool_call_end" && e.tool_call.name === "search",
-      );
-      expect(toolEnd).toBeDefined();
-      expect(typeof toolEnd.tool_call.result).toBe("string");
-    });
-
-    test("should yield thinking content_delta for debug checkpoint with thinking", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "debug",
-                {
-                  type: "checkpoint",
-                  values: {
-                    messages: [
-                      {
-                        additional_kwargs: { thinking: "deep reasoning here" },
-                      },
-                    ],
-                  },
-                },
-              ];
-              yield ["messages", [{ content: "conclusion" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const thinkingDeltas = events.filter(
-        (e) => e.type === "content_delta" && e.thinking === true,
-      );
-      expect(
-        thinkingDeltas.some((e) => e.content === "deep reasoning here"),
-      ).toBe(true);
-    });
-
-    test("should not emit thinking when debug checkpoint has no thinking kwargs", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "debug",
-                {
-                  type: "checkpoint",
-                  values: {
-                    messages: [{ additional_kwargs: {} }],
-                  },
-                },
-              ];
-              yield ["messages", [{ content: "normal response" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const thinkingDeltas = events.filter(
-        (e) => e.type === "content_delta" && e.thinking,
-      );
-      expect(thinkingDeltas).toHaveLength(0);
-    });
-
-    test("should include usedProvider in message_start and message_end when aiConfig is provided", async () => {
-      const aiConfig = {
-        provider: "anthropic" as const,
-        model: "claude-sonnet-4-20250514" as const,
-      };
-      ctx = createMockContext({
-        agentFactory: vi.fn().mockReturnValue(
-          TE.right({
             invoke: vi.fn(),
-            stream: vi.fn().mockImplementation(function* () {
-              yield ["messages", [{ content: "response" }]];
-            }),
-          }),
-        ),
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-        aiConfig,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const startEvent = events.find((e) => e.type === "message_start");
-      const endEvent = events.find((e) => e.type === "message_end");
-
-      expect(startEvent?.usedProvider?.provider).toBe("anthropic");
-      expect(startEvent?.usedProvider?.model).toBe("claude-sonnet-4-20250514");
-      expect(endEvent?.usedProvider?.provider).toBe("anthropic");
-    });
-
-    test("should default model to gpt-4o in stream when aiConfig.model is undefined", async () => {
-      const aiConfig = { provider: "openai" as const };
-      ctx = createMockContext({
-        agentFactory: vi.fn().mockReturnValue(
-          TE.right({
-            invoke: vi.fn(),
-            stream: vi.fn().mockImplementation(function* () {
-              yield ["messages", [{ content: "response" }]];
-            }),
-          }),
-        ),
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-        aiConfig,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const startEvent = events.find((e) => e.type === "message_start");
-      expect(startEvent?.usedProvider?.model).toBe("gpt-4o");
-    });
-
-    test("should not yield duplicate tool_call_start for same tool call id", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [
-                  {
-                    tool_calls: [{ id: "dup-1", name: "tool_a", args: {} }],
-                  },
-                ],
-              ];
-              yield [
-                "messages",
-                [
-                  {
-                    tool_calls: [{ id: "dup-1", name: "tool_a", args: {} }],
-                  },
-                ],
-              ];
-              yield ["messages", [{ content: "done" }]];
+            streamEvents: vi.fn().mockImplementation(function* () {
+              yield;
+              throw new Error("Stream error");
             }),
           },
         } as any,
       });
 
+      const events = await collect(ctx);
+      const errorEvent = events.find((e) => e.type === "error");
+      expect(errorEvent).toBeDefined();
+      expect(errorEvent.error).toContain("Stream error");
+    });
+
+    test("uses provided conversation_id and stores messages", async () => {
+      const events = await collect(ctx, "stream msg", "conv-stream-123");
+
+      expect(events[0].type).toBe("message_start");
+
+      const get = await pipe(getChatConversation("conv-stream-123")(ctx))();
+      expect(get._tag).toBe("Right");
+      if (get._tag === "Right") expect(get.right.length).toBeGreaterThan(0);
+    });
+
+    test("message_start and message_end include usedProvider when aiConfig is given", async () => {
       const events: any[] = [];
-      for await (const event of sendChatMessageStream({
+      for await (const e of sendChatMessageStream({
         message: "test",
         conversation_id: null,
+        aiConfig: { provider: "anthropic", model: "claude-sonnet-4-20250514" },
       })(ctx)) {
-        events.push(event);
+        events.push(e);
       }
 
-      const toolCallStarts = events.filter(
-        (e) => e.type === "tool_call_start" && e.tool_call.id === "dup-1",
-      );
-      expect(toolCallStarts).toHaveLength(1);
-    });
-
-    test("should handle tool call args as string", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [
-                  {
-                    tool_calls: [
-                      {
-                        id: "str-args-1",
-                        name: "tool_b",
-                        args: '{"key":"val"}',
-                      },
-                    ],
-                  },
-                ],
-              ];
-              yield ["messages", [{ content: "done" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolCallStart = events.find((e) => e.type === "tool_call_start");
-      expect(toolCallStart?.tool_call.arguments).toBe('{"key":"val"}');
-    });
-
-    test("should generate uuid for tool call when id is missing", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [{ tool_calls: [{ name: "tool_c", args: {} }] }],
-              ];
-              yield ["messages", [{ content: "done" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const toolCallStart = events.find((e) => e.type === "tool_call_start");
-      expect(toolCallStart?.tool_call.id).toBeDefined();
-      expect(toolCallStart?.tool_call.id).toHaveLength(36);
-    });
-
-    test("should skip content accumulation for non-string message content", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            stream: vi.fn().mockImplementation(function* () {
-              yield [
-                "messages",
-                [{ content: [{ type: "text", text: "obj content" }] }],
-              ];
-              yield ["messages", [{ content: "string content" }]];
-            }),
-          },
-        } as any,
-      });
-
-      const events: any[] = [];
-      for await (const event of sendChatMessageStream({
-        message: "test",
-        conversation_id: null,
-      })(ctx)) {
-        events.push(event);
-      }
-
-      const contentDeltas = events.filter((e) => e.type === "content_delta");
-      expect(contentDeltas.some((e) => e.content === "string content")).toBe(
-        true,
-      );
-      expect(contentDeltas.every((e) => typeof e.content === "string")).toBe(
-        true,
-      );
-    });
-  });
-
-  describe("sendChatMessage with aiConfig", () => {
-    test("should include usedProvider when aiConfig is provided", async () => {
-      const aiConfig = {
-        provider: "openai" as const,
-        model: "gpt-4o" as const,
-      };
-      ctx = createMockContext({
-        agentFactory: vi.fn().mockReturnValue(
-          TE.right({
-            invoke: vi.fn().mockResolvedValue({
-              messages: [{ id: "msg-456", content: "AI response" }],
-            }),
-            stream: vi.fn(),
-          }),
-        ),
-      });
-
-      const result = await pipe(
-        sendChatMessage({
-          message: "Hello with aiConfig",
-          conversation_id: null,
-          aiConfig,
-        })(ctx),
-      )();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.usedProvider).toBeDefined();
-        expect(result.right.usedProvider?.provider).toBe("openai");
-        expect(result.right.usedProvider?.model).toBe("gpt-4o");
-      }
-    });
-
-    test("should use model default 'gpt-4o' when aiConfig.model is undefined", async () => {
-      const aiConfig = { provider: "openai" as const };
-      ctx = createMockContext({
-        agentFactory: vi.fn().mockReturnValue(
-          TE.right({
-            invoke: vi.fn().mockResolvedValue({
-              messages: [{ id: "msg-789", content: "response" }],
-            }),
-            stream: vi.fn(),
-          }),
-        ),
-      });
-
-      const result = await pipe(
-        sendChatMessage({
-          message: "test",
-          conversation_id: null,
-          aiConfig,
-        })(ctx),
-      )();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.usedProvider?.model).toBe("gpt-4o");
-      }
-    });
-
-    test("should handle non-string lastMessage content", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            invoke: vi.fn().mockResolvedValue({
-              messages: [
-                {
-                  id: "msg-obj",
-                  content: [{ type: "text", text: "object content" }],
-                },
-              ],
-            }),
-            stream: vi.fn(),
-          },
-        } as any,
-      });
-
-      const result = await pipe(
-        sendChatMessage({ message: "test", conversation_id: null })(ctx),
-      )();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.message.content).toContain("object content");
-      }
-    });
-
-    test("should use uuid for lastMessage.id when not present", async () => {
-      ctx = createMockContext({
-        agent: {
-          invoke: vi.fn(),
-          agent: {
-            invoke: vi.fn().mockResolvedValue({
-              messages: [{ content: "response without id" }],
-            }),
-            stream: vi.fn(),
-          },
-        } as any,
-      });
-
-      const result = await pipe(
-        sendChatMessage({ message: "test", conversation_id: null })(ctx),
-      )();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect(result.right.message.id).toBeDefined();
-        expect(result.right.message.id).toHaveLength(36);
-      }
-    });
-
-    test("should enhance message with resource context using defaults when action and recordId are missing", async () => {
-      const payload = {
-        message: "Help me",
-        conversation_id: null,
-        resource_context: {
-          resource: "events",
-        } as any,
-      };
-
-      const result = await pipe(sendChatMessage(payload)(ctx))();
-
-      expect(result._tag).toBe("Right");
-      if (result._tag === "Right") {
-        expect((ctx.agent.agent as any).invoke).toHaveBeenCalledWith(
-          expect.objectContaining({
-            messages: expect.arrayContaining([
-              expect.stringContaining("viewing events"),
-            ]),
-          }),
-          expect.any(Object),
-        );
-      }
+      const start = events.find((e) => e.type === "message_start");
+      const end = events.find((e) => e.type === "message_end");
+      expect(start?.usedProvider?.provider).toBe("anthropic");
+      expect(start?.usedProvider?.model).toBe("claude-sonnet-4-20250514");
+      expect(end?.usedProvider?.provider).toBe("anthropic");
     });
   });
 });

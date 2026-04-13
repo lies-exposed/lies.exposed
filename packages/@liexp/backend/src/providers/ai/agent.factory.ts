@@ -222,19 +222,44 @@ const createMultiAgentGraph = (
     },
   );
 
-  // Subagents: use LangGraph's createReactAgent (returns CompiledStateGraph,
-  // compatible with StateGraph.addNode). No checkpointer — outer graph manages state.
-  const platformAgent = createLangGraphReactAgent({
+  // Subagents: create working React agents (same as single-agent setup)
+  // Remove individual checkpointers - outer graph manages state
+  const platformAgentImpl = createLangGraphReactAgent({
     llm: chat,
     tools: [...platformTools, transferToResearcher],
     prompt: platformPrompt,
   });
 
-  const researcherAgent = createLangGraphReactAgent({
+  const researcherAgentImpl = createLangGraphReactAgent({
     llm: chat,
     tools: [...researcherTools, transferToPlatform],
     prompt: researcherPrompt,
   });
+
+  // Wrapper nodes that delegate to the working React agents
+  const platformAgent = async (
+    state: typeof MessagesAnnotation.State,
+    config?: { configurable?: { thread_id?: string } },
+  ): Promise<typeof MessagesAnnotation.State> => {
+    const threadId = config?.configurable?.thread_id ?? "default";
+    const result = await platformAgentImpl.invoke(
+      { messages: state.messages },
+      { configurable: { thread_id: `${threadId}-platform` } },
+    );
+    return { messages: result.messages };
+  };
+
+  const researcherAgent = async (
+    state: typeof MessagesAnnotation.State,
+    config?: { configurable?: { thread_id?: string } },
+  ): Promise<typeof MessagesAnnotation.State> => {
+    const threadId = config?.configurable?.thread_id ?? "default";
+    const result = await researcherAgentImpl.invoke(
+      { messages: state.messages },
+      { configurable: { thread_id: `${threadId}-researcher` } },
+    );
+    return { messages: result.messages };
+  };
 
   // Supervisor: one LLM call to classify and route the initial message
   const supervisorNode = async (
@@ -246,29 +271,34 @@ const createMultiAgentGraph = (
         ? lastMessage.content
         : JSON.stringify(lastMessage?.content ?? "");
 
-    const response = await (chat as BaseChatModel).invoke([
-      {
-        role: "system",
-        content: [
-          "You are a router for a fact-checking platform assistant.",
-          "Choose which specialized agent handles this request:",
-          '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories)',
-          '- "researcher": find information online, web research, fact-checking, search for people/organizations/events',
-          'Reply with ONLY the agent name: "platform" or "researcher".',
-        ].join("\n"),
-      },
-      { role: "user", content },
-    ]);
+    try {
+      const response = await (chat as BaseChatModel).invoke([
+        {
+          role: "system",
+          content: [
+            "You are a router for a fact-checking platform assistant.",
+            "Choose which specialized agent handles this request:",
+            '- "platform": create, edit, list, or manage platform resources (actors, events, groups, links, keywords, stories)',
+            '- "researcher": find information online, web research, fact-checking, search for people/organizations/events',
+            'Reply with ONLY the agent name: "platform" or "researcher".',
+          ].join("\n"),
+        },
+        { role: "user", content },
+      ]);
 
-    const text = (
-      typeof response.content === "string" ? response.content : "platform"
-    )
-      .trim()
-      .toLowerCase();
+      const text = (
+        typeof response.content === "string" ? response.content : "platform"
+      )
+        .trim()
+        .toLowerCase();
 
-    const next = text.includes("researcher") ? "researcher" : "platform";
-    logger.info.log("Supervisor routing to: %s", next);
-    return new Command({ goto: next });
+      const next = text.includes("researcher") ? "researcher" : "platform";
+      logger.info.log("Supervisor routing to: %s (from: %s)", next, text);
+      return new Command({ goto: next });
+    } catch (error) {
+      logger.error.log("Supervisor error, defaulting to platform: %O", error);
+      return new Command({ goto: "platform" });
+    }
   };
 
   const graph = new StateGraph(MessagesAnnotation)
