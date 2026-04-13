@@ -240,7 +240,7 @@ services:
 
   localai.liexp.dev:
     # CPU-only (no GPU acceleration):
-    image: localai/localai:master-aio-cpu
+    image: localai/localai:latest
     # Intel GPU (SYCL-enabled llama-cpp + diffusers):
     # image: localai/localai:master-gpu-intel
     healthcheck:
