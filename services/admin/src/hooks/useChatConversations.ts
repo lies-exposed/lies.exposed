@@ -1,23 +1,6 @@
+import type { ChatConversation, ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import { getAuthFromLocalStorage } from "@liexp/ui/lib/client/api.js";
 import { useState, useEffect, useCallback } from "react";
-
-interface ChatConversation {
-  id: string;
-  messages: {
-    id: string;
-    role: "user" | "assistant" | "system" | "tool";
-    content: string;
-    timestamp: string;
-    tool_call_id?: string;
-    tool_calls?: {
-      id: string;
-      name: string;
-      arguments: string;
-    }[];
-  }[];
-  created_at: string;
-  updated_at: string;
-}
 
 interface ListConversationsResponse {
   total: number;
@@ -116,4 +99,58 @@ export const useChatConversations = () => {
     refetch: fetchConversations,
     deleteConversation,
   };
+};
+
+export const useChatConversation = (conversationId: string | null) => {
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!conversationId) {
+      setMessages([]);
+      return;
+    }
+
+    const fetchConversation = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const authToken = getAuthFromLocalStorage();
+        const headers: HeadersInit = {
+          "Content-Type": "application/json",
+        };
+        if (authToken) {
+          headers.Authorization = authToken;
+        }
+
+        const baseUrl = getBaseUrl();
+        const response = await fetch(
+          `${baseUrl}/chat/conversations/${conversationId}`,
+          {
+            method: "GET",
+            headers,
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch conversation: ${response.statusText}`,
+          );
+        }
+
+        const data: { data: ChatConversation } = await response.json();
+        setMessages(data.data.messages as ChatMessage[]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void fetchConversation();
+  }, [conversationId]);
+
+  return { messages, loading, error };
 };

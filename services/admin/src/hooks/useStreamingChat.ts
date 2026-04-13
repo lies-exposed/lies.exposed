@@ -1,3 +1,4 @@
+import type { ChatMessage } from "@liexp/io/lib/http/Chat.js";
 import { useConfiguration } from "@liexp/ui/lib/context/ConfigurationContext.js";
 import { useState, useCallback } from "react";
 import { INITIAL_STATE, type StreamingChatState } from "./chat/types.js";
@@ -47,11 +48,24 @@ export const useStreamingChat = (options: UseStreamingChatOptions = {}) => {
     setState(INITIAL_STATE);
   }, []);
 
+  /** Restore a past conversation: replace messages and set the conversation ID. */
+  const loadConversation = useCallback(
+    (conversationId: string, messages: ChatMessage[]) => {
+      setState({
+        ...INITIAL_STATE,
+        conversationId,
+        messages,
+      });
+    },
+    [],
+  );
+
   return {
     ...state,
     sendMessage,
     cancelStream,
     clearMessages,
+    loadConversation,
     compact,
     autoCompact,
     toggleAutoCompact,

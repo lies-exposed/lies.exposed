@@ -5,9 +5,12 @@ import {
   useRecordContext,
   useResourceContext,
 } from "@liexp/ui/lib/components/admin/react-admin.js";
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { useLocation } from "react-router";
-import { useChatConversations } from "../../hooks/useChatConversations.js";
+import {
+  useChatConversations,
+  useChatConversation,
+} from "../../hooks/useChatConversations.js";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
@@ -84,6 +87,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     usedProvider,
     context: contextInfo,
     sendMessage,
+    loadConversation,
     compact,
     autoCompact,
     toggleAutoCompact,
@@ -92,8 +96,41 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     onAutoCompactChange: (value) => saveSettings({ autoCompact: value }),
   });
 
+  // Track which past conversation is being loaded
+  const [pendingConversationId, setPendingConversationId] = useState<
+    string | null
+  >(null);
+
   // Get conversations for history
   const { conversations: chatConversations } = useChatConversations();
+
+  // Fetch the selected conversation's messages
+  const {
+    messages: conversationMessages,
+    loading: conversationLoading,
+  } = useChatConversation(pendingConversationId);
+
+  // Once messages arrive, restore the conversation in the streaming state
+  useEffect(() => {
+    if (
+      pendingConversationId &&
+      !conversationLoading &&
+      conversationMessages.length > 0
+    ) {
+      // Filter out system messages — they're internal LangChain prompts
+      const visibleMessages = conversationMessages.filter(
+        (m) => m.role !== "system",
+      );
+      loadConversation(pendingConversationId, visibleMessages);
+      setPendingConversationId(null);
+      setIsOpen(true);
+    }
+  }, [
+    pendingConversationId,
+    conversationLoading,
+    conversationMessages,
+    loadConversation,
+  ]);
 
   // Map conversations to ChatUI format
   const mappedConversations = useMemo(
@@ -109,9 +146,8 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     [chatConversations],
   );
 
-  const handleSelectConversation = (conversationId: string) => {
-    console.log("Selected conversation:", conversationId);
-    // TODO: Load conversation messages and set as current conversation
+  const handleSelectConversation = (id: string) => {
+    setPendingConversationId(id);
   };
 
   // Use react-admin hooks to get resource context
