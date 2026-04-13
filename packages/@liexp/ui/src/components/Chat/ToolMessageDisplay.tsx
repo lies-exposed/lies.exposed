@@ -56,7 +56,7 @@ const formatParamValue = (value: unknown): string => {
     return `[${value.length} items]`;
   }
   if (typeof value === "object") return "{…}";
-  const str = String(value);
+  const str = String(value as string);
   return str.length > 80 ? `${str.substring(0, 80)}…` : str;
 };
 

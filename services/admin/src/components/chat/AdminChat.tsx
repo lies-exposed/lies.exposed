@@ -105,10 +105,8 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
   const { conversations: chatConversations } = useChatConversations();
 
   // Fetch the selected conversation's messages
-  const {
-    messages: conversationMessages,
-    loading: conversationLoading,
-  } = useChatConversation(pendingConversationId);
+  const { messages: conversationMessages, loading: conversationLoading } =
+    useChatConversation(pendingConversationId);
 
   // Once messages arrive, restore the conversation in the streaming state
   useEffect(() => {
