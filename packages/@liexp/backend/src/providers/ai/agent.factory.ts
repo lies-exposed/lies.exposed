@@ -36,6 +36,7 @@ import {
   type AIProvider,
   type AvailableModels,
 } from "./langchain.provider.js";
+import { createReadDocumentationTool } from "./tools/readDocumentation.tool.js";
 import { createSearchWebTool } from "./tools/searchWeb.tools.js";
 import { createWebScrapingTool } from "./tools/webScraping.tools.js";
 
@@ -335,7 +336,7 @@ export const GetAgentFactory =
             // Researcher: web tools only — no MCP, no CLI
             tools = [searchWeb, webScraping];
           } else {
-            // Platform (default): CLI + MCP + web tools
+            // Platform (default): CLI + MCP + web tools + documentation reader
             let mcpTools: StructuredToolInterface[] = [];
             if (opts.mcpClient) {
               mcpTools = await opts.mcpClient.getTools();
@@ -343,7 +344,14 @@ export const GetAgentFactory =
             } else {
               ctx.logger.warn.log("MCP client not available");
             }
-            tools = [opts.cliTool, ...mcpTools, webScraping, searchWeb];
+            const readDoc = createReadDocumentationTool(ctx, process.cwd());
+            tools = [
+              opts.cliTool,
+              readDoc,
+              ...mcpTools,
+              webScraping,
+              searchWeb,
+            ];
           }
 
           ctx.logger.debug.log(
