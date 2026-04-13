@@ -7,6 +7,7 @@ import {
 } from "@liexp/ui/lib/components/admin/react-admin.js";
 import React, { useState, useMemo, useRef } from "react";
 import { useLocation } from "react-router";
+import { useChatConversations } from "../../hooks/useChatConversations.js";
 import { useStreamingChat } from "../../hooks/useStreamingChat.js";
 
 interface ChatProps {
@@ -29,12 +30,17 @@ const loadSettings = (): ChatSettings => {
         provider: null,
         model: null,
         autoCompact: false,
+        enableThinking: true,
         ...JSON.parse(raw),
       };
   } catch {
     // ignore parse errors
   }
-  return { provider: null, model: null, autoCompact: false };
+  return {
+    provider: null,
+    model: null,
+    autoCompact: false,
+  };
 };
 
 const saveSettings = (patch: Partial<ChatSettings>) => {
@@ -77,6 +83,7 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     activeToolCalls,
     tokenUsage,
     usedProvider,
+    context: contextInfo,
     sendMessage,
     compact,
     autoCompact,
@@ -85,6 +92,28 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
     initialAutoCompact: initialSettings.autoCompact,
     onAutoCompactChange: (value) => saveSettings({ autoCompact: value }),
   });
+
+  // Get conversations for history
+  const { conversations: chatConversations } = useChatConversations();
+
+  // Map conversations to ChatUI format
+  const mappedConversations = useMemo(
+    () =>
+      chatConversations.map((conv) => ({
+        id: conv.id,
+        title:
+          conv.messages
+            .find((m) => m.role === "user")
+            ?.content.substring(0, 30) + "..." || "Untitled",
+        updatedAt: conv.updated_at,
+      })),
+    [chatConversations],
+  );
+
+  const handleSelectConversation = (conversationId: string) => {
+    console.log("Selected conversation:", conversationId);
+    // TODO: Load conversation messages and set as current conversation
+  };
 
   // Use react-admin hooks to get resource context
   const hookResource = useResourceContext();
@@ -250,6 +279,9 @@ export const AdminChat: React.FC<ChatProps> = ({ className }) => {
       autoCompact={autoCompact}
       onToggleAutoCompact={toggleAutoCompact}
       tokenUsage={tokenUsage}
+      context={contextInfo ?? undefined}
+      conversations={mappedConversations}
+      onSelectConversation={handleSelectConversation}
       providerSelector={{
         selectedProvider,
         onProviderChange: (provider: string) => {

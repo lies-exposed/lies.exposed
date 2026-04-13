@@ -27,6 +27,11 @@ export interface StreamingChatState {
   } | null;
   aiConfig: AIConfig | null;
   usedProvider: { provider: string; model: string } | null;
+  /** Context window info */
+  context: {
+    total: number;
+    used: number;
+  } | null;
 }
 
 export const INITIAL_STATE: StreamingChatState = {
@@ -41,4 +46,5 @@ export const INITIAL_STATE: StreamingChatState = {
   tokenUsage: null,
   aiConfig: null,
   usedProvider: null,
+  context: null,
 };

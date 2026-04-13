@@ -33,25 +33,6 @@ const TokenProgressFill = styled(Box)(({ theme }) => ({
   transition: "width 0.3s ease",
 }));
 
-// Styled thinking content container
-const ThinkingContent = styled(Box)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? theme.palette.grey[800]
-      : theme.palette.grey[100],
-  border: `1px dashed ${theme.palette.mode === "dark" ? theme.palette.grey[700] : theme.palette.grey[300]}`,
-  borderRadius: theme.spacing(1),
-  padding: theme.spacing(1),
-  marginBottom: theme.spacing(1),
-  fontSize: "0.875rem",
-  fontStyle: "italic",
-  opacity: 0.8,
-  color:
-    theme.palette.mode === "dark"
-      ? theme.palette.grey[300]
-      : theme.palette.grey[700],
-}));
-
 interface StreamingMessageProps {
   streamingMessage: {
     content: string;
@@ -73,7 +54,6 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
   formatTime,
 }) => {
   const [isStreamingExpanded, setIsStreamingExpanded] = useState(true);
-  const [isThinkingExpanded, setIsThinkingExpanded] = useState(true);
 
   // Reset streaming expanded state when streaming message changes or completes
   useEffect(() => {
@@ -86,75 +66,6 @@ export const StreamingMessage: React.FC<StreamingMessageProps> = ({
         backgroundColor: (theme) => theme.palette.background.paper,
       }}
     >
-      {/* Thinking content section (if present) */}
-      {streamingMessage.thinkingContent && (
-        <Box sx={{ mb: 1 }}>
-          <Box
-            role="button"
-            tabIndex={0}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              mb: 0.5,
-              cursor: "pointer",
-              pl: 1,
-              pr: 1,
-            }}
-            onClick={() => setIsThinkingExpanded(!isThinkingExpanded)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                setIsThinkingExpanded(!isThinkingExpanded);
-              }
-            }}
-            aria-label={
-              isThinkingExpanded
-                ? "Collapse thinking content"
-                : "Expand thinking content"
-            }
-            aria-expanded={isThinkingExpanded}
-          >
-            <Typography
-              variant="caption"
-              sx={{
-                fontWeight: "bold",
-                color: "textSecondary",
-                fontSize: "0.7rem",
-              }}
-            >
-              💭 Thinking...
-            </Typography>
-            <Icons.ExpandMore
-              sx={{
-                fontSize: "0.9rem",
-                color: "textSecondary",
-                transform: isThinkingExpanded
-                  ? "rotate(180deg)"
-                  : "rotate(0deg)",
-                transition: "transform 0.2s",
-                ml: 0.5,
-              }}
-            />
-          </Box>
-          {isThinkingExpanded && (
-            <ThinkingContent>
-              <Typography
-                variant="caption"
-                component="div"
-                sx={{
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                  fontSize: "0.8rem",
-                }}
-              >
-                {streamingMessage.thinkingContent}
-              </Typography>
-            </ThinkingContent>
-          )}
-        </Box>
-      )}
-
       {/* Streaming content message */}
       {streamingMessage.content && (
         <Stack direction="row" justifyContent="flex-start">

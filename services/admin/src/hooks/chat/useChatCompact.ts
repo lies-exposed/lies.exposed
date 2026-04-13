@@ -32,6 +32,7 @@ const makeCompactedState =
     tokenUsage: null,
     aiConfig: prev.aiConfig,
     usedProvider: null,
+    context: null,
   });
 
 export const callCompactApi = async (

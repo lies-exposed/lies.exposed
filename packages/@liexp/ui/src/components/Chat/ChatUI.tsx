@@ -137,6 +137,11 @@ export interface ChatUIProps {
     totalTokens: number;
     isEstimated: boolean;
   } | null;
+  /** Context window info (total and used tokens) */
+  context?: {
+    total: number;
+    used: number;
+  } | null;
   /** Label to display for current context (e.g., "actors #123") */
   contextLabel?: string;
   /** Streaming message content (content_delta accumulation) */
@@ -171,6 +176,14 @@ export interface ChatUIProps {
     provider: string;
     model: string;
   } | null;
+  /** List of past conversations for history */
+  conversations?: {
+    id: string;
+    title: string;
+    updatedAt: string;
+  }[];
+  /** Callback when a conversation is selected */
+  onSelectConversation?: (conversationId: string) => void;
 }
 
 const defaultFormatTime = (timestamp: string) => {
@@ -216,6 +229,9 @@ export const ChatUI: React.FC<ChatUIProps> = ({
   autoCompact,
   onToggleAutoCompact,
   tokenUsage,
+  context,
+  conversations,
+  onSelectConversation,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -243,6 +259,8 @@ export const ChatUI: React.FC<ChatUIProps> = ({
               onToggleFullSize={onToggleFullSize}
               onCompact={onCompact}
               isCompacting={isCompacting}
+              conversations={conversations}
+              onSelectConversation={onSelectConversation}
             />
 
             <MessagesContainer>
@@ -330,7 +348,7 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                 />
               )}
 
-              {isLoading && !streamingMessage && <LoadingMessage />}
+              {isLoading && !streamingMessage?.content && <LoadingMessage />}
 
               <div ref={messagesEndRef} />
             </MessagesContainer>
@@ -380,33 +398,39 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                     usedProvider={usedProvider}
                   />
                 )}
-                {onToggleAutoCompact && (
+                {(onToggleAutoCompact ?? tokenUsage) && (
                   <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
                       mt: 0.5,
+                      flexWrap: "wrap",
+                      gap: 0.5,
                     }}
                   >
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          size="small"
-                          checked={!!autoCompact}
-                          onChange={onToggleAutoCompact}
+                    <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                      {onToggleAutoCompact && (
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              size="small"
+                              checked={!!autoCompact}
+                              onChange={onToggleAutoCompact}
+                            />
+                          }
+                          label={
+                            <Typography
+                              variant="caption"
+                              sx={{ fontSize: "0.7rem" }}
+                            >
+                              Auto-compact
+                            </Typography>
+                          }
+                          sx={{ m: 0 }}
                         />
-                      }
-                      label={
-                        <Typography
-                          variant="caption"
-                          sx={{ fontSize: "0.7rem" }}
-                        >
-                          Auto-compact on context limit
-                        </Typography>
-                      }
-                      sx={{ m: 0 }}
-                    />
+                      )}
+                    </Box>
                     {tokenUsage && (
                       <Typography
                         variant="caption"
@@ -414,6 +438,15 @@ export const ChatUI: React.FC<ChatUIProps> = ({
                       >
                         {tokenUsage.totalTokens.toLocaleString()} tokens
                         {tokenUsage.isEstimated ? " (est.)" : ""}
+                      </Typography>
+                    )}
+                    {context && context.total > 0 && (
+                      <Typography
+                        variant="caption"
+                        sx={{ fontSize: "0.65rem", opacity: 0.7, ml: 1 }}
+                      >
+                        / {context.used.toLocaleString()} /{" "}
+                        {context.total.toLocaleString()} (context)
                       </Typography>
                     )}
                   </Box>
