@@ -49,7 +49,6 @@ export type AIProvider = typeof AIProvider.Type;
 
 const LocalAIModels = Schema.Union(
   Schema.Literal("qwen3.5-4b"),
-  Schema.Literal("qwen3.5-9b"),
   Schema.Literal("gemma-4-e4b-it"),
   Schema.Literal("gemma-4-e2b-it"),
 );
