@@ -5,7 +5,7 @@ set -e -x
 dev=false
 name=lies-exposed
 namespace=prod
-kubeconfig=home-server
+kubeconfig=home-server-local
 
 cp -f ./services/api/.env.prod ./helm/config/env/api.env
 cp -f ./services/web/.env.prod ./helm/config/env/web.env
