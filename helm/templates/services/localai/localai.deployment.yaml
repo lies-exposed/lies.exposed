@@ -48,7 +48,7 @@ spec:
               mountPath: /backends
           resources:
             limits:
-              memory: 7Gi
+              memory: 10Gi
               cpu: 4000m
               gpu.intel.com/i915: 1
             requests:

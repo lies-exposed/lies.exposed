@@ -3,7 +3,7 @@
 set -e -x
 
 namespace=prod
-kubeconfig=home-server
+kubeconfig=home-server-local
 
 # default deployments
 default_deployments=(api ai-bot agent web admin worker storybook)
