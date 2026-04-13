@@ -287,6 +287,15 @@ export const ChatStreamEvent = Schema.Struct({
       model: AvailableModels,
     }),
   ),
+  // Context information (sent at stream start)
+  context: Schema.optional(
+    Schema.Struct({
+      // Total context window size in tokens (e.g., 32768, 128000)
+      total: Schema.optional(Schema.Number),
+      // Current usage within the context window
+      used: Schema.optional(Schema.Number),
+    }),
+  ),
 }).annotations({
   title: "ChatStreamEvent",
   description: "Server-sent event for chat streaming",

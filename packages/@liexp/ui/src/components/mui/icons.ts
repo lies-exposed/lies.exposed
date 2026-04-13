@@ -47,6 +47,7 @@ import {
   PinOutlined,
   MenuBook as StoryIcon,
   Compress,
+  History as HistoryIcon,
 } from "@mui/icons-material";
 
 export {
@@ -98,4 +99,5 @@ export {
   PinOutlined,
   StoryIcon,
   Compress,
+  HistoryIcon,
 };

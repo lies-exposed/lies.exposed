@@ -31,6 +31,12 @@ const applySseEvent = (
       currentMessageIdRef.current = event.message_id ?? null;
       next.streamingContent = "";
       if (event.usedProvider) next.usedProvider = event.usedProvider;
+      if (event.context) {
+        next.context = {
+          total: event.context.total ?? 0,
+          used: event.context.used ?? 0,
+        };
+      }
       break;
 
     case "content_delta":
@@ -124,6 +130,12 @@ const applySseEvent = (
             completionTokens: event.usage.completion_tokens ?? 0,
             totalTokens: event.usage.total_tokens ?? 0,
             isEstimated: false,
+          };
+        }
+        if (event.context) {
+          next.context = {
+            total: event.context.total ?? 0,
+            used: event.context.used ?? 0,
           };
         }
       }
@@ -325,6 +337,7 @@ export const useSendMessage = ({
                 tokenUsage: null,
                 aiConfig: prev.aiConfig,
                 usedProvider: null,
+                context: null,
               }));
             } catch {
               // compact failed silently — original stream error still shown
