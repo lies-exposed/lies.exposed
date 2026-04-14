@@ -896,9 +896,6 @@ importers:
       openai:
         specifier: ^6.34.0
         version: 6.34.0(ws@8.20.0)(zod@4.3.6)
-      qs:
-        specifier: ^6.15.1
-        version: 6.15.1
       react:
         specifier: ^18.3.1
         version: 18.3.1

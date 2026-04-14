@@ -8,7 +8,6 @@ import * as Sentry from "@sentry/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { APIRESTClient } from "@ts-endpoint/react-admin";
 import debug from "debug";
-import qs from "qs";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { configuration } from "./configuration/index.js";
@@ -51,8 +50,26 @@ root.render(
               url: import.meta.env.VITE_API_URL,
               getAuth: getAuthFromLocalStorage,
             });
-            client.client.defaults.paramsSerializer = (params) =>
-              qs.stringify(params, { arrayFormat: "brackets" });
+            client.client.defaults.paramsSerializer = (
+              params: Record<string, unknown>,
+            ) => {
+              const parts: string[] = [];
+              for (const [key, value] of Object.entries(params)) {
+                if (value === undefined || value === null) continue;
+                if (Array.isArray(value)) {
+                  for (const v of value) {
+                    parts.push(
+                      `${encodeURIComponent(key)}[]=${encodeURIComponent(String(v))}`,
+                    );
+                  }
+                } else {
+                  parts.push(
+                    `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`,
+                  );
+                }
+              }
+              return parts.join("&");
+            };
             return client;
           })()}
         >
