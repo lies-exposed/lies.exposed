@@ -1273,8 +1273,8 @@ importers:
         version: 5.9.3
     devDependencies:
       '@electric-sql/pglite':
-        specifier: ^0.4.3
-        version: 0.4.3
+        specifier: ^0.4.4
+        version: 0.4.4
       '@liexp/eslint-config':
         specifier: workspace:*
         version: link:../../packages/@liexp/eslint-config
@@ -1328,7 +1328,7 @@ importers:
         version: 7.2.2
       typeorm-pglite:
         specifier: ^0.3.4
-        version: 0.3.4(@electric-sql/pglite@0.4.3)
+        version: 0.3.4(@electric-sql/pglite@0.4.4)
       vitest:
         specifier: ^4.1.4
         version: 4.1.4(@opentelemetry/api@1.9.0)(@types/node@24.12.2)(@vitest/coverage-v8@4.1.4)(jsdom@27.4.0(canvas@3.0.1))(msw@2.12.14(@types/node@24.12.2)(typescript@5.9.3))(vite@8.0.8(@types/node@24.12.2)(esbuild@0.27.4)(jiti@2.6.1)(sass@1.82.0)(terser@5.37.0)(tsx@4.21.0)(yaml@2.8.3))
@@ -2204,8 +2204,8 @@ packages:
   '@databases/validate-unicode@1.0.0':
     resolution: {integrity: sha512-dLKqxGcymeVwEb/6c44KjOnzaAafFf0Wxa8xcfEjx/qOl3rdijsKYBAtIGhtVtOlpPf/PFKfgTuFurSPn/3B/g==}
 
-  '@electric-sql/pglite@0.4.3':
-    resolution: {integrity: sha512-ichuWTgtd4mOM1G4SpyGJa5trT03lWbMypDV0fUXUCXg5hiHqVAz/bZyV68NqmkLB7WcYmj1RMJVSp8HV/v/ZQ==}
+  '@electric-sql/pglite@0.4.4':
+    resolution: {integrity: sha512-g/6CWAJ4XOkObWCWAQ2IReZD8VvsDy3poRHSKvpRR2F96F8WJ3HVbjpso3gN7l0q6QPPgvxSSpl/qo5k8a7mkQ==}
 
   '@emnapi/core@1.9.2':
     resolution: {integrity: sha512-UC+ZhH3XtczQYfOlu3lNEkdW/p4dsJ1r/bP7H8+rhao3TTTMO1ATq/4DdIi23XuGoFY+Cz0JmCbdVl0hz9jZcA==}
@@ -12021,7 +12021,7 @@ snapshots:
 
   '@databases/validate-unicode@1.0.0': {}
 
-  '@electric-sql/pglite@0.4.3': {}
+  '@electric-sql/pglite@0.4.4': {}
 
   '@emnapi/core@1.9.2':
     dependencies:
@@ -21274,9 +21274,9 @@ snapshots:
 
   typelevel-ts@0.4.0: {}
 
-  typeorm-pglite@0.3.4(@electric-sql/pglite@0.4.3):
+  typeorm-pglite@0.3.4(@electric-sql/pglite@0.4.4):
     dependencies:
-      '@electric-sql/pglite': 0.4.3
+      '@electric-sql/pglite': 0.4.4
 
   typeorm@0.3.28(babel-plugin-macros@3.1.0)(ioredis@5.10.0)(pg@8.20.0):
     dependencies:
