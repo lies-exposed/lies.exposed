@@ -30,14 +30,10 @@ updates:
       # Internal workspace packages – never updated by Dependabot
       - dependency-name: "@liexp/*"
       # Pinned external deps – not ready for these majors yet
-      - dependency-name: "@types/express"
-        versions: ["5.x"]
       - dependency-name: "@types/mime"
         versions: ["2.x", "3.x", "4.x"]
       - dependency-name: "fast-check"
         versions: ["4.x"]
-      - dependency-name: "query-string"
-        versions: ["8.x", "9.x"]
       - dependency-name: react
         versions: ["19.x"]
       - dependency-name: react-dom
@@ -59,17 +55,6 @@ updates:
         patterns:
           - "@langchain/*"
           - "langchain"
-      vite:
-        patterns:
-          - "@vitejs/*"
-          - "vite*"
-      eslint:
-        patterns:
-          - "@typescript-eslint/*"
-          - "typescript-eslint*"
-          - "@eslint/*"
-          - "eslint*"
-          - "eslint"
       mui:
         patterns:
           - "*mui*"
@@ -85,9 +70,29 @@ updates:
           - "@storybook/*"
           - "storybook"
           - "eslint-plugin-storybook"
-      types:
+      dev-deps:
         patterns:
+          - "@typescript-eslint/*"
+          - "typescript-eslint*"
+          - "@eslint/*"
+          - "eslint*"
+          - "eslint"
           - "@types/*"
+          - "@vitejs/*"
+          - "vite*"
+          - "jest*"
+          - "vitest*"
+          - "typescript"
+          - "tsup"
+          - "esbuild*"
+          - "@testing-library/*"
+          - "testing-library*"
+          - "msw"
+          - "playwright"
+          - "prettier"
+          - "husky"
+          - "lint-staged"
+          - "nodemon"
       visx:
         patterns:
           - "*visx*"
