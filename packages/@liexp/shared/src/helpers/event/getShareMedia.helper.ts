@@ -1,6 +1,8 @@
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
 import * as Media from "@liexp/io/lib/http/Media/index.js";
 import {
+  type SocialPostMediaPhoto,
+  type SocialPostMediaVideo,
   type SocialPost,
   type SocialPostContentMedia,
 } from "@liexp/io/lib/http/SocialPost.js";
@@ -19,7 +21,7 @@ export const getShareMultipleMedia = (
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
           duration: Schema.is(Media.VideoExtra)(m.extra) ? m.extra.duration : 0,
-        },
+        } as SocialPostMediaVideo,
       ]);
     } else if (Schema.is(Media.PDFType)(m.type)) {
       return acc.concat([
@@ -28,7 +30,7 @@ export const getShareMultipleMedia = (
           type: "photo",
           media: m.location,
           thumbnail: m.thumbnail ?? defaultImage,
-        },
+        } as SocialPostMediaPhoto,
       ]);
     } else if (
       Schema.is(Media.MP3Type)(m.type) ||
@@ -49,7 +51,7 @@ export const getShareMultipleMedia = (
           type: "photo",
           media: m.thumbnail ?? m.location,
           thumbnail: m.thumbnail ?? defaultImage,
-        },
+        } as SocialPostMediaPhoto,
       ]);
     }
   }, []);
@@ -62,7 +64,7 @@ export const getShareMultipleMedia = (
           type: "photo",
           media: defaultImage,
           thumbnail: defaultImage,
-        },
+        } as SocialPostMediaPhoto,
       ];
 };
 

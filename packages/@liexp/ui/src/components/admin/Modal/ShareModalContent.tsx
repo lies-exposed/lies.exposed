@@ -1,5 +1,8 @@
 import { uuid } from "@liexp/io/lib/http/Common/UUID.js";
-import { type CreateSocialPost } from "@liexp/io/lib/http/SocialPost.js";
+import {
+  type SocialPostMediaPhoto,
+  type CreateSocialPost,
+} from "@liexp/io/lib/http/SocialPost.js";
 import { type Media } from "@liexp/io/lib/http/index.js";
 import { getShareMedia } from "@liexp/shared/lib/helpers/event/index.js";
 import * as React from "react";
@@ -184,7 +187,7 @@ export const ShareModalContent: React.FC<ShareModalContentProps> = ({
                         media: base64Source,
                         thumbnail: base64Source,
                         type: "photo",
-                      },
+                      } as SocialPostMediaPhoto,
                     ],
                   },
                   multipleMedia,

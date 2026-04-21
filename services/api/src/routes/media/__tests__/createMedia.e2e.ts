@@ -164,11 +164,9 @@ describe("Create Media", () => {
       creator: users[0].id,
       extra: {
         width: 0,
-        height: expect.any(Number),
-        thumbnailWidth: 0,
-        thumbnailHeight: 0,
+        height: 0,
+        duration: 0,
         thumbnails: [],
-        needRegenerateThumbnail: false,
       },
       socialPosts: [],
       transferable: true,
