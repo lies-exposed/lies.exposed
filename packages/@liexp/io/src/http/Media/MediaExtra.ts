@@ -76,12 +76,22 @@ export const VideoExtra = Schema.Struct({
 });
 export type VideoExtra = typeof VideoExtra.Type;
 
-export const MediaExtra = Schema.Union(ImageMediaExtra, VideoExtra).annotations(
+export const MediaExtra = Schema.Union(VideoExtra, ImageMediaExtra).annotations(
   {
     title: "MediaExtra",
   },
 );
 export type MediaExtra = typeof MediaExtra.Type;
+
+export const VideoExtraMonoid: Monoid<VideoExtra> = {
+  empty: {
+    duration: 0,
+    width: 0,
+    height: 0,
+    thumbnails: undefined,
+  },
+  concat: (x, y) => ({ ...x, ...y }),
+};
 
 export const MediaExtraMonoid: Monoid<MediaExtra> = {
   empty: ImageMediaExtraMonoid.empty,
