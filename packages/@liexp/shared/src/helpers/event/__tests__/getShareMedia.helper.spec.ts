@@ -34,7 +34,7 @@ describe("getShareMultipleMedia", () => {
       // VideoExtra requires both duration and thumbnails fields
       const media = [
         createMedia("video-1", "video/mp4", {
-          extra: { duration: 120, thumbnails: undefined },
+          extra: { duration: 120, thumbnails: undefined, width: 0, height: 0 },
         }),
       ];
 
@@ -51,7 +51,7 @@ describe("getShareMultipleMedia", () => {
       const media = [
         createMedia("video-1", "video/mp4", {
           thumbnail: undefined,
-          extra: { duration: 60, thumbnails: undefined },
+          extra: { duration: 60, thumbnails: undefined, width: 0, height: 0 },
         }),
       ];
 
@@ -157,7 +157,7 @@ describe("getShareMultipleMedia", () => {
     it("should process multiple media items", () => {
       const media = [
         createMedia("video-1", "video/mp4", {
-          extra: { duration: 60, thumbnails: undefined },
+          extra: { duration: 60, thumbnails: undefined, width: 0, height: 0 },
         }),
         createMedia("image-1", "image/png"),
         createMedia("pdf-1", "application/pdf"),
@@ -174,7 +174,7 @@ describe("getShareMultipleMedia", () => {
     it("should skip audio in mixed media", () => {
       const media = [
         createMedia("video-1", "video/mp4", {
-          extra: { duration: 60, thumbnails: undefined },
+          extra: { duration: 60, thumbnails: undefined, width: 0, height: 0 },
         }),
         createMedia("audio-1", "audio/mp3"),
         createMedia("image-1", "image/png"),

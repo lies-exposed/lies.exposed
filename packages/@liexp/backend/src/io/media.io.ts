@@ -1,7 +1,10 @@
 import { pipe } from "@liexp/core/lib/fp/index.js";
 import { UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import { DecodeError } from "@liexp/io/lib/http/Error/DecodeError.js";
-import { MediaExtraMonoid } from "@liexp/io/lib/http/Media/MediaExtra.js";
+import {
+  MediaExtraMonoid,
+  VideoExtraMonoid,
+} from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { type MediaType } from "@liexp/io/lib/http/Media/MediaType.js";
 import * as io from "@liexp/io/lib/index.js";
 import { ensureHTTPProtocol } from "@liexp/shared/lib/utils/url.utils.js";
@@ -17,15 +20,20 @@ export type SimpleMedia<T extends MediaType = MediaType> = Pick<
   type: T;
 };
 
+const getExtraWithDefaults = (media: MediaEntity) => {
+  if (!media.extra) return undefined;
+  const monoid =
+    media.type === "video/mp4" ? VideoExtraMonoid : MediaExtraMonoid;
+  return monoid.concat(monoid.empty as any, media.extra as any);
+};
+
 const encodeMedia = (
   media: MediaEntity,
 ): E.Either<
   DecodeError,
   Schema.Schema.Encoded<typeof io.http.Media.AdminMedia>
 > => {
-  const extra = media.extra
-    ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
-    : undefined;
+  const extra = getExtraWithDefaults(media);
 
   return pipe(
     Schema.encodeEither(io.http.Media.AdminMedia)({
@@ -56,9 +64,7 @@ const encodeMedia = (
 const decodeMedia = (
   media: MediaEntity,
 ): E.Either<DecodeError, io.http.Media.AdminMedia> => {
-  const extra = media.extra
-    ? MediaExtraMonoid.concat(MediaExtraMonoid.empty, media.extra)
-    : undefined;
+  const extra = getExtraWithDefaults(media);
 
   return pipe(
     {

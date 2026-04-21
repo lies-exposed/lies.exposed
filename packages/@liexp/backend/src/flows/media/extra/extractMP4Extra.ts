@@ -45,8 +45,8 @@ export const extractMP4Extra = <
     ),
     fp.RTE.map(({ metadata }) => ({
       ...ThumbnailsExtraMonoid.empty,
-      width: metadata.streams[0].width,
-      height: metadata.streams[0].height,
+      width: metadata.streams[0].width ?? -1,
+      height: metadata.streams[0].height ?? -1,
       // keep duration in seconds
       duration: Math.floor(metadata.format.duration ?? 0),
     })),
