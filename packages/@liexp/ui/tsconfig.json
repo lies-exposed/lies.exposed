@@ -12,10 +12,12 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
     "typeRoots": ["../shared/typings", "./typings"],
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "references": [
     { "path": "../eslint-config" },

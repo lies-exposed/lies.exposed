@@ -3,7 +3,6 @@
   "compilerOptions": {
     "outDir": "./build",
     "rootDir": "./",
-    "baseUrl": "./src",
     "moduleResolution": "bundler",
     "module": "ESNext",
     "target": "ES2022",

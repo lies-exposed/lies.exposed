@@ -17,9 +17,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "typeRoots": ["../../node_modules/@types", "./node_modules/@types", "./typings"],
-    "baseUrl": "./",
     "rootDir": "./",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "paths": {
+      "*": ["./*"]
+    }
   },
   "include": [".storybook/*", "src", "typings"],
   "exclude": ["./node_modules", "build", "public", "eslint.config.js"],

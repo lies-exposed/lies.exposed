@@ -2,9 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "allowJs": false,
-    "baseUrl": "./src",
     "rootDir": "./",
-    "tsBuildInfoFile": "build/.build.tsbuildinfo"
+    "tsBuildInfoFile": "build/.build.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": [".storybook", "./src"],
   "exclude": ["node_modules", "build", "public", "eslint.config.js"]

@@ -13,9 +13,11 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": ["./src", "./typings", "../shared/typings", "./src/**/*.json"],
   "exclude": ["node_modules", "lib"],

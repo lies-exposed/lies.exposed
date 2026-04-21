@@ -3,7 +3,6 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "./build",
-    "baseUrl": "./src",
     "rootDir": "./",
     "lib": ["DOM", "ESNext"],
     "tsBuildInfoFile": "build/.tsbuildinfo",

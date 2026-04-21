@@ -3,12 +3,14 @@
   "compilerOptions": {
     "noEmit": false,
     "outDir": "./build",
-    "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": true,
     "experimentalDecorators": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": [
     "./src",

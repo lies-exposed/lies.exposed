@@ -11,9 +11,11 @@
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": ["./src"],
   "exclude": ["node_modules", "lib"],

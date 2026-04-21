@@ -19,24 +19,24 @@
     "resolveJsonModule": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
+    "types": [],
     "typeRoots": [
       "node_modules/@types",
       "node_modules/vitest/globals",
       "packages/@liexp/*/typings",
     ],
-    "baseUrl": ".",
     "paths": {
       "@liexp/core/*": [
-        "packages/@liexp/core/src/*"
+        "./packages/@liexp/core/src/*"
       ],
       "@liexp/shared/*": [
-        "packages/@liexp/shared/src/*"
+        "./packages/@liexp/shared/src/*"
       ],
       "@liexp/test/*": [
-        "packages/@liexp/test/src/*"
+        "./packages/@liexp/test/src/*"
       ],
       "@liexp/ui/*": [
-        "packages/@liexp/ui/src/*"
+        "./packages/@liexp/ui/src/*"
       ]
     }
   },

@@ -2,22 +2,15 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./build",
-    "baseUrl": "./src",
-    "rootDir": "./src",
-    "jsx": "react-jsx",
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": false,
-    "declarationMap": false,
-    "typeRoots": [
-      "../../packages/@liexp/shared/typings",
-      "../../packages/@liexp/backend/typings",
-    ],
+    "declarationMap": false
   },
   "include": [
     "./src",
     "./typings",
-    "../../packages/@liexp/shared/typings",
-    "../../packages/@liexp/backend/typings",
+    "../../packages/@liexp/backend/typings/**/*.d.ts",
+    "../../packages/@liexp/shared/typings/**/*.d.ts"
   ],
   "exclude": [
     "**/__tests__/**",

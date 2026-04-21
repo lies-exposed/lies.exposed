@@ -13,10 +13,12 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
     "tsBuildInfoFile": "lib/.tsbuildinfo",
-    "typeRoots": ["../../../node_modules/@types"]
+    "typeRoots": ["../../../node_modules/@types"],
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": ["./src"],
   "exclude": ["node_modules", "lib"]
