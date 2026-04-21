@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, test } from "vitest";
+import { type URL } from "../../Common/URL.js";
 import {
   ImageMediaExtraMonoid,
   MediaExtra,
@@ -12,7 +13,7 @@ const validImageExtra = {
   thumbnailWidth: 100,
   thumbnailHeight: 100,
   needRegenerateThumbnail: false,
-  thumbnails: ["https://example.com/thumb.jpg"],
+  thumbnails: ["https://example.com/thumb.jpg" as URL],
   width: 800,
   height: 600,
 };
@@ -20,6 +21,8 @@ const validImageExtra = {
 const validVideoExtra = {
   duration: 120,
   thumbnails: undefined,
+  width: 800,
+  height: 600,
 };
 
 describe("MediaExtra codec", () => {

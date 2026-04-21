@@ -1,5 +1,5 @@
 import { Schema } from "effect";
-import { type Monoid } from "fp-ts/lib/Monoid";
+import { type Monoid } from "fp-ts/lib/Monoid.js";
 import { URL } from "../Common/URL.js";
 
 export const ThumbnailsExtraError = Schema.Struct({
@@ -34,10 +34,14 @@ export const ThumbnailsExtraMonoid: Monoid<ThumbnailsExtra> = {
   concat: (x, y) => ({ ...x, ...y }),
 };
 
-export const ImageMediaExtra = Schema.Struct({
-  ...ThumbnailsExtra.fields,
+const ImageSizeExtra = Schema.Struct({
   width: Schema.Number,
   height: Schema.Number,
+});
+
+export const ImageMediaExtra = Schema.Struct({
+  ...ThumbnailsExtra.fields,
+  ...ImageSizeExtra.fields,
 }).annotations({
   title: "ImageMediaExtra",
 });
@@ -61,6 +65,7 @@ export type TimeExtra = typeof TimeExtra.Type;
 
 export const VideoExtra = Schema.Struct({
   ...TimeExtra.fields,
+  ...ImageSizeExtra.fields,
   thumbnails: Schema.Union(
     ThumbnailsExtraError,
     ThumbnailsExtraLocations,
