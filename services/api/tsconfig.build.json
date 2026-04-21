@@ -8,7 +8,6 @@
     "tsBuildInfoFile": "build/.build.tsbuildinfo",
     "declaration": false,
     "declarationMap": false,
-    "types": ["express", "page-metadata-parser"],
     "typeRoots": [
       "../../packages/@liexp/shared/typings",
       "../../packages/@liexp/backend/typings",
@@ -17,6 +16,8 @@
   "include": [
     "./src",
     "./typings",
+    "../../packages/@liexp/shared/typings",
+    "../../packages/@liexp/backend/typings",
   ],
   "exclude": [
     "**/__tests__/**",

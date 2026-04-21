@@ -12,6 +12,7 @@ import {
 } from "@liexp/io/lib/http/auth/permissions/index.js";
 import { type ServiceClient } from "@liexp/io/lib/http/auth/service-client/ServiceClient.js";
 import { Schema } from "effect";
+import { type Request } from "express";
 import { type IO } from "fp-ts/lib/IO.js";
 import * as IOE from "fp-ts/lib/IOEither.js";
 import { type JWTProviderContext } from "../../context/jwt.context.js";
@@ -25,7 +26,7 @@ const HeadersWithAuthorization = Schema.Struct({
 
 const decodeUserFromRequest =
   <C extends LoggerContext & JWTProviderContext>(
-    req: Express.Request,
+    req: Request,
     routePerms: AuthPermission[],
   ) =>
   ({ logger: _logger, jwt }: C): IOE.IOEither<JWTError, AuthUser> => {
@@ -97,7 +98,7 @@ const decodeUserFromRequest =
 
 const decodeNullableUser =
   <C extends LoggerContext & JWTProviderContext>(
-    req: Express.Request,
+    req: Request,
     routePerms: AuthPermission[],
   ) =>
   ({ logger, jwt }: C): IO<AuthUser | null> => {
@@ -110,7 +111,7 @@ const decodeNullableUser =
 
 const decodeServiceClientFromRequest =
   <C extends LoggerContext & JWTProviderContext>(
-    req: Express.Request,
+    req: Request,
     routePerms: AuthPermission[],
   ) =>
   ({ logger: _logger, jwt }: C): IOE.IOEither<JWTError, ServiceClient> => {
@@ -150,7 +151,7 @@ const decodeServiceClientFromRequest =
 
 const decodeNullableServiceClient =
   <C extends LoggerContext & JWTProviderContext>(
-    req: Express.Request,
+    req: Request,
     routePerms: AuthPermission[],
   ) =>
   ({ logger, jwt }: C): IO<ServiceClient | null> => {
@@ -165,7 +166,7 @@ const decodeNullableServiceClient =
 // This is useful for endpoints that accept both types of authentication
 const decodeUserOrServiceClient =
   <C extends LoggerContext & JWTProviderContext>(
-    req: Express.Request,
+    req: Request,
     routePerms: AuthPermission[],
   ) =>
   (ctx: C): IOE.IOEither<JWTError, AuthUser | ServiceClient> => {
