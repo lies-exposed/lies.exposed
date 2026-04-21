@@ -233,7 +233,7 @@ describe("Create Media", () => {
         thumbnailWidth: 0,
         thumbnailHeight: 0,
         thumbnails: [],
-        needRegenerateThumbnail: false,
+        needRegenerateThumbnail: true,
       },
       socialPosts: [],
       transferable: true,

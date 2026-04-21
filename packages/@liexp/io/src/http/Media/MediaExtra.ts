@@ -88,7 +88,7 @@ export const VideoExtraMonoid: Monoid<VideoExtra> = {
     duration: 0,
     width: 0,
     height: 0,
-    thumbnails: undefined,
+    thumbnails: [],
   },
   concat: (x, y) => ({ ...x, ...y }),
 };
