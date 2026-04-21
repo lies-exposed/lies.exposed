@@ -51,7 +51,7 @@
     "eslint": "^10.2.0",
     "fast-check": "^3.23.2",
     "fp-ts": "^2.16.10",
-    "pdfjs-dist": "^5.5.207",
+    "pdfjs-dist": "^5.6.205",
     "react-admin": "^5.14.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.4",

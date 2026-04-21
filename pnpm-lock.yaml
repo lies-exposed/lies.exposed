@@ -237,8 +237,8 @@ importers:
         specifier: ^1.1.4
         version: 1.1.4
       pdfjs-dist:
-        specifier: ^5.5.207
-        version: 5.5.207
+        specifier: ^5.6.205
+        version: 5.6.205
       puppeteer-core:
         specifier: ^24.40.0
         version: 24.40.0
@@ -481,8 +481,8 @@ importers:
         specifier: ^2.16.10
         version: 2.16.11
       pdfjs-dist:
-        specifier: ^5.5.207
-        version: 5.5.207
+        specifier: ^5.6.205
+        version: 5.6.205
       react-admin:
         specifier: ^5.14.4
         version: 5.14.4(@mui/system@7.3.9(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(react@18.3.1))(@mui/utils@7.3.9(@types/react@18.3.27)(react@18.3.1))(@types/react@18.3.27)(csstype@3.2.3)(react-dom@18.3.1(react@18.3.1))(react-is@19.2.4)(react@18.3.1)
@@ -1142,8 +1142,8 @@ importers:
         specifier: ^6.34.0
         version: 6.34.0(ws@8.20.0)(zod@4.3.6)
       pdfjs-dist:
-        specifier: ^5.5.207
-        version: 5.5.207
+        specifier: ^5.6.205
+        version: 5.6.205
       puppeteer-core:
         specifier: ^24.40.0
         version: 24.40.0
@@ -1641,8 +1641,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
       pdfjs-dist:
-        specifier: ^5.5.207
-        version: 5.5.207
+        specifier: ^5.6.205
+        version: 5.6.205
       pg:
         specifier: ^8.20.0
         version: 8.20.0
@@ -8817,8 +8817,8 @@ packages:
     resolution: {integrity: sha512-SuLdBvS42z33m8ejRbInMapQe8n0D3vN/Xd5fmWM3tufNgRQFBpaW2YVJxQZV4iPNqb0vEFvssMEo5w9c6BTIA==}
     hasBin: true
 
-  pdfjs-dist@5.5.207:
-    resolution: {integrity: sha512-WMqqw06w1vUt9ZfT0gOFhMf3wHsWhaCrxGrckGs5Cci6ybDW87IvPaOd2pnBwT6BJuP/CzXDZxjFgmSULLdsdw==}
+  pdfjs-dist@5.6.205:
+    resolution: {integrity: sha512-tlUj+2IDa7G1SbvBNN74UHRLJybZDWYom+k6p5KIZl7huBvsA4APi6mKL+zCxd3tLjN5hOOEE9Tv7VdzO88pfg==}
     engines: {node: '>=20.19.0 || >=22.13.0 || >=24'}
 
   pend@1.2.0:
@@ -19434,7 +19434,7 @@ snapshots:
     dependencies:
       resolve-protobuf-schema: 2.1.0
 
-  pdfjs-dist@5.5.207:
+  pdfjs-dist@5.6.205:
     optionalDependencies:
       '@napi-rs/canvas': 0.1.97
       node-readable-to-web-readable-stream: 0.4.2
