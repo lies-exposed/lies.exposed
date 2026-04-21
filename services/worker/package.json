@@ -55,7 +55,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "fp-ts": "^2.16.10",
     "instagram-private-api": "^1.46.1",
-    "ioredis": "^5.10.0",
+    "ioredis": "^5.10.1",
     "lodash": "^4.18.1",
     "node-cron": "^4.0.3",
     "node-telegram-bot-api": "^0.67.0",
