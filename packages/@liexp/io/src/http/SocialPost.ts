@@ -39,9 +39,29 @@ export const SocialPostVideo = Schema.Struct({
 });
 export type SocialPostVideo = typeof SocialPostVideo.Type;
 
-export const SocialPostMedia = Schema.extend(
-  Schema.Union(SocialPostPhoto, SocialPostVideo, SocialPostDocument),
-  Schema.Struct({ id: UUID }),
+export const SocialPostMediaPhoto = Schema.Struct({
+  ...SocialPostPhoto.fields,
+  id: UUID,
+});
+
+export type SocialPostMediaPhoto = typeof SocialPostMediaPhoto.Type;
+
+export const SocialPostMediaVideo = Schema.Struct({
+  ...SocialPostVideo.fields,
+  id: UUID,
+});
+export type SocialPostMediaVideo = typeof SocialPostMediaVideo.Type;
+
+export const SocialPostMediaDocument = Schema.Struct({
+  ...SocialPostDocument.fields,
+  id: UUID,
+});
+
+export type SocialPostMediaDocument = typeof SocialPostMediaDocument.Type;
+export const SocialPostMedia = Schema.Union(
+  SocialPostMediaPhoto,
+  SocialPostMediaVideo,
+  SocialPostMediaDocument,
 ).annotations({
   title: "SocialPostMedia",
 });
