@@ -53,7 +53,7 @@ const makeReqMock = (
 ): Partial<Request> => ({
   method,
   originalUrl: url,
-  headers: headers as Request["headers"],
+  headers: headers,
 });
 
 // ── tests ─────────────────────────────────────────────────────────────────────
