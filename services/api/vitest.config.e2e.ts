@@ -7,8 +7,8 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     root: toAlias("./"),
     globals: true,
     include: [toAlias(`./src/**/*.e2e.ts`), toAlias(`./test/**/*.e2e.ts`)],
-    setupFiles: [toAlias(`test/testSetup.ts`)],
-    globalSetup: [toAlias(`test/globalSetup.ts`)],
+    setupFiles: [toAlias(`./test/testSetup.ts`)],
+    globalSetup: [toAlias(`./test/globalSetup.ts`)],
     exclude: ["**/build", "src/migrations", "src/scripts"],
     pool: "forks",
     sequence: { groupOrder: 3 },
@@ -21,6 +21,19 @@ export default extendBaseConfig(import.meta.url, (toAlias) => ({
     // "reporters": [
     //   "hanging-process"
     // ]
+  },
+  resolve: {
+    tsconfigPaths: true,
+    alias: {
+      "#app": toAlias('./src/app'),
+      "#io": toAlias('./src/io'),
+      "#context": toAlias('./src/context'),
+      "#flows": toAlias('./src/flows'),
+      "#queries": toAlias('./src/queries'),
+      "#providers": toAlias('./src/providers'),
+      "#routes": toAlias('./src/routes'),
+      "#utils": toAlias('./src/utils'),
+    }
   },
   poolOptions: {
     forks: {

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { makeAgentContext } from "#context/load.js";
 import { pipe } from "@liexp/core/lib/index.js";
 import { GetLogger } from "@liexp/core/lib/logger/index.js";
 import { throwTE } from "@liexp/shared/lib/utils/fp.utils.js";
@@ -20,7 +21,6 @@ import { makeCLIContext } from "#cli/make-cli-context.js";
 import { mediaGroup } from "#cli/media/index.js";
 import { nationGroup } from "#cli/nations/index.js";
 import { storyGroup } from "#cli/stories/index.js";
-import { makeAgentContext } from "#context/load.js";
 
 const cliLogger = GetLogger("agent-cli");
 

@@ -16,13 +16,14 @@
     "allowSyntheticDefaultImports": true,
     "types": ["../../node_modules/vitest/globals"],
     "paths": {
-      "#context/*": ["context/*"],
-      "#flows/*": ["flows/*"],
-      "#io/*": ["io/*"],
-      "#jobs/*": ["jobs/*"],
-      "#providers/*": ["providers/*"],
-      "#services/*": ["services/*"],
-      "#utils/*": ["utils/*"]
+      "*": ["./src/*"],
+      "#context/*": ["./src/context/*"],
+      "#flows/*": ["./src/flows/*"],
+      "#io/*": ["./src/io/*"],
+      "#jobs/*": ["./src/jobs/*"],
+      "#providers/*": ["./src/providers/*"],
+      "#services/*": ["./src/services/*"],
+      "#utils/*": ["./src/utils/*"]
     }
   },
   "include": [

@@ -18,9 +18,10 @@
     "allowSyntheticDefaultImports": false,
     "types": ["../../node_modules/vitest/globals"],
     "paths": {
-      "#common/*": ["./common/*"],
-      "#flows/*": ["./flows/*"],
-      "#services/*": ["./services/*"]
+      "*": ["./src"],
+      "#common/*": ["./src/common/*"],
+      "#flows/*": ["./src/flows/*"],
+      "#services/*": ["./src/services/*"]
     }
   },
   "include": ["./src", "./typings", "./scripts", "./test"],

@@ -31,8 +31,9 @@
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "paths": {
+      "*": ["./src/*"],
       "@client/*": [
-        "./client/*"
+        "./src/client/*"
       ]
     }
   },

@@ -3,9 +3,11 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./lib",
-    "baseUrl": "./src",
     "rootDir": "./src",
-    "tsBuildInfoFile": "lib/.build.tsbuildinfo"
+    "tsBuildInfoFile": "lib/.build.tsbuildinfo",
+    "paths": {
+      "*": ["./src/*"]
+    }
   },
   "include": ["./src", "./typings", "./src/**/*.json"],
   "exclude": [
