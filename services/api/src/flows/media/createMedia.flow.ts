@@ -3,15 +3,8 @@ import { type UserEntity } from "@liexp/backend/lib/entities/User.entity.js";
 import { MediaPubSub } from "@liexp/backend/lib/pubsub/media/index.js";
 import { fp, pipe } from "@liexp/core/lib/fp/index.js";
 import { type CreateMedia } from "@liexp/io/lib/http/Media/Media.js";
-import {
-  ImageMediaExtraMonoid,
-  VideoExtraMonoid,
-} from "@liexp/io/lib/http/Media/MediaExtra.js";
 import { createMediaFromURLFlow } from "./createMediaFromURL.flow.js";
 import { type TEReader } from "#flows/flow.types.js";
-
-const initialExtra = (type: CreateMedia["type"]) =>
-  type === "video/mp4" ? VideoExtraMonoid.empty : ImageMediaExtraMonoid.empty;
 
 export const createMediaFlow =
   (body: CreateMedia, user: UserEntity | null): TEReader<MediaEntity[]> =>
@@ -35,7 +28,10 @@ export const createMediaFlow =
           {
             ...media,
             thumbnail: null,
-            extra: initialExtra(media.type),
+            extra: {
+              thumbnails: [],
+              needRegenerateThumbnail: false,
+            },
           },
         ]);
       }),
