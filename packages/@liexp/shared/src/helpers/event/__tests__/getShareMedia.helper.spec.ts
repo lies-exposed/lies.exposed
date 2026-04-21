@@ -1,5 +1,6 @@
 import { type UUID } from "@liexp/io/lib/http/Common/UUID.js";
 import type * as Media from "@liexp/io/lib/http/Media/index.js";
+import { type SocialPostMediaVideo } from "@liexp/io/lib/http/SocialPost.js";
 import { describe, expect, it } from "vitest";
 import {
   getShareMultipleMedia,
@@ -38,7 +39,10 @@ describe("getShareMultipleMedia", () => {
         }),
       ];
 
-      const result = getShareMultipleMedia(media, defaultImage);
+      const result = getShareMultipleMedia(
+        media,
+        defaultImage,
+      ) as SocialPostMediaVideo[];
 
       expect(result).toHaveLength(1);
       expect(result[0].type).toBe("video");
@@ -63,7 +67,10 @@ describe("getShareMultipleMedia", () => {
     it("should handle missing duration in extra", () => {
       const media = [createMedia("video-1", "video/mp4", { extra: undefined })];
 
-      const result = getShareMultipleMedia(media, defaultImage);
+      const result = getShareMultipleMedia(
+        media,
+        defaultImage,
+      ) as SocialPostMediaVideo[];
 
       expect(result[0].duration).toBe(0);
     });
